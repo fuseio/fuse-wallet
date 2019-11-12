@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/redux/state/app_state.dart';
+import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/widgets/transparent_button.dart';
+import 'package:redux/redux.dart';
+import 'dots_indicator.dart';
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  final _controller = new PageController();
+  bool isLoading = true;
+  static const _kDuration = const Duration(milliseconds: 300);
+  static const _kCurve = Curves.ease;
+  bool isOpen = false;
+
+  var _pages = <Widget>[
+    Image.asset('images/slide1.png', width: 160),
+    Image.asset('images/slide2.png', width: 160),
+    Image.asset('images/slide3.png', width: 160),
+    Image.asset('images/slide4.png', width: 160)
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void gotoPage(page) {
+    _controller.animateToPage(
+      page,
+      duration: _kDuration,
+      curve: _kCurve,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var drawer = Drawer();
+
+    return Scaffold(
+        drawer: drawer,
+        body: new StoreBuilder(onInit: (store) {
+          
+        }, builder: (BuildContext context, Store<AppState> store) {
+          return Container(
+              child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 20,
+                child: Container(
+                    decoration: BoxDecoration(),
+                    child: Column(
+                            children: <Widget>[
+                              Expanded(
+                                child: new Stack(
+                                  children: <Widget>[
+                                    new PageView.builder(
+                                      physics:
+                                          new AlwaysScrollableScrollPhysics(),
+                                      controller: _controller,
+                                      itemCount: _pages.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return _pages[index % _pages.length];
+                                      },
+                                    ),
+                                    new Positioned(
+                                      bottom: 0.0,
+                                      left: 0.0,
+                                      right: 0.0,
+                                      child: new Container(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: new Center(
+                                          child: new DotsIndicator(
+                                            controller: _controller,
+                                            itemCount: _pages.length,
+                                            onPageSelected: (int page) {
+                                              gotoPage(page);
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 180,
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 20),
+                                      child: PrimaryButton( label: "Create a new wallet", onPressed: () {
+                                          Navigator.pushNamed(context, '/cash');
+                                        },) ,
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only(top: 30),
+                                        child: TransparentButton(
+                                            label: "Restore existing wallet",
+                                            onPressed: () {
+                                              
+                                            }))
+                                  ],
+                                ),
+                              )
+                            ],
+                          )
+                        ),
+              ),
+            ],
+          ));
+        }));
+  }
+}
+
