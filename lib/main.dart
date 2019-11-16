@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fusecash/redux/state/app_state.dart';
+import 'package:fusecash/screens/routes.dart';
 import 'package:fusecash/screens/splash/splash.dart';
 import 'dart:core';
 import 'package:fusecash/themes/app_theme.dart';
@@ -95,10 +96,7 @@ class _MyAppState extends State<MyApp> {
             child: new MaterialApp(
               title: 'Fuse Cash',
               initialRoute: '/',
-              routes: {
-                '/': (context) => SplashScreen(),
-                '/cash': (context) => CashHomeScreen(),
-              },
+              routes: getRoutes(),
               theme: getTheme(),
               localizationsDelegates: [
                 i18n,

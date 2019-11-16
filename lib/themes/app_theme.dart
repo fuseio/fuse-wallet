@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData getTheme() {
   return ThemeData(
-    fontFamily: 'NunitoSans', //'Source',  //'Gotham',
+    fontFamily: 'Europa', //'Source',  //'Gotham',
     brightness: Brightness.light,
     primaryColor: const Color(0xFF05283e),
     accentColor: const Color(0xFFA8EB8C),
@@ -15,8 +15,8 @@ ThemeData getTheme() {
     primaryColorLight: const Color(0xFFFEFD86),
     primaryColorDark: const Color(0xFFB1FDC0),
     textTheme: TextTheme(
-        body1: new TextStyle(color: const Color(0xFF05283e)),
-        button: new TextStyle(color: const Color(0xFF05283e))
+        body1: new TextStyle(color: const Color(0xFF333333)),
+        button: new TextStyle(color: const Color(0xFF333333))
         ),
     inputDecorationTheme: InputDecorationTheme(
         border: const OutlineInputBorder(

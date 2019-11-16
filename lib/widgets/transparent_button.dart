@@ -18,8 +18,8 @@ class TransparentButton extends StatelessWidget {
           child: Text(label,
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500)),
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal)),
         ),
       ),
       color: Colors.transparent,

@@ -19,10 +19,9 @@ class _SplashScreenState extends State<SplashScreen> {
   bool isOpen = false;
 
   var _pages = <Widget>[
-    Image.asset('images/slide1.png', width: 160),
-    Image.asset('images/slide2.png', width: 160),
-    Image.asset('images/slide3.png', width: 160),
-    Image.asset('images/slide4.png', width: 160)
+    Image.asset('assets/images/slide1.png', width: 160),
+    Image.asset('assets/images/slide2.png', width: 160),
+    Image.asset('assets/images/slide3.png', width: 160)
   ];
 
   @override
@@ -96,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                     Padding(
                                       padding: EdgeInsets.only(top: 20),
                                       child: PrimaryButton( label: "Create a new wallet", onPressed: () {
-                                          Navigator.pushNamed(context, '/cash');
+                                          Navigator.pushNamed(context, '/Signup');
                                         },) ,
                                     ),
                                     Padding(

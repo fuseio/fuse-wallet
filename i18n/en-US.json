@@ -1,3 +1,4 @@
 {
-    "greetTo": "Hello {name}"
+    "hi": "Hi",
+    "balance": "Balance"
 }
