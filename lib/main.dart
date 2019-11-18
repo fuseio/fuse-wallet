@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fusecash/redux/state/app_state.dart';
 import 'package:fusecash/screens/routes.dart';
-import 'package:fusecash/screens/splash/splash.dart';
 import 'dart:core';
 import 'package:fusecash/themes/app_theme.dart';
 import 'package:redux/redux.dart';
@@ -14,7 +13,6 @@ import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'redux/state/state_secure_storage.dart';
-import 'screens/cash_home.dart/cash_home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

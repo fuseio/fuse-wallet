@@ -1,30 +1,31 @@
-import 'package:flutter/widgets.dart';
+import 'package:fusecash/redux/state/user_state.dart';
 
 class AppState {
-  //final UserState userState;
-  //final WalletState walletState;
+  final UserState userState;
 
-  AppState();
+  AppState({
+    this.userState
+  });
 
   factory AppState.initial() {
     return AppState(
-      //userState: UserState.initial(),
-      //walletState: WalletState.initial(),
+      userState: UserState.initial()
     );
   }
 
   AppState copyWith(
-    //UserState userState,
-    //WalletState walletState,
+    UserState userState
   ) {
     return AppState(
-      //userState: userState ?? this.userState,
-      //walletState: walletState ?? this.walletState,
+      userState: userState ?? this.userState
     );
   }
 
-  static AppState fromJson(dynamic json) =>
-      AppState();
+  static AppState fromJson(dynamic json) {
+    AppState();
+  }
 
-  dynamic toJson() => {'userState': null, 'walletState': null};
+  dynamic toJson() => {
+    'userState': null
+  };
 }
