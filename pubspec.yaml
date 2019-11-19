@@ -30,7 +30,7 @@ dependencies:
   redux_persist: "^0.8.2"
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
-  wallet_core: ^0.0.1+22
+  wallet_core: ^0.0.1+23
 
 dev_dependencies:
   flutter_test:
