@@ -1,4 +1,4 @@
-import 'package:fusecash/redux/state/user_state.dart';
+import 'package:fusecash/models/user_state.dart';
 
 class AppState {
   final UserState userState;

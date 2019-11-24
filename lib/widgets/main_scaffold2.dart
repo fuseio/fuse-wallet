@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/widgets/drawer.dart';
+
+import 'bottombar.dart';
 
 class MainScaffold extends StatelessWidget {
   MainScaffold({this.title, this.children, this.key});
@@ -11,7 +14,15 @@ class MainScaffold extends StatelessWidget {
     return Scaffold(
       key: key,
       backgroundColor: Theme.of(context).canvasColor,
-      body: ListView(children: children),
+      drawer: DrawerWidget(),
+      body: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: ListView(children: children)
+                    ),
+                     bottomBar(context)
+                     ]
+      )
     );
   }
 }

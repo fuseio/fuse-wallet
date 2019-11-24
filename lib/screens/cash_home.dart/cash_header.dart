@@ -34,9 +34,15 @@ class CashHeader extends StatelessWidget {
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30.0), bottomRight: Radius.circular(30.0))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.end,
+        //mainAxisSize: MainAxisSize.max,
+        //mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
+          InkWell(
+            onTap: () {
+           Scaffold.of(context).openDrawer();
+         },
+            child: Image.asset('assets/images//menu.png', width: 18,)),
+           
           Expanded(
               child: Align(
             alignment: Alignment.centerLeft,
