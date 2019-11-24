@@ -1,4 +1,5 @@
 
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -35,6 +36,7 @@ ThunkAction restoreWalletCall(List<String> _mnemonic) {
     try {
       String privateKey = Web3.privateKeyFromMnemonic(mnemonic);
       store.dispatch(new RestoreWalletSuccess(_mnemonic, privateKey));
+      store.dispatch(initWeb3Call(privateKey));
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not restore wallet'));
@@ -48,6 +50,7 @@ ThunkAction createNewWalletCall() {
       String mnemonic = Web3.generateMnemonic();
       String privateKey = Web3.privateKeyFromMnemonic(mnemonic);
       store.dispatch(new CreateNewWalletSuccess(mnemonic.split(' '), privateKey));
+      store.dispatch(initWeb3Call(privateKey));
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not create new wallet'));
