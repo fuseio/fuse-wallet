@@ -57,6 +57,9 @@ ThunkAction createNewWalletCall() {
 
 ThunkAction loginRequestCall(String countryCode, String phoneNumber) {
   return (Store store) async {
+    if (!countryCode.startsWith('+')) {
+      countryCode = '+$countryCode';
+    }
     String phone = countryCode + phoneNumber;
     bool result = await api.loginRequest(phone);
     if (result) {
@@ -70,6 +73,9 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber) {
 ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verificationCode) {
   return (Store store) async {
     try {
+      if (!countryCode.startsWith('+')) {
+        countryCode = '+$countryCode';
+      }
       String phone = countryCode + phoneNumber;
       String jwtToken = await api.loginVerify(phone, verificationCode);
       store.dispatch(new LoginVerifySuccess(jwtToken));
