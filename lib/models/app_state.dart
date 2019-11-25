@@ -19,11 +19,11 @@ class AppState {
 
   AppState copyWith(
     UserState userState,
-    CashWalletState walletState
+    CashWalletState cashWalletState
   ) {
     return AppState(
       userState: userState ?? this.userState,
-      cashWalletState: walletState ?? this.cashWalletState
+      cashWalletState: cashWalletState ?? this.cashWalletState
     );
   }
 

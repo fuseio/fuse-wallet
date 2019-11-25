@@ -27,10 +27,12 @@ dependencies:
   intl: ^0.15.7
   flutter_redux: ^0.5.4
   redux_thunk: ^0.2.1
-  redux_persist: "^0.8.2"
+  redux_persist: ^0.8.2
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
-  wallet_core: ^0.0.1+23
+  # wallet_core:
+  #   path: ../wallet_core
+  wallet_core: ^0.0.1+25
 
 dev_dependencies:
   flutter_test:

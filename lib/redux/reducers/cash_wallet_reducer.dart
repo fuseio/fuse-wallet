@@ -6,9 +6,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
   TypedReducer<CashWalletState, GetPublicKeySuccess>(_getPublicKeySuccess),
   TypedReducer<CashWalletState, GetWalletAddressSuccess>(_getWalletAddressSuccess),
-  TypedReducer<CashWalletState, GetTokenBalancesSuccess>(_getTokenBalancesSuccess),
+  TypedReducer<CashWalletState, GetTokenBalanceSuccess>(_getTokenBalanceSuccess),
   TypedReducer<CashWalletState, SendTokenSuccess>(_sendTokenSuccess),
-  TypedReducer<CashWalletState, ReceiveTokenSuccess>(_receiveTokenSuccess),
   TypedReducer<CashWalletState, JoinCommunitySuccess>(_joinCommunitySuccess),
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(_switchCommunitySuccess),
   TypedReducer<CashWalletState, GetJoinBonusSuccess>(_getJoinBonusSuccess),
@@ -27,20 +26,18 @@ CashWalletState _getWalletAddressSuccess(CashWalletState state, GetWalletAddress
   return state.copyWith(walletAddress: action.walletAddress);
 }
 
-CashWalletState _getTokenBalancesSuccess(CashWalletState state, GetTokenBalancesSuccess action) {
+CashWalletState _getTokenBalanceSuccess(CashWalletState state, GetTokenBalanceSuccess action) {
   // TODO
 }
 
 CashWalletState _sendTokenSuccess(CashWalletState state, SendTokenSuccess action) {
-  // TODO
-}
-
-CashWalletState _receiveTokenSuccess(CashWalletState state, ReceiveTokenSuccess action) {
-  // TODO
+  print('send token - ${action.txHash} sent');
+  return state;
 }
 
 CashWalletState _joinCommunitySuccess(CashWalletState state, JoinCommunitySuccess action) {
-  // TODO
+  print('join community ${action.communityAddress} - ${action.txHash} sent');
+  return state.copyWith(communityAddress: action.communityAddress, tokenAddress: action.tokenAddress, tokenName: action.tokenName, tokenSymbol: action.tokenSymbol);
 }
 
 CashWalletState _switchCommunitySuccess(CashWalletState state, SwitchCommunitySuccess action) {
