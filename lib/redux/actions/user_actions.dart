@@ -82,6 +82,7 @@ ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verif
       String phone = countryCode + phoneNumber;
       String jwtToken = await api.loginVerify(phone, verificationCode);
       store.dispatch(new LoginVerifySuccess(jwtToken));
+      store.dispatch(joinCommunityCall());
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not verify login'));

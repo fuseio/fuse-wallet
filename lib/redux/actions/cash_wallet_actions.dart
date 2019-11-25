@@ -18,24 +18,23 @@ class GetWalletAddressSuccess {
   GetWalletAddressSuccess(this.walletAddress);
 }
 
-class GetTokenBalancesSuccess {
+class GetTokenBalanceSuccess {
    // TODO
-   GetTokenBalancesSuccess();
+   GetTokenBalanceSuccess();
 }
 
 class SendTokenSuccess {
-  // TODO
-  SendTokenSuccess();
-}
-
-class ReceiveTokenSuccess {
-  // TODO
-  ReceiveTokenSuccess();
+  final String txHash;
+  SendTokenSuccess(this.txHash);
 }
 
 class JoinCommunitySuccess {
-  // TODO
-  JoinCommunitySuccess();
+  final String txHash;
+  final String communityAddress;
+  final String tokenAddress;
+  final String tokenName;
+  final String tokenSymbol;
+  JoinCommunitySuccess(this.txHash, this.communityAddress, this.tokenAddress, this.tokenName, this.tokenSymbol);
 }
 
 class SwitchCommunitySuccess {
@@ -98,10 +97,25 @@ ThunkAction getWalletAddressCall() {
   };
 }
 
-ThunkAction sendTokenCall() {
+ThunkAction getTokenBalanceCall() {
   return (Store store) async {
     try {
       // TODO
+    } catch (e) {
+      print(e);
+      store.dispatch(new ErrorAction('Could not get token balance'));
+    }
+  };
+}
+
+ThunkAction sendTokenCall(String receiverAddress, num tokensAmount ) {
+  return (Store store) async {
+    try {
+      Web3 web3 = store.state.cashWalletState.web3;
+      String walletAddress = store.state.cashWalletState.walletAddress;
+      String tokenAddress = store.state.cashWalletState.tokenAddress;
+      String txHash = await web3.cashTokenTransfer(walletAddress, tokenAddress, receiverAddress, tokensAmount);
+      store.dispatch(new SendTokenSuccess(txHash));
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not send token'));
@@ -109,21 +123,18 @@ ThunkAction sendTokenCall() {
   };
 }
 
-ThunkAction receiveTokenCall() {
+ThunkAction joinCommunityCall({String communityAddress}) {
   return (Store store) async {
     try {
-      // TODO
-    } catch (e) {
-      print(e);
-      store.dispatch(new ErrorAction('Could not receive token'));
-    }
-  };
-}
-
-ThunkAction joinCommunityCall() {
-  return (Store store) async {
-    try {
-      // TODO
+      Web3 web3 = store.state.cashWalletState.web3;
+      String walletAddress = store.state.cashWalletState.walletAddress;
+      communityAddress = communityAddress ?? Web3.getDefaultCommunity();
+      // TODO check if already member of community
+      String txHash = await web3.joinCommunity(walletAddress, communityAddress: communityAddress);
+      dynamic community = await api.getCommunity(communityAddress: communityAddress);
+      String tokenAddress = community["homeTokenAddress"];
+      dynamic token = await web3.getTokenDetails(tokenAddress);
+      store.dispatch(new JoinCommunitySuccess(txHash, communityAddress, tokenAddress, token["name"], token["symbol"]));
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not join community'));
