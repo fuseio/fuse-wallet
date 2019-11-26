@@ -7,22 +7,26 @@ class CashWalletState {
   final String publicKey;
   final String walletAddress;
   final String communityAddress;
+  final String communityName;
   final String tokenAddress;
   final String tokenName;
   final String tokenSymbol;
+  final int tokenDecimals;
 
   CashWalletState(
     this.web3,
     this.publicKey,
     this.walletAddress,
     this.communityAddress,
+    this.communityName,
     this.tokenAddress,
     this.tokenName,
-    this.tokenSymbol
+    this.tokenSymbol,
+    this.tokenDecimals
   );
 
   factory CashWalletState.initial() {
-    return new CashWalletState(null, "", "", "", "", "", "");
+    return new CashWalletState(null, "", "", "", "", "", "", "", 18);
   }
 
   CashWalletState copyWith({
@@ -30,18 +34,22 @@ class CashWalletState {
     String publicKey,
     String walletAddress,
     String communityAddress,
+    String communityName,
     String tokenAddress,
     String tokenName,
-    String tokenSymbol
+    String tokenSymbol,
+    int tokenDecimals
   }) {
     return CashWalletState (
       web3 ?? this.web3,
       publicKey ?? this.publicKey,
       walletAddress ?? this.walletAddress,
       communityAddress ?? this.communityAddress,
+      communityName ?? this.communityName,
       tokenAddress ?? this.tokenAddress,
       tokenName ?? this.tokenName,
-      tokenSymbol ?? this.tokenSymbol
+      tokenSymbol ?? this.tokenSymbol,
+      tokenDecimals ?? this.tokenDecimals
     );
   }
 }

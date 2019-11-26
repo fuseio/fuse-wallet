@@ -128,6 +128,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  graphql:
+    dependency: transitive
+    description:
+      name: graphql
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
+  graphql_parser:
+    dependency: transitive
+    description:
+      name: graphql_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.4"
   hex:
     dependency: transitive
     description:
@@ -184,6 +198,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.7"
+  mime:
+    dependency: transitive
+    description:
+      name: mime
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.6+3"
   path:
     dependency: transitive
     description:
@@ -350,6 +371,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  uuid_enhanced:
+    dependency: transitive
+    description:
+      name: uuid_enhanced
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
   vector_math:
     dependency: transitive
     description:
@@ -377,7 +405,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+25"
+    version: "0.0.1+26"
   web3dart:
     dependency: transitive
     description:
@@ -385,6 +413,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
+  websocket:
+    dependency: transitive
+    description:
+      name: websocket
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
 sdks:
   dart: ">=2.2.2 <3.0.0"
   flutter: ">=1.6.7 <2.0.0"

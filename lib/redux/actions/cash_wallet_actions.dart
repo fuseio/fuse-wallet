@@ -31,10 +31,22 @@ class SendTokenSuccess {
 class JoinCommunitySuccess {
   final String txHash;
   final String communityAddress;
+  final String communityName;
   final String tokenAddress;
   final String tokenName;
   final String tokenSymbol;
-  JoinCommunitySuccess(this.txHash, this.communityAddress, this.tokenAddress, this.tokenName, this.tokenSymbol);
+  final int tokenDecimals;
+  JoinCommunitySuccess(this.txHash, this.communityAddress, this.communityName, this.tokenAddress, this.tokenName, this.tokenSymbol, this.tokenDecimals);
+}
+
+class AlreadyJoinedCommunity {
+  final String communityAddress;
+  final String communityName;
+  final String tokenAddress;
+  final String tokenName;
+  final String tokenSymbol;
+  final int tokenDecimals;
+  AlreadyJoinedCommunity(this.communityAddress, this.communityName, this.tokenAddress, this.tokenName, this.tokenSymbol, this.tokenDecimals);
 }
 
 class SwitchCommunitySuccess {
@@ -57,6 +69,7 @@ Future<bool> approvalCallback() async {
 }
 
 final API api = new API();
+final Graph graph = new Graph();
 
 ThunkAction initWeb3Call(String privateKey) {
   return (Store store) async {
@@ -129,12 +142,15 @@ ThunkAction joinCommunityCall({String communityAddress}) {
       Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
       communityAddress = communityAddress ?? Web3.getDefaultCommunity();
-      // TODO check if already member of community
+      dynamic community = await graph.getCommunityByAddress(communityAddress: communityAddress);
+      dynamic token = await graph.getTokenOfCommunity(communityAddress: communityAddress);
+      bool isMember = await graph.isCommunityMember(walletAddress, community["entitiesList"]["address"]);
+      if (isMember) {
+        return store.dispatch(new AlreadyJoinedCommunity(communityAddress, community["name"], token["address"], token["name"], token["symbol"], token["decimals"]));
+      }
       String txHash = await web3.joinCommunity(walletAddress, communityAddress: communityAddress);
-      dynamic community = await api.getCommunity(communityAddress: communityAddress);
-      String tokenAddress = community["homeTokenAddress"];
-      dynamic token = await web3.getTokenDetails(tokenAddress);
-      store.dispatch(new JoinCommunitySuccess(txHash, communityAddress, tokenAddress, token["name"], token["symbol"]));
+      return store.dispatch(new JoinCommunitySuccess(txHash, communityAddress, community["name"], token["address"], token["name"], token["symbol"], token["decimals"]));
+      
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not join community'));
