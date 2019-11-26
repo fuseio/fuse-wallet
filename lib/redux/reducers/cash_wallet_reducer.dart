@@ -9,6 +9,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, GetTokenBalanceSuccess>(_getTokenBalanceSuccess),
   TypedReducer<CashWalletState, SendTokenSuccess>(_sendTokenSuccess),
   TypedReducer<CashWalletState, JoinCommunitySuccess>(_joinCommunitySuccess),
+  TypedReducer<CashWalletState, AlreadyJoinedCommunity>(_alreadyJoinedCommunity),
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(_switchCommunitySuccess),
   TypedReducer<CashWalletState, GetJoinBonusSuccess>(_getJoinBonusSuccess),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(_getBusinessListSuccess)
@@ -37,7 +38,11 @@ CashWalletState _sendTokenSuccess(CashWalletState state, SendTokenSuccess action
 
 CashWalletState _joinCommunitySuccess(CashWalletState state, JoinCommunitySuccess action) {
   print('join community ${action.communityAddress} - ${action.txHash} sent');
-  return state.copyWith(communityAddress: action.communityAddress, tokenAddress: action.tokenAddress, tokenName: action.tokenName, tokenSymbol: action.tokenSymbol);
+  return state.copyWith(communityAddress: action.communityAddress, communityName: action.communityName, tokenAddress: action.tokenAddress, tokenName: action.tokenName, tokenSymbol: action.tokenSymbol, tokenDecimals: action.tokenDecimals);
+}
+
+CashWalletState _alreadyJoinedCommunity(CashWalletState state, AlreadyJoinedCommunity action) {
+  return state.copyWith(communityAddress: action.communityAddress, communityName: action.communityName, tokenAddress: action.tokenAddress, tokenName: action.tokenName, tokenSymbol: action.tokenSymbol, tokenDecimals: action.tokenDecimals);
 }
 
 CashWalletState _switchCommunitySuccess(CashWalletState state, SwitchCommunitySuccess action) {
