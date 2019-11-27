@@ -13,9 +13,24 @@ class GetPublicKeySuccess {
   GetPublicKeySuccess(this.publicKey);
 }
 
+class OnboardUserSuccess {
+  final String accountAddress;
+  OnboardUserSuccess(this.accountAddress);
+}
+
 class GetWalletAddressSuccess {
   final String walletAddress;
   GetWalletAddressSuccess(this.walletAddress);
+}
+
+class CreateAccountWalletRequest {
+  final String walletAddress;
+  CreateAccountWalletRequest(this.walletAddress);
+}
+
+class CreateAccountWalletSuccess {
+  final String walletAddress;
+  CreateAccountWalletSuccess(this.walletAddress);
 }
 
 class GetTokenBalanceSuccess {
@@ -93,6 +108,20 @@ ThunkAction getPublicKeyCall() {
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not get public key'));
+    }
+  };
+}
+
+ThunkAction createAccountWalletCall(String accountAddress) {
+  return (Store store) async {
+    try {
+      dynamic wallet = await api.createWallet(accountAddress);
+      print(wallet);
+      // String walletAddress = wallet["walletAddress"];
+      store.dispatch(new CreateAccountWalletSuccess(accountAddress));
+    } catch (e) {
+      print(e);
+      store.dispatch(new ErrorAction('Could not create wallet'));
     }
   };
 }

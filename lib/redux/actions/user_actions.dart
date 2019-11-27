@@ -14,7 +14,8 @@ class RestoreWalletSuccess {
 class CreateNewWalletSuccess {
   final List<String> mnemonic;
   final String privateKey;
-  CreateNewWalletSuccess(this.mnemonic, this.privateKey);
+  final String accountAddress;
+  CreateNewWalletSuccess(this.mnemonic, this.privateKey, this.accountAddress);
 }
 
 class LoginRequestSuccess {
@@ -49,7 +50,10 @@ ThunkAction createNewWalletCall() {
     try {
       String mnemonic = Web3.generateMnemonic();
       String privateKey = Web3.privateKeyFromMnemonic(mnemonic);
-      store.dispatch(new CreateNewWalletSuccess(mnemonic.split(' '), privateKey));
+      
+      Credentials c = EthPrivateKey.fromHex(privateKey);
+      dynamic accountAddress = await c.extractAddress();
+      store.dispatch(new CreateNewWalletSuccess(mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
     } catch (e) {
       print(e);
@@ -64,12 +68,18 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber) {
       countryCode = '+$countryCode';
     }
     String phone = countryCode + phoneNumber;
-    bool result = await api.loginRequest(phone);
-    if (result) {
-      store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber));
-    } else {
+    try {
+      bool result = await api.loginRequest(phone);
+      if (result) {
+        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber));
+      } else {
+        store.dispatch(new ErrorAction('Could not login'));
+      }
+    } catch (error) {
+      print(error);
       store.dispatch(new ErrorAction('Could not login'));
     }
+
   };
 }
 
@@ -82,7 +92,7 @@ ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verif
       String phone = countryCode + phoneNumber;
       String jwtToken = await api.loginVerify(phone, verificationCode);
       store.dispatch(new LoginVerifySuccess(jwtToken));
-      store.dispatch(joinCommunityCall());
+      // store.dispatch(joinCommunityCall());
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not verify login'));
