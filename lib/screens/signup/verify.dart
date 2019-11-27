@@ -28,7 +28,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
       },
       onWillChange: (viewModel) {
         if (viewModel.loginVerifySuccess) {
-          Navigator.pushNamed(context, '/Cash');
+          Navigator.pushNamed(context, '/CashLoading');
         }
       },
       builder: (_, viewModel) {
