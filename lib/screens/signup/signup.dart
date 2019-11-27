@@ -2,19 +2,18 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
+import 'package:fusecash/models/views/onboard.dart';
 import 'package:redux/redux.dart';
 import '../../common.dart';
-
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class SignupScreen extends StatefulWidget {
   @override
   _SignupScreenState createState() => _SignupScreenState();
 }
+
 
 class _SignupScreenState extends State<SignupScreen> {
   final firstNameController = TextEditingController(text: "");
@@ -22,7 +21,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  CountryCode countryCode;
+  CountryCode countryCode = new CountryCode(dialCode: '+972');
 
   @override
   void initState() {
@@ -52,12 +51,10 @@ class _SignupScreenState extends State<SignupScreen> {
           ],
         ),
       ),
-      new StoreConnector<AppState, OnSignUpCallback>(
+      new StoreConnector<AppState, OnboardViewModel>(
           converter: (Store<AppState> store) {
-        return (countryCode, phoneNumber) {
-          store.dispatch(loginRequestCall(countryCode, phoneNumber));
-        };
-      }, builder: (_, onSignUp) {
+            return OnboardViewModel.fromStore(store);
+      }, builder: (_, viewModel) {
         return Padding(
           padding: EdgeInsets.only(top: 10, left: 30, right: 30),
           child: Form(
@@ -76,6 +73,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     if (value.trim().isEmpty) {
                       return 'Full name is required';
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 16.0),
@@ -92,6 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     if (!isValidEmail(value.trim())) {
                       return 'Please enter valid email';
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 16.0),
@@ -126,6 +125,12 @@ class _SignupScreenState extends State<SignupScreen> {
                       Expanded(
                         child: TextFormField(
                           controller: phoneController,
+                          validator: (String value) {
+                            if (value.trim().isEmpty) {
+                              return 'Phone number is required';
+                            }
+                            return null;
+                          },
                           keyboardType: TextInputType.number,
                           autofocus: false,
                           style: const TextStyle(fontSize: 18),
@@ -148,8 +153,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: PrimaryButton(
                     label: "NEXT",
                     onPressed: () async {
-                      onSignUp("972", phoneController.text);
-                      if (_formKey.currentState.validate()) {}
+                      if (_formKey.currentState.validate()) {
+                        viewModel.signUp(countryCode.dialCode.toString(), phoneController.text);
+                      }
                     },
                   ),
                 ),
@@ -180,21 +186,12 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
         );
-      })
-    ]);
-  }
-}
-
-class SignUpViewModel {
-  final Function() onSignUp;
-
-  SignUpViewModel({this.onSignUp});
-
-  static SignUpViewModel fromStore(Store<AppState> store) {
-    return SignUpViewModel(
-      onSignUp: () {
-        store.dispatch(loginRequestCall("972", "545939304"));
       },
-    );
+      onWillChange: (viewModel) {
+        if (viewModel.loginRequestSuccess) {
+          Navigator.pushNamed(context, '/Verify');
+        }
+      }),
+    ]);
   }
 }

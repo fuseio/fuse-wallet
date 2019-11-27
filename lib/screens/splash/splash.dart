@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
 import 'package:redux/redux.dart';
@@ -95,6 +96,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                     Padding(
                                       padding: EdgeInsets.only(top: 20),
                                       child: PrimaryButton( label: "Create a new wallet", onPressed: () {
+                                          store.dispatch(createNewWalletCall());
                                           Navigator.pushNamed(context, '/Signup');
                                         },) ,
                                     ),

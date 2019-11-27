@@ -14,13 +14,13 @@ UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) {
 }
 
 UserState _createNewWalletSuccess(UserState state, CreateNewWalletSuccess action) {
-  return state.copyWith(mnemonic: action.mnemonic, privateKey: action.privateKey);
+  return state.copyWith(mnemonic: action.mnemonic, privateKey: action.privateKey, accountAddress: action.accountAddress);
 }
 
 UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
-  return state.copyWith(countryCode: action.countryCode, phoneNumber: action.phoneNumber);
+  return state.copyWith(countryCode: action.countryCode, phoneNumber: action.phoneNumber, loginRequestSuccess: true);
 }
 
 UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
-  return state.copyWith(jwtToken: action.jwtToken);
+  return state.copyWith(jwtToken: action.jwtToken, loginVerifySuccess: true);
 }
