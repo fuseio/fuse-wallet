@@ -38,7 +38,9 @@ dependencies:
   virtual_keyboard: ^0.1.4
   # wallet_core:
   #   path: ../wallet_core
-  wallet_core: ^0.0.1+26
+  wallet_core:
+    path: ../wallet_core
+  # wallet_core: ^0.0.1+26
 
 dev_dependencies:
   flutter_test:

@@ -5,14 +5,16 @@ import 'package:fusecash/redux/actions/user_actions.dart';
 class OnboardViewModel {
   final String countryCode;
   final String phoneNumber;
+  final String accountAddress;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
   final Function(String, String) signUp;
-  final Function(String, String, String) verify;
+  final Function(String, String, String, String) verify;
 
   OnboardViewModel({
     this.countryCode,
     this.phoneNumber,
+    this.accountAddress,
     this.loginRequestSuccess,
     this.loginVerifySuccess,
     this.signUp,
@@ -23,13 +25,14 @@ class OnboardViewModel {
     return OnboardViewModel(
       countryCode: store.state.userState.countryCode,
       phoneNumber: store.state.userState.phoneNumber,
+      accountAddress: store.state.userState.accountAddress,
       loginRequestSuccess: store.state.userState.loginRequestSuccess,
       loginVerifySuccess: store.state.userState.loginVerifySuccess,
       signUp: (countryCode, phoneNumber) {
         store.dispatch(loginRequestCall(countryCode, phoneNumber));
       },
-      verify: (countryCode, phoneNumber, verificationCode) {
-        store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode));
+      verify: (countryCode, phoneNumber, verificationCode, accountAddress) {
+        store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode, accountAddress));
       }
     );
   }

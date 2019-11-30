@@ -2,6 +2,8 @@ import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
+import 'package:fusecash/services.dart';
+import 'dart:async';
 
 class InitWeb3Success {
   final Web3 web3;
@@ -24,13 +26,13 @@ class GetWalletAddressSuccess {
 }
 
 class CreateAccountWalletRequest {
-  final String walletAddress;
-  CreateAccountWalletRequest(this.walletAddress);
+  final String accountAddress;
+  CreateAccountWalletRequest(this.accountAddress);
 }
 
 class CreateAccountWalletSuccess {
-  final String walletAddress;
-  CreateAccountWalletSuccess(this.walletAddress);
+  final String accountAddress;
+  CreateAccountWalletSuccess(this.accountAddress);
 }
 
 class GetTokenBalanceSuccess {
@@ -83,8 +85,6 @@ Future<bool> approvalCallback() async {
   return true;
 }
 
-final API api = new API();
-final Graph graph = new Graph();
 
 ThunkAction initWeb3Call(String privateKey) {
   return (Store store) async {
@@ -115,10 +115,17 @@ ThunkAction getPublicKeyCall() {
 ThunkAction createAccountWalletCall(String accountAddress) {
   return (Store store) async {
     try {
-      dynamic wallet = await api.createWallet(accountAddress);
-      print(wallet);
-      // String walletAddress = wallet["walletAddress"];
+      store.dispatch(new CreateAccountWalletRequest(accountAddress));
+      await api.createWallet();
       store.dispatch(new CreateAccountWalletSuccess(accountAddress));
+      new Timer.periodic(Duration(seconds:5), (Timer t) async {
+        dynamic wallet = await api.getWallet();
+        String walletAddress = wallet["walletAddress"];
+        if (walletAddress != null && walletAddress.isNotEmpty) {
+            store.dispatch(new GetWalletAddressSuccess(walletAddress));
+            t.cancel();
+        }
+      });
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not create wallet'));

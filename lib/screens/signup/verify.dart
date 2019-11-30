@@ -82,7 +82,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
               label: "VERIFY",
               onPressed: () async {
                 viewModel.verify(
-                    viewModel.countryCode, viewModel.phoneNumber, verificationCodeController.text);
+                    viewModel.countryCode, viewModel.phoneNumber, verificationCodeController.text, viewModel.accountAddress);
               },
             ),
           ),
