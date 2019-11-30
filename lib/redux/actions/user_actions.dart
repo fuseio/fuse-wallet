@@ -4,6 +4,7 @@ import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
+import 'package:fusecash/services.dart';
 
 class RestoreWalletSuccess {
   final List<String> mnemonic;
@@ -28,8 +29,6 @@ class LoginVerifySuccess {
   final String jwtToken;
   LoginVerifySuccess(this.jwtToken);
 }
-
-final API api = new API();
 
 ThunkAction restoreWalletCall(List<String> _mnemonic) {
   return (Store store) async {
@@ -83,14 +82,14 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber) {
   };
 }
 
-ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verificationCode) {
+ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verificationCode, String accountAddress) {
   return (Store store) async {
     try {
       if (!countryCode.startsWith('+')) {
         countryCode = '+$countryCode';
       }
       String phone = countryCode + phoneNumber;
-      String jwtToken = await api.loginVerify(phone, verificationCode);
+      String jwtToken = await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
       // store.dispatch(joinCommunityCall());
     } catch (e) {
