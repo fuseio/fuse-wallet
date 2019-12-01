@@ -1,11 +1,12 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/redux/state/app_state.dart';
+import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
-
+import 'package:fusecash/models/views/onboard.dart';
+import 'package:redux/redux.dart';
 import '../../common.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -13,13 +14,15 @@ class SignupScreen extends StatefulWidget {
   _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
 
+class _SignupScreenState extends State<SignupScreen> {
   final firstNameController = TextEditingController(text: "");
   final lastNameController = TextEditingController(text: "");
   final emailController = TextEditingController(text: "");
+  final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  
+  CountryCode countryCode = new CountryCode(dialCode: '+972');
+
   @override
   void initState() {
     super.initState();
@@ -40,145 +43,155 @@ class _SignupScreenState extends State<SignupScreen> {
                   "This wallet can store private information you can choose to share with service providers.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.normal,)),
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                  )),
             ),
-            
           ],
         ),
       ),
-      new StoreConnector<AppState, SignInViewModel>(converter: (store) {
-              return null; //SignInViewModel.fromStore(store);
-            }, 
-            builder: (_, viewModel) {
-              return Padding(
-                padding: EdgeInsets.only(top: 10, left: 30, right: 30),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      new StoreConnector<AppState, OnboardViewModel>(
+          converter: (Store<AppState> store) {
+            return OnboardViewModel.fromStore(store);
+      }, builder: (_, viewModel) {
+        return Padding(
+          padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                TextFormField(
+                  controller: firstNameController,
+                  autofocus: false,
+                  style: const TextStyle(fontSize: 18),
+                  decoration: const InputDecoration(
+                    labelText: 'Full name',
+                  ),
+                  validator: (String value) {
+                    if (value.trim().isEmpty) {
+                      return 'Full name is required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: emailController,
+                  style: const TextStyle(fontSize: 18),
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                  ),
+                  validator: (String value) {
+                    if (value.trim().isEmpty) {
+                      return 'Email is required';
+                    }
+                    if (!isValidEmail(value.trim())) {
+                      return 'Please enter valid email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                Container(
+                  decoration: new BoxDecoration(
+                      border: Border.all(
+                          color: false //!viewModel.loginError
+                              ? Colors.black.withOpacity(0.1)
+                              : Colors.red,
+                          width: 1.0),
+                      borderRadius:
+                          new BorderRadius.all(Radius.circular(30.0))),
+                  child: Row(
                     children: <Widget>[
-                      TextFormField(
-                        controller: firstNameController,
-                        autofocus: false,
-                        style: const TextStyle(fontSize: 18),
-                        decoration: const InputDecoration(
-                          labelText: 'Full name',
-                        ),
-                        validator: (String value) {
-                          if (value.trim().isEmpty) {
-                            return 'Full name is required';
-                          }
+                      CountryCodePicker(
+                        padding: EdgeInsets.only(top: 0, left: 30, right: 0),
+                        onChanged: (_countryCode) {
+                          countryCode = _countryCode;
                         },
+                        initialSelection: 'IL',
+                        favorite: [],
+                        showCountryOnly: false,
+                        textStyle: const TextStyle(fontSize: 18),
                       ),
-                      const SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: emailController,
-                        style: const TextStyle(fontSize: 18),
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                        ),
-                        validator: (String value) {
-                          if (value.trim().isEmpty) {
-                            return 'Email is required';
-                          }
-                          if (!isValidEmail(value.trim())) {
-                            return 'Please enter valid email';
-                          }
-                        },
+                      Icon(Icons.arrow_drop_down),
+                      new Container(
+                        height: 35,
+                        width: 1,
+                        color: const Color(0xFFc1c1c1),
+                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
                       ),
-                      const SizedBox(height: 16.0),
-                      Container(
-                        decoration: new BoxDecoration(
-                            border: Border.all(
-                                color: false//!viewModel.loginError
-                                    ? Colors.black.withOpacity(0.1)
-                                    : Colors.red,
-                                width: 1.0),
-                            borderRadius:
-                                new BorderRadius.all(Radius.circular(30.0))),
-                        child: Row(
-                          children: <Widget>[
-                            CountryCodePicker(
-                              padding: EdgeInsets.only(top: 0, left: 30, right: 0),
-                              onChanged: (_countryCode) {
-                                //countryCode = _countryCode;
-                              },
-                              initialSelection: 'IL',
-                              favorite: [],
-                              showCountryOnly: false,
-                              textStyle: const TextStyle(fontSize: 18),
-                            ),
-                            Icon(Icons.arrow_drop_down),
-                            new Container(
-                              height: 35,
-                              width: 1,
-                              color: const Color(0xFFc1c1c1),
-                              margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                //controller: phoneController,
-                                keyboardType: TextInputType.number,
-                                autofocus: false,
-                                style: const TextStyle(fontSize: 18),
-                                decoration: const InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 20, horizontal: 10),
-                                    hintText: 'Phone number',
-                                    border: InputBorder.none,
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none)),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      Center(
-                        child: PrimaryButton(
-                          label: "NEXT",
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              
+                      Expanded(
+                        child: TextFormField(
+                          controller: phoneController,
+                          validator: (String value) {
+                            if (value.trim().isEmpty) {
+                              return 'Phone number is required';
                             }
+                            return null;
                           },
+                          keyboardType: TextInputType.number,
+                          autofocus: false,
+                          style: const TextStyle(fontSize: 18),
+                          decoration: const InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 20, horizontal: 10),
+                              hintText: 'Phone number',
+                              border: InputBorder.none,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none)),
                         ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      Center(
-                        child: TransparentButton(
-                            label: "Skip",
-                            onPressed: () {
-                              //Navigator.pushNamed(context, '/LevelSelector');
-                              Navigator.pushNamed(context, '/Cash');
-                            }),
-                      ),
-                      const SizedBox(height: 16.0),
-                      Center(
-                        child: Padding(
-                          child: Text(
-                            "This data will be enrypted and stored only on this device secured storage.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                            color: Colors.black.withOpacity(0.5),
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal),),
-                          padding: const EdgeInsets.only(bottom: 30.0),
-                        ) ,
                       )
                     ],
                   ),
                 ),
-              );
-            })
-          ]);
+                const SizedBox(height: 16.0),
+                Center(
+                  child: PrimaryButton(
+                    label: "NEXT",
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        viewModel.signUp(countryCode.dialCode.toString(), phoneController.text);
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                Center(
+                  child: TransparentButton(
+                      label: "Skip",
+                      onPressed: () {
+                        //Navigator.pushNamed(context, '/LevelSelector');
+                        Navigator.pushNamed(context, '/Cash');
+                      }),
+                ),
+                const SizedBox(height: 16.0),
+                Center(
+                  child: Padding(
+                    child: Text(
+                      "This data will be enrypted and stored only on this device secured storage.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black.withOpacity(0.5),
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    padding: const EdgeInsets.only(bottom: 30.0),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+      onWillChange: (viewModel) {
+        if (viewModel.loginRequestSuccess) {
+          Navigator.pushNamed(context, '/Verify');
         }
-      }
-      
-      class SignInViewModel {
+      }),
+    ]);
+  }
 }
-

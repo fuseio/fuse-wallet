@@ -1,8 +1,10 @@
-import 'package:fusecash/redux/state/app_state.dart';
+import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/reducers/user_reducer.dart';
+import 'package:fusecash/redux/reducers/cash_wallet_reducer.dart';
 
-AppState appReducer(AppState state, action) {
+AppState appReducer(AppState state, dynamic action) {
   return AppState(
-    //userState: userReducer(state.userState, action),
-    //walletState: walletReducer(state.walletState, action),
+    userState: userReducers(state.userState, action),
+    cashWalletState: cashWalletReducers(state.cashWalletState, action)
   );
 }
