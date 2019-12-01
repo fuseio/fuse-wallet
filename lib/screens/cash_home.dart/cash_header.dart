@@ -41,7 +41,7 @@ class CashHeader extends StatelessWidget {
             onTap: () {
            Scaffold.of(context).openDrawer();
          },
-            child: Image.asset('assets/images//menu.png', width: 18,)),
+            child: Image.asset('assets/images/menu.png', width: 18,)),
            
           Expanded(
               child: Align(
@@ -123,7 +123,7 @@ class CashHeader extends StatelessWidget {
                           color: Colors.white,
                         ),
                         onPressed: () async {
-                          //openCameraScan();
+                          Navigator.pushNamed(context, '/SendContact');
                         }),
                     width: 50.0,
                     height: 50.0,

@@ -1,3 +1,5 @@
+import 'package:fusecash/screens/send/sent_contact.dart';
+import 'package:fusecash/screens/send/sent_amount.dart';
 import 'package:fusecash/screens/signup/level_selector.dart';
 import 'package:fusecash/screens/signup/signup.dart';
 import 'package:fusecash/screens/splash/splash.dart';
@@ -10,5 +12,7 @@ getRoutes() {
     '/Signup': (context) => SignupScreen(),
     '/LevelSelector': (context) => LevelSelectorScreen(),
     '/Cash': (context) => CashHomeScreen(),
+    '/SendContact': (context) => SendToContactScreen(),
+    '/SendAmount': (context) => SendAmountScreen(),
   };
 }
