@@ -14,6 +14,7 @@ class CashWalletState {
   final String tokenSymbol;
   final int tokenDecimals;
   final BigInt tokenBalance;
+  final List tokenTransfersList;
 
   CashWalletState(
     this.web3,
@@ -26,11 +27,12 @@ class CashWalletState {
     this.tokenName,
     this.tokenSymbol,
     this.tokenDecimals,
-    this.tokenBalance
+    this.tokenBalance,
+    this.tokenTransfersList
   );
 
   factory CashWalletState.initial() {
-    return new CashWalletState(null, "", "", null, "", "", "", "", "", 18, BigInt.from(0));
+    return new CashWalletState(null, "", "", null, "", "", "", "", "", 18, BigInt.from(0), []);
   }
 
   CashWalletState copyWith({
@@ -44,7 +46,8 @@ class CashWalletState {
     String tokenName,
     String tokenSymbol,
     int tokenDecimals,
-    BigInt tokenBalance
+    BigInt tokenBalance,
+    List tokenTransfersList
   }) {
     return CashWalletState (
       web3 ?? this.web3,
@@ -57,7 +60,8 @@ class CashWalletState {
       tokenName ?? this.tokenName,
       tokenSymbol ?? this.tokenSymbol,
       tokenDecimals ?? this.tokenDecimals,
-      tokenBalance ?? this.tokenBalance
+      tokenBalance ?? this.tokenBalance,
+      tokenTransfersList ?? this.tokenTransfersList
     );
   }
 }

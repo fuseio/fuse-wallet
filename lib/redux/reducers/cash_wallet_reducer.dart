@@ -22,6 +22,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, GetJoinBonusSuccess>(_getJoinBonusSuccess),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
+  TypedReducer<CashWalletState, GetTokenTransfersSuccess>(_getTokenTransfersSuccess)
 ]);
 
 CashWalletState _initWeb3Success(
@@ -97,4 +98,10 @@ CashWalletState _getJoinBonusSuccess(
 CashWalletState _getBusinessListSuccess(
     CashWalletState state, GetBusinessListSuccess action) {
   // TODO
+}
+
+CashWalletState _getTokenTransfersSuccess(
+    CashWalletState state, GetTokenTransfersSuccess action) {
+  print('Found ${action.tokenTransfersList.length} token transfers');
+  return state.copyWith(tokenTransfersList: action.tokenTransfersList);    
 }
