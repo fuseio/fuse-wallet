@@ -52,7 +52,7 @@ CashWalletState _createAccountWalletSuccess(
 
 CashWalletState _getTokenBalanceSuccess(
     CashWalletState state, GetTokenBalanceSuccess action) {
-  // TODO
+          return state.copyWith(tokenBalance: action.tokenBalance);
 }
 
 CashWalletState _sendTokenSuccess(

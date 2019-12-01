@@ -36,8 +36,8 @@ class CreateAccountWalletSuccess {
 }
 
 class GetTokenBalanceSuccess {
-   // TODO
-   GetTokenBalanceSuccess();
+   final BigInt tokenBalance;
+   GetTokenBalanceSuccess(this.tokenBalance);
 }
 
 class SendTokenSuccess {
@@ -149,7 +149,10 @@ ThunkAction getWalletAddressCall() {
 ThunkAction getTokenBalanceCall() {
   return (Store store) async {
     try {
-      // TODO
+      String walletAddress = store.state.cashWalletState.walletAddress;
+      String tokenAddress = store.state.cashWalletState.tokenAddress;
+      BigInt tokenBalance = await graph.getTokenBalance(walletAddress, tokenAddress);
+      store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not get token balance'));
