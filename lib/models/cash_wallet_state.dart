@@ -30,7 +30,7 @@ class CashWalletState {
   );
 
   factory CashWalletState.initial() {
-    return new CashWalletState(null, "", "", null, "", "", "", "", "", 18, 0);
+    return new CashWalletState(null, "", "", null, "", "", "", "", "", 18, BigInt.from(0));
   }
 
   CashWalletState copyWith({
@@ -44,7 +44,7 @@ class CashWalletState {
     String tokenName,
     String tokenSymbol,
     int tokenDecimals,
-    dynamic tokenBalance
+    BigInt tokenBalance
   }) {
     return CashWalletState (
       web3 ?? this.web3,
