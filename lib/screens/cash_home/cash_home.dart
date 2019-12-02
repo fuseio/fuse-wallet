@@ -18,8 +18,8 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+      header: CashHeader(),
       children: <Widget>[
-        CashHeader(),
         CashTransactios()
       ],
     );

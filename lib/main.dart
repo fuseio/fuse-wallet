@@ -1,51 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fusecash/redux/state/app_state.dart';
+import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/screens/routes.dart';
-import 'package:fusecash/screens/splash/splash.dart';
 import 'dart:core';
 import 'package:fusecash/themes/app_theme.dart';
 import 'package:redux/redux.dart';
-import 'redux/reducers/app_reducer.dart';
-import 'package:redux_thunk/redux_thunk.dart';
-import 'package:redux_persist/redux_persist.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'redux/state/state_secure_storage.dart';
-import 'screens/cash_home.dart/cash_home.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  var storage = new FlutterSecureStorage();
-  final persistor = Persistor<AppState>(
-    //storage: FlutterStorage(key: "app6"),
-    storage: SecureStorage(storage= storage),
-    serializer: JsonSerializer<AppState>(AppState.fromJson),
-  );
-
-  var initialState;
-  try {
-    initialState = await persistor.load();
-  }
-  catch (e) {
-    print(e);
-    initialState = null;
-  }
-  
-  final store = Store<AppState>(
-      appReducer,
-      initialState: initialState ?? new AppState.initial(),
-      middleware: [thunkMiddleware, persistor.createMiddleware()]
-  );
-  
   runApp(new MyApp(
-    store: store,
+    store: await createReduxStore(),
   ));
 }
-
-//void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   MyApp({Key key, this.store}) : super(key: key);
@@ -60,14 +29,6 @@ class _MyAppState extends State<MyApp> {
  _MyAppState(this. store);
 
   final i18n = I18n.delegate;
-
-  /*
-  final Store<AppState> store = Store<AppState>(
-    appReducer, /* Function defined in the reducers file */
-    initialState: AppState.initial(),
-    middleware: createStoreMiddleware(),
-  );
-  */
   
   void onLocaleChange(Locale locale) {
     setState(() {

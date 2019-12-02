@@ -26,6 +26,16 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSContactsUsageDescription</key>
+	<string>We use contracts to allow users to send tokens to their contracts</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Not in use right now</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Not in use right now</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Not in use right now</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Not in use right now</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
