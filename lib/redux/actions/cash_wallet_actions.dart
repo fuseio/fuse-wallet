@@ -81,9 +81,9 @@ class GetBusinessListSuccess {
   GetBusinessListSuccess();
 }
 
-class GetTokenTransfersSuccess {
+class GetTokenTransfersListSuccess {
   List tokenTransfersList;
-  GetTokenTransfersSuccess(this.tokenTransfersList);
+  GetTokenTransfersListSuccess(this.tokenTransfersList);
 }
 
 Future<bool> approvalCallback() async {
@@ -235,13 +235,13 @@ ThunkAction getBusinessListCall() {
   };
 }
 
-ThunkAction getTokenTransfersCall() {
+ThunkAction getTokenTransfersListCall() {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
       String tokenAddress = store.state.cashWalletState.tokenAddress;
       Map<String, dynamic> transfers = await graph.getTransfers(walletAddress, tokenAddress);
-      store.dispatch(new GetTokenTransfersSuccess(transfers["data"]));
+      store.dispatch(new GetTokenTransfersListSuccess(transfers["data"]));
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not get token transfers'));
