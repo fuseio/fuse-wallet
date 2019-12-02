@@ -173,6 +173,8 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount ) {
       String tokenAddress = store.state.cashWalletState.tokenAddress;
       String txHash = await web3.cashTokenTransfer(walletAddress, tokenAddress, receiverAddress, tokensAmount);
       store.dispatch(new SendTokenSuccess(txHash));
+      store.dispatch(getTokenBalanceCall());
+      store.dispatch(getTokenTransfersListCall());
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not send token'));
