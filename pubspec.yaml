@@ -32,7 +32,7 @@ dependencies:
   country_code_picker: ^1.1.5
   # wallet_core:
   #   path: ../wallet_core
-  wallet_core: ^0.0.1+29
+  wallet_core: ^0.0.1+30
   alphabet_list_scroll_view: ^1.0.5
   flutter_slidable: 0.5.4
   contacts_service: ^0.3.9

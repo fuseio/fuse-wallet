@@ -1,3 +1,4 @@
+import 'package:fusecash/models/error_state.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -165,7 +166,7 @@ ThunkAction getTokenBalanceCall() {
   };
 }
 
-ThunkAction sendTokenCall(String receiverAddress, num tokensAmount ) {
+ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
   return (Store store) async {
     try {
       Web3 web3 = store.state.cashWalletState.web3;
@@ -247,6 +248,23 @@ ThunkAction getTokenTransfersListCall() {
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not get token transfers'));
+    }
+  };
+}
+
+ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount) {
+  return (Store store) async {
+    try {
+      dynamic wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
+      String walletAddress = wallet["walletAddress"];
+      if (walletAddress == null || walletAddress.isEmpty) {
+        store.dispatch(new ErrorState('Could not find wallet for contact'));
+      } else {
+        store.dispatch(sendTokenCall(walletAddress, tokensAmount));
+      }
+    } catch (e) {
+      print(e);
+      store.dispatch(new ErrorAction('Could not send token to contact'));
     }
   };
 }
