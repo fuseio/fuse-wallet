@@ -1,3 +1,4 @@
+import 'package:fusecash/models/error_state.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -81,9 +82,9 @@ class GetBusinessListSuccess {
   GetBusinessListSuccess();
 }
 
-class GetTokenTransfersSuccess {
+class GetTokenTransfersListSuccess {
   List tokenTransfersList;
-  GetTokenTransfersSuccess(this.tokenTransfersList);
+  GetTokenTransfersListSuccess(this.tokenTransfersList);
 }
 
 Future<bool> approvalCallback() async {
@@ -165,7 +166,7 @@ ThunkAction getTokenBalanceCall() {
   };
 }
 
-ThunkAction sendTokenCall(String receiverAddress, num tokensAmount ) {
+ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
   return (Store store) async {
     try {
       Web3 web3 = store.state.cashWalletState.web3;
@@ -173,6 +174,8 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount ) {
       String tokenAddress = store.state.cashWalletState.tokenAddress;
       String txHash = await web3.cashTokenTransfer(walletAddress, tokenAddress, receiverAddress, tokensAmount);
       store.dispatch(new SendTokenSuccess(txHash));
+      store.dispatch(getTokenBalanceCall());
+      store.dispatch(getTokenTransfersListCall());
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not send token'));
@@ -235,16 +238,33 @@ ThunkAction getBusinessListCall() {
   };
 }
 
-ThunkAction getTokenTransfersCall() {
+ThunkAction getTokenTransfersListCall() {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
       String tokenAddress = store.state.cashWalletState.tokenAddress;
       Map<String, dynamic> transfers = await graph.getTransfers(walletAddress, tokenAddress);
-      store.dispatch(new GetTokenTransfersSuccess(transfers["data"]));
+      store.dispatch(new GetTokenTransfersListSuccess(transfers["data"]));
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not get token transfers'));
+    }
+  };
+}
+
+ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount) {
+  return (Store store) async {
+    try {
+      dynamic wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
+      String walletAddress = wallet["walletAddress"];
+      if (walletAddress == null || walletAddress.isEmpty) {
+        store.dispatch(new ErrorState('Could not find wallet for contact'));
+      } else {
+        store.dispatch(sendTokenCall(walletAddress, tokensAmount));
+      }
+    } catch (e) {
+      print(e);
+      store.dispatch(new ErrorAction('Could not send token to contact'));
     }
   };
 }
