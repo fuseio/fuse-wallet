@@ -9,6 +9,8 @@ class UserState {
   final String countryCode;
   final String phoneNumber;
   final String jwtToken;
+  final String fullName;
+  final String email;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
 
@@ -19,12 +21,14 @@ class UserState {
     this.countryCode,
     this.phoneNumber,
     this.jwtToken,
+    this.fullName,
+    this.email,
     this.loginRequestSuccess,
     this.loginVerifySuccess
   );
 
   factory UserState.initial() {
-    return new UserState([], "", "", "", "", "", false, false);
+    return new UserState([], "", "", "", "", "", "Anom", "", false, false);
   }
 
   UserState copyWith({
@@ -34,6 +38,8 @@ class UserState {
     String countryCode,
     String phoneNumber,
     String jwtToken,
+    String fullName,
+    String email,
     bool loginRequestSuccess,
     bool loginVerifySuccess
   }) {
@@ -44,12 +50,35 @@ class UserState {
       countryCode ?? this.countryCode,
       phoneNumber ?? this.phoneNumber,
       jwtToken ?? this.jwtToken,
+      fullName ?? this.fullName,
+      email ?? this.email,
       loginRequestSuccess ?? this.loginRequestSuccess,
       loginVerifySuccess ?? this.loginVerifySuccess
     );
   }
 
-  dynamic toJson() {
-    return jsonEncode(this);
-  }
+    dynamic toJson() => {
+      'mnemonic': mnemonic,
+      'privateKey': privateKey,
+      'accountAddress': accountAddress,
+      'countryCode': countryCode,
+      'phoneNumber': phoneNumber,
+      'jwtToken': jwtToken,
+      'fullName': fullName,
+      'email': email
+    };
+
+    static UserState fromJson(dynamic json) =>
+      UserState(
+        List<String>.from(json['mnemonic']),
+        json['privateKey'],
+        json['accountAddress'],
+        json['countryCode'],
+        json['phoneNumber'],
+        json['jwtToken'],
+        json['fullName'],
+        json['email'],
+        false,
+        false,
+      );
 }

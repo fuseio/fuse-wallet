@@ -27,9 +27,10 @@ class AppState {
     );
   }
 
-  static AppState fromJson(dynamic json) {
-    AppState();
-  }
+  static AppState fromJson(dynamic json) =>
+    AppState(userState: UserState.fromJson(json['userState']),
+      cashWalletState: CashWalletState.fromJson(json['cashWalletState']));
+  
   dynamic toJson() => {
     'userState': userState.toJson(),
     'cashWalletState': cashWalletState.toJson()

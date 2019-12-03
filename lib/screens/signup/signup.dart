@@ -16,8 +16,7 @@ class SignupScreen extends StatefulWidget {
 
 
 class _SignupScreenState extends State<SignupScreen> {
-  final firstNameController = TextEditingController(text: "");
-  final lastNameController = TextEditingController(text: "");
+  final fullNameController = TextEditingController(text: "");
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
@@ -63,7 +62,7 @@ class _SignupScreenState extends State<SignupScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
-                  controller: firstNameController,
+                  controller: fullNameController,
                   autofocus: false,
                   style: const TextStyle(fontSize: 18),
                   decoration: const InputDecoration(
@@ -154,7 +153,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     label: "NEXT",
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        viewModel.signUp(countryCode.dialCode.toString(), phoneController.text);
+                        viewModel.signUp(countryCode.dialCode.toString(), phoneController.text, fullNameController.text, emailController.text);
                       }
                     },
                   ),

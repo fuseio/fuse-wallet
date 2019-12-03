@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
 import 'package:redux/redux.dart';
@@ -44,8 +45,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return Scaffold(
         drawer: drawer,
-        body: new StoreBuilder(onInit: (store) {
-          
+        body: new StoreBuilder(onInitialBuild: (store) {
+          if (store.state.userState.privateKey != '') {
+            store.dispatch(initWeb3Call(store.state.userState.privateKey));
+            Navigator.pushNamed(context, '/Cash');
+          }
         }, builder: (BuildContext context, Store<AppState> store) {
           return Container(
               child: Column(

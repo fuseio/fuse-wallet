@@ -66,7 +66,28 @@ class CashWalletState {
     );
   }
 
-    dynamic toJson() {
-      return jsonEncode(this);
-    }
+    dynamic toJson() => {
+      'publicKey': publicKey,
+      'walletAddress': walletAddress,
+      'walletStatus': walletStatus,
+      'communityAddress': communityAddress,
+      'communityName': communityName,
+      'tokenAddress': tokenAddress
+    };
+
+    static CashWalletState fromJson(dynamic json) =>
+      CashWalletState(
+        null,
+        json['publicKey'],
+        json['walletAddress'],
+        json['walletStatus'],
+        json['communityAddress'],
+        json['communityName'],
+        json['tokenAddress'],
+        '',
+        '',
+        0,
+        BigInt.from(0),
+        null
+      );
 }

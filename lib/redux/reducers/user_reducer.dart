@@ -18,7 +18,7 @@ UserState _createNewWalletSuccess(UserState state, CreateNewWalletSuccess action
 }
 
 UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
-  return state.copyWith(countryCode: action.countryCode, phoneNumber: action.phoneNumber, loginRequestSuccess: true);
+  return state.copyWith(countryCode: action.countryCode, phoneNumber: action.phoneNumber, fullName: action.fullName, email: action.email, loginRequestSuccess: true);
 }
 
 UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
