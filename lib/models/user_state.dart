@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 @immutable
 class UserState {
@@ -46,5 +47,9 @@ class UserState {
       loginRequestSuccess ?? this.loginRequestSuccess,
       loginVerifySuccess ?? this.loginVerifySuccess
     );
+  }
+
+  dynamic toJson() {
+    return jsonEncode(this);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_core/wallet_core.dart';
+import 'dart:convert';
 
 @immutable
 class CashWalletState {
@@ -64,4 +65,8 @@ class CashWalletState {
       tokenTransfersList ?? this.tokenTransfersList
     );
   }
+
+    dynamic toJson() {
+      return jsonEncode(this);
+    }
 }

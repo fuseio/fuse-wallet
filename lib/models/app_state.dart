@@ -30,9 +30,8 @@ class AppState {
   static AppState fromJson(dynamic json) {
     AppState();
   }
-
   dynamic toJson() => {
-    'userState': null,
-    'cashWalletState': null
+    'userState': userState.toJson(),
+    'cashWalletState': cashWalletState.toJson()
   };
 }
