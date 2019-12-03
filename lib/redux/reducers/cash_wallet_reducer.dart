@@ -4,7 +4,6 @@ import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
-  TypedReducer<CashWalletState, GetPublicKeySuccess>(_getPublicKeySuccess),
   TypedReducer<CashWalletState, GetWalletAddressSuccess>(
       _getWalletAddressSuccess),
   TypedReducer<CashWalletState, CreateAccountWalletRequest>(
@@ -28,11 +27,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
 CashWalletState _initWeb3Success(
     CashWalletState state, InitWeb3Success action) {
   return state.copyWith(web3: action.web3);
-}
-
-CashWalletState _getPublicKeySuccess(
-    CashWalletState state, GetPublicKeySuccess action) {
-  return state.copyWith(publicKey: action.publicKey);
 }
 
 CashWalletState _getWalletAddressSuccess(

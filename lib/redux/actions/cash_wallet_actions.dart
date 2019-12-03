@@ -11,11 +11,6 @@ class InitWeb3Success {
   InitWeb3Success(this.web3);
 }
 
-class GetPublicKeySuccess {
-  final String publicKey;
-  GetPublicKeySuccess(this.publicKey);
-}
-
 class OnboardUserSuccess {
   final String accountAddress;
   OnboardUserSuccess(this.accountAddress);
@@ -101,19 +96,6 @@ ThunkAction initWeb3Call(String privateKey) {
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not init web3'));
-    }
-  };
-}
-
-ThunkAction getPublicKeyCall() {
-  return (Store store) async {
-    try {
-      Web3 web3 = store.state.cashWalletState.web3;
-      String publicKey = await web3.getAddress();
-      store.dispatch(new GetPublicKeySuccess(publicKey));
-    } catch (e) {
-      print(e);
-      store.dispatch(new ErrorAction('Could not get public key'));
     }
   };
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_core/wallet_core.dart';
-import 'dart:convert';
 
 @immutable
 class CashWalletState {
   final Web3 web3;
-  final String publicKey;
   final String walletAddress;
   final String walletStatus;
   final String communityAddress;
@@ -19,7 +17,6 @@ class CashWalletState {
 
   CashWalletState(
     this.web3,
-    this.publicKey,
     this.walletAddress,
     this.walletStatus,
     this.communityAddress,
@@ -33,12 +30,11 @@ class CashWalletState {
   );
 
   factory CashWalletState.initial() {
-    return new CashWalletState(null, "", "", null, "", "", "", "", "", 18, BigInt.from(0), []);
+    return new CashWalletState(null, "", null, "", "", "", "", "", 18, BigInt.from(0), []);
   }
 
   CashWalletState copyWith({
     Web3 web3,
-    String publicKey,
     String walletAddress,
     String walletStatus,
     String communityAddress,
@@ -52,7 +48,6 @@ class CashWalletState {
   }) {
     return CashWalletState (
       web3 ?? this.web3,
-      publicKey ?? this.publicKey,
       walletAddress ?? this.walletAddress,
       walletStatus ?? this.walletStatus,
       communityAddress ?? this.communityAddress,
@@ -67,7 +62,6 @@ class CashWalletState {
   }
 
     dynamic toJson() => {
-      'publicKey': publicKey,
       'walletAddress': walletAddress,
       'walletStatus': walletStatus,
       'communityAddress': communityAddress,
@@ -78,7 +72,6 @@ class CashWalletState {
     static CashWalletState fromJson(dynamic json) =>
       CashWalletState(
         null,
-        json['publicKey'],
         json['walletAddress'],
         json['walletStatus'],
         json['communityAddress'],
