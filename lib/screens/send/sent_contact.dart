@@ -27,9 +27,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   loadContacts() async {
     Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
     
-    Iterable<Contact> contacts = await ContactsService.getContacts();  
-    for (var i = 0; i < contacts.length; i++) {
-      var contact = contacts.toList()[i];
+    Iterable<Contact> contacts = await ContactsService.getContacts(withThumbnails: false);  
+    contacts = contacts.where((i) => i.displayName != null).toList();
+    for (var contact in contacts) {
       userList.add(contact);
     }
     userList
