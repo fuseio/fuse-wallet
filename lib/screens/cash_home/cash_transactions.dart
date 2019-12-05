@@ -2,11 +2,17 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'dart:core';
+import 'dart:math';
 import 'package:intl/intl.dart';
+import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/token.dart';
+
 
 class CashTransactios extends StatefulWidget {
-  CashTransactios();
+  CashTransactios({@required this.viewModel});
 
+  final CashWalletViewModel viewModel;
   @override
   createState() => new CashTransactiosState();
 }
@@ -14,18 +20,9 @@ class CashTransactios extends StatefulWidget {
 class CashTransactiosState extends State<CashTransactios> {
   CashTransactiosState();
 
-  List<Transaction> transactions = new List<Transaction>();
-  
   @override
   void initState() {
     super.initState();
-
-    transactions.add(new Transaction(10, "\$", ""));
-    transactions.add(new Transaction(10, "\$", ""));
-    transactions.add(new Transaction(10, "\$", ""));
-    transactions.add(new Transaction(10, "\$", ""));
-    transactions.add(new Transaction(10, "\$", ""));
-    transactions.add(new Transaction(10, "\$", ""));
   }
 
   @override
@@ -45,9 +42,9 @@ class CashTransactiosState extends State<CashTransactios> {
                       shrinkWrap: true,
                       primary: false,
                       padding: EdgeInsets.symmetric(vertical: 8.0),
-                      children: transactions
-                          .map((transaction) =>
-                              _TransactionListItem(transaction))
+                      children: this.widget.viewModel.tokenTransfers
+                          .map((transfer) =>
+                              _TransactionListItem(transfer, this.widget.viewModel.token))
                           .toList())
                 ],
               );
@@ -55,9 +52,10 @@ class CashTransactiosState extends State<CashTransactios> {
 }
 
 class _TransactionListItem extends StatelessWidget {
-  final Transaction _transaction;
+  final Transfer _transfer;
+  final Token _token;
 
-  _TransactionListItem(this._transaction);
+  _TransactionListItem(this._transfer, this._token);
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +97,7 @@ class _TransactionListItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(right: 5),
                       child: Text(
-                        _transaction.amount.toString(),
+                        (_transfer.value / BigInt.from(pow(10, _token.decimals))).toString(),
                         style: TextStyle(
                             color: Color(0xFF00BE66),
                             fontSize: 18.0,
@@ -107,7 +105,7 @@ class _TransactionListItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "\$",
+                      " ${_token.symbol}",
                       style: TextStyle(
                           color: Color(0xFF00BE66),
                           fontSize: 18.0,
@@ -120,12 +118,4 @@ class _TransactionListItem extends StatelessWidget {
               ),
             ));
   }
-}
-
-class Transaction {
-  final double amount;
-  final String symbol;
-  final String date;
-
-  Transaction(this.amount, this.symbol, this.date);
 }

@@ -62,10 +62,7 @@ CashWalletState _joinCommunitySuccess(
   return state.copyWith(
       communityAddress: action.communityAddress,
       communityName: action.communityName,
-      tokenAddress: action.tokenAddress,
-      tokenName: action.tokenName,
-      tokenSymbol: action.tokenSymbol,
-      tokenDecimals: action.tokenDecimals);
+      token: action.token);
 }
 
 CashWalletState _alreadyJoinedCommunity(
@@ -73,15 +70,15 @@ CashWalletState _alreadyJoinedCommunity(
   return state.copyWith(
       communityAddress: action.communityAddress,
       communityName: action.communityName,
-      tokenAddress: action.tokenAddress,
-      tokenName: action.tokenName,
-      tokenSymbol: action.tokenSymbol,
-      tokenDecimals: action.tokenDecimals);
+      token: action.token);
 }
 
 CashWalletState _switchCommunitySuccess(
     CashWalletState state, SwitchCommunitySuccess action) {
-  // TODO
+    return state.copyWith(
+      communityAddress: action.communityAddress,
+      communityName: action.communityName,
+      token: action.token);
 }
 
 CashWalletState _getJoinBonusSuccess(
@@ -96,6 +93,6 @@ CashWalletState _getBusinessListSuccess(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-  print('Found ${action.tokenTransfersList.length} token transfers');
-  return state.copyWith(tokenTransfersList: action.tokenTransfersList);    
+  print('Found ${action.tokenTransfers.length} token transfers');
+  return state.copyWith(tokenTransfers: action.tokenTransfers);    
 }

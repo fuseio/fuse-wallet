@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_core/wallet_core.dart';
+import './token.dart';
+import './transfer.dart';
 
 @immutable
 class CashWalletState {
@@ -8,12 +10,9 @@ class CashWalletState {
   final String walletStatus;
   final String communityAddress;
   final String communityName;
-  final String tokenAddress;
-  final String tokenName;
-  final String tokenSymbol;
-  final int tokenDecimals;
+  final Token token;
   final BigInt tokenBalance;
-  final List tokenTransfersList;
+  final List<Transfer> tokenTransfers;
 
   CashWalletState(
     this.web3,
@@ -21,16 +20,13 @@ class CashWalletState {
     this.walletStatus,
     this.communityAddress,
     this.communityName,
-    this.tokenAddress,
-    this.tokenName,
-    this.tokenSymbol,
-    this.tokenDecimals,
+    this.token,
     this.tokenBalance,
-    this.tokenTransfersList
+    this.tokenTransfers
   );
 
   factory CashWalletState.initial() {
-    return new CashWalletState(null, "", null, "", "", "", "", "", 18, BigInt.from(0), []);
+    return new CashWalletState(null, "", null, "", "", null, BigInt.from(0), new List<Transfer>());
   }
 
   CashWalletState copyWith({
@@ -39,12 +35,9 @@ class CashWalletState {
     String walletStatus,
     String communityAddress,
     String communityName,
-    String tokenAddress,
-    String tokenName,
-    String tokenSymbol,
-    int tokenDecimals,
+    Token token,
     BigInt tokenBalance,
-    List tokenTransfersList
+    List<Transfer> tokenTransfers
   }) {
     return CashWalletState (
       web3 ?? this.web3,
@@ -52,12 +45,9 @@ class CashWalletState {
       walletStatus ?? this.walletStatus,
       communityAddress ?? this.communityAddress,
       communityName ?? this.communityName,
-      tokenAddress ?? this.tokenAddress,
-      tokenName ?? this.tokenName,
-      tokenSymbol ?? this.tokenSymbol,
-      tokenDecimals ?? this.tokenDecimals,
+      token ?? this.token,
       tokenBalance ?? this.tokenBalance,
-      tokenTransfersList ?? this.tokenTransfersList
+      tokenTransfers ?? this.tokenTransfers
     );
   }
 
@@ -65,8 +55,7 @@ class CashWalletState {
       'walletAddress': walletAddress,
       'walletStatus': walletStatus,
       'communityAddress': communityAddress,
-      'communityName': communityName,
-      'tokenAddress': tokenAddress
+      'communityName': communityName
     };
 
     static CashWalletState fromJson(dynamic json) =>
@@ -76,11 +65,8 @@ class CashWalletState {
         json['walletStatus'],
         json['communityAddress'],
         json['communityName'],
-        json['tokenAddress'],
-        '',
-        '',
-        0,
+        null,
         BigInt.from(0),
-        null
+        new List<Transfer>()
       );
 }
