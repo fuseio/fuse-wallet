@@ -100,22 +100,28 @@ ThunkAction initWeb3Call(String privateKey) {
   };
 }
 
-ThunkAction startBalanceFetchingCall() {
+ThunkAction startBalanceFetchingCall(String tokenAddress) {
   return (Store store) async {
-    store.dispatch(getTokenBalanceCall());
+    store.dispatch(getTokenBalanceCall(tokenAddress));
     new Timer.periodic(Duration(seconds: 5), (Timer t) async {
-      print('fetch balances');
-      store.dispatch(getTokenBalanceCall());
+      if (store.state.cashWalletState.walletAddress == '') {
+        t.cancel();
+        return;
+      }
+      store.dispatch(getTokenBalanceCall(tokenAddress));
     });
   };
 }
 
-ThunkAction startTransfersFetchingCall() {
+ThunkAction startTransfersFetchingCall(String tokenAddress) {
   return (Store store) async {
-    store.dispatch(getTokenTransfersListCall());
+    store.dispatch(getTokenTransfersListCall(tokenAddress));
     new Timer.periodic(Duration(seconds: 5), (Timer t) async {
-      print('fetch transfers');
-      store.dispatch(getTokenTransfersListCall());
+      if (store.state.cashWalletState.walletAddress == '') {
+        t.cancel();
+        return;
+      }
+      store.dispatch(getTokenTransfersListCall(tokenAddress));
     });
   };
 }
@@ -154,11 +160,10 @@ ThunkAction getWalletAddressCall() {
   };
 }
 
-ThunkAction getTokenBalanceCall() {
+ThunkAction getTokenBalanceCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      String tokenAddress = store.state.cashWalletState.token.address;
       BigInt tokenBalance =
           await graph.getTokenBalance(walletAddress, tokenAddress);
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
@@ -175,11 +180,10 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
       Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
       String tokenAddress = store.state.cashWalletState.tokenAddress;
-      String txHash = await web3.cashTokenTransfer(
-          walletAddress, tokenAddress, receiverAddress, tokensAmount);
-      store.dispatch(new SendTokenSuccess(txHash));
-      store.dispatch(getTokenBalanceCall());
-      store.dispatch(getTokenTransfersListCall());
+      await api.tokenTransfer(web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
+      // store.dispatch(new SendTokenSuccess(txHash));
+      store.dispatch(getTokenBalanceCall(tokenAddress));
+      store.dispatch(getTokenTransfersListCall(tokenAddress));
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not send token'));
@@ -205,13 +209,12 @@ ThunkAction joinCommunityCall({String communityAddress}) {
             community["name"],
             new Token(address: token["address"], name: token["name"], symbol: token["symbol"], decimals: token["decimals"])));
       }
-      String txHash = await web3.joinCommunity(walletAddress,
-          communityAddress: communityAddress);
-      return store.dispatch(new JoinCommunitySuccess(
-          txHash,
-          communityAddress,
-          community["name"],
-          new Token(address: token["address"], name: token["name"], symbol: token["symbol"], decimals: token["decimals"])));
+      await api.joinCommunity(web3, walletAddress, communityAddress);
+      // return store.dispatch(new JoinCommunitySuccess(
+      //     txHash,
+      //     communityAddress,
+      //     community["name"],
+      //     new Token(address: token["address"], name: token["name"], symbol: token["symbol"], decimals: token["decimals"])));
     } catch (e) {
       print(e);
       store.dispatch(new ErrorAction('Could not join community'));
@@ -227,6 +230,8 @@ ThunkAction switchCommunityCall({String communityAddress}) {
           await graph.getCommunityByAddress(communityAddress: communityAddress);
       dynamic token =
           await graph.getTokenOfCommunity(communityAddress: communityAddress);
+      store.dispatch(startBalanceFetchingCall(token["address"]));
+      store.dispatch(startTransfersFetchingCall(token["address"]));
       return store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],
@@ -260,11 +265,10 @@ ThunkAction getBusinessListCall() {
   };
 }
 
-ThunkAction getTokenTransfersListCall() {
+ThunkAction getTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      String tokenAddress = store.state.cashWalletState.token.address;
       Map<String, dynamic> response =
           await graph.getTransfers(walletAddress, tokenAddress);
       List<Transfer> transfers = List<Transfer>.from(response["data"].map((json) => Transfer.fromJson(json)).toList());

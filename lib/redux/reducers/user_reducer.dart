@@ -6,7 +6,8 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, RestoreWalletSuccess>(_restoreWalletSuccess),
   TypedReducer<UserState, CreateNewWalletSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
-  TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess)
+  TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess),
+  TypedReducer<UserState, LogoutRequestSuccess>(_logoutSuccess)
 ]);
 
 UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) { 
@@ -23,4 +24,8 @@ UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
 
 UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
   return state.copyWith(jwtToken: action.jwtToken, loginVerifySuccess: true);
+}
+
+UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
+  return UserState.initial();
 }

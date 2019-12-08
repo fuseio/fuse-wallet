@@ -8,6 +8,9 @@ import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
+import 'package:logging/logging.dart';
+import 'package:redux_logging/redux_logging.dart';
+
 
 Future<Store<AppState>> createReduxStore() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -26,10 +29,17 @@ Future<Store<AppState>> createReduxStore() async {
     print(e);
     initialState = null;
   }
-  
+  final logger = new Logger("Redux Logger");
+
+  logger.onRecord
+    // Filter down to [LogRecord]s sent to your logger instance  
+    .where((record) => record.loggerName == logger.name)
+    // Print them out (or do something more interesting!)
+    . listen((loggingMiddlewareRecord) => print(loggingMiddlewareRecord));
+
   return Store<AppState>(
       appReducer,
       initialState: initialState ?? new AppState.initial(),
-      middleware: [thunkMiddleware, persistor.createMiddleware()]
+      middleware: [thunkMiddleware, new LoggingMiddleware(logger: logger), persistor.createMiddleware()]
   );
 }

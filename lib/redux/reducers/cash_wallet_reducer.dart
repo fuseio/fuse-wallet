@@ -1,4 +1,5 @@
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
@@ -21,7 +22,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, GetJoinBonusSuccess>(_getJoinBonusSuccess),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
-  TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(_getTokenTransfersListSuccess)
+  TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(_getTokenTransfersListSuccess),
+  TypedReducer<CashWalletState, LogoutRequestSuccess>(_logoutSuccess)
 ]);
 
 CashWalletState _initWeb3Success(
@@ -95,4 +97,8 @@ CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
   print('Found ${action.tokenTransfers.length} token transfers');
   return state.copyWith(tokenTransfers: action.tokenTransfers);    
+}
+
+CashWalletState _logoutSuccess(CashWalletState state, LogoutRequestSuccess action) {
+  return CashWalletState.initial();
 }

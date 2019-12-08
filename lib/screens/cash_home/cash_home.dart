@@ -27,8 +27,8 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
       // if (viewModel.communityAddress == '') {
         viewModel.switchCommunity();
       // }
-      viewModel.startBalanceFetching();
-      viewModel.startTransfersFetching();
+      // viewModel.startBalanceFetching();
+      // viewModel.startTransfersFetching();
     },
     builder: (_, viewModel) {
       return MainScaffold(

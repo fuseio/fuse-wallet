@@ -59,18 +59,18 @@ class CashWalletViewModel {
         String fullName = store.state.userState.fullName;
         return fullName.split(' ')[0];
       },
-      getTokenBalance: () {
-        store.dispatch(getTokenBalanceCall());
-      },
+      // getTokenBalance: () {
+      //   store.dispatch(getTokenBalanceCall());
+      // },
       switchCommunity: () {
         store.dispatch(switchCommunityCall());
       },
-      startBalanceFetching: () {
-        store.dispatch(startBalanceFetchingCall());
-      },
-      startTransfersFetching: () {
-        store.dispatch(startTransfersFetchingCall());
-      }
+      // startBalanceFetching: () {
+      //   store.dispatch(startBalanceFetchingCall());
+      // },
+      // startTransfersFetching: () {
+      //   store.dispatch(startTransfersFetchingCall());
+      // }
     );
   }
 }

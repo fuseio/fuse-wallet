@@ -27,6 +27,10 @@ class LoginRequestSuccess {
   LoginRequestSuccess(this.countryCode, this.phoneNumber, this.fullName, this.email);
 }
 
+class LogoutRequestSuccess {
+  LogoutRequestSuccess();
+}
+
 class LoginVerifySuccess {
   final String jwtToken;
   LoginVerifySuccess(this.jwtToken);
@@ -81,7 +85,6 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber, String full
       print(error);
       store.dispatch(new ErrorAction('Could not login'));
     }
-
   };
 }
 
@@ -99,5 +102,11 @@ ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verif
       print(e);
       store.dispatch(new ErrorAction('Could not verify login'));
     }
+  };
+}
+
+ThunkAction logoutCall() {
+  return (Store store) async {
+    store.dispatch(new LogoutRequestSuccess());
   };
 }
