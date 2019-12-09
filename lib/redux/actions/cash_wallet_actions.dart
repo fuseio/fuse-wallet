@@ -169,6 +169,7 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
+      print('fetching token balance of $tokenAddress for $walletAddress wallet');
       BigInt tokenBalance =
           await graph.getTokenBalance(walletAddress, tokenAddress);
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
@@ -275,6 +276,7 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
+      print('fetching token transfers of $tokenAddress for $walletAddress wallet');
       Map<String, dynamic> response =
           await graph.getTransfers(walletAddress, tokenAddress);
       List<Transfer> transfers = List<Transfer>.from(response["data"].map((json) => Transfer.fromJson(json)).toList());
