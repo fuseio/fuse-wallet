@@ -23,7 +23,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
   TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(_getTokenTransfersListSuccess),
-  TypedReducer<CashWalletState, LogoutRequestSuccess>(_logoutSuccess)
+  TypedReducer<CashWalletState, LogoutRequestSuccess>(_logoutSuccess),
+  TypedReducer<CashWalletState, SwitchCommunityRequested>(_switchCommunityRequest)
 ]);
 
 CashWalletState _initWeb3Success(
@@ -80,7 +81,8 @@ CashWalletState _switchCommunitySuccess(
     return state.copyWith(
       communityAddress: action.communityAddress,
       communityName: action.communityName,
-      token: action.token);
+      token: action.token,
+      isCommunityLoading: false);
 }
 
 CashWalletState _getJoinBonusSuccess(
@@ -102,3 +104,8 @@ CashWalletState _getTokenTransfersListSuccess(
 CashWalletState _logoutSuccess(CashWalletState state, LogoutRequestSuccess action) {
   return CashWalletState.initial();
 }
+
+CashWalletState _switchCommunityRequest(CashWalletState state, SwitchCommunityRequested action) {
+  return state.copyWith(isCommunityLoading: true);    
+}
+

@@ -8,6 +8,7 @@ class CashWalletViewModel {
   final String accountAddress;
   final String walletAddress;
   final String communityAddress;
+  final bool isCommunityLoading;
   final String walletStatus;
   final String fullName;
   final BigInt tokenBalance;
@@ -26,6 +27,7 @@ class CashWalletViewModel {
     this.walletAddress,
     this.walletStatus,
     this.communityAddress,
+    this.isCommunityLoading,
     this.fullName,
     this.tokenBalance,
     this.token,
@@ -45,6 +47,7 @@ class CashWalletViewModel {
       walletAddress: store.state.cashWalletState.walletAddress,
       walletStatus: store.state.cashWalletState.walletStatus,
       communityAddress: store.state.cashWalletState.communityAddress,
+      isCommunityLoading: store.state.cashWalletState.isCommunityLoading,
       fullName: store.state.userState.fullName,
       tokenBalance: store.state.cashWalletState.tokenBalance,
       token: store.state.cashWalletState.token,

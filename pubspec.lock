@@ -458,10 +458,10 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
-    version: "0.0.1+33"
+      name: wallet_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+34"
   web3dart:
     dependency: transitive
     description:

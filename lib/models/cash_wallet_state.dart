@@ -10,23 +10,34 @@ class CashWalletState {
   final String walletStatus;
   final String communityAddress;
   final String communityName;
+  final bool isCommunityLoading;
   final Token token;
   final BigInt tokenBalance;
   final List<Transfer> tokenTransfers;
 
-  CashWalletState(
+  CashWalletState({
     this.web3,
     this.walletAddress,
     this.walletStatus,
     this.communityAddress,
     this.communityName,
+    this.isCommunityLoading,
     this.token,
     this.tokenBalance,
     this.tokenTransfers
-  );
+  });
 
   factory CashWalletState.initial() {
-    return new CashWalletState(null, "", null, "", "", null, BigInt.from(0), new List<Transfer>());
+    return new CashWalletState(
+      web3: null,
+      walletAddress: "",
+      walletStatus: null,
+      communityAddress: "",
+      communityName: "",
+      isCommunityLoading: false,
+      token: null,
+      tokenBalance: BigInt.from(0),
+      tokenTransfers: new List<Transfer>());
   }
 
   CashWalletState copyWith({
@@ -35,19 +46,21 @@ class CashWalletState {
     String walletStatus,
     String communityAddress,
     String communityName,
+    bool isCommunityLoading,
     Token token,
     BigInt tokenBalance,
     List<Transfer> tokenTransfers
   }) {
     return CashWalletState (
-      web3 ?? this.web3,
-      walletAddress ?? this.walletAddress,
-      walletStatus ?? this.walletStatus,
-      communityAddress ?? this.communityAddress,
-      communityName ?? this.communityName,
-      token ?? this.token,
-      tokenBalance ?? this.tokenBalance,
-      tokenTransfers ?? this.tokenTransfers
+      web3: web3 ?? this.web3,
+      walletAddress: walletAddress ?? this.walletAddress,
+      walletStatus: walletStatus ?? this.walletStatus,
+      communityAddress: communityAddress ?? this.communityAddress,
+      communityName: communityName ?? this.communityName,
+      isCommunityLoading: isCommunityLoading ?? this.isCommunityLoading,
+      token: token ?? this.token,
+      tokenBalance: tokenBalance ?? this.tokenBalance,
+      tokenTransfers: tokenTransfers ?? this.tokenTransfers
     );
   }
 
@@ -60,13 +73,14 @@ class CashWalletState {
 
     static CashWalletState fromJson(dynamic json) =>
       CashWalletState(
-        null,
-        json['walletAddress'],
-        json['walletStatus'],
-        json['communityAddress'],
-        json['communityName'],
-        null,
-        BigInt.from(0),
-        new List<Transfer>()
+        web3: null,
+        walletAddress: json['walletAddress'],
+        walletStatus: json['walletStatus'],
+        communityAddress: json['communityAddress'],
+        communityName: json['communityName'],
+        isCommunityLoading: false,
+        token: null,
+        tokenBalance: BigInt.from(0),
+        tokenTransfers: new List<Transfer>()
       );
 }

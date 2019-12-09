@@ -60,6 +60,11 @@ class AlreadyJoinedCommunity {
       this.token);
 }
 
+class SwitchCommunityRequested {
+  final String communityAddress;
+  SwitchCommunityRequested(this.communityAddress);
+
+}
 class SwitchCommunitySuccess {
   final Token token;
   final String communityAddress;
@@ -226,6 +231,7 @@ ThunkAction switchCommunityCall({String communityAddress}) {
   return (Store store) async {
     try {
       communityAddress = communityAddress ?? Web3.getDefaultCommunity();
+      store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community =
           await graph.getCommunityByAddress(communityAddress: communityAddress);
       dynamic token =

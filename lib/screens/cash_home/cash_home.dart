@@ -24,9 +24,9 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
         converter: (Store<AppState> store) {
       return CashWalletViewModel.fromStore(store);
     }, onInitialBuild: (viewModel) {
-      // if (viewModel.communityAddress == '') {
+      if (viewModel.token == null && !viewModel.isCommunityLoading) {
         viewModel.switchCommunity();
-      // }
+      }
       // viewModel.startBalanceFetching();
       // viewModel.startTransfersFetching();
     },
