@@ -136,7 +136,7 @@ class CashHeader extends StatelessWidget {
                             color: Colors.white,
                           ),
                           onPressed: () async {
-                            Navigator.pushNamed(context, '/SendContact');
+                            Navigator.pushNamed(context, '/Receive');
                           }),
                       width: 50.0,
                       height: 50.0,
