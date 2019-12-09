@@ -49,14 +49,16 @@ class CashHeader extends StatelessWidget {
           //mainAxisSize: MainAxisSize.max,
           //mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            InkWell(
+            Padding(padding: EdgeInsets.only(top: 20),
+            child: InkWell(
                 onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
                 child: Image.asset(
                   'assets/images/menu.png',
                   width: 18,
-                )),
+                ))
+            ),
             Expanded(
                 child: Align(
               alignment: Alignment.centerLeft,

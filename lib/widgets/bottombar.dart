@@ -20,7 +20,8 @@ Widget bottomBar(context) {
           bottomBarItem("buy.png", "Buy", () {
             //openPage(context, new BuyPage());
           }),
-          bottomBarItem("arrow-up.png", "Discover", () {
+          bottomBarItem("arrow-up.png", "Receive", () {
+            Navigator.pushNamed(context, '/Receive');
             //openPage(context, new ReceivePage());
           })
         ],
