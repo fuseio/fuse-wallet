@@ -39,6 +39,7 @@ dependencies:
   contacts_service: ^0.3.9
   permission_handler: '^4.0.0'
   virtual_keyboard: ^0.1.4
+  qr_flutter: ^3.1.0
 
 dev_dependencies:
   flutter_test:

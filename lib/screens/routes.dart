@@ -6,6 +6,7 @@ import 'package:fusecash/screens/signup/signup.dart';
 import 'package:fusecash/screens/splash/splash.dart';
 import 'cash_home/cash_home.dart';
 import 'cash_home/cash_loading.dart';
+import 'send/receive.dart';
 
 getRoutes() {
   //  final Map<String, WidgetBuilder> routes;
@@ -17,6 +18,7 @@ getRoutes() {
     '/SendContact': (context) => SendToContactScreen(),
     '/SendAmount': (context) => SendAmountScreen(),
     '/CashLoading': (context) => CashLoadingScreen(),
-    '/Verify': (context) => VerifyScreen()
+    '/Verify': (context) => VerifyScreen(),
+    '/Receive': (context) => ReceiveScreen(),
   };
 }
