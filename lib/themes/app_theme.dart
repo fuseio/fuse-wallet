@@ -23,16 +23,17 @@ ThemeData getTheme() {
           borderSide: BorderSide(color: const Color(0xFF05283e)),
           //borderRadius: BorderRadius.all(Radius.circular(70.0))
         ),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black.withOpacity(0.1)),
-            borderRadius: BorderRadius.all(Radius.circular(26.0))),
-        focusedBorder: const OutlineInputBorder(
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black.withOpacity(0.1), width: 2),
+            //borderRadius: BorderRadius.all(Radius.circular(26.0))
+            ),
+        focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: const Color(0xFF05283e)),
             borderRadius: BorderRadius.all(Radius.circular(26.0))),
-        errorBorder: const OutlineInputBorder(
+        errorBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.red),
             borderRadius: BorderRadius.all(Radius.circular(26.0))),
-        focusedErrorBorder: const OutlineInputBorder(
+        focusedErrorBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.red),
             borderRadius: BorderRadius.all(Radius.circular(26.0))),
         /*

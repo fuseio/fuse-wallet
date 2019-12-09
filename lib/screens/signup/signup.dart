@@ -1,9 +1,10 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/widgets/country_code_picker/country_code_picker.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fusecash/widgets/signup_dialog.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:redux/redux.dart';
@@ -20,6 +21,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
+  bool isvalidPhone = true;
   CountryCode countryCode = new CountryCode(dialCode: '+972');
 
   @override
@@ -39,7 +41,7 @@ class _SignupScreenState extends State<SignupScreen> {
               padding: EdgeInsets.only(
                   left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
               child: Text(
-                  "This wallet can store private information you can choose to share with service providers.",
+                  "Please enter your phone number so we can setup your account",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
@@ -47,6 +49,43 @@ class _SignupScreenState extends State<SignupScreen> {
                     fontWeight: FontWeight.normal,
                   )),
             ),
+            
+            
+
+            Container(
+      width: 180.0,
+      height: 35.0,
+      decoration: BoxDecoration(
+          color: Color(0xFFeaeaea),
+          borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
+          ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return SignupDialog();
+              });
+            },
+            child: Center(
+              child: Text(
+                      "Why do we need this?",
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.button.color,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700),
+                    ),
+            )),
+      ),
+    )
+
+
+
+
+
+         
           ],
         ),
       ),
@@ -61,59 +100,30 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextFormField(
-                  controller: fullNameController,
-                  autofocus: false,
-                  style: const TextStyle(fontSize: 18),
-                  decoration: const InputDecoration(
-                    labelText: 'Full name',
-                  ),
-                  validator: (String value) {
-                    if (value.trim().isEmpty) {
-                      return 'Full name is required';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                TextFormField(
-                  controller: emailController,
-                  style: const TextStyle(fontSize: 18),
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                  ),
-                  validator: (String value) {
-                    if (value.trim().isEmpty) {
-                      return 'Email is required';
-                    }
-                    if (!isValidEmail(value.trim())) {
-                      return 'Please enter valid email';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                Container(
+                Center(child: Container(
+                  width: 280,
                   decoration: new BoxDecoration(
-                      border: Border.all(
-                          color: false //!viewModel.loginError
+                      border: Border(bottom: BorderSide(color: isvalidPhone
                               ? Colors.black.withOpacity(0.1)
                               : Colors.red,
-                          width: 1.0),
-                      borderRadius:
-                          new BorderRadius.all(Radius.circular(30.0))),
+                          width: 2.0) ),
+                      /*borderRadius:
+                          new BorderRadius.all(Radius.circular(30.0))*/),
                   child: Row(
                     children: <Widget>[
-                      CountryCodePicker(
-                        padding: EdgeInsets.only(top: 0, left: 30, right: 0),
+                      Container(child: CountryCodePicker(
+                        //padding: EdgeInsets.only(top: 0, left: 0, right: 0),
                         onChanged: (_countryCode) {
                           countryCode = _countryCode;
                         },
                         initialSelection: 'IL',
                         favorite: [],
                         showCountryOnly: false,
+                        showFlag: false,
                         textStyle: const TextStyle(fontSize: 18),
-                      ),
+                        alignLeft: false,
+                      ), width: 50,)
+                      ,
                       Icon(Icons.arrow_drop_down),
                       new Container(
                         height: 35,
@@ -124,12 +134,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       Expanded(
                         child: TextFormField(
                           controller: phoneController,
-                          validator: (String value) {
-                            if (value.trim().isEmpty) {
-                              return 'Phone number is required';
-                            }
-                            return null;
-                          },
                           keyboardType: TextInputType.number,
                           autofocus: false,
                           style: const TextStyle(fontSize: 18),
@@ -146,41 +150,24 @@ class _SignupScreenState extends State<SignupScreen> {
                       )
                     ],
                   ),
-                ),
-                const SizedBox(height: 16.0),
+                ),)
+                ,
+                const SizedBox(height: 40.0),
                 Center(
                   child: PrimaryButton(
                     label: "NEXT",
                     onPressed: () async {
-                      if (_formKey.currentState.validate()) {
+                      if (phoneController.text.trim().isEmpty) {
+                        setState(() {
+                          isvalidPhone = false;
+                        });
+                      } else {
                         viewModel.signUp(countryCode.dialCode.toString(), phoneController.text, fullNameController.text, emailController.text);
                       }
                     },
                   ),
                 ),
-                const SizedBox(height: 16.0),
-                Center(
-                  child: TransparentButton(
-                      label: "Skip",
-                      onPressed: () {
-                        //Navigator.pushNamed(context, '/LevelSelector');
-                        Navigator.pushNamed(context, '/Cash');
-                      }),
-                ),
-                const SizedBox(height: 16.0),
-                Center(
-                  child: Padding(
-                    child: Text(
-                      "This data will be enrypted and stored only on this device secured storage.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.black.withOpacity(0.5),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    padding: const EdgeInsets.only(bottom: 30.0),
-                  ),
-                )
+                
               ],
             ),
           ),
