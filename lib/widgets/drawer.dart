@@ -3,6 +3,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'dart:core';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 
 class DrawerWidget extends StatefulWidget {
   DrawerWidget({Key key, this.title}) : super(key: key);
@@ -36,11 +37,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 15),
-                    child:
-                        Image.asset('images/avatar.png', width: 70),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(top: 10, bottom: 15),
+                  //   child:
+                  //       Image.asset('images/avatar.png', width: 70),
+                  // ),
                   Text(
                     "Mark Smargon",
                     style: TextStyle(
@@ -98,8 +99,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                Navigator.of(context).pop();
                 viewModel.logout();
+                Navigator.pushNamed(context, '/');
               },
             ),
           ];
@@ -127,6 +128,7 @@ class DrawerViewModel {
   static DrawerViewModel fromStore(Store<AppState> store) {
     return DrawerViewModel(
       logout: () {
+        store.dispatch(logoutCall());
       }
     );
   }

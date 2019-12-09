@@ -8,7 +8,7 @@ class OnboardViewModel {
   final String accountAddress;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
-  final Function(String, String) signUp;
+  final Function(String, String, String, String) signUp;
   final Function(String, String, String, String) verify;
 
   OnboardViewModel({
@@ -28,8 +28,8 @@ class OnboardViewModel {
       accountAddress: store.state.userState.accountAddress,
       loginRequestSuccess: store.state.userState.loginRequestSuccess,
       loginVerifySuccess: store.state.userState.loginVerifySuccess,
-      signUp: (countryCode, phoneNumber) {
-        store.dispatch(loginRequestCall(countryCode, phoneNumber));
+      signUp: (countryCode, phoneNumber, fullName, email) {
+        store.dispatch(loginRequestCall(countryCode, phoneNumber, fullName, email));
       },
       verify: (countryCode, phoneNumber, verificationCode, accountAddress) {
         store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode, accountAddress));

@@ -1,67 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:wallet_core/wallet_core.dart';
+import './token.dart';
+import './transfer.dart';
 
 @immutable
 class CashWalletState {
   final Web3 web3;
-  final String publicKey;
   final String walletAddress;
   final String walletStatus;
   final String communityAddress;
   final String communityName;
-  final String tokenAddress;
-  final String tokenName;
-  final String tokenSymbol;
-  final int tokenDecimals;
+  final bool isCommunityLoading;
+  final Token token;
   final BigInt tokenBalance;
-  final List tokenTransfersList;
+  final List<Transfer> tokenTransfers;
 
-  CashWalletState(
+  CashWalletState({
     this.web3,
-    this.publicKey,
     this.walletAddress,
     this.walletStatus,
     this.communityAddress,
     this.communityName,
-    this.tokenAddress,
-    this.tokenName,
-    this.tokenSymbol,
-    this.tokenDecimals,
+    this.isCommunityLoading,
+    this.token,
     this.tokenBalance,
-    this.tokenTransfersList
-  );
+    this.tokenTransfers
+  });
 
   factory CashWalletState.initial() {
-    return new CashWalletState(null, "", "", null, "", "", "", "", "", 18, BigInt.from(0), []);
+    return new CashWalletState(
+      web3: null,
+      walletAddress: "",
+      walletStatus: null,
+      communityAddress: "",
+      communityName: "",
+      isCommunityLoading: false,
+      token: null,
+      tokenBalance: BigInt.from(0),
+      tokenTransfers: new List<Transfer>());
   }
 
   CashWalletState copyWith({
     Web3 web3,
-    String publicKey,
     String walletAddress,
     String walletStatus,
     String communityAddress,
     String communityName,
-    String tokenAddress,
-    String tokenName,
-    String tokenSymbol,
-    int tokenDecimals,
+    bool isCommunityLoading,
+    Token token,
     BigInt tokenBalance,
-    List tokenTransfersList
+    List<Transfer> tokenTransfers
   }) {
     return CashWalletState (
-      web3 ?? this.web3,
-      publicKey ?? this.publicKey,
-      walletAddress ?? this.walletAddress,
-      walletStatus ?? this.walletStatus,
-      communityAddress ?? this.communityAddress,
-      communityName ?? this.communityName,
-      tokenAddress ?? this.tokenAddress,
-      tokenName ?? this.tokenName,
-      tokenSymbol ?? this.tokenSymbol,
-      tokenDecimals ?? this.tokenDecimals,
-      tokenBalance ?? this.tokenBalance,
-      tokenTransfersList ?? this.tokenTransfersList
+      web3: web3 ?? this.web3,
+      walletAddress: walletAddress ?? this.walletAddress,
+      walletStatus: walletStatus ?? this.walletStatus,
+      communityAddress: communityAddress ?? this.communityAddress,
+      communityName: communityName ?? this.communityName,
+      isCommunityLoading: isCommunityLoading ?? this.isCommunityLoading,
+      token: token ?? this.token,
+      tokenBalance: tokenBalance ?? this.tokenBalance,
+      tokenTransfers: tokenTransfers ?? this.tokenTransfers
     );
   }
+
+    dynamic toJson() => {
+      'walletAddress': walletAddress,
+      'walletStatus': walletStatus,
+      'communityAddress': communityAddress,
+      'communityName': communityName
+    };
+
+    static CashWalletState fromJson(dynamic json) =>
+      CashWalletState(
+        web3: null,
+        walletAddress: json['walletAddress'],
+        walletStatus: json['walletStatus'],
+        communityAddress: json['communityAddress'],
+        communityName: json['communityName'],
+        isCommunityLoading: false,
+        token: null,
+        tokenBalance: BigInt.from(0),
+        tokenTransfers: new List<Transfer>()
+      );
 }

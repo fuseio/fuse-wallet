@@ -22,7 +22,13 @@ class CreateNewWalletSuccess {
 class LoginRequestSuccess {
   final String countryCode;
   final String phoneNumber;
-  LoginRequestSuccess(this.countryCode, this.phoneNumber);
+  final String fullName;
+  final String email;
+  LoginRequestSuccess(this.countryCode, this.phoneNumber, this.fullName, this.email);
+}
+
+class LogoutRequestSuccess {
+  LogoutRequestSuccess();
 }
 
 class LoginVerifySuccess {
@@ -61,7 +67,8 @@ ThunkAction createNewWalletCall() {
   };
 }
 
-ThunkAction loginRequestCall(String countryCode, String phoneNumber) {
+
+ThunkAction loginRequestCall(String countryCode, String phoneNumber, String fullName, String email) {
   return (Store store) async {
     if (!countryCode.startsWith('+')) {
       countryCode = '+$countryCode';
@@ -70,7 +77,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber) {
     try {
       bool result = await api.loginRequest(phone);
       if (result) {
-        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber));
+        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, fullName, email));
       } else {
         store.dispatch(new ErrorAction('Could not login'));
       }
@@ -78,7 +85,6 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber) {
       print(error);
       store.dispatch(new ErrorAction('Could not login'));
     }
-
   };
 }
 
@@ -96,5 +102,11 @@ ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verif
       print(e);
       store.dispatch(new ErrorAction('Could not verify login'));
     }
+  };
+}
+
+ThunkAction logoutCall() {
+  return (Store store) async {
+    store.dispatch(new LogoutRequestSuccess());
   };
 }

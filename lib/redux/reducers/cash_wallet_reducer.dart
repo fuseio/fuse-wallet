@@ -1,10 +1,10 @@
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
-  TypedReducer<CashWalletState, GetPublicKeySuccess>(_getPublicKeySuccess),
   TypedReducer<CashWalletState, GetWalletAddressSuccess>(
       _getWalletAddressSuccess),
   TypedReducer<CashWalletState, CreateAccountWalletRequest>(
@@ -22,17 +22,14 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, GetJoinBonusSuccess>(_getJoinBonusSuccess),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
-  TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(_getTokenTransfersListSuccess)
+  TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(_getTokenTransfersListSuccess),
+  TypedReducer<CashWalletState, LogoutRequestSuccess>(_logoutSuccess),
+  TypedReducer<CashWalletState, SwitchCommunityRequested>(_switchCommunityRequest)
 ]);
 
 CashWalletState _initWeb3Success(
     CashWalletState state, InitWeb3Success action) {
   return state.copyWith(web3: action.web3);
-}
-
-CashWalletState _getPublicKeySuccess(
-    CashWalletState state, GetPublicKeySuccess action) {
-  return state.copyWith(publicKey: action.publicKey);
 }
 
 CashWalletState _getWalletAddressSuccess(
@@ -68,10 +65,7 @@ CashWalletState _joinCommunitySuccess(
   return state.copyWith(
       communityAddress: action.communityAddress,
       communityName: action.communityName,
-      tokenAddress: action.tokenAddress,
-      tokenName: action.tokenName,
-      tokenSymbol: action.tokenSymbol,
-      tokenDecimals: action.tokenDecimals);
+      token: action.token);
 }
 
 CashWalletState _alreadyJoinedCommunity(
@@ -79,15 +73,16 @@ CashWalletState _alreadyJoinedCommunity(
   return state.copyWith(
       communityAddress: action.communityAddress,
       communityName: action.communityName,
-      tokenAddress: action.tokenAddress,
-      tokenName: action.tokenName,
-      tokenSymbol: action.tokenSymbol,
-      tokenDecimals: action.tokenDecimals);
+      token: action.token);
 }
 
 CashWalletState _switchCommunitySuccess(
     CashWalletState state, SwitchCommunitySuccess action) {
-  // TODO
+    return state.copyWith(
+      communityAddress: action.communityAddress,
+      communityName: action.communityName,
+      token: action.token,
+      isCommunityLoading: false);
 }
 
 CashWalletState _getJoinBonusSuccess(
@@ -102,6 +97,15 @@ CashWalletState _getBusinessListSuccess(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-  print('Found ${action.tokenTransfersList.length} token transfers');
-  return state.copyWith(tokenTransfersList: action.tokenTransfersList);    
+  print('Found ${action.tokenTransfers.length} token transfers');
+  return state.copyWith(tokenTransfers: action.tokenTransfers);    
 }
+
+CashWalletState _logoutSuccess(CashWalletState state, LogoutRequestSuccess action) {
+  return CashWalletState.initial();
+}
+
+CashWalletState _switchCommunityRequest(CashWalletState state, SwitchCommunityRequested action) {
+  return state.copyWith(isCommunityLoading: true);    
+}
+
