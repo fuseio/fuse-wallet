@@ -17,6 +17,22 @@ class CashTransactios extends StatefulWidget {
   createState() => new CashTransactiosState();
 }
 
+String deduceSign(Transfer transfer) {
+  if (transfer.type == 'SEND') {
+    return '-';
+  } else {
+    return '+';
+  }
+}
+
+Color deduceColor(Transfer transfer) {
+  if (transfer.type == 'SEND') {
+    return Color(0xFFFF0000);
+  } else {
+    return Color(0xFF00BE66);
+  }
+}
+
 class CashTransactiosState extends State<CashTransactios> {
   CashTransactiosState();
 
@@ -97,9 +113,9 @@ class _TransactionListItem extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(right: 5),
                       child: Text(
-                        (_transfer.value / BigInt.from(pow(10, _token.decimals))).toString(),
+                        deduceSign(_transfer) + (_transfer.value / BigInt.from(pow(10, _token.decimals))).toString(),
                         style: TextStyle(
-                            color: Color(0xFF00BE66),
+                            color: deduceColor(_transfer),
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold),
                       ),
@@ -107,7 +123,7 @@ class _TransactionListItem extends StatelessWidget {
                     Text(
                       " ${_token.symbol}",
                       style: TextStyle(
-                          color: Color(0xFF00BE66),
+                          color: deduceColor(_transfer),
                           fontSize: 18.0,
                           fontWeight: FontWeight.normal),
                     )
