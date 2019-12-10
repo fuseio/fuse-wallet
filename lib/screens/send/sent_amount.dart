@@ -138,6 +138,7 @@ class _SendAmountScreenState extends State<SendAmountScreen> {
                 onPressed: () {
                   String formattedPhoneNumber = args.phoneNumber.replaceAll(new RegExp('(-| )'), '');
                   viewModel.sendTokens(formattedPhoneNumber, num.parse(amountText));
+                  Navigator.pushNamed(context, '/Cash');
                   //if (viewModel.walletState.sendAmount <= 0) {
                   //  Scaffold.of(context).showSnackBar(new SnackBar(
                   //    content: new Text("Please enter amount"),

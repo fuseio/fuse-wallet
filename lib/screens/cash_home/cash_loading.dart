@@ -25,12 +25,14 @@ class _CashLoadingScreenState extends State<CashLoadingScreen> {
             return CashWalletViewModel.fromStore(store);
       }, onWillChange: (viewModel) {
         if (viewModel.walletStatus == 'created') {
+        // viewModel.switchCommunity();
           Navigator.pushNamed(context, '/Cash');
         }
       }, onInitialBuild: (viewModel) {
         if (viewModel.walletStatus == null) {
           viewModel.createWallet(viewModel.accountAddress);
         } else if (viewModel.walletStatus == 'created') {
+          // viewModel.switchCommunity();
           Navigator.pushNamed(context, '/Cash');
         }
       },builder: (_, viewModel) {

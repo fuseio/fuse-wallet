@@ -235,8 +235,10 @@ ThunkAction switchCommunityCall({String communityAddress}) {
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community =
           await graph.getCommunityByAddress(communityAddress: communityAddress);
+      print('community fetched for $communityAddress');
       dynamic token =
           await graph.getTokenOfCommunity(communityAddress: communityAddress);
+      print('token ${token["address"]} fetched for $communityAddress');
       store.dispatch(startBalanceFetchingCall(token["address"]));
       store.dispatch(startTransfersFetchingCall(token["address"]));
       return store.dispatch(new SwitchCommunitySuccess(
