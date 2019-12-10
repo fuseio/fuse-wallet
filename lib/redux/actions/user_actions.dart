@@ -1,4 +1,5 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:redux/redux.dart';
@@ -53,9 +54,10 @@ ThunkAction restoreWalletCall(List<String> _mnemonic) {
 ThunkAction createNewWalletCall() {
   return (Store store) async {
     try {
+
       String mnemonic = Web3.generateMnemonic();
-      String privateKey = Web3.privateKeyFromMnemonic(mnemonic);
-      
+      String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
+
       Credentials c = EthPrivateKey.fromHex(privateKey);
       dynamic accountAddress = await c.extractAddress();
       store.dispatch(new CreateNewWalletSuccess(mnemonic.split(' '), privateKey, accountAddress.toString()));
