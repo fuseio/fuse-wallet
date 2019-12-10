@@ -15,6 +15,7 @@ Widget bottomBar(context) {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           bottomBarItem("arrow-down.png", "Send", () {
+            Navigator.pushNamed(context, '/SendContact');
             //openPage(context, new SendAmountPage());
           }),
           bottomBarItem("buy.png", "Buy", () {

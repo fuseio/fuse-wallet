@@ -1,12 +1,12 @@
 import 'package:fusecash/screens/send/sent_contact.dart';
 import 'package:fusecash/screens/send/sent_amount.dart';
+import 'package:fusecash/screens/send/receive.dart';
 import 'package:fusecash/screens/signup/level_selector.dart';
 import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/screens/signup/signup.dart';
 import 'package:fusecash/screens/splash/splash.dart';
 import 'cash_home/cash_home.dart';
 import 'cash_home/cash_loading.dart';
-import 'send/receive.dart';
 
 getRoutes() {
   //  final Map<String, WidgetBuilder> routes;

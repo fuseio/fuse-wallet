@@ -185,7 +185,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
     try {
       Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
-      String tokenAddress = store.state.cashWalletState.tokenAddress;
+      String tokenAddress = store.state.cashWalletState.token.address;
       await api.tokenTransfer(web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
       // store.dispatch(new SendTokenSuccess(txHash));
       store.dispatch(getTokenBalanceCall(tokenAddress));
@@ -235,8 +235,10 @@ ThunkAction switchCommunityCall({String communityAddress}) {
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community =
           await graph.getCommunityByAddress(communityAddress: communityAddress);
+      print('community fetched for $communityAddress');
       dynamic token =
           await graph.getTokenOfCommunity(communityAddress: communityAddress);
+      print('token ${token["address"]} fetched for $communityAddress');
       store.dispatch(startBalanceFetchingCall(token["address"]));
       store.dispatch(startTransfersFetchingCall(token["address"]));
       return store.dispatch(new SwitchCommunitySuccess(

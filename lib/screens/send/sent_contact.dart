@@ -1,14 +1,10 @@
-import 'package:country_code_picker/country_code_picker.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/widgets/main_scaffold2.dart';
-import 'package:redux/redux.dart';
 import 'package:alphabet_list_scroll_view/alphabet_list_scroll_view.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';  
 import 'package:permission_handler/permission_handler.dart';
+import './sent_amount.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
@@ -83,7 +79,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               title: Text(user.displayName),
               subtitle: Text(user.company ?? ""),
               onTap: () {
-                Navigator.pushNamed(context, '/SendAmount');
+                Navigator.pushNamed(context, '/SendAmount', arguments: SendAmountArguments(user.displayName, user.phones.toList()[0].value));
               },
             ),
           ),

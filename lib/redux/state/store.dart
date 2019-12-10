@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:logging/logging.dart';
 import 'package:redux_logging/redux_logging.dart';
-
+import 'package:fusecash/services.dart';
 
 Future<Store<AppState>> createReduxStore() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -21,9 +21,10 @@ Future<Store<AppState>> createReduxStore() async {
     serializer: JsonSerializer<AppState>(AppState.fromJson),
   );
 
-  var initialState;
+  AppState initialState;
   try {
     initialState = await persistor.load();
+    api.setJwtToken(initialState.userState.jwtToken);
   }
   catch (e) {
     print(e);

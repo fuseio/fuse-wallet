@@ -48,6 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
         body: new StoreBuilder(onInitialBuild: (store) {
           if (store.state.userState.privateKey != '') {
             store.dispatch(initWeb3Call(store.state.userState.privateKey));
+            // store.dispatch(switchCommunityCall());
             Navigator.pushNamed(context, '/Cash');
           }
         }, builder: (BuildContext context, Store<AppState> store) {
