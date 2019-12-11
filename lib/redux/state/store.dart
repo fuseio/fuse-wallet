@@ -8,13 +8,47 @@ import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
-import 'package:logging/logging.dart';
 import 'package:redux_logging/redux_logging.dart';
 import 'package:fusecash/services.dart';
+import 'package:logging/logging.dart';
+import 'package:logger/logger.dart' as logger_package;
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
+Future<File> getFile() async {
+  final directory = await getApplicationDocumentsDirectory();
+  return File(directory.path+"/logs.txt");
+}
+
+class ConsoleOutput extends logger_package.LogOutput {
+
+  File file;
+  ConsoleOutput(File _file) {
+    file = _file;
+  }
+
+
+  @override
+  void output(logger_package.OutputEvent event) async {
+    for (var line in event.lines) {
+      print(line);
+      await file.writeAsString(line + '\n', mode: FileMode.append);
+    }
+  }
+}
 
 Future<Store<AppState>> createReduxStore() async {
     WidgetsFlutterBinding.ensureInitialized();
   var storage = new FlutterSecureStorage();
+
+  File file = await getFile();
+  var output = new ConsoleOutput(file);
+
+  var logger = logger_package.Logger(
+    printer: logger_package.PrettyPrinter(),
+    output: output
+  );
+
   final persistor = Persistor<AppState>(
     //storage: FlutterStorage(key: "app6"),
     storage: SecureStorage(storage= storage),
@@ -27,20 +61,23 @@ Future<Store<AppState>> createReduxStore() async {
     api.setJwtToken(initialState.userState.jwtToken);
   }
   catch (e) {
-    print(e);
+    logger.e(e);
     initialState = null;
   }
-  final logger = new Logger("Redux Logger");
+  
 
-  logger.onRecord
+  // logger.onRecord
+  final mylogger = new Logger("Redux Logger");
+
+  mylogger.onRecord
     // Filter down to [LogRecord]s sent to your logger instance  
-    .where((record) => record.loggerName == logger.name)
+    .where((record) => record.loggerName == mylogger.name)
     // Print them out (or do something more interesting!)
-    . listen((loggingMiddlewareRecord) => print(loggingMiddlewareRecord));
+    . listen((loggingMiddlewareRecord) => logger.i(loggingMiddlewareRecord));
 
   return Store<AppState>(
       appReducer,
       initialState: initialState ?? new AppState.initial(),
-      middleware: [thunkMiddleware, new LoggingMiddleware(logger: logger), persistor.createMiddleware()]
+      middleware: [thunkMiddleware, new LoggingMiddleware(logger: mylogger), persistor.createMiddleware()]
   );
 }
