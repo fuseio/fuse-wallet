@@ -7,6 +7,11 @@ import 'package:wallet_core/wallet_core.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
+import 'package:logger/logger.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
 
 class InitWeb3Success {
   final Web3 web3;
@@ -99,7 +104,7 @@ ThunkAction initWeb3Call(String privateKey) {
       web3.setCredentials(privateKey);
       store.dispatch(new InitWeb3Success(web3));
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not init web3'));
     }
   };
@@ -146,7 +151,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         }
       });
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not create wallet'));
     }
   };
@@ -159,7 +164,7 @@ ThunkAction getWalletAddressCall() {
       String walletAddress = wallet["walletAddress"];
       store.dispatch(new GetWalletAddressSuccess(walletAddress));
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not get wallet address'));
     }
   };
@@ -169,12 +174,12 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      print('fetching token balance of $tokenAddress for $walletAddress wallet');
+      logger.i('fetching token balance of $tokenAddress for $walletAddress wallet');
       BigInt tokenBalance =
           await graph.getTokenBalance(walletAddress, tokenAddress);
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not get token balance'));
     }
   };
@@ -191,7 +196,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
       store.dispatch(getTokenBalanceCall(tokenAddress));
       store.dispatch(getTokenTransfersListCall(tokenAddress));
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not send token'));
     }
   };
@@ -222,7 +227,7 @@ ThunkAction joinCommunityCall({String communityAddress}) {
       //     community["name"],
       //     new Token(address: token["address"], name: token["name"], symbol: token["symbol"], decimals: token["decimals"])));
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not join community'));
     }
   };
@@ -235,10 +240,10 @@ ThunkAction switchCommunityCall({String communityAddress}) {
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community =
           await graph.getCommunityByAddress(communityAddress: communityAddress);
-      print('community fetched for $communityAddress');
+      logger.i('community fetched for $communityAddress');
       dynamic token =
           await graph.getTokenOfCommunity(communityAddress: communityAddress);
-      print('token ${token["address"]} fetched for $communityAddress');
+      logger.i('token ${token["address"]} fetched for $communityAddress');
       store.dispatch(startBalanceFetchingCall(token["address"]));
       store.dispatch(startTransfersFetchingCall(token["address"]));
       return store.dispatch(new SwitchCommunitySuccess(
@@ -246,7 +251,7 @@ ThunkAction switchCommunityCall({String communityAddress}) {
           community["name"],
           new Token(address: token["address"], name: token["name"], symbol: token["symbol"], decimals: token["decimals"])));
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not join community'));
     }
   };
@@ -257,7 +262,7 @@ ThunkAction getJoinBonusCall() {
     try {
       // TODO
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not get join bonus'));
     }
   };
@@ -268,7 +273,7 @@ ThunkAction getBusinessListCall() {
     try {
       // TODO
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not get business list'));
     }
   };
@@ -278,13 +283,13 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      print('fetching token transfers of $tokenAddress for $walletAddress wallet');
+      logger.i('fetching token transfers of $tokenAddress for $walletAddress wallet');
       Map<String, dynamic> response =
           await graph.getTransfers(walletAddress, tokenAddress);
       List<Transfer> transfers = List<Transfer>.from(response["data"].map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(new GetTokenTransfersListSuccess(transfers));
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not get token transfers'));
     }
   };
@@ -302,7 +307,7 @@ ThunkAction sendTokenToContactCall(
         store.dispatch(sendTokenCall(walletAddress, tokensAmount));
       }
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not send token to contact'));
     }
   };

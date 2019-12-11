@@ -6,6 +6,11 @@ import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
 import 'package:fusecash/services.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
 
 class RestoreWalletSuccess {
   final List<String> mnemonic;
@@ -45,7 +50,7 @@ ThunkAction restoreWalletCall(List<String> _mnemonic) {
       store.dispatch(new RestoreWalletSuccess(_mnemonic, privateKey));
       store.dispatch(initWeb3Call(privateKey));
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not restore wallet'));
     }
   };
@@ -63,7 +68,7 @@ ThunkAction createNewWalletCall() {
       store.dispatch(new CreateNewWalletSuccess(mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not create new wallet'));
     }
   };
@@ -83,8 +88,8 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber, String full
       } else {
         store.dispatch(new ErrorAction('Could not login'));
       }
-    } catch (error) {
-      print(error);
+    } catch (e) {
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not login'));
     }
   };
@@ -101,7 +106,7 @@ ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verif
       store.dispatch(new LoginVerifySuccess(jwtToken));
       // store.dispatch(joinCommunityCall());
     } catch (e) {
-      print(e);
+      logger.e(e);
       store.dispatch(new ErrorAction('Could not verify login'));
     }
   };
