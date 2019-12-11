@@ -37,4 +37,18 @@ class OnboardViewModel {
     );
   }
 
+  bool operator ==(other) {
+    if (other is OnboardViewModel) {
+      if (
+        countryCode == other.countryCode &&
+        phoneNumber == other.phoneNumber &&
+        accountAddress == other.accountAddress &&
+        loginRequestSuccess == other.loginRequestSuccess &&
+        loginVerifySuccess == other.loginVerifySuccess
+      )
+      return true;
+    }
+    return false;
+  }
+
 }

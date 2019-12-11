@@ -23,11 +23,13 @@ class _VerifyScreenState extends State<VerifyScreen> {
   Widget build(BuildContext context) {
     return MainScaffold(title: "Sign up", children: <Widget>[
       new StoreConnector<AppState, OnboardViewModel>(
+          distinct: true,
           converter: (Store<AppState> store) {
         return OnboardViewModel.fromStore(store);
       }, onWillChange: (viewModel) {
         if (viewModel.loginVerifySuccess) {
-          Navigator.pushNamed(context, '/CashLoading');
+          Navigator.popUntil(context, ModalRoute.withName('/'));
+          Navigator.popAndPushNamed(context, '/Cash');
         }
       }, builder: (_, viewModel) {
         return Container(

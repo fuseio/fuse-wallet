@@ -92,7 +92,13 @@ class _SignupScreenState extends State<SignupScreen> {
       new StoreConnector<AppState, OnboardViewModel>(
           converter: (Store<AppState> store) {
             return OnboardViewModel.fromStore(store);
-      }, builder: (_, viewModel) {
+      },
+      onWillChange: (viewModel) {
+        if (viewModel.loginRequestSuccess && ModalRoute.of(context).isCurrent) {
+          Navigator.pushNamed(context, '/Verify');
+        }
+      }
+      ,builder: (_, viewModel) {
         return Padding(
           padding: EdgeInsets.only(top: 10, left: 30, right: 30),
           child: Form(
@@ -172,11 +178,6 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
         );
-      },
-      onWillChange: (viewModel) {
-        if (viewModel.loginRequestSuccess) {
-          Navigator.pushNamed(context, '/Verify');
-        }
       }),
     ]);
   }

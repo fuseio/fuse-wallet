@@ -21,19 +21,20 @@ class _CashLoadingScreenState extends State<CashLoadingScreen> {
     return MainScaffold(
       children: <Widget>[
         new StoreConnector<AppState, CashWalletViewModel>(
+          distinct: true,
           converter: (Store<AppState> store) {
             return CashWalletViewModel.fromStore(store);
       }, onWillChange: (viewModel) {
         if (viewModel.walletStatus == 'created') {
         // viewModel.switchCommunity();
-          Navigator.pushNamed(context, '/Cash');
+          Navigator.popAndPushNamed(context, '/Cash');
         }
       }, onInitialBuild: (viewModel) {
         if (viewModel.walletStatus == null) {
           viewModel.createWallet(viewModel.accountAddress);
         } else if (viewModel.walletStatus == 'created') {
           // viewModel.switchCommunity();
-          Navigator.pushNamed(context, '/Cash');
+          Navigator.popAndPushNamed(context, '/Cash');
         }
       },builder: (_, viewModel) {
           return Container(

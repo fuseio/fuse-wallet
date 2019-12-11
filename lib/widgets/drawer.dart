@@ -100,6 +100,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ),
               onTap: () async {
                 viewModel.logout();
+                Navigator.popUntil(context,  ModalRoute.withName('/'));
                 Navigator.pushNamed(context, '/');
               },
             ),

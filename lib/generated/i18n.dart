@@ -33,7 +33,7 @@ class I18n implements WidgetsLocalizations {
   TextDirection get textDirection => TextDirection.ltr;
 
   /// "Hi"
-  String get hi => "Hi";
+  String get hi => "Hello";
   /// "Balance"
   String get balance => "Balance";
 }

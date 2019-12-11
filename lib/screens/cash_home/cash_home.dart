@@ -21,14 +21,26 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashWalletViewModel>(
+        distinct: true,
         converter: (Store<AppState> store) {
       return CashWalletViewModel.fromStore(store);
     }, onInitialBuild: (viewModel) {
-      if (viewModel.token == null && !viewModel.isCommunityLoading) {
+      if(viewModel.walletStatus == null) {
+        viewModel.createWallet(viewModel.accountAddress);
+      }
+      if (viewModel.token == null && !viewModel.isCommunityLoading && viewModel.walletAddress != '') {
         viewModel.switchCommunity();
       }
       // viewModel.startBalanceFetching();
       // viewModel.startTransfersFetching();
+    },
+    onWillChange: (viewModel) {
+      if(viewModel.walletStatus == null && viewModel.accountAddress != '') {
+        viewModel.createWallet(viewModel.accountAddress);
+      }
+      if (viewModel.token == null && !viewModel.isCommunityLoading  && viewModel.walletAddress != '') {
+        viewModel.switchCommunity();
+      }
     },
     builder: (_, viewModel) {
       return MainScaffold(

@@ -76,4 +76,22 @@ class CashWalletViewModel {
       // }
     );
   }
+
+  bool operator == (other) {
+    if (other is CashWalletViewModel) {
+      if (
+        accountAddress == other.accountAddress &&
+        walletAddress == other.walletAddress &&
+        walletStatus == other.walletStatus &&
+        communityAddress == other.communityAddress &&
+        isCommunityLoading == other.isCommunityLoading &&
+        fullName == other.fullName &&
+        tokenBalance == other.tokenBalance &&
+        token == other.token &&
+        tokenTransfers == other.tokenTransfers
+      )
+      return true;
+    }
+    return false;
+  }
 }

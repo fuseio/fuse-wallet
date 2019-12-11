@@ -32,7 +32,7 @@ class ConsoleOutput extends logger_package.LogOutput {
   void output(logger_package.OutputEvent event) async {
     for (var line in event.lines) {
       print(line);
-      await file.writeAsString(line + '\n', mode: FileMode.append);
+      // await file.writeAsString(line + '\n', mode: FileMode.append);
     }
   }
 }
