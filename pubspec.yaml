@@ -1,6 +1,6 @@
 name: fusecash
-version: 1.0.0+12
-description: A new Flutter project.
+version: 1.0.0+13
+description: A wallet for communities.
 environment: 
   sdk: '>=2.1.0 <3.0.0'
 dependencies: 

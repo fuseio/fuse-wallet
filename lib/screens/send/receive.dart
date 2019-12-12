@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
-// import 'package:fusewallet/redux/state/app_state.dart';
+// import 'package:fusecash/redux/state/app_state.dart';
 import 'package:fusecash/widgets/copy.dart';
 import 'dart:core';
 import 'package:qr_flutter/qr_flutter.dart';
