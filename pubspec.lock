@@ -339,7 +339,7 @@ packages:
     source: hosted
     version: "2.1.4"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -759,10 +759,10 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
-    version: "0.0.1+36"
+      name: wallet_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+37"
   watcher:
     dependency: transitive
     description:
