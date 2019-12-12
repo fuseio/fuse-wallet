@@ -108,16 +108,24 @@ class CashHeader extends StatelessWidget {
                         new RichText(
                           text: new TextSpan(
                             style: Theme.of(context).textTheme.title,
-                            children: <TextSpan>[
+                            children: 
+                            (viewModel.tokenBalance == null || viewModel.token == null) 
+                            ? <TextSpan>[new TextSpan(
+                                  text: 'Loading',
+                                  style: new TextStyle(
+                                      fontSize: 42,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold))]
+                            : <TextSpan>[
                                 new TextSpan(
-                                  text: viewModel.token != null ? (viewModel.tokenBalance / BigInt.from(pow(10, viewModel.token.decimals))).toString() : '',
+                                  text: (viewModel.tokenBalance / BigInt.from(pow(10, viewModel.token.decimals))).toString(),
                                   style: new TextStyle(
                                       fontSize: 42,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold)),
                               new TextSpan(
                                   text:
-                                      viewModel.token != null ? ' ' + viewModel.token?.symbol.toString() : '',
+                                      ' ' + viewModel.token?.symbol.toString(),
                                   style: new TextStyle(
                                       fontSize: 42,
                                       color: Colors.black,
