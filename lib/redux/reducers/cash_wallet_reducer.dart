@@ -22,9 +22,15 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, GetJoinBonusSuccess>(_getJoinBonusSuccess),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
-  TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(_getTokenTransfersListSuccess),
+  TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(
+      _getTokenTransfersListSuccess),
   TypedReducer<CashWalletState, LogoutRequestSuccess>(_logoutSuccess),
-  TypedReducer<CashWalletState, SwitchCommunityRequested>(_switchCommunityRequest)
+  TypedReducer<CashWalletState, SwitchCommunityRequested>(
+      _switchCommunityRequest),
+  TypedReducer<CashWalletState, StartBalanceFetchingSuccess>(
+      _startBalanceFetchingSuccess),
+  TypedReducer<CashWalletState, StartTransfersFetchingSuccess>(
+      _startTransfersFetchingSuccess)
 ]);
 
 CashWalletState _initWeb3Success(
@@ -34,23 +40,23 @@ CashWalletState _initWeb3Success(
 
 CashWalletState _getWalletAddressSuccess(
     CashWalletState state, GetWalletAddressSuccess action) {
-  return state.copyWith(walletAddress: action.walletAddress, walletStatus: 'created');
+  return state.copyWith(
+      walletAddress: action.walletAddress, walletStatus: 'created');
 }
 
 CashWalletState _createAccountWalletRequest(
     CashWalletState state, CreateAccountWalletRequest action) {
-      return state.copyWith(walletStatus: 'requested');
-  }
+  return state.copyWith(walletStatus: 'requested');
+}
 
 CashWalletState _createAccountWalletSuccess(
     CashWalletState state, CreateAccountWalletSuccess action) {
-          return state.copyWith(walletStatus: 'deploying');
-  }
-
+  return state.copyWith(walletStatus: 'deploying');
+}
 
 CashWalletState _getTokenBalanceSuccess(
     CashWalletState state, GetTokenBalanceSuccess action) {
-          return state.copyWith(tokenBalance: action.tokenBalance);
+  return state.copyWith(tokenBalance: action.tokenBalance);
 }
 
 CashWalletState _sendTokenSuccess(
@@ -78,11 +84,12 @@ CashWalletState _alreadyJoinedCommunity(
 
 CashWalletState _switchCommunitySuccess(
     CashWalletState state, SwitchCommunitySuccess action) {
-    return state.copyWith(
+  return state.copyWith(
       communityAddress: action.communityAddress,
       communityName: action.communityName,
       token: action.token,
-      isCommunityLoading: false);
+      isCommunityLoading: false,
+      isCommunityFetched: true);
 }
 
 CashWalletState _getJoinBonusSuccess(
@@ -98,14 +105,25 @@ CashWalletState _getBusinessListSuccess(
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
   print('Found ${action.tokenTransfers.length} token transfers');
-  return state.copyWith(tokenTransfers: action.tokenTransfers);    
+  return state.copyWith(tokenTransfers: action.tokenTransfers);
 }
 
-CashWalletState _logoutSuccess(CashWalletState state, LogoutRequestSuccess action) {
+CashWalletState _logoutSuccess(
+    CashWalletState state, LogoutRequestSuccess action) {
   return CashWalletState.initial();
 }
 
-CashWalletState _switchCommunityRequest(CashWalletState state, SwitchCommunityRequested action) {
-  return state.copyWith(isCommunityLoading: true);    
+CashWalletState _switchCommunityRequest(
+    CashWalletState state, SwitchCommunityRequested action) {
+  return state.copyWith(isCommunityLoading: true);
 }
 
+CashWalletState _startBalanceFetchingSuccess(
+    CashWalletState state, StartBalanceFetchingSuccess action) {
+  return state.copyWith(isBalanceFetchingStarted: true);
+}
+
+CashWalletState _startTransfersFetchingSuccess(
+    CashWalletState state, StartTransfersFetchingSuccess action) {
+  return state.copyWith(isTransfersFetchingStarted: true);
+}
