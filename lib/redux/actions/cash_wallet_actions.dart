@@ -93,6 +93,15 @@ class GetTokenTransfersListSuccess {
   GetTokenTransfersListSuccess(this.tokenTransfers);
 }
 
+class StartBalanceFetchingSuccess {
+  StartBalanceFetchingSuccess();
+}
+
+class StartTransfersFetchingSuccess {
+  String tokenAddress;
+  StartTransfersFetchingSuccess();
+}
+
 Future<bool> approvalCallback() async {
   return true;
 }
@@ -110,29 +119,42 @@ ThunkAction initWeb3Call(String privateKey) {
   };
 }
 
-ThunkAction startBalanceFetchingCall(String tokenAddress) {
+ThunkAction startBalanceFetchingCall() {
   return (Store store) async {
-    store.dispatch(getTokenBalanceCall(tokenAddress));
-    new Timer.periodic(Duration(seconds: 5), (Timer t) async {
+    String tokenAddress = store.state.cashWalletState.token == null ? null : store.state.cashWalletState.token.address;
+    if (tokenAddress != null) {
+      store.dispatch(getTokenBalanceCall(tokenAddress));
+    }
+    new Timer.periodic(Duration(seconds: 3), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
         t.cancel();
         return;
       }
-      store.dispatch(getTokenBalanceCall(tokenAddress));
+      if (tokenAddress != null) {
+        store.dispatch(getTokenBalanceCall(tokenAddress));
+      }
     });
+    store.dispatch(new StartBalanceFetchingSuccess());
   };
 }
 
-ThunkAction startTransfersFetchingCall(String tokenAddress) {
+ThunkAction startTransfersFetchingCall() {
   return (Store store) async {
-    store.dispatch(getTokenTransfersListCall(tokenAddress));
-    new Timer.periodic(Duration(seconds: 5), (Timer t) async {
+    String tokenAddress = store.state.cashWalletState.token == null ? null : store.state.cashWalletState.token.address;
+    if (tokenAddress != null) {
+      store.dispatch(getTokenTransfersListCall(tokenAddress));
+    }
+    new Timer.periodic(Duration(seconds: 3), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
         t.cancel();
         return;
       }
-      store.dispatch(getTokenTransfersListCall(tokenAddress));
+      if (tokenAddress != null) {
+        store.dispatch(getTokenTransfersListCall(tokenAddress));
+      }
     });
+    store.dispatch(new StartTransfersFetchingSuccess());
+
   };
 }
 
@@ -191,6 +213,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
       Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
       String tokenAddress = store.state.cashWalletState.token.address;
+      logger.i('Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
       await api.tokenTransfer(web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
       // store.dispatch(new SendTokenSuccess(txHash));
       store.dispatch(getTokenBalanceCall(tokenAddress));
@@ -244,8 +267,7 @@ ThunkAction switchCommunityCall({String communityAddress}) {
       dynamic token =
           await graph.getTokenOfCommunity(communityAddress: communityAddress);
       logger.i('token ${token["address"]} fetched for $communityAddress');
-      store.dispatch(startBalanceFetchingCall(token["address"]));
-      store.dispatch(startTransfersFetchingCall(token["address"]));
+
       return store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],

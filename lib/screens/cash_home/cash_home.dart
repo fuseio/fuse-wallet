@@ -12,6 +12,25 @@ class CashHomeScreen extends StatefulWidget {
   _CashHomeScreenState createState() => _CashHomeScreenState();
 }
 
+void onChange(viewModel) {
+  if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
+    viewModel.createWallet(viewModel.accountAddress);
+  }
+  if (!viewModel.isCommunityLoading &&
+      !viewModel.isCommunityFetched &&
+      viewModel.walletAddress != '') {
+    viewModel.switchCommunity();
+  }
+  if (viewModel.token != null) {
+    if (!viewModel.isBalanceFetchingStarted) {
+      viewModel.startBalanceFetching();
+    }
+    if (!viewModel.isTransfersFetchingStarted) {
+      viewModel.startTransfersFetching();
+    }
+  }
+}
+
 class _CashHomeScreenState extends State<CashHomeScreen> {
   @override
   void initState() {
@@ -23,30 +42,19 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
     return new StoreConnector<AppState, CashWalletViewModel>(
         distinct: true,
         converter: (Store<AppState> store) {
-      return CashWalletViewModel.fromStore(store);
-    }, onInitialBuild: (viewModel) {
-      if(viewModel.walletStatus == null) {
-        viewModel.createWallet(viewModel.accountAddress);
-      }
-      if (viewModel.token == null && !viewModel.isCommunityLoading && viewModel.walletAddress != '') {
-        viewModel.switchCommunity();
-      }
-      // viewModel.startBalanceFetching();
-      // viewModel.startTransfersFetching();
-    },
-    onWillChange: (viewModel) {
-      if(viewModel.walletStatus == null && viewModel.accountAddress != '') {
-        viewModel.createWallet(viewModel.accountAddress);
-      }
-      if (viewModel.token == null && !viewModel.isCommunityLoading  && viewModel.walletAddress != '') {
-        viewModel.switchCommunity();
-      }
-    },
-    builder: (_, viewModel) {
-      return MainScaffold(
-        header: CashHeader(),
-        children: <Widget>[CashTransactios(viewModel: viewModel)],
-      );
-    });
+          return CashWalletViewModel.fromStore(store);
+        },
+        onInitialBuild: (viewModel) {
+          onChange(viewModel);
+        },
+        onWillChange: (viewModel) {
+          onChange(viewModel);
+        },
+        builder: (_, viewModel) {
+          return MainScaffold(
+            header: CashHeader(),
+            children: <Widget>[CashTransactios(viewModel: viewModel)],
+          );
+        });
   }
 }
