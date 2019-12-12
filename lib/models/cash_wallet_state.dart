@@ -85,7 +85,8 @@ class CashWalletState {
       'communityAddress': communityAddress,
       'communityName': communityName,
       'token': token?.toJson(),
-      'tokenBalance': tokenBalance.toString()
+      'tokenBalance': tokenBalance.toString(),
+      'tokenTransfers': tokenTransfers.map((transfer) => transfer.toJson()).toList()
     };
 
     static CashWalletState fromJson(dynamic json) =>
@@ -100,7 +101,7 @@ class CashWalletState {
         isBalanceFetchingStarted: false,
         isTransfersFetchingStarted: false,
         token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
-        tokenBalance: BigInt.parse(json['tokenBalance']),
-        tokenTransfers: new List<Transfer>()
+        tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
+        tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer)))
       );
 }

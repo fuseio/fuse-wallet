@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'transfer.g.dart';
+
+@JsonSerializable()
 class Transfer {
   final String to;
   final String from;
@@ -15,12 +20,7 @@ class Transfer {
     this.type
   });
 
-  static Transfer fromJson(json) => new Transfer(
-    to: json['to'],
-    from: json['from'],
-    value: json['value'],
-    txHash: json['txHash'],
-    tokenAddress: json['tokenAddress'],
-    type: json['type']
-  );
+  factory Transfer.fromJson(Map<String, dynamic> json) => _$TransferFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TransferToJson(this);
 }

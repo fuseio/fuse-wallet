@@ -56,7 +56,11 @@ CashWalletState _createAccountWalletSuccess(
 
 CashWalletState _getTokenBalanceSuccess(
     CashWalletState state, GetTokenBalanceSuccess action) {
-  return state.copyWith(tokenBalance: action.tokenBalance);
+  if (state.walletAddress != '') {
+      return state.copyWith(tokenBalance: action.tokenBalance);
+  } else {
+    return state;
+  }
 }
 
 CashWalletState _sendTokenSuccess(
@@ -105,7 +109,11 @@ CashWalletState _getBusinessListSuccess(
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
   print('Found ${action.tokenTransfers.length} token transfers');
-  return state.copyWith(tokenTransfers: action.tokenTransfers);
+  if (state.walletAddress != '') {
+    return state.copyWith(tokenTransfers: action.tokenTransfers);
+  } else {
+    return state;
+  }
 }
 
 CashWalletState _logoutSuccess(

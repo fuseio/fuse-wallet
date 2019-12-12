@@ -46,8 +46,6 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
         },
         onInitialBuild: (viewModel) {
           onChange(viewModel);
-          // viewModel.startBalanceFetching();
-          // viewModel.startTransfersFetching();
         },
         onWillChange: (viewModel) {
           onChange(viewModel);

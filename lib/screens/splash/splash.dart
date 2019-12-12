@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         drawer: drawer,
         body: new StoreBuilder(onInitialBuild: (store) {
-          if (store.state.userState.privateKey != '') {
+          if (store.state.userState.privateKey != '' && store.state.userState.jwtToken != '') {
             store.dispatch(initWeb3Call(store.state.userState.privateKey));
             // store.dispatch(switchCommunityCall());
             Navigator.popAndPushNamed(context, '/Cash');
