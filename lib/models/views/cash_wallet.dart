@@ -9,6 +9,9 @@ class CashWalletViewModel {
   final String walletAddress;
   final String communityAddress;
   final bool isCommunityLoading;
+  final bool isCommunityFetched;
+  final bool isBalanceFetchingStarted;
+  final bool isTransfersFetchingStarted;
   final String walletStatus;
   final String fullName;
   final BigInt tokenBalance;
@@ -28,6 +31,9 @@ class CashWalletViewModel {
     this.walletStatus,
     this.communityAddress,
     this.isCommunityLoading,
+    this.isCommunityFetched,
+    this.isBalanceFetchingStarted,
+    this.isTransfersFetchingStarted,
     this.fullName,
     this.tokenBalance,
     this.token,
@@ -48,6 +54,9 @@ class CashWalletViewModel {
       walletStatus: store.state.cashWalletState.walletStatus,
       communityAddress: store.state.cashWalletState.communityAddress,
       isCommunityLoading: store.state.cashWalletState.isCommunityLoading,
+      isCommunityFetched: store.state.cashWalletState.isCommunityFetched,
+      isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
+      isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted,
       fullName: store.state.userState.fullName,
       tokenBalance: store.state.cashWalletState.tokenBalance,
       token: store.state.cashWalletState.token,
@@ -68,12 +77,12 @@ class CashWalletViewModel {
       switchCommunity: () {
         store.dispatch(switchCommunityCall());
       },
-      // startBalanceFetching: () {
-      //   store.dispatch(startBalanceFetchingCall());
-      // },
-      // startTransfersFetching: () {
-      //   store.dispatch(startTransfersFetchingCall());
-      // }
+      startBalanceFetching: () {
+        store.dispatch(startBalanceFetchingCall());
+      },
+      startTransfersFetching: () {
+        store.dispatch(startTransfersFetchingCall());
+      }
     );
   }
 
