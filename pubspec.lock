@@ -777,8 +777,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.5"
-<<<<<<< HEAD
-=======
   xml:
     dependency: transitive
     description:
@@ -793,7 +791,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
->>>>>>> ce8466f46fa4c63a9af0c7a819d09ca87e6cb785
 sdks:
   dart: ">=2.2.2 <3.0.0"
   flutter: ">=1.9.1+hotfix.5 <2.0.0"
