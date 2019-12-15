@@ -24,3 +24,22 @@ class Transfer {
 
   Map<String, dynamic> toJson() => _$TransferToJson(this);
 }
+
+@JsonSerializable()
+class PendingTransfer extends Transfer {
+  final String jobId;
+
+  PendingTransfer({
+    String to,
+    String from,
+    BigInt value,
+    String txHash,
+    String tokenAddress,
+    String type,
+    this.jobId
+  }) : super(to: to, from: from, value: value, txHash: txHash, tokenAddress: tokenAddress, type: type);
+
+  factory PendingTransfer.fromJson(Map<String, dynamic> json) => _$PendingTransferFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PendingTransferToJson(this);
+}

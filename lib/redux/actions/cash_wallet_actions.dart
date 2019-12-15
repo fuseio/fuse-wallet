@@ -1,5 +1,6 @@
 import 'package:fusecash/models/error_state.dart';
 import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -7,6 +8,7 @@ import 'package:wallet_core/wallet_core.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
+import 'dart:math';
 import 'package:logger/logger.dart';
 
 var logger = Logger(
@@ -53,29 +55,27 @@ class JoinCommunitySuccess {
   final String communityAddress;
   final String communityName;
   final Token token;
-  JoinCommunitySuccess(this.txHash, this.communityAddress, this.communityName,
-      this.token);
+  JoinCommunitySuccess(
+      this.txHash, this.communityAddress, this.communityName, this.token);
 }
 
 class AlreadyJoinedCommunity {
   final String communityAddress;
   final String communityName;
   final Token token;
-  AlreadyJoinedCommunity(this.communityAddress, this.communityName,
-      this.token);
+  AlreadyJoinedCommunity(this.communityAddress, this.communityName, this.token);
 }
 
 class SwitchCommunityRequested {
   final String communityAddress;
   SwitchCommunityRequested(this.communityAddress);
-
 }
+
 class SwitchCommunitySuccess {
   final Token token;
   final String communityAddress;
   final String communityName;
-  SwitchCommunitySuccess(this.communityAddress, this.communityName,
-      this.token);
+  SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token);
 }
 
 class GetJoinBonusSuccess {
@@ -86,6 +86,11 @@ class GetJoinBonusSuccess {
 class GetBusinessListSuccess {
   // TODO
   GetBusinessListSuccess();
+}
+
+class GetJobSuccess {
+  Job job;
+  GetJobSuccess(this.job);
 }
 
 class GetTokenTransfersListSuccess {
@@ -100,6 +105,16 @@ class StartBalanceFetchingSuccess {
 class StartTransfersFetchingSuccess {
   String tokenAddress;
   StartTransfersFetchingSuccess();
+}
+
+class TransferSendRequested {
+  PendingTransfer transfer;
+  TransferSendRequested(this.transfer);
+}
+
+class TransferSendSuccess {
+  PendingTransfer transfer;
+  TransferSendSuccess(this.transfer);
 }
 
 Future<bool> approvalCallback() async {
@@ -121,7 +136,9 @@ ThunkAction initWeb3Call(String privateKey) {
 
 ThunkAction startBalanceFetchingCall() {
   return (Store store) async {
-    String tokenAddress = store.state.cashWalletState.token == null ? null : store.state.cashWalletState.token.address;
+    String tokenAddress = store.state.cashWalletState.token == null
+        ? null
+        : store.state.cashWalletState.token.address;
     if (tokenAddress != null) {
       store.dispatch(getTokenBalanceCall(tokenAddress));
     }
@@ -140,7 +157,9 @@ ThunkAction startBalanceFetchingCall() {
 
 ThunkAction startTransfersFetchingCall() {
   return (Store store) async {
-    String tokenAddress = store.state.cashWalletState.token == null ? null : store.state.cashWalletState.token.address;
+    String tokenAddress = store.state.cashWalletState.token == null
+        ? null
+        : store.state.cashWalletState.token.address;
     if (tokenAddress != null) {
       store.dispatch(getTokenTransfersListCall(tokenAddress));
     }
@@ -154,7 +173,6 @@ ThunkAction startTransfersFetchingCall() {
       }
     });
     store.dispatch(new StartTransfersFetchingSuccess());
-
   };
 }
 
@@ -196,10 +214,36 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      logger.i('fetching token balance of $tokenAddress for $walletAddress wallet');
+      logger.i(
+          'fetching token balance of $tokenAddress for $walletAddress wallet');
       BigInt tokenBalance =
           await graph.getTokenBalance(walletAddress, tokenAddress);
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
+    } catch (e) {
+      logger.e(e);
+      store.dispatch(new ErrorAction('Could not get token balance'));
+    }
+  };
+}
+
+ThunkAction startFetchingJobCall(String jobId) {
+  return (Store store) async {
+    try {
+      logger.i('fetching job $jobId');
+      dynamic response = await api.getJob(jobId);
+      Job job = Job.fromJson(response);
+      if (response != null && job.txHash != null) {
+        store.dispatch(new GetJobSuccess(job));
+      } else {
+        new Timer.periodic(Duration(seconds: 3), (Timer t) async {
+          response = await api.getJob(jobId);
+          Job job = Job.fromJson(response);
+          if (response != null && job.txHash != null) {
+            t.cancel();
+            store.dispatch(new GetJobSuccess(job));
+          }
+        });
+      }
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not get token balance'));
@@ -212,12 +256,26 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
     try {
       Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
-      String tokenAddress = store.state.cashWalletState.token.address;
-      logger.i('Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
-      await api.tokenTransfer(web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
-      // store.dispatch(new SendTokenSuccess(txHash));
-      store.dispatch(getTokenBalanceCall(tokenAddress));
-      store.dispatch(getTokenTransfersListCall(tokenAddress));
+      Token token = store.state.cashWalletState.token;
+      String tokenAddress = token.address;
+      logger.i(
+          'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
+      dynamic response = await api.tokenTransfer(
+          web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
+
+      dynamic jobId = response['job']['_id'];
+      logger.i('Job $jobId for sending token sent to the relay service');
+      BigInt value =
+          BigInt.from(tokensAmount) * BigInt.from(pow(10, token.decimals));
+      Transfer transfer = new PendingTransfer(
+          from: walletAddress,
+          to: receiverAddress,
+          tokenAddress: tokenAddress,
+          value: value,
+          type: 'SEND',
+          jobId: jobId);
+      store.dispatch(startFetchingJobCall(jobId));
+      store.dispatch(new TransferSendSuccess(transfer));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token'));
@@ -241,7 +299,11 @@ ThunkAction joinCommunityCall({String communityAddress}) {
         return store.dispatch(new AlreadyJoinedCommunity(
             communityAddress,
             community["name"],
-            new Token(address: token["address"], name: token["name"], symbol: token["symbol"], decimals: token["decimals"])));
+            new Token(
+                address: token["address"],
+                name: token["name"],
+                symbol: token["symbol"],
+                decimals: token["decimals"])));
       }
       await api.joinCommunity(web3, walletAddress, communityAddress);
       // return store.dispatch(new JoinCommunitySuccess(
@@ -271,7 +333,11 @@ ThunkAction switchCommunityCall({String communityAddress}) {
       return store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],
-          new Token(address: token["address"], name: token["name"], symbol: token["symbol"], decimals: token["decimals"])));
+          new Token(
+              address: token["address"],
+              name: token["name"],
+              symbol: token["symbol"],
+              decimals: token["decimals"])));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not join community'));
@@ -305,10 +371,12 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      logger.i('fetching token transfers of $tokenAddress for $walletAddress wallet');
+      logger.i(
+          'fetching token transfers of $tokenAddress for $walletAddress wallet');
       Map<String, dynamic> response =
           await graph.getTransfers(walletAddress, tokenAddress);
-      List<Transfer> transfers = List<Transfer>.from(response["data"].map((json) => Transfer.fromJson(json)).toList());
+      List<Transfer> transfers = List<Transfer>.from(
+          response["data"].map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(new GetTokenTransfersListSuccess(transfers));
     } catch (e) {
       logger.e(e);

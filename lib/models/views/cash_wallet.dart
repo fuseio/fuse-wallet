@@ -17,6 +17,7 @@ class CashWalletViewModel {
   final BigInt tokenBalance;
   final Token token;
   final List<Transfer> tokenTransfers;
+  final List<Transfer> pendingTransfers;
   final Function(String) createWallet;
   final Function() getWallet;
   final Function() firstName;
@@ -38,6 +39,7 @@ class CashWalletViewModel {
     this.tokenBalance,
     this.token,
     this.tokenTransfers,
+    this.pendingTransfers,
     this.createWallet,
     this.getWallet,
     this.firstName,
@@ -61,6 +63,7 @@ class CashWalletViewModel {
       tokenBalance: store.state.cashWalletState.tokenBalance,
       token: store.state.cashWalletState.token,
       tokenTransfers: store.state.cashWalletState.tokenTransfers,
+      pendingTransfers: store.state.cashWalletState.pendingTransfers,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
       },
