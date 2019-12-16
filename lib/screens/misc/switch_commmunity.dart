@@ -96,8 +96,8 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                                   onPressed: () async {
                                     var json = await BarcodeScanner.scan();
                                     Map jsonMap = jsonDecode(json);
-                                    Navigator.of(context).pop();
                                     viewModel.switchCommunity(jsonMap['communityAddress']);
+                                    Navigator.popUntil(context,  ModalRoute.withName('/Cash'));
                                   },
                                   width: 300,
                                 ),
