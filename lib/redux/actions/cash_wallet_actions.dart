@@ -117,6 +117,11 @@ class TransferSendSuccess {
   TransferSendSuccess(this.transfer);
 }
 
+class FundTokenSendSuccess {
+  final String tokenAddress;
+  FundTokenSendSuccess(this.tokenAddress);
+}
+
 Future<bool> approvalCallback() async {
   return true;
 }
