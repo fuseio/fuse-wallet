@@ -12,14 +12,15 @@ class CashHomeScreen extends StatefulWidget {
   _CashHomeScreenState createState() => _CashHomeScreenState();
 }
 
-void onChange(viewModel) {
+
+void onChange(CashWalletViewModel viewModel) {
   if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
     viewModel.createWallet(viewModel.accountAddress);
   }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&
       viewModel.walletAddress != '') {
-    viewModel.switchCommunity();
+    viewModel.switchCommunity(viewModel.communityAddress);
   }
   if (viewModel.token != null) {
     if (!viewModel.isBalanceFetchingStarted) {

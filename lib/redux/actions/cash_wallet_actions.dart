@@ -147,6 +147,9 @@ ThunkAction startBalanceFetchingCall() {
         t.cancel();
         return;
       }
+      tokenAddress = store.state.cashWalletState.token == null
+        ? null
+        : store.state.cashWalletState.token.address;
       if (tokenAddress != null) {
         store.dispatch(getTokenBalanceCall(tokenAddress));
       }
@@ -168,6 +171,9 @@ ThunkAction startTransfersFetchingCall() {
         t.cancel();
         return;
       }
+      tokenAddress = store.state.cashWalletState.token == null
+        ? null
+        : store.state.cashWalletState.token.address;
       if (tokenAddress != null) {
         store.dispatch(getTokenTransfersListCall(tokenAddress));
       }
@@ -314,16 +320,15 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   };
 }
 
-ThunkAction switchCommunityCall({String communityAddress}) {
+ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     try {
-      communityAddress = communityAddress ?? Web3.getDefaultCommunity();
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community =
-          await graph.getCommunityByAddress(communityAddress: communityAddress);
+        await graph.getCommunityByAddress(communityAddress);
       logger.i('community fetched for $communityAddress');
       dynamic token =
-          await graph.getTokenOfCommunity(communityAddress: communityAddress);
+          await graph.getTokenOfCommunity(communityAddress);
       logger.i('token ${token["address"]} fetched for $communityAddress');
       store.dispatch(joinCommunityCall(community: community, token: token));
       return store.dispatch(new SwitchCommunitySuccess(

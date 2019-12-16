@@ -22,7 +22,7 @@ class CashWalletViewModel {
   final Function() getWallet;
   final Function() firstName;
   final Function() getTokenBalance;
-  final Function() switchCommunity;
+  final Function(String) switchCommunity;
   final Function() startBalanceFetching;
   final Function() startTransfersFetching;
 
@@ -77,8 +77,8 @@ class CashWalletViewModel {
       // getTokenBalance: () {
       //   store.dispatch(getTokenBalanceCall());
       // },
-      switchCommunity: () {
-        store.dispatch(switchCommunityCall());
+      switchCommunity: (String communityAddress) {
+        store.dispatch(switchCommunityCall(communityAddress));
       },
       startBalanceFetching: () {
         store.dispatch(startBalanceFetchingCall());
