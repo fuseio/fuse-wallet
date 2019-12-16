@@ -392,7 +392,7 @@ ThunkAction sendTokenToContactCall(
       dynamic wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
       String walletAddress = wallet["walletAddress"];
       if (walletAddress == null || walletAddress.isEmpty) {
-        store.dispatch(new ErrorState('Could not find wallet for contact'));
+        store.dispatch(new ErrorAction('Could not find wallet for contact'));
       } else {
         store.dispatch(sendTokenCall(walletAddress, tokensAmount));
       }
