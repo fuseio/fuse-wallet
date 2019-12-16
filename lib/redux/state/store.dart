@@ -14,6 +14,9 @@ import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
+import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
+
 
 Future<File> getFile() async {
   final directory = await getApplicationDocumentsDirectory();
@@ -60,6 +63,17 @@ Future<Store<AppState>> createReduxStore() async {
     initialState = await persistor.load();
     if (initialState.userState?.jwtToken != '') {
       api.setJwtToken(initialState.userState.jwtToken);
+    }
+    if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();  // will throw an exception if it fails
+    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
+      print("DEEPLINK $string");
+      // PROCESS DEEPLINK HERE
+    });
+    if (Platform.isAndroid) {
+      FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
+        print("ONSTART");
+        FlutterBranchIoPlugin.setupBranchIO();
+      });
     }
   }
   catch (e) {

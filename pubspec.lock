@@ -237,6 +237,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_android_lifecycle
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  flutter_branch_io_plugin:
+    dependency: "direct main"
+    description:
+      name: flutter_branch_io_plugin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   flutter_localizations:
     dependency: "direct dev"
     description: flutter
