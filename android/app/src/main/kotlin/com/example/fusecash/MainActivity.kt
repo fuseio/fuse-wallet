@@ -1,4 +1,4 @@
-package com.example.fusecash
+package io.fuse.fusecash
 
 import android.os.Bundle
 
