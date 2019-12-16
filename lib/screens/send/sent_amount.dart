@@ -137,7 +137,7 @@ class _SendAmountScreenState extends State<SendAmountScreen> {
                 label: "NEXT",
                 onPressed: () {
                   String formattedPhoneNumber = args.phoneNumber.replaceAll(new RegExp('(-| )'), '').replaceFirst(new RegExp('^0+'), '');
-                  if (formattedPhoneNumber[0] == '+') {
+                  if (formattedPhoneNumber[0] != '+') {
                     formattedPhoneNumber = viewModel.myCountryCode + formattedPhoneNumber;
                   }
                   viewModel.sendTokens(formattedPhoneNumber, num.parse(amountText));
