@@ -283,18 +283,14 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
   };
 }
 
-ThunkAction joinCommunityCall({String communityAddress}) {
+ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   return (Store store) async {
     try {
       Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
-      communityAddress = communityAddress ?? Web3.getDefaultCommunity();
-      dynamic community =
-          await graph.getCommunityByAddress(communityAddress: communityAddress);
-      dynamic token =
-          await graph.getTokenOfCommunity(communityAddress: communityAddress);
       bool isMember = await graph.isCommunityMember(
           walletAddress, community["entitiesList"]["address"]);
+      String communityAddress = community['address'];
       if (isMember) {
         return store.dispatch(new AlreadyJoinedCommunity(
             communityAddress,
@@ -329,7 +325,7 @@ ThunkAction switchCommunityCall({String communityAddress}) {
       dynamic token =
           await graph.getTokenOfCommunity(communityAddress: communityAddress);
       logger.i('token ${token["address"]} fetched for $communityAddress');
-
+      store.dispatch(joinCommunityCall(community: community, token: token));
       return store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],
