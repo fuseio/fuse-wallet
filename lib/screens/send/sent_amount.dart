@@ -136,7 +136,10 @@ class _SendAmountScreenState extends State<SendAmountScreen> {
                   child: PrimaryButton(
                 label: "NEXT",
                 onPressed: () {
-                  String formattedPhoneNumber = args.phoneNumber.replaceAll(new RegExp('(-| )'), '');
+                  String formattedPhoneNumber = args.phoneNumber.replaceAll(new RegExp('(-| )'), '').replaceFirst(new RegExp('^0+'), '');
+                  if (formattedPhoneNumber[0] != '+') {
+                    formattedPhoneNumber = viewModel.myCountryCode + formattedPhoneNumber;
+                  }
                   viewModel.sendTokens(formattedPhoneNumber, num.parse(amountText));
                   Navigator.popAndPushNamed(context, '/Cash');
                   //if (viewModel.walletState.sendAmount <= 0) {
@@ -166,13 +169,16 @@ class SendAmountArguments {
 }
 
 class SendAmountViewModel {
+  final String myCountryCode;
   final Function(String, num) sendTokens;
-
-  SendAmountViewModel({this.sendTokens});
-
+  
+  SendAmountViewModel({this.myCountryCode, this.sendTokens});
+  
   static SendAmountViewModel fromStore(Store<AppState> store) {
-    return SendAmountViewModel(sendTokens: (String phoneNumber, num amount) {
-      store.dispatch(sendTokenToContactCall(phoneNumber, amount));
+    return SendAmountViewModel(
+      myCountryCode: store.state.userState.countryCode,
+      sendTokens: (String phoneNumber, num amount) {
+        store.dispatch(sendTokenToContactCall(phoneNumber, amount));
     });
   }
 }
