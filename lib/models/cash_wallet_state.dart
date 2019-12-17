@@ -15,6 +15,7 @@ class CashWalletState {
   final bool isCommunityFetched;
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
+  final bool isListeningToBranch;
   final Token token;
   final BigInt tokenBalance;
   final List<Transfer> tokenTransfers;
@@ -30,6 +31,7 @@ class CashWalletState {
     this.isCommunityFetched,
     this.isBalanceFetchingStarted,
     this.isTransfersFetchingStarted,
+    this.isListeningToBranch,
     this.token,
     this.tokenBalance,
     this.tokenTransfers,
@@ -45,6 +47,7 @@ class CashWalletState {
       communityName: "",
       isCommunityLoading: false,
       isCommunityFetched: false,
+      isListeningToBranch: false,
       isBalanceFetchingStarted: false,
       isTransfersFetchingStarted: false,
       token: null,
@@ -63,6 +66,7 @@ class CashWalletState {
     bool isCommunityFetched,
     bool isBalanceFetchingStarted,
     bool isTransfersFetchingStarted,
+    bool isListeningToBranch,
     Token token,
     BigInt tokenBalance,
     List<Transfer> tokenTransfers,
@@ -78,6 +82,7 @@ class CashWalletState {
       isCommunityFetched: isCommunityFetched ?? this.isCommunityFetched,
       isBalanceFetchingStarted: isBalanceFetchingStarted ?? this.isBalanceFetchingStarted,
       isTransfersFetchingStarted: isTransfersFetchingStarted ?? this.isTransfersFetchingStarted,
+      isListeningToBranch: isListeningToBranch ?? this.isListeningToBranch,
       token: token ?? this.token,
       tokenBalance: tokenBalance ?? this.tokenBalance,
       tokenTransfers: tokenTransfers ?? this.tokenTransfers,
@@ -106,6 +111,7 @@ class CashWalletState {
         isCommunityFetched: false,
         isBalanceFetchingStarted: false,
         isTransfersFetchingStarted: false,
+        isListeningToBranch: false,
         token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
         tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
         tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer))),

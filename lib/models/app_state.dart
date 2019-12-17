@@ -11,6 +11,7 @@ class AppState {
   });
 
   factory AppState.initial() {
+
     return AppState(
       userState: UserState.initial(),
       cashWalletState: CashWalletState.initial()

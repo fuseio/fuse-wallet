@@ -15,7 +15,6 @@ import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
-import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 
 
 Future<File> getFile() async {
@@ -66,10 +65,6 @@ Future<Store<AppState>> createReduxStore() async {
     }
 
     FlutterBranchIoPlugin.setupBranchIO();
-    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
-      print("DEEPLINK $string");
-      // PROCESS DEEPLINK HERE
-    });
   }
   catch (e) {
     logger.e(e);

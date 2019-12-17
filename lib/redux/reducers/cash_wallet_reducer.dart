@@ -28,6 +28,9 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, LogoutRequestSuccess>(_logoutSuccess),
   TypedReducer<CashWalletState, SwitchCommunityRequested>(
       _switchCommunityRequest),
+  TypedReducer<CashWalletState, BrunchListening>(_brunchListening),
+  TypedReducer<CashWalletState, BrunchCommunityUpdate>(
+      _brunchCommunityUpdate),
   TypedReducer<CashWalletState, StartBalanceFetchingSuccess>(
       _startBalanceFetchingSuccess),
   TypedReducer<CashWalletState, StartTransfersFetchingSuccess>(
@@ -138,6 +141,20 @@ CashWalletState _switchCommunityRequest(
     CashWalletState state, SwitchCommunityRequested action) {
   return state.copyWith(isCommunityLoading: true);
 }
+
+CashWalletState _brunchCommunityUpdate(
+    CashWalletState state, BrunchCommunityUpdate action) {
+  return state.copyWith(
+      isCommunityLoading: false,
+      isCommunityFetched: false,
+      communityAddress: action.communityAddress);
+}
+
+CashWalletState _brunchListening(
+    CashWalletState state, BrunchListening action) {
+  return state.copyWith(isListeningToBranch: true);
+}
+
 
 CashWalletState _startBalanceFetchingSuccess(
     CashWalletState state, StartBalanceFetchingSuccess action) {
