@@ -64,17 +64,12 @@ Future<Store<AppState>> createReduxStore() async {
     if (initialState.userState?.jwtToken != '') {
       api.setJwtToken(initialState.userState.jwtToken);
     }
-    if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();  // will throw an exception if it fails
+
+    FlutterBranchIoPlugin.setupBranchIO();
     FlutterBranchIoPlugin.listenToDeepLinkStream().listen((string) {
       print("DEEPLINK $string");
       // PROCESS DEEPLINK HERE
     });
-    if (Platform.isAndroid) {
-      FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-        print("ONSTART");
-        FlutterBranchIoPlugin.setupBranchIO();
-      });
-    }
   }
   catch (e) {
     logger.e(e);

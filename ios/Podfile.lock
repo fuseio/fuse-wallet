@@ -2,9 +2,17 @@ PODS:
   - barcode_scan (0.0.1):
     - Flutter
     - MTBBarcodeScanner
+  - Branch (0.30.0):
+    - Branch/Core (= 0.30.0)
+  - Branch/Core (0.30.0)
   - contacts_service (0.2.1):
     - Flutter
   - Flutter (1.0.0)
+  - flutter_android_lifecycle (0.0.1):
+    - Flutter
+  - flutter_branch_io_plugin (0.0.1):
+    - Branch
+    - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
   - MTBBarcodeScanner (5.0.11)
@@ -16,22 +24,32 @@ PODS:
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
+  - shared_preferences_macos (0.0.1):
+    - Flutter
+  - shared_preferences_web (0.0.1):
+    - Flutter
   - vibration (1.2.2):
     - Flutter
 
 DEPENDENCIES:
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
+  - Branch
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `Flutter`)
+  - flutter_android_lifecycle (from `.symlinks/plugins/flutter_android_lifecycle/ios`)
+  - flutter_branch_io_plugin (from `.symlinks/plugins/flutter_branch_io_plugin/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - sensors (from `.symlinks/plugins/sensors/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
+  - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
   - vibration (from `.symlinks/plugins/vibration/ios`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/cocoapods/specs.git:
+    - Branch
     - MTBBarcodeScanner
 
 EXTERNAL SOURCES:
@@ -40,7 +58,11 @@ EXTERNAL SOURCES:
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: Flutter
+  flutter_android_lifecycle:
+    :path: ".symlinks/plugins/flutter_android_lifecycle/ios"
+  flutter_branch_io_plugin:
+    :path: ".symlinks/plugins/flutter_branch_io_plugin/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   path_provider:
@@ -51,21 +73,30 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sensors/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  shared_preferences_macos:
+    :path: ".symlinks/plugins/shared_preferences_macos/ios"
+  shared_preferences_web:
+    :path: ".symlinks/plugins/shared_preferences_web/ios"
   vibration:
     :path: ".symlinks/plugins/vibration/ios"
 
 SPEC CHECKSUMS:
   barcode_scan: 33f586d02270046fc6559135038b34b5754eaa4f
+  Branch: a859de0efd1fbbb4e52733714542afb2c08174ec
   contacts_service: d212985196c101372bb55c42f41dae7be59ab811
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_android_lifecycle: cd3b26351a4c0d21fa1e9e3389e95e8d13de7367
+  flutter_branch_io_plugin: b6d717f1b5b267a6ee8d702a06278d49e646b448
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   permission_handler: 0fb88b8a3c23e31e5de45b8f1bb8b7de28cf8941
   sensors: 4bd31219c4bf9d7d4401b392a1701ee3adc1a296
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+  shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
+  shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   vibration: 2f659072a9e03ae160974238b728c96e98bce2b5
 
-PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0
+PODFILE CHECKSUM: 1f6cb123f6975d2d185ea5e6b1bb69d379fbd1fa
 
 COCOAPODS: 1.7.5
