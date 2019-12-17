@@ -4,7 +4,7 @@ import 'package:alphabet_list_scroll_view/alphabet_list_scroll_view.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';  
 import 'package:permission_handler/permission_handler.dart';
-import './sent_amount.dart';
+import './send_amount.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 

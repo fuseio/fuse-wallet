@@ -1,6 +1,7 @@
-import 'package:fusecash/screens/send/sent_contact.dart';
-import 'package:fusecash/screens/send/sent_amount.dart';
+import 'package:fusecash/screens/send/send_contact.dart';
+import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/receive.dart';
+import 'package:fusecash/screens/send/send_qa.dart';
 import 'package:fusecash/screens/signup/level_selector.dart';
 import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/screens/signup/signup.dart';
@@ -20,5 +21,6 @@ getRoutes() {
     '/Verify': (context) => VerifyScreen(),
     '/Receive': (context) => ReceiveScreen(),
     '/Switch': (context) => SwitchCommunityScreen(),
+    '/SendQR': (context) => SendAddressScreen()
   };
 }

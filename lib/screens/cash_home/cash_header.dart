@@ -5,6 +5,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'dart:math';
+import 'package:barcode_scan/barcode_scan.dart';
 
 
 class CashHeader extends StatelessWidget {
@@ -146,7 +147,13 @@ class CashHeader extends StatelessWidget {
                             color: Colors.white,
                           ),
                           onPressed: () async {
-                            Navigator.pushNamed(context, '/Receive');
+                            dynamic r = await BarcodeScanner.scan();
+                            print(r);
+          //                           Future openCameraScan() async {
+          // viewModel.sendAddress(await BarcodeScanner.scan());
+          // openPage(context, new SendAmountPage());
+        // }
+                            // Navigator.pushNamed(context, '/SendQR');
                           }),
                       width: 50.0,
                       height: 50.0,
