@@ -1,4 +1,3 @@
-import 'package:fusecash/models/error_state.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
@@ -117,11 +116,6 @@ class TransferSendSuccess {
   TransferSendSuccess(this.transfer);
 }
 
-class FundTokenSendSuccess {
-  final String tokenAddress;
-  FundTokenSendSuccess(this.tokenAddress);
-}
-
 Future<bool> approvalCallback() async {
   return true;
 }
@@ -141,20 +135,16 @@ ThunkAction initWeb3Call(String privateKey) {
 
 ThunkAction startBalanceFetchingCall() {
   return (Store store) async {
-    String tokenAddress = store.state.cashWalletState.token == null
-        ? null
-        : store.state.cashWalletState.token.address;
+    String tokenAddress = store.state.cashWalletState.token?.address;
     if (tokenAddress != null) {
       store.dispatch(getTokenBalanceCall(tokenAddress));
     }
     new Timer.periodic(Duration(seconds: 3), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
         t.cancel();
-        return;
-      }
-      tokenAddress = store.state.cashWalletState.token == null
-        ? null
-        : store.state.cashWalletState.token.address;
+        return;      }
+      String tokenAddress = store.state.cashWalletState.token?.address;
+
       if (tokenAddress != null) {
         store.dispatch(getTokenBalanceCall(tokenAddress));
       }
@@ -165,9 +155,7 @@ ThunkAction startBalanceFetchingCall() {
 
 ThunkAction startTransfersFetchingCall() {
   return (Store store) async {
-    String tokenAddress = store.state.cashWalletState.token == null
-        ? null
-        : store.state.cashWalletState.token.address;
+    String tokenAddress = store.state.cashWalletState.token?.address;
     if (tokenAddress != null) {
       store.dispatch(getTokenTransfersListCall(tokenAddress));
     }
@@ -176,9 +164,7 @@ ThunkAction startTransfersFetchingCall() {
         t.cancel();
         return;
       }
-      tokenAddress = store.state.cashWalletState.token == null
-        ? null
-        : store.state.cashWalletState.token.address;
+      String tokenAddress = store.state.cashWalletState.token?.address;
       if (tokenAddress != null) {
         store.dispatch(getTokenTransfersListCall(tokenAddress));
       }
