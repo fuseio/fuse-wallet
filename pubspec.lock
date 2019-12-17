@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
+  barcode_scan:
+    dependency: "direct main"
+    description:
+      name: barcode_scan
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   bip32:
     dependency: transitive
     description:
@@ -769,7 +776,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+39"
+    version: "0.0.1+40"
   watcher:
     dependency: transitive
     description:

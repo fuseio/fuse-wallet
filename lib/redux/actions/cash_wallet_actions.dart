@@ -1,4 +1,3 @@
-import 'package:fusecash/models/error_state.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
@@ -136,17 +135,16 @@ ThunkAction initWeb3Call(String privateKey) {
 
 ThunkAction startBalanceFetchingCall() {
   return (Store store) async {
-    String tokenAddress = store.state.cashWalletState.token == null
-        ? null
-        : store.state.cashWalletState.token.address;
+    String tokenAddress = store.state.cashWalletState.token?.address;
     if (tokenAddress != null) {
       store.dispatch(getTokenBalanceCall(tokenAddress));
     }
     new Timer.periodic(Duration(seconds: 3), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
         t.cancel();
-        return;
-      }
+        return;      }
+      String tokenAddress = store.state.cashWalletState.token?.address;
+
       if (tokenAddress != null) {
         store.dispatch(getTokenBalanceCall(tokenAddress));
       }
@@ -157,9 +155,7 @@ ThunkAction startBalanceFetchingCall() {
 
 ThunkAction startTransfersFetchingCall() {
   return (Store store) async {
-    String tokenAddress = store.state.cashWalletState.token == null
-        ? null
-        : store.state.cashWalletState.token.address;
+    String tokenAddress = store.state.cashWalletState.token?.address;
     if (tokenAddress != null) {
       store.dispatch(getTokenTransfersListCall(tokenAddress));
     }
@@ -168,6 +164,7 @@ ThunkAction startTransfersFetchingCall() {
         t.cancel();
         return;
       }
+      String tokenAddress = store.state.cashWalletState.token?.address;
       if (tokenAddress != null) {
         store.dispatch(getTokenTransfersListCall(tokenAddress));
       }
@@ -314,16 +311,15 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   };
 }
 
-ThunkAction switchCommunityCall({String communityAddress}) {
+ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     try {
-      communityAddress = communityAddress ?? Web3.getDefaultCommunity();
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community =
-          await graph.getCommunityByAddress(communityAddress: communityAddress);
+        await graph.getCommunityByAddress(communityAddress);
       logger.i('community fetched for $communityAddress');
       dynamic token =
-          await graph.getTokenOfCommunity(communityAddress: communityAddress);
+          await graph.getTokenOfCommunity(communityAddress);
       logger.i('token ${token["address"]} fetched for $communityAddress');
       store.dispatch(joinCommunityCall(community: community, token: token));
       return store.dispatch(new SwitchCommunitySuccess(

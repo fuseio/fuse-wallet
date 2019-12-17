@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wallet_core/wallet_core.dart';
 import './token.dart';
 import './transfer.dart';
-import './transfer.dart';
+import 'package:wallet_core/wallet_core.dart';
 
 @immutable
 class CashWalletState {
@@ -41,7 +41,7 @@ class CashWalletState {
       web3: null,
       walletAddress: "",
       walletStatus: null,
-      communityAddress: "",
+      communityAddress: Web3.getDefaultCommunity(),
       communityName: "",
       isCommunityLoading: false,
       isCommunityFetched: false,
