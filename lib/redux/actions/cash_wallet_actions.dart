@@ -3,11 +3,13 @@ import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 import 'package:wallet_core/wallet_core.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
 import 'dart:math';
+import 'dart:convert';
 import 'package:logger/logger.dart';
 
 var logger = Logger(
@@ -116,8 +118,31 @@ class TransferSendSuccess {
   TransferSendSuccess(this.transfer);
 }
 
+class BrunchCommunityUpdate {
+  final String communityAddress;
+  BrunchCommunityUpdate(this.communityAddress);
+}
+
+class BrunchListening {}
+
 Future<bool> approvalCallback() async {
   return true;
+}
+
+ThunkAction listenToBranchCall() {
+  return (Store store) async {
+    store.dispatch(BrunchListening());
+    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) {
+//      logger.d("DEEPLINK $stringData");
+      var linkData = jsonDecode(stringData);
+      logger.d("linkData $linkData");
+      if (linkData["~feature"] == "switch_community") {
+        var communityId = linkData["community_id"];
+        logger.d("communityId $communityId");
+        store.dispatch(BrunchCommunityUpdate(communityId));
+      }
+    });
+  };
 }
 
 ThunkAction initWeb3Call(String privateKey) {

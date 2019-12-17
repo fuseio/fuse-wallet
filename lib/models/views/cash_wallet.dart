@@ -15,6 +15,7 @@ class CashWalletViewModel {
   final bool isCommunityFetched;
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
+  final bool isListeningToBranch;
   final String walletStatus;
   final String fullName;
   final BigInt tokenBalance;
@@ -31,6 +32,7 @@ class CashWalletViewModel {
   final Function(String) switchCommunity;
   final Function() startBalanceFetching;
   final Function() startTransfersFetching;
+  final Function() listenToBranch;
   final Function(List<Contact>) syncContacts;
 
   CashWalletViewModel({
@@ -41,6 +43,7 @@ class CashWalletViewModel {
     this.isCommunityLoading,
     this.isCommunityFetched,
     this.isBalanceFetchingStarted,
+    this.isListeningToBranch,
     this.isTransfersFetchingStarted,
     this.fullName,
     this.tokenBalance,
@@ -57,6 +60,7 @@ class CashWalletViewModel {
     this.switchCommunity,
     this.startBalanceFetching,
     this.startTransfersFetching,
+    this.listenToBranch,
     this.syncContacts
   });
 
@@ -70,6 +74,7 @@ class CashWalletViewModel {
       isCommunityFetched: store.state.cashWalletState.isCommunityFetched,
       isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
       isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted,
+      isListeningToBranch: store.state.cashWalletState.isListeningToBranch,
       fullName: store.state.userState.fullName,
       tokenBalance: store.state.cashWalletState.tokenBalance,
       token: store.state.cashWalletState.token,
@@ -96,6 +101,9 @@ class CashWalletViewModel {
       },
       startTransfersFetching: () {
         store.dispatch(startTransfersFetchingCall());
+      },
+      listenToBranch: () {
+        store.dispatch(listenToBranchCall());
       },
       syncContacts: (List<Contact> contacts) {
         store.dispatch(syncContactsCall(contacts));
