@@ -131,6 +131,7 @@ Future<bool> approvalCallback() async {
 
 ThunkAction listenToBranchCall() {
   return (Store store) async {
+    logger.d("branch listening.");
     store.dispatch(BrunchListening());
     FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) {
 //      logger.d("DEEPLINK $stringData");
@@ -141,6 +142,9 @@ ThunkAction listenToBranchCall() {
         logger.d("communityId $communityId");
         store.dispatch(BrunchCommunityUpdate(communityId));
       }
+    },
+    onDone: () {
+      store.dispatch(listenToBranchCall());
     });
   };
 }
@@ -345,7 +349,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       logger.i('community fetched for $communityAddress');
       dynamic token =
           await graph.getTokenOfCommunity(communityAddress);
-      logger.i('token ${token["address"]} fetched for $communityAddress');
+      logger.i('token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       store.dispatch(joinCommunityCall(community: community, token: token));
       return store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
