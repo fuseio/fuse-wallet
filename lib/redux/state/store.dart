@@ -79,7 +79,7 @@ Future<Store<AppState>> createReduxStore() async {
     // Filter down to [LogRecord]s sent to your logger instance  
     .where((record) => record.loggerName == mylogger.name)
     // Print them out (or do something more interesting!)
-    . listen((loggingMiddlewareRecord) => logger.i(loggingMiddlewareRecord));
+    . listen((loggingMiddlewareRecord) => logger.d(loggingMiddlewareRecord));
 
   return Store<AppState>(
       appReducer,
