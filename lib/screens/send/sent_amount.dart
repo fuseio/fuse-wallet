@@ -5,6 +5,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/utils/phone.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
@@ -136,11 +137,7 @@ class _SendAmountScreenState extends State<SendAmountScreen> {
                   child: PrimaryButton(
                 label: "NEXT",
                 onPressed: () {
-                  String formattedPhoneNumber = args.phoneNumber.replaceAll(new RegExp('(-| )'), '').replaceFirst(new RegExp('^0+'), '');
-                  if (formattedPhoneNumber[0] != '+') {
-                    formattedPhoneNumber = viewModel.myCountryCode + formattedPhoneNumber;
-                  }
-                  viewModel.sendTokens(formattedPhoneNumber, num.parse(amountText));
+                  viewModel.sendTokens(formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode), num.parse(amountText));
                   Navigator.popAndPushNamed(context, '/Cash');
                   //if (viewModel.walletState.sendAmount <= 0) {
                   //  Scaffold.of(context).showSnackBar(new SnackBar(

@@ -1,11 +1,11 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'dart:math';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/transfer.dart';
-import 'package:fusecash/models/token.dart';
+import 'package:contacts_service/contacts_service.dart';  
+import 'package:fusecash/utils/phone.dart';
 
 class CashTransactios extends StatefulWidget {
   CashTransactios({@required this.viewModel});
@@ -21,6 +21,43 @@ String deduceSign(Transfer transfer) {
   } else {
     return '+';
   }
+}
+
+String formatAddress(String address) {
+  return '${address.substring(0, 6)}...${address.substring(36, 42)}';
+}
+
+String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContracts) {
+  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+  if (reverseContracts.containsKey(accountAddress)) {
+    return reverseContracts[accountAddress];
+  }
+  return formatAddress(accountAddress);
+}
+
+// Future<Contact> getContact(Transfer transfer, CashWalletViewModel vm) async {
+//   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+//   if (vm.reverseContracts.containsKey(accountAddress)) {
+//     String phoneNumber = vm.reverseContracts[accountAddress];
+//      ContactsService.getContactsForPhone(phoneNumber, withThumbnails: false).then((Iterable<Contact> contacts) {
+//       if (contacts.isEmpty) {
+//         return null;
+//       }
+//       return contacts.first;
+//      });
+
+//   }
+//   return null;
+// }
+
+
+Contact getContact(Transfer transfer, CashWalletViewModel vm) {
+  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+  if (vm.reverseContracts.containsKey(accountAddress)) {
+    String phoneNumber = vm.reverseContracts[accountAddress];
+     return vm.contacts.firstWhere((contact) => formatPhoneNumber(contact.phones.toList()[0].value, vm.countryCode) == phoneNumber, orElse: () => null);
+  }
+  return null;
 }
 
 Color deduceColor(Transfer transfer) {
@@ -60,7 +97,7 @@ class CashTransactiosState extends State<CashTransactios> {
                 .viewModel
                 .pendingTransfers
                 .map((transfer) =>
-                    _TransactionListItem(transfer, this.widget.viewModel.token))
+                    _TransactionListItem(transfer, getContact(transfer, this.widget.viewModel), this.widget.viewModel, ))
                 .toList()),
         Container(
             padding: EdgeInsets.only(left: 15, top: 15, bottom: 8),
@@ -78,7 +115,7 @@ class CashTransactiosState extends State<CashTransactios> {
                 .viewModel
                 .tokenTransfers
                 .map((transfer) =>
-                    _TransactionListItem(transfer, this.widget.viewModel.token))
+                    _TransactionListItem(transfer, getContact(transfer, this.widget.viewModel), this.widget.viewModel))
                 .toList())
       ],
     );
@@ -87,9 +124,10 @@ class CashTransactiosState extends State<CashTransactios> {
 
 class _TransactionListItem extends StatelessWidget {
   final Transfer _transfer;
-  final Token _token;
+  final Contact _contact;
+  final CashWalletViewModel _vm;
 
-  _TransactionListItem(this._transfer, this._token);
+  _TransactionListItem(this._transfer, this._contact, this._vm);
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +140,10 @@ class _TransactionListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Maria  Toman",
-                  style: TextStyle(color: Color(0xFF333333), fontSize: 18)),
-              Text("For coffee",
-                  style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 15))
+              Text(_contact != null ? _contact.displayName : deducePhoneNumber(_transfer, _vm.reverseContracts),
+                  style: TextStyle(color: Color(0xFF333333), fontSize: 18))
+              // Text("For coffee",
+              //     style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 15))
             ],
           ),
           leading: Stack(
@@ -128,7 +166,7 @@ class _TransactionListItem extends StatelessWidget {
                   child: Text(
                     deduceSign(_transfer) +
                         (_transfer.value /
-                                BigInt.from(pow(10, _token.decimals)))
+                                BigInt.from(pow(10, _vm.token.decimals)))
                             .toString(),
                     style: TextStyle(
                         color: deduceColor(_transfer),
@@ -137,7 +175,7 @@ class _TransactionListItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  " ${_token.symbol}",
+                  " ${_vm.token.symbol}",
                   style: TextStyle(
                       color: deduceColor(_transfer),
                       fontSize: 18.0,

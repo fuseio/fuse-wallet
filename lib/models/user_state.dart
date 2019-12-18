@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:contacts_service/contacts_service.dart';  
 
 @immutable
 class UserState {
@@ -7,6 +10,8 @@ class UserState {
   final String accountAddress;
   final String countryCode;
   final String phoneNumber;
+  final List<Contact> contacts;
+  final Map<String, String> reverseContacts;
   final String jwtToken;
   final String fullName;
   final String email;
@@ -19,6 +24,8 @@ class UserState {
     this.accountAddress,
     this.countryCode,
     this.phoneNumber,
+    this.contacts,
+    this.reverseContacts,
     this.jwtToken,
     this.fullName,
     this.email,
@@ -33,6 +40,8 @@ class UserState {
       accountAddress: "",
       countryCode: "",
       phoneNumber: "",
+      contacts: null,
+      reverseContacts: new Map<String, String>(),
       jwtToken: "",
       fullName: "Anom",
       email: "",
@@ -46,6 +55,8 @@ class UserState {
     String accountAddress,
     String countryCode,
     String phoneNumber,
+    List<Contact> contacts,
+    Map<String, String> reverseContacts,
     String jwtToken,
     String fullName,
     String email,
@@ -58,6 +69,8 @@ class UserState {
       accountAddress: accountAddress ?? this.accountAddress,
       countryCode: countryCode ?? this.countryCode,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      contacts: contacts ?? this.contacts,
+      reverseContacts: reverseContacts ?? this.reverseContacts,
       jwtToken: jwtToken ?? this.jwtToken,
       fullName: fullName ?? this.fullName,
       email: email ?? this.email,
@@ -72,6 +85,7 @@ class UserState {
       'accountAddress': accountAddress,
       'countryCode': countryCode,
       'phoneNumber': phoneNumber,
+      'reverseContacts': jsonEncode(reverseContacts),
       'jwtToken': jwtToken,
       'fullName': fullName,
       'email': email
@@ -84,6 +98,8 @@ class UserState {
         accountAddress: json['accountAddress'],
         countryCode: json['countryCode'],
         phoneNumber: json['phoneNumber'],
+        contacts: null,
+        reverseContacts: json['reverseContacts'] == null ? new Map<String, String>(): Map<String, String>.from(jsonDecode(json['reverseContacts'])),
         jwtToken: json['jwtToken'],
         fullName: json['fullName'],
         email: json['email'],
