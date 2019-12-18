@@ -14,8 +14,6 @@ import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
-
 
 Future<File> getFile() async {
   final directory = await getApplicationDocumentsDirectory();
@@ -34,7 +32,7 @@ class ConsoleOutput extends logger_package.LogOutput {
   void output(logger_package.OutputEvent event) async {
     for (var line in event.lines) {
       print(line);
-      // await file.writeAsString(line + '\n', mode: FileMode.append);
+       await file.writeAsString(line + '\n', mode: FileMode.append);
     }
   }
 }
@@ -64,7 +62,6 @@ Future<Store<AppState>> createReduxStore() async {
       api.setJwtToken(initialState.userState.jwtToken);
     }
 
-    FlutterBranchIoPlugin.setupBranchIO();
   }
   catch (e) {
     logger.e(e);
