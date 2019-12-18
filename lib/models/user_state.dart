@@ -11,6 +11,7 @@ class UserState {
   final String countryCode;
   final String phoneNumber;
   final List<Contact> contacts;
+  final List<String> syncedContacts;
   final Map<String, String> reverseContacts;
   final String jwtToken;
   final String fullName;
@@ -26,6 +27,7 @@ class UserState {
     this.phoneNumber,
     this.contacts,
     this.reverseContacts,
+    this.syncedContacts,
     this.jwtToken,
     this.fullName,
     this.email,
@@ -41,6 +43,7 @@ class UserState {
       countryCode: "",
       phoneNumber: "",
       contacts: null,
+      syncedContacts: [],
       reverseContacts: new Map<String, String>(),
       jwtToken: "",
       fullName: "Anom",
@@ -56,6 +59,7 @@ class UserState {
     String countryCode,
     String phoneNumber,
     List<Contact> contacts,
+    List<String> syncedContacts,
     Map<String, String> reverseContacts,
     String jwtToken,
     String fullName,
@@ -70,6 +74,7 @@ class UserState {
       countryCode: countryCode ?? this.countryCode,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       contacts: contacts ?? this.contacts,
+      syncedContacts: syncedContacts ?? this.syncedContacts,
       reverseContacts: reverseContacts ?? this.reverseContacts,
       jwtToken: jwtToken ?? this.jwtToken,
       fullName: fullName ?? this.fullName,
@@ -86,6 +91,7 @@ class UserState {
       'countryCode': countryCode,
       'phoneNumber': phoneNumber,
       'reverseContacts': jsonEncode(reverseContacts),
+      'syncedContacts': jsonEncode(syncedContacts),
       'jwtToken': jwtToken,
       'fullName': fullName,
       'email': email
@@ -100,6 +106,7 @@ class UserState {
         phoneNumber: json['phoneNumber'],
         contacts: null,
         reverseContacts: json['reverseContacts'] == null ? new Map<String, String>(): Map<String, String>.from(jsonDecode(json['reverseContacts'])),
+        syncedContacts: json['syncedContacts'] == null ? new List<String>(): List<String>.from(jsonDecode(json['syncedContacts'])),
         jwtToken: json['jwtToken'],
         fullName: json['fullName'],
         email: json['email'],
