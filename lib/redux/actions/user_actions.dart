@@ -7,6 +7,8 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
 import 'package:fusecash/services.dart';
 import 'package:logger/logger.dart';
+import 'package:contacts_service/contacts_service.dart';  
+import 'package:fusecash/utils/phone.dart';
 
 var logger = Logger(
   printer: PrettyPrinter(),
@@ -40,6 +42,12 @@ class LogoutRequestSuccess {
 class LoginVerifySuccess {
   final String jwtToken;
   LoginVerifySuccess(this.jwtToken);
+}
+
+class SyncContactsSuccess {
+  List<Contact> contacts;
+  List<Map<String, dynamic>> newContacts;
+  SyncContactsSuccess(this.contacts, this.newContacts);
 }
 
 ThunkAction restoreWalletCall(List<String> _mnemonic) {
@@ -115,5 +123,22 @@ ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verif
 ThunkAction logoutCall() {
   return (Store store) async {
     store.dispatch(new LogoutRequestSuccess());
+  };
+}
+
+ThunkAction syncContactsCall(List<Contact> contacts) {
+  return (Store store) async {
+    Map<String, String> savedReverseContacts = store.state.userState.reverseContacts;
+    List<String> newPhones = new List<String>();
+    for (Contact contact in contacts) {
+      String phoneNumber = formatPhoneNumber(contact.phones.toList()[0].value, store.state.userState.countryCode);
+      if (!savedReverseContacts.containsValue(phoneNumber)) {
+        newPhones.add(phoneNumber);
+      }
+    }
+    dynamic response = await api.syncContacts(newPhones);
+    store.dispatch(new SyncContactsSuccess(contacts, List<Map<String, dynamic>>.from(response['newContacts'])));
+
+    await api.ackSync(response['nonce']);
   };
 }
