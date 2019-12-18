@@ -117,7 +117,7 @@ CashWalletState _getBusinessListSuccess(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-  print('Found ${action.tokenTransfers.length} token transfers');
+//  print('Found ${action.tokenTransfers.length} token transfers');
   if (state.walletAddress != '') {
     List<PendingTransfer> nPendingTransfers = List<PendingTransfer>.from(state.pendingTransfers);
     for (PendingTransfer pending in state.pendingTransfers) {

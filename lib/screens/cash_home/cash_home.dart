@@ -22,6 +22,7 @@ void onChange(CashWalletViewModel viewModel) {
   }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&
+      viewModel.isListeningToBranch &&
       viewModel.walletAddress != '') {
     viewModel.switchCommunity(viewModel.communityAddress);
   }
