@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
-import 'dart:math';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:contacts_service/contacts_service.dart';
@@ -171,8 +170,7 @@ class _TransactionListItem extends StatelessWidget {
             children: <Widget>[
               CircleAvatar(
                 radius: 25,
-                backgroundColor: Colors.black,
-                child: Image.asset('assets/images/anom.png', width: 59.0),
+                backgroundImage: _contact?.avatar != null ? MemoryImage(_contact.avatar) : new AssetImage('assets/images/anom.png'),
               ),
             ],
           ),
