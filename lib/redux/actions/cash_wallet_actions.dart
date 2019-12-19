@@ -2,7 +2,6 @@ import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
-import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'dart:io';
@@ -14,6 +13,7 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 
 
 class DualOutput extends LogOutput {
@@ -161,11 +161,6 @@ Future<bool> approvalCallback() async {
 ThunkAction listenToBranchCall() {
   return (Store store) async {
     logger.wtf("branch listening.");
-
-//    store.dispatch(BrunchListening());
-
-    FlutterBranchIoPlugin.setupBranchIO();
-
     FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) {
       var linkData = jsonDecode(stringData);
       logger.wtf("linkData $linkData");
@@ -184,10 +179,9 @@ ThunkAction listenToBranchCall() {
       store.dispatch(listenToBranchCall());
     });
 
-
     if (Platform.isAndroid) {
       FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-        print("ONSTART $string");
+        print("ONSTART");
         FlutterBranchIoPlugin.setupBranchIO();
       });
     }

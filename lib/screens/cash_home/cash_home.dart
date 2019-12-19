@@ -25,7 +25,7 @@ class CashHomeScreen extends StatefulWidget {
       return null;
     }
     List<Contact> contacts = (await ContactsService.getContacts(withThumbnails: false)).toList();
-    viewModel.syncContacts(contacts);
+//    viewModel.syncContacts(contacts);
     return contacts;
   }
 
