@@ -22,7 +22,7 @@ class CashWalletViewModel {
   final List<Transfer> tokenTransfers;
   final List<Transfer> pendingTransfers;
   final List<Contact> contacts;
-  final Map<String, String> reverseContracts;
+  final Map<String, String> reverseContacts;
   final String countryCode;
   final Function(String) createWallet;
   final Function() getWallet;
@@ -49,7 +49,7 @@ class CashWalletViewModel {
     this.pendingTransfers,
     this.contacts,
     this.countryCode,
-    this.reverseContracts,
+    this.reverseContacts,
     this.createWallet,
     this.getWallet,
     this.firstName,
@@ -76,7 +76,7 @@ class CashWalletViewModel {
       tokenTransfers: store.state.cashWalletState.tokenTransfers,
       pendingTransfers: store.state.cashWalletState.pendingTransfers,
       contacts: store.state.userState.contacts,
-      reverseContracts: store.state.userState.reverseContacts,
+      reverseContacts: store.state.userState.reverseContacts,
       countryCode: store.state.userState.countryCode,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
