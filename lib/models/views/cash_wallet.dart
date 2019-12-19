@@ -33,6 +33,8 @@ class CashWalletViewModel {
   final Function() startBalanceFetching;
   final Function() startTransfersFetching;
   final Function() listenToBranch;
+  final Function(List<Contact>) syncContacts;
+
 
   CashWalletViewModel({
     this.accountAddress,
@@ -59,7 +61,8 @@ class CashWalletViewModel {
     this.switchCommunity,
     this.startBalanceFetching,
     this.startTransfersFetching,
-    this.listenToBranch
+    this.listenToBranch,
+    this.syncContacts
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -102,6 +105,9 @@ class CashWalletViewModel {
       },
       listenToBranch: () {
         store.dispatch(listenToBranchCall());
+      },
+      syncContacts: (List<Contact> contacts) {
+        store.dispatch(syncContactsCall(contacts));
       }
     );
   }
