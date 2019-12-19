@@ -32,12 +32,10 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _startBalanceFetchingSuccess),
   TypedReducer<CashWalletState, StartTransfersFetchingSuccess>(
       _startTransfersFetchingSuccess),
-  TypedReducer<CashWalletState, TransferSendSuccess>(
-      _transferSendSuccess),
-  TypedReducer<CashWalletState, GetJobSuccess>(
-    _getJobSuccess)
+  TypedReducer<CashWalletState, TransferSendRequested>(_transferSendRequested),
+  TypedReducer<CashWalletState, TransferSendSuccess>(_transferSendSuccess),
+  TypedReducer<CashWalletState, GetJobSuccess>(_getJobSuccess)
 ]);
-
 
 CashWalletState _initWeb3Success(
     CashWalletState state, InitWeb3Success action) {
@@ -63,7 +61,7 @@ CashWalletState _createAccountWalletSuccess(
 CashWalletState _getTokenBalanceSuccess(
     CashWalletState state, GetTokenBalanceSuccess action) {
   if (state.walletAddress != '') {
-      return state.copyWith(tokenBalance: action.tokenBalance);
+    return state.copyWith(tokenBalance: action.tokenBalance);
   } else {
     return state;
   }
@@ -116,14 +114,19 @@ CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
   print('Found ${action.tokenTransfers.length} token transfers');
   if (state.walletAddress != '') {
-    List<PendingTransfer> nPendingTransfers = List<PendingTransfer>.from(state.pendingTransfers);
+    List<PendingTransfer> nPendingTransfers =
+        List<PendingTransfer>.from(state.pendingTransfers);
     for (PendingTransfer pending in state.pendingTransfers) {
-      Transfer tx = action.tokenTransfers.firstWhere((transfer) => transfer.txHash == pending.txHash, orElse: () => null);
+      Transfer tx = action.tokenTransfers.firstWhere(
+          (transfer) => transfer.txHash == pending.txHash,
+          orElse: () => null);
       if (tx != null) {
         nPendingTransfers.remove(pending);
       }
     }
-    return state.copyWith(tokenTransfers: action.tokenTransfers, pendingTransfers: nPendingTransfers);
+    return state.copyWith(
+        tokenTransfers: action.tokenTransfers,
+        pendingTransfers: nPendingTransfers);
   } else {
     return state;
   }
@@ -149,20 +152,29 @@ CashWalletState _startTransfersFetchingSuccess(
   return state.copyWith(isTransfersFetchingStarted: true);
 }
 
-
 CashWalletState _transferSendSuccess(
     CashWalletState state, TransferSendSuccess action) {
-  return state.copyWith(pendingTransfers: List.from(state.pendingTransfers)..add(action.transfer));
+  return state.copyWith(
+      pendingTransfers: List.from(state.pendingTransfers)
+        ..remove(action.requestedTransfer)
+        ..add(action.transfer));
 }
 
-CashWalletState _getJobSuccess(
-    CashWalletState state, GetJobSuccess action) {
-      PendingTransfer transfer = state.pendingTransfers.firstWhere((transfer) => transfer.jobId == action.job.id);
-      dynamic json = transfer.toJson();
-      json['txHash'] = action.job.txHash;
-      PendingTransfer newTransfer = PendingTransfer.fromJson(json);
-  return state.copyWith(pendingTransfers: List.from(state.pendingTransfers)..add(newTransfer)..remove(transfer));
+CashWalletState _transferSendRequested(
+    CashWalletState state, TransferSendRequested action) {
+  return state.copyWith(
+      pendingTransfers: List.from(state.pendingTransfers)
+        ..add(action.transfer));
 }
 
-// CashWalletState 
-
+CashWalletState _getJobSuccess(CashWalletState state, GetJobSuccess action) {
+  PendingTransfer transfer = state.pendingTransfers
+      .firstWhere((transfer) => transfer.jobId == action.job.id);
+  dynamic json = transfer.toJson();
+  json['txHash'] = action.job.txHash;
+  PendingTransfer newTransfer = PendingTransfer.fromJson(json);
+  return state.copyWith(
+      pendingTransfers: List.from(state.pendingTransfers)
+        ..add(newTransfer)
+        ..remove(transfer));
+}
