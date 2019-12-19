@@ -8,7 +8,8 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
   TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess),
   TypedReducer<UserState, LogoutRequestSuccess>(_logoutSuccess),
-  TypedReducer<UserState, SyncContactsSuccess>(_syncContactsSuccess)
+  TypedReducer<UserState, SyncContactsProgress>(_syncContactsProgress),
+  TypedReducer<UserState, SaveContacts>(_saveContacts)
 ]);
 
 UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) {
@@ -41,9 +42,15 @@ UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
   return UserState.initial();
 }
 
-UserState _syncContactsSuccess(UserState state, SyncContactsSuccess action) {
+UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {
   Map<String, String> reverseContacts = Map<String, String>.from(state.reverseContacts);
-  Iterable<MapEntry<String, String>> entries = action.newContacts.map((entry) => new MapEntry(entry['walletAddress'], entry['phoneNumber']));
+  Iterable<MapEntry<String, String>> entries = action.newContacts.map((entry) => new MapEntry(entry['walletAddress'].toString().toLowerCase(), entry['phoneNumber']));
   reverseContacts.addEntries(entries);
-  return state.copyWith(reverseContacts: reverseContacts, contacts: action.contacts);
+  List<String> syncedContacts = List<String>.from(state.syncedContacts);
+  syncedContacts.addAll(action.contacts);
+  return state.copyWith(reverseContacts: reverseContacts, syncedContacts: syncedContacts);
+}
+
+UserState _saveContacts(UserState state, SaveContacts action) {
+  return state.copyWith(contacts: action.contacts);
 }
