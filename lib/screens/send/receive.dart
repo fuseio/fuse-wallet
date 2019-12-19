@@ -90,7 +90,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                                   padding: EdgeInsets.only(top: 0),
                                   width: 220,
                                   child: new QrImage(
-                                          data: viewModel.walletAddress,
+                                          data: 'fuse:${viewModel.walletAddress}',
                                           //onError: (ex) {
                                           //  print("[QR] ERROR - $ex");
                                           //},

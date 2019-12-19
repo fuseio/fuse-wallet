@@ -6,6 +6,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'dart:math';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:fusecash/screens/send/send_amount.dart';
 
 
 class CashHeader extends StatelessWidget {
@@ -147,8 +148,16 @@ class CashHeader extends StatelessWidget {
                             color: Colors.white,
                           ),
                           onPressed: () async {
-                            dynamic r = await BarcodeScanner.scan();
-                            print(r);
+                            String accountAddress = await BarcodeScanner.scan();
+                            // String accountAddress = 'fuse:0xD418c5d0c4a3D87a6c555B7aA41f13EF87485Ec6';
+                            List<String> parts = accountAddress.split(':');
+                            if (parts.length == 2 && parts[0] == 'fuse') {
+                              Navigator.pushNamed(context, '/SendAmount', arguments: SendAmountArguments(accountAddress: parts[1]));
+                            } else {
+                              print('Account address is not on Fuse');
+                            }
+                            // dynamic accountAddress = '0xD418c5d0c4a3D87a6c555B7aA41f13EF87485Ec6';
+
           //                           Future openCameraScan() async {
           // viewModel.sendAddress(await BarcodeScanner.scan());
           // openPage(context, new SendAmountPage());

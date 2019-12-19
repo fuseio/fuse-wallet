@@ -79,7 +79,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               title: Text(user.displayName),
               subtitle: Text(user.company ?? ""),
               onTap: () {
-                Navigator.pushNamed(context, '/SendAmount', arguments: SendAmountArguments(user.displayName, user.phones.toList()[0].value));
+                Navigator.pushNamed(context, '/SendAmount', arguments: SendAmountArguments(name: user.displayName, phoneNumber: user.phones.toList()[0].value));
               },
             ),
           ),
