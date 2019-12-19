@@ -158,7 +158,7 @@ class _TransactionListItem extends StatelessWidget {
               CircleAvatar(
                 radius: 25,
                 backgroundColor: Colors.black,
-                child: Image.asset('assets/images/pep.png', width: 59.0),
+                child: Image.asset('assets/images/anom.png', width: 59.0),
               ),
             ],
           ),
