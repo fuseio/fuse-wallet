@@ -4,7 +4,10 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>fuseio.app.link</string>
+		<string>applinks:fuseio.app.link</string>
+		<string>applinks:fuseio-alternate.app.link</string>
+		<string>applinks:fuseio.test-app.link</string>
+		<string>applinks:fuseio-alternate.test-app.link</string>
 	</array>
 </dict>
 </plist>
