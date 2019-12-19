@@ -51,7 +51,7 @@ class CashHeader extends StatelessWidget {
           //mainAxisSize: MainAxisSize.max,
           //mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(top: 20),
+            Padding(padding: EdgeInsets.only(top: 25),
             child: InkWell(
                 onTap: () {
                   Scaffold.of(context).openDrawer();

@@ -23,6 +23,7 @@ dependencies:
   logger_flutter: ^0.7.1
   path_provider: 1.5.0
   json_annotation: ^3.0.0
+  decimal: ^0.3.5
   flutter: 
     sdk: flutter
 dev_dependencies: 

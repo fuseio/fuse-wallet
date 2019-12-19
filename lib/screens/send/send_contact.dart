@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:alphabet_list_scroll_view/alphabet_list_scroll_view.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -23,7 +22,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   loadContacts() async {
     Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.contacts]);
     
-    Iterable<Contact> contacts = await ContactsService.getContacts(withThumbnails: false);  
+    Iterable<Contact> contacts = await ContactsService.getContacts(withThumbnails: true);  
     contacts = contacts.where((i) => i.displayName != null).toList();
     for (var contact in contacts) {
       userList.add(contact);
@@ -73,8 +72,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
             ],
             child: ListTile(
               leading: CircleAvatar(
-                backgroundImage:
-                NetworkImage("http://placeimg.com/200/200/people"),
+                backgroundImage: user.avatar != null ? MemoryImage(user.avatar) : new AssetImage('assets/images/anom.png'),
               ),
               title: Text(user.displayName),
               subtitle: Text(user.company ?? ""),

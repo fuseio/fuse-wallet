@@ -8,6 +8,7 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
 import 'dart:math';
+import 'package:decimal/decimal.dart';
 import 'package:logger/logger.dart';
 
 var logger = Logger(
@@ -256,8 +257,10 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
       String walletAddress = store.state.cashWalletState.walletAddress;
       Token token = store.state.cashWalletState.token;
       String tokenAddress = token.address;
-      BigInt value =
-          BigInt.from(tokensAmount) * BigInt.from(pow(10, token.decimals));
+
+    Decimal tokensAmountDecimal = Decimal.parse(tokensAmount.toString());
+    Decimal decimals = Decimal.parse(pow(10, token.decimals).toString());
+    BigInt value = BigInt.from((tokensAmountDecimal * decimals).toInt());
       Transfer transferRequested = new PendingTransfer(
           from: walletAddress,
           to: receiverAddress,

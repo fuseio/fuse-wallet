@@ -82,16 +82,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 
               },
             ),
-            Divider(),
-            ListTile(
-              title: Text(
-                'Fuse studio',
-                style: TextStyle(fontSize: 16),
-              ),
-              onTap: () {
+            // Divider(),
+            // ListTile(
+            //   title: Text(
+            //     'Fuse studio',
+            //     style: TextStyle(fontSize: 16),
+            //   ),
+            //   onTap: () {
                 
-              },
-            ),
+            //   },
+            // ),
             Divider(),
             ListTile(
               title: Text(
