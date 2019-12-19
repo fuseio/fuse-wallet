@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wallet_core/wallet_core.dart';
 import './token.dart';
 import './transfer.dart';
-import 'package:wallet_core/wallet_core.dart';
 
 @immutable
 class CashWalletState {

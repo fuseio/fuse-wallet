@@ -143,8 +143,9 @@ class TransferSendRequested {
 }
 
 class TransferSendSuccess {
+  PendingTransfer requestedTransfer;
   PendingTransfer transfer;
-  TransferSendSuccess(this.transfer);
+  TransferSendSuccess(this.requestedTransfer, this.transfer);
 }
 
 class BranchCommunityUpdate {
@@ -325,6 +326,16 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
       String walletAddress = store.state.cashWalletState.walletAddress;
       Token token = store.state.cashWalletState.token;
       String tokenAddress = token.address;
+      BigInt value =
+          BigInt.from(tokensAmount) * BigInt.from(pow(10, token.decimals));
+      Transfer transferRequested = new PendingTransfer(
+          from: walletAddress,
+          to: receiverAddress,
+          tokenAddress: tokenAddress,
+          value: value,
+          type: 'SEND');
+      store.dispatch(new TransferSendRequested(transferRequested));
+
       logger.d(
           'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
       dynamic response = await api.tokenTransfer(
@@ -332,8 +343,9 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
 
       dynamic jobId = response['job']['_id'];
       logger.d('Job $jobId for sending token sent to the relay service');
-      BigInt value =
-          BigInt.from(tokensAmount) * BigInt.from(pow(10, token.decimals));
+
+      store.dispatch(startFetchingJobCall(jobId));
+
       Transfer transfer = new PendingTransfer(
           from: walletAddress,
           to: receiverAddress,
@@ -341,8 +353,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
           value: value,
           type: 'SEND',
           jobId: jobId);
-      store.dispatch(startFetchingJobCall(jobId));
-      store.dispatch(new TransferSendSuccess(transfer));
+      store.dispatch(new TransferSendSuccess(transferRequested, transfer));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token'));
