@@ -149,19 +149,7 @@ class _SendAmountScreenState extends State<SendAmountScreen> {
                 label: "NEXT",
                 onPressed: () {
                   send(viewModel, args, amountText);
-                  // viewModel.sendToContact(
-                  //     formatPhoneNumber(
-                  //         args.phoneNumber, viewModel.myCountryCode),
-                  //     num.parse(amountText));
                   Navigator.popAndPushNamed(context, '/Cash');
-                  //if (viewModel.walletState.sendAmount <= 0) {
-                  //  Scaffold.of(context).showSnackBar(new SnackBar(
-                  //    content: new Text("Please enter amount"),
-                  //  ));
-                  //} else {
-                  //viewModel.sendAmount(double.parse(amountText));
-                  //openPage(context, new SendAddressPage());
-                  //}
                 },
                 preload: false,
                 width: 300,

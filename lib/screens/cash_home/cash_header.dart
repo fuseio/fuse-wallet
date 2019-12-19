@@ -149,20 +149,12 @@ class CashHeader extends StatelessWidget {
                           ),
                           onPressed: () async {
                             String accountAddress = await BarcodeScanner.scan();
-                            // String accountAddress = 'fuse:0xD418c5d0c4a3D87a6c555B7aA41f13EF87485Ec6';
                             List<String> parts = accountAddress.split(':');
                             if (parts.length == 2 && parts[0] == 'fuse') {
                               Navigator.pushNamed(context, '/SendAmount', arguments: SendAmountArguments(accountAddress: parts[1]));
                             } else {
                               print('Account address is not on Fuse');
                             }
-                            // dynamic accountAddress = '0xD418c5d0c4a3D87a6c555B7aA41f13EF87485Ec6';
-
-          //                           Future openCameraScan() async {
-          // viewModel.sendAddress(await BarcodeScanner.scan());
-          // openPage(context, new SendAmountPage());
-        // }
-                            // Navigator.pushNamed(context, '/SendQR');
                           }),
                       width: 50.0,
                       height: 50.0,
