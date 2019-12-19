@@ -44,11 +44,16 @@ class LoginVerifySuccess {
   LoginVerifySuccess(this.jwtToken);
 }
 
-class SyncContactsSuccess {
-  List<Contact> contacts;
+class SyncContactsProgress {
+  List<String> contacts;
   List<Map<String, dynamic>> newContacts;
-  SyncContactsSuccess(this.contacts, this.newContacts);
+  SyncContactsProgress(this.contacts, this.newContacts);
 }
+
+class SaveContacts {
+  List<Contact> contacts;
+  SaveContacts(this.contacts);
+ }
 
 ThunkAction restoreWalletCall(List<String> _mnemonic) {
   return (Store store) async {
@@ -128,17 +133,27 @@ ThunkAction logoutCall() {
 
 ThunkAction syncContactsCall(List<Contact> contacts) {
   return (Store store) async {
-    Map<String, String> savedReverseContacts = store.state.userState.reverseContacts;
+    store.dispatch(new SaveContacts(contacts));
+    List<String> syncedContacts = store.state.userState.syncedContacts;
     List<String> newPhones = new List<String>();
     for (Contact contact in contacts) {
-      String phoneNumber = formatPhoneNumber(contact.phones.toList()[0].value, store.state.userState.countryCode);
-      if (!savedReverseContacts.containsValue(phoneNumber)) {
-        newPhones.add(phoneNumber);
+      for (Item phone in contact.phones) {
+        String phoneNumber = formatPhoneNumber(phone.value, store.state.userState.countryCode);
+        if (!syncedContacts.contains(phoneNumber)) {
+          newPhones.add(phoneNumber);
+        }
       }
     }
-    dynamic response = await api.syncContacts(newPhones);
-    store.dispatch(new SyncContactsSuccess(contacts, List<Map<String, dynamic>>.from(response['newContacts'])));
+    int limit = 100;
+    List<String> partial = newPhones.take(limit).toList();
+    while (partial.length > 0) {
+      dynamic response = await api.syncContacts(partial);
+      store.dispatch(new SyncContactsProgress(partial, List<Map<String, dynamic>>.from(response['newContacts'])));
 
-    await api.ackSync(response['nonce']);
+      await api.ackSync(response['nonce']);
+      newPhones = newPhones.sublist(partial.length);
+      partial = newPhones.take(limit).toList();
+    }
+
   };
 }

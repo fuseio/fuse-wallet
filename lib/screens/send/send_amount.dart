@@ -22,6 +22,17 @@ class _SendAmountScreenState extends State<SendAmountScreen> {
     super.initState();
   }
 
+  void send(SendAmountViewModel viewModel, SendAmountArguments args,
+      String amountText) {
+    if (args.phoneNumber != null) {
+      viewModel.sendToContact(
+          formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
+          num.parse(amountText));
+    } else {
+      viewModel.sendToAccountAddress(args.accountAddress, num.parse(amountText));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
@@ -137,16 +148,8 @@ class _SendAmountScreenState extends State<SendAmountScreen> {
                   child: PrimaryButton(
                 label: "NEXT",
                 onPressed: () {
-                  viewModel.sendTokens(formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode), num.parse(amountText));
+                  send(viewModel, args, amountText);
                   Navigator.popAndPushNamed(context, '/Cash');
-                  //if (viewModel.walletState.sendAmount <= 0) {
-                  //  Scaffold.of(context).showSnackBar(new SnackBar(
-                  //    content: new Text("Please enter amount"),
-                  //  ));
-                  //} else {
-                  //viewModel.sendAmount(double.parse(amountText));
-                  //openPage(context, new SendAddressPage());
-                  //}
                 },
                 preload: false,
                 width: 300,
@@ -161,21 +164,27 @@ class _SendAmountScreenState extends State<SendAmountScreen> {
 class SendAmountArguments {
   final String name;
   final String phoneNumber;
+  final String accountAddress;
 
-  SendAmountArguments(this.name, this.phoneNumber);
+  SendAmountArguments({this.name, this.phoneNumber, this.accountAddress});
 }
 
 class SendAmountViewModel {
   final String myCountryCode;
-  final Function(String, num) sendTokens;
-  
-  SendAmountViewModel({this.myCountryCode, this.sendTokens});
-  
+  final Function(String, num) sendToContact;
+  final Function(String, num) sendToAccountAddress;
+
+  SendAmountViewModel(
+      {this.myCountryCode, this.sendToContact, this.sendToAccountAddress});
+
   static SendAmountViewModel fromStore(Store<AppState> store) {
     return SendAmountViewModel(
-      myCountryCode: store.state.userState.countryCode,
-      sendTokens: (String phoneNumber, num amount) {
-        store.dispatch(sendTokenToContactCall(phoneNumber, amount));
-    });
+        myCountryCode: store.state.userState.countryCode,
+        sendToContact: (String phoneNumber, num amount) {
+          store.dispatch(sendTokenToContactCall(phoneNumber, amount));
+        },
+        sendToAccountAddress: (String recieverAddress, num amount) {
+          store.dispatch(sendTokenCall(recieverAddress, amount));
+        });
   }
 }

@@ -53,9 +53,16 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContracts
 
 Contact getContact(Transfer transfer, CashWalletViewModel vm) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  if (vm.reverseContracts.containsKey(accountAddress)) {
-    String phoneNumber = vm.reverseContracts[accountAddress];
-     return vm.contacts.firstWhere((contact) => formatPhoneNumber(contact.phones.toList()[0].value, vm.countryCode) == phoneNumber, orElse: () => null);
+  if (vm.reverseContracts.containsKey(accountAddress.toLowerCase())) {
+    String phoneNumber = vm.reverseContracts[accountAddress.toLowerCase()];
+    if (vm.contacts == null) return null;
+    for (Contact contact in vm.contacts) {
+      for (Item contactPhoneNumber in contact.phones.toList()) {
+        if (formatPhoneNumber(contactPhoneNumber.value, vm.countryCode) == phoneNumber) {
+          return contact;
+        }
+      }
+    }
   }
   return null;
 }
