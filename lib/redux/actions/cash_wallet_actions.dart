@@ -147,12 +147,12 @@ class TransferSendSuccess {
   TransferSendSuccess(this.transfer);
 }
 
-class BrunchCommunityUpdate {
+class BranchCommunityUpdate {
   final String communityAddress;
-  BrunchCommunityUpdate(this.communityAddress);
+  BranchCommunityUpdate(this.communityAddress);
 }
 
-class BrunchListening {}
+class BranchListening {}
 
 Future<bool> approvalCallback() async {
   return true;
@@ -167,7 +167,7 @@ ThunkAction listenToBranchCall() {
       if (linkData["~feature"] == "switch_community") {
         var communityId = linkData["community_id"];
         logger.wtf("communityId $communityId");
-        store.dispatch(BrunchCommunityUpdate(communityId));
+        store.dispatch(BranchCommunityUpdate(communityId));
       }
     },
     onDone: () {
@@ -186,7 +186,7 @@ ThunkAction listenToBranchCall() {
       });
     }
 
-    store.dispatch(BrunchListening());
+    store.dispatch(BranchListening());
   };
 }
 
