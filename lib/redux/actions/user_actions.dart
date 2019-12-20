@@ -7,6 +7,8 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
 import 'package:fusecash/services.dart';
 import 'package:logger/logger.dart';
+import 'package:contacts_service/contacts_service.dart';  
+import 'package:fusecash/utils/phone.dart';
 
 var logger = Logger(
   printer: PrettyPrinter(),
@@ -41,6 +43,17 @@ class LoginVerifySuccess {
   final String jwtToken;
   LoginVerifySuccess(this.jwtToken);
 }
+
+class SyncContactsProgress {
+  List<String> contacts;
+  List<Map<String, dynamic>> newContacts;
+  SyncContactsProgress(this.contacts, this.newContacts);
+}
+
+class SaveContacts {
+  List<Contact> contacts;
+  SaveContacts(this.contacts);
+ }
 
 ThunkAction restoreWalletCall(List<String> _mnemonic) {
   return (Store store) async {
@@ -115,5 +128,32 @@ ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verif
 ThunkAction logoutCall() {
   return (Store store) async {
     store.dispatch(new LogoutRequestSuccess());
+  };
+}
+
+ThunkAction syncContactsCall(List<Contact> contacts) {
+  return (Store store) async {
+    store.dispatch(new SaveContacts(contacts));
+    List<String> syncedContacts = store.state.userState.syncedContacts;
+    List<String> newPhones = new List<String>();
+    for (Contact contact in contacts) {
+      for (Item phone in contact.phones) {
+        String phoneNumber = formatPhoneNumber(phone.value, store.state.userState.countryCode);
+        if (!syncedContacts.contains(phoneNumber)) {
+          newPhones.add(phoneNumber);
+        }
+      }
+    }
+    int limit = 100;
+    List<String> partial = newPhones.take(limit).toList();
+    while (partial.length > 0) {
+      dynamic response = await api.syncContacts(partial);
+      store.dispatch(new SyncContactsProgress(partial, List<Map<String, dynamic>>.from(response['newContacts'])));
+
+      await api.ackSync(response['nonce']);
+      newPhones = newPhones.sublist(partial.length);
+      partial = newPhones.take(limit).toList();
+    }
+
   };
 }

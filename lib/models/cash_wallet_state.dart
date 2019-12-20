@@ -17,6 +17,7 @@ class CashWalletState {
   final Token token;
   final BigInt tokenBalance;
   final List<Transfer> tokenTransfers;
+  final List<PendingTransfer> pendingTransfers;
 
   CashWalletState({
     this.web3,
@@ -30,7 +31,8 @@ class CashWalletState {
     this.isTransfersFetchingStarted,
     this.token,
     this.tokenBalance,
-    this.tokenTransfers
+    this.tokenTransfers,
+    this.pendingTransfers
   });
 
   factory CashWalletState.initial() {
@@ -38,7 +40,7 @@ class CashWalletState {
       web3: null,
       walletAddress: "",
       walletStatus: null,
-      communityAddress: "",
+      communityAddress: Web3.getDefaultCommunity(),
       communityName: "",
       isCommunityLoading: false,
       isCommunityFetched: false,
@@ -46,7 +48,8 @@ class CashWalletState {
       isTransfersFetchingStarted: false,
       token: null,
       tokenBalance: BigInt.from(0),
-      tokenTransfers: new List<Transfer>());
+      tokenTransfers: new List<Transfer>(),
+      pendingTransfers: new List<PendingTransfer>());
   }
 
   CashWalletState copyWith({
@@ -61,7 +64,8 @@ class CashWalletState {
     bool isTransfersFetchingStarted,
     Token token,
     BigInt tokenBalance,
-    List<Transfer> tokenTransfers
+    List<Transfer> tokenTransfers,
+    List<PendingTransfer> pendingTransfers
   }) {
     return CashWalletState (
       web3: web3 ?? this.web3,
@@ -75,7 +79,8 @@ class CashWalletState {
       isTransfersFetchingStarted: isTransfersFetchingStarted ?? this.isTransfersFetchingStarted,
       token: token ?? this.token,
       tokenBalance: tokenBalance ?? this.tokenBalance,
-      tokenTransfers: tokenTransfers ?? this.tokenTransfers
+      tokenTransfers: tokenTransfers ?? this.tokenTransfers,
+      pendingTransfers: pendingTransfers ?? this.pendingTransfers
     );
   }
 
@@ -102,6 +107,7 @@ class CashWalletState {
         isTransfersFetchingStarted: false,
         token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
         tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
-        tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer)))
+        tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer))),
+        pendingTransfers: new List<PendingTransfer>()
       );
 }

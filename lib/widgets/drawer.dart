@@ -42,11 +42,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   //   child:
                   //       Image.asset('images/avatar.png', width: 70),
                   // ),
-                  Text(
-                    "Mark Smargon",
-                    style: TextStyle(
-                        color: const Color(0xFF787878), fontSize: 16),
-                  )
+                  // Text(
+                  //   "Hello",
+                  //   style: TextStyle(
+                  //       color: const Color(0xFF787878), fontSize: 16),
+                  // )
                 ],
               ),
               decoration: BoxDecoration(
@@ -59,7 +59,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () {
-                
+                Navigator.pushNamed(context, '/Switch');
               },
             ),
             Divider(),
@@ -82,16 +82,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 
               },
             ),
-            Divider(),
-            ListTile(
-              title: Text(
-                'Fuse studio',
-                style: TextStyle(fontSize: 16),
-              ),
-              onTap: () {
+            // Divider(),
+            // ListTile(
+            //   title: Text(
+            //     'Fuse studio',
+            //     style: TextStyle(fontSize: 16),
+            //   ),
+            //   onTap: () {
                 
-              },
-            ),
+            //   },
+            // ),
             Divider(),
             ListTile(
               title: Text(
