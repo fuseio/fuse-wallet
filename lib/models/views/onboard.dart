@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -8,8 +9,8 @@ class OnboardViewModel {
   final String accountAddress;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
-  final Function(String, String, String, String) signUp;
-  final Function(String, String, String, String) verify;
+  final Function(String, String, VoidCallback, VoidCallback) signUp;
+  final Function(String, String, String, String, VoidCallback, VoidCallback) verify;
 
   OnboardViewModel({
     this.countryCode,
@@ -28,11 +29,11 @@ class OnboardViewModel {
       accountAddress: store.state.userState.accountAddress,
       loginRequestSuccess: store.state.userState.loginRequestSuccess,
       loginVerifySuccess: store.state.userState.loginVerifySuccess,
-      signUp: (countryCode, phoneNumber, fullName, email) {
-        store.dispatch(loginRequestCall(countryCode, phoneNumber, fullName, email));
+      signUp: (countryCode, phoneNumber, successCallback, failCallback) {
+        store.dispatch(loginRequestCall(countryCode, phoneNumber, successCallback, failCallback));
       },
-      verify: (countryCode, phoneNumber, verificationCode, accountAddress) {
-        store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode, accountAddress));
+      verify: (countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback) {
+        store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback));
       }
     );
   }
