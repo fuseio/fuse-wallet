@@ -4,7 +4,7 @@ class MainScaffold extends StatelessWidget {
   MainScaffold({this.title, this.children, this.sliverList, this.key, this.footer});
   final String title;
   final List<Widget> children;
-  final List<Widget> sliverList;
+  List<Widget> sliverList;
   final Widget footer;
   final Key key;
 
@@ -46,6 +46,11 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    if (sliverList == null) {
+      sliverList = new List<Widget>();
+    }
+
     return Scaffold(
       key: key,
       backgroundColor: Colors.white,

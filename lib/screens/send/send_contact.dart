@@ -72,6 +72,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
             ),
           ],
           child: Container(
+            padding: EdgeInsets.only(top: 5, bottom: 5),
             decoration: new BoxDecoration(
                 border:
                     Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
@@ -83,8 +84,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     ? MemoryImage(user.avatar)
                     : new AssetImage('assets/images/anom.png'),
               ),
-              title: Text(user.displayName),
-              subtitle: Text(user.company ?? ""),
+              title: Text(user.displayName, style: TextStyle(fontSize: 18),),
+              //subtitle: Text("user.company" ?? ""),
               onTap: () {
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
@@ -201,11 +202,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     return SliverPersistentHeader(
       pinned: true,
       delegate: _SliverAppBarDelegate(
-        minHeight: 100.0,
+        minHeight: 80.0,
         maxHeight: 100.0,
         child: Container(
           color: Colors.white,
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(top: 20.0,left: 20.0,right: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
