@@ -11,6 +11,7 @@ class CashWalletViewModel {
   final String accountAddress;
   final String walletAddress;
   final String communityAddress;
+  final String branchAddress;
   final bool isCommunityLoading;
   final bool isCommunityFetched;
   final bool isBalanceFetchingStarted;
@@ -34,6 +35,7 @@ class CashWalletViewModel {
   final Function() startTransfersFetching;
   final Function() listenToBranch;
   final Function(List<Contact>) syncContacts;
+  final Function() branchCommunityUpdate;
 
 
   CashWalletViewModel({
@@ -41,6 +43,7 @@ class CashWalletViewModel {
     this.walletAddress,
     this.walletStatus,
     this.communityAddress,
+    this.branchAddress,
     this.isCommunityLoading,
     this.isCommunityFetched,
     this.isBalanceFetchingStarted,
@@ -62,7 +65,8 @@ class CashWalletViewModel {
     this.startBalanceFetching,
     this.startTransfersFetching,
     this.listenToBranch,
-    this.syncContacts
+    this.syncContacts,
+    this.branchCommunityUpdate
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -71,6 +75,7 @@ class CashWalletViewModel {
       walletAddress: store.state.cashWalletState.walletAddress,
       walletStatus: store.state.cashWalletState.walletStatus,
       communityAddress: store.state.cashWalletState.communityAddress,
+      branchAddress: store.state.cashWalletState.branchAddress,
       isCommunityLoading: store.state.cashWalletState.isCommunityLoading,
       isCommunityFetched: store.state.cashWalletState.isCommunityFetched,
       isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
@@ -108,6 +113,9 @@ class CashWalletViewModel {
       },
       syncContacts: (List<Contact> contacts) {
         store.dispatch(syncContactsCall(contacts));
+      },
+      branchCommunityUpdate: () {
+        store.dispatch(BranchCommunityUpdate());
       }
     );
   }

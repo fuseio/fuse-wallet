@@ -31,6 +31,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, BranchListening>(_branchListening),
   TypedReducer<CashWalletState, BranchCommunityUpdate>(
       _branchCommunityUpdate),
+  TypedReducer<CashWalletState, BranchCommunityToUpdate>(
+      _branchCommunityToUpdate),
   TypedReducer<CashWalletState, StartBalanceFetchingSuccess>(
       _startBalanceFetchingSuccess),
   TypedReducer<CashWalletState, StartTransfersFetchingSuccess>(
@@ -150,7 +152,13 @@ CashWalletState _branchCommunityUpdate(
   return state.copyWith(
       isCommunityLoading: false,
       isCommunityFetched: false,
-      communityAddress: action.communityAddress);
+      branchAddress: "",
+      communityAddress: state.branchAddress);
+}
+
+CashWalletState _branchCommunityToUpdate(
+    CashWalletState state, BranchCommunityToUpdate action) {
+  return state.copyWith(branchAddress: action.communityAddress);
 }
 
 CashWalletState _branchListening(

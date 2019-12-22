@@ -31,8 +31,15 @@ class CashHomeScreen extends StatefulWidget {
 
 
 void onChange(CashWalletViewModel viewModel) {
-  if (!viewModel.isListeningToBranch) {
-    viewModel.listenToBranch();
+  if (!viewModel.isListeningToBranch &&
+      !viewModel.isCommunityLoading) {
+      viewModel.listenToBranch();
+  }
+  if (!viewModel.isCommunityLoading &&
+      viewModel.branchAddress != null &&
+      viewModel.branchAddress != "") {
+    logger.wtf("viewModel.branchAddress ${viewModel.branchAddress}");
+    viewModel.branchCommunityUpdate();
   }
   if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
     viewModel.createWallet(viewModel.accountAddress);

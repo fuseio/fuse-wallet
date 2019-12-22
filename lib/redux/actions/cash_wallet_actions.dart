@@ -150,8 +150,12 @@ class TransferSendSuccess {
 }
 
 class BranchCommunityUpdate {
+  BranchCommunityUpdate();
+}
+
+class BranchCommunityToUpdate {
   final String communityAddress;
-  BranchCommunityUpdate(this.communityAddress);
+  BranchCommunityToUpdate(this.communityAddress);
 }
 
 class BranchListening {}
@@ -169,7 +173,7 @@ ThunkAction listenToBranchCall() {
       if (linkData["~feature"] == "switch_community") {
         var communityId = linkData["community_id"];
         logger.wtf("communityId $communityId");
-        store.dispatch(BranchCommunityUpdate(communityId));
+        store.dispatch(BranchCommunityToUpdate(communityId));
       }
     },
     onDone: () {
