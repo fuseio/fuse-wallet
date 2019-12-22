@@ -469,8 +469,16 @@ ThunkAction sendTokenToContactCall(
     String contactPhoneNumber, num tokensAmount) {
   return (Store store) async {
     try {
-      dynamic wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
+      logger.i('Trying to send $tokensAmount to phone $contactPhoneNumber');
+      Map wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
+      if (wallet.isEmpty) {
+        String msg = 'Cannot send tokens. No account address is found for phone $contactPhoneNumber';
+        logger.e(msg);
+        store.dispatch(new ErrorAction(msg));
+        return;
+      }
       String walletAddress = wallet["walletAddress"];
+      logger.d('fetched wallet address $walletAddress for phone $contactPhoneNumber');
       if (walletAddress == null || walletAddress.isEmpty) {
         store.dispatch(new ErrorAction('Could not find wallet for contact'));
       } else {
