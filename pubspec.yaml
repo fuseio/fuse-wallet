@@ -1,5 +1,5 @@
 name: fusecash
-version: 1.0.0+22
+version: 1.0.0+25
 description: A new Flutter project.
 environment: 
   sdk: '>=2.1.0 <3.0.0'
@@ -29,6 +29,8 @@ dependencies:
     git:
       url: https://github.com/fuseio/flutter-branch-io.git
       ref: optional_branch_bug_fix
+  pin_input_text_field: ^2.1.0
+  flare_flutter: ^1.8.3
   decimal: ^0.3.5
   flutter: 
     sdk: flutter

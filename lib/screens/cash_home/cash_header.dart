@@ -51,12 +51,13 @@ class CashHeader extends StatelessWidget {
           //mainAxisSize: MainAxisSize.max,
           //mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(top: 25),
-            child: InkWell(
+            InkWell(
                 onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
-                child: Image.asset(
+                child:
+                Padding(padding: EdgeInsets.only(top: 25, bottom: 25, right: 25),
+            child:  Image.asset(
                   'assets/images/menu.png',
                   width: 18,
                 ))
@@ -73,7 +74,7 @@ class CashHeader extends StatelessWidget {
                       new TextSpan(
                           text: I18n.of(context).hi,
                           style: TextStyle(
-                              fontSize: 42,
+                              fontSize: 33,
                               color: Colors.black,
                               fontWeight: FontWeight.w300)),
                       new TextSpan(
@@ -115,21 +116,21 @@ class CashHeader extends StatelessWidget {
                             ? <TextSpan>[new TextSpan(
                                   text: 'Loading',
                                   style: new TextStyle(
-                                      fontSize: 42,
+                                      fontSize: 30,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold))]
                             : <TextSpan>[
                                 new TextSpan(
                                   text: (viewModel.tokenBalance / BigInt.from(pow(10, viewModel.token.decimals))).toString(),
                                   style: new TextStyle(
-                                      fontSize: 42,
+                                      fontSize: 30,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold)),
                               new TextSpan(
                                   text:
                                       ' ' + viewModel.token?.symbol.toString(),
                                   style: new TextStyle(
-                                      fontSize: 42,
+                                      fontSize: 18,
                                       color: Colors.black,
                                       fontWeight: FontWeight.normal,
                                       height: 0.0)),

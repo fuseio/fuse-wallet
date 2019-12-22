@@ -24,7 +24,7 @@ class PrimaryButton extends StatelessWidget {
             ],
           ),
           borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-          border: Border.all(color: Colors.black.withAlpha(17))),
+          border: Border.all(color: Colors.black.withAlpha(14))),
       child: Material(
         color: Colors.transparent,
         child: InkWell(

@@ -169,6 +169,7 @@ class _TransactionListItem extends StatelessWidget {
           leading: Stack(
             children: <Widget>[
               CircleAvatar(
+                backgroundColor: Color(0xFFE0E0E0),
                 radius: 25,
                 backgroundImage: _contact?.avatar != null ? MemoryImage(_contact.avatar) : new AssetImage('assets/images/anom.png'),
               ),

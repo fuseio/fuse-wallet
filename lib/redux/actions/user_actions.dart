@@ -88,7 +88,7 @@ ThunkAction createNewWalletCall() {
 }
 
 
-ThunkAction loginRequestCall(String countryCode, String phoneNumber, String fullName, String email) {
+ThunkAction loginRequestCall(String countryCode, String phoneNumber, VoidCallback successCallback, VoidCallback failCallback) {
   return (Store store) async {
     if (!countryCode.startsWith('+')) {
       countryCode = '+$countryCode';
@@ -97,18 +97,21 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber, String full
     try {
       bool result = await api.loginRequest(phone);
       if (result) {
-        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, fullName, email));
+        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
+        successCallback();
       } else {
         store.dispatch(new ErrorAction('Could not login'));
+        failCallback();
       }
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not login'));
+      failCallback();
     }
   };
 }
 
-ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verificationCode, String accountAddress) {
+ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verificationCode, String accountAddress, VoidCallback successCallback, VoidCallback failCallback) {
   return (Store store) async {
     try {
       if (!countryCode.startsWith('+')) {
@@ -117,10 +120,12 @@ ThunkAction loginVerifyCall(String countryCode, String phoneNumber, String verif
       String phone = countryCode + phoneNumber;
       String jwtToken = await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
+      successCallback();
       // store.dispatch(joinCommunityCall());
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not verify login'));
+      failCallback();
     }
   };
 }
