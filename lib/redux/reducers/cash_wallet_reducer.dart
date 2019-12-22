@@ -145,7 +145,8 @@ CashWalletState _getTokenTransfersListSuccess(
 
 CashWalletState _logoutSuccess(
     CashWalletState state, LogoutRequestSuccess action) {
-  return CashWalletState.initial();
+      return state;
+  // return CashWalletState.initial();
 }
 
 CashWalletState _switchCommunityRequest(
