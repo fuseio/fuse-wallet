@@ -1,18 +1,49 @@
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'dart:io';
 import 'package:wallet_core/wallet_core.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
 import 'dart:math';
+import 'dart:convert';
 import 'package:decimal/decimal.dart';
 import 'package:logger/logger.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
+
+
+class DualOutput extends LogOutput {
+
+  File file;
+  DualOutput() {
+    file = null;
+  }
+
+  Future<File> getFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+    return File(directory.path+"/logs.txt");
+  }
+
+  @override
+  void output(OutputEvent event) async {
+    if (file == null) {
+      file = await getFile();
+    }
+    for (var line in event.lines) {
+      print(line);
+//      await file.writeAsString(line + '\n', mode: FileMode.append);
+    }
+  }
+}
 
 var logger = Logger(
   printer: PrettyPrinter(),
+  output: DualOutput()
 );
 
 class InitWeb3Success {
@@ -118,8 +149,51 @@ class TransferSendSuccess {
   TransferSendSuccess(this.requestedTransfer, this.transfer);
 }
 
+class BranchCommunityUpdate {
+  BranchCommunityUpdate();
+}
+
+class BranchCommunityToUpdate {
+  final String communityAddress;
+  BranchCommunityToUpdate(this.communityAddress);
+}
+
+class BranchListening {}
+
 Future<bool> approvalCallback() async {
   return true;
+}
+
+ThunkAction listenToBranchCall() {
+  return (Store store) async {
+    logger.wtf("branch listening.");
+    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) {
+      var linkData = jsonDecode(stringData);
+      logger.wtf("linkData $linkData");
+      if (linkData["~feature"] == "switch_community") {
+        var communityId = linkData["community_id"];
+        logger.wtf("communityId $communityId");
+        store.dispatch(BranchCommunityToUpdate(communityId));
+      }
+    },
+    onDone: () {
+      logger.wtf("ondone");
+      store.dispatch(listenToBranchCall());
+    },
+    onError: (error) {
+      logger.wtf("error, $error");
+      store.dispatch(listenToBranchCall());
+    });
+
+    if (Platform.isAndroid) {
+      FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
+        print("ONSTART");
+        FlutterBranchIoPlugin.setupBranchIO();
+      });
+    }
+
+    store.dispatch(BranchListening());
+  };
 }
 
 ThunkAction initWeb3Call(String privateKey) {
@@ -213,7 +287,7 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      logger.i(
+      logger.d(
           'fetching token balance of $tokenAddress for $walletAddress wallet');
       BigInt tokenBalance =
           await graph.getTokenBalance(walletAddress, tokenAddress);
@@ -228,7 +302,7 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
 ThunkAction startFetchingJobCall(String jobId) {
   return (Store store) async {
     try {
-      logger.i('fetching job $jobId');
+      logger.d('fetching job $jobId');
       dynamic response = await api.getJob(jobId);
       Job job = Job.fromJson(response);
       if (response != null && job.txHash != null) {
@@ -269,13 +343,13 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
           type: 'SEND');
       store.dispatch(new TransferSendRequested(transferRequested));
 
-      logger.i(
+      logger.d(
           'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
       dynamic response = await api.tokenTransfer(
           web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
 
       dynamic jobId = response['job']['_id'];
-      logger.i('Job $jobId for sending token sent to the relay service');
+      logger.d('Job $jobId for sending token sent to the relay service');
 
       store.dispatch(startFetchingJobCall(jobId));
 
@@ -331,10 +405,10 @@ ThunkAction switchCommunityCall(String communityAddress) {
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community =
         await graph.getCommunityByAddress(communityAddress);
-      logger.i('community fetched for $communityAddress');
+      logger.d('community fetched for $communityAddress');
       dynamic token =
           await graph.getTokenOfCommunity(communityAddress);
-      logger.i('token ${token["address"]} fetched for $communityAddress');
+      logger.d('token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       store.dispatch(joinCommunityCall(community: community, token: token));
       return store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
@@ -377,7 +451,7 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      logger.i(
+      logger.d(
           'fetching token transfers of $tokenAddress for $walletAddress wallet');
       Map<String, dynamic> response =
           await graph.getTransfers(walletAddress, tokenAddress);

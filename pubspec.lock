@@ -237,6 +237,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_android_lifecycle
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  flutter_branch_io_plugin:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: optional_branch_bug_fix
+      resolved-ref: "98f30561437460a0539be244681257ebe587f623"
+      url: "https://github.com/fuseio/flutter-branch-io.git"
+    source: git
+    version: "1.0.1"
   flutter_localizations:
     dependency: "direct dev"
     description: flutter
@@ -265,6 +281,11 @@ packages:
     version: "0.5.4"
   flutter_test:
     dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -498,7 +519,7 @@ packages:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "3.3.0"
   petitparser:
     dependency: transitive
     description:
@@ -638,7 +659,14 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.4+8"
+    version: "0.5.6"
+  shared_preferences_macos:
+    dependency: transitive
+    description:
+      name: shared_preferences_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+3"
   shared_preferences_platform_interface:
     dependency: transitive
     description:
@@ -646,6 +674,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  shared_preferences_web:
+    dependency: transitive
+    description:
+      name: shared_preferences_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2+2"
   shelf:
     dependency: transitive
     description:
@@ -828,4 +863,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.6.0 <3.0.0"
-  flutter: ">=1.10.0 <2.0.0"
+  flutter: ">=1.12.13+hotfix.4 <2.0.0"

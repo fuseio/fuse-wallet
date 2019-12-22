@@ -32,7 +32,7 @@ class ConsoleOutput extends logger_package.LogOutput {
   void output(logger_package.OutputEvent event) async {
     for (var line in event.lines) {
       print(line);
-      // await file.writeAsString(line + '\n', mode: FileMode.append);
+       await file.writeAsString(line + '\n', mode: FileMode.append);
     }
   }
 }
@@ -61,6 +61,7 @@ Future<Store<AppState>> createReduxStore() async {
     if (initialState.userState?.jwtToken != '') {
       api.setJwtToken(initialState.userState.jwtToken);
     }
+
   }
   catch (e) {
     logger.e(e);
@@ -75,7 +76,7 @@ Future<Store<AppState>> createReduxStore() async {
     // Filter down to [LogRecord]s sent to your logger instance  
     .where((record) => record.loggerName == mylogger.name)
     // Print them out (or do something more interesting!)
-    . listen((loggingMiddlewareRecord) => logger.i(loggingMiddlewareRecord));
+    . listen((loggingMiddlewareRecord) => logger.d(loggingMiddlewareRecord));
 
   return Store<AppState>(
       appReducer,

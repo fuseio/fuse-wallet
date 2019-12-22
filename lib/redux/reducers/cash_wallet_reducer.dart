@@ -28,6 +28,11 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, LogoutRequestSuccess>(_logoutSuccess),
   TypedReducer<CashWalletState, SwitchCommunityRequested>(
       _switchCommunityRequest),
+  TypedReducer<CashWalletState, BranchListening>(_branchListening),
+  TypedReducer<CashWalletState, BranchCommunityUpdate>(
+      _branchCommunityUpdate),
+  TypedReducer<CashWalletState, BranchCommunityToUpdate>(
+      _branchCommunityToUpdate),
   TypedReducer<CashWalletState, StartBalanceFetchingSuccess>(
       _startBalanceFetchingSuccess),
   TypedReducer<CashWalletState, StartTransfersFetchingSuccess>(
@@ -112,7 +117,7 @@ CashWalletState _getBusinessListSuccess(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-  print('Found ${action.tokenTransfers.length} token transfers');
+//  print('Found ${action.tokenTransfers.length} token transfers');
   if (state.walletAddress != '') {
     List<PendingTransfer> nPendingTransfers =
         List<PendingTransfer>.from(state.pendingTransfers);
@@ -141,6 +146,26 @@ CashWalletState _switchCommunityRequest(
     CashWalletState state, SwitchCommunityRequested action) {
   return state.copyWith(isCommunityLoading: true);
 }
+
+CashWalletState _branchCommunityUpdate(
+    CashWalletState state, BranchCommunityUpdate action) {
+  return state.copyWith(
+      isCommunityLoading: false,
+      isCommunityFetched: false,
+      branchAddress: "",
+      communityAddress: state.branchAddress);
+}
+
+CashWalletState _branchCommunityToUpdate(
+    CashWalletState state, BranchCommunityToUpdate action) {
+  return state.copyWith(branchAddress: action.communityAddress);
+}
+
+CashWalletState _branchListening(
+    CashWalletState state, BranchListening action) {
+  return state.copyWith(isListeningToBranch: true);
+}
+
 
 CashWalletState _startBalanceFetchingSuccess(
     CashWalletState state, StartBalanceFetchingSuccess action) {

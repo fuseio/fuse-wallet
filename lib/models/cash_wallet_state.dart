@@ -9,11 +9,13 @@ class CashWalletState {
   final String walletAddress;
   final String walletStatus;
   final String communityAddress;
+  final String branchAddress;
   final String communityName;
   final bool isCommunityLoading;
   final bool isCommunityFetched;
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
+  final bool isListeningToBranch;
   final Token token;
   final BigInt tokenBalance;
   final List<Transfer> tokenTransfers;
@@ -24,11 +26,13 @@ class CashWalletState {
     this.walletAddress,
     this.walletStatus,
     this.communityAddress,
+    this.branchAddress,
     this.communityName,
     this.isCommunityLoading,
     this.isCommunityFetched,
     this.isBalanceFetchingStarted,
     this.isTransfersFetchingStarted,
+    this.isListeningToBranch,
     this.token,
     this.tokenBalance,
     this.tokenTransfers,
@@ -41,9 +45,11 @@ class CashWalletState {
       walletAddress: "",
       walletStatus: null,
       communityAddress: Web3.getDefaultCommunity(),
+      branchAddress: "",
       communityName: "",
       isCommunityLoading: false,
       isCommunityFetched: false,
+      isListeningToBranch: false,
       isBalanceFetchingStarted: false,
       isTransfersFetchingStarted: false,
       token: null,
@@ -57,11 +63,13 @@ class CashWalletState {
     String walletAddress,
     String walletStatus,
     String communityAddress,
+    String branchAddress,
     String communityName,
     bool isCommunityLoading,
     bool isCommunityFetched,
     bool isBalanceFetchingStarted,
     bool isTransfersFetchingStarted,
+    bool isListeningToBranch,
     Token token,
     BigInt tokenBalance,
     List<Transfer> tokenTransfers,
@@ -72,11 +80,13 @@ class CashWalletState {
       walletAddress: walletAddress ?? this.walletAddress,
       walletStatus: walletStatus ?? this.walletStatus,
       communityAddress: communityAddress ?? this.communityAddress,
+      branchAddress: branchAddress ?? this.branchAddress,
       communityName: communityName ?? this.communityName,
       isCommunityLoading: isCommunityLoading ?? this.isCommunityLoading,
       isCommunityFetched: isCommunityFetched ?? this.isCommunityFetched,
       isBalanceFetchingStarted: isBalanceFetchingStarted ?? this.isBalanceFetchingStarted,
       isTransfersFetchingStarted: isTransfersFetchingStarted ?? this.isTransfersFetchingStarted,
+      isListeningToBranch: isListeningToBranch ?? this.isListeningToBranch,
       token: token ?? this.token,
       tokenBalance: tokenBalance ?? this.tokenBalance,
       tokenTransfers: tokenTransfers ?? this.tokenTransfers,
@@ -100,11 +110,13 @@ class CashWalletState {
         walletAddress: json['walletAddress'],
         walletStatus: json['walletStatus'],
         communityAddress: json['communityAddress'],
+        branchAddress: json['branchAddress'],
         communityName: json['communityName'],
         isCommunityLoading: false,
         isCommunityFetched: false,
         isBalanceFetchingStarted: false,
         isTransfersFetchingStarted: false,
+        isListeningToBranch: false,
         token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
         tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
         tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer))),

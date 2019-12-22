@@ -13,16 +13,22 @@ dependencies:
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
   wallet_core: ^0.0.1+40
+  # wallet_core:
+  #   path: ../wallet_core
   alphabet_list_scroll_view: ^1.0.5
   barcode_scan: ^1.0.0
   flutter_slidable: 0.5.4
   contacts_service: ^0.3.9
-  permission_handler: ^4.0.0
+  permission_handler: ^3.0.1
   virtual_keyboard: ^0.1.4
   qr_flutter: ^3.1.0
   logger_flutter: ^0.7.1
   path_provider: 1.5.0
   json_annotation: ^3.0.0
+  flutter_branch_io_plugin:
+    git:
+      url: https://github.com/fuseio/flutter-branch-io.git
+      ref: optional_branch_bug_fix
   pin_input_text_field: ^2.1.0
   flare_flutter: ^1.8.3
   decimal: ^0.3.5
@@ -33,9 +39,9 @@ dev_dependencies:
   json_serializable: ^3.2.3
   flutter_test: 
     sdk: flutter
-  flutter_localizations: 
+  flutter_localizations:
     sdk: flutter
-flutter: 
+flutter:
   assets: 
     - assets/
     - assets/images/
