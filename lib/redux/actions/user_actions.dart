@@ -55,6 +55,11 @@ class SaveContacts {
   SaveContacts(this.contacts);
 }
 
+class SetPincodeSuccess {
+  String pincode;
+  SetPincodeSuccess(this.pincode);
+}
+
 ThunkAction restoreWalletCall(List<String> _mnemonic) {
   return (Store store) async {
     String mnemonic = _mnemonic.join(' ');
@@ -175,6 +180,19 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
         newPhones = newPhones.sublist(partial.length);
         partial = newPhones.take(limit).toList();
       }
+    }
+  };
+}
+
+
+ThunkAction setPincodeCall(
+    String pincode) {
+  return (Store store) async {
+    try {
+      store.dispatch(SetPincodeSuccess(pincode));
+    } catch (e) {
+      logger.e(e);
+      store.dispatch(new ErrorAction('Could not send token to contact'));
     }
   };
 }

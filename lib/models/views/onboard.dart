@@ -11,6 +11,7 @@ class OnboardViewModel {
   final bool loginVerifySuccess;
   final Function(String, String, VoidCallback, VoidCallback) signUp;
   final Function(String, String, String, String, VoidCallback, VoidCallback) verify;
+  final Function(String) setPincode;
 
   OnboardViewModel({
     this.countryCode,
@@ -19,7 +20,8 @@ class OnboardViewModel {
     this.loginRequestSuccess,
     this.loginVerifySuccess,
     this.signUp,
-    this.verify
+    this.verify,
+    this.setPincode
   });
 
   static OnboardViewModel fromStore(Store<AppState> store) {
@@ -34,6 +36,9 @@ class OnboardViewModel {
       },
       verify: (countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback) {
         store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback));
+      },
+      setPincode: (pincode) {
+        store.dispatch(setPincodeCall(pincode));
       }
     );
   }
