@@ -109,6 +109,8 @@ class SwitchCommunitySuccess {
   SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token);
 }
 
+class SwitchCommunityFailed { }
+
 class GetJoinBonusSuccess {
   // TODO
   GetJoinBonusSuccess();
@@ -421,6 +423,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not join community'));
+      store.dispatch(new SwitchCommunityFailed());
     }
   };
 }
