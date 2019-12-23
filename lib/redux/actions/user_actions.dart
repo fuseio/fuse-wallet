@@ -77,11 +77,15 @@ ThunkAction restoreWalletCall(List<String> _mnemonic) {
 ThunkAction createNewWalletCall() {
   return (Store store) async {
     try {
+      logger.d('create new wallet');
       String mnemonic = Web3.generateMnemonic();
+      logger.d('mnemonic: $mnemonic');
+      logger.d('compute pk');
       String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
-
+      logger.d('privateKey: $privateKey');
       Credentials c = EthPrivateKey.fromHex(privateKey);
       dynamic accountAddress = await c.extractAddress();
+      // api.setJwtToken('');
       store.dispatch(new CreateNewWalletSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
@@ -134,7 +138,6 @@ ThunkAction loginVerifyCall(
           await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
       successCallback();
-      // store.dispatch(joinCommunityCall());
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not verify login'));

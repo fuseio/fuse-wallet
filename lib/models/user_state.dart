@@ -2,6 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';  
+import 'package:logger/logger.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
+
 
 @immutable
 class UserState {
@@ -109,8 +115,15 @@ class UserState {
       'email': email
     };
 
-    static UserState fromJson(dynamic json) =>
-      UserState(
+    static UserState fromJson(dynamic json) {
+      logger.d('fromJson:');
+      logger.d('mnemonic: ${json['mnemonic']}');
+      logger.d('privateKey: ${json['privateKey']}');
+      logger.d('accountAddress: ${json['accountAddress']}');
+      logger.d('jwtToken: ${json['jwtToken']}');
+      logger.d('end fromJson');
+
+      return UserState(
         mnemonic: List<String>.from(json['mnemonic']),
         privateKey: json['privateKey'],
         pincode: json['pincode'],
@@ -127,4 +140,5 @@ class UserState {
         loginVerifySuccess: false,
         isLoggedOut: false
       );
+    }
 }

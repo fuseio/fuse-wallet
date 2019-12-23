@@ -20,7 +20,8 @@ UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) {
 
 UserState _createNewWalletSuccess(
     UserState state, CreateNewWalletSuccess action) {
-  return state.copyWith(
+  UserState newState = UserState.initial();
+  return newState.copyWith(
       isLoggedOut: false,
       mnemonic: action.mnemonic,
       privateKey: action.privateKey,
