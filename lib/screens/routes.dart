@@ -24,7 +24,7 @@ getRoutes() {
     '/Receive': (context) => ReceiveScreen(),
     '/Switch': (context) => SwitchCommunityScreen(),
     '/Pincode': (context) => PincodeScreen(),
-    '/Buy': (context) => BuyPage(),
+    '/Buy': (context) => BuyScreen(),
     '/Business': (context) => BusinessPage(),
   };
 }

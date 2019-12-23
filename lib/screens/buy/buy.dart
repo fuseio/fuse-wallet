@@ -8,16 +8,16 @@ import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
-class BuyPage extends StatefulWidget {
-  BuyPage({Key key, this.title}) : super(key: key);
+class BuyScreen extends StatefulWidget {
+  BuyScreen({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _BuyPageState createState() => _BuyPageState();
+  _BuyScreenState createState() => _BuyScreenState();
 }
 
-class _BuyPageState extends State<BuyPage> {
+class _BuyScreenState extends State<BuyScreen> {
   GlobalKey<ScaffoldState> scaffoldState;
 
   @override
