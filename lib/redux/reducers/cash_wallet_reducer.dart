@@ -5,6 +5,7 @@ import 'package:fusecash/models/transfer.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
+  TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
   TypedReducer<CashWalletState, GetWalletAddressSuccess>(
       _getWalletAddressSuccess),
@@ -41,8 +42,15 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _startTransfersFetchingSuccess),
   TypedReducer<CashWalletState, TransferSendRequested>(_transferSendRequested),
   TypedReducer<CashWalletState, TransferSendSuccess>(_transferSendSuccess),
-  TypedReducer<CashWalletState, GetJobSuccess>(_getJobSuccess)
+  TypedReducer<CashWalletState, TransferJobSuccess>(_transferJobSuccess),
+  TypedReducer<CashWalletState, AddSendToInvites>(_addSendToInvites),
+  TypedReducer<CashWalletState, RemoveSendToInvites>(_removeSendToInvites)
 ]);
+
+CashWalletState _setDefaultCommunity(
+    CashWalletState state, SetDefaultCommunity action) {
+  return state.copyWith(communityAddress: action.defaultCommunity);
+}
 
 CashWalletState _initWeb3Success(
     CashWalletState state, InitWeb3Success action) {
@@ -198,14 +206,26 @@ CashWalletState _transferSendRequested(
         ..add(action.transfer));
 }
 
-CashWalletState _getJobSuccess(CashWalletState state, GetJobSuccess action) {
+CashWalletState _transferJobSuccess(CashWalletState state, TransferJobSuccess action) {
   PendingTransfer transfer = state.pendingTransfers
       .firstWhere((transfer) => transfer.jobId == action.job.id);
   dynamic json = transfer.toJson();
-  json['txHash'] = action.job.txHash;
+  json['txHash'] = action.job.data["txHash"];
   PendingTransfer newTransfer = PendingTransfer.fromJson(json);
   return state.copyWith(
       pendingTransfers: List.from(state.pendingTransfers)
         ..add(newTransfer)
         ..remove(transfer));
+}
+
+CashWalletState _addSendToInvites(CashWalletState state, AddSendToInvites action) {
+  Map<String, num> sendToInvites = state.sendToInvites;
+  sendToInvites[action.jobId] = action.amount;
+  return state.copyWith(sendToInvites: sendToInvites);
+}
+
+CashWalletState _removeSendToInvites(CashWalletState state, RemoveSendToInvites action) {
+  Map<String, num> sendToInvites = state.sendToInvites;
+  sendToInvites.remove(action.jobId);
+  return state.copyWith(sendToInvites: sendToInvites);
 }

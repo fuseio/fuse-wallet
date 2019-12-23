@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/models/job.dart';
 import 'package:wallet_core/wallet_core.dart';
 import './token.dart';
 import './transfer.dart';
@@ -20,6 +21,7 @@ class CashWalletState {
   final BigInt tokenBalance;
   final List<Transfer> tokenTransfers;
   final List<PendingTransfer> pendingTransfers;
+  final Map<String, num> sendToInvites;
 
   CashWalletState({
     this.web3,
@@ -27,6 +29,7 @@ class CashWalletState {
     this.walletStatus,
     this.communityAddress,
     this.branchAddress,
+    this.sendToInvites,
     this.communityName,
     this.isCommunityLoading,
     this.isCommunityFetched,
@@ -44,7 +47,7 @@ class CashWalletState {
       web3: null,
       walletAddress: "",
       walletStatus: null,
-      communityAddress: Web3.getDefaultCommunity(),
+      communityAddress: null,
       branchAddress: "",
       communityName: "",
       isCommunityLoading: false,
@@ -55,7 +58,8 @@ class CashWalletState {
       token: null,
       tokenBalance: BigInt.from(0),
       tokenTransfers: new List<Transfer>(),
-      pendingTransfers: new List<PendingTransfer>());
+      pendingTransfers: new List<PendingTransfer>(),
+      sendToInvites: new Map<String, num>());
   }
 
   CashWalletState copyWith({
@@ -73,7 +77,8 @@ class CashWalletState {
     Token token,
     BigInt tokenBalance,
     List<Transfer> tokenTransfers,
-    List<PendingTransfer> pendingTransfers
+    List<PendingTransfer> pendingTransfers,
+    Map<String, num> sendToInvites
   }) {
     return CashWalletState (
       web3: web3 ?? this.web3,
@@ -90,7 +95,8 @@ class CashWalletState {
       token: token ?? this.token,
       tokenBalance: tokenBalance ?? this.tokenBalance,
       tokenTransfers: tokenTransfers ?? this.tokenTransfers,
-      pendingTransfers: pendingTransfers ?? this.pendingTransfers
+      pendingTransfers: pendingTransfers ?? this.pendingTransfers,
+      sendToInvites: sendToInvites ?? this.sendToInvites
     );
   }
 
@@ -120,6 +126,7 @@ class CashWalletState {
         token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
         tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
         tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer))),
-        pendingTransfers: new List<PendingTransfer>()
+        pendingTransfers: new List<PendingTransfer>(),
+        sendToInvites: new Map<String, num>()
       );
 }
