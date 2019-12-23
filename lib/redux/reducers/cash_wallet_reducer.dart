@@ -161,7 +161,7 @@ CashWalletState _logoutSuccess(
 
 CashWalletState _switchCommunityRequest(
     CashWalletState state, SwitchCommunityRequested action) {
-  return state.copyWith(isCommunityLoading: true);
+  return state.copyWith(isCommunityLoading: true, token: null, tokenTransfers: new List<Transfer>(), pendingTransfers: new List<PendingTransfer>(), tokenBalance: BigInt.from(0));
 }
 
 CashWalletState _branchCommunityUpdate(

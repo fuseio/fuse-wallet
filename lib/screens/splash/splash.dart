@@ -92,9 +92,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 if (viewModel.privateKey != '' &&
                     viewModel.jwtToken != '' &&
                     !viewModel.isLoggedOut) {
-                  store
-                      .dispatch(initWeb3Call(store.state.userState.privateKey));
-                  Navigator.popAndPushNamed(context, '/Cash');
+                      viewModel.initWeb3(viewModel.privateKey);
+                      Navigator.popUntil(context, ModalRoute.withName('/'));
+                      Navigator.popAndPushNamed(context, '/Cash');
                 }
               }, builder: (BuildContext context, Store<AppState> store) {
                 return Container(
@@ -151,6 +151,8 @@ class _SplashScreenState extends State<SplashScreen> {
                                             : "Create a new wallet",
                                         onPressed: () {
                                           if (viewModel.isLoggedOut) {
+                                            viewModel.initWeb3(viewModel.privateKey);
+                                            Navigator.popUntil(context, ModalRoute.withName('/'));
                                             Navigator.pushNamed(
                                                 context, '/Cash');
                                           } else {
