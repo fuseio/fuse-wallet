@@ -368,13 +368,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.3"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.4"
   intl:
     dependency: transitive
     description:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.8"
+    version: "0.16.0"
   io:
     dependency: transitive
     description:
@@ -522,6 +529,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.4.0"
   pin_input_text_field:
     dependency: "direct main"
     description:
@@ -828,6 +842,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.5"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.5.0"
   yaml:
     dependency: transitive
     description:
