@@ -82,8 +82,8 @@ class CashWalletState {
     BigInt tokenBalance,
     List<Transfer> tokenTransfers,
     List<PendingTransfer> pendingTransfers,
-    Map<String, num> sendToInvites
-    List<Business> businesses
+    Map<String, num> sendToInvites,
+    List<Business> businesses,
   }) {
     return CashWalletState (
       web3: web3 ?? this.web3,
