@@ -36,6 +36,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
         },
         builder: (_, viewModel) {
           return MainScaffold(
+            withPadding: true,
               title: "Sign up",
               children: <Widget>[
                 Padding(
