@@ -31,11 +31,21 @@ class CashHomeScreen extends StatefulWidget {
 
 
 void onChange(CashWalletViewModel viewModel) {
+  if (!viewModel.isListeningToBranch &&
+      !viewModel.isCommunityLoading) {
+      viewModel.listenToBranch();
+  }
+  if (!viewModel.isCommunityLoading &&
+      viewModel.branchAddress != null &&
+      viewModel.branchAddress != "") {
+    viewModel.branchCommunityUpdate();
+  }
   if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
     viewModel.createWallet(viewModel.accountAddress);
   }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&
+      viewModel.isListeningToBranch &&
       viewModel.walletAddress != '') {
     viewModel.switchCommunity(viewModel.communityAddress);
     loadContacts(viewModel);

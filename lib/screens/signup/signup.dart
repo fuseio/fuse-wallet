@@ -30,6 +30,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+        withPadding: true,
         title: "Sign up",
         children: <Widget>[
           Container(
@@ -83,113 +84,112 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ],
         footer: new StoreConnector<AppState, OnboardViewModel>(
-              converter: (Store<AppState> store) {
-            return OnboardViewModel.fromStore(store);
-          }, onWillChange: (viewModel) {
-            if (viewModel.loginRequestSuccess &&
-                ModalRoute.of(context).isCurrent) {
-              
-            }
-          }, builder: (_, viewModel) {
-            return Padding(
-              padding: EdgeInsets.only(top: 10, left: 30, right: 30),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Center(
-                      child: Container(
-                        width: 280,
-                        decoration: new BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: isvalidPhone
-                                      ? Colors.black.withOpacity(0.1)
-                                      : Colors.red,
-                                  width: 2.0)),
-                          /*borderRadius:
+            converter: (Store<AppState> store) {
+          return OnboardViewModel.fromStore(store);
+        }, onWillChange: (viewModel) {
+          if (viewModel.loginRequestSuccess &&
+              ModalRoute.of(context).isCurrent) {}
+        }, builder: (_, viewModel) {
+          return Padding(
+            padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      width: 280,
+                      decoration: new BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: isvalidPhone
+                                    ? Colors.black.withOpacity(0.1)
+                                    : Colors.red,
+                                width: 2.0)),
+                        /*borderRadius:
                           new BorderRadius.all(Radius.circular(30.0))*/
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              child: CountryCodePicker(
-                                //padding: EdgeInsets.only(top: 0, left: 0, right: 0),
-                                onChanged: (_countryCode) {
-                                  countryCode = _countryCode;
-                                },
-                                initialSelection: 'IL',
-                                favorite: [],
-                                showCountryOnly: false,
-                                showFlag: false,
-                                textStyle: const TextStyle(fontSize: 18),
-                                alignLeft: false,
-                              ),
-                              width: 50,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            child: CountryCodePicker(
+                              //padding: EdgeInsets.only(top: 0, left: 0, right: 0),
+                              onChanged: (_countryCode) {
+                                countryCode = _countryCode;
+                              },
+                              initialSelection: 'IL',
+                              favorite: [],
+                              showCountryOnly: false,
+                              showFlag: false,
+                              textStyle: const TextStyle(fontSize: 18),
+                              alignLeft: false,
                             ),
-                            Icon(Icons.arrow_drop_down),
-                            new Container(
-                              height: 35,
-                              width: 1,
-                              color: const Color(0xFFc1c1c1),
-                              margin: const EdgeInsets.only(
-                                  left: 10.0, right: 10.0),
+                            width: 50,
+                          ),
+                          Icon(Icons.arrow_drop_down),
+                          new Container(
+                            height: 35,
+                            width: 1,
+                            color: const Color(0xFFc1c1c1),
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              controller: phoneController,
+                              keyboardType: TextInputType.number,
+                              autofocus: false,
+                              style: const TextStyle(fontSize: 18),
+                              decoration: const InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 10),
+                                  hintText: 'Phone number',
+                                  border: InputBorder.none,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide.none),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide.none)),
                             ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: phoneController,
-                                keyboardType: TextInputType.number,
-                                autofocus: false,
-                                style: const TextStyle(fontSize: 18),
-                                decoration: const InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 20, horizontal: 10),
-                                    hintText: 'Phone number',
-                                    border: InputBorder.none,
-                                    focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide.none)),
-                              ),
-                            )
-                          ],
-                        ),
+                          )
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 40.0),
-                    Center(
-                      child: PrimaryButton(
-                        label: "NEXT",
-                        onPressed: () async {
-                          if (phoneController.text.trim().isEmpty) {
+                  ),
+                  const SizedBox(height: 40.0),
+                  Center(
+                    child: PrimaryButton(
+                      label: "NEXT",
+                      onPressed: () async {
+                        if (phoneController.text.trim().isEmpty) {
+                          setState(() {
+                            isvalidPhone = false;
+                          });
+                        } else {
+                          setState(() {
+                            isPreloading = true;
+                          });
+                          viewModel.signUp(countryCode.dialCode.toString(),
+                              phoneController.text, () {
+                            Navigator.pushNamed(context, '/Verify');
                             setState(() {
+                              isPreloading = false;
+                            });
+                          }, () {
+                            setState(() {
+                              isPreloading = false;
                               isvalidPhone = false;
                             });
-                          } else {
-                            setState(() { isPreloading = true; });
-                            viewModel.signUp(
-                                countryCode.dialCode.toString(),
-                                phoneController.text,
-                                () {
-                                  Navigator.pushNamed(context, '/Verify');
-                                  setState(() { isPreloading = false; });
-                                },
-                                () {
-                                  setState(() {
-                                    isPreloading = false;
-                                    isvalidPhone = false;
-                                  });
-                                });
-                          }
-                        },
-                        preload: isPreloading,
-                      ),
-                    )
-                  ],
-                ),
+                          });
+                        }
+                      },
+                      preload: isPreloading,
+                    ),
+                  )
+                ],
               ),
-            );
-          }));
+            ),
+          );
+        }));
   }
 }

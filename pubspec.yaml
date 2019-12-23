@@ -1,5 +1,5 @@
 name: fusecash
-version: 1.0.0+24
+version: 1.0.0+31
 description: A new Flutter project.
 environment: 
   sdk: '>=2.1.0 <3.0.0'
@@ -12,12 +12,12 @@ dependencies:
   redux_persist: ^0.8.2
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
-  wallet_core: ^0.0.1+40
+  wallet_core: ^0.0.1+41
   alphabet_list_scroll_view: ^1.0.5
   barcode_scan: ^1.0.0
   flutter_slidable: 0.5.4
   contacts_service: ^0.3.9
-  permission_handler: ^4.0.0
+  permission_handler: ^3.0.1
   virtual_keyboard: ^0.1.4
   qr_flutter: ^3.1.0
   logger_flutter: ^0.7.1
@@ -26,6 +26,10 @@ dependencies:
   pin_input_text_field: ^2.1.0
   flare_flutter: ^1.8.3
   decimal: ^0.3.5
+  flutter_branch_io_plugin: 
+    git: 
+      url: https://github.com/fuseio/flutter-branch-io.git
+      ref: optional_branch_bug_fix
   flutter: 
     sdk: flutter
 dev_dependencies: 

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 class MainScaffold extends StatelessWidget {
-  MainScaffold({this.title, this.children, this.sliverList, this.key, this.footer});
+  MainScaffold(
+      {this.title,
+      this.children,
+      this.sliverList,
+      this.key,
+      this.footer,
+      this.withPadding});
   final String title;
   final List<Widget> children;
   List<Widget> sliverList;
   final Widget footer;
+  final bool withPadding;
   final Key key;
 
   scrollView(context) {
@@ -39,14 +46,12 @@ class MainScaffold extends StatelessWidget {
         SliverList(
           delegate: SliverChildListDelegate(children),
         ),
-        
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
     if (sliverList == null) {
       sliverList = new List<Widget>();
     }
@@ -61,8 +66,11 @@ class MainScaffold extends StatelessWidget {
           Expanded(child: scrollView(context)),
           footer == null
               ? Container()
-              : Padding(
-                  padding: EdgeInsets.only(top: 0.0, bottom: 40), child: footer)
+              : withPadding
+                  ? Padding(
+                      padding: EdgeInsets.only(top: 0.0, bottom: 40),
+                      child: footer)
+                  : footer
         ],
       ),
     );

@@ -7,14 +7,16 @@ import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 import 'package:redux/redux.dart';
 
-class VerifyScreen extends StatefulWidget {
+class PincodeScreen extends StatefulWidget {
   @override
-  _VerifyScreenState createState() => _VerifyScreenState();
+  _PincodeScreenState createState() => _PincodeScreenState();
 }
 
-class _VerifyScreenState extends State<VerifyScreen> {
-  final verificationCodeController = TextEditingController(text: "");
-  bool isPreloading = false;
+class _PincodeScreenState extends State<PincodeScreen> {
+  final pincodeController = TextEditingController(text: "");
+  String lastPincode;
+  bool isRetype = false;
+  // bool isPreloading = false;
 
   @override
   void initState() {
@@ -28,25 +30,16 @@ class _VerifyScreenState extends State<VerifyScreen> {
         converter: (Store<AppState> store) {
           return OnboardViewModel.fromStore(store);
         },
-        onWillChange: (viewModel) {
-          if (viewModel.loginVerifySuccess) {
-            //Navigator.popUntil(context, ModalRoute.withName('/'));
-            //Navigator.popAndPushNamed(context, '/Cash');
-          }
-        },
         builder: (_, viewModel) {
           return MainScaffold(
-            withPadding: true,
-              title: "Sign up",
+              withPadding: true,
+              title: "Pincode",
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
                       left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
                   child: Text(
-                      "We just sent a message to \n" +
-                          "${viewModel.countryCode} ${viewModel.phoneNumber}" +
-                          "\n\n" +
-                          "Please enter 6-digit code from\n that message here",
+                      this.isRetype ? "Re-type your passcode" : "Create your passcode",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
@@ -69,33 +62,49 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           decoration: UnderlineDecoration(
                             color: Color(0xFFDDDDDD),
                             enteredColor: Color(0xFF575757),
+                            obscureStyle: ObscureStyle(isTextObscure: true, obscureText: '●')
                           ),
-                          controller: verificationCodeController,
+                          controller: pincodeController,
                           autoFocus: true,
                           textInputAction: TextInputAction.go,
-                          onSubmit: (pin) {},
+                          onChanged: (String pin) {
+                            if (pin.length == 6 && !this.isRetype) {
+                              pincodeController.text = '';
+                              setState(() {
+                                isRetype = true; 
+                                lastPincode = pin;
+                                });
+                            } else if (pin.length == 6 && this.isRetype) {
+                                if (pin == this.lastPincode) {
+                                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                                  Navigator.popAndPushNamed(context, '/Cash');
+                                }
+                            }
+                          }
                         )),
                   ),
                 ),
                 const SizedBox(height: 40.0),
                 Center(
                   child: PrimaryButton(
-                    label: "VERIFY",
+                    label: "SKIP",
                     onPressed: () async {
-                      setState(() { isPreloading = true; });
-                      viewModel.verify(
-                          viewModel.countryCode,
-                          viewModel.phoneNumber,
-                          verificationCodeController.text,
-                          viewModel.accountAddress,
-                          () {
-                            // Navigator.popUntil(context, ModalRoute.withName('/'));
-                            Navigator.popAndPushNamed(context, '/Pincode');
-                            setState(() { isPreloading = false; });
-                          },
-                          () {
-                            setState(() { isPreloading = false; });
-                          });
+                      Navigator.popUntil(context, ModalRoute.withName('/'));
+                      Navigator.popAndPushNamed(context, '/Cash');
+                      // setState(() { isPreloading = true; });
+                      // viewModel.verify(
+                      //     viewModel.countryCode,
+                      //     viewModel.phoneNumber,
+                      //     pincodeController.text,
+                      //     viewModel.accountAddress,
+                      //     () {
+                      //       Navigator.popUntil(context, ModalRoute.withName('/'));
+                      //       Navigator.popAndPushNamed(context, '/Cash');
+                      //       setState(() { isPreloading = false; });
+                      //     },
+                      //     () {
+                      //       setState(() { isPreloading = false; });
+                      //     });
                     },
                   ),
                 ),

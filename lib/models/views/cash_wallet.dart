@@ -1,3 +1,4 @@
+import 'package:fusecash/models/business.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -11,10 +12,12 @@ class CashWalletViewModel {
   final String accountAddress;
   final String walletAddress;
   final String communityAddress;
+  final String branchAddress;
   final bool isCommunityLoading;
   final bool isCommunityFetched;
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
+  final bool isListeningToBranch;
   final String walletStatus;
   final String fullName;
   final BigInt tokenBalance;
@@ -31,16 +34,22 @@ class CashWalletViewModel {
   final Function(String) switchCommunity;
   final Function() startBalanceFetching;
   final Function() startTransfersFetching;
+  final Function() listenToBranch;
   final Function(List<Contact>) syncContacts;
+  final Function() branchCommunityUpdate;
+  final List<Business> businesses;
+  final Function() loadBusinesses;
 
   CashWalletViewModel({
     this.accountAddress,
     this.walletAddress,
     this.walletStatus,
     this.communityAddress,
+    this.branchAddress,
     this.isCommunityLoading,
     this.isCommunityFetched,
     this.isBalanceFetchingStarted,
+    this.isListeningToBranch,
     this.isTransfersFetchingStarted,
     this.fullName,
     this.tokenBalance,
@@ -57,7 +66,11 @@ class CashWalletViewModel {
     this.switchCommunity,
     this.startBalanceFetching,
     this.startTransfersFetching,
-    this.syncContacts
+    this.listenToBranch,
+    this.syncContacts,
+    this.branchCommunityUpdate,
+    this.businesses,
+    this.loadBusinesses,
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -66,10 +79,12 @@ class CashWalletViewModel {
       walletAddress: store.state.cashWalletState.walletAddress,
       walletStatus: store.state.cashWalletState.walletStatus,
       communityAddress: store.state.cashWalletState.communityAddress,
+      branchAddress: store.state.cashWalletState.branchAddress,
       isCommunityLoading: store.state.cashWalletState.isCommunityLoading,
       isCommunityFetched: store.state.cashWalletState.isCommunityFetched,
       isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
       isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted,
+      isListeningToBranch: store.state.cashWalletState.isListeningToBranch,
       fullName: store.state.userState.fullName,
       tokenBalance: store.state.cashWalletState.tokenBalance,
       token: store.state.cashWalletState.token,
@@ -78,6 +93,7 @@ class CashWalletViewModel {
       contacts: store.state.userState.contacts,
       reverseContacts: store.state.userState.reverseContacts,
       countryCode: store.state.userState.countryCode,
+      businesses: store.state.cashWalletState.businesses,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
       },
@@ -97,8 +113,17 @@ class CashWalletViewModel {
       startTransfersFetching: () {
         store.dispatch(startTransfersFetchingCall());
       },
+      listenToBranch: () {
+        store.dispatch(listenToBranchCall());
+      },
       syncContacts: (List<Contact> contacts) {
         store.dispatch(syncContactsCall(contacts));
+      },
+      branchCommunityUpdate: () {
+        store.dispatch(BranchCommunityUpdate());
+      },
+      loadBusinesses: () {
+        store.dispatch(getBusinessListCall());
       }
     );
   }

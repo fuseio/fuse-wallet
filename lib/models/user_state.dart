@@ -2,11 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';  
+import 'package:logger/logger.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
+
 
 @immutable
 class UserState {
   final List<String> mnemonic;
   final String privateKey;
+  final String pincode;
   final String accountAddress;
   final String countryCode;
   final String phoneNumber;
@@ -18,10 +25,12 @@ class UserState {
   final String email;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
+  final bool isLoggedOut;
 
   UserState({
     this.mnemonic,
     this.privateKey,
+    this.pincode,
     this.accountAddress,
     this.countryCode,
     this.phoneNumber,
@@ -32,13 +41,15 @@ class UserState {
     this.fullName,
     this.email,
     this.loginRequestSuccess,
-    this.loginVerifySuccess
+    this.loginVerifySuccess,
+    this.isLoggedOut
   });
 
   factory UserState.initial() {
     return new UserState(
       mnemonic: [],
       privateKey: "",
+      pincode: null,
       accountAddress: "",
       countryCode: "",
       phoneNumber: "",
@@ -49,12 +60,15 @@ class UserState {
       fullName: "Anom",
       email: "",
       loginRequestSuccess: false,
-      loginVerifySuccess: false);
+      loginVerifySuccess: false,
+      isLoggedOut: false
+      );
   }
 
   UserState copyWith({
     List<String> mnemonic,
     String privateKey,
+    String pincode,
     String accountAddress,
     String countryCode,
     String phoneNumber,
@@ -65,11 +79,13 @@ class UserState {
     String fullName,
     String email,
     bool loginRequestSuccess,
-    bool loginVerifySuccess
+    bool loginVerifySuccess,
+    bool isLoggedOut
   }) {
     return UserState (
       mnemonic: mnemonic ?? this.mnemonic,
       privateKey: privateKey ?? this.privateKey,
+      pincode: pincode ?? this.pincode,
       accountAddress: accountAddress ?? this.accountAddress,
       countryCode: countryCode ?? this.countryCode,
       phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -80,13 +96,15 @@ class UserState {
       fullName: fullName ?? this.fullName,
       email: email ?? this.email,
       loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
-      loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess
+      loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
+      isLoggedOut: isLoggedOut ?? this.isLoggedOut
     );
   }
 
     dynamic toJson() => {
       'mnemonic': mnemonic,
       'privateKey': privateKey,
+      'pincode': pincode,
       'accountAddress': accountAddress,
       'countryCode': countryCode,
       'phoneNumber': phoneNumber,
@@ -94,13 +112,22 @@ class UserState {
       'syncedContacts': jsonEncode(syncedContacts),
       'jwtToken': jwtToken,
       'fullName': fullName,
-      'email': email
+      'email': email,
+      'isLoggedOut': isLoggedOut
     };
 
-    static UserState fromJson(dynamic json) =>
-      UserState(
+    static UserState fromJson(dynamic json) {
+      logger.d('fromJson:');
+      logger.d('mnemonic: ${json['mnemonic']}');
+      logger.d('privateKey: ${json['privateKey']}');
+      logger.d('accountAddress: ${json['accountAddress']}');
+      logger.d('jwtToken: ${json['jwtToken']}');
+      logger.d('end fromJson');
+
+      return UserState(
         mnemonic: List<String>.from(json['mnemonic']),
         privateKey: json['privateKey'],
+        pincode: json['pincode'],
         accountAddress: json['accountAddress'],
         countryCode: json['countryCode'],
         phoneNumber: json['phoneNumber'],
@@ -112,5 +139,7 @@ class UserState {
         email: json['email'],
         loginRequestSuccess: false,
         loginVerifySuccess: false,
+        isLoggedOut: json['isLoggedOut'] == null ? false : json['isLoggedOut']
       );
+    }
 }

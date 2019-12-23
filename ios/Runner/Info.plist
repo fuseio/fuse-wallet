@@ -29,7 +29,7 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSContactsUsageDescription</key>
-	<string>We use contracts to allow users to send tokens to their contracts</string>
+	<string>This app requires contacts access to function properly.</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Not in use right now</string>
 	<key>NSAppleMusicUsageDescription</key>
@@ -53,7 +53,20 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSContactsUsageDescription</key>  
-	<string>This app requires contacts access to function properly.</string>  
+	<key>branch_app_domain</key>
+	<string>fuseio.app.link</string>
+	<key>branch_key</key>
+	<string>key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fuse</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
