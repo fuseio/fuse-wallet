@@ -14,33 +14,38 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:decimal/decimal.dart';
 import 'package:logger/logger.dart';
-import 'package:path_provider/path_provider.dart';
+// import 'package:path_provider/path_provider.dart';
 import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 
-class DualOutput extends LogOutput {
-  File file;
-  DualOutput() {
-    file = null;
-  }
 
-  Future<File> getFile() async {
-    final directory = await getApplicationDocumentsDirectory();
-    return File(directory.path + "/logs.txt");
-  }
+// class DualOutput extends LogOutput {
 
-  @override
-  void output(OutputEvent event) async {
-    if (file == null) {
-      file = await getFile();
-    }
-    for (var line in event.lines) {
-      print(line);
-//      await file.writeAsString(line + '\n', mode: FileMode.append);
-    }
-  }
-}
+//   File file;
+//   DualOutput() {
+//     file = null;
+//   }
 
-var logger = Logger(printer: PrettyPrinter(), output: DualOutput());
+//   Future<File> getFile() async {
+//     final directory = await getApplicationDocumentsDirectory();
+//     return File(directory.path+"/logs.txt");
+//   }
+
+//   @override
+//   void output(OutputEvent event) async {
+//     if (file == null) {
+//       file = await getFile();
+//     }
+//     for (var line in event.lines) {
+//       print(line);
+// //      await file.writeAsString(line + '\n', mode: FileMode.append);
+//     }
+//   }
+// }
+
+var logger = Logger(
+  printer: PrettyPrinter()
+  // output: DualOutput()
+);
 
 class InitWeb3Success {
   final Web3 web3;
@@ -189,7 +194,7 @@ ThunkAction listenToBranchCall() {
 
     if (Platform.isAndroid) {
       FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-        print("ONSTART");
+        logger.d("ONSTART");
         FlutterBranchIoPlugin.setupBranchIO();
       });
     }
@@ -201,6 +206,7 @@ ThunkAction listenToBranchCall() {
 ThunkAction initWeb3Call(String privateKey) {
   return (Store store) async {
     try {
+      logger.d('initWeb3. privateKey: $privateKey');
       Web3 web3 = new Web3(approvalCallback);
       web3.setCredentials(privateKey);
       store.dispatch(new InitWeb3Success(web3));
@@ -255,6 +261,8 @@ ThunkAction startTransfersFetchingCall() {
 ThunkAction createAccountWalletCall(String accountAddress) {
   return (Store store) async {
     try {
+      logger.d('createAccountWalletCall');
+      logger.d('accountAddress: $accountAddress');
       store.dispatch(new CreateAccountWalletRequest(accountAddress));
       await api.createWallet();
       store.dispatch(new CreateAccountWalletSuccess(accountAddress));
@@ -290,8 +298,8 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      logger.d(
-          'fetching token balance of $tokenAddress for $walletAddress wallet');
+      // logger.d(
+      //     'fetching token balance of $tokenAddress for $walletAddress wallet');
       BigInt tokenBalance =
           await graph.getTokenBalance(walletAddress, tokenAddress);
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
@@ -457,8 +465,8 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      logger.d(
-          'fetching token transfers of $tokenAddress for $walletAddress wallet');
+      // logger.d(
+      //     'fetching token transfers of $tokenAddress for $walletAddress wallet');
       Map<String, dynamic> response =
           await graph.getTransfers(walletAddress, tokenAddress);
       List<Transfer> transfers = List<Transfer>.from(
@@ -485,8 +493,7 @@ ThunkAction sendTokenToContactCall(
         return;
       }
       String walletAddress = wallet["walletAddress"];
-      logger.d(
-          'fetched wallet address $walletAddress for phone $contactPhoneNumber');
+      logger.d('fetched walletAddress address $walletAddress for phone $contactPhoneNumber');
       if (walletAddress == null || walletAddress.isEmpty) {
         store.dispatch(new ErrorAction('Could not find wallet for contact'));
       } else {
