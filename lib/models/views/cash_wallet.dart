@@ -1,4 +1,4 @@
-import 'package:fusecash/models/businesses.dart';
+import 'package:fusecash/models/business.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';

@@ -32,6 +32,7 @@ class _PincodeScreenState extends State<PincodeScreen> {
         },
         builder: (_, viewModel) {
           return MainScaffold(
+              withPadding: true,
               title: "Pincode",
               children: <Widget>[
                 Padding(

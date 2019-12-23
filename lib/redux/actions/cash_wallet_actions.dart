@@ -1,4 +1,4 @@
-import 'package:fusecash/models/businesses.dart';
+import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
@@ -442,7 +442,7 @@ ThunkAction getJoinBonusCall() {
 ThunkAction getBusinessListCall() {
   return (Store store) async {
     try {
-      var response = await api.getBusinessList('0x1F010Df15EC18a74A29A3Be3cF84463328540e36');
+      var response = await api.getBusinessList(store.state.cashWalletState.communityAddress);
       List<Business> businessList = new List();
       response["data"].forEach((f) => businessList.add(new Business.fromJson(f)));
       store.dispatch(new BusinessesLoadedAction(businessList));

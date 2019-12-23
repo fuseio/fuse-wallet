@@ -97,7 +97,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                           decoration: BoxDecoration(),
                                           child: ClipOval(
                                               child: Image.network(
-                                            viewModel.businesses[index].image,
+                                            viewModel.businesses[index].metadata.image,
                                             fit: BoxFit.cover,
                                             width: 50.0,
                                             height: 50.0,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/businesses.dart';
+import 'package:fusecash/models/business.dart';
 import 'dart:core';
 
 import 'package:fusecash/screens/send/send_amount.dart';
@@ -45,7 +45,7 @@ class _BusinessPageState extends State<BusinessPage> {
                   Stack(
                     children: <Widget>[
                       Image.network(
-                        businessArgs.business.coverPhoto,
+                        businessArgs.business.metadata.coverPhoto,
                         fit: BoxFit.cover,
                         //width: 50.0,
                         //height: 50.0,
@@ -68,7 +68,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold)),
                         ),
-                        Text(businessArgs.business.address ?? '',
+                        Text(businessArgs.business.metadata.address ?? '',
                             style: TextStyle(
                                 //color: const Color(0xFFFFFFFF),
                                 fontSize: 14,
@@ -78,7 +78,7 @@ class _BusinessPageState extends State<BusinessPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.all(20),
-                    child: Text(businessArgs.business.description ?? '',
+                    child: Text(businessArgs.business.metadata.description ?? '',
                         style: TextStyle(
                             color: const Color(0xFF666666),
                             height: 1.3,
