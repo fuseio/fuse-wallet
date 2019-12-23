@@ -1,19 +1,28 @@
 
 class Job {
+  static const String RELAY = "relay";
+  static const String CREATE_WALLET = "createWallet";
+
+  static const String COMMUNITY_MANAGER = "CommunityManager";
+  static const String TRANSFER_MANAGER = "TransferManager";
+
   final String id;
   final String name;
-  final String txHash;
+  final dynamic data;
+  final String lastFinishedAt;
 
   Job({
     this.id,
     this.name,
-    this.txHash,
+    this.data,
+    this.lastFinishedAt
   });
 
   factory Job.fromJson(Map<String, dynamic> json) => Job(
     id: json['_id'],
     name: json['name'],
-    txHash: json['data']['txHash'] == null ? null : json['data']['txHash']
+    data: json['data'],
+    lastFinishedAt: json['lastFinishedAt'],
   );
 }
 

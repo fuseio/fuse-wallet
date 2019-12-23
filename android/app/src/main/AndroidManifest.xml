@@ -41,7 +41,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="fuseio.app.link" />
+                <data android:scheme="https" android:host="app.fuse.io" />
             </intent-filter>
+
 
         </activity>
         <!-- Branch init -->

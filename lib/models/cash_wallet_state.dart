@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/models/job.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:wallet_core/wallet_core.dart';
 import './token.dart';
@@ -22,6 +23,7 @@ class CashWalletState {
   final BigInt tokenBalance;
   final List<Transfer> tokenTransfers;
   final List<PendingTransfer> pendingTransfers;
+  final Map<String, num> sendToInvites;
 
   CashWalletState({
     this.web3,
@@ -29,6 +31,7 @@ class CashWalletState {
     this.walletStatus,
     this.communityAddress,
     this.branchAddress,
+    this.sendToInvites,
     this.communityName,
     this.isCommunityLoading,
     this.isCommunityFetched,
@@ -47,7 +50,7 @@ class CashWalletState {
       web3: null,
       walletAddress: "",
       walletStatus: null,
-      communityAddress: Web3.getDefaultCommunity(),
+      communityAddress: null,
       branchAddress: "",
       communityName: "",
       isCommunityLoading: false,
@@ -59,6 +62,7 @@ class CashWalletState {
       tokenBalance: BigInt.from(0),
       tokenTransfers: new List<Transfer>(),
       pendingTransfers: new List<PendingTransfer>(),
+      sendToInvites: new Map<String, num>(),
       businesses: new List<Business>());
   }
 
@@ -78,6 +82,7 @@ class CashWalletState {
     BigInt tokenBalance,
     List<Transfer> tokenTransfers,
     List<PendingTransfer> pendingTransfers,
+    Map<String, num> sendToInvites
     List<Business> businesses
   }) {
     return CashWalletState (
@@ -96,6 +101,7 @@ class CashWalletState {
       tokenBalance: tokenBalance ?? this.tokenBalance,
       tokenTransfers: tokenTransfers ?? this.tokenTransfers,
       pendingTransfers: pendingTransfers ?? this.pendingTransfers,
+      sendToInvites: sendToInvites ?? this.sendToInvites,
       businesses: businesses ?? this.businesses
     );
   }
@@ -126,6 +132,7 @@ class CashWalletState {
         token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
         tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
         tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer))),
-        pendingTransfers: new List<PendingTransfer>()
+        pendingTransfers: new List<PendingTransfer>(),
+        sendToInvites: new Map<String, num>()
       );
 }
