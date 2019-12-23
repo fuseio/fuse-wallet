@@ -187,11 +187,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-// import 'package:flutter/material.dart';
-// import 'package:redux/redux.dart';
-// import 'package:fusecash/models/app_state.dart';
-// import 'package:fusecash/redux/actions/user_actions.dart';
-
 class SplashViewModel {
   final String privateKey;
   final String jwtToken;

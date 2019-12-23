@@ -21,8 +21,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _alreadyJoinedCommunity),
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(
       _switchCommunitySuccess),
-  TypedReducer<CashWalletState,   SwitchCommunityFailed>(
-      _switchCommunityFailed),
+  TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
   TypedReducer<CashWalletState, GetJoinBonusSuccess>(_getJoinBonusSuccess),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
@@ -32,8 +31,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SwitchCommunityRequested>(
       _switchCommunityRequest),
   TypedReducer<CashWalletState, BranchListening>(_branchListening),
-  TypedReducer<CashWalletState, BranchCommunityUpdate>(
-      _branchCommunityUpdate),
+  TypedReducer<CashWalletState, BranchCommunityUpdate>(_branchCommunityUpdate),
   TypedReducer<CashWalletState, BranchCommunityToUpdate>(
       _branchCommunityToUpdate),
   TypedReducer<CashWalletState, StartBalanceFetchingSuccess>(
@@ -47,6 +45,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, RemoveSendToInvites>(_removeSendToInvites),
   TypedReducer<CashWalletState, GetJobSuccess>(_getJobSuccess),
   TypedReducer<CashWalletState, BusinessesLoadedAction>(_businessesLoadedAction),
+  TypedReducer<CashWalletState, CreateNewWalletSuccess>(
+      _createNewWalletSuccess),
 ]);
 
 CashWalletState _setDefaultCommunity(
@@ -117,7 +117,8 @@ CashWalletState _switchCommunitySuccess(
       isCommunityFetched: true);
 }
 
-CashWalletState _switchCommunityFailed(CashWalletState state, SwitchCommunityFailed action) {
+CashWalletState _switchCommunityFailed(
+    CashWalletState state, SwitchCommunityFailed action) {
   return state.copyWith(isCommunityLoading: false);
 }
 
@@ -133,7 +134,7 @@ CashWalletState _getBusinessListSuccess(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-//  print('Found ${action.tokenTransfers.length} token transfers');
+  //  print('Found ${action.tokenTransfers.length} token transfers');
   if (state.walletAddress != '') {
     List<PendingTransfer> nPendingTransfers =
         List<PendingTransfer>.from(state.pendingTransfers);
@@ -155,7 +156,7 @@ CashWalletState _getTokenTransfersListSuccess(
 
 CashWalletState _logoutSuccess(
     CashWalletState state, LogoutRequestSuccess action) {
-      return state;
+  return state;
   // return CashWalletState.initial();
 }
 
@@ -182,7 +183,6 @@ CashWalletState _branchListening(
     CashWalletState state, BranchListening action) {
   return state.copyWith(isListeningToBranch: true);
 }
-
 
 CashWalletState _startBalanceFetchingSuccess(
     CashWalletState state, StartBalanceFetchingSuccess action) {
@@ -236,3 +236,7 @@ CashWalletState _removeSendToInvites(CashWalletState state, RemoveSendToInvites 
 CashWalletState _businessesLoadedAction(CashWalletState state, BusinessesLoadedAction action) {
   return state.copyWith(businesses: action.businessList);
 }
+CashWalletState _createNewWalletSuccess(
+    CashWalletState state, CreateNewWalletSuccess action) {
+      return CashWalletState.initial();
+    }
