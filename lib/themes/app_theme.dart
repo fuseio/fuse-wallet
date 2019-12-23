@@ -14,6 +14,7 @@ ThemeData getTheme() {
     toggleableActiveColor: const Color(0xFF05283e),
     primaryColorLight: const Color(0xFFFEFD86),
     primaryColorDark: const Color(0xFFB1FDC0),
+    splashColor: Colors.white,
     textTheme: TextTheme(
         body1: new TextStyle(color: const Color(0xFF333333)),
         button: new TextStyle(color: const Color(0xFF333333))
