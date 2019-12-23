@@ -80,6 +80,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 Center(
                   child: PrimaryButton(
                     label: "VERIFY",
+                    preload: isPreloading,
                     onPressed: () async {
                       setState(() { isPreloading = true; });
                       viewModel.verify(

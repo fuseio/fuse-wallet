@@ -21,7 +21,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   void initState() {
     super.initState();
+  }
 
+  Widget getListTile(label, onTap) {
+    return ListTile(
+      title: Text(
+        label,
+        style: TextStyle(fontSize: 18),
+      ),
+      onTap: onTap,
+    );
   }
 
   @override
@@ -37,76 +46,42 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // Padding(
-                  //   padding: EdgeInsets.only(top: 10, bottom: 15),
-                  //   child:
-                  //       Image.asset('images/avatar.png', width: 70),
-                  // ),
-                  // Text(
-                  //   "Hello",
-                  //   style: TextStyle(
-                  //       color: const Color(0xFF787878), fontSize: 16),
-                  // )
+                   //Padding(
+                   //  padding: EdgeInsets.only(top: 10, bottom: 15),
+                   //  child:
+                   //      Image.asset('assets/images/anom.png', width: 70),
+                   //),
+                   //Text(
+                   //  "Hello",
+                   //  style: TextStyle(
+                   //      color: const Color(0xFF787878), fontSize: 50),
+                   //)
                 ],
               ),
               decoration: BoxDecoration(
                 color: Color(0xFFF5F5F5),
+                border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))
               ),
             ),
-            ListTile(
-              title: Text(
-                'Switch community',
-                style: TextStyle(fontSize: 16),
-              ),
-              onTap: () {
-                Navigator.pushNamed(context, '/Switch');
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text(
-                'Protect your wallet',
-                style: TextStyle(fontSize: 16),
-              ),
-              onTap: () {
-                
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text(
-                'Back up wallet',
-                style: TextStyle(fontSize: 16),
-              ),
-              onTap: () {
-                
-              },
-            ),
-            // Divider(),
-            // ListTile(
-            //   title: Text(
-            //     'Fuse studio',
-            //     style: TextStyle(fontSize: 16),
-            //   ),
-            //   onTap: () {
-                
-            //   },
-            // ),
-            Divider(),
-            ListTile(
-              title: Text(
-                'Log out',
-                style: TextStyle(fontSize: 16),
-              ),
-              onTap: () async {
-                viewModel.logout();
-                Navigator.popUntil(context,  ModalRoute.withName('/'));
+            getListTile("Switch community", () {
+              Navigator.pushNamed(context, '/Switch');
+            }),
+            //Divider(),
+            getListTile("Protect your wallet", () {
+              
+            }),
+            //Divider(),
+            getListTile("Back up wallet", () {
+              
+            }),
+            //Divider(),
+            getListTile("Log out", () {
+              viewModel.logout();
+                Navigator.popUntil(context, ModalRoute.withName('/'));
                 Navigator.pushNamed(context, '/');
-              },
-            ),
+            }),
           ];
 
-        
           return Builder(
               builder: (context) => ListView(
                     padding: EdgeInsets.zero,
@@ -121,16 +96,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 class DrawerViewModel {
   final Function() logout;
 
-
-  DrawerViewModel({
-    this.logout
-  });
+  DrawerViewModel({this.logout});
 
   static DrawerViewModel fromStore(Store<AppState> store) {
-    return DrawerViewModel(
-      logout: () {
-        store.dispatch(logoutCall());
-      }
-    );
+    return DrawerViewModel(logout: () {
+      store.dispatch(logoutCall());
+    });
   }
 }

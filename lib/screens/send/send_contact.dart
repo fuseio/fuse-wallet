@@ -20,6 +20,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   List<String> strList = [];
   List<Widget> normalList = [];
   TextEditingController searchController = TextEditingController();
+  bool isPreloading = false;
 
   loadContacts() async {
     Map<PermissionGroup, PermissionStatus> permissions =
@@ -28,7 +29,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
 
     Iterable<Contact> contacts =
         await ContactsService.getContacts(withThumbnails: true);
-    contacts = contacts.where((i) => i.displayName != null).toList();
+    contacts = contacts
+        .where((i) =>
+            i.displayName != null && i.displayName != "" && i.phones.length > 0)
+        .toList();
     for (var contact in contacts) {
       userList.add(contact);
     }
@@ -37,6 +41,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     filterList();
     searchController.addListener(() {
       filterList();
+    });
+
+    setState(() {
+      isPreloading = false;
     });
   }
 
@@ -84,7 +92,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     ? MemoryImage(user.avatar)
                     : new AssetImage('assets/images/anom.png'),
               ),
-              title: Text(user.displayName, style: TextStyle(fontSize: 18),),
+              title: Text(
+                user.displayName,
+                style: TextStyle(fontSize: 18),
+              ),
               //subtitle: Text("user.company" ?? ""),
               onTap: () {
                 Navigator.pushNamed(context, '/SendAmount',
@@ -99,11 +110,21 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       strList.add(user.displayName);
     });
 
+<<<<<<< HEAD
     setState(() {
       strList;
       normalList;
       strList;
     });
+=======
+    if (this.mounted) {
+      setState(() {
+        strList;
+        normalList;
+        strList;
+      });
+    }
+>>>>>>> 1a5898e... cosmetics
   }
 
   List<Widget> _emptyList() {
@@ -127,16 +148,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   }
 
   listHeader(title) {
-    /*return new SliverAppBar(
-            title: new Text("Title"),
-            automaticallyImplyLeading: false,
-            //snap: false,
-            floating: false,
-            pinned: true,
-            //stretch: true,
-            key: new Key("value"),
-        );*/
-
     return SliverPersistentHeader(
       pinned: true,
       floating: true,
@@ -169,7 +180,12 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  List<Widget> _buildList2() {
+  List<Widget> _buildPageList() {
+    List<Widget> listItems = List();
+
+    if (isPreloading) {
+      return listItems;
+    }
     List<String> abList = new List<String>();
 
     for (int i = 0; i < strList.length; i++) {
@@ -178,22 +194,12 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       }
     }
 
-    List<Widget> listItems = List();
-
     listItems.add(searchPanel());
 
     for (int index = 0; index < abList.length; index++) {
       listItems.add(listHeader(abList[index]));
       listItems.add(listBody(abList[index]));
     }
-
-/*
-    for (int index = 0; index < normalList.length; index++) {
-      listItems.add(SliverList(
-        delegate: SliverChildListDelegate(_buildList()),
-      ));
-    }
-*/
 
     return listItems;
   }
@@ -206,7 +212,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         maxHeight: 100.0,
         child: Container(
           color: Colors.white,
-          padding: const EdgeInsets.only(top: 20.0,left: 20.0,right: 20.0),
+          padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -265,12 +271,29 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+<<<<<<< HEAD
         title: "Send to", children: _emptyList(), sliverList: _buildList2()
 
         /*<Widget>[
         
       ],*/
         );
+=======
+      withPadding: true,
+      title: "Send to",
+      sliverList: _buildPageList(),
+      children: <Widget>[
+        isPreloading
+            ? Padding(
+                padding: EdgeInsets.only(top: 50),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Container()
+      ],
+    );
+>>>>>>> 1a5898e... cosmetics
   }
 }
 
