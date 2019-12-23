@@ -112,7 +112,8 @@ class UserState {
       'syncedContacts': jsonEncode(syncedContacts),
       'jwtToken': jwtToken,
       'fullName': fullName,
-      'email': email
+      'email': email,
+      'isLoggedOut': isLoggedOut
     };
 
     static UserState fromJson(dynamic json) {
@@ -138,7 +139,7 @@ class UserState {
         email: json['email'],
         loginRequestSuccess: false,
         loginVerifySuccess: false,
-        isLoggedOut: false
+        isLoggedOut: json['isLoggedOut'] == null ? false : json['isLoggedOut']
       );
     }
 }
