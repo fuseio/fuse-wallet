@@ -74,7 +74,8 @@ ThunkAction restoreWalletCall(List<String> _mnemonic) {
   };
 }
 
-ThunkAction createNewWalletCall() {
+ThunkAction createNewWalletCall(
+    VoidCallback successCallback) {
   return (Store store) async {
     try {
       logger.d('create new wallet');
@@ -89,6 +90,7 @@ ThunkAction createNewWalletCall() {
       store.dispatch(new CreateNewWalletSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
+      successCallback();
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not create new wallet'));
