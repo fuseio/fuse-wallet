@@ -74,7 +74,7 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
           return CashWalletViewModel.fromStore(store);
         },
         onInitialBuild: (viewModel) {
-          onChange(viewModel);
+          //onChange(viewModel);
         },
         onWillChange: (viewModel) {
           //onChange(viewModel);
