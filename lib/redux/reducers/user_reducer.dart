@@ -9,7 +9,8 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess),
   TypedReducer<UserState, LogoutRequestSuccess>(_logoutSuccess),
   TypedReducer<UserState, SyncContactsProgress>(_syncContactsProgress),
-  TypedReducer<UserState, SaveContacts>(_saveContacts)
+  TypedReducer<UserState, SaveContacts>(_saveContacts),
+  TypedReducer<UserState, SetPincodeSuccess>(_setPincode)
 ]);
 
 UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) {
@@ -20,6 +21,7 @@ UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) {
 UserState _createNewWalletSuccess(
     UserState state, CreateNewWalletSuccess action) {
   return state.copyWith(
+      isLoggedOut: false,
       mnemonic: action.mnemonic,
       privateKey: action.privateKey,
       accountAddress: action.accountAddress);
@@ -39,18 +41,31 @@ UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
 }
 
 UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
-  return UserState.initial();
+  return state.copyWith(isLoggedOut: true);
+  // return UserState.initial();
 }
 
+// UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
+//   return UserState.initial();
+// }
+
 UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {
-  Map<String, String> reverseContacts = Map<String, String>.from(state.reverseContacts);
-  Iterable<MapEntry<String, String>> entries = action.newContacts.map((entry) => new MapEntry(entry['walletAddress'].toString().toLowerCase(), entry['phoneNumber']));
+  Map<String, String> reverseContacts =
+      Map<String, String>.from(state.reverseContacts);
+  Iterable<MapEntry<String, String>> entries = action.newContacts.map((entry) =>
+      new MapEntry(entry['walletAddress'].toString().toLowerCase(),
+          entry['phoneNumber']));
   reverseContacts.addEntries(entries);
   List<String> syncedContacts = List<String>.from(state.syncedContacts);
   syncedContacts.addAll(action.contacts);
-  return state.copyWith(reverseContacts: reverseContacts, syncedContacts: syncedContacts);
+  return state.copyWith(
+      reverseContacts: reverseContacts, syncedContacts: syncedContacts);
 }
 
 UserState _saveContacts(UserState state, SaveContacts action) {
   return state.copyWith(contacts: action.contacts);
+}
+
+UserState _setPincode(UserState state, SetPincodeSuccess action) {
+  return state.copyWith(pincode: action.pincode);
 }

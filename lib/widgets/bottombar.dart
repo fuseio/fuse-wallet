@@ -23,7 +23,7 @@ Widget bottomBar(context) {
             //openPage(context, new SendAmountPage());
           }),
           bottomBarItem("buy.png", "Buy", () {
-            //openPage(context, new BuyPage());
+            Navigator.pushNamed(context, '/Buy');
           }),
           bottomBarItem("arrow-up.png", "Send", () {
             Navigator.pushNamed(context, '/SendContact');

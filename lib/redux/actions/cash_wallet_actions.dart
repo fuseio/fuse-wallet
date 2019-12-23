@@ -1,3 +1,4 @@
+import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
@@ -16,9 +17,7 @@ import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 
-
 class DualOutput extends LogOutput {
-
   File file;
   DualOutput() {
     file = null;
@@ -26,7 +25,7 @@ class DualOutput extends LogOutput {
 
   Future<File> getFile() async {
     final directory = await getApplicationDocumentsDirectory();
-    return File(directory.path+"/logs.txt");
+    return File(directory.path + "/logs.txt");
   }
 
   @override
@@ -41,10 +40,7 @@ class DualOutput extends LogOutput {
   }
 }
 
-var logger = Logger(
-  printer: PrettyPrinter(),
-  output: DualOutput()
-);
+var logger = Logger(printer: PrettyPrinter(), output: DualOutput());
 
 class SetDefaultCommunity {
   String defaultCommunity;
@@ -179,6 +175,12 @@ class RemoveSendToInvites {
 
 class BranchListening {}
 
+class BusinessesLoadedAction {
+  final List<Business> businessList;
+
+  BusinessesLoadedAction(this.businessList);
+}
+
 Future<bool> approvalCallback() async {
   return true;
 }
@@ -199,12 +201,10 @@ ThunkAction listenToBranchCall() {
         logger.wtf("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
       }
-    },
-    onDone: () {
+    }, onDone: () {
       logger.wtf("ondone");
       store.dispatch(listenToBranchCall());
-    },
-    onError: (error) {
+    }, onError: (error) {
       logger.wtf("error, $error");
       store.dispatch(listenToBranchCall());
     });
@@ -245,7 +245,8 @@ ThunkAction startBalanceFetchingCall() {
     new Timer.periodic(Duration(seconds: 3), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
         t.cancel();
-        return;      }
+        return;
+      }
       String tokenAddress = store.state.cashWalletState.token?.address;
 
       if (tokenAddress != null) {
@@ -392,9 +393,9 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
       Token token = store.state.cashWalletState.token;
       String tokenAddress = token.address;
 
-    Decimal tokensAmountDecimal = Decimal.parse(tokensAmount.toString());
-    Decimal decimals = Decimal.parse(pow(10, token.decimals).toString());
-    BigInt value = BigInt.from((tokensAmountDecimal * decimals).toInt());
+      Decimal tokensAmountDecimal = Decimal.parse(tokensAmount.toString());
+      Decimal decimals = Decimal.parse(pow(10, token.decimals).toString());
+      BigInt value = BigInt.from((tokensAmountDecimal * decimals).toInt());
       Transfer transferRequested = new PendingTransfer(
           from: walletAddress,
           to: receiverAddress,
@@ -471,12 +472,11 @@ ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     try {
       store.dispatch(new SwitchCommunityRequested(communityAddress));
-      dynamic community =
-        await graph.getCommunityByAddress(communityAddress);
+      dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.d('community fetched for $communityAddress');
-      dynamic token =
-          await graph.getTokenOfCommunity(communityAddress);
-      logger.d('token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
+      dynamic token = await graph.getTokenOfCommunity(communityAddress);
+      logger.d(
+          'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       store.dispatch(joinCommunityCall(community: community, token: token));
       return store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
@@ -508,10 +508,13 @@ ThunkAction getJoinBonusCall() {
 ThunkAction getBusinessListCall() {
   return (Store store) async {
     try {
-      // TODO
+      var response = await api.getBusinessList(store.state.cashWalletState.communityAddress);
+      List<Business> businessList = new List();
+      response["data"].forEach((f) => businessList.add(new Business.fromJson(f)));
+      store.dispatch(new BusinessesLoadedAction(businessList));
     } catch (e) {
       logger.e(e);
-      store.dispatch(new ErrorAction('Could not get business list'));
+      store.dispatch(new ErrorAction('Could not get businesses list'));
     }
   };
 }

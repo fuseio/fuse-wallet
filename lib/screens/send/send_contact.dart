@@ -99,11 +99,13 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       strList.add(user.displayName);
     });
 
-    setState(() {
-      strList;
-      normalList;
-      strList;
-    });
+    if (this.mounted){
+      setState(() {
+        strList;
+        normalList;
+        strList;
+      });
+    }
   }
 
   List<Widget> _emptyList() {
@@ -265,6 +267,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+      withPadding: true,
         title: "Send to", children: _emptyList(), sliverList: _buildList2()
 
         /*<Widget>[

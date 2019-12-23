@@ -44,7 +44,9 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, TransferSendSuccess>(_transferSendSuccess),
   TypedReducer<CashWalletState, TransferJobSuccess>(_transferJobSuccess),
   TypedReducer<CashWalletState, AddSendToInvites>(_addSendToInvites),
-  TypedReducer<CashWalletState, RemoveSendToInvites>(_removeSendToInvites)
+  TypedReducer<CashWalletState, RemoveSendToInvites>(_removeSendToInvites),
+  TypedReducer<CashWalletState, GetJobSuccess>(_getJobSuccess),
+  TypedReducer<CashWalletState, BusinessesLoadedAction>(_businessesLoadedAction),
 ]);
 
 CashWalletState _setDefaultCommunity(
@@ -153,7 +155,8 @@ CashWalletState _getTokenTransfersListSuccess(
 
 CashWalletState _logoutSuccess(
     CashWalletState state, LogoutRequestSuccess action) {
-  return CashWalletState.initial();
+      return state;
+  // return CashWalletState.initial();
 }
 
 CashWalletState _switchCommunityRequest(
@@ -228,4 +231,8 @@ CashWalletState _removeSendToInvites(CashWalletState state, RemoveSendToInvites 
   Map<String, num> sendToInvites = state.sendToInvites;
   sendToInvites.remove(action.jobId);
   return state.copyWith(sendToInvites: sendToInvites);
+}
+
+CashWalletState _businessesLoadedAction(CashWalletState state, BusinessesLoadedAction action) {
+  return state.copyWith(businesses: action.businessList);
 }

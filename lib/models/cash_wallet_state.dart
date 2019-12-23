@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/job.dart';
+import 'package:fusecash/models/business.dart';
 import 'package:wallet_core/wallet_core.dart';
 import './token.dart';
 import './transfer.dart';
@@ -16,6 +17,7 @@ class CashWalletState {
   final bool isCommunityFetched;
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
+  final List<Business> businesses;
   final bool isListeningToBranch;
   final Token token;
   final BigInt tokenBalance;
@@ -39,7 +41,8 @@ class CashWalletState {
     this.token,
     this.tokenBalance,
     this.tokenTransfers,
-    this.pendingTransfers
+    this.pendingTransfers,
+    this.businesses
   });
 
   factory CashWalletState.initial() {
@@ -59,7 +62,8 @@ class CashWalletState {
       tokenBalance: BigInt.from(0),
       tokenTransfers: new List<Transfer>(),
       pendingTransfers: new List<PendingTransfer>(),
-      sendToInvites: new Map<String, num>());
+      sendToInvites: new Map<String, num>(),
+      businesses: new List<Business>());
   }
 
   CashWalletState copyWith({
@@ -79,6 +83,7 @@ class CashWalletState {
     List<Transfer> tokenTransfers,
     List<PendingTransfer> pendingTransfers,
     Map<String, num> sendToInvites
+    List<Business> businesses
   }) {
     return CashWalletState (
       web3: web3 ?? this.web3,
@@ -96,7 +101,8 @@ class CashWalletState {
       tokenBalance: tokenBalance ?? this.tokenBalance,
       tokenTransfers: tokenTransfers ?? this.tokenTransfers,
       pendingTransfers: pendingTransfers ?? this.pendingTransfers,
-      sendToInvites: sendToInvites ?? this.sendToInvites
+      sendToInvites: sendToInvites ?? this.sendToInvites,
+      businesses: businesses ?? this.businesses
     );
   }
 

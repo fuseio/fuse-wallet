@@ -1,5 +1,4 @@
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -28,13 +27,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getPages() {
     return <Widget>[
-      FlareActor("assets/images/test2.flr", alignment:Alignment.center, fit:BoxFit.cover, animation:"Animations", controller: _slideController,),
+      FlareActor(
+        "assets/images/test2.flr",
+        alignment: Alignment.center,
+        fit: BoxFit.cover,
+        animation: "Animations",
+        controller: _slideController,
+      ),
       Image.asset('assets/images/slide1.png', width: 160),
       Image.asset('assets/images/slide2.png', width: 160),
       Image.asset('assets/images/slide3.png', width: 160)
     ];
   }
-
 
   void _onScroll() {
     if (_pageController.page.toInt() == _pageController.page) {
@@ -45,11 +49,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
     _slideController.rooms = _pageController.page;
   }
-  
+
   @override
   void initState() {
     _slideController = HouseController(demoUpdated: _update);
-    
+
     _pageController = PageController(
       initialPage: 0,
       viewportFraction: 0.9,
@@ -58,11 +62,11 @@ class _SplashScreenState extends State<SplashScreen> {
     notifier = ValueNotifier<double>(0);
 
     _previousPage = _pageController.initialPage;
-    
+
     super.initState();
   }
 
-  _update() => setState((){});
+  _update() => setState(() {});
 
   void gotoPage(page) {
     _pageController.animateToPage(
@@ -74,43 +78,34 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var drawer = Drawer();
+    return new StoreConnector<AppState, SplashViewModel>(
+        distinct: true,
+        converter: (Store<AppState> store) {
+          return SplashViewModel.fromStore(store);
+        },
+        builder: (_, viewModel) {
+          var drawer = Drawer();
 
-    return Scaffold(
-        drawer: drawer,
-        body: new StoreBuilder(onInitialBuild: (store) {
-          if (store.state.userState.privateKey != '' && store.state.userState.jwtToken != '') {
-            store.dispatch(initWeb3Call(store.state.userState.privateKey));
-            // store.dispatch(switchCommunityCall());
-            Navigator.popAndPushNamed(context, '/Cash');
-          }
-        }, builder: (BuildContext context, Store<AppState> store) {
-          return Container(
-              child: 
-             
-
-              
-              
-              Column(
-            children: <Widget>[
-              Expanded(
-                flex: 20,
-                child: Container(
-                    decoration: BoxDecoration(),
+          return Scaffold(
+              drawer: drawer,
+              body: new StoreBuilder(onInitialBuild: (store) {
+                if (viewModel.privateKey != '' &&
+                    viewModel.jwtToken != '' &&
+                    !viewModel.isLoggedOut) {
+                  store
+                      .dispatch(initWeb3Call(store.state.userState.privateKey));
+                  Navigator.popAndPushNamed(context, '/Cash');
+                }
+              }, builder: (BuildContext context, Store<AppState> store) {
+                return Container(
                     child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 20,
+                      child: Container(
+                          decoration: BoxDecoration(),
+                          child: Column(
                             children: <Widget>[
-
-                              
-
-
-
-
-
-
-
-
-                              
-    
                               Expanded(
                                 child: new Stack(
                                   children: <Widget>[
@@ -150,31 +145,96 @@ class _SplashScreenState extends State<SplashScreen> {
                                   children: <Widget>[
                                     Padding(
                                       padding: EdgeInsets.only(top: 20),
-                                      child: PrimaryButton( label: "Create a new wallet", onPressed: () {
-                                          store.dispatch(createNewWalletCall());
-                                          Navigator.pushNamed(context, '/Signup');
-                                        },) ,
+                                      child: PrimaryButton(
+                                        label: viewModel.isLoggedOut
+                                            ? "Login"
+                                            : "Create a new wallet",
+                                        onPressed: () {
+                                          if (viewModel.isLoggedOut) {
+                                            Navigator.pushNamed(
+                                                context, '/Cash');
+                                          } else {
+                                            viewModel.createWallet();
+                                            Navigator.pushNamed(
+                                                context, '/Signup');
+                                          }
+                                        },
+                                      ),
                                     ),
                                     Padding(
                                         padding: EdgeInsets.only(top: 30),
                                         child: TransparentButton(
-                                            label: "Restore existing wallet",
+                                            label: viewModel.isLoggedOut
+                                                ? "Create a new wallet"
+                                                : "Restore existing wallet",
                                             onPressed: () {
-                                              
+                                              if (viewModel.isLoggedOut) {
+                                                viewModel.createWallet();
+                                                Navigator.pushNamed(
+                                                    context, '/Signup');
+                                              }
                                             }))
                                   ],
                                 ),
                               )
                             ],
-                          )
-                        ),
-              ),
-            ],
-          )
-          
-
-          );
-        }));
+                          )),
+                    ),
+                  ],
+                ));
+              }));
+        });
   }
 }
 
+// import 'package:flutter/material.dart';
+// import 'package:redux/redux.dart';
+// import 'package:fusecash/models/app_state.dart';
+// import 'package:fusecash/redux/actions/user_actions.dart';
+
+class SplashViewModel {
+  final String privateKey;
+  final String jwtToken;
+  final bool isLoggedOut;
+  final Function(String) initWeb3;
+  final Function() createWallet;
+
+  SplashViewModel(
+      {this.privateKey,
+      this.jwtToken,
+      this.isLoggedOut,
+      this.initWeb3,
+      this.createWallet});
+
+  static SplashViewModel fromStore(Store<AppState> store) {
+    return SplashViewModel(
+        privateKey: store.state.userState.privateKey,
+        jwtToken: store.state.userState.jwtToken,
+        isLoggedOut: store.state.userState.isLoggedOut,
+        initWeb3: (privateKey) {
+          store.dispatch(initWeb3Call(privateKey));
+        },
+        createWallet: () {
+          store.dispatch(createNewWalletCall());
+        }
+        // accountAddress: store.state.userState.accountAddress,
+        // loginRequestSuccess: store.state.userState.loginRequestSuccess,
+        // loginVerifySuccess: store.state.userState.loginVerifySuccess,
+        // signUp: (countryCode, phoneNumber, successCallback, failCallback) {
+        //   store.dispatch(loginRequestCall(countryCode, phoneNumber, successCallback, failCallback));
+        // },
+        // verify: (countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback) {
+        //   store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback));
+        // }
+        );
+  }
+
+  bool operator ==(other) {
+    if (other is SplashViewModel) {
+      if (privateKey == other.privateKey &&
+          jwtToken == other.jwtToken &&
+          isLoggedOut == other.isLoggedOut) return true;
+    }
+    return false;
+  }
+}

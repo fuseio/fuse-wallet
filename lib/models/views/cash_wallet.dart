@@ -1,3 +1,4 @@
+import 'package:fusecash/models/business.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -36,7 +37,8 @@ class CashWalletViewModel {
   final Function() listenToBranch;
   final Function(List<Contact>) syncContacts;
   final Function() branchCommunityUpdate;
-
+  final List<Business> businesses;
+  final Function() loadBusinesses;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -66,7 +68,9 @@ class CashWalletViewModel {
     this.startTransfersFetching,
     this.listenToBranch,
     this.syncContacts,
-    this.branchCommunityUpdate
+    this.branchCommunityUpdate,
+    this.businesses,
+    this.loadBusinesses,
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -89,6 +93,7 @@ class CashWalletViewModel {
       contacts: store.state.userState.contacts,
       reverseContacts: store.state.userState.reverseContacts,
       countryCode: store.state.userState.countryCode,
+      businesses: store.state.cashWalletState.businesses,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
       },
@@ -116,6 +121,9 @@ class CashWalletViewModel {
       },
       branchCommunityUpdate: () {
         store.dispatch(BranchCommunityUpdate());
+      },
+      loadBusinesses: () {
+        store.dispatch(getBusinessListCall());
       }
     );
   }
