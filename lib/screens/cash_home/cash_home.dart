@@ -77,7 +77,7 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
           onChange(viewModel);
         },
         onWillChange: (viewModel) {
-          onChange(viewModel);
+          //onChange(viewModel);
         },
         builder: (_, viewModel) {
           return MainScaffold(
