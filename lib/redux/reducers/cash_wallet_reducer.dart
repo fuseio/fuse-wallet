@@ -41,7 +41,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _startTransfersFetchingSuccess),
   TypedReducer<CashWalletState, TransferSendRequested>(_transferSendRequested),
   TypedReducer<CashWalletState, TransferSendSuccess>(_transferSendSuccess),
-  TypedReducer<CashWalletState, GetJobSuccess>(_getJobSuccess)
+  TypedReducer<CashWalletState, GetJobSuccess>(_getJobSuccess),
+  TypedReducer<CashWalletState, BusinessesLoadedAction>(_businessesLoadedAction),
 ]);
 
 CashWalletState _initWeb3Success(
@@ -209,4 +210,8 @@ CashWalletState _getJobSuccess(CashWalletState state, GetJobSuccess action) {
       pendingTransfers: List.from(state.pendingTransfers)
         ..add(newTransfer)
         ..remove(transfer));
+}
+
+CashWalletState _businessesLoadedAction(CashWalletState state, BusinessesLoadedAction action) {
+  return state.copyWith(businesses: action.businessList);
 }

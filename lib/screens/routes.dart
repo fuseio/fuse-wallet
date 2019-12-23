@@ -1,3 +1,5 @@
+import 'package:fusecash/screens/buy/buy.dart';
+import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/send/send_contact.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/receive.dart';
@@ -21,6 +23,8 @@ getRoutes() {
     '/Verify': (context) => VerifyScreen(),
     '/Receive': (context) => ReceiveScreen(),
     '/Switch': (context) => SwitchCommunityScreen(),
-    '/Pincode': (context) => PincodeScreen()
+    '/Pincode': (context) => PincodeScreen(),
+    '/Buy': (context) => BuyPage(),
+    '/Business': (context) => BusinessPage(),
   };
 }
