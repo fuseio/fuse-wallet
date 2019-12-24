@@ -1,7 +1,11 @@
 String formatPhoneNumber (String phoneNumber, String myCountryCode) {
-  String formattedPhoneNumber = phoneNumber.replaceAll(new RegExp('(-| |\\(0\\))'), '').replaceFirst(new RegExp('^0+'), '');
-  if (formattedPhoneNumber[0] != '+') {
-    formattedPhoneNumber = myCountryCode + formattedPhoneNumber;
+  String countryCodeNumeric = myCountryCode.replaceFirst('+', '');
+  phoneNumber = phoneNumber.replaceFirst(myCountryCode, '');
+  phoneNumber = phoneNumber.startsWith(countryCodeNumeric) ? phoneNumber.replaceFirst(countryCodeNumeric, '') : phoneNumber;
+  phoneNumber = phoneNumber.replaceAll(new RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
+  phoneNumber = phoneNumber.replaceFirst(new RegExp('^0+'), '');
+  if (!phoneNumber.startsWith('+')) {
+    phoneNumber = myCountryCode + phoneNumber;
   }
-  return formattedPhoneNumber;
+  return phoneNumber;
 }
