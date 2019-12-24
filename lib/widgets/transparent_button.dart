@@ -23,15 +23,6 @@ class TransparentButton extends StatelessWidget {
                   color: Theme.of(context).primaryColor,
                   fontSize: 18,
                   fontWeight: FontWeight.normal)),
-                  // Container(
-                  //     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  //     child: Text(
-                  //     label,
-                  //     style: TextStyle(
-                  //         color: Theme.of(context).textTheme.button.color,
-                  //         fontSize: 18,
-                  //         fontWeight: FontWeight.w700),
-                  //   ))
                  ) : Container(
                       child: CircularProgressIndicator(
                           strokeWidth: 3,
@@ -41,14 +32,6 @@ class TransparentButton extends StatelessWidget {
                       height: 21.0,
                       margin: EdgeInsets.only(left: 28, right: 28),
                     ),
-        // child: new Container(
-        //   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-        //   child: Text(label,
-        //       style: TextStyle(
-        //           color: Theme.of(context).primaryColor,
-        //           fontSize: 18,
-        //           fontWeight: FontWeight.normal)),
-        // ),
       ),
       color: Colors.transparent,
     );
