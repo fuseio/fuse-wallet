@@ -17,7 +17,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   PageController _pageController;
-  bool isLoading = true;
+  bool isPrimaryPreloading = false;
+  bool isTransparentPreloading = false;
   static const _kDuration = const Duration(milliseconds: 300);
   static const _kCurve = Curves.ease;
   bool isOpen = false;
@@ -159,11 +160,18 @@ class _SplashScreenState extends State<SplashScreen> {
                                                 context, '/Cash');
                                           } else {
                                             viewModel.createWallet(() {
+                                              setState(() {
+                                                isPrimaryPreloading = false;
+                                              });
                                               Navigator.pushNamed(
                                                   context, '/Signup');
                                             });
+                                            setState(() {
+                                              isPrimaryPreloading = true;
+                                            });
                                           }
                                         },
+                                        preload: isPrimaryPreloading,
                                       ),
                                     ),
                                     Padding(
@@ -175,11 +183,18 @@ class _SplashScreenState extends State<SplashScreen> {
                                             onPressed: () {
                                               if (viewModel.isLoggedOut) {
                                                 viewModel.createWallet(() {
+                                                  setState(() {
+                                                    isTransparentPreloading = false;
+                                                  });
                                                   Navigator.pushNamed(
                                                       context, '/Signup');
                                                 });
+                                                setState(() {
+                                                  isTransparentPreloading = true;
+                                                });
                                               }
-                                            }))
+                                            },
+                                            preload: isTransparentPreloading))
                                   ],
                                 ),
                               )
