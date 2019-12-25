@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/job.dart';
+import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/business.dart';
-import 'package:wallet_core/wallet_core.dart';
+import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import './token.dart';
-import './transfer.dart';
+import './transaction.dart';
 
 @immutable
 class CashWalletState {
-  final Web3 web3;
+  final wallet_core.Web3 web3;
   final String walletAddress;
   final String walletStatus;
   final String communityAddress;
@@ -21,9 +21,10 @@ class CashWalletState {
   final bool isListeningToBranch;
   final Token token;
   final BigInt tokenBalance;
-  final List<Transfer> tokenTransfers;
-  final List<PendingTransfer> pendingTransfers;
+  // final List<Transfer> tokenTransfers;
+  // final List<PendingTransfer> pendingTransfers;
   final Map<String, num> sendToInvites;
+  final Transactions transactions;
 
   CashWalletState({
     this.web3,
@@ -40,9 +41,10 @@ class CashWalletState {
     this.isListeningToBranch,
     this.token,
     this.tokenBalance,
-    this.tokenTransfers,
-    this.pendingTransfers,
-    this.businesses
+    // this.tokenTransfers,
+    // this.pendingTransfers,
+    this.businesses,
+    this.transactions
   });
 
   factory CashWalletState.initial() {
@@ -60,14 +62,16 @@ class CashWalletState {
       isTransfersFetchingStarted: false,
       token: null,
       tokenBalance: BigInt.from(0),
-      tokenTransfers: new List<Transfer>(),
-      pendingTransfers: new List<PendingTransfer>(),
+      // tokenTransfers: new List<Transfer>(),
+      // pendingTransfers: new List<PendingTransfer>(),
       sendToInvites: new Map<String, num>(),
-      businesses: new List<Business>());
+      businesses: new List<Business>(),
+      transactions: new Transactions(list: new List<Transaction>())
+      );
   }
 
   CashWalletState copyWith({
-    Web3 web3,
+    wallet_core.Web3 web3,
     String walletAddress,
     String walletStatus,
     String communityAddress,
@@ -80,10 +84,11 @@ class CashWalletState {
     bool isListeningToBranch,
     Token token,
     BigInt tokenBalance,
-    List<Transfer> tokenTransfers,
-    List<PendingTransfer> pendingTransfers,
+    // List<Transfer> tokenTransfers,
+    // List<PendingTransfer> pendingTransfers,
     Map<String, num> sendToInvites,
     List<Business> businesses,
+    Transactions transactions
   }) {
     return CashWalletState (
       web3: web3 ?? this.web3,
@@ -99,10 +104,11 @@ class CashWalletState {
       isListeningToBranch: isListeningToBranch ?? this.isListeningToBranch,
       token: token ?? this.token,
       tokenBalance: tokenBalance ?? this.tokenBalance,
-      tokenTransfers: tokenTransfers ?? this.tokenTransfers,
-      pendingTransfers: pendingTransfers ?? this.pendingTransfers,
+      // tokenTransfers: tokenTransfers ?? this.tokenTransfers,
+      // pendingTransfers: pendingTransfers ?? this.pendingTransfers,
       sendToInvites: sendToInvites ?? this.sendToInvites,
-      businesses: businesses ?? this.businesses
+      businesses: businesses ?? this.businesses,
+      transactions: transactions ?? this.transactions
     );
   }
 
@@ -113,7 +119,7 @@ class CashWalletState {
       'communityName': communityName,
       'token': token?.toJson(),
       'tokenBalance': tokenBalance.toString(),
-      'tokenTransfers': tokenTransfers.map((transfer) => transfer.toJson()).toList()
+      'transactions': transactions.toJson()
     };
 
     static CashWalletState fromJson(dynamic json) =>
@@ -131,8 +137,11 @@ class CashWalletState {
         isListeningToBranch: false,
         token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
         tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
-        tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer))),
-        pendingTransfers: new List<PendingTransfer>(),
-        sendToInvites: new Map<String, num>()
+        // tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer))),
+        // pendingTransfers: new List<PendingTransfer>(),
+        sendToInvites: new Map<String, num>(),
+        // transactions: new List<Transaction>()
+        transactions: new Transactions(list: new List<Transaction>())
+        // transactions:  Transactions.fromJson(json['transactions'])
       );
 }

@@ -1,12 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'dart:io';
-import 'package:wallet_core/wallet_core.dart';
+import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
@@ -53,7 +54,7 @@ class SetDefaultCommunity {
 }
 
 class InitWeb3Success {
-  final Web3 web3;
+  final wallet_core.Web3 web3;
   InitWeb3Success(this.web3);
 }
 
@@ -147,14 +148,13 @@ class StartTransfersFetchingSuccess {
 }
 
 class TransferSendRequested {
-  PendingTransfer transfer;
+  Transfer transfer;
   TransferSendRequested(this.transfer);
 }
 
 class TransferSendSuccess {
-  PendingTransfer requestedTransfer;
-  PendingTransfer transfer;
-  TransferSendSuccess(this.requestedTransfer, this.transfer);
+  Transfer transfer;
+  TransferSendSuccess(this.transfer);
 }
 
 class BranchCommunityUpdate {
@@ -229,7 +229,7 @@ ThunkAction initWeb3Call(String privateKey) {
   return (Store store) async {
     try {
       logger.d('initWeb3. privateKey: $privateKey');
-      Web3 web3 = new Web3(approvalCallback);
+      wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback);
       if (store.state.cashWalletState.communityAddress == null || store.state.cashWalletState.communityAddress.isEmpty) {
         store.dispatch(SetDefaultCommunity(web3.getDefaultCommunity()));
       }
@@ -393,10 +393,10 @@ ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount) {
   };
 }
 
-ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
+ThunkAction sendTokenCall(String receiverAddress, num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
   return (Store store) async {
     try {
-      Web3 web3 = store.state.cashWalletState.web3;
+      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
       Token token = store.state.cashWalletState.token;
       String tokenAddress = token.address;
@@ -404,11 +404,12 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
       Decimal tokensAmountDecimal = Decimal.parse(tokensAmount.toString());
       Decimal decimals = Decimal.parse(pow(10, token.decimals).toString());
       BigInt value = BigInt.from((tokensAmountDecimal * decimals).toInt());
-      Transfer transferRequested = new PendingTransfer(
+      Transfer transferRequested = new Transfer(
           from: walletAddress,
           to: receiverAddress,
           tokenAddress: tokenAddress,
           value: value,
+          status: 'PENDING',
           type: 'SEND');
       store.dispatch(new TransferSendRequested(transferRequested));
 
@@ -420,18 +421,29 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
       dynamic jobId = response['job']['_id'];
       logger.wtf('Job $jobId for sending token sent to the relay service');
 
+      sendSuccessCallback();
+
+      // Transfer transferRequested = new Transfer(
+      //     from: walletAddress,
+      //     to: receiverAddress,
+      //     tokenAddress: tokenAddress,
+      //     value: value,
+      //     status: 'PENDING',
+      //     type: 'SEND');
       store.dispatch(startFetchingJobCall(jobId));
 
-      Transfer transfer = new PendingTransfer(
+      Transfer transfer = new Transfer(
           from: walletAddress,
           to: receiverAddress,
           tokenAddress: tokenAddress,
           value: value,
           type: 'SEND',
+          status: 'PENDING',
           jobId: jobId);
-      store.dispatch(new TransferSendSuccess(transferRequested, transfer));
+      store.dispatch(new TransferSendSuccess(transfer));
     } catch (e) {
       logger.e(e);
+      sendFailureCallback();
       store.dispatch(new ErrorAction('Could not send token'));
     }
   };
@@ -440,7 +452,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount) {
 ThunkAction callSendToInviteCall(Job job) {
   return (Store store) async {
     Map<String, num> sendToInvites = store.state.cashWalletState.sendToInvites;
-    store.dispatch(sendTokenCall(job.data["walletAddress"], sendToInvites[job.id]));
+    // store.dispatch(sendTokenCall(job.data["walletAddress"], sendToInvites[job.id]));
     store.dispatch(RemoveSendToInvites(job.id));
   };
 }
@@ -448,7 +460,7 @@ ThunkAction callSendToInviteCall(Job job) {
 ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   return (Store store) async {
     try {
-      Web3 web3 = store.state.cashWalletState.web3;
+      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
       bool isMember = await graph.isCommunityMember(
           walletAddress, community["entitiesList"]["address"]);
@@ -531,10 +543,11 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
+      num lastBlockNumber = store.state.cashWalletState.transactions.blockNumber;
       // logger.d(
       //     'fetching token transfers of $tokenAddress for $walletAddress wallet');
       Map<String, dynamic> response =
-          await graph.getTransfers(walletAddress, tokenAddress);
+          await graph.getTransfers(walletAddress, tokenAddress, fromBlockNumber: lastBlockNumber);
       List<Transfer> transfers = List<Transfer>.from(
           response["data"].map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(new GetTokenTransfersListSuccess(transfers));
@@ -546,7 +559,7 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
 }
 
 ThunkAction sendTokenToContactCall(
-    String contactPhoneNumber, num tokensAmount) {
+    String contactPhoneNumber, num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
   return (Store store) async {
     try {
       logger.i('Trying to send $tokensAmount to phone $contactPhoneNumber');
@@ -558,7 +571,7 @@ ThunkAction sendTokenToContactCall(
         store.dispatch(inviteAndSendCall(contactPhoneNumber, tokensAmount));
         return;
       }
-      store.dispatch(sendTokenCall(walletAddress, tokensAmount));
+      store.dispatch(sendTokenCall(walletAddress, tokensAmount, sendSuccessCallback, sendFailureCallback));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token to contact'));

@@ -35,19 +35,20 @@ class _SendAmountScreenState extends State<SendAmountScreen> with SingleTickerPr
   }
 
   void send(SendAmountViewModel viewModel, SendAmountArguments args,
-      String amountText) {
+      String amountText, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
     if (args.phoneNumber != null) {
       viewModel.sendToContact(
           formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
-          num.parse(amountText));
+          num.parse(amountText), sendSuccessCallback, sendFailureCallback);
     } else {
-      viewModel.sendToAccountAddress(args.accountAddress, num.parse(amountText));
+      viewModel.sendToAccountAddress(args.accountAddress, num.parse(amountText), sendSuccessCallback, sendFailureCallback);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
+    bool isPreloading = false;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: (store) {
@@ -146,10 +147,19 @@ class _SendAmountScreenState extends State<SendAmountScreen> with SingleTickerPr
                     child: PrimaryButton(
                 label: "Continue with \$" + amountText,
                 onPressed: () {
-                  send(viewModel, args, amountText);
-                  Navigator.popAndPushNamed(context, '/Cash');
+                  send(viewModel, args, amountText, () {
+                    Navigator.popAndPushNamed(context, '/Cash');
+                    setState(() {
+                      isPreloading = false;
+                    });
+                  }, () {
+                    print('error');
+                  });
+                  setState(() {
+                    isPreloading = true;
+                  });
                 },
-                preload: false,
+                preload: isPreloading,
                 width: 300,
               ),)));
       },
@@ -167,8 +177,8 @@ class SendAmountArguments {
 
 class SendAmountViewModel {
   final String myCountryCode;
-  final Function(String, num) sendToContact;
-  final Function(String, num) sendToAccountAddress;
+  final Function(String, num, VoidCallback, VoidCallback) sendToContact;
+  final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
 
   SendAmountViewModel(
       {this.myCountryCode, this.sendToContact, this.sendToAccountAddress});
@@ -176,11 +186,11 @@ class SendAmountViewModel {
   static SendAmountViewModel fromStore(Store<AppState> store) {
     return SendAmountViewModel(
         myCountryCode: store.state.userState.countryCode,
-        sendToContact: (String phoneNumber, num amount) {
-          store.dispatch(sendTokenToContactCall(phoneNumber, amount));
+        sendToContact: (String phoneNumber, num amount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
+          store.dispatch(sendTokenToContactCall(phoneNumber, amount, sendSuccessCallback, sendFailureCallback));
         },
-        sendToAccountAddress: (String recieverAddress, num amount) {
-          store.dispatch(sendTokenCall(recieverAddress, amount));
+        sendToAccountAddress: (String recieverAddress, num amount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
+          store.dispatch(sendTokenCall(recieverAddress, amount, sendSuccessCallback, sendFailureCallback));
         });
   }
 }
