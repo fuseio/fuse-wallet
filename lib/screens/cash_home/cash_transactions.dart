@@ -72,20 +72,11 @@ class CashTransactionsState extends State<CashTransactios> {
             .viewModel
             .transactions
             .list
+            .reversed
             .map((transfer) => _TransactionListItem(
                 transfer,
                 getContact(transfer, this.widget.viewModel),
                 this.widget.viewModel)).toList();
-        // this
-        //     .widget
-        //     .viewModel
-        //     .tokenTransfers
-        //     .map((transfer) => _TransactionListItem(
-        //         transfer,
-        //         getContact(transfer, this.widget.viewModel),
-        //         this.widget.viewModel,
-        //         false))
-        //     .toList();
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

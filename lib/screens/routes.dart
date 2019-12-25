@@ -18,7 +18,7 @@ getRoutes() {
     '/Signup': (context) => SignupScreen(),
     '/LevelSelector': (context) => LevelSelectorScreen(),
     '/Cash': (context) => CashHomeScreen(),
-    '/SendContact': (context) => SendToContactScreen(),
+    '/SendContact': (context) => ContactsScreen(),
     '/SendAmount': (context) => SendAmountScreen(),
     '/Verify': (context) => VerifyScreen(),
     '/Receive': (context) => ReceiveScreen(),

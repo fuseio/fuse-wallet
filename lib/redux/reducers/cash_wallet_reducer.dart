@@ -134,11 +134,11 @@ CashWalletState _getBusinessListSuccess(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-  //  print('Found ${action.tokenTransfers.length} token transfers');
+   print('Found ${action.tokenTransfers.length} token transfers');
   if (state.walletAddress != '' && action.tokenTransfers.length > 0) {
-    dynamic maxBlockNumber = action.tokenTransfers.fold<int>(0, (max, e) => e.blockNumber > max ? e.blockNumber: max);
+    dynamic maxBlockNumber = action.tokenTransfers.fold<int>(0, (max, e) => e.blockNumber > max ? e.blockNumber: max) + 1;
 
-    for (Transaction tx in action.tokenTransfers) {
+    for (Transaction tx in action.tokenTransfers.reversed) {
       Transaction saved = state.transactions.list.firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
           if (saved.isPending()) {
@@ -148,28 +148,8 @@ CashWalletState _getTokenTransfersListSuccess(
         state.transactions.list.add(tx);
       }
     }    
-    // for (Transaction tx in state.transactions.list) {
-    //   if (tx.isPending()) {
-    //     Transaction confirmed = action.tokenTransfers.firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
-    //     if (confirmed != null) {
-    //       confirmed.status = 'CONFIRMED';
-    //     }
-    //   }
-    // }
+
     return state.copyWith(transactions: state.transactions.copyWith(list: state.transactions.list, blockNumber: maxBlockNumber));
-    // List<PendingTransfer> nPendingTransfers =
-    //     List<PendingTransfer>.from(state.pendingTransfers);
-    // for (PendingTransfer pending in state.pendingTransfers) {
-    //   Transfer tx = action.tokenTransfers.firstWhere(
-    //       (transfer) => transfer.txHash == pending.txHash,
-    //       orElse: () => null);
-    //   if (tx != null) {
-    //     nPendingTransfers.remove(pending);
-    //   }
-    // }
-    // return state.copyWith(
-    //     tokenTransfers: action.tokenTransfers,
-    //     pendingTransfers: nPendingTransfers);
   } else {
     return state;
   }
@@ -221,20 +201,11 @@ CashWalletState _startTransfersFetchingSuccess(
 
 CashWalletState _transferSendSuccess(
     CashWalletState state, TransferSendSuccess action) {
-  Transfer transfer = state.transactions.list
-      .firstWhere((transfer) => transfer.txHash == action.transfer.txHash);
-  dynamic json = transfer.toJson();
-  json['status'] = 'CONFIRMED';
-  Transfer newTransfer = Transfer.fromJson(json);
-  List<Transaction> list = List<Transaction>.from(state.transactions.list)
-        ..add(newTransfer)
-        ..remove(transfer);
-  return state.copyWith(
-      transactions: state.transactions.copyWith(list: list));
-  // return state.copyWith(
-  //     pendingTransfers: List.from(state.pendingTransfers)
-  //       ..remove(action.requestedTransfer)
-  //       ..add(action.transfer));
+    return state.copyWith(
+      transactions: state.transactions.copyWith(
+        list: state.transactions.list
+          ..add(action.transfer)
+      ));
 }
 
 CashWalletState _transferSendRequested(
@@ -247,13 +218,28 @@ CashWalletState _transferJobSuccess(
     CashWalletState state, TransferJobSuccess action) {
   Transfer transfer = state.transactions.list
       .firstWhere((transfer) => transfer.jobId == action.job.id);
+  if (transfer.txHash == action.job.data["txHash"]) {
+    print('txhash already exists $transfer.txHash');
+    return state;
+  }
+
   dynamic json = transfer.toJson();
   json['txHash'] = action.job.data["txHash"];
+  print('txHash to delete ${transfer.jobId}');
   Transfer newTransfer = Transfer.fromJson(json);
+  
+  List<Transaction> nList =  List.from(state.transactions.list);
+
+  // remove Transfer with txHash if it was received before the job
+  nList.removeWhere((transfer) => transfer.txHash == action.job.data["txHash"]);
+
+  nList
+    ..add(newTransfer)
+    ..remove(transfer);
+  
+
   return state.copyWith(
-      transactions: state.transactions.copyWith(list: List.from(state.transactions.list)
-        ..add(newTransfer)
-        ..remove(transfer)));
+      transactions: state.transactions.copyWith(list: nList));
 }
 
 CashWalletState _addSendToInvites(

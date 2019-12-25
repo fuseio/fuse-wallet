@@ -141,7 +141,8 @@ class CashWalletViewModel {
         fullName == other.fullName &&
         tokenBalance == other.tokenBalance &&
         token == other.token &&
-        transactions == other.transactions
+        transactions == other.transactions &&
+        isListeningToBranch == other.isListeningToBranch
       )
       return true;
     }

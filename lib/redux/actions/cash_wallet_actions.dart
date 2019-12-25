@@ -18,7 +18,6 @@ import 'package:logger/logger.dart';
 // import 'package:path_provider/path_provider.dart';
 import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 
-
 // class DualOutput extends LogOutput {
 
 //   File file;
@@ -43,10 +42,9 @@ import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 //   }
 // }
 
-var logger = Logger(
-  printer: PrettyPrinter()
-  // output: DualOutput()
-);
+var logger = Logger(printer: PrettyPrinter()
+    // output: DualOutput()
+    );
 
 class SetDefaultCommunity {
   String defaultCommunity;
@@ -116,7 +114,7 @@ class SwitchCommunitySuccess {
   SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token);
 }
 
-class SwitchCommunityFailed { }
+class SwitchCommunityFailed {}
 
 class GetJoinBonusSuccess {
   // TODO
@@ -177,7 +175,6 @@ class RemoveSendToInvites {
   RemoveSendToInvites(this.jobId);
 }
 
-
 class BranchListening {}
 
 class BusinessesLoadedAction {
@@ -230,7 +227,8 @@ ThunkAction initWeb3Call(String privateKey) {
     try {
       logger.d('initWeb3. privateKey: $privateKey');
       wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback);
-      if (store.state.cashWalletState.communityAddress == null || store.state.cashWalletState.communityAddress.isEmpty) {
+      if (store.state.cashWalletState.communityAddress == null ||
+          store.state.cashWalletState.communityAddress.isEmpty) {
         store.dispatch(SetDefaultCommunity(web3.getDefaultCommunity()));
       }
       web3.setCredentials(privateKey);
@@ -335,46 +333,53 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
   };
 }
 
-ThunkAction startFetchingJobCall(String jobId) {
+ThunkAction fetchJobCall(String jobId,
+    {Timer timer, VoidCallback fetchSuccessCallback}) {
   return (Store store) async {
     try {
-      logger.d('fetching job $jobId');
       dynamic response = await api.getJob(jobId);
       Job job = Job.fromJson(response);
-      if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-        Timer(Duration(seconds: 3), () {store.dispatch(startFetchingJobCall(jobId));});
+      logger.wtf("job.name: ${job.name}");
+      if (job.data['txHash'] == null) {
+        logger.wtf('fetched job with txHash null');
         return;
       }
-      logger.wtf("job.name: ${job.name}");
       switch (job.name) {
-        case Job.RELAY: {
-          String walletModule = job.data["walletModule"];
-          logger.wtf("walletModule: $walletModule");
-          switch (walletModule) {
-            case Job.COMMUNITY_MANAGER: {
-              // TODO nothing.
-              break;
-            }
-            case Job.TRANSFER_MANAGER: {
-              logger.wtf("dispatching");
-              store.dispatch(new TransferJobSuccess(job));
-              break;
-            }
-            default: {
-              //statements;
+        case Job.RELAY:
+          {
+            String walletModule = job.data["walletModule"];
+            logger.wtf("walletModule: $walletModule");
+            switch (walletModule) {
+              case Job.COMMUNITY_MANAGER:
+                {
+                  // TODO nothing.
+                  break;
+                }
+              case Job.TRANSFER_MANAGER:
+                {
+                  logger.wtf("dispatching");
+                  store.dispatch(new TransferJobSuccess(job));
+                  break;
+                }
+              default:
+                {
+                  //statements;
+                }
+                break;
             }
             break;
           }
+        case Job.CREATE_WALLET:
+          {
+            store.dispatch(callSendToInviteCall(job));
+            break;
+          }
+        default:
+          {}
           break;
-        }
-        case Job.CREATE_WALLET: {
-          store.dispatch(callSendToInviteCall(job));
-          break;
-        }
-        default: {
-
-        }
-        break;
+      }
+      if (timer != null) {
+        timer.cancel();
       }
     } catch (e) {
       logger.e(e);
@@ -383,9 +388,62 @@ ThunkAction startFetchingJobCall(String jobId) {
   };
 }
 
+ThunkAction startFetchingJobCall(String jobId) {
+  return (Store store) async {
+    Timer timer = new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+      store.dispatch(fetchJobCall(jobId, timer: timer));
+    });
+    // store.dispatch(fetchJobCall(jobId, timer: timer));
+    // try {
+    //   logger.d('fetching job $jobId');
+    //   dynamic response = await api.getJob(jobId);
+    //   Job job = Job.fromJson(response);
+    //   if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
+    //     Timer(Duration(seconds: 3), () {store.dispatch(startFetchingJobCall(jobId));});
+    //     return;
+    //   }
+    //   logger.wtf("job.name: ${job.name}");
+    //   switch (job.name) {
+    //     case Job.RELAY: {
+    //       String walletModule = job.data["walletModule"];
+    //       logger.wtf("walletModule: $walletModule");
+    //       switch (walletModule) {
+    //         case Job.COMMUNITY_MANAGER: {
+    //           // TODO nothing.
+    //           break;
+    //         }
+    //         case Job.TRANSFER_MANAGER: {
+    //           logger.wtf("dispatching");
+    //           store.dispatch(new TransferJobSuccess(job));
+    //           break;
+    //         }
+    //         default: {
+    //           //statements;
+    //         }
+    //         break;
+    //       }
+    //       break;
+    //     }
+    //     case Job.CREATE_WALLET: {
+    //       store.dispatch(callSendToInviteCall(job));
+    //       break;
+    //     }
+    //     default: {
+
+    //     }
+    //     break;
+    //   }
+    // } catch (e) {
+    //   logger.e(e);
+    //   store.dispatch(new ErrorAction('Could not get job'));
+    // }
+  };
+}
+
 ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount) {
   return (Store store) async {
-    dynamic response = await api.invite(contactPhoneNumber, store.state.cashWalletState.communityAddress);
+    dynamic response = await api.invite(
+        contactPhoneNumber, store.state.cashWalletState.communityAddress);
     logger.wtf("response $response");
     String jobId = response['job']['_id'].toString();
     store.dispatch(AddSendToInvites(jobId, tokensAmount));
@@ -393,7 +451,8 @@ ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount) {
   };
 }
 
-ThunkAction sendTokenCall(String receiverAddress, num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
+ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
+    VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
   return (Store store) async {
     try {
       wallet_core.Web3 web3 = store.state.cashWalletState.web3;
@@ -404,14 +463,14 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount, VoidCallback
       Decimal tokensAmountDecimal = Decimal.parse(tokensAmount.toString());
       Decimal decimals = Decimal.parse(pow(10, token.decimals).toString());
       BigInt value = BigInt.from((tokensAmountDecimal * decimals).toInt());
-      Transfer transferRequested = new Transfer(
-          from: walletAddress,
-          to: receiverAddress,
-          tokenAddress: tokenAddress,
-          value: value,
-          status: 'PENDING',
-          type: 'SEND');
-      store.dispatch(new TransferSendRequested(transferRequested));
+      // Transfer transferRequested = new Transfer(
+      //     from: walletAddress,
+      //     to: receiverAddress,
+      //     tokenAddress: tokenAddress,
+      //     value: value,
+      //     status: 'PENDING',
+      //     type: 'SEND');
+      // store.dispatch(new TransferSendRequested(transferRequested));
 
       logger.wtf(
           'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
@@ -528,9 +587,11 @@ ThunkAction getJoinBonusCall() {
 ThunkAction getBusinessListCall() {
   return (Store store) async {
     try {
-      var response = await api.getBusinessList(store.state.cashWalletState.communityAddress);
+      var response = await api
+          .getBusinessList(store.state.cashWalletState.communityAddress);
       List<Business> businessList = new List();
-      response["data"].forEach((f) => businessList.add(new Business.fromJson(f)));
+      response["data"]
+          .forEach((f) => businessList.add(new Business.fromJson(f)));
       store.dispatch(new BusinessesLoadedAction(businessList));
     } catch (e) {
       logger.e(e);
@@ -543,11 +604,13 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      num lastBlockNumber = store.state.cashWalletState.transactions.blockNumber;
+      num lastBlockNumber =
+          store.state.cashWalletState.transactions.blockNumber;
       // logger.d(
       //     'fetching token transfers of $tokenAddress for $walletAddress wallet');
-      Map<String, dynamic> response =
-          await graph.getTransfers(walletAddress, tokenAddress, fromBlockNumber: lastBlockNumber);
+      Map<String, dynamic> response = await graph.getTransfers(
+          walletAddress, tokenAddress,
+          fromBlockNumber: lastBlockNumber);
       List<Transfer> transfers = List<Transfer>.from(
           response["data"].map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(new GetTokenTransfersListSuccess(transfers));
@@ -558,20 +621,21 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
   };
 }
 
-ThunkAction sendTokenToContactCall(
-    String contactPhoneNumber, num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
+ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount,
+    VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
   return (Store store) async {
     try {
       logger.i('Trying to send $tokensAmount to phone $contactPhoneNumber');
       Map wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
       logger.wtf("wallet $wallet");
-      String walletAddress = (wallet != null) ? wallet["walletAddress"]: null;
+      String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       logger.wtf("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
         store.dispatch(inviteAndSendCall(contactPhoneNumber, tokensAmount));
         return;
       }
-      store.dispatch(sendTokenCall(walletAddress, tokensAmount, sendSuccessCallback, sendFailureCallback));
+      store.dispatch(sendTokenCall(walletAddress, tokensAmount,
+          sendSuccessCallback, sendFailureCallback));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token to contact'));

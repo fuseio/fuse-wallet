@@ -137,11 +137,7 @@ class CashWalletState {
         isListeningToBranch: false,
         token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
         tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
-        // tokenTransfers: json['tokenTransfers'] == null ? null : List<Transfer>.from(json['tokenTransfers'].map((transfer) => Transfer.fromJson(transfer))),
-        // pendingTransfers: new List<PendingTransfer>(),
         sendToInvites: new Map<String, num>(),
-        // transactions: new List<Transaction>()
-        transactions: new Transactions(list: new List<Transaction>())
-        // transactions:  Transactions.fromJson(json['transactions'])
+        transactions:  Transactions.fromJson(json['transactions'])
       );
 }

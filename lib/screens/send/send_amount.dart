@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
@@ -7,6 +8,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/utils/phone.dart';
+import 'package:fusecash/models/token.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
@@ -19,6 +21,7 @@ class _SendAmountScreenState extends State<SendAmountScreen> with SingleTickerPr
   String amountText = "0";
   AnimationController controller;
   Animation<Offset> offset;
+  bool isPreloading = false;
 
   @override
   void initState() {
@@ -48,7 +51,6 @@ class _SendAmountScreenState extends State<SendAmountScreen> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
-    bool isPreloading = false;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: (store) {
@@ -96,7 +98,7 @@ class _SendAmountScreenState extends State<SendAmountScreen> with SingleTickerPr
 
         return MainScaffold(
           withPadding: true,
-          title: "Send to Maria",
+          title: "Send to ${args.name != null ? args.name : formatAddress(args.accountAddress)}",
             children: <Widget>[
               Container(
                 child: Column(children: <Widget>[
@@ -118,7 +120,7 @@ class _SendAmountScreenState extends State<SendAmountScreen> with SingleTickerPr
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 20.0, bottom: 30),
-                            child: Text("\$" + amountText,
+                            child: Text('$amountText ${args.token.symbol}',
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor,
                                     fontSize: 50,
@@ -168,11 +170,12 @@ class _SendAmountScreenState extends State<SendAmountScreen> with SingleTickerPr
 }
 
 class SendAmountArguments {
+  final Token token;
   final String name;
   final String phoneNumber;
   final String accountAddress;
 
-  SendAmountArguments({this.name, this.phoneNumber, this.accountAddress});
+  SendAmountArguments({this.name, this.token, this.phoneNumber, this.accountAddress});
 }
 
 class SendAmountViewModel {
