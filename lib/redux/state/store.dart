@@ -9,7 +9,7 @@ import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
-// import 'package:redux_logging/redux_logging.dart';
+import 'package:redux_logging/redux_logging.dart';
 import 'package:fusecash/services.dart';
 import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
@@ -86,7 +86,7 @@ Future<Store<AppState>> createReduxStore() async {
   return Store<AppState>(
       appReducer,
       initialState: initialState ?? new AppState.initial(),
-        middleware: [thunkMiddleware, persistor.createMiddleware()]
-      // middleware: [thunkMiddleware, new LoggingMiddleware(logger: mylogger), persistor.createMiddleware()]
+        // middleware: [thunkMiddleware, persistor.createMiddleware()]
+      middleware: [thunkMiddleware, new LoggingMiddleware(logger: mylogger), persistor.createMiddleware()]
   );
 }
