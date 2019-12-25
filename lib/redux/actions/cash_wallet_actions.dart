@@ -553,6 +553,7 @@ ThunkAction sendTokenToContactCall(
       Map wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
       logger.wtf("wallet $wallet");
       String walletAddress = (wallet != null) ? wallet["walletAddress"]: null;
+      logger.wtf("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
         store.dispatch(inviteAndSendCall(contactPhoneNumber, tokensAmount));
         return;

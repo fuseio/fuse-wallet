@@ -11,7 +11,7 @@ class CashTransactios extends StatefulWidget {
 
   final CashWalletViewModel viewModel;
   @override
-  createState() => new CashTransactiosState();
+  createState() => new CashTransactionsState();
 }
 
 String deduceSign(Transfer transfer) {
@@ -57,8 +57,8 @@ Color deduceColor(Transfer transfer) {
   }
 }
 
-class CashTransactiosState extends State<CashTransactios> {
-  CashTransactiosState();
+class CashTransactionsState extends State<CashTransactios> {
+  CashTransactionsState();
 
   @override
   void initState() {
