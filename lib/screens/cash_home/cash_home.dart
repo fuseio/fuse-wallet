@@ -28,9 +28,10 @@ class CashHomeScreen extends StatefulWidget {
         // contacts = contacts
     //     .where((i) =>
     //         i.displayName != null && i.displayName != "" && i.phones.length > 0)
-    List<Contact> contacts = (await ContactsService.getContacts(withThumbnails: true)).toList()
+    List<Contact> contacts = (await ContactsService.getContacts(withThumbnails: true))
       .where((i) =>
-      i.displayName != null && i.displayName != "" && i.phones.length > 0);
+      i.displayName != null && i.displayName != "" && i.phones.length > 0)
+      .toList();
     viewModel.syncContacts(contacts);
     return contacts;
   }
