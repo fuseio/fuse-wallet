@@ -4,6 +4,7 @@ import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'dart:io';
@@ -11,9 +12,7 @@ import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
-import 'dart:math';
 import 'dart:convert';
-import 'package:decimal/decimal.dart';
 import 'package:logger/logger.dart';
 // import 'package:path_provider/path_provider.dart';
 import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
@@ -460,9 +459,10 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       Token token = store.state.cashWalletState.token;
       String tokenAddress = token.address;
 
-      Decimal tokensAmountDecimal = Decimal.parse(tokensAmount.toString());
-      Decimal decimals = Decimal.parse(pow(10, token.decimals).toString());
-      BigInt value = BigInt.from((tokensAmountDecimal * decimals).toInt());
+      // Decimal tokensAmountDecimal = Decimal.parse(tokensAmount.toString());
+      // Decimal decimals = Decimal.parse(pow(10, token.decimals).toString());
+      // BigInt value = BigInt.from((tokensAmountDecimal * decimals).toInt());
+      BigInt value = toBigInt(tokensAmount, token.decimals);
       // Transfer transferRequested = new Transfer(
       //     from: walletAddress,
       //     to: receiverAddress,

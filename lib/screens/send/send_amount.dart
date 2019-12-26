@@ -70,10 +70,16 @@ class _SendAmountScreenState extends State<SendAmountScreen>
           if (amountText == "") {
             amountText = "0";
           }
+          try {
+            double amount = double.parse(amountText);
+            if (amount > 0 && viewModel.balance >= toBigInt(amount, viewModel.token.decimals)) {
 
-          if (double.parse(amountText) > 0) {
-            controller.forward();
-          } else {
+              // if (double s = value / BigInt.from(pow(10, decimals));)
+              controller.forward();
+            } else {
+              controller.reverse();
+            }
+          } catch (e) {
             controller.reverse();
           }
         }
@@ -84,18 +90,33 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 "Send to ${args.name != null ? args.name : formatAddress(args.accountAddress)}",
             children: <Widget>[
               Container(
-                  child: Column(children: <Widget>[
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Text("How much?",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal)),
+                child: Column(children: <Widget>[
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 30),
+                      child: Text("How much?",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal)),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(0.0),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(top: 20.0, bottom: 30),
+                            child: 
+                              Text('$amountText ${viewModel.token.symbol}',
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.w900)),
+                          ),
+                        ],
                       ),
                       Container(
                         padding: EdgeInsets.all(0.0),
@@ -141,13 +162,23 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   }
 }
 
+class SendAmountArguments {
+  final String name;
+  final String phoneNumber;
+  final String accountAddress;
+
+  SendAmountArguments({this.name, this.phoneNumber, this.accountAddress});
+}
+
 class SendAmountViewModel {
   final String myCountryCode;
   final Function(String, num, VoidCallback, VoidCallback) sendToContact;
   final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
+  final BigInt balance;
+  final Token token;
 
   SendAmountViewModel(
-      {this.myCountryCode, this.sendToContact, this.sendToAccountAddress});
+      {this.myCountryCode, this.sendToContact, this.sendToAccountAddress, this.balance, this.token});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     return SendAmountViewModel(
@@ -159,12 +190,10 @@ class SendAmountViewModel {
           store.dispatch(sendTokenToContactCall(
               phoneNumber, amount, sendSuccessCallback, sendFailureCallback));
         },
-        sendToAccountAddress: (String recieverAddress,
-            num amount,
-            VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
-          store.dispatch(sendTokenCall(recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback));
+        token: store.state.cashWalletState.token,
+        balance: store.state.cashWalletState.tokenBalance,
+        sendToAccountAddress: (String recieverAddress, num amount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
+          store.dispatch(sendTokenCall(recieverAddress, amount, sendSuccessCallback, sendFailureCallback));
         });
   }
 }
