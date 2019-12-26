@@ -150,7 +150,8 @@ class _SendAmountScreenState extends State<SendAmountScreen> with SingleTickerPr
                 label: "Continue with \$" + amountText,
                 onPressed: () {
                   send(viewModel, args, amountText, () {
-                    Navigator.popAndPushNamed(context, '/Cash');
+                    Navigator.pushNamed(context, '/SendReview');
+                    //Navigator.popAndPushNamed(context, '/Cash');
                     setState(() {
                       isPreloading = false;
                     });
