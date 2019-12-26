@@ -134,22 +134,27 @@ CashWalletState _getBusinessListSuccess(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-   print('Found ${action.tokenTransfers.length} token transfers');
+  print('Found ${action.tokenTransfers.length} token transfers');
   if (state.walletAddress != '' && action.tokenTransfers.length > 0) {
-    dynamic maxBlockNumber = action.tokenTransfers.fold<int>(0, (max, e) => e.blockNumber > max ? e.blockNumber: max) + 1;
+    dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
+            0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
+        1;
 
     for (Transaction tx in action.tokenTransfers.reversed) {
-      Transaction saved = state.transactions.list.firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+      Transaction saved = state.transactions.list
+          .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
-          if (saved.isPending()) {
-            saved.status = 'CONFIRMED';
-          }
+        if (saved.isPending()) {
+          saved.status = 'CONFIRMED';
+        }
       } else {
         state.transactions.list.add(tx);
       }
-    }    
+    }
 
-    return state.copyWith(transactions: state.transactions.copyWith(list: state.transactions.list, blockNumber: maxBlockNumber));
+    return state.copyWith(
+        transactions: state.transactions.copyWith(
+            list: state.transactions.list, blockNumber: maxBlockNumber));
   } else {
     return state;
   }
@@ -163,11 +168,17 @@ CashWalletState _logoutSuccess(
 
 CashWalletState _switchCommunityRequest(
     CashWalletState state, SwitchCommunityRequested action) {
-  return state.copyWith(
+  if (state.communityAddress != action.communityAddress) {
+    return state.copyWith(
+        isCommunityLoading: true,
+        token: null,
+        transactions: new Transactions(list: new List<Transaction>()),
+        tokenBalance: BigInt.from(0));
+  } else {
+    return state.copyWith(
       isCommunityLoading: true,
-      token: null,
-      transactions: new Transactions(list:new List<Transaction>()),
-      tokenBalance: BigInt.from(0));
+    );
+  }
 }
 
 CashWalletState _branchCommunityUpdate(
@@ -201,17 +212,16 @@ CashWalletState _startTransfersFetchingSuccess(
 
 CashWalletState _transferSendSuccess(
     CashWalletState state, TransferSendSuccess action) {
-    return state.copyWith(
-      transactions: state.transactions.copyWith(
-        list: state.transactions.list
-          ..add(action.transfer)
-      ));
+  return state.copyWith(
+      transactions: state.transactions
+          .copyWith(list: state.transactions.list..add(action.transfer)));
 }
 
 CashWalletState _transferSendRequested(
     CashWalletState state, TransferSendRequested action) {
   return state.copyWith(
-      transactions: state.transactions.copyWith(list: List.from(state.transactions.list)..add(action.transfer)));
+      transactions: state.transactions.copyWith(
+          list: List.from(state.transactions.list)..add(action.transfer)));
 }
 
 CashWalletState _transferJobSuccess(
@@ -227,8 +237,8 @@ CashWalletState _transferJobSuccess(
   json['txHash'] = action.job.data["txHash"];
   print('txHash to delete ${transfer.jobId}');
   Transfer newTransfer = Transfer.fromJson(json);
-  
-  List<Transaction> nList =  List.from(state.transactions.list);
+
+  List<Transaction> nList = List.from(state.transactions.list);
 
   // remove Transfer with txHash if it was received before the job
   nList.removeWhere((transfer) => transfer.txHash == action.job.data["txHash"]);
@@ -236,10 +246,8 @@ CashWalletState _transferJobSuccess(
   nList
     ..add(newTransfer)
     ..remove(transfer);
-  
 
-  return state.copyWith(
-      transactions: state.transactions.copyWith(list: nList));
+  return state.copyWith(transactions: state.transactions.copyWith(list: nList));
 }
 
 CashWalletState _addSendToInvites(
