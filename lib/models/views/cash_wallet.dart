@@ -5,8 +5,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
 import '../token.dart';
-import '../transfer.dart';
-
+import '../transaction.dart';
 
 class CashWalletViewModel {
   final String accountAddress;
@@ -22,8 +21,9 @@ class CashWalletViewModel {
   final String fullName;
   final BigInt tokenBalance;
   final Token token;
-  final List<Transfer> tokenTransfers;
-  final List<Transfer> pendingTransfers;
+  // final List<Transfer> tokenTransfers;
+  // final List<Transfer> pendingTransfers;
+  final Transactions transactions;
   final List<Contact> contacts;
   final Map<String, String> reverseContacts;
   final String countryCode;
@@ -54,8 +54,9 @@ class CashWalletViewModel {
     this.fullName,
     this.tokenBalance,
     this.token,
-    this.tokenTransfers,
-    this.pendingTransfers,
+    // this.tokenTransfers,
+    // this.pendingTransfers,
+    this.transactions,
     this.contacts,
     this.countryCode,
     this.reverseContacts,
@@ -88,8 +89,9 @@ class CashWalletViewModel {
       fullName: store.state.userState.fullName,
       tokenBalance: store.state.cashWalletState.tokenBalance,
       token: store.state.cashWalletState.token,
-      tokenTransfers: store.state.cashWalletState.tokenTransfers,
-      pendingTransfers: store.state.cashWalletState.pendingTransfers,
+      // tokenTransfers: store.state.cashWalletState.tokenTransfers,
+      // pendingTransfers: store.state.cashWalletState.pendingTransfers,
+      transactions: store.state.cashWalletState.transactions,
       contacts: store.state.userState.contacts,
       reverseContacts: store.state.userState.reverseContacts,
       countryCode: store.state.userState.countryCode,
@@ -139,7 +141,8 @@ class CashWalletViewModel {
         fullName == other.fullName &&
         tokenBalance == other.tokenBalance &&
         token == other.token &&
-        tokenTransfers == other.tokenTransfers
+        transactions == other.transactions &&
+        isListeningToBranch == other.isListeningToBranch
       )
       return true;
     }

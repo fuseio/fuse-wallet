@@ -813,7 +813,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+41"
+    version: "0.0.1+43"
   watcher:
     dependency: transitive
     description:

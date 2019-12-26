@@ -1,7 +1,7 @@
+import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/transfer.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
@@ -43,7 +43,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, TransferJobSuccess>(_transferJobSuccess),
   TypedReducer<CashWalletState, AddSendToInvites>(_addSendToInvites),
   TypedReducer<CashWalletState, RemoveSendToInvites>(_removeSendToInvites),
-  TypedReducer<CashWalletState, BusinessesLoadedAction>(_businessesLoadedAction),
+  TypedReducer<CashWalletState, BusinessesLoadedAction>(
+      _businessesLoadedAction),
   TypedReducer<CashWalletState, CreateNewWalletSuccess>(
       _createNewWalletSuccess),
 ]);
@@ -133,21 +134,22 @@ CashWalletState _getBusinessListSuccess(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-  //  print('Found ${action.tokenTransfers.length} token transfers');
-  if (state.walletAddress != '') {
-    List<PendingTransfer> nPendingTransfers =
-        List<PendingTransfer>.from(state.pendingTransfers);
-    for (PendingTransfer pending in state.pendingTransfers) {
-      Transfer tx = action.tokenTransfers.firstWhere(
-          (transfer) => transfer.txHash == pending.txHash,
-          orElse: () => null);
-      if (tx != null) {
-        nPendingTransfers.remove(pending);
+   print('Found ${action.tokenTransfers.length} token transfers');
+  if (state.walletAddress != '' && action.tokenTransfers.length > 0) {
+    dynamic maxBlockNumber = action.tokenTransfers.fold<int>(0, (max, e) => e.blockNumber > max ? e.blockNumber: max) + 1;
+
+    for (Transaction tx in action.tokenTransfers.reversed) {
+      Transaction saved = state.transactions.list.firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+      if (saved != null) {
+          if (saved.isPending()) {
+            saved.status = 'CONFIRMED';
+          }
+      } else {
+        state.transactions.list.add(tx);
       }
-    }
-    return state.copyWith(
-        tokenTransfers: action.tokenTransfers,
-        pendingTransfers: nPendingTransfers);
+    }    
+
+    return state.copyWith(transactions: state.transactions.copyWith(list: state.transactions.list, blockNumber: maxBlockNumber));
   } else {
     return state;
   }
@@ -161,7 +163,11 @@ CashWalletState _logoutSuccess(
 
 CashWalletState _switchCommunityRequest(
     CashWalletState state, SwitchCommunityRequested action) {
-  return state.copyWith(isCommunityLoading: true, token: null, tokenTransfers: new List<Transfer>(), pendingTransfers: new List<PendingTransfer>(), tokenBalance: BigInt.from(0));
+  return state.copyWith(
+      isCommunityLoading: true,
+      token: null,
+      transactions: new Transactions(list:new List<Transaction>()),
+      tokenBalance: BigInt.from(0));
 }
 
 CashWalletState _branchCommunityUpdate(
@@ -195,44 +201,63 @@ CashWalletState _startTransfersFetchingSuccess(
 
 CashWalletState _transferSendSuccess(
     CashWalletState state, TransferSendSuccess action) {
-  return state.copyWith(
-      pendingTransfers: List.from(state.pendingTransfers)
-        ..remove(action.requestedTransfer)
-        ..add(action.transfer));
+    return state.copyWith(
+      transactions: state.transactions.copyWith(
+        list: state.transactions.list
+          ..add(action.transfer)
+      ));
 }
 
 CashWalletState _transferSendRequested(
     CashWalletState state, TransferSendRequested action) {
   return state.copyWith(
-      pendingTransfers: List.from(state.pendingTransfers)
-        ..add(action.transfer));
+      transactions: state.transactions.copyWith(list: List.from(state.transactions.list)..add(action.transfer)));
 }
 
-CashWalletState _transferJobSuccess(CashWalletState state, TransferJobSuccess action) {
-  PendingTransfer transfer = state.pendingTransfers
+CashWalletState _transferJobSuccess(
+    CashWalletState state, TransferJobSuccess action) {
+  Transfer transfer = state.transactions.list
       .firstWhere((transfer) => transfer.jobId == action.job.id);
+  if (transfer.txHash == action.job.data["txHash"]) {
+    print('txhash already exists $transfer.txHash');
+    return state;
+  }
+
   dynamic json = transfer.toJson();
   json['txHash'] = action.job.data["txHash"];
-  PendingTransfer newTransfer = PendingTransfer.fromJson(json);
+  print('txHash to delete ${transfer.jobId}');
+  Transfer newTransfer = Transfer.fromJson(json);
+  
+  List<Transaction> nList =  List.from(state.transactions.list);
+
+  // remove Transfer with txHash if it was received before the job
+  nList.removeWhere((transfer) => transfer.txHash == action.job.data["txHash"]);
+
+  nList
+    ..add(newTransfer)
+    ..remove(transfer);
+  
+
   return state.copyWith(
-      pendingTransfers: List.from(state.pendingTransfers)
-        ..add(newTransfer)
-        ..remove(transfer));
+      transactions: state.transactions.copyWith(list: nList));
 }
 
-CashWalletState _addSendToInvites(CashWalletState state, AddSendToInvites action) {
+CashWalletState _addSendToInvites(
+    CashWalletState state, AddSendToInvites action) {
   Map<String, num> sendToInvites = state.sendToInvites;
   sendToInvites[action.jobId] = action.amount;
   return state.copyWith(sendToInvites: sendToInvites);
 }
 
-CashWalletState _removeSendToInvites(CashWalletState state, RemoveSendToInvites action) {
+CashWalletState _removeSendToInvites(
+    CashWalletState state, RemoveSendToInvites action) {
   Map<String, num> sendToInvites = state.sendToInvites;
   sendToInvites.remove(action.jobId);
   return state.copyWith(sendToInvites: sendToInvites);
 }
 
-CashWalletState _businessesLoadedAction(CashWalletState state, BusinessesLoadedAction action) {
+CashWalletState _businessesLoadedAction(
+    CashWalletState state, BusinessesLoadedAction action) {
   return state.copyWith(businesses: action.businessList);
 }
 

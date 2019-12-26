@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:fusecash/models/views/cash_wallet.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/transaction.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/format.dart';
@@ -11,7 +11,7 @@ class CashTransactios extends StatefulWidget {
 
   final CashWalletViewModel viewModel;
   @override
-  createState() => new CashTransactiosState();
+  createState() => new CashTransactionsState();
 }
 
 String deduceSign(Transfer transfer) {
@@ -57,8 +57,8 @@ Color deduceColor(Transfer transfer) {
   }
 }
 
-class CashTransactiosState extends State<CashTransactios> {
-  CashTransactiosState();
+class CashTransactionsState extends State<CashTransactios> {
+  CashTransactionsState();
 
   @override
   void initState() {
@@ -70,23 +70,13 @@ class CashTransactiosState extends State<CashTransactios> {
     List<_TransactionListItem> transfers = this
             .widget
             .viewModel
-            .pendingTransfers
+            .transactions
+            .list
+            .reversed
             .map((transfer) => _TransactionListItem(
                 transfer,
                 getContact(transfer, this.widget.viewModel),
-                this.widget.viewModel,
-                true))
-            .toList() +
-        this
-            .widget
-            .viewModel
-            .tokenTransfers
-            .map((transfer) => _TransactionListItem(
-                transfer,
-                getContact(transfer, this.widget.viewModel),
-                this.widget.viewModel,
-                false))
-            .toList();
+                this.widget.viewModel)).toList();
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -108,15 +98,15 @@ class CashTransactiosState extends State<CashTransactios> {
 }
 
 class _TransactionListItem extends StatelessWidget {
-  final Transfer _transfer;
+  final Transaction _transaction;
   final Contact _contact;
   final CashWalletViewModel _vm;
-  final bool isPending;
 
-  _TransactionListItem(this._transfer, this._contact, this._vm, this.isPending);
+  _TransactionListItem(this._transaction, this._contact, this._vm,);
 
   @override
   Widget build(BuildContext context) {
+    Transfer transfer = _transaction as Transfer;
     List<Widget> rightColumn = <Widget>[
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -125,9 +115,9 @@ class _TransactionListItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 5),
             child: Text(
-              deduceSign(_transfer) + formatValue(_transfer.value, _vm.token.decimals),
+              deduceSign(_transaction) + formatValue(transfer.value, _vm.token.decimals),
               style: TextStyle(
-                  color: deduceColor(_transfer),
+                  color: deduceColor(_transaction),
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold),
             ),
@@ -135,7 +125,7 @@ class _TransactionListItem extends StatelessWidget {
           Text(
             " ${_vm.token.symbol}",
             style: TextStyle(
-                color: deduceColor(_transfer),
+                color: deduceColor(_transaction),
                 fontSize: 18.0,
                 fontWeight: FontWeight.normal),
           )
@@ -143,7 +133,7 @@ class _TransactionListItem extends StatelessWidget {
       )
     ];
 
-    if (isPending) {
+    if (_transaction.status == 'PENDING') {
       rightColumn.add(Padding(
           child: Text("PENDING",
               style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),
@@ -162,7 +152,7 @@ class _TransactionListItem extends StatelessWidget {
               Text(
                   _contact != null
                       ? _contact.displayName
-                      : deducePhoneNumber(_transfer, _vm.reverseContacts),
+                      : deducePhoneNumber(_transaction, _vm.reverseContacts),
                   style: TextStyle(color: Color(0xFF333333), fontSize: 18))
             ],
           ),
