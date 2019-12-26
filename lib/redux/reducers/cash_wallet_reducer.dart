@@ -38,8 +38,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _startBalanceFetchingSuccess),
   TypedReducer<CashWalletState, StartTransfersFetchingSuccess>(
       _startTransfersFetchingSuccess),
-  TypedReducer<CashWalletState, TransferSendRequested>(_transferSendRequested),
   TypedReducer<CashWalletState, TransferSendSuccess>(_transferSendSuccess),
+  TypedReducer<CashWalletState, InviteSendSuccess>(_inviteSendSuccess),
   TypedReducer<CashWalletState, TransferJobSuccess>(_transferJobSuccess),
   TypedReducer<CashWalletState, AddSendToInvites>(_addSendToInvites),
   TypedReducer<CashWalletState, RemoveSendToInvites>(_removeSendToInvites),
@@ -47,6 +47,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _businessesLoadedAction),
   TypedReducer<CashWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
+  TypedReducer<CashWalletState, ReplaceTransfer>(_replaceTransfer),
 ]);
 
 CashWalletState _setDefaultCommunity(
@@ -217,11 +218,14 @@ CashWalletState _transferSendSuccess(
           .copyWith(list: state.transactions.list..add(action.transfer)));
 }
 
-CashWalletState _transferSendRequested(
-    CashWalletState state, TransferSendRequested action) {
+CashWalletState _inviteSendSuccess(
+    CashWalletState state, InviteSendSuccess action) {
+  dynamic invites = Map.from(state.transactions.invites);
+  invites[action.invite.jobId] = action.invite;
   return state.copyWith(
       transactions: state.transactions.copyWith(
-          list: List.from(state.transactions.list)..add(action.transfer)));
+          invites: invites,
+          list: List.from(state.transactions.list)..add(action.invite)));
 }
 
 CashWalletState _transferJobSuccess(
@@ -247,6 +251,7 @@ CashWalletState _transferJobSuccess(
     ..add(newTransfer)
     ..remove(transfer);
 
+  // if (state.transactions.invites.containsKey(key))
   return state.copyWith(transactions: state.transactions.copyWith(list: nList));
 }
 
@@ -273,3 +278,12 @@ CashWalletState _createNewWalletSuccess(
     CashWalletState state, CreateLocalAccountSuccess action) {
   return CashWalletState.initial();
 }
+
+CashWalletState _replaceTransfer(
+    CashWalletState state, ReplaceTransfer action) {
+        return state.copyWith(transactions: state.transactions.copyWith(list: 
+          state.transactions.list
+            ..remove(action.transfer)
+            ..add(action.nTransfer)));
+
+    }

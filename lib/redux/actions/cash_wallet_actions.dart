@@ -130,6 +130,11 @@ class TransferJobSuccess {
   TransferJobSuccess(this.job);
 }
 
+class TransferInviteJobSuccess {
+  Job job;
+  TransferInviteJobSuccess(this.job);
+}
+
 class GetTokenTransfersListSuccess {
   List<Transfer> tokenTransfers;
   GetTokenTransfersListSuccess(this.tokenTransfers);
@@ -142,11 +147,6 @@ class StartBalanceFetchingSuccess {
 class StartTransfersFetchingSuccess {
   String tokenAddress;
   StartTransfersFetchingSuccess();
-}
-
-class TransferSendRequested {
-  Transfer transfer;
-  TransferSendRequested(this.transfer);
 }
 
 class TransferSendSuccess {
@@ -180,6 +180,18 @@ class BusinessesLoadedAction {
   final List<Business> businessList;
 
   BusinessesLoadedAction(this.businessList);
+}
+
+class InviteSendSuccess {
+  final Transaction invite;
+  InviteSendSuccess(this.invite);
+}
+
+
+class ReplaceTransfer {
+  final Transaction transfer;
+  final Transaction nTransfer;
+  ReplaceTransfer(this.transfer, this.nTransfer);
 }
 
 Future<bool> approvalCallback() async {
@@ -332,51 +344,59 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
   };
 }
 
-ThunkAction fetchJobCall(String jobId,
-    {Timer timer, VoidCallback fetchSuccessCallback}) {
+ThunkAction fetchJobCall(String jobId, Function(Job) fetchSuccessCallback,
+    {Timer timer, bool untilDone}) {
   return (Store store) async {
     try {
       dynamic response = await api.getJob(jobId);
       Job job = Job.fromJson(response);
       logger.wtf("job.name: ${job.name}");
-      if (job.data['txHash'] == null) {
-        logger.wtf('fetched job with txHash null');
-        return;
+      if (untilDone) {
+        if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
+          logger.wtf('job not done');
+          return;
+        }
+      } else {
+        if (job.data['txHash'] == null) {
+          logger.wtf('fetched job with txHash null');
+          return;
+        }
       }
-      switch (job.name) {
-        case Job.RELAY:
-          {
-            String walletModule = job.data["walletModule"];
-            logger.wtf("walletModule: $walletModule");
-            switch (walletModule) {
-              case Job.COMMUNITY_MANAGER:
-                {
-                  // TODO nothing.
-                  break;
-                }
-              case Job.TRANSFER_MANAGER:
-                {
-                  logger.wtf("dispatching");
-                  store.dispatch(new TransferJobSuccess(job));
-                  break;
-                }
-              default:
-                {
-                  //statements;
-                }
-                break;
-            }
-            break;
-          }
-        case Job.CREATE_WALLET:
-          {
-            store.dispatch(callSendToInviteCall(job));
-            break;
-          }
-        default:
-          {}
-          break;
-      }
+      fetchSuccessCallback(job);
+      // switch (job.name) {
+      //   case Job.RELAY:
+      //     {
+      //       String walletModule = job.data["walletModule"];
+      //       logger.wtf("walletModule: $walletModule");
+      //       switch (walletModule) {
+      //         case Job.COMMUNITY_MANAGER:
+      //           {
+      //             // TODO nothing.
+      //             break;
+      //           }
+      //         case Job.TRANSFER_MANAGER:
+      //           {
+      //             logger.wtf("dispatching");
+      //             store.dispatch(new TransferJobSuccess(job));
+      //             break;
+      //           }
+      //         default:
+      //           {
+      //             //statements;
+      //           }
+      //           break;
+      //       }
+      //       break;
+      //     }
+      //   case Job.CREATE_WALLET:
+      //     {
+      //       store.dispatch(callSendToInviteCall(job));
+      //       break;
+      //     }
+      //   default:
+      //     {}
+      //     break;
+      // }
       if (timer != null) {
         timer.cancel();
       }
@@ -387,90 +407,59 @@ ThunkAction fetchJobCall(String jobId,
   };
 }
 
-ThunkAction startFetchingJobCall(String jobId) {
+ThunkAction startFetchingJobCall(String jobId, Function(Job) fetchSuccessCallback, {bool untilDone: false }) {
   return (Store store) async {
-    Timer timer = new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
-      store.dispatch(fetchJobCall(jobId, timer: timer));
+    new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+      store.dispatch(fetchJobCall(jobId, fetchSuccessCallback, timer: timer, untilDone: untilDone));
     });
-    // store.dispatch(fetchJobCall(jobId, timer: timer));
-    // try {
-    //   logger.d('fetching job $jobId');
-    //   dynamic response = await api.getJob(jobId);
-    //   Job job = Job.fromJson(response);
-    //   if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-    //     Timer(Duration(seconds: 3), () {store.dispatch(startFetchingJobCall(jobId));});
-    //     return;
-    //   }
-    //   logger.wtf("job.name: ${job.name}");
-    //   switch (job.name) {
-    //     case Job.RELAY: {
-    //       String walletModule = job.data["walletModule"];
-    //       logger.wtf("walletModule: $walletModule");
-    //       switch (walletModule) {
-    //         case Job.COMMUNITY_MANAGER: {
-    //           // TODO nothing.
-    //           break;
-    //         }
-    //         case Job.TRANSFER_MANAGER: {
-    //           logger.wtf("dispatching");
-    //           store.dispatch(new TransferJobSuccess(job));
-    //           break;
-    //         }
-    //         default: {
-    //           //statements;
-    //         }
-    //         break;
-    //       }
-    //       break;
-    //     }
-    //     case Job.CREATE_WALLET: {
-    //       store.dispatch(callSendToInviteCall(job));
-    //       break;
-    //     }
-    //     default: {
-
-    //     }
-    //     break;
-    //   }
-    // } catch (e) {
-    //   logger.e(e);
-    //   store.dispatch(new ErrorAction('Could not get job'));
-    // }
   };
 }
 
-ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount) {
+ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
   return (Store store) async {
+    Token token = store.state.cashWalletState.token;
     dynamic response = await api.invite(
         contactPhoneNumber, store.state.cashWalletState.communityAddress);
     logger.wtf("response $response");
+    sendSuccessCallback();
     String jobId = response['job']['_id'].toString();
-    store.dispatch(AddSendToInvites(jobId, tokensAmount));
-    store.dispatch(startFetchingJobCall(jobId));
+
+    BigInt value = toBigInt(tokensAmount, token.decimals);
+    Transfer invite = new Transfer(
+      text: contactPhoneNumber,
+      status: 'PENDING',
+      value: value,
+      type: 'SEND'
+    );
+
+    store.dispatch(TransferSendSuccess(invite));
+    // store.dispatch(new TransferSendSuccess(invite));
+
+    // store.dispatch(AddSendToInvites(jobId, tokensAmount));
+    store.dispatch(startFetchingJobCall(jobId, (Job job) {
+      String receiverAddress = job.data["walletAddress"];
+      Transfer inviteWithJobId = new Transfer(
+        text: contactPhoneNumber,
+        status: 'PENDING',
+        value: value,
+        type: 'SEND',
+        jobId: job.id
+      );
+      store.dispatch(sendToInviteCall(receiverAddress, tokensAmount, inviteWithJobId));
+    }, untilDone: true));
   };
 }
 
 ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
   return (Store store) async {
-    try {
+    try { 
       wallet_core.Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
       Token token = store.state.cashWalletState.token;
       String tokenAddress = token.address;
 
-      // Decimal tokensAmountDecimal = Decimal.parse(tokensAmount.toString());
-      // Decimal decimals = Decimal.parse(pow(10, token.decimals).toString());
-      // BigInt value = BigInt.from((tokensAmountDecimal * decimals).toInt());
       BigInt value = toBigInt(tokensAmount, token.decimals);
-      // Transfer transferRequested = new Transfer(
-      //     from: walletAddress,
-      //     to: receiverAddress,
-      //     tokenAddress: tokenAddress,
-      //     value: value,
-      //     status: 'PENDING',
-      //     type: 'SEND');
-      // store.dispatch(new TransferSendRequested(transferRequested));
 
       logger.wtf(
           'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
@@ -482,14 +471,9 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
 
       sendSuccessCallback();
 
-      // Transfer transferRequested = new Transfer(
-      //     from: walletAddress,
-      //     to: receiverAddress,
-      //     tokenAddress: tokenAddress,
-      //     value: value,
-      //     status: 'PENDING',
-      //     type: 'SEND');
-      store.dispatch(startFetchingJobCall(jobId));
+      store.dispatch(startFetchingJobCall(jobId, (job) {
+        store.dispatch(new TransferJobSuccess(job));
+      }));
 
       Transfer transfer = new Transfer(
           from: walletAddress,
@@ -508,13 +492,52 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
   };
 }
 
-ThunkAction callSendToInviteCall(Job job) {
+ThunkAction sendToInviteCall(String receiverAddress, num tokensAmount, Transfer inviteWithJobId) {
   return (Store store) async {
-    Map<String, num> sendToInvites = store.state.cashWalletState.sendToInvites;
-    // store.dispatch(sendTokenCall(job.data["walletAddress"], sendToInvites[job.id]));
-    store.dispatch(RemoveSendToInvites(job.id));
+    try {
+      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
+      String walletAddress = store.state.cashWalletState.walletAddress;
+      Token token = store.state.cashWalletState.token;
+      String tokenAddress = token.address;
+
+      BigInt value = toBigInt(tokensAmount, token.decimals);
+
+      logger.wtf(
+          'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
+      dynamic response = await api.tokenTransfer(
+          web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
+
+      dynamic jobId = response['job']['_id'];
+      logger.wtf('Job $jobId for sending token sent to the relay service');
+
+      store.dispatch(startFetchingJobCall(jobId, (job) {
+        store.dispatch(new TransferJobSuccess(job));
+      }));
+
+      Transfer transfer = new Transfer(
+          from: walletAddress,
+          to: receiverAddress,
+          tokenAddress: tokenAddress,
+          value: value,
+          type: 'SEND',
+          status: 'PENDING',
+          jobId: jobId);
+      // store.dispatch(new TransferSendSuccess(transfer));
+      store.dispatch(new ReplaceTransfer(inviteWithJobId, transfer));
+    } catch (e) {
+      logger.e(e);
+      store.dispatch(new ErrorAction('Could not send token'));
+    }
   };
 }
+
+// ThunkAction callSendToInviteCall(Job job) {
+//   return (Store store) async {
+//     Map<String, num> sendToInvites = store.state.cashWalletState.sendToInvites;
+//     store.dispatch(sendTokenCall(job.data["walletAddress"], sendToInvites[job.id]));
+//     store.dispatch(RemoveSendToInvites(job.id));
+//   };
+// }
 
 ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   return (Store store) async {
@@ -631,7 +654,7 @@ ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount,
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       logger.wtf("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
-        store.dispatch(inviteAndSendCall(contactPhoneNumber, tokensAmount));
+        store.dispatch(inviteAndSendCall(contactPhoneNumber, tokensAmount, sendSuccessCallback, sendFailureCallback));
         return;
       }
       store.dispatch(sendTokenCall(walletAddress, tokensAmount,

@@ -34,6 +34,10 @@ String deducePhoneNumber(
 
 Contact getContact(Transfer transfer, CashWalletViewModel vm) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+  if (accountAddress == null) {
+    return null;
+  }
+
   if (vm.reverseContacts.containsKey(accountAddress.toLowerCase())) {
     String phoneNumber = vm.reverseContacts[accountAddress.toLowerCase()];
     if (vm.contacts == null) return null;
@@ -154,6 +158,7 @@ class _TransactionListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
+                  _transaction.text != null ? _transaction.text :
                   _contact != null
                       ? _contact.displayName
                       : deducePhoneNumber(_transaction, _vm.reverseContacts),

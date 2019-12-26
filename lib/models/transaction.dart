@@ -8,6 +8,7 @@ class Transaction {
   final String txHash;
   final String type;
   String status;
+  final String text;
   final int blockNumber;
   final String jobId;
 
@@ -15,6 +16,7 @@ class Transaction {
     this.txHash,
     this.type,
     this.status,
+    this.text,
     this.blockNumber,
     this.jobId
   });
@@ -38,13 +40,14 @@ class Transfer extends Transaction {
     String txHash,
     String type,
     String status,
+    String text,
     String jobId,
     int blockNumber,
     this.to,
     this.from,
     this.value,
     this.tokenAddress,
-  }) : super(txHash: txHash, type: type, status: status, jobId: jobId, blockNumber: blockNumber);
+  }) : super(txHash: txHash, type: type, status: status, text: text, jobId: jobId, blockNumber: blockNumber);
 
   factory Transfer.fromJson(Map<String, dynamic> json) => _$TransferFromJson(json);
 
@@ -64,23 +67,27 @@ List<Transaction> l = new List<Transaction>();
 
 class Transactions {
   final List<Transaction> list;
+  final Map<String, Transaction> invites;
   final num blockNumber;
 
-  Transactions({this.list, this.blockNumber = 0});
+  Transactions({this.list, this.invites, this.blockNumber = 0});
   
 
   Transactions copyWith({
     List<Transaction> list,
+    Map<String, Transaction> invites,
     num blockNumber
   }) {
     return Transactions(
       list: list ?? this.list,
+      invites: invites ?? this.invites,
       blockNumber: blockNumber ?? this.blockNumber
       );
   }
 
   factory Transactions.fromJson(Map<String, dynamic> json) => Transactions(
-    list: List<Transaction>.from(json['list'].map((transaction) => TransactionFactory.fromJson(transaction))),
+    // list: List<Transaction>.from(json['list'].map((transaction) => TransactionFactory.fromJson(transaction))),
+    list: new List<Transaction>(),
     blockNumber: json['blockNumber'] 
   );
   
