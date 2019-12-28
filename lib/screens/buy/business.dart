@@ -3,6 +3,7 @@ import 'package:fusecash/models/business.dart';
 import 'dart:core';
 
 import 'package:fusecash/screens/send/send_amount.dart';
+import 'package:fusecash/screens/send/send_amount_arguments.dart';
 
 class BusinessRouteArguments {
   final Business business;

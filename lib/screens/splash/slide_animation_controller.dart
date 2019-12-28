@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
@@ -39,12 +40,29 @@ class HouseController extends FlareController {
   @override
   void initialize(FlutterActorArtboard artboard) {
 
-    _arrange = artboard.getAnimation("Animations");
+    _arrange = artboard.getAnimation("part1");
 
 
     _artboard = artboard;
     _demoAnimation = FlareAnimationLayer()
-      ..animation = _artboard.getAnimation("Animations");
+      ..animation = _artboard.getAnimation("part1");
+
+/*var t = 0.0;
+    const oneSec = const Duration(seconds: 1);
+  Timer.periodic(
+    oneSec,
+    (Timer timer) => () {
+      t +=1;
+      print(t);
+      _arrange.apply(t, _artboard, 1);
+      if (t > 10) {
+        timer.cancel();
+      }
+    },
+  );*/
+  
+
+    _arrange.apply(2, _artboard, 1);
 
     /*
     
@@ -111,7 +129,9 @@ class HouseController extends FlareController {
 */
 
   set rooms(double value) {
-    _arrange.apply(value, _artboard, 1);
+    var time = 2 + (value * 4).abs();
+    print(time);
+    _arrange.apply(time, _artboard, 1);
   }
 
   double get rooms => _rooms;

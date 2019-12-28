@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/widgets/drawer.dart';
-
+import 'package:flutter/services.dart';
 import 'bottombar.dart';
 
 class MainScaffold extends StatelessWidget {
@@ -12,9 +12,14 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarIconBrightness: Brightness.dark
+    ));
+
     return Scaffold(
         key: key,
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         drawer: DrawerWidget(),
         appBar: header != null
             ? new PreferredSize(

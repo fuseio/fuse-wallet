@@ -5,6 +5,7 @@ import 'package:fusecash/models/transaction.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/format.dart';
+import 'dart:math' as math;
 
 class CashTransactios extends StatefulWidget {
   CashTransactios({@required this.viewModel});
@@ -30,7 +31,6 @@ String deducePhoneNumber(
   }
   return formatAddress(accountAddress);
 }
-
 
 Contact getContact(Transfer transfer, CashWalletViewModel vm) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
@@ -68,15 +68,14 @@ class CashTransactionsState extends State<CashTransactios> {
   @override
   Widget build(BuildContext _context) {
     List<_TransactionListItem> transfers = this
-            .widget
-            .viewModel
-            .transactions
-            .list
-            .reversed
-            .map((transfer) => _TransactionListItem(
-                transfer,
-                getContact(transfer, this.widget.viewModel),
-                this.widget.viewModel)).toList();
+        .widget
+        .viewModel
+        .transactions
+        .list
+        .reversed
+        .map((transfer) => _TransactionListItem(transfer,
+            getContact(transfer, this.widget.viewModel), this.widget.viewModel))
+        .toList();
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -102,7 +101,11 @@ class _TransactionListItem extends StatelessWidget {
   final Contact _contact;
   final CashWalletViewModel _vm;
 
-  _TransactionListItem(this._transaction, this._contact, this._vm,);
+  _TransactionListItem(
+    this._transaction,
+    this._contact,
+    this._vm,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +118,8 @@ class _TransactionListItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(right: 5),
             child: Text(
-              deduceSign(_transaction) + formatValue(transfer.value, _vm.token.decimals),
+              deduceSign(_transaction) +
+                  formatValue(transfer.value, _vm.token.decimals),
               style: TextStyle(
                   color: deduceColor(_transaction),
                   fontSize: 18.0,
@@ -157,14 +161,31 @@ class _TransactionListItem extends StatelessWidget {
             ],
           ),
           leading: Stack(
-            children: <Widget>[
-              CircleAvatar(
-                backgroundColor: Color(0xFFE0E0E0),
-                radius: 25,
-                backgroundImage: _contact?.avatar != null ? MemoryImage(_contact.avatar) : new AssetImage('assets/images/anom.png'),
-              ),
-            ],
-          ),
+                  children: <Widget>[
+                    Hero(child: CircleAvatar(
+                      backgroundColor: Color(0xFFE0E0E0),
+                      radius: 25,
+                      backgroundImage: _contact?.avatar != null
+                          ? MemoryImage(_contact.avatar)
+                          : new AssetImage('assets/images/anom.png'),
+                    ),
+                    tag: _transaction.status == 'PENDING' ? "contactSent" : "tarnsaction" + _transaction.txHash,
+                    )
+                    ,
+                    _transaction.status == 'PENDING'
+                        ? Container(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(
+                              backgroundColor: Color(0xFF49D88D).withOpacity(0),
+                              strokeWidth:
+                                  4, //backgroundColor: Color(0xFFb8e3a6),
+                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                  Color(0xFF49D88D).withOpacity(1)),
+                            ))
+                        : SizedBox.shrink()
+                  ],
+                ),
           trailing: Container(
             width: 120,
             child: Column(
@@ -173,6 +194,9 @@ class _TransactionListItem extends StatelessWidget {
                 children: rightColumn),
             padding: EdgeInsets.only(top: 10, bottom: 0, left: 10, right: 10),
           ),
+          onTap: () {
+            Navigator.pushNamed(context, '/TransactionDetails');
+          },
         ));
   }
 }

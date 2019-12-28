@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   PageController _pageController;
   bool isPrimaryPreloading = false;
   bool isTransparentPreloading = false;
-  static const _kDuration = const Duration(milliseconds: 300);
+  static const _kDuration = const Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
   bool isOpen = false;
   HouseController _slideController;
@@ -28,16 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getPages() {
     return <Widget>[
-      FlareActor(
-        "assets/images/test2.flr",
-        alignment: Alignment.center,
-        fit: BoxFit.cover,
-        animation: "Animations",
-        controller: _slideController,
-      ),
-      Image.asset('assets/images/slide1.png', width: 160),
-      Image.asset('assets/images/slide2.png', width: 160),
-      Image.asset('assets/images/slide3.png', width: 160)
+      Container( color: Colors.transparent),
+      Container( color: Colors.transparent),
+      Container( color: Colors.transparent),
     ];
   }
 
@@ -46,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
       _previousPage = _pageController.page.toInt();
     }
     notifier?.value = _pageController.page - _previousPage;
-    print(_pageController.page);
+    
 
     _slideController.rooms = _pageController.page;
   }
@@ -110,6 +103,15 @@ class _SplashScreenState extends State<SplashScreen> {
                               Expanded(
                                 child: new Stack(
                                   children: <Widget>[
+                                    Padding(padding: EdgeInsets.all(20),
+                                    child: FlareActor(
+        "assets/images/new-file-14.flr",
+        alignment: Alignment.center,
+        fit: BoxFit.contain,
+        //animation: "part1",
+        controller: _slideController,
+      ),)
+                                    ,
                                     new PageView.builder(
                                       physics:
                                           new AlwaysScrollableScrollPhysics(),

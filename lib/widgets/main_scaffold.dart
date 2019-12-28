@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MainScaffold extends StatelessWidget {
   MainScaffold(
@@ -52,6 +53,11 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarIconBrightness: Brightness.dark
+    ));
+
     if (sliverList == null) {
       sliverList = new List<Widget>();
     }

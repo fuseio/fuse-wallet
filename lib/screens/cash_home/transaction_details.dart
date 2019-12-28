@@ -6,53 +6,20 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/phone.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
-class SendReviewScreen extends StatefulWidget {
+class TransactionDetailsScreen extends StatefulWidget {
   @override
-  _SendReviewScreenState createState() => _SendReviewScreenState();
+  _TransactionDetailsScreenState createState() =>
+      _TransactionDetailsScreenState();
 }
 
-class _SendReviewScreenState extends State<SendReviewScreen>
+class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
     with TickerProviderStateMixin {
-  String amountText = "0";
-  AnimationController controller;
-  Animation<double> offset;
-  bool isPreloading = false;
-  var squareScaleA = 1.0;
-  //AnimationController _controllerA;
-
   @override
   void initState() {
     super.initState();
-
-    controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
-
-    offset = Tween<double>(begin: 1, end: 3).animate(
-        new CurvedAnimation(parent: controller, curve: Curves.easeInOutQuad))
-      ..addListener(() {
-        setState(() {});
-      });
-  }
-
-  void send(
-      SendAmountViewModel viewModel,
-      SendAmountArguments args,
-      VoidCallback sendSuccessCallback,
-      VoidCallback sendFailureCallback) {
-    if (args.phoneNumber != null) {
-      viewModel.sendToContact(
-          formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
-          num.parse(amountText),
-          sendSuccessCallback,
-          sendFailureCallback);
-    } else {
-      viewModel.sendToAccountAddress(args.accountAddress, num.parse(amountText),
-          sendSuccessCallback, sendFailureCallback);
-    }
   }
 
   @override
@@ -66,7 +33,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       builder: (_, viewModel) {
         return MainScaffold(
             withPadding: true,
-            title: "Review transfer",
+            title: "Transaction details",
             children: <Widget>[
               Container(
                   child: Column(children: <Widget>[
@@ -74,38 +41,24 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Text("Amount",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal)),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(0.0),
-                        child: Column(
+                        padding: EdgeInsets.only(top: 30, bottom: 20),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(top: 20.0, bottom: 30),
-                              child: Text("${args.amount} ${args.token.symbol}",
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 50,
-                                      fontWeight: FontWeight.w600)),
+                              padding: EdgeInsets.only(right: 10),
+                              child: Image.asset('assets/images/check.png'),
                             ),
+                            Text("Approved",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.normal))
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: Text("To:",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal)),
-                      )
                     ],
                   ),
                 ),
@@ -118,39 +71,41 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(right: 20),
-                            child: ScaleTransition(
-                                scale: offset,
-                                child: Transform.translate(
-                                    offset: Offset(offset.value * 10, 0),
-                                    child: Hero(
-                                      child: CircleAvatar(
-                                        backgroundColor: Color(0xFFE0E0E0),
-                                        radius: 25,
-                                        backgroundImage: args.avatar,
-                                      ),
-                                      tag: "contactSent",
-                                    ))),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                args.name,
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Text(
-                                "Address: ${args.accountAddress}",
-                                style: TextStyle(
-                                    fontSize: 16, color: Color(0xFF777777)),
-                              )
-                            ],
+                          Padding(padding: EdgeInsets.only( right: 40),
+                          child:  Text("To"),)
+                         ,
+                          CircleAvatar(
+                            backgroundColor: Color(0xFFE0E0E0),
+                            radius: 25,
+                            backgroundImage:
+                                new AssetImage('assets/images/anom.png'),
                           )
+                        ],
+                      ),
+                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Padding(padding: EdgeInsets.only( right: 40),
+                          child:  Text("Address"),)
+                         ,
+                          Text("0x7c06…bF56f2")
+                        ],
+                      ),
+                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Padding(padding: EdgeInsets.only( right: 40),
+                          child:  Text("Amount"),)
+                         ,
+                          Text("50 FFU")
                         ],
                       )
                     ],
@@ -170,9 +125,34 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                 child: PrimaryButton(
               label: "Send",
               onPressed: () {
-                
-                send(viewModel, args, () {
-                    Navigator.pushNamed(context, '/SendSuccess', arguments: args);
+                Navigator.pushNamed(context, '/SendSuccess');
+
+                //controller.forward();
+
+                //Future.delayed(const Duration(milliseconds: 1000), () {
+//Navigator.pushNamed(context, '/Cash');
+//});
+
+                //var timer = Timer(Duration(seconds: 1), () => Navigator.pushNamed(context, '/Cash'));
+                //timer.cancel();
+
+/*
+
+                Navigator.push(
+    context,
+    SlideRightRoute(page: CashHomeScreen()),
+  );*/
+
+/*
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      transitionDuration: Duration(seconds: 1),
+                      pageBuilder: (_, __, ___) => CashHomeScreen()));
+*/
+
+                /*send(viewModel, args, amountText, () {
+                    Navigator.popAndPushNamed(context, '/Cash');
                     setState(() {
                       isPreloading = false;
                     });
@@ -181,10 +161,9 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                   });
                   setState(() {
                     isPreloading = true;
-                  });
-
+                  });*/
               },
-              preload: isPreloading,
+              preload: false,
               width: 300,
             )));
       },
