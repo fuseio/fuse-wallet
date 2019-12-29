@@ -4,13 +4,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:permission_handler/permission_handler.dart';
-import './send_amount.dart';
 import 'package:fusecash/models/token.dart';
 import 'package:redux/redux.dart';
-import 'alpabet_list_scroll_view.dart';
 import 'dart:math' as math;
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
@@ -32,16 +30,20 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   bool isPreloading = false;
 
   loadContacts() async {
-    // Map<PermissionGroup, PermissionStatus> permissions =
-    //     await PermissionHandler()
-    //         .requestPermissions([PermissionGroup.contacts]);
+     
+     /*
+     Map<PermissionGroup, PermissionStatus> permissions =
+         await PermissionHandler()
+             .requestPermissions([PermissionGroup.contacts]);
 
-    // Iterable<Contact> contacts =
-    //     await ContactsService.getContacts(withThumbnails: true);
-    // contacts = contacts
-    //     .where((i) =>
-    //         i.displayName != null && i.displayName != "" && i.phones.length > 0)
-    //     .toList();
+     Iterable<Contact> contacts =
+         await ContactsService.getContacts(withThumbnails: true);
+     contacts = contacts
+         .where((i) =>
+             i.displayName != null && i.displayName != "" && i.phones.length > 0)
+         .toList();
+*/
+
     for (var contact in this.widget.viewModel.contacts) {
       userList.add(contact);
     }
@@ -89,11 +91,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
             ),
           ],
           child: Container(
-            padding: EdgeInsets.only(top: 5, bottom: 5),
             decoration: new BoxDecoration(
                 border:
                     Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
             child: ListTile(
+              contentPadding:  EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
               leading: CircleAvatar(
                 backgroundColor: Color(0xFFE0E0E0),
                 radius: 25,
@@ -111,6 +113,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     arguments: SendAmountArguments(
                         token: this.widget.viewModel.token,
                         name: user.displayName,
+                        avatar: user.avatar != null && user.avatar.isNotEmpty ? MemoryImage(user.avatar) : new AssetImage('assets/images/anom.png'),
                         phoneNumber: user.phones.toList()[0].value));
               },
             ),

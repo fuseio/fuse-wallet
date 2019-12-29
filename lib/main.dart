@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:flutter/services.dart';
 
 void main() async {
   runApp(new MyApp(
@@ -47,7 +47,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     
-
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarIconBrightness: Brightness.dark
+    ));
     //I18n.onLocaleChanged = onLocaleChange;
 
     return new Column(
