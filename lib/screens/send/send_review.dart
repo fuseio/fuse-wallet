@@ -17,7 +17,6 @@ class SendReviewScreen extends StatefulWidget {
 
 class _SendReviewScreenState extends State<SendReviewScreen>
     with TickerProviderStateMixin {
-  String amountText = "0";
   AnimationController controller;
   Animation<double> offset;
   bool isPreloading = false;
@@ -46,11 +45,11 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     if (args.phoneNumber != null) {
       viewModel.sendToContact(
           formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
-          num.parse(amountText),
+          args.amount,
           sendSuccessCallback,
           sendFailureCallback);
     } else {
-      viewModel.sendToAccountAddress(args.accountAddress, num.parse(amountText),
+      viewModel.sendToAccountAddress(args.accountAddress, args.amount,
           sendSuccessCallback, sendFailureCallback);
     }
   }
