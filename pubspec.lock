@@ -810,10 +810,10 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      name: wallet_core
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.1+43"
+      path: "../wallet_core"
+      relative: true
+    source: path
+    version: "0.0.1+42"
   watcher:
     dependency: transitive
     description:

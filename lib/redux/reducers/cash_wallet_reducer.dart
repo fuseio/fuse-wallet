@@ -47,8 +47,10 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _businessesLoadedAction),
   TypedReducer<CashWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
-  TypedReducer<CashWalletState, ReplaceTransfer>(_replaceTransfer),
+  TypedReducer<CashWalletState, ReplaceTransaction>(_replaceTransfer),
+  TypedReducer<CashWalletState, AddTransaction>(_addTransaction),
 ]);
+
 
 CashWalletState _setDefaultCommunity(
     CashWalletState state, SetDefaultCommunity action) {
@@ -218,6 +220,15 @@ CashWalletState _transferSendSuccess(
           .copyWith(list: state.transactions.list..add(action.transfer)));
 }
 
+CashWalletState _addTransaction(
+    CashWalletState state, AddTransaction action) {
+  return state.copyWith(
+      transactions: state.transactions
+          .copyWith(list: state.transactions.list..add(action.transaction)));
+}
+
+
+
 CashWalletState _inviteSendSuccess(
     CashWalletState state, InviteSendSuccess action) {
   dynamic invites = Map.from(state.transactions.invites);
@@ -280,10 +291,11 @@ CashWalletState _createNewWalletSuccess(
 }
 
 CashWalletState _replaceTransfer(
-    CashWalletState state, ReplaceTransfer action) {
+    CashWalletState state, ReplaceTransaction action) {
+      int index = state.transactions.list.indexOf(action.transaction);
+      state.transactions.list[index] = action.transactionToReplace;
         return state.copyWith(transactions: state.transactions.copyWith(list: 
           state.transactions.list
-            ..remove(action.transfer)
-            ..add(action.nTransfer)));
+          ));
 
     }
