@@ -116,6 +116,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                           Navigator.pushNamed(
                                               context, '/Business',
                                               arguments: BusinessRouteArguments(
+                                                  token: viewModel.token,
                                                   business: viewModel
                                                       .businesses[index]));
                                         },
@@ -138,6 +139,9 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                             Navigator.pushNamed(
                                                 context, '/SendAmount',
                                                 arguments: SendAmountArguments(
+                                                    token: viewModel.token,
+                                                    avatar: new AssetImage('assets/images/anom.png'),
+                                                    name: viewModel.businesses[index].name ?? '',
                                                     accountAddress: viewModel
                                                         .businesses[index]
                                                         .account));
