@@ -72,7 +72,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             }),
             //Divider(),
             getListTile("Back up wallet", () {
-              
+              Navigator.pushNamed(context, '/Backup1');
             }),
             //Divider(),
             getListTile("Log out", () {

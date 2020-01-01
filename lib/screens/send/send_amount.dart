@@ -86,6 +86,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
         return MainScaffold(
             withPadding: true,
+            titleFontSize: 15,
             title:
                 "Send to ${args.name != null ? args.name : formatAddress(args.accountAddress)}",
             children: <Widget>[
