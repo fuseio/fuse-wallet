@@ -45,7 +45,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, RemoveSendToInvites>(_removeSendToInvites),
   TypedReducer<CashWalletState, BusinessesLoadedAction>(
       _businessesLoadedAction),
-  TypedReducer<CashWalletState, CreateNewWalletSuccess>(
+  TypedReducer<CashWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
 ]);
 
@@ -262,6 +262,6 @@ CashWalletState _businessesLoadedAction(
 }
 
 CashWalletState _createNewWalletSuccess(
-    CashWalletState state, CreateNewWalletSuccess action) {
+    CashWalletState state, CreateLocalAccountSuccess action) {
   return CashWalletState.initial();
 }

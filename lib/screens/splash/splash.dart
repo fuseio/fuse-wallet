@@ -161,7 +161,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                             Navigator.pushNamed(
                                                 context, '/Cash');
                                           } else {
-                                            viewModel.createWallet(() {
+                                            viewModel.createLocalAccount(() {
                                               setState(() {
                                                 isPrimaryPreloading = false;
                                               });
@@ -184,7 +184,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                                 : "Restore existing wallet",
                                             onPressed: () {
                                               if (viewModel.isLoggedOut) {
-                                                viewModel.createWallet(() {
+                                                viewModel.createLocalAccount(() {
                                                   setState(() {
                                                     isTransparentPreloading = false;
                                                   });
@@ -215,14 +215,14 @@ class SplashViewModel {
   final String jwtToken;
   final bool isLoggedOut;
   final Function(String) initWeb3;
-  final Function(VoidCallback successCallback) createWallet;
+  final Function(VoidCallback successCallback) createLocalAccount;
 
   SplashViewModel(
       {this.privateKey,
       this.jwtToken,
       this.isLoggedOut,
       this.initWeb3,
-      this.createWallet});
+      this.createLocalAccount});
 
   static SplashViewModel fromStore(Store<AppState> store) {
     return SplashViewModel(
@@ -232,8 +232,8 @@ class SplashViewModel {
         initWeb3: (privateKey) {
           store.dispatch(initWeb3Call(privateKey));
         },
-        createWallet: (VoidCallback successCallback) {
-          store.dispatch(createNewWalletCall(successCallback));
+        createLocalAccount: (VoidCallback successCallback) {
+          store.dispatch(createLocalAccountCall(successCallback));
         }
         // accountAddress: store.state.userState.accountAddress,
         // loginRequestSuccess: store.state.userState.loginRequestSuccess,
