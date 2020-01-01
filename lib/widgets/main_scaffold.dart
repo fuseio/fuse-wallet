@@ -26,7 +26,7 @@ class MainScaffold extends StatelessWidget {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-          expandedHeight: expandedHeight ?? 100,
+          expandedHeight: expandedHeight ?? 120,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
