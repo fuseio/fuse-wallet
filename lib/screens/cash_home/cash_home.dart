@@ -24,7 +24,14 @@ class CashHomeScreen extends StatefulWidget {
       logger.w('Permission to get the contracts denied');
       return null;
     }
-    List<Contact> contacts = (await ContactsService.getContacts(withThumbnails: true)).toList();
+
+        // contacts = contacts
+    //     .where((i) =>
+    //         i.displayName != null && i.displayName != "" && i.phones.length > 0)
+    List<Contact> contacts = (await ContactsService.getContacts(withThumbnails: true))
+      .where((i) =>
+      i.displayName != null && i.displayName != "" && i.phones.length > 0)
+      .toList();
     viewModel.syncContacts(contacts);
     return contacts;
   }
