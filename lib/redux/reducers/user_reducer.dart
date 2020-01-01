@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, RestoreWalletSuccess>(_restoreWalletSuccess),
-  TypedReducer<UserState, createLocalAccountSuccess>(_createNewWalletSuccess),
+  TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
   TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess),
   TypedReducer<UserState, LogoutRequestSuccess>(_logoutSuccess),
@@ -19,7 +19,7 @@ UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) {
 }
 
 UserState _createNewWalletSuccess(
-    UserState state, createLocalAccountSuccess action) {
+    UserState state, CreateLocalAccountSuccess action) {
   UserState newState = UserState.initial();
   return newState.copyWith(
       isLoggedOut: false,

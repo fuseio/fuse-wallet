@@ -19,11 +19,11 @@ class RestoreWalletSuccess {
   RestoreWalletSuccess(this.mnemonic, this.privateKey);
 }
 
-class createLocalAccountSuccess {
+class CreateLocalAccountSuccess {
   final List<String> mnemonic;
   final String privateKey;
   final String accountAddress;
-  createLocalAccountSuccess(this.mnemonic, this.privateKey, this.accountAddress);
+  CreateLocalAccountSuccess(this.mnemonic, this.privateKey, this.accountAddress);
 }
 
 class LoginRequestSuccess {
@@ -87,7 +87,7 @@ ThunkAction createLocalAccountCall(
       Credentials c = EthPrivateKey.fromHex(privateKey);
       dynamic accountAddress = await c.extractAddress();
       // api.setJwtToken('');
-      store.dispatch(new createLocalAccountSuccess(
+      store.dispatch(new CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
       successCallback();
