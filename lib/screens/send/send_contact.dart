@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,18 +32,18 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   bool isPreloading = false;
 
   loadContacts() async {
-     
-     /*
-     Map<PermissionGroup, PermissionStatus> permissions =
-         await PermissionHandler()
-             .requestPermissions([PermissionGroup.contacts]);
 
-     Iterable<Contact> contacts =
-         await ContactsService.getContacts(withThumbnails: true);
-     contacts = contacts
-         .where((i) =>
-             i.displayName != null && i.displayName != "" && i.phones.length > 0)
-         .toList();
+    /*
+    Map<PermissionGroup, PermissionStatus> permissions =
+        await PermissionHandler()
+            .requestPermissions([PermissionGroup.contacts]);
+
+    Iterable<Contact> contacts =
+        await ContactsService.getContacts(withThumbnails: true);
+    contacts = contacts
+        .where((i) =>
+            i.displayName != null && i.displayName != "" && i.phones.length > 0)
+        .toList();
 */
 
     for (var contact in this.widget.viewModel.contacts) {
@@ -280,7 +282,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       title: "Send to",
       sliverList: _buildPageList(),
       children: <Widget>[
-        isPreloading
+        !this.widget.viewModel.isContactsSynced
             ? Padding(
                 padding: EdgeInsets.only(top: 50),
                 child: Center(
@@ -335,8 +337,23 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
+  syncWallet(Function syncContacts) async {
+    PermissionStatus permission = (await PermissionHandler().requestPermissions(
+        [PermissionGroup.contacts]))[PermissionGroup.contacts];
+    if (permission != PermissionStatus.granted) {
+      logger.w('Permission to get the contracts denied');
+      return null;
+    }
 
-    @override
+    List<Contact> contacts = (await ContactsService.getContacts(
+            withThumbnails: true))
+        .where((i) =>
+            i.displayName != null && i.displayName != "" && i.phones.length > 0)
+        .toList();
+    syncContacts(contacts);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
@@ -344,23 +361,61 @@ class _ContactsScreenState extends State<ContactsScreen> {
           return ContactsViewModel.fromStore(store);
         },
         builder: (_, viewModel) {
-          return SendToContactScreen(viewModel);
+          if (!viewModel.isContactsSynced) {
+            return MainScaffold(
+                withPadding: true,
+                title: "Send to",
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(top: 180),
+                        child: SvgPicture.asset(
+                          'assets/images/contacts.svg',
+                          width: 50.0,
+                          height: 50,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 20),
+                        child: new InkWell(
+                          onTap: () => syncWallet(viewModel.syncContacts),
+                          child: new Padding(
+                            padding: new EdgeInsets.all(10.0),
+                            child: new Text("Click here to sync your contacts"),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ]);
+          } else {
+            return SendToContactScreen(viewModel);
+          }
         });
   }
 }
 
-
 class ContactsViewModel {
   final List<Contact> contacts;
   final Token token;
+  final bool isContactsSynced;
+  final Function(List<Contact>) syncContacts;
   // final Function(String, num, VoidCallback, VoidCallback) sendToContact;
   // final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
 
-  ContactsViewModel({this.contacts, this.token});
+  ContactsViewModel(
+      {this.contacts, this.token, this.syncContacts, this.isContactsSynced});
 
   static ContactsViewModel fromStore(Store<AppState> store) {
     return ContactsViewModel(
-        contacts: store.state.userState.contacts,
-        token: store.state.cashWalletState.token);
+        isContactsSynced: store.state.userState.isContactsSynced ?? false,
+        contacts: store.state.userState.contacts ?? [],
+        token: store.state.cashWalletState.token,
+        syncContacts: (List<Contact> contacts) {
+          store.dispatch(syncContactsCall(contacts));
+        });
   }
 }

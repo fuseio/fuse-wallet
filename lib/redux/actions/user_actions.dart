@@ -50,6 +50,10 @@ class SyncContactsProgress {
   SyncContactsProgress(this.contacts, this.newContacts);
 }
 
+class SyncContactsRejected {
+  SyncContactsRejected();
+}
+
 class SaveContacts {
   List<Contact> contacts;
   SaveContacts(this.contacts);

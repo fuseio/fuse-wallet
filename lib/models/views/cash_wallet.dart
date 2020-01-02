@@ -40,6 +40,7 @@ class CashWalletViewModel {
   final Function() branchCommunityUpdate;
   final List<Business> businesses;
   final Function() loadBusinesses;
+  final Function() syncContactsRejected;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -73,6 +74,7 @@ class CashWalletViewModel {
     this.branchCommunityUpdate,
     this.businesses,
     this.loadBusinesses,
+    this.syncContactsRejected
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -121,6 +123,9 @@ class CashWalletViewModel {
       },
       syncContacts: (List<Contact> contacts) {
         store.dispatch(syncContactsCall(contacts));
+      },
+      syncContactsRejected: () {
+        store.dispatch(new SyncContactsRejected());
       },
       branchCommunityUpdate: () {
         store.dispatch(BranchCommunityUpdate());
