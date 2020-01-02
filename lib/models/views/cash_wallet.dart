@@ -1,11 +1,12 @@
 import 'package:fusecash/models/business.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/token.dart';
+import 'package:fusecash/models/transaction.dart';
+
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
-import '../token.dart';
-import '../transaction.dart';
 
 class CashWalletViewModel {
   final String accountAddress;
@@ -137,6 +138,7 @@ class CashWalletViewModel {
         walletAddress == other.walletAddress &&
         walletStatus == other.walletStatus &&
         communityAddress == other.communityAddress &&
+        branchAddress == other.branchAddress &&
         isCommunityLoading == other.isCommunityLoading &&
         fullName == other.fullName &&
         tokenBalance == other.tokenBalance &&

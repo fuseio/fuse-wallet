@@ -6,8 +6,6 @@ import 'package:fusecash/widgets/country_code_picker/selection_dialog.dart';
 import 'country_code.dart';
 import 'country_codes.dart';
 
-export 'country_code.dart';
-
 class CountryCodePicker extends StatefulWidget {
   final ValueChanged<CountryCode> onChanged;
   final String initialSelection;

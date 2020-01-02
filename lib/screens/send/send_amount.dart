@@ -8,7 +8,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/models/token.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
@@ -70,10 +69,17 @@ class _SendAmountScreenState extends State<SendAmountScreen>
           if (amountText == "") {
             amountText = "0";
           }
-
-          if (double.parse(amountText) > 0) {
-            controller.forward();
-          } else {
+          try {
+            double amount = double.parse(amountText);
+            if (amount > 0 &&
+                viewModel.balance >=
+                    toBigInt(amount, viewModel.token.decimals)) {
+              // if (double s = value / BigInt.from(pow(10, decimals));)
+              controller.forward();
+            } else {
+              controller.reverse();
+            }
+          } catch (e) {
             controller.reverse();
           }
         }
@@ -103,11 +109,12 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(top: 20.0, bottom: 30),
-                              child: Text('$amountText ${args.token.symbol}',
+                              child: Text(
+                                  '$amountText ${viewModel.token.symbol}',
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontSize: 50,
-                                      fontWeight: FontWeight.w600)),
+                                      fontWeight: FontWeight.w900)),
                             ),
                           ],
                         ),
@@ -127,7 +134,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 child: SlideTransition(
               position: offset,
               child: PrimaryButton(
-                label: 'Continue with $amountText ${args.token.symbol}',
+                label: 'Continue with $amountText ${viewModel.token.symbol}',
                 onPressed: () {
                   args.amount = num.parse(amountText);
                   Navigator.pushNamed(context, '/SendReview', arguments: args);
@@ -142,29 +149,14 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 }
 
 class SendAmountViewModel {
-  final String myCountryCode;
-  final Function(String, num, VoidCallback, VoidCallback) sendToContact;
-  final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
+  final BigInt balance;
+  final Token token;
 
-  SendAmountViewModel(
-      {this.myCountryCode, this.sendToContact, this.sendToAccountAddress});
+  SendAmountViewModel({this.balance, this.token});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     return SendAmountViewModel(
-        myCountryCode: store.state.userState.countryCode,
-        sendToContact: (String phoneNumber,
-            num amount,
-            VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
-          store.dispatch(sendTokenToContactCall(
-              phoneNumber, amount, sendSuccessCallback, sendFailureCallback));
-        },
-        sendToAccountAddress: (String recieverAddress,
-            num amount,
-            VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
-          store.dispatch(sendTokenCall(recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback));
-        });
+        token: store.state.cashWalletState.token,
+        balance: store.state.cashWalletState.tokenBalance);
   }
 }

@@ -111,7 +111,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               onTap: () {
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
-                        token: this.widget.viewModel.token,
                         name: user.displayName,
                         avatar: user.avatar != null && user.avatar.isNotEmpty ? MemoryImage(user.avatar) : new AssetImage('assets/images/anom.png'),
                         phoneNumber: user.phones.toList()[0].value));
@@ -259,7 +258,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         Navigator.pushNamed(context, '/SendAmount',
                             arguments:
                                 SendAmountArguments(
-                                  token: this.widget.viewModel.token,
                                   accountAddress: parts[1]));
                       } else {
                         print('Account address is not on Fuse');
