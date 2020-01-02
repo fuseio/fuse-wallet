@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/models/token.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -87,7 +88,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(top: 20.0, bottom: 30),
-                              child: Text("${args.amount} ${args.token.symbol}",
+                              child: Text("${args.amount} ${viewModel.token.symbol}",
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontSize: 50,
@@ -192,15 +193,17 @@ class _SendReviewScreenState extends State<SendReviewScreen>
 }
 
 class SendAmountViewModel {
+  final Token token;
   final String myCountryCode;
   final Function(String, num, VoidCallback, VoidCallback) sendToContact;
   final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
 
   SendAmountViewModel(
-      {this.myCountryCode, this.sendToContact, this.sendToAccountAddress});
+      {this.token, this.myCountryCode, this.sendToContact, this.sendToAccountAddress});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     return SendAmountViewModel(
+        token: store.state.cashWalletState.token,
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (String phoneNumber,
             num amount,

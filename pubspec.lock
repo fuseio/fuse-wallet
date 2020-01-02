@@ -28,7 +28,7 @@ packages:
       name: archive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.11"
+    version: "2.0.10"
   args:
     dependency: transitive
     description:
@@ -42,7 +42,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "2.3.0"
   barcode_scan:
     dependency: "direct main"
     description:
@@ -458,14 +458,14 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.6"
+    version: "0.12.5"
   meta:
     dependency: transitive
     description:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.8"
+    version: "1.1.7"
   mime:
     dependency: transitive
     description:
@@ -757,7 +757,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.11"
+    version: "0.2.5"
   timing:
     dependency: transitive
     description:
@@ -813,7 +813,7 @@ packages:
       path: "../wallet_core"
       relative: true
     source: path
-    version: "0.0.1+42"
+    version: "0.0.1+44"
   watcher:
     dependency: transitive
     description:

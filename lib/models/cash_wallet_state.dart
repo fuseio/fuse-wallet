@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import './token.dart';
