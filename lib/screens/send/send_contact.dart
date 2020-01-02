@@ -248,7 +248,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               onTap: () {
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
-                        token: this.widget.viewModel.token,
                         name: contact != null
                             ? contact.displayName
                             : deducePhoneNumber(transaction,
@@ -342,8 +341,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       if (parts.length == 2 && parts[0] == 'fuse') {
                         Navigator.pushNamed(context, '/SendAmount',
                             arguments:
-                                SendAmountArguments(
-                                  accountAddress: parts[1]));
+                                SendAmountArguments(accountAddress: parts[1]));
                       } else {
                         print('Account address is not on Fuse');
                       }

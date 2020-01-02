@@ -81,7 +81,8 @@ class _BusinessPageState extends State<BusinessPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.all(20),
-                    child: Text(businessArgs.business.metadata.description ?? '',
+                    child: Text(
+                        businessArgs.business.metadata.description ?? '',
                         style: TextStyle(
                             color: const Color(0xFF666666),
                             height: 1.3,
@@ -109,10 +110,10 @@ class _BusinessPageState extends State<BusinessPage> {
                             Navigator.pushNamed(context, '/SendAmount',
                                 arguments: SendAmountArguments(
                                   accountAddress: businessArgs.business.account,
-                                  token: businessArgs.token,
-                                                    avatar: new AssetImage('assets/images/anom.png'),
-                                                    name: businessArgs.business.name ?? '',
-                                  ));
+                                  avatar:
+                                      new AssetImage('assets/images/anom.png'),
+                                  name: businessArgs.business.name ?? '',
+                                ));
                           },
                         )),
                   ),
