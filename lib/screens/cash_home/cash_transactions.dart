@@ -183,7 +183,7 @@ class _TransactionListItem extends StatelessWidget {
                 ),
                 tag: _transaction.status == 'PENDING'
                     ? "contactSent"
-                    : "tarnsaction" + _transaction.txHash,
+                    : "transaction" + _transaction.txHash,
               ),
               _transaction.status == 'PENDING'
                   ? Container(

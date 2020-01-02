@@ -1,5 +1,5 @@
-import 'package:fusecash/screens/backup/backup1.dart';
-import 'package:fusecash/screens/backup/backup2.dart';
+import 'package:fusecash/screens/backup/show_mnemonic.dart';
+import 'package:fusecash/screens/backup/verify_mnemonic.dart';
 import 'package:fusecash/screens/buy/buy.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
@@ -37,7 +37,7 @@ getRoutes() {
     '/Buy': (context) => BuyScreen(),
     '/Business': (context) => BusinessPage(),
     '/Recovery': (context) => RecoveryPage(),
-    '/Backup1': (context) => Backup1Page(),
-    '/Backup2': (context) => Backup2Page(),
+    '/Backup1': (context) => ShowMnemonic(),
+    '/Backup2': (context) => VerifyMnemonic(),
   };
 }

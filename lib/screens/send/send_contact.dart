@@ -170,16 +170,30 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  Widget recentTransctions() {
+  Widget recentContacts(numToShow) {
     List<Widget> listItems = List();
-    final sorted =
-        new List<Transaction>.from(this.widget.viewModel.transactions.list)
-            .where((t) {
+    final sorted = new List<Transaction>.from(
+            this.widget.viewModel.transactions.list.toSet().toList())
+        .where((t) {
       return t.type == 'SEND' && t.blockNumber != null;
     }).toList()
-              ..sort((a, b) => b.blockNumber?.compareTo(a.blockNumber));
+          ..sort((a, b) => b.blockNumber?.compareTo(a.blockNumber));
 
-    for (int i = 0; i < sorted.length; i++) {
+    Map<String, Transaction> uniqueValues = {};
+    for (var item in sorted) {
+      final Contact contact = getContact(
+          item,
+          this.widget.viewModel.reverseContacts,
+          this.widget.viewModel.contacts,
+          this.widget.viewModel.countryCode);
+      var a = contact != null
+          ? contact.displayName
+          : deducePhoneNumber(item, this.widget.viewModel.reverseContacts);
+      uniqueValues[a] = item;
+    }
+
+    var uniqueList = uniqueValues.values.toList().sublist(0, numToShow);
+    for (int i = 0; i < uniqueList.length; i++) {
       if (i == 0) {
         listItems.add(Container(
             padding: EdgeInsets.only(left: 15, top: 15, bottom: 8),
@@ -189,7 +203,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     fontSize: 14.0,
                     fontWeight: FontWeight.normal))));
       }
-      final Transaction transaction = sorted[i];
+      final Transaction transaction = uniqueList[i];
       final Contact contact = getContact(
           transaction,
           this.widget.viewModel.reverseContacts,
@@ -269,7 +283,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     }
 
     listItems.add(searchPanel());
-    listItems.add(recentTransctions());
+    listItems.add(recentContacts(3));
 
     for (int index = 0; index < abList.length; index++) {
       listItems.add(listHeader(abList[index]));

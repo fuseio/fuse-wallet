@@ -12,16 +12,16 @@ import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
 
-class Backup1Page extends StatefulWidget {
-  Backup1Page({Key key, this.title}) : super(key: key);
+class ShowMnemonic extends StatefulWidget {
+  ShowMnemonic({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _Backup1PageState createState() => _Backup1PageState();
+  _ShowMnemonicState createState() => _ShowMnemonicState();
 }
 
-class _Backup1PageState extends State<Backup1Page> {
+class _ShowMnemonicState extends State<ShowMnemonic> {
   static GlobalKey<ScaffoldState> scaffoldState;
 
   @override

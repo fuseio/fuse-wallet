@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/backup/backup1.dart';
+import 'package:fusecash/screens/backup/show_mnemonic.dart';
+// import 'package:fusecash/screens/backup/backup1.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 
-class Backup2Page extends StatefulWidget {
-  Backup2Page({Key key, this.title}) : super(key: key);
+class VerifyMnemonic extends StatefulWidget {
+  VerifyMnemonic({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _Backup2PageState createState() => _Backup2PageState();
+  _VerifyMnemonicState createState() => _VerifyMnemonicState();
 }
 
-class _Backup2PageState extends State<Backup2Page> {
+class _VerifyMnemonicState extends State<VerifyMnemonic> {
   List<int> selectedWordsNum = new List<int>();
   final _formKey = GlobalKey<FormState>();
 
