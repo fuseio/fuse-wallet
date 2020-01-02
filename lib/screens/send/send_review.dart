@@ -144,7 +144,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                 args.name,
                                 style: TextStyle(fontSize: 20),
                               ),
-                              args.accountAddress == null && args.accountAddress.isEmpty ? Text('') : Text(
+                              args.accountAddress == null || args.accountAddress.isEmpty ? Text('') : Text(
                                 "Address: ${args.accountAddress.substring(0, 4)}...${args.accountAddress.substring(args.accountAddress.length - 4)}",
                                 style: TextStyle(
                                     fontSize: 16, color: Color(0xFF777777)),
