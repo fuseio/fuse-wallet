@@ -32,18 +32,18 @@ String deducePhoneNumber(
   return formatAddress(accountAddress);
 }
 
-Contact getContact(Transfer transfer, CashWalletViewModel vm) {
+Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
+    List<Contact> contacts, String countryCode) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (accountAddress == null) {
     return null;
   }
-
-  if (vm.reverseContacts.containsKey(accountAddress.toLowerCase())) {
-    String phoneNumber = vm.reverseContacts[accountAddress.toLowerCase()];
-    if (vm.contacts == null) return null;
-    for (Contact contact in vm.contacts) {
+  if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
+    String phoneNumber = reverseContacts[accountAddress.toLowerCase()];
+    if (contacts == null) return null;
+    for (Contact contact in contacts) {
       for (Item contactPhoneNumber in contact.phones.toList()) {
-        if (formatPhoneNumber(contactPhoneNumber.value, vm.countryCode) ==
+        if (formatPhoneNumber(contactPhoneNumber.value, countryCode) ==
             phoneNumber) {
           return contact;
         }
@@ -77,8 +77,14 @@ class CashTransactionsState extends State<CashTransactios> {
         .transactions
         .list
         .reversed
-        .map((transfer) => _TransactionListItem(transfer,
-            getContact(transfer, this.widget.viewModel), this.widget.viewModel))
+        .map((transfer) => _TransactionListItem(
+            transfer,
+            getContact(
+                transfer,
+                this.widget.viewModel.reverseContacts,
+                this.widget.viewModel.contacts,
+                this.widget.viewModel.countryCode),
+            this.widget.viewModel))
         .toList();
 
     return Column(
@@ -166,31 +172,32 @@ class _TransactionListItem extends StatelessWidget {
             ],
           ),
           leading: Stack(
-                  children: <Widget>[
-                    Hero(child: CircleAvatar(
-                      backgroundColor: Color(0xFFE0E0E0),
-                      radius: 25,
-                      backgroundImage: _contact?.avatar != null
-                          ? MemoryImage(_contact.avatar)
-                          : new AssetImage('assets/images/anom.png'),
-                    ),
-                    tag: _transaction.status == 'PENDING' ? "contactSent" : "tarnsaction" + _transaction.txHash,
-                    )
-                    ,
-                    _transaction.status == 'PENDING'
-                        ? Container(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(
-                              backgroundColor: Color(0xFF49D88D).withOpacity(0),
-                              strokeWidth:
-                                  4, //backgroundColor: Color(0xFFb8e3a6),
-                              valueColor: new AlwaysStoppedAnimation<Color>(
-                                  Color(0xFF49D88D).withOpacity(1)),
-                            ))
-                        : SizedBox.shrink()
-                  ],
+            children: <Widget>[
+              Hero(
+                child: CircleAvatar(
+                  backgroundColor: Color(0xFFE0E0E0),
+                  radius: 25,
+                  backgroundImage: _contact?.avatar != null
+                      ? MemoryImage(_contact.avatar)
+                      : new AssetImage('assets/images/anom.png'),
                 ),
+                tag: _transaction.status == 'PENDING'
+                    ? "contactSent"
+                    : "transaction" + _transaction.txHash,
+              ),
+              _transaction.status == 'PENDING'
+                  ? Container(
+                      width: 50,
+                      height: 50,
+                      child: CircularProgressIndicator(
+                        backgroundColor: Color(0xFF49D88D).withOpacity(0),
+                        strokeWidth: 4, //backgroundColor: Color(0xFFb8e3a6),
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Color(0xFF49D88D).withOpacity(1)),
+                      ))
+                  : SizedBox.shrink()
+            ],
+          ),
           trailing: Container(
             width: 120,
             child: Column(

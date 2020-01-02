@@ -8,19 +8,25 @@ class MainScaffold extends StatelessWidget {
       this.sliverList,
       this.key,
       this.footer,
-      this.withPadding});
+      this.withPadding,
+      this.backgroundColor,
+      this.expandedHeight,
+      this.titleFontSize});
   final String title;
   final List<Widget> children;
   List<Widget> sliverList;
   final Widget footer;
   final bool withPadding;
   final Key key;
+  final Color backgroundColor;
+  final double expandedHeight;
+  final double titleFontSize;
 
   scrollView(context) {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-          expandedHeight: 100,
+          expandedHeight: expandedHeight ?? 120,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
@@ -29,7 +35,7 @@ class MainScaffold extends StatelessWidget {
                   //overflow: TextOverflow.visible,
                   style: TextStyle(
                       color: Theme.of(context).textTheme.body1.color,
-                      fontSize: 20,
+                      fontSize: titleFontSize ?? 20,
                       fontWeight: FontWeight.w800)),
             ),
             centerTitle: true,
@@ -40,7 +46,7 @@ class MainScaffold extends StatelessWidget {
           ),
           iconTheme:
               IconThemeData(color: Theme.of(context).textTheme.body1.color),
-          backgroundColor: Color(0xFFF5F5F5),
+          backgroundColor: backgroundColor ?? Color(0xFFF5F5F5),
         ),
         //sliverList != null ? sliverList : Container(),
         ...sliverList,

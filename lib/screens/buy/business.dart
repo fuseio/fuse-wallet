@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/business.dart';
+import 'package:fusecash/models/token.dart';
 import 'dart:core';
 
 import 'package:fusecash/screens/send/send_amount.dart';
@@ -7,8 +8,9 @@ import 'package:fusecash/screens/send/send_amount_arguments.dart';
 
 class BusinessRouteArguments {
   final Business business;
+  final Token token;
 
-  BusinessRouteArguments({this.business});
+  BusinessRouteArguments({this.token, this.business});
 }
 
 class BusinessPage extends StatefulWidget {
@@ -79,7 +81,8 @@ class _BusinessPageState extends State<BusinessPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.all(20),
-                    child: Text(businessArgs.business.metadata.description ?? '',
+                    child: Text(
+                        businessArgs.business.metadata.description ?? '',
                         style: TextStyle(
                             color: const Color(0xFF666666),
                             height: 1.3,
@@ -105,7 +108,12 @@ class _BusinessPageState extends State<BusinessPage> {
                           ),
                           onPressed: () {
                             Navigator.pushNamed(context, '/SendAmount',
-                                arguments: SendAmountArguments(accountAddress: businessArgs.business.account));
+                                arguments: SendAmountArguments(
+                                  accountAddress: businessArgs.business.account,
+                                  avatar:
+                                      new AssetImage('assets/images/anom.png'),
+                                  name: businessArgs.business.name ?? '',
+                                ));
                           },
                         )),
                   ),

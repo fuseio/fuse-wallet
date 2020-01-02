@@ -26,6 +26,7 @@ class UserState {
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
   final bool isLoggedOut;
+  final bool isContactsSynced;
 
   UserState({
     this.mnemonic,
@@ -42,7 +43,8 @@ class UserState {
     this.email,
     this.loginRequestSuccess,
     this.loginVerifySuccess,
-    this.isLoggedOut
+    this.isLoggedOut,
+    this.isContactsSynced
   });
 
   factory UserState.initial() {
@@ -61,7 +63,8 @@ class UserState {
       email: "",
       loginRequestSuccess: false,
       loginVerifySuccess: false,
-      isLoggedOut: false
+      isLoggedOut: false,
+      isContactsSynced: false
       );
   }
 
@@ -80,7 +83,8 @@ class UserState {
     String email,
     bool loginRequestSuccess,
     bool loginVerifySuccess,
-    bool isLoggedOut
+    bool isLoggedOut,
+    bool isContactsSynced
   }) {
     return UserState (
       mnemonic: mnemonic ?? this.mnemonic,
@@ -97,7 +101,8 @@ class UserState {
       email: email ?? this.email,
       loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
       loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
-      isLoggedOut: isLoggedOut ?? this.isLoggedOut
+      isLoggedOut: isLoggedOut ?? this.isLoggedOut,
+      isContactsSynced: isContactsSynced ?? this.isContactsSynced
     );
   }
 
@@ -113,7 +118,8 @@ class UserState {
       'jwtToken': jwtToken,
       'fullName': fullName,
       'email': email,
-      'isLoggedOut': isLoggedOut
+      'isLoggedOut': isLoggedOut,
+      'isContactsSynced': isContactsSynced
     };
 
     static UserState fromJson(dynamic json) {
@@ -139,7 +145,8 @@ class UserState {
         email: json['email'],
         loginRequestSuccess: false,
         loginVerifySuccess: false,
-        isLoggedOut: json['isLoggedOut'] == null ? false : json['isLoggedOut']
+        isLoggedOut: json['isLoggedOut'] == null ? false : json['isLoggedOut'],
+        isContactsSynced: json['isContactsSynced'] == null ? false : json['isContactsSynced']
       );
     }
 }

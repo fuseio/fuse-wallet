@@ -22,6 +22,7 @@ class CashHomeScreen extends StatefulWidget {
     PermissionStatus permission = (await PermissionHandler().requestPermissions([PermissionGroup.contacts]))[PermissionGroup.contacts];
     if (permission != PermissionStatus.granted) {
       logger.w('Permission to get the contracts denied');
+      viewModel.syncContactsRejected();
       return null;
     }
 

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
   PrimaryButton(
-      {this.onPressed, this.label, this.width, this.height, this.preload});
+      {this.fontSize, this.onPressed, this.label, this.width, this.height, this.preload});
   final GestureTapCallback onPressed;
   final String label;
   final double width;
   final double height;
   final bool preload;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class PrimaryButton extends StatelessWidget {
                       label,
                       style: TextStyle(
                           color: Theme.of(context).textTheme.button.color,
-                          fontSize: 18,
+                          fontSize: this.fontSize ?? 18,
                           fontWeight: FontWeight.w700),
                     )
                   : Container(

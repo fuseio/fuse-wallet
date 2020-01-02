@@ -194,6 +194,9 @@ class _SplashScreenState extends State<SplashScreen> {
                                                 setState(() {
                                                   isTransparentPreloading = true;
                                                 });
+                                              } else {
+                                                  Navigator.pushNamed(
+                                                      context, '/Recovery');
                                               }
                                             },
                                             preload: isTransparentPreloading))

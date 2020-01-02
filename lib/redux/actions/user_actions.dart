@@ -50,6 +50,10 @@ class SyncContactsProgress {
   SyncContactsProgress(this.contacts, this.newContacts);
 }
 
+class SyncContactsRejected {
+  SyncContactsRejected();
+}
+
 class SaveContacts {
   List<Contact> contacts;
   SaveContacts(this.contacts);
@@ -60,13 +64,23 @@ class SetPincodeSuccess {
   SetPincodeSuccess(this.pincode);
 }
 
-ThunkAction restoreWalletCall(List<String> _mnemonic) {
+ThunkAction restoreWalletCall(
+    List<String> _mnemonic, VoidCallback successCallback) {
   return (Store store) async {
-    String mnemonic = _mnemonic.join(' ');
     try {
-      String privateKey = Web3.privateKeyFromMnemonic(mnemonic);
+      logger.d('restore wallet');
+      String mnemonic = _mnemonic.join(' ');
+      logger.d('mnemonic: $mnemonic');
+      logger.d('compute pk');
+      String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
+      logger.d('privateKey: $privateKey');
       store.dispatch(new RestoreWalletSuccess(_mnemonic, privateKey));
+      Credentials c = EthPrivateKey.fromHex(privateKey);
+        dynamic accountAddress = await c.extractAddress();
+      store.dispatch(new CreateLocalAccountSuccess(
+          mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
+      successCallback();
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not restore wallet'));
@@ -171,8 +185,8 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
     if (newPhones.length == 0) {
       dynamic response = await api.syncContacts(newPhones);
       store.dispatch(new SyncContactsProgress(
-            newPhones, List<Map<String, dynamic>>.from(response['newContacts'])));
-        await api.ackSync(response['nonce']);
+          newPhones, List<Map<String, dynamic>>.from(response['newContacts'])));
+      await api.ackSync(response['nonce']);
     } else {
       int limit = 100;
       List<String> partial = newPhones.take(limit).toList();
@@ -191,7 +205,7 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
 
 
 ThunkAction setPincodeCall(
-    String pincode) {
+  String pincode) {
   return (Store store) async {
     try {
       store.dispatch(SetPincodeSuccess(pincode));
