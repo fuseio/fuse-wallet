@@ -3,9 +3,9 @@ import 'dart:core';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/format.dart';
-import 'dart:math' as math;
 
 class CashTransactios extends StatefulWidget {
   CashTransactios({@required this.viewModel});
@@ -24,12 +24,16 @@ String deduceSign(Transfer transfer) {
 }
 
 String deducePhoneNumber(
-    Transfer transfer, Map<String, String> reverseContacts) {
+    Transfer transfer, Map<String, String> reverseContacts, {bool format = true}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (reverseContacts.containsKey(accountAddress)) {
     return reverseContacts[accountAddress];
   }
-  return formatAddress(accountAddress);
+  if (format) {
+    return formatAddress(accountAddress);
+  } else {
+    return accountAddress;
+  }
 }
 
 Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
@@ -54,10 +58,14 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
 }
 
 Color deduceColor(Transfer transfer) {
-  if (transfer.type == 'SEND') {
+  if (transfer.isFailed()) {
+    return Color(0xFFE0E0E0);
+  } else {
+    if (transfer.type == 'SEND') {
     return Color(0xFFFF0000);
   } else {
     return Color(0xFF00BE66);
+  }
   }
 }
 
@@ -147,12 +155,12 @@ class _TransactionListItem extends StatelessWidget {
       )
     ];
 
-    if (_transaction.status == 'PENDING') {
-      rightColumn.add(Padding(
-          child: Text("PENDING",
-              style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),
-          padding: EdgeInsets.only(top: 10)));
-    }
+    // if (_transaction.isPending()) {
+    //   rightColumn.add(Padding(
+    //       child: Text("PENDING",
+    //           style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),
+    //       padding: EdgeInsets.only(top: 10)));
+    // }
 
     return Container(
         decoration: new BoxDecoration(
@@ -181,11 +189,11 @@ class _TransactionListItem extends StatelessWidget {
                       ? MemoryImage(_contact.avatar)
                       : new AssetImage('assets/images/anom.png'),
                 ),
-                tag: _transaction.status == 'PENDING'
+                tag: _transaction.isPending()
                     ? "contactSent"
                     : "transaction" + _transaction.txHash,
               ),
-              _transaction.status == 'PENDING'
+              _transaction.isPending()
                   ? Container(
                       width: 50,
                       height: 50,
@@ -207,7 +215,33 @@ class _TransactionListItem extends StatelessWidget {
             padding: EdgeInsets.only(top: 10, bottom: 0, left: 10, right: 10),
           ),
           onTap: () {
-            Navigator.pushNamed(context, '/TransactionDetails');
+            Navigator.pushNamed(context, '/TransactionDetails', arguments: TransactionDetailArguments(
+              transaction: _transaction,
+              avatar: _contact?.avatar != null
+                      ? MemoryImage(_contact.avatar)
+                      : new AssetImage('assets/images/anom.png'),
+              accountAddress: deducePhoneNumber(_transaction, _vm.reverseContacts, format: false),
+              to:  _transaction.text != null ? _transaction.text :
+                  _contact != null
+                      ? _contact.displayName
+                      : deducePhoneNumber(_transaction, _vm.reverseContacts),
+            status: _transaction.status,
+            symbol: _vm.token.symbol,
+            amount: [Text(
+              deduceSign(_transaction) +
+                  formatValue(transfer.value, _vm.token.decimals),
+              style: TextStyle(
+                  color: deduceColor(_transaction),
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            ),Text(
+            " ${_vm.token.symbol}",
+            style: TextStyle(
+                color: deduceColor(_transaction),
+                fontSize: 18.0,
+                fontWeight: FontWeight.normal),
+          )],
+            ));
           },
         ));
   }

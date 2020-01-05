@@ -30,6 +30,8 @@ class Transaction {
   }
 
   bool isPending() => this.status == 'PENDING';
+  bool isFailed() => this.status == 'FAILED';
+  bool isConfirmed() => this.status == 'CONFIRMED';
 
   factory Transaction.fromJson(Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
