@@ -4,6 +4,7 @@ import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -431,34 +432,15 @@ ThunkAction startFetchingJobCall(
 ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
   return (Store store) async {
-    Token token = store.state.cashWalletState.token;
     dynamic response = await api.invite(
         contactPhoneNumber, store.state.cashWalletState.communityAddress);
     logger.wtf("response $response");
-    sendSuccessCallback();
     String jobId = response['job']['_id'].toString();
-
-    BigInt value = toBigInt(tokensAmount, token.decimals);
-    Transfer invite = new Transfer(
-        text: contactPhoneNumber,
-        status: 'PENDING',
-        value: value,
-        type: 'SEND');
-
-    store.dispatch(AddTransaction(invite));
-    // store.dispatch(new TransferSendSuccess(invite));
-
-    // store.dispatch(AddSendToInvites(jobId, tokensAmount));
     store.dispatch(startFetchingJobCall(jobId, (Job job) {
       String receiverAddress = job.data["walletAddress"];
-      Transfer inviteWithJobId = new Transfer(
-          text: contactPhoneNumber,
-          status: 'PENDING',
-          value: value,
-          type: 'SEND',
-          jobId: job.id);
-      store.dispatch(
-          sendToInviteCall(receiverAddress, tokensAmount, inviteWithJobId));
+      store.dispatch(sendTokenCall(receiverAddress, tokensAmount,
+              sendSuccessCallback, sendFailureCallback));
+      store.dispatch(syncContactsCall(store.state.userState.contacts));
     }, untilDone: true));
   };
 }

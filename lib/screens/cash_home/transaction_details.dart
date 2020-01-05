@@ -1,6 +1,7 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/screens/cash_home/cash_transactions.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -10,22 +11,19 @@ import 'package:flutter_redux/flutter_redux.dart';
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class TransactionDetailArguments {
-  String to;
-  String accountAddress;
   List<Widget> amount;
   String status;
   String symbol;
-  ImageProvider avatar;
-  final Transaction transaction;
+  Contact contact;
+  final Transfer transfer;
+  final Map<String, String> reverseContacts;
 
   TransactionDetailArguments(
-      {this.status,
-      this.to,
-      this.symbol,
-      this.accountAddress,
+      {this.symbol,
+      this.contact,
       this.amount,
-      this.transaction,
-      this.avatar});
+      this.reverseContacts,
+      this.transfer});
 }
 
 class TransactionDetailsScreen extends StatefulWidget {
@@ -51,6 +49,8 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
         return SendAmountViewModel.fromStore(store);
       },
       builder: (_, viewModel) {
+        dynamic displayName =
+            deducePhoneNumber(args.transfer, args.reverseContacts);
         return MainScaffold(
           withPadding: true,
           title: "Transaction details",
@@ -70,7 +70,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                             padding: EdgeInsets.only(right: 10),
                             child: Image.asset('assets/images/check.png'),
                           ),
-                          Text(args?.status,
+                          Text(args?.transfer?.status,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
@@ -101,12 +101,22 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                             CircleAvatar(
                               backgroundColor: Color(0xFFE0E0E0),
                               radius: 25,
-                              backgroundImage:
-                                  new AssetImage('assets/images/anom.png'),
+                              backgroundImage: args.transfer.isJoinBonus()
+                                  ? new AssetImage(
+                                      'assets/images/join_bonus.png',
+                                    )
+                                  : args.contact?.avatar != null
+                                      ? MemoryImage(args.contact.avatar)
+                                      : new AssetImage(
+                                          'assets/images/anom.png'),
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 10),
-                              child: Text(args.to),
+                              child: args.transfer.isJoinBonus() ? Text('Join bonus') : Text(args.transfer.text != null
+                                  ? args.transfer.text
+                                  : args.contact != null
+                                      ? args.contact.displayName
+                                      : displayName),
                             )
                           ],
                         )
@@ -125,7 +135,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text("Address"),
-                        Text(formatAddress(args?.accountAddress))
+                        displayName == null ? SizedBox.shrink() : Text(displayName)
                       ],
                     ),
                     Padding(
@@ -146,9 +156,8 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                         )
                       ],
                     ),
-                    args.transaction.txHash == null ||
-                            args.transaction.txHash.isEmpty
-                        ? Text('')
+                    args.transfer.txHash == null || args.transfer.txHash.isEmpty
+                        ? SizedBox.shrink()
                         : Padding(
                             padding: EdgeInsets.only(top: 30, bottom: 30),
                             child: Divider(
@@ -156,9 +165,8 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                               height: 1,
                             ),
                           ),
-                    args.transaction.txHash == null ||
-                            args.transaction.txHash.isEmpty
-                        ? Text('')
+                    args.transfer.txHash == null || args.transfer.txHash.isEmpty
+                        ? SizedBox.shrink()
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,7 +174,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                             children: <Widget>[
                               Text("Txn"),
                               Text(
-                                  '${args?.transaction?.txHash?.substring(0, 7)}...${args?.transaction?.txHash?.substring(args?.transaction?.txHash?.length - 7)}')
+                                  '${args?.transfer?.txHash?.substring(0, 7)}...${args?.transfer?.txHash?.substring(args.transfer.txHash.length - 7)}')
                             ],
                           )
                   ],

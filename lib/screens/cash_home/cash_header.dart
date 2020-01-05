@@ -4,6 +4,7 @@ import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'dart:math';
@@ -122,7 +123,7 @@ class CashHeader extends StatelessWidget {
                                       fontWeight: FontWeight.bold))]
                             : <TextSpan>[
                                 new TextSpan(
-                                  text: (viewModel.tokenBalance / BigInt.from(pow(10, viewModel.token.decimals))).toString(),
+                                  text: formatValue(viewModel.tokenBalance, viewModel.token.decimals),
                                   style: new TextStyle(
                                       fontSize: 30,
                                       color: Colors.black,

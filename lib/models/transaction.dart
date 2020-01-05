@@ -65,6 +65,8 @@ class Transfer extends Transaction {
             jobId: jobId,
             blockNumber: blockNumber);
 
+  bool isJoinBonus() => this.from == '0xa6c61e75e6008eed7f75b73c84755558764081d1' || this.from == '0x373c383b05c121e541f239afe5fd73c013fed20f';
+
   Transfer copyWith({
     String status, String txHash}) {
     return Transfer(
