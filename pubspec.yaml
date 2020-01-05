@@ -14,7 +14,7 @@ dependencies:
   redux_persist: ^0.8.2
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
-  wallet_core: ^0.0.1+45
+  wallet_core: ^0.0.1+46
   # wallet_core:
   #   path: ../wallet_core
   alphabet_list_scroll_view: ^1.0.5
