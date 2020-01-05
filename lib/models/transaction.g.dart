@@ -11,6 +11,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
     txHash: json['txHash'] as String,
     type: json['type'] as String,
     status: json['status'] as String,
+    text: json['text'] as String,
     blockNumber: json['blockNumber'] as int,
     jobId: json['jobId'] as String,
   );
@@ -21,6 +22,7 @@ Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
       'txHash': instance.txHash,
       'type': instance.type,
       'status': instance.status,
+      'text': instance.text,
       'blockNumber': instance.blockNumber,
       'jobId': instance.jobId,
     };
@@ -30,6 +32,7 @@ Transfer _$TransferFromJson(Map<String, dynamic> json) {
     txHash: json['txHash'] as String,
     type: json['type'] as String,
     status: json['status'] as String,
+    text: json['text'] as String,
     jobId: json['jobId'] as String,
     blockNumber: json['blockNumber'] as int,
     to: json['to'] as String,
@@ -43,6 +46,7 @@ Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{
       'txHash': instance.txHash,
       'type': instance.type,
       'status': instance.status,
+      'text': instance.text,
       'blockNumber': instance.blockNumber,
       'jobId': instance.jobId,
       'to': instance.to,

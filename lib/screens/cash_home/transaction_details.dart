@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/models/transaction.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:share/share.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
+
+class TransactionDetailArguments {
+  String to;
+  String accountAddress;
+  List<Widget> amount;
+  String status;
+  String symbol;
+  ImageProvider avatar;
+  final Transaction transaction;
+
+  TransactionDetailArguments(
+      {this.status,
+      this.to,
+      this.symbol,
+      this.accountAddress,
+      this.amount,
+      this.transaction,
+      this.avatar});
+}
 
 class TransactionDetailsScreen extends StatefulWidget {
   @override
@@ -24,7 +45,8 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
+    final TransactionDetailArguments args =
+        ModalRoute.of(context).settings.arguments;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: (store) {
@@ -41,7 +63,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 30, bottom: 20),
+                        padding: EdgeInsets.only(top: 50, bottom: 50),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -50,7 +72,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                               padding: EdgeInsets.only(right: 10),
                               child: Image.asset('assets/images/check.png'),
                             ),
-                            Text("Approved",
+                            Text(args?.status,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor,
@@ -64,7 +86,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                 ),
                 Container(
                   padding: EdgeInsets.only(
-                      top: 50.0, bottom: 50, left: 40, right: 40),
+                      top: 40.0, bottom: 40, left: 55, right: 55),
                   color: Color(0xFFF5F5F5),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -72,40 +94,72 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                     children: <Widget>[
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          Padding(padding: EdgeInsets.only( right: 40),
-                          child:  Text("To"),)
-                         ,
-                          CircleAvatar(
-                            backgroundColor: Color(0xFFE0E0E0),
-                            radius: 25,
-                            backgroundImage:
-                                new AssetImage('assets/images/anom.png'),
+                          Text('To'),
+                          Row(
+                            children: <Widget>[
+                              CircleAvatar(
+                                backgroundColor: Color(0xFFE0E0E0),
+                                radius: 25,
+                                backgroundImage:
+                                    new AssetImage('assets/images/anom.png'),
+                              ),
+                              Padding(padding: EdgeInsets.only(left: 10),
+                              child: Text(args.to),)
+                            ],
                           )
                         ],
                       ),
-                       Row(
+                      Padding(
+                        padding: EdgeInsets.only(top: 30, bottom: 30),
+                        child: Divider(
+                          color: const Color(0xFFDCDCDC),
+                          height: 1,
+                        ),
+                      ),
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          Padding(padding: EdgeInsets.only( right: 40),
-                          child:  Text("Address"),)
-                         ,
-                          Text("0x7c06…bF56f2")
+                          Text("Address"),
+                          Text(formatAddress(args?.accountAddress))
                         ],
                       ),
-                       Row(
+                      Padding(
+                        padding: EdgeInsets.only(top: 30, bottom: 30),
+                        child: Divider(
+                          color: const Color(0xFFDCDCDC),
+                          height: 1,
+                        ),
+                      ),
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          Padding(padding: EdgeInsets.only( right: 40),
-                          child:  Text("Amount"),)
-                         ,
-                          Text("50 FFU")
+                          Text("Amount"),
+                          Row(
+                            children: args?.amount,
+                          )
+                        ],
+                      ),
+                      args.transaction.txHash == null || args.transaction.txHash.isEmpty ? Text('') : Padding(
+                        padding: EdgeInsets.only(top: 30, bottom: 30),
+                        child: Divider(
+                          color: const Color(0xFFDCDCDC),
+                          height: 1,
+                        ),
+                      ),
+                      args.transaction.txHash == null || args.transaction.txHash.isEmpty ? Text('') : Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Text("Txn"),
+                          Text('${args?.transaction?.txHash?.substring(0, 7)}...${args?.transaction?.txHash?.substring(args?.transaction?.txHash?.length - 7)}')
                         ],
                       )
                     ],
@@ -123,9 +177,10 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
             ],
             footer: Center(
                 child: PrimaryButton(
-              label: "Send",
+              label: "Share",
               onPressed: () {
-                Navigator.pushNamed(context, '/SendSuccess');
+                Share.share(args.accountAddress);
+                // Navigator.pushNamed(context, '/SendSuccess');
 
                 //controller.forward();
 

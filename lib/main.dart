@@ -18,8 +18,9 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
+  final Store<AppState> store;
+
   MyApp({Key key, this.store}) : super(key: key);
-  Store<AppState> store;
 
   @override
   _MyAppState createState() => _MyAppState(store);

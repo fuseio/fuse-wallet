@@ -74,7 +74,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             "Why do we need this?",
                             style: TextStyle(
                                 color: Theme.of(context).textTheme.button.color,
-                                fontSize: 14,
+                                fontSize: 11,
                                 fontWeight: FontWeight.w700),
                           ),
                         )),

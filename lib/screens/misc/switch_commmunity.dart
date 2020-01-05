@@ -132,6 +132,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                               const SizedBox(height: 22.0),
                               Center(
                                 child: PrimaryButton(
+                                  fontSize: 14,
                                   label: "ENTER COMMUNITY ADDRESS",
                                   onPressed: () async {
                                     showDialog(
