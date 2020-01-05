@@ -47,7 +47,7 @@ class _BusinessPageState extends State<BusinessPage> {
                 child: ListView(children: <Widget>[
                   Stack(
                     children: <Widget>[
-                      Image.network(
+                      businessArgs.business.metadata.coverPhoto == null ? Container() : Image.network(
                         businessArgs.business.metadata.coverPhoto,
                         fit: BoxFit.cover,
                         //width: 50.0,

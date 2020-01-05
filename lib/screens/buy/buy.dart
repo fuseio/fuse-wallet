@@ -7,6 +7,7 @@ import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fusecash/widgets/preloader.dart';
 
 class BuyScreen extends StatefulWidget {
   BuyScreen({Key key, this.title}) : super(key: key);
@@ -60,7 +61,10 @@ class BusinessesListViewState extends State<BusinessesListView> {
       },
       builder: (_, viewModel) {
         return Builder(
-            builder: (context) => viewModel.businesses?.length == 0
+            builder: (context) => viewModel.isCommunityBusinessesFetched ? Padding(
+                        child: Preloader(),
+                        padding: EdgeInsets.only(top: 70),
+                      ) : !viewModel.isCommunityBusinessesFetched && viewModel.businesses.isEmpty
                 ? Container(
                     padding: const EdgeInsets.all(40.0),
                     child: Center(
@@ -68,7 +72,8 @@ class BusinessesListViewState extends State<BusinessesListView> {
                     ),
                   )
                 : new Container(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(
+                        top: 16, bottom: 16, left: 10, right: 10),
                     child: new Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -96,8 +101,10 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                           height: 50,
                                           decoration: BoxDecoration(),
                                           child: ClipOval(
-                                              child: Image.network(
-                                            viewModel.businesses[index].metadata.image,
+                                              child: viewModel.businesses[index].metadata
+                                                .image == null ? Image.asset('assets/images/anom.png') : Image.network(
+                                            viewModel.businesses[index].metadata
+                                                .image,
                                             fit: BoxFit.cover,
                                             width: 50.0,
                                             height: 50.0,
@@ -109,8 +116,8 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                           style: TextStyle(
                                               color: Theme.of(context)
                                                   .primaryColor,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w900),
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
                                         ),
                                         onTap: () {
                                           Navigator.pushNamed(
@@ -133,14 +140,18 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                                 color: Theme.of(context)
                                                     .primaryColor,
                                                 fontSize: 16,
-                                                fontWeight: FontWeight.bold),
+                                                fontWeight: FontWeight.w500),
                                           ),
                                           onPressed: () {
                                             Navigator.pushNamed(
                                                 context, '/SendAmount',
                                                 arguments: SendAmountArguments(
-                                                    avatar: new AssetImage('assets/images/anom.png'),
-                                                    name: viewModel.businesses[index].name ?? '',
+                                                    avatar: new AssetImage(
+                                                        'assets/images/anom.png'),
+                                                    name: viewModel
+                                                            .businesses[index]
+                                                            .name ??
+                                                        '',
                                                     accountAddress: viewModel
                                                         .businesses[index]
                                                         .account));

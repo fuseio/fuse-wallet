@@ -120,9 +120,21 @@ class GetJoinBonusSuccess {
   GetJoinBonusSuccess();
 }
 
+class StartFetchingBusinessList {
+  StartFetchingBusinessList();
+}
+
+class FetchingBusinessListSuccess {
+  FetchingBusinessListSuccess();
+}
+
+class FetchingBusinessListFailed {
+  FetchingBusinessListFailed();
+}
+
 class GetBusinessListSuccess {
-  // TODO
-  GetBusinessListSuccess();
+  final List<Business> businessList;
+  GetBusinessListSuccess(this.businessList);
 }
 
 class TransferJobSuccess {
@@ -175,12 +187,6 @@ class RemoveSendToInvites {
 }
 
 class BranchListening {}
-
-class BusinessesLoadedAction {
-  final List<Business> businessList;
-
-  BusinessesLoadedAction(this.businessList);
-}
 
 class InviteSendSuccess {
   final Transaction invite;
@@ -489,7 +495,8 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       store.dispatch(new AddTransaction(transfer));
 
       store.dispatch(startFetchingJobCall(jobId, (job) {
-        Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: job.data['txHash']);
+        Transfer confirmedTx =
+            transfer.copyWith(status: 'CONFIRMED', txHash: job.data['txHash']);
         store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
       }));
     } catch (e) {
@@ -522,8 +529,9 @@ ThunkAction sendToInviteCall(
       store.dispatch(startFetchingJobCall(jobId, (job) {
         // inviteWithJobId
         store.dispatch(new TransferJobSuccess(job));
-          Transfer confirmedTx = inviteWithJobId.copyWith(status: 'CONFIRMED', txHash: job.data['txHash']);
-          store.dispatch(new ReplaceTransaction(inviteWithJobId, confirmedTx));
+        Transfer confirmedTx = inviteWithJobId.copyWith(
+            status: 'CONFIRMED', txHash: job.data['txHash']);
+        store.dispatch(new ReplaceTransaction(inviteWithJobId, confirmedTx));
       }));
 
       Transfer transfer = new Transfer(
@@ -602,7 +610,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
               decimals: token["decimals"])));
     } catch (e) {
       logger.e(e);
-      store.dispatch(new ErrorAction('Could not join community'));
+      store.dispatch(new ErrorAction('Could not switch community'));
       store.dispatch(new SwitchCommunityFailed());
     }
   };
@@ -622,14 +630,26 @@ ThunkAction getJoinBonusCall() {
 ThunkAction getBusinessListCall() {
   return (Store store) async {
     try {
-      var response = await api
-          .getBusinessList(store.state.cashWalletState.communityAddress);
+      store.dispatch(StartFetchingBusinessList());
+      dynamic community = await graph
+          .getCommunityByAddress(store.state.cashWalletState.communityAddress);
       List<Business> businessList = new List();
-      response["data"]
-          .forEach((f) => businessList.add(new Business.fromJson(f)));
-      store.dispatch(new BusinessesLoadedAction(businessList));
+      await Future.forEach(community['entitiesList']['communityEntities'],
+          (entity) async {
+        if (entity['isBusiness']) { 
+          dynamic metadata = await api.getEntityMetadata(
+              store.state.cashWalletState.communityAddress, entity['address']);
+          entity['name'] = metadata['name'];
+          entity['metadata'] = metadata;
+          businessList.add(new Business.fromJson(entity));
+        }
+      }).then((r) {
+        store.dispatch(new GetBusinessListSuccess(businessList));
+        store.dispatch(FetchingBusinessListSuccess());
+      });
     } catch (e) {
       logger.e(e);
+      store.dispatch(FetchingBusinessListFailed());
       store.dispatch(new ErrorAction('Could not get businesses list'));
     }
   };

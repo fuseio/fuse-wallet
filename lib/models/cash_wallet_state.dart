@@ -14,6 +14,7 @@ class CashWalletState {
   final String communityName;
   final bool isCommunityLoading;
   final bool isCommunityFetched;
+  final bool isCommunityBusinessesFetched;
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
   final List<Business> businesses;
@@ -43,7 +44,8 @@ class CashWalletState {
     // this.tokenTransfers,
     // this.pendingTransfers,
     this.businesses,
-    this.transactions
+    this.transactions,
+    this.isCommunityBusinessesFetched
   });
 
   factory CashWalletState.initial() {
@@ -57,6 +59,7 @@ class CashWalletState {
       isCommunityLoading: false,
       isCommunityFetched: false,
       isListeningToBranch: false,
+      isCommunityBusinessesFetched: false,
       isBalanceFetchingStarted: false,
       isTransfersFetchingStarted: false,
       token: null,
@@ -78,6 +81,7 @@ class CashWalletState {
     String communityName,
     bool isCommunityLoading,
     bool isCommunityFetched,
+    bool isCommunityBusinessesFetched,
     bool isBalanceFetchingStarted,
     bool isTransfersFetchingStarted,
     bool isListeningToBranch,
@@ -98,6 +102,7 @@ class CashWalletState {
       communityName: communityName ?? this.communityName,
       isCommunityLoading: isCommunityLoading ?? this.isCommunityLoading,
       isCommunityFetched: isCommunityFetched ?? this.isCommunityFetched,
+      isCommunityBusinessesFetched: isCommunityBusinessesFetched ?? this.isCommunityBusinessesFetched,
       isBalanceFetchingStarted: isBalanceFetchingStarted ?? this.isBalanceFetchingStarted,
       isTransfersFetchingStarted: isTransfersFetchingStarted ?? this.isTransfersFetchingStarted,
       isListeningToBranch: isListeningToBranch ?? this.isListeningToBranch,
@@ -131,6 +136,7 @@ class CashWalletState {
         communityName: json['communityName'],
         isCommunityLoading: false,
         isCommunityFetched: false,
+        isCommunityBusinessesFetched: false,
         isBalanceFetchingStarted: false,
         isTransfersFetchingStarted: false,
         isListeningToBranch: false,

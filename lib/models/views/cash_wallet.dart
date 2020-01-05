@@ -15,6 +15,7 @@ class CashWalletViewModel {
   final String branchAddress;
   final bool isCommunityLoading;
   final bool isCommunityFetched;
+  final bool isCommunityBusinessesFetched;
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
   final bool isListeningToBranch;
@@ -74,7 +75,8 @@ class CashWalletViewModel {
     this.branchCommunityUpdate,
     this.businesses,
     this.loadBusinesses,
-    this.syncContactsRejected
+    this.syncContactsRejected,
+    this.isCommunityBusinessesFetched
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -98,7 +100,8 @@ class CashWalletViewModel {
       contacts: store.state.userState.contacts,
       reverseContacts: store.state.userState.reverseContacts,
       countryCode: store.state.userState.countryCode,
-      businesses: store.state.cashWalletState.businesses,
+      businesses: store.state.cashWalletState.businesses ?? [],
+      isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
       },

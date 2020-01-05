@@ -43,12 +43,13 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, TransferJobSuccess>(_transferJobSuccess),
   TypedReducer<CashWalletState, AddSendToInvites>(_addSendToInvites),
   TypedReducer<CashWalletState, RemoveSendToInvites>(_removeSendToInvites),
-  TypedReducer<CashWalletState, BusinessesLoadedAction>(
-      _businessesLoadedAction),
   TypedReducer<CashWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
   TypedReducer<CashWalletState, ReplaceTransaction>(_replaceTransfer),
   TypedReducer<CashWalletState, AddTransaction>(_addTransaction),
+  TypedReducer<CashWalletState, StartFetchingBusinessList>(_startFetchingBusinessList),
+  TypedReducer<CashWalletState, FetchingBusinessListSuccess>(_fetchingBusinessListSuccess),
+  TypedReducer<CashWalletState, FetchingBusinessListFailed>(_fetchingBusinessListFailed),
 ]);
 
 
@@ -130,9 +131,23 @@ CashWalletState _getJoinBonusSuccess(
   // TODO
 }
 
+CashWalletState _startFetchingBusinessList(CashWalletState state, StartFetchingBusinessList action) {
+  return state.copyWith(isCommunityBusinessesFetched: true);
+}
+
 CashWalletState _getBusinessListSuccess(
     CashWalletState state, GetBusinessListSuccess action) {
-  // TODO
+  return state.copyWith(businesses: action.businessList);
+}
+
+CashWalletState _fetchingBusinessListSuccess(
+    CashWalletState state, FetchingBusinessListSuccess action) {
+  return state.copyWith(isCommunityBusinessesFetched: false);
+}
+
+CashWalletState _fetchingBusinessListFailed(
+    CashWalletState state, FetchingBusinessListFailed action) {
+  return state.copyWith(isCommunityBusinessesFetched: false);
 }
 
 CashWalletState _getTokenTransfersListSuccess(
@@ -278,11 +293,6 @@ CashWalletState _removeSendToInvites(
   Map<String, num> sendToInvites = state.sendToInvites;
   sendToInvites.remove(action.jobId);
   return state.copyWith(sendToInvites: sendToInvites);
-}
-
-CashWalletState _businessesLoadedAction(
-    CashWalletState state, BusinessesLoadedAction action) {
-  return state.copyWith(businesses: action.businessList);
 }
 
 CashWalletState _createNewWalletSuccess(
