@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:share/share.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
