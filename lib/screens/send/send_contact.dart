@@ -175,9 +175,15 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     final sorted = new List<Transaction>.from(
             this.widget.viewModel.transactions.list.toSet().toList())
         .where((t) {
-      return t.type == 'SEND' && t.blockNumber != null;
+      return t.type == 'SEND';
     }).toList()
-          ..sort((a, b) => b.blockNumber?.compareTo(a.blockNumber));
+          ..sort((a, b) {
+            if (a.blockNumber != null && b.blockNumber != null) {
+              return b.blockNumber?.compareTo(a.blockNumber);
+            } else {
+              return b.status.compareTo(a.status);
+            }
+          });
 
     Map<String, Transaction> uniqueValues = {};
     for (var item in sorted) {
@@ -192,7 +198,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       uniqueValues[a] = item;
     }
 
-    var uniqueList = uniqueValues.values.toList().sublist(0, numToShow);
+    dynamic uniqueList = uniqueValues.values.toList().length > numToShow
+        ? uniqueValues.values.toList().sublist(0, numToShow)
+        : uniqueValues.values.toList();
     for (int i = 0; i < uniqueList.length; i++) {
       if (i == 0) {
         listItems.add(Container(
