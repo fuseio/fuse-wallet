@@ -4,10 +4,18 @@ import 'package:decimal/decimal.dart';
 
 String formatValue(BigInt value, int decimals) {
   double s = value / BigInt.from(pow(10, decimals));
+  String formatedValue;
   if (s.roundToDouble() == s) {
-    return s.round().toString();
+    formatedValue = s.round().toString();
   } else {
-    return s.toString();
+    formatedValue = s.toString();
+  }
+  
+  List a = formatedValue.split('.');
+  if (a.length > 1) {
+    return s.toStringAsFixed(2);
+  } else {
+    return formatedValue;
   }
 }
 

@@ -382,6 +382,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
+  interactive_webview:
+    dependency: "direct main"
+    description:
+      name: interactive_webview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   intl:
     dependency: transitive
     description:
@@ -841,7 +848,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+46"
+    version: "0.0.1+47"
   watcher:
     dependency: transitive
     description:

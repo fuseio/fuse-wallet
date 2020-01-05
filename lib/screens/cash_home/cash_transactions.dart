@@ -134,22 +134,19 @@ class _TransactionListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 5),
-            child: Text(
-              deduceSign(_transaction) +
-                  formatValue(transfer.value, _vm.token.decimals),
-              style: TextStyle(
-                  color: deduceColor(_transaction),
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold),
-            ),
+          Text(
+            deduceSign(_transaction) +
+                formatValue(transfer.value, _vm.token.decimals),
+            style: TextStyle(
+                color: deduceColor(_transaction),
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold),
           ),
           Text(
             " ${_vm.token.symbol}",
             style: TextStyle(
                 color: deduceColor(_transaction),
-                fontSize: 18.0,
+                fontSize: 12.0,
                 fontWeight: FontWeight.normal),
           )
         ],
@@ -181,7 +178,7 @@ class _TransactionListItem extends StatelessWidget {
                               ? 'You got a join bonus!'
                               : deducePhoneNumber(
                                   _transaction, _vm.reverseContacts),
-                  style: TextStyle(color: Color(0xFF333333), fontSize: 18))
+                  style: TextStyle(color: Color(0xFF333333), fontSize: 14))
             ],
           ),
           leading: Stack(
@@ -189,7 +186,7 @@ class _TransactionListItem extends StatelessWidget {
               Hero(
                 child: CircleAvatar(
                   backgroundColor: Color(0xFFE0E0E0),
-                  radius: 25,
+                  radius: 20,
                   backgroundImage: _contact?.avatar != null
                       ? new MemoryImage(_contact.avatar)
                       : transfer.isJoinBonus()
@@ -204,11 +201,11 @@ class _TransactionListItem extends StatelessWidget {
               ),
               _transaction.isPending()
                   ? Container(
-                      width: 50,
-                      height: 50,
+                      width: 40,
+                      height: 40,
                       child: CircularProgressIndicator(
                         backgroundColor: Color(0xFF49D88D).withOpacity(0),
-                        strokeWidth: 4, //backgroundColor: Color(0xFFb8e3a6),
+                        strokeWidth: 3, //backgroundColor: Color(0xFFb8e3a6),
                         valueColor: new AlwaysStoppedAnimation<Color>(
                             Color(0xFF49D88D).withOpacity(1)),
                       ))
@@ -218,10 +215,10 @@ class _TransactionListItem extends StatelessWidget {
           trailing: Container(
             width: 120,
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: _transaction.isPending() ? MainAxisAlignment.start : MainAxisAlignment.center,
+                crossAxisAlignment: _transaction.isPending() ?  CrossAxisAlignment.end : CrossAxisAlignment.center,
                 children: rightColumn),
-            padding: EdgeInsets.only(top: 10, bottom: 0, left: 10, right: 10),
+            // padding: EdgeInsets.only(top: 10, bottom: 0, left: 0, right: 10),
           ),
           onTap: () {
             Navigator.pushNamed(context, '/TransactionDetails',
@@ -236,14 +233,14 @@ class _TransactionListItem extends StatelessWidget {
                           formatValue(transfer.value, _vm.token.decimals),
                       style: TextStyle(
                           color: deduceColor(_transaction),
-                          fontSize: 18.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
                       " ${_vm.token.symbol}",
                       style: TextStyle(
                           color: deduceColor(_transaction),
-                          fontSize: 18.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.normal),
                     )
                   ],

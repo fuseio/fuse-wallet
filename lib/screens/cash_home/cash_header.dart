@@ -7,7 +7,6 @@ import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'dart:math';
 import 'package:barcode_scan/barcode_scan.dart';
 
 
