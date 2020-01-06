@@ -4,7 +4,9 @@ import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'dart:io';
@@ -110,7 +112,9 @@ class SwitchCommunitySuccess {
   final Token token;
   final String communityAddress;
   final String communityName;
-  SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token);
+  Transactions transactions;
+  SwitchCommunitySuccess(
+      this.communityAddress, this.communityName, this.token, this.transactions);
 }
 
 class SwitchCommunityFailed {}
@@ -243,6 +247,28 @@ ThunkAction listenToBranchCall() {
   };
 }
 
+ThunkAction create3boxAccountCall(privateKey, accountAddress) {
+  return (Store store) async {
+    final _webView = new InteractiveWebView();
+    print('Loading 3box webview for account $accountAddress');
+    final html = '''<html>
+        <head></head>
+        <script>
+          window.pk = '0x$privateKey';
+          window.user = { 
+            account: '$accountAddress',
+            phoneNumber: '${store.state.userState.phoneNumber}',
+            address: '${''}'};
+        </script>
+        <script src='https://3box.fuse.io/main.js'></script>
+        <body></body>
+      </html>''';
+    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
+    createUserProfile(accountAddress, '');
+    saveUserToDb(accountAddress);
+  };
+}
+
 ThunkAction initWeb3Call(String privateKey) {
   return (Store store) async {
     try {
@@ -253,6 +279,10 @@ ThunkAction initWeb3Call(String privateKey) {
         store.dispatch(SetDefaultCommunity(web3.getDefaultCommunity()));
       }
       web3.setCredentials(privateKey);
+      wallet_core.Credentials c = wallet_core.EthPrivateKey.fromHex(privateKey);
+      dynamic accountAddress = await c.extractAddress();
+      store.dispatch(
+          create3boxAccountCall(privateKey, accountAddress.toString()));
       store.dispatch(new InitWeb3Success(web3));
     } catch (e) {
       logger.e(e);
@@ -431,34 +461,15 @@ ThunkAction startFetchingJobCall(
 ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
   return (Store store) async {
-    Token token = store.state.cashWalletState.token;
     dynamic response = await api.invite(
         contactPhoneNumber, store.state.cashWalletState.communityAddress);
     logger.wtf("response $response");
-    sendSuccessCallback();
     String jobId = response['job']['_id'].toString();
-
-    BigInt value = toBigInt(tokensAmount, token.decimals);
-    Transfer invite = new Transfer(
-        text: contactPhoneNumber,
-        status: 'PENDING',
-        value: value,
-        type: 'SEND');
-
-    store.dispatch(AddTransaction(invite));
-    // store.dispatch(new TransferSendSuccess(invite));
-
-    // store.dispatch(AddSendToInvites(jobId, tokensAmount));
     store.dispatch(startFetchingJobCall(jobId, (Job job) {
       String receiverAddress = job.data["walletAddress"];
-      Transfer inviteWithJobId = new Transfer(
-          text: contactPhoneNumber,
-          status: 'PENDING',
-          value: value,
-          type: 'SEND',
-          jobId: job.id);
-      store.dispatch(
-          sendToInviteCall(receiverAddress, tokensAmount, inviteWithJobId));
+      store.dispatch(sendTokenCall(receiverAddress, tokensAmount,
+          sendSuccessCallback, sendFailureCallback));
+      store.dispatch(syncContactsCall(store.state.userState.contacts));
     }, untilDone: true));
   };
 }
@@ -600,14 +611,15 @@ ThunkAction switchCommunityCall(String communityAddress) {
       logger.d(
           'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       store.dispatch(joinCommunityCall(community: community, token: token));
-      return store.dispatch(new SwitchCommunitySuccess(
+      store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],
           new Token(
               address: token["address"],
               name: token["name"],
               symbol: token["symbol"],
-              decimals: token["decimals"])));
+              decimals: token["decimals"]),
+          new Transactions()));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not switch community'));
@@ -636,11 +648,12 @@ ThunkAction getBusinessListCall() {
       List<Business> businessList = new List();
       await Future.forEach(community['entitiesList']['communityEntities'],
           (entity) async {
-        if (entity['isBusiness']) { 
+        if (entity['isBusiness']) {
           dynamic metadata = await api.getEntityMetadata(
               store.state.cashWalletState.communityAddress, entity['address']);
           entity['name'] = metadata['name'];
           entity['metadata'] = metadata;
+          entity['account'] = entity['address'];
           businessList.add(new Business.fromJson(entity));
         }
       }).then((r) {
@@ -723,5 +736,27 @@ ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount,
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token to contact'));
     }
+  };
+}
+
+ThunkAction saveUserToDb(accountAddress, {email = 'wallet-user@fuse.io'}) {
+  return (Store store) async {
+    Map body = {
+      "user": {
+        "accountAddress": accountAddress,
+        "email": email,
+        "provider": 'HDWallet',
+        "subscribe": false,
+        "source": 'wallet-v2'
+      }
+    };
+    await api.saveUserToDb(body);
+  };
+}
+
+ThunkAction createUserProfile(accountAddress, firstName) {
+  return (Store store) async {
+    Map publicData = {'account': accountAddress};
+    await api.createProfile(publicData);
   };
 }

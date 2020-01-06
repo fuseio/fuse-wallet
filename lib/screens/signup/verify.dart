@@ -91,7 +91,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           viewModel.accountAddress,
                           () {
                             // Navigator.popUntil(context, ModalRoute.withName('/'));
-                            Navigator.popAndPushNamed(context, '/Pincode');
+                            Navigator.popAndPushNamed(context, '/Cash');
                             setState(() { isPreloading = false; });
                           },
                           () {

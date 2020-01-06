@@ -28,9 +28,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getPages() {
     return <Widget>[
-      Container( color: Colors.transparent),
-      Container( color: Colors.transparent),
-      Container( color: Colors.transparent),
+      Container(color: Colors.transparent),
+      Container(color: Colors.transparent),
+      Container(color: Colors.transparent),
     ];
   }
 
@@ -39,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
       _previousPage = _pageController.page.toInt();
     }
     notifier?.value = _pageController.page - _previousPage;
-    
 
     _slideController.rooms = _pageController.page;
   }
@@ -103,15 +102,16 @@ class _SplashScreenState extends State<SplashScreen> {
                               Expanded(
                                 child: new Stack(
                                   children: <Widget>[
-                                    Padding(padding: EdgeInsets.all(20),
-                                    child: FlareActor(
-        "assets/images/new-file-14.flr",
-        alignment: Alignment.center,
-        fit: BoxFit.contain,
-        //animation: "part1",
-        controller: _slideController,
-      ),)
-                                    ,
+                                    Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: FlareActor(
+                                        "assets/images/new-file-14.flr",
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.contain,
+                                        //animation: "part1",
+                                        controller: _slideController,
+                                      ),
+                                    ),
                                     new PageView.builder(
                                       physics:
                                           new AlwaysScrollableScrollPhysics(),
@@ -143,7 +143,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 ),
                               ),
                               SizedBox(
-                                height: 180,
+                                height: viewModel.isLoggedOut ? 250 : 180,
                                 child: Column(
                                   children: <Widget>[
                                     Padding(
@@ -184,22 +184,36 @@ class _SplashScreenState extends State<SplashScreen> {
                                                 : "Restore existing wallet",
                                             onPressed: () {
                                               if (viewModel.isLoggedOut) {
-                                                viewModel.createLocalAccount(() {
+                                                viewModel
+                                                    .createLocalAccount(() {
                                                   setState(() {
-                                                    isTransparentPreloading = false;
+                                                    isTransparentPreloading =
+                                                        false;
                                                   });
                                                   Navigator.pushNamed(
                                                       context, '/Signup');
                                                 });
                                                 setState(() {
-                                                  isTransparentPreloading = true;
+                                                  isTransparentPreloading =
+                                                      true;
                                                 });
                                               } else {
-                                                  Navigator.pushNamed(
-                                                      context, '/Recovery');
+                                                Navigator.pushNamed(
+                                                    context, '/Recovery');
                                               }
                                             },
-                                            preload: isTransparentPreloading))
+                                            preload: isTransparentPreloading)),
+                                    viewModel.isLoggedOut
+                                        ? Padding(
+                                            padding: EdgeInsets.only(top: 20),
+                                            child: TransparentButton(
+                                                label:
+                                                    "Restore existing wallet",
+                                                onPressed: () {
+                                                  Navigator.pushNamed(
+                                                      context, '/Recovery');
+                                                }))
+                                        : SizedBox.shrink()
                                   ],
                                 ),
                               )

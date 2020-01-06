@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:core';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/transaction.dart';
@@ -23,8 +24,8 @@ String deduceSign(Transfer transfer) {
   }
 }
 
-String deducePhoneNumber(
-    Transfer transfer, Map<String, String> reverseContacts, {bool format = true}) {
+String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
+    {bool format = true}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (reverseContacts.containsKey(accountAddress)) {
     return reverseContacts[accountAddress];
@@ -62,10 +63,10 @@ Color deduceColor(Transfer transfer) {
     return Color(0xFFE0E0E0);
   } else {
     if (transfer.type == 'SEND') {
-    return Color(0xFFFF0000);
-  } else {
-    return Color(0xFF00BE66);
-  }
+      return Color(0xFFFF0000);
+    } else {
+      return Color(0xFF00BE66);
+    }
   }
 }
 
@@ -133,34 +134,31 @@ class _TransactionListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 5),
-            child: Text(
-              deduceSign(_transaction) +
-                  formatValue(transfer.value, _vm.token.decimals),
-              style: TextStyle(
-                  color: deduceColor(_transaction),
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold),
-            ),
+          Text(
+            deduceSign(_transaction) +
+                formatValue(transfer.value, _vm.token.decimals),
+            style: TextStyle(
+                color: deduceColor(_transaction),
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold),
           ),
           Text(
             " ${_vm.token.symbol}",
             style: TextStyle(
                 color: deduceColor(_transaction),
-                fontSize: 18.0,
+                fontSize: 12.0,
                 fontWeight: FontWeight.normal),
           )
         ],
       )
     ];
 
-    // if (_transaction.isPending()) {
-    //   rightColumn.add(Padding(
-    //       child: Text("PENDING",
-    //           style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),
-    //       padding: EdgeInsets.only(top: 10)));
-    // }
+    if (_transaction.isPending()) {
+      rightColumn.add(Padding(
+          child: Text("PENDING",
+              style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),
+          padding: EdgeInsets.only(top: 10)));
+    }
 
     return Container(
         decoration: new BoxDecoration(
@@ -172,11 +170,15 @@ class _TransactionListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  _transaction.text != null ? _transaction.text :
-                  _contact != null
-                      ? _contact.displayName
-                      : deducePhoneNumber(_transaction, _vm.reverseContacts),
-                  style: TextStyle(color: Color(0xFF333333), fontSize: 18))
+                  _transaction.text != null
+                      ? _transaction.text
+                      : _contact != null
+                          ? _contact.displayName
+                          : transfer.isJoinBonus()
+                              ? 'You got a join bonus!'
+                              : deducePhoneNumber(
+                                  _transaction, _vm.reverseContacts),
+                  style: TextStyle(color: Color(0xFF333333), fontSize: 14))
             ],
           ),
           leading: Stack(
@@ -184,10 +186,14 @@ class _TransactionListItem extends StatelessWidget {
               Hero(
                 child: CircleAvatar(
                   backgroundColor: Color(0xFFE0E0E0),
-                  radius: 25,
+                  radius: 20,
                   backgroundImage: _contact?.avatar != null
-                      ? MemoryImage(_contact.avatar)
-                      : new AssetImage('assets/images/anom.png'),
+                      ? new MemoryImage(_contact.avatar)
+                      : transfer.isJoinBonus()
+                          ? new AssetImage(
+                              'assets/images/join_bonus.png',
+                            )
+                          : new AssetImage('assets/images/anom.png'),
                 ),
                 tag: _transaction.isPending()
                     ? "contactSent"
@@ -195,11 +201,11 @@ class _TransactionListItem extends StatelessWidget {
               ),
               _transaction.isPending()
                   ? Container(
-                      width: 50,
-                      height: 50,
+                      width: 40,
+                      height: 40,
                       child: CircularProgressIndicator(
                         backgroundColor: Color(0xFF49D88D).withOpacity(0),
-                        strokeWidth: 4, //backgroundColor: Color(0xFFb8e3a6),
+                        strokeWidth: 3, //backgroundColor: Color(0xFFb8e3a6),
                         valueColor: new AlwaysStoppedAnimation<Color>(
                             Color(0xFF49D88D).withOpacity(1)),
                       ))
@@ -209,39 +215,36 @@ class _TransactionListItem extends StatelessWidget {
           trailing: Container(
             width: 120,
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: _transaction.isPending() ? MainAxisAlignment.start : MainAxisAlignment.center,
+                crossAxisAlignment: _transaction.isPending() ?  CrossAxisAlignment.end : CrossAxisAlignment.center,
                 children: rightColumn),
-            padding: EdgeInsets.only(top: 10, bottom: 0, left: 10, right: 10),
+            // padding: EdgeInsets.only(top: 10, bottom: 0, left: 0, right: 10),
           ),
           onTap: () {
-            Navigator.pushNamed(context, '/TransactionDetails', arguments: TransactionDetailArguments(
-              transaction: _transaction,
-              avatar: _contact?.avatar != null
-                      ? MemoryImage(_contact.avatar)
-                      : new AssetImage('assets/images/anom.png'),
-              accountAddress: deducePhoneNumber(_transaction, _vm.reverseContacts, format: false),
-              to:  _transaction.text != null ? _transaction.text :
-                  _contact != null
-                      ? _contact.displayName
-                      : deducePhoneNumber(_transaction, _vm.reverseContacts),
-            status: _transaction.status,
-            symbol: _vm.token.symbol,
-            amount: [Text(
-              deduceSign(_transaction) +
-                  formatValue(transfer.value, _vm.token.decimals),
-              style: TextStyle(
-                  color: deduceColor(_transaction),
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold),
-            ),Text(
-            " ${_vm.token.symbol}",
-            style: TextStyle(
-                color: deduceColor(_transaction),
-                fontSize: 18.0,
-                fontWeight: FontWeight.normal),
-          )],
-            ));
+            Navigator.pushNamed(context, '/TransactionDetails',
+                arguments: TransactionDetailArguments(
+                  transfer: transfer,
+                  contact: _contact,
+                  reverseContacts: _vm.reverseContacts,
+                  symbol: _vm.token.symbol,
+                  amount: [
+                    Text(
+                      deduceSign(_transaction) +
+                          formatValue(transfer.value, _vm.token.decimals),
+                      style: TextStyle(
+                          color: deduceColor(_transaction),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      " ${_vm.token.symbol}",
+                      style: TextStyle(
+                          color: deduceColor(_transaction),
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.normal),
+                    )
+                  ],
+                ));
           },
         ));
   }

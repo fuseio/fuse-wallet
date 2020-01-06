@@ -23,7 +23,8 @@ class CreateLocalAccountSuccess {
   final List<String> mnemonic;
   final String privateKey;
   final String accountAddress;
-  CreateLocalAccountSuccess(this.mnemonic, this.privateKey, this.accountAddress);
+  CreateLocalAccountSuccess(
+      this.mnemonic, this.privateKey, this.accountAddress);
 }
 
 class LoginRequestSuccess {
@@ -76,7 +77,7 @@ ThunkAction restoreWalletCall(
       logger.d('privateKey: $privateKey');
       store.dispatch(new RestoreWalletSuccess(_mnemonic, privateKey));
       Credentials c = EthPrivateKey.fromHex(privateKey);
-        dynamic accountAddress = await c.extractAddress();
+      dynamic accountAddress = await c.extractAddress();
       store.dispatch(new CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
@@ -88,8 +89,7 @@ ThunkAction restoreWalletCall(
   };
 }
 
-ThunkAction createLocalAccountCall(
-    VoidCallback successCallback) {
+ThunkAction createLocalAccountCall(VoidCallback successCallback) {
   return (Store store) async {
     try {
       logger.d('create new wallet');
@@ -203,9 +203,7 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
   };
 }
 
-
-ThunkAction setPincodeCall(
-  String pincode) {
+ThunkAction setPincodeCall(String pincode) {
   return (Store store) async {
     try {
       store.dispatch(SetPincodeSuccess(pincode));
