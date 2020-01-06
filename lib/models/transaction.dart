@@ -2,6 +2,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'transaction.g.dart';
 
+Map<String, String> funderAddresses = {
+  'ropsten': '0xa6c61e75e6008eed7f75b73c84755558764081d1',
+  'mainnet': '0x373c383b05c121e541f239afe5fd73c013fed20f'
+};
+
 @JsonSerializable()
 class Transaction {
   final String txHash;
@@ -65,7 +70,7 @@ class Transfer extends Transaction {
             jobId: jobId,
             blockNumber: blockNumber);
 
-  bool isJoinBonus() => this.from == '0xa6c61e75e6008eed7f75b73c84755558764081d1' || this.from == '0x373c383b05c121e541f239afe5fd73c013fed20f';
+  bool isJoinBonus() => funderAddresses.containsValue(this.from);
 
   Transfer copyWith({
     String status, String txHash}) {
