@@ -6,7 +6,6 @@ import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'dart:io';
@@ -247,28 +246,6 @@ ThunkAction listenToBranchCall() {
   };
 }
 
-ThunkAction create3boxAccountCall(privateKey, accountAddress) {
-  return (Store store) async {
-    final _webView = new InteractiveWebView();
-    print('Loading 3box webview for account $accountAddress');
-    final html = '''<html>
-        <head></head>
-        <script>
-          window.pk = '0x$privateKey';
-          window.user = { 
-            account: '$accountAddress',
-            phoneNumber: '${store.state.userState.phoneNumber}',
-            address: '${''}'};
-        </script>
-        <script src='https://3box.fuse.io/main.js'></script>
-        <body></body>
-      </html>''';
-    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
-    createUserProfile(accountAddress, '');
-    saveUserToDb(accountAddress);
-  };
-}
-
 ThunkAction initWeb3Call(String privateKey) {
   return (Store store) async {
     try {
@@ -279,10 +256,6 @@ ThunkAction initWeb3Call(String privateKey) {
         store.dispatch(SetDefaultCommunity(web3.getDefaultCommunity()));
       }
       web3.setCredentials(privateKey);
-      wallet_core.Credentials c = wallet_core.EthPrivateKey.fromHex(privateKey);
-      dynamic accountAddress = await c.extractAddress();
-      store.dispatch(
-          create3boxAccountCall(privateKey, accountAddress.toString()));
       store.dispatch(new InitWeb3Success(web3));
     } catch (e) {
       logger.e(e);
@@ -736,27 +709,5 @@ ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount,
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token to contact'));
     }
-  };
-}
-
-ThunkAction saveUserToDb(accountAddress, {email = 'wallet-user@fuse.io'}) {
-  return (Store store) async {
-    Map body = {
-      "user": {
-        "accountAddress": accountAddress,
-        "email": email,
-        "provider": 'HDWallet',
-        "subscribe": false,
-        "source": 'wallet-v2'
-      }
-    };
-    await api.saveUserToDb(body);
-  };
-}
-
-ThunkAction createUserProfile(accountAddress, firstName) {
-  return (Store store) async {
-    Map publicData = {'account': accountAddress};
-    await api.createProfile(publicData);
   };
 }

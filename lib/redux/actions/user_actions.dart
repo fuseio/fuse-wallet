@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
@@ -153,6 +154,8 @@ ThunkAction loginVerifyCall(
       String jwtToken =
           await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
+      store.dispatch(create3boxAccountCall(
+          store.state.userState.privateKey, accountAddress, phone));
       successCallback();
     } catch (e) {
       logger.e(e);
@@ -211,5 +214,37 @@ ThunkAction setPincodeCall(String pincode) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token to contact'));
     }
+  };
+}
+
+ThunkAction create3boxAccountCall(privateKey, accountAddress, phone) {
+  return (Store store) async {
+    final _webView = new InteractiveWebView();
+    Map publicData = {'account': accountAddress};
+    print('create profile for accountAddress $accountAddress');
+    await api.createProfile(accountAddress, publicData);
+    Map user = {
+      "accountAddress": accountAddress,
+      "email": 'wallet-user@fuse.io',
+      "provider": 'HDWallet',
+      "subscribe": false,
+      "source": 'wallet-v2'
+    };
+    print('save user $accountAddress');
+    await api.saveUserToDb(user);
+    print('Loading 3box webview for account $accountAddress');
+    final html = '''<html>
+        <head></head>
+        <script>
+          window.pk = '0x$privateKey';
+          window.user = { 
+            account: '$accountAddress',
+            phoneNumber: '$phone',
+          };
+        </script>
+        <script src='https://3box.fuse.io/main.js'></script>
+        <body></body>
+      </html>''';
+    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
   };
 }

@@ -103,7 +103,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                               radius: 25,
                               backgroundImage: args.transfer.isJoinBonus()
                                   ? new AssetImage(
-                                      'assets/images/join_bonus.png',
+                                      'assets/images/join.png',
                                     )
                                   : args.contact?.avatar != null
                                       ? MemoryImage(args.contact.avatar)
