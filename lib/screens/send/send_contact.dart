@@ -109,7 +109,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               title: Text(
                 user.displayName,
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 16),
               ),
               //subtitle: Text("user.company" ?? ""),
               onTap: () {
@@ -149,7 +149,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           padding: EdgeInsets.only(left: 20, top: 7),
           child: Text(
             title,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -369,6 +369,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     return MainScaffold(
       withPadding: true,
       title: "Send to",
+      titleFontSize: 15,
       sliverList: _buildPageList(),
       children: <Widget>[
         !this.widget.viewModel.isContactsSynced

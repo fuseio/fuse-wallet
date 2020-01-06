@@ -93,18 +93,18 @@ class _BusinessPageState extends State<BusinessPage> {
                     padding:
                         EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
                     child: Container(
-                        width: 200,
+                        width: 100,
                         child: FlatButton(
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
-                          color: Theme.of(context).accentColor,
+                          color: Color(0xFFB1FDC0),
                           padding: EdgeInsets.all(0),
                           child: Text(
                             "Pay",
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.normal),
                           ),
                           onPressed: () {
                             Navigator.pushNamed(context, '/SendAmount',

@@ -149,6 +149,8 @@ class _SplashScreenState extends State<SplashScreen> {
                                     Padding(
                                       padding: EdgeInsets.only(top: 20),
                                       child: PrimaryButton(
+                                        fontSize: 16,
+                                        labelFontWeight: FontWeight.normal,
                                         label: viewModel.isLoggedOut
                                             ? "Login"
                                             : "Create a new wallet",
@@ -177,11 +179,12 @@ class _SplashScreenState extends State<SplashScreen> {
                                       ),
                                     ),
                                     Padding(
-                                        padding: EdgeInsets.only(top: 30),
+                                        padding: EdgeInsets.only(top: 20),
                                         child: TransparentButton(
+                                            fontSize: 16,
                                             label: viewModel.isLoggedOut
                                                 ? "Create a new wallet"
-                                                : "Restore existing wallet",
+                                                : "Restore from backup",
                                             onPressed: () {
                                               if (viewModel.isLoggedOut) {
                                                 viewModel
@@ -208,7 +211,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                             padding: EdgeInsets.only(top: 20),
                                             child: TransparentButton(
                                                 label:
-                                                    "Restore existing wallet",
+                                                    "Restore from backup",
                                                 onPressed: () {
                                                   Navigator.pushNamed(
                                                       context, '/Recovery');

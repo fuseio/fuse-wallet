@@ -53,6 +53,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
             deducePhoneNumber(args.transfer, args.reverseContacts);
         return MainScaffold(
           withPadding: true,
+          titleFontSize: 15,
           title: "Transaction details",
           children: <Widget>[
             Container(
@@ -74,7 +75,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.normal))
                         ],
                       ),

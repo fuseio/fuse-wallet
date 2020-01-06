@@ -100,11 +100,11 @@ class CashTransactionsState extends State<CashTransactios> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
-              padding: EdgeInsets.only(left: 15, top: 15, bottom: 8),
+              padding: EdgeInsets.only(left: 15, top: 27, bottom: 8),
               child: Text("Transactions",
                   style: TextStyle(
                       color: Color(0xFF979797),
-                      fontSize: 14.0,
+                      fontSize: 12.0,
                       fontWeight: FontWeight.normal))),
           ListView(
               shrinkWrap: true,
@@ -139,14 +139,14 @@ class _TransactionListItem extends StatelessWidget {
                 formatValue(transfer.value, _vm.token.decimals),
             style: TextStyle(
                 color: deduceColor(_transaction),
-                fontSize: 12.0,
+                fontSize: 15.0,
                 fontWeight: FontWeight.bold),
           ),
           Text(
             " ${_vm.token.symbol}",
             style: TextStyle(
                 color: deduceColor(_transaction),
-                fontSize: 12.0,
+                fontSize: 10.0,
                 fontWeight: FontWeight.normal),
           )
         ],
@@ -170,15 +170,15 @@ class _TransactionListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  _transaction.text != null
-                      ? _transaction.text
-                      : _contact != null
-                          ? _contact.displayName
-                          : transfer.isJoinBonus()
-                              ? 'You got a join bonus!'
+                  transfer.isJoinBonus()
+                      ? 'You got a join bonus!'
+                      : _transaction.text != null
+                          ? _transaction.text
+                          : _contact != null
+                              ? _contact.displayName
                               : deducePhoneNumber(
                                   _transaction, _vm.reverseContacts),
-                  style: TextStyle(color: Color(0xFF333333), fontSize: 14))
+                  style: TextStyle(color: Color(0xFF333333), fontSize: 15))
             ],
           ),
           leading: Stack(
@@ -186,12 +186,12 @@ class _TransactionListItem extends StatelessWidget {
               Hero(
                 child: CircleAvatar(
                   backgroundColor: Color(0xFFE0E0E0),
-                  radius: 20,
+                  radius: 27,
                   backgroundImage: _contact?.avatar != null
                       ? new MemoryImage(_contact.avatar)
                       : transfer.isJoinBonus()
                           ? new AssetImage(
-                              'assets/images/join_bonus.png',
+                              'assets/images/join.png',
                             )
                           : new AssetImage('assets/images/anom.png'),
                 ),
@@ -201,8 +201,8 @@ class _TransactionListItem extends StatelessWidget {
               ),
               _transaction.isPending()
                   ? Container(
-                      width: 40,
-                      height: 40,
+                      width: 54,
+                      height: 54,
                       child: CircularProgressIndicator(
                         backgroundColor: Color(0xFF49D88D).withOpacity(0),
                         strokeWidth: 3, //backgroundColor: Color(0xFFb8e3a6),
@@ -213,10 +213,14 @@ class _TransactionListItem extends StatelessWidget {
             ],
           ),
           trailing: Container(
-            width: 120,
+            width: 100,
             child: Column(
-                mainAxisAlignment: _transaction.isPending() ? MainAxisAlignment.start : MainAxisAlignment.center,
-                crossAxisAlignment: _transaction.isPending() ?  CrossAxisAlignment.end : CrossAxisAlignment.center,
+                mainAxisAlignment: _transaction.isPending()
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.center,
+                crossAxisAlignment: _transaction.isPending()
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.center,
                 children: rightColumn),
             // padding: EdgeInsets.only(top: 10, bottom: 0, left: 0, right: 10),
           ),

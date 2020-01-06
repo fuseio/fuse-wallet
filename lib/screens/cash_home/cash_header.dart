@@ -77,7 +77,7 @@ class CashHeader extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 33,
                               color: Colors.black,
-                              fontWeight: FontWeight.w300)),
+                              fontWeight: FontWeight.normal)),
                       new TextSpan(
                           text: ' ' + viewModel.firstName(),
                           style: TextStyle(
@@ -106,7 +106,7 @@ class CashHeader extends StatelessWidget {
                           child: Text(I18n.of(context).balance,
                               style: TextStyle(
                                   color: Colors.black.withAlpha(150),
-                                  fontSize: 14.0)),
+                                  fontSize: 12.0)),
                           padding: EdgeInsets.only(bottom: 6.0),
                         ),
                         new RichText(
@@ -124,7 +124,7 @@ class CashHeader extends StatelessWidget {
                                 new TextSpan(
                                   text: formatValue(viewModel.tokenBalance, viewModel.token.decimals),
                                   style: new TextStyle(
-                                      fontSize: 30,
+                                      fontSize: 32,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold)),
                               new TextSpan(

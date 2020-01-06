@@ -31,8 +31,10 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+        backgroundColor: Colors.white,
         withPadding: true,
         title: "Sign up",
+        titleFontSize: 15,
         children: <Widget>[
           Container(
             //color: Theme.of(context).primaryColor,
@@ -75,7 +77,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             style: TextStyle(
                                 color: Theme.of(context).textTheme.button.color,
                                 fontSize: 11,
-                                fontWeight: FontWeight.w700),
+                                fontWeight: FontWeight.normal),
                           ),
                         )),
                   ),
@@ -123,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               favorite: [],
                               showCountryOnly: false,
                               showFlag: false,
-                              textStyle: const TextStyle(fontSize: 18),
+                              textStyle: const TextStyle(fontSize: 16),
                               alignLeft: false,
                             ),
                             width: 50,
@@ -141,7 +143,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               controller: phoneController,
                               keyboardType: TextInputType.number,
                               autofocus: false,
-                              style: const TextStyle(fontSize: 18),
+                              style: const TextStyle(fontSize: 16),
                               decoration: const InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 10),
@@ -160,7 +162,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 40.0),
                   Center(
                     child: PrimaryButton(
-                      label: "NEXT",
+                      label: "Next",
+                      fontSize: 16,
+                      labelFontWeight: FontWeight.normal,
                       onPressed: () async {
                         if (phoneController.text.trim().isEmpty) {
                           setState(() {
