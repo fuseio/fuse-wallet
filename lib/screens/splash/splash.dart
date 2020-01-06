@@ -8,6 +8,7 @@ import 'package:fusecash/screens/splash/slide_animation_controller.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
 import 'package:redux/redux.dart';
+import 'create_wallet.dart';
 import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,8 +18,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   PageController _pageController;
-  bool isPrimaryPreloading = false;
-  bool isTransparentPreloading = false;
   static const _kDuration = const Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
   bool isOpen = false;
@@ -28,9 +27,50 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getPages() {
     return <Widget>[
-      Container(color: Colors.transparent),
-      Container(color: Colors.transparent),
-      Container(color: Colors.transparent),
+      Container(
+        color: Colors.transparent,
+        child: Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  "Pay and get paid using crypto\nwithout fees or friction",
+                  style: TextStyle(fontSize: 24),
+                  textAlign: TextAlign.center,
+                ))),
+      ),
+      Container(
+        color: Colors.transparent,
+        child: Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  "Use the wallet to send\nmoney to friends",
+                  style: TextStyle(fontSize: 24),
+                  textAlign: TextAlign.center,
+                ))),
+      ),
+      Container(
+        color: Colors.transparent,
+        child: Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  "Hold Ethereum assets and\naccess decentralized finance",
+                  style: TextStyle(fontSize: 24),
+                  textAlign: TextAlign.center,
+                ))),
+      ),
+      Container(
+        color: Colors.transparent,
+        child: Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: CreateWallet())),
+      )
     ];
   }
 
@@ -105,7 +145,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                     Padding(
                                       padding: EdgeInsets.all(20),
                                       child: FlareActor(
-                                        "assets/images/new-file-14.flr",
+                                        "assets/images/animation.flr",
                                         alignment: Alignment.center,
                                         fit: BoxFit.contain,
                                         //animation: "part1",
@@ -116,10 +156,10 @@ class _SplashScreenState extends State<SplashScreen> {
                                       physics:
                                           new AlwaysScrollableScrollPhysics(),
                                       controller: _pageController,
-                                      itemCount: 3,
+                                      itemCount: 4,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return getPages()[index % 3];
+                                        return getPages()[index % 4];
                                       },
                                     ),
                                     new Positioned(
@@ -131,7 +171,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                         child: new Center(
                                           child: new DotsIndicator(
                                             controller: _pageController,
-                                            itemCount: 3,
+                                            itemCount: 4,
                                             onPageSelected: (int page) {
                                               gotoPage(page);
                                             },
@@ -142,84 +182,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: viewModel.isLoggedOut ? 250 : 180,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 20),
-                                      child: PrimaryButton(
-                                        fontSize: 16,
-                                        labelFontWeight: FontWeight.normal,
-                                        label: viewModel.isLoggedOut
-                                            ? "Login"
-                                            : "Create a new wallet",
-                                        onPressed: () {
-                                          if (viewModel.isLoggedOut) {
-                                            viewModel
-                                                .initWeb3(viewModel.privateKey);
-                                            Navigator.popUntil(context,
-                                                ModalRoute.withName('/'));
-                                            Navigator.pushNamed(
-                                                context, '/Cash');
-                                          } else {
-                                            viewModel.createLocalAccount(() {
-                                              setState(() {
-                                                isPrimaryPreloading = false;
-                                              });
-                                              Navigator.pushNamed(
-                                                  context, '/Signup');
-                                            });
-                                            setState(() {
-                                              isPrimaryPreloading = true;
-                                            });
-                                          }
-                                        },
-                                        preload: isPrimaryPreloading,
-                                      ),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(top: 20),
-                                        child: TransparentButton(
-                                            fontSize: 16,
-                                            label: viewModel.isLoggedOut
-                                                ? "Create a new wallet"
-                                                : "Restore from backup",
-                                            onPressed: () {
-                                              if (viewModel.isLoggedOut) {
-                                                viewModel
-                                                    .createLocalAccount(() {
-                                                  setState(() {
-                                                    isTransparentPreloading =
-                                                        false;
-                                                  });
-                                                  Navigator.pushNamed(
-                                                      context, '/Signup');
-                                                });
-                                                setState(() {
-                                                  isTransparentPreloading =
-                                                      true;
-                                                });
-                                              } else {
-                                                Navigator.pushNamed(
-                                                    context, '/Recovery');
-                                              }
-                                            },
-                                            preload: isTransparentPreloading)),
-                                    viewModel.isLoggedOut
-                                        ? Padding(
-                                            padding: EdgeInsets.only(top: 20),
-                                            child: TransparentButton(
-                                                label:
-                                                    "Restore from backup",
-                                                onPressed: () {
-                                                  Navigator.pushNamed(
-                                                      context, '/Recovery');
-                                                }))
-                                        : SizedBox.shrink()
-                                  ],
-                                ),
-                              )
                             ],
                           )),
                     ),

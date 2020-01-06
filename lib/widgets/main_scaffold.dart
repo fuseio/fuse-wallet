@@ -44,9 +44,9 @@ class MainScaffold extends StatelessWidget {
             //color: Theme.of(context).canvasColor,
             //),
           ),
-          iconTheme:
-              IconThemeData(color: Theme.of(context).textTheme.body1.color),
+          iconTheme: IconThemeData(color: Theme.of(context).textTheme.body1.color),
           backgroundColor: backgroundColor ?? Color(0xFFF5F5F5),
+          brightness: Brightness.light,
         ),
         //sliverList != null ? sliverList : Container(),
         ...sliverList,
