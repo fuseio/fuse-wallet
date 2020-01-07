@@ -37,6 +37,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
     }, builder: (_, viewModel) {
       return MainScaffold(
         title: 'Receive',
+        titleFontSize: 15,
         withPadding: true,
         children: <Widget>[
           Container(
@@ -55,7 +56,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.normal)),
                       )
                     ],
@@ -81,7 +82,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.normal)),
                 ),
                 Container(
@@ -101,6 +102,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                 Center(
                     child: PrimaryButton(
                   fontSize: 15,
+                  labelFontWeight: FontWeight.normal,
                   width: 160,
                   label: "Share",
                   onPressed: () async {

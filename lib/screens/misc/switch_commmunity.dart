@@ -70,7 +70,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.normal)),
                   )
                 ],
@@ -92,7 +92,9 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                               const SizedBox(height: 16.0),
                               Center(
                                 child: PrimaryButton(
-                                  label: "SCAN QR CODE",
+                                  fontSize: 16,
+                                  label: "Scan Qr code",
+                                  labelFontWeight: FontWeight.normal,
                                   onPressed: () async {
                                     var json = await BarcodeScanner.scan();
                                     Map jsonMap = jsonDecode(json);
@@ -133,6 +135,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                               Center(
                                 child: PrimaryButton(
                                   fontSize: 14,
+                                  labelFontWeight: FontWeight.normal,
                                   label: "ENTER COMMUNITY ADDRESS",
                                   onPressed: () async {
                                     showDialog(

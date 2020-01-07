@@ -36,8 +36,9 @@ class _RecoveryPageState extends State<RecoveryPage> {
           expandedHeight: 130,
           footer: null,
           withPadding: true,
+          titleFontSize: 15,
           backgroundColor: Colors.white,
-          title: "Recover your wallet",
+          title: "Restore from backup",
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(
@@ -45,13 +46,13 @@ class _RecoveryPageState extends State<RecoveryPage> {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.only(top: 30),
                     child: Text(
                         "This is a 12 word phrase you were given when you created your previous wallet",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
-                            fontSize: 17,
+                            fontSize: 16,
                             fontWeight: FontWeight.normal)),
                   )
                 ],
@@ -84,7 +85,9 @@ class _RecoveryPageState extends State<RecoveryPage> {
             const SizedBox(height: 30.0),
             Center(
                 child: PrimaryButton(
-              label: "NEXT",
+              label: "Next",
+              fontSize: 16,
+              labelFontWeight: FontWeight.normal,
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
                   viewModel.generateWalletFromBackup(

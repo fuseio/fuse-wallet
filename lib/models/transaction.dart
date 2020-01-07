@@ -71,6 +71,7 @@ class Transfer extends Transaction {
             blockNumber: blockNumber);
 
   bool isJoinBonus() => funderAddresses.containsValue(this.from);
+  bool isGenerateWallet() => this.jobId == 'generateWallet';
 
   Transfer copyWith({
     String status, String txHash}) {
