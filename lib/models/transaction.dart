@@ -124,9 +124,9 @@ class Transactions {
   }
 
   factory Transactions.fromJson(Map<String, dynamic> json) => Transactions(
-      // list: List<Transaction>.from(json['list'].map((transaction) => TransactionFactory.fromJson(transaction))),
+      list: List<Transaction>.from(json['list'].map((transaction) => TransactionFactory.fromJson(transaction))),
       blockNumber: json['blockNumber'],
-      list: new List<Transaction>(),
+      // list: new List<Transaction>(),
       // blockNumber: 0
       );
 
