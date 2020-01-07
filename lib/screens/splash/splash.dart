@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Text(
                   "Pay and get paid using crypto\nwithout fees or friction",
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 17),
                   textAlign: TextAlign.center,
                 ))),
       ),
@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Text(
                   "Use the wallet to send\nmoney to friends",
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 17),
                   textAlign: TextAlign.center,
                 ))),
       ),
@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Text(
                   "Hold Ethereum assets and\naccess decentralized finance",
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 17),
                   textAlign: TextAlign.center,
                 ))),
       ),
@@ -163,7 +163,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                       },
                                     ),
                                     new Positioned(
-                                      bottom: 0.0,
+                                      bottom: 15.0,
                                       left: 0.0,
                                       right: 0.0,
                                       child: new Container(

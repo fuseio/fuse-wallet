@@ -33,83 +33,116 @@ class _CreateWalletState extends State<CreateWallet> {
         },
         builder: (_, viewModel) {
           return SizedBox(
-                                height: viewModel.isLoggedOut ? 250 : 180,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 20),
-                                      child: PrimaryButton(
-                                        fontSize: 16,
-                                        labelFontWeight: FontWeight.normal,
-                                        label: viewModel.isLoggedOut
-                                            ? "Login"
-                                            : "Create a new wallet",
-                                        onPressed: () {
-                                          if (viewModel.isLoggedOut) {
-                                            viewModel
-                                                .initWeb3(viewModel.privateKey);
-                                            Navigator.popUntil(context,
-                                                ModalRoute.withName('/'));
-                                            Navigator.pushNamed(
-                                                context, '/Cash');
-                                          } else {
-                                            viewModel.createLocalAccount(() {
-                                              setState(() {
-                                                isPrimaryPreloading = false;
-                                              });
-                                              Navigator.pushNamed(
-                                                  context, '/Signup');
-                                            });
-                                            setState(() {
-                                              isPrimaryPreloading = true;
-                                            });
-                                          }
-                                        },
-                                        preload: isPrimaryPreloading,
-                                      ),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(top: 20),
-                                        child: TransparentButton(
-                                            fontSize: 16,
-                                            label: viewModel.isLoggedOut
-                                                ? "Create a new wallet"
-                                                : "Restore from backup",
-                                            onPressed: () {
-                                              if (viewModel.isLoggedOut) {
-                                                viewModel
-                                                    .createLocalAccount(() {
-                                                  setState(() {
-                                                    isTransparentPreloading =
-                                                        false;
-                                                  });
-                                                  Navigator.pushNamed(
-                                                      context, '/Signup');
-                                                });
-                                                setState(() {
-                                                  isTransparentPreloading =
-                                                      true;
-                                                });
-                                              } else {
-                                                Navigator.pushNamed(
-                                                    context, '/Recovery');
-                                              }
-                                            },
-                                            preload: isTransparentPreloading)),
-                                    viewModel.isLoggedOut
-                                        ? Padding(
-                                            padding: EdgeInsets.only(top: 20),
-                                            child: TransparentButton(
-                                                label:
-                                                    "Restore from backup",
-                                                onPressed: () {
-                                                  Navigator.pushNamed(
-                                                      context, '/Recovery');
-                                                }))
-                                        : SizedBox.shrink()
-                                  ],
-                                ),
-                              );
+            height: viewModel.isLoggedOut ? 250 : 180,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 00),
+                  child: PrimaryButton(
+                    fontSize: 16,
+                    labelFontWeight: FontWeight.normal,
+                    label:
+                        viewModel.isLoggedOut ? "Login" : "Create a new wallet",
+                    onPressed: () {
+                      if (viewModel.isLoggedOut) {
+                        viewModel.initWeb3(viewModel.privateKey);
+                        Navigator.popUntil(context, ModalRoute.withName('/'));
+                        Navigator.pushNamed(context, '/Cash');
+                      } else {
+                        viewModel.createLocalAccount(() {
+                          setState(() {
+                            isPrimaryPreloading = false;
+                          });
+                          Navigator.pushNamed(context, '/Signup');
+                        });
+                        setState(() {
+                          isPrimaryPreloading = true;
+                        });
+                      }
+                    },
+                    preload: isPrimaryPreloading,
+                  ),
+                ),
+                viewModel.isLoggedOut
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 60),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            TransparentButton(
+                                fontSize: 14,
+                                label: "Restore backup",
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/Recovery');
+                                }),
+                            Text(
+                              'or',
+                              style: TextStyle(color: Colors.grey[400]),
+                            ),
+                            TransparentButton(
+                                fontSize: 14,
+                                label: "Create wallet",
+                                onPressed: () {
+                                  viewModel.createLocalAccount(() {
+                                    setState(() {
+                                      isTransparentPreloading = false;
+                                    });
+                                    Navigator.pushNamed(context, '/Signup');
+                                  });
+                                  setState(() {
+                                    isTransparentPreloading = true;
+                                  });
+                                },
+                                preload: isTransparentPreloading)
+                          ],
+                        ),
+                      )
+                    : Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: TransparentButton(
+                            fontSize: 16,
+                            label: "Restore from backup",
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/Recovery');
+                            }),
+                      )
+
+                // Padding(
+                //     padding: EdgeInsets.only(top: 20),
+                //     child: TransparentButton(
+                //         fontSize: 16,
+                //         label: viewModel.isLoggedOut
+                //             ? "Create a new wallet"
+                //             : "Restore from backup",
+                //         onPressed: () {
+                //           if (viewModel.isLoggedOut) {
+                //             viewModel.createLocalAccount(() {
+                //               setState(() {
+                //                 isTransparentPreloading = false;
+                //               });
+                //               Navigator.pushNamed(context, '/Signup');
+                //             });
+                //             setState(() {
+                //               isTransparentPreloading = true;
+                //             });
+                //           } else {
+                //             Navigator.pushNamed(context, '/Recovery');
+                //           }
+                //         },
+                //         preload: isTransparentPreloading)),
+                // viewModel.isLoggedOut
+                //     ? Padding(
+                //         padding: EdgeInsets.only(top: 20),
+                //         child: TransparentButton(
+                //             label: "Restore from backup",
+                //             onPressed: () {
+                //               Navigator.pushNamed(context, '/Recovery');
+                //             }))
+                //     : SizedBox.shrink()
+              ],
+            ),
+          );
         });
   }
 }

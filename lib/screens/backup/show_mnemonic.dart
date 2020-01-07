@@ -35,6 +35,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
       withPadding: true,
       footer: null,
       title: "Back up",
+      titleFontSize: 15,
       backgroundColor: Colors.white,
       children: <Widget>[
       Container(
@@ -47,7 +48,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
               child: Text("Please write down those 12 words:",
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.normal)),
             )
           ],
@@ -149,7 +150,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                       child: PrimaryButton(
                     fontSize: 15,
                     width: 160,
-                    label: "NEXT",
+                    label: "Next",
                     onPressed: () async {
                       Navigator.pushNamed(context, '/Backup2');
                     },

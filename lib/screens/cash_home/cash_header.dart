@@ -115,7 +115,7 @@ class CashHeader extends StatelessWidget {
                             children: 
                             (viewModel.tokenBalance == null || viewModel.token == null) 
                             ? <TextSpan>[new TextSpan(
-                                  text: 'Loading',
+                                  text: '0',
                                   style: new TextStyle(
                                       fontSize: 30,
                                       color: Colors.black,

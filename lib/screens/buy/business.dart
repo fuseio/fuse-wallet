@@ -91,7 +91,7 @@ class _BusinessPageState extends State<BusinessPage> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
+                        EdgeInsets.only(top: 0, bottom: 0, left: 100, right: 100),
                     child: Container(
                         width: 100,
                         child: FlatButton(

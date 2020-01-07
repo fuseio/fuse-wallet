@@ -109,7 +109,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               title: Text(
                 user.displayName,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 15),
               ),
               //subtitle: Text("user.company" ?? ""),
               onTap: () {
@@ -149,7 +149,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           padding: EdgeInsets.only(left: 20, top: 7),
           child: Text(
             title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -208,7 +208,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
             child: Text("Recent",
                 style: TextStyle(
                     color: Color(0xFF979797),
-                    fontSize: 14.0,
+                    fontSize: 12.0,
                     fontWeight: FontWeight.normal))));
       }
       final Transaction transaction = uniqueList[i];
@@ -250,7 +250,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     ? contact.displayName
                     : deducePhoneNumber(
                         transaction, this.widget.viewModel.reverseContacts),
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 16),
               ),
               //subtitle: Text("user.company" ?? ""),
               onTap: () {
@@ -319,12 +319,12 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                   padding: EdgeInsets.only(right: 20),
                   child: TextFormField(
                     controller: searchController,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 16),
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(0.0),
                       border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Color(0xFFE0E0E0), width: 3)),
+                              BorderSide(color: Color(0xFFACACAC), width: 3)),
                       suffixIcon: Icon(
                         Icons.search,
                         color: Color(0xFFACACAC),
