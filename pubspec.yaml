@@ -16,8 +16,6 @@ dependencies:
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
   wallet_core: ^0.0.1+47
-  # wallet_core:
-  #   path: ../wallet_core
   alphabet_list_scroll_view: ^1.0.5
   barcode_scan: ^1.0.0
   flutter_slidable: 0.5.4
@@ -31,6 +29,8 @@ dependencies:
   pin_input_text_field: ^2.1.0
   flare_flutter: ^1.8.3
   decimal: ^0.3.5
+  flutter_segment: ^0.0.6
+  firebase_messaging: ^5.0.2
   flutter_branch_io_plugin: 
     git: 
       url: https://github.com/fuseio/flutter-branch-io.git
