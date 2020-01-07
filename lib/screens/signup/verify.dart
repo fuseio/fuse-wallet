@@ -36,12 +36,14 @@ class _VerifyScreenState extends State<VerifyScreen> {
         },
         builder: (_, viewModel) {
           return MainScaffold(
-            withPadding: true,
+              backgroundColor: Colors.white,
+              withPadding: true,
+              titleFontSize: 15,
               title: "Sign up",
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
-                      left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
+                      left: 20.0, right: 20.0, bottom: 20.0, top: 10.0),
                   child: Text(
                       "We just sent a message to \n" +
                           "${viewModel.countryCode} ${viewModel.phoneNumber}" +
@@ -50,7 +52,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.normal,
                       )),
                 )
@@ -80,26 +82,66 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 const SizedBox(height: 40.0),
                 Center(
                   child: PrimaryButton(
-                    label: "VERIFY",
+                    label: "Next",
+                    labelFontWeight: FontWeight.normal,
+                    fontSize: 16,
                     preload: isPreloading,
                     onPressed: () async {
-                      setState(() { isPreloading = true; });
+                      setState(() {
+                        isPreloading = true;
+                      });
                       viewModel.verify(
                           viewModel.countryCode,
                           viewModel.phoneNumber,
                           verificationCodeController.text,
-                          viewModel.accountAddress,
-                          () {
-                            // Navigator.popUntil(context, ModalRoute.withName('/'));
-                            Navigator.popAndPushNamed(context, '/Cash');
-                            setState(() { isPreloading = false; });
-                          },
-                          () {
-                            setState(() { isPreloading = false; });
-                          });
+                          viewModel.accountAddress, () {
+                        // Navigator.popUntil(context, ModalRoute.withName('/'));
+                        Navigator.popAndPushNamed(context, '/Cash');
+                        setState(() {
+                          isPreloading = false;
+                        });
+                      }, () {
+                        setState(() {
+                          isPreloading = false;
+                        });
+                      });
                     },
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Didn't get the message? - ",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    FlatButton(
+                      padding: EdgeInsets.only(right: 10),
+                      onPressed: () {
+                        viewModel.verify(
+                            viewModel.countryCode,
+                            viewModel.phoneNumber,
+                            verificationCodeController.text,
+                            viewModel.accountAddress, () {
+                          // Navigator.popUntil(context, ModalRoute.withName('/'));
+                          Navigator.popAndPushNamed(context, '/Cash');
+                          setState(() {
+                            isPreloading = false;
+                          });
+                        }, () {
+                          setState(() {
+                            isPreloading = false;
+                          });
+                        });
+                      },
+                      child: Text(
+                        "Resend code",
+                        style: TextStyle(color: Colors.blue, fontSize: 12),
+                      ),
+                    ),
+                  ],
+                )
               ])));
         });
   }

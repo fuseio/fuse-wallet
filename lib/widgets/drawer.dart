@@ -25,9 +25,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   Widget getListTile(label, onTap) {
     return ListTile(
+      contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 30),
       title: Text(
         label,
-        style: TextStyle(fontSize: 18),
+        style: TextStyle(fontSize: 16),
       ),
       onTap: onTap,
     );

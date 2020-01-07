@@ -20,6 +20,9 @@ String formatValue(BigInt value, int decimals) {
 }
 
 String formatAddress(String address) {
+  if (address == null) {
+    return null;
+  }
   return '${address.substring(0, 6)}...${address.substring(36, 42)}';
 }
 

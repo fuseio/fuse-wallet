@@ -40,6 +40,7 @@ class _BuyScreenState extends State<BuyScreen> {
           return MainScaffold(
               key: scaffoldState,
               withPadding: false,
+              titleFontSize: 15,
               footer: bottomBar(context),
               title: "Buy",
               children: <Widget>[BusinessesListView()]);
@@ -132,7 +133,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                               borderRadius:
                                                   new BorderRadius.circular(
                                                       30.0)),
-                                          color: Theme.of(context).accentColor,
+                                          color: Color(0xFFB1FDC0),
                                           padding: EdgeInsets.all(0),
                                           child: Text(
                                             "PAY",
@@ -140,7 +141,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                                 color: Theme.of(context)
                                                     .primaryColor,
                                                 fontSize: 16,
-                                                fontWeight: FontWeight.w500),
+                                                fontWeight: FontWeight.normal),
                                           ),
                                           onPressed: () {
                                             Navigator.pushNamed(

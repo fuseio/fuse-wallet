@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flare_flutter/flare.dart';
@@ -128,10 +128,51 @@ class HouseController extends FlareController {
   }
 */
 
+  Timer _timer;
+  var currentStep = 0.0;
+  var frame = 0.0;
+
   set rooms(double value) {
-    var time = 2 + (value * 4).abs();
-    print(time);
-    _arrange.apply(time, _artboard, 1);
+
+    var nextStep = (value % 8).round().toDouble();
+
+print(nextStep);
+    if (_timer == null || !_timer.isActive) {
+      _timer = new Timer.periodic(const Duration(microseconds: 400), (Timer timer) {
+
+        if (nextStep >= currentStep) {
+          frame += 0.003;
+        } else {
+          frame -= 0.003;
+        }
+        
+        
+        var s = 2 + frame;
+        _arrange.apply(s, _artboard, 1);
+
+        print(s);
+
+        if (nextStep >= currentStep) {
+          if (s > 2 + (nextStep) * 8) {
+            currentStep = nextStep;
+            timer.cancel();
+          }
+        }
+        else {
+          if (s < 2 + (nextStep) * 8) {
+            currentStep = nextStep;
+            timer.cancel();
+          }
+        }
+        
+      });
+    }
+  
+
+
+    //var time = 2 + (value * 8).abs();
+    //print(time);
+    //_arrange.apply(time, _artboard, 1);
   }
 
   double get rooms => _rooms;
