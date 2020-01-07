@@ -74,7 +74,7 @@ class TransactionListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Transfer transfer = _transaction as Transfer;
     List<Widget> rightColumn = <Widget>[
-      transfer.isGenerateWallet()
+      transfer.isGenerateWallet() || transfer.isJoinCommunity()
           ? SizedBox.shrink()
           : Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -99,7 +99,7 @@ class TransactionListItem extends StatelessWidget {
             )
     ];
 
-    if (_transaction.isPending() && !transfer.isGenerateWallet()) {
+    if (_transaction.isPending() && !transfer.isGenerateWallet() && !transfer.isJoinCommunity()) {
       rightColumn.add(Padding(
           child: Text("PENDING",
               style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),
@@ -116,18 +116,14 @@ class TransactionListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                  transfer.isGenerateWallet() && transfer.isPending()
-                      ? 'Generating wallet'
-                      : transfer.isGenerateWallet()
-                          ? 'Generated wallet'
-                          : transfer.isJoinBonus()
-                              ? 'You got a join bonus!'
-                              : _transaction.text != null
-                                  ? _transaction.text
-                                  : _contact != null
-                                      ? _contact.displayName
-                                      : deducePhoneNumber(
-                                          _transaction, _vm.reverseContacts),
+                  transfer.isJoinBonus()
+                      ? 'You got a join bonus!'
+                      : _transaction.text != null
+                          ? _transaction.text
+                          : _contact != null
+                              ? _contact.displayName
+                              : deducePhoneNumber(
+                                  _transaction, _vm.reverseContacts),
                   style: TextStyle(color: Color(0xFF333333), fontSize: 15))
             ],
           ),
@@ -137,17 +133,21 @@ class TransactionListItem extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Color(0xFFE0E0E0),
                   radius: 27,
-                  backgroundImage: transfer.isGenerateWallet()
+                  backgroundImage: transfer.isJoinCommunity()
                       ? new AssetImage(
-                          'assets/images/generate_wallet.png',
+                          'assets/images/join_community.png',
                         )
-                      : transfer.isJoinBonus()
+                      : transfer.isGenerateWallet()
                           ? new AssetImage(
-                              'assets/images/join.png',
+                              'assets/images/generate_wallet.png',
                             )
-                          : _contact?.avatar != null
-                              ? new MemoryImage(_contact.avatar)
-                              : new AssetImage('assets/images/anom.png'),
+                          : transfer.isJoinBonus()
+                              ? new AssetImage(
+                                  'assets/images/join.png',
+                                )
+                              : _contact?.avatar != null
+                                  ? new MemoryImage(_contact.avatar)
+                                  : new AssetImage('assets/images/anom.png'),
                 ),
                 tag: transfer.isGenerateWallet()
                     ? ''
@@ -181,7 +181,7 @@ class TransactionListItem extends StatelessWidget {
             // padding: EdgeInsets.only(top: 10, bottom: 0, left: 0, right: 10),
           ),
           onTap: () {
-            if (!transfer.isGenerateWallet()) {
+            if (!transfer.isGenerateWallet() || !transfer.isJoinCommunity()) {
               Navigator.pushNamed(context, '/TransactionDetails',
                   arguments: TransactionDetailArguments(
                     transfer: transfer,

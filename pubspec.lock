@@ -274,6 +274,13 @@ packages:
       url: "https://github.com/fuseio/flutter-branch-io.git"
     source: git
     version: "1.0.1"
+  flutter_launcher_icons:
+    dependency: "direct main"
+    description:
+      name: flutter_launcher_icons
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.4"
   flutter_localizations:
     dependency: "direct dev"
     description: flutter

@@ -72,14 +72,15 @@ class Transfer extends Transaction {
 
   bool isJoinBonus() => funderAddresses.containsValue(this.from);
   bool isGenerateWallet() => this.jobId == 'generateWallet';
+  bool isJoinCommunity() => this.text != null && this.text.contains('Join');
 
   Transfer copyWith({
-    String status, String txHash}) {
+    String status, String txHash, String text}) {
     return Transfer(
         txHash: txHash ?? this.txHash,
         type: this.type,
         status: status ?? this.status,
-        text: this.text,
+        text: text ?? this.text,
         jobId: this.jobId,
         blockNumber: this.blockNumber,
         to: this.to,
@@ -123,9 +124,9 @@ class Transactions {
   }
 
   factory Transactions.fromJson(Map<String, dynamic> json) => Transactions(
-      list: List<Transaction>.from(json['list'].map((transaction) => TransactionFactory.fromJson(transaction))),
-      blockNumber: json['blockNumber']
-      // list: new List<Transaction>(),
+      // list: List<Transaction>.from(json['list'].map((transaction) => TransactionFactory.fromJson(transaction))),
+      blockNumber: json['blockNumber'],
+      list: new List<Transaction>(),
       // blockNumber: 0
       );
 
