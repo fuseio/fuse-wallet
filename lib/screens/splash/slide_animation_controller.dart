@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:math' as math;
-import 'dart:ui';
-
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_dart/math/mat2d.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
-import 'package:flutter/animation.dart';
 
 typedef void OnUpdated();
 
@@ -29,8 +25,31 @@ class HouseController extends FlareController {
 
   ActorAnimation _arrange;
 
+  double _time = 0;
+  double _speed = 4;
+
   @override
   bool advance(FlutterActorArtboard artboard, double elapsed) {
+    if (2 + _time.round() != 2 + step * 8) {
+      if (_time.round() < step * 8) {
+        _time += elapsed * _speed;
+        _arrange.apply(2 + _time, artboard, 1);
+      } else {
+        _time -= elapsed * _speed;
+        _arrange.apply(2 + _time, artboard, 1);
+      }
+
+      print(step);
+    }
+
+    //FlareAnimationLayer layer = (FlareAnimationLayer()..animation = _arrange);
+    //if (layer.time < 8) {
+
+    //layer.time += 2;
+    //layer.mix = min(1.0, layer.time / 0.07);
+    //layer.apply(artboard);
+
+    //}
 
     return true;
   }
@@ -39,9 +58,7 @@ class HouseController extends FlareController {
   /// packs them into [FlareAnimationLayer] objects
   @override
   void initialize(FlutterActorArtboard artboard) {
-
     _arrange = artboard.getAnimation("part1");
-
 
     _artboard = artboard;
     _demoAnimation = FlareAnimationLayer()
@@ -60,7 +77,6 @@ class HouseController extends FlareController {
       }
     },
   );*/
-  
 
     _arrange.apply(2, _artboard, 1);
 
@@ -105,7 +121,6 @@ class HouseController extends FlareController {
     } else if (demoFrame <= 164) {
       demoValue = 6.0;
     }
-
     if (_lastDemoValue != demoValue) {
       _lastDemoValue = demoValue;
       this._rooms = demoValue.toInt();
@@ -131,22 +146,25 @@ class HouseController extends FlareController {
   Timer _timer;
   var currentStep = 0.0;
   var frame = 0.0;
+  var step = 0;
 
   set rooms(double value) {
+    step = value.round();
+
+    return;
 
     var nextStep = (value % 8).round().toDouble();
 
-print(nextStep);
+    print(nextStep);
     if (_timer == null || !_timer.isActive) {
-      _timer = new Timer.periodic(const Duration(microseconds: 400), (Timer timer) {
-
+      _timer =
+          new Timer.periodic(const Duration(microseconds: 400), (Timer timer) {
         if (nextStep >= currentStep) {
           frame += 0.003;
         } else {
           frame -= 0.003;
         }
-        
-        
+
         var s = 2 + frame;
         _arrange.apply(s, _artboard, 1);
 
@@ -157,18 +175,14 @@ print(nextStep);
             currentStep = nextStep;
             timer.cancel();
           }
-        }
-        else {
+        } else {
           if (s < 2 + (nextStep) * 8) {
             currentStep = nextStep;
             timer.cancel();
           }
         }
-        
       });
     }
-  
-
 
     //var time = 2 + (value * 8).abs();
     //print(time);

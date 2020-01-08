@@ -38,7 +38,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     Map<PermissionGroup, PermissionStatus> permissions =
         await PermissionHandler()
             .requestPermissions([PermissionGroup.contacts]);
-
     Iterable<Contact> contacts =
         await ContactsService.getContacts(withThumbnails: true);
     contacts = contacts
@@ -290,7 +289,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     }
 
     listItems.add(searchPanel());
-    listItems.add(recentContacts(3));
+    if (searchController.text.isEmpty) {
+      listItems.add(recentContacts(3));
+    }
 
     for (int index = 0; index < abList.length; index++) {
       listItems.add(listHeader(abList[index]));
@@ -307,7 +308,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         minHeight: 80.0,
         maxHeight: 100.0,
         child: Container(
-          color: Colors.white,
+          decoration: new BoxDecoration(
+              color: Colors.white,
+              border:
+                  Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,7 +328,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       contentPadding: EdgeInsets.all(0.0),
                       border: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Color(0xFFACACAC), width: 3)),
+                              BorderSide(color: Color(0xFFE0E0E0), width: 3)),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xFF292929)),
+                      ),
                       suffixIcon: Icon(
                         Icons.search,
                         color: Color(0xFFACACAC),
