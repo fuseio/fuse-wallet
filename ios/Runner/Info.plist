@@ -51,12 +51,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>com.claimsforce.segment.WRITE_KEY</key>
+	<string>n2yoAnpD1bpDmAXBhUloLYpS1U5f7W09</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>branch_app_domain</key>
 	<string>fuseio.app.link</string>
 	<key>branch_key</key>
 	<string>key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<string>NO</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

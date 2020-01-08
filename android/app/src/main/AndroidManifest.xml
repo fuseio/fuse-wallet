@@ -43,6 +43,10 @@
                 <data android:scheme="https" android:host="fuseio.app.link" />
                 <data android:scheme="https" android:host="app.fuse.io" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="FLUTTER_NOTIFICATION_CLICK"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
 
 
         </activity>
@@ -50,6 +54,7 @@
         <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr" />
         <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_laLuH5hCCQKQjv5eM1Kugongssgw79iU" />
         <meta-data android:name="io.branch.sdk.TestMode" android:value="false" /> <!-- Set to true to use Branch_Test_Key -->
+        <meta-data android:name="com.claimsforce.segment.WRITE_KEY" android:value="UdBbfFPkYCntzoFaWyEiwfKRKFLtTz14" />
         <!-- Branch install referrer tracking -->
         <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
             <intent-filter>

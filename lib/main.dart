@@ -11,6 +11,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 
+
 void main() async {
   runApp(new MyApp(
     store: await createReduxStore(),
