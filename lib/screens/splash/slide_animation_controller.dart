@@ -39,7 +39,6 @@ class HouseController extends FlareController {
         _arrange.apply(2 + _time, artboard, 1);
       }
 
-      print(step);
     }
 
     //FlareAnimationLayer layer = (FlareAnimationLayer()..animation = _arrange);
@@ -155,7 +154,6 @@ class HouseController extends FlareController {
 
     var nextStep = (value % 8).round().toDouble();
 
-    print(nextStep);
     if (_timer == null || !_timer.isActive) {
       _timer =
           new Timer.periodic(const Duration(microseconds: 400), (Timer timer) {
