@@ -98,8 +98,10 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                                   onPressed: () async {
                                     var json = await BarcodeScanner.scan();
                                     Map jsonMap = jsonDecode(json);
-                                    viewModel.switchCommunity(jsonMap['communityAddress']);
-                                    Navigator.popUntil(context,  ModalRoute.withName('/Cash'));
+                                    viewModel.switchCommunity(
+                                        jsonMap['communityAddress']);
+                                    Navigator.popUntil(
+                                        context, ModalRoute.withName('/Cash'));
                                   },
                                   width: 300,
                                 ),
@@ -136,18 +138,20 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                                 child: PrimaryButton(
                                   fontSize: 14,
                                   labelFontWeight: FontWeight.normal,
-                                  label: "ENTER COMMUNITY ADDRESS",
+                                  label: "Enter Community Address",
                                   onPressed: () async {
                                     showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
-                                              title: Text("Community Address",
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      fontSize: 24,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
+                                              title: Center(
+                                                child: Text("Community Address",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ),
                                               content: Container(
                                                 height: 150,
                                                 child:
@@ -161,12 +165,21 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                                                     children: <Widget>[
                                                       Center(
                                                         child: PrimaryButton(
-                                                          label: "SAVE",
+                                                          label: "Save",
+                                                          fontSize: 16,
+                                                          labelFontWeight: FontWeight.normal,
                                                           onPressed: () {
                                                             // viewModel.logoutWallet();
-                                                            viewModel.switchCommunity(assetIdController.text);
+                                                            viewModel
+                                                                .switchCommunity(
+                                                                    assetIdController
+                                                                        .text);
                                                             // Navigator.of(context).pop(true);
-                                                            Navigator.popUntil(context,  ModalRoute.withName('/Cash'));
+                                                            Navigator.popUntil(
+                                                                context,
+                                                                ModalRoute
+                                                                    .withName(
+                                                                        '/Cash'));
                                                           },
                                                           width: 250,
                                                         ),
