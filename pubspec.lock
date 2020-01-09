@@ -274,6 +274,13 @@ packages:
       url: "https://github.com/fuseio/flutter-branch-io.git"
     source: git
     version: "1.0.1"
+  flutter_dotenv:
+    dependency: "direct main"
+    description:
+      name: flutter_dotenv
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -869,7 +876,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+49"
+    version: "0.0.1+50"
   watcher:
     dependency: transitive
     description:

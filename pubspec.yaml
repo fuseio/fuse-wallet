@@ -1,5 +1,5 @@
 name: fusecash
-version: 1.0.0+48
+version: 1.0.0+50
 description: A new Flutter project.
 environment: 
   sdk: '>=2.1.0 <3.0.0'
@@ -11,13 +11,14 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_secure_storage: ^3.1.2
   flutter_redux: ^0.5.4
+  flutter_dotenv: ^2.1.0
   webview_flutter: ^0.3.19+3
   redux_thunk: ^0.2.1
   redux_logging: ^0.3.0
   redux_persist: ^0.8.2
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
-  wallet_core: ^0.0.1+49
+  wallet_core: ^0.0.1+50
   # wallet_core:
     # path: ../wallet_core
   alphabet_list_scroll_view: ^1.0.5
@@ -56,6 +57,8 @@ flutter_icons:
 
 flutter: 
   assets: 
+    - .env_prod
+    - .env_qa
     - assets/
     - assets/images/
   fonts: 
