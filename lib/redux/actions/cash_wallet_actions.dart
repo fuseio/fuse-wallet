@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/business.dart';
+import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
@@ -111,9 +113,10 @@ class SwitchCommunitySuccess {
   final Token token;
   final String communityAddress;
   final String communityName;
-  Transactions transactions;
-  SwitchCommunitySuccess(
-      this.communityAddress, this.communityName, this.token, this.transactions);
+  final Transactions transactions;
+  final Plugins plugins;
+  SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token,
+      this.transactions, this.plugins);
 }
 
 class SwitchCommunityFailed {}
@@ -250,7 +253,13 @@ ThunkAction initWeb3Call(String privateKey) {
   return (Store store) async {
     try {
       logger.d('initWeb3. privateKey: $privateKey');
-      wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback);
+      wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
+          defaultCommunityAddress:
+              DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
+          communityManagerAddress:
+              DotEnv().env['COMMUNITY_MANAGER_CONTRACT_ADDRESS'],
+          transferManagerAddress:
+              DotEnv().env['TRANSFER_MANAGER_CONTRACT_ADDRESS']);
       if (store.state.cashWalletState.communityAddress == null ||
           store.state.cashWalletState.communityAddress.isEmpty) {
         store.dispatch(SetDefaultCommunity(web3.getDefaultCommunity()));
@@ -561,7 +570,25 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
                 symbol: token["symbol"],
                 decimals: token["decimals"])));
       }
-      await api.joinCommunity(web3, walletAddress, communityAddress);
+
+      dynamic response =
+          await api.joinCommunity(web3, walletAddress, communityAddress);
+      dynamic jobId = response['job']['_id'];
+      Transfer transfer = new Transfer(
+          type: 'RECIVE',
+          text: 'Joining community',
+          status: 'PENDING',
+          jobId: jobId);
+
+      store.dispatch(new AddTransaction(transfer));
+
+      store.dispatch(startFetchingJobCall(jobId, (job) {
+        Transfer confirmedTx = transfer.copyWith(
+            status: 'CONFIRMED',
+            text: 'Joined community',
+            txHash: job.data['txHash']);
+        store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+      }));
       // return store.dispatch(new JoinCommunitySuccess(
       //     txHash,
       //     communityAddress,
@@ -584,6 +611,18 @@ ThunkAction switchCommunityCall(String communityAddress) {
       logger.d(
           'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       store.dispatch(joinCommunityCall(community: community, token: token));
+      Map<String, dynamic> communityData =
+          await api.getCommunityData(communityAddress);
+      Map<String, dynamic> plugins =
+          Map<String, dynamic>.from(communityData['plugins']);
+      Plugins commuityPlugins;
+      if (plugins.containsKey('onramp')) {
+        Map<String, dynamic> onramp =
+            Map<String, dynamic>.from(plugins['onramp']);
+        Map<String, dynamic> services =
+            Map<String, dynamic>.from(onramp['services']);
+        commuityPlugins = Plugins.fromJsonState(services);
+      }
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],
@@ -592,7 +631,8 @@ ThunkAction switchCommunityCall(String communityAddress) {
               name: token["name"],
               symbol: token["symbol"],
               decimals: token["decimals"]),
-          new Transactions()));
+          new Transactions(),
+          commuityPlugins));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not switch community'));
