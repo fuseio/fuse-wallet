@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Container(
         color: Colors.transparent,
         child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
+            padding: EdgeInsets.only(bottom: 120),
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
@@ -143,7 +143,9 @@ class _SplashScreenState extends State<SplashScreen> {
                                 child: new Stack(
                                   children: <Widget>[
                                     Padding(
-                                      padding: EdgeInsets.all(20),
+                                      // padding: EdgeInsets.all(20),
+                                      padding: EdgeInsets.only(
+                                          bottom: 100, left: 20, right: 20),
                                       child: FlareActor(
                                         "assets/images/animation.flr",
                                         alignment: Alignment.center,
