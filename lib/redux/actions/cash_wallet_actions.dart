@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/business.dart';
+import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
@@ -111,9 +112,10 @@ class SwitchCommunitySuccess {
   final Token token;
   final String communityAddress;
   final String communityName;
-  Transactions transactions;
+  final Transactions transactions;
+  final Plugins plugins;
   SwitchCommunitySuccess(
-      this.communityAddress, this.communityName, this.token, this.transactions);
+      this.communityAddress, this.communityName, this.token, this.transactions,this.plugins);
 }
 
 class SwitchCommunityFailed {}
@@ -584,6 +586,14 @@ ThunkAction switchCommunityCall(String communityAddress) {
       logger.d(
           'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       store.dispatch(joinCommunityCall(community: community, token: token));
+      Map<String, dynamic> communityData = await api.getCommunityData(communityAddress);
+      Map<String, dynamic> plugins = Map<String, dynamic>.from(communityData['plugins']);
+      Plugins commuityPlugins;
+      if (plugins.containsKey('onramp')) {
+        Map<String, dynamic> onramp = Map<String, dynamic>.from(plugins['onramp']);
+        Map<String, dynamic> services = Map<String, dynamic>.from(onramp['services']);
+        commuityPlugins = Plugins.fromJsonState(services);
+      }
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],
@@ -592,7 +602,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
               name: token["name"],
               symbol: token["symbol"],
               decimals: token["decimals"]),
-          new Transactions()));
+          new Transactions(), commuityPlugins));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not switch community'));

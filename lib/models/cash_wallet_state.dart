@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/business.dart';
+import 'package:fusecash/models/plugins.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import './token.dart';
 import './transaction.dart';
@@ -25,6 +26,7 @@ class CashWalletState {
   // final List<PendingTransfer> pendingTransfers;
   final Map<String, num> sendToInvites;
   final Transactions transactions;
+  final Plugins plugins;
 
   CashWalletState({
     this.web3,
@@ -45,7 +47,8 @@ class CashWalletState {
     // this.pendingTransfers,
     this.businesses,
     this.transactions,
-    this.isCommunityBusinessesFetched
+    this.isCommunityBusinessesFetched,
+    this.plugins
   });
 
   factory CashWalletState.initial() {
@@ -68,7 +71,8 @@ class CashWalletState {
       // pendingTransfers: new List<PendingTransfer>(),
       sendToInvites: new Map<String, num>(),
       businesses: new List<Business>(),
-      transactions: new Transactions(list: new List<Transaction>())
+      transactions: new Transactions(list: new List<Transaction>()),
+      plugins: new Plugins()
       );
   }
 
@@ -91,7 +95,8 @@ class CashWalletState {
     // List<PendingTransfer> pendingTransfers,
     Map<String, num> sendToInvites,
     List<Business> businesses,
-    Transactions transactions
+    Transactions transactions,
+    Plugins plugins
   }) {
     return CashWalletState (
       web3: web3 ?? this.web3,
@@ -112,7 +117,8 @@ class CashWalletState {
       // pendingTransfers: pendingTransfers ?? this.pendingTransfers,
       sendToInvites: sendToInvites ?? this.sendToInvites,
       businesses: businesses ?? this.businesses,
-      transactions: transactions ?? this.transactions
+      transactions: transactions ?? this.transactions,
+      plugins: plugins ?? this.plugins
     );
   }
 
@@ -123,7 +129,8 @@ class CashWalletState {
       'communityName': communityName,
       'token': token?.toJson(),
       'tokenBalance': tokenBalance.toString(),
-      'transactions': transactions.toJson()
+      'transactions': transactions.toJson(),
+      'plugins': plugins.toJson()
     };
 
     static CashWalletState fromJson(dynamic json) =>
@@ -143,6 +150,7 @@ class CashWalletState {
         token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
         tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
         sendToInvites: new Map<String, num>(),
-        transactions:  Transactions.fromJson(json['transactions'])
+        transactions:  Transactions.fromJson(json['transactions']),
+        plugins: Plugins.fromJson(json["plugins"])
       );
 }
