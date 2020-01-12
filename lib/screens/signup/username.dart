@@ -45,7 +45,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                       ),
                       const SizedBox(height: 40.0),
                       Text(
-                        'Pick up your user name',
+                        'Pick up your display name',
                         style: TextStyle(fontSize: 16),
                       ),
                       const SizedBox(height: 40.0),
