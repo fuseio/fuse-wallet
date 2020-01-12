@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/state/store.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/services.dart';
 
 
 void main() async {
+  await DotEnv().load('.env_prod');
   runApp(new MyApp(
     store: await createReduxStore(),
   ));

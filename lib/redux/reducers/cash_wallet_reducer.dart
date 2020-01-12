@@ -1,3 +1,4 @@
+import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -118,7 +119,8 @@ CashWalletState _switchCommunitySuccess(
       communityName: action.communityName,
       token: action.token,
       isCommunityLoading: false,
-      isCommunityFetched: true);
+      isCommunityFetched: true,
+      plugins: action.plugins);
 }
 
 CashWalletState _switchCommunityFailed(
@@ -188,12 +190,14 @@ CashWalletState _switchCommunityRequest(
     CashWalletState state, SwitchCommunityRequested action) {
   if (state.communityAddress != action.communityAddress) {
     return state.copyWith(
+        plugins: new Plugins(),
         isCommunityLoading: true,
         token: null,
         transactions: new Transactions(list: new List<Transaction>()),
         tokenBalance: BigInt.from(0));
   } else {
     return state.copyWith(
+      plugins: new Plugins(),
       isCommunityLoading: true,
     );
   }

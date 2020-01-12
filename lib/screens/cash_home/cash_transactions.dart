@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/screens/cash_home/transaction_Item.dart';
+import 'package:fusecash/screens/cash_home/transaction_item.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/format.dart';
 
@@ -79,9 +79,11 @@ class CashTransactionsState extends State<CashTransactios> {
 
   @override
   Widget build(BuildContext _context) {
+    bool isWalletCreated = 'created' == this.widget.viewModel.walletStatus;
     Transfer generateWallet = new Transfer(
         type: 'RECIVE',
-        status: 'created' != this.widget.viewModel.walletStatus
+        text: !isWalletCreated ? 'Generating wallet' : 'Generated wallet',
+        status: !isWalletCreated
             ? 'PENDING'
             : 'CONFIRMED',
         jobId: 'generateWallet');

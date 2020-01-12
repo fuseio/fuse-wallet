@@ -113,11 +113,13 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 10),
-                              child: args.transfer.isJoinBonus() ? Text('Join bonus') : Text(args.transfer.text != null
-                                  ? args.transfer.text
-                                  : args.contact != null
-                                      ? args.contact.displayName
-                                      : displayName),
+                              child: args.transfer.isJoinBonus()
+                                  ? Text('Join bonus')
+                                  : Text(args.transfer.text != null
+                                      ? args.transfer.text
+                                      : args.contact != null
+                                          ? args.contact.displayName
+                                          : displayName),
                             )
                           ],
                         )
@@ -136,7 +138,9 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Text("Address"),
-                        displayName == null ? SizedBox.shrink() : Text(displayName)
+                        displayName == null
+                            ? SizedBox.shrink()
+                            : Text(displayName)
                       ],
                     ),
                     Padding(
@@ -180,15 +184,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                           )
                   ],
                 ),
-              ),
-              Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text("Fee: covered by fuse",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal)))
+              )
             ]))
           ],
         );

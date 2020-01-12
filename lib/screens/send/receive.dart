@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
-// import 'package:fusewallet/redux/state/app_state.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/copy.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -77,7 +77,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                   width: 220,
                   padding: EdgeInsets.only(top: 20),
                   child: new Text(
-                      "${viewModel.walletAddress.substring(0, 6)}...${viewModel.walletAddress.substring(viewModel.walletAddress.length - 4)}",
+                      formatAddress(viewModel.walletAddress),
                       softWrap: true,
                       textAlign: TextAlign.center,
                       style: TextStyle(
