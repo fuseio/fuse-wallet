@@ -31,10 +31,10 @@ class CreateLocalAccountSuccess {
 class LoginRequestSuccess {
   final String countryCode;
   final String phoneNumber;
-  final String fullName;
+  final String displayName;
   final String email;
   LoginRequestSuccess(
-      this.countryCode, this.phoneNumber, this.fullName, this.email);
+      this.countryCode, this.phoneNumber, this.displayName, this.email);
 }
 
 class LogoutRequestSuccess {
@@ -66,9 +66,9 @@ class SetPincodeSuccess {
   SetPincodeSuccess(this.pincode);
 }
 
-class SetUserName {
-  String fullname;
-  SetUserName(this.fullname);
+class SetDisplayName {
+  String displayName;
+  SetDisplayName(this.displayName);
 }
 
 ThunkAction restoreWalletCall(
@@ -225,7 +225,7 @@ ThunkAction create3boxAccountCall(accountAddress) {
     final _webView = new InteractiveWebView();
     Map publicData = {
       'account': accountAddress,
-      'name': store.state.userState.fullName
+      'name': store.state.userState.displayName
     };
     print('create profile for accountAddress $accountAddress');
     await api.createProfile(accountAddress, publicData);

@@ -14,7 +14,7 @@ class UserNameScreen extends StatefulWidget {
 class _UserNameScreenState extends State<UserNameScreen> {
   final verificationCodeController = TextEditingController(text: "");
   bool isPreloading = false;
-  final fullnameController = TextEditingController(text: "");
+  final displayNameController = TextEditingController(text: "");
 
   @override
   void initState() {
@@ -62,7 +62,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                               style: TextStyle(fontSize: 20),
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.text,
-                              controller: fullnameController,
+                              controller: displayNameController,
                               cursorColor: Color(0xFFC6C6C6),
                               decoration: InputDecoration(
                                 hintText: 'Full name',
@@ -86,7 +86,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                     fontSize: 16,
                     preload: isPreloading,
                     onPressed: () async {
-                      viewModel.setFullName(fullnameController.text ?? 'Anom');
+                      viewModel.setDisplayName(displayNameController.text ?? 'Anom');
                       Navigator.popAndPushNamed(context, '/Cash');
                     },
                   ),
