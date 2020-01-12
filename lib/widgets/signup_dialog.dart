@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'dart:core';
 
 import 'package:fusecash/widgets/primary_button.dart';
