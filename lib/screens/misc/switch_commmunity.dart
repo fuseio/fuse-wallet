@@ -70,7 +70,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.normal)),
                   )
                 ],
@@ -92,12 +92,16 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                               const SizedBox(height: 16.0),
                               Center(
                                 child: PrimaryButton(
-                                  label: "SCAN QR CODE",
+                                  fontSize: 16,
+                                  label: "Scan Qr code",
+                                  labelFontWeight: FontWeight.normal,
                                   onPressed: () async {
                                     var json = await BarcodeScanner.scan();
                                     Map jsonMap = jsonDecode(json);
-                                    viewModel.switchCommunity(jsonMap['communityAddress']);
-                                    Navigator.popUntil(context,  ModalRoute.withName('/Cash'));
+                                    viewModel.switchCommunity(
+                                        jsonMap['communityAddress']);
+                                    Navigator.popUntil(
+                                        context, ModalRoute.withName('/Cash'));
                                   },
                                   width: 300,
                                 ),
@@ -132,18 +136,22 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                               const SizedBox(height: 22.0),
                               Center(
                                 child: PrimaryButton(
-                                  label: "ENTER COMMUNITY ADDRESS",
+                                  fontSize: 14,
+                                  labelFontWeight: FontWeight.normal,
+                                  label: "Enter Community Address",
                                   onPressed: () async {
                                     showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
-                                              title: Text("Community Address",
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      fontSize: 24,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
+                                              title: Center(
+                                                child: Text("Community Address",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                              ),
                                               content: Container(
                                                 height: 150,
                                                 child:
@@ -157,12 +165,21 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                                                     children: <Widget>[
                                                       Center(
                                                         child: PrimaryButton(
-                                                          label: "SAVE",
+                                                          label: "Save",
+                                                          fontSize: 16,
+                                                          labelFontWeight: FontWeight.normal,
                                                           onPressed: () {
                                                             // viewModel.logoutWallet();
-                                                            viewModel.switchCommunity(assetIdController.text);
+                                                            viewModel
+                                                                .switchCommunity(
+                                                                    assetIdController
+                                                                        .text);
                                                             // Navigator.of(context).pop(true);
-                                                            Navigator.popUntil(context,  ModalRoute.withName('/Cash'));
+                                                            Navigator.popUntil(
+                                                                context,
+                                                                ModalRoute
+                                                                    .withName(
+                                                                        '/Cash'));
                                                           },
                                                           width: 250,
                                                         ),

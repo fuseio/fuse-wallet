@@ -53,7 +53,7 @@ Widget bottomBarItem(String img, String text, ontap) {
             ,
             new Text(text,
                 style: new TextStyle(
-                    fontSize: 16.0, color: const Color(0xFF292929)))
+                    fontSize: 15.0, color: const Color(0xFF292929)))
           ],
         ),
       ),

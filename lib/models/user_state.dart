@@ -21,11 +21,12 @@ class UserState {
   final List<String> syncedContacts;
   final Map<String, String> reverseContacts;
   final String jwtToken;
-  final String fullName;
+  final String displayName;
   final String email;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
   final bool isLoggedOut;
+  final bool isContactsSynced;
 
   UserState({
     this.mnemonic,
@@ -38,11 +39,12 @@ class UserState {
     this.reverseContacts,
     this.syncedContacts,
     this.jwtToken,
-    this.fullName,
+    this.displayName,
     this.email,
     this.loginRequestSuccess,
     this.loginVerifySuccess,
-    this.isLoggedOut
+    this.isLoggedOut,
+    this.isContactsSynced
   });
 
   factory UserState.initial() {
@@ -57,11 +59,12 @@ class UserState {
       syncedContacts: [],
       reverseContacts: new Map<String, String>(),
       jwtToken: "",
-      fullName: "Anom",
+      displayName: "Anom",
       email: "",
       loginRequestSuccess: false,
       loginVerifySuccess: false,
-      isLoggedOut: false
+      isLoggedOut: false,
+      isContactsSynced: false
       );
   }
 
@@ -76,11 +79,12 @@ class UserState {
     List<String> syncedContacts,
     Map<String, String> reverseContacts,
     String jwtToken,
-    String fullName,
+    String displayName,
     String email,
     bool loginRequestSuccess,
     bool loginVerifySuccess,
-    bool isLoggedOut
+    bool isLoggedOut,
+    bool isContactsSynced
   }) {
     return UserState (
       mnemonic: mnemonic ?? this.mnemonic,
@@ -93,11 +97,12 @@ class UserState {
       syncedContacts: syncedContacts ?? this.syncedContacts,
       reverseContacts: reverseContacts ?? this.reverseContacts,
       jwtToken: jwtToken ?? this.jwtToken,
-      fullName: fullName ?? this.fullName,
+      displayName: displayName ?? this.displayName,
       email: email ?? this.email,
       loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
       loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
-      isLoggedOut: isLoggedOut ?? this.isLoggedOut
+      isLoggedOut: isLoggedOut ?? this.isLoggedOut,
+      isContactsSynced: isContactsSynced ?? this.isContactsSynced
     );
   }
 
@@ -111,9 +116,10 @@ class UserState {
       'reverseContacts': jsonEncode(reverseContacts),
       'syncedContacts': jsonEncode(syncedContacts),
       'jwtToken': jwtToken,
-      'fullName': fullName,
+      'displayName': displayName,
       'email': email,
-      'isLoggedOut': isLoggedOut
+      'isLoggedOut': isLoggedOut,
+      'isContactsSynced': isContactsSynced
     };
 
     static UserState fromJson(dynamic json) {
@@ -135,11 +141,12 @@ class UserState {
         reverseContacts: json['reverseContacts'] == null ? new Map<String, String>(): Map<String, String>.from(jsonDecode(json['reverseContacts'])),
         syncedContacts: json['syncedContacts'] == null ? new List<String>(): List<String>.from(jsonDecode(json['syncedContacts'])),
         jwtToken: json['jwtToken'],
-        fullName: json['fullName'],
+        displayName: json['displayName'],
         email: json['email'],
         loginRequestSuccess: false,
         loginVerifySuccess: false,
-        isLoggedOut: json['isLoggedOut'] == null ? false : json['isLoggedOut']
+        isLoggedOut: json['isLoggedOut'] == null ? false : json['isLoggedOut'],
+        isContactsSynced: json['isContactsSynced'] == null ? false : json['isContactsSynced']
       );
     }
 }

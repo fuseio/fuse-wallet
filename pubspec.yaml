@@ -1,18 +1,25 @@
 name: fusecash
-version: 1.0.0+37
+version: 1.0.0+53
 description: A new Flutter project.
 environment: 
   sdk: '>=2.1.0 <3.0.0'
-dependencies: 
+dependencies:
+  interactive_webview: ^0.1.2
+  share: 0.6.3+5
+  flutter_svg: 0.15.0
   cupertino_icons: ^0.1.2
   flutter_secure_storage: ^3.1.2
   flutter_redux: ^0.5.4
+  flutter_dotenv: ^2.1.0
+  webview_flutter: ^0.3.19+3
   redux_thunk: ^0.2.1
   redux_logging: ^0.3.0
   redux_persist: ^0.8.2
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
-  wallet_core: ^0.0.1+43
+  wallet_core: ^0.0.1+51
+  # wallet_core:
+    # path: ../wallet_core
   alphabet_list_scroll_view: ^1.0.5
   barcode_scan: ^1.0.0
   flutter_slidable: 0.5.4
@@ -26,6 +33,8 @@ dependencies:
   pin_input_text_field: ^2.1.0
   flare_flutter: ^1.8.3
   decimal: ^0.3.5
+  flutter_segment: ^0.0.6
+  firebase_messaging: ^5.0.2
   flutter_branch_io_plugin: 
     git: 
       url: https://github.com/fuseio/flutter-branch-io.git
@@ -33,14 +42,23 @@ dependencies:
   flutter: 
     sdk: flutter
 dev_dependencies: 
+  flutter_launcher_icons: ^0.7.4
   build_runner: ^1.0.0
   json_serializable: ^3.2.3
   flutter_test: 
     sdk: flutter
   flutter_localizations: 
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon_app.jpg"
+
 flutter: 
   assets: 
+    - .env_prod
+    - .env_qa
     - assets/
     - assets/images/
   fonts: 

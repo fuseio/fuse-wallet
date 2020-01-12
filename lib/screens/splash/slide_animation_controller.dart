@@ -1,11 +1,9 @@
-import 'dart:math';
-import 'dart:ui';
+import 'dart:async';
 
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_dart/math/mat2d.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
-import 'package:flutter/animation.dart';
 
 typedef void OnUpdated();
 
@@ -28,8 +26,23 @@ class HouseController extends FlareController {
 
   ActorAnimation _arrange;
 
+  double _time = 0;
+  double _speed = 4;
+
   @override
   bool advance(FlutterActorArtboard artboard, double elapsed) {
+    var def = (2 + _time) - (2 + step2 * 8);
+    if (def > 0.5 || def < -0.5) {
+      if (_time.round() < step2 * 8) {
+        _time += elapsed * _speed;
+        _arrange.apply(2 + _time, artboard, 0.5);
+        // print(_time);
+      } else {
+        _time -= elapsed * _speed;
+        _arrange.apply(2 + _time, artboard, 0.5);
+        // print(-_time);
+      }
+    }
 
     return true;
   }
@@ -38,80 +51,63 @@ class HouseController extends FlareController {
   /// packs them into [FlareAnimationLayer] objects
   @override
   void initialize(FlutterActorArtboard artboard) {
-
-    _arrange = artboard.getAnimation("Animations");
-
+    _arrange = artboard.getAnimation("part1");
 
     _artboard = artboard;
     _demoAnimation = FlareAnimationLayer()
-      ..animation = _artboard.getAnimation("Animations");
+      ..animation = _artboard.getAnimation("part1");
 
-    /*
-    
-    _skyAnimation = FlareAnimationLayer()
-      ..animation = _artboard.getAnimation("Sun Rotate")
-      ..mix = 1.0;
-    ActorAnimation endAnimation = artboard.getAnimation("to 6");
-    if (endAnimation != null) {
-      endAnimation.apply(endAnimation.duration, artboard, 1.0);
-    }
-    */
+    _arrange.apply(2, _artboard, 1);
   }
 
   @override
   void setViewTransform(Mat2D viewTransform) {}
-/*
-  /// Use the [demoUpdated] callback to relay the current number of rooms
-  /// to the [Page] widget, so it can position the slider accordingly. 
-  _checkRoom() {
-    double demoFrame = _demoAnimation.time * FPS;
-    double demoValue = 0.0;
-    if (demoFrame <= 15) {
-      demoValue =
-          lerpDouble(6.0, 5.0, Curves.easeInOut.transform(demoFrame / 15));
-    } else if (demoFrame <= 36) {
-      demoValue = 5.0;
-    } else if (demoFrame <= 50) {
-      demoValue = lerpDouble(
-          5.0, 4.0, Curves.easeInOut.transform((demoFrame - 36) / (50 - 36)));
-    } else if (demoFrame <= 72) {
-      demoValue = 4.0;
-    } else if (demoFrame <= 87) {
-      demoValue = lerpDouble(
-          4.0, 3.0, Curves.easeInOut.transform((demoFrame - 72) / (87 - 72)));
-    } else if (demoFrame <= 128) {
-      demoValue = 3.0;
-    } else if (demoFrame <= 142) {
-      demoValue = lerpDouble(3.0, 6.0,
-          Curves.easeInOut.transform((demoFrame - 128) / (142 - 128)));
-    } else if (demoFrame <= 164) {
-      demoValue = 6.0;
-    }
 
-    if (_lastDemoValue != demoValue) {
-      _lastDemoValue = demoValue;
-      this._rooms = demoValue.toInt();
-      /// Use the callback to let the [Page] widget know that the current value
-      /// has been changed so that the Slider can be updated.
-      if (demoUpdated != null) {
-        demoUpdated();
-      }
-    }
-    
-  }
-*/
-
-/*
-  _enqueueAnimation(String name) {
-    ActorAnimation animation = _artboard.getAnimation(name);
-    if (animation != null) {
-      _roomAnimations.add(FlareAnimationLayer()..animation = animation);
-    }
-  }
-*/
+  Timer _timer;
+  var currentStep = 0.0;
+  var frame = 0.0;
+  var step = 0;
+  var step2 = 0.0;
 
   set rooms(double value) {
-    _arrange.apply(value, _artboard, 1);
+    step = value.round();
+    step2 = value;
+
+    return;
+
+    var nextStep = (value % 8).round().toDouble();
+
+    if (_timer == null || !_timer.isActive) {
+      _timer =
+          new Timer.periodic(const Duration(microseconds: 400), (Timer timer) {
+        if (nextStep >= currentStep) {
+          frame += 0.003;
+        } else {
+          frame -= 0.003;
+        }
+
+        var s = 2 + frame;
+        _arrange.apply(s, _artboard, 1);
+
+        // print(s);
+
+        if (nextStep >= currentStep) {
+          if (s > 2 + (nextStep) * 8) {
+            currentStep = nextStep;
+            timer.cancel();
+          }
+        } else {
+          if (s < 2 + (nextStep) * 8) {
+            currentStep = nextStep;
+            timer.cancel();
+          }
+        }
+      });
+    }
+
+    //var time = 2 + (value * 8).abs();
+    //print(time);
+    //_arrange.apply(time, _artboard, 1);
   }
 
   double get rooms => _rooms;

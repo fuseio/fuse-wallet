@@ -8,6 +8,7 @@ import 'package:fusecash/screens/splash/slide_animation_controller.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
 import 'package:redux/redux.dart';
+import 'create_wallet.dart';
 import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,9 +18,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   PageController _pageController;
-  bool isPrimaryPreloading = false;
-  bool isTransparentPreloading = false;
-  static const _kDuration = const Duration(milliseconds: 300);
+  static const _kDuration = const Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
   bool isOpen = false;
   HouseController _slideController;
@@ -28,16 +27,50 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getPages() {
     return <Widget>[
-      FlareActor(
-        "assets/images/test2.flr",
-        alignment: Alignment.center,
-        fit: BoxFit.cover,
-        animation: "Animations",
-        controller: _slideController,
+      Container(
+        color: Colors.transparent,
+        child: Padding(
+            padding: EdgeInsets.only(bottom: 120),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  "Pay and get paid using crypto\nwithout fees or friction",
+                  style: TextStyle(fontSize: 17),
+                  textAlign: TextAlign.center,
+                ))),
       ),
-      Image.asset('assets/images/slide1.png', width: 160),
-      Image.asset('assets/images/slide2.png', width: 160),
-      Image.asset('assets/images/slide3.png', width: 160)
+      Container(
+        color: Colors.transparent,
+        child: Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  "Use the wallet to send\nmoney to friends",
+                  style: TextStyle(fontSize: 17),
+                  textAlign: TextAlign.center,
+                ))),
+      ),
+      Container(
+        color: Colors.transparent,
+        child: Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  "Hold Ethereum assets and\naccess decentralized finance",
+                  style: TextStyle(fontSize: 17),
+                  textAlign: TextAlign.center,
+                ))),
+      ),
+      Container(
+        color: Colors.transparent,
+        child: Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: CreateWallet())),
+      )
     ];
   }
 
@@ -46,7 +79,6 @@ class _SplashScreenState extends State<SplashScreen> {
       _previousPage = _pageController.page.toInt();
     }
     notifier?.value = _pageController.page - _previousPage;
-    print(_pageController.page);
 
     _slideController.rooms = _pageController.page;
   }
@@ -110,18 +142,30 @@ class _SplashScreenState extends State<SplashScreen> {
                               Expanded(
                                 child: new Stack(
                                   children: <Widget>[
+                                    Padding(
+                                      // padding: EdgeInsets.all(20),
+                                      padding: EdgeInsets.only(
+                                          bottom: 100, left: 20, right: 20),
+                                      child: FlareActor(
+                                        "assets/images/animation.flr",
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.contain,
+                                        //animation: "part1",
+                                        controller: _slideController,
+                                      ),
+                                    ),
                                     new PageView.builder(
                                       physics:
                                           new AlwaysScrollableScrollPhysics(),
                                       controller: _pageController,
-                                      itemCount: 3,
+                                      itemCount: 4,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return getPages()[index % 3];
+                                        return getPages()[index % 4];
                                       },
                                     ),
                                     new Positioned(
-                                      bottom: 0.0,
+                                      bottom: 15.0,
                                       left: 0.0,
                                       right: 0.0,
                                       child: new Container(
@@ -129,7 +173,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                         child: new Center(
                                           child: new DotsIndicator(
                                             controller: _pageController,
-                                            itemCount: 3,
+                                            itemCount: 4,
                                             onPageSelected: (int page) {
                                               gotoPage(page);
                                             },
@@ -140,64 +184,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 180,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 20),
-                                      child: PrimaryButton(
-                                        label: viewModel.isLoggedOut
-                                            ? "Login"
-                                            : "Create a new wallet",
-                                        onPressed: () {
-                                          if (viewModel.isLoggedOut) {
-                                            viewModel
-                                                .initWeb3(viewModel.privateKey);
-                                            Navigator.popUntil(context,
-                                                ModalRoute.withName('/'));
-                                            Navigator.pushNamed(
-                                                context, '/Cash');
-                                          } else {
-                                            viewModel.createWallet(() {
-                                              setState(() {
-                                                isPrimaryPreloading = false;
-                                              });
-                                              Navigator.pushNamed(
-                                                  context, '/Signup');
-                                            });
-                                            setState(() {
-                                              isPrimaryPreloading = true;
-                                            });
-                                          }
-                                        },
-                                        preload: isPrimaryPreloading,
-                                      ),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(top: 30),
-                                        child: TransparentButton(
-                                            label: viewModel.isLoggedOut
-                                                ? "Create a new wallet"
-                                                : "Restore existing wallet",
-                                            onPressed: () {
-                                              if (viewModel.isLoggedOut) {
-                                                viewModel.createWallet(() {
-                                                  setState(() {
-                                                    isTransparentPreloading = false;
-                                                  });
-                                                  Navigator.pushNamed(
-                                                      context, '/Signup');
-                                                });
-                                                setState(() {
-                                                  isTransparentPreloading = true;
-                                                });
-                                              }
-                                            },
-                                            preload: isTransparentPreloading))
-                                  ],
-                                ),
-                              )
                             ],
                           )),
                     ),
@@ -213,14 +199,14 @@ class SplashViewModel {
   final String jwtToken;
   final bool isLoggedOut;
   final Function(String) initWeb3;
-  final Function(VoidCallback successCallback) createWallet;
+  final Function(VoidCallback successCallback) createLocalAccount;
 
   SplashViewModel(
       {this.privateKey,
       this.jwtToken,
       this.isLoggedOut,
       this.initWeb3,
-      this.createWallet});
+      this.createLocalAccount});
 
   static SplashViewModel fromStore(Store<AppState> store) {
     return SplashViewModel(
@@ -230,8 +216,8 @@ class SplashViewModel {
         initWeb3: (privateKey) {
           store.dispatch(initWeb3Call(privateKey));
         },
-        createWallet: (VoidCallback successCallback) {
-          store.dispatch(createNewWalletCall(successCallback));
+        createLocalAccount: (VoidCallback successCallback) {
+          store.dispatch(createLocalAccountCall(successCallback));
         }
         // accountAddress: store.state.userState.accountAddress,
         // loginRequestSuccess: store.state.userState.loginRequestSuccess,

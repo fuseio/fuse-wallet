@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/state/store.dart';
@@ -9,17 +10,20 @@ import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
 
 
 void main() async {
+  await DotEnv().load('.env_prod');
   runApp(new MyApp(
     store: await createReduxStore(),
   ));
 }
 
 class MyApp extends StatefulWidget {
+  final Store<AppState> store;
+
   MyApp({Key key, this.store}) : super(key: key);
-  Store<AppState> store;
 
   @override
   _MyAppState createState() => _MyAppState(store);
@@ -47,7 +51,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     
-
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarIconBrightness: Brightness.dark
+    ));
     //I18n.onLocaleChanged = onLocaleChange;
 
     return new Column(

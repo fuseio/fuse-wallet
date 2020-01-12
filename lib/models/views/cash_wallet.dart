@@ -1,11 +1,12 @@
 import 'package:fusecash/models/business.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/token.dart';
+import 'package:fusecash/models/transaction.dart';
+
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
-import '../token.dart';
-import '../transaction.dart';
 
 class CashWalletViewModel {
   final String accountAddress;
@@ -14,11 +15,12 @@ class CashWalletViewModel {
   final String branchAddress;
   final bool isCommunityLoading;
   final bool isCommunityFetched;
+  final bool isCommunityBusinessesFetched;
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
   final bool isListeningToBranch;
   final String walletStatus;
-  final String fullName;
+  final String displayName;
   final BigInt tokenBalance;
   final Token token;
   // final List<Transfer> tokenTransfers;
@@ -39,6 +41,8 @@ class CashWalletViewModel {
   final Function() branchCommunityUpdate;
   final List<Business> businesses;
   final Function() loadBusinesses;
+  final Function() syncContactsRejected;
+  final bool isContactsSynced;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -51,7 +55,7 @@ class CashWalletViewModel {
     this.isBalanceFetchingStarted,
     this.isListeningToBranch,
     this.isTransfersFetchingStarted,
-    this.fullName,
+    this.displayName,
     this.tokenBalance,
     this.token,
     // this.tokenTransfers,
@@ -72,6 +76,9 @@ class CashWalletViewModel {
     this.branchCommunityUpdate,
     this.businesses,
     this.loadBusinesses,
+    this.syncContactsRejected,
+    this.isCommunityBusinessesFetched,
+    this.isContactsSynced
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -86,7 +93,7 @@ class CashWalletViewModel {
       isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
       isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted,
       isListeningToBranch: store.state.cashWalletState.isListeningToBranch,
-      fullName: store.state.userState.fullName,
+      displayName: store.state.userState.displayName,
       tokenBalance: store.state.cashWalletState.tokenBalance,
       token: store.state.cashWalletState.token,
       // tokenTransfers: store.state.cashWalletState.tokenTransfers,
@@ -95,7 +102,9 @@ class CashWalletViewModel {
       contacts: store.state.userState.contacts,
       reverseContacts: store.state.userState.reverseContacts,
       countryCode: store.state.userState.countryCode,
-      businesses: store.state.cashWalletState.businesses,
+      businesses: store.state.cashWalletState.businesses ?? [],
+      isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,
+      isContactsSynced: store.state.userState.isContactsSynced ?? false,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
       },
@@ -103,7 +112,7 @@ class CashWalletViewModel {
         store.dispatch(getWalletAddressCall());
       },
       firstName: () {
-        String fullName = store.state.userState.fullName;
+        String fullName = store.state.userState.displayName;
         return fullName.split(' ')[0];
       },
       switchCommunity: (String communityAddress) {
@@ -121,6 +130,9 @@ class CashWalletViewModel {
       syncContacts: (List<Contact> contacts) {
         store.dispatch(syncContactsCall(contacts));
       },
+      syncContactsRejected: () {
+        store.dispatch(new SyncContactsRejected());
+      },
       branchCommunityUpdate: () {
         store.dispatch(BranchCommunityUpdate());
       },
@@ -137,8 +149,9 @@ class CashWalletViewModel {
         walletAddress == other.walletAddress &&
         walletStatus == other.walletStatus &&
         communityAddress == other.communityAddress &&
+        branchAddress == other.branchAddress &&
         isCommunityLoading == other.isCommunityLoading &&
-        fullName == other.fullName &&
+        displayName == other.displayName &&
         tokenBalance == other.tokenBalance &&
         token == other.token &&
         transactions == other.transactions &&

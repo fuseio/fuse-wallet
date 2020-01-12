@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/country_code_picker/country_code_picker.dart';
+import 'package:fusecash/widgets/country_code_picker/country_code.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/signup_dialog.dart';
@@ -30,8 +31,10 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+        backgroundColor: Colors.white,
         withPadding: true,
         title: "Sign up",
+        titleFontSize: 15,
         children: <Widget>[
           Container(
             //color: Theme.of(context).primaryColor,
@@ -73,8 +76,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             "Why do we need this?",
                             style: TextStyle(
                                 color: Theme.of(context).textTheme.button.color,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700),
+                                fontSize: 11,
+                                fontWeight: FontWeight.normal),
                           ),
                         )),
                   ),
@@ -122,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               favorite: [],
                               showCountryOnly: false,
                               showFlag: false,
-                              textStyle: const TextStyle(fontSize: 18),
+                              textStyle: const TextStyle(fontSize: 16),
                               alignLeft: false,
                             ),
                             width: 50,
@@ -140,7 +143,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               controller: phoneController,
                               keyboardType: TextInputType.number,
                               autofocus: false,
-                              style: const TextStyle(fontSize: 18),
+                              style: const TextStyle(fontSize: 16),
                               decoration: const InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 10),
@@ -159,7 +162,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 40.0),
                   Center(
                     child: PrimaryButton(
-                      label: "NEXT",
+                      label: "Next",
+                      fontSize: 16,
+                      labelFontWeight: FontWeight.normal,
                       onPressed: () async {
                         if (phoneController.text.trim().isEmpty) {
                           setState(() {

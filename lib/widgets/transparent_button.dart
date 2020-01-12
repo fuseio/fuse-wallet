@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class TransparentButton extends StatelessWidget {
-  TransparentButton({this.onPressed, this.label, this.width, this.height, this.preload});
+  TransparentButton({this.fontSize, this.onPressed, this.label, this.width, this.height, this.preload});
   final GestureTapCallback onPressed;
   final String label;
   final double width;
   final double height;
   final bool preload;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class TransparentButton extends StatelessWidget {
           child: Text(label,
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
-                  fontSize: 18,
+                  fontSize: this.fontSize ?? 18,
                   fontWeight: FontWeight.normal)),
                  ) : Container(
                       child: CircularProgressIndicator(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'dart:math';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
 
 
 class CashHeader extends StatelessWidget {
@@ -76,7 +77,7 @@ class CashHeader extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 33,
                               color: Colors.black,
-                              fontWeight: FontWeight.w300)),
+                              fontWeight: FontWeight.normal)),
                       new TextSpan(
                           text: ' ' + viewModel.firstName(),
                           style: TextStyle(
@@ -105,7 +106,7 @@ class CashHeader extends StatelessWidget {
                           child: Text(I18n.of(context).balance,
                               style: TextStyle(
                                   color: Colors.black.withAlpha(150),
-                                  fontSize: 14.0)),
+                                  fontSize: 12.0)),
                           padding: EdgeInsets.only(bottom: 6.0),
                         ),
                         new RichText(
@@ -114,16 +115,16 @@ class CashHeader extends StatelessWidget {
                             children: 
                             (viewModel.tokenBalance == null || viewModel.token == null) 
                             ? <TextSpan>[new TextSpan(
-                                  text: 'Loading',
+                                  text: '0',
                                   style: new TextStyle(
                                       fontSize: 30,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold))]
                             : <TextSpan>[
                                 new TextSpan(
-                                  text: (viewModel.tokenBalance / BigInt.from(pow(10, viewModel.token.decimals))).toString(),
+                                  text: formatValue(viewModel.tokenBalance, viewModel.token.decimals),
                                   style: new TextStyle(
-                                      fontSize: 30,
+                                      fontSize: 32,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold)),
                               new TextSpan(
@@ -149,12 +150,16 @@ class CashHeader extends StatelessWidget {
                             color: Colors.white,
                           ),
                           onPressed: () async {
-                            String accountAddress = await BarcodeScanner.scan();
-                            List<String> parts = accountAddress.split(':');
-                            if (parts.length == 2 && parts[0] == 'fuse') {
-                              Navigator.pushNamed(context, '/SendAmount', arguments: SendAmountArguments(accountAddress: parts[1]));
-                            } else {
-                              print('Account address is not on Fuse');
+                            try {
+                              String accountAddress = await BarcodeScanner.scan();
+                              List<String> parts = accountAddress.split(':');
+                              if (parts.length == 2 && parts[0] == 'fuse') {
+                                Navigator.pushNamed(context, '/SendAmount', arguments: SendAmountArguments(accountAddress: parts[1]));
+                              } else {
+                                print('Account address is not on Fuse');
+                              }
+                            } catch (e) {
+                              logger.d('BarcodeScanner $e');
                             }
                           }),
                       width: 50.0,

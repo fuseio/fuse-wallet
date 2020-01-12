@@ -15,6 +15,10 @@ import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+
+
 
 Future<File> getFile() async {
   final directory = await getApplicationDocumentsDirectory();
@@ -77,16 +81,47 @@ Future<Store<AppState>> createReduxStore() async {
   // logger.onRecord
   final mylogger = new Logger("Redux Logger");
 
-  mylogger.onRecord
-    // Filter down to [LogRecord]s sent to your logger instance  
+    mylogger.onRecord
+    // Filter down to [LogRecord]s sent to your logger instance
     .where((record) => record.loggerName == mylogger.name)
     // Print them out (or do something more interesting!)
     . listen((loggingMiddlewareRecord) => logger.d(loggingMiddlewareRecord));
 
-  return Store<AppState>(
+    FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+
+    void iOS_Permission() {
+      firebaseMessaging.requestNotificationPermissions(
+          IosNotificationSettings(sound: true, badge: true, alert: true)
+      );
+      firebaseMessaging.onIosSettingsRegistered
+          .listen((IosNotificationSettings settings)
+      {
+        print("Settings registered: $settings");
+      });
+    }
+
+
+    if (Platform.isIOS) iOS_Permission();
+    var token = await firebaseMessaging.getToken();
+    logger.wtf("token $token");
+    await FlutterSegment.putDeviceToken(token);
+    firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        logger.wtf('onMessage called: $message');
+      },
+      onResume: (Map<String, dynamic> message) {
+        logger.wtf('onResume called: $message');
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        logger.wtf('onLaunch called: $message');
+      },
+    );
+    return Store<AppState>(
       appReducer,
       initialState: initialState ?? new AppState.initial(),
         // middleware: [thunkMiddleware, persistor.createMiddleware()]
       middleware: [thunkMiddleware, new LoggingMiddleware(logger: mylogger), persistor.createMiddleware()]
   );
+
+
 }

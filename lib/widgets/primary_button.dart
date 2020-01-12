@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
   PrimaryButton(
-      {this.onPressed, this.label, this.width, this.height, this.preload});
+      {this.fontSize, this.labelFontWeight, this.onPressed, this.label, this.width, this.height, this.preload});
   final GestureTapCallback onPressed;
   final String label;
+  final FontWeight labelFontWeight;
   final double width;
   final double height;
   final bool preload;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +42,8 @@ class PrimaryButton extends StatelessWidget {
                       label,
                       style: TextStyle(
                           color: Theme.of(context).textTheme.button.color,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700),
+                          fontSize: this.fontSize ?? 18,
+                          fontWeight: this.labelFontWeight ?? FontWeight.w700),
                     )
                   : Container(
                       child: CircularProgressIndicator(

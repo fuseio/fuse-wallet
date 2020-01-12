@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
@@ -19,20 +20,21 @@ class RestoreWalletSuccess {
   RestoreWalletSuccess(this.mnemonic, this.privateKey);
 }
 
-class CreateNewWalletSuccess {
+class CreateLocalAccountSuccess {
   final List<String> mnemonic;
   final String privateKey;
   final String accountAddress;
-  CreateNewWalletSuccess(this.mnemonic, this.privateKey, this.accountAddress);
+  CreateLocalAccountSuccess(
+      this.mnemonic, this.privateKey, this.accountAddress);
 }
 
 class LoginRequestSuccess {
   final String countryCode;
   final String phoneNumber;
-  final String fullName;
+  final String displayName;
   final String email;
   LoginRequestSuccess(
-      this.countryCode, this.phoneNumber, this.fullName, this.email);
+      this.countryCode, this.phoneNumber, this.displayName, this.email);
 }
 
 class LogoutRequestSuccess {
@@ -50,6 +52,10 @@ class SyncContactsProgress {
   SyncContactsProgress(this.contacts, this.newContacts);
 }
 
+class SyncContactsRejected {
+  SyncContactsRejected();
+}
+
 class SaveContacts {
   List<Contact> contacts;
   SaveContacts(this.contacts);
@@ -60,13 +66,28 @@ class SetPincodeSuccess {
   SetPincodeSuccess(this.pincode);
 }
 
-ThunkAction restoreWalletCall(List<String> _mnemonic) {
+class SetDisplayName {
+  String displayName;
+  SetDisplayName(this.displayName);
+}
+
+ThunkAction restoreWalletCall(
+    List<String> _mnemonic, VoidCallback successCallback) {
   return (Store store) async {
-    String mnemonic = _mnemonic.join(' ');
     try {
-      String privateKey = Web3.privateKeyFromMnemonic(mnemonic);
+      logger.d('restore wallet');
+      String mnemonic = _mnemonic.join(' ');
+      logger.d('mnemonic: $mnemonic');
+      logger.d('compute pk');
+      String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
+      logger.d('privateKey: $privateKey');
       store.dispatch(new RestoreWalletSuccess(_mnemonic, privateKey));
+      Credentials c = EthPrivateKey.fromHex(privateKey);
+      dynamic accountAddress = await c.extractAddress();
+      store.dispatch(new CreateLocalAccountSuccess(
+          mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
+      successCallback();
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not restore wallet'));
@@ -74,8 +95,7 @@ ThunkAction restoreWalletCall(List<String> _mnemonic) {
   };
 }
 
-ThunkAction createNewWalletCall(
-    VoidCallback successCallback) {
+ThunkAction createLocalAccountCall(VoidCallback successCallback) {
   return (Store store) async {
     try {
       logger.d('create new wallet');
@@ -87,7 +107,7 @@ ThunkAction createNewWalletCall(
       Credentials c = EthPrivateKey.fromHex(privateKey);
       dynamic accountAddress = await c.extractAddress();
       // api.setJwtToken('');
-      store.dispatch(new CreateNewWalletSuccess(
+      store.dispatch(new CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
       successCallback();
@@ -171,8 +191,8 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
     if (newPhones.length == 0) {
       dynamic response = await api.syncContacts(newPhones);
       store.dispatch(new SyncContactsProgress(
-            newPhones, List<Map<String, dynamic>>.from(response['newContacts'])));
-        await api.ackSync(response['nonce']);
+          newPhones, List<Map<String, dynamic>>.from(response['newContacts'])));
+      await api.ackSync(response['nonce']);
     } else {
       int limit = 100;
       List<String> partial = newPhones.take(limit).toList();
@@ -189,9 +209,7 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
   };
 }
 
-
-ThunkAction setPincodeCall(
-    String pincode) {
+ThunkAction setPincodeCall(String pincode) {
   return (Store store) async {
     try {
       store.dispatch(SetPincodeSuccess(pincode));
@@ -199,5 +217,42 @@ ThunkAction setPincodeCall(
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token to contact'));
     }
+  };
+}
+
+ThunkAction create3boxAccountCall(accountAddress) {
+  return (Store store) async {
+    final _webView = new InteractiveWebView();
+    Map publicData = {
+      'account': accountAddress,
+      'name': store.state.userState.displayName
+    };
+    print('create profile for accountAddress $accountAddress');
+    await api.createProfile(accountAddress, publicData);
+    Map user = {
+      "accountAddress": accountAddress,
+      "email": 'wallet-user@fuse.io',
+      "provider": 'HDWallet',
+      "subscribe": false,
+      "source": 'wallet-v2'
+    };
+    print('save user $accountAddress');
+    await api.saveUserToDb(user);
+    print('Loading 3box webview for account $accountAddress');
+    final html = '''<html>
+        <head></head>
+        <script>
+          window.pk = '0x${store.state.userState.privateKey}';
+          window.user = { 
+            account: '$accountAddress',
+            phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}',
+            name: ${store.state.userState.displayName}
+          };
+        </script>
+        <script src='https://3box.fuse.io/main.js'></script>
+        <body></body>
+      </html>''';
+    print(html);
+    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
   };
 }
