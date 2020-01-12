@@ -42,6 +42,7 @@ class CashWalletViewModel {
   final List<Business> businesses;
   final Function() loadBusinesses;
   final Function() syncContactsRejected;
+  final bool isContactsSynced;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -76,7 +77,8 @@ class CashWalletViewModel {
     this.businesses,
     this.loadBusinesses,
     this.syncContactsRejected,
-    this.isCommunityBusinessesFetched
+    this.isCommunityBusinessesFetched,
+    this.isContactsSynced
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -102,6 +104,7 @@ class CashWalletViewModel {
       countryCode: store.state.userState.countryCode,
       businesses: store.state.cashWalletState.businesses ?? [],
       isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,
+      isContactsSynced: store.state.userState.isContactsSynced ?? false,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
       },

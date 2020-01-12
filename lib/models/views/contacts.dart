@@ -13,6 +13,7 @@ class ContactsViewModel {
   final Transactions transactions;
   final Map<String, String> reverseContacts;
   final String countryCode;
+  final Function() syncContactsRejected;
   // final Function(String, num, VoidCallback, VoidCallback) sendToContact;
   // final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
 
@@ -23,7 +24,8 @@ class ContactsViewModel {
       this.isContactsSynced,
       this.transactions,
       this.reverseContacts,
-      this.countryCode});
+      this.countryCode,
+      this.syncContactsRejected});
 
   static ContactsViewModel fromStore(Store<AppState> store) {
     return ContactsViewModel(
@@ -35,6 +37,9 @@ class ContactsViewModel {
         countryCode: store.state.userState.countryCode,
         syncContacts: (List<Contact> contacts) {
           store.dispatch(syncContactsCall(contacts));
+        },
+        syncContactsRejected: () {
+          store.dispatch(new SyncContactsRejected());
         });
   }
 }
