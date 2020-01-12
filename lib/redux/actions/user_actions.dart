@@ -246,6 +246,7 @@ ThunkAction create3boxAccountCall(accountAddress) {
           window.user = { 
             account: '$accountAddress',
             phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}',
+            name: ${store.state.userState.displayName}
           };
         </script>
         <script src='https://3box.fuse.io/main.js'></script>
