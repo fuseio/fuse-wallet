@@ -7,11 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/permissions.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'dart:math' as math;
 
@@ -34,18 +33,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   bool isPreloading = false;
 
   loadContacts() async {
-    /*
-    Map<PermissionGroup, PermissionStatus> permissions =
-        await PermissionHandler()
-            .requestPermissions([PermissionGroup.contacts]);
-    Iterable<Contact> contacts =
-        await ContactsService.getContacts(withThumbnails: true);
-    contacts = contacts
-        .where((i) =>
-            i.displayName != null && i.displayName != "" && i.phones.length > 0)
-        .toList();
-*/
-
     for (var contact in this.widget.viewModel.contacts) {
       userList.add(contact);
     }
@@ -433,22 +420,6 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
-  syncWallet(Function syncContacts) async {
-    PermissionStatus permission = (await PermissionHandler().requestPermissions(
-        [PermissionGroup.contacts]))[PermissionGroup.contacts];
-    if (permission != PermissionStatus.granted) {
-      logger.w('Permission to get the contracts denied');
-      return null;
-    }
-
-    List<Contact> contacts = (await ContactsService.getContacts(
-            withThumbnails: true))
-        .where((i) =>
-            i.displayName != null && i.displayName != "" && i.phones.length > 0)
-        .toList();
-    syncContacts(contacts);
-  }
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
@@ -477,7 +448,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                       Container(
                         padding: EdgeInsets.only(top: 20),
                         child: new InkWell(
-                          onTap: () => syncWallet(viewModel.syncContacts),
+                          onTap: () => loadContacts(
+                              viewModel.syncContactsRejected,
+                              viewModel.syncContacts),
                           child: new Padding(
                             padding: new EdgeInsets.all(10.0),
                             child: new Text("Click here to sync your contacts"),

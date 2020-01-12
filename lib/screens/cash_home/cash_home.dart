@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/widgets/main_scaffold2.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:redux/redux.dart';
@@ -8,40 +9,18 @@ import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 
-
-import 'package:contacts_service/contacts_service.dart';  
-import 'package:permission_handler/permission_handler.dart';
-
 class CashHomeScreen extends StatefulWidget {
   @override
   _CashHomeScreenState createState() => _CashHomeScreenState();
 }
 
+void showAlert(BuildContext context) {
+  showDialog(child: new ContactsConfirmationScreen(), context: context);
+}
 
-  Future<List<Contact>> loadContacts(CashWalletViewModel viewModel) async {
-    PermissionStatus permission = (await PermissionHandler().requestPermissions([PermissionGroup.contacts]))[PermissionGroup.contacts];
-    if (permission != PermissionStatus.granted) {
-      logger.w('Permission to get the contracts denied');
-      viewModel.syncContactsRejected();
-      return null;
-    }
-
-        // contacts = contacts
-    //     .where((i) =>
-    //         i.displayName != null && i.displayName != "" && i.phones.length > 0)
-    List<Contact> contacts = (await ContactsService.getContacts(withThumbnails: true))
-      .where((i) =>
-      i.displayName != null && i.displayName != "" && i.phones.length > 0)
-      .toList();
-    viewModel.syncContacts(contacts);
-    return contacts;
-  }
-
-
-void onChange(CashWalletViewModel viewModel) {
-  if (!viewModel.isListeningToBranch &&
-      !viewModel.isCommunityLoading) {
-      viewModel.listenToBranch();
+void onChange(CashWalletViewModel viewModel, BuildContext context) {
+  if (!viewModel.isListeningToBranch && !viewModel.isCommunityLoading) {
+    viewModel.listenToBranch();
   }
   if (!viewModel.isCommunityLoading &&
       viewModel.branchAddress != null &&
@@ -56,7 +35,9 @@ void onChange(CashWalletViewModel viewModel) {
       viewModel.isListeningToBranch &&
       viewModel.walletAddress != '') {
     viewModel.switchCommunity(viewModel.communityAddress);
-    loadContacts(viewModel);
+    if (!viewModel.isContactsSynced) {
+      Future.delayed(Duration.zero, () => showAlert(context));
+    }
   }
   if (viewModel.token != null) {
     if (!viewModel.isBalanceFetchingStarted) {
@@ -82,10 +63,10 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
           return CashWalletViewModel.fromStore(store);
         },
         onInitialBuild: (viewModel) {
-          onChange(viewModel);
+          onChange(viewModel, context);
         },
         onWillChange: (viewModel) {
-          onChange(viewModel);
+          onChange(viewModel, context);
         },
         builder: (_, viewModel) {
           return MainScaffold(
