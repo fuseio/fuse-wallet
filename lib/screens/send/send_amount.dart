@@ -135,6 +135,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 child: SlideTransition(
               position: offset,
               child: PrimaryButton(
+                labelFontWeight: FontWeight.normal,
                 label: 'Continue with $amountText ${viewModel.token.symbol}',
                 onPressed: () {
                   args.amount = num.parse(amountText);

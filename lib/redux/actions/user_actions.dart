@@ -31,10 +31,10 @@ class CreateLocalAccountSuccess {
 class LoginRequestSuccess {
   final String countryCode;
   final String phoneNumber;
-  final String fullName;
+  final String displayName;
   final String email;
   LoginRequestSuccess(
-      this.countryCode, this.phoneNumber, this.fullName, this.email);
+      this.countryCode, this.phoneNumber, this.displayName, this.email);
 }
 
 class LogoutRequestSuccess {
@@ -64,6 +64,11 @@ class SaveContacts {
 class SetPincodeSuccess {
   String pincode;
   SetPincodeSuccess(this.pincode);
+}
+
+class SetDisplayName {
+  String displayName;
+  SetDisplayName(this.displayName);
 }
 
 ThunkAction restoreWalletCall(
@@ -154,8 +159,6 @@ ThunkAction loginVerifyCall(
       String jwtToken =
           await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
-      store.dispatch(create3boxAccountCall(
-          store.state.userState.privateKey, accountAddress, phone));
       successCallback();
     } catch (e) {
       logger.e(e);
@@ -217,10 +220,13 @@ ThunkAction setPincodeCall(String pincode) {
   };
 }
 
-ThunkAction create3boxAccountCall(privateKey, accountAddress, phone) {
+ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final _webView = new InteractiveWebView();
-    Map publicData = {'account': accountAddress};
+    Map publicData = {
+      'account': accountAddress,
+      'name': store.state.userState.displayName
+    };
     print('create profile for accountAddress $accountAddress');
     await api.createProfile(accountAddress, publicData);
     Map user = {
@@ -236,15 +242,17 @@ ThunkAction create3boxAccountCall(privateKey, accountAddress, phone) {
     final html = '''<html>
         <head></head>
         <script>
-          window.pk = '0x$privateKey';
+          window.pk = '0x${store.state.userState.privateKey}';
           window.user = { 
             account: '$accountAddress',
-            phoneNumber: '$phone',
+            phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}',
+            name: ${store.state.userState.displayName}
           };
         </script>
         <script src='https://3box.fuse.io/main.js'></script>
         <body></body>
       </html>''';
+    print(html);
     _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
   };
 }

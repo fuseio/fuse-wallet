@@ -21,7 +21,7 @@ class UserState {
   final List<String> syncedContacts;
   final Map<String, String> reverseContacts;
   final String jwtToken;
-  final String fullName;
+  final String displayName;
   final String email;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
@@ -39,7 +39,7 @@ class UserState {
     this.reverseContacts,
     this.syncedContacts,
     this.jwtToken,
-    this.fullName,
+    this.displayName,
     this.email,
     this.loginRequestSuccess,
     this.loginVerifySuccess,
@@ -59,7 +59,7 @@ class UserState {
       syncedContacts: [],
       reverseContacts: new Map<String, String>(),
       jwtToken: "",
-      fullName: "Anom",
+      displayName: "Anom",
       email: "",
       loginRequestSuccess: false,
       loginVerifySuccess: false,
@@ -79,7 +79,7 @@ class UserState {
     List<String> syncedContacts,
     Map<String, String> reverseContacts,
     String jwtToken,
-    String fullName,
+    String displayName,
     String email,
     bool loginRequestSuccess,
     bool loginVerifySuccess,
@@ -97,7 +97,7 @@ class UserState {
       syncedContacts: syncedContacts ?? this.syncedContacts,
       reverseContacts: reverseContacts ?? this.reverseContacts,
       jwtToken: jwtToken ?? this.jwtToken,
-      fullName: fullName ?? this.fullName,
+      displayName: displayName ?? this.displayName,
       email: email ?? this.email,
       loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
       loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
@@ -116,7 +116,7 @@ class UserState {
       'reverseContacts': jsonEncode(reverseContacts),
       'syncedContacts': jsonEncode(syncedContacts),
       'jwtToken': jwtToken,
-      'fullName': fullName,
+      'displayName': displayName,
       'email': email,
       'isLoggedOut': isLoggedOut,
       'isContactsSynced': isContactsSynced
@@ -141,7 +141,7 @@ class UserState {
         reverseContacts: json['reverseContacts'] == null ? new Map<String, String>(): Map<String, String>.from(jsonDecode(json['reverseContacts'])),
         syncedContacts: json['syncedContacts'] == null ? new List<String>(): List<String>.from(jsonDecode(json['syncedContacts'])),
         jwtToken: json['jwtToken'],
-        fullName: json['fullName'],
+        displayName: json['displayName'],
         email: json['email'],
         loginRequestSuccess: false,
         loginVerifySuccess: false,

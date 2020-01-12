@@ -11,6 +11,7 @@ import 'package:fusecash/screens/send/send_review.dart';
 import 'package:fusecash/screens/send/send_success.dart';
 import 'package:fusecash/screens/signup/level_selector.dart';
 import 'package:fusecash/screens/signup/recovery.dart';
+import 'package:fusecash/screens/signup/username.dart';
 import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/screens/signup/signup.dart';
 import 'package:fusecash/screens/splash/splash.dart';
@@ -23,6 +24,7 @@ getRoutes() {
   return {
     '/': (context) => SplashScreen(),
     '/Signup': (context) => SignupScreen(),
+    '/UserName': (context) => UserNameScreen(),
     '/LevelSelector': (context) => LevelSelectorScreen(),
     '/Cash': (context) => CashHomeScreen(),
     '/TransactionDetails': (context) => TransactionDetailsScreen(),

@@ -327,6 +327,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         String walletAddress = wallet["walletAddress"];
         if (walletAddress != null && walletAddress.isNotEmpty) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
+          store.dispatch(create3boxAccountCall(walletAddress));
           t.cancel();
         }
       });

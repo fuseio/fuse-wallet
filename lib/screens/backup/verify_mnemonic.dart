@@ -129,6 +129,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
               padding: EdgeInsets.only(top: 40),
               child: Center(
                   child: PrimaryButton(
+                labelFontWeight: FontWeight.normal,
                 label: "NEXT",
                 fontSize: 15,
                 width: 160,

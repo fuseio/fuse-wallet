@@ -20,7 +20,7 @@ class CashWalletViewModel {
   final bool isTransfersFetchingStarted;
   final bool isListeningToBranch;
   final String walletStatus;
-  final String fullName;
+  final String displayName;
   final BigInt tokenBalance;
   final Token token;
   // final List<Transfer> tokenTransfers;
@@ -55,7 +55,7 @@ class CashWalletViewModel {
     this.isBalanceFetchingStarted,
     this.isListeningToBranch,
     this.isTransfersFetchingStarted,
-    this.fullName,
+    this.displayName,
     this.tokenBalance,
     this.token,
     // this.tokenTransfers,
@@ -93,7 +93,7 @@ class CashWalletViewModel {
       isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
       isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted,
       isListeningToBranch: store.state.cashWalletState.isListeningToBranch,
-      fullName: store.state.userState.fullName,
+      displayName: store.state.userState.displayName,
       tokenBalance: store.state.cashWalletState.tokenBalance,
       token: store.state.cashWalletState.token,
       // tokenTransfers: store.state.cashWalletState.tokenTransfers,
@@ -112,7 +112,7 @@ class CashWalletViewModel {
         store.dispatch(getWalletAddressCall());
       },
       firstName: () {
-        String fullName = store.state.userState.fullName;
+        String fullName = store.state.userState.displayName;
         return fullName.split(' ')[0];
       },
       switchCommunity: (String communityAddress) {
@@ -151,7 +151,7 @@ class CashWalletViewModel {
         communityAddress == other.communityAddress &&
         branchAddress == other.branchAddress &&
         isCommunityLoading == other.isCommunityLoading &&
-        fullName == other.fullName &&
+        displayName == other.displayName &&
         tokenBalance == other.tokenBalance &&
         token == other.token &&
         transactions == other.transactions &&

@@ -38,11 +38,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       });
   }
 
-  void send(
-      SendAmountViewModel viewModel,
-      SendAmountArguments args,
-      VoidCallback sendSuccessCallback,
-      VoidCallback sendFailureCallback) {
+  void send(SendAmountViewModel viewModel, SendAmountArguments args,
+      VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
     if (args.phoneNumber != null) {
       viewModel.sendToContact(
           formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
@@ -88,7 +85,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(top: 20.0, bottom: 30),
-                              child: Text("${args.amount} ${viewModel.token.symbol}",
+                              child: Text(
+                                  "${args.amount} ${viewModel.token.symbol}",
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontSize: 50,
@@ -144,11 +142,15 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                 args.name,
                                 style: TextStyle(fontSize: 20),
                               ),
-                              args.accountAddress == null || args.accountAddress.isEmpty ? Text('') : Text(
-                                "Address: ${args.accountAddress.substring(0, 4)}...${args.accountAddress.substring(args.accountAddress.length - 4)}",
-                                style: TextStyle(
-                                    fontSize: 16, color: Color(0xFF777777)),
-                              )
+                              args.accountAddress == null ||
+                                      args.accountAddress.isEmpty
+                                  ? Text('')
+                                  : Text(
+                                      "Address: ${args.accountAddress.substring(0, 4)}...${args.accountAddress.substring(args.accountAddress.length - 4)}",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF777777)),
+                                    )
                             ],
                           )
                         ],
@@ -169,20 +171,19 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             footer: Center(
                 child: PrimaryButton(
               label: "Send",
+              labelFontWeight: FontWeight.normal,
               onPressed: () {
-                
                 send(viewModel, args, () {
-                    Navigator.pushNamed(context, '/SendSuccess', arguments: args);
-                    setState(() {
-                      isPreloading = false;
-                    });
-                  }, () {
-                    print('error');
-                  });
+                  Navigator.pushNamed(context, '/SendSuccess', arguments: args);
                   setState(() {
-                    isPreloading = true;
+                    isPreloading = false;
                   });
-
+                }, () {
+                  print('error');
+                });
+                setState(() {
+                  isPreloading = true;
+                });
               },
               preload: isPreloading,
               width: 300,
@@ -199,7 +200,10 @@ class SendAmountViewModel {
   final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
 
   SendAmountViewModel(
-      {this.token, this.myCountryCode, this.sendToContact, this.sendToAccountAddress});
+      {this.token,
+      this.myCountryCode,
+      this.sendToContact,
+      this.sendToAccountAddress});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     return SendAmountViewModel(
