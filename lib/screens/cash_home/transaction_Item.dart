@@ -70,11 +70,12 @@ class TransactionListItem extends StatelessWidget {
     this._contact,
     this._vm,
   );
+
   @override
   Widget build(BuildContext context) {
     Transfer transfer = _transaction as Transfer;
     List<Widget> rightColumn = <Widget>[
-      transfer.isGenerateWallet() || transfer.isJoinCommunity()
+       transfer.isGenerateWallet() || transfer.isJoinCommunity()
           ? SizedBox.shrink()
           : Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -99,7 +100,9 @@ class TransactionListItem extends StatelessWidget {
             )
     ];
 
-    if (_transaction.isPending() && !transfer.isGenerateWallet() && !transfer.isJoinCommunity()) {
+    if (_transaction.isPending() &&
+        !transfer.isGenerateWallet() &&
+        !transfer.isJoinCommunity()) {
       rightColumn.add(Padding(
           child: Text("PENDING",
               style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),

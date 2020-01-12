@@ -70,8 +70,8 @@ class Transfer extends Transaction {
             jobId: jobId,
             blockNumber: blockNumber);
 
-  bool isJoinBonus() => funderAddresses.containsValue(this.from);
-  bool isGenerateWallet() => this.jobId == 'generateWallet';
+  bool isJoinBonus() => this.from != null && funderAddresses.containsValue(this.from);
+  bool isGenerateWallet() => this.jobId != null && this.jobId == 'generateWallet';
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');
 
   Transfer copyWith({

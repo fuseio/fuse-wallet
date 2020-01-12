@@ -14,7 +14,7 @@ import 'package:flutter/services.dart';
 
 
 void main() async {
-  await DotEnv().load('.env_prod');
+  await DotEnv().load('.env_qa');
   runApp(new MyApp(
     store: await createReduxStore(),
   ));

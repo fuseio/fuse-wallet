@@ -575,7 +575,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
           await api.joinCommunity(web3, walletAddress, communityAddress);
       dynamic jobId = response['job']['_id'];
       Transfer transfer = new Transfer(
-          type: 'RECIVE',
+          type: 'RECEIVE',
           text: 'Joining community',
           status: 'PENDING',
           jobId: jobId);

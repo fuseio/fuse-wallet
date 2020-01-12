@@ -77,15 +77,12 @@ class CashTransactionsState extends State<CashTransactios> {
     super.initState();
   }
 
-  @override
-  Widget build(BuildContext _context) {
+  renderTrasfers() {
     bool isWalletCreated = 'created' == this.widget.viewModel.walletStatus;
     Transfer generateWallet = new Transfer(
-        type: 'RECIVE',
+        type: 'RECEIVE',
         text: !isWalletCreated ? 'Generating wallet' : 'Generated wallet',
-        status: !isWalletCreated
-            ? 'PENDING'
-            : 'CONFIRMED',
+        status: !isWalletCreated ? 'PENDING' : 'CONFIRMED',
         jobId: 'generateWallet');
     List<TransactionListItem> transfers = [
       ...this
@@ -105,7 +102,11 @@ class CashTransactionsState extends State<CashTransactios> {
           .toList(),
       TransactionListItem(generateWallet, null, this.widget.viewModel),
     ];
+    return transfers;
+  }
 
+  @override
+  Widget build(BuildContext _context) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -120,7 +121,7 @@ class CashTransactionsState extends State<CashTransactios> {
               shrinkWrap: true,
               primary: false,
               padding: EdgeInsets.symmetric(vertical: 8.0),
-              children: transfers)
+              children: renderTrasfers())
         ]);
   }
 }
