@@ -66,6 +66,11 @@ class SetPincodeSuccess {
   SetPincodeSuccess(this.pincode);
 }
 
+class SetUserName {
+  String fullname;
+  SetUserName(this.fullname);
+}
+
 ThunkAction restoreWalletCall(
     List<String> _mnemonic, VoidCallback successCallback) {
   return (Store store) async {
@@ -154,8 +159,6 @@ ThunkAction loginVerifyCall(
       String jwtToken =
           await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
-      store.dispatch(create3boxAccountCall(
-          store.state.userState.privateKey, accountAddress, phone));
       successCallback();
     } catch (e) {
       logger.e(e);
@@ -217,10 +220,13 @@ ThunkAction setPincodeCall(String pincode) {
   };
 }
 
-ThunkAction create3boxAccountCall(privateKey, accountAddress, phone) {
+ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final _webView = new InteractiveWebView();
-    Map publicData = {'account': accountAddress};
+    Map publicData = {
+      'account': accountAddress,
+      'name': store.state.userState.fullName
+    };
     print('create profile for accountAddress $accountAddress');
     await api.createProfile(accountAddress, publicData);
     Map user = {
@@ -236,15 +242,16 @@ ThunkAction create3boxAccountCall(privateKey, accountAddress, phone) {
     final html = '''<html>
         <head></head>
         <script>
-          window.pk = '0x$privateKey';
+          window.pk = '0x${store.state.userState.privateKey}';
           window.user = { 
             account: '$accountAddress',
-            phoneNumber: '$phone',
+            phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}',
           };
         </script>
         <script src='https://3box.fuse.io/main.js'></script>
         <body></body>
       </html>''';
+    print(html);
     _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
   };
 }

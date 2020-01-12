@@ -12,6 +12,7 @@ class OnboardViewModel {
   final Function(String, String, VoidCallback, VoidCallback) signUp;
   final Function(String, String, String, String, VoidCallback, VoidCallback) verify;
   final Function(String) setPincode;
+  final Function(String) setFullName;
 
   OnboardViewModel({
     this.countryCode,
@@ -21,7 +22,8 @@ class OnboardViewModel {
     this.loginVerifySuccess,
     this.signUp,
     this.verify,
-    this.setPincode
+    this.setPincode,
+    this.setFullName
   });
 
   static OnboardViewModel fromStore(Store<AppState> store) {
@@ -39,6 +41,9 @@ class OnboardViewModel {
       },
       setPincode: (pincode) {
         store.dispatch(setPincodeCall(pincode));
+      },
+      setFullName: (fullName) {
+        store.dispatch(new SetUserName(fullName));
       }
     );
   }

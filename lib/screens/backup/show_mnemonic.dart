@@ -151,6 +151,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                     fontSize: 15,
                     width: 160,
                     label: "Next",
+                    labelFontWeight: FontWeight.normal,
                     onPressed: () async {
                       Navigator.pushNamed(context, '/Backup2');
                     },

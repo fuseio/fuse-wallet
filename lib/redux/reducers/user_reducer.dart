@@ -11,7 +11,8 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SyncContactsProgress>(_syncContactsProgress),
   TypedReducer<UserState, SyncContactsRejected>(_syncContactsRejected),
   TypedReducer<UserState, SaveContacts>(_saveContacts),
-  TypedReducer<UserState, SetPincodeSuccess>(_setPincode)
+  TypedReducer<UserState, SetPincodeSuccess>(_setPincode),
+  TypedReducer<UserState, SetUserName>(_setUserName)
 ]);
 
 UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) {
@@ -52,7 +53,11 @@ UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
 // }
 
 UserState _syncContactsRejected(UserState state, SyncContactsRejected action) {
-return state.copyWith(isContactsSynced: false);
+  return state.copyWith(isContactsSynced: false);
+}
+
+UserState _setUserName(UserState state, SetUserName action) {
+  return state.copyWith(fullName: action.fullname);
 }
 
 UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {
@@ -64,8 +69,10 @@ UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {
   reverseContacts.addEntries(entries);
   List<String> syncedContacts = List<String>.from(state.syncedContacts);
   syncedContacts.addAll(action.contacts);
-  return state.copyWith(isContactsSynced: true,
-      reverseContacts: reverseContacts, syncedContacts: syncedContacts);
+  return state.copyWith(
+      isContactsSynced: true,
+      reverseContacts: reverseContacts,
+      syncedContacts: syncedContacts);
 }
 
 UserState _saveContacts(UserState state, SaveContacts action) {
