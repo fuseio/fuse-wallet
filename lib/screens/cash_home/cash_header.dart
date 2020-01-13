@@ -81,9 +81,9 @@ class CashHeader extends StatelessWidget {
                       new TextSpan(
                           text: ' ' + viewModel.firstName(),
                           style: TextStyle(
-                              fontSize: 42,
+                              fontSize: 33,
                               color: Colors.black,
-                              fontWeight: FontWeight.bold)),
+                              fontWeight: FontWeight.normal)),
                     ],
                   ),
                 ),
