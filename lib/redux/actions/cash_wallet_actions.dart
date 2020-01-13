@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
@@ -217,15 +218,18 @@ Future<bool> approvalCallback() async {
 ThunkAction listenToBranchCall() {
   return (Store store) async {
     logger.wtf("branch listening.");
-    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) {
+    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) async {
       var linkData = jsonDecode(stringData);
       logger.wtf("linkData $linkData");
+
       if (linkData["~feature"] == "switch_community") {
+        await FlutterSegment.track(eventName: "Branch Switch Community", properties: linkData);
         var communityAddress = linkData["community_id"];
         logger.wtf("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
       }
       if (linkData["~feature"] == "invite_user") {
+        await FlutterSegment.track(eventName: "Branch Invite User", properties: linkData);
         var communityAddress = linkData["community_address"];
         logger.wtf("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
@@ -327,6 +331,12 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         String walletAddress = wallet["walletAddress"];
         if (walletAddress != null && walletAddress.isNotEmpty) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
+          await FlutterSegment.identify(userId: walletAddress, traits: {
+            "walletAddress": walletAddress,
+            "accountAddress": accountAddress,
+            "displatName": store.state.userState.displayName
+          });
+          await FlutterSegment.track(eventName: "Wallet Generated");
           store.dispatch(create3boxAccountCall(walletAddress));
           t.cancel();
         }
