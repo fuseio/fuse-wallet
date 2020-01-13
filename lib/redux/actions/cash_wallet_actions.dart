@@ -337,7 +337,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
             "displatName": store.state.userState.displayName
           });
           await FlutterSegment.track(eventName: "Wallet Generated");
-          store.dispatch(create3boxAccountCall(walletAddress));
+          store.dispatch(create3boxAccountCall(accountAddress));
           t.cancel();
         }
       });
@@ -572,6 +572,13 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
           walletAddress, community["entitiesList"]["address"]);
       String communityAddress = community['address'];
       if (isMember) {
+        Transfer joined = new Transfer(
+            type: 'RECEIVE',
+            text: 'Joined community',
+            status: 'CONFIRMED',
+            jobId: 'joined',
+            txHash: '');
+        store.dispatch(new AddTransaction(joined));
         return store.dispatch(new AlreadyJoinedCommunity(
             communityAddress,
             community["name"],
@@ -624,9 +631,9 @@ ThunkAction switchCommunityCall(String communityAddress) {
       store.dispatch(joinCommunityCall(community: community, token: token));
       Map<String, dynamic> communityData =
           await api.getCommunityData(communityAddress);
-      Map<String, dynamic> plugins =
-          Map<String, dynamic>.from(communityData['plugins']);
       Plugins commuityPlugins;
+      Map<String, dynamic> plugins = Map<String, dynamic>.from(
+          communityData.containsKey('plugins') ? communityData['plugins'] : {});
       if (plugins.containsKey('onramp')) {
         Map<String, dynamic> onramp =
             Map<String, dynamic>.from(plugins['onramp']);

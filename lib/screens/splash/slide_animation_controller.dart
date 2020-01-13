@@ -27,7 +27,7 @@ class HouseController extends FlareController {
   ActorAnimation _arrange;
 
   double _time = 0;
-  double _speed = 4;
+  double _speed = 8;
 
   @override
   bool advance(FlutterActorArtboard artboard, double elapsed) {
