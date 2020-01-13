@@ -58,7 +58,7 @@ Future<Store<AppState>> createReduxStore() async {
   AppState initialState;
   try {
     initialState = await persistor.load();
-    if (initialState.userState?.jwtToken != '') {
+    if (initialState?.userState?.jwtToken != '') {
       logger.d('jwt: ${initialState.userState.jwtToken}');
       logger.d('accountAddress: ${initialState.userState.accountAddress}');
       api.setJwtToken(initialState.userState.jwtToken);
