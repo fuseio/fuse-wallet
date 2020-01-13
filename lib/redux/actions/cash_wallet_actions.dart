@@ -631,15 +631,18 @@ ThunkAction switchCommunityCall(String communityAddress) {
       store.dispatch(joinCommunityCall(community: community, token: token));
       Map<String, dynamic> communityData =
           await api.getCommunityData(communityAddress);
-      Plugins commuityPlugins;
-      Map<String, dynamic> plugins = Map<String, dynamic>.from(
-          communityData.containsKey('plugins') ? communityData['plugins'] : {});
-      if (plugins.containsKey('onramp')) {
-        Map<String, dynamic> onramp =
-            Map<String, dynamic>.from(plugins['onramp']);
-        Map<String, dynamic> services =
-            Map<String, dynamic>.from(onramp['services']);
-        commuityPlugins = Plugins.fromJsonState(services);
+      Plugins communityPlugins;
+      if (communityData != null) {
+        Map<String, dynamic> plugins = Map<String, dynamic>.from(
+            communityData.containsKey('plugins') ? communityData['plugins'] : {
+            });
+        if (plugins.containsKey('onramp')) {
+          Map<String, dynamic> onramp =
+          Map<String, dynamic>.from(plugins['onramp']);
+          Map<String, dynamic> services =
+          Map<String, dynamic>.from(onramp['services']);
+          communityPlugins = Plugins.fromJsonState(services);
+        }
       }
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
@@ -650,7 +653,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
               symbol: token["symbol"],
               decimals: token["decimals"]),
           new Transactions(),
-          commuityPlugins));
+          communityPlugins));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not switch community'));
