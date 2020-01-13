@@ -112,7 +112,7 @@ class CashWalletViewModel {
         store.dispatch(getWalletAddressCall());
       },
       firstName: () {
-        String fullName = store.state.userState.displayName;
+        String fullName = store.state.userState.displayName ?? '';
         return fullName.split(' ')[0];
       },
       switchCommunity: (String communityAddress) {
