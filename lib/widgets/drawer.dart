@@ -79,6 +79,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             getListTile("Back up wallet", () {
               Navigator.pushNamed(context, '/Backup1');
             }),
+            getListTile("About", () {
+              Navigator.pushNamed(context, '/About');
+            }),
             //Divider(),
             getListTile("Log out", () {
               viewModel.logout();
