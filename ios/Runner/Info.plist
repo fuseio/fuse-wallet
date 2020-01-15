@@ -18,6 +18,10 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera permission is required for barcode scanning.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
