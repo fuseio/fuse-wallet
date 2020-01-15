@@ -12,9 +12,8 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 
-
 void main() async {
-  await DotEnv().load('.env_prod');
+  await DotEnv().load('.env_qa');
   runApp(new MyApp(
     store: await createReduxStore(),
   ));
@@ -31,10 +30,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Store<AppState> store;
- _MyAppState(this. store);
-
+  _MyAppState(this.store);
+//
   final i18n = I18n.delegate;
-  
+
   void onLocaleChange(Locale locale) {
     setState(() {
       I18n.locale = locale;
@@ -50,16 +49,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarIconBrightness: Brightness.dark
-    ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+        .copyWith(statusBarIconBrightness: Brightness.dark));
     //I18n.onLocaleChanged = onLocaleChange;
 
     return new Column(
       children: <Widget>[
         new Expanded(
-          child: new StoreProvider<AppState> (
+          child: new StoreProvider<AppState>(
             store: store,
             child: new MaterialApp(
               title: 'Fuse Cash',
@@ -72,8 +69,9 @@ class _MyAppState extends State<MyApp> {
                 GlobalWidgetsLocalizations.delegate,
               ],
               supportedLocales: i18n.supportedLocales,
-              localeResolutionCallback: i18n.resolution(fallback: new Locale("en", "US")),
-              ),
+              localeResolutionCallback:
+                  i18n.resolution(fallback: new Locale("en", "US")),
+            ),
           ),
         ),
       ],

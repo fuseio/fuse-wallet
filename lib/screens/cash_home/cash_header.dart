@@ -15,9 +15,9 @@ class CashHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, CashWalletViewModel>(
+    return new StoreConnector<AppState, CashHeaderViewModel>(
         converter: (Store<AppState> store) {
-      return CashWalletViewModel.fromStore(store);
+      return CashHeaderViewModel.fromStore(store);
     },
     builder: (_, viewModel) {
       return Container(
@@ -113,7 +113,7 @@ class CashHeader extends StatelessWidget {
                           text: new TextSpan(
                             style: Theme.of(context).textTheme.title,
                             children: 
-                            (viewModel.tokenBalance == null || viewModel.token == null) 
+                            (viewModel.community.tokenBalance == null || viewModel.community.token == null) 
                             ? <TextSpan>[new TextSpan(
                                   text: '0',
                                   style: new TextStyle(
@@ -122,14 +122,14 @@ class CashHeader extends StatelessWidget {
                                       fontWeight: FontWeight.bold))]
                             : <TextSpan>[
                                 new TextSpan(
-                                  text: formatValue(viewModel.tokenBalance, viewModel.token.decimals),
+                                  text: formatValue(viewModel.community.tokenBalance, viewModel.community.token.decimals),
                                   style: new TextStyle(
                                       fontSize: 32,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold)),
                               new TextSpan(
                                   text:
-                                      ' ' + viewModel.token?.symbol.toString(),
+                                      ' ' + viewModel.community.token?.symbol.toString(),
                                   style: new TextStyle(
                                       fontSize: 18,
                                       color: Colors.black,

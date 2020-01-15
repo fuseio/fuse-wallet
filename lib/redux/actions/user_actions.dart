@@ -252,7 +252,6 @@ ThunkAction create3boxAccountCall(accountAddress) {
         <script src='https://3box.fuse.io/main.js'></script>
         <body></body>
       </html>''';
-    print(html);
     _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
   };
 }
