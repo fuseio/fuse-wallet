@@ -13,7 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
-  await DotEnv().load('.env_qa');
+  await DotEnv().load('.env_prod');
   runApp(new MyApp(
     store: await createReduxStore(),
   ));
@@ -31,7 +31,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Store<AppState> store;
   _MyAppState(this.store);
-//
   final i18n = I18n.delegate;
 
   void onLocaleChange(Locale locale) {
