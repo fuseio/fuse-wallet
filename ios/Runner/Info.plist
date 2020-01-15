@@ -65,6 +65,8 @@
 	<string>key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<string>NO</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
