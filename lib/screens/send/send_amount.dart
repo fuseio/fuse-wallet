@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/models/community.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/token.dart';
@@ -157,8 +157,11 @@ class SendAmountViewModel {
   SendAmountViewModel({this.balance, this.token});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
     return SendAmountViewModel(
-        token: store.state.cashWalletState.token,
-        balance: store.state.cashWalletState.tokenBalance);
+      token: community.token,
+      balance: community.tokenBalance
+    );
   }
 }

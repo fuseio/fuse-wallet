@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'dart:core';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/screens/cash_home/deposit_webview.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 
@@ -158,9 +158,11 @@ class DrawerViewModel {
       {this.logout, this.walletStatus, this.plugins, this.walletAddress});
 
   static DrawerViewModel fromStore(Store<AppState> store) {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
     return DrawerViewModel(
         walletAddress: store.state.cashWalletState.walletAddress,
-        plugins: store.state.cashWalletState.plugins,
+        plugins: community?.plugins,
         walletStatus: store.state.cashWalletState.walletStatus,
         logout: () {
           store.dispatch(logoutCall());

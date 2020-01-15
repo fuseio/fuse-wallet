@@ -19,7 +19,9 @@ void showAlert(BuildContext context) {
 }
 
 void onChange(CashWalletViewModel viewModel, BuildContext context) {
-  if (!viewModel.isListeningToBranch && !viewModel.isCommunityLoading) {
+  if (!viewModel.isListeningToBranch &&
+      !viewModel.isCommunityLoading &&
+      viewModel.isCommunityLoading != null) {
     viewModel.listenToBranch();
   }
   if (!viewModel.isCommunityLoading &&

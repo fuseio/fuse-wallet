@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/token.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -137,21 +139,30 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                args.name,
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              args.accountAddress == null ||
-                                      args.accountAddress.isEmpty
-                                  ? Text('')
-                                  : Text(
-                                      "Address: ${args.accountAddress.substring(0, 4)}...${args.accountAddress.substring(args.accountAddress.length - 4)}",
+                            children: args.name != null
+                                ? <Widget>[
+                                    Text(
+                                      args.name,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                    args.accountAddress == null ||
+                                            args.accountAddress.isEmpty
+                                        ? Text('')
+                                        : Text(
+                                            "Address: ${formatAddress(args.accountAddress)}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Color(0xFF777777)),
+                                          )
+                                  ]
+                                : <Widget>[
+                                    Text(
+                                      "Address: ${formatAddress(args.accountAddress)}",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF777777)),
                                     )
-                            ],
+                                  ],
                           )
                         ],
                       )
@@ -206,8 +217,10 @@ class SendAmountViewModel {
       this.sendToAccountAddress});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
     return SendAmountViewModel(
-        token: store.state.cashWalletState.token,
+        token: community.token,
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (String phoneNumber,
             num amount,

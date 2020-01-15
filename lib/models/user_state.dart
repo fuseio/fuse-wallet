@@ -146,7 +146,7 @@ class UserState {
         loginRequestSuccess: false,
         loginVerifySuccess: false,
         isLoggedOut: json['isLoggedOut'] == null ? false : json['isLoggedOut'],
-        isContactsSynced: json['isContactsSynced'] == null ? false : json['isContactsSynced']
+        isContactsSynced: false
       );
     }
 }

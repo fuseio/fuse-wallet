@@ -1,4 +1,5 @@
 import 'package:fusecash/models/business.dart';
+import 'package:fusecash/models/community.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/token.dart';
@@ -7,6 +8,31 @@ import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
+
+class CashHeaderViewModel {
+  final Community community;
+  final Function() firstName;
+
+  CashHeaderViewModel({this.community, this.firstName});
+
+  static CashHeaderViewModel fromStore(Store<AppState> store) {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
+    return CashHeaderViewModel(
+      community: community,
+      firstName: () {
+        String fullName = store.state.userState.displayName ?? '';
+        return fullName.split(' ')[0];
+      });
+  }
+
+  bool operator == (other) {
+    if (other is CashHeaderViewModel) {
+      if (community == other.community) return true;
+    }
+    return false;
+  }
+}
 
 class CashWalletViewModel {
   final String accountAddress;
@@ -43,6 +69,7 @@ class CashWalletViewModel {
   final Function() loadBusinesses;
   final Function() syncContactsRejected;
   final bool isContactsSynced;
+  final Community community;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -78,15 +105,19 @@ class CashWalletViewModel {
     this.loadBusinesses,
     this.syncContactsRejected,
     this.isCommunityBusinessesFetched,
-    this.isContactsSynced
+    this.isContactsSynced,
+    this.community
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
+    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading;
     return CashWalletViewModel(
       accountAddress: store.state.userState.accountAddress,
       walletAddress: store.state.cashWalletState.walletAddress,
       walletStatus: store.state.cashWalletState.walletStatus,
-      communityAddress: store.state.cashWalletState.communityAddress,
+      communityAddress: communityAddres,
       branchAddress: store.state.cashWalletState.branchAddress,
       isCommunityLoading: store.state.cashWalletState.isCommunityLoading,
       isCommunityFetched: store.state.cashWalletState.isCommunityFetched,
@@ -94,17 +125,18 @@ class CashWalletViewModel {
       isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted,
       isListeningToBranch: store.state.cashWalletState.isListeningToBranch,
       displayName: store.state.userState.displayName,
-      tokenBalance: store.state.cashWalletState.tokenBalance,
-      token: store.state.cashWalletState.token,
+      tokenBalance: community?.tokenBalance ?? BigInt.from(0),
+      token: community?.token,
       // tokenTransfers: store.state.cashWalletState.tokenTransfers,
       // pendingTransfers: store.state.cashWalletState.pendingTransfers,
-      transactions: store.state.cashWalletState.transactions,
+      transactions: community?.transactions ?? new Transactions(list: new List<Transaction>()),
       contacts: store.state.userState.contacts,
       reverseContacts: store.state.userState.reverseContacts,
       countryCode: store.state.userState.countryCode,
-      businesses: store.state.cashWalletState.businesses ?? [],
+      businesses: community?.businesses ?? [],
       isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,
       isContactsSynced: store.state.userState.isContactsSynced ?? false,
+      community: community,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
       },
@@ -119,9 +151,11 @@ class CashWalletViewModel {
         store.dispatch(switchCommunityCall(communityAddress));
       },
       startBalanceFetching: () {
+        if (isCommunityLoading) return;
         store.dispatch(startBalanceFetchingCall());
       },
       startTransfersFetching: () {
+        if (isCommunityLoading) return;
         store.dispatch(startTransfersFetchingCall());
       },
       listenToBranch: () {
@@ -149,6 +183,7 @@ class CashWalletViewModel {
         walletAddress == other.walletAddress &&
         walletStatus == other.walletStatus &&
         communityAddress == other.communityAddress &&
+        // community == other.community &&
         branchAddress == other.branchAddress &&
         isCommunityLoading == other.isCommunityLoading &&
         displayName == other.displayName &&
