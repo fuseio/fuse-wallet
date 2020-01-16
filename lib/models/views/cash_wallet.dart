@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:redux/redux.dart';
@@ -9,7 +10,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
 
-class CashHeaderViewModel {
+class CashHeaderViewModel extends Equatable {
   final Community community;
   final Function() firstName;
 
@@ -26,15 +27,11 @@ class CashHeaderViewModel {
       });
   }
 
-  bool operator == (other) {
-    if (other is CashHeaderViewModel) {
-      if (community == other.community) return true;
-    }
-    return false;
-  }
+  @override
+  List<Object> get props => [community];
 }
 
-class CashWalletViewModel {
+class CashWalletViewModel extends Equatable {
   final String accountAddress;
   final String walletAddress;
   final String communityAddress;
@@ -176,24 +173,18 @@ class CashWalletViewModel {
     );
   }
 
-  bool operator == (other) {
-    if (other is CashWalletViewModel) {
-      if (
-        accountAddress == other.accountAddress &&
-        walletAddress == other.walletAddress &&
-        walletStatus == other.walletStatus &&
-        communityAddress == other.communityAddress &&
-        // community == other.community &&
-        branchAddress == other.branchAddress &&
-        isCommunityLoading == other.isCommunityLoading &&
-        displayName == other.displayName &&
-        tokenBalance == other.tokenBalance &&
-        token == other.token &&
-        transactions == other.transactions &&
-        isListeningToBranch == other.isListeningToBranch
-      )
-      return true;
-    }
-    return false;
-  }
+  @override
+  List<Object> get props => [
+    accountAddress,
+    walletAddress,
+    walletStatus,
+    communityAddress,
+    branchAddress,
+    isCommunityLoading,
+    displayName,
+    tokenBalance,
+    token,
+    transactions,
+    isListeningToBranch,
+  ];
 }

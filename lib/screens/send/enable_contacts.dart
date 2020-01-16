@@ -1,8 +1,9 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/utils/permissions.dart';
+import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'dart:core';
 
@@ -16,6 +17,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<double> scaleAnimatoin;
+  bool isPreloading = false;
 
   @override
   void initState() {
@@ -35,9 +37,9 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
 
   @override
   Widget build(BuildContext _context) {
-    return new StoreConnector<AppState, ContactsViewModel>(converter: (store) {
-      return ContactsViewModel.fromStore(store);
-    }, builder: (_, viewModel) {
+    return new StoreConnector<AppState, ContactsViewModel>(
+    converter: ContactsViewModel.fromStore,
+    builder: (_, viewModel) {
       return ScaleTransition(
           scale: scaleAnimatoin,
           child: AlertDialog(
@@ -52,7 +54,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                   children: <Widget>[
                     const SizedBox(height: 50.0),
                     Padding(
-                      padding: const EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(10),
                       child: Container(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -112,13 +114,22 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             Center(
                                 child: PrimaryButton(
                               fontSize: 15,
+                              preload: isPreloading,
                               labelFontWeight: FontWeight.normal,
-                              // width: 160,
                               label: "Enable Contacts Access",
                               onPressed: () async {
-                                Navigator.of(context).pop();
-                                loadContacts(viewModel.syncContactsRejected,
-                                    viewModel.syncContacts);
+                                setState(() {
+                                  isPreloading = true;
+                                });
+                                bool premission = await ContactController.getPermissions();
+                                if (premission) {
+                                  List<Contact> contacts = await ContactController.getContacts();
+                                  viewModel.syncContacts(contacts);
+                                }
+                                Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+                                setState(() {
+                                  isPreloading = false;
+                                });
                               },
                             )),
                             Center(

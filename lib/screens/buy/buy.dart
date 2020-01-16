@@ -1,8 +1,9 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:fusecash/models/views/buy_page.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/bottombar.dart';
@@ -28,11 +29,9 @@ class _BuyScreenState extends State<BuyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, CashWalletViewModel>(
+    return new StoreConnector<AppState, BuyViewModel>(
         distinct: true,
-        converter: (store) {
-          return CashWalletViewModel.fromStore(store);
-        },
+        converter: BuyViewModel.fromStore,
         onInitialBuild: (viewModel) {
           viewModel.loadBusinesses();
         },
@@ -56,10 +55,8 @@ class BusinessesListView extends StatefulWidget {
 class BusinessesListViewState extends State<BusinessesListView> {
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, CashWalletViewModel>(
-      converter: (store) {
-        return CashWalletViewModel.fromStore(store);
-      },
+    return new StoreConnector<AppState, BuyViewModel>(
+      converter: BuyViewModel.fromStore,
       builder: (_, viewModel) {
         return Builder(
             builder: (context) => viewModel.isCommunityBusinessesFetched ? Padding(
@@ -104,7 +101,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                           child: ClipOval(
                                               child: viewModel.businesses[index].metadata
                                                 .image == null ? Image.asset('assets/images/anom.png') : Image.network(
-                                            viewModel.businesses[index].metadata
+                                            DotEnv().env['IPFS_BASE_URL'] + '/image/' + viewModel.businesses[index].metadata
                                                 .image,
                                             fit: BoxFit.cover,
                                             width: 50.0,

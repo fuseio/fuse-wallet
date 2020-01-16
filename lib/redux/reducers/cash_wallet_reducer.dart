@@ -1,5 +1,4 @@
 import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';

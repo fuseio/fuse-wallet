@@ -59,9 +59,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
-      converter: (store) {
-        return SendAmountViewModel.fromStore(store);
-      },
+      converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         return MainScaffold(
             withPadding: true,

@@ -81,9 +81,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
             padding: EdgeInsets.only(top: 0, bottom: 50, left: 30, right: 30),
             child: Form(
               child: new StoreConnector<AppState, CashWalletViewModel>(
-                converter: (store) {
-                  return CashWalletViewModel.fromStore(store);
-                },
+                converter: CashWalletViewModel.fromStore,
                 builder: (_, viewModel) {
                   return Builder(
                       builder: (context) => Column(

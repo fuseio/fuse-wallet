@@ -40,9 +40,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
-      converter: (store) {
-        return SendAmountViewModel.fromStore(store);
-      },
+      converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         _onKeyPress(VirtualKeyboardKey key) {
           if (key.keyType == VirtualKeyboardKeyType.String) {

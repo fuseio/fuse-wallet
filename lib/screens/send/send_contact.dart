@@ -9,7 +9,7 @@ import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/permissions.dart';
+import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
 import 'dart:math' as math;
@@ -116,9 +116,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
 
     if (this.mounted) {
       setState(() {
-        strList;
-        normalList;
-        strList;
+        strList = strList;
+        normalList = normalList;
+        strList = strList;
       });
     }
   }
@@ -420,15 +420,21 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
+  bool isSync = false;
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
-        converter: (Store<AppState> store) {
-          return ContactsViewModel.fromStore(store);
+        converter: ContactsViewModel.fromStore,
+        onInit: (Store<AppState> store) async {
+        bool isPermitted = await Contacts.checkPermissions();
+          setState(() {
+            isSync = isPermitted;
+          });
         },
         builder: (_, viewModel) {
-          if (!viewModel.isContactsSynced) {
+          if (!isSync) {
             return MainScaffold(
                 withPadding: true,
                 title: "Send to",
@@ -448,9 +454,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
                       Container(
                         padding: EdgeInsets.only(top: 20),
                         child: new InkWell(
-                          onTap: () => loadContacts(
-                              viewModel.syncContactsRejected,
-                              viewModel.syncContacts),
+                          onTap: () async {
+                            bool premission = await ContactController.getPermissions();
+                            if (premission) {
+                              List<Contact> contacts = await ContactController.getContacts();
+                              viewModel.syncContacts(contacts);
+                            }
+                          },
                           child: new Padding(
                             padding: new EdgeInsets.all(10.0),
                             child: new Text("Click here to sync your contacts"),

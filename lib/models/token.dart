@@ -8,12 +8,14 @@ class Token {
   final String name;
   final String symbol;
   final int decimals;
+  final String originNetwork;
 
   Token({
     this.address,
     this.name,
     this.symbol,
-    this.decimals
+    this.decimals,
+    this.originNetwork
   });
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);

@@ -223,6 +223,17 @@ ThunkAction setPincodeCall(String pincode) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final _webView = new InteractiveWebView();
+    print('Loading 3box webview for account $accountAddress');
+    final html = '''<html>
+        <head></head>
+        <script>
+          window.pk = '0x${store.state.userState.privateKey}';
+          window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}'};
+        </script>
+        <script src='https://3box.fuse.io/main.js'></script>
+        <body></body>
+      </html>''';
+    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
     Map publicData = {
       'account': accountAddress,
       'name': store.state.userState.displayName
@@ -238,20 +249,5 @@ ThunkAction create3boxAccountCall(accountAddress) {
     };
     print('save user $accountAddress');
     await api.saveUserToDb(user);
-    print('Loading 3box webview for account $accountAddress');
-    final html = '''<html>
-        <head></head>
-        <script>
-          window.pk = '0x${store.state.userState.privateKey}';
-          window.user = { 
-            account: '$accountAddress',
-            phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}',
-            name: ${store.state.userState.displayName}
-          };
-        </script>
-        <script src='https://3box.fuse.io/main.js'></script>
-        <body></body>
-      </html>''';
-    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
   };
 }

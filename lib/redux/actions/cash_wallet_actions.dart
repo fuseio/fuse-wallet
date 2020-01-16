@@ -101,9 +101,7 @@ class JoinCommunitySuccess {
 
 class AlreadyJoinedCommunity {
   final String communityAddress;
-  final String communityName;
-  final Token token;
-  AlreadyJoinedCommunity(this.communityAddress, this.communityName, this.token);
+  AlreadyJoinedCommunity(this.communityAddress);
 }
 
 class SwitchCommunityRequested {
@@ -599,14 +597,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
         //     jobId: 'joined',
         //     txHash: '');
         // store.dispatch(new AddTransaction(joined));
-        return store.dispatch(new AlreadyJoinedCommunity(
-            communityAddress,
-            community["name"],
-            new Token(
-                address: token["address"],
-                name: token["name"],
-                symbol: token["symbol"],
-                decimals: token["decimals"])));
+        return store.dispatch(new AlreadyJoinedCommunity(communityAddress));
       }
 
       dynamic response =
@@ -627,11 +618,6 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
             txHash: job.data['txHash']);
         store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
       }));
-      // return store.dispatch(new JoinCommunitySuccess(
-      //     txHash,
-      //     communityAddress,
-      //     community["name"],
-      //     new Token(address: token["address"], name: token["name"], symbol: token["symbol"], decimals: token["decimals"])));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not join community'));
@@ -669,6 +655,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
           communityAddress,
           community["name"],
           new Token(
+              originNetwork: token['originNetwork'],
               address: token["address"],
               name: token["name"],
               symbol: token["symbol"],
@@ -701,11 +688,13 @@ ThunkAction getBusinessListCall() {
       dynamic community = await graph
           .getCommunityByAddress(store.state.cashWalletState.communityAddress);
       List<Business> businessList = new List();
-      await Future.forEach(community['entitiesList']['communityEntities'],
-          (entity) async {
+      await Future.forEach(community['entitiesList']['communityEntities'], (entity) async {
         if (entity['isBusiness']) {
+          String communityAddres = store.state.cashWalletState.communityAddress;
+          Community community = store.state.cashWalletState.communities[communityAddres];
+          bool isOriginRopsten = community.token?.originNetwork != null ? community.token?.originNetwork == 'ropsten' : false;
           dynamic metadata = await api.getEntityMetadata(
-              store.state.cashWalletState.communityAddress, entity['address']);
+              store.state.cashWalletState.communityAddress, entity['address'], isRopsten: isOriginRopsten);
           entity['name'] = metadata['name'];
           entity['metadata'] = metadata;
           entity['account'] = entity['address'];

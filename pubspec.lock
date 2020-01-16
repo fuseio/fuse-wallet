@@ -225,6 +225,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.5"
+  equatable:
+    dependency: "direct main"
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -883,7 +890,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+51"
+    version: "0.0.1+52"
   watcher:
     dependency: transitive
     description:

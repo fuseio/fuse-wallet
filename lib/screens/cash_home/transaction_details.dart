@@ -45,9 +45,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
         ModalRoute.of(context).settings.arguments;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
-      converter: (store) {
-        return SendAmountViewModel.fromStore(store);
-      },
+      converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         dynamic displayName =
             deducePhoneNumber(args.transfer, args.reverseContacts);

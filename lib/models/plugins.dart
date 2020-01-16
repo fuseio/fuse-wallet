@@ -1,5 +1,3 @@
-import 'package:fusecash/models/user_state.dart';
-
 abstract class DepositPlugin {
   String name;
   bool isActive;

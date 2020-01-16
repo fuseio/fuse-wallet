@@ -86,6 +86,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     value) {
                                   return 'The word does not match';
                                 }
+                                return '';
                               },
                             ),
                             const SizedBox(height: 16.0),
@@ -101,6 +102,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     value) {
                                   return 'The word does not match';
                                 }
+                                return '';
                               },
                             ),
                             const SizedBox(height: 16.0),
@@ -116,6 +118,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     value) {
                                   return 'The word does not match';
                                 }
+                                return '';
                               },
                             )
                           ],

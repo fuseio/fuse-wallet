@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
 
 import '../common.dart';
 

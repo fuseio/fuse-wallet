@@ -5,7 +5,6 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
-import 'package:redux/redux.dart';
 
 class VerifyScreen extends StatefulWidget {
   @override
@@ -25,9 +24,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
-        converter: (Store<AppState> store) {
-          return OnboardViewModel.fromStore(store);
-        },
+        converter: OnboardViewModel.fromStore,
         onWillChange: (viewModel) {
           if (viewModel.loginVerifySuccess) {
             //Navigator.popUntil(context, ModalRoute.withName('/'));

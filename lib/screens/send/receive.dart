@@ -32,9 +32,8 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, CashWalletViewModel>(
-        converter: (store) {
-      return CashWalletViewModel.fromStore(store);
-    }, builder: (_, viewModel) {
+        converter: CashWalletViewModel.fromStore,
+        builder: (_, viewModel) {
       return MainScaffold(
         title: 'Receive',
         titleFontSize: 15,

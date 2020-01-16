@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:core';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
   static GlobalKey<ScaffoldState> scaffoldState;
 
   @override
-  Future initState() {
+  initState() {
     super.initState();
   }
 
