@@ -39,18 +39,20 @@ class _UserNameScreenState extends State<UserNameScreen> {
                     children: <Widget>[
                       Image.asset(
                         'assets/images/username.png',
+                        width: 95,
+                        height: 80,
                       ),
-                      const SizedBox(height: 40.0),
+                      const SizedBox(height: 20.0),
                       Text(
                         'Pick up your display name',
                         style: TextStyle(fontSize: 16),
                       ),
-                      const SizedBox(height: 40.0),
+                      const SizedBox(height: 10.0),
                       Text(
                           'This name will be shown to contacts that send you money to identify your account',
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 15)),
-                      const SizedBox(height: 40.0),
+                      const SizedBox(height: 10.0),
                       Container(
                         width: 280,
                         child: new Theme(
