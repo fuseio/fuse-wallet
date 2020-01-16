@@ -33,25 +33,29 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   bool isPreloading = false;
 
   loadContacts() async {
-    for (var contact in this.widget.viewModel.contacts) {
-      userList.add(contact);
-    }
-    userList.sort((a, b) =>
-        a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
-    filterList();
-    searchController.addListener(() {
+    bool premission = await ContactController.getPermissions();
+    if (premission) {
+      List<Contact> contacts = await ContactController.getContacts();
+      for (var contact in contacts) {
+        userList.add(contact);
+      }
+      userList.sort((a, b) =>
+          a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
       filterList();
-    });
+      searchController.addListener(() {
+        filterList();
+      });
 
-    setState(() {
-      isPreloading = false;
-    });
+      setState(() {
+        isPreloading = false;
+      });
+    }
   }
 
   @override
   void initState() {
-    loadContacts();
     super.initState();
+    loadContacts();
   }
 
   filterList() {
@@ -377,14 +381,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       ],
     );
   }
-}
-
-class User {
-  final String name;
-  final String company;
-  final bool favourite;
-
-  User(this.name, this.company, this.favourite);
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {

@@ -52,9 +52,9 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    const SizedBox(height: 50.0),
+                    const SizedBox(height: 20.0),
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
                       child: Container(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +102,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                   Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: Text(
-                                      'Your contacts will not be saved on our server and this action will not send \n them any massages',
+                                      'Your contacts will not be saved on our \n server and this action will not send  \n them any massages',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 13),
                                     ),
@@ -136,7 +136,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                               child: FlatButton(
                                 padding: EdgeInsets.only(top: 10),
                                 onPressed: () {
-                                  Navigator.of(context).pop();
+                                  Navigator.popUntil(context, ModalRoute.withName('/Cash'));
                                 },
                                 child: Text(
                                   "Skip",
@@ -145,7 +145,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 50.0),
+                            const SizedBox(height: 10.0),
                           ],
                         ),
                       ),
