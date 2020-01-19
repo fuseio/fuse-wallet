@@ -19,8 +19,8 @@ void showAlert(BuildContext context) {
 
 void onChange(CashWalletViewModel viewModel, BuildContext context) async {
   if (!viewModel.isListeningToBranch &&
-      !viewModel.isCommunityLoading &&
-      viewModel.isCommunityLoading != null) {
+      viewModel.isCommunityLoading != null &&
+      !viewModel.isCommunityLoading) {
     viewModel.listenToBranch();
   }
   if (!viewModel.isCommunityLoading &&

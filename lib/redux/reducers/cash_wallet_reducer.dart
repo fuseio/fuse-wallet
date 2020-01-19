@@ -41,11 +41,12 @@ final cashWalletReducers = combineReducers<CashWalletState>([
 ]);
 
 CashWalletState _setDefaultCommunity(CashWalletState state, SetDefaultCommunity action) {
+  String defaultCommunityAddress = action.defaultCommunity.toLowerCase();
   Community current = new Community.initial();
-  Community defaultCom = current.copyWith(address: action.defaultCommunity);
+  Community defaultCom = current.copyWith(address: defaultCommunityAddress);
   Map<String, Community> newOne = Map<String, Community>.from(state.communities);
-  newOne[action.defaultCommunity] = defaultCom;
-  return state.copyWith(communityAddress: action.defaultCommunity, communities: newOne);
+  newOne[defaultCommunityAddress] = defaultCom;
+  return state.copyWith(communityAddress: defaultCommunityAddress, communities: newOne);
 }
 
 CashWalletState _initWeb3Success(CashWalletState state, InitWeb3Success action) {
@@ -83,28 +84,38 @@ CashWalletState _sendTokenSuccess(CashWalletState state, SendTokenSuccess action
 }
 
 CashWalletState _joinCommunitySuccess(CashWalletState state, JoinCommunitySuccess action) {
+  String communityAddress = action.communityAddress.toLowerCase();
   print('join community ${action.communityAddress} - ${action.txHash} sent');
-  Community current = state.communities[action.communityAddress];
+  Community current = state.communities[communityAddress];
   Community newCommunity = current.copyWith(isMember: true);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
-  newOne[action.communityAddress] = newCommunity;
+  newOne[communityAddress] = newCommunity;
   return state.copyWith(communities: newOne);
 }
 
 CashWalletState _alreadyJoinedCommunity(CashWalletState state, AlreadyJoinedCommunity action) {
-  Community current = state.communities[action.communityAddress];
-  Community newCommunity = current.copyWith(isMember: true);
-  Map<String, Community> newOne = Map<String, Community>.from(state.communities);
-  newOne[action.communityAddress] = newCommunity;
-  return state.copyWith(communities: newOne);
+  String communityAddress = action.communityAddress.toLowerCase();
+  if (state.communities.containsKey(communityAddress)) {
+    Community current = state.communities[communityAddress];
+    if (!current.isMember) {
+      Community newCommunity = current?.copyWith(isMember: true);
+      Map<String, Community> newOne = Map<String, Community>.from(state.communities);
+      newOne[communityAddress] = newCommunity;
+      return state.copyWith(communities: newOne);
+    }
+    return state;
+  } else {
+    return state;
+  }
 }
 
 CashWalletState _switchCommunitySuccess(CashWalletState state, SwitchCommunitySuccess action) {
-  Community current = state.communities[action.communityAddress];
+  String communityAddress = action.communityAddress.toLowerCase();
+  Community current = state.communities[communityAddress];
   Community newCommunity = current.copyWith(plugins: action.plugins, token: action.token, name: action.communityName);
   Map<String, Community> newOne = Map<String, Community>.from(state.communities);
-  newOne[action.communityAddress] = newCommunity;
+  newOne[communityAddress] = newCommunity;
   return state.copyWith(
     isCommunityLoading: false,
     isCommunityFetched: true,
@@ -176,21 +187,24 @@ CashWalletState _logoutSuccess(CashWalletState state, LogoutRequestSuccess actio
 }
 
 CashWalletState _switchCommunityRequest( CashWalletState state, SwitchCommunityRequested action) {
-  if (state.communityAddress != action.communityAddress) {
-    if (state.communities.containsKey(action.communityAddress)) {
-      return state.copyWith(isCommunityLoading: true, communityAddress: action.communityAddress);
+  String communityAddress = action.communityAddress.toLowerCase();
+  String currentAddress = state.communityAddress.toLowerCase();
+  if (currentAddress != communityAddress) {
+    if (state.communities.containsKey(communityAddress)) {
+      return state.copyWith(isCommunityLoading: true, communityAddress: communityAddress, branchAddress: "");
     } else {
       Community current = new Community.initial();
-      Community defaultCom = current.copyWith(address: action.communityAddress);
+      Community defaultCom = current.copyWith(address: communityAddress);
       Map<String, Community> newOne = Map<String, Community>.from(state.communities);
-      newOne[action.communityAddress] = defaultCom;
+      newOne[communityAddress] = defaultCom;
       return state.copyWith(
+          branchAddress: "",
           isCommunityLoading: true,
-          communityAddress: action.communityAddress,
+          communityAddress: communityAddress,
           communities: newOne);
     }
   } else {
-    return state;
+    return state.copyWith(branchAddress: "");
   }
 }
 CashWalletState _branchCommunityUpdate(

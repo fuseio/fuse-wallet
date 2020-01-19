@@ -145,7 +145,7 @@ class CashWalletState {
   static CashWalletState fromJson(dynamic json) {
     Map<String, Community> communities = new Map<String, Community>();
     Iterable<MapEntry<String, Community>> entries =
-        List.from(json['communities']).map((community) => new MapEntry(community['address'], Community.fromJson(community)));
+        List.from(json['communities']).map((community) => new MapEntry((community['address'] as String).toLowerCase(), Community.fromJson(community)));
     communities.addEntries(entries);
     return CashWalletState(
         web3: null,
@@ -154,7 +154,7 @@ class CashWalletState {
         communityAddress: json['communityAddress'],
         branchAddress: json['branchAddress'],
         communityName: json['communityName'],
-        isCommunityLoading: json['isCommunityLoading'],
+        isCommunityLoading: json['isCommunityLoading'] ?? false,
         isCommunityFetched: false,
         isCommunityBusinessesFetched: false,
         isBalanceFetchingStarted: false,
