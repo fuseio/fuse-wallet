@@ -100,7 +100,10 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                           decoration: BoxDecoration(),
                                           child: ClipOval(
                                               child: viewModel.businesses[index].metadata
-                                                .image == null ? Image.asset('assets/images/anom.png') : Image.network(
+                                                .image == null || viewModel.businesses[index].metadata
+                                                .image == '' ? Image.network(
+                              'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
+                            ) : Image.network(
                                             DotEnv().env['IPFS_BASE_URL'] + '/image/' + viewModel.businesses[index].metadata
                                                 .image,
                                             fit: BoxFit.cover,
