@@ -76,7 +76,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                         if (value.split(" ").length != 12) {
                           return 'Please enter 12 words';
                         }
-                        return '';
+                        return null;
                       },
                     )
                   ],

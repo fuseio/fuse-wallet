@@ -86,7 +86,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     value) {
                                   return 'The word does not match';
                                 }
-                                return '';
+                                return null;
                               },
                             ),
                             const SizedBox(height: 16.0),
@@ -102,7 +102,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     value) {
                                   return 'The word does not match';
                                 }
-                                return '';
+                                return null;
                               },
                             ),
                             const SizedBox(height: 16.0),
@@ -118,7 +118,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     value) {
                                   return 'The word does not match';
                                 }
-                                return '';
+                                return null;
                               },
                             )
                           ],
@@ -138,7 +138,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                 width: 160,
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    Navigator.pushNamed(context, '/Cash');
+                    Navigator.popUntil(context, ModalRoute.withName('/Cash'));
                   }
                 },
               )),

@@ -159,7 +159,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                   TransparentButton(
                       label: "Skip",
                       onPressed: () {
-                        Navigator.pushNamed(context, '/Cash');
+                        Navigator.pushReplacementNamed(context, '/Cash');
                       }),
                   const SizedBox(height: 30.0),
                 ],
