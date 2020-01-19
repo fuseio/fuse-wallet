@@ -890,7 +890,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+52"
+    version: "0.0.1+53"
   watcher:
     dependency: transitive
     description:
