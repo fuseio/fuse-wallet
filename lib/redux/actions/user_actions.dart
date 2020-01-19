@@ -180,11 +180,10 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
     List<String> syncedContacts = store.state.userState.syncedContacts;
     List<String> newPhones = new List<String>();
     for (Contact contact in contacts) {
-      for (Item phone in contact.phones) {
-        String phoneNumber =
-            formatPhoneNumber(phone.value, store.state.userState.countryCode);
-        if (!syncedContacts.contains(phoneNumber)) {
-          newPhones.add(phoneNumber);
+      List<String> uniquePhone = contact.phones.map((Item phone) => formatPhoneNumber(phone.value, store.state.userState.countryCode)).toSet().toList();
+      for (String phone in uniquePhone) {
+        if (!syncedContacts.contains(phone)) {
+          newPhones.add(phone);
         }
       }
     }
