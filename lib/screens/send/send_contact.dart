@@ -33,6 +33,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   bool isPreloading = false;
 
   loadContacts() async {
+    if (this.mounted) {
+      setState(() {
+        isPreloading = true;
+      });
+    }
     bool premission = await ContactController.getPermissions();
     if (premission) {
       List<Contact> contacts = await ContactController.getContacts();
@@ -46,9 +51,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         filterList();
       });
 
-      setState(() {
-        isPreloading = false;
-      });
+      if (this.mounted) {
+        setState(() {
+          isPreloading = false;
+        });
+      }
     }
   }
 
@@ -109,7 +116,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         avatar: user.avatar != null && user.avatar.isNotEmpty
                             ? MemoryImage(user.avatar)
                             : new AssetImage('assets/images/anom.png'),
-                        phoneNumber: user.phones.toList()[0].value));
+                        phoneNumber: user.phones.first.value));
               },
             ),
           ),
@@ -424,7 +431,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
         distinct: true,
         converter: ContactsViewModel.fromStore,
         onInit: (Store<AppState> store) async {
-        bool isPermitted = await Contacts.checkPermissions();
+          bool isPermitted = await Contacts.checkPermissions();
           setState(() {
             isSync = isPermitted;
           });
