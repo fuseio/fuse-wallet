@@ -19,7 +19,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamed(context, '/Cash');
+      Navigator.pushReplacementNamed(context, '/Cash');
     });
   }
 

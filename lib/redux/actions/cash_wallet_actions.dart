@@ -101,9 +101,7 @@ class JoinCommunitySuccess {
 
 class AlreadyJoinedCommunity {
   final String communityAddress;
-  final String communityName;
-  final Token token;
-  AlreadyJoinedCommunity(this.communityAddress, this.communityName, this.token);
+  AlreadyJoinedCommunity(this.communityAddress);
 }
 
 class SwitchCommunityRequested {
@@ -231,24 +229,52 @@ ThunkAction segmentIdentifyCall(userId, {Map<String, dynamic> traits}) {
 ThunkAction listenToBranchCall() {
   return (Store store) async {
     logger.wtf("branch listening.");
-    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) async {
-      var linkData = jsonDecode(stringData);
-      logger.wtf("linkData $linkData");
+    store.dispatch(BranchListening());
 
-      if (linkData["~feature"] == "switch_community") {
-        store.dispatch(segmentTrackCall("Branch Switch Community",
-            properties: new Map<String, dynamic>.from(linkData)));
-        var communityAddress = linkData["community_id"];
-        logger.wtf("communityAddress $communityAddress");
-        store.dispatch(BranchCommunityToUpdate(communityAddress));
-      }
-      if (linkData["~feature"] == "invite_user") {
-        store.dispatch(segmentTrackCall("Branch Invite User",
-            properties: new Map<String, dynamic>.from(linkData)));
-        var communityAddress = linkData["community_address"];
-        logger.wtf("community_address $communityAddress");
-        store.dispatch(BranchCommunityToUpdate(communityAddress));
-      }
+    FlutterAndroidLifecycle.listenToOnStartStream().listen((stringData) {
+      logger.wtf("ONSTART");
+      logger.wtf("Listen To On Start Stream Branch.io");
+      FlutterBranchIoPlugin.setupBranchIO();
+      logger.wtf("stringData $stringData");
+    }, onDone: () {
+      store.dispatch(listenToBranchCall());
+    }, onError: (error) {
+      logger.wtf("error, $error");
+      store.dispatch(listenToBranchCall());
+    });
+
+    await Future.delayed(Duration(microseconds: 500), () {
+      FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) async {
+        var linkData = jsonDecode(stringData);
+        logger.wtf("Listen To On Deep Link Stream Branch.io");
+        logger.wtf("linkData $linkData");
+
+        if (linkData["~feature"] == "switch_community") {
+          var communityAddress = linkData["community_address"];
+          logger.wtf("communityAddress $communityAddress");
+          store.dispatch(BranchCommunityToUpdate(communityAddress));
+          store.dispatch(segmentTrackCall("Branch Switch Community",
+              properties: new Map<String, dynamic>.from(linkData)));
+        }
+        if (linkData["~feature"] == "invite_user") {
+          var communityAddress = linkData["community_address"];
+          logger.wtf("community_address $communityAddress");
+          store.dispatch(BranchCommunityToUpdate(communityAddress));
+          store.dispatch(segmentTrackCall("Branch Invite User",
+              properties: new Map<String, dynamic>.from(linkData)));
+        }
+      }, onDone: () {
+        logger.wtf("ondone");
+        store.dispatch(listenToBranchCall());
+      }, onError: (error) {
+        logger.wtf("error, $error");
+        store.dispatch(listenToBranchCall());
+      });
+    });
+
+    FlutterAndroidLifecycle.listenToOnResumeStream().listen((stringData) async {
+      logger.wtf("Listen To On Resume Stream Branch.io");
+      logger.wtf("stringData $stringData");
     }, onDone: () {
       logger.wtf("ondone");
       store.dispatch(listenToBranchCall());
@@ -256,15 +282,6 @@ ThunkAction listenToBranchCall() {
       logger.wtf("error, $error");
       store.dispatch(listenToBranchCall());
     });
-
-    if (Platform.isAndroid) {
-      FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-        logger.d("ONSTART");
-        FlutterBranchIoPlugin.setupBranchIO();
-      });
-    }
-
-    store.dispatch(BranchListening());
   };
 }
 
@@ -599,14 +616,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
         //     jobId: 'joined',
         //     txHash: '');
         // store.dispatch(new AddTransaction(joined));
-        return store.dispatch(new AlreadyJoinedCommunity(
-            communityAddress,
-            community["name"],
-            new Token(
-                address: token["address"],
-                name: token["name"],
-                symbol: token["symbol"],
-                decimals: token["decimals"])));
+        return store.dispatch(new AlreadyJoinedCommunity(communityAddress));
       }
 
       dynamic response =
@@ -627,11 +637,6 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
             txHash: job.data['txHash']);
         store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
       }));
-      // return store.dispatch(new JoinCommunitySuccess(
-      //     txHash,
-      //     communityAddress,
-      //     community["name"],
-      //     new Token(address: token["address"], name: token["name"], symbol: token["symbol"], decimals: token["decimals"])));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not join community'));
@@ -669,6 +674,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
           communityAddress,
           community["name"],
           new Token(
+              originNetwork: token['originNetwork'],
               address: token["address"],
               name: token["name"],
               symbol: token["symbol"],
@@ -701,11 +707,13 @@ ThunkAction getBusinessListCall() {
       dynamic community = await graph
           .getCommunityByAddress(store.state.cashWalletState.communityAddress);
       List<Business> businessList = new List();
-      await Future.forEach(community['entitiesList']['communityEntities'],
-          (entity) async {
+      await Future.forEach(community['entitiesList']['communityEntities'], (entity) async {
         if (entity['isBusiness']) {
+          String communityAddres = store.state.cashWalletState.communityAddress;
+          Community community = store.state.cashWalletState.communities[communityAddres];
+          bool isOriginRopsten = community.token?.originNetwork != null ? community.token?.originNetwork == 'ropsten' : false;
           dynamic metadata = await api.getEntityMetadata(
-              store.state.cashWalletState.communityAddress, entity['address']);
+              store.state.cashWalletState.communityAddress, entity['address'], isRopsten: isOriginRopsten);
           entity['name'] = metadata['name'];
           entity['metadata'] = metadata;
           entity['account'] = entity['address'];

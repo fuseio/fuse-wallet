@@ -1,9 +1,8 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/token.dart';
-import 'dart:core';
-
-import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 
 class BusinessRouteArguments {
@@ -47,12 +46,19 @@ class _BusinessPageState extends State<BusinessPage> {
                 child: ListView(children: <Widget>[
                   Stack(
                     children: <Widget>[
-                      businessArgs.business.metadata.coverPhoto == null ? Container() : Image.network(
-                        businessArgs.business.metadata.coverPhoto,
-                        fit: BoxFit.cover,
-                        //width: 50.0,
-                        //height: 50.0,
-                      )
+                      businessArgs.business.metadata.coverPhoto == null ||
+                              businessArgs.business.metadata.coverPhoto == ''
+                          ? Image.network(
+                              'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
+                            )
+                          : Image.network(
+                              DotEnv().env['IPFS_BASE_URL'] +
+                                  '/image/' +
+                                  businessArgs.business.metadata.coverPhoto,
+                              fit: BoxFit.cover,
+                              //width: 50.0,
+                              //height: 50.0,
+                            )
                     ],
                   ),
                   Container(
@@ -90,8 +96,8 @@ class _BusinessPageState extends State<BusinessPage> {
                             fontWeight: FontWeight.normal)),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.only(top: 0, bottom: 0, left: 100, right: 100),
+                    padding: EdgeInsets.only(
+                        top: 0, bottom: 0, left: 100, right: 100),
                     child: Container(
                         width: 100,
                         child: FlatButton(

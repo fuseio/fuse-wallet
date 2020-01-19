@@ -5,7 +5,6 @@ import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
@@ -16,9 +15,7 @@ class CashHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashHeaderViewModel>(
-        converter: (Store<AppState> store) {
-      return CashHeaderViewModel.fromStore(store);
-    },
+    converter: CashHeaderViewModel.fromStore,
     builder: (_, viewModel) {
       return Container(
         height: 260.0,

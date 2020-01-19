@@ -180,11 +180,10 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
     List<String> syncedContacts = store.state.userState.syncedContacts;
     List<String> newPhones = new List<String>();
     for (Contact contact in contacts) {
-      for (Item phone in contact.phones) {
-        String phoneNumber =
-            formatPhoneNumber(phone.value, store.state.userState.countryCode);
-        if (!syncedContacts.contains(phoneNumber)) {
-          newPhones.add(phoneNumber);
+      List<String> uniquePhone = contact.phones.map((Item phone) => formatPhoneNumber(phone.value, store.state.userState.countryCode)).toSet().toList();
+      for (String phone in uniquePhone) {
+        if (!syncedContacts.contains(phone)) {
+          newPhones.add(phone);
         }
       }
     }
@@ -223,6 +222,17 @@ ThunkAction setPincodeCall(String pincode) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final _webView = new InteractiveWebView();
+    print('Loading 3box webview for account $accountAddress');
+    final html = '''<html>
+        <head></head>
+        <script>
+          window.pk = '0x${store.state.userState.privateKey}';
+          window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}'};
+        </script>
+        <script src='https://3box.fuse.io/main.js'></script>
+        <body></body>
+      </html>''';
+    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
     Map publicData = {
       'account': accountAddress,
       'name': store.state.userState.displayName
@@ -238,20 +248,5 @@ ThunkAction create3boxAccountCall(accountAddress) {
     };
     print('save user $accountAddress');
     await api.saveUserToDb(user);
-    print('Loading 3box webview for account $accountAddress');
-    final html = '''<html>
-        <head></head>
-        <script>
-          window.pk = '0x${store.state.userState.privateKey}';
-          window.user = { 
-            account: '$accountAddress',
-            phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}',
-            name: ${store.state.userState.displayName}
-          };
-        </script>
-        <script src='https://3box.fuse.io/main.js'></script>
-        <body></body>
-      </html>''';
-    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
   };
 }

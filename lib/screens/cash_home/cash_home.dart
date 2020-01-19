@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/screens/send/enable_contacts.dart';
+import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/widgets/main_scaffold2.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_header.dart';
 import 'cash_transactions.dart';
@@ -18,10 +17,10 @@ void showAlert(BuildContext context) {
   showDialog(child: new ContactsConfirmationScreen(), context: context);
 }
 
-void onChange(CashWalletViewModel viewModel, BuildContext context) {
+void onChange(CashWalletViewModel viewModel, BuildContext context) async {
   if (!viewModel.isListeningToBranch &&
-      !viewModel.isCommunityLoading &&
-      viewModel.isCommunityLoading != null) {
+      viewModel.isCommunityLoading != null &&
+      !viewModel.isCommunityLoading) {
     viewModel.listenToBranch();
   }
   if (!viewModel.isCommunityLoading &&
@@ -37,7 +36,7 @@ void onChange(CashWalletViewModel viewModel, BuildContext context) {
       viewModel.isListeningToBranch &&
       viewModel.walletAddress != '') {
     viewModel.switchCommunity(viewModel.communityAddress);
-    if (!viewModel.isContactsSynced) {
+    if (!(await Contacts.checkPermissions())) {
       Future.delayed(Duration.zero, () => showAlert(context));
     }
   }
@@ -61,13 +60,11 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashWalletViewModel>(
         distinct: true,
-        converter: (Store<AppState> store) {
-          return CashWalletViewModel.fromStore(store);
-        },
-        onInitialBuild: (viewModel) {
+        converter: CashWalletViewModel.fromStore,
+        onInitialBuild: (viewModel) async {
           onChange(viewModel, context);
         },
-        onWillChange: (viewModel) {
+        onWillChange: (viewModel) async {
           onChange(viewModel, context);
         },
         builder: (_, viewModel) {

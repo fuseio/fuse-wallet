@@ -43,9 +43,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   Widget build(BuildContext _context) {
     return Drawer(
       child: new StoreConnector<AppState, DrawerViewModel>(
-        converter: (store) {
-          return DrawerViewModel.fromStore(store);
-        },
+        converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
           List depositPlugins = viewModel.plugins.getDepositPlugins();
           dynamic widgets = <Widget>[

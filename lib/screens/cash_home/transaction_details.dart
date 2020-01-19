@@ -1,11 +1,10 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/transaction.dart';
+import 'package:fusecash/models/views/send_amount.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
@@ -45,9 +44,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
         ModalRoute.of(context).settings.arguments;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
-      converter: (store) {
-        return SendAmountViewModel.fromStore(store);
-      },
+      converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         dynamic displayName =
             deducePhoneNumber(args.transfer, args.reverseContacts);
@@ -190,34 +187,6 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
         );
       },
     );
-  }
-}
-
-class SendAmountViewModel {
-  final String myCountryCode;
-  final Function(String, num, VoidCallback, VoidCallback) sendToContact;
-  final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
-
-  SendAmountViewModel(
-      {this.myCountryCode, this.sendToContact, this.sendToAccountAddress});
-
-  static SendAmountViewModel fromStore(Store<AppState> store) {
-    return SendAmountViewModel(
-        myCountryCode: store.state.userState.countryCode,
-        sendToContact: (String phoneNumber,
-            num amount,
-            VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
-          store.dispatch(sendTokenToContactCall(
-              phoneNumber, amount, sendSuccessCallback, sendFailureCallback));
-        },
-        sendToAccountAddress: (String recieverAddress,
-            num amount,
-            VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
-          store.dispatch(sendTokenCall(recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback));
-        });
   }
 }
 

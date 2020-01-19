@@ -1,8 +1,9 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/utils/permissions.dart';
+import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'dart:core';
 
@@ -16,6 +17,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<double> scaleAnimatoin;
+  bool isPreloading = false;
 
   @override
   void initState() {
@@ -35,9 +37,9 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
 
   @override
   Widget build(BuildContext _context) {
-    return new StoreConnector<AppState, ContactsViewModel>(converter: (store) {
-      return ContactsViewModel.fromStore(store);
-    }, builder: (_, viewModel) {
+    return new StoreConnector<AppState, ContactsViewModel>(
+    converter: ContactsViewModel.fromStore,
+    builder: (_, viewModel) {
       return ScaleTransition(
           scale: scaleAnimatoin,
           child: AlertDialog(
@@ -50,9 +52,9 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    const SizedBox(height: 50.0),
+                    const SizedBox(height: 20.0),
                     Padding(
-                      padding: const EdgeInsets.all(0),
+                      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
                       child: Container(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +102,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                   Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: Text(
-                                      'Your contacts will not be saved on our server and this action will not send \n them any massages',
+                                      'Your contacts will not be saved on our \n server and this action will not send  \n them any massages',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 13),
                                     ),
@@ -112,20 +114,29 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             Center(
                                 child: PrimaryButton(
                               fontSize: 15,
+                              preload: isPreloading,
                               labelFontWeight: FontWeight.normal,
-                              // width: 160,
                               label: "Enable Contacts Access",
                               onPressed: () async {
-                                Navigator.of(context).pop();
-                                loadContacts(viewModel.syncContactsRejected,
-                                    viewModel.syncContacts);
+                                setState(() {
+                                  isPreloading = true;
+                                });
+                                bool premission = await ContactController.getPermissions();
+                                if (premission) {
+                                  List<Contact> contacts = await ContactController.getContacts();
+                                  viewModel.syncContacts(contacts);
+                                }
+                                Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+                                setState(() {
+                                  isPreloading = false;
+                                });
                               },
                             )),
                             Center(
                               child: FlatButton(
                                 padding: EdgeInsets.only(top: 10),
                                 onPressed: () {
-                                  Navigator.of(context).pop();
+                                  Navigator.popUntil(context, ModalRoute.withName('/Cash'));
                                 },
                                 child: Text(
                                   "Skip",
@@ -134,7 +145,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 50.0),
+                            const SizedBox(height: 10.0),
                           ],
                         ),
                       ),

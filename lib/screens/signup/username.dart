@@ -4,7 +4,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
-import 'package:redux/redux.dart';
 
 class UserNameScreen extends StatefulWidget {
   @override
@@ -25,9 +24,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
-        converter: (Store<AppState> store) {
-          return OnboardViewModel.fromStore(store);
-        },
+        converter: OnboardViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
               backgroundColor: Colors.white,
@@ -37,23 +34,25 @@ class _UserNameScreenState extends State<UserNameScreen> {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
-                      left: 30.0, right: 30.0, bottom: 20.0, top: 10.0),
+                      left: 30.0, right: 30.0, bottom: 0, top: 10.0),
                   child: Column(
                     children: <Widget>[
                       Image.asset(
                         'assets/images/username.png',
+                        width: 95,
+                        height: 80,
                       ),
-                      const SizedBox(height: 40.0),
+                      const SizedBox(height: 20.0),
                       Text(
                         'Pick up your display name',
                         style: TextStyle(fontSize: 16),
                       ),
-                      const SizedBox(height: 40.0),
+                      const SizedBox(height: 10.0),
                       Text(
                           'This name will be shown to contacts that send you money to identify your account',
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 15)),
-                      const SizedBox(height: 80.0),
+                      const SizedBox(height: 10.0),
                       Container(
                         width: 280,
                         child: new Theme(
@@ -78,6 +77,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                 ),
               ],
               footer: Container(
+                padding: EdgeInsets.only(top: 20),
                   child: Column(children: <Widget>[
                 Center(
                   child: PrimaryButton(

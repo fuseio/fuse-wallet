@@ -5,7 +5,6 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
-import 'package:redux/redux.dart';
 
 class VerifyScreen extends StatefulWidget {
   @override
@@ -25,9 +24,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
-        converter: (Store<AppState> store) {
-          return OnboardViewModel.fromStore(store);
-        },
+        converter: OnboardViewModel.fromStore,
         onWillChange: (viewModel) {
           if (viewModel.loginVerifySuccess) {
             //Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -44,42 +41,46 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       left: 20.0, right: 20.0, bottom: 20.0, top: 10.0),
-                  child: Text(
-                      "We just sent a message to \n" +
-                          "${viewModel.countryCode} ${viewModel.phoneNumber}" +
-                          "\n\n" +
-                          "Please enter 6-digit code from\n that message here",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                      )),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                          "We just sent a message to \n" +
+                              "${viewModel.countryCode} ${viewModel.phoneNumber}" +
+                              "\n\n" +
+                              "Please enter 6-digit code from\n that message here",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 0.0, top: 10.0, right: 0.0),
+                        child: Container(
+                          width: 280,
+                          child: new Theme(
+                              data: new ThemeData(hintColor: Colors.white),
+                              child: PinInputTextField(
+                                pinLength: 6,
+                                decoration: UnderlineDecoration(
+                                  color: Color(0xFFDDDDDD),
+                                  enteredColor: Color(0xFF575757),
+                                ),
+                                controller: verificationCodeController,
+                                autoFocus: true,
+                                textInputAction: TextInputAction.go,
+                                onSubmit: (pin) {},
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ],
               footer: Container(
                   child: Column(children: <Widget>[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 0.0, top: 50.0, right: 0.0),
-                  child: Container(
-                    width: 280,
-                    child: new Theme(
-                        data: new ThemeData(hintColor: Colors.white),
-                        child: PinInputTextField(
-                          pinLength: 6,
-                          decoration: UnderlineDecoration(
-                            color: Color(0xFFDDDDDD),
-                            enteredColor: Color(0xFF575757),
-                          ),
-                          controller: verificationCodeController,
-                          autoFocus: true,
-                          textInputAction: TextInputAction.go,
-                          onSubmit: (pin) {},
-                        )),
-                  ),
-                ),
-                const SizedBox(height: 40.0),
+                const SizedBox(height: 10.0),
                 Center(
                   child: PrimaryButton(
                     label: "Next",
