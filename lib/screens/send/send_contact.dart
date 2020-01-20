@@ -41,6 +41,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     bool premission = await ContactController.getPermissions();
     if (premission) {
       List<Contact> contacts = await ContactController.getContacts();
+      this.widget.viewModel.syncContacts(contacts);
       for (var contact in contacts) {
         userList.add(contact);
       }
