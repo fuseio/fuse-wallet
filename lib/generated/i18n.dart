@@ -33,7 +33,7 @@ class I18n implements WidgetsLocalizations {
   TextDirection get textDirection => TextDirection.ltr;
 
   /// "Hi"
-  String get hi => "Hello";
+  String get hi => "Hi";
   /// "Balance"
   String get balance => "Balance";
 }
@@ -45,11 +45,41 @@ class _I18n_en_US extends I18n {
   TextDirection get textDirection => TextDirection.ltr;
 }
 
+class _I18n_he_IL extends I18n {
+  const _I18n_he_IL();
+
+  /// "שלום"
+  @override
+  String get hi => "שלום";
+  /// "מאזן"
+  @override
+  String get balance => "מאזן";
+
+  @override
+  TextDirection get textDirection => TextDirection.rtl;
+}
+
+class _I18n_es_ES extends I18n {
+  const _I18n_es_ES();
+
+  /// "Hola"
+  @override
+  String get hi => "Hola";
+  /// "Equilibrar"
+  @override
+  String get balance => "Equilibrar";
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+}
+
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocalizations> {
   const GeneratedLocalizationsDelegate();
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale("en", "US")
+      Locale("en", "US"),
+      Locale("he", "IL"),
+      Locale("es", "ES")
     ];
   }
 
@@ -72,8 +102,20 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     if ("en_US" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
     }
+    else if ("he_IL" == lang) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_he_IL());
+    }
+    else if ("es_ES" == lang) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_es_ES());
+    }
     else if ("en" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
+    }
+    else if ("he" == languageCode) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_he_IL());
+    }
+    else if ("es" == languageCode) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_es_ES());
     }
 
     return SynchronousFuture<WidgetsLocalizations>(const I18n());

@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/screens/cash_home/deposit_webview.dart';
+import 'package:fusecash/widgets/language-selector.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 
@@ -80,6 +81,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             getListTile("About", () {
               Navigator.pushNamed(context, '/About');
             }),
+            new LanguageSelector(),
             //Divider(),
             getListTile("Log out", () {
               viewModel.logout();

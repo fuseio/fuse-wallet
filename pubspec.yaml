@@ -3,7 +3,11 @@ version: 1.0.5
 description: A new Flutter project.
 environment: 
   sdk: '>=2.1.0 <3.0.0'
-dependencies: 
+dependencies:
+  ez_flutter: 
+    git: 
+      url: https://github.com/fuseio/EZ-Flutter.git
+  # ez_flutter: ^0.4.1
   equatable: ^1.0.2
   package_info: ^0.4.0+13
   interactive_webview: ^0.1.2
@@ -19,8 +23,10 @@ dependencies:
   redux_persist: ^0.8.2
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
-  wallet_core: ^0.0.1+53
-  alphabet_list_scroll_view: ^1.0.5
+  # wallet_core: ^0.0.1+53
+  wallet_core:
+    path: ../wallet_core
+  # alphabet_list_scroll_view: 1.0.5
   barcode_scan: ^1.0.0
   flutter_slidable: 0.5.4
   contacts_service: ^0.3.9
@@ -41,6 +47,9 @@ dependencies:
       ref: optional_branch_bug_fix
   flutter: 
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_cupertino_localizations: ^1.0.1
 dev_dependencies: 
   flutter_launcher_icons: ^0.7.4
   build_runner: ^1.0.0

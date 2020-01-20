@@ -50,8 +50,7 @@ Future<Store<AppState>> createReduxStore() async {
 
   final persistor = Persistor<AppState>(
     storage: SecureStorage(storage = storage),
-    serializer: JsonSerializer<AppState>(AppState.fromJson),
-    debug: DotEnv().env['MODE'] == 'development'
+    serializer: JsonSerializer<AppState>(AppState.fromJson)
   );
 
   AppState initialState;
