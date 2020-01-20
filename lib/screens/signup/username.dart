@@ -53,45 +53,41 @@ class _UserNameScreenState extends State<UserNameScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 15)),
                       const SizedBox(height: 10.0),
-                      Container(
-                        width: 280,
-                        child: new Theme(
-                            data: new ThemeData(hintColor: Colors.white),
-                            child: TextField(
-                              style: TextStyle(fontSize: 20),
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.text,
-                              controller: displayNameController,
-                              cursorColor: Color(0xFFC6C6C6),
-                              decoration: InputDecoration(
-                                hintText: 'Full name',
-                                focusColor: Color(0xFFC6C6C6),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Color(0xFFC6C6C6))),
-                              ),
-                            )),
+                      TextFormField(
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 20),
+                        controller: displayNameController,
+                        keyboardType: TextInputType.text,
+                        autofocus: true,
+                        cursorColor: Color(0xFFC6C6C6),
+                        decoration: InputDecoration(
+                          hintText: 'Full name',
+                          focusColor: Color(0xFFC6C6C6),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFC6C6C6))),
+                        ),
                       )
                     ],
                   ),
                 ),
               ],
               footer: Container(
-                padding: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: 20),
                   child: Column(children: <Widget>[
-                Center(
-                  child: PrimaryButton(
-                    label: "Next",
-                    labelFontWeight: FontWeight.normal,
-                    fontSize: 16,
-                    preload: isPreloading,
-                    onPressed: () async {
-                      viewModel.setDisplayName(displayNameController.text ?? 'Anom');
-                      Navigator.popAndPushNamed(context, '/Cash');
-                    },
-                  ),
-                ),
-              ])));
+                    Center(
+                      child: PrimaryButton(
+                        label: "Next",
+                        labelFontWeight: FontWeight.normal,
+                        fontSize: 16,
+                        preload: isPreloading,
+                        onPressed: () async {
+                          viewModel.setDisplayName(
+                              displayNameController.text ?? 'Anom');
+                          Navigator.popAndPushNamed(context, '/Cash');
+                        },
+                      ),
+                    ),
+                  ])));
         });
   }
 }

@@ -142,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: TextFormField(
                               controller: phoneController,
                               keyboardType: TextInputType.number,
-                              autofocus: false,
+                              autofocus: true,
                               style: const TextStyle(fontSize: 16),
                               decoration: const InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(

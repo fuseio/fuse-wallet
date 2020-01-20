@@ -1,9 +1,9 @@
 name: fusecash
-version: 1.0.1+66
+version: 1.0.3+1
 description: A new Flutter project.
 environment: 
   sdk: '>=2.1.0 <3.0.0'
-dependencies:
+dependencies: 
   equatable: ^1.0.2
   package_info: ^0.4.0+13
   interactive_webview: ^0.1.2
@@ -51,12 +51,10 @@ dev_dependencies:
     sdk: flutter
   flutter_localizations: 
     sdk: flutter
-
-flutter_icons:
+flutter_icons: 
+  image_path: assets/images/icon_app.jpg
   android: true
   ios: true
-  image_path: "assets/images/icon_app.jpg"
-
 flutter: 
   assets: 
     - .env_prod

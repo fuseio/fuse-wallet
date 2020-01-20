@@ -49,7 +49,6 @@ Future<Store<AppState>> createReduxStore() async {
   );
 
   final persistor = Persistor<AppState>(
-    //storage: FlutterStorage(key: "app6"),
     storage: SecureStorage(storage = storage),
     serializer: JsonSerializer<AppState>(AppState.fromJson),
     debug: DotEnv().env['MODE'] == 'development'
@@ -67,7 +66,7 @@ Future<Store<AppState>> createReduxStore() async {
     }
   } catch (e) {
     logger.e(e);
-    initialState = null;
+    initialState = new AppState.initial();
   }
 
   // logger.onRecord
@@ -106,12 +105,14 @@ Future<Store<AppState>> createReduxStore() async {
       logger.wtf('onLaunch called: $message');
     },
   );
-  return Store<AppState>(appReducer,
-      initialState: initialState ?? new AppState.initial(),
-      // middleware: [thunkMiddleware, persistor.createMiddleware()]
-      middleware: [
-        thunkMiddleware,
-        new LoggingMiddleware(logger: mylogger),
-        persistor.createMiddleware()
-      ]);
+
+  return Store<AppState>(
+    appReducer,
+    initialState: initialState,
+    middleware: [
+      thunkMiddleware,
+      new LoggingMiddleware(logger: mylogger),
+      persistor.createMiddleware()
+    ]
+  );
 }
