@@ -15,7 +15,7 @@ The Fuse Wallet built upon the [wallet-core SDK](https://github.com/fuseio/walle
 ## Smart Contracts
 
 We developed and deployed a set of smart contracts, which the wallet interacts with:
-- [Argent-contracts](https://github.com/fuseio/argent-contracts) were taken from the popular wallet [argent](https://www.argent.xyz/), to avoid developing our own best practices and try to adhere to the indusry standarts. These contracts are the core of wallet's logic on the Network. Using them, our users are sending free transactions (fee abstraction), have rate limits, and will have more interesting features in the future, wallet recovery for example. 
+- To avoid developing our own best practices and try to adhere to the indusry standarts we used [Argent-contracts](https://github.com/fuseio/argent-contracts), that were taken from the popular [wallet](https://www.argent.xyz/). These contracts are the core of wallet's logic on the Network. Using them, our users are sending free transactions (fee abstraction), have rate limits, and can use wallet recovery. More interesting features will be developed on their basis.
 - [Token contracts](https://github.com/fuseio/fuse-studio/tree/master/contracts/token-factory) complying to ERC20 standard
 - [Community contracts](https://github.com/fuseio/fuse-studio/tree/master/contracts/entities) to create a tied in interaction between users, businesses and other entities.
 
@@ -28,7 +28,7 @@ You can download the beta version of our app from the [Google Play](https://play
 ## As a developer
 - Set a Flutter environment on your machine, you can start from [here](https://flutter.dev/docs/get-started/install)
 - Connect a phone or run a simulator
-- Then clone the project and start futter
+- Then clone the project and run futter
 ```
  git clone https://github.com/fuseio/fuse-wallet2.0.git
  cd fuse-wallet2.0
@@ -36,4 +36,4 @@ You can download the beta version of our app from the [Google Play](https://play
 ```
 
 ## As an enterprenuer or a community manager
-Launch your community on the [Fuse Studio](https://studio.fuse.io/), then open the community dashboard. There you can configure it and *customize your wallet* app. When you done go to "White label wallet" and send an App invite link to yourself. Visit out docs to learn about the [fuse-studio](https://docs.fuse.io/the-fuse-studio/overview).
+Launch your community on the [Fuse Studio](https://studio.fuse.io/), then open the community dashboard. There you can configure it and *customize your wallet* app. When you done go to "White label wallet" and send an app invite link to yourself. Visit our [docs](https://docs.fuse.io/the-fuse-studio/overview) to learn about the Fuse Studio.
