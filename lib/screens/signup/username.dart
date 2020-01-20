@@ -11,7 +11,6 @@ class UserNameScreen extends StatefulWidget {
 }
 
 class _UserNameScreenState extends State<UserNameScreen> {
-  final _focusNode = FocusNode();
   final verificationCodeController = TextEditingController(text: "");
   bool isPreloading = false;
   final displayNameController = TextEditingController(text: "");
@@ -23,7 +22,6 @@ class _UserNameScreenState extends State<UserNameScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FocusScope.of(context).requestFocus(_focusNode);
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,

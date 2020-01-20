@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'dart:core';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -23,10 +24,15 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   final assetIdController = TextEditingController(text: "");
   String userName = "";
+  bool isForked = false;
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      isForked = DotEnv().env['FORK'] == 'true';
+    });
+    print(isForked);
   }
 
   Widget getListTile(label, onTap) {
@@ -69,9 +75,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   color: Color(0xFFF5F5F5),
                   border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
             ),
-            getListTile("Switch community", () {
+            !isForked ? getListTile("Switch community", () {
               Navigator.pushNamed(context, '/Switch');
-            }),
+            }) : SizedBox.shrink(),
             //Divider(),
             getListTile("Protect your wallet", () {}),
             //Divider(),

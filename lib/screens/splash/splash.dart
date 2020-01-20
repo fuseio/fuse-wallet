@@ -6,14 +6,41 @@ import 'package:fusecash/models/views/splash.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
 import 'package:redux/redux.dart';
 import 'create_wallet.dart';
+import 'package:splashscreen/splashscreen.dart';
 import 'dots_indicator.dart';
 
-class SplashScreen extends StatefulWidget {
+class MySplashScreen extends StatefulWidget {
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _SplashScreenState createState() => new _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<MySplashScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return new SplashScreen(
+      seconds: 4,
+      navigateAfterSeconds: new AfterSplashScreen(),
+      title: new Text('Welcome In SplashScreen',
+      style: new TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20.0
+      ),),
+      image: new Image.network('https://i.imgur.com/TyCSG9A.png'),
+      backgroundColor: Colors.white,
+      styleTextUnderTheLoader: new TextStyle(),
+      photoSize: 100.0,
+      onClick: ()=>print("Flutter Egypt"),
+      loaderColor: Colors.red
+    );
+  }
+}
+
+class AfterSplashScreen extends StatefulWidget {
+  @override
+  _AfterSplashScreenState createState() => _AfterSplashScreenState();
+}
+
+class _AfterSplashScreenState extends State<AfterSplashScreen> {
   PageController _pageController;
   static const _kDuration = const Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
@@ -122,8 +149,11 @@ class _SplashScreenState extends State<SplashScreen> {
                     viewModel.jwtToken != '' &&
                     !viewModel.isLoggedOut) {
                   viewModel.initWeb3(viewModel.privateKey);
-                  Navigator.popUntil(context, ModalRoute.withName('/'));
-                  Navigator.popAndPushNamed(context, '/Cash');
+                  if (Navigator.canPop(context)) {
+                    Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+                  } else {
+                    Navigator.pushReplacementNamed(context, '/Cash');
+                  }
                 }
               }, builder: (BuildContext context, Store<AppState> store) {
                 return Container(
