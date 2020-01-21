@@ -1,46 +1,20 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
 import 'package:redux/redux.dart';
 import 'create_wallet.dart';
-import 'package:splashscreen/splashscreen.dart';
 import 'dots_indicator.dart';
 
-class MySplashScreen extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  _SplashScreenState createState() => new _SplashScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<MySplashScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return new SplashScreen(
-      seconds: 4,
-      navigateAfterSeconds: new AfterSplashScreen(),
-      title: new Text('Welcome In SplashScreen',
-      style: new TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 20.0
-      ),),
-      image: new Image.network('https://i.imgur.com/TyCSG9A.png'),
-      backgroundColor: Colors.white,
-      styleTextUnderTheLoader: new TextStyle(),
-      photoSize: 100.0,
-      onClick: ()=>print("Flutter Egypt"),
-      loaderColor: Colors.red
-    );
-  }
-}
-
-class AfterSplashScreen extends StatefulWidget {
-  @override
-  _AfterSplashScreenState createState() => _AfterSplashScreenState();
-}
-
-class _AfterSplashScreenState extends State<AfterSplashScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   PageController _pageController;
   static const _kDuration = const Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
@@ -58,7 +32,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "Pay and get paid using crypto\nwithout fees or friction",
+                  I18n.of(context).intro_text_one,
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ))),
@@ -70,7 +44,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "Use the wallet to send\nmoney to friends",
+                  I18n.of(context).intro_text_two,
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ))),
@@ -82,7 +56,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "Hold Ethereum assets and\naccess decentralized finance",
+                  I18n.of(context).intro_text_three,
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ))),

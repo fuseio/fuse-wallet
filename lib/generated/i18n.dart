@@ -32,8 +32,18 @@ class I18n implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  /// "Pay and get paid using crypto\n without fees or friction"
+  String get intro_text_one => "Pay and get paid using crypto\n without fees or friction";
+  /// "Use the wallet to send\n money to friends"
+  String get intro_text_two => "Use the wallet to send\n money to friends";
+  /// "Hold Ethereum assets and\n access decentralized finance"
+  String get intro_text_three => "Hold Ethereum assets and\n access decentralized finance";
   /// "Hello"
   String get hi => "Hello";
+  /// "Language"
+  String get language => "Language";
+  /// "logout"
+  String get logout => "logout";
   /// "Login"
   String get login => "Login";
   /// "Create a new wallet"
@@ -86,8 +96,8 @@ class I18n implements WidgetsLocalizations {
   String get joining_community => "Joining Community";
   /// "Joined Community"
   String get joined_community => "Joined Community";
-  /// "Abount"
-  String get about => "Abount";
+  /// "About"
+  String get about => "About";
   /// "Version"
   String get version => "Version";
   /// "Legal"
@@ -108,8 +118,8 @@ class I18n implements WidgetsLocalizations {
   String get enter_community_address => "Enter Community Address";
   /// "Community Address"
   String get community_address => "Community Address";
-  /// "Community Address"
-  String get save_button => "Community Address";
+  /// "Save"
+  String get save_button => "Save";
   /// "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code"
   String get fuse_studio => "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code";
   /// "Enable Contacts Access"
@@ -170,6 +180,16 @@ class I18n implements WidgetsLocalizations {
   String get we_just_sent => "We just sent a message to \n";
   /// "Please enter 6-digit code from\n that message here"
   String get enter_verification_code => "Please enter 6-digit code from\n that message here";
+  /// "Protect your wallet"
+  String get protect_wallet => "Protect your wallet";
+  /// "Back up wallet"
+  String get backup_wallet => "Back up wallet";
+  /// "Top up"
+  String get top_up => "Top up";
+  /// "Buy"
+  String get buy => "Buy";
+  /// "APPROVED"
+  String get approved => "APPROVED";
 }
 
 class _I18n_en_US extends I18n {
@@ -182,12 +202,240 @@ class _I18n_en_US extends I18n {
 class _I18n_he_IL extends I18n {
   const _I18n_he_IL();
 
+  /// "Pay and get paid using crypto\nwithout fees or friction"
+  @override
+  String get intro_text_one => "Pay and get paid using crypto\nwithout fees or friction";
+  /// "Use the wallet to send\nmoney to friends"
+  @override
+  String get intro_text_two => "Use the wallet to send\nmoney to friends";
+  /// "Hold Ethereum assets and\naccess decentralized finance"
+  @override
+  String get intro_text_three => "Hold Ethereum assets and\naccess decentralized finance";
   /// "שלום"
   @override
   String get hi => "שלום";
+  /// "שפה"
+  @override
+  String get language => "שפה";
+  /// "התנתק"
+  @override
+  String get logout => "התנתק";
+  /// "הירשם"
+  @override
+  String get login => "הירשם";
+  /// "צור ארנק חדש"
+  @override
+  String get create_new_wallet => "צור ארנק חדש";
+  /// "צוק ארנק"
+  @override
+  String get create__wallet => "צוק ארנק";
+  /// "שחזר ארנק"
+  @override
+  String get restore_backup => "שחזר ארנק";
   /// "מאזן"
   @override
   String get balance => "מאזן";
+  /// "רשום 12 מילים אלו במקום בטוח לגיבוי"
+  @override
+  String get write_words => "רשום 12 מילים אלו במקום בטוח לגיבוי";
+  /// "\n רשום את האותיות"
+  @override
+  String get write_word => "\n רשום את האותיות";
+  /// "מילה"
+  @override
+  String get word => "מילה";
+  /// "המילה לא תואמת"
+  @override
+  String get word_not_match => "המילה לא תואמת";
+  /// "גבה"
+  @override
+  String get back_up => "גבה";
+  /// "הבא"
+  @override
+  String get next_button => "הבא";
+  /// "דלג"
+  @override
+  String get skip_button => "דלג";
+  /// "שלם"
+  @override
+  String get pay => "שלם";
+  /// "לא נמצאו עסקים"
+  @override
+  String get no_businesses => "לא נמצאו עסקים";
+  /// "מייצא ארנק"
+  @override
+  String get generating_wallet => "מייצא ארנק";
+  /// "ארנק נוצר"
+  @override
+  String get generated_wallet => "ארנק נוצר";
+  /// "ממתין"
+  @override
+  String get pending => "ממתין";
+  /// "אושר"
+  @override
+  String get confirmed => "אושר";
+  /// "עסקאות"
+  @override
+  String get transactions => "עסקאות";
+  /// "פרטי עסקה"
+  @override
+  String get transaction_details => "פרטי עסקה";
+  /// "נמען"
+  @override
+  String get to => "נמען";
+  /// "כתובת"
+  @override
+  String get address => "כתובת";
+  /// "סכום"
+  @override
+  String get amount => "סכום";
+  /// "קיבלת בונוס על הצטרפותך!"
+  @override
+  String get join_bonus => "קיבלת בונוס על הצטרפותך!";
+  /// "מצטרף לקהילה"
+  @override
+  String get joining_community => "מצטרף לקהילה";
+  /// "הצטרפת לקהילה"
+  @override
+  String get joined_community => "הצטרפת לקהילה";
+  /// "אודות"
+  @override
+  String get about => "אודות";
+  /// "גרסא"
+  @override
+  String get version => "גרסא";
+  /// "Legal"
+  @override
+  String get legal => "Legal";
+  /// "קוד סודי"
+  @override
+  String get pincode => "קוד סודי";
+  /// "הקלד מחדש את קוד הסיסמה שלך"
+  @override
+  String get re_type_passcode => "הקלד מחדש את קוד הסיסמה שלך";
+  /// "צור את קוד הסיסמה שלך"
+  @override
+  String get create_passcode => "צור את קוד הסיסמה שלך";
+  /// "החלף קהילה"
+  @override
+  String get switch_community => "החלף קהילה";
+  /// "סרוק ברקוד"
+  @override
+  String get sqan_qr_code => "סרוק ברקוד";
+  /// "או"
+  @override
+  String get or => "או";
+  /// "הכנס כתובת קהילה"
+  @override
+  String get enter_community_address => "הכנס כתובת קהילה";
+  /// "כתובת קהילה"
+  @override
+  String get community_address => "כתובת קהילה";
+  /// "שמור"
+  @override
+  String get save_button => "שמור";
+  /// "הנך יכול לעבור בין קהילות על-ידי הכנסת כתובת"
+  @override
+  String get fuse_studio => "הנך יכול לעבור בין קהילות על-ידי הכנסת כתובת";
+  /// "גישה לאנשי קשר"
+  @override
+  String get enable_contacts_access => "גישה לאנשי קשר";
+  /// "אנשי הקשר שלך לא ישמרו בשרתים שלנו \n ופעולה זו לא שולחת להם הודעות"
+  @override
+  String get enable_text => "אנשי הקשר שלך לא ישמרו בשרתים שלנו \n ופעולה זו לא שולחת להם הודעות";
+  /// "לא לחשוש:"
+  @override
+  String get dont_worry => "לא לחשוש:";
+  /// "Please enable contacts sync for easy access your phone contacts when sending money."
+  @override
+  String get enable_contacts_text => "Please enable contacts sync for easy access your phone contacts when sending money.";
+  /// "שלח כסף לחברים"
+  @override
+  String get send_friends => "שלח כסף לחברים";
+  /// "קבל"
+  @override
+  String get receive => "קבל";
+  /// "סרוק הברקוד לקבלת כסף מחבריך"
+  @override
+  String get scan_to_receive => "סרוק הברקוד לקבלת כסף מחבריך";
+  /// "שתף"
+  @override
+  String get share_button => "שתף";
+  /// "של אל"
+  @override
+  String get send_to => "של אל";
+  /// "כמה תרצה לשלוח?"
+  @override
+  String get how_much => "כמה תרצה לשלוח?";
+  /// "המשך עם"
+  @override
+  String get continue_with => "המשך עם";
+  /// "לחץ כאן לסנכרן כדי שנוכל לטעון את אנשי הקשר שלך"
+  @override
+  String get click_to_sync => "לחץ כאן לסנכרן כדי שנוכל לטעון את אנשי הקשר שלך";
+  /// "אחרונים"
+  @override
+  String get recent => "אחרונים";
+  /// "חפש"
+  @override
+  String get search => "חפש";
+  /// "קבלה"
+  @override
+  String get review_transfer => "קבלה";
+  /// "שלח"
+  @override
+  String get send_button => "שלח";
+  /// "הלצחנו"
+  @override
+  String get success => "הלצחנו";
+  /// "שחזר מגיבוי"
+  @override
+  String get restore_from_backup => "שחזר מגיבוי";
+  /// "זהו ביטוי בן 12 מילים שניתנה לך כשיצרת את הארנק הקודם שלך"
+  @override
+  String get restore_words => "זהו ביטוי בן 12 מילים שניתנה לך כשיצרת את הארנק הקודם שלך";
+  /// "רשמו את 12 המילים שלכם..."
+  @override
+  String get write_down_your_words => "רשמו את 12 המילים שלכם...";
+  /// "הרשמה"
+  @override
+  String get sign_up => "הרשמה";
+  /// "הכנס את המספר נייד שלך כדי שנוכל להגדיר את חשבונך"
+  @override
+  String get enter_phone_number => "הכנס את המספר נייד שלך כדי שנוכל להגדיר את חשבונך";
+  /// "למה אנחנו צריכים את זה?"
+  @override
+  String get why_do_we_need_this => "למה אנחנו צריכים את זה?";
+  /// "בחר את הכינוי שלך"
+  @override
+  String get pickup_display_name => "בחר את הכינוי שלך";
+  /// "This name will be shown to contacts that send you money to identify your account"
+  @override
+  String get pickup_display_name_text => "This name will be shown to contacts that send you money to identify your account";
+  /// "שלב שוב"
+  @override
+  String get resend_code => "שלב שוב";
+  /// "לא קיבלת הודעה? - "
+  @override
+  String get didnt_get_message => "לא קיבלת הודעה? - ";
+  /// "הרגע שלנו לך הודעה \n"
+  @override
+  String get we_just_sent => "הרגע שלנו לך הודעה \n";
+  /// "אנא הכנס את הקוק בין ה-6 ספרות שנשלח אלך"
+  @override
+  String get enter_verification_code => "אנא הכנס את הקוק בין ה-6 ספרות שנשלח אלך";
+  /// "הגן על חשבונך"
+  @override
+  String get protect_wallet => "הגן על חשבונך";
+  /// "גבה את חשבונך"
+  @override
+  String get backup_wallet => "גבה את חשבונך";
+  /// "Top up"
+  @override
+  String get top_up => "Top up";
+  /// "רכוש"
+  @override
+  String get buy => "רכוש";
 
   @override
   TextDirection get textDirection => TextDirection.rtl;

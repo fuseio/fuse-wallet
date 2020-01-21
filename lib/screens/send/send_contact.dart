@@ -11,6 +11,7 @@ import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/contacts.dart';
+import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
 import 'dart:math' as math;
@@ -369,9 +370,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      withPadding: true,
+      withPadding: false,
       title: I18n.of(context).send_to,
       titleFontSize: 15,
+      footer: bottomBar(context),
       sliverList: _buildPageList(),
       children: <Widget>[
         !this.widget.viewModel.isContactsSynced

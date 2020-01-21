@@ -23,7 +23,7 @@ import 'package:fusecash/screens/misc/pincode.dart';
 getRoutes() {
   //  final Map<String, WidgetBuilder> routes;
   return {
-    '/': (context) => MySplashScreen(),
+    '/': (context) => SplashScreen(),
     '/Signup': (context) => SignupScreen(),
     '/UserName': (context) => UserNameScreen(),
     '/LevelSelector': (context) => LevelSelectorScreen(),

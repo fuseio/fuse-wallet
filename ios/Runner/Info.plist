@@ -78,5 +78,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
+
 </dict>
 </plist>

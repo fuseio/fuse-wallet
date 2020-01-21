@@ -1,5 +1,10 @@
 {
+    "intro_text_one": "Pay and get paid using crypto\n without fees or friction",
+    "intro_text_two": "Use the wallet to send\n money to friends",
+    "intro_text_three": "Hold Ethereum assets and\n access decentralized finance",
     "hi": "Hello",
+    "language": "Language",
+    "logout": "logout",
     "login": "Login",
     "create_new_wallet": "Create a new wallet",
     "create__wallet": "Create new wallet",
@@ -26,7 +31,7 @@
     "join_bonus": "You got a join bonus!",
     "joining_community": "Joining Community",
     "joined_community": "Joined Community",
-    "about": "Abount",
+    "about": "About",
     "version": "Version",
     "legal": "Legal",
     "pincode": "Pincode",
@@ -37,7 +42,7 @@
     "or": "or",
     "enter_community_address": "Enter Community Address",
     "community_address": "Community Address",
-    "save_button": "Community Address",
+    "save_button": "Save",
     "fuse_studio": "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code",
     "enable_contacts_access": "Enable Contacts Access",
     "enable_text": "Your contacts will not be saved on our \n server and this action will not send  \n them any massages",
@@ -67,5 +72,10 @@
     "resend_code": "Resend code",
     "didnt_get_message": "Didn't get the message? - ",
     "we_just_sent": "We just sent a message to \n",
-    "enter_verification_code": "Please enter 6-digit code from\n that message here"
+    "enter_verification_code": "Please enter 6-digit code from\n that message here",
+    "protect_wallet": "Protect your wallet",
+    "backup_wallet": "Back up wallet",
+    "top_up": "Top up",
+    "buy": "Buy",
+    "approved": "APPROVED"
 }

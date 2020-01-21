@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'dart:core';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,7 +8,7 @@ import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/screens/cash_home/deposit_webview.dart';
 import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/widgets/language_selector.dart';
+import 'package:fusecash/widgets/language-selector.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 
@@ -60,37 +61,50 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  // Padding(
-                  //   padding: EdgeInsets.only(top: 10, bottom: 15),
-                  //   child: Text(
-                  //     "Menu",
-                  //     style: TextStyle(
-                  //         color: Colors.black,
-                  //         fontSize: 22,
-                  //         fontWeight: FontWeight.bold),
-                  //   ),
-                  // ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 15, left: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        CircleAvatar(
+                          backgroundImage: new AssetImage('assets/images/anom.png'),
+                          radius: 30,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            "Lior",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ),
+                      ],
+                    )
+                  ),
                 ],
               ),
               decoration: BoxDecoration(
                   color: Color(0xFFF5F5F5),
                   border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
             ),
-            isFork() ? getListTile("Switch community", () {
+            isFork() ? getListTile(I18n.of(context).switch_community, () {
               Navigator.pushNamed(context, '/Switch');
             }) : SizedBox.shrink(),
             //Divider(),
-            getListTile("Protect your wallet", () {}),
+            getListTile(I18n.of(context).protect_wallet, () {}),
             //Divider(),
-            getListTile("Back up wallet", () {
+            getListTile(I18n.of(context).backup_wallet, () {
               Navigator.pushNamed(context, '/Backup1');
             }),
-            getListTile("About", () {
+            getListTile(I18n.of(context).about, () {
               Navigator.pushNamed(context, '/About');
             }),
             new LanguageSelector(),
             //Divider(),
-            getListTile("Log out", () {
+            getListTile(I18n.of(context).logout, () {
               viewModel.logout();
               Navigator.popUntil(context, ModalRoute.withName('/'));
               Navigator.pushNamed(context, '/');
@@ -112,7 +126,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                             Padding(
                               padding: EdgeInsets.only(left: 8),
                               child: Text(
-                                'Top up',
+                                I18n.of(context).top_up,
                                 style: TextStyle(
                                     color: Color(0xFF6E6E6E), fontSize: 12),
                               ),
@@ -142,7 +156,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
           return Builder(
               builder: (context) => ListView(
-                    padding: EdgeInsets.zero,
+                    padding: EdgeInsets.all(10),
                     children: widgets,
                   ));
         },

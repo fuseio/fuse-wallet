@@ -54,7 +54,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
       title: new Row(
         children: [Padding(
           padding: EdgeInsets.only(top: 5, bottom: 5, left: 15),
-          child: new Text("Language", style: TextStyle(fontSize: 16)),
+          child: new Text(I18n.of(context).language, style: TextStyle(fontSize: 16)),
         )],
       ),
       children: _languageItems(),

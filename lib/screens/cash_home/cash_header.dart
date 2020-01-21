@@ -93,7 +93,6 @@ class CashHeader extends StatelessWidget {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   verticalDirection: VerticalDirection.up,
-                  textDirection: TextDirection.ltr,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Column(

@@ -4,6 +4,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/copy.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -38,7 +39,8 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
       return MainScaffold(
         title: I18n.of(context).receive,
         titleFontSize: 15,
-        withPadding: true,
+        footer: bottomBar(context),
+        withPadding: false,
         children: <Widget>[
           Container(
             child: Column(

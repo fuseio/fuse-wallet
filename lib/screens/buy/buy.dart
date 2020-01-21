@@ -42,7 +42,7 @@ class _BuyScreenState extends State<BuyScreen> {
               withPadding: false,
               titleFontSize: 15,
               footer: bottomBar(context),
-              title: "Buy",
+            title: I18n.of(context).buy,
               children: <Widget>[BusinessesListView()]);
         });
   }
@@ -76,7 +76,6 @@ class BusinessesListViewState extends State<BusinessesListView> {
                     child: new Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      textDirection: TextDirection.rtl,
                       children: <Widget>[
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.center,

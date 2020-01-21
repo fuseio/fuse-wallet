@@ -13,7 +13,7 @@ String formatValue(BigInt value, int decimals) {
   
   List a = formatedValue.split('.');
   if (a.length > 1) {
-    return s.toStringAsFixed(1);
+    return s.toStringAsFixed(2);
   } else {
     return formatedValue;
   }

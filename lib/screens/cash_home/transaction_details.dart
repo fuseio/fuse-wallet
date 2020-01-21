@@ -65,15 +65,15 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Padding(
+                          args.transfer.isConfirmed() ? Padding(
                             padding: EdgeInsets.only(right: 10),
-                            child: Image.asset('assets/images/check.png'),
-                          ),
-                          Text(args?.transfer?.status,
+                            child: Image.asset('assets/images/check.png', width: 25, height: 25),
+                          ): SizedBox.shrink(),
+                          Text(args.transfer.isConfirmed() ? I18n.of(context).approved : args?.transfer?.status,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.normal))
                         ],
                       ),
