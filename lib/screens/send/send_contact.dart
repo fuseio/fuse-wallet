@@ -38,25 +38,20 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         isPreloading = true;
       });
     }
-    bool premission = await ContactController.getPermissions();
-    if (premission) {
-      List<Contact> contacts = await ContactController.getContacts();
-      this.widget.viewModel.syncContacts(contacts);
-      for (var contact in contacts) {
-        userList.add(contact);
-      }
-      userList.sort((a, b) =>
-          a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
+    for (var contact in this.widget.viewModel.contacts) {
+      userList.add(contact);
+    }
+    userList.sort((a, b) =>
+        a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
+    filterList();
+    searchController.addListener(() {
       filterList();
-      searchController.addListener(() {
-        filterList();
-      });
+    });
 
-      if (this.mounted) {
-        setState(() {
-          isPreloading = false;
-        });
-      }
+    if (this.mounted) {
+      setState(() {
+        isPreloading = false;
+      });
     }
   }
 

@@ -647,6 +647,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
 ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     try {
+      if (store.state.cashWalletState.isCommunityLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.d('community fetched for $communityAddress');

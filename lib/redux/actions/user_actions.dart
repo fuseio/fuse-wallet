@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:fusecash/utils/contacts.dart';
 import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -176,6 +177,10 @@ ThunkAction logoutCall() {
 
 ThunkAction syncContactsCall(List<Contact> contacts) {
   return (Store store) async {
+    bool isPermitted = await Contacts.checkPermissions();
+    if (isPermitted && contacts.isEmpty) {
+      contacts = await ContactController.getContacts();
+    }
     store.dispatch(new SaveContacts(contacts));
     List<String> syncedContacts = store.state.userState.syncedContacts;
     List<String> newPhones = new List<String>();
