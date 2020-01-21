@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/views/contacts.dart';
@@ -198,7 +199,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       if (i == 0) {
         listItems.add(Container(
             padding: EdgeInsets.only(left: 15, top: 15, bottom: 8),
-            child: Text("Recent",
+            child: Text(I18n.of(context).recent,
                 style: TextStyle(
                     color: Color(0xFF979797),
                     fontSize: 12.0,
@@ -330,7 +331,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         Icons.search,
                         color: Color(0xFFACACAC),
                       ),
-                      labelText: "Search",
+                      labelText: I18n.of(context).search,
                     ),
                   ),
                 ),
@@ -369,7 +370,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   Widget build(BuildContext context) {
     return MainScaffold(
       withPadding: true,
-      title: "Send to",
+      title: I18n.of(context).send_to,
       titleFontSize: 15,
       sliverList: _buildPageList(),
       children: <Widget>[
@@ -436,7 +437,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
           if (!isSync) {
             return MainScaffold(
                 withPadding: true,
-                title: "Send to",
+                title: I18n.of(context).send_to,
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -462,7 +463,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                           },
                           child: new Padding(
                             padding: new EdgeInsets.all(10.0),
-                            child: new Text("Click here to sync your contacts"),
+                            child: new Text(I18n.of(context).click_to_sync),
                           ),
                         ),
                       )

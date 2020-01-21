@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/buy_page.dart';
 import 'package:fusecash/screens/buy/business.dart';
@@ -66,7 +67,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                 ? Container(
                     padding: const EdgeInsets.all(40.0),
                     child: Center(
-                      child: Text("No businesses found"),
+                      child: Text(I18n.of(context).no_businesses),
                     ),
                   )
                 : new Container(
@@ -136,7 +137,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                           color: Color(0xFFB1FDC0),
                                           padding: EdgeInsets.all(0),
                                           child: Text(
-                                            "PAY",
+                                            I18n.of(context).pay,
                                             style: TextStyle(
                                                 color: Theme.of(context)
                                                     .primaryColor,

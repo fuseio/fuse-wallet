@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/views/send_amount.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
@@ -51,7 +52,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
         return MainScaffold(
           withPadding: true,
           titleFontSize: 15,
-          title: "Transaction details",
+          title: I18n.of(context).transaction_details,
           children: <Widget>[
             Container(
                 child: Column(children: <Widget>[
@@ -93,7 +94,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text('To'),
+                        Text(I18n.of(context).to),
                         Row(
                           children: <Widget>[
                             CircleAvatar(
@@ -134,7 +135,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text("Address"),
+                        Text(I18n.of(context).address),
                         displayName == null
                             ? SizedBox.shrink()
                             : Text(displayName)
@@ -152,7 +153,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text("Amount"),
+                        Text(I18n.of(context).amount),
                         Row(
                           children: args?.amount,
                         )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
@@ -86,7 +87,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             withPadding: true,
             titleFontSize: 15,
             title:
-                "Send to ${args.name != null ? args.name : formatAddress(args.accountAddress)}",
+                I18n.of(context).send_to + " ${args.name != null ? args.name : formatAddress(args.accountAddress)}",
             children: <Widget>[
               Container(
                   child: Column(children: <Widget>[
@@ -95,7 +96,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: 30),
-                        child: Text("How much?",
+                        child: Text(I18n.of(context).how_much,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
@@ -134,7 +135,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
               position: offset,
               child: PrimaryButton(
                 labelFontWeight: FontWeight.normal,
-                label: 'Continue with $amountText ${viewModel.token.symbol}',
+                label: I18n.of(context).continue_with + ' $amountText ${viewModel.token.symbol}',
                 onPressed: () {
                   args.amount = num.parse(amountText);
                   Navigator.pushNamed(context, '/SendReview', arguments: args);

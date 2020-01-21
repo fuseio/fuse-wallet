@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'dart:core';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/transaction.dart';
@@ -81,8 +82,8 @@ class CashTransactionsState extends State<CashTransactios> {
     bool isWalletCreated = 'created' == this.widget.viewModel.walletStatus;
     Transfer generateWallet = new Transfer(
         type: 'RECEIVE',
-        text: !isWalletCreated ? 'Generating wallet' : 'Generated wallet',
-        status: !isWalletCreated ? 'PENDING' : 'CONFIRMED',
+        text: !isWalletCreated ? I18n.of(context).generating_wallet : I18n.of(context).generated_wallet,
+        status: !isWalletCreated ? I18n.of(context).pending : I18n.of(context).confirmed,
         jobId: 'generateWallet');
     List<TransactionListItem> transfers = [
       ...this
@@ -112,7 +113,7 @@ class CashTransactionsState extends State<CashTransactios> {
         children: <Widget>[
           Container(
               padding: EdgeInsets.only(left: 15, top: 27, bottom: 8),
-              child: Text("Transactions",
+              child: Text(I18n.of(context).transactions,
                   style: TextStyle(
                       color: Color(0xFF979797),
                       fontSize: 12.0,

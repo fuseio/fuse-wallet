@@ -1,4 +1,3 @@
-import 'package:ez_flutter/ez_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -19,19 +18,6 @@ void main() async {
     store: await createReduxStore(),
   ));
 }
-
-// void main() async {
-//   await DotEnv().load('.env_qa');
-//   await EzRunner.run(
-//     new MyApp(store: await createReduxStore()),
-//     'Fuse Cash',
-//     materialThemeData: getTheme(),
-//     routes: getRoutes(),
-//     initialRoute: '/',
-//     locales: [Locale("en", "US"), Locale("he", "IL"), Locale("es", "ES")],
-//     locale: Locale("en", "US"),
-//   );
-// }
 
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
@@ -63,10 +49,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
         .copyWith(statusBarIconBrightness: Brightness.dark));
-    //I18n.onLocaleChanged = onLocaleChange;
-    Map<String, dynamic> ezSettings = EzSettings.ez();
-    Map<String, dynamic> envSettings = EzSettings.env();
-    Map<String, dynamic> appSettings = EzSettings.app();
     return new Column(
       children: <Widget>[
         new Expanded(

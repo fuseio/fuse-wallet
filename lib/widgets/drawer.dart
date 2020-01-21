@@ -6,7 +6,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/screens/cash_home/deposit_webview.dart';
-import 'package:fusecash/widgets/language-selector.dart';
+import 'package:fusecash/utils/forks.dart';
+import 'package:fusecash/widgets/language_selector.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 
@@ -75,7 +76,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   color: Color(0xFFF5F5F5),
                   border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
             ),
-            !isForked ? getListTile("Switch community", () {
+            isFork() ? getListTile("Switch community", () {
               Navigator.pushNamed(context, '/Switch');
             }) : SizedBox.shrink(),
             //Divider(),
@@ -96,35 +97,31 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             }),
             depositPlugins.isNotEmpty
                 ? Column(
-                      children: <Widget>[
-                        new Divider(),
-                        Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 10, left: 30),
-                          child: Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                backgroundColor: Color(0xFFFFFFFF),
-                                radius: 7,
-                                backgroundImage:
-                                    new AssetImage('assets/images/top-up.png'),
+                    children: <Widget>[
+                      new Divider(),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20, bottom: 10, left: 30),
+                        child: Row(
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundColor: Color(0xFFFFFFFF),
+                              radius: 7,
+                              backgroundImage:
+                                  new AssetImage('assets/images/top-up.png'),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 8),
+                              child: Text(
+                                'Top up',
+                                style: TextStyle(
+                                    color: Color(0xFF6E6E6E), fontSize: 12),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Text(
-                                  'Top up',
-                                  style: TextStyle(
-                                      color: Color(0xFF6E6E6E), fontSize: 12),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    )
-                    // Padding(
-                    // padding: EdgeInsets.only(top: 10, bottom: 10, left: 30),
-                    // child: ,
-                  // )
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  )
                 : SizedBox.shrink(),
             ...depositPlugins.map((
               plugin,

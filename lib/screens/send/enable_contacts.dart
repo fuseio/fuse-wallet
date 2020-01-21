@@ -1,6 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/utils/contacts.dart';
@@ -64,7 +65,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(top: 0),
-                                  child: Text('Send money to friends',
+                                  child: Text(I18n.of(context).send_friends,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
@@ -83,7 +84,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                               ],
                             ),
                             Text(
-                              'Please enable contacts sync for easy access your phone contacts when sending money.',
+                              I18n.of(context).enable_contacts_text,
                               style: TextStyle(fontSize: 16),
                               textAlign: TextAlign.center,
                             ),
@@ -91,7 +92,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             Container(
                               child: Column(
                                 children: <Widget>[
-                                  Text("Don't worry:",
+                                  Text(I18n.of(context).dont_worry,
                                       softWrap: true,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
@@ -102,7 +103,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                   Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: Text(
-                                      'Your contacts will not be saved on our \n server and this action will not send  \n them any massages',
+                                      I18n.of(context).enable_text,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(fontSize: 13),
                                     ),
@@ -116,7 +117,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                               fontSize: 15,
                               preload: isPreloading,
                               labelFontWeight: FontWeight.normal,
-                              label: "Enable Contacts Access",
+                              label: I18n.of(context).enable_contacts_access,
                               onPressed: () async {
                                 setState(() {
                                   isPreloading = true;
@@ -139,7 +140,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                   Navigator.popUntil(context, ModalRoute.withName('/Cash'));
                                 },
                                 child: Text(
-                                  "Skip",
+                                  I18n.of(context).skip_button,
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 14),
                                 ),

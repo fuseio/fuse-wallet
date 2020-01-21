@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -33,7 +34,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
     return MainScaffold(
       withPadding: true,
       footer: null,
-      title: "Back up",
+      title: I18n.of(context).back_up,
       titleFontSize: 15,
       backgroundColor: Colors.white,
       children: <Widget>[
@@ -44,7 +45,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: 20),
-              child: Text("Please write down those 12 words:",
+              child: Text(I18n.of(context).write_words, // "Please write down those 12 words:",
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontSize: 16,
@@ -149,7 +150,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                       child: PrimaryButton(
                     fontSize: 15,
                     width: 160,
-                    label: "Next",
+                    label: I18n.of(context).next_button,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () async {
                       Navigator.pushNamed(context, '/Backup2');
@@ -157,7 +158,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                   )),
                   const SizedBox(height: 16.0),
                   TransparentButton(
-                      label: "Skip",
+                      label: I18n.of(context).skip_button,
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, '/Cash');
                       }),

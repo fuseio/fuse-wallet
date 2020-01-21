@@ -32,10 +32,144 @@ class I18n implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  /// "Hi"
-  String get hi => "Hi";
+  /// "Hello"
+  String get hi => "Hello";
+  /// "Login"
+  String get login => "Login";
+  /// "Create a new wallet"
+  String get create_new_wallet => "Create a new wallet";
+  /// "Create new wallet"
+  String get create__wallet => "Create new wallet";
+  /// "Restore backup"
+  String get restore_backup => "Restore backup";
   /// "Balance"
   String get balance => "Balance";
+  /// "Please write down those 12 words:"
+  String get write_words => "Please write down those 12 words:";
+  /// "Please write down words \n"
+  String get write_word => "Please write down words \n";
+  /// "Word"
+  String get word => "Word";
+  /// "The word does not match"
+  String get word_not_match => "The word does not match";
+  /// "Back up"
+  String get back_up => "Back up";
+  /// "Next"
+  String get next_button => "Next";
+  /// "Skip"
+  String get skip_button => "Skip";
+  /// "Pay"
+  String get pay => "Pay";
+  /// "No businesses found"
+  String get no_businesses => "No businesses found";
+  /// "Generating wallet"
+  String get generating_wallet => "Generating wallet";
+  /// "Generated wallet"
+  String get generated_wallet => "Generated wallet";
+  /// "PENDING"
+  String get pending => "PENDING";
+  /// "CONFIRMED"
+  String get confirmed => "CONFIRMED";
+  /// "Transactions"
+  String get transactions => "Transactions";
+  /// "Transaction details"
+  String get transaction_details => "Transaction details";
+  /// "To"
+  String get to => "To";
+  /// "Address"
+  String get address => "Address";
+  /// "Amount"
+  String get amount => "Amount";
+  /// "You got a join bonus!"
+  String get join_bonus => "You got a join bonus!";
+  /// "Joining Community"
+  String get joining_community => "Joining Community";
+  /// "Joined Community"
+  String get joined_community => "Joined Community";
+  /// "Abount"
+  String get about => "Abount";
+  /// "Version"
+  String get version => "Version";
+  /// "Legal"
+  String get legal => "Legal";
+  /// "Pincode"
+  String get pincode => "Pincode";
+  /// "Re-type your passcode"
+  String get re_type_passcode => "Re-type your passcode";
+  /// "Create your passcode"
+  String get create_passcode => "Create your passcode";
+  /// "Switch community"
+  String get switch_community => "Switch community";
+  /// "Scan Qr code"
+  String get sqan_qr_code => "Scan Qr code";
+  /// "or"
+  String get or => "or";
+  /// "Enter Community Address"
+  String get enter_community_address => "Enter Community Address";
+  /// "Community Address"
+  String get community_address => "Community Address";
+  /// "Community Address"
+  String get save_button => "Community Address";
+  /// "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code"
+  String get fuse_studio => "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code";
+  /// "Enable Contacts Access"
+  String get enable_contacts_access => "Enable Contacts Access";
+  /// "Your contacts will not be saved on our \n server and this action will not send  \n them any massages"
+  String get enable_text => "Your contacts will not be saved on our \n server and this action will not send  \n them any massages";
+  /// "Don't worry:"
+  String get dont_worry => "Don't worry:";
+  /// "Please enable contacts sync for easy access your phone contacts when sending money."
+  String get enable_contacts_text => "Please enable contacts sync for easy access your phone contacts when sending money.";
+  /// "Send money to friends"
+  String get send_friends => "Send money to friends";
+  /// "Receive"
+  String get receive => "Receive";
+  /// "Scan the QR code to receive money"
+  String get scan_to_receive => "Scan the QR code to receive money";
+  /// "Share"
+  String get share_button => "Share";
+  /// "Send to"
+  String get send_to => "Send to";
+  /// "How much?"
+  String get how_much => "How much?";
+  /// "Continue with"
+  String get continue_with => "Continue with";
+  /// "Click here to sync your contacts"
+  String get click_to_sync => "Click here to sync your contacts";
+  /// "Recent"
+  String get recent => "Recent";
+  /// "Search"
+  String get search => "Search";
+  /// "Review transfer"
+  String get review_transfer => "Review transfer";
+  /// "Send"
+  String get send_button => "Send";
+  /// "Success"
+  String get success => "Success";
+  /// "Restore from backup"
+  String get restore_from_backup => "Restore from backup";
+  /// "This is a 12 word phrase you were given when you created your previous wallet"
+  String get restore_words => "This is a 12 word phrase you were given when you created your previous wallet";
+  /// "Write down your 12 words..."
+  String get write_down_your_words => "Write down your 12 words...";
+  /// "Sign up"
+  String get sign_up => "Sign up";
+  /// "Please enter your phone number so we can setup your account"
+  String get enter_phone_number => "Please enter your phone number so we can setup your account";
+  /// "Why do we need this?"
+  String get why_do_we_need_this => "Why do we need this?";
+  /// "Pick up your display name"
+  String get pickup_display_name => "Pick up your display name";
+  /// "This name will be shown to contacts that send you money to identify your account"
+  String get pickup_display_name_text => "This name will be shown to contacts that send you money to identify your account";
+  /// "Resend code"
+  String get resend_code => "Resend code";
+  /// "Didn't get the message? - "
+  String get didnt_get_message => "Didn't get the message? - ";
+  /// "We just sent a message to \n"
+  String get we_just_sent => "We just sent a message to \n";
+  /// "Please enter 6-digit code from\n that message here"
+  String get enter_verification_code => "Please enter 6-digit code from\n that message here";
 }
 
 class _I18n_en_US extends I18n {

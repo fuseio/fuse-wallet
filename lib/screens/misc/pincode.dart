@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -30,13 +31,13 @@ class _PincodeScreenState extends State<PincodeScreen> {
         builder: (_, viewModel) {
           return MainScaffold(
               withPadding: true,
-              title: "Pincode",
+              title: I18n.of(context).pincode,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
                       left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
                   child: Text(
-                      this.isRetype ? "Re-type your passcode" : "Create your passcode",
+                      this.isRetype ? I18n.of(context).re_type_passcode : I18n.of(context).create_passcode,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
@@ -84,7 +85,7 @@ class _PincodeScreenState extends State<PincodeScreen> {
                 const SizedBox(height: 40.0),
                 Center(
                   child: PrimaryButton(
-                    label: "SKIP",
+                    label: I18n.of(context).skip_button,
                     onPressed: () async {
                       Navigator.popUntil(context, ModalRoute.withName('/'));
                       Navigator.popAndPushNamed(context, '/Cash');

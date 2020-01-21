@@ -59,7 +59,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Text(
                   "Pay and get paid using crypto\nwithout fees or friction",
-                  style: TextStyle(fontSize: 17),
+                  style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ))),
       ),
@@ -71,7 +71,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Text(
                   "Use the wallet to send\nmoney to friends",
-                  style: TextStyle(fontSize: 17),
+                  style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ))),
       ),
@@ -83,7 +83,7 @@ class _AfterSplashScreenState extends State<AfterSplashScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Text(
                   "Hold Ethereum assets and\naccess decentralized finance",
-                  style: TextStyle(fontSize: 17),
+                  style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ))),
       ),

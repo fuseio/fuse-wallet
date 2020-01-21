@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -35,7 +36,7 @@ class _CreateWalletState extends State<CreateWallet> {
                     fontSize: 16,
                     labelFontWeight: FontWeight.normal,
                     label:
-                        viewModel.isLoggedOut ? "Login" : "Create a new wallet",
+                        viewModel.isLoggedOut ? I18n.of(context).login : I18n.of(context).create_new_wallet,
                     onPressed: () {
                       if (viewModel.isLoggedOut) {
                         viewModel.initWeb3(viewModel.privateKey);
@@ -65,17 +66,17 @@ class _CreateWalletState extends State<CreateWallet> {
                           children: <Widget>[
                             TransparentButton(
                                 fontSize: 14,
-                                label: "Restore backup",
+                                label: I18n.of(context).restore_backup,
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/Recovery');
                                 }),
                             Text(
-                              'or',
+                              I18n.of(context).or,
                               style: TextStyle(color: Colors.grey[400]),
                             ),
                             TransparentButton(
                                 fontSize: 14,
-                                label: "Create wallet",
+                                label: I18n.of(context).create__wallet,
                                 onPressed: () {
                                   viewModel.createLocalAccount(() {
                                     setState(() {
@@ -95,7 +96,7 @@ class _CreateWalletState extends State<CreateWallet> {
                         padding: EdgeInsets.only(top: 20),
                         child: TransparentButton(
                             fontSize: 16,
-                            label: "Restore from backup",
+                            label: I18n.of(context).restore_from_backup,
                             onPressed: () {
                               Navigator.pushNamed(context, '/Recovery');
                             }),

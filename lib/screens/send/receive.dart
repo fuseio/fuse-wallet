@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/utils/format.dart';
@@ -35,7 +36,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
         converter: CashWalletViewModel.fromStore,
         builder: (_, viewModel) {
       return MainScaffold(
-        title: 'Receive',
+        title: I18n.of(context).receive,
         titleFontSize: 15,
         withPadding: true,
         children: <Widget>[
@@ -51,7 +52,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: 0),
-                        child: Text('Scan the QR code to receive money',
+                        child: Text(I18n.of(context).scan_to_receive,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
@@ -103,7 +104,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                   fontSize: 15,
                   labelFontWeight: FontWeight.normal,
                   width: 160,
-                  label: "Share",
+                  label: I18n.of(context).share_button,
                   onPressed: () async {
                     Share.share(viewModel.walletAddress);
                   },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -36,7 +37,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
               backgroundColor: Colors.white,
               withPadding: true,
               titleFontSize: 15,
-              title: "Sign up",
+              title: I18n.of(context).sign_up,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
@@ -44,10 +45,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                          "We just sent a message to \n" +
+                        I18n.of(context).we_just_sent +
                               "${viewModel.countryCode} ${viewModel.phoneNumber}" +
                               "\n\n" +
-                              "Please enter 6-digit code from\n that message here",
+                              I18n.of(context).enter_verification_code,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Theme.of(context).primaryColor,
@@ -83,7 +84,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 const SizedBox(height: 10.0),
                 Center(
                   child: PrimaryButton(
-                    label: "Next",
+                    label: I18n.of(context).next_button,
                     labelFontWeight: FontWeight.normal,
                     fontSize: 16,
                     preload: isPreloading,
@@ -114,7 +115,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Didn't get the message? - ",
+                      I18n.of(context).didnt_get_message,
                       style: TextStyle(fontSize: 12),
                     ),
                     FlatButton(
@@ -137,7 +138,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         });
                       },
                       child: Text(
-                        "Resend code",
+                        I18n.of(context).resend_code,
                         style: TextStyle(color: Colors.blue, fontSize: 12),
                       ),
                     ),

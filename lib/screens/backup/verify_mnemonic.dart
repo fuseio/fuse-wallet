@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/backup/show_mnemonic.dart';
 // import 'package:fusecash/screens/backup/backup1.dart';
@@ -42,7 +43,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
       return MainScaffold(
           withPadding: true,
           footer: null,
-          title: "Back up",
+          title: I18n.of(context).back_up,
           backgroundColor: Colors.white,
           children: <Widget>[
             Container(
@@ -52,8 +53,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 0),
-                    child: Text(
-                        "Please write down words \n" +
+                    child: Text(I18n.of(context).write_word +
                             selectedWordsNum.join(", "),
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -78,13 +78,13 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                               autofocus: false,
                               decoration: InputDecoration(
                                 labelText:
-                                    'Word ' + selectedWordsNum[0].toString(),
+                                     I18n.of(context).word + ' ' + selectedWordsNum[0].toString(),
                               ),
                               validator: (String value) {
                                 if (viewModel.user
                                         .mnemonic[selectedWordsNum[0] - 1] !=
                                     value) {
-                                  return 'The word does not match';
+                                  return I18n.of(context).word_not_match;
                                 }
                                 return null;
                               },
@@ -94,13 +94,13 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                               autofocus: false,
                               decoration: InputDecoration(
                                 labelText:
-                                    'Word ' + selectedWordsNum[1].toString(),
+                                    I18n.of(context).word + selectedWordsNum[1].toString(),
                               ),
                               validator: (String value) {
                                 if (viewModel.user
                                         .mnemonic[selectedWordsNum[1] - 1] !=
                                     value) {
-                                  return 'The word does not match';
+                                  return I18n.of(context).word_not_match;
                                 }
                                 return null;
                               },
@@ -110,13 +110,13 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                               autofocus: false,
                               decoration: InputDecoration(
                                 labelText:
-                                    'Word ' + selectedWordsNum[2].toString(),
+                                    I18n.of(context).word + selectedWordsNum[2].toString(),
                               ),
                               validator: (String value) {
                                 if (viewModel.user
                                         .mnemonic[selectedWordsNum[2] - 1] !=
                                     value) {
-                                  return 'The word does not match';
+                                  return I18n.of(context).word_not_match;
                                 }
                                 return null;
                               },
@@ -133,7 +133,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
               child: Center(
                   child: PrimaryButton(
                 labelFontWeight: FontWeight.normal,
-                label: "NEXT",
+                label: I18n.of(context).next_button,
                 fontSize: 15,
                 width: 160,
                 onPressed: () async {

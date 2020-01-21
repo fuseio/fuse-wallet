@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/token.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
@@ -106,7 +107,7 @@ class _BusinessPageState extends State<BusinessPage> {
                           color: Color(0xFFB1FDC0),
                           padding: EdgeInsets.all(0),
                           child: Text(
-                            "Pay",
+                            I18n.of(context).pay,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontSize: 16,
