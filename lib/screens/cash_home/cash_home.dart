@@ -17,7 +17,10 @@ void showAlert(BuildContext context) {
   showDialog(child: new ContactsConfirmationScreen(), context: context);
 }
 
-void onChange(CashWalletViewModel viewModel, BuildContext context) async {
+void onChange(CashWalletViewModel viewModel, BuildContext context, {bool initial = false}) async {
+  if (initial) {
+    viewModel.syncContacts([]);
+  }
   if (!viewModel.isListeningToBranch &&
       viewModel.isCommunityLoading != null &&
       !viewModel.isCommunityLoading) {
@@ -62,7 +65,7 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
         distinct: true,
         converter: CashWalletViewModel.fromStore,
         onInitialBuild: (viewModel) async {
-          onChange(viewModel, context);
+          onChange(viewModel, context, initial: true);
         },
         onWillChange: (viewModel) async {
           onChange(viewModel, context);

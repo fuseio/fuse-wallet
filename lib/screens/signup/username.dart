@@ -61,7 +61,6 @@ class _UserNameScreenState extends State<UserNameScreen> {
                         autofocus: true,
                         cursorColor: Color(0xFFC6C6C6),
                         decoration: InputDecoration(
-                          hintText: 'Full name',
                           focusColor: Color(0xFFC6C6C6),
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Color(0xFFC6C6C6))),

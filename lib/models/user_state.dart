@@ -129,7 +129,8 @@ class UserState {
       logger.d('accountAddress: ${json['accountAddress']}');
       logger.d('jwtToken: ${json['jwtToken']}');
       logger.d('end fromJson');
-
+      Map<String, String> reverseContacts = json['reverseContacts'] == null ? new Map<String, String>(): Map<String, String>.from(jsonDecode(json['reverseContacts']));
+      List<String> syncedContacts = json['syncedContacts'] == null ? new List<String>(): List<String>.from(jsonDecode(json['syncedContacts']));
       return UserState(
         mnemonic: List<String>.from(json['mnemonic']),
         privateKey: json['privateKey'],
@@ -138,8 +139,8 @@ class UserState {
         countryCode: json['countryCode'],
         phoneNumber: json['phoneNumber'],
         contacts: null,
-        reverseContacts: json['reverseContacts'] == null ? new Map<String, String>(): Map<String, String>.from(jsonDecode(json['reverseContacts'])),
-        syncedContacts: json['syncedContacts'] == null ? new List<String>(): List<String>.from(jsonDecode(json['syncedContacts'])),
+        reverseContacts: reverseContacts,
+        syncedContacts: syncedContacts,
         jwtToken: json['jwtToken'],
         displayName: json['displayName'],
         email: json['email'],

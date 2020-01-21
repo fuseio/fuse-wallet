@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Container(
         color: Colors.transparent,
         child: Padding(
-            padding: EdgeInsets.only(bottom: 120),
+            padding: EdgeInsets.only(bottom: 100),
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
