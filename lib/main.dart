@@ -13,7 +13,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
-  await DotEnv().load('.env_qa');
+  await DotEnv().load('.env_prod');
   runApp(new MyApp(
     store: await createReduxStore(),
   ));
