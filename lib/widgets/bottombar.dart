@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 
 import '../common.dart';
 
-Widget bottomBar(context) {
+isCurrentRoute(BuildContext context, String route) {
+  String currentRoute = ModalRoute.of(context).settings.name;
+  return currentRoute == route;
+}
+
+Widget bottomBar(BuildContext context) {
   return new Container(
     decoration: BoxDecoration(
         color: const Color(0xFFF8F8F8),
@@ -13,27 +19,43 @@ Widget bottomBar(context) {
       right: 0.0,
       left: 0.0,
     ),
-    child: new Directionality(
-      textDirection: TextDirection.rtl,
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          bottomBarItem("arrow-down.png", "Receive", () {
-            Navigator.pushNamed(context, '/Receive');
-          }),
-          bottomBarItem("buy.png", "Buy", () {
-            Navigator.pushNamed(context, '/Buy');
-          }),
-          bottomBarItem("arrow-up.png", "Send", () {
-            Navigator.pushNamed(context, '/SendContact');
-          })
-        ],
-      ),
+    child: new Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        bottomBarItem(
+            isCurrentRoute(context, '/SendContact')
+                ? "send_selected.png"
+                : "send.png",
+            I18n.of(context).send_button, () {
+          redirect(context, '/SendContact');
+        }),
+        bottomBarItem(
+            isCurrentRoute(context, '/Buy') ? "buy_selected.png" : "buy.png",
+            I18n.of(context).buy, () {
+          redirect(context, '/Buy');
+        }),
+        bottomBarItem(
+            isCurrentRoute(context, '/Receive')
+                ? "receive_selected.png"
+                : "receive.png",
+            I18n.of(context).receive, () {
+          redirect(context, '/Receive');
+        })
+      ],
     ),
   );
 }
 
-Widget bottomBarItem(String img, String text, ontap) {
+void redirect(BuildContext context, String screen) {
+  Navigator.popUntil(context, (route) {
+    if (route.settings.name != screen) {
+      Navigator.pushNamed(context, screen);
+    }
+    return true;
+  });
+}
+
+Widget bottomBarItem(String img, String text, Function ontap) {
   return new Material(
     color: Colors.transparent,
     child: new InkWell(
@@ -46,8 +68,7 @@ Widget bottomBarItem(String img, String text, ontap) {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 5),
-              child: Image.asset('assets/images/' + img,
-                  width: 20.0, color: const Color(0xFFC4C4C4)),
+              child: Image.asset('assets/images/' + img, width: 20.0),
             ),
             new Text(text,
                 style: new TextStyle(

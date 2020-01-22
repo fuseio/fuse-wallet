@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -12,7 +14,6 @@ import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'dart:io';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
@@ -231,24 +232,23 @@ ThunkAction listenToBranchCall() {
     logger.wtf("branch listening.");
     store.dispatch(BranchListening());
 
-    FlutterAndroidLifecycle.listenToOnStartStream().listen((stringData) {
-      logger.wtf("ONSTART");
-      logger.wtf("Listen To On Start Stream Branch.io");
-      FlutterBranchIoPlugin.setupBranchIO();
-      logger.wtf("stringData $stringData");
-    }, onDone: () {
-      store.dispatch(listenToBranchCall());
-    }, onError: (error) {
-      logger.wtf("error, $error");
-      store.dispatch(listenToBranchCall());
-    });
+    if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
+
+    if (Platform.isAndroid) {
+      FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
+        logger.wtf("Listen To On Start Stream Branch.io");
+        FlutterBranchIoPlugin.setupBranchIO();
+      }, onDone: () {
+        store.dispatch(listenToBranchCall());
+      }, onError: () {
+        store.dispatch(listenToBranchCall());
+      });
+    }
 
     await Future.delayed(Duration(microseconds: 500), () {
       FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) async {
         var linkData = jsonDecode(stringData);
         logger.wtf("Listen To On Deep Link Stream Branch.io");
-        logger.wtf("linkData $linkData");
-
         if (linkData["~feature"] == "switch_community") {
           var communityAddress = linkData["community_address"];
           logger.wtf("communityAddress $communityAddress");
@@ -274,9 +274,7 @@ ThunkAction listenToBranchCall() {
 
     FlutterAndroidLifecycle.listenToOnResumeStream().listen((stringData) async {
       logger.wtf("Listen To On Resume Stream Branch.io");
-      logger.wtf("stringData $stringData");
     }, onDone: () {
-      logger.wtf("ondone");
       store.dispatch(listenToBranchCall());
     }, onError: (error) {
       logger.wtf("error, $error");
@@ -436,40 +434,6 @@ ThunkAction fetchJobCall(String jobId, Function(Job) fetchSuccessCallback, {Time
         }
       }
       fetchSuccessCallback(job);
-      // switch (job.name) {
-      //   case Job.RELAY:
-      //     {
-      //       String walletModule = job.data["walletModule"];
-      //       logger.wtf("walletModule: $walletModule");
-      //       switch (walletModule) {
-      //         case Job.COMMUNITY_MANAGER:
-      //           {
-      //             // TODO nothing.
-      //             break;
-      //           }
-      //         case Job.TRANSFER_MANAGER:
-      //           {
-      //             logger.wtf("dispatching");
-      //             store.dispatch(new TransferJobSuccess(job));
-      //             break;
-      //           }
-      //         default:
-      //           {
-      //             //statements;
-      //           }
-      //           break;
-      //       }
-      //       break;
-      //     }
-      //   case Job.CREATE_WALLET:
-      //     {
-      //       store.dispatch(callSendToInviteCall(job));
-      //       break;
-      //     }
-      //   default:
-      //     {}
-      //     break;
-      // }
       if (timer != null) {
         timer.cancel();
       }

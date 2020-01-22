@@ -129,6 +129,7 @@ CashWalletState _switchCommunityFailed(CashWalletState state, SwitchCommunityFai
 
 CashWalletState _getJoinBonusSuccess(CashWalletState state, GetJoinBonusSuccess action) {
   // TODO
+  return state;
 }
 
 CashWalletState _startFetchingBusinessList(CashWalletState state, StartFetchingBusinessList action) {

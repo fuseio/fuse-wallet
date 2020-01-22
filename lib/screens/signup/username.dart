@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/widgets/drawer.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
@@ -30,7 +32,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
               backgroundColor: Colors.white,
               withPadding: true,
               titleFontSize: 15,
-              title: "Sign up",
+              title: I18n.of(context).sign_up,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
@@ -44,12 +46,12 @@ class _UserNameScreenState extends State<UserNameScreen> {
                       ),
                       const SizedBox(height: 20.0),
                       Text(
-                        'Pick up your display name',
+                        I18n.of(context).pickup_display_name,
                         style: TextStyle(fontSize: 16),
                       ),
                       const SizedBox(height: 10.0),
                       Text(
-                          'This name will be shown to contacts that send you money to identify your account',
+                          I18n.of(context).pickup_display_name_text,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 15)),
                       const SizedBox(height: 10.0),
@@ -75,13 +77,12 @@ class _UserNameScreenState extends State<UserNameScreen> {
                   child: Column(children: <Widget>[
                     Center(
                       child: PrimaryButton(
-                        label: "Next",
+                        label: I18n.of(context).next_button,
                         labelFontWeight: FontWeight.normal,
                         fontSize: 16,
                         preload: isPreloading,
                         onPressed: () async {
-                          viewModel.setDisplayName(
-                              displayNameController.text ?? 'Anom');
+                          viewModel.setDisplayName(capitalize(displayNameController.text ?? 'Anom'));
                           Navigator.popAndPushNamed(context, '/Cash');
                         },
                       ),

@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
@@ -104,7 +105,7 @@ class TransactionListItem extends StatelessWidget {
         !transfer.isGenerateWallet() &&
         !transfer.isJoinCommunity()) {
       rightColumn.add(Padding(
-          child: Text("PENDING",
+          child: Text(I18n.of(context).pending,
               style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),
           padding: EdgeInsets.only(top: 10)));
     }
@@ -120,7 +121,7 @@ class TransactionListItem extends StatelessWidget {
             children: <Widget>[
               Text(
                   transfer.isJoinBonus()
-                      ? 'You got a join bonus!'
+                      ? I18n.of(context).join_bonus
                       : _transaction.text != null
                           ? _transaction.text
                           : _contact != null

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'dart:core';
 import 'package:package_info/package_info.dart';
@@ -10,9 +11,9 @@ class AboutScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return MainScaffold(
-      title: 'About',
+      title: I18n.of(context).about,
       titleFontSize: 15,
       withPadding: true,
       children: <Widget>[
@@ -30,7 +31,7 @@ class AboutScreen extends StatelessWidget {
                       contentPadding: EdgeInsets.only(
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: Text(
-                        'Version',
+                        I18n.of(context).version,
                         style: TextStyle(fontSize: 16),
                       ),
                       trailing: FutureBuilder(
@@ -48,7 +49,7 @@ class AboutScreen extends StatelessWidget {
                       contentPadding: EdgeInsets.only(
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: Text(
-                        'Legal',
+                        I18n.of(context).legal,
                         style: TextStyle(fontSize: 16),
                       ),
                     ),

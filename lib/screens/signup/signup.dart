@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/country_code_picker/country_code_picker.dart';
 import 'package:fusecash/widgets/country_code_picker/country_code.dart';
@@ -33,7 +34,7 @@ class _SignupScreenState extends State<SignupScreen> {
     return MainScaffold(
         backgroundColor: Colors.white,
         withPadding: true,
-        title: "Sign up",
+        title: I18n.of(context).sign_up,
         titleFontSize: 15,
         children: <Widget>[
           Container(
@@ -45,7 +46,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: EdgeInsets.only(
                       left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
                   child: Text(
-                      "Please enter your phone number so we can setup your account",
+                      I18n.of(context).enter_phone_number,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
@@ -73,7 +74,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         },
                         child: Center(
                           child: Text(
-                            "Why do we need this?",
+                            I18n.of(context).why_do_we_need_this,
                             style: TextStyle(
                                 color: Theme.of(context).textTheme.button.color,
                                 fontSize: 11,
@@ -162,7 +163,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 40.0),
                   Center(
                     child: PrimaryButton(
-                      label: "Next",
+                      label: I18n.of(context).next_button,
                       fontSize: 16,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () async {

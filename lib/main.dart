@@ -42,7 +42,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    //_newLocaleDelegate = AppTranslationsDelegate(newLocale: null);
     I18n.onLocaleChanged = onLocaleChange;
   }
 
@@ -50,8 +49,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
         .copyWith(statusBarIconBrightness: Brightness.dark));
-    //I18n.onLocaleChanged = onLocaleChange;
-
     return new Column(
       children: <Widget>[
         new Expanded(
@@ -66,6 +63,7 @@ class _MyAppState extends State<MyApp> {
                 i18n,
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: i18n.supportedLocales,
               localeResolutionCallback:

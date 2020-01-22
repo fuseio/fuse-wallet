@@ -1,6 +1,7 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
@@ -31,8 +32,8 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "Pay and get paid using crypto\nwithout fees or friction",
-                  style: TextStyle(fontSize: 17),
+                  I18n.of(context).intro_text_one,
+                  style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ))),
       ),
@@ -43,8 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "Use the wallet to send\nmoney to friends",
-                  style: TextStyle(fontSize: 17),
+                  I18n.of(context).intro_text_two,
+                  style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ))),
       ),
@@ -55,8 +56,8 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "Hold Ethereum assets and\naccess decentralized finance",
-                  style: TextStyle(fontSize: 17),
+                  I18n.of(context).intro_text_three,
+                  style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ))),
       ),
@@ -122,8 +123,11 @@ class _SplashScreenState extends State<SplashScreen> {
                     viewModel.jwtToken != '' &&
                     !viewModel.isLoggedOut) {
                   viewModel.initWeb3(viewModel.privateKey);
-                  Navigator.popUntil(context, ModalRoute.withName('/'));
-                  Navigator.popAndPushNamed(context, '/Cash');
+                  if (Navigator.canPop(context)) {
+                    Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+                  } else {
+                    Navigator.pushReplacementNamed(context, '/Cash');
+                  }
                 }
               }, builder: (BuildContext context, Store<AppState> store) {
                 return Container(
@@ -146,7 +150,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                         "assets/images/animation.flr",
                                         alignment: Alignment.center,
                                         fit: BoxFit.contain,
-                                        //animation: "part1",
                                         controller: _slideController,
                                       ),
                                     ),

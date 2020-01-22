@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/recovery.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
@@ -38,7 +39,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
           withPadding: true,
           titleFontSize: 15,
           backgroundColor: Colors.white,
-          title: "Restore from backup",
+          title: I18n.of(context).restore_from_backup,
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(
@@ -48,7 +49,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                   Padding(
                     padding: EdgeInsets.only(top: 30),
                     child: Text(
-                        "This is a 12 word phrase you were given when you created your previous wallet",
+                        I18n.of(context).restore_words,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
@@ -70,7 +71,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                       maxLines: 5,
                       autofocus: false,
                       decoration: const InputDecoration(
-                          labelText: 'Write down your 12 words...',
+                          labelText: "Write down your 12 words...",
                           fillColor: Color(0xFFF7F7F7)),
                       validator: (String value) {
                         if (value.split(" ").length != 12) {
@@ -86,7 +87,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
             const SizedBox(height: 30.0),
             Center(
                 child: PrimaryButton(
-              label: "Next",
+              label: I18n.of(context).next_button,
               fontSize: 16,
               labelFontWeight: FontWeight.normal,
               onPressed: () async {

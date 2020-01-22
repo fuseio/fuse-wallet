@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
@@ -60,7 +61,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       builder: (_, viewModel) {
         return MainScaffold(
             withPadding: true,
-            title: "Review transfer",
+            title: I18n.of(context).review_transfer,
             children: <Widget>[
               Container(
                   child: Column(children: <Widget>[
@@ -69,7 +70,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: 30),
-                        child: Text("Amount",
+                        child: Text(I18n.of(context).amount,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
@@ -94,7 +95,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 30),
-                        child: Text("To:",
+                        child: Text(I18n.of(context).to+ ':',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
@@ -144,7 +145,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                             args.accountAddress.isEmpty
                                         ? Text('')
                                         : Text(
-                                            "Address: ${formatAddress(args.accountAddress)}",
+                                            I18n.of(context).address + ": ${formatAddress(args.accountAddress)}",
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: Color(0xFF777777)),
@@ -152,7 +153,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                   ]
                                 : <Widget>[
                                     Text(
-                                      "Address: ${formatAddress(args.accountAddress)}",
+                                      I18n.of(context).address + ": ${formatAddress(args.accountAddress)}",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF777777)),
@@ -176,7 +177,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             ],
             footer: Center(
                 child: PrimaryButton(
-              label: "Send",
+              label: I18n.of(context).send_button,
               labelFontWeight: FontWeight.normal,
               onPressed: () {
                 send(viewModel, args, () {
