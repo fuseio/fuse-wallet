@@ -588,7 +588,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
       dynamic jobId = response['job']['_id'];
       Transfer transfer = new Transfer(
           type: 'RECEIVE',
-          text: 'Joining community',
+          text: 'Joining ' + community["name"] + ' community',
           status: 'PENDING',
           jobId: jobId);
 
@@ -597,7 +597,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
       store.dispatch(startFetchingJobCall(jobId, (job) {
         Transfer confirmedTx = transfer.copyWith(
             status: 'CONFIRMED',
-            text: 'Joined community',
+            text: 'Joined ' + (community["name"]) + ' community',
             txHash: job.data['txHash']);
         store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
       }));
@@ -618,9 +618,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       dynamic token = await graph.getTokenOfCommunity(communityAddress);
       logger.d(
           'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
-      store.dispatch(joinCommunityCall(community: community, token: token));
-      Map<String, dynamic> communityData =
-          await api.getCommunityData(communityAddress);
+      Map<String, dynamic> communityData = await api.getCommunityData(communityAddress);
       Plugins communityPlugins;
       if (communityData != null) {
         Map<String, dynamic> plugins = Map<String, dynamic>.from(
@@ -635,6 +633,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
           communityPlugins = Plugins.fromJsonState(services);
         }
       }
+      store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],

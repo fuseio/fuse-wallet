@@ -68,8 +68,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         //Divider(),
         getListTile(I18n.of(context).logout, () {
           viewModel.logout();
-          Navigator.popUntil(context, ModalRoute.withName('/'));
-          Navigator.pushNamed(context, '/');
+          Navigator.pushReplacementNamed(context, '/');
         })
       ];
     }

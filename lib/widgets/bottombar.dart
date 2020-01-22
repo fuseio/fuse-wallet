@@ -9,6 +9,7 @@ isCurrentRoute(BuildContext context, String route) {
 }
 
 Widget bottomBar(BuildContext context) {
+  bool isHomePage = isCurrentRoute(context, '/Cash');
   return new Container(
     decoration: BoxDecoration(
         color: const Color(0xFFF8F8F8),
@@ -27,19 +28,34 @@ Widget bottomBar(BuildContext context) {
                 ? "send_selected.png"
                 : "send.png",
             I18n.of(context).send_button, () {
-          redirect(context, '/SendContact');
+          if (isHomePage) {
+            redirect(context, '/SendContact');
+          } else {
+            Navigator.pop(context, ModalRoute.withName('/Cash'));
+            redirect(context, '/SendContact');
+          }
         }),
         bottomBarItem(
             isCurrentRoute(context, '/Buy') ? "buy_selected.png" : "buy.png",
             I18n.of(context).buy, () {
-          redirect(context, '/Buy');
+          if (isHomePage) {
+            redirect(context, '/Buy');
+          } else {
+            Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+            redirect(context, '/Buy');
+          }
         }),
         bottomBarItem(
             isCurrentRoute(context, '/Receive')
                 ? "receive_selected.png"
                 : "receive.png",
             I18n.of(context).receive, () {
-          redirect(context, '/Receive');
+          if (isHomePage) {
+            redirect(context, '/Receive');
+          } else {
+            Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+            redirect(context, '/Receive');
+          }
         })
       ],
     ),

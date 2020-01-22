@@ -32,24 +32,24 @@ class I18n implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  /// "Pay and get paid using crypto\n without fees or friction"
-  String get intro_text_one => "Pay and get paid using crypto\n without fees or friction";
-  /// "Use the wallet to send\n money to friends"
-  String get intro_text_two => "Use the wallet to send\n money to friends";
-  /// "Hold Ethereum assets and\n access decentralized finance"
-  String get intro_text_three => "Hold Ethereum assets and\n access decentralized finance";
+  /// "Use the wallet to send money \n to friends without fees or friction"
+  String get intro_text_one => "Use the wallet to send money \n to friends without fees or friction";
+  /// "Pay and get paid using crypto \n and see where you can shop nearby"
+  String get intro_text_two => "Pay and get paid using crypto \n and see where you can shop nearby";
+  /// "Hold Ethereum assets and access \n decentralized finance with a few taps"
+  String get intro_text_three => "Hold Ethereum assets and access \n decentralized finance with a few taps";
   /// "Hello"
   String get hi => "Hello";
   /// "Language"
   String get language => "Language";
-  /// "logout"
-  String get logout => "logout";
+  /// "Logout"
+  String get logout => "Logout";
   /// "Login"
   String get login => "Login";
   /// "Create a new wallet"
   String get create_new_wallet => "Create a new wallet";
-  /// "Create new wallet"
-  String get create__wallet => "Create new wallet";
+  /// "Create wallet"
+  String get create__wallet => "Create wallet";
   /// "Restore backup"
   String get restore_backup => "Restore backup";
   /// "Balance"
@@ -190,6 +190,12 @@ class I18n implements WidgetsLocalizations {
   String get buy => "Buy";
   /// "APPROVED"
   String get approved => "APPROVED";
+  /// "Simple"
+  String get simple => "Simple";
+  /// "Useful"
+  String get useful => "Useful";
+  /// "Smart"
+  String get smart => "Smart";
 }
 
 class _I18n_en_US extends I18n {
@@ -455,13 +461,256 @@ class _I18n_es_ES extends I18n {
   TextDirection get textDirection => TextDirection.ltr;
 }
 
+class _I18n_br_BR extends I18n {
+  const _I18n_br_BR();
+
+  /// "Pague e receba pagamentos usando crypto facilmente e sem taxas"
+  @override
+  String get intro_text_one => "Pague e receba pagamentos usando crypto facilmente e sem taxas";
+  /// "Use a carteira para enviar dinheiro para os amigos"
+  @override
+  String get intro_text_two => "Use a carteira para enviar dinheiro para os amigos";
+  /// "Mantenha ativos Ethereum e acesse"
+  @override
+  String get intro_text_three => "Mantenha ativos Ethereum e acesse";
+  /// "ola"
+  @override
+  String get hi => "ola";
+  /// "Lingua"
+  @override
+  String get language => "Lingua";
+  /// "Desconectar"
+  @override
+  String get logout => "Desconectar";
+  /// "Acessar"
+  @override
+  String get login => "Acessar";
+  /// "Criar uma nova carteira"
+  @override
+  String get create_new_wallet => "Criar uma nova carteira";
+  /// "Criar carteira"
+  @override
+  String get create__wallet => "Criar carteira";
+  /// "Recuperar cópia de segurança"
+  @override
+  String get restore_backup => "Recuperar cópia de segurança";
+  /// "Saldo"
+  @override
+  String get balance => "Saldo";
+  /// "Por favor anote estas 12 palavras"
+  @override
+  String get write_words => "Por favor anote estas 12 palavras";
+  /// "Por favor anote as palavras"
+  @override
+  String get write_word => "Por favor anote as palavras";
+  /// "Palavra"
+  @override
+  String get word => "Palavra";
+  /// "A palavra não corresponde"
+  @override
+  String get word_not_match => "A palavra não corresponde";
+  /// "Criar cópia de segurança"
+  @override
+  String get back_up => "Criar cópia de segurança";
+  /// "próximo"
+  @override
+  String get next_button => "próximo";
+  /// "pular"
+  @override
+  String get skip_button => "pular";
+  /// "pagar"
+  @override
+  String get pay => "pagar";
+  /// "Nenhuma empresa encontrada"
+  @override
+  String get no_businesses => "Nenhuma empresa encontrada";
+  /// "Gerando carteira"
+  @override
+  String get generating_wallet => "Gerando carteira";
+  /// "Carteira gerada"
+  @override
+  String get generated_wallet => "Carteira gerada";
+  /// "pendente"
+  @override
+  String get pending => "pendente";
+  /// "confirmado"
+  @override
+  String get confirmed => "confirmado";
+  /// "transações"
+  @override
+  String get transactions => "transações";
+  /// "Detalhes das transações"
+  @override
+  String get transaction_details => "Detalhes das transações";
+  /// "para"
+  @override
+  String get to => "para";
+  /// "endereço"
+  @override
+  String get address => "endereço";
+  /// "quantidade"
+  @override
+  String get amount => "quantidade";
+  /// "Você recebeu um bônus por ter aderido"
+  @override
+  String get join_bonus => "Você recebeu um bônus por ter aderido";
+  /// "Participar da comunidade"
+  @override
+  String get joining_community => "Participar da comunidade";
+  /// "Comunidade aderida"
+  @override
+  String get joined_community => "Comunidade aderida";
+  /// "sobre"
+  @override
+  String get about => "sobre";
+  /// "versão"
+  @override
+  String get version => "versão";
+  /// "legal"
+  @override
+  String get legal => "legal";
+  /// "código PIN"
+  @override
+  String get pincode => "código PIN";
+  /// "redigite sua senha"
+  @override
+  String get re_type_passcode => "redigite sua senha";
+  /// "crie sua senha"
+  @override
+  String get create_passcode => "crie sua senha";
+  /// "trocar de comunidade"
+  @override
+  String get switch_community => "trocar de comunidade";
+  /// "digitalizar codigo qr"
+  @override
+  String get sqan_qr_code => "digitalizar codigo qr";
+  /// "ou"
+  @override
+  String get or => "ou";
+  /// "insira o endereço da comunidade"
+  @override
+  String get enter_community_address => "insira o endereço da comunidade";
+  /// "endereço da comunidade"
+  @override
+  String get community_address => "endereço da comunidade";
+  /// "Salvar"
+  @override
+  String get save_button => "Salvar";
+  /// "Você pode mudar para uma nova comunidade digitando seu Asset ID (disponível no Fuse Studio) ou digitalizando um código QR"
+  @override
+  String get fuse_studio => "Você pode mudar para uma nova comunidade digitando seu Asset ID (disponível no Fuse Studio) ou digitalizando um código QR";
+  /// "ativar acesso aos contatos"
+  @override
+  String get enable_contacts_access => "ativar acesso aos contatos";
+  /// "Seus contatos não serão salvos em nosso\n  servidor e esta ação não enviará\n  eles quaisquer mensagens"
+  @override
+  String get enable_text => "Seus contatos não serão salvos em nosso\n  servidor e esta ação não enviará\n  eles quaisquer mensagens";
+  /// "Não se preocupe"
+  @override
+  String get dont_worry => "Não se preocupe";
+  /// "Ative a sincronização de contatos para acessar facilmente os contatos do telefone ao enviar dinheiro."
+  @override
+  String get enable_contacts_text => "Ative a sincronização de contatos para acessar facilmente os contatos do telefone ao enviar dinheiro.";
+  /// "envie dinheiro para os amigos"
+  @override
+  String get send_friends => "envie dinheiro para os amigos";
+  /// "receber"
+  @override
+  String get receive => "receber";
+  /// "Digitalize o código QR para receber dinheiro"
+  @override
+  String get scan_to_receive => "Digitalize o código QR para receber dinheiro";
+  /// "compartilhar"
+  @override
+  String get share_button => "compartilhar";
+  /// "enviar para"
+  @override
+  String get send_to => "enviar para";
+  /// "quanto ?"
+  @override
+  String get how_much => "quanto ?";
+  /// "continue com"
+  @override
+  String get continue_with => "continue com";
+  /// "Clique aqui para sincronizar seus contatos"
+  @override
+  String get click_to_sync => "Clique aqui para sincronizar seus contatos";
+  /// "recente"
+  @override
+  String get recent => "recente";
+  /// "busca"
+  @override
+  String get search => "busca";
+  /// "Revisar transferência"
+  @override
+  String get review_transfer => "Revisar transferência";
+  /// "enviar"
+  @override
+  String get send_button => "enviar";
+  /// "sucesso"
+  @override
+  String get success => "sucesso";
+  /// "restaurar da cópia de segurança"
+  @override
+  String get restore_from_backup => "restaurar da cópia de segurança";
+  /// "Esta é uma frase de 12 palavras que você recebeu quando criou sua carteira anterior"
+  @override
+  String get restore_words => "Esta é uma frase de 12 palavras que você recebeu quando criou sua carteira anterior";
+  /// "Anote suas 12 palavras ..."
+  @override
+  String get write_down_your_words => "Anote suas 12 palavras ...";
+  /// "inscrever-se"
+  @override
+  String get sign_up => "inscrever-se";
+  /// "Digite seu número de telefone para que possamos configurar sua conta"
+  @override
+  String get enter_phone_number => "Digite seu número de telefone para que possamos configurar sua conta";
+  /// "Por que nós precisamos disso?"
+  @override
+  String get why_do_we_need_this => "Por que nós precisamos disso?";
+  /// "Escolha o nome que sera exibido"
+  @override
+  String get pickup_display_name => "Escolha o nome que sera exibido";
+  /// "Este nome será mostrado para os contatos que enviarem dinheiro para identificar sua conta"
+  @override
+  String get pickup_display_name_text => "Este nome será mostrado para os contatos que enviarem dinheiro para identificar sua conta";
+  /// "reenviar código"
+  @override
+  String get resend_code => "reenviar código";
+  /// "Não recebeu a mensagem? -"
+  @override
+  String get didnt_get_message => "Não recebeu a mensagem? -";
+  /// "Acabamos de enviar uma mensagem para"
+  @override
+  String get we_just_sent => "Acabamos de enviar uma mensagem para";
+  /// "Digite o código de 6 dígitos daquela mensagem aqui"
+  @override
+  String get enter_verification_code => "Digite o código de 6 dígitos daquela mensagem aqui";
+  /// "proteja sua carteira"
+  @override
+  String get protect_wallet => "proteja sua carteira";
+  /// "criar copia de seguranca da carteira"
+  @override
+  String get backup_wallet => "criar copia de seguranca da carteira";
+  /// "completar"
+  @override
+  String get top_up => "completar";
+  /// "comprar"
+  @override
+  String get buy => "comprar";
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+}
+
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocalizations> {
   const GeneratedLocalizationsDelegate();
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("en", "US"),
       Locale("he", "IL"),
-      Locale("es", "ES")
+      Locale("es", "ES"),
+      Locale("br", "BR")
     ];
   }
 
@@ -490,6 +739,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     else if ("es_ES" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_es_ES());
     }
+    else if ("br_BR" == lang) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_br_BR());
+    }
     else if ("en" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
     }
@@ -498,6 +750,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     }
     else if ("es" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_es_ES());
+    }
+    else if ("br" == languageCode) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_br_BR());
     }
 
     return SynchronousFuture<WidgetsLocalizations>(const I18n());

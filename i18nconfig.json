@@ -3,13 +3,15 @@
     "locales": [
         "en-US",
         "he-IL",
-        "es-ES"
+        "es-ES",
+        "br-BR"
     ],
     "localePath": "i18n",
     "generatedPath": "lib/generated",
     "ltr": [
         "en-US",
-        "es-ES"
+        "es-ES",
+        "br-BR"
     ],
     "rtl": [
         "he-IL"

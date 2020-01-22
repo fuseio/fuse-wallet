@@ -28,38 +28,80 @@ class _SplashScreenState extends State<SplashScreen> {
       Container(
         color: Colors.transparent,
         child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  I18n.of(context).intro_text_one,
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ))),
+            padding: EdgeInsets.only(bottom: 135),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30.0),
+                  child: Text(
+                    I18n.of(context).simple,
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      I18n.of(context).intro_text_one,
+                      style: TextStyle(
+                          fontSize: 16, color: const Color(0xFF808080)),
+                      textAlign: TextAlign.center,
+                    ))
+              ],
+            )),
       ),
       Container(
         color: Colors.transparent,
         child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  I18n.of(context).intro_text_two,
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ))),
+            padding: EdgeInsets.only(bottom: 135),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30.0),
+                  child: Text(
+                    I18n.of(context).useful,
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      I18n.of(context).intro_text_two,
+                      style: TextStyle(
+                          fontSize: 16, color: const Color(0xFF808080)),
+                      textAlign: TextAlign.center,
+                    ))
+              ],
+            )),
       ),
       Container(
         color: Colors.transparent,
         child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  I18n.of(context).intro_text_three,
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ))),
+            padding: EdgeInsets.only(bottom: 135),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30.0),
+                  child: Text(
+                    I18n.of(context).smart,
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      I18n.of(context).intro_text_three,
+                      style: TextStyle(
+                          fontSize: 16, color: const Color(0xFF808080)),
+                      textAlign: TextAlign.center,
+                    ))
+              ],
+            )),
       ),
       Container(
         color: Colors.transparent,
@@ -143,9 +185,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 child: new Stack(
                                   children: <Widget>[
                                     Padding(
-                                      // padding: EdgeInsets.all(20),
-                                      padding: EdgeInsets.only(
-                                          bottom: 100, left: 20, right: 20),
+                                      padding: const EdgeInsets.only(bottom: 100),
                                       child: FlareActor(
                                         "assets/images/animation.flr",
                                         alignment: Alignment.center,

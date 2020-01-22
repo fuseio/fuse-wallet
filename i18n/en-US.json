@@ -1,13 +1,13 @@
 {
-    "intro_text_one": "Pay and get paid using crypto\n without fees or friction",
-    "intro_text_two": "Use the wallet to send\n money to friends",
-    "intro_text_three": "Hold Ethereum assets and\n access decentralized finance",
+    "intro_text_one": "Use the wallet to send money \n to friends without fees or friction",
+    "intro_text_two": "Pay and get paid using crypto \n and see where you can shop nearby",
+    "intro_text_three": "Hold Ethereum assets and access \n decentralized finance with a few taps",
     "hi": "Hello",
     "language": "Language",
-    "logout": "logout",
+    "logout": "Logout",
     "login": "Login",
     "create_new_wallet": "Create a new wallet",
-    "create__wallet": "Create new wallet",
+    "create__wallet": "Create wallet",
     "restore_backup": "Restore backup",
     "balance": "Balance",
     "write_words": "Please write down those 12 words:",
@@ -77,5 +77,8 @@
     "backup_wallet": "Back up wallet",
     "top_up": "Top up",
     "buy": "Buy",
-    "approved": "APPROVED"
+    "approved": "APPROVED",
+    "simple": "Simple",
+    "useful": "Useful",
+    "smart": "Smart"
 }
