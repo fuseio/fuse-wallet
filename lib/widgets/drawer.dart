@@ -26,15 +26,10 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   final assetIdController = TextEditingController(text: "");
   String userName = "";
-  bool isForked = false;
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      isForked = DotEnv().env['FORK'] == 'true';
-    });
-    print(isForked);
   }
 
   Widget getListTile(label, onTap) {
