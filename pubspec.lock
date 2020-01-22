@@ -289,12 +289,10 @@ packages:
   flutter_branch_io_plugin:
     dependency: "direct main"
     description:
-      path: "."
-      ref: optional_branch_bug_fix
-      resolved-ref: "98f30561437460a0539be244681257ebe587f623"
-      url: "https://github.com/fuseio/flutter-branch-io.git"
-    source: git
-    version: "1.0.1"
+      name: flutter_branch_io_plugin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1+1"
   flutter_cupertino_localizations:
     dependency: "direct main"
     description:

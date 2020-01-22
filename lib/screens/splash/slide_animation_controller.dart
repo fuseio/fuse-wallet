@@ -17,7 +17,7 @@ class HouseController extends FlareController {
   double _rooms = 0;
   // double _lastDemoValue = 0.0;
   FlutterActorArtboard _artboard;
-  FlareAnimationLayer _demoAnimation;
+  // FlareAnimationLayer _demoAnimation;
   // FlareAnimationLayer _skyAnimation;
 
   // final List<FlareAnimationLayer> _roomAnimations = [];
@@ -52,8 +52,8 @@ class HouseController extends FlareController {
     _arrange = artboard.getAnimation("part1");
 
     _artboard = artboard;
-    _demoAnimation = FlareAnimationLayer()
-      ..animation = _artboard.getAnimation("part1");
+    // _demoAnimation = FlareAnimationLayer()
+      // ..animation = _artboard.getAnimation("part1");
 
     _arrange.apply(2, _artboard, 1);
   }

@@ -23,8 +23,6 @@ class _LanguageSelectorState extends State<LanguageSelector> {
 
   List<Widget> _languageItems() {
     List<Widget> list = [];
-    final _transl = I18n.of(context);
-
     I18n.delegate.supportedLocales.forEach((lang) {
       list.add(new ListTile(
         contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 30, right: 15),

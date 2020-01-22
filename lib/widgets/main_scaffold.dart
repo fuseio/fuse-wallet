@@ -5,16 +5,17 @@ class MainScaffold extends StatelessWidget {
   MainScaffold(
       {this.title,
       this.children,
-      this.sliverList,
+      List<Widget> sliverList,
       this.key,
       this.footer,
       this.withPadding,
       this.backgroundColor,
       this.expandedHeight,
-      this.titleFontSize});
+      this.titleFontSize})
+      : sliverList = sliverList ?? new List<Widget>();
   final String title;
   final List<Widget> children;
-  List<Widget> sliverList;
+  final List<Widget> sliverList;
   final Widget footer;
   final bool withPadding;
   final Key key;
@@ -44,11 +45,11 @@ class MainScaffold extends StatelessWidget {
             //color: Theme.of(context).canvasColor,
             //),
           ),
-          iconTheme: IconThemeData(color: Theme.of(context).textTheme.body1.color),
+          iconTheme:
+              IconThemeData(color: Theme.of(context).textTheme.body1.color),
           backgroundColor: backgroundColor ?? Color(0xFFF5F5F5),
           brightness: Brightness.light,
         ),
-        //sliverList != null ? sliverList : Container(),
         ...sliverList,
         SliverList(
           delegate: SliverChildListDelegate(children),
@@ -59,15 +60,8 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarIconBrightness: Brightness.dark
-    ));
-
-    if (sliverList == null) {
-      sliverList = new List<Widget>();
-    }
-
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+        .copyWith(statusBarIconBrightness: Brightness.dark));
     return Scaffold(
       key: key,
       backgroundColor: Colors.white,

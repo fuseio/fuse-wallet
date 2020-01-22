@@ -48,7 +48,6 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
                   fit: BoxFit.contain,
                   animation: "Checkmark",
                   sizeFromArtboard: true,
-                  //controller: _slideController,
                 ),
                 ) ,
               ),

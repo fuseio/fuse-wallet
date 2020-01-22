@@ -150,7 +150,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                         "assets/images/animation.flr",
                                         alignment: Alignment.center,
                                         fit: BoxFit.contain,
-                                        //animation: "part1",
                                         controller: _slideController,
                                       ),
                                     ),

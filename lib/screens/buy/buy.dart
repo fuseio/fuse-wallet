@@ -42,7 +42,7 @@ class _BuyScreenState extends State<BuyScreen> {
               withPadding: false,
               titleFontSize: 15,
               footer: bottomBar(context),
-            title: I18n.of(context).buy,
+              title: I18n.of(context).buy,
               children: <Widget>[BusinessesListView()]);
         });
   }
@@ -60,113 +60,141 @@ class BusinessesListViewState extends State<BusinessesListView> {
       converter: BuyViewModel.fromStore,
       builder: (_, viewModel) {
         return Builder(
-            builder: (context) => viewModel.isCommunityBusinessesFetched ? Padding(
-                        child: Preloader(),
-                        padding: EdgeInsets.only(top: 70),
-                      ) : !viewModel.isCommunityBusinessesFetched && viewModel.businesses.isEmpty
-                ? Container(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Center(
-                      child: Text(I18n.of(context).no_businesses),
-                    ),
+            builder: (context) => viewModel.isCommunityBusinessesFetched
+                ? Padding(
+                    child: Preloader(),
+                    padding: EdgeInsets.only(top: 70),
                   )
-                : new Container(
-                    padding: const EdgeInsets.only(
-                        top: 16, bottom: 16, left: 10, right: 10),
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        new Row(
+                : !viewModel.isCommunityBusinessesFetched &&
+                        viewModel.businesses.isEmpty
+                    ? Container(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Center(
+                          child: Text(I18n.of(context).no_businesses),
+                        ),
+                      )
+                    : new Container(
+                        padding: const EdgeInsets.only(
+                            top: 16, bottom: 16, left: 10, right: 10),
+                        child: new Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            new Expanded(
-                              child: new Padding(
-                                  padding: new EdgeInsets.only(bottom: 5.0),
-                                  child: ListView.separated(
-                                    separatorBuilder:
-                                        (BuildContext context, int index) =>
-                                            new Divider(),
-                                    shrinkWrap: true,
-                                    physics: ScrollPhysics(),
-                                    itemCount:
-                                        viewModel.businesses?.length ?? 0,
-                                    itemBuilder: (context, index) {
-                                      return ListTile(
-                                        leading: Container(
-                                          width: 50,
-                                          height: 50,
-                                          decoration: BoxDecoration(),
-                                          child: ClipOval(
-                                              child: viewModel.businesses[index].metadata
-                                                .image == null || viewModel.businesses[index].metadata
-                                                .image == '' ? Image.network(
-                              'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
-                            ) : Image.network(
-                                            DotEnv().env['IPFS_BASE_URL'] + '/image/' + viewModel.businesses[index].metadata
-                                                .image,
-                                            fit: BoxFit.cover,
-                                            width: 50.0,
-                                            height: 50.0,
-                                          )),
-                                        ),
-                                        title: Text(
-                                          viewModel.businesses[index].name ??
-                                              '',
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                              context, '/Business',
-                                              arguments: BusinessRouteArguments(
-                                                  token: viewModel.token,
-                                                  business: viewModel
-                                                      .businesses[index]));
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                new Expanded(
+                                  child: new Padding(
+                                      padding: new EdgeInsets.only(bottom: 5.0),
+                                      child: ListView.separated(
+                                        separatorBuilder:
+                                            (BuildContext context, int index) =>
+                                                new Divider(),
+                                        shrinkWrap: true,
+                                        physics: ScrollPhysics(),
+                                        itemCount:
+                                            viewModel.businesses?.length ?? 0,
+                                        itemBuilder: (context, index) {
+                                          return ListTile(
+                                            leading: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(),
+                                              child: ClipOval(
+                                                  child: viewModel
+                                                                  .businesses[
+                                                                      index]
+                                                                  .metadata
+                                                                  .image ==
+                                                              null ||
+                                                          viewModel
+                                                                  .businesses[
+                                                                      index]
+                                                                  .metadata
+                                                                  .image ==
+                                                              ''
+                                                      ? Image.network(
+                                                          'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
+                                                        )
+                                                      : Image.network(
+                                                          DotEnv().env[
+                                                                  'IPFS_BASE_URL'] +
+                                                              '/image/' +
+                                                              viewModel
+                                                                  .businesses[
+                                                                      index]
+                                                                  .metadata
+                                                                  .image,
+                                                          fit: BoxFit.cover,
+                                                          width: 50.0,
+                                                          height: 50.0,
+                                                        )),
+                                            ),
+                                            title: Text(
+                                              viewModel
+                                                      .businesses[index].name ??
+                                                  '',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            onTap: () {
+                                              Navigator.pushNamed(
+                                                  context, '/Business',
+                                                  arguments:
+                                                      BusinessRouteArguments(
+                                                          token:
+                                                              viewModel.token,
+                                                          business: viewModel
+                                                                  .businesses[
+                                                              index]));
+                                            },
+                                            trailing: FlatButton(
+                                              shape: new RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      new BorderRadius.circular(
+                                                          30.0)),
+                                              color: Color(0xFFB1FDC0),
+                                              padding: EdgeInsets.all(0),
+                                              child: Text(
+                                                I18n.of(context).pay,
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                    context, '/SendAmount',
+                                                    arguments: SendAmountArguments(
+                                                        avatar: new AssetImage(
+                                                            'assets/images/anom.png'),
+                                                        name: viewModel
+                                                                .businesses[
+                                                                    index]
+                                                                .name ??
+                                                            '',
+                                                        accountAddress:
+                                                            viewModel
+                                                                .businesses[
+                                                                    index]
+                                                                .account));
+                                              },
+                                            ),
+                                          );
                                         },
-                                        trailing: FlatButton(
-                                          shape: new RoundedRectangleBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      30.0)),
-                                          color: Color(0xFFB1FDC0),
-                                          padding: EdgeInsets.all(0),
-                                          child: Text(
-                                            I18n.of(context).pay,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.normal),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, '/SendAmount',
-                                                arguments: SendAmountArguments(
-                                                    avatar: new AssetImage(
-                                                        'assets/images/anom.png'),
-                                                    name: viewModel
-                                                            .businesses[index]
-                                                            .name ??
-                                                        '',
-                                                    accountAddress: viewModel
-                                                        .businesses[index]
-                                                        .account));
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  )),
+                                      )),
+                                )
+                              ],
                             )
                           ],
-                        )
-                      ],
-                    ),
-                  ));
+                        ),
+                      ));
       },
     );
   }

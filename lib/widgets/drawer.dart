@@ -48,6 +48,38 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
+  List<Widget> menuItem(viewModel){
+    if (isFork()) {
+      return [
+      getListTile(I18n.of(context).backup_wallet, () {
+        Navigator.pushNamed(context, '/Backup1');
+      })
+    ];
+    } else {
+      return [
+        getListTile(I18n.of(context).switch_community, () {
+          Navigator.pushNamed(context, '/Switch');
+        }),
+        //Divider(),
+        getListTile(I18n.of(context).protect_wallet, () {}),
+        //Divider(),
+        getListTile(I18n.of(context).backup_wallet, () {
+          Navigator.pushNamed(context, '/Backup1');
+        }),
+        getListTile(I18n.of(context).about, () {
+          Navigator.pushNamed(context, '/About');
+        }),
+        new LanguageSelector(),
+        //Divider(),
+        getListTile(I18n.of(context).logout, () {
+          viewModel.logout();
+          Navigator.popUntil(context, ModalRoute.withName('/'));
+          Navigator.pushNamed(context, '/');
+        })
+      ];
+    }
+  }
+
   @override
   Widget build(BuildContext _context) {
     return Drawer(
@@ -74,7 +106,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "Lior",
+                            viewModel.firstName(),
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 22,
@@ -90,25 +122,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   color: Color(0xFFF5F5F5),
                   border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
             ),
-            isFork() ? getListTile(I18n.of(context).switch_community, () {
-              Navigator.pushNamed(context, '/Switch');
-            }) : SizedBox.shrink(),
-            //Divider(),
-            getListTile(I18n.of(context).protect_wallet, () {}),
-            //Divider(),
-            getListTile(I18n.of(context).backup_wallet, () {
-              Navigator.pushNamed(context, '/Backup1');
-            }),
-            getListTile(I18n.of(context).about, () {
-              Navigator.pushNamed(context, '/About');
-            }),
-            new LanguageSelector(),
-            //Divider(),
-            getListTile(I18n.of(context).logout, () {
-              viewModel.logout();
-              Navigator.popUntil(context, ModalRoute.withName('/'));
-              Navigator.pushNamed(context, '/');
-            }),
+            ...menuItem(viewModel),
             depositPlugins.isNotEmpty
                 ? Column(
                     children: <Widget>[
@@ -170,9 +184,10 @@ class DrawerViewModel {
   final String walletStatus;
   final String walletAddress;
   final Plugins plugins;
+  final Function() firstName;
 
   DrawerViewModel(
-      {this.logout, this.walletStatus, this.plugins, this.walletAddress});
+      {this.logout, this.walletStatus, this.plugins, this.walletAddress, this.firstName});
 
   static DrawerViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -183,6 +198,10 @@ class DrawerViewModel {
         walletStatus: store.state.cashWalletState.walletStatus,
         logout: () {
           store.dispatch(logoutCall());
-        });
+        },
+        firstName: () {
+        String fullName = store.state.userState.displayName ?? '';
+        return fullName.split(' ')[0];
+      });
   }
 }
