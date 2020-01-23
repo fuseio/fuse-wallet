@@ -74,11 +74,12 @@
     "we_just_sent": "We just sent a message to \n",
     "enter_verification_code": "Please enter 6-digit code from\n that message here",
     "protect_wallet": "Protect your wallet",
-    "backup_wallet": "Back up wallet",
+    "backup_wallet": "Backup",
     "top_up": "Top up",
     "buy": "Buy",
     "approved": "APPROVED",
     "simple": "Simple",
     "useful": "Useful",
-    "smart": "Smart"
+    "smart": "Smart",
+    "settings": "Settings"
 }
