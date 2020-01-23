@@ -60,19 +60,25 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 50, bottom: 50),
+                      padding: EdgeInsets.only(top: 100, bottom: 50),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          args.transfer.isConfirmed() ? Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Image.asset('assets/images/check.png', width: 25, height: 25),
-                          ): SizedBox.shrink(),
-                          Text(args.transfer.isConfirmed() ? I18n.of(context).approved : args?.transfer?.status,
+                          args.transfer.isConfirmed()
+                              ? Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Image.asset('assets/images/check.png',
+                                      width: 25, height: 25),
+                                )
+                              : SizedBox.shrink(),
+                          Text(
+                              args.transfer.isConfirmed()
+                                  ? I18n.of(context).approved
+                                  : args?.transfer?.status,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).accentColor,
                                   fontSize: 20,
                                   fontWeight: FontWeight.normal))
                         ],
@@ -83,7 +89,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
               ),
               Container(
                 padding:
-                    EdgeInsets.only(top: 40.0, bottom: 40, left: 55, right: 55),
+                    EdgeInsets.only(top: 40.0, bottom: 40, left: 50, right: 50),
                 color: Color(0xFFF5F5F5),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -91,10 +97,13 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                   children: <Widget>[
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text(I18n.of(context).to),
+                        SizedBox(
+                          width: 135,
+                          child: Text(I18n.of(context).to),
+                        ),
                         Row(
                           children: <Widget>[
                             CircleAvatar(
@@ -113,18 +122,28 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                               padding: EdgeInsets.only(left: 10),
                               child: args.transfer.isJoinBonus()
                                   ? Text('Join bonus')
-                                  : Text(args.transfer.text != null
-                                      ? args.transfer.text
-                                      : args.contact != null
-                                          ? args.contact.displayName
-                                          : displayName),
+                                  : SizedBox(
+                                      width: 110,
+                                      child: Text(
+                                        (args.transfer.receiverName != null &&
+                                                args.transfer.receiverName !=
+                                                    '')
+                                            ? args.transfer.receiverName
+                                            : args.transfer.text != null
+                                                ? args.transfer.text
+                                                : args.contact != null
+                                                    ? args.contact.displayName
+                                                    : displayName,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
                             )
                           ],
                         )
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 30),
+                      padding: EdgeInsets.only(top: 25, bottom: 25),
                       child: Divider(
                         color: const Color(0xFFDCDCDC),
                         height: 1,
@@ -132,17 +151,20 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text(I18n.of(context).address),
+                        SizedBox(
+                          width: 135,
+                          child: Text(I18n.of(context).address),
+                        ),
                         displayName == null
                             ? SizedBox.shrink()
                             : Text(displayName)
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 30),
+                      padding: EdgeInsets.only(top: 25, bottom: 25),
                       child: Divider(
                         color: const Color(0xFFDCDCDC),
                         height: 1,
@@ -150,10 +172,12 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text(I18n.of(context).amount),
+                        SizedBox(
+                          width: 135,
+                          child: Text(I18n.of(context).amount),
+                        ),
                         Row(
                           children: args?.amount,
                         )
@@ -162,7 +186,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                     args.transfer.txHash == null || args.transfer.txHash.isEmpty
                         ? SizedBox.shrink()
                         : Padding(
-                            padding: EdgeInsets.only(top: 30, bottom: 30),
+                            padding: EdgeInsets.only(top: 25, bottom: 25),
                             child: Divider(
                               color: const Color(0xFFDCDCDC),
                               height: 1,
@@ -172,10 +196,12 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                         ? SizedBox.shrink()
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              Text("Txn"),
+                              SizedBox(
+                                width: 135,
+                                child: Text('Txn'),
+                              ),
                               Text(
                                   '${args?.transfer?.txHash?.substring(0, 7)}...${args?.transfer?.txHash?.substring(args.transfer.txHash.length - 7)}')
                             ],

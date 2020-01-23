@@ -42,8 +42,8 @@ class DotsIndicator extends AnimatedWidget {
           decoration: new BoxDecoration(
             borderRadius: new BorderRadius.circular(100.0),
             color: index == controller.page?.round()
-                ? const Color(0xFF05283e)
-                : new Color.fromRGBO(5, 40, 62, 0.3),
+                ? const Color(0xFF696B6D)
+                : const Color(0xFF969899),
           ),
           child: new InkWell(
             onTap: () => onPageSelected(index),

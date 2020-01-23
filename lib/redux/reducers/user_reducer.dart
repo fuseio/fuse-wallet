@@ -12,8 +12,13 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SyncContactsRejected>(_syncContactsRejected),
   TypedReducer<UserState, SaveContacts>(_saveContacts),
   TypedReducer<UserState, SetPincodeSuccess>(_setPincode),
-  TypedReducer<UserState, SetDisplayName>(_setDisplayName)
+  TypedReducer<UserState, SetDisplayName>(_setDisplayName),
+  TypedReducer<UserState, ReLogin>(_reLoginUser)
 ]);
+
+UserState _reLoginUser(UserState state, ReLogin action) {
+  return state.copyWith(isLoggedOut: false);
+}
 
 UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) {
   return state.copyWith(

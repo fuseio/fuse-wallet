@@ -8,8 +8,8 @@ import 'package:redux/redux.dart';
 class SendAmountViewModel {
   final Token token;
   final String myCountryCode;
-  final Function(String, num, VoidCallback, VoidCallback) sendToContact;
-  final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
+  final Function(String, num, VoidCallback, VoidCallback, String receiverName) sendToContact;
+  final Function(String, num, VoidCallback, VoidCallback, String receiverName) sendToAccountAddress;
 
   SendAmountViewModel(
       {this.token,
@@ -28,16 +28,18 @@ class SendAmountViewModel {
         sendToContact: (String phoneNumber,
             num amount,
             VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
+            VoidCallback sendFailureCallback,
+            String receiverName) {
           store.dispatch(sendTokenToContactCall(
-              phoneNumber, amount, sendSuccessCallback, sendFailureCallback));
+              phoneNumber, amount, sendSuccessCallback, sendFailureCallback, receiverName: receiverName));
         },
         sendToAccountAddress: (String recieverAddress,
             num amount,
             VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
+            VoidCallback sendFailureCallback,
+            String receiverName) {
           store.dispatch(sendTokenCall(recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback));
+              sendSuccessCallback, sendFailureCallback, receiverName: receiverName));
         });
   }
 }

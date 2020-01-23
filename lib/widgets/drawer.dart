@@ -1,14 +1,12 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'dart:core';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/screens/cash_home/deposit_webview.dart';
 import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/widgets/language-selector.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 
@@ -46,31 +44,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   List<Widget> menuItem(viewModel){
     if (isFork()) {
       return [
-      getListTile(I18n.of(context).backup_wallet, () {
-        Navigator.pushNamed(context, '/Backup1');
-      })
-    ];
+        getListTile(I18n.of(context).backup_wallet, () {
+          Navigator.pushNamed(context, '/Backup1');
+        }),
+        getListTile(I18n.of(context).settings, () {
+          Navigator.pushNamed(context, '/Settings');
+        }),
+      ];
     } else {
       return [
         getListTile(I18n.of(context).switch_community, () {
           Navigator.pushNamed(context, '/Switch');
         }),
-        //Divider(),
-        getListTile(I18n.of(context).protect_wallet, () {}),
-        //Divider(),
         getListTile(I18n.of(context).backup_wallet, () {
           Navigator.pushNamed(context, '/Backup1');
         }),
-        getListTile(I18n.of(context).about, () {
-          Navigator.pushNamed(context, '/About');
+        getListTile(I18n.of(context).settings, () {
+          Navigator.pushNamed(context, '/Settings');
         }),
-        new LanguageSelector(),
-        //Divider(),
-        getListTile(I18n.of(context).logout, () {
-          viewModel.logout();
-          Navigator.popUntil(context, ModalRoute.withName('/'));
-          Navigator.pushNamed(context, '/');
-        })
       ];
     }
   }

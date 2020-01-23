@@ -53,11 +53,10 @@ class CashHeader extends StatelessWidget {
                 onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
-                child:
-                Padding(padding: EdgeInsets.only(top: 25, bottom: 25, right: 25),
+                child: Padding(padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
             child:  Image.asset(
                   'assets/images/menu.png',
-                  width: 18,
+                  width: 20,
                 ))
             ),
             Expanded(

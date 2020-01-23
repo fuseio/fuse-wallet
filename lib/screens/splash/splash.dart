@@ -1,12 +1,11 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
+import 'package:fusecash/widgets/on_boarding_pages.dart';
 import 'package:redux/redux.dart';
-import 'create_wallet.dart';
 import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,54 +21,6 @@ class _SplashScreenState extends State<SplashScreen> {
   HouseController _slideController;
   ValueNotifier<double> notifier;
   int _previousPage;
-
-  getPages() {
-    return <Widget>[
-      Container(
-        color: Colors.transparent,
-        child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  I18n.of(context).intro_text_one,
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ))),
-      ),
-      Container(
-        color: Colors.transparent,
-        child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  I18n.of(context).intro_text_two,
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ))),
-      ),
-      Container(
-        color: Colors.transparent,
-        child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  I18n.of(context).intro_text_three,
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ))),
-      ),
-      Container(
-        color: Colors.transparent,
-        child: Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child: Align(
-                alignment: Alignment.bottomCenter, child: CreateWallet())),
-      )
-    ];
-  }
 
   void _onScroll() {
     if (_pageController.page.toInt() == _pageController.page) {
@@ -143,9 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 child: new Stack(
                                   children: <Widget>[
                                     Padding(
-                                      // padding: EdgeInsets.all(20),
-                                      padding: EdgeInsets.only(
-                                          bottom: 100, left: 20, right: 20),
+                                      padding: const EdgeInsets.only(bottom: 100),
                                       child: FlareActor(
                                         "assets/images/animation.flr",
                                         alignment: Alignment.center,
@@ -160,7 +109,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                       itemCount: 4,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return getPages()[index % 4];
+                                        return getPages(context)[index % 4];
                                       },
                                     ),
                                     new Positioned(

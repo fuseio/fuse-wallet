@@ -63,30 +63,10 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                   Padding(
                     padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                     child: Container(
-                      // decoration: const BoxDecoration(
-                      //     borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                      //     color: const Color(0xFFFFFFFF)),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 12.0, // soften the shadow
-                            spreadRadius: .10, //extend the shadow
-                          )
-                        ],
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                      child: Container(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                         decoration: BoxDecoration(
+                          color: const Color(0xFFF7F7F7),
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white,
-                              // blurRadius: 10.0, // soften the shadow
-                              // spreadRadius: 7.0, //extend the shadow
-                            )
-                          ],
                         ),
                         child: Column(
                           children: <Widget>[
@@ -119,7 +99,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                               ],
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 20, bottom: 25),
+                              padding: EdgeInsets.only(top: 30, bottom: 25),
                               child: Container(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -143,9 +123,8 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                           ],
                         ),
                       ),
-                    ),
                   ),
-                  const SizedBox(height: 25.0),
+                  const SizedBox(height: 50.0),
                   Center(
                       child: PrimaryButton(
                     fontSize: 15,
@@ -181,7 +160,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: 16,
-                  fontWeight: FontWeight.w700)),
+                  fontWeight: FontWeight.normal)),
           padding: EdgeInsets.symmetric(vertical: 25, horizontal: 0),
         ),
       ),

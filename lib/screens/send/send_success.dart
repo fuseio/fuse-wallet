@@ -20,7 +20,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+      Navigator.pushReplacementNamed(context, '/Cash');
     });
   }
 

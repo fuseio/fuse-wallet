@@ -50,6 +50,7 @@ class Transfer extends Transaction {
   final String from;
   final BigInt value;
   final String tokenAddress;
+  final String receiverName;
 
   Transfer({
     String txHash,
@@ -62,6 +63,7 @@ class Transfer extends Transaction {
     this.from,
     this.value,
     this.tokenAddress,
+    this.receiverName,
   }) : super(
             txHash: txHash,
             type: type,
@@ -77,6 +79,7 @@ class Transfer extends Transaction {
   Transfer copyWith({
     String status, String txHash, String text}) {
     return Transfer(
+        receiverName: receiverName ?? this.receiverName,
         txHash: txHash ?? this.txHash,
         type: this.type,
         status: status ?? this.status,

@@ -12,15 +12,13 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarIconBrightness: Brightness.dark
-    ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+        .copyWith(statusBarIconBrightness: Brightness.dark));
 
     return Scaffold(
         key: key,
-        //backgroundColor: Colors.white,
         drawer: DrawerWidget(),
+        drawerEdgeDragWidth: 0,
         appBar: header != null
             ? new PreferredSize(
                 child: header,

@@ -83,7 +83,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                         preload: isPreloading,
                         onPressed: () async {
                           viewModel.setDisplayName(capitalize(displayNameController.text ?? 'Anom'));
-                          Navigator.popAndPushNamed(context, '/Cash');
+                          Navigator.pushReplacementNamed(context, '/Cash');
                         },
                       ),
                     ),
