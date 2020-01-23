@@ -11,6 +11,7 @@ import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/contacts.dart';
+import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
@@ -111,6 +112,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
                         name: user.displayName,
+                        // accountAddress: t,
                         avatar: user.avatar != null && user.avatar.isNotEmpty
                             ? MemoryImage(user.avatar)
                             : new AssetImage('assets/images/anom.png'),
@@ -249,8 +251,12 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               //subtitle: Text("user.company" ?? ""),
               onTap: () {
+                Map<String, String> reverseContacts = this.widget.viewModel.reverseContacts;
+                String number = formatPhoneNumber(contact.phones.first.value, this.widget.viewModel.countryCode);
+                String accountAddress = reverseContacts.keys.firstWhere((k) => reverseContacts[k] == number, orElse: () => null);
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
+                        accountAddress: accountAddress,
                         name: contact != null
                             ? contact.displayName
                             : deducePhoneNumber(transaction,

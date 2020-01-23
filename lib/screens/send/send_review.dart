@@ -45,10 +45,11 @@ class _SendReviewScreenState extends State<SendReviewScreen>
           formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
           args.amount,
           sendSuccessCallback,
-          sendFailureCallback);
+          sendFailureCallback,
+          args.name);
     } else {
       viewModel.sendToAccountAddress(args.accountAddress, args.amount,
-          sendSuccessCallback, sendFailureCallback);
+          sendSuccessCallback, sendFailureCallback, args.name);
     }
   }
 
@@ -69,7 +70,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 30),
+                        padding: EdgeInsets.only(top: 50),
                         child: Text(I18n.of(context).amount,
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -82,7 +83,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         child: Column(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(top: 20.0, bottom: 30),
+                              padding: EdgeInsets.only(top: 30.0, bottom: 30),
                               child: Text(
                                   "${args.amount} ${viewModel.token.symbol}",
                                   style: TextStyle(
@@ -126,7 +127,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     child: Hero(
                                       child: CircleAvatar(
                                         backgroundColor: Color(0xFFE0E0E0),
-                                        radius: 25,
+                                        radius: 30,
                                         backgroundImage: args.avatar,
                                       ),
                                       tag: "contactSent",
@@ -139,7 +140,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                 ? <Widget>[
                                     Text(
                                       args.name,
-                                      style: TextStyle(fontSize: 20),
+                                      style: TextStyle(fontSize: 18),
                                     ),
                                     args.accountAddress == null ||
                                             args.accountAddress.isEmpty
@@ -170,8 +171,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     child: Text("Fee: covered by fuse",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 14,
+                            color: Theme.of(context).accentColor,
+                            fontSize: 12,
                             fontWeight: FontWeight.normal)))
               ]))
             ],
@@ -193,7 +194,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                 });
               },
               preload: isPreloading,
-              width: 300,
+              width: 180
             )));
       },
     );

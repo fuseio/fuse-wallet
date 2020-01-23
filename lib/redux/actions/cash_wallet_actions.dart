@@ -453,7 +453,13 @@ ThunkAction startFetchingJobCall(String jobId, Function(Job) fetchSuccessCallbac
   };
 }
 
-ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
+ThunkAction inviteAndSendCall(
+  String contactPhoneNumber,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback,
+  {String receiverName = ''}
+) {
   return (Store store) async {
     dynamic response = await api.invite(
         contactPhoneNumber, store.state.cashWalletState.communityAddress);
@@ -462,13 +468,19 @@ ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount, VoidC
     store.dispatch(startFetchingJobCall(jobId, (Job job) {
       String receiverAddress = job.data["walletAddress"];
       store.dispatch(sendTokenCall(receiverAddress, tokensAmount,
-          sendSuccessCallback, sendFailureCallback));
+          sendSuccessCallback, sendFailureCallback, receiverName: receiverName));
       store.dispatch(syncContactsCall(store.state.userState.contacts));
     }, untilDone: true));
   };
 }
 
-ThunkAction sendTokenCall(String receiverAddress, num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
+ThunkAction sendTokenCall(
+  String receiverAddress,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback,
+  {String receiverName}
+) {
   return (Store store) async {
     try {
       wallet_core.Web3 web3 = store.state.cashWalletState.web3;
@@ -495,6 +507,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount, VoidCallback
           tokenAddress: tokenAddress,
           value: value,
           type: 'SEND',
+          receiverName: receiverName,
           status: 'PENDING',
           jobId: jobId);
 
@@ -738,7 +751,13 @@ ThunkAction getRecivedTokenTransfersListCall(String tokenAddress) {
   };
 }
 
-ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
+ThunkAction sendTokenToContactCall(
+  String contactPhoneNumber,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback,
+  {String receiverName}
+) {
   return (Store store) async {
     try {
       logger.i('Trying to send $tokensAmount to phone $contactPhoneNumber');
@@ -748,11 +767,11 @@ ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount, 
       logger.wtf("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
         store.dispatch(inviteAndSendCall(contactPhoneNumber, tokensAmount,
-            sendSuccessCallback, sendFailureCallback));
+            sendSuccessCallback, sendFailureCallback, receiverName: receiverName));
         return;
       }
       store.dispatch(sendTokenCall(walletAddress, tokensAmount,
-          sendSuccessCallback, sendFailureCallback));
+          sendSuccessCallback, sendFailureCallback, receiverName: receiverName));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token to contact'));

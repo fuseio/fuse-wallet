@@ -27,8 +27,6 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
   @override
   void initState() {
     super.initState();
-
-    //startNFC();
   }
 
   @override

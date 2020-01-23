@@ -76,27 +76,28 @@ class TransactionListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Transfer transfer = _transaction as Transfer;
     List<Widget> rightColumn = <Widget>[
-       transfer.isGenerateWallet() || transfer.isJoinCommunity()
+      transfer.isGenerateWallet() || transfer.isJoinCommunity()
           ? SizedBox.shrink()
           : Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  deduceSign(_transaction) +
-                      formatValue(transfer.value, _vm.token.decimals),
-                  style: TextStyle(
-                      color: deduceColor(_transaction),
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  " ${_vm.token.symbol}",
-                  style: TextStyle(
-                      color: deduceColor(_transaction),
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.normal),
-                )
+                new RichText(
+                    text: new TextSpan(children: <TextSpan>[
+                  new TextSpan(
+                      text: deduceSign(_transaction) +
+                          formatValue(transfer.value, _vm.token.decimals),
+                      style: new TextStyle(
+                          color: deduceColor(_transaction),
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold)),
+                  new TextSpan(
+                      text: " ${_vm.token.symbol}",
+                      style: new TextStyle(
+                          color: deduceColor(_transaction),
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.normal)),
+                ]))
               ],
             )
     ];
@@ -122,7 +123,8 @@ class TransactionListItem extends StatelessWidget {
               Text(
                   transfer.isJoinBonus()
                       ? I18n.of(context).join_bonus
-                      : _transaction.text != null
+                      : (transfer.receiverName != null && transfer.receiverName != '')
+                        ? transfer.receiverName : _transaction.text != null
                           ? _transaction.text
                           : _contact != null
                               ? _contact.displayName

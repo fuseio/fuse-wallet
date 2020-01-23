@@ -10,6 +10,7 @@ class SplashViewModel extends Equatable {
   final String jwtToken;
   final bool isLoggedOut;
   final Function(String) initWeb3;
+  final Function() loginAgain;
   final Function(VoidCallback successCallback) createLocalAccount;
 
   SplashViewModel(
@@ -17,7 +18,8 @@ class SplashViewModel extends Equatable {
       this.jwtToken,
       this.isLoggedOut,
       this.initWeb3,
-      this.createLocalAccount});
+      this.createLocalAccount,
+      this.loginAgain});
 
   static SplashViewModel fromStore(Store<AppState> store) {
     return SplashViewModel(
@@ -29,6 +31,9 @@ class SplashViewModel extends Equatable {
         },
         createLocalAccount: (VoidCallback successCallback) {
           store.dispatch(createLocalAccountCall(successCallback));
+        },
+        loginAgain: () {
+          store.dispatch(new ReLogin());
         }
         // accountAddress: store.state.userState.accountAddress,
         // loginRequestSuccess: store.state.userState.loginRequestSuccess,

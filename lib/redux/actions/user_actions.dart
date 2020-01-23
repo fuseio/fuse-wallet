@@ -29,6 +29,10 @@ class CreateLocalAccountSuccess {
       this.mnemonic, this.privateKey, this.accountAddress);
 }
 
+class ReLogin {
+  ReLogin();
+}
+
 class LoginRequestSuccess {
   final String countryCode;
   final String phoneNumber;

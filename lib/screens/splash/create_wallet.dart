@@ -39,6 +39,7 @@ class _CreateWalletState extends State<CreateWallet> {
                         viewModel.isLoggedOut ? I18n.of(context).login : I18n.of(context).create_new_wallet,
                     onPressed: () {
                       if (viewModel.isLoggedOut) {
+                        viewModel.loginAgain();
                         viewModel.initWeb3(viewModel.privateKey);
                         Navigator.popUntil(context, ModalRoute.withName('/'));
                         Navigator.pushNamed(context, '/Cash');

@@ -5,7 +5,7 @@ ThemeData getTheme() {
     fontFamily: 'Europa', //'Source',  //'Gotham',
     brightness: Brightness.light,
     primaryColor: const Color(0xFF1C1F21),
-    accentColor: const Color(0xFFA8EB8C),
+    accentColor: const Color(0xFFA5A5A5),
     canvasColor: const Color(0xFFF8F8F8),
     scaffoldBackgroundColor: Colors.white,
     textSelectionHandleColor: const Color(0xFF05283e),
