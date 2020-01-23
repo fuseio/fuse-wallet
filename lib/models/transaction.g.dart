@@ -39,6 +39,7 @@ Transfer _$TransferFromJson(Map<String, dynamic> json) {
     from: json['from'] as String,
     value: json['value'] == null ? null : BigInt.parse(json['value'] as String),
     tokenAddress: json['tokenAddress'] as String,
+    receiverName: json['receiverName'] as String,
   );
 }
 
@@ -53,4 +54,5 @@ Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{
       'from': instance.from,
       'value': instance.value?.toString(),
       'tokenAddress': instance.tokenAddress,
+      'receiverName': instance.receiverName,
     };
