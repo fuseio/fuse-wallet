@@ -57,27 +57,27 @@ class SignupDialogState extends State<SignupDialog>
                   children: <Widget>[
                     Text("Why do we need this?",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 15,
                             fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0),
                     Text(
                         "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
                     Text(
                         "Fuse will never share this information with 3rd party.",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
                     Text("For more information: Fuse.io\privacy",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
@@ -114,7 +114,7 @@ class BonusLetter extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0)),
       child: Text(_letter,
           style: TextStyle(
-              color: Colors.black,
+              color: Theme.of(context).primaryColor,
               fontSize: 30,
               fontWeight: FontWeight.w500)),
     );

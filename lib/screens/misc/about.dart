@@ -32,7 +32,7 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: Text(
                         I18n.of(context).version,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
                       ),
                       trailing: FutureBuilder(
                         future: getVersionNumber(),
@@ -50,7 +50,7 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: Text(
                         I18n.of(context).legal,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
                       ),
                     ),
                     new Divider(),

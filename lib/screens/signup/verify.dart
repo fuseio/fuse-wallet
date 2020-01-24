@@ -34,7 +34,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
         },
         builder: (_, viewModel) {
           return MainScaffold(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
               titleFontSize: 15,
               title: I18n.of(context).sign_up,
@@ -51,7 +51,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                               I18n.of(context).enter_verification_code,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             fontSize: 16,
                             fontWeight: FontWeight.normal,
                           )),
@@ -61,7 +61,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         child: Container(
                           width: 280,
                           child: new Theme(
-                              data: new ThemeData(hintColor: Colors.white),
+                              data: new ThemeData(hintColor: Theme.of(context).scaffoldBackgroundColor),
                               child: PinInputTextField(
                                 pinLength: 6,
                                 decoration: UnderlineDecoration(

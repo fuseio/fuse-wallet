@@ -11,6 +11,7 @@ import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -626,9 +627,14 @@ ThunkAction switchCommunityCall(String communityAddress) {
     try {
       if (store.state.cashWalletState.isCommunityLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
+      dynamic token = await graph.getTokenOfCommunity(communityAddress);
+      if (isGoodDollar(communityAddress)) {
+        token = Map.from(goodDollarToken);
+      } else {
+        token = await graph.getTokenOfCommunity(communityAddress);
+      }
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.d('community fetched for $communityAddress');
-      dynamic token = await graph.getTokenOfCommunity(communityAddress);
       logger.d(
           'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       Map<String, dynamic> communityData = await api.getCommunityData(communityAddress);

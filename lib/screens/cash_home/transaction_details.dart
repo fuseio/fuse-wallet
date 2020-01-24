@@ -90,7 +90,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
               Container(
                 padding:
                     EdgeInsets.only(top: 40.0, bottom: 40, left: 50, right: 50),
-                color: Color(0xFFF5F5F5),
+                color: Theme.of(context).backgroundColor,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

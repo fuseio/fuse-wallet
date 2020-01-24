@@ -24,7 +24,7 @@ List<Widget> getPages(context) {
                   child: Text(
                     I18n.of(context).intro_text_one,
                     style:
-                        TextStyle(fontSize: 16, color: const Color(0xFF808080)),
+                        TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary,),
                     textAlign: TextAlign.center,
                   ))
             ],
@@ -50,7 +50,7 @@ List<Widget> getPages(context) {
                   child: Text(
                     I18n.of(context).intro_text_two,
                     style:
-                        TextStyle(fontSize: 16, color: const Color(0xFF808080)),
+                        TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary),
                     textAlign: TextAlign.center,
                   ))
             ],
@@ -76,7 +76,7 @@ List<Widget> getPages(context) {
                   child: Text(
                     I18n.of(context).intro_text_three,
                     style:
-                        TextStyle(fontSize: 16, color: const Color(0xFF808080)),
+                        TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary),
                     textAlign: TextAlign.center,
                   ))
             ],

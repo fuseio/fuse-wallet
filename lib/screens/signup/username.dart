@@ -29,7 +29,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
         converter: OnboardViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
               titleFontSize: 15,
               title: I18n.of(context).sign_up,
@@ -47,13 +47,13 @@ class _UserNameScreenState extends State<UserNameScreen> {
                       const SizedBox(height: 20.0),
                       Text(
                         I18n.of(context).pickup_display_name,
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary),
                       ),
                       const SizedBox(height: 10.0),
                       Text(
                           I18n.of(context).pickup_display_name_text,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15)),
+                          style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.secondary)),
                       const SizedBox(height: 10.0),
                       TextFormField(
                         textAlign: TextAlign.center,

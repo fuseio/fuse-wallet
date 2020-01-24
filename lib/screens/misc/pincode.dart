@@ -54,7 +54,7 @@ class _PincodeScreenState extends State<PincodeScreen> {
                   child: Container(
                     width: 280,
                     child: new Theme(
-                        data: new ThemeData(hintColor: Colors.white),
+                        data: new ThemeData(hintColor: Theme.of(context).scaffoldBackgroundColor),
                         child: PinInputTextField(
                           pinLength: 6,
                           decoration: UnderlineDecoration(

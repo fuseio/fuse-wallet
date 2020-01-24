@@ -38,7 +38,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
           footer: null,
           withPadding: true,
           titleFontSize: 15,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           title: I18n.of(context).restore_from_backup,
           children: <Widget>[
             Container(
@@ -48,11 +48,10 @@ class _RecoveryPageState extends State<RecoveryPage> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 30),
-                    child: Text(
-                        I18n.of(context).restore_words,
+                    child: Text(I18n.of(context).restore_words,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             fontSize: 16,
                             fontWeight: FontWeight.normal)),
                   )
@@ -65,20 +64,24 @@ class _RecoveryPageState extends State<RecoveryPage> {
                 key: _formKey,
                 child: Column(
                   children: <Widget>[
-                    TextFormField(
-                      controller: wordsController,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 5,
-                      autofocus: false,
-                      decoration: const InputDecoration(
-                          labelText: "Write down your 12 words...",
-                          fillColor: Color(0xFFF7F7F7)),
-                      validator: (String value) {
-                        if (value.split(" ").length != 12) {
-                          return 'Please enter 12 words';
-                        }
-                        return null;
-                      },
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).bottomAppBarColor,
+                      ),
+                      child: TextFormField(
+                        controller: wordsController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 5,
+                        autofocus: false,
+                        decoration: const InputDecoration(
+                            border: null, fillColor: Colors.transparent),
+                        validator: (String value) {
+                          if (value.split(" ").length != 12) {
+                            return 'Please enter 12 words';
+                          }
+                          return null;
+                        },
+                      ),
                     )
                   ],
                 ),

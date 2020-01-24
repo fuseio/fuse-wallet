@@ -47,7 +47,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
               contentPadding: EdgeInsets.all(0),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12.0))),
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               content: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -142,7 +142,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                 child: Text(
                                   I18n.of(context).skip_button,
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 14),
+                                      color: Theme.of(context).primaryColor, fontSize: 14),
                                 ),
                               ),
                             ),

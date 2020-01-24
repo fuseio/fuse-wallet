@@ -19,7 +19,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, right: 30, left: 30),
       title: Text(
         label,
-        style: TextStyle(fontSize: 16),
+        style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
       ),
       onTap: onTap,
     );
@@ -45,16 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         getListTile(I18n.of(context).logout, () {
           viewModel.logout();
           Navigator.pushReplacementNamed(context, '/');
-        }),
-        new Divider(),
-        ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 5, bottom: 5, right: 30, left: 30),
-          title: Text(
-            I18n.of(context).legal,
-            style: TextStyle(fontSize: 16),
-          ),
-        ),
+        })
       ];
     }
   }
