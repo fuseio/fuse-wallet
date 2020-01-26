@@ -19,15 +19,8 @@ class CashWalletState {
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
   final bool isListeningToBranch;
-  final BigInt tokenBalance;
   final Map<String, num> sendToInvites;
-  // final List<Transfer> tokenTransfers;
-  // final List<PendingTransfer> pendingTransfers;
-  final Transactions transactions;
-  final Plugins plugins;
   final String communityAddress;
-  final Token token;
-  final List<Business> businesses;
 
   final Map<String, Community> communities;
 
@@ -44,14 +37,7 @@ class CashWalletState {
     this.isBalanceFetchingStarted,
     this.isTransfersFetchingStarted,
     this.isListeningToBranch,
-    this.token,
-    this.tokenBalance,
-    // this.tokenTransfers,
-    // this.pendingTransfers,
-    this.businesses,
-    this.transactions,
     this.isCommunityBusinessesFetched,
-    this.plugins,
     this.communities
   });
 
@@ -69,14 +55,7 @@ class CashWalletState {
         isCommunityBusinessesFetched: false,
         isBalanceFetchingStarted: false,
         isTransfersFetchingStarted: false,
-        token: null,
-        tokenBalance: BigInt.from(0),
-        // tokenTransfers: new List<Transfer>(),
-        // pendingTransfers: new List<PendingTransfer>(),
         sendToInvites: new Map<String, num>(),
-        businesses: new List<Business>(),
-        transactions: new Transactions(list: new List<Transaction>()),
-        plugins: new Plugins(),
         communities: new Map<String, Community>());
   }
 
@@ -95,8 +74,6 @@ class CashWalletState {
     bool isListeningToBranch,
     Token token,
     BigInt tokenBalance,
-    // List<Transfer> tokenTransfers,
-    // List<PendingTransfer> pendingTransfers,
     Map<String, num> sendToInvites,
     List<Business> businesses,
     Transactions transactions,
@@ -116,14 +93,7 @@ class CashWalletState {
         isBalanceFetchingStarted: isBalanceFetchingStarted ?? this.isBalanceFetchingStarted,
         isTransfersFetchingStarted: isTransfersFetchingStarted ?? this.isTransfersFetchingStarted,
         isListeningToBranch: isListeningToBranch ?? this.isListeningToBranch,
-        token: token ?? this.token,
-        tokenBalance: tokenBalance ?? this.tokenBalance,
-        // tokenTransfers: tokenTransfers ?? this.tokenTransfers,
-        // pendingTransfers: pendingTransfers ?? this.pendingTransfers,
         sendToInvites: sendToInvites ?? this.sendToInvites,
-        businesses: businesses ?? this.businesses,
-        transactions: transactions ?? this.transactions,
-        plugins: plugins ?? this.plugins,
         communities: communities ?? this.communities
     );
   }
@@ -133,10 +103,6 @@ class CashWalletState {
         'walletStatus': walletStatus,
         'communityAddress': communityAddress,
         'communityName': communityName,
-        'token': token?.toJson(),
-        'tokenBalance': tokenBalance.toString(),
-        'transactions': transactions.toJson(),
-        'plugins': plugins.toJson(),
         'communities': List<Community>.from(communities.values)
             .map((community) => community.toJson())
             .toList()
@@ -160,11 +126,7 @@ class CashWalletState {
         isBalanceFetchingStarted: false,
         isTransfersFetchingStarted: false,
         isListeningToBranch: false,
-        token: json['token'] == null ? json['token'] : Token.fromJson(json['token']),
-        tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
         sendToInvites: new Map<String, num>(),
-        transactions: Transactions.fromJson(json['transactions']),
-        plugins: Plugins.fromJson(json["plugins"]),
         communities: json['communities'] != null ? communities : new Map<String, Community>()
     );
   }

@@ -719,7 +719,9 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
     try {
       if (store.state.cashWalletState.isCommunityLoading) return;
       String walletAddress = store.state.cashWalletState.walletAddress;
-      num lastBlockNumber = store.state.cashWalletState.transactions.blockNumber;
+      String communityAddres = store.state.cashWalletState.communityAddress;
+      Community community = store.state.cashWalletState.communities[communityAddres];
+      num lastBlockNumber = community.transactions.blockNumber;
       num currentBlockNumber = await store.state.cashWalletState.web3.getBlockNumber();
       Map<String, dynamic> response = await graph.getTransfers(
           walletAddress, tokenAddress,
@@ -737,9 +739,10 @@ ThunkAction getRecivedTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
     try {
       if (store.state.cashWalletState.isCommunityLoading) return;
+      String communityAddres = store.state.cashWalletState.communityAddress;
+      Community community = store.state.cashWalletState.communities[communityAddres];
       String walletAddress = store.state.cashWalletState.walletAddress;
-      num lastBlockNumber =
-          store.state.cashWalletState.transactions.blockNumber;
+      num lastBlockNumber = community.transactions.blockNumber;
       num currentBlockNumber =
           await store.state.cashWalletState.web3.getBlockNumber();
       // logger.d(
