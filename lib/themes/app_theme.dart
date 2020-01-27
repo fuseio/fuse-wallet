@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum MyThemeKeys { DEFAULT, PAYWISE }
+enum MyThemeKeys { DEFAULT, PAYWISE, OPEN_MONEY, GOOD_DOLLAR, WEPY }
 
 class MyThemes {
   static final ThemeData defaultTheme = getTheme();
@@ -12,12 +12,39 @@ class MyThemes {
           body1: new TextStyle(color: const Color(0xFF333333)),
           button: new TextStyle(color: Colors.white)));
 
+  static final ThemeData openMoneyTheme = getTheme().copyWith(
+      primaryColorLight: const Color(0xFF65944A),
+      primaryColorDark: const Color(0xFF2C4514),
+      textTheme: TextTheme(
+          body1: new TextStyle(color: const Color(0xFF333333)),
+          button: new TextStyle(color: Colors.white)));
+
+  static final ThemeData goodDollarTheme = getTheme().copyWith(
+      primaryColorLight: const Color(0xFF02B0FF),
+      primaryColorDark: const Color(0xFF00B247),
+      textTheme: TextTheme(
+          body1: new TextStyle(color: const Color(0xFF333333)),
+          button: new TextStyle(color: Colors.white)));
+
+  static final ThemeData wepyTheme = getTheme().copyWith(
+      primaryColorLight: const Color(0xFF06DEA4),
+      primaryColorDark: const Color(0xFF1077D8),
+      textTheme: TextTheme(
+          body1: new TextStyle(color: const Color(0xFF333333)),
+          button: new TextStyle(color: Colors.white)));
+
   static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
     switch (themeKey) {
       case MyThemeKeys.DEFAULT:
         return defaultTheme;
       case MyThemeKeys.PAYWISE:
         return paywiseTheme;
+      case MyThemeKeys.OPEN_MONEY:
+        return openMoneyTheme;
+      case MyThemeKeys.GOOD_DOLLAR:
+        return goodDollarTheme;
+      case MyThemeKeys.WEPY:
+        return wepyTheme;
       default:
         return defaultTheme;
     }
@@ -26,11 +53,10 @@ class MyThemes {
 
 ThemeData getTheme() {
   ColorScheme myScheme = new ColorScheme.light().copyWith(
-    background: Color(0xFFF5F5F5),
-    primary: Colors.black,
-    secondary: Color(0xFF808080),
-    secondaryVariant: Color(0xFFF5F5F5)
-  );
+      background: Color(0xFFF5F5F5),
+      primary: Colors.black,
+      secondary: Color(0xFF808080),
+      secondaryVariant: Color(0xFFF5F5F5));
   return ThemeData(
     colorScheme: myScheme,
     backgroundColor: Color(0xFFF5F5F5),

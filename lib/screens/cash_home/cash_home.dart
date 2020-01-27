@@ -20,6 +20,21 @@ void showAlert(BuildContext context) {
   showDialog(child: new ContactsConfirmationScreen(), context: context);
 }
 
+void updateTheme(CashWalletViewModel viewModel, Function _changeTheme, BuildContext context) {
+  String communityAddress = viewModel.communityAddress;
+  if (isPaywise(communityAddress)) {
+    _changeTheme(context, MyThemeKeys.PAYWISE);
+  } else if (isGoodDollar(communityAddress)) {
+    _changeTheme(context, MyThemeKeys.GOOD_DOLLAR);
+  } else if (isOpenMoney(communityAddress)) {
+    _changeTheme(context, MyThemeKeys.OPEN_MONEY);
+  } else if (isWepy(communityAddress)) {
+    _changeTheme(context, MyThemeKeys.WEPY);
+  } else {
+    _changeTheme(context, MyThemeKeys.DEFAULT);
+  }
+}
+
 void onChange(CashWalletViewModel viewModel, BuildContext context, {bool initial = false}) async {
   if (initial) {
     viewModel.syncContacts([]);
@@ -75,11 +90,7 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
           onChange(viewModel, context, initial: true);
         },
         onWillChange: (viewModel) async {
-          if (isPaywise(viewModel.communityAddress)) {
-            _changeTheme(context, MyThemeKeys.PAYWISE);
-          } else {
-            _changeTheme(context, MyThemeKeys.DEFAULT);
-          }
+          updateTheme(viewModel, _changeTheme, context);
           onChange(viewModel, context);
         },
         builder: (_, viewModel) {
