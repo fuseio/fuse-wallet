@@ -38,6 +38,7 @@ void updateTheme(CashWalletViewModel viewModel, Function _changeTheme, BuildCont
 void onChange(CashWalletViewModel viewModel, BuildContext context, {bool initial = false}) async {
   if (initial) {
     viewModel.syncContacts([]);
+    viewModel.startProcessingJobs();
   }
   if (!viewModel.isListeningToBranch &&
       viewModel.isCommunityLoading != null &&

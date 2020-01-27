@@ -212,6 +212,16 @@ class AddTransaction {
   AddTransaction(this.transaction);
 }
 
+class AddJob {
+  final Job job;
+  AddJob(this.job);
+}
+
+class JobDone {
+  final Job job;
+  JobDone(this.job);
+}
+
 Future<bool> approvalCallback() async {
   return true;
 }
@@ -365,8 +375,18 @@ ThunkAction createAccountWalletCall(String accountAddress) {
       logger.d('createAccountWalletCall');
       logger.d('accountAddress: $accountAddress');
       store.dispatch(new CreateAccountWalletRequest(accountAddress));
-      await api.createWallet();
+      Map<String, dynamic> response = await api.createWallet();
+      if (!response.containsKey('job')) {
+        print('Wallet already exists');
+        return;
+      }
+      dynamic arguments = {
+        'accountAddress': accountAddress
+      };
+      Job job = JobFactory.create(response['job'], arguments);
+      store.dispatch(AddJob(job));
       store.dispatch(new CreateAccountWalletSuccess(accountAddress));
+<<<<<<< HEAD
       new Timer.periodic(Duration(seconds: 5), (Timer t) async {
         dynamic wallet = await api.getWallet();
         String walletAddress = wallet["walletAddress"];
@@ -385,9 +405,44 @@ ThunkAction createAccountWalletCall(String accountAddress) {
           t.cancel();
         }
       });
+=======
+      // new Timer.periodic(Duration(seconds: 5), (Timer t) async {
+      //   dynamic wallet = await api.getWallet();
+      //   String walletAddress = wallet["walletAddress"];
+      //   if (walletAddress != null && walletAddress.isNotEmpty) {
+      //     store.dispatch(new GetWalletAddressSuccess(walletAddress));
+      //     store.dispatch(segmentIdentifyCall(walletAddress,
+      //         traits: new Map<String, dynamic>.from({
+      //           "walletAddress": walletAddress,
+      //           "accountAddress": accountAddress,
+      //           "displatName": store.state.userState.displayName
+      //         })));
+      //     store.dispatch(segmentTrackCall('Wallet Generated'));
+      //     store.dispatch(create3boxAccountCall(accountAddress));
+      //     t.cancel();
+      //   }
+      // });
+>>>>>>> working
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not create wallet'));
+    }
+  };
+}
+
+ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
+  return (Store store) async {
+    String walletAddress = wallet["walletAddress"];
+    if (walletAddress != null && walletAddress.isNotEmpty) {
+      store.dispatch(new GetWalletAddressSuccess(walletAddress));
+      store.dispatch(segmentIdentifyCall(walletAddress,
+          traits: new Map<String, dynamic>.from({
+            "walletAddress": walletAddress,
+            "accountAddress": accountAddress,
+            "displatName": store.state.userState.displayName
+          })));
+      store.dispatch(segmentTrackCall('Wallet Generated'));
+      store.dispatch(create3boxAccountCall(accountAddress));
     }
   };
 }
@@ -461,9 +516,34 @@ ThunkAction startFetchingJobCall(
   };
 }
 
-ThunkAction inviteAndSendCall(String contactPhoneNumber, num tokensAmount,
-    VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
-    {String receiverName = ''}) {
+ThunkAction processingJobsCall() {
+  return (Store store) async {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres];
+    List<Job> jobs = community.jobs;
+    for (Job job in jobs) {
+      await job.perform(store);
+      if (job.status == 'DONE') {
+        store.dispatch(JobDone(job));
+      }
+    }
+  };
+}
+ThunkAction startProcessingJobsCall() {
+  return (Store store) async {
+    new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+      store.dispatch(processingJobsCall());
+    });
+  };
+}
+
+ThunkAction inviteAndSendCall(
+  String contactPhoneNumber,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback,
+  {String receiverName = ''}
+) {
   return (Store store) async {
     dynamic response = await api.invite(
         contactPhoneNumber, store.state.cashWalletState.communityAddress);
@@ -604,6 +684,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
 
       dynamic response =
           await api.joinCommunity(web3, walletAddress, communityAddress);
+      
       dynamic jobId = response['job']['_id'];
       Transfer transfer = new Transfer(
           type: 'RECEIVE',
@@ -613,17 +694,34 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
 
       store.dispatch(new AddTransaction(transfer));
 
-      store.dispatch(startFetchingJobCall(jobId, (job) {
-        Transfer confirmedTx = transfer.copyWith(
-            status: 'CONFIRMED',
-            text: 'Joined ' + (community["name"]) + ' community',
-            txHash: job.data['txHash']);
-        store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
-      }));
+      dynamic arguments = {
+        'transfer': transfer,
+        'community': community
+      };
+      Job job = JobFactory.create(response['job'], arguments);
+      store.dispatch(AddJob(job));
+
+      // store.dispatch(startFetchingJobCall(jobId, (job) {
+      //   Transfer confirmedTx = transfer.copyWith(
+      //       status: 'CONFIRMED',
+      //       text: 'Joined ' + (community["name"]) + ' community',
+      //       txHash: job.data['txHash']);
+      //   store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+      // }));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not join community'));
     }
+  };
+}
+
+ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic community) {
+  return (Store store) async {
+      Transfer confirmedTx = transfer.copyWith(
+      status: 'CONFIRMED',
+      text: 'Joined ' + (community["name"]) + ' community',
+      txHash: job.data['txHash']);
+    store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
   };
 }
 

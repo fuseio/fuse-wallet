@@ -3,6 +3,7 @@ import 'package:fusecash/models/token.dart';
 import 'package:fusecash/models/transaction.dart';
 
 import './plugins.dart';
+import './job.dart';
 
 class Community {
   final String name;
@@ -13,6 +14,7 @@ class Community {
   final Token token;
   final Transactions transactions;
   final List<Business> businesses;
+  final List<Job> jobs;
 
   Community(
       {this.name,
@@ -22,7 +24,8 @@ class Community {
       this.transactions,
       this.token,
       this.tokenBalance,
-      this.businesses});
+      this.businesses,
+      this.jobs});
 
   factory Community.initial() {
     return new Community(
@@ -33,7 +36,8 @@ class Community {
         tokenBalance: BigInt.from(0),
         businesses: new List<Business>(),
         transactions: new Transactions(list: new List<Transaction>()),
-        plugins: new Plugins());
+        plugins: new Plugins(),
+        jobs: new List<Job>());
   }
 
   Community copyWith({
@@ -44,6 +48,7 @@ class Community {
     Transactions transactions,
     BigInt tokenBalance,
     List<Business> businesses,
+    List<Job> jobs,
     bool isMember
   }) {
     return Community(
@@ -54,6 +59,7 @@ class Community {
         token: token ?? this.token,
         businesses: businesses ?? this.businesses,
         isMember: isMember ?? this.isMember,
+        jobs: jobs ?? this.jobs,
         transactions: transactions ?? this.transactions);
   }
 
@@ -65,6 +71,7 @@ class Community {
           tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
           isMember: json['isMember'],
           transactions: Transactions.fromJson(json['transactions']),
+          jobs: new List<Job>(),
           token: json['token'] == null
               ? json['token']
               : Token.fromJson(json['token']),

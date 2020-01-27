@@ -65,6 +65,7 @@ class CashWalletViewModel extends Equatable {
   final List<Business> businesses;
   final Function() loadBusinesses;
   final Function() syncContactsRejected;
+  final Function() startProcessingJobs;
   final bool isContactsSynced;
   final Community community;
 
@@ -102,6 +103,7 @@ class CashWalletViewModel extends Equatable {
     this.loadBusinesses,
     this.syncContactsRejected,
     this.isCommunityBusinessesFetched,
+    this.startProcessingJobs,
     this.isContactsSynced,
     this.community
   });
@@ -170,6 +172,9 @@ class CashWalletViewModel extends Equatable {
       },
       loadBusinesses: () {
         store.dispatch(getBusinessListCall());
+      },
+      startProcessingJobs: () {
+        store.dispatch(startProcessingJobsCall());
       }
     );
   }
