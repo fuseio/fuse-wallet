@@ -72,7 +72,7 @@ ThemeData getTheme() {
     cursorColor: const Color(0xFF05283e),
     toggleableActiveColor: const Color(0xFF05283e),
     primaryColorLight: const Color(0xFFFEFD86),
-    primaryColorDark: const Color(0xFFB1FDC0),
+    primaryColorDark: const Color(0xFF8AD57F),
     splashColor: Colors.white,
     textTheme: TextTheme(
         headline: new TextStyle(color: Colors.black),

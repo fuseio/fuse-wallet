@@ -68,6 +68,8 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>CFBundleURLTypes</key>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>

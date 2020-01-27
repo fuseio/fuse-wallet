@@ -104,7 +104,7 @@ class _BusinessPageState extends State<BusinessPage> {
                         child: FlatButton(
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
-                          color: Color(0xFFB1FDC0),
+                          color: Color(0xFF8AD57F),
                           padding: EdgeInsets.all(0),
                           child: Text(
                             I18n.of(context).pay,
