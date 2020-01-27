@@ -627,14 +627,9 @@ ThunkAction switchCommunityCall(String communityAddress) {
     try {
       if (store.state.cashWalletState.isCommunityLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
-      dynamic token = await graph.getTokenOfCommunity(communityAddress);
-      if (isGoodDollar(communityAddress)) {
-        token = Map.from(goodDollarToken);
-      } else {
-        token = await graph.getTokenOfCommunity(communityAddress);
-      }
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.d('community fetched for $communityAddress');
+      dynamic token = await graph.getTokenOfCommunity(communityAddress);
       logger.d(
           'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       Map<String, dynamic> communityData = await api.getCommunityData(communityAddress);
