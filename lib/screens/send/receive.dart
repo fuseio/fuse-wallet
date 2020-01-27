@@ -51,7 +51,7 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
                       child: Text(I18n.of(context).scan_to_receive,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).colorScheme.secondary,
                               fontSize: 16,
                               fontWeight: FontWeight.normal)),
                     ),

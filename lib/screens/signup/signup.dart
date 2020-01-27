@@ -32,7 +32,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
         title: I18n.of(context).sign_up,
         titleFontSize: 15,
@@ -49,7 +49,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       I18n.of(context).enter_phone_number,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).colorScheme.secondary,
                         fontSize: 18,
                         fontWeight: FontWeight.normal,
                       )),
@@ -76,7 +76,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Text(
                             I18n.of(context).why_do_we_need_this,
                             style: TextStyle(
-                                color: Theme.of(context).textTheme.button.color,
+                                color: Theme.of(context).primaryColor,
                                 fontSize: 11,
                                 fontWeight: FontWeight.normal),
                           ),
@@ -108,7 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         border: Border(
                             bottom: BorderSide(
                                 color: isvalidPhone
-                                    ? Colors.black.withOpacity(0.1)
+                                    ? Theme.of(context).primaryColor.withOpacity(0.1)
                                     : Colors.red,
                                 width: 2.0)),
                         /*borderRadius:

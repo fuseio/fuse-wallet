@@ -35,7 +35,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 30),
       title: Text(
         label,
-        style: TextStyle(fontSize: 16),
+        style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
       ),
       onTap: onTap,
     );
@@ -94,7 +94,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           child: Text(
                             viewModel.firstName(),
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Theme.of(context).primaryColor,
                                 fontSize: 22,
                                 fontWeight: FontWeight.normal),
                           ),
@@ -105,7 +105,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ],
               ),
               decoration: BoxDecoration(
-                  color: Color(0xFFF5F5F5),
+                  color: Theme.of(context).backgroundColor,
                   border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
             ),
             ...menuItem(viewModel),

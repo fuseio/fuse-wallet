@@ -70,7 +70,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                         //textAlign: TextAlign.center,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             fontSize: 16,
                             fontWeight: FontWeight.normal)),
                   )
@@ -95,12 +95,16 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                                   label: I18n.of(context).sqan_qr_code,
                                   labelFontWeight: FontWeight.normal,
                                   onPressed: () async {
-                                    var json = await BarcodeScanner.scan();
-                                    Map jsonMap = jsonDecode(json);
-                                    viewModel.switchCommunity(
-                                        jsonMap['communityAddress']);
-                                    Navigator.popUntil(
-                                        context, ModalRoute.withName('/Cash'));
+                                    try {
+                                      var json = await BarcodeScanner.scan();
+                                      Map jsonMap = jsonDecode(json);
+                                      viewModel.switchCommunity(
+                                          jsonMap['communityAddress']);
+                                      Navigator.popUntil(
+                                          context, ModalRoute.withName('/Cash'));
+                                    } catch (e) {
+                                      print('BarcodeScanner scan error');
+                                    }
                                   },
                                   width: 300,
                                 ),

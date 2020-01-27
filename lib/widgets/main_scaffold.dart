@@ -47,7 +47,7 @@ class MainScaffold extends StatelessWidget {
           ),
           iconTheme:
               IconThemeData(color: Theme.of(context).textTheme.body1.color),
-          backgroundColor: backgroundColor ?? Color(0xFFF5F5F5),
+          backgroundColor: backgroundColor ?? Theme.of(context).backgroundColor,
           brightness: Brightness.light,
         ),
         ...sliverList,
@@ -64,7 +64,7 @@ class MainScaffold extends StatelessWidget {
         .copyWith(statusBarIconBrightness: Brightness.dark));
     return Scaffold(
       key: key,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,

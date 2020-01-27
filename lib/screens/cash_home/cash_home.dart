@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/screens/send/enable_contacts.dart';
+import 'package:fusecash/themes/app_theme.dart';
+import 'package:fusecash/themes/custom_theme.dart';
 import 'package:fusecash/utils/contacts.dart';
+import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/main_scaffold2.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -59,6 +62,10 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
     super.initState();
   }
 
+  void _changeTheme(BuildContext buildContext, MyThemeKeys key) {
+    CustomTheme.instanceOf(buildContext).changeTheme(key);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashWalletViewModel>(
@@ -68,6 +75,11 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
           onChange(viewModel, context, initial: true);
         },
         onWillChange: (viewModel) async {
+          if (isPaywise(viewModel.communityAddress)) {
+            _changeTheme(context, MyThemeKeys.PAYWISE);
+          } else {
+            _changeTheme(context, MyThemeKeys.DEFAULT);
+          }
           onChange(viewModel, context);
         },
         builder: (_, viewModel) {

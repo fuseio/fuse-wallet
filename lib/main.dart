@@ -6,6 +6,7 @@ import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/screens/routes.dart';
 import 'dart:core';
 import 'package:fusecash/themes/app_theme.dart';
+import 'package:fusecash/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -14,8 +15,11 @@ import 'package:flutter/services.dart';
 
 void main() async {
   await DotEnv().load('.env_prod');
-  runApp(new MyApp(
-    store: await createReduxStore(),
+  runApp(CustomTheme(
+    initialThemeKey: MyThemeKeys.DEFAULT,
+    child: new MyApp(
+      store: await createReduxStore(),
+    ),
   ));
 }
 
@@ -58,7 +62,7 @@ class _MyAppState extends State<MyApp> {
               title: 'Fuse Cash',
               initialRoute: '/',
               routes: getRoutes(),
-              theme: getTheme(),
+              theme: CustomTheme.of(context),
               localizationsDelegates: [
                 i18n,
                 GlobalMaterialLocalizations.delegate,

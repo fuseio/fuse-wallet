@@ -109,7 +109,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                 Container(
                   padding: EdgeInsets.only(
                       top: 50.0, bottom: 50, left: 40, right: 40),
-                  color: Color(0xFFF5F5F5),
+                  color: Theme.of(context).backgroundColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,

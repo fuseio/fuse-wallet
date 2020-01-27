@@ -36,7 +36,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
       footer: null,
       title: I18n.of(context).back_up,
       titleFontSize: 15,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       children: <Widget>[
       Container(
         padding:
@@ -47,7 +47,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
               padding: EdgeInsets.only(top: 20),
               child: Text(I18n.of(context).write_words, // "Please write down those 12 words:",
                   style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
                       fontWeight: FontWeight.normal)),
             )

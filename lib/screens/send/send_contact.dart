@@ -105,7 +105,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               title: Text(
                 user.displayName,
-                style: TextStyle(fontSize: 15),
+                style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor),
               ),
               //subtitle: Text("user.company" ?? ""),
               onTap: () {
@@ -311,7 +311,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         maxHeight: 100.0,
         child: Container(
           decoration: new BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               border:
                   Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
@@ -350,17 +350,20 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     child: Image.asset(
                       'assets/images/scan.png',
                       width: 25.0,
-                      color: Colors.white,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     onPressed: () async {
-                      String accountAddress = await BarcodeScanner.scan();
-                      List<String> parts = accountAddress.split(':');
-                      if (parts.length == 2 && parts[0] == 'fuse') {
-                        Navigator.pushNamed(context, '/SendAmount',
-                            arguments:
-                                SendAmountArguments(accountAddress: parts[1]));
-                      } else {
-                        print('Account address is not on Fuse');
+                      try {
+                        String accountAddress = await BarcodeScanner.scan();
+                        List<String> parts = accountAddress.split(':');
+                        if (parts.length == 2 && parts[0] == 'fuse') {
+                          Navigator.pushNamed(context, '/SendAmount',
+                              arguments:
+                                  SendAmountArguments(accountAddress: parts[1]));
+                        } else {
+                          print('Account address is not on Fuse');
+                        }
+                      } catch (e) {
                       }
                     }),
                 width: 50.0,
@@ -379,7 +382,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       withPadding: false,
       title: I18n.of(context).send_to,
       titleFontSize: 15,
-      footer: bottomBar(context),
+      footer: searchController.text.isEmpty ? bottomBar(context) : null,
       sliverList: _buildPageList(),
       children: <Widget>[
         !this.widget.viewModel.isContactsSynced

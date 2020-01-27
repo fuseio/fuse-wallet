@@ -44,7 +44,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
           withPadding: true,
           footer: null,
           title: I18n.of(context).back_up,
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(

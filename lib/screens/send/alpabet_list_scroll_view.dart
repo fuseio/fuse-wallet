@@ -316,7 +316,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
             .firstWhere((sp) => sp.id == alphabetList[selectedIndex]);
         textview = IconTheme(
           data: IconThemeData(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             size: 42,
           ),
           child: header.icon,
@@ -325,7 +325,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
         textview = Text(
           "${alphabetList[selectedIndex]}",
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             fontSize: 60,
           ),
         );

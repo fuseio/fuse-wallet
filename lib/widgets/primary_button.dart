@@ -26,7 +26,7 @@ class PrimaryButton extends StatelessWidget {
             ],
           ),
           borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-          border: Border.all(color: Colors.black.withAlpha(14))),
+          border: Border.all(color: Theme.of(context).primaryColor.withAlpha(14))),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
@@ -34,8 +34,8 @@ class PrimaryButton extends StatelessWidget {
             borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
             //hoverColor: Colors.red,
             //focusColor: Colors.red,
-            highlightColor: Colors.white.withOpacity(0.3),
-            splashColor: Colors.white.withOpacity(0.6),
+            highlightColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
+            splashColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
             child: Center(
               child: (preload == null || preload == false)
                   ? Text(

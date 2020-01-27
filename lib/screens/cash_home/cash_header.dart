@@ -24,7 +24,7 @@ class CashHeader extends StatelessWidget {
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha(20),
+                color: Theme.of(context).primaryColor.withAlpha(20),
                 blurRadius: 30.0,
                 spreadRadius: 0.0,
                 offset: Offset(
@@ -72,13 +72,13 @@ class CashHeader extends StatelessWidget {
                           text: I18n.of(context).hi,
                           style: TextStyle(
                               fontSize: 33,
-                              color: Colors.black,
+                              color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.normal)),
                       new TextSpan(
                           text: ' ' + viewModel.firstName(),
                           style: TextStyle(
                               fontSize: 33,
-                              color: Colors.black,
+                              color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.normal)),
                     ],
                   ),
@@ -100,7 +100,7 @@ class CashHeader extends StatelessWidget {
                         new Container(
                           child: Text(I18n.of(context).balance,
                               style: TextStyle(
-                                  color: Colors.black.withAlpha(150),
+                                  color: Theme.of(context).primaryColor.withAlpha(150),
                                   fontSize: 12.0)),
                           padding: EdgeInsets.only(bottom: 6.0),
                         ),
@@ -113,21 +113,21 @@ class CashHeader extends StatelessWidget {
                                   text: '0',
                                   style: new TextStyle(
                                       fontSize: 30,
-                                      color: Colors.black,
+                                      color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.bold))]
                             : <TextSpan>[
                                 new TextSpan(
                                   text: formatValue(viewModel.community.tokenBalance, viewModel.community.token.decimals),
                                   style: new TextStyle(
                                       fontSize: 32,
-                                      color: Colors.black,
+                                      color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.bold)),
                               new TextSpan(
                                   text:
                                       ' ' + viewModel.community.token?.symbol.toString(),
                                   style: new TextStyle(
                                       fontSize: 18,
-                                      color: Colors.black,
+                                      color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.normal,
                                       height: 0.0)),
                             ],
@@ -142,7 +142,7 @@ class CashHeader extends StatelessWidget {
                           child: Image.asset(
                             'assets/images/scan.png',
                             width: 25.0,
-                            color: Colors.white,
+                            color: Theme.of(context).scaffoldBackgroundColor,
                           ),
                           onPressed: () async {
                             try {
