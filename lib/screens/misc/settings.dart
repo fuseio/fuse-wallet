@@ -5,7 +5,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/drawer.dart';
-import 'package:fusecash/widgets/language-selector.dart';
+import 'package:fusecash/widgets/language_selector.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
 class SettingsScreen extends StatefulWidget {
