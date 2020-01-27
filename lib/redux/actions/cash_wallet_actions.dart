@@ -13,6 +13,7 @@ import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
@@ -370,7 +371,9 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         String walletAddress = wallet["walletAddress"];
         if (walletAddress != null && walletAddress.isNotEmpty) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
-          store.dispatch(segmentIdentifyCall(walletAddress,
+          String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+          logger.d('fullPhoneNumber: $fullPhoneNumber');
+          store.dispatch(segmentIdentifyCall(fullPhoneNumber,
               traits: new Map<String, dynamic>.from({
                 "walletAddress": walletAddress,
                 "accountAddress": accountAddress,
@@ -513,6 +516,8 @@ ThunkAction sendTokenCall(
           jobId: jobId);
 
       store.dispatch(new AddTransaction(transfer));
+
+      store.dispatch(segmentTrackCall("User Transfer", properties: transfer.toJson()));
 
       store.dispatch(startFetchingJobCall(jobId, (job) {
         Transfer confirmedTx =
