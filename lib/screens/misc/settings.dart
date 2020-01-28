@@ -43,8 +43,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         new LanguageSelector(),
         new Divider(),
         getListTile(I18n.of(context).logout, () {
+          Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
           viewModel.logout();
-          Navigator.pushReplacementNamed(context, '/');
         })
       ];
     }
