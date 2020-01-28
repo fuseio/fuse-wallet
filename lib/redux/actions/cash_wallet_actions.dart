@@ -216,9 +216,9 @@ Future<bool> approvalCallback() async {
   return true;
 }
 
-ThunkAction segmentTrackCall(evantName, {Map<String, dynamic> properties}) {
+ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
   return (Store store) async {
-    await FlutterSegment.track(eventName: evantName, properties: properties);
+    await FlutterSegment.track(eventName: eventName, properties: properties);
   };
 }
 
@@ -254,15 +254,13 @@ ThunkAction listenToBranchCall() {
           var communityAddress = linkData["community_address"];
           logger.wtf("communityAddress $communityAddress");
           store.dispatch(BranchCommunityToUpdate(communityAddress));
-          store.dispatch(segmentTrackCall("Branch Switch Community",
-              properties: new Map<String, dynamic>.from(linkData)));
+          store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: linkData));
         }
         if (linkData["~feature"] == "invite_user") {
           var communityAddress = linkData["community_address"];
           logger.wtf("community_address $communityAddress");
           store.dispatch(BranchCommunityToUpdate(communityAddress));
-          store.dispatch(segmentTrackCall("Branch Invite User",
-              properties: new Map<String, dynamic>.from(linkData)));
+          store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: linkData));
         }
       }, onDone: () {
         logger.wtf("ondone");
@@ -382,7 +380,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
                 "accountAddress": accountAddress,
                 "displatName": store.state.userState.displayName
               })));
-          store.dispatch(segmentTrackCall('Wallet Generated'));
+          store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
           store.dispatch(create3boxAccountCall(accountAddress));
           t.cancel();
         }
@@ -517,7 +515,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
 
       store.dispatch(new AddTransaction(transfer));
 
-      store.dispatch(segmentTrackCall("User Transfer", properties: transfer.toJson()));
+      store.dispatch(segmentTrackCall("Wallet: User Transfer", properties: transfer.toJson()));
 
       store.dispatch(startFetchingJobCall(jobId, (job) {
         Transfer confirmedTx =
@@ -656,6 +654,8 @@ ThunkAction switchCommunityCall(String communityAddress) {
         }
       }
       store.dispatch(joinCommunityCall(community: community, token: token));
+      store.dispatch(segmentTrackCall("Wallet: Switch Community",
+          properties: {community: community, token: token}));
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],
