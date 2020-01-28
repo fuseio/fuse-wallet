@@ -31,11 +31,10 @@ class SendToContactScreen extends StatefulWidget {
 class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Contact> userList = [];
   List<String> strList = [];
-  List<Widget> normalList = [];
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
 
-  loadContacts() async {
+  loadContacts() {
     if (this.mounted) {
       setState(() {
         isPreloading = true;
@@ -67,7 +66,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   filterList() {
     List<Contact> users = [];
     users.addAll(userList);
-    normalList = [];
     strList = [];
     if (searchController.text.isNotEmpty) {
       users.retainWhere((user) => user.displayName
@@ -75,8 +73,43 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           .contains(searchController.text.toLowerCase()));
     }
     users.forEach((user) {
-      normalList.add(
-        Slidable(
+      strList.add(user.displayName);
+    });
+
+    if (this.mounted) {
+      setState(() {
+        strList = strList;
+      });
+    }
+  }
+
+  listHeader(title) {
+    return SliverPersistentHeader(
+      pinned: true,
+      floating: true,
+      delegate: _SliverAppBarDelegate(
+        minHeight: 40.0,
+        maxHeight: 40.0,
+        child: Container(
+          color: Color(0xFFF8F8F8),
+          padding: EdgeInsets.only(left: 20, top: 7),
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+
+  listBody(title) {
+    List<Widget> listItems = List();
+
+    //strList.where((i) => i.startsWith(title)).toList()
+    for (int i = 0; i < strList.length; i++) {
+      if (strList[i][0] == title) {
+        dynamic user = userList[i];
+        dynamic component =  Slidable(
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
           secondaryActions: <Widget>[
@@ -120,46 +153,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               },
             ),
           ),
-        ),
-      );
-      strList.add(user.displayName);
-    });
-
-    if (this.mounted) {
-      setState(() {
-        strList = strList;
-        normalList = normalList;
-        strList = strList;
-      });
-    }
-  }
-
-  listHeader(title) {
-    return SliverPersistentHeader(
-      pinned: true,
-      floating: true,
-      delegate: _SliverAppBarDelegate(
-        minHeight: 40.0,
-        maxHeight: 40.0,
-        child: Container(
-          color: Color(0xFFF8F8F8),
-          padding: EdgeInsets.only(left: 20, top: 7),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    );
-  }
-
-  listBody(title) {
-    List<Widget> listItems = List();
-
-    //strList.where((i) => i.startsWith(title)).toList()
-    for (int i = 0; i < strList.length; i++) {
-      if (strList[i][0] == title) {
-        listItems.add(normalList[i]);
+        );
+      
+        listItems.add(component);
       }
     }
     return SliverList(
