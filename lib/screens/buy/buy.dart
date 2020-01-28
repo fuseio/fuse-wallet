@@ -38,20 +38,25 @@ class _BuyScreenState extends State<BuyScreen> {
         },
         builder: (_, viewModel) {
           return MainScaffold(
-              actions: <Widget>[
-                IconButton(
-                  icon: InkWell(
-                      onTap: () {},
-                      child: Padding(
-                          padding: EdgeInsets.all(0),
-                          child: Image.asset(
-                            'assets/images/pin_drop.png',
-                            width: 30,
-                            height: 30,
-                          ))),
-                  onPressed: () {},
-                ),
-              ],
+              // TODO - added map with all business
+              // actions: <Widget>[
+              //   IconButton(
+              //     icon: InkWell(
+              //         onTap: () {
+              //           Navigator.pushNamed(context, '/Map');
+              //         },
+              //         child: Padding(
+              //             padding: EdgeInsets.all(0),
+              //             child: Image.asset(
+              //               'assets/images/pin_drop.png',
+              //               width: 30,
+              //               height: 30,
+              //             ))),
+              //     onPressed: () {
+              //       Navigator.pushNamed(context, '/Map');
+              //     },
+              //   ),
+              // ],
               key: scaffoldState,
               withPadding: false,
               titleFontSize: 15,
@@ -192,7 +197,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                                     style: TextStyle(
                                                         color: Theme.of(context)
                                                             .scaffoldBackgroundColor,
-                                                        fontSize: 16,
+                                                        fontSize: 15,
                                                         fontWeight:
                                                             FontWeight.normal),
                                                   ),

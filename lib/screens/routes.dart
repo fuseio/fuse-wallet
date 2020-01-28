@@ -2,6 +2,7 @@ import 'package:fusecash/screens/backup/show_mnemonic.dart';
 import 'package:fusecash/screens/backup/verify_mnemonic.dart';
 import 'package:fusecash/screens/buy/buy.dart';
 import 'package:fusecash/screens/buy/business.dart';
+import 'package:fusecash/screens/buy/map.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/screens/misc/about.dart';
@@ -44,6 +45,7 @@ getRoutes() {
     '/Backup1': (context) => ShowMnemonic(),
     '/Backup2': (context) => VerifyMnemonic(),
     '/About': (context) => AboutScreen(),
-    '/Settings': (context) => SettingsScreen()
+    '/Settings': (context) => SettingsScreen(),
+    '/Map': (context) => MapScreen(),
   };
 }

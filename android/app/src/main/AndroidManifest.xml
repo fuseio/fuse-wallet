@@ -10,6 +10,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="Fuse Wallet"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAa0iA6PW7eyis0TYHxSwsF5y-SqSLklkk"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
@@ -24,9 +25,6 @@
             <meta-data
                 android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
                 android:value="true" />
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyAfxMqE6j8Db0s4O9QjlC0St7dHoIHwoik"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

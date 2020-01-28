@@ -11,7 +11,6 @@ import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:redux/redux.dart';
