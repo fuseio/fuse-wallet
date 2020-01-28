@@ -71,10 +71,10 @@ class Community {
           tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
           isMember: json['isMember'],
           transactions: Transactions.fromJson(json['transactions']),
-          jobs: new List<Job>(),
           token: json['token'] == null
               ? json['token']
               : Token.fromJson(json['token']),
+          jobs: List<Job>.from(json['jobs'].map((job) => JobFactory.create(job))),
         )
       : null;
 
@@ -86,5 +86,6 @@ class Community {
         'plugins': plugins?.toJson(),
         'transactions': transactions.toJson(),
         'token': token?.toJson(),
+        'jobs': jobs.map((job) => job.toJson()).toList(),
       };
 }

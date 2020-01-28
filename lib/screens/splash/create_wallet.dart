@@ -102,39 +102,6 @@ class _CreateWalletState extends State<CreateWallet> {
                               Navigator.pushNamed(context, '/Recovery');
                             }),
                       )
-
-                // Padding(
-                //     padding: EdgeInsets.only(top: 20),
-                //     child: TransparentButton(
-                //         fontSize: 16,
-                //         label: viewModel.isLoggedOut
-                //             ? "Create a new wallet"
-                //             : "Restore from backup",
-                //         onPressed: () {
-                //           if (viewModel.isLoggedOut) {
-                //             viewModel.createLocalAccount(() {
-                //               setState(() {
-                //                 isTransparentPreloading = false;
-                //               });
-                //               Navigator.pushNamed(context, '/Signup');
-                //             });
-                //             setState(() {
-                //               isTransparentPreloading = true;
-                //             });
-                //           } else {
-                //             Navigator.pushNamed(context, '/Recovery');
-                //           }
-                //         },
-                //         preload: isTransparentPreloading)),
-                // viewModel.isLoggedOut
-                //     ? Padding(
-                //         padding: EdgeInsets.only(top: 20),
-                //         child: TransparentButton(
-                //             label: "Restore from backup",
-                //             onPressed: () {
-                //               Navigator.pushNamed(context, '/Recovery');
-                //             }))
-                //     : SizedBox.shrink()
               ],
             ),
           );

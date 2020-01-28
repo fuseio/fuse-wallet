@@ -67,6 +67,7 @@ class CashWalletViewModel extends Equatable {
   final Function() syncContactsRejected;
   final Function() startProcessingJobs;
   final bool isContactsSynced;
+  final bool isJobProcessingStarted;
   final Community community;
 
   CashWalletViewModel({
@@ -105,6 +106,7 @@ class CashWalletViewModel extends Equatable {
     this.isCommunityBusinessesFetched,
     this.startProcessingJobs,
     this.isContactsSynced,
+    this.isJobProcessingStarted,
     this.community
   });
 
@@ -136,6 +138,7 @@ class CashWalletViewModel extends Equatable {
       businesses: community?.businesses ?? [],
       isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,
       isContactsSynced: store.state.userState.isContactsSynced ?? false,
+      isJobProcessingStarted: store.state.cashWalletState.isJobProcessingStarted ?? false,
       community: community,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
