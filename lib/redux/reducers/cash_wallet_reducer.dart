@@ -202,7 +202,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
                 communities: newOne);
           }
         } else {
-          return state.copyWith(branchAddress: "");
+          return state.copyWith(branchAddress: "", isCommunityLoading: true);
         }
       }
       CashWalletState _branchCommunityUpdate(
