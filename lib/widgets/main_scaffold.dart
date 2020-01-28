@@ -5,6 +5,7 @@ class MainScaffold extends StatelessWidget {
   MainScaffold(
       {this.title,
       this.children,
+      List<Widget> actions,
       List<Widget> sliverList,
       this.key,
       this.footer,
@@ -12,7 +13,8 @@ class MainScaffold extends StatelessWidget {
       this.backgroundColor,
       this.expandedHeight,
       this.titleFontSize})
-      : sliverList = sliverList ?? new List<Widget>();
+      : sliverList = sliverList ?? new List<Widget>(),
+        actions = actions ?? new List<Widget>();
   final String title;
   final List<Widget> children;
   final List<Widget> sliverList;
@@ -22,6 +24,7 @@ class MainScaffold extends StatelessWidget {
   final Color backgroundColor;
   final double expandedHeight;
   final double titleFontSize;
+  final List<Widget> actions;
 
   scrollView(context) {
     return CustomScrollView(
@@ -29,6 +32,7 @@ class MainScaffold extends StatelessWidget {
         SliverAppBar(
           expandedHeight: expandedHeight ?? 120,
           pinned: true,
+          actions: actions,
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
               child: Text(title,

@@ -68,8 +68,8 @@ class I18n implements WidgetsLocalizations {
   String get next_button => "Next";
   /// "Skip"
   String get skip_button => "Skip";
-  /// "Pay"
-  String get pay => "Pay";
+  /// "PAY"
+  String get pay => "PAY";
   /// "No businesses found"
   String get no_businesses => "No businesses found";
   /// "Generating wallet"
@@ -188,6 +188,8 @@ class I18n implements WidgetsLocalizations {
   String get top_up => "Top up";
   /// "Buy"
   String get buy => "Buy";
+  /// "Map"
+  String get map => "Map";
   /// "APPROVED"
   String get approved => "APPROVED";
   /// "Simple"

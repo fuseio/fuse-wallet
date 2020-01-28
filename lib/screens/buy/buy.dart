@@ -38,6 +38,25 @@ class _BuyScreenState extends State<BuyScreen> {
         },
         builder: (_, viewModel) {
           return MainScaffold(
+              // TODO - added map with all business
+              // actions: <Widget>[
+              //   IconButton(
+              //     icon: InkWell(
+              //         onTap: () {
+              //           Navigator.pushNamed(context, '/Map');
+              //         },
+              //         child: Padding(
+              //             padding: EdgeInsets.all(0),
+              //             child: Image.asset(
+              //               'assets/images/pin_drop.png',
+              //               width: 30,
+              //               height: 30,
+              //             ))),
+              //     onPressed: () {
+              //       Navigator.pushNamed(context, '/Map');
+              //     },
+              //   ),
+              // ],
               key: scaffoldState,
               withPadding: false,
               titleFontSize: 15,
@@ -138,7 +157,17 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .primaryColor,
-                                                  fontSize: 16,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            subtitle: Text(
+                                              viewModel.businesses[index]
+                                                      .metadata.address ??
+                                                  '',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .accentColor,
+                                                  fontSize: 11,
                                                   fontWeight: FontWeight.w500),
                                             ),
                                             onTap: () {
@@ -152,30 +181,45 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                                                   .businesses[
                                                               index]));
                                             },
-                                            trailing: FlatButton(
-                                              shape: new RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      new BorderRadius.circular(
-                                                          30.0)),
-                                              color: Color(0xFFB1FDC0),
-                                              padding: EdgeInsets.all(0),
-                                              child: Text(
-                                                I18n.of(context).pay,
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.normal),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.pushNamed(
-                                                    context, '/SendAmount',
-                                                    arguments: SendAmountArguments(
-                                                        avatar: new AssetImage('assets/images/anom.png'),
-                                                        name: viewModel.businesses[index].name ?? '',
-                                                        accountAddress: viewModel.businesses[index].account));
-                                              },
+                                            trailing: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: <Widget>[
+                                                FlatButton(
+                                                  shape: CircleBorder(),
+                                                  color: Color(0xFF8AD57F),
+                                                  padding: EdgeInsets.all(10),
+                                                  child: Text(
+                                                    I18n.of(context).pay,
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .scaffoldBackgroundColor,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.normal),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pushNamed(
+                                                        context, '/SendAmount',
+                                                        arguments: SendAmountArguments(
+                                                            avatar: new AssetImage(
+                                                                'assets/images/anom.png'),
+                                                            name: viewModel
+                                                                    .businesses[
+                                                                        index]
+                                                                    .name ??
+                                                                '',
+                                                            accountAddress:
+                                                                viewModel
+                                                                    .businesses[
+                                                                        index]
+                                                                    .account));
+                                                  },
+                                                ),
+                                              ],
                                             ),
                                           );
                                         },
