@@ -38,19 +38,6 @@ class MainActivity: FlutterAndroidLifecycleActivity() {
     // Branch object initialization
     Branch.getAutoInstance(this)
 
-//    Branch.getInstance().initSession({ referringParams: JSONObject?, error: BranchError? ->
-//      Log.d(DEBUG_NAME, "BRANCH CALLBACK")
-//      if (error == null) {
-//        Log.d(DEBUG_NAME, "BRANCH IO INITIALIZED")
-//        val params = referringParams?.toString()
-//        val intent = Intent()
-//        intent.putExtra(INTENT_EXTRA_DATA, params)
-//        DeepLinkStreamHandler().handleIntent(this, intent)
-//      } else {
-//        Log.e(DEBUG_NAME, "BRANCH IO INITIALIZATION ERROR ${error.message}")
-//      }
-//    }, this.intent.data, this)
-
     val flutter_native_splash = true
     var originalStatusBarColor = 0
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

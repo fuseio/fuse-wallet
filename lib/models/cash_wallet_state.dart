@@ -101,6 +101,7 @@ class CashWalletState {
         isBalanceFetchingStarted: isBalanceFetchingStarted ?? this.isBalanceFetchingStarted,
         isTransfersFetchingStarted: isTransfersFetchingStarted ?? this.isTransfersFetchingStarted,
         isListeningToBranch: isListeningToBranch ?? this.isListeningToBranch,
+        isBranchDataReceived: isBranchDataReceived ?? this.isBranchDataReceived,
         isJobProcessingStarted: isJobProcessingStarted ?? this.isJobProcessingStarted,
         sendToInvites: sendToInvites ?? this.sendToInvites,
         communities: communities ?? this.communities
