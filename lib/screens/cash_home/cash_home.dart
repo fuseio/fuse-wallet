@@ -42,9 +42,7 @@ void onChange(CashWalletViewModel viewModel, BuildContext context, {bool initial
   if (!viewModel.isJobProcessingStarted) {
     viewModel.startProcessingJobs();
   }
-  if (!viewModel.isListeningToBranch &&
-      viewModel.isCommunityLoading != null &&
-      !viewModel.isCommunityLoading) {
+  if (!viewModel.isListeningToBranch) {
     viewModel.listenToBranch();
   }
   if (!viewModel.isCommunityLoading &&
@@ -57,7 +55,7 @@ void onChange(CashWalletViewModel viewModel, BuildContext context, {bool initial
   }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&
-      viewModel.isListeningToBranch &&
+      viewModel.isBranchDataReceived &&
       viewModel.walletAddress != '') {
     viewModel.switchCommunity(viewModel.communityAddress);
     if (!(await Contacts.checkPermissions())) {
