@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -6,15 +7,27 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/token.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/drawer.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+_launchPhone(phoneNumber) async {
+  String url = 'tel:$phoneNumber';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class BusinessRouteArguments {
   final Business business;
   final Token token;
+  final String communityAddress;
 
-  BusinessRouteArguments({this.token, this.business});
+  BusinessRouteArguments({this.token, this.business, this.communityAddress});
 }
 
 class BusinessPage extends StatefulWidget {
@@ -28,12 +41,12 @@ class BusinessPage extends StatefulWidget {
 
 class _BusinessPageState extends State<BusinessPage> {
   GlobalKey<ScaffoldState> scaffoldState;
-  // Completer<GoogleMapController> _controller = Completer();
-  // static const LatLng _center = const LatLng(45.521563, -122.677433);
+  Completer<GoogleMapController> _controller = Completer();
+  // LatLng _center = const LatLng(10.442883, -61.473868);
 
-  // void _onMapCreated(GoogleMapController controller) {
-  //   _controller.complete(controller);
-  // }
+  void _onMapCreated(GoogleMapController controller) {
+    _controller.complete(controller);
+  }
 
   @override
   void initState() {
@@ -58,7 +71,6 @@ class _BusinessPageState extends State<BusinessPage> {
                     Expanded(
                       flex: 3,
                       child: Stack(
-                        alignment: AlignmentDirectional.topStart,
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20),
@@ -66,11 +78,13 @@ class _BusinessPageState extends State<BusinessPage> {
                                         null ||
                                     businessArgs.business.metadata.coverPhoto ==
                                         ''
-                                ? Image.network(
+                                ? SizedBox.expand(child: Image.network(
                                     'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
                                     fit: BoxFit.fill,
-                                  )
-                                : Image.network(
+                                  ),)
+                                : SizedBox.expand(child: Image.network(
+                                  isPaywise(businessArgs.communityAddress) ? businessArgs
+                                            .business.metadata.coverPhoto :
                                     DotEnv().env['IPFS_BASE_URL'] +
                                         '/image/' +
                                         businessArgs
@@ -78,13 +92,24 @@ class _BusinessPageState extends State<BusinessPage> {
                                     width: MediaQuery.of(context).size.width,
                                     fit: BoxFit.fill,
                                     height: 200,
-                                  ),
+                                  ),)
                           ),
-                          Image.asset(
-                            'assets/imags/arrow_back_business.png',
-                            width: 32,
-                            height: 32,
-                          ),
+                          new Positioned(
+                              top: 50.0,
+                              left: 18.0,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: SvgPicture.asset(
+                                    'assets/images/arrow_back_business.svg',
+                                    fit: BoxFit.fill,
+                                    width: 25,
+                                    height: 25,
+                                    alignment: Alignment.topLeft,
+                                )
+                              )
+                          ), 
                         ],
                       ),
                     ),
@@ -93,13 +118,15 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
                                 child: (businessArgs.business.metadata.image !=
                                             null &&
                                         businessArgs.business.metadata.image !=
                                             '')
                                     ? Image.network(
+                                      isPaywise(businessArgs.communityAddress) ? businessArgs
+                                                .business.metadata.image :
                                         DotEnv().env['IPFS_BASE_URL'] +
                                             '/image/' +
                                             businessArgs
@@ -151,8 +178,9 @@ class _BusinessPageState extends State<BusinessPage> {
                         ],
                       ),
                     ),
-                    Expanded(
+                    Flexible(
                       flex: 3,
+                      fit: FlexFit.tight,
                       child: Padding(
                         padding: const EdgeInsets.only(
                             top: 10, bottom: 0, left: 20.0, right: 20.0),
@@ -164,6 +192,7 @@ class _BusinessPageState extends State<BusinessPage> {
                             ),
                             Column(
                               children: <Widget>[
+                                businessArgs.business.metadata.website != '' ? 
                                 Container(
                                   child: Row(
                                     children: <Widget>[
@@ -179,7 +208,8 @@ class _BusinessPageState extends State<BusinessPage> {
                                           .business.metadata.website)
                                     ],
                                   ),
-                                ),
+                                ): SizedBox.shrink(),
+                                businessArgs.business.metadata.phoneNumber != '' ? 
                                 Container(
                                   padding: EdgeInsets.only(top: 10, bottom: 10),
                                   child: Row(
@@ -192,11 +222,18 @@ class _BusinessPageState extends State<BusinessPage> {
                                           height: 19,
                                         ),
                                       ),
-                                      Text(businessArgs
-                                          .business.metadata.phoneNumber)
+                                      InkWell(
+                                        child: Text(businessArgs
+                                          .business.metadata.phoneNumber),
+                                          onTap: () {
+                                            _launchPhone(businessArgs
+                                          .business.metadata.phoneNumber);
+                                          },
+                                      )
                                     ],
                                   ),
-                                ),
+                                ) : SizedBox.shrink(),
+                                businessArgs.business.metadata.description != '' ? 
                                 Container(
                                   padding: EdgeInsets.only(top: 10, bottom: 10),
                                   child: Row(
@@ -247,32 +284,33 @@ class _BusinessPageState extends State<BusinessPage> {
                                       )
                                     ],
                                   ),
-                                )
+                                ) : SizedBox.shrink()
                               ],
                             ),
                           ],
                         ),
                       ),
                     ),
-                    Expanded(
+                    Flexible(
+                      fit: FlexFit.tight,
                       flex: 3,
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: <Widget>[
-                          // GoogleMap(
-                          //   onMapCreated: _onMapCreated,
-                          //   initialCameraPosition: CameraPosition(
-                          //     target: _center,
-                          //     zoom: 11.0,
-                          //   ),
-                          // ),
+                         businessArgs.business.metadata.latLng != null && businessArgs.business.metadata.latLng.isNotEmpty ? GoogleMap(
+                            onMapCreated: _onMapCreated,
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(businessArgs.business.metadata.latLng[0], businessArgs.business.metadata.latLng[1]),
+                              zoom: 13.0,
+                            ),
+                          ) : SizedBox.shrink(),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: RaisedButton(
                               shape: new RoundedRectangleBorder(
                                   borderRadius:
                                       new BorderRadius.circular(30.0)),
-                              color: Color(0xFF8AD57F),
+                              color: Theme.of(context).buttonColor,
                               padding: EdgeInsets.only(
                                   left: 100, right: 100, top: 15, bottom: 15),
                               child: Text(

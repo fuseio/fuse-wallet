@@ -8,6 +8,7 @@ class MyThemes {
   static final ThemeData paywiseTheme = getTheme().copyWith(
       primaryColorLight: const Color(0xFF8AD57F),
       primaryColorDark: const Color(0xFF1876B5),
+      buttonColor: const Color(0xFF8AD57F),
       textTheme: TextTheme(
           body1: new TextStyle(color: const Color(0xFF333333)),
           button: new TextStyle(color: Colors.white)));
@@ -72,7 +73,8 @@ ThemeData getTheme() {
     cursorColor: const Color(0xFF05283e),
     toggleableActiveColor: const Color(0xFF05283e),
     primaryColorLight: const Color(0xFFFEFD86),
-    primaryColorDark: const Color(0xFF8AD57F),
+    primaryColorDark: const Color(0xFFB1FDC0),
+    buttonColor: const Color(0xFFB1FDC0),
     splashColor: Colors.white,
     textTheme: TextTheme(
         headline: new TextStyle(color: Colors.black),
