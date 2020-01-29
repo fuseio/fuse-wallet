@@ -1,22 +1,13 @@
 package io.fuse.fusecash
 
-import org.json.JSONObject
-
 import android.os.Bundle
-import android.content.Intent
-import android.util.Log
 
 import com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity
-import com.anggach.flutterbranchioplugin.INTENT_EXTRA_DATA
-import com.anggach.flutterbranchioplugin.DEBUG_NAME
-import com.anggach.flutterbranchioplugin.src.DeepLinkStreamHandler
 
 import io.branch.referral.Branch
 import io.branch.referral.BranchUtil
-import io.branch.referral.BranchError
 
-
-import io.flutter.app.FlutterActivity
+//import io.flutter.app.FlutterActivity
 import io.flutter.plugins.GeneratedPluginRegistrant
 
 import android.os.Build
