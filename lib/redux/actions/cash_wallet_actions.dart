@@ -196,6 +196,8 @@ class RemoveSendToInvites {
 
 class BranchListening {}
 
+class BranchDataReceived {}
+
 class InviteSendSuccess {
   final Transaction invite;
   InviteSendSuccess(this.invite);
@@ -247,52 +249,37 @@ ThunkAction listenToBranchCall() {
     logger.wtf("branch listening.");
     store.dispatch(BranchListening());
 
-    if (Platform.isAndroid) FlutterBranchIoPlugin.setupBranchIO();
-
-    if (Platform.isAndroid) {
-      FlutterAndroidLifecycle.listenToOnStartStream().listen((string) {
-        logger.wtf("Listen To On Start Stream Branch.io");
-        FlutterBranchIoPlugin.setupBranchIO();
-      }, onDone: () {
-        store.dispatch(listenToBranchCall());
-      }, onError: () {
-        store.dispatch(listenToBranchCall());
-      });
-    }
-
-    await Future.delayed(Duration(microseconds: 500), () {
-      FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) async {
-        var linkData = jsonDecode(stringData);
-        logger.wtf("Listen To On Deep Link Stream Branch.io");
-        if (linkData["~feature"] == "switch_community") {
-          var communityAddress = linkData["community_address"];
-          logger.wtf("communityAddress $communityAddress");
-          store.dispatch(BranchCommunityToUpdate(communityAddress));
-          store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: linkData));
-        }
-        if (linkData["~feature"] == "invite_user") {
-          var communityAddress = linkData["community_address"];
-          logger.wtf("community_address $communityAddress");
-          store.dispatch(BranchCommunityToUpdate(communityAddress));
-          store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: linkData));
-        }
-      }, onDone: () {
-        logger.wtf("ondone");
-        store.dispatch(listenToBranchCall());
-      }, onError: (error) {
-        logger.wtf("error, $error");
-        store.dispatch(listenToBranchCall());
-      });
-    });
-
-    FlutterAndroidLifecycle.listenToOnResumeStream().listen((stringData) async {
-      logger.wtf("Listen To On Resume Stream Branch.io");
+    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) async {
+      var linkData = jsonDecode(stringData);
+      logger.wtf("Got link data: $stringData");
+      if (linkData["~feature"] == "switch_community") {
+        var communityAddress = linkData["community_address"];
+        logger.wtf("communityAddress $communityAddress");
+        store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
+      }
+      if (linkData["~feature"] == "invite_user") {
+        var communityAddress = linkData["community_address"];
+        logger.wtf("community_address $communityAddress");
+        store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
+      }
+      store.dispatch(BranchDataReceived());
     }, onDone: () {
+      logger.wtf("ondone");
       store.dispatch(listenToBranchCall());
     }, onError: (error) {
       logger.wtf("error, $error");
       store.dispatch(listenToBranchCall());
     });
+    if (Platform.isAndroid) {
+      logger.wtf("setupBranchIO start");
+      await FlutterBranchIoPlugin.setupBranchIO();
+      logger.wtf("setupBranchIO done");
+    } else {
+      store.dispatch(BranchDataReceived());
+    }
+
   };
 }
 
@@ -687,7 +674,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
 
       dynamic response =
           await api.joinCommunity(web3, walletAddress, communityAddress);
-      
+
       dynamic jobId = response['job']['_id'];
       Transfer transfer = new Transfer(
           type: 'RECEIVE',
@@ -748,7 +735,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       }
       store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
-          properties: new Map<String, dynamic>.from({'community': community, 'tokenAddress': token['address']})));
+          properties: new Map<String, dynamic>.from(community)));
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],
@@ -859,7 +846,7 @@ ThunkAction getReceivedTokenTransfersListCall(String tokenAddress) {
         store.dispatch(new GetTokenTransfersListSuccess(transfers));
         store.dispatch(getTokenBalanceCall(tokenAddress));
       }
-    } catch (e) {  
+    } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not get token transfers'));
     }

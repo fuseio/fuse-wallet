@@ -1,17 +1,34 @@
 package io.fuse.fusecash
 
 import android.os.Bundle
+
 import com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity
 
-import io.flutter.app.FlutterActivity
+import io.branch.referral.Branch
+import io.branch.referral.BranchUtil
+
+//import io.flutter.app.FlutterActivity
 import io.flutter.plugins.GeneratedPluginRegistrant
 
 import android.os.Build
 import android.view.ViewTreeObserver
 import android.view.WindowManager
+
 class MainActivity: FlutterAndroidLifecycleActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    if (!BranchUtil.isTestModeEnabled()) {
+      Branch.getInstance(this)
+    } else {
+      Branch.getTestInstance(this)
+    }
+
+    // Branch logging for debugging
+    Branch.enableDebugMode()
+
+    // Branch object initialization
+    Branch.getAutoInstance(this)
+
     val flutter_native_splash = true
     var originalStatusBarColor = 0
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -31,6 +48,5 @@ class MainActivity: FlutterAndroidLifecycleActivity() {
         }
       }
     })
-
   }
 }
