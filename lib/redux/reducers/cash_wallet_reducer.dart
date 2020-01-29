@@ -316,13 +316,13 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       
       CashWalletState _replaceTransfer(CashWalletState state, ReplaceTransaction action) {
         Community current = state.communities[state.communityAddress];
-        int index = current.transactions.list.indexOf(action.transaction);
-        if (index == -1) {
+        Transaction oldTx = 
+          current.transactions.list.firstWhere((tx) => tx.jobId == action.transaction.jobId, orElse: null);
+        if (oldTx == null) {
           return state;
-          // current.transactions.list.add(action.transactionToReplace);
-        } else {
-          current.transactions.list[index] = action.transactionToReplace;
         }
+        int index = current.transactions.list.indexOf(oldTx);
+        current.transactions.list[index] = action.transactionToReplace;
         Community newCommunity = current.copyWith(
             transactions:
                 current.transactions.copyWith(list: current.transactions.list));

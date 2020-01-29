@@ -725,8 +725,8 @@ ThunkAction switchCommunityCall(String communityAddress) {
         }
       }
       store.dispatch(joinCommunityCall(community: community, token: token));
-      // store.dispatch(segmentTrackCall("Wallet: Switch Community",
-      //     properties: {community: community, token: token}));
+      store.dispatch(segmentTrackCall("Wallet: Switch Community",
+          properties: {'community': community, 'tokenAddress': token['address']}));
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],

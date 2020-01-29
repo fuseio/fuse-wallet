@@ -1,6 +1,7 @@
 
 import 'package:fusecash/services.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import './transaction.dart';
 import 'dart:convert'; 
 
 String getJobType(Map<String, dynamic> job) {
@@ -28,7 +29,7 @@ abstract class Job {
   final String name;
   String status;
   final dynamic data;
-  final dynamic arguments;
+  dynamic arguments;
   final String lastFinishedAt;
 
   Job({
@@ -37,9 +38,11 @@ abstract class Job {
     this.name,
     this.status,
     this.data,
-    this.arguments,
+    arguments,
     this.lastFinishedAt
-  });
+  }) {
+    this.arguments = argumentsFromJson(arguments);
+  }
 
   Future perform(dynamic store);
 
@@ -55,6 +58,10 @@ abstract class Job {
 
   dynamic argumentsToJson() {
     return json.encode(arguments);
+  }
+
+  dynamic argumentsFromJson(arguments) {
+    return arguments;
   }
 }
 
@@ -125,6 +132,20 @@ class JoinCommunityJob extends Job {
       'community': arguments['community']
     };
   }
+
+  dynamic argumentsFromJson(arguments) {
+    if (arguments == null) {
+      return arguments;
+    }
+    if (arguments.containsKey('transfer')) {
+      if (arguments['transfer']  is Map) {
+        Map<String, dynamic> nArgs = Map<String, dynamic> .from(arguments);
+        nArgs['transfer'] = TransactionFactory.fromJson(arguments['transfer']);
+        return nArgs;
+      }
+    }
+    return arguments;
+  }
 }
 
 class TransferJob extends Job {
@@ -164,38 +185,54 @@ class TransferJob extends Job {
       'transfer': arguments['transfer'].toJson()
     };
   }
+
+  dynamic argumentsFromJson(arguments) {
+    if (arguments == null) {
+      return arguments;
+    }
+    if (arguments.containsKey('transfer')) {
+      if (arguments['transfer']  is Map) {
+        Map<String, dynamic> nArgs = Map<String, dynamic> .from(arguments);
+        nArgs['transfer'] = TransactionFactory.fromJson(arguments['transfer']);
+        return nArgs;
+      }
+    }
+    return arguments;
+  }
 }
 
 class JobFactory {
-  static Job create(dynamic json) {
+  static Job create(Map json) {
     String jobType = getJobType(json);
+    String id = json.containsKey('_id') ? json['_id'] : json['id'];
+    String status = json.containsKey('status') ? json['status'] : 'PENDING';
     switch (jobType) {
       case 'createWallet':
         return new GenerateWalletJob(
-          id: json['_id'],
+          id: id,
           jobType: jobType,
           name: json['name'],
-          status: json.containsKey('status') ? json['status'] : 'PENDING',
+          status: status,
           data: json['data'],
           lastFinishedAt: json['lastFinishedAt'],
           arguments: json['arguments']
         );
       case 'joinCommunity':
         return new JoinCommunityJob(
-          id: json['_id'],
+          id: id,
           jobType: jobType,
           name: json['name'],
-          status: json.containsKey('status') ? json['status'] : 'PENDING',
+          status: status,
           data: json['data'],
           lastFinishedAt: json['lastFinishedAt'],
           arguments: json['arguments']
         );
       case 'transfer':
         return new TransferJob(
-          id: json['_id'],
+          id: id,
           jobType: jobType,
           name: json['name'],
-          status: json.containsKey('status') ? json['status'] : 'PENDING',
+          status: status,
           data: json['data'],
           lastFinishedAt: json['lastFinishedAt'],
           arguments: json['arguments']
