@@ -525,16 +525,36 @@ ThunkAction inviteAndSendCall(
     dynamic response = await api.invite(
         contactPhoneNumber, store.state.cashWalletState.communityAddress);
     logger.wtf("response $response");
-    String jobId = response['job']['_id'].toString();
-    store.dispatch(startFetchingJobCall(jobId, (Job job) {
+    sendSuccessCallback();
+    response['job']['arguments'] = {
+      'tokensAmount': tokensAmount,
+      'receiverName': receiverName,
+      'sendSuccessCallback': () => {},
+      'sendFailureCallback': sendFailureCallback
+    };
+    Job job = JobFactory.create(response['job']);
+    store.dispatch(AddJob(job));
+    // String jobId = response['job']['_id'].toString();
+    // store.dispatch(startFetchingJobCall(jobId, (Job job) {
+    //   String receiverAddress = job.data["walletAddress"];
+    //   store.dispatch(sendTokenCall(receiverAddress, tokensAmount,
+    //       sendSuccessCallback, sendFailureCallback,
+    //       receiverName: receiverName));
+      // store.dispatch(syncContactsCall(store.state.userState.contacts));
+    // }, untilDone: true));
+  };
+}
+
+ThunkAction inviteAndSendSuccessCall(Job job, tokensAmount, receiverName, sendSuccessCallback, sendFailureCallback) {
+  return (Store store) async {
       String receiverAddress = job.data["walletAddress"];
       store.dispatch(sendTokenCall(receiverAddress, tokensAmount,
           sendSuccessCallback, sendFailureCallback,
           receiverName: receiverName));
       store.dispatch(syncContactsCall(store.state.userState.contacts));
-    }, untilDone: true));
   };
 }
+
 
 ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
