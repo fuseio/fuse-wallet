@@ -355,6 +355,7 @@ ThunkAction startTransfersFetchingCall() {
     String tokenAddress = community.token?.address;
     if (tokenAddress != null) {
       store.dispatch(getTokenTransfersListCall(tokenAddress));
+      store.dispatch(getTokenBalanceCall(tokenAddress));
     }
     new Timer.periodic(Duration(seconds: 3), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
@@ -382,6 +383,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
       Map<String, dynamic> response = await api.createWallet();
       if (!response.containsKey('job')) {
         print('Wallet already exists');
+        store.dispatch(generateWalletSuccessCall(response, accountAddress));
         return;
       }
       response['job']['arguments'] = {
@@ -407,7 +409,7 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
               traits: new Map<String, dynamic>.from({
                 "walletAddress": walletAddress,
                 "accountAddress": accountAddress,
-                "displatName": store.state.userState.displayName
+                "displayName": store.state.userState.displayName
               })));
           store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
           store.dispatch(create3boxAccountCall(accountAddress));
