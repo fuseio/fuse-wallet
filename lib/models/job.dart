@@ -15,6 +15,13 @@ String getJobType(Map<String, dynamic> job) {
       return 'transfer';
     }
   }
+  if (job['name'] == Job.CREATE_WALLET) {
+    if (job['data'].containsKey('phoneNumber')) {
+      return 'invite';
+    } else {
+      return Job.CREATE_WALLET;
+    }
+  }
   return job['name'];
 }
 abstract class Job {
@@ -201,6 +208,46 @@ class TransferJob extends Job {
   }
 }
 
+class InviteJob extends Job {
+  InviteJob({
+    id,
+    jobType,
+    name,
+    status,
+    data,
+    arguments,
+    lastFinishedAt
+  }) : super(
+    id: id,
+    jobType: jobType,
+    name: name,
+    status: status,
+    data: data,
+    arguments: arguments,
+    lastFinishedAt: lastFinishedAt
+  );
+
+   Future perform(store) async {
+      dynamic response = await api.getJob(this.id);
+      Job job = JobFactory.create(response);
+
+      if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
+        logger.wtf('job not done');
+        return;
+      }
+      status = 'DONE';
+      store.dispatch(inviteAndSendSuccessCall(job, arguments['tokensAmount'], arguments['receiverName'], arguments['sendSuccessCallback'], arguments['sendFailureCallback']));
+    }
+
+
+  dynamic argumentsToJson() {
+    return {
+      'tokensAmount': arguments['tokensAmount'],
+      'receiverName': arguments['receiverName']
+    };
+  }
+}
+
 class JobFactory {
   static Job create(Map json) {
     String jobType = getJobType(json);
@@ -229,6 +276,16 @@ class JobFactory {
         );
       case 'transfer':
         return new TransferJob(
+          id: id,
+          jobType: jobType,
+          name: json['name'],
+          status: status,
+          data: json['data'],
+          lastFinishedAt: json['lastFinishedAt'],
+          arguments: json['arguments']
+        );
+      case 'invite':
+        return new InviteJob(
           id: id,
           jobType: jobType,
           name: json['name'],
