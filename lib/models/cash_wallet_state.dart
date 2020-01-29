@@ -19,6 +19,7 @@ class CashWalletState {
   final bool isBalanceFetchingStarted;
   final bool isTransfersFetchingStarted;
   final bool isListeningToBranch;
+  final bool isJobProcessingStarted;
   final Map<String, num> sendToInvites;
   final String communityAddress;
 
@@ -38,6 +39,7 @@ class CashWalletState {
     this.isTransfersFetchingStarted,
     this.isListeningToBranch,
     this.isCommunityBusinessesFetched,
+    this.isJobProcessingStarted,
     this.communities
   });
 
@@ -55,6 +57,7 @@ class CashWalletState {
         isCommunityBusinessesFetched: false,
         isBalanceFetchingStarted: false,
         isTransfersFetchingStarted: false,
+        isJobProcessingStarted: false,
         sendToInvites: new Map<String, num>(),
         communities: new Map<String, Community>());
   }
@@ -72,6 +75,7 @@ class CashWalletState {
     bool isBalanceFetchingStarted,
     bool isTransfersFetchingStarted,
     bool isListeningToBranch,
+    bool isJobProcessingStarted,
     Token token,
     BigInt tokenBalance,
     Map<String, num> sendToInvites,
@@ -93,6 +97,7 @@ class CashWalletState {
         isBalanceFetchingStarted: isBalanceFetchingStarted ?? this.isBalanceFetchingStarted,
         isTransfersFetchingStarted: isTransfersFetchingStarted ?? this.isTransfersFetchingStarted,
         isListeningToBranch: isListeningToBranch ?? this.isListeningToBranch,
+        isJobProcessingStarted: isJobProcessingStarted ?? this.isJobProcessingStarted,
         sendToInvites: sendToInvites ?? this.sendToInvites,
         communities: communities ?? this.communities
     );
@@ -126,6 +131,7 @@ class CashWalletState {
         isBalanceFetchingStarted: false,
         isTransfersFetchingStarted: false,
         isListeningToBranch: false,
+        isJobProcessingStarted: false,
         sendToInvites: new Map<String, num>(),
         communities: json['communities'] != null ? communities : new Map<String, Community>()
     );

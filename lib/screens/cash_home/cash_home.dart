@@ -39,6 +39,9 @@ void onChange(CashWalletViewModel viewModel, BuildContext context, {bool initial
   if (initial) {
     viewModel.syncContacts([]);
   }
+  if (!viewModel.isJobProcessingStarted) {
+    viewModel.startProcessingJobs();
+  }
   if (!viewModel.isListeningToBranch &&
       viewModel.isCommunityLoading != null &&
       !viewModel.isCommunityLoading) {
@@ -62,9 +65,9 @@ void onChange(CashWalletViewModel viewModel, BuildContext context, {bool initial
     }
   }
   if (viewModel.token != null) {
-    if (!viewModel.isBalanceFetchingStarted) {
-      viewModel.startBalanceFetching();
-    }
+    // if (!viewModel.isBalanceFetchingStarted) {
+    //   viewModel.startBalanceFetching();
+    // }
     if (!viewModel.isTransfersFetchingStarted) {
       viewModel.startTransfersFetching();
     }
