@@ -278,11 +278,7 @@ ThunkAction listenToBranchCall() {
     });
 
     if (Platform.isAndroid) {
-      logger.wtf("setupBranchIO start");
-      FlutterBranchIoPlugin.setupBranchIO().then((arg) {
-        logger.wtf("setupBranchIO done");
-      });
-
+      FlutterBranchIoPlugin.setupBranchIO();
     }
   };
 }
