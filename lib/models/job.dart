@@ -1,8 +1,7 @@
-
 import 'package:fusecash/services.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import './transaction.dart';
-import 'dart:convert'; 
+import 'dart:convert';
 
 String getJobType(Map<String, dynamic> job) {
   if (job.containsKey('jobType')) {
@@ -24,6 +23,7 @@ String getJobType(Map<String, dynamic> job) {
   }
   return job['name'];
 }
+
 abstract class Job {
   static const String RELAY = "relay";
   static const String CREATE_WALLET = "createWallet";
@@ -39,29 +39,36 @@ abstract class Job {
   dynamic arguments;
   final String lastFinishedAt;
 
-  Job({
-    this.id,
-    this.jobType,
-    this.name,
-    this.status,
-    this.data,
-    arguments,
-    this.lastFinishedAt
-  }) {
+  Job(
+      {this.id,
+      this.jobType,
+      this.name,
+      this.status,
+      this.data,
+      arguments,
+      this.lastFinishedAt}) {
     this.arguments = argumentsFromJson(arguments);
   }
 
-  Future perform(dynamic store);
+  Future<dynamic> fetch();
+  Future<dynamic> onDone(store, dynamic fetchedData);
+
+  Future perform(dynamic store, Function isJobProcessValid) async {
+    dynamic fetchedData = await fetch();
+    if (isJobProcessValid()) {
+      onDone(store, fetchedData);
+    }
+  }
 
   Map<String, dynamic> toJson() => {
-    'id': this.id,
-    'jobType': this.jobType,
-    'name': this.name,
-    'status': this.status,
-    'data': this.data,
-    'lastFinishedAt': this.lastFinishedAt,
-    'arguments': argumentsToJson()
-  };
+        'id': this.id,
+        'jobType': this.jobType,
+        'name': this.name,
+        'status': this.status,
+        'data': this.data,
+        'lastFinishedAt': this.lastFinishedAt,
+        'arguments': argumentsToJson()
+      };
 
   dynamic argumentsToJson() {
     return json.encode(arguments);
@@ -73,65 +80,57 @@ abstract class Job {
 }
 
 class GenerateWalletJob extends Job {
-  GenerateWalletJob({
-    id,
-    jobType,
-    name,
-    status,
-    data,
-    arguments,
-    lastFinishedAt
-  }) : super(
-    id: id,
-    jobType: jobType,
-    name: name,
-    status: status,
-    data: data,
-    arguments: arguments,
-    lastFinishedAt: lastFinishedAt
-  );
+  GenerateWalletJob(
+      {id, jobType, name, status, data, arguments, lastFinishedAt})
+      : super(
+            id: id,
+            jobType: jobType,
+            name: name,
+            status: status,
+            data: data,
+            arguments: arguments,
+            lastFinishedAt: lastFinishedAt);
 
-   Future perform(store) async {
-      dynamic wallet = await api.getWallet();
-      String walletAddress = wallet["walletAddress"];
-      if (walletAddress != null && walletAddress.isNotEmpty) {
-        status = 'DONE';
-      }
-      store.dispatch(generateWalletSuccessCall(wallet, arguments['accountAddress']));
+  fetch() async {
+    return api.getWallet();
+  }
+
+  onDone(store, dynamic fetchedData) async {
+    String walletAddress = fetchedData["walletAddress"];
+    if (walletAddress != null && walletAddress.isNotEmpty) {
+      status = 'DONE';
     }
+    store.dispatch(
+        generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
+  }
 }
 
 class JoinCommunityJob extends Job {
-  JoinCommunityJob({
-    id,
-    jobType,
-    name,
-    status,
-    data,
-    arguments,
-    lastFinishedAt
-  }) : super(
-    id: id,
-    jobType: jobType,
-    name: name,
-    status: status,
-    data: data,
-    arguments: arguments,
-    lastFinishedAt: lastFinishedAt
-  );
+  JoinCommunityJob({id, jobType, name, status, data, arguments, lastFinishedAt})
+      : super(
+            id: id,
+            jobType: jobType,
+            name: name,
+            status: status,
+            data: data,
+            arguments: arguments,
+            lastFinishedAt: lastFinishedAt);
 
-   Future perform(store) async {
-      dynamic response = await api.getJob(this.id);
-      Job job = JobFactory.create(response);
+  fetch() async {
+    return api.getJob(this.id);
+  }
 
-      if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-        logger.wtf('job not done');
-        return;
-      }
-      status = 'DONE';
-      store.dispatch(joinCommunitySuccessCall(job, arguments['transfer'], arguments['community']));
+  onDone(store, dynamic fetchedData) async {
+    Job job = JobFactory.create(fetchedData);
+
+    if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
+      logger.wtf('job not done');
+      return;
     }
-
+    status = 'DONE';
+    store.dispatch(joinCommunitySuccessCall(
+        job, arguments['transfer'], arguments['community']));
+  }
 
   dynamic argumentsToJson() {
     return {
@@ -145,8 +144,8 @@ class JoinCommunityJob extends Job {
       return arguments;
     }
     if (arguments.containsKey('transfer')) {
-      if (arguments['transfer']  is Map) {
-        Map<String, dynamic> nArgs = Map<String, dynamic> .from(arguments);
+      if (arguments['transfer'] is Map) {
+        Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
         nArgs['transfer'] = TransactionFactory.fromJson(arguments['transfer']);
         return nArgs;
       }
@@ -156,41 +155,33 @@ class JoinCommunityJob extends Job {
 }
 
 class TransferJob extends Job {
-  TransferJob({
-    id,
-    jobType,
-    name,
-    status,
-    data,
-    arguments,
-    lastFinishedAt
-  }) : super(
-    id: id,
-    jobType: jobType,
-    name: name,
-    status: status,
-    data: data,
-    arguments: arguments,
-    lastFinishedAt: lastFinishedAt
-  );
+  TransferJob({id, jobType, name, status, data, arguments, lastFinishedAt})
+      : super(
+            id: id,
+            jobType: jobType,
+            name: name,
+            status: status,
+            data: data,
+            arguments: arguments,
+            lastFinishedAt: lastFinishedAt);
 
-   Future perform(store) async {
-      dynamic response = await api.getJob(this.id);
-      Job job = JobFactory.create(response);
+  fetch() async {
+    return api.getJob(this.id);
+  }
 
-      if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-        logger.wtf('job not done');
-        return;
-      }
-      status = 'DONE';
-      store.dispatch(sendTokenSuccessCall(job, arguments['transfer']));
+  onDone(store, dynamic fetchedData) async {
+    Job job = JobFactory.create(fetchedData);
+
+    if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
+      logger.wtf('job not done');
+      return;
     }
-
+    status = 'DONE';
+    store.dispatch(sendTokenSuccessCall(job, arguments['transfer']));
+  }
 
   dynamic argumentsToJson() {
-    return {
-      'transfer': arguments['transfer'].toJson()
-    };
+    return {'transfer': arguments['transfer'].toJson()};
   }
 
   dynamic argumentsFromJson(arguments) {
@@ -198,8 +189,8 @@ class TransferJob extends Job {
       return arguments;
     }
     if (arguments.containsKey('transfer')) {
-      if (arguments['transfer']  is Map) {
-        Map<String, dynamic> nArgs = Map<String, dynamic> .from(arguments);
+      if (arguments['transfer'] is Map) {
+        Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
         nArgs['transfer'] = TransactionFactory.fromJson(arguments['transfer']);
         return nArgs;
       }
@@ -209,36 +200,34 @@ class TransferJob extends Job {
 }
 
 class InviteJob extends Job {
-  InviteJob({
-    id,
-    jobType,
-    name,
-    status,
-    data,
-    arguments,
-    lastFinishedAt
-  }) : super(
-    id: id,
-    jobType: jobType,
-    name: name,
-    status: status,
-    data: data,
-    arguments: arguments,
-    lastFinishedAt: lastFinishedAt
-  );
+  InviteJob({id, jobType, name, status, data, arguments, lastFinishedAt})
+      : super(
+            id: id,
+            jobType: jobType,
+            name: name,
+            status: status,
+            data: data,
+            arguments: arguments,
+            lastFinishedAt: lastFinishedAt);
 
-   Future perform(store) async {
-      dynamic response = await api.getJob(this.id);
-      Job job = JobFactory.create(response);
+  fetch() async {
+    return api.getJob(this.id);
+  }
 
-      if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-        logger.wtf('job not done');
-        return;
-      }
-      status = 'DONE';
-      store.dispatch(inviteAndSendSuccessCall(job, arguments['tokensAmount'], arguments['receiverName'], arguments['sendSuccessCallback'], arguments['sendFailureCallback']));
+  onDone(store, dynamic fetchedData) async {
+    Job job = JobFactory.create(fetchedData);
+    if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
+      logger.wtf('job not done');
+      return;
     }
-
+    status = 'DONE';
+    store.dispatch(inviteAndSendSuccessCall(
+        job,
+        arguments['tokensAmount'],
+        arguments['receiverName'],
+        arguments['sendSuccessCallback'],
+        arguments['sendFailureCallback']));
+  }
 
   dynamic argumentsToJson() {
     return {
@@ -256,48 +245,41 @@ class JobFactory {
     switch (jobType) {
       case 'createWallet':
         return new GenerateWalletJob(
-          id: id,
-          jobType: jobType,
-          name: json['name'],
-          status: status,
-          data: json['data'],
-          lastFinishedAt: json['lastFinishedAt'],
-          arguments: json['arguments']
-        );
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
       case 'joinCommunity':
         return new JoinCommunityJob(
-          id: id,
-          jobType: jobType,
-          name: json['name'],
-          status: status,
-          data: json['data'],
-          lastFinishedAt: json['lastFinishedAt'],
-          arguments: json['arguments']
-        );
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
       case 'transfer':
         return new TransferJob(
-          id: id,
-          jobType: jobType,
-          name: json['name'],
-          status: status,
-          data: json['data'],
-          lastFinishedAt: json['lastFinishedAt'],
-          arguments: json['arguments']
-        );
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
       case 'invite':
         return new InviteJob(
-          id: id,
-          jobType: jobType,
-          name: json['name'],
-          status: status,
-          data: json['data'],
-          lastFinishedAt: json['lastFinishedAt'],
-          arguments: json['arguments']
-        );
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
     }
     return null;
   }
 }
-
-
-

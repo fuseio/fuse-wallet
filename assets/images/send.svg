@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_1783" data-name="Path 1783" d="M0,4.547a.683.683,0,0,0,.683.683H9.611L6.972,7.869a.682.682,0,0,0,0,.966l.059.059a.682.682,0,0,0,.966,0L11.861,5.03a.682.682,0,0,0,0-.966L8,.2a.682.682,0,0,0-.966,0L6.972.259a.682.682,0,0,0,0,.966L9.611,3.864H.683A.683.683,0,0,0,0,4.547Z" fill="#fff"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="Path_1782" data-name="Path 1782" d="M0,2584.85H1352.538V0H0Z" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Group_2333" data-name="Group 2333" transform="translate(299 756) rotate(180)">
+    <circle id="Ellipse_363" data-name="Ellipse 363" cx="10" cy="10" r="10" transform="translate(299 756) rotate(180)" fill="#c4c4c4"/>
+    <g id="Group_2329" data-name="Group 2329" transform="translate(293.575 739.744) rotate(90)">
+      <g id="Group_1951" data-name="Group 1951" transform="translate(0 0)" clip-path="url(#clip-path)">
+        <g id="Group_1950" data-name="Group 1950" transform="translate(-459.043 -1164.802)" clip-path="url(#clip-path-2)">
+          <path id="Path_1781" data-name="Path 1781" d="M0,15.925V0H18.892V15.925Z" transform="translate(455.628 1161.387)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
