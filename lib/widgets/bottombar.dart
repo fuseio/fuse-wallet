@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:fusecash/common.dart';
 import 'package:fusecash/generated/i18n.dart';
-
-import '../common.dart';
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;
@@ -25,8 +25,8 @@ Widget bottomBar(BuildContext context) {
       children: <Widget>[
         bottomBarItem(
             isCurrentRoute(context, '/SendContact')
-                ? "send_selected.png"
-                : "send.png",
+                ? "send_selected.svg"
+                : "send.svg",
             I18n.of(context).send_button, () {
           if (isHomePage) {
             redirect(context, '/SendContact');
@@ -36,7 +36,7 @@ Widget bottomBar(BuildContext context) {
           }
         }),
         bottomBarItem(
-            isCurrentRoute(context, '/Buy') ? "buy_selected.png" : "buy.png",
+            isCurrentRoute(context, '/Buy') ? "buy_selected.svg" : "buy.svg",
             I18n.of(context).buy, () {
           if (isHomePage) {
             redirect(context, '/Buy');
@@ -47,8 +47,8 @@ Widget bottomBar(BuildContext context) {
         }),
         bottomBarItem(
             isCurrentRoute(context, '/Receive')
-                ? "receive_selected.png"
-                : "receive.png",
+                ? "receive_selected.svg"
+                : "receive.svg",
             I18n.of(context).receive, () {
           if (isHomePage) {
             redirect(context, '/Receive');
@@ -84,7 +84,7 @@ Widget bottomBarItem(String img, String text, Function ontap) {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 5),
-              child: Image.asset('assets/images/' + img, width: 20.0),
+              child: SvgPicture.asset('assets/images/' '$img'),
             ),
             new Text(text,
                 style: new TextStyle(

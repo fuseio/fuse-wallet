@@ -196,8 +196,9 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                                 Navigator.pushNamed(
                                                     context, '/SendAmount',
                                                     arguments: SendAmountArguments(
-                                                        avatar: new AssetImage(
-                                                            'assets/images/anom.png'),
+                                                        avatar: NetworkImage(
+                                        getImageUrl(viewModel.businesses[index], viewModel.communityAddres)
+                                      ),
                                                         name: viewModel
                                                                 .businesses[
                                                                     index]
