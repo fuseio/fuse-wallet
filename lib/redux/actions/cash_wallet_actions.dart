@@ -276,7 +276,7 @@ ThunkAction listenToBranchCall() {
     new Future.delayed(Duration(milliseconds: 1000), () {
       store.dispatch(BranchDataReceived());
     });
-
+    
     if (Platform.isAndroid) {
       FlutterBranchIoPlugin.setupBranchIO();
     }
