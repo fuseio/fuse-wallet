@@ -97,8 +97,6 @@ class _DepositWebViewState extends State<DepositWebView> {
           dynamic depositPlugin = widget.depositPlugin;
           dynamic url =
               depositPlugin.generateUrl(walletAddress: viewModel.walletAddress);
-          print('url url url url url url url');
-          print(url);
           return WebView(
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,

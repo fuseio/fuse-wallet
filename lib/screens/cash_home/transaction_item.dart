@@ -51,16 +51,15 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
   return null;
 }
 
-
 dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
   if (transfer.isJoinCommunity()) {
     return new AssetImage(
-                          'assets/images/join_community.png',
-                        );
+      'assets/images/join_community.png',
+    );
   } else if (transfer.isGenerateWallet()) {
-     return new AssetImage(
-        'assets/images/generate_wallet.png',
-      );
+    return new AssetImage(
+      'assets/images/generate_wallet.png',
+    );
   } else if (transfer.isJoinBonus()) {
     return new AssetImage(
       'assets/images/join.png',
@@ -70,11 +69,13 @@ dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
   }
 
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  Business business = vm.businesses.firstWhere((business) => business.account == accountAddress, orElse: () => null); 
+  Business business = vm.businesses.firstWhere(
+      (business) => business.account == accountAddress,
+      orElse: () => null);
   if (business != null) {
     return NetworkImage(getImageUrl(business, vm.communityAddress));
   }
-  return  new AssetImage('assets/images/anom.png');
+  return new AssetImage('assets/images/anom.png');
 }
 
 Color deduceColor(Transfer transfer) {
@@ -151,13 +152,15 @@ class TransactionListItem extends StatelessWidget {
               Text(
                   transfer.isJoinBonus()
                       ? I18n.of(context).join_bonus
-                      : (transfer.receiverName != null && transfer.receiverName != '')
-                        ? transfer.receiverName : _transaction.text != null
-                          ? _transaction.text
-                          : _contact != null
-                              ? _contact.displayName
-                              : deducePhoneNumber(
-                                  _transaction, _vm.reverseContacts),
+                      : (transfer.receiverName != null &&
+                              transfer.receiverName != '')
+                          ? transfer.receiverName
+                          : _transaction.text != null
+                              ? _transaction.text
+                              : _contact != null
+                                  ? _contact.displayName
+                                  : deducePhoneNumber(
+                                      _transaction, _vm.reverseContacts),
                   style: TextStyle(color: Color(0xFF333333), fontSize: 15))
             ],
           ),
