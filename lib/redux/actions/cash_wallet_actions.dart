@@ -482,14 +482,24 @@ ThunkAction startFetchingJobCall(
   };
 }
 
-ThunkAction processingJobsCall() {
+ThunkAction processingJobsCall(Timer timer) {
   return (Store store) async {
     String communityAddres = store.state.cashWalletState.communityAddress;
+    String walletAddress = store.state.cashWalletState.walletAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
     List<Job> jobs = community.jobs;
     for (Job job in jobs) {
+      String currentCommunityAddress = store.state.cashWalletState.communityAddress;
+      String currentWalletAddress = store.state.cashWalletState.walletAddress;
+      bool isJobProcessValid() {
+        if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
+          timer.cancel();
+          return false;
+        } 
+        return true;
+      };
       if (job.status != 'DONE') {
-        await job.perform(store);
+        await job.perform(store, isJobProcessValid);
       }
       if (job.status == 'DONE') {
         store.dispatch(JobDone(job));
@@ -504,7 +514,7 @@ ThunkAction processingJobsCall() {
 ThunkAction startProcessingJobsCall() {
   return (Store store) async {
     new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
-      store.dispatch(processingJobsCall());
+      store.dispatch(processingJobsCall(timer));
     });
     store.dispatch(JobProcessingStarted());
   };
