@@ -471,6 +471,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
             isSync = isPermitted;
           });
         },
+        onWillChange: (viewModel) async {
+          bool isPermitted = await Contacts.checkPermissions();
+          setState(() {
+            isSync = isPermitted;
+          });
+        },
         builder: (_, viewModel) {
           if (!isSync) {
             return MainScaffold(
