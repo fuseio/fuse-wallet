@@ -272,14 +272,18 @@ ThunkAction listenToBranchCall() {
       logger.wtf("error, $error");
       store.dispatch(listenToBranchCall());
     });
+
+    new Future.delayed(Duration(milliseconds: 1000), () {
+      store.dispatch(BranchDataReceived());
+    });
+
     if (Platform.isAndroid) {
       logger.wtf("setupBranchIO start");
-      await FlutterBranchIoPlugin.setupBranchIO();
-      logger.wtf("setupBranchIO done");
-    } else {
-      store.dispatch(BranchDataReceived());
-    }
+      FlutterBranchIoPlugin.setupBranchIO().then((arg) {
+        logger.wtf("setupBranchIO done");
+      });
 
+    }
   };
 }
 
