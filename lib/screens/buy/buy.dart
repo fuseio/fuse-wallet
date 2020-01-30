@@ -7,6 +7,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/buy_page.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
@@ -94,7 +95,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                       )
                     : new Container(
                         padding: const EdgeInsets.only(
-                            top: 16, bottom: 16, left: 10, right: 10),
+                            top: 0, bottom: 16, left: 20, right: 00),
                         child: new Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -116,6 +117,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                             viewModel.businesses?.length ?? 0,
                                         itemBuilder: (context, index) {
                                           return ListTile(
+                                            contentPadding: EdgeInsets.all(0),
                                             leading: Container(
                                               width: 50,
                                               height: 50,
@@ -137,10 +139,14 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                                           'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
                                                         )
                                                       : Image.network(
-                                                          DotEnv().env[
+                                                          !isPaywise(viewModel.communityAddres) ? DotEnv().env[
                                                                   'IPFS_BASE_URL'] +
                                                               '/image/' +
                                                               viewModel
+                                                                  .businesses[
+                                                                      index]
+                                                                  .metadata
+                                                                  .image : viewModel
                                                                   .businesses[
                                                                       index]
                                                                   .metadata
@@ -157,8 +163,8 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .primaryColor,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.normal),
                                             ),
                                             subtitle: Text(
                                               viewModel.businesses[index]
@@ -167,14 +173,15 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .accentColor,
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w500),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.normal),
                                             ),
                                             onTap: () {
                                               Navigator.pushNamed(
                                                   context, '/Business',
                                                   arguments:
                                                       BusinessRouteArguments(
+                                                        communityAddress: viewModel.communityAddres,
                                                           token:
                                                               viewModel.token,
                                                           business: viewModel
@@ -190,7 +197,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                               children: <Widget>[
                                                 FlatButton(
                                                   shape: CircleBorder(),
-                                                  color: Color(0xFF8AD57F),
+                                                  color: Theme.of(context).buttonColor,
                                                   padding: EdgeInsets.all(10),
                                                   child: Text(
                                                     I18n.of(context).pay,

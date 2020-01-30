@@ -11,11 +11,13 @@ class BuyViewModel extends Equatable {
   final Function() loadBusinesses;
   final bool isCommunityBusinessesFetched;
   final Token token;
+  final String communityAddres;
 
   @override
   List<Object> get props => [token, businesses, isCommunityBusinessesFetched];
 
   BuyViewModel({
+    this.communityAddres,
     this.businesses,
     this.loadBusinesses,
     this.token,
@@ -26,6 +28,7 @@ class BuyViewModel extends Equatable {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
     return BuyViewModel(
+      communityAddres: communityAddres,
       token: community?.token,
       businesses: community?.businesses ?? [],
       isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,

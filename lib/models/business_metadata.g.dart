@@ -15,6 +15,8 @@ BusinessMetadata _$BusinessMetadataFromJson(Map<String, dynamic> json) {
     type: json['type'] as String,
     phoneNumber: json['phoneNumber'] as String,
     website: json['website'] as String,
+    latLng:
+        (json['latLng'] as List)?.map((e) => (e as num)?.toDouble())?.toList(),
   );
 }
 
@@ -27,4 +29,5 @@ Map<String, dynamic> _$BusinessMetadataToJson(BusinessMetadata instance) =>
       'type': instance.type,
       'phoneNumber': instance.phoneNumber,
       'website': instance.website,
+      'latLng': instance.latLng,
     };

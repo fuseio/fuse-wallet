@@ -4,6 +4,8 @@ description: A new Flutter project.
 environment: 
   sdk: '>=2.2.2 <3.0.0'
 dependencies:
+  url_launcher: ^5.4.1
+  http: ^0.12.0+4
   google_maps_flutter: ^0.5.21+15
   equatable: ^1.0.2
   package_info: ^0.4.0+13

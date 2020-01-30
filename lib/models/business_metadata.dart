@@ -11,6 +11,7 @@ class BusinessMetadata {
   final String type;
   final String phoneNumber;
   final String website;
+  final List<double> latLng;
 
   BusinessMetadata({
     this.address = '',
@@ -19,7 +20,8 @@ class BusinessMetadata {
     this.coverPhoto = '',
     this.type = '',
     this.phoneNumber = '',
-    this.website = ''
+    this.website = '',
+    this.latLng
   });
 
   factory BusinessMetadata.initial() => new BusinessMetadata(
@@ -29,7 +31,7 @@ class BusinessMetadata {
       image: '',
       type: '',
       phoneNumber: '',
-      website: ''
+      website: '',
     );
 
   factory BusinessMetadata.fromJson(Map<String, dynamic> json) => _$BusinessMetadataFromJson(json);
