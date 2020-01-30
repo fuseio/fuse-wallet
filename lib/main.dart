@@ -15,12 +15,17 @@ import 'package:flutter/services.dart';
 
 void main() async {
   await DotEnv().load('.env_prod');
-  runApp(CustomTheme(
-    initialThemeKey: MyThemeKeys.DEFAULT,
-    child: new MyApp(
-      store: await createReduxStore(),
-    ),
-  ));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp
+  ]).then((_) async {
+    runApp(CustomTheme(
+      initialThemeKey: MyThemeKeys.DEFAULT,
+      child: new MyApp(
+          store: await createReduxStore(),
+       ),
+    ));
+  });
+
 }
 
 class MyApp extends StatefulWidget {
