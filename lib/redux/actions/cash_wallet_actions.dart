@@ -251,7 +251,18 @@ ThunkAction listenToBranchCall() {
     logger.wtf("branch listening.");
     store.dispatch(BranchListening());
 
-    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) async {
+    if (Platform.isAndroid) {
+      FlutterBranchIoPlugin.setupBranchIO();
+    }
+
+    String lastParam = "";
+
+//    FlutterBranchIoPlugin.listenToDeepLinkStream().listen((stringData) async {
+    Timer.periodic(new Duration(seconds: 1), (timer) async {
+      String stringData = await FlutterBranchIoPlugin.getLatestParam();
+      if (stringData == lastParam) return;
+      lastParam = stringData;
+      logger.wtf("last params: $stringData");
       var linkData = jsonDecode(stringData);
       logger.wtf("Got link data: $stringData");
       if (linkData["~feature"] == "switch_community") {
@@ -267,21 +278,18 @@ ThunkAction listenToBranchCall() {
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       store.dispatch(BranchDataReceived());
-    }, onDone: () {
-      logger.wtf("ondone");
-      store.dispatch(listenToBranchCall());
-    }, onError: (error) {
-      logger.wtf("error, $error");
-      store.dispatch(listenToBranchCall());
     });
-
-    new Future.delayed(Duration(milliseconds: 1000), () {
-      store.dispatch(BranchDataReceived());
-    });
-    
-    if (Platform.isAndroid) {
-      FlutterBranchIoPlugin.setupBranchIO();
-    }
+//    }, onDone: () {
+//      logger.wtf("ondone");
+//      store.dispatch(listenToBranchCall());
+//    }, onError: (error) {
+//      logger.wtf("error, $error");
+//      store.dispatch(listenToBranchCall());
+//    });
+//
+//    new Future.delayed(Duration(milliseconds: 1000), () {
+//      store.dispatch(BranchDataReceived());
+//    });
   };
 }
 
