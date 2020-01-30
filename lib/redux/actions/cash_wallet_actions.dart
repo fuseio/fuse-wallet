@@ -262,7 +262,6 @@ ThunkAction listenToBranchCall() {
       String stringData = await FlutterBranchIoPlugin.getLatestParam();
       if (stringData == lastParam) return;
       lastParam = stringData;
-      logger.wtf("last params: $stringData");
       var linkData = jsonDecode(stringData);
       logger.wtf("Got link data: $stringData");
       if (linkData["~feature"] == "switch_community") {
