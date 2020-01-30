@@ -144,8 +144,12 @@ class I18n implements WidgetsLocalizations {
   String get how_much => "How much?";
   /// "Continue with"
   String get continue_with => "Continue with";
-  /// "Click here to sync your contacts"
-  String get click_to_sync => "Click here to sync your contacts";
+  /// "Sync your contact"
+  String get sync_contacts => "Sync your contact";
+  /// "Learn more"
+  String get learn_more => "Learn more";
+  /// "Activate"
+  String get activate => "Activate";
   /// "Recent"
   String get recent => "Recent";
   /// "Search"
@@ -184,8 +188,8 @@ class I18n implements WidgetsLocalizations {
   String get protect_wallet => "Protect your wallet";
   /// "Backup"
   String get backup_wallet => "Backup";
-  /// "Top up"
-  String get top_up => "Top up";
+  /// "Top-up your account"
+  String get top_up => "Top-up your account";
   /// "Buy"
   String get buy => "Buy";
   /// "Map"
@@ -380,9 +384,6 @@ class _I18n_he_IL extends I18n {
   /// "המשך עם"
   @override
   String get continue_with => "המשך עם";
-  /// "לחץ כאן לסנכרן כדי שנוכל לטעון את אנשי הקשר שלך"
-  @override
-  String get click_to_sync => "לחץ כאן לסנכרן כדי שנוכל לטעון את אנשי הקשר שלך";
   /// "אחרונים"
   @override
   String get recent => "אחרונים";
@@ -622,9 +623,6 @@ class _I18n_es_ES extends I18n {
   /// "Continua con"
   @override
   String get continue_with => "Continua con";
-  /// "Da click para sincronizar tus contactos"
-  @override
-  String get click_to_sync => "Da click para sincronizar tus contactos";
   /// "Reciente"
   @override
   String get recent => "Reciente";
@@ -864,9 +862,6 @@ class _I18n_br_BR extends I18n {
   /// "continue com"
   @override
   String get continue_with => "continue com";
-  /// "Clique aqui para sincronizar seus contatos"
-  @override
-  String get click_to_sync => "Clique aqui para sincronizar seus contatos";
   /// "recente"
   @override
   String get recent => "recente";

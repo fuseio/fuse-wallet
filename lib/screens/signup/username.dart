@@ -57,7 +57,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                       const SizedBox(height: 10.0),
                       TextFormField(
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20, color: Colors.black),
                         controller: displayNameController,
                         keyboardType: TextInputType.text,
                         autofocus: true,
@@ -83,7 +83,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                         preload: isPreloading,
                         onPressed: () async {
                           viewModel.setDisplayName(capitalize(displayNameController.text ?? 'Anom'));
-                          Navigator.pushReplacementNamed(context, '/Cash');
+                          Navigator.of(context).pushNamedAndRemoveUntil('/Cash', (Route<dynamic> route) => false);
                         },
                       ),
                     ),

@@ -726,8 +726,9 @@ ThunkAction switchCommunityCall(String communityAddress) {
       dynamic token = await graph.getTokenOfCommunity(communityAddress);
       logger.d(
           'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
+      bool isRopsten = token != null && token['originNetwork'] == 'ropsten';
       Map<String, dynamic> communityData =
-          await api.getCommunityData(communityAddress);
+          await api.getCommunityData(communityAddress, isRopsten: isRopsten);
       Plugins communityPlugins;
       if (communityData != null) {
         Map<String, dynamic> plugins = Map<String, dynamic>.from(

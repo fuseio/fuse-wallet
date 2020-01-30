@@ -136,18 +136,18 @@ class Plugins {
     if (this.moonpay != null && this.moonpay.isActive) {
       depositPlugins.add(this.moonpay);
     }
-    if (this.carbon != null && this.carbon.isActive) {
-      depositPlugins.add(this.carbon);
-    }
-    if (this.wyre != null && this.wyre.isActive) {
-      depositPlugins.add(this.wyre);
-    }
-    if (this.coindirect != null && this.coindirect.isActive) {
-      depositPlugins.add(this.coindirect);
-    }
-    if (this.ramp != null && this.ramp.isActive) {
-      depositPlugins.add(this.ramp);
-    }
+    // if (this.carbon != null && this.carbon.isActive) {
+    //   depositPlugins.add(this.carbon);
+    // }
+    // if (this.wyre != null && this.wyre.isActive) {
+    //   depositPlugins.add(this.wyre);
+    // }
+    // if (this.coindirect != null && this.coindirect.isActive) {
+    //   depositPlugins.add(this.coindirect);
+    // }
+    // if (this.ramp != null && this.ramp.isActive) {
+    //   depositPlugins.add(this.ramp);
+    // }
     return depositPlugins;
   }
 }

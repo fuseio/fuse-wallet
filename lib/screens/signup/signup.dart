@@ -144,7 +144,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               controller: phoneController,
                               keyboardType: TextInputType.number,
                               autofocus: true,
-                              style: const TextStyle(fontSize: 16),
+                              style: const TextStyle(fontSize: 16, color: Colors.black),
                               decoration: const InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 10),
