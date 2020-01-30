@@ -30,6 +30,7 @@ class SendToContactScreen extends StatefulWidget {
 
 class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Contact> userList = [];
+  List<Contact> filteredUsers = [];
   List<String> strList = [];
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
@@ -79,6 +80,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     if (this.mounted) {
       setState(() {
         strList = strList;
+        filteredUsers = users;
       });
     }
   }
@@ -108,7 +110,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     //strList.where((i) => i.startsWith(title)).toList()
     for (int i = 0; i < strList.length; i++) {
       if (strList[i][0] == title) {
-        dynamic user = userList[i];
+        dynamic user = filteredUsers[i];
         dynamic component =  Slidable(
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
