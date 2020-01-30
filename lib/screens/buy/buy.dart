@@ -132,23 +132,9 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                                               .image ==
                                                           ''
                                                   ? Image.network(
-                                                      'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
+                                                      getImageUrl(viewModel.businesses[index], viewModel.communityAddres)
                                                     )
-                                                  : Image.network(
-                                                      !isPaywise(viewModel
-                                                              .communityAddres)
-                                                          ? DotEnv().env[
-                                                                  'IPFS_BASE_URL'] +
-                                                              '/image/' +
-                                                              viewModel
-                                                                  .businesses[
-                                                                      index]
-                                                                  .metadata
-                                                                  .image
-                                                          : viewModel
-                                                              .businesses[index]
-                                                              .metadata
-                                                              .image,
+                                                  : Image.network(getImageUrl(viewModel.businesses[index], viewModel.communityAddres),
                                                       fit: BoxFit.cover,
                                                       width: 50.0,
                                                       height: 50.0,

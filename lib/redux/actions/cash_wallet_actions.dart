@@ -746,6 +746,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
           properties: new Map<String, dynamic>.from(community)));
+      store.dispatch(getBusinessListCall());
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           community["name"],

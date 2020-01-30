@@ -83,7 +83,6 @@ class CashWalletState {
     Token token,
     BigInt tokenBalance,
     Map<String, num> sendToInvites,
-    List<Business> businesses,
     Transactions transactions,
     Plugins plugins,
     Map<String, Community> communities

@@ -198,6 +198,7 @@ class CashWalletViewModel extends Equatable {
     token,
     transactions,
     isListeningToBranch,
-    isBranchDataReceived
+    isBranchDataReceived,
+    isCommunityBusinessesFetched
   ];
 }
