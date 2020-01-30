@@ -61,6 +61,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         return MainScaffold(
+            titleFontSize: 15,
             withPadding: true,
             title: I18n.of(context).review_transfer,
             children: <Widget>[
@@ -83,13 +84,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         child: Column(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(top: 30.0, bottom: 30),
+                              padding: EdgeInsets.only(top: 10.0, bottom: 10),
                               child: Text(
                                   "${args.amount} ${viewModel.token.symbol}",
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontSize: 50,
-                                      fontWeight: FontWeight.w600)),
+                                      fontWeight: FontWeight.w900)),
                             ),
                           ],
                         ),
@@ -166,14 +167,14 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     ],
                   ),
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text("Fee: covered by fuse",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal)))
+                // Padding(
+                //     padding: EdgeInsets.only(top: 20),
+                //     child: Text("Fee: covered by fuse",
+                //         textAlign: TextAlign.center,
+                //         style: TextStyle(
+                //             color: Theme.of(context).accentColor,
+                //             fontSize: 12,
+                //             fontWeight: FontWeight.normal)))
               ]))
             ],
             footer: Center(

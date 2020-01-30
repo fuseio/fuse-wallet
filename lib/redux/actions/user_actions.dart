@@ -247,20 +247,24 @@ ThunkAction create3boxAccountCall(accountAddress) {
         <body></body>
       </html>''';
     _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
-    Map publicData = {
-      'account': accountAddress,
-      'name': store.state.userState.displayName
-    };
-    print('create profile for accountAddress $accountAddress');
-    await api.createProfile(accountAddress, publicData);
-    Map user = {
-      "accountAddress": accountAddress,
-      "email": 'wallet-user@fuse.io',
-      "provider": 'HDWallet',
-      "subscribe": false,
-      "source": 'wallet-v2'
-    };
-    print('save user $accountAddress');
-    await api.saveUserToDb(user);
+    try {
+      Map publicData = {
+        'account': accountAddress,
+        'name': store.state.userState.displayName
+      };
+      print('create profile for accountAddress $accountAddress');
+      await api.createProfile(accountAddress, publicData);
+      Map user = {
+        "accountAddress": accountAddress,
+        "email": 'wallet-user@fuse.io',
+        "provider": 'HDWallet',
+        "subscribe": false,
+        "source": 'wallet-v2'
+      };
+      await api.saveUserToDb(user);
+      print('save user $accountAddress');
+    } catch (e) {
+      print('user already saved');
+    }
   };
 }

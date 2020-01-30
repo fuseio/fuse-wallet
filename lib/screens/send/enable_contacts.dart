@@ -127,7 +127,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                   List<Contact> contacts = await ContactController.getContacts();
                                   viewModel.syncContacts(contacts);
                                 }
-                                Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+                                Navigator.of(context).pop();
                                 setState(() {
                                   isPreloading = false;
                                 });
@@ -137,7 +137,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                               child: FlatButton(
                                 padding: EdgeInsets.only(top: 10),
                                 onPressed: () {
-                                  Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+                                  Navigator.of(context).pop();
                                 },
                                 child: Text(
                                   I18n.of(context).skip_button,

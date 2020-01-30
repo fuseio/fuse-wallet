@@ -9,6 +9,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
+import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -32,6 +33,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Contact> userList = [];
   List<Contact> filteredUsers = [];
   List<String> strList = [];
+  bool showFooter = true;
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
 
@@ -62,6 +64,19 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   void initState() {
     super.initState();
     loadContacts();
+  }
+
+  void _onFocusChange(hasFocus) {
+    if (mounted) {
+      setState(() {
+        showFooter = !hasFocus;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   filterList() {
@@ -111,7 +126,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     for (int i = 0; i < strList.length; i++) {
       if (strList[i][0] == title) {
         dynamic user = filteredUsers[i];
-        dynamic component =  Slidable(
+        dynamic component = Slidable(
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
           secondaryActions: <Widget>[
@@ -140,7 +155,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               title: Text(
                 user.displayName,
-                style: TextStyle(fontSize: 15, color: Theme.of(context).primaryColor),
+                style: TextStyle(
+                    fontSize: 15, color: Theme.of(context).primaryColor),
               ),
               //subtitle: Text("user.company" ?? ""),
               onTap: () {
@@ -156,7 +172,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
             ),
           ),
         );
-      
+
         listItems.add(component);
       }
     }
@@ -249,9 +265,13 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               //subtitle: Text("user.company" ?? ""),
               onTap: () {
-                Map<String, String> reverseContacts = this.widget.viewModel.reverseContacts;
-                String number = formatPhoneNumber(contact.phones.first.value, this.widget.viewModel.countryCode);
-                String accountAddress = reverseContacts.keys.firstWhere((k) => reverseContacts[k] == number, orElse: () => null);
+                Map<String, String> reverseContacts =
+                    this.widget.viewModel.reverseContacts;
+                String number = formatPhoneNumber(contact.phones.first.value,
+                    this.widget.viewModel.countryCode);
+                String accountAddress = reverseContacts.keys.firstWhere(
+                    (k) => reverseContacts[k] == number,
+                    orElse: () => null);
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
                         accountAddress: accountAddress,
@@ -321,22 +341,26 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(right: 20),
-                  child: TextFormField(
-                    controller: searchController,
-                    style: TextStyle(fontSize: 16),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(0.0),
-                      border: OutlineInputBorder(
+                  child: FocusScope(
+                    onFocusChange: (showFooter) => _onFocusChange(showFooter),
+                    child: TextFormField(
+                      controller: searchController,
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(0.0),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFFE0E0E0), width: 3)),
+                        focusedBorder: UnderlineInputBorder(
                           borderSide:
-                              BorderSide(color: Color(0xFFE0E0E0), width: 3)),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: const Color(0xFF292929)),
+                              BorderSide(color: const Color(0xFF292929)),
+                        ),
+                        suffixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xFFACACAC),
+                        ),
+                        labelText: I18n.of(context).search,
                       ),
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: Color(0xFFACACAC),
-                      ),
-                      labelText: I18n.of(context).search,
                     ),
                   ),
                 ),
@@ -356,13 +380,12 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         List<String> parts = accountAddress.split(':');
                         if (parts.length == 2 && parts[0] == 'fuse') {
                           Navigator.pushNamed(context, '/SendAmount',
-                              arguments:
-                                  SendAmountArguments(accountAddress: parts[1]));
+                              arguments: SendAmountArguments(
+                                  accountAddress: parts[1]));
                         } else {
                           print('Account address is not on Fuse');
                         }
-                      } catch (e) {
-                      }
+                      } catch (e) {}
                     }),
                 width: 50.0,
                 height: 50.0,
@@ -380,7 +403,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       withPadding: false,
       title: I18n.of(context).send_to,
       titleFontSize: 15,
-      footer: searchController.text.isEmpty ? bottomBar(context) : null,
+      footer: showFooter ? bottomBar(context) : null,
       sliverList: _buildPageList(),
       children: <Widget>[
         !this.widget.viewModel.isContactsSynced
@@ -438,6 +461,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
         converter: ContactsViewModel.fromStore,
         onInit: (Store<AppState> store) async {
           bool isPermitted = await Contacts.checkPermissions();
+          if (!isPermitted) {
+            Future.delayed(
+                Duration.zero,
+                () => showDialog(
+                    child: new ContactsConfirmationScreen(), context: context));
+          }
           setState(() {
             isSync = isPermitted;
           });
@@ -446,9 +475,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
           if (!isSync) {
             return MainScaffold(
                 withPadding: true,
+                titleFontSize: 15,
                 title: I18n.of(context).send_to,
                 children: <Widget>[
                   Column(
+                    mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -460,21 +491,46 @@ class _ContactsScreenState extends State<ContactsScreen> {
                           height: 50,
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 20),
-                        child: new InkWell(
-                          onTap: () async {
-                            bool premission = await ContactController.getPermissions();
-                            if (premission) {
-                              List<Contact> contacts = await ContactController.getContacts();
-                              viewModel.syncContacts(contacts);
-                            }
-                          },
-                          child: new Padding(
-                            padding: new EdgeInsets.all(10.0),
-                            child: new Text(I18n.of(context).click_to_sync),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      new Text(I18n.of(context).sync_contacts),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(I18n.of(context).learn_more),
+                          SizedBox(
+                            width: 20,
                           ),
-                        ),
+                          InkWell(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  new Text(
+                                    I18n.of(context).activate,
+                                    style: TextStyle(color: Color(0xFF0377FF)),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  SvgPicture.asset(
+                                      'assets/images/blue_arrow.svg')
+                                ],
+                              ),
+                              onTap: () async {
+                                bool premission =
+                                    await ContactController.getPermissions();
+                                if (premission) {
+                                  List<Contact> contacts =
+                                      await ContactController.getContacts();
+                                  viewModel.syncContacts(contacts);
+                                }
+                              })
+                        ],
                       )
                     ],
                   )

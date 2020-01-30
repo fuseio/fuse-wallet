@@ -80,163 +80,161 @@ class BusinessesListViewState extends State<BusinessesListView> {
       converter: BuyViewModel.fromStore,
       builder: (_, viewModel) {
         return Builder(
-            builder: (context) => viewModel.isCommunityBusinessesFetched
-                ? Padding(
-                    child: Preloader(),
-                    padding: EdgeInsets.only(top: 70),
+            // viewModel.isCommunityBusinessesFetched
+            //       ? Padding(
+            //           child: Preloader(),
+            //           padding: EdgeInsets.only(top: 70),
+            //         )
+            //       :
+            builder: (context) => viewModel.businesses.isEmpty
+                ? Container(
+                    padding: const EdgeInsets.all(40.0),
+                    child: Center(
+                      child: Text(I18n.of(context).no_businesses),
+                    ),
                   )
-                : !viewModel.isCommunityBusinessesFetched &&
-                        viewModel.businesses.isEmpty
-                    ? Container(
-                        padding: const EdgeInsets.all(40.0),
-                        child: Center(
-                          child: Text(I18n.of(context).no_businesses),
-                        ),
-                      )
-                    : new Container(
-                        padding: const EdgeInsets.only(
-                            top: 0, bottom: 16, left: 20, right: 00),
-                        child: new Column(
+                : new Container(
+                    padding: const EdgeInsets.only(
+                        top: 0, bottom: 16, left: 20, right: 00),
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                new Expanded(
-                                  child: new Padding(
-                                      padding: new EdgeInsets.only(bottom: 5.0),
-                                      child: ListView.separated(
-                                        separatorBuilder:
-                                            (BuildContext context, int index) =>
-                                                new Divider(),
-                                        shrinkWrap: true,
-                                        physics: ScrollPhysics(),
-                                        itemCount:
-                                            viewModel.businesses?.length ?? 0,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                            contentPadding: EdgeInsets.all(0),
-                                            leading: Container(
-                                              width: 50,
-                                              height: 50,
-                                              decoration: BoxDecoration(),
-                                              child: ClipOval(
-                                                  child: viewModel
-                                                                  .businesses[
-                                                                      index]
-                                                                  .metadata
-                                                                  .image ==
-                                                              null ||
-                                                          viewModel
-                                                                  .businesses[
-                                                                      index]
-                                                                  .metadata
-                                                                  .image ==
-                                                              ''
-                                                      ? Image.network(
-                                                          'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
-                                                        )
-                                                      : Image.network(
-                                                          !isPaywise(viewModel.communityAddres) ? DotEnv().env[
+                            new Expanded(
+                              child: new Padding(
+                                  padding: new EdgeInsets.only(bottom: 5.0),
+                                  child: ListView.separated(
+                                    separatorBuilder:
+                                        (BuildContext context, int index) =>
+                                            new Divider(),
+                                    shrinkWrap: true,
+                                    physics: ScrollPhysics(),
+                                    itemCount:
+                                        viewModel.businesses?.length ?? 0,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        contentPadding: EdgeInsets.all(0),
+                                        leading: Container(
+                                          width: 50,
+                                          height: 50,
+                                          decoration: BoxDecoration(),
+                                          child: ClipOval(
+                                              child: viewModel.businesses[index]
+                                                              .metadata.image ==
+                                                          null ||
+                                                      viewModel
+                                                              .businesses[index]
+                                                              .metadata
+                                                              .image ==
+                                                          ''
+                                                  ? Image.network(
+                                                      'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
+                                                    )
+                                                  : Image.network(
+                                                      !isPaywise(viewModel
+                                                              .communityAddres)
+                                                          ? DotEnv().env[
                                                                   'IPFS_BASE_URL'] +
                                                               '/image/' +
                                                               viewModel
                                                                   .businesses[
                                                                       index]
                                                                   .metadata
-                                                                  .image : viewModel
-                                                                  .businesses[
-                                                                      index]
-                                                                  .metadata
-                                                                  .image,
-                                                          fit: BoxFit.cover,
-                                                          width: 50.0,
-                                                          height: 50.0,
-                                                        )),
-                                            ),
-                                            title: Text(
-                                              viewModel
-                                                      .businesses[index].name ??
-                                                  '',
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal),
-                                            ),
-                                            subtitle: Text(
-                                              viewModel.businesses[index]
-                                                      .metadata.address ??
-                                                  '',
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .accentColor,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal),
-                                            ),
-                                            onTap: () {
-                                              Navigator.pushNamed(
-                                                  context, '/Business',
-                                                  arguments:
-                                                      BusinessRouteArguments(
-                                                        communityAddress: viewModel.communityAddres,
-                                                          token:
-                                                              viewModel.token,
-                                                          business: viewModel
-                                                                  .businesses[
-                                                              index]));
-                                            },
-                                            trailing: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: <Widget>[
-                                                FlatButton(
-                                                  shape: CircleBorder(),
-                                                  color: Theme.of(context).buttonColor,
-                                                  padding: EdgeInsets.all(10),
-                                                  child: Text(
-                                                    I18n.of(context).pay,
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .scaffoldBackgroundColor,
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.normal),
-                                                  ),
-                                                  onPressed: () {
-                                                    Navigator.pushNamed(
-                                                        context, '/SendAmount',
-                                                        arguments: SendAmountArguments(
-                                                            avatar: new AssetImage(
-                                                                'assets/images/anom.png'),
-                                                            name: viewModel
-                                                                    .businesses[
-                                                                        index]
-                                                                    .name ??
-                                                                '',
-                                                            accountAddress:
-                                                                viewModel
-                                                                    .businesses[
-                                                                        index]
-                                                                    .account));
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          );
+                                                                  .image
+                                                          : viewModel
+                                                              .businesses[index]
+                                                              .metadata
+                                                              .image,
+                                                      fit: BoxFit.cover,
+                                                      width: 50.0,
+                                                      height: 50.0,
+                                                    )),
+                                        ),
+                                        title: Text(
+                                          viewModel.businesses[index].name ??
+                                              '',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        subtitle: Text(
+                                          viewModel.businesses[index].metadata
+                                                  .description ??
+                                              '',
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal),
+                                        ),
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                              context, '/Business',
+                                              arguments: BusinessRouteArguments(
+                                                  communityAddress:
+                                                      viewModel.communityAddres,
+                                                  token: viewModel.token,
+                                                  business: viewModel
+                                                      .businesses[index]));
                                         },
-                                      )),
-                                )
-                              ],
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            FlatButton(
+                                              shape: CircleBorder(),
+                                              color:
+                                                  Theme.of(context).buttonColor,
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                I18n.of(context).pay,
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .button
+                                                        .color,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.normal),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.pushNamed(
+                                                    context, '/SendAmount',
+                                                    arguments: SendAmountArguments(
+                                                        avatar: new AssetImage(
+                                                            'assets/images/anom.png'),
+                                                        name: viewModel
+                                                                .businesses[
+                                                                    index]
+                                                                .name ??
+                                                            '',
+                                                        accountAddress:
+                                                            viewModel
+                                                                .businesses[
+                                                                    index]
+                                                                .account));
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  )),
                             )
                           ],
-                        ),
-                      ));
+                        )
+                      ],
+                    ),
+                  ));
       },
     );
   }

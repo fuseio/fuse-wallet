@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/send/enable_contacts.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+// import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/themes/custom_theme.dart';
-import 'package:fusecash/utils/contacts.dart';
+// import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/main_scaffold2.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -10,17 +13,16 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 
 class CashHomeScreen extends StatefulWidget {
   @override
   _CashHomeScreenState createState() => _CashHomeScreenState();
 }
 
-void showAlert(BuildContext context) {
-  showDialog(child: new ContactsConfirmationScreen(), context: context);
-}
-
-void updateTheme(CashWalletViewModel viewModel, Function _changeTheme, BuildContext context) {
+void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
+    BuildContext context) {
   String communityAddress = viewModel.communityAddress;
   if (isPaywise(communityAddress)) {
     _changeTheme(context, MyThemeKeys.PAYWISE);
@@ -35,8 +37,39 @@ void updateTheme(CashWalletViewModel viewModel, Function _changeTheme, BuildCont
   }
 }
 
-void onChange(CashWalletViewModel viewModel, BuildContext context, {bool initial = false}) async {
+void enablePushNotifications() async {
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+  void iosPermission() {
+    var firebaseMessaging2 = firebaseMessaging;
+    firebaseMessaging2.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+  }
+
+  if (Platform.isIOS) iosPermission();
+  var token = await firebaseMessaging.getToken();
+  logger.wtf("token $token");
+  await FlutterSegment.putDeviceToken(token);
+  firebaseMessaging.configure(
+    onMessage: (Map<String, dynamic> message) async {
+      logger.wtf('onMessage called: $message');
+    },
+    onResume: (Map<String, dynamic> message) async {
+      logger.wtf('onResume called: $message');
+    },
+    onLaunch: (Map<String, dynamic> message) async {
+      logger.wtf('onLaunch called: $message');
+    },
+  );
+}
+
+void onChange(CashWalletViewModel viewModel, BuildContext context,
+    {bool initial = false}) async {
   if (initial) {
+    enablePushNotifications();
     viewModel.syncContacts([]);
   }
   if (!viewModel.isJobProcessingStarted) {
@@ -58,9 +91,6 @@ void onChange(CashWalletViewModel viewModel, BuildContext context, {bool initial
       viewModel.isBranchDataReceived &&
       viewModel.walletAddress != '') {
     viewModel.switchCommunity(viewModel.communityAddress);
-    if (!(await Contacts.checkPermissions())) {
-      Future.delayed(Duration.zero, () => showAlert(context));
-    }
   }
   if (viewModel.token != null) {
     // if (!viewModel.isBalanceFetchingStarted) {
