@@ -374,11 +374,10 @@ CashWalletState _createNewWalletSuccess(
   return CashWalletState.initial();
 }
 
-CashWalletState _replaceTransfer(
-    CashWalletState state, ReplaceTransaction action) {
+CashWalletState _replaceTransfer(CashWalletState state, ReplaceTransaction action) {
   Community current = state.communities[state.communityAddress];
-  Transaction oldTx = current.transactions.list
-      .firstWhere((tx) => tx.jobId == action.transaction.jobId, orElse: null);
+  Transaction oldTx =
+    current.transactions.list.firstWhere((tx) => tx.jobId == action.transaction.jobId, orElse: () => null);
   if (oldTx == null) {
     return state;
   }

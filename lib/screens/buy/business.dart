@@ -39,6 +39,30 @@ class BusinessPage extends StatefulWidget {
   _BusinessPageState createState() => _BusinessPageState();
 }
 
+String getCoverPhotoUrl(business, communityAddress) {
+  if (business.metadata.coverPhoto == null ||
+        business.metadata.coverPhoto == '') {
+         return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+  } else if (isPaywise(communityAddress)) {
+    return business.metadata.coverPhoto;
+  }
+  else {
+    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.coverPhoto;
+  }
+}
+
+String getImageUrl(business, communityAddress) {
+  if (business.metadata.image == null ||
+        business.metadata.image == '') {
+         return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+  } else if (isPaywise(communityAddress)) {
+    return business.metadata.image;
+  }
+  else {
+    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.image;
+  }
+}
+
 class _BusinessPageState extends State<BusinessPage> {
   GlobalKey<ScaffoldState> scaffoldState;
   Completer<GoogleMapController> _controller = Completer();
@@ -57,6 +81,9 @@ class _BusinessPageState extends State<BusinessPage> {
   Widget build(BuildContext context) {
     final BusinessRouteArguments businessArgs =
         ModalRoute.of(context).settings.arguments;
+    String coverPhotoUrl = getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
+    String imageUrl = getImageUrl(businessArgs.business, businessArgs.communityAddress);
+
     return new Scaffold(
       key: scaffoldState,
       body: Container(
@@ -79,16 +106,11 @@ class _BusinessPageState extends State<BusinessPage> {
                                     businessArgs.business.metadata.coverPhoto ==
                                         ''
                                 ? SizedBox.expand(child: Image.network(
-                                    'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
+                                    coverPhotoUrl,
                                     fit: BoxFit.fill,
                                   ),)
                                 : SizedBox.expand(child: Image.network(
-                                  isPaywise(businessArgs.communityAddress) ? businessArgs
-                                            .business.metadata.coverPhoto :
-                                    DotEnv().env['IPFS_BASE_URL'] +
-                                        '/image/' +
-                                        businessArgs
-                                            .business.metadata.coverPhoto,
+                                    coverPhotoUrl,
                                     width: MediaQuery.of(context).size.width,
                                     fit: BoxFit.fill,
                                     height: 200,
@@ -120,23 +142,8 @@ class _BusinessPageState extends State<BusinessPage> {
                           Padding(
                             padding: const EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
-                                child: (businessArgs.business.metadata.image !=
-                                            null &&
-                                        businessArgs.business.metadata.image !=
-                                            '')
-                                    ? Image.network(
-                                      isPaywise(businessArgs.communityAddress) ? businessArgs
-                                                .business.metadata.image :
-                                        DotEnv().env['IPFS_BASE_URL'] +
-                                            '/image/' +
-                                            businessArgs
-                                                .business.metadata.image,
-                                        fit: BoxFit.cover,
-                                        width: 75.0,
-                                        height: 75.0,
-                                      )
-                                    : Image.network(
-                                        'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png',
+                                child: Image.network(
+                                        imageUrl,
                                         fit: BoxFit.cover,
                                         width: 75.0,
                                         height: 75.0,
@@ -325,8 +332,9 @@ class _BusinessPageState extends State<BusinessPage> {
                                     arguments: SendAmountArguments(
                                       accountAddress:
                                           businessArgs.business.account,
-                                      avatar: new AssetImage(
-                                          'assets/images/anom.png'),
+                                      avatar: NetworkImage(
+                                        imageUrl
+                                      ),
                                       name: businessArgs.business.name ?? '',
                                     ));
                               },

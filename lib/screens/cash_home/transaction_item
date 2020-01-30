@@ -1,8 +1,10 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -47,6 +49,32 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
     }
   }
   return null;
+}
+
+
+dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
+  if (transfer.isJoinCommunity()) {
+    return new AssetImage(
+                          'assets/images/join_community.png',
+                        );
+  } else if (transfer.isGenerateWallet()) {
+     return new AssetImage(
+        'assets/images/generate_wallet.png',
+      );
+  } else if (transfer.isJoinBonus()) {
+    return new AssetImage(
+      'assets/images/join.png',
+    );
+  } else if (contact?.avatar != null) {
+    return new MemoryImage(contact.avatar);
+  }
+
+  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+  Business business = vm.businesses.firstWhere((business) => business.account == accountAddress, orElse: () => null); 
+  if (business != null) {
+    return NetworkImage(getImageUrl(business, vm.communityAddress));
+  }
+  return  new AssetImage('assets/images/anom.png');
 }
 
 Color deduceColor(Transfer transfer) {
@@ -139,21 +167,7 @@ class TransactionListItem extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Color(0xFFE0E0E0),
                   radius: 27,
-                  backgroundImage: transfer.isJoinCommunity()
-                      ? new AssetImage(
-                          'assets/images/join_community.png',
-                        )
-                      : transfer.isGenerateWallet()
-                          ? new AssetImage(
-                              'assets/images/generate_wallet.png',
-                            )
-                          : transfer.isJoinBonus()
-                              ? new AssetImage(
-                                  'assets/images/join.png',
-                                )
-                              : _contact?.avatar != null
-                                  ? new MemoryImage(_contact.avatar)
-                                  : new AssetImage('assets/images/anom.png'),
+                  backgroundImage: getImage(transfer, _contact, _vm),
                 ),
                 tag: transfer.isGenerateWallet()
                     ? ''
