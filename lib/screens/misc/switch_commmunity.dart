@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'dart:core';
@@ -56,7 +57,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text("Switch community",
+                  Text(I18n.of(context).switch_community,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
@@ -65,11 +66,11 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                   Padding(
                     padding: EdgeInsets.only(top: 12),
                     child: Text(
-                        "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code",
+                        I18n.of(context).fuse_studio,
                         //textAlign: TextAlign.center,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             fontSize: 16,
                             fontWeight: FontWeight.normal)),
                   )
@@ -81,9 +82,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
             padding: EdgeInsets.only(top: 0, bottom: 50, left: 30, right: 30),
             child: Form(
               child: new StoreConnector<AppState, CashWalletViewModel>(
-                converter: (store) {
-                  return CashWalletViewModel.fromStore(store);
-                },
+                converter: CashWalletViewModel.fromStore,
                 builder: (_, viewModel) {
                   return Builder(
                       builder: (context) => Column(
@@ -93,15 +92,19 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                               Center(
                                 child: PrimaryButton(
                                   fontSize: 16,
-                                  label: "Scan Qr code",
+                                  label: I18n.of(context).sqan_qr_code,
                                   labelFontWeight: FontWeight.normal,
                                   onPressed: () async {
-                                    var json = await BarcodeScanner.scan();
-                                    Map jsonMap = jsonDecode(json);
-                                    viewModel.switchCommunity(
-                                        jsonMap['communityAddress']);
-                                    Navigator.popUntil(
-                                        context, ModalRoute.withName('/Cash'));
+                                    try {
+                                      var json = await BarcodeScanner.scan();
+                                      Map jsonMap = jsonDecode(json);
+                                      viewModel.switchCommunity(
+                                          jsonMap['communityAddress']);
+                                      Navigator.popUntil(
+                                          context, ModalRoute.withName('/Cash'));
+                                    } catch (e) {
+                                      print('BarcodeScanner scan error');
+                                    }
                                   },
                                   width: 300,
                                 ),
@@ -125,7 +128,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                                     padding:
                                         EdgeInsets.only(left: 18, right: 18),
                                     child: Text(
-                                      "OR",
+                                      I18n.of(context).or,
                                       style: TextStyle(fontSize: 14),
                                     ),
                                     decoration: const BoxDecoration(
@@ -138,13 +141,13 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                                 child: PrimaryButton(
                                   fontSize: 14,
                                   labelFontWeight: FontWeight.normal,
-                                  label: "Enter Community Address",
+                                  label: I18n.of(context).enter_community_address,
                                   onPressed: () async {
                                     showDialog(
                                         context: context,
                                         builder: (context) => AlertDialog(
                                               title: Center(
-                                                child: Text("Community Address",
+                                                child: Text(I18n.of(context).community_address,
                                                     style: TextStyle(
                                                         color: Theme.of(context)
                                                             .primaryColor,
@@ -165,7 +168,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                                                     children: <Widget>[
                                                       Center(
                                                         child: PrimaryButton(
-                                                          label: "Save",
+                                                          label: I18n.of(context).save_button,
                                                           fontSize: 16,
                                                           labelFontWeight: FontWeight.normal,
                                                           onPressed: () {

@@ -1,7 +1,10 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -48,6 +51,33 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
   return null;
 }
 
+dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
+  if (transfer.isJoinCommunity()) {
+    return new AssetImage(
+      'assets/images/join_community.png',
+    );
+  } else if (transfer.isGenerateWallet()) {
+    return new AssetImage(
+      'assets/images/generate_wallet.png',
+    );
+  } else if (transfer.isJoinBonus()) {
+    return new AssetImage(
+      'assets/images/join.png',
+    );
+  } else if (contact?.avatar != null) {
+    return new MemoryImage(contact.avatar);
+  }
+
+  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+  Business business = vm.businesses.firstWhere(
+      (business) => business.account == accountAddress,
+      orElse: () => null);
+  if (business != null) {
+    return NetworkImage(getImageUrl(business, vm.communityAddress));
+  }
+  return new AssetImage('assets/images/anom.png');
+}
+
 Color deduceColor(Transfer transfer) {
   if (transfer.isFailed()) {
     return Color(0xFFE0E0E0);
@@ -75,27 +105,28 @@ class TransactionListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Transfer transfer = _transaction as Transfer;
     List<Widget> rightColumn = <Widget>[
-       transfer.isGenerateWallet() || transfer.isJoinCommunity()
+      transfer.isGenerateWallet() || transfer.isJoinCommunity()
           ? SizedBox.shrink()
           : Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  deduceSign(_transaction) +
-                      formatValue(transfer.value, _vm.token.decimals),
-                  style: TextStyle(
-                      color: deduceColor(_transaction),
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  " ${_vm.token.symbol}",
-                  style: TextStyle(
-                      color: deduceColor(_transaction),
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.normal),
-                )
+                new RichText(
+                    text: new TextSpan(children: <TextSpan>[
+                  new TextSpan(
+                      text: deduceSign(_transaction) +
+                          formatValue(transfer.value, _vm.token.decimals),
+                      style: new TextStyle(
+                          color: deduceColor(_transaction),
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold)),
+                  new TextSpan(
+                      text: " ${_vm.token.symbol}",
+                      style: new TextStyle(
+                          color: deduceColor(_transaction),
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.normal)),
+                ]))
               ],
             )
     ];
@@ -104,7 +135,7 @@ class TransactionListItem extends StatelessWidget {
         !transfer.isGenerateWallet() &&
         !transfer.isJoinCommunity()) {
       rightColumn.add(Padding(
-          child: Text("PENDING",
+          child: Text(I18n.of(context).pending,
               style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),
           padding: EdgeInsets.only(top: 10)));
     }
@@ -120,13 +151,16 @@ class TransactionListItem extends StatelessWidget {
             children: <Widget>[
               Text(
                   transfer.isJoinBonus()
-                      ? 'You got a join bonus!'
-                      : _transaction.text != null
-                          ? _transaction.text
-                          : _contact != null
-                              ? _contact.displayName
-                              : deducePhoneNumber(
-                                  _transaction, _vm.reverseContacts),
+                      ? I18n.of(context).join_bonus
+                      : (transfer.receiverName != null &&
+                              transfer.receiverName != '')
+                          ? transfer.receiverName
+                          : _transaction.text != null
+                              ? _transaction.text
+                              : _contact != null
+                                  ? _contact.displayName
+                                  : deducePhoneNumber(
+                                      _transaction, _vm.reverseContacts),
                   style: TextStyle(color: Color(0xFF333333), fontSize: 15))
             ],
           ),
@@ -136,21 +170,7 @@ class TransactionListItem extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Color(0xFFE0E0E0),
                   radius: 27,
-                  backgroundImage: transfer.isJoinCommunity()
-                      ? new AssetImage(
-                          'assets/images/join_community.png',
-                        )
-                      : transfer.isGenerateWallet()
-                          ? new AssetImage(
-                              'assets/images/generate_wallet.png',
-                            )
-                          : transfer.isJoinBonus()
-                              ? new AssetImage(
-                                  'assets/images/join.png',
-                                )
-                              : _contact?.avatar != null
-                                  ? new MemoryImage(_contact.avatar)
-                                  : new AssetImage('assets/images/anom.png'),
+                  backgroundImage: getImage(transfer, _contact, _vm),
                 ),
                 tag: transfer.isGenerateWallet()
                     ? ''

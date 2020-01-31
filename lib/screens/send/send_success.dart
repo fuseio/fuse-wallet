@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
@@ -19,7 +20,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      Navigator.pushNamed(context, '/Cash');
+      Navigator.pushReplacementNamed(context, '/Cash');
     });
   }
 
@@ -29,7 +30,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
 
     return MainScaffold(
       withPadding: true,
-      title: "Success",
+      title: I18n.of(context).success,
       children: <Widget>[
         Container(
             padding: EdgeInsets.only(top: 140),
@@ -47,7 +48,6 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
                   fit: BoxFit.contain,
                   animation: "Checkmark",
                   sizeFromArtboard: true,
-                  //controller: _slideController,
                 ),
                 ) ,
               ),

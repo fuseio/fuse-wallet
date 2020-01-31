@@ -1,9 +1,14 @@
 name: fusecash
-version: 1.0.0+53
+version: 1.0.7+83
 description: A new Flutter project.
 environment: 
-  sdk: '>=2.1.0 <3.0.0'
+  sdk: '>=2.2.2 <3.0.0'
 dependencies:
+  url_launcher: ^5.4.1
+  http: ^0.12.0+4
+  google_maps_flutter: ^0.5.21+15
+  equatable: ^1.0.2
+  package_info: ^0.4.0+13
   interactive_webview: ^0.1.2
   share: 0.6.3+5
   flutter_svg: 0.15.0
@@ -17,10 +22,10 @@ dependencies:
   redux_persist: ^0.8.2
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
-  wallet_core: ^0.0.1+51
+  wallet_core: ^0.0.1+57
   # wallet_core:
     # path: ../wallet_core
-  alphabet_list_scroll_view: ^1.0.5
+  alphabet_list_scroll_view: 1.0.5
   barcode_scan: ^1.0.0
   flutter_slidable: 0.5.4
   contacts_service: ^0.3.9
@@ -35,26 +40,24 @@ dependencies:
   decimal: ^0.3.5
   flutter_segment: ^0.0.6
   firebase_messaging: ^5.0.2
-  flutter_branch_io_plugin: 
-    git: 
-      url: https://github.com/fuseio/flutter-branch-io.git
-      ref: optional_branch_bug_fix
+  flutter_branch_io_plugin: ^1.0.1+1
   flutter: 
     sdk: flutter
-dev_dependencies: 
+  flutter_localizations:
+    sdk: flutter
+  flutter_cupertino_localizations: ^1.0.1
+dev_dependencies:
+  flutter_native_splash: ^0.1.9
+  dependency_validator: ^1.0.0
   flutter_launcher_icons: ^0.7.4
   build_runner: ^1.0.0
   json_serializable: ^3.2.3
   flutter_test: 
     sdk: flutter
-  flutter_localizations: 
-    sdk: flutter
-
-flutter_icons:
+flutter_icons: 
+  image_path: assets/images/icon_app.jpg
   android: true
   ios: true
-  image_path: "assets/images/icon_app.jpg"
-
 flutter: 
   assets: 
     - .env_prod

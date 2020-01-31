@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
-import 'package:redux/redux.dart';
 
 class PincodeScreen extends StatefulWidget {
   @override
@@ -27,19 +27,17 @@ class _PincodeScreenState extends State<PincodeScreen> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
-        converter: (Store<AppState> store) {
-          return OnboardViewModel.fromStore(store);
-        },
+        converter: OnboardViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
               withPadding: true,
-              title: "Pincode",
+              title: I18n.of(context).pincode,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
                       left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
                   child: Text(
-                      this.isRetype ? "Re-type your passcode" : "Create your passcode",
+                      this.isRetype ? I18n.of(context).re_type_passcode : I18n.of(context).create_passcode,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
@@ -56,7 +54,7 @@ class _PincodeScreenState extends State<PincodeScreen> {
                   child: Container(
                     width: 280,
                     child: new Theme(
-                        data: new ThemeData(hintColor: Colors.white),
+                        data: new ThemeData(hintColor: Theme.of(context).scaffoldBackgroundColor),
                         child: PinInputTextField(
                           pinLength: 6,
                           decoration: UnderlineDecoration(
@@ -87,7 +85,7 @@ class _PincodeScreenState extends State<PincodeScreen> {
                 const SizedBox(height: 40.0),
                 Center(
                   child: PrimaryButton(
-                    label: "SKIP",
+                    label: I18n.of(context).skip_button,
                     onPressed: () async {
                       Navigator.popUntil(context, ModalRoute.withName('/'));
                       Navigator.popAndPushNamed(context, '/Cash');

@@ -66,6 +66,9 @@ PODS:
   - flutter_segment (0.0.1):
     - Analytics (= 3.7.0)
     - Flutter
+  - google_maps_flutter (0.0.1):
+    - Flutter
+    - GoogleMaps
   - GoogleAppMeasurement (6.1.6):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -76,6 +79,11 @@ PODS:
   - GoogleDataTransportCCTSupport (1.2.2):
     - GoogleDataTransport (~> 3.2)
     - nanopb (~> 0.3.901)
+  - GoogleMaps (2.7.0):
+    - GoogleMaps/Maps (= 2.7.0)
+  - GoogleMaps/Base (2.7.0)
+  - GoogleMaps/Maps (2.7.0):
+    - GoogleMaps/Base
   - GoogleUtilities/AppDelegateSwizzler (6.3.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -102,6 +110,8 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - package_info (0.0.1):
+    - Flutter
   - path_provider (0.0.1):
     - Flutter
   - permission_handler (3.3.0):
@@ -112,6 +122,16 @@ PODS:
   - share (0.5.2):
     - Flutter
   - shared_preferences (0.0.1):
+    - Flutter
+  - shared_preferences_macos (0.0.1):
+    - Flutter
+  - shared_preferences_web (0.0.1):
+    - Flutter
+  - url_launcher (0.0.1):
+    - Flutter
+  - url_launcher_macos (0.0.1):
+    - Flutter
+  - url_launcher_web (0.0.1):
     - Flutter
   - vibration (1.2.2):
     - Flutter
@@ -128,12 +148,19 @@ DEPENDENCIES:
   - flutter_branch_io_plugin (from `.symlinks/plugins/flutter_branch_io_plugin/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_segment (from `.symlinks/plugins/flutter_segment/ios`)
+  - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - interactive_webview (from `.symlinks/plugins/interactive_webview/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - sensors (from `.symlinks/plugins/sensors/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
+  - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
+  - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
   - vibration (from `.symlinks/plugins/vibration/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
@@ -152,6 +179,7 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
+    - GoogleMaps
     - GoogleUtilities
     - MTBBarcodeScanner
     - nanopb
@@ -174,8 +202,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_segment:
     :path: ".symlinks/plugins/flutter_segment/ios"
+  google_maps_flutter:
+    :path: ".symlinks/plugins/google_maps_flutter/ios"
   interactive_webview:
     :path: ".symlinks/plugins/interactive_webview/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   permission_handler:
@@ -186,6 +218,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  shared_preferences_macos:
+    :path: ".symlinks/plugins/shared_preferences_macos/ios"
+  shared_preferences_web:
+    :path: ".symlinks/plugins/shared_preferences_web/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
+  url_launcher_macos:
+    :path: ".symlinks/plugins/url_launcher_macos/ios"
+  url_launcher_web:
+    :path: ".symlinks/plugins/url_launcher_web/ios"
   vibration:
     :path: ".symlinks/plugins/vibration/ios"
   webview_flutter:
@@ -210,19 +252,27 @@ SPEC CHECKSUMS:
   flutter_branch_io_plugin: b6d717f1b5b267a6ee8d702a06278d49e646b448
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_segment: 31dce829260fc896cd391d7cee4fc3609003f93c
+  google_maps_flutter: d0dd62f5a7d39bae61057eb9f52dd778d99c7c6c
   GoogleAppMeasurement: dfe55efa543e899d906309eaaac6ca26d249862f
   GoogleDataTransport: 8e9b210c97d55fbff306cc5468ff91b9cb32dcf5
   GoogleDataTransportCCTSupport: ef79a4728b864946a8aafdbab770d5294faf3b5f
+  GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GoogleUtilities: 547a86735c6f0ee30ad17e94df4fc21f616b71cb
   interactive_webview: 645deb8ecb0f8564ca2017e691338854c5d6a061
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
   Protobuf: a4dc852ad69c027ca2166ed287b856697814375b
   sensors: 4bd31219c4bf9d7d4401b392a1701ee3adc1a296
   share: bae0a282aab4483288913fc4dc0b935d4b491f2e
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
+  shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
+  shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
+  url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
+  url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
+  url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
   vibration: 2f659072a9e03ae160974238b728c96e98bce2b5
   webview_flutter: bec7599de6bfbe8008a739aa3ebd7b364ea9d0cd
 

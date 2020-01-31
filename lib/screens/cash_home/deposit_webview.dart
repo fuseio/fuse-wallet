@@ -32,9 +32,9 @@ class _DepositWebViewState extends State<DepositWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, DrawerViewModel>(converter: (store) {
-      return DrawerViewModel.fromStore(store);
-    }, builder: (_, viewModel) {
+    return new StoreConnector<AppState, DrawerViewModel>(
+    converter: DrawerViewModel.fromStore,
+    builder: (_, viewModel) {
       return Scaffold(
         appBar: AppBar(
           //automaticallyImplyLeading: false,
@@ -97,8 +97,6 @@ class _DepositWebViewState extends State<DepositWebView> {
           dynamic depositPlugin = widget.depositPlugin;
           dynamic url =
               depositPlugin.generateUrl(walletAddress: viewModel.walletAddress);
-          print('url url url url url url url');
-          print(url);
           return WebView(
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,

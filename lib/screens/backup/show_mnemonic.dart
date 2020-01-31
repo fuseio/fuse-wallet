@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'dart:core';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -25,7 +25,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
   static GlobalKey<ScaffoldState> scaffoldState;
 
   @override
-  Future initState() {
+  initState() {
     super.initState();
   }
 
@@ -34,9 +34,9 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
     return MainScaffold(
       withPadding: true,
       footer: null,
-      title: "Back up",
+      title: I18n.of(context).back_up,
       titleFontSize: 15,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       children: <Widget>[
       Container(
         padding:
@@ -45,9 +45,9 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: 20),
-              child: Text("Please write down those 12 words:",
+              child: Text(I18n.of(context).write_words, // "Please write down those 12 words:",
                   style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
                       fontWeight: FontWeight.normal)),
             )
@@ -63,30 +63,10 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                   Padding(
                     padding: EdgeInsets.only(top: 10, left: 30, right: 30),
                     child: Container(
-                      // decoration: const BoxDecoration(
-                      //     borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                      //     color: const Color(0xFFFFFFFF)),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 12.0, // soften the shadow
-                            spreadRadius: .10, //extend the shadow
-                          )
-                        ],
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                      child: Container(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                         decoration: BoxDecoration(
+                          color: const Color(0xFFF7F7F7),
                           borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white,
-                              // blurRadius: 10.0, // soften the shadow
-                              // spreadRadius: 7.0, //extend the shadow
-                            )
-                          ],
                         ),
                         child: Column(
                           children: <Widget>[
@@ -119,7 +99,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                               ],
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 20, bottom: 25),
+                              padding: EdgeInsets.only(top: 30, bottom: 25),
                               child: Container(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -143,14 +123,13 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                           ],
                         ),
                       ),
-                    ),
                   ),
-                  const SizedBox(height: 25.0),
+                  const SizedBox(height: 50.0),
                   Center(
                       child: PrimaryButton(
                     fontSize: 15,
                     width: 160,
-                    label: "Next",
+                    label: I18n.of(context).next_button,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () async {
                       Navigator.pushNamed(context, '/Backup2');
@@ -158,9 +137,9 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                   )),
                   const SizedBox(height: 16.0),
                   TransparentButton(
-                      label: "Skip",
+                      label: I18n.of(context).skip_button,
                       onPressed: () {
-                        Navigator.pushNamed(context, '/Cash');
+                        Navigator.pushReplacementNamed(context, '/Cash');
                       }),
                   const SizedBox(height: 30.0),
                 ],
@@ -181,7 +160,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: 16,
-                  fontWeight: FontWeight.w700)),
+                  fontWeight: FontWeight.normal)),
           padding: EdgeInsets.symmetric(vertical: 25, horizontal: 0),
         ),
       ),

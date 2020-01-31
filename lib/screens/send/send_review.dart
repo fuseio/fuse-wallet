@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/token.dart';
+import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/views/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/utils/phone.dart';
 
@@ -45,10 +45,11 @@ class _SendReviewScreenState extends State<SendReviewScreen>
           formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
           args.amount,
           sendSuccessCallback,
-          sendFailureCallback);
+          sendFailureCallback,
+          args.name);
     } else {
       viewModel.sendToAccountAddress(args.accountAddress, args.amount,
-          sendSuccessCallback, sendFailureCallback);
+          sendSuccessCallback, sendFailureCallback, args.name);
     }
   }
 
@@ -57,13 +58,12 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
-      converter: (store) {
-        return SendAmountViewModel.fromStore(store);
-      },
+      converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         return MainScaffold(
+            titleFontSize: 15,
             withPadding: true,
-            title: "Review transfer",
+            title: I18n.of(context).review_transfer,
             children: <Widget>[
               Container(
                   child: Column(children: <Widget>[
@@ -71,8 +71,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Text("Amount",
+                        padding: EdgeInsets.only(top: 50),
+                        child: Text(I18n.of(context).amount,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
@@ -84,20 +84,20 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         child: Column(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(top: 20.0, bottom: 30),
+                              padding: EdgeInsets.only(top: 10.0, bottom: 10),
                               child: Text(
                                   "${args.amount} ${viewModel.token.symbol}",
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontSize: 50,
-                                      fontWeight: FontWeight.w600)),
+                                      fontWeight: FontWeight.w900)),
                             ),
                           ],
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 30),
-                        child: Text("To:",
+                        child: Text(I18n.of(context).to+ ':',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
@@ -110,7 +110,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                 Container(
                   padding: EdgeInsets.only(
                       top: 50.0, bottom: 50, left: 40, right: 40),
-                  color: Color(0xFFF5F5F5),
+                  color: Theme.of(context).backgroundColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,7 +128,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     child: Hero(
                                       child: CircleAvatar(
                                         backgroundColor: Color(0xFFE0E0E0),
-                                        radius: 25,
+                                        radius: 30,
                                         backgroundImage: args.avatar,
                                       ),
                                       tag: "contactSent",
@@ -137,40 +137,49 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                args.name,
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              args.accountAddress == null ||
-                                      args.accountAddress.isEmpty
-                                  ? Text('')
-                                  : Text(
-                                      "Address: ${args.accountAddress.substring(0, 4)}...${args.accountAddress.substring(args.accountAddress.length - 4)}",
+                            children: args.name != null
+                                ? <Widget>[
+                                    Text(
+                                      args.name,
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    args.accountAddress == null ||
+                                            args.accountAddress.isEmpty
+                                        ? Text('')
+                                        : Text(
+                                            I18n.of(context).address + ": ${formatAddress(args.accountAddress)}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Color(0xFF777777)),
+                                          )
+                                  ]
+                                : <Widget>[
+                                    Text(
+                                      I18n.of(context).address + ": ${formatAddress(args.accountAddress)}",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF777777)),
                                     )
-                            ],
+                                  ],
                           )
                         ],
                       )
                     ],
                   ),
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text("Fee: covered by fuse",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal)))
+                // Padding(
+                //     padding: EdgeInsets.only(top: 20),
+                //     child: Text("Fee: covered by fuse",
+                //         textAlign: TextAlign.center,
+                //         style: TextStyle(
+                //             color: Theme.of(context).accentColor,
+                //             fontSize: 12,
+                //             fontWeight: FontWeight.normal)))
               ]))
             ],
             footer: Center(
                 child: PrimaryButton(
-              label: "Send",
+              label: I18n.of(context).send_button,
               labelFontWeight: FontWeight.normal,
               onPressed: () {
                 send(viewModel, args, () {
@@ -186,43 +195,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                 });
               },
               preload: isPreloading,
-              width: 300,
+              width: 180
             )));
       },
     );
-  }
-}
-
-class SendAmountViewModel {
-  final Token token;
-  final String myCountryCode;
-  final Function(String, num, VoidCallback, VoidCallback) sendToContact;
-  final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
-
-  SendAmountViewModel(
-      {this.token,
-      this.myCountryCode,
-      this.sendToContact,
-      this.sendToAccountAddress});
-
-  static SendAmountViewModel fromStore(Store<AppState> store) {
-    return SendAmountViewModel(
-        token: store.state.cashWalletState.token,
-        myCountryCode: store.state.userState.countryCode,
-        sendToContact: (String phoneNumber,
-            num amount,
-            VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
-          store.dispatch(sendTokenToContactCall(
-              phoneNumber, amount, sendSuccessCallback, sendFailureCallback));
-        },
-        sendToAccountAddress: (String recieverAddress,
-            num amount,
-            VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
-          store.dispatch(sendTokenCall(recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback));
-        });
   }
 }
 

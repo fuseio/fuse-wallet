@@ -1,11 +1,11 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transaction.dart';
+import 'package:fusecash/models/views/send_amount.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
@@ -45,16 +45,14 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
         ModalRoute.of(context).settings.arguments;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
-      converter: (store) {
-        return SendAmountViewModel.fromStore(store);
-      },
+      converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         dynamic displayName =
             deducePhoneNumber(args.transfer, args.reverseContacts);
         return MainScaffold(
           withPadding: true,
           titleFontSize: 15,
-          title: "Transaction details",
+          title: I18n.of(context).transaction_details,
           children: <Widget>[
             Container(
                 child: Column(children: <Widget>[
@@ -62,20 +60,26 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 50, bottom: 50),
+                      padding: EdgeInsets.only(top: 100, bottom: 50),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Image.asset('assets/images/check.png'),
-                          ),
-                          Text(args?.transfer?.status,
+                          args.transfer.isConfirmed()
+                              ? Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Image.asset('assets/images/check.png',
+                                      width: 25, height: 25),
+                                )
+                              : SizedBox.shrink(),
+                          Text(
+                              args.transfer.isConfirmed()
+                                  ? I18n.of(context).approved
+                                  : args?.transfer?.status,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 16,
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.normal))
                         ],
                       ),
@@ -85,18 +89,21 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
               ),
               Container(
                 padding:
-                    EdgeInsets.only(top: 40.0, bottom: 40, left: 55, right: 55),
-                color: Color(0xFFF5F5F5),
+                    EdgeInsets.only(top: 40.0, bottom: 40, left: 50, right: 50),
+                color: Theme.of(context).backgroundColor,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text('To'),
+                        SizedBox(
+                          width: 135,
+                          child: Text(I18n.of(context).to),
+                        ),
                         Row(
                           children: <Widget>[
                             CircleAvatar(
@@ -115,18 +122,28 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                               padding: EdgeInsets.only(left: 10),
                               child: args.transfer.isJoinBonus()
                                   ? Text('Join bonus')
-                                  : Text(args.transfer.text != null
-                                      ? args.transfer.text
-                                      : args.contact != null
-                                          ? args.contact.displayName
-                                          : displayName),
+                                  : SizedBox(
+                                      width: 110,
+                                      child: Text(
+                                        (args.transfer.receiverName != null &&
+                                                args.transfer.receiverName !=
+                                                    '')
+                                            ? args.transfer.receiverName
+                                            : args.transfer.text != null
+                                                ? args.transfer.text
+                                                : args.contact != null
+                                                    ? args.contact.displayName
+                                                    : displayName,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
                             )
                           ],
                         )
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 30),
+                      padding: EdgeInsets.only(top: 25, bottom: 25),
                       child: Divider(
                         color: const Color(0xFFDCDCDC),
                         height: 1,
@@ -134,17 +151,20 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text("Address"),
+                        SizedBox(
+                          width: 135,
+                          child: Text(I18n.of(context).address),
+                        ),
                         displayName == null
                             ? SizedBox.shrink()
                             : Text(displayName)
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 30),
+                      padding: EdgeInsets.only(top: 25, bottom: 25),
                       child: Divider(
                         color: const Color(0xFFDCDCDC),
                         height: 1,
@@ -152,10 +172,12 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Text("Amount"),
+                        SizedBox(
+                          width: 135,
+                          child: Text(I18n.of(context).amount),
+                        ),
                         Row(
                           children: args?.amount,
                         )
@@ -164,7 +186,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                     args.transfer.txHash == null || args.transfer.txHash.isEmpty
                         ? SizedBox.shrink()
                         : Padding(
-                            padding: EdgeInsets.only(top: 30, bottom: 30),
+                            padding: EdgeInsets.only(top: 25, bottom: 25),
                             child: Divider(
                               color: const Color(0xFFDCDCDC),
                               height: 1,
@@ -174,10 +196,12 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                         ? SizedBox.shrink()
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              Text("Txn"),
+                              SizedBox(
+                                width: 135,
+                                child: Text('Txn'),
+                              ),
                               Text(
                                   '${args?.transfer?.txHash?.substring(0, 7)}...${args?.transfer?.txHash?.substring(args.transfer.txHash.length - 7)}')
                             ],
@@ -190,34 +214,6 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
         );
       },
     );
-  }
-}
-
-class SendAmountViewModel {
-  final String myCountryCode;
-  final Function(String, num, VoidCallback, VoidCallback) sendToContact;
-  final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
-
-  SendAmountViewModel(
-      {this.myCountryCode, this.sendToContact, this.sendToAccountAddress});
-
-  static SendAmountViewModel fromStore(Store<AppState> store) {
-    return SendAmountViewModel(
-        myCountryCode: store.state.userState.countryCode,
-        sendToContact: (String phoneNumber,
-            num amount,
-            VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
-          store.dispatch(sendTokenToContactCall(
-              phoneNumber, amount, sendSuccessCallback, sendFailureCallback));
-        },
-        sendToAccountAddress: (String recieverAddress,
-            num amount,
-            VoidCallback sendSuccessCallback,
-            VoidCallback sendFailureCallback) {
-          store.dispatch(sendTokenCall(recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback));
-        });
   }
 }
 

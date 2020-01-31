@@ -24,10 +24,10 @@ class DotsIndicator extends AnimatedWidget {
   final Color color;
 
   // The base size of the dots
-  static const double _kDotSize = 8.0;
+  // static const double _kDotSize = 8.0;
 
   // The increase in the size of the selected dot
-  static const double _kMaxZoom = 2.0;
+  // static const double _kMaxZoom = 2.0;
 
   // The distance between the center of each dot
   static const double _kDotSpacing = 25.0;
@@ -42,8 +42,8 @@ class DotsIndicator extends AnimatedWidget {
           decoration: new BoxDecoration(
             borderRadius: new BorderRadius.circular(100.0),
             color: index == controller.page?.round()
-                ? const Color(0xFF05283e)
-                : new Color.fromRGBO(5, 40, 62, 0.3),
+                ? const Color(0xFF696B6D)
+                : const Color(0xFF969899),
           ),
           child: new InkWell(
             onTap: () => onPageSelected(index),

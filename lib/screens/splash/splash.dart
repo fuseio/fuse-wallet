@@ -2,13 +2,10 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/models/views/splash.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/transparent_button.dart';
+import 'package:fusecash/widgets/on_boarding_pages.dart';
 import 'package:redux/redux.dart';
-import 'create_wallet.dart';
 import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,55 +21,6 @@ class _SplashScreenState extends State<SplashScreen> {
   HouseController _slideController;
   ValueNotifier<double> notifier;
   int _previousPage;
-
-  getPages() {
-    return <Widget>[
-      Container(
-        color: Colors.transparent,
-        child: Padding(
-            padding: EdgeInsets.only(bottom: 120),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  "Pay and get paid using crypto\nwithout fees or friction",
-                  style: TextStyle(fontSize: 17),
-                  textAlign: TextAlign.center,
-                ))),
-      ),
-      Container(
-        color: Colors.transparent,
-        child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  "Use the wallet to send\nmoney to friends",
-                  style: TextStyle(fontSize: 17),
-                  textAlign: TextAlign.center,
-                ))),
-      ),
-      Container(
-        color: Colors.transparent,
-        child: Padding(
-            padding: EdgeInsets.only(bottom: 100),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  "Hold Ethereum assets and\naccess decentralized finance",
-                  style: TextStyle(fontSize: 17),
-                  textAlign: TextAlign.center,
-                ))),
-      ),
-      Container(
-        color: Colors.transparent,
-        child: Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: CreateWallet())),
-      )
-    ];
-  }
 
   void _onScroll() {
     if (_pageController.page.toInt() == _pageController.page) {
@@ -126,8 +74,11 @@ class _SplashScreenState extends State<SplashScreen> {
                     viewModel.jwtToken != '' &&
                     !viewModel.isLoggedOut) {
                   viewModel.initWeb3(viewModel.privateKey);
-                  Navigator.popUntil(context, ModalRoute.withName('/'));
-                  Navigator.popAndPushNamed(context, '/Cash');
+                  if (Navigator.canPop(context)) {
+                    Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+                  } else {
+                    Navigator.pushReplacementNamed(context, '/Cash');
+                  }
                 }
               }, builder: (BuildContext context, Store<AppState> store) {
                 return Container(
@@ -143,14 +94,11 @@ class _SplashScreenState extends State<SplashScreen> {
                                 child: new Stack(
                                   children: <Widget>[
                                     Padding(
-                                      // padding: EdgeInsets.all(20),
-                                      padding: EdgeInsets.only(
-                                          bottom: 100, left: 20, right: 20),
+                                      padding: const EdgeInsets.only(bottom: 100),
                                       child: FlareActor(
                                         "assets/images/animation.flr",
                                         alignment: Alignment.center,
                                         fit: BoxFit.contain,
-                                        //animation: "part1",
                                         controller: _slideController,
                                       ),
                                     ),
@@ -161,7 +109,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                       itemCount: 4,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return getPages()[index % 4];
+                                        return getPages(context)[index % 4];
                                       },
                                     ),
                                     new Positioned(
@@ -191,52 +139,5 @@ class _SplashScreenState extends State<SplashScreen> {
                 ));
               }));
         });
-  }
-}
-
-class SplashViewModel {
-  final String privateKey;
-  final String jwtToken;
-  final bool isLoggedOut;
-  final Function(String) initWeb3;
-  final Function(VoidCallback successCallback) createLocalAccount;
-
-  SplashViewModel(
-      {this.privateKey,
-      this.jwtToken,
-      this.isLoggedOut,
-      this.initWeb3,
-      this.createLocalAccount});
-
-  static SplashViewModel fromStore(Store<AppState> store) {
-    return SplashViewModel(
-        privateKey: store.state.userState.privateKey,
-        jwtToken: store.state.userState.jwtToken,
-        isLoggedOut: store.state.userState.isLoggedOut,
-        initWeb3: (privateKey) {
-          store.dispatch(initWeb3Call(privateKey));
-        },
-        createLocalAccount: (VoidCallback successCallback) {
-          store.dispatch(createLocalAccountCall(successCallback));
-        }
-        // accountAddress: store.state.userState.accountAddress,
-        // loginRequestSuccess: store.state.userState.loginRequestSuccess,
-        // loginVerifySuccess: store.state.userState.loginVerifySuccess,
-        // signUp: (countryCode, phoneNumber, successCallback, failCallback) {
-        //   store.dispatch(loginRequestCall(countryCode, phoneNumber, successCallback, failCallback));
-        // },
-        // verify: (countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback) {
-        //   store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback));
-        // }
-        );
-  }
-
-  bool operator ==(other) {
-    if (other is SplashViewModel) {
-      if (privateKey == other.privateKey &&
-          jwtToken == other.jwtToken &&
-          isLoggedOut == other.isLoggedOut) return true;
-    }
-    return false;
   }
 }

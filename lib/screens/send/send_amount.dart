@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/community.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/token.dart';
@@ -40,9 +41,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
-      converter: (store) {
-        return SendAmountViewModel.fromStore(store);
-      },
+      converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         _onKeyPress(VirtualKeyboardKey key) {
           if (key.keyType == VirtualKeyboardKeyType.String) {
@@ -88,7 +87,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             withPadding: true,
             titleFontSize: 15,
             title:
-                "Send to ${args.name != null ? args.name : formatAddress(args.accountAddress)}",
+                I18n.of(context).send_to + " ${args.name != null ? args.name : formatAddress(args.accountAddress)}",
             children: <Widget>[
               Container(
                   child: Column(children: <Widget>[
@@ -97,7 +96,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: 30),
-                        child: Text("How much?",
+                        child: Text(I18n.of(context).how_much,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
@@ -136,7 +135,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
               position: offset,
               child: PrimaryButton(
                 labelFontWeight: FontWeight.normal,
-                label: 'Continue with $amountText ${viewModel.token.symbol}',
+                label: I18n.of(context).continue_with + ' $amountText ${viewModel.token.symbol}',
                 onPressed: () {
                   args.amount = num.parse(amountText);
                   Navigator.pushNamed(context, '/SendReview', arguments: args);
@@ -157,8 +156,11 @@ class SendAmountViewModel {
   SendAmountViewModel({this.balance, this.token});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
     return SendAmountViewModel(
-        token: store.state.cashWalletState.token,
-        balance: store.state.cashWalletState.tokenBalance);
+      token: community.token,
+      balance: community.tokenBalance
+    );
   }
 }

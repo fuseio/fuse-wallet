@@ -5,7 +5,6 @@ import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
@@ -15,10 +14,8 @@ class CashHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, CashWalletViewModel>(
-        converter: (Store<AppState> store) {
-      return CashWalletViewModel.fromStore(store);
-    },
+    return new StoreConnector<AppState, CashHeaderViewModel>(
+    converter: CashHeaderViewModel.fromStore,
     builder: (_, viewModel) {
       return Container(
         height: 260.0,
@@ -27,7 +24,7 @@ class CashHeader extends StatelessWidget {
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha(20),
+                color: Theme.of(context).primaryColor.withAlpha(20),
                 blurRadius: 30.0,
                 spreadRadius: 0.0,
                 offset: Offset(
@@ -56,11 +53,10 @@ class CashHeader extends StatelessWidget {
                 onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
-                child:
-                Padding(padding: EdgeInsets.only(top: 25, bottom: 25, right: 25),
+                child: Padding(padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
             child:  Image.asset(
                   'assets/images/menu.png',
-                  width: 18,
+                  width: 20,
                 ))
             ),
             Expanded(
@@ -76,14 +72,14 @@ class CashHeader extends StatelessWidget {
                           text: I18n.of(context).hi,
                           style: TextStyle(
                               fontSize: 33,
-                              color: Colors.black,
+                              color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.normal)),
                       new TextSpan(
                           text: ' ' + viewModel.firstName(),
                           style: TextStyle(
-                              fontSize: 42,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold)),
+                              fontSize: 33,
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.normal)),
                     ],
                   ),
                 ),
@@ -96,7 +92,6 @@ class CashHeader extends StatelessWidget {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   verticalDirection: VerticalDirection.up,
-                  textDirection: TextDirection.ltr,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Column(
@@ -105,7 +100,7 @@ class CashHeader extends StatelessWidget {
                         new Container(
                           child: Text(I18n.of(context).balance,
                               style: TextStyle(
-                                  color: Colors.black.withAlpha(150),
+                                  color: Theme.of(context).primaryColor.withAlpha(150),
                                   fontSize: 12.0)),
                           padding: EdgeInsets.only(bottom: 6.0),
                         ),
@@ -113,26 +108,26 @@ class CashHeader extends StatelessWidget {
                           text: new TextSpan(
                             style: Theme.of(context).textTheme.title,
                             children: 
-                            (viewModel.tokenBalance == null || viewModel.token == null) 
+                            (viewModel.community.tokenBalance == null || viewModel.community.token == null) 
                             ? <TextSpan>[new TextSpan(
                                   text: '0',
                                   style: new TextStyle(
                                       fontSize: 30,
-                                      color: Colors.black,
+                                      color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.bold))]
                             : <TextSpan>[
                                 new TextSpan(
-                                  text: formatValue(viewModel.tokenBalance, viewModel.token.decimals),
+                                  text: formatValue(viewModel.community.tokenBalance, viewModel.community.token.decimals),
                                   style: new TextStyle(
                                       fontSize: 32,
-                                      color: Colors.black,
+                                      color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.bold)),
                               new TextSpan(
                                   text:
-                                      ' ' + viewModel.token?.symbol.toString(),
+                                      ' ' + viewModel.community.token?.symbol.toString(),
                                   style: new TextStyle(
                                       fontSize: 18,
-                                      color: Colors.black,
+                                      color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.normal,
                                       height: 0.0)),
                             ],
@@ -147,7 +142,7 @@ class CashHeader extends StatelessWidget {
                           child: Image.asset(
                             'assets/images/scan.png',
                             width: 25.0,
-                            color: Colors.white,
+                            color: Theme.of(context).scaffoldBackgroundColor,
                           ),
                           onPressed: () async {
                             try {

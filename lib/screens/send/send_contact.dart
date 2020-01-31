@@ -4,12 +4,16 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
+import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/permissions.dart';
+import 'package:fusecash/utils/contacts.dart';
+import 'package:fusecash/utils/phone.dart';
+import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
 import 'dart:math' as math;
@@ -27,12 +31,18 @@ class SendToContactScreen extends StatefulWidget {
 
 class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Contact> userList = [];
+  List<Contact> filteredUsers = [];
   List<String> strList = [];
-  List<Widget> normalList = [];
+  bool showFooter = true;
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
 
-  loadContacts() async {
+  loadContacts() {
+    if (this.mounted) {
+      setState(() {
+        isPreloading = true;
+      });
+    }
     for (var contact in this.widget.viewModel.contacts) {
       userList.add(contact);
     }
@@ -43,21 +53,35 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       filterList();
     });
 
-    setState(() {
-      isPreloading = false;
-    });
+    if (this.mounted) {
+      setState(() {
+        isPreloading = false;
+      });
+    }
   }
 
   @override
   void initState() {
-    loadContacts();
     super.initState();
+    loadContacts();
+  }
+
+  void _onFocusChange(hasFocus) {
+    if (mounted) {
+      setState(() {
+        showFooter = !hasFocus;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   filterList() {
     List<Contact> users = [];
     users.addAll(userList);
-    normalList = [];
     strList = [];
     if (searchController.text.isNotEmpty) {
       users.retainWhere((user) => user.displayName
@@ -65,60 +89,13 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           .contains(searchController.text.toLowerCase()));
     }
     users.forEach((user) {
-      normalList.add(
-        Slidable(
-          actionPane: SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
-          secondaryActions: <Widget>[
-            IconSlideAction(
-              iconWidget: Icon(Icons.star),
-              onTap: () {},
-            ),
-            IconSlideAction(
-              iconWidget: Icon(Icons.more_horiz),
-              onTap: () {},
-            ),
-          ],
-          child: Container(
-            decoration: new BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
-              leading: CircleAvatar(
-                backgroundColor: Color(0xFFE0E0E0),
-                radius: 25,
-                backgroundImage: user.avatar != null && user.avatar.isNotEmpty
-                    ? MemoryImage(user.avatar)
-                    : new AssetImage('assets/images/anom.png'),
-              ),
-              title: Text(
-                user.displayName,
-                style: TextStyle(fontSize: 15),
-              ),
-              //subtitle: Text("user.company" ?? ""),
-              onTap: () {
-                Navigator.pushNamed(context, '/SendAmount',
-                    arguments: SendAmountArguments(
-                        name: user.displayName,
-                        avatar: user.avatar != null && user.avatar.isNotEmpty
-                            ? MemoryImage(user.avatar)
-                            : new AssetImage('assets/images/anom.png'),
-                        phoneNumber: user.phones.toList()[0].value));
-              },
-            ),
-          ),
-        ),
-      );
       strList.add(user.displayName);
     });
 
     if (this.mounted) {
       setState(() {
-        strList;
-        normalList;
-        strList;
+        strList = strList;
+        filteredUsers = users;
       });
     }
   }
@@ -148,7 +125,55 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     //strList.where((i) => i.startsWith(title)).toList()
     for (int i = 0; i < strList.length; i++) {
       if (strList[i][0] == title) {
-        listItems.add(normalList[i]);
+        dynamic user = filteredUsers[i];
+        dynamic component = Slidable(
+          actionPane: SlidableDrawerActionPane(),
+          actionExtentRatio: 0.25,
+          secondaryActions: <Widget>[
+            IconSlideAction(
+              iconWidget: Icon(Icons.star),
+              onTap: () {},
+            ),
+            IconSlideAction(
+              iconWidget: Icon(Icons.more_horiz),
+              onTap: () {},
+            ),
+          ],
+          child: Container(
+            decoration: new BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
+            child: ListTile(
+              contentPadding:
+                  EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
+              leading: CircleAvatar(
+                backgroundColor: Color(0xFFE0E0E0),
+                radius: 25,
+                backgroundImage: user.avatar != null && user.avatar.isNotEmpty
+                    ? MemoryImage(user.avatar)
+                    : new AssetImage('assets/images/anom.png'),
+              ),
+              title: Text(
+                user.displayName,
+                style: TextStyle(
+                    fontSize: 15, color: Theme.of(context).primaryColor),
+              ),
+              //subtitle: Text("user.company" ?? ""),
+              onTap: () {
+                Navigator.pushNamed(context, '/SendAmount',
+                    arguments: SendAmountArguments(
+                        name: user.displayName,
+                        // accountAddress: t,
+                        avatar: user.avatar != null && user.avatar.isNotEmpty
+                            ? MemoryImage(user.avatar)
+                            : new AssetImage('assets/images/anom.png'),
+                        phoneNumber: user.phones.first.value));
+              },
+            ),
+          ),
+        );
+
+        listItems.add(component);
       }
     }
     return SliverList(
@@ -191,7 +216,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       if (i == 0) {
         listItems.add(Container(
             padding: EdgeInsets.only(left: 15, top: 15, bottom: 8),
-            child: Text("Recent",
+            child: Text(I18n.of(context).recent,
                 style: TextStyle(
                     color: Color(0xFF979797),
                     fontSize: 12.0,
@@ -240,8 +265,16 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               //subtitle: Text("user.company" ?? ""),
               onTap: () {
+                Map<String, String> reverseContacts =
+                    this.widget.viewModel.reverseContacts;
+                String number = formatPhoneNumber(contact.phones.first.value,
+                    this.widget.viewModel.countryCode);
+                String accountAddress = reverseContacts.keys.firstWhere(
+                    (k) => reverseContacts[k] == number,
+                    orElse: () => null);
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
+                        accountAddress: accountAddress,
                         name: contact != null
                             ? contact.displayName
                             : deducePhoneNumber(transaction,
@@ -296,7 +329,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         maxHeight: 100.0,
         child: Container(
           decoration: new BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               border:
                   Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
@@ -308,22 +341,26 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(right: 20),
-                  child: TextFormField(
-                    controller: searchController,
-                    style: TextStyle(fontSize: 16),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(0.0),
-                      border: OutlineInputBorder(
+                  child: FocusScope(
+                    onFocusChange: (showFooter) => _onFocusChange(showFooter),
+                    child: TextFormField(
+                      controller: searchController,
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(0.0),
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Color(0xFFE0E0E0), width: 3)),
+                        focusedBorder: UnderlineInputBorder(
                           borderSide:
-                              BorderSide(color: Color(0xFFE0E0E0), width: 3)),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: const Color(0xFF292929)),
+                              BorderSide(color: const Color(0xFF292929)),
+                        ),
+                        suffixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xFFACACAC),
+                        ),
+                        labelText: I18n.of(context).search,
                       ),
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: Color(0xFFACACAC),
-                      ),
-                      labelText: "Search",
                     ),
                   ),
                 ),
@@ -335,18 +372,20 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     child: Image.asset(
                       'assets/images/scan.png',
                       width: 25.0,
-                      color: Colors.white,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     onPressed: () async {
-                      String accountAddress = await BarcodeScanner.scan();
-                      List<String> parts = accountAddress.split(':');
-                      if (parts.length == 2 && parts[0] == 'fuse') {
-                        Navigator.pushNamed(context, '/SendAmount',
-                            arguments:
-                                SendAmountArguments(accountAddress: parts[1]));
-                      } else {
-                        print('Account address is not on Fuse');
-                      }
+                      try {
+                        String accountAddress = await BarcodeScanner.scan();
+                        List<String> parts = accountAddress.split(':');
+                        if (parts.length == 2 && parts[0] == 'fuse') {
+                          Navigator.pushNamed(context, '/SendAmount',
+                              arguments: SendAmountArguments(
+                                  accountAddress: parts[1]));
+                        } else {
+                          print('Account address is not on Fuse');
+                        }
+                      } catch (e) {}
                     }),
                 width: 50.0,
                 height: 50.0,
@@ -361,9 +400,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      withPadding: true,
-      title: "Send to",
+      withPadding: false,
+      title: I18n.of(context).send_to,
       titleFontSize: 15,
+      footer: showFooter ? bottomBar(context) : null,
       sliverList: _buildPageList(),
       children: <Widget>[
         !this.widget.viewModel.isContactsSynced
@@ -377,14 +417,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       ],
     );
   }
-}
-
-class User {
-  final String name;
-  final String company;
-  final bool favourite;
-
-  User(this.name, this.company, this.favourite);
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
@@ -420,20 +452,40 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
+  bool isSync = false;
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
-        converter: (Store<AppState> store) {
-          return ContactsViewModel.fromStore(store);
+        converter: ContactsViewModel.fromStore,
+        onInit: (Store<AppState> store) async {
+          bool isPermitted = await Contacts.checkPermissions();
+          if (!isPermitted) {
+            Future.delayed(
+                Duration.zero,
+                () => showDialog(
+                    child: new ContactsConfirmationScreen(), context: context));
+          }
+          setState(() {
+            isSync = isPermitted;
+          });
+        },
+        onWillChange: (viewModel) async {
+          bool isPermitted = await Contacts.checkPermissions();
+          setState(() {
+            isSync = isPermitted;
+          });
         },
         builder: (_, viewModel) {
-          if (!viewModel.isContactsSynced) {
+          if (!isSync) {
             return MainScaffold(
                 withPadding: true,
-                title: "Send to",
+                titleFontSize: 15,
+                title: I18n.of(context).send_to,
                 children: <Widget>[
                   Column(
+                    mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -445,17 +497,46 @@ class _ContactsScreenState extends State<ContactsScreen> {
                           height: 50,
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 20),
-                        child: new InkWell(
-                          onTap: () => loadContacts(
-                              viewModel.syncContactsRejected,
-                              viewModel.syncContacts),
-                          child: new Padding(
-                            padding: new EdgeInsets.all(10.0),
-                            child: new Text("Click here to sync your contacts"),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      new Text(I18n.of(context).sync_contacts),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Text(I18n.of(context).learn_more),
+                          SizedBox(
+                            width: 20,
                           ),
-                        ),
+                          InkWell(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  new Text(
+                                    I18n.of(context).activate,
+                                    style: TextStyle(color: Color(0xFF0377FF)),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  SvgPicture.asset(
+                                      'assets/images/blue_arrow.svg')
+                                ],
+                              ),
+                              onTap: () async {
+                                bool premission =
+                                    await ContactController.getPermissions();
+                                if (premission) {
+                                  List<Contact> contacts =
+                                      await ContactController.getContacts();
+                                  viewModel.syncContacts(contacts);
+                                }
+                              })
+                        ],
                       )
                     ],
                   )

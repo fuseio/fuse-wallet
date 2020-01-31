@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/token.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -14,8 +15,6 @@ class ContactsViewModel {
   final Map<String, String> reverseContacts;
   final String countryCode;
   final Function() syncContactsRejected;
-  // final Function(String, num, VoidCallback, VoidCallback) sendToContact;
-  // final Function(String, num, VoidCallback, VoidCallback) sendToAccountAddress;
 
   ContactsViewModel(
       {this.contacts,
@@ -28,11 +27,13 @@ class ContactsViewModel {
       this.syncContactsRejected});
 
   static ContactsViewModel fromStore(Store<AppState> store) {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres];
     return ContactsViewModel(
         isContactsSynced: store.state.userState.isContactsSynced ?? false,
         contacts: store.state.userState.contacts ?? [],
-        token: store.state.cashWalletState.token,
-        transactions: store.state.cashWalletState.transactions,
+        token: community?.token,
+        transactions: community?.transactions,
         reverseContacts: store.state.userState.reverseContacts,
         countryCode: store.state.userState.countryCode,
         syncContacts: (List<Contact> contacts) {

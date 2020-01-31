@@ -12,15 +12,13 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarIconBrightness: Brightness.dark
-    ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+        .copyWith(statusBarIconBrightness: Brightness.dark));
 
     return Scaffold(
         key: key,
-        //backgroundColor: Colors.white,
         drawer: DrawerWidget(),
+        drawerEdgeDragWidth: 0,
         appBar: header != null
             ? new PreferredSize(
                 child: header,
@@ -51,7 +49,7 @@ class GradientAppBar extends StatelessWidget {
         child: new Text(
           title,
           style: new TextStyle(
-              fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.bold),
+              fontSize: 20.0, color: Theme.of(context).scaffoldBackgroundColor, fontWeight: FontWeight.bold),
         ),
       ),
       decoration: new BoxDecoration(

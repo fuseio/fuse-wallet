@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:vibration/vibration.dart';
+// import 'package:rxdart/rxdart.dart';
+// import 'package:vibration/vibration.dart';
 
 typedef IndexedHeight = double Function(int);
 
@@ -76,39 +76,39 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
 
   List<String> strList = [];
 
-  _initScrollCallback() {
-    Observable(_pixelUpdates.stream).listen((pixels) {
-      var childLength = strList.length;
-      double maxScrollExtent = controller.position.maxScrollExtent > 0
-          ? controller.position.maxScrollExtent
-          : 1;
-      var tempSelectedIndex =
-          ((pixels / maxScrollExtent) * childLength).toInt();
-      if (tempSelectedIndex >= childLength) {
-        tempSelectedIndex = childLength - 1;
-      }
-      String mapKey;
-      if (tempSelectedIndex < 0 || tempSelectedIndex >= strList.length) {
-        return;
-      }
-      if (strList[tempSelectedIndex].contains(RegExp("^x\\d\$"))) {
-        mapKey = (strList[tempSelectedIndex]);
-      } else {
-        mapKey = strList[tempSelectedIndex][0].toUpperCase();
-      }
+  // _initScrollCallback() {
+  //   Observable(_pixelUpdates.stream).listen((pixels) {
+  //     var childLength = strList.length;
+  //     double maxScrollExtent = controller.position.maxScrollExtent > 0
+  //         ? controller.position.maxScrollExtent
+  //         : 1;
+  //     var tempSelectedIndex =
+  //         ((pixels / maxScrollExtent) * childLength).toInt();
+  //     if (tempSelectedIndex >= childLength) {
+  //       tempSelectedIndex = childLength - 1;
+  //     }
+  //     String mapKey;
+  //     if (tempSelectedIndex < 0 || tempSelectedIndex >= strList.length) {
+  //       return;
+  //     }
+  //     if (strList[tempSelectedIndex].contains(RegExp("^x\\d\$"))) {
+  //       mapKey = (strList[tempSelectedIndex]);
+  //     } else {
+  //       mapKey = strList[tempSelectedIndex][0].toUpperCase();
+  //     }
 
-      if (tempSelectedIndex != selectedIndex && selectedChar != mapKey) {
-        var tempIndex = alphabetList.indexOf(mapKey);
+  //     if (tempSelectedIndex != selectedIndex && selectedChar != mapKey) {
+  //       var tempIndex = alphabetList.indexOf(mapKey);
 
-        if (tempIndex != -1) {
-          setState(() {
-            selectedIndex = tempIndex;
-            selectedChar = mapKey;
-          });
-        }
-      }
-    });
-  }
+  //       if (tempIndex != -1) {
+  //         setState(() {
+  //           selectedIndex = tempIndex;
+  //           selectedChar = mapKey;
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
@@ -116,7 +116,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
     super.initState();
     _updateStrList();
-    _initScrollCallback();
+    // _initScrollCallback();
     _callback = () {
       _pixelUpdates.add(controller.position.pixels);
     };
@@ -255,7 +255,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
 
     if (savedIndex != selectedIndex) {
       savedIndex = selectedIndex;
-      _select(selectedIndex);
+      // _select(selectedIndex);
 
       if (_debounce?.isActive ?? false) _debounce.cancel();
       _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -269,17 +269,17 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
     }
   }
 
-  _select(int index) async {
-    if (await Vibration.hasVibrator()) {
-      Vibration.vibrate(duration: 20);
-    }
-    var height = heightMap[alphabetList[index]];
-    controller.jumpTo(height);
-//    controller.scrollToIndex(
-//      strMap[alphabetList[index]],
-//      duration: Duration(milliseconds: 1),
-//    );
-  }
+//   _select(int index) async {
+//     if (await Vibration.hasVibrator()) {
+//       Vibration.vibrate(duration: 20);
+//     }
+//     var height = heightMap[alphabetList[index]];
+//     controller.jumpTo(height);
+// //    controller.scrollToIndex(
+// //      strMap[alphabetList[index]],
+// //      duration: Duration(milliseconds: 1),
+// //    );
+//   }
 
   @override
   void dispose() {
@@ -316,7 +316,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
             .firstWhere((sp) => sp.id == alphabetList[selectedIndex]);
         textview = IconTheme(
           data: IconThemeData(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             size: 42,
           ),
           child: header.icon,
@@ -325,7 +325,7 @@ class _AlphabetListScrollViewState extends State<AlphabetListScrollView> {
         textview = Text(
           "${alphabetList[selectedIndex]}",
           style: TextStyle(
-            color: Colors.white,
+            color: Theme.of(context).scaffoldBackgroundColor,
             fontSize: 60,
           ),
         );

@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 
-class OnboardViewModel {
+class OnboardViewModel extends Equatable {
   final String countryCode;
   final String phoneNumber;
   final String accountAddress;
@@ -48,18 +49,12 @@ class OnboardViewModel {
     );
   }
 
-  bool operator ==(other) {
-    if (other is OnboardViewModel) {
-      if (
-        countryCode == other.countryCode &&
-        phoneNumber == other.phoneNumber &&
-        accountAddress == other.accountAddress &&
-        loginRequestSuccess == other.loginRequestSuccess &&
-        loginVerifySuccess == other.loginVerifySuccess
-      )
-      return true;
-    }
-    return false;
-  }
-
+  @override
+  List<Object> get props => [
+    countryCode,
+    phoneNumber,
+    accountAddress,
+    loginRequestSuccess,
+    loginVerifySuccess
+  ];
 }

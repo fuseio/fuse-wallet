@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:fusecash/utils/contacts.dart';
 import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -26,6 +27,10 @@ class CreateLocalAccountSuccess {
   final String accountAddress;
   CreateLocalAccountSuccess(
       this.mnemonic, this.privateKey, this.accountAddress);
+}
+
+class ReLogin {
+  ReLogin();
 }
 
 class LoginRequestSuccess {
@@ -176,15 +181,23 @@ ThunkAction logoutCall() {
 
 ThunkAction syncContactsCall(List<Contact> contacts) {
   return (Store store) async {
+    bool isPermitted = await Contacts.checkPermissions();
+    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    store.dispatch(segmentIdentifyCall(fullPhoneNumber,
+      traits: new Map<String, dynamic>.from({
+        "Contacts Permission Granted": isPermitted,
+      })));
+    if (isPermitted && contacts.isEmpty) {
+      contacts = await ContactController.getContacts();
+    }
     store.dispatch(new SaveContacts(contacts));
     List<String> syncedContacts = store.state.userState.syncedContacts;
     List<String> newPhones = new List<String>();
     for (Contact contact in contacts) {
-      for (Item phone in contact.phones) {
-        String phoneNumber =
-            formatPhoneNumber(phone.value, store.state.userState.countryCode);
-        if (!syncedContacts.contains(phoneNumber)) {
-          newPhones.add(phoneNumber);
+      List<String> uniquePhone = contact.phones.map((Item phone) => formatPhoneNumber(phone.value, store.state.userState.countryCode)).toSet().toList();
+      for (String phone in uniquePhone) {
+        if (!syncedContacts.contains(phone)) {
+          newPhones.add(phone);
         }
       }
     }
@@ -223,36 +236,35 @@ ThunkAction setPincodeCall(String pincode) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final _webView = new InteractiveWebView();
-    Map publicData = {
-      'account': accountAddress,
-      'name': store.state.userState.displayName
-    };
-    print('create profile for accountAddress $accountAddress');
-    await api.createProfile(accountAddress, publicData);
-    Map user = {
-      "accountAddress": accountAddress,
-      "email": 'wallet-user@fuse.io',
-      "provider": 'HDWallet',
-      "subscribe": false,
-      "source": 'wallet-v2'
-    };
-    print('save user $accountAddress');
-    await api.saveUserToDb(user);
     print('Loading 3box webview for account $accountAddress');
     final html = '''<html>
         <head></head>
         <script>
           window.pk = '0x${store.state.userState.privateKey}';
-          window.user = { 
-            account: '$accountAddress',
-            phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}',
-            name: ${store.state.userState.displayName}
-          };
+          window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}'};
         </script>
         <script src='https://3box.fuse.io/main.js'></script>
         <body></body>
       </html>''';
-    print(html);
     _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
+    try {
+      Map publicData = {
+        'account': accountAddress,
+        'name': store.state.userState.displayName
+      };
+      print('create profile for accountAddress $accountAddress');
+      await api.createProfile(accountAddress, publicData);
+      Map user = {
+        "accountAddress": accountAddress,
+        "email": 'wallet-user@fuse.io',
+        "provider": 'HDWallet',
+        "subscribe": false,
+        "source": 'wallet-v2'
+      };
+      await api.saveUserToDb(user);
+      print('save user $accountAddress');
+    } catch (e) {
+      print('user already saved');
+    }
   };
 }

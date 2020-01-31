@@ -5,22 +5,26 @@ class MainScaffold extends StatelessWidget {
   MainScaffold(
       {this.title,
       this.children,
-      this.sliverList,
+      List<Widget> actions,
+      List<Widget> sliverList,
       this.key,
       this.footer,
       this.withPadding,
       this.backgroundColor,
       this.expandedHeight,
-      this.titleFontSize});
+      this.titleFontSize})
+      : sliverList = sliverList ?? new List<Widget>(),
+        actions = actions ?? new List<Widget>();
   final String title;
   final List<Widget> children;
-  List<Widget> sliverList;
+  final List<Widget> sliverList;
   final Widget footer;
   final bool withPadding;
   final Key key;
   final Color backgroundColor;
   final double expandedHeight;
   final double titleFontSize;
+  final List<Widget> actions;
 
   scrollView(context) {
     return CustomScrollView(
@@ -28,6 +32,7 @@ class MainScaffold extends StatelessWidget {
         SliverAppBar(
           expandedHeight: expandedHeight ?? 120,
           pinned: true,
+          actions: actions,
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
               child: Text(title,
@@ -44,11 +49,11 @@ class MainScaffold extends StatelessWidget {
             //color: Theme.of(context).canvasColor,
             //),
           ),
-          iconTheme: IconThemeData(color: Theme.of(context).textTheme.body1.color),
-          backgroundColor: backgroundColor ?? Color(0xFFF5F5F5),
+          iconTheme:
+              IconThemeData(color: Theme.of(context).textTheme.body1.color),
+          backgroundColor: backgroundColor ?? Theme.of(context).backgroundColor,
           brightness: Brightness.light,
         ),
-        //sliverList != null ? sliverList : Container(),
         ...sliverList,
         SliverList(
           delegate: SliverChildListDelegate(children),
@@ -59,18 +64,11 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarIconBrightness: Brightness.dark
-    ));
-
-    if (sliverList == null) {
-      sliverList = new List<Widget>();
-    }
-
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+        .copyWith(statusBarIconBrightness: Brightness.dark));
     return Scaffold(
       key: key,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
