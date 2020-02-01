@@ -9,8 +9,8 @@
             android:gravity="fill"
             android:src="@mipmap/splash" />
     </item> -->
-    <item>
+    <!-- <item>
         <bitmap android:gravity="fill" android:src="@drawable/splash" />
-    </item>
+    </item> -->
 
 </layer-list>
