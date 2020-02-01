@@ -3,3 +3,4 @@ flutter_native_splash:
   fill: true
   color: "ffffff"
   ios: false
+  android: false

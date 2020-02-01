@@ -24,7 +24,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:logger/logger.dart';
 // import 'package:path_provider/path_provider.dart';
-import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
+// import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 
 // class DualOutput extends LogOutput {
 

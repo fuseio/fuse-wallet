@@ -1,12 +1,13 @@
-import 'package:flare_flutter/flare_actor.dart';
+// import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
+import 'package:fusecash/screens/splash/create_wallet.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
-import 'package:fusecash/widgets/on_boarding_pages.dart';
+// import 'package:fusecash/widgets/on_boarding_pages.dart';
 import 'package:redux/redux.dart';
-import 'dots_indicator.dart';
+// import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -94,41 +95,20 @@ class _SplashScreenState extends State<SplashScreen> {
                                 child: new Stack(
                                   children: <Widget>[
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom: 100),
-                                      child: FlareActor(
-                                        "assets/images/animation.flr",
-                                        alignment: Alignment.center,
-                                        fit: BoxFit.contain,
-                                        controller: _slideController,
+                                      padding: const EdgeInsets.only(top: 100),
+                                      child: Image.asset(
+                                        'assets/images/paywise.png',
+                                        fit: BoxFit.fill,
                                       ),
                                     ),
-                                    new PageView.builder(
-                                      physics:
-                                          new AlwaysScrollableScrollPhysics(),
-                                      controller: _pageController,
-                                      itemCount: 4,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return getPages(context)[index % 4];
-                                      },
-                                    ),
-                                    new Positioned(
-                                      bottom: 15.0,
-                                      left: 0.0,
-                                      right: 0.0,
-                                      child: new Container(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: new Center(
-                                          child: new DotsIndicator(
-                                            controller: _pageController,
-                                            itemCount: 4,
-                                            onPageSelected: (int page) {
-                                              gotoPage(page);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    Container(
+                                      color: Colors.transparent,
+                                      child: Padding(
+                                          padding: EdgeInsets.only(bottom: 20),
+                                          child: Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: CreateWallet())),
+                                    )
                                   ],
                                 ),
                               ),

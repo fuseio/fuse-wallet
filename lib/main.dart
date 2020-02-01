@@ -14,12 +14,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
-  await DotEnv().load('.env_prod');
+  await DotEnv().load('.env_paywise');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp
   ]).then((_) async {
     runApp(CustomTheme(
-      initialThemeKey: MyThemeKeys.DEFAULT,
+      initialThemeKey: MyThemeKeys.PAYWISE,
       child: new MyApp(
           store: await createReduxStore(),
        ),

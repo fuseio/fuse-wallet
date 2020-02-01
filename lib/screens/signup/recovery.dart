@@ -69,6 +69,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                         color: Theme.of(context).bottomAppBarColor,
                       ),
                       child: TextFormField(
+                        style: TextStyle(color: Colors.black),
                         controller: wordsController,
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,

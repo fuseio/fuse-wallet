@@ -85,7 +85,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             ),
                             Text(
                               I18n.of(context).enable_contacts_text,
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor,),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 50.0),
@@ -105,7 +105,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                     child: Text(
                                       I18n.of(context).enable_text,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 13),
+                                      style: TextStyle(fontSize: 13, color: Theme.of(context).primaryColor,),
                                     ),
                                   )
                                 ],

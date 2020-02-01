@@ -75,6 +75,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                         child: Column(
                           children: <Widget>[
                             TextFormField(
+                              style: TextStyle(color: Colors.black),
                               autofocus: false,
                               decoration: InputDecoration(
                                 labelText:
@@ -91,6 +92,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                             ),
                             const SizedBox(height: 16.0),
                             TextFormField(
+                              style: TextStyle(color: Colors.black),
                               autofocus: false,
                               decoration: InputDecoration(
                                 labelText:
@@ -107,6 +109,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                             ),
                             const SizedBox(height: 16.0),
                             TextFormField(
+                              style: TextStyle(color: Colors.black),
                               autofocus: false,
                               decoration: InputDecoration(
                                 labelText:
