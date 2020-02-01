@@ -21,21 +21,25 @@ class HouseController extends FlareController {
 
   double _time = 0;
   double _speed = 4;
-  double _startFrom = 2;
-  double _animationLength = 7.5;
+  double _startFrom = 3;
+  double _animationLength = 6;
 
   @override
   bool advance(FlutterActorArtboard artboard, double elapsed) {
 
     var def = (_startFrom + _time) - (_startFrom + step2 * _animationLength);
     if (def > 0.5 || def < -0.5) {
-      if (_time.round() < step2 * _animationLength) {
+      if ((_startFrom + _time).round() < _startFrom + step2 * _animationLength) {
         _time += elapsed * _speed;
-        _arrange.apply(_startFrom + _time, artboard, 0.5);
+        _arrange.apply(_startFrom + _time, artboard, 1);
       } else {
         _time -= elapsed * _speed;
-        _arrange.apply(_startFrom + _time, artboard, 0.5);
+        _arrange.apply(_startFrom + _time, artboard, 1);
       }
+    } else {
+      //if (_time > 18) {
+        //_arrange.apply(_startFrom + step2 * _animationLength, _artboard, 1);
+      //}
     }
 
     return true;
