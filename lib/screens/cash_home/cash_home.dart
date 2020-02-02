@@ -85,7 +85,8 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
   }
   if (!viewModel.isCommunityLoading &&
       viewModel.branchAddress != null &&
-      viewModel.branchAddress != "") {
+      viewModel.branchAddress != "" &&
+      viewModel.walletAddress != '') {
     viewModel.branchCommunityUpdate();
   }
   if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
