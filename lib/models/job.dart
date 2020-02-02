@@ -1,5 +1,5 @@
-import 'package:fusecash/services.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:paywise/services.dart';
+import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import './transaction.dart';
 import 'dart:convert';
 

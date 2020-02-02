@@ -1,16 +1,16 @@
 import 'dart:core';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:paywise/generated/i18n.dart';
+import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/widgets/copy.dart';
-import 'package:fusecash/widgets/preloader.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/transparent_button.dart';
+import 'package:paywise/models/app_state.dart';
+import 'package:paywise/models/user_state.dart';
+import 'package:paywise/widgets/copy.dart';
+import 'package:paywise/widgets/preloader.dart';
+import 'package:paywise/widgets/primary_button.dart';
+import 'package:paywise/widgets/transparent_button.dart';
 
 class ShowMnemonic extends StatefulWidget {
   ShowMnemonic({Key key, this.title}) : super(key: key);

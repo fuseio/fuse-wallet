@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/backup/show_mnemonic.dart';
-// import 'package:fusecash/screens/backup/backup1.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:paywise/generated/i18n.dart';
+import 'package:paywise/models/app_state.dart';
+import 'package:paywise/screens/backup/show_mnemonic.dart';
+// import 'package:paywise/screens/backup/backup1.dart';
+import 'package:paywise/widgets/main_scaffold.dart';
+import 'package:paywise/widgets/primary_button.dart';
 
 class VerifyMnemonic extends StatefulWidget {
   VerifyMnemonic({Key key, this.title}) : super(key: key);

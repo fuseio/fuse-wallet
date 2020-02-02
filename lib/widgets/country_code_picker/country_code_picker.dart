@@ -1,7 +1,7 @@
 library country_code_picker;
 
 import 'package:flutter/material.dart';
-import 'package:fusecash/widgets/country_code_picker/selection_dialog.dart';
+import 'package:paywise/widgets/country_code_picker/selection_dialog.dart';
 
 import 'country_code.dart';
 import 'country_codes.dart';

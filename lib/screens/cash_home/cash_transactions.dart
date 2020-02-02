@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:paywise/generated/i18n.dart';
 import 'dart:core';
-import 'package:fusecash/models/views/cash_wallet.dart';
-import 'package:fusecash/models/transaction.dart';
+import 'package:paywise/models/views/cash_wallet.dart';
+import 'package:paywise/models/transaction.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/screens/cash_home/transaction_item.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:paywise/screens/cash_home/transaction_item.dart';
+import 'package:paywise/utils/phone.dart';
+import 'package:paywise/utils/format.dart';
 
 class CashTransactios extends StatefulWidget {
   CashTransactios({@required this.viewModel});

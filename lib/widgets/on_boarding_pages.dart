@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/splash/create_wallet.dart';
+import 'package:paywise/generated/i18n.dart';
+import 'package:paywise/screens/splash/create_wallet.dart';
 
 List<Widget> getPages(context) {
   return <Widget>[

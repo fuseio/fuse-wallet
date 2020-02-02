@@ -1,5 +1,5 @@
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
+import 'package:paywise/models/user_state.dart';
+import 'package:paywise/models/cash_wallet_state.dart';
 
 class AppState {
   final UserState userState;

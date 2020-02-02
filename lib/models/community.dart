@@ -1,6 +1,6 @@
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/transaction.dart';
+import 'package:paywise/models/business.dart';
+import 'package:paywise/models/token.dart';
+import 'package:paywise/models/transaction.dart';
 
 import './plugins.dart';
 import './job.dart';

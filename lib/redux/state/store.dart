@@ -1,13 +1,13 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/reducers/app_reducer.dart';
-import 'package:fusecash/redux/state/state_secure_storage.dart';
+import 'package:paywise/models/app_state.dart';
+import 'package:paywise/redux/reducers/app_reducer.dart';
+import 'package:paywise/redux/state/state_secure_storage.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
-import 'package:fusecash/services.dart';
+import 'package:paywise/services.dart';
 import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';

@@ -1,18 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-// import 'package:fusecash/screens/send/enable_contacts.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
-// import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/widgets/main_scaffold2.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:paywise/redux/actions/cash_wallet_actions.dart';
+// import 'package:paywise/screens/send/enable_contacts.dart';
+import 'package:paywise/themes/app_theme.dart';
+import 'package:paywise/themes/custom_theme.dart';
+// import 'package:paywise/utils/contacts.dart';
+import 'package:paywise/utils/forks.dart';
+import 'package:paywise/widgets/main_scaffold2.dart';
+import 'package:paywise/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_header.dart';
 import 'cash_transactions.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:paywise/models/views/cash_wallet.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 

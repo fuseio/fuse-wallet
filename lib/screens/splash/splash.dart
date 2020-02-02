@@ -1,11 +1,11 @@
 // import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/screens/splash/create_wallet.dart';
-import 'package:fusecash/screens/splash/slide_animation_controller.dart';
-// import 'package:fusecash/widgets/on_boarding_pages.dart';
+import 'package:paywise/models/app_state.dart';
+import 'package:paywise/models/views/splash.dart';
+import 'package:paywise/screens/splash/create_wallet.dart';
+import 'package:paywise/screens/splash/slide_animation_controller.dart';
+// import 'package:paywise/widgets/on_boarding_pages.dart';
 import 'package:redux/redux.dart';
 // import 'dots_indicator.dart';
 

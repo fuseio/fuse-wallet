@@ -1,5 +1,5 @@
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/user_state.dart';
+import 'package:paywise/redux/actions/user_actions.dart';
+import 'package:paywise/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([

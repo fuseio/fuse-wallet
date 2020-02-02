@@ -1,13 +1,13 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/cash_home/transaction_details.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:paywise/generated/i18n.dart';
+import 'package:paywise/models/business.dart';
+import 'package:paywise/models/transaction.dart';
+import 'package:paywise/models/views/cash_wallet.dart';
+import 'package:paywise/screens/buy/business.dart';
+import 'package:paywise/screens/cash_home/transaction_details.dart';
+import 'package:paywise/utils/format.dart';
+import 'package:paywise/utils/phone.dart';
 
 String deduceSign(Transfer transfer) {
   if (transfer.type == 'SEND') {

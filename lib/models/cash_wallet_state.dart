@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/plugins.dart';
+// import 'package:paywise/models/business.dart';
+import 'package:paywise/models/community.dart';
+import 'package:paywise/models/plugins.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import './token.dart';
 import './transaction.dart';

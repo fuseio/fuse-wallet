@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/common.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:paywise/common.dart';
+import 'package:paywise/generated/i18n.dart';
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/transparent_button.dart';
+import 'package:paywise/generated/i18n.dart';
+import 'package:paywise/models/app_state.dart';
+import 'package:paywise/models/views/splash.dart';
+import 'package:paywise/widgets/primary_button.dart';
+import 'package:paywise/widgets/transparent_button.dart';
 
 class CreateWallet extends StatefulWidget {
   @override

@@ -1,9 +1,9 @@
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/job.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
+import 'package:paywise/models/community.dart';
+import 'package:paywise/models/transaction.dart';
+import 'package:paywise/models/job.dart';
+import 'package:paywise/redux/actions/cash_wallet_actions.dart';
+import 'package:paywise/redux/actions/user_actions.dart';
+import 'package:paywise/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([

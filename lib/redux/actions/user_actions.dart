@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
-import 'package:fusecash/utils/contacts.dart';
+import 'package:paywise/redux/actions/cash_wallet_actions.dart';
+import 'package:paywise/redux/actions/error_actions.dart';
+import 'package:paywise/utils/contacts.dart';
 import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
-import 'package:fusecash/services.dart';
+import 'package:paywise/services.dart';
 import 'package:logger/logger.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:paywise/utils/phone.dart';
 
 var logger = Logger(
   printer: PrettyPrinter(),

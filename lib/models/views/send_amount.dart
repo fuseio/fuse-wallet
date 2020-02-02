@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:paywise/models/app_state.dart';
+import 'package:paywise/models/community.dart';
+import 'package:paywise/models/token.dart';
+import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel {

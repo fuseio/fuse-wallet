@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/routes.dart';
+import 'package:paywise/models/app_state.dart';
+import 'package:paywise/redux/state/store.dart';
+import 'package:paywise/screens/routes.dart';
 import 'dart:core';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
+import 'package:paywise/themes/app_theme.dart';
+import 'package:paywise/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:paywise/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 

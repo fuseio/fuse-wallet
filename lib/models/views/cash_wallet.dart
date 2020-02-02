@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
+import 'package:paywise/models/business.dart';
+import 'package:paywise/models/community.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/transaction.dart';
+import 'package:paywise/models/app_state.dart';
+import 'package:paywise/models/token.dart';
+import 'package:paywise/models/transaction.dart';
 
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:paywise/redux/actions/cash_wallet_actions.dart';
+import 'package:paywise/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 class CashHeaderViewModel extends Equatable {

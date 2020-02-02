@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:paywise/generated/i18n.dart';
 
 class LanguageSelector extends StatefulWidget {
   @override

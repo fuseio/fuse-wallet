@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/widgets/drawer.dart';
+import 'package:paywise/widgets/drawer.dart';
 import 'package:flutter/services.dart';
 import 'bottombar.dart';
 
