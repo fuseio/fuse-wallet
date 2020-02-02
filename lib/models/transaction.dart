@@ -1,7 +1,10 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transaction.g.dart';
+
+String funderAddress = DotEnv().env['FUNDER_ADDRESS'];
 
 @JsonSerializable(explicitToJson: true)
 class Transaction {

@@ -663,14 +663,6 @@ ThunkAction sendToInviteCall(String receiverAddress, num tokensAmount, Transfer 
   };
 }
 
-// ThunkAction callSendToInviteCall(Job job) {
-//   return (Store store) async {
-//     Map<String, num> sendToInvites = store.state.cashWalletState.sendToInvites;
-//     store.dispatch(sendTokenCall(job.data["walletAddress"], sendToInvites[job.id]));
-//     store.dispatch(RemoveSendToInvites(job.id));
-//   };
-// }
-
 ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   return (Store store) async {
     try {
@@ -680,13 +672,6 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
           walletAddress, community["entitiesList"]["address"]);
       String communityAddress = community['address'];
       if (isMember) {
-        // Transfer joined = new Transfer(
-        //     type: 'RECEIVE',
-        //     text: 'Joined community',
-        //     status: 'CONFIRMED',
-        //     jobId: 'joined',
-        //     txHash: '');
-        // store.dispatch(new AddTransaction(joined));
         return store.dispatch(new AlreadyJoinedCommunity(communityAddress));
       }
 
@@ -722,6 +707,20 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
       text: 'Joined ' + (community["name"]) + ' community',
       txHash: job.data['txHash']);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+
+
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community communityData =
+      store.state.cashWalletState.communities[communityAddres];
+    if (communityData.plugins.joinBonus != null && communityData.plugins.joinBonus.isActive) {
+      BigInt value = toBigInt(communityData.plugins.joinBonus.amount, communityData.token.decimals);
+      Transfer joinBonus = new Transfer(
+        from: DotEnv().env['FUNDER_ADDRESS'],
+        type: 'RECEIVE',
+        value: value,
+        status: 'PENDING');
+      store.dispatch(new AddTransaction(joinBonus));
+    }
   };
 }
 
@@ -748,20 +747,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       Map<String, dynamic> communityData =
           await api.getCommunityData(communityAddress, isRopsten: isRopsten);
       store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
-      Plugins communityPlugins;
-      if (communityData != null) {
-        Map<String, dynamic> plugins = Map<String, dynamic>.from(
-            communityData.containsKey('plugins')
-                ? communityData['plugins']
-                : {});
-        if (plugins.containsKey('onramp')) {
-          Map<String, dynamic> onramp =
-              Map<String, dynamic>.from(plugins['onramp']);
-          Map<String, dynamic> services =
-              Map<String, dynamic>.from(onramp['services']);
-          communityPlugins = Plugins.fromJson(services);
-        }
-      }
+      Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
           properties: new Map<String, dynamic>.from(community)));

@@ -82,7 +82,7 @@ class Community {
       new Map.from({"jobs": jobs.map((job) => job.toJson()).toList()});
 
   static Plugins _pluginsFromJson(Map<String, dynamic> json) =>
-      json == null ? {} : Plugins.fromJson(json);
+      json == null ? null : Plugins.fromJson(json);
 
   static Map<String, dynamic> _pluginsToJson(Plugins plugins) =>
       plugins.toJson();

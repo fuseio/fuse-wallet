@@ -1,19 +1,51 @@
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'plugins.g.dart';
 
-abstract class DepositPlugin {
+abstract class Plugin {
   String name;
   bool isActive;
+
+  Plugin(
+    this.name,
+    this.isActive,
+  );
+
+  dynamic toJson() => {'name': name, 'isActive': isActive};
+}
+
+class JoinBonusPlugin extends Plugin {
+  String amount;
+  final String type = 'joinBonus';
+
+  JoinBonusPlugin({
+    name,
+    isActive,
+    this.amount
+  }) : super(name, isActive);
+
+  dynamic toJson() => {'name': name, 'isActive': isActive, 'type': type, 'amount': amount};
+
+  static JoinBonusPlugin fromJson(dynamic json) => json != null
+    ? JoinBonusPlugin(
+        name: json['name'],
+        amount: json.containsKey('joinInfo') ? json['joinInfo']['amount'] : json['amount'],
+        isActive: json["isActive"] || false,
+      )
+    : null;
+}
+
+abstract class DepositPlugin extends Plugin {
   String widgetUrl;
 
   final String type = 'deposit';
 
   DepositPlugin(
-    this.name,
-    this.isActive,
+    name,
+    isActive,
     this.widgetUrl,
-  );
+  ) : super(name, isActive);
 
   String generateUrl({String email, String walletAddress}) {
     return this.widgetUrl;
@@ -105,8 +137,43 @@ class Plugins {
   CoindirectPlugin coindirect;
   @JsonKey(name: 'ramp', fromJson: _rampFromJson, toJson: _rampToJson, includeIfNull: false)
   RampPlugin ramp;
+  @JsonKey(name: 'joinBonus', fromJson: _joinBonusFromJson, toJson: _joinBonusToJson, includeIfNull: false)
+  JoinBonusPlugin joinBonus;
 
-  Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp});
+  Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp, this.joinBonus});
+
+  static Map getServicesMap (dynamic json) {
+    if (json.containsKey('onramp')) {
+      if (json['onramp'].containsKey('services')) {
+        return json['onramp']['services'];
+      } else {
+        return json['onramp'];
+      }
+    } else {
+      return json;
+    }
+  }
+
+  static Plugins fromJson(dynamic json) {
+    if (json == null) {
+      return Plugins();
+    } else {
+      dynamic services= Plugins.getServicesMap(json);
+      return Plugins(
+        moonpay: MoonpayPlugin.fromJson(services["moonpay"]),
+        carbon: CarbonPlugin.fromJson(services["carbon"]),
+        wyre: WyrePlugin.fromJson(services["wyre"]),
+        coindirect: CoindirectPlugin.fromJson(services["coindirect"]),
+        ramp: RampPlugin.fromJson(services["ramp"]),
+        joinBonus:  JoinBonusPlugin.fromJson(json['joinBonus'])
+      );
+    }
+  }
+
+  static JoinBonusPlugin _joinBonusFromJson(Map<String, dynamic> json) =>
+      json == null ? null : JoinBonusPlugin.fromJson(json);
+
+  static Map<String, dynamic> _joinBonusToJson(JoinBonusPlugin joinBonus) => joinBonus != null ? joinBonus.toJson() : null;
 
   static WyrePlugin _wyreFromJson(Map<String, dynamic> json) =>
       json == null ? null : WyrePlugin.fromJson(json);
@@ -137,10 +204,39 @@ class Plugins {
 
   static Map<String, dynamic> _carbonToJson(CarbonPlugin carbon) =>
       carbon != null ? carbon.toJson() : null;
+  // static Plugins fromJson(dynamic json) => json != null
+  //   ? Plugins(
+  //       moonpay: MoonpayPlugin.fromJson(json["moonpay"]),
+  //       carbon: CarbonPlugin.fromJson(json["carbon"]),
+  //       wyre: WyrePlugin.fromJson(json["wyre"]),
+  //       coindirect: CoindirectPlugin.fromJson(json["coindirect"]),
+  //       ramp: RampPlugin.fromJson(json["ramp"]),
+  //     )
+  //   : {};
+  // static Plugins fromJson(dynamic json) {
+  //   if (json != null) {
+  //     Plugins(
+  //     moonpay: MoonpayPlugin.fromJson(json["moonpay"]),
+  //     carbon: CarbonPlugin.fromJson(json["carbon"]),
+  //     wyre: WyrePlugin.fromJson(json["wyre"]),
+  //     coindirect: CoindirectPlugin.fromJson(json["coindirect"]),
+  //     ramp: RampPlugin.fromJson(json["ramp"]),
+  //   );
+  //   } else {
+  //     return Plugins();
+  //   }
+  // }
 
-  static Plugins fromJson(dynamic json) => _$PluginsFromJson(json);
+  // static Plugins fromJson(dynamic json) => _$PluginsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PluginsToJson(this);
+  dynamic toJson() => {
+        'moonpay': moonpay != null ? moonpay.toJson() : null,
+        'carbon': carbon != null ? carbon.toJson() : null,
+        'wyre': wyre != null ? wyre.toJson() : null,
+        'coindirect': coindirect != null ? coindirect.toJson() : null,
+        'ramp': ramp != null ? ramp.toJson() : null,
+        'joinBonus': joinBonus != null ? joinBonus.toJson() : null,
+      };
 
   List getDepositPlugins() {
     List depositPlugins = [];
