@@ -371,7 +371,7 @@ CashWalletState _removeSendToInvites(
 
 CashWalletState _createNewWalletSuccess(
     CashWalletState state, CreateLocalAccountSuccess action) {
-  return CashWalletState.initial();
+  return CashWalletState.initial().copyWith(isBranchDataReceived: state.isBranchDataReceived);
 }
 
 CashWalletState _replaceTransfer(CashWalletState state, ReplaceTransaction action) {
