@@ -657,14 +657,6 @@ ThunkAction sendToInviteCall(String receiverAddress, num tokensAmount, Transfer 
   };
 }
 
-// ThunkAction callSendToInviteCall(Job job) {
-//   return (Store store) async {
-//     Map<String, num> sendToInvites = store.state.cashWalletState.sendToInvites;
-//     store.dispatch(sendTokenCall(job.data["walletAddress"], sendToInvites[job.id]));
-//     store.dispatch(RemoveSendToInvites(job.id));
-//   };
-// }
-
 ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   return (Store store) async {
     try {
@@ -674,13 +666,6 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
           walletAddress, community["entitiesList"]["address"]);
       String communityAddress = community['address'];
       if (isMember) {
-        // Transfer joined = new Transfer(
-        //     type: 'RECEIVE',
-        //     text: 'Joined community',
-        //     status: 'CONFIRMED',
-        //     jobId: 'joined',
-        //     txHash: '');
-        // store.dispatch(new AddTransaction(joined));
         return store.dispatch(new AlreadyJoinedCommunity(communityAddress));
       }
 
@@ -716,6 +701,12 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
       text: 'Joined ' + (community["name"]) + ' community',
       txHash: job.data['txHash']);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+
+    Transfer joinBonus = new Transfer(
+      type: 'RECEIVE',
+      text: 'Pending for join bonus',
+      status: 'PENDING');
+    store.dispatch(new AddTransaction(joinBonus));
   };
 }
 

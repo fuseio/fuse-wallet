@@ -107,8 +107,6 @@ class TransactionFactory {
   }
 }
 
-List<Transaction> l = new List<Transaction>();
-
 class Transactions {
   final List<Transaction> list;
   final Map<String, Transaction> invites;

@@ -202,15 +202,23 @@ CashWalletState _getTokenTransfersListSuccess(
             0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
         1;
     Community current = state.communities[state.communityAddress];
-    for (Transaction tx in action.tokenTransfers.reversed) {
-      Transaction saved = current.transactions.list
-          .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
-      if (saved != null) {
-        if (saved.isPending()) {
-          saved.status = 'CONFIRMED';
+    for (Transfer tx in action.tokenTransfers.reversed) {
+      if (tx.isJoinBonus()) {
+        Transfer saved = current.transactions.list.firstWhere((t) => t.text == 'Pending for join bonus', orElse: () => null);
+        if (saved != null) {
+          int index = current.transactions.list.indexOf(saved);
+          current.transactions.list[index] = tx;
         }
       } else {
-        current.transactions.list.add(tx);
+        Transfer saved = current.transactions.list
+            .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+        if (saved != null) {
+          if (saved.isPending()) {
+            saved.status = 'CONFIRMED';
+          }
+        } else {
+          current.transactions.list.add(tx);
+        }
       }
     }
     Community newCommunity = current.copyWith(
