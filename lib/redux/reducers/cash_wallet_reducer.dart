@@ -314,7 +314,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     if (saved == null) {
       transactions = current.transactions.copyWith(list: current.transactions.list..add(action.transaction));
     } else {
-      if (saved.isConfirmed() && action.transaction.isPending()) {
+      if (action.transaction.isPending()) {
         return state;
       }
       int index = current.transactions.list.indexOf(saved);
