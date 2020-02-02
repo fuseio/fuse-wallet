@@ -2,17 +2,16 @@ package io.fuse.fusecash
 
 import android.os.Bundle
 
-import com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity
+//import com.anggach.flutterandroidlifecycle.FlutterAndroidLifecycleActivity
 
-
-//import io.flutter.app.FlutterActivity
+import io.flutter.app.FlutterActivity
 import io.flutter.plugins.GeneratedPluginRegistrant
 
 import android.os.Build
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 
-class MainActivity: FlutterAndroidLifecycleActivity() {
+class MainActivity: FlutterActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 

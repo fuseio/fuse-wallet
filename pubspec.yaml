@@ -40,7 +40,7 @@ dependencies:
   decimal: ^0.3.5
   flutter_segment: ^0.0.6
   firebase_messaging: ^5.0.2
-  flutter_branch_io_plugin: ^1.0.1+1
+  flutter_branch_sdk: ^0.1.5
   flutter: 
     sdk: flutter
   flutter_localizations:

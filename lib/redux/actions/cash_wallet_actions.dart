@@ -9,7 +9,7 @@ import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
-import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
+import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
@@ -23,32 +23,6 @@ import 'package:fusecash/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:logger/logger.dart';
-// import 'package:path_provider/path_provider.dart';
-import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
-
-// class DualOutput extends LogOutput {
-
-//   File file;
-//   DualOutput() {
-//     file = null;
-//   }
-
-//   Future<File> getFile() async {
-//     final directory = await getApplicationDocumentsDirectory();
-//     return File(directory.path+"/logs.txt");
-//   }
-
-//   @override
-//   void output(OutputEvent event) async {
-//     if (file == null) {
-//       file = await getFile();
-//     }
-//     for (var line in event.lines) {
-//       print(line);
-// //      await file.writeAsString(line + '\n', mode: FileMode.append);
-//     }
-//   }
-// }
 
 var logger = Logger(printer: PrettyPrinter()
     // output: DualOutput()
@@ -240,8 +214,9 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
   };
 }
 
-ThunkAction segmentIdentifyCall(userId, {Map<String, dynamic> traits}) {
+ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
   return (Store store) async {
+    String userId = await FlutterSegment.getAnonymousId;
     await FlutterSegment.identify(userId: userId, traits: traits);
   };
 }
@@ -251,13 +226,8 @@ ThunkAction listenToBranchCall() {
     logger.wtf("branch listening.");
     store.dispatch(BranchListening());
 
-    String lastParam = "";
-
-    Function handler = (stringData) async {
-      if (stringData == lastParam) return;
-      lastParam = stringData;
-      var linkData = jsonDecode(stringData);
-      logger.wtf("Got link data: $stringData");
+    Function handler = (linkData) async {
+      logger.wtf("Got link data: ${linkData.toString()}");
       if (linkData["~feature"] == "switch_community") {
         var communityAddress = linkData["community_address"];
         logger.wtf("communityAddress $communityAddress");
@@ -273,15 +243,11 @@ ThunkAction listenToBranchCall() {
       store.dispatch(BranchDataReceived());
     };
 
-    if (Platform.isAndroid) {
-      FlutterBranchIoPlugin.setupBranchIO();
-      Timer.periodic(new Duration(seconds: 1), (timer) async {
-        String stringData = await FlutterBranchIoPlugin.getLatestParam();
-        await handler(stringData);
-      });
-    } else {
-      FlutterBranchIoPlugin.listenToDeepLinkStream().listen(handler);
-    }
+    FlutterBranchSdk.initSession().listen((data) {
+      handler(data);
+    }, onError: (error) {
+      print(error);
+    });
   };
 }
 
@@ -394,11 +360,12 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.d('fullPhoneNumber: $fullPhoneNumber');
-          store.dispatch(segmentIdentifyCall(fullPhoneNumber,
-              traits: new Map<String, dynamic>.from({
-                "walletAddress": walletAddress,
-                "accountAddress": accountAddress,
-                "displayName": store.state.userState.displayName
+          store.dispatch(segmentIdentifyCall(
+              new Map<String, dynamic>.from({
+                "Phone Number": fullPhoneNumber,
+                "Wallet Address": walletAddress,
+                "Account Address": accountAddress,
+                "Display Name": store.state.userState.displayName
               })));
           store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
           store.dispatch(create3boxAccountCall(accountAddress));
@@ -748,7 +715,13 @@ ThunkAction switchCommunityCall(String communityAddress) {
       }
       store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
-          properties: new Map<String, dynamic>.from(community)));
+          properties: new Map<String, dynamic>.from({
+            "Community Name": community["name"],
+            "Community Address": communityAddress,
+            "Token Address": token["address"],
+            "Token Symbol": token["symbol"],
+            "Origin Network": token['originNetwork']
+          })));
       store.dispatch(getBusinessListCall());
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
