@@ -403,7 +403,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       withPadding: false,
       title: I18n.of(context).send_to,
       titleFontSize: 15,
-      footer: showFooter ? bottomBar(context) : null,
+      footer: showFooter ? 
+      bottomBar(context) : null,
       sliverList: _buildPageList(),
       children: <Widget>[
         !this.widget.viewModel.isContactsSynced

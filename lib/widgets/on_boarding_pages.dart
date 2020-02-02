@@ -7,7 +7,7 @@ List<Widget> getPages(context) {
     Container(
       color: Colors.transparent,
       child: Padding(
-          padding: EdgeInsets.only(bottom: 135),
+          padding: EdgeInsets.only(bottom: 135, top: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[

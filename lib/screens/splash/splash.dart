@@ -94,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 child: new Stack(
                                   children: <Widget>[
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom: 100),
+                                      padding: const EdgeInsets.only(bottom: 100, left: 20, right: 20),
                                       child: FlareActor(
                                         "assets/images/animation.flr",
                                         alignment: Alignment.center,

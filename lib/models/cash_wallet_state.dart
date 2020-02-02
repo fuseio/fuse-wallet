@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
+import 'package:fusecash/models/transactions.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import './token.dart';
-import './transaction.dart';
 
 @immutable
 class CashWalletState {

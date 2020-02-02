@@ -2,9 +2,10 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/transaction.dart';
+import 'package:fusecash/models/transactions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
+
 
 class ContactsViewModel {
   final List<Contact> contacts;
