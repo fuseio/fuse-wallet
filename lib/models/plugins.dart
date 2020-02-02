@@ -1,15 +1,47 @@
-abstract class DepositPlugin {
+
+abstract class Plugin {
   String name;
   bool isActive;
+
+  Plugin(
+    this.name,
+    this.isActive,
+  );
+
+  dynamic toJson() => {'name': name, 'isActive': isActive};
+}
+
+class JoinBonusPlugin extends Plugin {
+  String amount;
+  final String type = 'joinBonus';
+
+  JoinBonusPlugin({
+    name,
+    isActive,
+    this.amount
+  }) : super(name, isActive);
+
+  dynamic toJson() => {'name': name, 'isActive': isActive, 'type': type, 'amount': amount};
+
+  static JoinBonusPlugin fromJson(dynamic json) => json != null
+    ? JoinBonusPlugin(
+        name: json['name'],
+        amount: json.containsKey('joinInfo') ? json['joinInfo']['amount'] : json['amount'],
+        isActive: json["isActive"] || false,
+      )
+    : null;
+}
+
+abstract class DepositPlugin extends Plugin {
   String widgetUrl;
 
   final String type = 'deposit';
 
   DepositPlugin(
-    this.name,
-    this.isActive,
+    name,
+    isActive,
     this.widgetUrl,
-  );
+  ) : super(name, isActive);
 
   String generateUrl({String email, String walletAddress}) {
     return this.widgetUrl;
@@ -28,9 +60,6 @@ class MoonpayPlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  static MoonpayPlugin fromJsonState(dynamic json) =>
-      MoonpayPlugin.fromJson(json);
 
   String generateUrl({String email, String walletAddress}) {
     String url = this.widgetUrl;
@@ -53,9 +82,6 @@ class CarbonPlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  static CarbonPlugin fromJsonState(dynamic json) =>
-      CarbonPlugin.fromJson(json);
 }
 
 class WyrePlugin extends DepositPlugin {
@@ -68,8 +94,6 @@ class WyrePlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  static WyrePlugin fromJsonState(dynamic json) => WyrePlugin.fromJson(json);
 }
 
 class CoindirectPlugin extends DepositPlugin {
@@ -83,9 +107,6 @@ class CoindirectPlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  static CoindirectPlugin fromJsonState(dynamic json) =>
-      CoindirectPlugin.fromJson(json);
 }
 
 class RampPlugin extends DepositPlugin {
@@ -108,18 +129,60 @@ class Plugins {
   WyrePlugin wyre;
   CoindirectPlugin coindirect;
   RampPlugin ramp;
+  JoinBonusPlugin joinBonus;
 
-  Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp});
+  Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp, this.joinBonus});
 
-  static Plugins fromJson(dynamic json) => json != null
-      ? Plugins(
-          moonpay: MoonpayPlugin.fromJson(json["moonpay"]),
-          carbon: CarbonPlugin.fromJson(json["carbon"]),
-          wyre: WyrePlugin.fromJson(json["wyre"]),
-          coindirect: CoindirectPlugin.fromJson(json["coindirect"]),
-          ramp: RampPlugin.fromJson(json["ramp"]),
-        )
-      : {};
+  static Map getServicesMap (dynamic json) {
+    if (json.containsKey('onramp')) {
+      if (json['onramp'].containsKey('services')) {
+        return json['onramp']['services'];
+      } else {
+        return json['onramp'];
+      }
+    } else {
+      return json;
+    }
+  }
+
+  static Plugins fromJson(dynamic json) {
+    if (json == null) {
+      return Plugins();
+    } else {
+      dynamic services= Plugins.getServicesMap(json);
+      return Plugins(
+        moonpay: MoonpayPlugin.fromJson(services["moonpay"]),
+        carbon: CarbonPlugin.fromJson(services["carbon"]),
+        wyre: WyrePlugin.fromJson(services["wyre"]),
+        coindirect: CoindirectPlugin.fromJson(services["coindirect"]),
+        ramp: RampPlugin.fromJson(services["ramp"]),
+        joinBonus:  JoinBonusPlugin.fromJson(json['joinBonus'])
+      );
+    }
+  }
+
+  // static Plugins fromJson(dynamic json) => json != null
+  //   ? Plugins(
+  //       moonpay: MoonpayPlugin.fromJson(json["moonpay"]),
+  //       carbon: CarbonPlugin.fromJson(json["carbon"]),
+  //       wyre: WyrePlugin.fromJson(json["wyre"]),
+  //       coindirect: CoindirectPlugin.fromJson(json["coindirect"]),
+  //       ramp: RampPlugin.fromJson(json["ramp"]),
+  //     )
+  //   : {};
+  // static Plugins fromJson(dynamic json) {
+  //   if (json != null) {
+  //     Plugins(
+  //     moonpay: MoonpayPlugin.fromJson(json["moonpay"]),
+  //     carbon: CarbonPlugin.fromJson(json["carbon"]),
+  //     wyre: WyrePlugin.fromJson(json["wyre"]),
+  //     coindirect: CoindirectPlugin.fromJson(json["coindirect"]),
+  //     ramp: RampPlugin.fromJson(json["ramp"]),
+  //   );
+  //   } else {
+  //     return Plugins();
+  //   }
+  // }
 
   static Plugins fromJsonState(dynamic json) => Plugins.fromJson(json);
 
@@ -129,6 +192,7 @@ class Plugins {
         'wyre': wyre != null ? wyre.toJson() : null,
         'coindirect': coindirect != null ? coindirect.toJson() : null,
         'ramp': ramp != null ? ramp.toJson() : null,
+        'joinBonus': joinBonus != null ? joinBonus.toJson() : null,
       };
 
   List getDepositPlugins() {

@@ -1,11 +1,9 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transaction.g.dart';
 
-Map<String, String> funderAddresses = {
-  'ropsten': '0xa6c61e75e6008eed7f75b73c84755558764081d1',
-  'mainnet': '0x373c383b05c121e541f239afe5fd73c013fed20f'
-};
+String funderAddress = DotEnv().env['FUNDER_ADDRESS'];
 
 @JsonSerializable()
 class Transaction {
@@ -72,7 +70,7 @@ class Transfer extends Transaction {
             jobId: jobId,
             blockNumber: blockNumber);
 
-  bool isJoinBonus() => this.from != null && funderAddresses.containsValue(this.from);
+  bool isJoinBonus() => this.from != null && this.from == funderAddress;
   bool isGenerateWallet() => this.jobId != null && this.jobId == 'generateWallet';
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');
 
@@ -106,8 +104,6 @@ class TransactionFactory {
     return Transaction.fromJson(json);
   }
 }
-
-List<Transaction> l = new List<Transaction>();
 
 class Transactions {
   final List<Transaction> list;
