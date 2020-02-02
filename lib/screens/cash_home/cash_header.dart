@@ -3,6 +3,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -130,6 +131,7 @@ class CashHeader extends StatelessWidget {
                                       color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.normal,
                                       height: 0.0)),
+                              isDefaultCommunity(viewModel.community.address) ?
                               new TextSpan(
                                   text:
                                       ' (\$' + calcValueInDollar(viewModel.community.tokenBalance, viewModel.community.token.decimals) + ')',
@@ -137,7 +139,7 @@ class CashHeader extends StatelessWidget {
                                       fontSize: 15,
                                       color: Theme.of(context).colorScheme.secondary,
                                       fontWeight: FontWeight.normal,
-                                      height: 0.0)),
+                                      height: 0.0)) : new TextSpan(),
                             ],
                           ),
                         )

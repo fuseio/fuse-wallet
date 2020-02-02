@@ -129,7 +129,7 @@ class TransactionListItem extends StatelessWidget {
                     child: SvgPicture.asset('assets/images/info_svg.svg'),
                   )
                 ])
-          : transfer.isGenerateWallet()
+          : transfer.isGenerateWallet() || transfer.isJoinCommunity() 
               ? SizedBox.shrink()
               : Row(
                   mainAxisAlignment: MainAxisAlignment.end,
