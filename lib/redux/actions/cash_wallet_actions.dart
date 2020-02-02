@@ -702,11 +702,19 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
       txHash: job.data['txHash']);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
 
-    Transfer joinBonus = new Transfer(
-      type: 'RECEIVE',
-      text: 'Pending for join bonus',
-      status: 'PENDING');
-    store.dispatch(new AddTransaction(joinBonus));
+
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community communityData =
+      store.state.cashWalletState.communities[communityAddres];
+    if (communityData.plugins.joinBonus != null && communityData.plugins.joinBonus.isActive) {
+      BigInt value = toBigInt(communityData.plugins.joinBonus.amount, communityData.token.decimals);
+      Transfer joinBonus = new Transfer(
+        from: DotEnv().env['FUNDER_ADDRESS'],
+        type: 'RECEIVE',
+        value: value,
+        status: 'PENDING');
+      store.dispatch(new AddTransaction(joinBonus));
+    }
   };
 }
 
@@ -723,20 +731,22 @@ ThunkAction switchCommunityCall(String communityAddress) {
       bool isRopsten = token != null && token['originNetwork'] == 'ropsten';
       Map<String, dynamic> communityData =
           await api.getCommunityData(communityAddress, isRopsten: isRopsten);
-      Plugins communityPlugins;
-      if (communityData != null) {
-        Map<String, dynamic> plugins = Map<String, dynamic>.from(
-            communityData.containsKey('plugins')
-                ? communityData['plugins']
-                : {});
-        if (plugins.containsKey('onramp')) {
-          Map<String, dynamic> onramp =
-              Map<String, dynamic>.from(plugins['onramp']);
-          Map<String, dynamic> services =
-              Map<String, dynamic>.from(onramp['services']);
-          communityPlugins = Plugins.fromJsonState(services);
-        }
-      }
+      // Plugins communityPlugins;
+      // if (communityData != null) {
+        // Map<String, dynamic> plugins = Map<String, dynamic>.from(
+        //     communityData.containsKey('plugins')
+        //         ? communityData['plugins']
+        //         : {});
+        // if (plugins.containsKey('onramp')) {
+        //   Map<String, dynamic> onramp =
+        //       Map<String, dynamic>.from(plugins['onramp']);
+        //   Map<String, dynamic> services =
+        //       Map<String, dynamic>.from(onramp['services']);
+        //   communityPlugins = Plugins.fromJsonState(services);
+        // }
+        // communityPlugins = Plugins.fromJson(communityData);
+      // }
+      Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
           properties: new Map<String, dynamic>.from(community)));
