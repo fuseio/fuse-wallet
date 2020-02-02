@@ -1,4 +1,8 @@
 
+import 'package:json_annotation/json_annotation.dart';
+
+part 'plugins.g.dart';
+
 abstract class Plugin {
   String name;
   bool isActive;
@@ -119,16 +123,21 @@ class RampPlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  static RampPlugin fromJsonState(dynamic json) => RampPlugin.fromJson(json);
 }
 
+@JsonSerializable(explicitToJson: true)
 class Plugins {
+  @JsonKey(name: 'moonpay', fromJson: _moonpayFromJson, toJson: _moonpayToJson, includeIfNull: false)
   MoonpayPlugin moonpay;
+  @JsonKey(name: 'carbon', fromJson: _carbonFromJson, toJson: _carbonToJson, includeIfNull: false)
   CarbonPlugin carbon;
+  @JsonKey(name: 'wyre', fromJson: _wyreFromJson, toJson: _wyreToJson, includeIfNull: false)
   WyrePlugin wyre;
+  @JsonKey(name: 'coindirect', fromJson: _coindirectFromJson, toJson: _coindirectToJson, includeIfNull: false)
   CoindirectPlugin coindirect;
+  @JsonKey(name: 'ramp', fromJson: _rampFromJson, toJson: _rampToJson, includeIfNull: false)
   RampPlugin ramp;
+  @JsonKey(name: 'joinBonus', fromJson: _joinBonusFromJson, toJson: _joinBonusToJson, includeIfNull: false)
   JoinBonusPlugin joinBonus;
 
   Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp, this.joinBonus});
@@ -161,6 +170,40 @@ class Plugins {
     }
   }
 
+  static JoinBonusPlugin _joinBonusFromJson(Map<String, dynamic> json) =>
+      json == null ? null : JoinBonusPlugin.fromJson(json);
+
+  static Map<String, dynamic> _joinBonusToJson(JoinBonusPlugin joinBonus) => joinBonus != null ? joinBonus.toJson() : null;
+
+  static WyrePlugin _wyreFromJson(Map<String, dynamic> json) =>
+      json == null ? null : WyrePlugin.fromJson(json);
+
+  static Map<String, dynamic> _wyreToJson(WyrePlugin wyre) => wyre != null ? wyre.toJson() : null;
+
+  static CoindirectPlugin _coindirectFromJson(Map<String, dynamic> json) =>
+      json == null ? null : CoindirectPlugin.fromJson(json);
+
+  static Map<String, dynamic> _coindirectToJson(
+          CoindirectPlugin coindirect) =>
+      coindirect != null ? coindirect.toJson() : null;
+
+  static RampPlugin _rampFromJson(Map<String, dynamic> json) =>
+      json == null ? null : RampPlugin.fromJson(json);
+
+  static Map<String, dynamic> _rampToJson(RampPlugin ramp) =>
+      ramp != null ? ramp.toJson() : null;
+
+  static MoonpayPlugin _moonpayFromJson(Map<String, dynamic> json) =>
+      json == null ? null : MoonpayPlugin.fromJson(json);
+
+  static Map<String, dynamic> _moonpayToJson(MoonpayPlugin moonpay) =>
+      moonpay != null ? moonpay.toJson() : null;
+
+  static CarbonPlugin _carbonFromJson(Map<String, dynamic> json) =>
+      json == null ? null : CarbonPlugin.fromJson(json);
+
+  static Map<String, dynamic> _carbonToJson(CarbonPlugin carbon) =>
+      carbon != null ? carbon.toJson() : null;
   // static Plugins fromJson(dynamic json) => json != null
   //   ? Plugins(
   //       moonpay: MoonpayPlugin.fromJson(json["moonpay"]),
@@ -184,7 +227,7 @@ class Plugins {
   //   }
   // }
 
-  static Plugins fromJsonState(dynamic json) => Plugins.fromJson(json);
+  // static Plugins fromJson(dynamic json) => _$PluginsFromJson(json);
 
   dynamic toJson() => {
         'moonpay': moonpay != null ? moonpay.toJson() : null,

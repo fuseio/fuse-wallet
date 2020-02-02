@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 // import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/themes/app_theme.dart';
@@ -15,6 +16,10 @@ import 'cash_transactions.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+
+bool isDefaultCommunity(String communityAddress) {
+  return DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] != null && DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase() == communityAddress;
+}
 
 class CashHomeScreen extends StatefulWidget {
   @override

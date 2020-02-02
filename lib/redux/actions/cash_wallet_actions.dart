@@ -1,13 +1,14 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/community_metadata.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
+import 'package:fusecash/models/transactions.dart';
+import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -95,6 +96,11 @@ class SwitchCommunitySuccess {
   final Plugins plugins;
   SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token,
       this.transactions, this.plugins);
+}
+
+class FetchCommunityMetadataSuccess {
+  final CommunityMetadata metadata;
+  FetchCommunityMetadataSuccess(this.metadata);
 }
 
 class SwitchCommunityFailed {}
@@ -457,7 +463,7 @@ ThunkAction processingJobsCall(Timer timer) {
           return false;
         } 
         return true;
-      };
+      }
       if (job.status != 'DONE') {
         await job.perform(store, isJobProcessValid);
       }
@@ -685,6 +691,15 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
   };
 }
 
+ThunkAction fetchCommunityMetadataCall(String communityURI) {
+  return (Store store) async {
+    String uri = communityURI.split('://')[1];
+    dynamic metadata = await api.fetchMetadata(uri);
+    CommunityMetadata communityMetadata = new CommunityMetadata(image: metadata['image'], coverPhoto: metadata['coverPhoto']);
+    store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
+  };
+}
+
 ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     try {
@@ -698,21 +713,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       bool isRopsten = token != null && token['originNetwork'] == 'ropsten';
       Map<String, dynamic> communityData =
           await api.getCommunityData(communityAddress, isRopsten: isRopsten);
-      // Plugins communityPlugins;
-      // if (communityData != null) {
-        // Map<String, dynamic> plugins = Map<String, dynamic>.from(
-        //     communityData.containsKey('plugins')
-        //         ? communityData['plugins']
-        //         : {});
-        // if (plugins.containsKey('onramp')) {
-        //   Map<String, dynamic> onramp =
-        //       Map<String, dynamic>.from(plugins['onramp']);
-        //   Map<String, dynamic> services =
-        //       Map<String, dynamic>.from(onramp['services']);
-        //   communityPlugins = Plugins.fromJsonState(services);
-        // }
-        // communityPlugins = Plugins.fromJson(communityData);
-      // }
+      store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
@@ -734,7 +735,8 @@ ThunkAction switchCommunityCall(String communityAddress) {
               symbol: token["symbol"],
               decimals: token["decimals"]),
           new Transactions(),
-          communityPlugins));
+          communityPlugins,
+          ));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not switch community'));
