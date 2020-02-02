@@ -182,9 +182,8 @@ ThunkAction logoutCall() {
 ThunkAction syncContactsCall(List<Contact> contacts) {
   return (Store store) async {
     bool isPermitted = await Contacts.checkPermissions();
-    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-    store.dispatch(segmentIdentifyCall(fullPhoneNumber,
-      traits: new Map<String, dynamic>.from({
+    store.dispatch(segmentIdentifyCall(
+      new Map<String, dynamic>.from({
         "Contacts Permission Granted": isPermitted,
       })));
     if (isPermitted && contacts.isEmpty) {
