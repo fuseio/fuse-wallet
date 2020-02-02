@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Token {
   final String address;
   final String name;

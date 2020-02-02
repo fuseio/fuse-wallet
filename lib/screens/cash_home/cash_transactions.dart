@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/transfer.dart';
 import 'dart:core';
 import 'package:fusecash/models/views/cash_wallet.dart';
-import 'package:fusecash/models/transaction.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/screens/cash_home/transaction_item.dart';
 import 'package:fusecash/utils/phone.dart';

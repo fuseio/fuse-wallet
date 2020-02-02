@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'plugins.g.dart';
+
 abstract class DepositPlugin {
   String name;
   bool isActive;
@@ -29,9 +33,6 @@ class MoonpayPlugin extends DepositPlugin {
         )
       : null;
 
-  static MoonpayPlugin fromJsonState(dynamic json) =>
-      MoonpayPlugin.fromJson(json);
-
   String generateUrl({String email, String walletAddress}) {
     String url = this.widgetUrl;
 
@@ -53,9 +54,6 @@ class CarbonPlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  static CarbonPlugin fromJsonState(dynamic json) =>
-      CarbonPlugin.fromJson(json);
 }
 
 class WyrePlugin extends DepositPlugin {
@@ -68,8 +66,6 @@ class WyrePlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  static WyrePlugin fromJsonState(dynamic json) => WyrePlugin.fromJson(json);
 }
 
 class CoindirectPlugin extends DepositPlugin {
@@ -83,9 +79,6 @@ class CoindirectPlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  static CoindirectPlugin fromJsonState(dynamic json) =>
-      CoindirectPlugin.fromJson(json);
 }
 
 class RampPlugin extends DepositPlugin {
@@ -98,38 +91,56 @@ class RampPlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  static RampPlugin fromJsonState(dynamic json) => RampPlugin.fromJson(json);
 }
 
+@JsonSerializable(explicitToJson: true)
 class Plugins {
+  @JsonKey(name: 'moonpay', fromJson: _moonpayFromJson, toJson: _moonpayToJson, includeIfNull: false)
   MoonpayPlugin moonpay;
+  @JsonKey(name: 'carbon', fromJson: _carbonFromJson, toJson: _carbonToJson, includeIfNull: false)
   CarbonPlugin carbon;
+  @JsonKey(name: 'wyre', fromJson: _wyreFromJson, toJson: _wyreToJson, includeIfNull: false)
   WyrePlugin wyre;
+  @JsonKey(name: 'coindirect', fromJson: _coindirectFromJson, toJson: _coindirectToJson, includeIfNull: false)
   CoindirectPlugin coindirect;
+  @JsonKey(name: 'ramp', fromJson: _rampFromJson, toJson: _rampToJson, includeIfNull: false)
   RampPlugin ramp;
 
   Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp});
 
-  static Plugins fromJson(dynamic json) => json != null
-      ? Plugins(
-          moonpay: MoonpayPlugin.fromJson(json["moonpay"]),
-          carbon: CarbonPlugin.fromJson(json["carbon"]),
-          wyre: WyrePlugin.fromJson(json["wyre"]),
-          coindirect: CoindirectPlugin.fromJson(json["coindirect"]),
-          ramp: RampPlugin.fromJson(json["ramp"]),
-        )
-      : {};
+  static WyrePlugin _wyreFromJson(Map<String, dynamic> json) =>
+      json == null ? null : WyrePlugin.fromJson(json);
 
-  static Plugins fromJsonState(dynamic json) => Plugins.fromJson(json);
+  static Map<String, dynamic> _wyreToJson(WyrePlugin wyre) => wyre != null ? wyre.toJson() : null;
 
-  dynamic toJson() => {
-        'moonpay': moonpay != null ? moonpay.toJson() : null,
-        'carbon': carbon != null ? carbon.toJson() : null,
-        'wyre': wyre != null ? wyre.toJson() : null,
-        'coindirect': coindirect != null ? coindirect.toJson() : null,
-        'ramp': ramp != null ? ramp.toJson() : null,
-      };
+  static CoindirectPlugin _coindirectFromJson(Map<String, dynamic> json) =>
+      json == null ? null : CoindirectPlugin.fromJson(json);
+
+  static Map<String, dynamic> _coindirectToJson(
+          CoindirectPlugin coindirect) =>
+      coindirect != null ? coindirect.toJson() : null;
+
+  static RampPlugin _rampFromJson(Map<String, dynamic> json) =>
+      json == null ? null : RampPlugin.fromJson(json);
+
+  static Map<String, dynamic> _rampToJson(RampPlugin ramp) =>
+      ramp != null ? ramp.toJson() : null;
+
+  static MoonpayPlugin _moonpayFromJson(Map<String, dynamic> json) =>
+      json == null ? null : MoonpayPlugin.fromJson(json);
+
+  static Map<String, dynamic> _moonpayToJson(MoonpayPlugin moonpay) =>
+      moonpay != null ? moonpay.toJson() : null;
+
+  static CarbonPlugin _carbonFromJson(Map<String, dynamic> json) =>
+      json == null ? null : CarbonPlugin.fromJson(json);
+
+  static Map<String, dynamic> _carbonToJson(CarbonPlugin carbon) =>
+      carbon != null ? carbon.toJson() : null;
+
+  static Plugins fromJson(dynamic json) => _$PluginsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PluginsToJson(this);
 
   List getDepositPlugins() {
     List depositPlugins = [];

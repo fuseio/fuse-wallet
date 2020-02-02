@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'business_metadata.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class BusinessMetadata {
   final String address;
   final String coverPhoto;

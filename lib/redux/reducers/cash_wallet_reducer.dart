@@ -1,6 +1,7 @@
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
+import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
@@ -19,6 +20,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _getTokenBalanceSuccess),
   TypedReducer<CashWalletState, SendTokenSuccess>(_sendTokenSuccess),
   TypedReducer<CashWalletState, JoinCommunitySuccess>(_joinCommunitySuccess),
+  TypedReducer<CashWalletState, FetchCommunityMetadataSuccess>(_fetchCommunityMetadataSuccess),
   TypedReducer<CashWalletState, AlreadyJoinedCommunity>(
       _alreadyJoinedCommunity),
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(
@@ -59,6 +61,15 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, JobDone>(_jobDone),
   TypedReducer<CashWalletState, JobProcessingStarted>(_jobProcessingStarted)
 ]);
+
+CashWalletState _fetchCommunityMetadataSuccess(CashWalletState state, FetchCommunityMetadataSuccess action) {
+   String communityAddress = state.communityAddress;
+  Community current = state.communities[communityAddress];
+  Community newCommunity = current.copyWith(metadata: action.metadata);
+  Map<String, Community> newOne = Map<String, Community>.from(state.communities);
+  newOne[communityAddress] = newCommunity;
+  return state.copyWith(communities: newOne);
+}
 
 CashWalletState _setDefaultCommunity(
     CashWalletState state, SetDefaultCommunity action) {

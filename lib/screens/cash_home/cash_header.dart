@@ -130,6 +130,14 @@ class CashHeader extends StatelessWidget {
                                       color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.normal,
                                       height: 0.0)),
+                              new TextSpan(
+                                  text:
+                                      ' (\$' + calcValueInDollar(viewModel.community.tokenBalance, viewModel.community.token.decimals) + ')',
+                                  style: new TextStyle(
+                                      fontSize: 15,
+                                      color: Theme.of(context).colorScheme.secondary,
+                                      fontWeight: FontWeight.normal,
+                                      height: 0.0)),
                             ],
                           ),
                         )
