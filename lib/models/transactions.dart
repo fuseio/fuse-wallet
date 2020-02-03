@@ -1,4 +1,5 @@
 import 'package:fusecash/models/transaction.dart';
+import 'package:fusecash/models/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transactions.g.dart';
@@ -23,28 +24,20 @@ class Transactions {
         blockNumber: blockNumber ?? this.blockNumber);
   }
 
-  static List<Transaction> _listFromJson(Map<String, dynamic> json) =>
-    List<Transaction>.from(json['list'].map((transaction) => TransactionFactory.fromJson(transaction)));
+  static List<Transaction> _listFromJson(List list) =>
+      List<Transaction>.from(list.map((transaction) {
+        if (transaction['type'] == 'RECEIVE' || transaction['type'] == 'SEND') {
+          return Transfer.fromJson(transaction);
+        }
+        return Transaction.fromJson(transaction);
+      }));
 
   static Map<String, dynamic> _listToJson(List<Transaction> list) =>
       new Map.from(
           {'list': list.map((transaction) => transaction.toJson()).toList()});
 
-  factory Transactions.fromJson(Map<String, dynamic> json) => Transactions(
-        list: List<Transaction>.from(json['list']
-            .map((transaction) => TransactionFactory.fromJson(transaction))),
-        blockNumber: json['blockNumber'],
-        // list: new List<Transaction>(),
-        // blockNumber: 0
-      );
+  factory Transactions.fromJson(Map<String, dynamic> json) =>
+      _$TransactionsFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'list': list.map((transaction) => transaction.toJson()).toList(),
-        'blockNumber': blockNumber
-      };
-
-  // factory Transactions.fromJson(Map<String, dynamic> json) =>
-  //     _$TransactionsFromJson(json);
-
-  // Map<String, dynamic> toJson() => _$TransactionsToJson(this);
+  Map<String, dynamic> toJson() => _$TransactionsToJson(this);
 }

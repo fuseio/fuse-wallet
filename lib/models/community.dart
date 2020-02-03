@@ -16,33 +16,15 @@ class Community {
   final String address;
   final BigInt tokenBalance;
   final bool isMember;
-
-  // @JsonKey(
-  //     name: 'businesses',
-  //     fromJson: _businessesFromJson,
-  //     toJson: _businessesToJson)
   final List<Business> businesses;
-
-  // @JsonKey(
-  //     name: 'transactions',
-  //     fromJson: _transactionsFromJson,
-  //     toJson: _transactionsToJson)
   final Transactions transactions;
-
-  @JsonKey(name: 'token', fromJson: _tokenFromJson, toJson: _tokenToJson)
   final Token token;
+  final Plugins plugins;
+  final CommunityMetadata metadata;
 
   @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
   final List<Job> jobs;
 
-  @JsonKey(name: 'plugins', fromJson: _pluginsFromJson, toJson: _pluginsToJson)
-  final Plugins plugins;
-
-  @JsonKey(
-      name: 'metadata',
-      fromJson: _communityMetadataFromJson,
-      toJson: _communityMetadataToJson)
-  final CommunityMetadata metadata;
   Community(
       {this.name,
       this.isMember,
@@ -55,47 +37,11 @@ class Community {
       this.jobs,
       this.metadata});
 
-  // static List<Business> _businessesFromJson(Map<String, dynamic> json) =>
-  //     List<Business>.from(
-  //         json['businesses'].map((business) => Business.fromJson(business)));
-
-  // static Map<String, dynamic> _businessesToJson(List<Business> businesses) =>
-  //     new Map.from({
-  //       "businesses": businesses.map((business) => business.toJson()).toList()
-  //     });
-
-  // static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
-  //     Transactions.fromJson(json);
-
-  // static Map<String, dynamic> _transactionsToJson(Transactions transactions) =>
-  //     transactions.toJson();
-
-  static Token _tokenFromJson(Map<String, dynamic> json) =>
-      Token.fromJson(json);
-
-  static Map<String, dynamic> _tokenToJson(Token token) => token.toJson();
-
   static List<Job> _jobsFromJson(Map<String, dynamic> json) =>
       List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
 
   static Map<String, dynamic> _jobsToJson(List<dynamic> jobs) =>
       new Map.from({"jobs": jobs.map((job) => job.toJson()).toList()});
-
-  static Plugins _pluginsFromJson(Map<String, dynamic> json) =>
-      json == null ? null : Plugins.fromJson(json);
-
-  static Map<String, dynamic> _pluginsToJson(Plugins plugins) =>
-      plugins.toJson();
-
-  static CommunityMetadata _communityMetadataFromJson(
-          Map<String, dynamic> json) =>
-      json == null
-          ? CommunityMetadata.initial()
-          : CommunityMetadata.fromJson(json);
-
-  static Map<String, dynamic> _communityMetadataToJson(
-          CommunityMetadata metadata) =>
-      metadata.toJson();
 
   factory Community.initial() {
     return new Community(

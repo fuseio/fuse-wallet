@@ -129,7 +129,7 @@ class TransactionListItem extends StatelessWidget {
                     child: SvgPicture.asset('assets/images/info_svg.svg'),
                   )
                 ])
-          : transfer.isGenerateWallet() || transfer.isJoinCommunity() 
+          : transfer.isGenerateWallet() || transfer.isJoinCommunity()
               ? SizedBox.shrink()
               : Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -169,87 +169,83 @@ class TransactionListItem extends StatelessWidget {
             border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
         padding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
         child: ListTile(
-          title: Padding(
-            padding: EdgeInsets.only(left: 00),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                    flex: 10,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Flexible(
-                          flex: 2,
-                          child: Stack(
-                            children: <Widget>[
-                              Hero(
-                                child: CircleAvatar(
-                                  backgroundColor: Color(0xFFE0E0E0),
-                                  radius: 27,
-                                  backgroundImage:
-                                      getImage(transfer, _contact, _vm),
-                                ),
-                                tag: transfer.isGenerateWallet()
-                                    ? ''
-                                    : transfer.isPending()
-                                        ? "contactSent"
-                                        : "transaction" + transfer.txHash,
+          title: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                  flex: 10,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Flexible(
+                        flex: 4,
+                        child: Stack(
+                          children: <Widget>[
+                            Hero(
+                              child: CircleAvatar(
+                                backgroundColor: Color(0xFFE0E0E0),
+                                radius: 27,
+                                backgroundImage:
+                                    getImage(transfer, _contact, _vm),
                               ),
-                              transfer.isPending()
-                                  ? Container(
-                                      width: 54,
-                                      height: 54,
-                                      child: CircularProgressIndicator(
-                                        backgroundColor:
-                                            Color(0xFF49D88D).withOpacity(0),
-                                        strokeWidth:
-                                            3, //backgroundColor: Color(0xFFb8e3a6),
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Color(0xFF49D88D)
-                                                    .withOpacity(1)),
-                                      ))
-                                  : SizedBox.shrink()
-                            ],
-                          ),
+                              tag: transfer.isGenerateWallet()
+                                  ? ''
+                                  : transfer.isPending()
+                                      ? "contactSent"
+                                      : "transaction" + transfer.txHash,
+                            ),
+                            transfer.isPending()
+                                ? Container(
+                                    width: 54,
+                                    height: 54,
+                                    child: CircularProgressIndicator(
+                                      backgroundColor:
+                                          Color(0xFF49D88D).withOpacity(0),
+                                      strokeWidth:
+                                          3, //backgroundColor: Color(0xFFb8e3a6),
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Color(0xFF49D88D).withOpacity(1)),
+                                    ))
+                                : SizedBox.shrink()
+                          ],
                         ),
-                        SizedBox(width: 10.0),
-                        Flexible(
-                          flex: 10,
-                          child: Text(
-                              transfer.isJoinBonus()
-                                  ? I18n.of(context).join_bonus
-                                  : (transfer.receiverName != null &&
-                                          transfer.receiverName != '')
-                                      ? transfer.receiverName
-                                      : transfer.text != null
-                                          ? transfer.text
-                                          : _contact != null
-                                              ? _contact.displayName
-                                              : deducePhoneNumber(transfer,
-                                                  _vm.reverseContacts),
-                              style: TextStyle(
-                                  color: Color(0xFF333333), fontSize: 15)),
-                        ),
-                      ],
-                    )),
-                Flexible(
-                    flex: 2,
-                    child: Container(
-                      width: 100,
-                      child: Column(
-                          mainAxisAlignment: transfer.isPending()
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.center,
-                          crossAxisAlignment: transfer.isPending()
-                              ? CrossAxisAlignment.end
-                              : CrossAxisAlignment.center,
-                          children: rightColumn),
-                    ))
-              ],
-            ),
+                      ),
+                      SizedBox(width: 10.0),
+                      Flexible(
+                        flex: 10,
+                        child: Text(
+                            transfer.isJoinBonus()
+                                ? I18n.of(context).join_bonus
+                                : (transfer.receiverName != null &&
+                                        transfer.receiverName != '')
+                                    ? transfer.receiverName
+                                    : transfer.text != null
+                                        ? transfer.text
+                                        : _contact != null
+                                            ? _contact.displayName
+                                            : deducePhoneNumber(
+                                                transfer, _vm.reverseContacts),
+                            style: TextStyle(
+                                color: Color(0xFF333333), fontSize: 15)),
+                      ),
+                    ],
+                  )),
+              Flexible(
+                  flex: 2,
+                  child: Container(
+                    width: 100,
+                    child: Column(
+                        mainAxisAlignment: transfer.isPending()
+                            ? MainAxisAlignment.start
+                            : MainAxisAlignment.center,
+                        crossAxisAlignment: transfer.isPending()
+                            ? CrossAxisAlignment.end
+                            : CrossAxisAlignment.center,
+                        children: rightColumn),
+                  ))
+            ],
           ),
           onTap: () {
             if (transfer.isJoinCommunity() &&

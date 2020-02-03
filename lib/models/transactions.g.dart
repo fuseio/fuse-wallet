@@ -8,7 +8,7 @@ part of 'transactions.dart';
 
 Transactions _$TransactionsFromJson(Map<String, dynamic> json) {
   return Transactions(
-    list: Transactions._listFromJson(json['list'] as Map<String, dynamic>),
+    list: Transactions._listFromJson(json['list'] as List),
     blockNumber: json['blockNumber'] as num,
   );
 }
