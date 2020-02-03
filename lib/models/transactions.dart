@@ -24,8 +24,8 @@ class Transactions {
         blockNumber: blockNumber ?? this.blockNumber);
   }
 
-  static List<Transaction> _listFromJson(List list) =>
-      List<Transaction>.from(list.map((transaction) {
+  static List<Transaction> _listFromJson(Map<String, dynamic> list) =>
+      List<Transaction>.from(list['list'].map((transaction) {
         if (transaction['type'] == 'RECEIVE' || transaction['type'] == 'SEND') {
           return Transfer.fromJson(transaction);
         }

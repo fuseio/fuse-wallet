@@ -48,8 +48,6 @@ class CashWalletViewModel extends Equatable {
   final String displayName;
   final BigInt tokenBalance;
   final Token token;
-  // final List<Transfer> tokenTransfers;
-  // final List<Transfer> pendingTransfers;
   final Transactions transactions;
   final List<Contact> contacts;
   final Map<String, String> reverseContacts;
@@ -87,8 +85,6 @@ class CashWalletViewModel extends Equatable {
     this.displayName,
     this.tokenBalance,
     this.token,
-    // this.tokenTransfers,
-    // this.pendingTransfers,
     this.transactions,
     this.contacts,
     this.countryCode,
@@ -125,16 +121,14 @@ class CashWalletViewModel extends Equatable {
       communityAddress: communityAddres,
       branchAddress: branchAddress,
       isCommunityLoading: isCommunityLoading ?? false,
-      isCommunityFetched: store.state.cashWalletState.isCommunityFetched,
-      isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
-      isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted,
-      isListeningToBranch: store.state.cashWalletState.isListeningToBranch,
-      isBranchDataReceived: store.state.cashWalletState.isBranchDataReceived,
+      isCommunityFetched: store.state.cashWalletState.isCommunityFetched ?? false,
+      isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted ?? false,
+      isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted ?? false,
+      isListeningToBranch: store.state.cashWalletState.isListeningToBranch ?? false,
+      isBranchDataReceived: store.state.cashWalletState.isBranchDataReceived ?? false,
       displayName: store.state.userState.displayName,
       tokenBalance: community?.tokenBalance ?? BigInt.from(0),
       token: community?.token,
-      // tokenTransfers: store.state.cashWalletState.tokenTransfers,
-      // pendingTransfers: store.state.cashWalletState.pendingTransfers,
       transactions: community?.transactions ?? new Transactions(list: new List<Transaction>()),
       contacts: store.state.userState.contacts,
       reverseContacts: store.state.userState.reverseContacts,
