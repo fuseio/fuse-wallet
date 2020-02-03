@@ -235,12 +235,13 @@ ThunkAction setPincodeCall(String pincode) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final _webView = new InteractiveWebView();
+    String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     print('Loading 3box webview for account $accountAddress');
     final html = '''<html>
         <head></head>
         <script>
           window.pk = '0x${store.state.userState.privateKey}';
-          window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '${store.state.userState.countryCode}${store.state.userState.phoneNumber}'};
+          window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '$phoneNumber'};
         </script>
         <script src='https://3box.fuse.io/main.js'></script>
         <body></body>

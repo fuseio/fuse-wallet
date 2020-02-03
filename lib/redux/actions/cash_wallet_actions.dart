@@ -251,10 +251,18 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
   };
 }
 
+ThunkAction segmentAliasCall() {
+  return (Store store) async {
+    String anonymousId = await FlutterSegment.getAnonymousId;
+    await FlutterSegment.alias(alias: anonymousId);
+  };
+}
+
 ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
   return (Store store) async {
-    String userId = await FlutterSegment.getAnonymousId;
-    await FlutterSegment.identify(userId: userId, traits: traits);
+    store.dispatch(segmentAliasCall());
+    String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    await FlutterSegment.identify(userId: phoneNumber, traits: traits);
   };
 }
 
