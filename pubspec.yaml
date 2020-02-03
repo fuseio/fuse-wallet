@@ -41,6 +41,7 @@ dependencies:
   flutter_segment: ^0.0.6
   firebase_messaging: ^5.0.2
   flutter_branch_sdk: ^0.1.5
+  ethereum_address: 1.0.1
   flutter: 
     sdk: flutter
   flutter_localizations:
