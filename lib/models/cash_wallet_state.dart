@@ -15,6 +15,10 @@ class CashWalletState {
   final String walletAddress;
   final String communityAddress;
   final String communityName;
+  @JsonKey(
+      name: 'communities',
+      fromJson: _communitiesFromJson,
+      toJson: _communitiesToJson)
   final Map<String, Community> communities;
   final bool isCommunityLoading;
 
@@ -38,6 +42,29 @@ class CashWalletState {
   final bool isJobProcessingStarted;
   @JsonKey(ignore: true)
   final Map<String, num> sendToInvites;
+
+  static Map<String, Community> _communitiesFromJson(
+      Map<String, dynamic> list) {
+    if (list == null) {
+      return Map<String, Community>();
+    } else {
+      Map<String, Community> communities = new Map<String, Community>();
+      Iterable<MapEntry<String, Community>> entries =
+          List.from(list['communities']).map((community) => new MapEntry(
+              (community['address'] as String).toLowerCase(),
+              Community.fromJson(community)));
+      communities.addEntries(entries);
+      return communities;
+    }
+  }
+
+  static Map<String, dynamic> _communitiesToJson(
+          Map<String, Community> communities) =>
+      new Map<String, dynamic>.from({
+        "communities": List<Community>.from(communities.values)
+            .map((community) => community.toJson())
+            .toList()
+      });
 
   CashWalletState(
       {this.web3,

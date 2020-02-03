@@ -403,9 +403,9 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
     String walletAddress = wallet["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
+          enablePushNotifications();
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.d('fullPhoneNumber: $fullPhoneNumber');
-          enablePushNotifications();
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
                 "Phone Number": fullPhoneNumber,
