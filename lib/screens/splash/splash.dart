@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               flex: 10,
                               fit: FlexFit.tight,
                               child: Padding(
-                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                  padding: EdgeInsets.all(20),
                                   child: FlareActor(
                                     "assets/images/animation.flr",
                                     alignment: Alignment.bottomCenter,
@@ -103,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                     controller: _slideController,
                                   ))),
                           Expanded(
-                            flex: 4,
+                            flex: 3,
                             child: Container(
                                 constraints: BoxConstraints.expand(),
                                 child: new PageView.builder(
@@ -119,7 +119,6 @@ class _SplashScreenState extends State<SplashScreen> {
                           Flexible(
                             flex: 2,
                             child: new Container(
-                              // padding: const EdgeInsets.all(20.0),
                               child: new Center(
                                 child: new DotsIndicator(
                                   controller: _pageController,

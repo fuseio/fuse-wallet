@@ -135,34 +135,44 @@ class TransactionListItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    new RichText(
-                        text: new TextSpan(children: <TextSpan>[
-                      new TextSpan(
-                          text: deduceSign(transfer) +
-                              formatValue(transfer.value, _vm.token.decimals),
-                          style: new TextStyle(
-                              color: deduceColor(transfer),
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold)),
-                      new TextSpan(
-                          text: " ${_vm.token.symbol}",
-                          style: new TextStyle(
-                              color: deduceColor(transfer),
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.normal)),
-                    ]))
+                    Stack(
+                      overflow: Overflow.visible,
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: <Widget>[
+                        new RichText(
+                            text: new TextSpan(children: <TextSpan>[
+                          new TextSpan(
+                              text: deduceSign(transfer) +
+                                  formatValue(
+                                      transfer.value, _vm.token.decimals),
+                              style: new TextStyle(
+                                  color: deduceColor(transfer),
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold)),
+                          new TextSpan(
+                              text: " ${_vm.token.symbol}",
+                              style: new TextStyle(
+                                  color: deduceColor(transfer),
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.normal)),
+                        ])),
+                        Positioned(
+                            bottom: -20,
+                            child: (transfer.isPending() &&
+                                    !transfer.isGenerateWallet() &&
+                                    !transfer.isJoinCommunity())
+                                ? Padding(
+                                    child: Text(I18n.of(context).pending,
+                                        style: TextStyle(
+                                            color: Color(0xFF8D8D8D),
+                                            fontSize: 10)),
+                                    padding: EdgeInsets.only(top: 10))
+                                : SizedBox.shrink())
+                      ],
+                    )
                   ],
                 )
     ];
-
-    if (transfer.isPending() &&
-        !transfer.isGenerateWallet() &&
-        !transfer.isJoinCommunity()) {
-      rightColumn.add(Padding(
-          child: Text(I18n.of(context).pending,
-              style: TextStyle(color: Color(0xFF8D8D8D), fontSize: 10)),
-          padding: EdgeInsets.only(top: 10)));
-    }
 
     return Container(
         decoration: new BoxDecoration(

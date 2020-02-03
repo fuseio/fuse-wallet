@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -24,6 +26,35 @@ import 'package:fusecash/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:logger/logger.dart';
+
+void enablePushNotifications() async {
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+  void iosPermission() {
+    var firebaseMessaging2 = firebaseMessaging;
+    firebaseMessaging2.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+  }
+
+  if (Platform.isIOS) iosPermission();
+  var token = await firebaseMessaging.getToken();
+  logger.wtf("token $token");
+  await FlutterSegment.putDeviceToken(token);
+  firebaseMessaging.configure(
+    onMessage: (Map<String, dynamic> message) async {
+      logger.wtf('onMessage called: $message');
+    },
+    onResume: (Map<String, dynamic> message) async {
+      logger.wtf('onResume called: $message');
+    },
+    onLaunch: (Map<String, dynamic> message) async {
+      logger.wtf('onLaunch called: $message');
+    },
+  );
+}
 
 var logger = Logger(printer: PrettyPrinter()
     // output: DualOutput()
@@ -366,6 +397,7 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.d('fullPhoneNumber: $fullPhoneNumber');
+          enablePushNotifications();
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
                 "Phone Number": fullPhoneNumber,
