@@ -1,15 +1,18 @@
 import 'dart:io';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:paywise/models/business.dart';
 import 'package:paywise/models/community.dart';
+import 'package:paywise/models/community_metadata.dart';
 import 'package:paywise/models/plugins.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/job.dart';
+import 'package:paywise/models/transactions.dart';
+import 'package:paywise/models/transfer.dart';
 import 'package:paywise/redux/actions/error_actions.dart';
-import 'package:flutter_branch_io_plugin/flutter_branch_io_plugin.dart';
+import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:paywise/redux/actions/user_actions.dart';
 import 'package:paywise/utils/forks.dart';
 import 'package:paywise/utils/format.dart';
@@ -23,32 +26,35 @@ import 'package:paywise/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:logger/logger.dart';
-// import 'package:path_provider/path_provider.dart';
-// import 'package:flutter_android_lifecycle/flutter_android_lifecycle.dart';
 
-// class DualOutput extends LogOutput {
+void enablePushNotifications() async {
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+  void iosPermission() {
+    var firebaseMessaging2 = firebaseMessaging;
+    firebaseMessaging2.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+  }
 
-//   File file;
-//   DualOutput() {
-//     file = null;
-//   }
-
-//   Future<File> getFile() async {
-//     final directory = await getApplicationDocumentsDirectory();
-//     return File(directory.path+"/logs.txt");
-//   }
-
-//   @override
-//   void output(OutputEvent event) async {
-//     if (file == null) {
-//       file = await getFile();
-//     }
-//     for (var line in event.lines) {
-//       print(line);
-// //      await file.writeAsString(line + '\n', mode: FileMode.append);
-//     }
-//   }
-// }
+  if (Platform.isIOS) iosPermission();
+  var token = await firebaseMessaging.getToken();
+  logger.wtf("token $token");
+  await FlutterSegment.putDeviceToken(token);
+  firebaseMessaging.configure(
+    onMessage: (Map<String, dynamic> message) async {
+      logger.wtf('onMessage called: $message');
+    },
+    onResume: (Map<String, dynamic> message) async {
+      logger.wtf('onResume called: $message');
+    },
+    onLaunch: (Map<String, dynamic> message) async {
+      logger.wtf('onLaunch called: $message');
+    },
+  );
+}
 
 var logger = Logger(printer: PrettyPrinter()
     // output: DualOutput()
@@ -121,6 +127,11 @@ class SwitchCommunitySuccess {
   final Plugins plugins;
   SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token,
       this.transactions, this.plugins);
+}
+
+class FetchCommunityMetadataSuccess {
+  final CommunityMetadata metadata;
+  FetchCommunityMetadataSuccess(this.metadata);
 }
 
 class SwitchCommunityFailed {}
@@ -240,9 +251,18 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
   };
 }
 
-ThunkAction segmentIdentifyCall(userId, {Map<String, dynamic> traits}) {
+ThunkAction segmentAliasCall() {
   return (Store store) async {
-    await FlutterSegment.identify(userId: userId, traits: traits);
+    String anonymousId = await FlutterSegment.getAnonymousId;
+    await FlutterSegment.alias(alias: anonymousId);
+  };
+}
+
+ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
+  return (Store store) async {
+    store.dispatch(segmentAliasCall());
+    String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    await FlutterSegment.identify(userId: phoneNumber, traits: traits);
   };
 }
 
@@ -251,13 +271,8 @@ ThunkAction listenToBranchCall() {
     logger.wtf("branch listening.");
     store.dispatch(BranchListening());
 
-    String lastParam = "";
-
-    Function handler = (stringData) async {
-      if (stringData == lastParam) return;
-      lastParam = stringData;
-      var linkData = jsonDecode(stringData);
-      logger.wtf("Got link data: $stringData");
+    Function handler = (linkData) async {
+      logger.wtf("Got link data: ${linkData.toString()}");
       if (linkData["~feature"] == "switch_community") {
         var communityAddress = linkData["community_address"];
         logger.wtf("communityAddress $communityAddress");
@@ -273,15 +288,11 @@ ThunkAction listenToBranchCall() {
       store.dispatch(BranchDataReceived());
     };
 
-    if (Platform.isAndroid) {
-      FlutterBranchIoPlugin.setupBranchIO();
-      Timer.periodic(new Duration(seconds: 1), (timer) async {
-        String stringData = await FlutterBranchIoPlugin.getLatestParam();
-        await handler(stringData);
-      });
-    } else {
-      FlutterBranchIoPlugin.listenToDeepLinkStream().listen(handler);
-    }
+    FlutterBranchSdk.initSession().listen((data) {
+      handler(data);
+    }, onError: (error) {
+      print(error);
+    });
   };
 }
 
@@ -394,11 +405,13 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.d('fullPhoneNumber: $fullPhoneNumber');
-          store.dispatch(segmentIdentifyCall(fullPhoneNumber,
-              traits: new Map<String, dynamic>.from({
-                "walletAddress": walletAddress,
-                "accountAddress": accountAddress,
-                "displayName": store.state.userState.displayName
+          enablePushNotifications();
+          store.dispatch(segmentIdentifyCall(
+              new Map<String, dynamic>.from({
+                "Phone Number": fullPhoneNumber,
+                "Wallet Address": walletAddress,
+                "Account Address": accountAddress,
+                "Display Name": store.state.userState.displayName
               })));
           store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
           store.dispatch(create3boxAccountCall(accountAddress));
@@ -490,7 +503,7 @@ ThunkAction processingJobsCall(Timer timer) {
           return false;
         } 
         return true;
-      };
+      }
       if (job.status != 'DONE') {
         await job.perform(store, isJobProcessValid);
       }
@@ -657,14 +670,6 @@ ThunkAction sendToInviteCall(String receiverAddress, num tokensAmount, Transfer 
   };
 }
 
-// ThunkAction callSendToInviteCall(Job job) {
-//   return (Store store) async {
-//     Map<String, num> sendToInvites = store.state.cashWalletState.sendToInvites;
-//     store.dispatch(sendTokenCall(job.data["walletAddress"], sendToInvites[job.id]));
-//     store.dispatch(RemoveSendToInvites(job.id));
-//   };
-// }
-
 ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   return (Store store) async {
     try {
@@ -674,13 +679,6 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
           walletAddress, community["entitiesList"]["address"]);
       String communityAddress = community['address'];
       if (isMember) {
-        // Transfer joined = new Transfer(
-        //     type: 'RECEIVE',
-        //     text: 'Joined community',
-        //     status: 'CONFIRMED',
-        //     jobId: 'joined',
-        //     txHash: '');
-        // store.dispatch(new AddTransaction(joined));
         return store.dispatch(new AlreadyJoinedCommunity(communityAddress));
       }
 
@@ -716,6 +714,29 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
       text: 'Joined ' + (community["name"]) + ' community',
       txHash: job.data['txHash']);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+
+
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community communityData =
+      store.state.cashWalletState.communities[communityAddres];
+    if (communityData.plugins.joinBonus != null && communityData.plugins.joinBonus.isActive) {
+      BigInt value = toBigInt(communityData.plugins.joinBonus.amount, communityData.token.decimals);
+      Transfer joinBonus = new Transfer(
+        from: DotEnv().env['FUNDER_ADDRESS'],
+        type: 'RECEIVE',
+        value: value,
+        status: 'PENDING');
+      store.dispatch(new AddTransaction(joinBonus));
+    }
+  };
+}
+
+ThunkAction fetchCommunityMetadataCall(String communityURI) {
+  return (Store store) async {
+    String uri = communityURI.split('://')[1];
+    dynamic metadata = await api.fetchMetadata(uri);
+    CommunityMetadata communityMetadata = new CommunityMetadata(image: metadata['image'], coverPhoto: metadata['coverPhoto']);
+    store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
   };
 }
 
@@ -732,23 +753,17 @@ ThunkAction switchCommunityCall(String communityAddress) {
       bool isRopsten = token != null && token['originNetwork'] == 'ropsten';
       Map<String, dynamic> communityData =
           await api.getCommunityData(communityAddress, isRopsten: isRopsten);
-      Plugins communityPlugins;
-      if (communityData != null) {
-        Map<String, dynamic> plugins = Map<String, dynamic>.from(
-            communityData.containsKey('plugins')
-                ? communityData['plugins']
-                : {});
-        if (plugins.containsKey('onramp')) {
-          Map<String, dynamic> onramp =
-              Map<String, dynamic>.from(plugins['onramp']);
-          Map<String, dynamic> services =
-              Map<String, dynamic>.from(onramp['services']);
-          communityPlugins = Plugins.fromJsonState(services);
-        }
-      }
+      store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
+      Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
-          properties: new Map<String, dynamic>.from(community)));
+          properties: new Map<String, dynamic>.from({
+            "Community Name": community["name"],
+            "Community Address": communityAddress,
+            "Token Address": token["address"],
+            "Token Symbol": token["symbol"],
+            "Origin Network": token['originNetwork']
+          })));
       store.dispatch(getBusinessListCall());
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
@@ -760,7 +775,8 @@ ThunkAction switchCommunityCall(String communityAddress) {
               symbol: token["symbol"],
               decimals: token["decimals"]),
           new Transactions(),
-          communityPlugins));
+          communityPlugins,
+          ));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not switch community'));

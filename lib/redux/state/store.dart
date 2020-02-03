@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/redux/reducers/app_reducer.dart';
@@ -47,7 +48,8 @@ Future<Store<AppState>> createReduxStore() async {
 
   final persistor = Persistor<AppState>(
     storage: SecureStorage(storage = storage),
-    serializer: JsonSerializer<AppState>(AppState.fromJson)
+    serializer: JsonSerializer<AppState>(AppState.fromJson),
+    debug: DotEnv().env['MODE'] == 'development'
   );
 
   AppState initialState;

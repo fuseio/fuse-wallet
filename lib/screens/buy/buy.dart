@@ -1,16 +1,13 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/buy_page.dart';
 import 'package:paywise/screens/buy/business.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
-// import 'package:paywise/utils/forks.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
-// import 'package:paywise/widgets/preloader.dart';
 
 class BuyScreen extends StatefulWidget {
   BuyScreen({Key key, this.title}) : super(key: key);

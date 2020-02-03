@@ -1,7 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
-import 'package:paywise/models/transaction.dart';
+import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/send_amount.dart';
 import 'package:paywise/screens/cash_home/cash_transactions.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
@@ -14,12 +14,14 @@ class TransactionDetailArguments {
   List<Widget> amount;
   String status;
   String symbol;
+  ImageProvider<dynamic> image;
   Contact contact;
   final Transfer transfer;
   final Map<String, String> reverseContacts;
 
   TransactionDetailArguments(
       {this.symbol,
+      this.image,
       this.contact,
       this.amount,
       this.reverseContacts,
@@ -109,14 +111,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                             CircleAvatar(
                               backgroundColor: Color(0xFFE0E0E0),
                               radius: 25,
-                              backgroundImage: args.transfer.isJoinBonus()
-                                  ? new AssetImage(
-                                      'assets/images/join.png',
-                                    )
-                                  : args.contact?.avatar != null
-                                      ? MemoryImage(args.contact.avatar)
-                                      : new AssetImage(
-                                          'assets/images/anom.png'),
+                              backgroundImage: args.image,
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 10),

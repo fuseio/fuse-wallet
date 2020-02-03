@@ -88,32 +88,33 @@ class _SplashScreenState extends State<SplashScreen> {
                     Expanded(
                       flex: 20,
                       child: Container(
-                          decoration: BoxDecoration(),
-                          child: Column(
-                            children: <Widget>[
-                              Expanded(
-                                child: new Stack(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 100),
-                                      child: Image.asset(
-                                        'assets/images/paywise.png',
-                                        fit: BoxFit.fill,
-                                      ),
+                        decoration: BoxDecoration(),
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: new Stack(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 100),
+                                    child: Image.asset(
+                                      'assets/images/paywise.png',
+                                      fit: BoxFit.fill,
                                     ),
-                                    Container(
-                                      color: Colors.transparent,
-                                      child: Padding(
-                                          padding: EdgeInsets.only(bottom: 20),
-                                          child: Align(
-                                              alignment: Alignment.bottomCenter,
-                                              child: CreateWallet())),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    color: Colors.transparent,
+                                    child: Padding(
+                                        padding: EdgeInsets.only(bottom: 20),
+                                        child: Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: CreateWallet())),
+                                  )
+                                ],
                               ),
-                            ],
-                          )),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ));

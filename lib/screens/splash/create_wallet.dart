@@ -31,7 +31,7 @@ class _CreateWalletState extends State<CreateWallet> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 00),
+                  padding: EdgeInsets.only(top: 50),
                   child: PrimaryButton(
                     fontSize: 16,
                     labelFontWeight: FontWeight.normal,

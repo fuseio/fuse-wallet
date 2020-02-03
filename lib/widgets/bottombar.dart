@@ -10,7 +10,10 @@ isCurrentRoute(BuildContext context, String route) {
 
 Widget bottomBar(BuildContext context) {
   bool isHomePage = isCurrentRoute(context, '/Cash');
-  return new Container(
+  return 
+  Hero(
+            tag: "footerNav",
+            child: new Container(
     decoration: BoxDecoration(
         color: Theme.of(context).bottomAppBarColor,
         border: Border(top: BorderSide(color: Color(0xFFE8E8E8)))),
@@ -59,7 +62,9 @@ Widget bottomBar(BuildContext context) {
         })
       ],
     ),
-  );
+  ),
+          )
+  ;
 }
 
 void redirect(BuildContext context, String screen) {

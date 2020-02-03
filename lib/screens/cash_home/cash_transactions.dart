@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
+import 'package:paywise/models/transfer.dart';
 import 'dart:core';
 import 'package:paywise/models/views/cash_wallet.dart';
-import 'package:paywise/models/transaction.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:paywise/screens/cash_home/transaction_item.dart';
 import 'package:paywise/utils/phone.dart';

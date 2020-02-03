@@ -22,6 +22,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
   bool isLoading = false;
   final wordsController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
+  bool isPreloading = false;
 
   @override
   void initState() {
@@ -91,11 +92,15 @@ class _RecoveryPageState extends State<RecoveryPage> {
             const SizedBox(height: 30.0),
             Center(
                 child: PrimaryButton(
+              preload: isPreloading,
               label: I18n.of(context).next_button,
               fontSize: 16,
               labelFontWeight: FontWeight.normal,
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
+                  setState(() {
+                    isPreloading = true;
+                  });
                   viewModel.generateWalletFromBackup(
                       wordsController.text.toLowerCase(), () {
                     Navigator.pushNamed(context, '/Signup');

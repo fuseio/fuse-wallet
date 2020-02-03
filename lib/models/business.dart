@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'business.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Business {
   final String account;
   final String id;

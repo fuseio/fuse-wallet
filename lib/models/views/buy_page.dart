@@ -14,7 +14,7 @@ class BuyViewModel extends Equatable {
   final String communityAddres;
 
   @override
-  List<Object> get props => [token, businesses, isCommunityBusinessesFetched];
+  List<Object> get props => [token, businesses, isCommunityBusinessesFetched, businesses];
 
   BuyViewModel({
     this.communityAddres,

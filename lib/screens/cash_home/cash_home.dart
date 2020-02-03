@@ -1,11 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:paywise/redux/actions/cash_wallet_actions.dart';
-// import 'package:paywise/screens/send/enable_contacts.dart';
 import 'package:paywise/themes/app_theme.dart';
 import 'package:paywise/themes/custom_theme.dart';
-// import 'package:paywise/utils/contacts.dart';
 import 'package:paywise/utils/forks.dart';
 import 'package:paywise/widgets/main_scaffold2.dart';
 import 'package:paywise/models/app_state.dart';
@@ -13,8 +8,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 
 class CashHomeScreen extends StatefulWidget {
   @override
@@ -37,39 +30,9 @@ void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
   }
 }
 
-void enablePushNotifications() async {
-  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
-  void iosPermission() {
-    var firebaseMessaging2 = firebaseMessaging;
-    firebaseMessaging2.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-  }
-
-  if (Platform.isIOS) iosPermission();
-  var token = await firebaseMessaging.getToken();
-  logger.wtf("token $token");
-  await FlutterSegment.putDeviceToken(token);
-  firebaseMessaging.configure(
-    onMessage: (Map<String, dynamic> message) async {
-      logger.wtf('onMessage called: $message');
-    },
-    onResume: (Map<String, dynamic> message) async {
-      logger.wtf('onResume called: $message');
-    },
-    onLaunch: (Map<String, dynamic> message) async {
-      logger.wtf('onLaunch called: $message');
-    },
-  );
-}
-
 void onChange(CashWalletViewModel viewModel, BuildContext context,
     {bool initial = false}) async {
   if (initial) {
-    enablePushNotifications();
     viewModel.syncContacts([]);
   }
   if (!viewModel.isJobProcessingStarted) {
@@ -80,7 +43,8 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
   }
   if (!viewModel.isCommunityLoading &&
       viewModel.branchAddress != null &&
-      viewModel.branchAddress != "") {
+      viewModel.branchAddress != "" &&
+      viewModel.walletAddress != '') {
     viewModel.branchCommunityUpdate();
   }
   if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
@@ -93,9 +57,6 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
     viewModel.switchCommunity(viewModel.communityAddress);
   }
   if (viewModel.token != null) {
-    // if (!viewModel.isBalanceFetchingStarted) {
-    //   viewModel.startBalanceFetching();
-    // }
     if (!viewModel.isTransfersFetchingStarted) {
       viewModel.startTransfersFetching();
     }

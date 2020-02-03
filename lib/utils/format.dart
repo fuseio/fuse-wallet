@@ -19,6 +19,23 @@ String formatValue(BigInt value, int decimals) {
   }
 }
 
+String calcValueInDollar(BigInt value, int decimals) {
+  double s = (value / BigInt.from(pow(10, decimals)) / 100);
+  String formatedValue;
+  if (s.roundToDouble() == s) {
+    formatedValue = s.round().toString();
+  } else {
+    formatedValue = s.toString();
+  }
+  
+  List a = formatedValue.split('.');
+  if (a.length > 1) {
+    return s.toStringAsFixed(2);
+  } else {
+    return formatedValue;
+  }
+}
+
 String formatAddress(String address) {
   if (address == null) {
     return null;

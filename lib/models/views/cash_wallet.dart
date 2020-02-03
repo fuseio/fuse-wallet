@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:paywise/models/business.dart';
 import 'package:paywise/models/community.dart';
+import 'package:paywise/models/transactions.dart';
 import 'package:redux/redux.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/token.dart';

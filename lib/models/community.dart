@@ -1,19 +1,28 @@
 import 'package:paywise/models/business.dart';
+import 'package:paywise/models/community_metadata.dart';
 import 'package:paywise/models/token.dart';
 import 'package:paywise/models/transaction.dart';
+import 'package:paywise/models/transactions.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';
 import './job.dart';
 
+part 'community.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class Community {
   final String name;
   final String address;
-  final Plugins plugins;
   final BigInt tokenBalance;
   final bool isMember;
-  final Token token;
-  final Transactions transactions;
   final List<Business> businesses;
+  final Transactions transactions;
+  final Token token;
+  final Plugins plugins;
+  final CommunityMetadata metadata;
+
+  @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
   final List<Job> jobs;
 
   Community(
@@ -25,11 +34,19 @@ class Community {
       this.token,
       this.tokenBalance,
       this.businesses,
-      this.jobs});
+      this.jobs,
+      this.metadata});
+
+  static List<Job> _jobsFromJson(Map<String, dynamic> json) =>
+      List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
+
+  static Map<String, dynamic> _jobsToJson(List<dynamic> jobs) =>
+      new Map.from({"jobs": jobs.map((job) => job.toJson()).toList()});
 
   factory Community.initial() {
     return new Community(
         name: null,
+        metadata: CommunityMetadata.initial(),
         address: null,
         token: null,
         isMember: false,
@@ -49,9 +66,11 @@ class Community {
     BigInt tokenBalance,
     List<Business> businesses,
     List<Job> jobs,
-    bool isMember
+    bool isMember,
+    CommunityMetadata metadata,
   }) {
     return Community(
+        metadata: metadata ?? this.metadata,
         tokenBalance: tokenBalance ?? this.tokenBalance,
         address: address ?? this.address,
         name: name ?? this.name,
@@ -63,30 +82,8 @@ class Community {
         transactions: transactions ?? this.transactions);
   }
 
-  static Community fromJson(dynamic json) => json != null
-      ? new Community(
-          name: json["name"],
-          address: json["address"],
-          plugins: Plugins.fromJson(json["plugins"] ?? {}),
-          tokenBalance: json['tokenBalance'] == null ? null : BigInt.parse(json['tokenBalance']),
-          isMember: json['isMember'],
-          transactions: Transactions.fromJson(json['transactions']),
-          token: json['token'] == null
-              ? json['token']
-              : Token.fromJson(json['token']),
-          // jobs: new List<Job>()
-          jobs: List<Job>.from(json['jobs'].map((job) => JobFactory.create(job))),
-        )
-      : null;
+  factory Community.fromJson(Map<String, dynamic> json) =>
+      _$CommunityFromJson(json);
 
-  dynamic toJson() => {
-        'name': name,
-        'address': address,
-        'isMember': isMember,
-        'tokenBalance': tokenBalance.toString(),
-        'plugins': plugins?.toJson(),
-        'transactions': transactions.toJson(),
-        'token': token?.toJson(),
-        'jobs': jobs.map((job) => job.toJson()).toList(),
-      };
+  Map<String, dynamic> toJson() => _$CommunityToJson(this);
 }

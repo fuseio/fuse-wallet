@@ -2,7 +2,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/community.dart';
 import 'package:paywise/models/token.dart';
-import 'package:paywise/models/transaction.dart';
+import 'package:paywise/models/transactions.dart';
 import 'package:paywise/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 

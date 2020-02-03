@@ -12,10 +12,12 @@ import 'package:paywise/screens/cash_home/cash_transactions.dart';
 import 'package:paywise/screens/send/enable_contacts.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/contacts.dart';
+import 'package:paywise/utils/format.dart';
 import 'package:paywise/utils/phone.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
+import "package:ethereum_address/ethereum_address.dart";
 import 'dart:math' as math;
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
@@ -32,7 +34,6 @@ class SendToContactScreen extends StatefulWidget {
 class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Contact> userList = [];
   List<Contact> filteredUsers = [];
-  List<String> strList = [];
   bool showFooter = true;
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
@@ -82,19 +83,14 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   filterList() {
     List<Contact> users = [];
     users.addAll(userList);
-    strList = [];
     if (searchController.text.isNotEmpty) {
       users.retainWhere((user) => user.displayName
           .toLowerCase()
           .contains(searchController.text.toLowerCase()));
     }
-    users.forEach((user) {
-      strList.add(user.displayName);
-    });
 
     if (this.mounted) {
       setState(() {
-        strList = strList;
         filteredUsers = users;
       });
     }
@@ -119,65 +115,108 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  listBody(title) {
+  listBody(List<Contact> group) {
     List<Widget> listItems = List();
 
-    //strList.where((i) => i.startsWith(title)).toList()
-    for (int i = 0; i < strList.length; i++) {
-      if (strList[i][0] == title) {
-        dynamic user = filteredUsers[i];
-        dynamic component = Slidable(
-          actionPane: SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
-          secondaryActions: <Widget>[
-            IconSlideAction(
-              iconWidget: Icon(Icons.star),
-              onTap: () {},
-            ),
-            IconSlideAction(
-              iconWidget: Icon(Icons.more_horiz),
-              onTap: () {},
-            ),
-          ],
-          child: Container(
-            decoration: new BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
-              leading: CircleAvatar(
-                backgroundColor: Color(0xFFE0E0E0),
-                radius: 25,
-                backgroundImage: user.avatar != null && user.avatar.isNotEmpty
-                    ? MemoryImage(user.avatar)
-                    : new AssetImage('assets/images/anom.png'),
-              ),
-              title: Text(
-                user.displayName,
-                style: TextStyle(
-                    fontSize: 15, color: Theme.of(context).primaryColor),
-              ),
-              //subtitle: Text("user.company" ?? ""),
-              onTap: () {
-                Navigator.pushNamed(context, '/SendAmount',
-                    arguments: SendAmountArguments(
-                        name: user.displayName,
-                        // accountAddress: t,
-                        avatar: user.avatar != null && user.avatar.isNotEmpty
-                            ? MemoryImage(user.avatar)
-                            : new AssetImage('assets/images/anom.png'),
-                        phoneNumber: user.phones.first.value));
-              },
-            ),
+    for (Contact user in group) {
+      dynamic component = Slidable(
+        actionPane: SlidableDrawerActionPane(),
+        actionExtentRatio: 0.25,
+        secondaryActions: <Widget>[
+          IconSlideAction(
+            iconWidget: Icon(Icons.star),
+            onTap: () {},
           ),
-        );
+          IconSlideAction(
+            iconWidget: Icon(Icons.more_horiz),
+            onTap: () {},
+          ),
+        ],
+        child: Container(
+          decoration: new BoxDecoration(
+              border:
+                  Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
+          child: ListTile(
+            contentPadding:
+                EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
+            leading: CircleAvatar(
+              backgroundColor: Color(0xFFE0E0E0),
+              radius: 25,
+              backgroundImage: user.avatar != null && user.avatar.isNotEmpty
+                  ? MemoryImage(user.avatar)
+                  : new AssetImage('assets/images/anom.png'),
+            ),
+            title: Text(
+              user.displayName,
+              style: TextStyle(
+                  fontSize: 15, color: Theme.of(context).primaryColor),
+            ),
+            //subtitle: Text("user.company" ?? ""),
+            onTap: () {
+              Navigator.pushNamed(context, '/SendAmount',
+                  arguments: SendAmountArguments(
+                      name: user.displayName,
+                      // accountAddress: t,
+                      avatar: user.avatar != null && user.avatar.isNotEmpty
+                          ? MemoryImage(user.avatar)
+                          : new AssetImage('assets/images/anom.png'),
+                      phoneNumber: user.phones.first.value));
+            },
+          ),
+        ),
+      );
 
-        listItems.add(component);
-      }
+      listItems.add(component);
     }
     return SliverList(
       delegate: SliverChildListDelegate(listItems),
+    );
+  }
+
+
+  Widget sendToAcccountAddress (String accountAddress) {
+    Widget component = Slidable(
+        actionPane: SlidableDrawerActionPane(),
+        actionExtentRatio: 0.25,
+        secondaryActions: <Widget>[
+          IconSlideAction(
+            iconWidget: Icon(Icons.star),
+            onTap: () {},
+          ),
+          IconSlideAction(
+            iconWidget: Icon(Icons.more_horiz),
+            onTap: () {},
+          ),
+        ],
+        child: Container(
+          decoration: new BoxDecoration(
+              border:
+                  Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
+          child: ListTile(
+            contentPadding:
+                EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
+            leading: CircleAvatar(
+              backgroundColor: Color(0xFFE0E0E0),
+              radius: 25,
+              backgroundImage: new AssetImage('assets/images/anom.png'),
+            ),
+            title: Text(
+              accountAddress,
+              style: TextStyle(fontSize: 16),
+            ),
+            //subtitle: Text("user.company" ?? ""),
+            onTap: () {
+              Navigator.pushNamed(context, '/SendAmount',
+                  arguments: SendAmountArguments(
+                      accountAddress: accountAddress,
+                      name: formatAddress(accountAddress),
+                      avatar: new AssetImage('assets/images/anom.png')));
+            },
+          ),
+        ),
+      );
+    return SliverList(
+      delegate: SliverChildListDelegate([component]),
     );
   }
 
@@ -300,23 +339,37 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     if (isPreloading) {
       return listItems;
     }
-    List<String> abList = new List<String>();
-
-    for (int i = 0; i < strList.length; i++) {
-      if (!abList.contains(strList[i][0])) {
-        abList.add(strList[i][0]);
-      }
-    }
-
+ 
     listItems.add(searchPanel());
+
     if (searchController.text.isEmpty) {
       listItems.add(recentContacts(3));
+    } else if (isValidEthereumAddress(searchController.text)) {
+      listItems.add(sendToAcccountAddress(searchController.text));
     }
 
-    for (int index = 0; index < abList.length; index++) {
-      listItems.add(listHeader(abList[index]));
-      listItems.add(listBody(abList[index]));
+    Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
+    for (Contact c in filteredUsers) {
+      String groupName = c.displayName[0];
+      if (!groups.containsKey(groupName)) {
+        groups[groupName] = new List<Contact>();
+      }
+      groups[groupName].add(c);
     }
+
+    List<String> titles = groups.keys.toList();
+    titles.sort();
+    
+    for (String title in titles) {
+      List<Contact> group = groups[title];
+      listItems.add(listHeader(title));
+      listItems.add(listBody(group));
+    }
+    
+    // for (int index = 0; index < abList.length; index++) {
+    //   listItems.add(listHeader(abList[index]));
+    //   listItems.add(listBody(abList[index]));
+    // }
 
     return listItems;
   }
@@ -403,7 +456,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       withPadding: false,
       title: I18n.of(context).send_to,
       titleFontSize: 15,
-      footer: showFooter ? bottomBar(context) : null,
+      footer: showFooter ? 
+      bottomBar(context) : null,
       sliverList: _buildPageList(),
       children: <Widget>[
         !this.widget.viewModel.isContactsSynced

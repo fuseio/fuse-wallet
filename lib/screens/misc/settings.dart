@@ -30,9 +30,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return [
         getListTile(I18n.of(context).about, () {
           Navigator.pushNamed(context, '/About');
-        }),
-        new Divider(),
-        new LanguageSelector(),
+        })
       ];
     } else {
       return [
