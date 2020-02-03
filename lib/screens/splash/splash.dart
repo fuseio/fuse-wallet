@@ -86,54 +86,53 @@ class _SplashScreenState extends State<SplashScreen> {
                   children: <Widget>[
                     Expanded(
                       flex: 20,
-                      child: Container(
-                          decoration: BoxDecoration(),
-                          child: Column(
-                            children: <Widget>[
-                              Expanded(
-                                child: new Stack(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 100, left: 20, right: 20),
-                                      child: FlareActor(
-                                        "assets/images/animation.flr",
-                                        alignment: Alignment.center,
-                                        fit: BoxFit.contain,
-                                        controller: _slideController,
-                                      ),
-                                    ),
-                                    new PageView.builder(
-                                      physics:
-                                          new AlwaysScrollableScrollPhysics(),
-                                      controller: _pageController,
-                                      itemCount: 4,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return getPages(context)[index % 4];
-                                      },
-                                    ),
-                                    new Positioned(
-                                      bottom: 15.0,
-                                      left: 0.0,
-                                      right: 0.0,
-                                      child: new Container(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: new Center(
-                                          child: new DotsIndicator(
-                                            controller: _pageController,
-                                            itemCount: 4,
-                                            onPageSelected: (int page) {
-                                              gotoPage(page);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Flexible(
+                              flex: 10,
+                              fit: FlexFit.tight,
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                  child: FlareActor(
+                                    "assets/images/animation.flr",
+                                    alignment: Alignment.bottomCenter,
+                                    fit: BoxFit.contain,
+                                    controller: _slideController,
+                                  ))),
+                          Expanded(
+                            flex: 4,
+                            child: Container(
+                                constraints: BoxConstraints.expand(),
+                                child: new PageView.builder(
+                                  physics: new AlwaysScrollableScrollPhysics(),
+                                  controller: _pageController,
+                                  itemCount: 4,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return getPages(context)[index % 4];
+                                  },
+                                )),
+                          ),
+                          Flexible(
+                            flex: 2,
+                            child: new Container(
+                              // padding: const EdgeInsets.all(20.0),
+                              child: new Center(
+                                child: new DotsIndicator(
+                                  controller: _pageController,
+                                  itemCount: 4,
+                                  onPageSelected: (int page) {
+                                    gotoPage(page);
+                                  },
                                 ),
                               ),
-                            ],
-                          )),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ));
