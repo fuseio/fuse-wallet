@@ -126,10 +126,7 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
 ThunkAction loginRequestCall(String countryCode, String phoneNumber,
     VoidCallback successCallback, VoidCallback failCallback) {
   return (Store store) async {
-    if (!countryCode.startsWith('+')) {
-      countryCode = '+$countryCode';
-    }
-    String phone = countryCode + phoneNumber;
+    String phone = formatPhoneNumber(phoneNumber, countryCode);
     try {
       bool result = await api.loginRequest(phone);
       if (result) {
@@ -157,10 +154,8 @@ ThunkAction loginVerifyCall(
     VoidCallback failCallback) {
   return (Store store) async {
     try {
-      if (!countryCode.startsWith('+')) {
-        countryCode = '+$countryCode';
-      }
-      String phone = countryCode + phoneNumber;
+      String phone = formatPhoneNumber(phoneNumber, countryCode);
+
       String jwtToken =
           await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
