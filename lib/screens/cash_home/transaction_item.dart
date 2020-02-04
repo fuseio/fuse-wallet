@@ -1,6 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/business.dart';
@@ -119,12 +120,15 @@ class TransactionListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
                       Future.delayed(
                           Duration.zero,
                           () => showDialog(
                               child: new DaiExplainedScreen(),
                               context: context));
+                      await FlutterSegment.track(
+                          eventName: "Wallet: User open DAI points explanation",
+                          properties: new Map<String, dynamic>());
                     },
                     child: SvgPicture.asset('assets/images/info_svg.svg'),
                   )

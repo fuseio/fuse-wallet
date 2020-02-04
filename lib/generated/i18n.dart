@@ -110,8 +110,8 @@ class I18n implements WidgetsLocalizations {
   String get create_passcode => "Create your passcode";
   /// "Switch community"
   String get switch_community => "Switch community";
-  /// "Scan Qr code"
-  String get sqan_qr_code => "Scan Qr code";
+  /// "Scan QR to switch"
+  String get sqan_qr_code => "Scan QR to switch";
   /// "or"
   String get or => "or";
   /// "Enter Community Address"

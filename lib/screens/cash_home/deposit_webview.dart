@@ -53,14 +53,14 @@ class _DepositWebViewState extends State<DepositWebView> {
                 new Expanded(
                   child: Stack(
                     children: <Widget>[
-                      Padding(
-                        child: Image.asset(
-                          'images/lock.png',
-                          width: 16,
-                          height: 16,
-                        ),
-                        padding: EdgeInsets.only(top: 1, left: 12),
-                      ),
+                      // Padding(
+                      //   child: Image.asset(
+                      //     'images/lock.png',
+                      //     width: 16,
+                      //     height: 16,
+                      //   ),
+                      //   padding: EdgeInsets.only(top: 1, left: 12),
+                      // ),
                       TextField(
                         controller: address,
                         textAlign: TextAlign.left,

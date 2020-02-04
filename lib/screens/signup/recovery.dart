@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/recovery.dart';
@@ -103,7 +104,13 @@ class _RecoveryPageState extends State<RecoveryPage> {
                   viewModel.generateWalletFromBackup(
                       wordsController.text.toLowerCase(), () {
                     Navigator.pushNamed(context, '/Signup');
+                    setState(() {
+                      isPreloading = false;
+                    });
                   });
+                  await FlutterSegment.track(
+                              eventName: "Wallet: user restored his mnemonic",
+                              properties: new Map<String, dynamic>());
                 }
               },
             )),

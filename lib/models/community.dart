@@ -21,12 +21,14 @@ class Community {
   final Token token;
   final Plugins plugins;
   final CommunityMetadata metadata;
+  final bool isClosed;
 
   @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
   final List<Job> jobs;
 
   Community(
       {this.name,
+      this.isClosed,
       this.isMember,
       this.address,
       this.plugins,
@@ -46,6 +48,7 @@ class Community {
   factory Community.initial() {
     return new Community(
         name: null,
+        isClosed: false,
         metadata: CommunityMetadata.initial(),
         address: null,
         token: null,
@@ -68,8 +71,10 @@ class Community {
     List<Job> jobs,
     bool isMember,
     CommunityMetadata metadata,
+    bool isClosed
   }) {
     return Community(
+        isClosed: isClosed ?? isClosed,
         metadata: metadata ?? this.metadata,
         tokenBalance: tokenBalance ?? this.tokenBalance,
         address: address ?? this.address,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
@@ -26,50 +27,59 @@ class _CreateWalletState extends State<CreateWallet> {
         distinct: true,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
-          return SizedBox(
-            height: 180,
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 50),
-                  child: PrimaryButton(
-                    fontSize: 16,
-                    labelFontWeight: FontWeight.normal,
-                    label:
-                        viewModel.isLoggedOut ? I18n.of(context).login : I18n.of(context).create_new_wallet,
-                    onPressed: () {
-                      if (viewModel.isLoggedOut) {
-                        viewModel.loginAgain();
-                        viewModel.initWeb3(viewModel.privateKey);
-                        Navigator.popUntil(context, ModalRoute.withName('/'));
-                        Navigator.pushNamed(context, '/Cash');
-                      } else {
-                        viewModel.createLocalAccount(() {
-                          setState(() {
-                            isPrimaryPreloading = false;
-                          });
-                          Navigator.pushNamed(context, '/Signup');
-                        });
-                        setState(() {
-                          isPrimaryPreloading = true;
-                        });
-                      }
-                    },
-                    preload: isPrimaryPreloading,
-                  ),
-                ),
-                viewModel.isLoggedOut
-                    ? Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(
+          return Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              PrimaryButton(
+                fontSize: 16,
+                labelFontWeight: FontWeight.normal,
+                label: viewModel.isLoggedOut
+                    ? I18n.of(context).login
+                    : I18n.of(context).create_new_wallet,
+                onPressed: () async {
+                  if (viewModel.isLoggedOut) {
+                    viewModel.loginAgain();
+                    viewModel.initWeb3(viewModel.privateKey);
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.pushNamed(context, '/Cash');
+                    await FlutterSegment.track(
+                        eventName: "Wallet: Login again clicked",
+                        properties: new Map<String, dynamic>());
+                  } else {
+                    viewModel.createLocalAccount(() {
+                      setState(() {
+                        isPrimaryPreloading = false;
+                      });
+                      Navigator.pushNamed(context, '/Signup');
+                    });
+                    setState(() {
+                      isPrimaryPreloading = true;
+                    });
+                    await FlutterSegment.track(
+                        eventName: "Wallet: Create new wallet clicked",
+                        properties: new Map<String, dynamic>());
+                  }
+                },
+                preload: isPrimaryPreloading,
+              ),
+              Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: viewModel.isLoggedOut
+                      ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             TransparentButton(
                                 fontSize: 14,
                                 label: I18n.of(context).restore_backup,
-                                onPressed: () {
+                                onPressed: () async {
                                   Navigator.pushNamed(context, '/Recovery');
+                                  await FlutterSegment.track(
+                                      eventName:
+                                          "Wallet: Restore from backup clicked",
+                                      properties: new Map<String, dynamic>());
                                 }),
                             Text(
                               I18n.of(context).or,
@@ -78,7 +88,7 @@ class _CreateWalletState extends State<CreateWallet> {
                             TransparentButton(
                                 fontSize: 14,
                                 label: I18n.of(context).create__wallet,
-                                onPressed: () {
+                                onPressed: () async {
                                   viewModel.createLocalAccount(() {
                                     setState(() {
                                       isTransparentPreloading = false;
@@ -88,22 +98,25 @@ class _CreateWalletState extends State<CreateWallet> {
                                   setState(() {
                                     isTransparentPreloading = true;
                                   });
+                                  await FlutterSegment.track(
+                                      eventName:
+                                          "Wallet: Create new wallet clicked",
+                                      properties: new Map<String, dynamic>());
                                 },
                                 preload: isTransparentPreloading)
                           ],
-                        ),
-                      )
-                    : Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: TransparentButton(
-                            fontSize: 16,
-                            label: I18n.of(context).restore_from_backup,
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/Recovery');
-                            }),
-                      )
-              ],
-            ),
+                        )
+                      : TransparentButton(
+                          fontSize: 16,
+                          label: I18n.of(context).restore_from_backup,
+                          onPressed: () async {
+                            Navigator.pushNamed(context, '/Recovery');
+                            await FlutterSegment.track(
+                                eventName:
+                                    "Wallet: Restore from backup clicked",
+                                properties: new Map<String, dynamic>());
+                          }))
+            ],
           );
         });
   }

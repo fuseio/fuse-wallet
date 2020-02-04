@@ -159,7 +159,11 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     String communityAddress = action.communityAddress.toLowerCase();
     Community current = state.communities[communityAddress];
     Community newCommunity = current.copyWith(
-        plugins: action.plugins, token: action.token, name: action.communityName);
+      plugins: action.plugins,
+      token: action.token,
+      name: action.communityName,
+      isClosed: action.isClosed
+    );
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);
     newOne[communityAddress] = newCommunity;
