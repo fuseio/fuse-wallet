@@ -501,7 +501,10 @@ ThunkAction processingJobsCall(Timer timer) {
         if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
           timer.cancel();
           return false;
-        } 
+        }
+        if (job.status == 'DONE') {
+          return false;
+        }
         return true;
       }
       if (job.status != 'DONE') {

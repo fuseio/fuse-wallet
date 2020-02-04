@@ -243,6 +243,15 @@ class JobFactory {
     String id = json.containsKey('_id') ? json['_id'] : json['id'];
     String status = json.containsKey('status') ? json['status'] : 'PENDING';
     switch (jobType) {
+      case 'setWalletOwner':
+        return new GenerateWalletJob(
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
       case 'createWallet':
         return new GenerateWalletJob(
             id: id,
@@ -280,6 +289,7 @@ class JobFactory {
             lastFinishedAt: json['lastFinishedAt'],
             arguments: json['arguments']);
     }
+    print('ERROR: $jobType not supported');
     return null;
   }
 }
