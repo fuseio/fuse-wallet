@@ -251,18 +251,15 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
   };
 }
 
-ThunkAction segmentAliasCall() {
+ThunkAction segmentAliasCall(String userId) {
   return (Store store) async {
-    String anonymousId = await FlutterSegment.getAnonymousId;
-    await FlutterSegment.alias(alias: anonymousId);
+    await FlutterSegment.alias(alias: userId);
   };
 }
 
-ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
+ThunkAction segmentIdentifyCall(String userId, Map<String, dynamic> traits) {
   return (Store store) async {
-    store.dispatch(segmentAliasCall());
-    String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-    await FlutterSegment.identify(userId: phoneNumber, traits: traits);
+    await FlutterSegment.identify(userId: userId, traits: traits);
   };
 }
 
@@ -406,7 +403,10 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
           enablePushNotifications();
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.d('fullPhoneNumber: $fullPhoneNumber');
+          String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+          store.dispatch(segmentAliasCall(phoneNumber));
           store.dispatch(segmentIdentifyCall(
+              phoneNumber,
               new Map<String, dynamic>.from({
                 "Phone Number": fullPhoneNumber,
                 "Wallet Address": walletAddress,
