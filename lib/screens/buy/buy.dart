@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -83,7 +84,8 @@ class BusinessesListViewState extends State<BusinessesListView> {
             //           padding: EdgeInsets.only(top: 70),
             //         )
             //       :
-            builder: (context) => viewModel.businesses.isEmpty
+            builder: (context) {
+              Widget businesses = viewModel.businesses.isEmpty
                 ? Container(
                     padding: const EdgeInsets.all(40.0),
                     child: Center(
@@ -91,19 +93,32 @@ class BusinessesListViewState extends State<BusinessesListView> {
                     ),
                   )
                 : new Container(
-                    padding: const EdgeInsets.only(
-                        top: 0, bottom: 16, left: 20, right: 00),
                     child: new Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
+                        viewModel.walletBanner != null && viewModel.walletBanner.walletBannerHash.isNotEmpty ? new Container(
+                          padding: EdgeInsets.all(10),
+                          child: new Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                      DotEnv().env['IPFS_BASE_URL'] + '/image/' + viewModel.walletBanner.walletBannerHash,
+                                    )
+                            )
+                          )
+                        )
+                      ) : Container(),
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             new Expanded(
                               child: new Padding(
-                                  padding: new EdgeInsets.only(bottom: 5.0),
+                                  padding: new EdgeInsets.only(left: 10, bottom: 5.0),
                                   child: ListView.separated(
                                     separatorBuilder:
                                         (BuildContext context, int index) =>
@@ -174,10 +189,10 @@ class BusinessesListViewState extends State<BusinessesListView> {
                                               MainAxisAlignment.end,
                                           children: <Widget>[
                                             FlatButton(
+                                              padding: EdgeInsets.all(10),
                                               shape: CircleBorder(),
                                               color:
                                                   Theme.of(context).buttonColor,
-                                              padding: EdgeInsets.all(10),
                                               child: Text(
                                                 I18n.of(context).pay,
                                                 style: TextStyle(
@@ -218,7 +233,10 @@ class BusinessesListViewState extends State<BusinessesListView> {
                         )
                       ],
                     ),
-                  ));
+                  );
+              return businesses;
+            }
+        );
       },
     );
   }
