@@ -339,7 +339,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     if (isPreloading) {
       return listItems;
     }
- 
+
     listItems.add(searchPanel());
 
     if (searchController.text.isEmpty) {

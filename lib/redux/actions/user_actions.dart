@@ -130,8 +130,8 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
     try {
       bool result = await api.loginRequest(phone);
       if (result) {
-        store.dispatch(
-            new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
+        store.dispatch(segmentAliasCall(phone));
+        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
         successCallback();
       } else {
         store.dispatch(new ErrorAction('Could not login'));

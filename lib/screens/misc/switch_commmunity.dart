@@ -14,7 +14,7 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 
 Widget scanQRButton(BuildContext context, Function switchCommunity) {
   return Container(
-      width: 255.0,
+      width: 260.0,
       height: 50.0,
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -39,22 +39,29 @@ Widget scanQRButton(BuildContext context, Function switchCommunity) {
             print('BarcodeScanner scan error');
           }
         },
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(I18n.of(context).sqan_qr_code),
-          SizedBox(
-            width: 5,
-          ),
-          new FloatingActionButton(
-              mini: true,
-              backgroundColor: const Color(0xFF292929),
-              elevation: 0,
-              child: Image.asset(
-                'assets/images/scan.png',
-                width: 25.0,
-                color: Theme.of(context).scaffoldBackgroundColor,
-              ),
-              onPressed: null)
-        ]),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(I18n.of(context).sqan_qr_code,
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.button.color,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new FloatingActionButton(
+                    mini: true,
+                    backgroundColor: const Color(0xFF292929),
+                    elevation: 0,
+                    child: Image.asset(
+                      'assets/images/scan.png',
+                      width: 20.0,
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                    ),
+                    onPressed: null),
+              )
+            ]),
       ));
 }
 
@@ -102,7 +109,8 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                           )
                         : SizedBox.shrink(),
                     Padding(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.only(
+                            top: 20, bottom: 20, right: 40, left: 40),
                         child:
                             scanQRButton(context, viewModel.switchCommunity)),
                     ...viewModel.communities.values
