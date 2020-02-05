@@ -120,13 +120,14 @@ class SwitchCommunityRequested {
 }
 
 class SwitchCommunitySuccess {
+  final bool isClosed;
   final Token token;
   final String communityAddress;
   final String communityName;
   final Transactions transactions;
   final Plugins plugins;
   SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token,
-      this.transactions, this.plugins);
+      this.transactions, this.plugins, this.isClosed);
 }
 
 class FetchCommunityMetadataSuccess {
@@ -729,6 +730,11 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
         type: 'RECEIVE',
         value: value,
         status: 'PENDING');
+      store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
+        properties: new Map<String, dynamic>.from({
+          "Community Name": community["name"],
+          "Bonus amount": communityData.plugins.joinBonus.amount,
+        })));
       store.dispatch(new AddTransaction(joinBonus));
     }
   };
@@ -746,7 +752,6 @@ ThunkAction fetchCommunityMetadataCall(String communityURI) {
 ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     try {
-      if (store.state.cashWalletState.isCommunityLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.d('community fetched for $communityAddress');
@@ -779,6 +784,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
               decimals: token["decimals"]),
           new Transactions(),
           communityPlugins,
+          communityData['isClosed']
           ));
     } catch (e) {
       logger.e(e);

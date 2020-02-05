@@ -36,6 +36,6 @@ List<Widget> getPages(BuildContext context) {
     introPage(context, I18n.of(context).simple, I18n.of(context).intro_text_one),
     introPage(context, I18n.of(context).useful, I18n.of(context).intro_text_two),
     introPage(context, I18n.of(context).smart, I18n.of(context).intro_text_three),
-    Align(alignment: Alignment.bottomCenter, child: CreateWallet())
+    CreateWallet()
   ];
 }
