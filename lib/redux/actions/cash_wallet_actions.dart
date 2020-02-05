@@ -820,26 +820,25 @@ ThunkAction getBusinessListCall() {
         dynamic a = _responseHandler(res);
         List<Business> businessList = new List();
         await Future.forEach(a['records'], (record) {
-          dynamic data = record['fields'];
-          String image = data['image'][0]['url'];
-          String temp = data['GPS'];
-          List<double> lanLng = temp.split(',').toList().map((item) => double.parse(item.trim())).toList();
-          Map<String, dynamic> business = Map.from({
-            'name': data['name'],
-            'account': data['account'],
-            'metadata': {
-              'image': image,
-              "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
-              'address': data['address'] ?? '',
-              'description': data['description'] ?? '',
-              'phoneNumber': data['phoneNumber'] ?? '',
-              'website': data['website'] ?? '',
-              'type': data['type'] ?? '',
-              'address': data['address'] ?? '',
-              'latLng': lanLng
-            }
-          });
-          businessList.add(new Business.fromJson(business));
+          if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
+            dynamic data = record['fields'];
+            Map<String, dynamic> business = Map.from({
+              'name': data['name'] ?? '',
+              'account': data['account'] ?? '',
+              'metadata': {
+                'image': data['image'][0]['url'] ?? '',
+                "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
+                'address': data['address'] ?? '',
+                'description': data['description'] ?? '',
+                'phoneNumber': data['phoneNumber'] ?? '',
+                'website': data['website'] ?? '',
+                'type': data['type'] ?? '',
+                'address': data['address'] ?? '',
+                'latLng': data['GPS'] != null ? data['GPS'].split(',').toList().map((item) => double.parse(item.trim())).toList() : null
+              }
+            });
+            businessList.add(new Business.fromJson(business));
+          }
         }).then((r) {
           store.dispatch(new GetBusinessListSuccess(businessList));
           store.dispatch(FetchingBusinessListSuccess());

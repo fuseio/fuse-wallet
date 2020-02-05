@@ -336,11 +336,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Widget> _buildPageList() {
     List<Widget> listItems = List();
 
+    listItems.add(searchPanel());
+
     if (isPreloading) {
       return listItems;
-    }
- 
-    listItems.add(searchPanel());
+    } 
 
     if (searchController.text.isEmpty) {
       listItems.add(recentContacts(3));
@@ -532,72 +532,72 @@ class _ContactsScreenState extends State<ContactsScreen> {
           });
         },
         builder: (_, viewModel) {
-          if (!isSync) {
-            return MainScaffold(
-                withPadding: true,
-                titleFontSize: 15,
-                title: I18n.of(context).send_to,
-                children: <Widget>[
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(top: 180),
-                        child: SvgPicture.asset(
-                          'assets/images/contacts.svg',
-                          width: 50.0,
-                          height: 50,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      new Text(I18n.of(context).sync_contacts),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          new Text(I18n.of(context).learn_more),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          InkWell(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  new Text(
-                                    I18n.of(context).activate,
-                                    style: TextStyle(color: Color(0xFF0377FF)),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  SvgPicture.asset(
-                                      'assets/images/blue_arrow.svg')
-                                ],
-                              ),
-                              onTap: () async {
-                                bool premission =
-                                    await ContactController.getPermissions();
-                                if (premission) {
-                                  List<Contact> contacts =
-                                      await ContactController.getContacts();
-                                  viewModel.syncContacts(contacts);
-                                }
-                              })
-                        ],
-                      )
-                    ],
-                  )
-                ]);
-          } else {
+          // if (!isSync) {
+          //   return MainScaffold(
+          //       withPadding: true,
+          //       titleFontSize: 15,
+          //       title: I18n.of(context).send_to,
+          //       children: <Widget>[
+          //         Column(
+          //           mainAxisSize: MainAxisSize.max,
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: <Widget>[
+          //             Container(
+          //               padding: EdgeInsets.only(top: 180),
+          //               child: SvgPicture.asset(
+          //                 'assets/images/contacts.svg',
+          //                 width: 50.0,
+          //                 height: 50,
+          //               ),
+          //             ),
+          //             SizedBox(
+          //               height: 40,
+          //             ),
+          //             new Text(I18n.of(context).sync_contacts),
+          //             SizedBox(
+          //               height: 40,
+          //             ),
+          //             Row(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               crossAxisAlignment: CrossAxisAlignment.center,
+          //               children: <Widget>[
+          //                 new Text(I18n.of(context).learn_more),
+          //                 SizedBox(
+          //                   width: 20,
+          //                 ),
+          //                 InkWell(
+          //                     child: Row(
+          //                       mainAxisAlignment: MainAxisAlignment.center,
+          //                       children: <Widget>[
+          //                         new Text(
+          //                           I18n.of(context).activate,
+          //                           style: TextStyle(color: Color(0xFF0377FF)),
+          //                         ),
+          //                         SizedBox(
+          //                           width: 5,
+          //                         ),
+          //                         SvgPicture.asset(
+          //                             'assets/images/blue_arrow.svg')
+          //                       ],
+          //                     ),
+          //                     onTap: () async {
+          //                       bool premission =
+          //                           await ContactController.getPermissions();
+          //                       if (premission) {
+          //                         List<Contact> contacts =
+          //                             await ContactController.getContacts();
+          //                         viewModel.syncContacts(contacts);
+          //                       }
+          //                     })
+          //               ],
+          //             )
+          //           ],
+          //         )
+          //       ]);
+          // } else {
+          // }
             return SendToContactScreen(viewModel);
-          }
         });
   }
 }

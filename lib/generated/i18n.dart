@@ -152,8 +152,8 @@ class I18n implements WidgetsLocalizations {
   String get activate => "Activate";
   /// "Recent"
   String get recent => "Recent";
-  /// "Name or Ethereum address"
-  String get search => "Name or Ethereum address";
+  /// "Name or Address"
+  String get search => "Name or Address";
   /// "Review transfer"
   String get review_transfer => "Review transfer";
   /// "Send"
