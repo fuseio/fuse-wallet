@@ -97,7 +97,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 30),
-                        child: Text(I18n.of(context).to+ ':',
+                        child: Text(I18n.of(context).to + ':',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
@@ -147,7 +147,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                             args.accountAddress.isEmpty
                                         ? Text('')
                                         : Text(
-                                            I18n.of(context).address + ": ${formatAddress(args.accountAddress)}",
+                                            I18n.of(context).address +
+                                                ": ${formatAddress(args.accountAddress)}",
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 color: Color(0xFF777777)),
@@ -155,7 +156,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                   ]
                                 : <Widget>[
                                     Text(
-                                      I18n.of(context).address + ": ${formatAddress(args.accountAddress)}",
+                                      I18n.of(context).address +
+                                          ": ${formatAddress(args.accountAddress)}",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF777777)),
@@ -200,30 +202,4 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       },
     );
   }
-}
-
-class SlideRightRoute extends PageRouteBuilder {
-  final Widget page;
-  SlideRightRoute({this.page})
-      : super(
-            pageBuilder: (
-              BuildContext context,
-              Animation<double> animation,
-              Animation<double> secondaryAnimation,
-            ) =>
-                page,
-            /* transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, -1),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),*/
-            transitionDuration: Duration(seconds: 1));
 }
