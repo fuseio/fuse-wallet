@@ -538,12 +538,13 @@ ThunkAction inviteAndSendCall(
 ) {
   return (Store store) async {
     String communityAddres = store.state.cashWalletState.communityAddress;
+    String senderName = store.state.userState.displayName;
     Community community = store.state.cashWalletState.communities[communityAddres];
     Token token = community?.token;
     dynamic response = await api.invite(
       contactPhoneNumber,
       store.state.cashWalletState.communityAddress,
-      name: name,
+      name: senderName,
       amount: tokensAmount.toString(),
       symbol: token.symbol
     );
