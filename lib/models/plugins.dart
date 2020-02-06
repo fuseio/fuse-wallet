@@ -64,16 +64,6 @@ class MoonpayPlugin extends DepositPlugin {
           isActive: json["isActive"] || false,
         )
       : null;
-
-  String generateUrl({String email, String walletAddress}) {
-    String url = this.widgetUrl;
-
-    url += '&externalCustomerId=$walletAddress';
-    if (email != null && email != '') {
-      url = url + '&email=$email';
-    }
-    return url;
-  }
 }
 
 class CarbonPlugin extends DepositPlugin {

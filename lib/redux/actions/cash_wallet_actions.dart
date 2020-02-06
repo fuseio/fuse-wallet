@@ -757,8 +757,9 @@ ThunkAction switchCommunityCall(String communityAddress) {
       logger.d(
           'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       bool isRopsten = token != null && token['originNetwork'] == 'ropsten';
+      String walletAddress = store.state.cashWalletState.walletAddress;
       Map<String, dynamic> communityData =
-          await api.getCommunityData(communityAddress, isRopsten: isRopsten);
+          await api.getCommunityData(communityAddress, isRopsten: isRopsten, walletAddress: walletAddress);
       store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
