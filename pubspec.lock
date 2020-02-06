@@ -956,7 +956,7 @@ packages:
       path: "../wallet_core"
       relative: true
     source: path
-    version: "0.0.1+57"
+    version: "0.0.1+58"
   watcher:
     dependency: transitive
     description:
