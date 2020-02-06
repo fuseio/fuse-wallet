@@ -127,7 +127,7 @@ class TransactionListItem extends StatelessWidget {
                               child: new DaiExplainedScreen(),
                               context: context));
                       await FlutterSegment.track(
-                          eventName: "Wallet: User open DAI points explanation",
+                          eventName: "Wallet: open DAI points explanation",
                           properties: new Map<String, dynamic>());
                     },
                     child: SvgPicture.asset('assets/images/info_svg.svg'),

@@ -94,17 +94,17 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
           return MainScaffold(
             header: CashHeader(),
             children: <Widget>[CashTransactios(viewModel: viewModel)],
-            floatingActionButton: isDefaultCommunity(viewModel.community.address) ? FloatingActionButton(
-              heroTag: 'winWin',
-              backgroundColor: Color(0xFFF1EFEE),
-              child: Image.asset(
-                'assets/images/win.png',
-                width: 25.0,
-              ),
-              onPressed: () {
-                print('open lottery page');
-              },
-            ): null,
+            // floatingActionButton: isDefaultCommunity(viewModel.community.address) ? FloatingActionButton(
+            //   heroTag: 'winWin',
+            //   backgroundColor: Color(0xFFF1EFEE),
+            //   child: Image.asset(
+            //     'assets/images/win.png',
+            //     width: 25.0,
+            //   ),
+            //   onPressed: () {
+            //     print('open lottery page');
+            //   },
+            // ): null,
           );
         });
   }

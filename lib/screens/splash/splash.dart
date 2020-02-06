@@ -85,27 +85,22 @@ class _SplashScreenState extends State<SplashScreen> {
                     child: Column(
                   children: <Widget>[
                     Expanded(
-                      flex: 20,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Flexible(
-                              flex: 10,
-                              fit: FlexFit.tight,
-                              child: Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: FlareActor(
-                                    "assets/images/animation.flr",
-                                    alignment: Alignment.bottomCenter,
-                                    fit: BoxFit.contain,
-                                    controller: _slideController,
-                                  ))),
-                          Expanded(
-                            flex: 3,
-                            child: Container(
-                                constraints: BoxConstraints.expand(),
+                        flex: 20,
+                        child: Container(
+                          child: new Stack(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 100, left: 20, right: 20),
+                                child: FlareActor(
+                                  "assets/images/animation.flr",
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.contain,
+                                  controller: _slideController,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 100),
                                 child: new PageView.builder(
                                   physics: new AlwaysScrollableScrollPhysics(),
                                   controller: _pageController,
@@ -114,25 +109,28 @@ class _SplashScreenState extends State<SplashScreen> {
                                       (BuildContext context, int index) {
                                     return getPages(context)[index % 4];
                                   },
-                                )),
-                          ),
-                          Flexible(
-                            flex: 2,
-                            child: new Container(
-                              child: new Center(
-                                child: new DotsIndicator(
-                                  controller: _pageController,
-                                  itemCount: 4,
-                                  onPageSelected: (int page) {
-                                    gotoPage(page);
-                                  },
                                 ),
                               ),
-                            ),
+                              new Positioned(
+                                bottom: 15.0,
+                                left: 0.0,
+                                right: 0.0,
+                                child: new Container(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: new Center(
+                                    child: new DotsIndicator(
+                                      controller: _pageController,
+                                      itemCount: 4,
+                                      onPageSelected: (int page) {
+                                        gotoPage(page);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
+                        )),
                   ],
                 ));
               }));

@@ -92,6 +92,7 @@ ThunkAction restoreWalletCall(
       store.dispatch(new CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
+      // store.dispatch(segmentTrackCall("Wallet: restored mnemonic", properties: new Map<String, dynamic>()));
       successCallback();
     } catch (e) {
       logger.e(e);
@@ -115,6 +116,7 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
       store.dispatch(new CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
+      // store.dispatch(segmentTrackCall("Wallet: Create new wallet", properties: new Map<String, dynamic>()));
       successCallback();
     } catch (e) {
       logger.e(e);
@@ -130,8 +132,10 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
     try {
       bool result = await api.loginRequest(phone);
       if (result) {
-        store.dispatch(segmentAliasCall(phone));
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
+        store.dispatch(segmentAliasCall(phone));
+        store.dispatch(segmentIdentifyCall(phone, new Map<String, dynamic>()));
+        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>()));
         successCallback();
       } else {
         store.dispatch(new ErrorAction('Could not login'));
@@ -159,6 +163,7 @@ ThunkAction loginVerifyCall(
       String jwtToken =
           await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
+      store.dispatch(segmentTrackCall("Wallet: verified phone number", properties: new Map<String, dynamic>()));
       successCallback();
     } catch (e) {
       logger.e(e);
@@ -171,6 +176,13 @@ ThunkAction loginVerifyCall(
 ThunkAction logoutCall() {
   return (Store store) async {
     store.dispatch(new LogoutRequestSuccess());
+  };
+}
+
+ThunkAction reLoginCall() {
+  return (Store store) async {
+    store.dispatch(new ReLogin());
+    store.dispatch(segmentTrackCall("Wallet: Login clicked", properties: new Map<String, dynamic>()));
   };
 }
 
@@ -228,6 +240,17 @@ ThunkAction setPincodeCall(String pincode) {
     }
   };
 }
+
+ThunkAction setDisplayNameCall(String displayName) {
+  return (Store store) async {
+    try {
+      store.dispatch(new SetDisplayName(displayName));
+      store.dispatch(segmentTrackCall("Wallet: display name added", properties: new Map<String, dynamic>()));
+    } catch (e) {
+    }
+  };
+}
+
 
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {

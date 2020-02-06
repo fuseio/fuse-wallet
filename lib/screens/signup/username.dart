@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/drawer.dart';
@@ -82,12 +81,9 @@ class _UserNameScreenState extends State<UserNameScreen> {
                         labelFontWeight: FontWeight.normal,
                         fontSize: 16,
                         preload: isPreloading,
-                        onPressed: () async {
+                        onPressed: () {
                           viewModel.setDisplayName(capitalize(displayNameController.text ?? 'Anom'));
                           Navigator.of(context).pushNamedAndRemoveUntil('/Cash', (Route<dynamic> route) => false);
-                          await FlutterSegment.track(
-                              eventName: "Wallet: user insert his display name",
-                              properties: new Map<String, dynamic>());
                         },
                       ),
                     ),

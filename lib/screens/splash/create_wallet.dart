@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
@@ -44,9 +43,6 @@ class _CreateWalletState extends State<CreateWallet> {
                     viewModel.initWeb3(viewModel.privateKey);
                     Navigator.popUntil(context, ModalRoute.withName('/'));
                     Navigator.pushNamed(context, '/Cash');
-                    await FlutterSegment.track(
-                        eventName: "Wallet: Login again clicked",
-                        properties: new Map<String, dynamic>());
                   } else {
                     viewModel.createLocalAccount(() {
                       setState(() {
@@ -57,9 +53,6 @@ class _CreateWalletState extends State<CreateWallet> {
                     setState(() {
                       isPrimaryPreloading = true;
                     });
-                    await FlutterSegment.track(
-                        eventName: "Wallet: Create new wallet clicked",
-                        properties: new Map<String, dynamic>());
                   }
                 },
                 preload: isPrimaryPreloading,
@@ -76,10 +69,6 @@ class _CreateWalletState extends State<CreateWallet> {
                                 label: I18n.of(context).restore_backup,
                                 onPressed: () async {
                                   Navigator.pushNamed(context, '/Recovery');
-                                  await FlutterSegment.track(
-                                      eventName:
-                                          "Wallet: Restore from backup clicked",
-                                      properties: new Map<String, dynamic>());
                                 }),
                             Text(
                               I18n.of(context).or,
@@ -98,10 +87,6 @@ class _CreateWalletState extends State<CreateWallet> {
                                   setState(() {
                                     isTransparentPreloading = true;
                                   });
-                                  await FlutterSegment.track(
-                                      eventName:
-                                          "Wallet: Create new wallet clicked",
-                                      properties: new Map<String, dynamic>());
                                 },
                                 preload: isTransparentPreloading)
                           ],
@@ -111,10 +96,6 @@ class _CreateWalletState extends State<CreateWallet> {
                           label: I18n.of(context).restore_from_backup,
                           onPressed: () async {
                             Navigator.pushNamed(context, '/Recovery');
-                            await FlutterSegment.track(
-                                eventName:
-                                    "Wallet: Restore from backup clicked",
-                                properties: new Map<String, dynamic>());
                           }))
             ],
           );

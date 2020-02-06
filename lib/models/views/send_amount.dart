@@ -8,8 +8,8 @@ import 'package:redux/redux.dart';
 class SendAmountViewModel {
   final Token token;
   final String myCountryCode;
-  final Function(String, num, VoidCallback, VoidCallback, String receiverName) sendToContact;
-  final Function(String, num, VoidCallback, VoidCallback, String receiverName) sendToAccountAddress;
+  final Function(String, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToContact;
+  final Function(String, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
 
   SendAmountViewModel(
       {this.token,
@@ -25,21 +25,27 @@ class SendAmountViewModel {
     return SendAmountViewModel(
         token: community.token,
         myCountryCode: store.state.userState.countryCode,
-        sendToContact: (String phoneNumber,
+        sendToContact: (
+            String phoneNumber,
             num amount,
+            String receiverName,
+            String transferNote,
             VoidCallback sendSuccessCallback,
             VoidCallback sendFailureCallback,
-            String receiverName) {
+        ) {
           store.dispatch(sendTokenToContactCall(
               phoneNumber, amount, sendSuccessCallback, sendFailureCallback, receiverName: receiverName));
         },
-        sendToAccountAddress: (String recieverAddress,
+        sendToAccountAddress: (
+          String recieverAddress,
             num amount,
+            String receiverName,
+            String transferNote,
             VoidCallback sendSuccessCallback,
             VoidCallback sendFailureCallback,
-            String receiverName) {
+          ) {
           store.dispatch(sendTokenCall(recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback, receiverName: receiverName));
+              sendSuccessCallback, sendFailureCallback, receiverName: receiverName, ));
         });
   }
 }
