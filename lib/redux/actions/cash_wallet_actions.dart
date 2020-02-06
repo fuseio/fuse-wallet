@@ -629,9 +629,9 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
           jobId: jobId);
 
       if (inviteTransfer != null) {
-        store.dispatch(new AddTransaction(transfer));
-      } else {
         store.dispatch(new ReplaceTransaction(inviteTransfer, transfer));
+      } else {
+        store.dispatch(new AddTransaction(transfer));
       }
 
       store.dispatch(segmentTrackCall("Wallet: User Transfer", properties: transfer.toJson()));
