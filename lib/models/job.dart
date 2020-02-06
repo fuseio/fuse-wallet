@@ -225,6 +225,7 @@ class InviteJob extends Job {
         job,
         arguments['tokensAmount'],
         arguments['receiverName'],
+        arguments['inviteTransfer'],
         arguments['sendSuccessCallback'],
         arguments['sendFailureCallback']));
   }
@@ -232,8 +233,23 @@ class InviteJob extends Job {
   dynamic argumentsToJson() {
     return {
       'tokensAmount': arguments['tokensAmount'],
-      'receiverName': arguments['receiverName']
+      'receiverName': arguments['receiverName'],
+      'inviteTransfer': arguments['inviteTransfer'].toJson()
     };
+  }
+
+  dynamic argumentsFromJson(arguments) {
+    if (arguments == null) {
+      return arguments;
+    }
+    if (arguments.containsKey('inviteTransfer')) {
+      if (arguments['inviteTransfer'] is Map) {
+        Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
+        nArgs['inviteTransfer'] = TransactionFactory.fromJson(arguments['inviteTransfer']);
+        return nArgs;
+      }
+    }
+    return arguments;
   }
 }
 
