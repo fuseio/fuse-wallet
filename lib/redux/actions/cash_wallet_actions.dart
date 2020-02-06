@@ -530,7 +530,6 @@ ThunkAction startProcessingJobsCall() {
 
 ThunkAction inviteAndSendCall(
   String name,
-  String symbol,
   String contactPhoneNumber,
   num tokensAmount,
   VoidCallback sendSuccessCallback,
@@ -972,7 +971,7 @@ ThunkAction getReceivedTokenTransfersListCall(String tokenAddress) {
   };
 }
 
-ThunkAction sendTokenToContactCall(String name, String symbol, String contactPhoneNumber, num tokensAmount,
+ThunkAction sendTokenToContactCall(String name, String contactPhoneNumber, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
     {String receiverName, String transferNote}) {
   return (Store store) async {
@@ -985,7 +984,6 @@ ThunkAction sendTokenToContactCall(String name, String symbol, String contactPho
       if (walletAddress == null || walletAddress.isEmpty) {
         store.dispatch(inviteAndSendCall(
           name,
-          symbol,
           contactPhoneNumber,
           tokensAmount,
           sendSuccessCallback,

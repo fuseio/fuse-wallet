@@ -42,6 +42,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   void send(SendAmountViewModel viewModel, SendAmountArguments args, String transferNote, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
     if (args.phoneNumber != null) {
       viewModel.sendToContact(
+          args.name,
           formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
           args.amount,
           args.name,
