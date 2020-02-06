@@ -33,7 +33,7 @@ class SplashViewModel extends Equatable {
           store.dispatch(createLocalAccountCall(successCallback));
         },
         loginAgain: () {
-          store.dispatch(new ReLogin());
+          store.dispatch(reLoginCall());
         }
         // accountAddress: store.state.userState.accountAddress,
         // loginRequestSuccess: store.state.userState.loginRequestSuccess,

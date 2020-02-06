@@ -1,5 +1,7 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/state_secure_storage.dart';
@@ -76,6 +78,33 @@ Future<Store<AppState>> createReduxStore() async {
       .where((record) => record.loggerName == mylogger.name)
       // Print them out (or do something more interesting!)
       .listen((loggingMiddlewareRecord) => logger.d(loggingMiddlewareRecord));
+
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+  void iosPermission() {
+    var firebaseMessaging2 = firebaseMessaging;
+    firebaseMessaging2.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+  }
+
+  if (Platform.isIOS) iosPermission();
+  var token = await firebaseMessaging.getToken();
+  logger.wtf("token $token");
+  await FlutterSegment.putDeviceToken(token);
+  firebaseMessaging.configure(
+    onMessage: (Map<String, dynamic> message) async {
+      logger.wtf('onMessage called: $message');
+    },
+    onResume: (Map<String, dynamic> message) async {
+      logger.wtf('onResume called: $message');
+    },
+    onLaunch: (Map<String, dynamic> message) async {
+      logger.wtf('onLaunch called: $message');
+    },
+  );
 
   return Store<AppState>(
     appReducer,

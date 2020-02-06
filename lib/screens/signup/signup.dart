@@ -169,7 +169,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       label: I18n.of(context).next_button,
                       fontSize: 16,
                       labelFontWeight: FontWeight.normal,
-                      onPressed: () async {
+                      onPressed: () {
                         if (phoneController.text.trim().isEmpty) {
                           setState(() {
                             isvalidPhone = false;
@@ -190,9 +190,6 @@ class _SignupScreenState extends State<SignupScreen> {
                               isvalidPhone = false;
                             });
                           });
-                          await FlutterSegment.track(
-                              eventName: "Wallet: user insert his phone number",
-                              properties: new Map<String, dynamic>());
                         }
                       },
                       preload: isPreloading,

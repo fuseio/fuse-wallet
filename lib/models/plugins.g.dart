@@ -16,6 +16,8 @@ Plugins _$PluginsFromJson(Map<String, dynamic> json) {
     ramp: Plugins._rampFromJson(json['ramp'] as Map<String, dynamic>),
     joinBonus:
         Plugins._joinBonusFromJson(json['joinBonus'] as Map<String, dynamic>),
+    walletBanner: Plugins._wallerBannerFromJson(
+        json['walletBanner'] as Map<String, dynamic>),
   );
 }
 
@@ -34,5 +36,7 @@ Map<String, dynamic> _$PluginsToJson(Plugins instance) {
   writeNotNull('coindirect', Plugins._coindirectToJson(instance.coindirect));
   writeNotNull('ramp', Plugins._rampToJson(instance.ramp));
   writeNotNull('joinBonus', Plugins._joinBonusToJson(instance.joinBonus));
+  writeNotNull(
+      'walletBanner', Plugins._walletBannerToJson(instance.walletBanner));
   return val;
 }

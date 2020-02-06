@@ -27,34 +27,34 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:logger/logger.dart';
 
-void enablePushNotifications() async {
-  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
-  void iosPermission() {
-    var firebaseMessaging2 = firebaseMessaging;
-    firebaseMessaging2.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-  }
+// void enablePushNotifications() async {
+//   FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+//   void iosPermission() {
+//     var firebaseMessaging2 = firebaseMessaging;
+//     firebaseMessaging2.requestNotificationPermissions(
+//         IosNotificationSettings(sound: true, badge: true, alert: true));
+//     firebaseMessaging.onIosSettingsRegistered
+//         .listen((IosNotificationSettings settings) {
+//       print("Settings registered: $settings");
+//     });
+//   }
 
-  if (Platform.isIOS) iosPermission();
-  var token = await firebaseMessaging.getToken();
-  logger.wtf("token $token");
-  await FlutterSegment.putDeviceToken(token);
-  firebaseMessaging.configure(
-    onMessage: (Map<String, dynamic> message) async {
-      logger.wtf('onMessage called: $message');
-    },
-    onResume: (Map<String, dynamic> message) async {
-      logger.wtf('onResume called: $message');
-    },
-    onLaunch: (Map<String, dynamic> message) async {
-      logger.wtf('onLaunch called: $message');
-    },
-  );
-}
+//   if (Platform.isIOS) iosPermission();
+//   var token = await firebaseMessaging.getToken();
+//   logger.wtf("token $token");
+//   await FlutterSegment.putDeviceToken(token);
+//   firebaseMessaging.configure(
+//     onMessage: (Map<String, dynamic> message) async {
+//       logger.wtf('onMessage called: $message');
+//     },
+//     onResume: (Map<String, dynamic> message) async {
+//       logger.wtf('onResume called: $message');
+//     },
+//     onLaunch: (Map<String, dynamic> message) async {
+//       logger.wtf('onLaunch called: $message');
+//     },
+//   );
+// }
 
 var logger = Logger(printer: PrettyPrinter()
     // output: DualOutput()
@@ -401,7 +401,7 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
     String walletAddress = wallet["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
-          enablePushNotifications();
+          // enablePushNotifications();
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.d('fullPhoneNumber: $fullPhoneNumber');
           store.dispatch(segmentIdentifyCall(
@@ -572,7 +572,7 @@ ThunkAction inviteAndSendSuccessCall(Job job, tokensAmount, receiverName, sendSu
 
 ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
-    {String receiverName}) {
+    {String receiverName, String transferNote}) {
   return (Store store) async {
     try {
       wallet_core.Web3 web3 = store.state.cashWalletState.web3;
@@ -600,6 +600,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
           tokenAddress: tokenAddress,
           value: value,
           type: 'SEND',
+          note: transferNote,
           receiverName: receiverName,
           status: 'PENDING',
           jobId: jobId);
@@ -939,7 +940,7 @@ ThunkAction getReceivedTokenTransfersListCall(String tokenAddress) {
 
 ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
-    {String receiverName}) {
+    {String receiverName, String transferNote}) {
   return (Store store) async {
     try {
       logger.i('Trying to send $tokensAmount to phone $contactPhoneNumber');
@@ -955,7 +956,7 @@ ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount,
       }
       store.dispatch(sendTokenCall(
           walletAddress, tokensAmount, sendSuccessCallback, sendFailureCallback,
-          receiverName: receiverName));
+          receiverName: receiverName, transferNote: transferNote));
     } catch (e) {
       logger.e(e);
       store.dispatch(new ErrorAction('Could not send token to contact'));

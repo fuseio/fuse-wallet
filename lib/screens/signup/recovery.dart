@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/recovery.dart';
@@ -96,7 +95,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
               label: I18n.of(context).next_button,
               fontSize: 16,
               labelFontWeight: FontWeight.normal,
-              onPressed: () async {
+              onPressed: () {
                 if (_formKey.currentState.validate()) {
                   setState(() {
                     isPreloading = true;
@@ -108,9 +107,6 @@ class _RecoveryPageState extends State<RecoveryPage> {
                       isPreloading = false;
                     });
                   });
-                  await FlutterSegment.track(
-                              eventName: "Wallet: user restored his mnemonic",
-                              properties: new Map<String, dynamic>());
                 }
               },
             )),

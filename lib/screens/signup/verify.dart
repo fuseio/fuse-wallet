@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
@@ -89,7 +88,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     labelFontWeight: FontWeight.normal,
                     fontSize: 16,
                     preload: isPreloading,
-                    onPressed: () async {
+                    onPressed: () {
                       setState(() {
                         isPreloading = true;
                       });
@@ -98,14 +97,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           viewModel.phoneNumber,
                           verificationCodeController.text,
                           viewModel.accountAddress, () async {
-                        // Navigator.popUntil(context, ModalRoute.withName('/'));
                         Navigator.popAndPushNamed(context, '/UserName');
                         setState(() {
                           isPreloading = false;
                         });
-                        await FlutterSegment.track(
-                              eventName: "Wallet: user verified phone number",
-                              properties: new Map<String, dynamic>());
                       }, () {
                         setState(() {
                           isPreloading = false;
