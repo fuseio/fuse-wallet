@@ -529,6 +529,7 @@ ThunkAction startProcessingJobsCall() {
 }
 
 ThunkAction inviteAndSendCall(
+  String name,
   String contactPhoneNumber,
   num tokensAmount,
   VoidCallback sendSuccessCallback,
@@ -536,14 +537,19 @@ ThunkAction inviteAndSendCall(
   {String receiverName = ''}
 ) {
   return (Store store) async {
-    dynamic response = await api.invite(
-        contactPhoneNumber, store.state.cashWalletState.communityAddress);
-    logger.wtf("response $response");
-    sendSuccessCallback();
-
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
     Token token = community?.token;
+    dynamic response = await api.invite(
+      contactPhoneNumber,
+      store.state.cashWalletState.communityAddress,
+      name: name,
+      amount: tokensAmount.toString(),
+      symbol: token.symbol
+    );
+    logger.wtf("response $response");
+    sendSuccessCallback();
+
     String tokenAddress = token?.address;
 
     BigInt value = toBigInt(tokensAmount, token.decimals);
@@ -965,7 +971,7 @@ ThunkAction getReceivedTokenTransfersListCall(String tokenAddress) {
   };
 }
 
-ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount,
+ThunkAction sendTokenToContactCall(String name, String contactPhoneNumber, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
     {String receiverName, String transferNote}) {
   return (Store store) async {
@@ -976,9 +982,14 @@ ThunkAction sendTokenToContactCall(String contactPhoneNumber, num tokensAmount,
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       logger.wtf("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
-        store.dispatch(inviteAndSendCall(contactPhoneNumber, tokensAmount,
-            sendSuccessCallback, sendFailureCallback,
-            receiverName: receiverName));
+        store.dispatch(inviteAndSendCall(
+          name,
+          contactPhoneNumber,
+          tokensAmount,
+          sendSuccessCallback,
+          sendFailureCallback,
+          receiverName: receiverName
+        ));
         return;
       }
       store.dispatch(sendTokenCall(

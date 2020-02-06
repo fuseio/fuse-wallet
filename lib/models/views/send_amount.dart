@@ -8,7 +8,7 @@ import 'package:redux/redux.dart';
 class SendAmountViewModel {
   final Token token;
   final String myCountryCode;
-  final Function(String, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToContact;
+  final Function(String name, String phoneNumber, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToContact;
   final Function(String, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
 
   SendAmountViewModel(
@@ -26,6 +26,7 @@ class SendAmountViewModel {
         token: community.token,
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
+            String name,
             String phoneNumber,
             num amount,
             String receiverName,
@@ -34,7 +35,13 @@ class SendAmountViewModel {
             VoidCallback sendFailureCallback,
         ) {
           store.dispatch(sendTokenToContactCall(
-              phoneNumber, amount, sendSuccessCallback, sendFailureCallback, receiverName: receiverName));
+            name,
+            phoneNumber,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName
+          ));
         },
         sendToAccountAddress: (
           String recieverAddress,
