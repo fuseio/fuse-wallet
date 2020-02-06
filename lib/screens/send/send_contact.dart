@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/transaction.dart';

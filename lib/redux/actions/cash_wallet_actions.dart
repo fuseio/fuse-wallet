@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -26,35 +24,6 @@ import 'package:paywise/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:logger/logger.dart';
-
-void enablePushNotifications() async {
-  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
-  void iosPermission() {
-    var firebaseMessaging2 = firebaseMessaging;
-    firebaseMessaging2.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-  }
-
-  if (Platform.isIOS) iosPermission();
-  var token = await firebaseMessaging.getToken();
-  logger.wtf("token $token");
-  await FlutterSegment.putDeviceToken(token);
-  firebaseMessaging.configure(
-    onMessage: (Map<String, dynamic> message) async {
-      logger.wtf('onMessage called: $message');
-    },
-    onResume: (Map<String, dynamic> message) async {
-      logger.wtf('onResume called: $message');
-    },
-    onLaunch: (Map<String, dynamic> message) async {
-      logger.wtf('onLaunch called: $message');
-    },
-  );
-}
 
 var logger = Logger(printer: PrettyPrinter()
     // output: DualOutput()
@@ -251,18 +220,15 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
   };
 }
 
-ThunkAction segmentAliasCall() {
+ThunkAction segmentAliasCall(String userId) {
   return (Store store) async {
-    String anonymousId = await FlutterSegment.getAnonymousId;
-    await FlutterSegment.alias(alias: anonymousId);
+    await FlutterSegment.alias(alias: userId);
   };
 }
 
-ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
+ThunkAction segmentIdentifyCall(String userId, Map<String, dynamic> traits) {
   return (Store store) async {
-    store.dispatch(segmentAliasCall());
-    String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-    await FlutterSegment.identify(userId: phoneNumber, traits: traits);
+    await FlutterSegment.identify(userId: userId, traits: traits);
   };
 }
 
@@ -277,13 +243,13 @@ ThunkAction listenToBranchCall() {
         var communityAddress = linkData["community_address"];
         logger.wtf("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
+        store.dispatch(segmentTrackCall("PAYWISE - Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
         logger.wtf("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
+        store.dispatch(segmentTrackCall("PAYWISE - Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       store.dispatch(BranchDataReceived());
     };
@@ -405,15 +371,15 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.d('fullPhoneNumber: $fullPhoneNumber');
-          enablePushNotifications();
           store.dispatch(segmentIdentifyCall(
+              fullPhoneNumber,
               new Map<String, dynamic>.from({
                 "Phone Number": fullPhoneNumber,
                 "Wallet Address": walletAddress,
                 "Account Address": accountAddress,
                 "Display Name": store.state.userState.displayName
               })));
-          store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
+          store.dispatch(segmentTrackCall('PATWISE - Wallet: Wallet Generated'));
           store.dispatch(create3boxAccountCall(accountAddress));
     }
   };
@@ -604,7 +570,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
 
       store.dispatch(new AddTransaction(transfer));
 
-      store.dispatch(segmentTrackCall("Wallet: User Transfer", properties: transfer.toJson()));
+      store.dispatch(segmentTrackCall("PAYWISE - Wallet: User Transfer", properties: transfer.toJson()));
       response['job']['arguments'] = {
         'transfer': transfer
       };
@@ -726,6 +692,11 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
         type: 'RECEIVE',
         value: value,
         status: 'PENDING');
+        store.dispatch(segmentTrackCall("PAYWISE - Wallet: user got a join bonus",
+        properties: new Map<String, dynamic>.from({
+          "Community Name": community["name"],
+          "Bonus amount": communityData.plugins.joinBonus.amount,
+        })));
       store.dispatch(new AddTransaction(joinBonus));
     }
   };
@@ -756,7 +727,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
-      store.dispatch(segmentTrackCall("Wallet: Switch Community",
+      store.dispatch(segmentTrackCall("PAYWISE - Wallet: Switch Community",
           properties: new Map<String, dynamic>.from({
             "Community Name": community["name"],
             "Community Address": communityAddress,

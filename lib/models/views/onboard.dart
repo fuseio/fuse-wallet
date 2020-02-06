@@ -44,7 +44,7 @@ class OnboardViewModel extends Equatable {
         store.dispatch(setPincodeCall(pincode));
       },
       setDisplayName: (displayName) {
-        store.dispatch(new SetDisplayName(displayName));
+        store.dispatch(setDisplayNameCall(displayName));
       }
     );
   }
