@@ -19,9 +19,6 @@ class _DepositWebViewState extends State<DepositWebView> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
-  WebViewController _myController;
-  GlobalKey _depositKey = GlobalKey();
-
   TextEditingController address = new TextEditingController();
 
   @override

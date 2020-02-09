@@ -10,22 +10,22 @@ import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
+import 'package:fusecash/screens/cash_home/cash_transactions.dart';
 import 'package:fusecash/screens/cash_home/dai_explained.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
-
-String deduceSign(Transfer transfer) {
-  if (transfer.type == 'SEND') {
-    return '-';
-  } else {
-    return '+';
-  }
-}
 
 String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true}) {
+    {bool format = true, List<Business> businesses}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+  if (businesses != null && businesses.isNotEmpty) {
+    Business business = businesses.firstWhere(
+        (business) => business.account == accountAddress,
+        orElse: () => null);
+    if (business != null) {
+      return business.name;
+    }
+  }
   if (reverseContacts.containsKey(accountAddress)) {
     return reverseContacts[accountAddress];
   }
@@ -36,35 +36,11 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
   }
 }
 
-Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
-    List<Contact> contacts, String countryCode) {
-  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  if (accountAddress == null) {
-    return null;
-  }
-  if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
-    String phoneNumber = reverseContacts[accountAddress.toLowerCase()];
-    if (contacts == null) return null;
-    for (Contact contact in contacts) {
-      for (Item contactPhoneNumber in contact.phones.toList()) {
-        if (formatPhoneNumber(contactPhoneNumber.value, countryCode) ==
-            phoneNumber) {
-          return contact;
-        }
-      }
-    }
-  }
-  return null;
-}
-
 dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
   if (transfer.isJoinCommunity() &&
       vm.community.metadata.image != null &&
       vm.community.metadata.image != '') {
-    return new NetworkImage(
-        DotEnv().env['IPFS_BASE_URL'] + '/image/' + vm.community.metadata.image
-        // 'assets/images/join_community.png',
-        );
+    return new NetworkImage(DotEnv().env['IPFS_BASE_URL'] + '/image/' + vm.community.metadata.image);
   } else if (transfer.isGenerateWallet()) {
     return new AssetImage(
       'assets/images/generate_wallet.png',
@@ -113,6 +89,16 @@ class TransactionListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Transfer transfer = _transaction as Transfer;
+    String displayName = transfer.isJoinBonus()
+        ? I18n.of(context).join_bonus
+        : (transfer.receiverName != null && transfer.receiverName != '')
+            ? transfer.receiverName
+            : transfer.text != null
+                ? transfer.text
+                : _contact != null
+                    ? _contact.displayName
+                    : deducePhoneNumber(transfer, _vm.reverseContacts,
+                        businesses: _vm.businesses);
     List<Widget> rightColumn = <Widget>[
       transfer.isJoinCommunity() && isDefaultCommunity(_vm.communityAddress)
           ? Row(
@@ -204,15 +190,15 @@ class TransactionListItem extends StatelessWidget {
                                     getImage(transfer, _contact, _vm),
                               ),
                               tag: transfer.isGenerateWallet()
-                                  ? ''
+                                  ? 'GenerateWallet'
                                   : transfer.isPending()
                                       ? "contactSent"
                                       : "transaction" + transfer.txHash,
                             ),
                             transfer.isPending()
                                 ? Container(
-                                    width: 54,
-                                    height: 54,
+                                    width: 55,
+                                    height: 55,
                                     child: CircularProgressIndicator(
                                       backgroundColor:
                                           Color(0xFF49D88D).withOpacity(0),
@@ -222,6 +208,38 @@ class TransactionListItem extends StatelessWidget {
                                           new AlwaysStoppedAnimation<Color>(
                                               Color(0xFF49D88D).withOpacity(1)),
                                     ))
+                                : SizedBox.shrink(),
+                            _vm.community.metadata.isDefaultImage != null &&
+                                    _vm.community.metadata.isDefaultImage &&
+                                    transfer.isJoinCommunity()
+                                ? Positioned(
+                                    top: 16,
+                                    left: 12.0,
+                                    right: 0.0,
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          Positioned(
+                                            top: 0,
+                                            left: 0,
+                                            child: Center(
+                                                child: Text(
+                                              _vm.community.token.symbol,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.left,
+                                            )),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
                                 : SizedBox.shrink()
                           ],
                         ),
@@ -229,25 +247,14 @@ class TransactionListItem extends StatelessWidget {
                       SizedBox(width: 10.0),
                       Flexible(
                         flex: 10,
-                        child: Text(
-                            transfer.isJoinBonus()
-                                ? I18n.of(context).join_bonus
-                                : (transfer.receiverName != null &&
-                                        transfer.receiverName != '')
-                                    ? transfer.receiverName
-                                    : transfer.text != null
-                                        ? transfer.text
-                                        : _contact != null
-                                            ? _contact.displayName
-                                            : deducePhoneNumber(
-                                                transfer, _vm.reverseContacts),
+                        child: Text(displayName,
                             style: TextStyle(
                                 color: Color(0xFF333333), fontSize: 15)),
                       ),
                     ],
                   )),
               Flexible(
-                  flex: 2,
+                  flex: 3,
                   child: Container(
                     width: 100,
                     child: Column(
@@ -274,6 +281,7 @@ class TransactionListItem extends StatelessWidget {
                   arguments: TransactionDetailArguments(
                     transfer: transfer,
                     contact: _contact,
+                    from: displayName,
                     reverseContacts: _vm.reverseContacts,
                     symbol: _vm.token.symbol,
                     image: getImage(transfer, _contact, _vm),

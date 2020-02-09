@@ -1,13 +1,14 @@
 import 'package:contacts_service/contacts_service.dart';
+import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/token.dart';
 import 'package:fusecash/models/transactions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
-
-class ContactsViewModel {
+class ContactsViewModel extends Equatable {
   final List<Contact> contacts;
   final Token token;
   final bool isContactsSynced;
@@ -16,6 +17,7 @@ class ContactsViewModel {
   final Map<String, String> reverseContacts;
   final String countryCode;
   final Function() syncContactsRejected;
+  final List<Business> businesses;
 
   ContactsViewModel(
       {this.contacts,
@@ -25,13 +27,15 @@ class ContactsViewModel {
       this.transactions,
       this.reverseContacts,
       this.countryCode,
+      this.businesses,
       this.syncContactsRejected});
 
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
     return ContactsViewModel(
-        isContactsSynced: store.state.userState.isContactsSynced ?? false,
+        businesses: community?.businesses ?? [],
+        isContactsSynced: store.state.userState.isContactsSynced,
         contacts: store.state.userState.contacts ?? [],
         token: community?.token,
         transactions: community?.transactions,
@@ -44,4 +48,15 @@ class ContactsViewModel {
           store.dispatch(new SyncContactsRejected());
         });
   }
+
+  @override
+  List<Object> get props => [
+    contacts,
+    token,
+    isContactsSynced,
+    transactions,
+    reverseContacts,
+    countryCode,
+    businesses
+  ];
 }

@@ -6,8 +6,10 @@ part 'community_metadata.g.dart';
 class CommunityMetadata {
   final String image;
   final String coverPhoto;
+  final bool isDefaultImage;
 
   CommunityMetadata({
+    this.isDefaultImage = false,
     this.image = '',
     this.coverPhoto = '',
   });
