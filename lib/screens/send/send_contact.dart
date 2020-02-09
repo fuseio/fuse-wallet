@@ -368,12 +368,12 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
 
     listItems.add(searchPanel());
 
-    if (hasSynced) {
-      if (searchController.text.isEmpty) {
+    if (searchController.text.isEmpty) {
+      if (hasSynced) {
         listItems.add(recentContacts(3, viewModel));
-      } else if (isValidEthereumAddress(searchController.text)) {
-        listItems.add(sendToAcccountAddress(searchController.text));
       }
+    } else if (isValidEthereumAddress(searchController.text)) {
+      listItems.add(sendToAcccountAddress(searchController.text));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
