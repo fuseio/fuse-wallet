@@ -20,25 +20,26 @@ class CashWalletState {
       fromJson: _communitiesFromJson,
       toJson: _communitiesToJson)
   final Map<String, Community> communities;
-  final bool isCommunityLoading;
 
+  @JsonKey(defaultValue: false)
+  final bool isCommunityLoading;
   @JsonKey(ignore: true)
   final wallet_core.Web3 web3;
   @JsonKey(ignore: true)
   final String branchAddress;
-  @JsonKey(ignore: true)
+  @JsonKey(defaultValue: false)
   final bool isCommunityFetched;
-  @JsonKey(ignore: true)
+  @JsonKey(defaultValue: false)
   final bool isCommunityBusinessesFetched;
-  @JsonKey(ignore: true)
+  @JsonKey(defaultValue: false)
   final bool isBalanceFetchingStarted;
-  @JsonKey(ignore: true)
+  @JsonKey(defaultValue: false)
   final bool isTransfersFetchingStarted;
-  @JsonKey(ignore: true)
+  @JsonKey(defaultValue: false)
   final bool isListeningToBranch;
-  @JsonKey(ignore: true)
+  @JsonKey(defaultValue: false)
   final bool isBranchDataReceived;
-  @JsonKey(ignore: true)
+  @JsonKey(defaultValue: false)
   final bool isJobProcessingStarted;
   @JsonKey(ignore: true)
   final Map<String, num> sendToInvites;

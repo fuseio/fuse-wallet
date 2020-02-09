@@ -3,6 +3,7 @@ import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transactions.dart';
+import 'package:fusecash/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/token.dart';
@@ -74,6 +75,7 @@ class CashWalletViewModel extends Equatable {
   final bool isContactsSynced;
   final bool isJobProcessingStarted;
   final Community community;
+  final Function() identifyCall;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -113,7 +115,8 @@ class CashWalletViewModel extends Equatable {
     this.startProcessingJobs,
     this.isContactsSynced,
     this.isJobProcessingStarted,
-    this.community
+    this.community,
+    this.identifyCall
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -127,12 +130,12 @@ class CashWalletViewModel extends Equatable {
       walletStatus: store.state.cashWalletState.walletStatus,
       communityAddress: communityAddres,
       branchAddress: branchAddress,
-      isCommunityLoading: isCommunityLoading ?? false,
-      isCommunityFetched: store.state.cashWalletState.isCommunityFetched ?? false,
-      isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted ?? false,
-      isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted ?? false,
-      isListeningToBranch: store.state.cashWalletState.isListeningToBranch ?? false,
-      isBranchDataReceived: store.state.cashWalletState.isBranchDataReceived ?? false,
+      isCommunityLoading: isCommunityLoading,
+      isCommunityFetched: store.state.cashWalletState.isCommunityFetched,
+      isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
+      isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted,
+      isListeningToBranch: store.state.cashWalletState.isListeningToBranch,
+      isBranchDataReceived: store.state.cashWalletState.isBranchDataReceived,
       displayName: store.state.userState.displayName,
       tokenBalance: community?.tokenBalance ?? BigInt.from(0),
       token: community?.token,
@@ -143,9 +146,9 @@ class CashWalletViewModel extends Equatable {
       reverseContacts: store.state.userState.reverseContacts,
       countryCode: store.state.userState.countryCode,
       businesses: community?.businesses ?? [],
-      isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched ?? false,
-      isContactsSynced: store.state.userState.isContactsSynced ?? false,
-      isJobProcessingStarted: store.state.cashWalletState.isJobProcessingStarted ?? false,
+      isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,
+      isContactsSynced: store.state.userState.isContactsSynced,
+      isJobProcessingStarted: store.state.cashWalletState.isJobProcessingStarted,
       community: community,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
@@ -185,6 +188,19 @@ class CashWalletViewModel extends Equatable {
       },
       startProcessingJobs: () {
         store.dispatch(startProcessingJobsCall());
+      },
+      identifyCall: () {
+        String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+        store.dispatch(enablePushNotifications());
+        store.dispatch(segmentAliasCall(fullPhoneNumber));
+        store.dispatch(segmentIdentifyCall(
+            fullPhoneNumber,
+            new Map<String, dynamic>.from({
+              "Phone Number": fullPhoneNumber,
+              "Wallet Address": store.state.cashWalletState.walletAddress,
+              "Account Address": store.state.userState.accountAddress,
+              "Display Name": store.state.userState.displayName
+            })));
       }
     );
   }

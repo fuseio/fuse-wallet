@@ -1,13 +1,10 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/state_secure_storage.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 import 'package:fusecash/services.dart';
@@ -36,83 +33,98 @@ class ConsoleOutput extends logger_package.LogOutput {
   }
 }
 
-Future<Store<AppState>> createReduxStore() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  var storage = new FlutterSecureStorage();
+class AppFactory {
+  static AppFactory _singleton;
+  Map<String, Logger> _loggers = {};
+  Store<AppState> _store;
 
-  File file = await getFile();
-  var output = new ConsoleOutput(file);
+  AppFactory._();
 
-  var logger = logger_package.Logger(
-      printer: logger_package.PrettyPrinter(),
-      output: output
-  );
-
-  final persistor = Persistor<AppState>(
-    storage: SecureStorage(storage = storage),
-    serializer: JsonSerializer<AppState>(AppState.fromJson),
-    debug: DotEnv().env['MODE'] == 'development'
-  );
-
-  AppState initialState;
-  try {
-    // initialState = new AppState.initial();
-    initialState = await persistor.load();
-    if (initialState?.userState?.jwtToken != '') {
-      logger.d('jwt: ${initialState.userState.jwtToken}');
-      logger.d('accountAddress: ${initialState.userState.accountAddress}');
-      api.setJwtToken(initialState.userState.jwtToken);
-    } else {
-      logger.d('no JWT');
+  factory AppFactory() {
+    if (_singleton == null) {
+      _singleton = AppFactory._();
     }
-  } catch (e) {
-    logger.e(e);
-    initialState = new AppState.initial();
+    return _singleton;
   }
 
-  // logger.onRecord
-  final mylogger = new Logger("Redux Logger");
+  Future<Store<AppState>> getStore() async {
+    if (_store == null) {
+      final Logger logger = await getLogger('action');
+      bool isDevelopment = DotEnv().env['MODE'] == 'development';
+      FlutterSecureStorage storage = new FlutterSecureStorage();
 
-  mylogger.onRecord
-      // Filter down to [LogRecord]s sent to your logger instance
-      .where((record) => record.loggerName == mylogger.name)
-      // Print them out (or do something more interesting!)
-      .listen((loggingMiddlewareRecord) => logger.d(loggingMiddlewareRecord));
+      final persistor = Persistor<AppState>(
+        storage: SecureStorage(storage = storage),
+        serializer: JsonSerializer<AppState>(AppState.fromJson),
+        debug: isDevelopment
+      );
 
-  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
-  void iosPermission() {
-    var firebaseMessaging2 = firebaseMessaging;
-    firebaseMessaging2.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
+      AppState initialState;
+      try {
+        initialState = await persistor.load();
+        if (initialState?.userState?.jwtToken != '') {
+          logger.info('jwt: ${initialState.userState.jwtToken}');
+          logger.info('accountAddress: ${initialState.userState.accountAddress}');
+          api.setJwtToken(initialState.userState.jwtToken);
+        } else {
+          logger.info('no JWT');
+        }
+      } catch (e) {
+        logger.severe('ERROR - getStore $e');
+        initialState = new AppState.initial();
+      }
+
+      final List<Middleware<AppState>> wms = [];
+      if (isDevelopment) {
+        wms.add(LoggingMiddleware<AppState>(logger:logger, level: Level.ALL, formatter: LoggingMiddleware.multiLineFormatter));
+      }
+      wms.addAll([
+        thunkMiddleware,
+        persistor.createMiddleware(),
+      ]);
+
+      _store = Store<AppState>(
+        appReducer,
+        initialState: initialState,
+        middleware: wms,
+      );
+    }
+
+    return _store;
   }
 
-  if (Platform.isIOS) iosPermission();
-  var token = await firebaseMessaging.getToken();
-  logger.wtf("token $token");
-  await FlutterSegment.putDeviceToken(token);
-  firebaseMessaging.configure(
-    onMessage: (Map<String, dynamic> message) async {
-      logger.wtf('onMessage called: $message');
-    },
-    onResume: (Map<String, dynamic> message) async {
-      logger.wtf('onResume called: $message');
-    },
-    onLaunch: (Map<String, dynamic> message) async {
-      logger.wtf('onLaunch called: $message');
-    },
-  );
 
-  return Store<AppState>(
-    appReducer,
-    initialState: initialState,
-    middleware: [
-      thunkMiddleware,
-      new LoggingMiddleware(logger: mylogger),
-      persistor.createMiddleware()
-    ]
-  );
+  Future<Logger> getLogger(String name) async {
+    if (_loggers[name] == null) {
+      Logger.root.level = Level.ALL;
+      File file = await getFile();
+      var output = new ConsoleOutput(file);
+
+      logger_package.Logger logger = logger_package.Logger(
+          printer: logger_package.PrettyPrinter(),
+          output: output
+      );
+
+      final mylogger = Logger(name);
+      mylogger.onRecord
+          .where((LogRecord record) => record.loggerName == mylogger.name)
+          .listen((LogRecord record) {
+            if (record.level.name == 'INFO') {
+              logger.wtf(record);
+            } else if (record.level.name == 'DEBUG') {
+              logger.d(record);
+            } else if (record.level.name == 'ERROR') {
+              logger.e(record);
+            } else if (record.level.name == 'WARNING') {
+              logger.w(record);
+            } else if (record.level.name == 'FINE') {
+              logger.i(record);
+            } else if (record.level.name == 'SEVERE') {
+              logger.e(record);
+            }
+      });
+      _loggers[name] = mylogger;
+    }
+    return _loggers[name];
+  }
 }

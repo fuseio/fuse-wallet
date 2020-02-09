@@ -76,7 +76,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen>
                           Padding(
                             padding: EdgeInsets.only(bottom: 10),
                             child: Text(
-                              'Welcome to DAI point community!',
+                              'Welcome to DAI points community!',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),

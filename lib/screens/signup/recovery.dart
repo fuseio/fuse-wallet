@@ -74,6 +74,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
                         autofocus: false,
+                        style: TextStyle(color: Colors.black),
                         decoration: const InputDecoration(
                             border: null, fillColor: Colors.transparent),
                         validator: (String value) {

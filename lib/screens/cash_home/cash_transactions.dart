@@ -6,7 +6,6 @@ import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/screens/cash_home/transaction_item.dart';
 import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/utils/format.dart';
 
 class CashTransactios extends StatefulWidget {
   CashTransactios({@required this.viewModel});
@@ -21,19 +20,6 @@ String deduceSign(Transfer transfer) {
     return '-';
   } else {
     return '+';
-  }
-}
-
-String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true}) {
-  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  if (reverseContacts.containsKey(accountAddress)) {
-    return reverseContacts[accountAddress];
-  }
-  if (format) {
-    return formatAddress(accountAddress);
-  } else {
-    return accountAddress;
   }
 }
 

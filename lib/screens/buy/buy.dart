@@ -97,7 +97,7 @@ class BusinessesListViewState extends State<BusinessesListView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        viewModel.walletBanner != null && viewModel.walletBanner.walletBannerHash.isNotEmpty ? new Container(
+                        viewModel.walletBanner != null && viewModel.walletBanner.walletBannerHash != null && viewModel.walletBanner.walletBannerHash.isNotEmpty ? new Container(
                           padding: EdgeInsets.all(10),
                           child: new Container(
                           width: MediaQuery.of(context).size.width,
