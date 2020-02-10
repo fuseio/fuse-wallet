@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/send_amount.dart';
-import 'package:paywise/screens/cash_home/cash_transactions.dart';
+import 'package:paywise/screens/cash_home/transaction_item.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -13,6 +13,7 @@ typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 class TransactionDetailArguments {
   List<Widget> amount;
   String status;
+  String from;
   String symbol;
   ImageProvider<dynamic> image;
   Contact contact;
@@ -22,6 +23,7 @@ class TransactionDetailArguments {
   TransactionDetailArguments(
       {this.symbol,
       this.image,
+      this.from,
       this.contact,
       this.amount,
       this.reverseContacts,
@@ -49,8 +51,6 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
-        dynamic displayName =
-            deducePhoneNumber(args.transfer, args.reverseContacts);
         return MainScaffold(
           withPadding: true,
           titleFontSize: 15,
@@ -103,7 +103,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         SizedBox(
-                          width: 135,
+                          width: 130,
                           child: Text(I18n.of(context).to),
                         ),
                         Row(
@@ -114,25 +114,8 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                               backgroundImage: args.image,
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: args.transfer.isJoinBonus()
-                                  ? Text('Join bonus')
-                                  : SizedBox(
-                                      width: 110,
-                                      child: Text(
-                                        (args.transfer.receiverName != null &&
-                                                args.transfer.receiverName !=
-                                                    '')
-                                            ? args.transfer.receiverName
-                                            : args.transfer.text != null
-                                                ? args.transfer.text
-                                                : args.contact != null
-                                                    ? args.contact.displayName
-                                                    : displayName,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                            )
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text(args.from))
                           ],
                         )
                       ],
@@ -146,16 +129,15 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         SizedBox(
-                          width: 135,
-                          child: Text(I18n.of(context).address),
+                          width: 130,
+                          child: Text(I18n.of(context).amount),
                         ),
-                        displayName == null
-                            ? SizedBox.shrink()
-                            : Text(displayName)
+                        Row(
+                          children: args?.amount,
+                        )
                       ],
                     ),
                     Padding(
@@ -170,12 +152,11 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         SizedBox(
-                          width: 135,
-                          child: Text(I18n.of(context).amount),
+                          width: 130,
+                          child: Text(I18n.of(context).address),
                         ),
-                        Row(
-                          children: args?.amount,
-                        )
+                        Text(deducePhoneNumber(
+                            args.transfer, args.reverseContacts))
                       ],
                     ),
                     args.transfer.txHash == null || args.transfer.txHash.isEmpty
@@ -194,11 +175,35 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
                               SizedBox(
-                                width: 135,
+                                width: 130,
                                 child: Text('Txn'),
                               ),
                               Text(
                                   '${args?.transfer?.txHash?.substring(0, 7)}...${args?.transfer?.txHash?.substring(args.transfer.txHash.length - 7)}')
+                            ],
+                          ),
+                    args.transfer.timestamp == null
+                        ? SizedBox.shrink()
+                        : Padding(
+                            padding: EdgeInsets.only(top: 25, bottom: 25),
+                            child: Divider(
+                              color: const Color(0xFFDCDCDC),
+                              height: 1,
+                            ),
+                          ),
+                    args.transfer.timestamp == null
+                        ? SizedBox.shrink()
+                        : Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 130,
+                                child: Text('Date'),
+                              ),
+                              Text(new DateTime.fromMillisecondsSinceEpoch(
+                                      args.transfer.timestamp * 1000)
+                                  .toString())
                             ],
                           )
                   ],
@@ -210,30 +215,4 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
       },
     );
   }
-}
-
-class SlideRightRoute extends PageRouteBuilder {
-  final Widget page;
-  SlideRightRoute({this.page})
-      : super(
-            pageBuilder: (
-              BuildContext context,
-              Animation<double> animation,
-              Animation<double> secondaryAnimation,
-            ) =>
-                page,
-            /* transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, -1),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),*/
-            transitionDuration: Duration(seconds: 1));
 }

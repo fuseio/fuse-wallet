@@ -31,7 +31,7 @@ getRoutes() {
     '/LevelSelector': (context) => LevelSelectorScreen(),
     '/Cash': (context) => CashHomeScreen(),
     '/TransactionDetails': (context) => TransactionDetailsScreen(),
-    '/SendContact': (context) => ContactsScreen(),
+    '/SendContact': (context) => SendToContactScreen(),
     '/SendAmount': (context) => SendAmountScreen(),
     '/SendReview': (context) => SendReviewScreen(),
     '/SendSuccess': (context) => SendSuccessScreen(),

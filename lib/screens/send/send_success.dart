@@ -14,7 +14,6 @@ class SendSuccessScreen extends StatefulWidget {
 
 class _SendSuccessScreenState extends State<SendSuccessScreen>
     with TickerProviderStateMixin {
-
   @override
   void initState() {
     super.initState();
@@ -40,46 +39,21 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
                 backgroundColor: Color(0xFFE0E0E0),
                 radius: 100,
                 backgroundImage: args.avatar,
-                child: Transform.scale(scale: 6,
-                origin: Offset(-9, 7),
+                child: Transform.scale(
+                  scale: 6,
+                  origin: Offset(-9, 7),
                   child: FlareActor(
-                  "assets/images/check.flr",
-                  alignment: Alignment.center,
-                  fit: BoxFit.contain,
-                  animation: "Checkmark",
-                  sizeFromArtboard: true,
+                    "assets/images/check.flr",
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                    animation: "Checkmark",
+                    sizeFromArtboard: true,
+                  ),
                 ),
-                ) ,
               ),
               tag: "contactSent",
             )))
       ],
     );
   }
-}
-
-class SlideRightRoute extends PageRouteBuilder {
-  final Widget page;
-  SlideRightRoute({this.page})
-      : super(
-            pageBuilder: (
-              BuildContext context,
-              Animation<double> animation,
-              Animation<double> secondaryAnimation,
-            ) =>
-                page,
-            /* transitionsBuilder: (
-            BuildContext context,
-            Animation<double> animation,
-            Animation<double> secondaryAnimation,
-            Widget child,
-          ) =>
-              SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, -1),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),*/
-            transitionDuration: Duration(seconds: 1));
 }

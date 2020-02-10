@@ -7,13 +7,9 @@ import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
 import 'package:paywise/services.dart';
-import 'package:logger/logger.dart';
+import 'package:paywise/redux/state/store.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:paywise/utils/phone.dart';
-
-var logger = Logger(
-  printer: PrettyPrinter(),
-);
 
 class RestoreWalletSuccess {
   final List<String> mnemonic;
@@ -79,13 +75,14 @@ class SetDisplayName {
 ThunkAction restoreWalletCall(
     List<String> _mnemonic, VoidCallback successCallback) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
-      logger.d('restore wallet');
+      logger.info('restore wallet');
       String mnemonic = _mnemonic.join(' ');
-      logger.d('mnemonic: $mnemonic');
-      logger.d('compute pk');
+      logger.info('mnemonic: $mnemonic');
+      logger.info('compute pk');
       String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
-      logger.d('privateKey: $privateKey');
+      logger.info('privateKey: $privateKey');
       store.dispatch(new RestoreWalletSuccess(_mnemonic, privateKey));
       Credentials c = EthPrivateKey.fromHex(privateKey);
       dynamic accountAddress = await c.extractAddress();
@@ -95,7 +92,7 @@ ThunkAction restoreWalletCall(
       store.dispatch(segmentTrackCall("Wallet: restored mnemonic", properties: new Map<String, dynamic>()));
       successCallback();
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - restoreWalletCall $e');
       store.dispatch(new ErrorAction('Could not restore wallet'));
     }
   };
@@ -103,13 +100,14 @@ ThunkAction restoreWalletCall(
 
 ThunkAction createLocalAccountCall(VoidCallback successCallback) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
-      logger.d('create new wallet');
+      logger.info('create new wallet');
       String mnemonic = Web3.generateMnemonic();
-      logger.d('mnemonic: $mnemonic');
-      logger.d('compute pk');
+      logger.info('mnemonic: $mnemonic');
+      logger.info('compute pk');
       String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
-      logger.d('privateKey: $privateKey');
+      logger.info('privateKey: $privateKey');
       Credentials c = EthPrivateKey.fromHex(privateKey);
       dynamic accountAddress = await c.extractAddress();
       // api.setJwtToken('');
@@ -119,7 +117,7 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
       store.dispatch(segmentTrackCall("Wallet: Create new wallet", properties: new Map<String, dynamic>()));
       successCallback();
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - createLocalAccountCall $e');
       store.dispatch(new ErrorAction('Could not create new wallet'));
     }
   };
@@ -128,17 +126,12 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
 ThunkAction loginRequestCall(String countryCode, String phoneNumber,
     VoidCallback successCallback, VoidCallback failCallback) {
   return (Store store) async {
-    if (!countryCode.startsWith('+')) {
-      countryCode = '+$countryCode';
-    }
+    final logger = await AppFactory().getLogger('action');
     String phone = formatPhoneNumber(phoneNumber, countryCode);
     try {
       bool result = await api.loginRequest(phone);
       if (result) {
-        store.dispatch(
-            new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
-        store.dispatch(segmentAliasCall(phone));
-        store.dispatch(segmentIdentifyCall(phone, new Map<String, dynamic>()));
+        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
         store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>()));
         successCallback();
       } else {
@@ -146,7 +139,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
         failCallback();
       }
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - loginRequestCall $e');
       store.dispatch(new ErrorAction('Could not login'));
       failCallback();
     }
@@ -161,18 +154,16 @@ ThunkAction loginVerifyCall(
     VoidCallback successCallback,
     VoidCallback failCallback) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
-      if (!countryCode.startsWith('+')) {
-        countryCode = '+$countryCode';
-      }
-      String phone = countryCode + phoneNumber;
-      String jwtToken =
-          await api.loginVerify(phone, verificationCode, accountAddress);
+      String phone = formatPhoneNumber(phoneNumber, countryCode);
+
+      String jwtToken =await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
       store.dispatch(segmentTrackCall("Wallet: verified phone number", properties: new Map<String, dynamic>()));
       successCallback();
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - loginVerifyCall e');
       store.dispatch(new ErrorAction('Could not verify login'));
       failCallback();
     }
@@ -194,54 +185,60 @@ ThunkAction reLoginCall() {
 
 ThunkAction syncContactsCall(List<Contact> contacts) {
   return (Store store) async {
-    bool isPermitted = await Contacts.checkPermissions();
-    String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-    store.dispatch(segmentIdentifyCall(
-      phoneNumber,
-      new Map<String, dynamic>.from({
-        "Contacts Permission Granted": isPermitted,
-      })));
-    if (isPermitted && contacts.isEmpty) {
-      contacts = await ContactController.getContacts();
-    }
-    store.dispatch(new SaveContacts(contacts));
-    List<String> syncedContacts = store.state.userState.syncedContacts;
-    List<String> newPhones = new List<String>();
-    for (Contact contact in contacts) {
-      List<String> uniquePhone = contact.phones.map((Item phone) => formatPhoneNumber(phone.value, store.state.userState.countryCode)).toSet().toList();
-      for (String phone in uniquePhone) {
-        if (!syncedContacts.contains(phone)) {
-          newPhones.add(phone);
+    final logger = await AppFactory().getLogger('action');
+    try {
+      bool isPermitted = await Contacts.checkPermissions();
+      String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      store.dispatch(segmentIdentifyCall(
+        phoneNumber,
+        new Map<String, dynamic>.from({
+          "Contacts Permission Granted": isPermitted,
+        })));
+      if (isPermitted && contacts.isEmpty) {
+        contacts = await ContactController.getContacts();
+      }
+      store.dispatch(new SaveContacts(contacts));
+      List<String> syncedContacts = store.state.userState.syncedContacts;
+      List<String> newPhones = new List<String>();
+      for (Contact contact in contacts) {
+        List<String> uniquePhone = contact.phones.map((Item phone) => formatPhoneNumber(phone.value, store.state.userState.countryCode)).toSet().toList();
+        for (String phone in uniquePhone) {
+          if (!syncedContacts.contains(phone)) {
+            newPhones.add(phone);
+          }
         }
       }
-    }
-    if (newPhones.length == 0) {
-      dynamic response = await api.syncContacts(newPhones);
-      store.dispatch(new SyncContactsProgress(
-          newPhones, List<Map<String, dynamic>>.from(response['newContacts'])));
-      await api.ackSync(response['nonce']);
-    } else {
-      int limit = 100;
-      List<String> partial = newPhones.take(limit).toList();
-      while (partial.length > 0) {
-        dynamic response = await api.syncContacts(partial);
+      if (newPhones.length == 0) {
+        dynamic response = await api.syncContacts(newPhones);
         store.dispatch(new SyncContactsProgress(
-            partial, List<Map<String, dynamic>>.from(response['newContacts'])));
-
+            newPhones, List<Map<String, dynamic>>.from(response['newContacts'])));
         await api.ackSync(response['nonce']);
-        newPhones = newPhones.sublist(partial.length);
-        partial = newPhones.take(limit).toList();
+      } else {
+        int limit = 100;
+        List<String> partial = newPhones.take(limit).toList();
+        while (partial.length > 0) {
+          dynamic response = await api.syncContacts(partial);
+          store.dispatch(new SyncContactsProgress(
+              partial, List<Map<String, dynamic>>.from(response['newContacts'])));
+
+          await api.ackSync(response['nonce']);
+          newPhones = newPhones.sublist(partial.length);
+          partial = newPhones.take(limit).toList();
+        }
       }
+    } catch (e) {
+      logger.severe('ERROR - syncContactsCall $e');
     }
   };
 }
 
 ThunkAction setPincodeCall(String pincode) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
       store.dispatch(SetPincodeSuccess(pincode));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - setPincodeCall $e');
       store.dispatch(new ErrorAction('Could not send token to contact'));
     }
   };

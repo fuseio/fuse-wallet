@@ -81,7 +81,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                         labelFontWeight: FontWeight.normal,
                         fontSize: 16,
                         preload: isPreloading,
-                        onPressed: () async {
+                        onPressed: () {
                           viewModel.setDisplayName(capitalize(displayNameController.text ?? 'Anom'));
                           Navigator.of(context).pushNamedAndRemoveUntil('/Cash', (Route<dynamic> route) => false);
                         },

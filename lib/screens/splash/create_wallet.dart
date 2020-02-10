@@ -26,49 +26,49 @@ class _CreateWalletState extends State<CreateWallet> {
         distinct: true,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
-          return SizedBox(
-            height: 180,
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 50),
-                  child: PrimaryButton(
-                    fontSize: 16,
-                    labelFontWeight: FontWeight.normal,
-                    label:
-                        viewModel.isLoggedOut ? I18n.of(context).login : I18n.of(context).create_new_wallet,
-                    onPressed: () {
-                      if (viewModel.isLoggedOut) {
-                        viewModel.loginAgain();
-                        viewModel.initWeb3(viewModel.privateKey);
-                        Navigator.popUntil(context, ModalRoute.withName('/'));
-                        Navigator.pushNamed(context, '/Cash');
-                      } else {
-                        viewModel.createLocalAccount(() {
-                          setState(() {
-                            isPrimaryPreloading = false;
-                          });
-                          Navigator.pushNamed(context, '/Signup');
-                        });
-                        setState(() {
-                          isPrimaryPreloading = true;
-                        });
-                      }
-                    },
-                    preload: isPrimaryPreloading,
-                  ),
-                ),
-                viewModel.isLoggedOut
-                    ? Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(
+          return Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset('assets/images/paywise.jpg', width: 350, height: 550,),
+              PrimaryButton(
+                fontSize: 16,
+                labelFontWeight: FontWeight.normal,
+                label: viewModel.isLoggedOut
+                    ? I18n.of(context).login
+                    : I18n.of(context).create_new_wallet,
+                onPressed: () async {
+                  if (viewModel.isLoggedOut) {
+                    viewModel.loginAgain();
+                    viewModel.initWeb3(viewModel.privateKey);
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                    Navigator.pushNamed(context, '/Cash');
+                  } else {
+                    viewModel.createLocalAccount(() {
+                      setState(() {
+                        isPrimaryPreloading = false;
+                      });
+                      Navigator.pushNamed(context, '/Signup');
+                    });
+                    setState(() {
+                      isPrimaryPreloading = true;
+                    });
+                  }
+                },
+                preload: isPrimaryPreloading,
+              ),
+              Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: viewModel.isLoggedOut
+                      ? Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             TransparentButton(
                                 fontSize: 14,
                                 label: I18n.of(context).restore_backup,
-                                onPressed: () {
+                                onPressed: () async {
                                   Navigator.pushNamed(context, '/Recovery');
                                 }),
                             Text(
@@ -78,7 +78,7 @@ class _CreateWalletState extends State<CreateWallet> {
                             TransparentButton(
                                 fontSize: 14,
                                 label: I18n.of(context).create__wallet,
-                                onPressed: () {
+                                onPressed: () async {
                                   viewModel.createLocalAccount(() {
                                     setState(() {
                                       isTransparentPreloading = false;
@@ -91,19 +91,14 @@ class _CreateWalletState extends State<CreateWallet> {
                                 },
                                 preload: isTransparentPreloading)
                           ],
-                        ),
-                      )
-                    : Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: TransparentButton(
-                            fontSize: 16,
-                            label: I18n.of(context).restore_from_backup,
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/Recovery');
-                            }),
-                      )
-              ],
-            ),
+                        )
+                      : TransparentButton(
+                          fontSize: 16,
+                          label: I18n.of(context).restore_from_backup,
+                          onPressed: () async {
+                            Navigator.pushNamed(context, '/Recovery');
+                          }))
+            ],
           );
         });
   }

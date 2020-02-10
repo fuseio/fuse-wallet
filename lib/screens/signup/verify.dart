@@ -88,7 +88,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     labelFontWeight: FontWeight.normal,
                     fontSize: 16,
                     preload: isPreloading,
-                    onPressed: () async {
+                    onPressed: () {
                       setState(() {
                         isPreloading = true;
                       });
@@ -96,8 +96,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           viewModel.countryCode,
                           viewModel.phoneNumber,
                           verificationCodeController.text,
-                          viewModel.accountAddress, () {
-                        // Navigator.popUntil(context, ModalRoute.withName('/'));
+                          viewModel.accountAddress, () async {
                         Navigator.popAndPushNamed(context, '/UserName');
                         setState(() {
                           isPreloading = false;
@@ -125,7 +124,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             viewModel.countryCode,
                             viewModel.phoneNumber,
                             verificationCodeController.text,
-                            viewModel.accountAddress, () {
+                            viewModel.accountAddress, () async {
                           // Navigator.popUntil(context, ModalRoute.withName('/'));
                           Navigator.popAndPushNamed(context, '/Cash');
                           setState(() {

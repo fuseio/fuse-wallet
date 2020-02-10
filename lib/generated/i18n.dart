@@ -110,8 +110,8 @@ class I18n implements WidgetsLocalizations {
   String get create_passcode => "Create your passcode";
   /// "Switch community"
   String get switch_community => "Switch community";
-  /// "Scan Qr code"
-  String get sqan_qr_code => "Scan Qr code";
+  /// "Scan QR to switch"
+  String get sqan_qr_code => "Scan QR to switch";
   /// "or"
   String get or => "or";
   /// "Enter Community Address"
@@ -128,10 +128,10 @@ class I18n implements WidgetsLocalizations {
   String get enable_text => "Your contacts will not be saved on our \n server and this action will not send  \n them any massages";
   /// "Don't worry:"
   String get dont_worry => "Don't worry:";
-  /// "Please enable contacts sync for easy access your phone contacts when sending money."
-  String get enable_contacts_text => "Please enable contacts sync for easy access your phone contacts when sending money.";
-  /// "Send money to friends"
-  String get send_friends => "Send money to friends";
+  /// "Enable contact sync to send\n money to your phone contacts"
+  String get enable_contacts_text => "Enable contact sync to send\n money to your phone contacts";
+  /// "Sync contcats"
+  String get sync_contacts => "Sync contcats";
   /// "Receive"
   String get receive => "Receive";
   /// "Scan the QR code to receive money"
@@ -145,7 +145,7 @@ class I18n implements WidgetsLocalizations {
   /// "Continue with"
   String get continue_with => "Continue with";
   /// "Sync your contact"
-  String get sync_contacts => "Sync your contact";
+  String get sync_your_contacts => "Sync your contact";
   /// "Learn more"
   String get learn_more => "Learn more";
   /// "Activate"
@@ -363,9 +363,6 @@ class _I18n_he_IL extends I18n {
   /// "Please enable contacts sync for easy access your phone contacts when sending money."
   @override
   String get enable_contacts_text => "Please enable contacts sync for easy access your phone contacts when sending money.";
-  /// "שלח כסף לחברים"
-  @override
-  String get send_friends => "שלח כסף לחברים";
   /// "קבל"
   @override
   String get receive => "קבל";
@@ -602,9 +599,6 @@ class _I18n_es_ES extends I18n {
   /// "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos"
   @override
   String get enable_contacts_text => "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos";
-  /// "Enviar dinero"
-  @override
-  String get send_friends => "Enviar dinero";
   /// "Recibir dinero"
   @override
   String get receive => "Recibir dinero";
@@ -841,9 +835,6 @@ class _I18n_br_BR extends I18n {
   /// "Ative a sincronização de contatos para acessar facilmente os contatos do telefone ao enviar dinheiro."
   @override
   String get enable_contacts_text => "Ative a sincronização de contatos para acessar facilmente os contatos do telefone ao enviar dinheiro.";
-  /// "envie dinheiro para os amigos"
-  @override
-  String get send_friends => "envie dinheiro para os amigos";
   /// "receber"
   @override
   String get receive => "receber";

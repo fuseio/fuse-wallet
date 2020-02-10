@@ -1,27 +1,32 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/business.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
 import 'package:paywise/screens/buy/business.dart';
+import 'package:paywise/screens/cash_home/cash_home.dart';
+import 'package:paywise/screens/cash_home/cash_transactions.dart';
+import 'package:paywise/screens/cash_home/dai_explained.dart';
 import 'package:paywise/screens/cash_home/transaction_details.dart';
 import 'package:paywise/utils/format.dart';
-import 'package:paywise/utils/phone.dart';
-
-String deduceSign(Transfer transfer) {
-  if (transfer.type == 'SEND') {
-    return '-';
-  } else {
-    return '+';
-  }
-}
+import "package:ethereum_address/ethereum_address.dart";
 
 String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true}) {
+    {bool format = true, List<Business> businesses}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+  if (businesses != null && businesses.isNotEmpty) {
+    Business business = businesses.firstWhere(
+        (business) => business.account.toLowerCase() == accountAddress.toLowerCase(),
+        orElse: () => null);
+    if (business != null) {
+      return business.name;
+    }
+  }
   if (reverseContacts.containsKey(accountAddress)) {
     return reverseContacts[accountAddress];
   }
@@ -32,35 +37,11 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
   }
 }
 
-Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
-    List<Contact> contacts, String countryCode) {
-  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  if (accountAddress == null) {
-    return null;
-  }
-  if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
-    String phoneNumber = reverseContacts[accountAddress.toLowerCase()];
-    if (contacts == null) return null;
-    for (Contact contact in contacts) {
-      for (Item contactPhoneNumber in contact.phones.toList()) {
-        if (formatPhoneNumber(contactPhoneNumber.value, countryCode) ==
-            phoneNumber) {
-          return contact;
-        }
-      }
-    }
-  }
-  return null;
-}
-
 dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
   if (transfer.isJoinCommunity() &&
       vm.community.metadata.image != null &&
       vm.community.metadata.image != '') {
-    return new NetworkImage(
-        DotEnv().env['IPFS_BASE_URL'] + '/image/' + vm.community.metadata.image
-        // 'assets/images/join_community.png',
-        );
+    return new NetworkImage(DotEnv().env['IPFS_BASE_URL'] + '/image/' + vm.community.metadata.image);
   } else if (transfer.isGenerateWallet()) {
     return new AssetImage(
       'assets/images/generate_wallet.png',
@@ -75,7 +56,7 @@ dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
 
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   Business business = vm.businesses.firstWhere(
-      (business) => business.account == accountAddress,
+      (business) => business.account.toLowerCase() == accountAddress.toLowerCase(),
       orElse: () => null);
   if (business != null) {
     return NetworkImage(getImageUrl(business, vm.communityAddress));
@@ -109,49 +90,60 @@ class TransactionListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Transfer transfer = _transaction as Transfer;
+    String displayName = transfer.isJoinBonus()
+        ? I18n.of(context).join_bonus
+        : (transfer.receiverName != null && transfer.receiverName != '')
+            ? transfer.receiverName
+            : transfer.text != null
+                ? transfer.text
+                : _contact != null
+                    ? _contact.displayName
+                    : deducePhoneNumber(transfer, _vm.reverseContacts,
+                        businesses: _vm.businesses);
     List<Widget> rightColumn = <Widget>[
-      transfer.isGenerateWallet() || transfer.isJoinCommunity()
-          ? SizedBox.shrink()
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Stack(
-                  overflow: Overflow.visible,
-                  alignment: AlignmentDirectional.bottomEnd,
+    transfer.isGenerateWallet() || transfer.isJoinCommunity()
+              ? SizedBox.shrink()
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    new RichText(
-                        text: new TextSpan(children: <TextSpan>[
-                      new TextSpan(
-                          text: deduceSign(transfer) +
-                              formatValue(transfer.value, _vm.token.decimals),
-                          style: new TextStyle(
-                              color: deduceColor(transfer),
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold)),
-                      new TextSpan(
-                          text: " ${_vm.token.symbol}",
-                          style: new TextStyle(
-                              color: deduceColor(transfer),
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.normal)),
-                    ])),
-                    Positioned(
-                        bottom: -20,
-                        child: (transfer.isPending() &&
-                                !transfer.isGenerateWallet() &&
-                                !transfer.isJoinCommunity())
-                            ? Padding(
-                                child: Text(I18n.of(context).pending,
-                                    style: TextStyle(
-                                        color: Color(0xFF8D8D8D),
-                                        fontSize: 10)),
-                                padding: EdgeInsets.only(top: 10))
-                            : SizedBox.shrink())
+                    Stack(
+                      overflow: Overflow.visible,
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: <Widget>[
+                        new RichText(
+                            text: new TextSpan(children: <TextSpan>[
+                          new TextSpan(
+                              text: deduceSign(transfer) +
+                                  formatValue(
+                                      transfer.value, _vm.token.decimals),
+                              style: new TextStyle(
+                                  color: deduceColor(transfer),
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold)),
+                          new TextSpan(
+                              text: " ${_vm.token.symbol}",
+                              style: new TextStyle(
+                                  color: deduceColor(transfer),
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.normal)),
+                        ])),
+                        Positioned(
+                            bottom: -20,
+                            child: (transfer.isPending() &&
+                                    !transfer.isGenerateWallet() &&
+                                    !transfer.isJoinCommunity())
+                                ? Padding(
+                                    child: Text(I18n.of(context).pending,
+                                        style: TextStyle(
+                                            color: Color(0xFF8D8D8D),
+                                            fontSize: 10)),
+                                    padding: EdgeInsets.only(top: 10))
+                                : SizedBox.shrink())
+                      ],
+                    )
                   ],
                 )
-              ],
-            )
     ];
 
     return Container(
@@ -180,15 +172,15 @@ class TransactionListItem extends StatelessWidget {
                                     getImage(transfer, _contact, _vm),
                               ),
                               tag: transfer.isGenerateWallet()
-                                  ? ''
+                                  ? 'GenerateWallet'
                                   : transfer.isPending()
                                       ? "contactSent"
                                       : "transaction" + transfer.txHash,
                             ),
                             transfer.isPending()
                                 ? Container(
-                                    width: 54,
-                                    height: 54,
+                                    width: 55,
+                                    height: 55,
                                     child: CircularProgressIndicator(
                                       backgroundColor:
                                           Color(0xFF49D88D).withOpacity(0),
@@ -198,6 +190,38 @@ class TransactionListItem extends StatelessWidget {
                                           new AlwaysStoppedAnimation<Color>(
                                               Color(0xFF49D88D).withOpacity(1)),
                                     ))
+                                : SizedBox.shrink(),
+                            _vm.community.metadata.isDefaultImage != null &&
+                                    _vm.community.metadata.isDefaultImage &&
+                                    transfer.isJoinCommunity()
+                                ? Positioned(
+                                    top: 16,
+                                    left: 12.0,
+                                    right: 0.0,
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          Positioned(
+                                            top: 0,
+                                            left: 0,
+                                            child: Center(
+                                                child: Text(
+                                              _vm.community.token.symbol,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.left,
+                                            )),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
                                 : SizedBox.shrink()
                           ],
                         ),
@@ -205,18 +229,7 @@ class TransactionListItem extends StatelessWidget {
                       SizedBox(width: 10.0),
                       Flexible(
                         flex: 10,
-                        child: Text(
-                            transfer.isJoinBonus()
-                                ? I18n.of(context).join_bonus
-                                : (transfer.receiverName != null &&
-                                        transfer.receiverName != '')
-                                    ? transfer.receiverName
-                                    : transfer.text != null
-                                        ? transfer.text
-                                        : _contact != null
-                                            ? _contact.displayName
-                                            : deducePhoneNumber(
-                                                transfer, _vm.reverseContacts),
+                        child: Text(displayName,
                             style: TextStyle(
                                 color: Color(0xFF333333), fontSize: 15)),
                       ),
@@ -238,11 +251,19 @@ class TransactionListItem extends StatelessWidget {
             ],
           ),
           onTap: () {
+            // if (transfer.isJoinCommunity() &&
+            //     isDefaultCommunity(_vm.communityAddress)) {
+            //   Future.delayed(
+            //       Duration.zero,
+            //       () => showDialog(
+            //           child: new DaiExplainedScreen(), context: context));
+            // }
             if (!transfer.isGenerateWallet() || !transfer.isJoinCommunity()) {
               Navigator.pushNamed(context, '/TransactionDetails',
                   arguments: TransactionDetailArguments(
                     transfer: transfer,
                     contact: _contact,
+                    from: displayName,
                     reverseContacts: _vm.reverseContacts,
                     symbol: _vm.token.symbol,
                     image: getImage(transfer, _contact, _vm),

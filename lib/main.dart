@@ -21,7 +21,7 @@ void main() async {
     runApp(CustomTheme(
       initialThemeKey: MyThemeKeys.PAYWISE,
       child: new MyApp(
-          store: await createReduxStore(),
+          store: await AppFactory().getStore(),
        ),
     ));
   });

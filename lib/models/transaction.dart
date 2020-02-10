@@ -9,6 +9,7 @@ String funderAddress = DotEnv().env['FUNDER_ADDRESS'];
 @JsonSerializable(explicitToJson: true)
 class Transaction {
   final String txHash;
+  final int timestamp;
   final String type;
   String status;
   final String text;
@@ -21,12 +22,14 @@ class Transaction {
       this.status,
       this.text,
       this.blockNumber,
+      this.timestamp,
       this.jobId});
 
   Transaction copyWith({String status}) {
     return Transaction(
         txHash: this.txHash,
         type: this.type,
+        timestamp: this.timestamp,
         status: status ?? this.status,
         text: this.text,
         blockNumber: this.blockNumber,

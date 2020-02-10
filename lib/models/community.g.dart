@@ -9,6 +9,7 @@ part of 'community.dart';
 Community _$CommunityFromJson(Map<String, dynamic> json) {
   return Community(
     name: json['name'] as String,
+    isClosed: json['isClosed'] as bool,
     isMember: json['isMember'] as bool,
     address: json['address'] as String,
     plugins: json['plugins'] == null
@@ -44,5 +45,6 @@ Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'token': instance.token?.toJson(),
       'plugins': instance.plugins?.toJson(),
       'metadata': instance.metadata?.toJson(),
+      'isClosed': instance.isClosed,
       'jobs': Community._jobsToJson(instance.jobs),
     };

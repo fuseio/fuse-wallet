@@ -1,10 +1,19 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:paywise/widgets/primary_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DaiExplainedScreen extends StatefulWidget {
   @override
   _DaiExplainedScreenState createState() => _DaiExplainedScreenState();
+}
+
+_launchUrl(url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
 
 class _DaiExplainedScreenState extends State<DaiExplainedScreen>
@@ -64,8 +73,16 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              'Welcome to DAI points community!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                           Text(
-                            '''Fuse wallet lets you join and interact with communities on Fuse and DAI is the best place to start your exploration:''',
+                            '''DAI points is the default community of Fuse wallet. Every new user gets 100 points to start exploring our features''',
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Theme.of(context).colorScheme.secondary),
@@ -82,22 +99,19 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen>
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          Container(
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    '''DAI is a dollar based stable coin, click here to learn more about it. Every holder DAI points automatically joins a weekly airdrop of DAI points that you can spend!''',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                                  ),
-                                )
-                              ],
+                          InkWell(
+                            onTap: () {
+                              _launchUrl(
+                                  'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points');
+                            },
+                            child: Text(
+                              '''Learn more''',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  decoration: TextDecoration.underline,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
                             ),
                           ),
                           const SizedBox(height: 30.0),

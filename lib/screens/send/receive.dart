@@ -21,8 +21,6 @@ class ReceiveScreen extends StatefulWidget {
   _ReceiveScreenState createState() => _ReceiveScreenState();
 }
 
-String sendAddress = "";
-
 class _ReceiveScreenState extends State<ReceiveScreen> {
   @override
   void initState() {

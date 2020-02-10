@@ -12,11 +12,18 @@ CashWalletState _$CashWalletStateFromJson(Map<String, dynamic> json) {
     walletStatus: json['walletStatus'] as String,
     communityAddress: json['communityAddress'] as String,
     communityName: json['communityName'] as String,
-    isCommunityLoading: json['isCommunityLoading'] as bool,
-    communities: (json['communities'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k, e == null ? null : Community.fromJson(e as Map<String, dynamic>)),
-    ),
+    isCommunityLoading: json['isCommunityLoading'] as bool ?? false,
+    isCommunityFetched: json['isCommunityFetched'] as bool ?? false,
+    isBalanceFetchingStarted: json['isBalanceFetchingStarted'] as bool ?? false,
+    isTransfersFetchingStarted:
+        json['isTransfersFetchingStarted'] as bool ?? false,
+    isListeningToBranch: json['isListeningToBranch'] as bool ?? false,
+    isBranchDataReceived: json['isBranchDataReceived'] as bool ?? false,
+    isCommunityBusinessesFetched:
+        json['isCommunityBusinessesFetched'] as bool ?? false,
+    isJobProcessingStarted: json['isJobProcessingStarted'] as bool ?? false,
+    communities: CashWalletState._communitiesFromJson(
+        json['communities'] as Map<String, dynamic>),
   );
 }
 
@@ -26,7 +33,13 @@ Map<String, dynamic> _$CashWalletStateToJson(CashWalletState instance) =>
       'walletAddress': instance.walletAddress,
       'communityAddress': instance.communityAddress,
       'communityName': instance.communityName,
-      'communities':
-          instance.communities?.map((k, e) => MapEntry(k, e?.toJson())),
+      'communities': CashWalletState._communitiesToJson(instance.communities),
       'isCommunityLoading': instance.isCommunityLoading,
+      'isCommunityFetched': instance.isCommunityFetched,
+      'isCommunityBusinessesFetched': instance.isCommunityBusinessesFetched,
+      'isBalanceFetchingStarted': instance.isBalanceFetchingStarted,
+      'isTransfersFetchingStarted': instance.isTransfersFetchingStarted,
+      'isListeningToBranch': instance.isListeningToBranch,
+      'isBranchDataReceived': instance.isBranchDataReceived,
+      'isJobProcessingStarted': instance.isJobProcessingStarted,
     };

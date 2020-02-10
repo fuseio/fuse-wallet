@@ -1,6 +1,7 @@
 import 'package:paywise/services.dart';
 import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import './transaction.dart';
+import 'package:paywise/redux/state/store.dart';
 import 'dart:convert';
 
 String getJobType(Map<String, dynamic> job) {
@@ -124,7 +125,8 @@ class JoinCommunityJob extends Job {
     Job job = JobFactory.create(fetchedData);
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.wtf('job not done');
+      final logger = await AppFactory().getLogger('job');
+      logger.info('JoinCommunityJob not done');
       return;
     }
     status = 'DONE';
@@ -173,7 +175,8 @@ class TransferJob extends Job {
     Job job = JobFactory.create(fetchedData);
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.wtf('job not done');
+      final logger = await AppFactory().getLogger('Job');
+      logger.info('TransferJob not done');
       return;
     }
     status = 'DONE';
@@ -217,7 +220,8 @@ class InviteJob extends Job {
   onDone(store, dynamic fetchedData) async {
     Job job = JobFactory.create(fetchedData);
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.wtf('job not done');
+      final logger = await AppFactory().getLogger('Job');
+      logger.info('InviteJob job not done');
       return;
     }
     status = 'DONE';
@@ -225,6 +229,7 @@ class InviteJob extends Job {
         job,
         arguments['tokensAmount'],
         arguments['receiverName'],
+        arguments['inviteTransfer'],
         arguments['sendSuccessCallback'],
         arguments['sendFailureCallback']));
   }
@@ -232,8 +237,23 @@ class InviteJob extends Job {
   dynamic argumentsToJson() {
     return {
       'tokensAmount': arguments['tokensAmount'],
-      'receiverName': arguments['receiverName']
+      'receiverName': arguments['receiverName'],
+      'inviteTransfer': arguments['inviteTransfer'].toJson()
     };
+  }
+
+  dynamic argumentsFromJson(arguments) {
+    if (arguments == null) {
+      return arguments;
+    }
+    if (arguments.containsKey('inviteTransfer')) {
+      if (arguments['inviteTransfer'] is Map) {
+        Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
+        nArgs['inviteTransfer'] = TransactionFactory.fromJson(arguments['inviteTransfer']);
+        return nArgs;
+      }
+    }
+    return arguments;
   }
 }
 
@@ -243,6 +263,15 @@ class JobFactory {
     String id = json.containsKey('_id') ? json['_id'] : json['id'];
     String status = json.containsKey('status') ? json['status'] : 'PENDING';
     switch (jobType) {
+      case 'setWalletOwner':
+        return new GenerateWalletJob(
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
       case 'createWallet':
         return new GenerateWalletJob(
             id: id,
@@ -280,6 +309,7 @@ class JobFactory {
             lastFinishedAt: json['lastFinishedAt'],
             arguments: json['arguments']);
     }
+    print('ERROR: $jobType not supported');
     return null;
   }
 }

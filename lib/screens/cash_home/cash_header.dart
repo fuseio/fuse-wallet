@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
-import 'package:paywise/models/user_state.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
@@ -179,7 +178,7 @@ class CashHeader extends StatelessWidget {
                                         print('Account address is not on Fuse');
                                       }
                                     } catch (e) {
-                                      logger.d('BarcodeScanner $e');
+                                      print('BarcodeScanner $e');
                                     }
                                   }),
                               width: 50.0,

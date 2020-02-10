@@ -75,7 +75,6 @@ UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {
   List<String> syncedContacts = List<String>.from(state.syncedContacts);
   syncedContacts.addAll(action.contacts);
   return state.copyWith(
-      isContactsSynced: true,
       reverseContacts: reverseContacts,
       syncedContacts: syncedContacts);
 }

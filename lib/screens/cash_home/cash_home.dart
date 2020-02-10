@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:paywise/themes/app_theme.dart';
 import 'package:paywise/themes/custom_theme.dart';
 import 'package:paywise/utils/forks.dart';
@@ -8,6 +9,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
+
+bool isDefaultCommunity(String communityAddress) {
+  return DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] != null &&
+      DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase() ==
+          communityAddress;
+}
 
 class CashHomeScreen extends StatefulWidget {
   @override
@@ -49,6 +56,9 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
   }
   if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
     viewModel.createWallet(viewModel.accountAddress);
+    Future.delayed(Duration(seconds: 5), () {
+      viewModel.identifyCall();
+    });
   }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&
@@ -89,6 +99,17 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
           return MainScaffold(
             header: CashHeader(),
             children: <Widget>[CashTransactios(viewModel: viewModel)],
+            // floatingActionButton: isDefaultCommunity(viewModel.community.address) ? FloatingActionButton(
+            //   heroTag: 'winWin',
+            //   backgroundColor: Color(0xFFF1EFEE),
+            //   child: Image.asset(
+            //     'assets/images/win.png',
+            //     width: 25.0,
+            //   ),
+            //   onPressed: () {
+            //     print('open lottery page');
+            //   },
+            // ): null,
           );
         });
   }

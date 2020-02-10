@@ -13,6 +13,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
     status: json['status'] as String,
     text: json['text'] as String,
     blockNumber: json['blockNumber'] as int,
+    timestamp: json['timestamp'] as int,
     jobId: json['jobId'] as String,
   );
 }
@@ -20,6 +21,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
     <String, dynamic>{
       'txHash': instance.txHash,
+      'timestamp': instance.timestamp,
       'type': instance.type,
       'status': instance.status,
       'text': instance.text,

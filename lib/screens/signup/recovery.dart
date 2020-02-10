@@ -96,7 +96,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
               label: I18n.of(context).next_button,
               fontSize: 16,
               labelFontWeight: FontWeight.normal,
-              onPressed: () async {
+              onPressed: () {
                 if (_formKey.currentState.validate()) {
                   setState(() {
                     isPreloading = true;
@@ -104,6 +104,9 @@ class _RecoveryPageState extends State<RecoveryPage> {
                   viewModel.generateWalletFromBackup(
                       wordsController.text.toLowerCase(), () {
                     Navigator.pushNamed(context, '/Signup');
+                    setState(() {
+                      isPreloading = false;
+                    });
                   });
                 }
               },

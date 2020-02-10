@@ -1,6 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/contacts.dart';
@@ -39,119 +40,130 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, ContactsViewModel>(
-    converter: ContactsViewModel.fromStore,
-    builder: (_, viewModel) {
-      return ScaleTransition(
-          scale: scaleAnimatoin,
-          child: AlertDialog(
-              contentPadding: EdgeInsets.all(0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    const SizedBox(height: 20.0),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Column(
+        converter: ContactsViewModel.fromStore,
+        builder: (_, viewModel) {
+          return ScaleTransition(
+              scale: scaleAnimatoin,
+              child: AlertDialog(
+                  contentPadding: EdgeInsets.all(0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        const SizedBox(height: 20.0),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, bottom: 10, left: 15, right: 15),
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(top: 0),
-                                  child: Text(I18n.of(context).send_friends,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold)),
+                                Column(
+                                  children: <Widget>[
+                                    Text(I18n.of(context).sync_contacts,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 30, bottom: 30, right: 20),
+                                      child: SvgPicture.asset(
+                                        'assets/images/contacts.svg',
+                                        width: 70.0,
+                                        height: 70,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 30, bottom: 30, right: 20),
-                                  child: Image.asset(
-                                    'assets/images/send_to_friends.png',
-                                    width: 145,
-                                    height: 65,
+                                Text(
+                                  I18n.of(context).enable_contacts_text,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 30.0),
+                                Container(
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(I18n.of(context).dont_worry,
+                                          softWrap: true,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal)),
+                                      const SizedBox(height: 5.0),
+                                      Text(
+                                        I18n.of(context).enable_text,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
+                                      )
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                            Text(
-                              I18n.of(context).enable_contacts_text,
-                              style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor,),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 50.0),
-                            Container(
-                              child: Column(
-                                children: <Widget>[
-                                  Text(I18n.of(context).dont_worry,
-                                      softWrap: true,
-                                      textAlign: TextAlign.center,
+                                const SizedBox(height: 30.0),
+                                Center(
+                                    child: PrimaryButton(
+                                  fontSize: 15,
+                                  preload: isPreloading,
+                                  labelFontWeight: FontWeight.normal,
+                                  label:
+                                      I18n.of(context).enable_contacts_access,
+                                  onPressed: () async {
+                                    setState(() {
+                                      isPreloading = true;
+                                    });
+                                    bool premission = await ContactController
+                                        .getPermissions();
+                                    if (premission) {
+                                      List<Contact> contacts =
+                                          await ContactController.getContacts();
+                                      viewModel.syncContacts(contacts);
+                                    }
+                                    Navigator.of(context).pop();
+                                    setState(() {
+                                      isPreloading = false;
+                                    });
+                                  },
+                                )),
+                                Center(
+                                  child: FlatButton(
+                                    padding: EdgeInsets.only(top: 10),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      viewModel.syncContactsRejected();
+                                    },
+                                    child: Text(
+                                      I18n.of(context).skip_button,
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.normal)),
-                                  const SizedBox(height: 5.0),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      I18n.of(context).enable_text,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 13, color: Theme.of(context).primaryColor,),
+                                          fontSize: 14),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 50.0),
-                            Center(
-                                child: PrimaryButton(
-                              fontSize: 15,
-                              preload: isPreloading,
-                              labelFontWeight: FontWeight.normal,
-                              label: I18n.of(context).enable_contacts_access,
-                              onPressed: () async {
-                                setState(() {
-                                  isPreloading = true;
-                                });
-                                bool premission = await ContactController.getPermissions();
-                                if (premission) {
-                                  List<Contact> contacts = await ContactController.getContacts();
-                                  viewModel.syncContacts(contacts);
-                                }
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  isPreloading = false;
-                                });
-                              },
-                            )),
-                            Center(
-                              child: FlatButton(
-                                padding: EdgeInsets.only(top: 10),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  I18n.of(context).skip_button,
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor, fontSize: 14),
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(height: 10.0),
+                              ],
                             ),
-                            const SizedBox(height: 10.0),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ])));
-    });
+                      ])));
+        });
   }
 }

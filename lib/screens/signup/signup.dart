@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/widgets/country_code_picker/country_code_picker.dart';
@@ -38,15 +39,13 @@ class _SignupScreenState extends State<SignupScreen> {
         titleFontSize: 15,
         children: <Widget>[
           Container(
-            //color: Theme.of(context).primaryColor,
             padding: EdgeInsets.all(20.0),
             child: Column(
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
                       left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
-                  child: Text(
-                      I18n.of(context).enter_phone_number,
+                  child: Text(I18n.of(context).enter_phone_number,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
@@ -65,12 +64,16 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                        onTap: () {
+                        onTap: () async {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
+                          await FlutterSegment.track(
+                              eventName:
+                                  "Wallet: opened modal - why do we need this",
+                              properties: new Map<String, dynamic>());
                         },
                         child: Center(
                           child: Text(
@@ -108,17 +111,16 @@ class _SignupScreenState extends State<SignupScreen> {
                         border: Border(
                             bottom: BorderSide(
                                 color: isvalidPhone
-                                    ? Theme.of(context).primaryColor.withOpacity(0.1)
+                                    ? Theme.of(context)
+                                        .primaryColor
+                                        .withOpacity(0.1)
                                     : Colors.red,
                                 width: 2.0)),
-                        /*borderRadius:
-                          new BorderRadius.all(Radius.circular(30.0))*/
                       ),
                       child: Row(
                         children: <Widget>[
                           Container(
                             child: CountryCodePicker(
-                              //padding: EdgeInsets.only(top: 0, left: 0, right: 0),
                               onChanged: (_countryCode) {
                                 countryCode = _countryCode;
                               },
@@ -144,7 +146,8 @@ class _SignupScreenState extends State<SignupScreen> {
                               controller: phoneController,
                               keyboardType: TextInputType.number,
                               autofocus: true,
-                              style: const TextStyle(fontSize: 16, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.black),
                               decoration: const InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 10),
@@ -166,7 +169,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       label: I18n.of(context).next_button,
                       fontSize: 16,
                       labelFontWeight: FontWeight.normal,
-                      onPressed: () async {
+                      onPressed: () {
                         if (phoneController.text.trim().isEmpty) {
                           setState(() {
                             isvalidPhone = false;
