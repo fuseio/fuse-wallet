@@ -331,7 +331,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               title: Text(
                 displatName,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: Colors.black),
               ),
               onTap: () {
                 Map<String, String> reverseContacts = viewModel.reverseContacts;
@@ -521,7 +521,12 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          new Text(I18n.of(context).learn_more),
+                          InkWell(
+                            child: new Text(I18n.of(context).learn_more),
+                            onTap: () {
+                              showDialog(child: new ContactsConfirmationScreen(), context: context);
+                            },
+                          ),
                           SizedBox(
                             width: 20,
                           ),
@@ -547,6 +552,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                                   List<Contact> contacts =
                                       await ContactController.getContacts();
                                   viewModel.syncContacts(contacts);
+                                  loadContacts(viewModel);
                                   setState(() {
                                     hasSynced = true;
                                   });

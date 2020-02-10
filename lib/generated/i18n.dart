@@ -204,6 +204,8 @@ class I18n implements WidgetsLocalizations {
   String get smart => "Smart";
   /// "Settings"
   String get settings => "Settings";
+  /// "Home"
+  String get home => "Home";
 }
 
 class _I18n_en_US extends I18n {

@@ -29,7 +29,7 @@ Widget bottomBar(BuildContext context) {
               isHomePage
                   ? "home_selected.svg"
                   : "home.svg",
-              I18n.of(context).send_button, () {
+              I18n.of(context).home, () {
             if (isHomePage) {
               redirect(context, '/Cash');
             } else {
