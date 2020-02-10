@@ -5,11 +5,8 @@ import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/splash.dart';
 import 'package:paywise/screens/splash/create_wallet.dart';
 import 'package:paywise/screens/splash/dots_indicator.dart';
-import 'package:paywise/screens/splash/slide_animation_controller.dart';
 import 'package:paywise/widgets/on_boarding_pages.dart';
-// import 'package:paywise/widgets/on_boarding_pages.dart';
 import 'package:redux/redux.dart';
-// import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -49,8 +46,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
     super.initState();
   }
-
-  _update() => setState(() {});
 
   void gotoPage(page) {
     _pageController.animateToPage(

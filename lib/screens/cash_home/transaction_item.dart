@@ -1,20 +1,15 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/business.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
 import 'package:paywise/screens/buy/business.dart';
-import 'package:paywise/screens/cash_home/cash_home.dart';
 import 'package:paywise/screens/cash_home/cash_transactions.dart';
-import 'package:paywise/screens/cash_home/dai_explained.dart';
 import 'package:paywise/screens/cash_home/transaction_details.dart';
 import 'package:paywise/utils/format.dart';
-import "package:ethereum_address/ethereum_address.dart";
 
 String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
     {bool format = true, List<Business> businesses}) {
