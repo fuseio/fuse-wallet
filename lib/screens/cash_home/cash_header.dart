@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
-import 'package:fusecash/screens/cash_home/deposit_webview.dart';
+// import 'package:fusecash/screens/cash_home/deposit_webview.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -18,7 +17,7 @@ class CashHeader extends StatelessWidget {
     return new StoreConnector<AppState, CashHeaderViewModel>(
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
-          List depositPlugins = viewModel?.plugins?.getDepositPlugins();
+          // List depositPlugins = viewModel?.plugins?.getDepositPlugins();
           return Container(
             height: 260.0,
             alignment: Alignment.bottomLeft,
@@ -181,65 +180,65 @@ class CashHeader extends StatelessWidget {
                                             ],
                                     ),
                                   ),
-                                  isDefaultCommunity(
-                                          viewModel.community.address) &&
-                                          depositPlugins.isNotEmpty
-                                      ? Container(
-                                          padding: EdgeInsets.only(
-                                              left: 5, right: 5),
-                                          height: 30,
-                                          width: 30,
-                                          child: VerticalDivider(
-                                              color: Colors.black))
-                                      : SizedBox.shrink(),
-                                  isDefaultCommunity(
-                                              viewModel.community.address) &&
-                                          depositPlugins.isNotEmpty
-                                      ? InkWell(
-                                          onTap: () => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DepositWebView(
-                                                        depositPlugin:
-                                                            depositPlugins[0])),
-                                          ),
-                                          child: new Container(
-                                            height: 30.0,
-                                            decoration: new BoxDecoration(
-                                              color: Colors.transparent,
-                                              border: new Border.all(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary,
-                                                  width: 2.0),
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      4.0),
-                                            ),
-                                            child: new OutlineButton(
-                                                child: new Text(
-                                                  "Top up",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary),
-                                                ),
-                                                onPressed: null,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary,
-                                                shape:
-                                                    new RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            new BorderRadius
-                                                                    .circular(
-                                                                3.0))),
-                                          ),
-                                        )
-                                      : SizedBox.shrink(),
+                                  // isDefaultCommunity(
+                                  //         viewModel.community.address) &&
+                                  //         depositPlugins.isNotEmpty
+                                  //     ? Container(
+                                  //         padding: EdgeInsets.only(
+                                  //             left: 5, right: 5),
+                                  //         height: 30,
+                                  //         width: 30,
+                                  //         child: VerticalDivider(
+                                  //             color: Colors.black))
+                                  //     : SizedBox.shrink(),
+                                  // isDefaultCommunity(
+                                  //             viewModel.community.address) &&
+                                  //         depositPlugins.isNotEmpty
+                                  //     ? InkWell(
+                                  //         onTap: () => Navigator.push(
+                                  //           context,
+                                  //           MaterialPageRoute(
+                                  //               builder: (context) =>
+                                  //                   DepositWebView(
+                                  //                       depositPlugin:
+                                  //                           depositPlugins[0])),
+                                  //         ),
+                                  //         child: new Container(
+                                  //           height: 30.0,
+                                  //           decoration: new BoxDecoration(
+                                  //             color: Colors.transparent,
+                                  //             border: new Border.all(
+                                  //                 color: Theme.of(context)
+                                  //                     .colorScheme
+                                  //                     .secondary,
+                                  //                 width: 2.0),
+                                  //             borderRadius:
+                                  //                 new BorderRadius.circular(
+                                  //                     4.0),
+                                  //           ),
+                                  //           child: new OutlineButton(
+                                  //               child: new Text(
+                                  //                 "Top up",
+                                  //                 style: TextStyle(
+                                  //                     fontWeight:
+                                  //                         FontWeight.bold,
+                                  //                     color: Theme.of(context)
+                                  //                         .colorScheme
+                                  //                         .secondary),
+                                  //               ),
+                                  //               onPressed: null,
+                                  //               color: Theme.of(context)
+                                  //                   .colorScheme
+                                  //                   .secondary,
+                                  //               shape:
+                                  //                   new RoundedRectangleBorder(
+                                  //                       borderRadius:
+                                  //                           new BorderRadius
+                                  //                                   .circular(
+                                  //                               3.0))),
+                                  //         ),
+                                  //       )
+                                  //     : SizedBox.shrink(),
                                 ])
                           ],
                         ),
@@ -267,7 +266,7 @@ class CashHeader extends StatelessWidget {
                                     print('Account address is not on Fuse');
                                   }
                                 } catch (e) {
-                                  logger.d('BarcodeScanner $e');
+                                  print('ERROR - BarcodeScanner');
                                 }
                               }),
                           width: 50.0,

@@ -21,6 +21,7 @@ class Transfer extends Transaction {
     String text,
     String jobId,
     int blockNumber,
+    int timestamp,
     this.to,
     this.from,
     this.value,
@@ -28,6 +29,7 @@ class Transfer extends Transaction {
     this.receiverName,
     this.note
   }) : super(
+            timestamp: timestamp,
             txHash: txHash,
             type: type,
             status: status,
@@ -50,6 +52,7 @@ class Transfer extends Transaction {
         text: text ?? this.text,
         jobId: this.jobId,
         blockNumber: this.blockNumber,
+        timestamp: this.timestamp,
         to: this.to,
         from: this.from,
         value: this.value,

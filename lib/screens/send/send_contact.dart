@@ -6,9 +6,13 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/transaction.dart';
+import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
+import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
+import 'package:fusecash/screens/cash_home/transaction_item.dart';
 import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/contacts.dart';
@@ -16,16 +20,29 @@ import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:redux/redux.dart';
 import "package:ethereum_address/ethereum_address.dart";
 import 'dart:math' as math;
+
+dynamic getImage(Transfer transfer, Contact contact, businesses) {
+  if (contact?.avatar != null) {
+    return new MemoryImage(contact.avatar);
+  } else {
+    String accountAddress =
+        transfer.type == 'SEND' ? transfer.to : transfer.from;
+    Business business = businesses.firstWhere(
+        (business) => business.account == accountAddress,
+        orElse: () => null);
+    if (business != null) {
+      return NetworkImage(getImageUrl(business, ''));
+    }
+  }
+  return new AssetImage('assets/images/anom.png');
+}
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class SendToContactScreen extends StatefulWidget {
-  final ContactsViewModel viewModel;
-
-  SendToContactScreen(this.viewModel);
+  SendToContactScreen();
 
   @override
   _SendToContactScreenState createState() => _SendToContactScreenState();
@@ -35,16 +52,25 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Contact> userList = [];
   List<Contact> filteredUsers = [];
   bool showFooter = true;
+  bool hasSynced = true;
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
 
-  loadContacts() {
+  loadContacts(ContactsViewModel viewModel) async {
+    bool isPermitted = await Contacts.checkPermissions();
     if (this.mounted) {
+      if (!isPermitted && viewModel.isContactsSynced == null) {
+        Future.delayed(
+            Duration.zero,
+            () => showDialog(
+                child: new ContactsConfirmationScreen(), context: context));
+      }
       setState(() {
         isPreloading = true;
+        hasSynced = isPermitted;
       });
     }
-    for (var contact in this.widget.viewModel.contacts) {
+    for (var contact in viewModel.contacts) {
       userList.add(contact);
     }
     userList.sort((a, b) =>
@@ -64,7 +90,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   @override
   void initState() {
     super.initState();
-    loadContacts();
   }
 
   void _onFocusChange(hasFocus) {
@@ -173,38 +198,40 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-
-  Widget sendToAcccountAddress (String accountAddress) {
+  Widget sendToAcccountAddress(String accountAddress) {
     Widget component = Slidable(
-        actionPane: SlidableDrawerActionPane(),
-        actionExtentRatio: 0.25,
-        secondaryActions: <Widget>[
-          IconSlideAction(
-            iconWidget: Icon(Icons.star),
-            onTap: () {},
+      actionPane: SlidableDrawerActionPane(),
+      actionExtentRatio: 0.25,
+      secondaryActions: <Widget>[
+        IconSlideAction(
+          iconWidget: Icon(Icons.star),
+          onTap: () {},
+        ),
+        IconSlideAction(
+          iconWidget: Icon(Icons.more_horiz),
+          onTap: () {},
+        ),
+      ],
+      child: Container(
+        decoration: new BoxDecoration(
+            border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
+        child: ListTile(
+          contentPadding:
+              EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
+          leading: CircleAvatar(
+            backgroundColor: Color(0xFFE0E0E0),
+            radius: 25,
+            backgroundImage: new AssetImage('assets/images/anom.png'),
           ),
-          IconSlideAction(
-            iconWidget: Icon(Icons.more_horiz),
-            onTap: () {},
+          title: Text(
+            formatAddress(accountAddress),
+            style: TextStyle(fontSize: 16),
           ),
-        ],
-        child: Container(
-          decoration: new BoxDecoration(
-              border:
-                  Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-          child: ListTile(
-            contentPadding:
-                EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
-            leading: CircleAvatar(
-              backgroundColor: Color(0xFFE0E0E0),
-              radius: 25,
-              backgroundImage: new AssetImage('assets/images/anom.png'),
+          trailing: InkWell(
+            child: Text(
+              I18n.of(context).next_button,
+              style: TextStyle(color: Color(0xFF0377FF)),
             ),
-            title: Text(
-              accountAddress,
-              style: TextStyle(fontSize: 16),
-            ),
-            //subtitle: Text("user.company" ?? ""),
             onTap: () {
               Navigator.pushNamed(context, '/SendAmount',
                   arguments: SendAmountArguments(
@@ -213,38 +240,45 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       avatar: new AssetImage('assets/images/anom.png')));
             },
           ),
+          //subtitle: Text("user.company" ?? ""),
+          onTap: () {
+            Navigator.pushNamed(context, '/SendAmount',
+                arguments: SendAmountArguments(
+                    accountAddress: accountAddress,
+                    name: formatAddress(accountAddress),
+                    avatar: new AssetImage('assets/images/anom.png')));
+          },
         ),
-      );
+      ),
+    );
     return SliverList(
       delegate: SliverChildListDelegate([component]),
     );
   }
 
-  Widget recentContacts(numToShow) {
+  Widget recentContacts(numToShow, ContactsViewModel viewModel) {
     List<Widget> listItems = List();
-    final sorted = new List<Transaction>.from(
-            this.widget.viewModel.transactions.list.toSet().toList())
-        .where((t) {
+    final sorted =
+        new List<Transaction>.from(viewModel.transactions.list.toSet().toList())
+            .where((t) {
       return t.type == 'SEND';
     }).toList()
-          ..sort((a, b) {
-            if (a.blockNumber != null && b.blockNumber != null) {
-              return b.blockNumber?.compareTo(a.blockNumber);
-            } else {
-              return b.status.compareTo(a.status);
-            }
-          });
+              ..sort((a, b) {
+                if (a.blockNumber != null && b.blockNumber != null) {
+                  return b.blockNumber?.compareTo(a.blockNumber);
+                } else {
+                  return b.status.compareTo(a.status);
+                }
+              });
 
     Map<String, Transaction> uniqueValues = {};
     for (var item in sorted) {
-      final Contact contact = getContact(
-          item,
-          this.widget.viewModel.reverseContacts,
-          this.widget.viewModel.contacts,
-          this.widget.viewModel.countryCode);
+      final Contact contact = getContact(item, viewModel.reverseContacts,
+          viewModel.contacts, viewModel.countryCode);
       var a = contact != null
           ? contact.displayName
-          : deducePhoneNumber(item, this.widget.viewModel.reverseContacts);
+          : deducePhoneNumber(item, viewModel.reverseContacts,
+              businesses: viewModel.businesses);
       uniqueValues[a] = item;
     }
 
@@ -261,12 +295,13 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     fontSize: 12.0,
                     fontWeight: FontWeight.normal))));
       }
-      final Transaction transaction = uniqueList[i];
-      final Contact contact = getContact(
-          transaction,
-          this.widget.viewModel.reverseContacts,
-          this.widget.viewModel.contacts,
-          this.widget.viewModel.countryCode);
+      final Transfer transfer = uniqueList[i];
+      final Contact contact = getContact(transfer, viewModel.reverseContacts,
+          viewModel.contacts, viewModel.countryCode);
+      final String displatName = contact != null
+          ? contact.displayName
+          : deducePhoneNumber(transfer, viewModel.reverseContacts,
+              businesses: viewModel.businesses);
       listItems.add(
         Slidable(
           actionPane: SlidableDrawerActionPane(),
@@ -291,33 +326,24 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               leading: CircleAvatar(
                 backgroundColor: Color(0xFFE0E0E0),
                 radius: 25,
-                backgroundImage: contact?.avatar != null
-                    ? MemoryImage(contact.avatar)
-                    : new AssetImage('assets/images/anom.png'),
+                backgroundImage:
+                    getImage(transfer, contact, viewModel.businesses),
               ),
               title: Text(
-                contact != null
-                    ? contact.displayName
-                    : deducePhoneNumber(
-                        transaction, this.widget.viewModel.reverseContacts),
+                displatName,
                 style: TextStyle(fontSize: 16),
               ),
-              //subtitle: Text("user.company" ?? ""),
               onTap: () {
-                Map<String, String> reverseContacts =
-                    this.widget.viewModel.reverseContacts;
-                String number = formatPhoneNumber(contact.phones.first.value,
-                    this.widget.viewModel.countryCode);
+                Map<String, String> reverseContacts = viewModel.reverseContacts;
+                String number = formatPhoneNumber(
+                    contact.phones.first.value, viewModel.countryCode);
                 String accountAddress = reverseContacts.keys.firstWhere(
                     (k) => reverseContacts[k] == number,
                     orElse: () => null);
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
                         accountAddress: accountAddress,
-                        name: contact != null
-                            ? contact.displayName
-                            : deducePhoneNumber(transaction,
-                                this.widget.viewModel.reverseContacts),
+                        name: displatName,
                         avatar: contact?.avatar != null
                             ? MemoryImage(contact.avatar)
                             : new AssetImage('assets/images/anom.png'),
@@ -333,7 +359,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  List<Widget> _buildPageList() {
+  List<Widget> _buildPageList(viewModel) {
     List<Widget> listItems = List();
 
     if (isPreloading) {
@@ -343,7 +369,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     listItems.add(searchPanel());
 
     if (searchController.text.isEmpty) {
-      listItems.add(recentContacts(3));
+      if (hasSynced) {
+        listItems.add(recentContacts(3, viewModel));
+      }
     } else if (isValidEthereumAddress(searchController.text)) {
       listItems.add(sendToAcccountAddress(searchController.text));
     }
@@ -357,19 +385,13 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       groups[groupName].add(c);
     }
 
-    List<String> titles = groups.keys.toList();
-    titles.sort();
-    
+    List<String> titles = groups.keys.toList()..sort();
+
     for (String title in titles) {
       List<Contact> group = groups[title];
       listItems.add(listHeader(title));
       listItems.add(listBody(group));
     }
-    
-    // for (int index = 0; index < abList.length; index++) {
-    //   listItems.add(listHeader(abList[index]));
-    //   listItems.add(listBody(abList[index]));
-    // }
 
     return listItems;
   }
@@ -452,91 +474,28 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(
-      withPadding: false,
-      title: I18n.of(context).send_to,
-      titleFontSize: 15,
-      footer: showFooter ? 
-      bottomBar(context) : null,
-      sliverList: _buildPageList(),
-      children: <Widget>[
-        !this.widget.viewModel.isContactsSynced
-            ? Padding(
-                padding: EdgeInsets.only(top: 50),
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              )
-            : Container()
-      ],
-    );
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
-  });
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-  @override
-  double get minExtent => minHeight;
-  @override
-  double get maxExtent => math.max(maxHeight, minHeight);
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new SizedBox.expand(child: child);
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
-  }
-}
-
-class ContactsScreen extends StatefulWidget {
-  @override
-  _ContactsScreenState createState() => _ContactsScreenState();
-}
-
-class _ContactsScreenState extends State<ContactsScreen> {
-  bool isSync = false;
-
-  @override
-  Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
         converter: ContactsViewModel.fromStore,
-        onInit: (Store<AppState> store) async {
-          bool isPermitted = await Contacts.checkPermissions();
-          if (!isPermitted) {
-            Future.delayed(
-                Duration.zero,
-                () => showDialog(
-                    child: new ContactsConfirmationScreen(), context: context));
-          }
-          setState(() {
-            isSync = isPermitted;
-          });
-        },
-        onWillChange: (viewModel) async {
-          bool isPermitted = await Contacts.checkPermissions();
-          setState(() {
-            isSync = isPermitted;
-          });
+        onInitialBuild: (viewModel) {
+          loadContacts(viewModel);
         },
         builder: (_, viewModel) {
-          if (!isSync) {
+          if (hasSynced) {
             return MainScaffold(
-                withPadding: true,
-                titleFontSize: 15,
+                withPadding: false,
                 title: I18n.of(context).send_to,
+                titleFontSize: 15,
+                footer: showFooter ? bottomBar(context) : null,
+                sliverList: _buildPageList(viewModel),
+                children: <Widget>[]);
+          } else {
+            return MainScaffold(
+                withPadding: false,
+                title: I18n.of(context).send_to,
+                titleFontSize: 15,
+                footer: showFooter ? bottomBar(context) : null,
+                sliverList: _buildPageList(viewModel),
                 children: <Widget>[
                   Column(
                     mainAxisSize: MainAxisSize.max,
@@ -544,17 +503,17 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.only(top: 180),
+                        padding: EdgeInsets.only(top: 100),
                         child: SvgPicture.asset(
                           'assets/images/contacts.svg',
-                          width: 50.0,
-                          height: 50,
+                          width: 70.0,
+                          height: 70,
                         ),
                       ),
                       SizedBox(
                         height: 40,
                       ),
-                      new Text(I18n.of(context).sync_contacts),
+                      new Text(I18n.of(context).sync_your_contacts),
                       SizedBox(
                         height: 40,
                       ),
@@ -588,6 +547,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                   List<Contact> contacts =
                                       await ContactController.getContacts();
                                   viewModel.syncContacts(contacts);
+                                  setState(() {
+                                    hasSynced = true;
+                                  });
                                 }
                               })
                         ],
@@ -595,9 +557,34 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     ],
                   )
                 ]);
-          } else {
-            return SendToContactScreen(viewModel);
           }
         });
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate({
+    @required this.minHeight,
+    @required this.maxHeight,
+    @required this.child,
+  });
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+  @override
+  double get minExtent => minHeight;
+  @override
+  double get maxExtent => math.max(maxHeight, minHeight);
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return new SizedBox.expand(child: child);
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:fusecash/services.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import './transaction.dart';
+import 'package:fusecash/redux/state/store.dart';
 import 'dart:convert';
 
 String getJobType(Map<String, dynamic> job) {
@@ -124,7 +125,8 @@ class JoinCommunityJob extends Job {
     Job job = JobFactory.create(fetchedData);
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.wtf('job not done');
+      final logger = await AppFactory().getLogger('job');
+      logger.info('JoinCommunityJob not done');
       return;
     }
     status = 'DONE';
@@ -173,7 +175,8 @@ class TransferJob extends Job {
     Job job = JobFactory.create(fetchedData);
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.wtf('job not done');
+      final logger = await AppFactory().getLogger('Job');
+      logger.info('TransferJob not done');
       return;
     }
     status = 'DONE';
@@ -217,7 +220,8 @@ class InviteJob extends Job {
   onDone(store, dynamic fetchedData) async {
     Job job = JobFactory.create(fetchedData);
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.wtf('job not done');
+      final logger = await AppFactory().getLogger('Job');
+      logger.info('InviteJob job not done');
       return;
     }
     status = 'DONE';

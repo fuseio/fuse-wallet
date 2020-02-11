@@ -15,6 +15,7 @@ import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/forks.dart';
+import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:http/http.dart';
@@ -25,40 +26,6 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:logger/logger.dart';
-
-// void enablePushNotifications() async {
-//   FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
-//   void iosPermission() {
-//     var firebaseMessaging2 = firebaseMessaging;
-//     firebaseMessaging2.requestNotificationPermissions(
-//         IosNotificationSettings(sound: true, badge: true, alert: true));
-//     firebaseMessaging.onIosSettingsRegistered
-//         .listen((IosNotificationSettings settings) {
-//       print("Settings registered: $settings");
-//     });
-//   }
-
-//   if (Platform.isIOS) iosPermission();
-//   var token = await firebaseMessaging.getToken();
-//   logger.wtf("token $token");
-//   await FlutterSegment.putDeviceToken(token);
-//   firebaseMessaging.configure(
-//     onMessage: (Map<String, dynamic> message) async {
-//       logger.wtf('onMessage called: $message');
-//     },
-//     onResume: (Map<String, dynamic> message) async {
-//       logger.wtf('onResume called: $message');
-//     },
-//     onLaunch: (Map<String, dynamic> message) async {
-//       logger.wtf('onLaunch called: $message');
-//     },
-//   );
-// }
-
-var logger = Logger(printer: PrettyPrinter()
-    // output: DualOutput()
-    );
 
 class SetDefaultCommunity {
   String defaultCommunity;
@@ -246,40 +213,95 @@ Future<bool> approvalCallback() async {
   return true;
 }
 
+ThunkAction enablePushNotifications() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+      void iosPermission() {
+        var firebaseMessaging2 = firebaseMessaging;
+        firebaseMessaging2.requestNotificationPermissions(
+            IosNotificationSettings(sound: true, badge: true, alert: true));
+        firebaseMessaging.onIosSettingsRegistered
+            .listen((IosNotificationSettings settings) {
+          print("Settings registered: $settings");
+        });
+      }
+
+      if (Platform.isIOS) iosPermission();
+      var token = await firebaseMessaging.getToken();
+      logger.info("Firebase messaging token $token");
+      await FlutterSegment.putDeviceToken(token);
+      firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          logger.info('onMessage called: $message');
+        },
+        onResume: (Map<String, dynamic> message) async {
+          logger.info('onResume called: $message');
+        },
+        onLaunch: (Map<String, dynamic> message) async {
+          logger.info('onLaunch called: $message');
+        },
+      );
+    } catch (e) {
+      logger.severe('ERROR - Enable push notifications: $e');
+    }
+  };
+}
+
 ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
   return (Store store) async {
-    await FlutterSegment.track(eventName: eventName, properties: properties);
+    final logger = await AppFactory().getLogger('action');
+    try {
+      logger.info('Track - $eventName');
+      await FlutterSegment.track(eventName: eventName, properties: properties);
+    } catch (e) {
+      logger.severe('ERROR - segment track call: $e');
+    }
   };
 }
 
 ThunkAction segmentAliasCall(String userId) {
   return (Store store) async {
-    await FlutterSegment.alias(alias: userId);
+    final logger = await AppFactory().getLogger('action');
+    try {
+      logger.info('Alias - $userId');
+      await FlutterSegment.alias(alias: userId);
+    } catch (e) {
+      logger.severe('ERROR - segment alias call: $e');
+    }
   };
 }
 
 ThunkAction segmentIdentifyCall(String userId, Map<String, dynamic> traits) {
   return (Store store) async {
-    await FlutterSegment.identify(userId: userId, traits: traits);
+    final logger = await AppFactory().getLogger('action');
+    try {
+      logger.info('Identify - $userId');
+      await FlutterSegment.identify(userId: userId, traits: traits);
+    } catch (e) {
+      logger.severe('ERROR - segment identify call: $e');
+    }
   };
 }
 
 ThunkAction listenToBranchCall() {
   return (Store store) async {
-    logger.wtf("branch listening.");
+    final logger = await AppFactory().getLogger('action');
+    logger.info("branch listening.");
     store.dispatch(BranchListening());
 
     Function handler = (linkData) async {
-      logger.wtf("Got link data: ${linkData.toString()}");
+      logger.info("Got link data: ${linkData.toString()}");
       if (linkData["~feature"] == "switch_community") {
         var communityAddress = linkData["community_address"];
-        logger.wtf("communityAddress $communityAddress");
+        logger.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
         store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
-        logger.wtf("community_address $communityAddress");
+        logger.info("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
@@ -296,8 +318,9 @@ ThunkAction listenToBranchCall() {
 
 ThunkAction initWeb3Call(String privateKey) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
-      logger.d('initWeb3. privateKey: $privateKey');
+      logger.info('initWeb3. privateKey: $privateKey');
       wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
           defaultCommunityAddress:
               DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
@@ -312,7 +335,7 @@ ThunkAction initWeb3Call(String privateKey) {
       web3.setCredentials(privateKey);
       store.dispatch(new InitWeb3Success(web3));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - initWeb3Call $e');
       store.dispatch(new ErrorAction('Could not init web3'));
     }
   };
@@ -374,9 +397,10 @@ ThunkAction startTransfersFetchingCall() {
 
 ThunkAction createAccountWalletCall(String accountAddress) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
-      logger.d('createAccountWalletCall');
-      logger.d('accountAddress: $accountAddress');
+      logger.info('createAccountWalletCall');
+      logger.info('accountAddress: $accountAddress');
       store.dispatch(new CreateAccountWalletRequest(accountAddress));
       Map<String, dynamic> response = await api.createWallet();
       if (!response.containsKey('job')) {
@@ -390,7 +414,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - createAccountWalletCall $e');
       store.dispatch(new ErrorAction('Could not create wallet'));
     }
   };
@@ -398,34 +422,28 @@ ThunkAction createAccountWalletCall(String accountAddress) {
 
 ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+
     String walletAddress = wallet["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
-          // enablePushNotifications();
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-          logger.d('fullPhoneNumber: $fullPhoneNumber');
-          store.dispatch(segmentIdentifyCall(
-              fullPhoneNumber,
-              new Map<String, dynamic>.from({
-                "Phone Number": fullPhoneNumber,
-                "Wallet Address": walletAddress,
-                "Account Address": accountAddress,
-                "Display Name": store.state.userState.displayName
-              })));
-          store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
+          logger.info('fullPhoneNumber: $fullPhoneNumber');
           store.dispatch(create3boxAccountCall(accountAddress));
+          store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
     }
   };
 }
 
 ThunkAction getWalletAddressCall() {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
       dynamic wallet = await api.getWallet();
       String walletAddress = wallet["walletAddress"];
       store.dispatch(new GetWalletAddressSuccess(walletAddress));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - getWalletAddressCall $e');
       store.dispatch(new ErrorAction('Could not get wallet address'));
     }
   };
@@ -433,15 +451,13 @@ ThunkAction getWalletAddressCall() {
 
 ThunkAction getTokenBalanceCall(String tokenAddress) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      // logger.d(
-      //     'fetching token balance of $tokenAddress for $walletAddress wallet');
-      BigInt tokenBalance =
-          await graph.getTokenBalance(walletAddress, tokenAddress);
+      BigInt tokenBalance = await graph.getTokenBalance(walletAddress, tokenAddress);
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - getTokenBalanceCall $e');
       store.dispatch(new ErrorAction('Could not get token balance'));
     }
   };
@@ -450,18 +466,19 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
 ThunkAction fetchJobCall(String jobId, Function(Job) fetchSuccessCallback,
     {Timer timer, bool untilDone}) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
       dynamic response = await api.getJob(jobId);
       Job job = JobFactory.create(response);
-      logger.wtf("job.name: ${job.name}");
+      logger.info("job.name: ${job.name}");
       if (untilDone) {
         if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-          logger.wtf('job not done');
+          logger.info('job not done');
           return;
         }
       } else {
         if (job.data['txHash'] == null) {
-          logger.wtf('fetched job with txHash null');
+          logger.info('fetched job with txHash null');
           return;
         }
       }
@@ -470,7 +487,7 @@ ThunkAction fetchJobCall(String jobId, Function(Job) fetchSuccessCallback,
         timer.cancel();
       }
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - fetchJobCall $e');
       store.dispatch(new ErrorAction('Could not get job'));
     }
   };
@@ -537,54 +554,50 @@ ThunkAction inviteAndSendCall(
   {String receiverName = ''}
 ) {
   return (Store store) async {
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community = store.state.cashWalletState.communities[communityAddres];
-    Token token = community?.token;
-    dynamic response = await api.invite(
-      contactPhoneNumber,
-      store.state.cashWalletState.communityAddress,
-      name: name,
-      amount: tokensAmount.toString(),
-      symbol: token.symbol
-    );
-    logger.wtf("response $response");
-    sendSuccessCallback();
+    final logger = await AppFactory().getLogger('action');
+    try {
+      String communityAddres = store.state.cashWalletState.communityAddress;
+      String senderName = store.state.userState.displayName;
+      Community community = store.state.cashWalletState.communities[communityAddres];
+      Token token = community?.token;
+      dynamic response = await api.invite(
+        contactPhoneNumber,
+        store.state.cashWalletState.communityAddress,
+        name: senderName,
+        amount: tokensAmount.toString(),
+        symbol: token.symbol
+      );
+      sendSuccessCallback();
 
-    String tokenAddress = token?.address;
+      String tokenAddress = token?.address;
 
-    BigInt value = toBigInt(tokensAmount, token.decimals);
-    String walletAddress = store.state.cashWalletState.walletAddress;
+      BigInt value = toBigInt(tokensAmount, token.decimals);
+      String walletAddress = store.state.cashWalletState.walletAddress;
 
-    Transfer inviteTransfer = new Transfer(
-        from: walletAddress,
-        to: '',
-        tokenAddress: tokenAddress,
-        value: value,
-        type: 'SEND',
-        receiverName: receiverName,
-        status: 'PENDING',
-        jobId: response['job']['_id']);
-    store.dispatch(AddTransaction(inviteTransfer));
+      Transfer inviteTransfer = new Transfer(
+          from: walletAddress,
+          to: '',
+          tokenAddress: tokenAddress,
+          value: value,
+          type: 'SEND',
+          receiverName: receiverName,
+          status: 'PENDING',
+          jobId: response['job']['_id']);
+      store.dispatch(AddTransaction(inviteTransfer));
 
-    response['job']['arguments'] = {
-      'tokensAmount': tokensAmount,
-      'receiverName': receiverName,
-      'sendSuccessCallback': () => {},
-      'sendFailureCallback': sendFailureCallback,
-      'inviteTransfer': inviteTransfer
-    };
+      response['job']['arguments'] = {
+        'tokensAmount': tokensAmount,
+        'receiverName': receiverName,
+        'sendSuccessCallback': () => {},
+        'sendFailureCallback': sendFailureCallback,
+        'inviteTransfer': inviteTransfer
+      };
 
-    Job job = JobFactory.create(response['job']);
-    store.dispatch(AddJob(job));
-
-    // String jobId = response['job']['_id'].toString();
-    // store.dispatch(startFetchingJobCall(jobId, (Job job) {
-    //   String receiverAddress = job.data["walletAddress"];
-    //   store.dispatch(sendTokenCall(receiverAddress, tokensAmount,
-    //       sendSuccessCallback, sendFailureCallback,
-    //       receiverName: receiverName));
-      // store.dispatch(syncContactsCall(store.state.userState.contacts));
-    // }, untilDone: true));
+      Job job = JobFactory.create(response['job']);
+      store.dispatch(AddJob(job));
+    } catch (e) {
+      logger.severe('ERROR - inviteAndSendCall $e');
+    }
   };
 }
 
@@ -603,6 +616,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
     {String receiverName, String transferNote, Transfer inviteTransfer}) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
       wallet_core.Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
@@ -613,14 +627,13 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       String tokenAddress = token?.address;
 
       BigInt value = toBigInt(tokensAmount, token.decimals);
-
-      logger.wtf(
+      logger.info(
           'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
       dynamic response = await api.tokenTransfer(
           web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
 
       dynamic jobId = response['job']['_id'];
-      logger.wtf('Job $jobId for sending token sent to the relay service');
+      logger.info('Job $jobId for sending token sent to the relay service');
 
       sendSuccessCallback();
       Transfer transfer = new Transfer(
@@ -647,7 +660,7 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - sendTokenCall $e');
       sendFailureCallback();
       store.dispatch(new ErrorAction('Could not send token'));
     }
@@ -664,6 +677,7 @@ ThunkAction sendTokenSuccessCall(job, transfer) {
 
 ThunkAction sendToInviteCall(String receiverAddress, num tokensAmount, Transfer inviteWithJobId) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
       wallet_core.Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
@@ -675,13 +689,13 @@ ThunkAction sendToInviteCall(String receiverAddress, num tokensAmount, Transfer 
 
       BigInt value = toBigInt(tokensAmount, token.decimals);
 
-      logger.wtf(
+      logger.info(
           'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
       dynamic response = await api.tokenTransfer(
           web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
 
       dynamic jobId = response['job']['_id'];
-      logger.wtf('Job $jobId for sending token sent to the relay service');
+      logger.info('Job $jobId for sending token sent to the relay service');
 
       store.dispatch(startFetchingJobCall(jobId, (job) {
         store.dispatch(new TransferJobSuccess(job));
@@ -700,7 +714,7 @@ ThunkAction sendToInviteCall(String receiverAddress, num tokensAmount, Transfer 
           jobId: jobId);
       store.dispatch(new ReplaceTransaction(inviteWithJobId, transfer));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - sendToInviteCall $e');
       store.dispatch(new ErrorAction('Could not send token'));
     }
   };
@@ -708,6 +722,7 @@ ThunkAction sendToInviteCall(String receiverAddress, num tokensAmount, Transfer 
 
 ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
       wallet_core.Web3 web3 = store.state.cashWalletState.web3;
       String walletAddress = store.state.cashWalletState.walletAddress;
@@ -737,7 +752,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - joinCommunityCall $e');
       store.dispatch(new ErrorAction('Could not join community'));
     }
   };
@@ -776,24 +791,28 @@ ThunkAction fetchCommunityMetadataCall(String communityURI) {
   return (Store store) async {
     String uri = communityURI.split('://')[1];
     dynamic metadata = await api.fetchMetadata(uri);
-    CommunityMetadata communityMetadata = new CommunityMetadata(image: metadata['image'], coverPhoto: metadata['coverPhoto']);
+    CommunityMetadata communityMetadata = new CommunityMetadata(
+      image: metadata['image'],
+      coverPhoto: metadata['coverPhoto'],
+      isDefaultImage: metadata['isDefault'] != null ? metadata['isDefault'] : false
+    );
     store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
   };
 }
 
 ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
+      if (store.state.cashWalletState.isCommunityLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
-      logger.d('community fetched for $communityAddress');
+      logger.info('community fetched for $communityAddress');
       dynamic token = await graph.getTokenOfCommunity(communityAddress);
-      logger.d(
-          'token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
+      logger.info('token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
       bool isRopsten = token != null && token['originNetwork'] == 'ropsten';
       String walletAddress = store.state.cashWalletState.walletAddress;
-      Map<String, dynamic> communityData =
-          await api.getCommunityData(communityAddress, isRopsten: isRopsten, walletAddress: walletAddress);
+      Map<String, dynamic> communityData = await api.getCommunityData(communityAddress, isRopsten: isRopsten, walletAddress: walletAddress);
       store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
@@ -820,7 +839,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
           communityData['isClosed']
           ));
     } catch (e) {
-      logger.e(e);
+      logger.info('ERROR - switchCommunityCall $e');
       store.dispatch(new ErrorAction('Could not switch community'));
       store.dispatch(new SwitchCommunityFailed());
     }
@@ -829,10 +848,11 @@ ThunkAction switchCommunityCall(String communityAddress) {
 
 ThunkAction getJoinBonusCall() {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
       // TODO
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - getJoinBonusCall $e');
       store.dispatch(new ErrorAction('Could not get join bonus'));
     }
   };
@@ -844,8 +864,6 @@ Map<String, dynamic> _responseHandler(Response response) {
     case 200:
       Map<String, dynamic> obj = json.decode(response.body);
       return obj;
-    case 401:
-      throw 'Error! Unauthorized';
       break;
     default:
       throw 'Error! status: ${response.statusCode}, reason: ${response.reasonPhrase}';
@@ -854,6 +872,7 @@ Map<String, dynamic> _responseHandler(Response response) {
 
 ThunkAction getBusinessListCall() {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
       store.dispatch(StartFetchingBusinessList());
       if (isPaywise(store.state.cashWalletState.communityAddress)) {
@@ -913,7 +932,7 @@ ThunkAction getBusinessListCall() {
       }
 
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - getBusinessListCall $e');
       store.dispatch(FetchingBusinessListFailed());
       store.dispatch(new ErrorAction('Could not get businesses list'));
     }
@@ -922,8 +941,8 @@ ThunkAction getBusinessListCall() {
 
 ThunkAction getTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
-      if (store.state.cashWalletState.isCommunityLoading) return;
       String walletAddress = store.state.cashWalletState.walletAddress;
       String communityAddres = store.state.cashWalletState.communityAddress;
       Community community =
@@ -938,7 +957,7 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
           response["data"].map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(new GetTokenTransfersListSuccess(transfers));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - getTokenTransfersListCall $e');
       store.dispatch(new ErrorAction('Could not get token transfers'));
     }
   };
@@ -946,8 +965,8 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
 
 ThunkAction getReceivedTokenTransfersListCall(String tokenAddress) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
-      if (store.state.cashWalletState.isCommunityLoading) return;
       String communityAddres = store.state.cashWalletState.communityAddress;
       Community community =
           store.state.cashWalletState.communities[communityAddres];
@@ -965,7 +984,7 @@ ThunkAction getReceivedTokenTransfersListCall(String tokenAddress) {
         store.dispatch(getTokenBalanceCall(tokenAddress));
       }
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - getReceivedTokenTransfersListCall $e');
       store.dispatch(new ErrorAction('Could not get token transfers'));
     }
   };
@@ -975,12 +994,13 @@ ThunkAction sendTokenToContactCall(String name, String contactPhoneNumber, num t
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
     {String receiverName, String transferNote}) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     try {
-      logger.i('Trying to send $tokensAmount to phone $contactPhoneNumber');
+      logger.info('Trying to send $tokensAmount to phone $contactPhoneNumber');
       Map wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
-      logger.wtf("wallet $wallet");
+      logger.info("wallet $wallet");
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
-      logger.wtf("walletAddress $walletAddress");
+      logger.info("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
         store.dispatch(inviteAndSendCall(
           name,
@@ -996,7 +1016,7 @@ ThunkAction sendTokenToContactCall(String name, String contactPhoneNumber, num t
           walletAddress, tokensAmount, sendSuccessCallback, sendFailureCallback,
           receiverName: receiverName, transferNote: transferNote));
     } catch (e) {
-      logger.e(e);
+      logger.severe('ERROR - sendTokenToContactCall $e');
       store.dispatch(new ErrorAction('Could not send token to contact'));
     }
   };
