@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
-// import 'package:fusecash/screens/cash_home/deposit_webview.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -243,34 +243,60 @@ class CashHeader extends StatelessWidget {
                           ],
                         ),
                         new Container(
-                          child: new FloatingActionButton(
-                              backgroundColor: const Color(0xFF292929),
-                              elevation: 0,
-                              child: Image.asset(
-                                'assets/images/scan.png',
-                                width: 25.0,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                              ),
-                              onPressed: () async {
-                                try {
-                                  String accountAddress =
-                                      await BarcodeScanner.scan();
-                                  List<String> parts =
-                                      accountAddress.split(':');
-                                  if (parts.length == 2 && parts[0] == 'fuse') {
-                                    Navigator.pushNamed(context, '/SendAmount',
-                                        arguments: SendAmountArguments(
-                                            accountAddress: parts[1]));
-                                  } else {
-                                    print('Account address is not on Fuse');
+                          child: Row(children: [
+                            isDefaultCommunity(viewModel.community.address)
+                                ? InkWell(
+                                    child: SvgPicture.asset(
+                                      'assets/images/winPoints.svg',
+                                      width: 55,
+                                      height: 55,
+                                    ),
+                                    onTap: () {
+                                      Scaffold.of(context)
+                                          .showSnackBar(new SnackBar(
+                                        content: new Text(
+                                          "Coming soon",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ));
+                                      // Navigator.pushNamed(context, '/Prize');
+                                    },
+                                  )
+                                : SizedBox.shrink(),
+                            isDefaultCommunity(viewModel.community.address)
+                                ? SizedBox(
+                                    width: 10,
+                                  )
+                                : SizedBox.shrink(),
+                            new FloatingActionButton(
+                                backgroundColor: const Color(0xFF292929),
+                                elevation: 0,
+                                child: Image.asset(
+                                  'assets/images/scan.png',
+                                  width: 25.0,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                onPressed: () async {
+                                  try {
+                                    String accountAddress =
+                                        await BarcodeScanner.scan();
+                                    List<String> parts =
+                                        accountAddress.split(':');
+                                    if (parts.length == 2 &&
+                                        parts[0] == 'fuse') {
+                                      Navigator.pushNamed(
+                                          context, '/SendAmount',
+                                          arguments: SendAmountArguments(
+                                              accountAddress: parts[1]));
+                                    } else {
+                                      print('Account address is not on Fuse');
+                                    }
+                                  } catch (e) {
+                                    print('ERROR - BarcodeScanner');
                                   }
-                                } catch (e) {
-                                  print('ERROR - BarcodeScanner');
-                                }
-                              }),
-                          width: 50.0,
-                          height: 50.0,
+                                })
+                          ]),
                         )
                       ],
                     ),

@@ -4,6 +4,7 @@ import 'package:fusecash/screens/buy/buy.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/buy/map.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
+import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/screens/misc/about.dart';
 import 'package:fusecash/screens/misc/settings.dart';
@@ -47,5 +48,6 @@ getRoutes() {
     '/About': (context) => AboutScreen(),
     '/Settings': (context) => SettingsScreen(),
     '/Map': (context) => MapScreen(),
+    '/Prize': (context) => PrizeScreen(),
   };
 }

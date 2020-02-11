@@ -24,11 +24,15 @@ CashWalletState _$CashWalletStateFromJson(Map<String, dynamic> json) {
     isJobProcessingStarted: json['isJobProcessingStarted'] as bool ?? false,
     communities: CashWalletState._communitiesFromJson(
         json['communities'] as Map<String, dynamic>),
+    drawInfo: json['drawInfo'] == null
+        ? null
+        : DrawInfo.fromJson(json['drawInfo'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$CashWalletStateToJson(CashWalletState instance) =>
     <String, dynamic>{
+      'drawInfo': instance.drawInfo?.toJson(),
       'walletStatus': instance.walletStatus,
       'walletAddress': instance.walletAddress,
       'communityAddress': instance.communityAddress,

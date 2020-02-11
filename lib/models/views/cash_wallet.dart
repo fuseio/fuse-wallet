@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/draw_info.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transactions.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -17,8 +18,9 @@ class CashHeaderViewModel extends Equatable {
   final Community community;
   final Function() firstName;
   final Plugins plugins;
+  final DrawInfo drawInfo;
 
-  CashHeaderViewModel({this.community, this.firstName, this.plugins});
+  CashHeaderViewModel({this.community, this.firstName, this.plugins, this.drawInfo});
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -26,6 +28,7 @@ class CashHeaderViewModel extends Equatable {
     return CashHeaderViewModel(
       community: community,
       plugins: community?.plugins,
+      drawInfo: store.state.cashWalletState.drawInfo,
       firstName: () {
         String fullName = store.state.userState.displayName ?? '';
         return fullName.split(' ')[0];
@@ -33,7 +36,7 @@ class CashHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [community];
+  List<Object> get props => [community, drawInfo, plugins];
 }
 
 class CashWalletViewModel extends Equatable {
@@ -76,6 +79,7 @@ class CashWalletViewModel extends Equatable {
   final bool isJobProcessingStarted;
   final Community community;
   final Function() identifyCall;
+  final DrawInfo drawInfo;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -116,7 +120,8 @@ class CashWalletViewModel extends Equatable {
     this.isContactsSynced,
     this.isJobProcessingStarted,
     this.community,
-    this.identifyCall
+    this.identifyCall,
+    this.drawInfo
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -125,6 +130,7 @@ class CashWalletViewModel extends Equatable {
     bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading;
     String branchAddress = store.state.cashWalletState.branchAddress;
     return CashWalletViewModel(
+      drawInfo: store.state.cashWalletState.drawInfo,
       accountAddress: store.state.userState.accountAddress,
       walletAddress: store.state.cashWalletState.walletAddress,
       walletStatus: store.state.cashWalletState.walletStatus,
@@ -207,6 +213,7 @@ class CashWalletViewModel extends Equatable {
 
   @override
   List<Object> get props => [
+    contacts,
     accountAddress,
     walletAddress,
     walletStatus,
@@ -219,6 +226,7 @@ class CashWalletViewModel extends Equatable {
     transactions,
     isListeningToBranch,
     isBranchDataReceived,
-    isCommunityBusinessesFetched
+    isCommunityBusinessesFetched,
+    drawInfo
   ];
 }

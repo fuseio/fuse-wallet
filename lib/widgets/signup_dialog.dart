@@ -41,15 +41,13 @@ class SignupDialogState extends State<SignupDialog>
     return ScaleTransition(
         scale: scaleAnimatoin,
         child: AlertDialog(
-          contentPadding: EdgeInsets.all(5.0),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(12.0))),
           content: Stack(
             children: <Widget>[
               Container(
                 padding: EdgeInsets.all(20),
-                //height: 400,
-                width: 500,
+                width: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,11 +73,20 @@ class SignupDialogState extends State<SignupDialog>
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
-                    Text("For more information: Fuse.io\privacy",
+                    Text("For more information: ",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
+                    InkWell(
+                        onTap: () {
+                          // TODO - link to privacy policy
+                        },
+                        child: Text("Fuse.io/privacy",
+                            style: TextStyle(
+                                color: Color(0xFF0076FF),
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal))),
                     const SizedBox(height: 20.0),
                     PrimaryButton(
                       label: "OK Thanks",

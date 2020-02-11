@@ -6,6 +6,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/community_metadata.dart';
+import 'package:fusecash/models/draw_info.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
@@ -14,6 +15,7 @@ import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/format.dart';
@@ -26,6 +28,11 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
+
+class SetDrawInfo {
+  DrawInfo drawInfo;
+  SetDrawInfo(this.drawInfo);
+}
 
 class SetDefaultCommunity {
   String defaultCommunity;
@@ -224,7 +231,7 @@ ThunkAction enablePushNotifications() {
             IosNotificationSettings(sound: true, badge: true, alert: true));
         firebaseMessaging.onIosSettingsRegistered
             .listen((IosNotificationSettings settings) {
-          print("Settings registered: $settings");
+          logger.info("Settings registered: $settings");
         });
       }
 
@@ -311,7 +318,7 @@ ThunkAction listenToBranchCall() {
     FlutterBranchSdk.initSession().listen((data) {
       handler(data);
     }, onError: (error) {
-      print(error);
+      logger.severe('ERROR - FlutterBranchSdk initSession $error');
     });
   };
 }
@@ -404,7 +411,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
       store.dispatch(new CreateAccountWalletRequest(accountAddress));
       Map<String, dynamic> response = await api.createWallet();
       if (!response.containsKey('job')) {
-        print('Wallet already exists');
+        logger.info('Wallet already exists');
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
         return;
       }
@@ -653,12 +660,12 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
         store.dispatch(new AddTransaction(transfer));
       }
 
-      store.dispatch(segmentTrackCall("Wallet: User Transfer", properties: transfer.toJson()));
       response['job']['arguments'] = {
         'transfer': transfer
       };
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
+      store.dispatch(segmentTrackCall("Wallet: User Transfer", properties: transfer.toJson()));
     } catch (e) {
       logger.severe('ERROR - sendTokenCall $e');
       sendFailureCallback();
@@ -777,12 +784,12 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
         type: 'RECEIVE',
         value: value,
         status: 'PENDING');
+      store.dispatch(new AddTransaction(joinBonus));
       store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
         properties: new Map<String, dynamic>.from({
           "Community Name": community["name"],
           "Bonus amount": communityData.plugins.joinBonus.amount,
         })));
-      store.dispatch(new AddTransaction(joinBonus));
     }
   };
 }
@@ -800,6 +807,23 @@ ThunkAction fetchCommunityMetadataCall(String communityURI) {
   };
 }
 
+ThunkAction daiPointsCommunityDrawsInfo() {
+  return (Store store) async {
+    Client client = new Client();
+    Response res = await client.get('https://daipoints-oracle.fuse.io/draw-info');
+    Map<String, dynamic> drawInfoResponse = _responseHandler(res);
+    final data = drawInfoResponse['data'];
+    DrawInfo drawInfo = new DrawInfo(
+      endTimestamp: int.parse(data['current']['endTimestamp']),
+      previous: data['previous'],
+      reward: data['current']['reward'],
+      blockNumber: data['current']['blockNumber'],
+      possibleWinnersCount: data['current']['possibleWinnersCount']
+    );
+    store.dispatch(SetDrawInfo(drawInfo));
+  };
+}
+
 ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
@@ -807,6 +831,11 @@ ThunkAction switchCommunityCall(String communityAddress) {
       if (store.state.cashWalletState.isCommunityLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
+      if (isDefaultCommunity(communityAddress)) {
+        store.dispatch(daiPointsCommunityDrawsInfo());
+      } else {
+        store.dispatch(SetDrawInfo(new DrawInfo()));
+      }
       logger.info('community fetched for $communityAddress');
       dynamic token = await graph.getTokenOfCommunity(communityAddress);
       logger.info('token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
@@ -816,14 +845,6 @@ ThunkAction switchCommunityCall(String communityAddress) {
       store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
-      store.dispatch(segmentTrackCall("Wallet: Switch Community",
-          properties: new Map<String, dynamic>.from({
-            "Community Name": community["name"],
-            "Community Address": communityAddress,
-            "Token Address": token["address"],
-            "Token Symbol": token["symbol"],
-            "Origin Network": token['originNetwork']
-          })));
       store.dispatch(getBusinessListCall());
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
@@ -838,6 +859,14 @@ ThunkAction switchCommunityCall(String communityAddress) {
           communityPlugins,
           communityData['isClosed']
           ));
+      store.dispatch(segmentTrackCall("Wallet: Switch Community",
+          properties: new Map<String, dynamic>.from({
+            "Community Name": community["name"],
+            "Community Address": communityAddress,
+            "Token Address": token["address"],
+            "Token Symbol": token["symbol"],
+            "Origin Network": token['originNetwork']
+          })));
     } catch (e) {
       logger.info('ERROR - switchCommunityCall $e');
       store.dispatch(new ErrorAction('Could not switch community'));
@@ -859,7 +888,6 @@ ThunkAction getJoinBonusCall() {
 }
 
 Map<String, dynamic> _responseHandler(Response response) {
-  print('response: ${response.statusCode}, ${response.reasonPhrase}');
   switch (response.statusCode) {
     case 200:
       Map<String, dynamic> obj = json.decode(response.body);

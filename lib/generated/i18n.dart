@@ -204,6 +204,8 @@ class I18n implements WidgetsLocalizations {
   String get smart => "Smart";
   /// "Settings"
   String get settings => "Settings";
+  /// "Home"
+  String get home => "Home";
 }
 
 class _I18n_en_US extends I18n {
@@ -240,9 +242,9 @@ class _I18n_he_IL extends I18n {
   /// "צור ארנק חדש"
   @override
   String get create_new_wallet => "צור ארנק חדש";
-  /// "צוק ארנק"
+  /// "צור ארנק"
   @override
-  String get create__wallet => "צוק ארנק";
+  String get create__wallet => "צור ארנק";
   /// "שחזר ארנק"
   @override
   String get restore_backup => "שחזר ארנק";
@@ -276,9 +278,9 @@ class _I18n_he_IL extends I18n {
   /// "לא נמצאו עסקים"
   @override
   String get no_businesses => "לא נמצאו עסקים";
-  /// "מייצא ארנק"
+  /// "מייצר ארנק"
   @override
-  String get generating_wallet => "מייצא ארנק";
+  String get generating_wallet => "מייצר ארנק";
   /// "ארנק נוצר"
   @override
   String get generated_wallet => "ארנק נוצר";

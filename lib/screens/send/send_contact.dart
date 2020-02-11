@@ -12,7 +12,7 @@ import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/cash_home/cash_transactions.dart';
-import 'package:fusecash/screens/cash_home/transaction_item.dart';
+import 'package:fusecash/screens/cash_home/transaction_row.dart';
 import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/contacts.dart';
@@ -56,10 +56,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
 
-  loadContacts(ContactsViewModel viewModel) async {
+  loadContacts(List<Contact> contacts, isContactsSynced) async {
     bool isPermitted = await Contacts.checkPermissions();
     if (this.mounted) {
-      if (!isPermitted && viewModel.isContactsSynced == null) {
+      if (!isPermitted && isContactsSynced == null) {
         Future.delayed(
             Duration.zero,
             () => showDialog(
@@ -70,7 +70,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         hasSynced = isPermitted;
       });
     }
-    for (var contact in viewModel.contacts) {
+    for (var contact in contacts) {
       userList.add(contact);
     }
     userList.sort((a, b) =>
@@ -478,7 +478,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         distinct: true,
         converter: ContactsViewModel.fromStore,
         onInitialBuild: (viewModel) {
-          loadContacts(viewModel);
+          loadContacts(viewModel.contacts, viewModel.isContactsSynced);
         },
         builder: (_, viewModel) {
           if (hasSynced) {
@@ -521,7 +521,12 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          new Text(I18n.of(context).learn_more),
+                          InkWell(
+                            child: new Text(I18n.of(context).learn_more),
+                            onTap: () {
+                              showDialog(child: new ContactsConfirmationScreen(), context: context);
+                            },
+                          ),
                           SizedBox(
                             width: 20,
                           ),
@@ -547,6 +552,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                                   List<Contact> contacts =
                                       await ContactController.getContacts();
                                   viewModel.syncContacts(contacts);
+                                  loadContacts(contacts, viewModel.isContactsSynced);
                                   setState(() {
                                     hasSynced = true;
                                   });

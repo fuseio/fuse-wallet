@@ -16,7 +16,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 _launchPhone(phoneNumber) async {
   String url = 'tel:$phoneNumber';
   if (await canLaunch(url)) {
-    await launch(url);
+    await launch(url, forceSafariVC: false);
   } else {
     throw 'Could not launch $url';
   }

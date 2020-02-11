@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/widgets/drawer.dart';
@@ -60,7 +61,8 @@ class _DepositWebViewState extends State<DepositWebView> {
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: Theme.of(context).primaryColor.withAlpha(20),
+                              color:
+                                  Theme.of(context).primaryColor.withAlpha(20),
                               blurRadius: 5.0,
                               spreadRadius: 0.0,
                               offset: Offset(
@@ -74,19 +76,34 @@ class _DepositWebViewState extends State<DepositWebView> {
                         width: MediaQuery.of(context).size.width,
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 20),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text('Top up',
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .body1
-                                            .color,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w800))
-                              ]),
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: <Widget>[
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text('Top up',
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .body1
+                                                .color,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w800))
+                                  ]),
+                              Positioned(
+                                  top: 60,
+                                  left: 20,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: SvgPicture.asset(
+                                        'assets/images/arrow.svg'),
+                                  )),
+                            ],
+                          ),
                         ),
                       ),
                     )

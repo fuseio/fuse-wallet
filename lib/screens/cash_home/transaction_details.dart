@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/cash_home/transaction_item.dart';
+import 'package:fusecash/screens/cash_home/transaction_row.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';

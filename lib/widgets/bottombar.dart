@@ -26,6 +26,18 @@ Widget bottomBar(BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           bottomBarItem(
+              isCurrentRoute(context, '/Cash')
+                  ? "home_selected.svg"
+                  : "home.svg",
+              I18n.of(context).home, () {
+            if (isHomePage) {
+              redirect(context, '/Cash');
+            } else {
+              Navigator.pop(context, ModalRoute.withName('/Cash'));
+              redirect(context, '/Cash');
+            }
+          }),
+          bottomBarItem(
               isCurrentRoute(context, '/SendContact')
                   ? "send_selected.svg"
                   : "send.svg",

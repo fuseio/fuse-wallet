@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/draw_info.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transactions.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
@@ -11,6 +12,7 @@ part 'cash_wallet_state.g.dart';
 @immutable
 @JsonSerializable(explicitToJson: true)
 class CashWalletState {
+  final DrawInfo drawInfo;
   final String walletStatus;
   final String walletAddress;
   final String communityAddress;
@@ -83,7 +85,8 @@ class CashWalletState {
       this.isBranchDataReceived,
       this.isCommunityBusinessesFetched,
       this.isJobProcessingStarted,
-      this.communities});
+      this.communities,
+      this.drawInfo});
 
   factory CashWalletState.initial() {
     return new CashWalletState(
@@ -102,7 +105,8 @@ class CashWalletState {
         isTransfersFetchingStarted: false,
         isJobProcessingStarted: false,
         sendToInvites: new Map<String, num>(),
-        communities: new Map<String, Community>());
+        communities: new Map<String, Community>(),
+        drawInfo: null);
   }
 
   CashWalletState copyWith(
@@ -125,7 +129,8 @@ class CashWalletState {
       Map<String, num> sendToInvites,
       Transactions transactions,
       Plugins plugins,
-      Map<String, Community> communities}) {
+      Map<String, Community> communities,
+      DrawInfo drawInfo}) {
     return CashWalletState(
         web3: web3 ?? this.web3,
         walletAddress: walletAddress ?? this.walletAddress,
@@ -146,7 +151,8 @@ class CashWalletState {
         isJobProcessingStarted:
             isJobProcessingStarted ?? this.isJobProcessingStarted,
         sendToInvites: sendToInvites ?? this.sendToInvites,
-        communities: communities ?? this.communities);
+        communities: communities ?? this.communities,
+        drawInfo: drawInfo ?? this.drawInfo);
   }
 
   dynamic toJson() => _$CashWalletStateToJson(this);
