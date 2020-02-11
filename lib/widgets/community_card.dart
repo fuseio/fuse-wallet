@@ -85,15 +85,34 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
-                                child: Image.network(
-                                  getImageUrl(widget.community.metadata.image),
-                                  height: 50.0,
-                                  width: 50.0,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
+                              Stack(
+                                alignment: Alignment.center,
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.network(
+                                      getImageUrl(
+                                          widget.community.metadata.image),
+                                      height: 50.0,
+                                      width: 50.0,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  widget.community.metadata.isDefaultImage !=
+                                              null &&
+                                          widget
+                                              .community.metadata.isDefaultImage
+                                      ? Text(
+                                          widget.community.token.symbol,
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        )
+                                      : SizedBox.shrink()
+                                ],
+                              ),
                             ],
                           )),
                     ),

@@ -8,9 +8,9 @@ class DaiExplainedScreen extends StatefulWidget {
   _DaiExplainedScreenState createState() => _DaiExplainedScreenState();
 }
 
-_launchUrl(url) async {
+launchUrl(url) async {
   if (await canLaunch(url)) {
-    await launch(url);
+    await launch(url, forceSafariVC: false);
   } else {
     throw 'Could not launch $url';
   }
@@ -101,7 +101,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen>
                           ),
                           InkWell(
                             onTap: () {
-                              _launchUrl(
+                              launchUrl(
                                   'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points');
                             },
                             child: Text(

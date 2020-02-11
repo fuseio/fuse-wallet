@@ -9,6 +9,7 @@ import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
+  TypedReducer<CashWalletState, SetDrawInfo>(_setDrawInfo),
   TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
   TypedReducer<CashWalletState, GetWalletAddressSuccess>(
@@ -62,6 +63,10 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     TypedReducer<CashWalletState, JobDone>(_jobDone),
     TypedReducer<CashWalletState, JobProcessingStarted>(_jobProcessingStarted)
   ]);
+
+  CashWalletState _setDrawInfo(CashWalletState state, SetDrawInfo action) {
+    return state.copyWith(drawInfo: action.drawInfo);
+  }
   
   CashWalletState _fetchCommunityMetadataSuccess(
     CashWalletState state, FetchCommunityMetadataSuccess action) {

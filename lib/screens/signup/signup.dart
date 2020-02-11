@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/country_code_picker/country_code_picker.dart';
@@ -70,10 +70,10 @@ class _SignupScreenState extends State<SignupScreen> {
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
-                          await FlutterSegment.track(
-                              eventName:
-                                  "Wallet: opened modal - why do we need this",
-                              properties: new Map<String, dynamic>());
+                          // await FlutterSegment.track(
+                          //     eventName:
+                          //         "Wallet: opened modal - why do we need this",
+                          //     properties: new Map<String, dynamic>());
                         },
                         child: Center(
                           child: Text(

@@ -48,22 +48,4 @@ class ContactController {
 
     return contacts;
   }
-
-  static String parseContacts(Iterable<Contact> contacts) {
-    String contactsString = '';
-
-    contacts.forEach((Contact contact) {
-      String phonesString = '';
-      Iterable<Item> phones = contact.phones;
-      phones.forEach((Item phone) {
-        String phoneString = phone.value;
-        phonesString += '$phoneString ';
-      });
-
-      String displayName = contact.displayName;
-      contactsString += '$displayName - $phonesString \n';
-    });
-    print(contactsString);
-    return contactsString;
-  }
 }

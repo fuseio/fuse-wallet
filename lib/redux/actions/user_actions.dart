@@ -132,8 +132,8 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       bool result = await api.loginRequest(phone);
       if (result) {
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
-        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>()));
         successCallback();
+        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>()));
       } else {
         store.dispatch(new ErrorAction('Could not login'));
         failCallback();
@@ -186,16 +186,6 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      bool isPermitted = await Contacts.checkPermissions();
-      String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-      store.dispatch(segmentIdentifyCall(
-        phoneNumber,
-        new Map<String, dynamic>.from({
-          "Contacts Permission Granted": isPermitted,
-        })));
-      if (isPermitted && contacts.isEmpty) {
-        contacts = await ContactController.getContacts();
-      }
       store.dispatch(new SaveContacts(contacts));
       List<String> syncedContacts = store.state.userState.syncedContacts;
       List<String> newPhones = new List<String>();
@@ -225,6 +215,13 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
           partial = newPhones.take(limit).toList();
         }
       }
+      String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      bool isPermitted = await Contacts.checkPermissions();
+      store.dispatch(segmentIdentifyCall(
+        phoneNumber,
+        new Map<String, dynamic>.from({
+          "Contacts Permission Granted": isPermitted,
+        })));
     } catch (e) {
       logger.severe('ERROR - syncContactsCall $e');
     }
@@ -256,9 +253,9 @@ ThunkAction setDisplayNameCall(String displayName) {
 
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     final _webView = new InteractiveWebView();
     String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-    print('Loading 3box webview for account $accountAddress');
     final html = '''<html>
         <head></head>
         <script>
@@ -274,7 +271,6 @@ ThunkAction create3boxAccountCall(accountAddress) {
         'account': accountAddress,
         'name': store.state.userState.displayName
       };
-      print('create profile for accountAddress $accountAddress');
       await api.createProfile(accountAddress, publicData);
       Map user = {
         "accountAddress": accountAddress,
@@ -284,9 +280,9 @@ ThunkAction create3boxAccountCall(accountAddress) {
         "source": 'wallet-v2'
       };
       await api.saveUserToDb(user);
-      print('save user $accountAddress');
+      logger.info('save user $accountAddress');
     } catch (e) {
-      print('user already saved');
+      logger.severe('user $accountAddress already saved');
     }
   };
 }

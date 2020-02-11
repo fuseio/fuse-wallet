@@ -1,5 +1,5 @@
 name: fusecash
-version: 1.0.9+95
+version: 1.0.9+96
 description: A new Flutter project.
 environment: 
   sdk: '>=2.2.2 <3.0.0'
