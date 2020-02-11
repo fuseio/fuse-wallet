@@ -11,7 +11,9 @@ import 'cash_transactions.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 
 bool isDefaultCommunity(String communityAddress) {
-  return DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] != null && DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase() == communityAddress;
+  return DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] != null &&
+      DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase() ==
+          communityAddress;
 }
 
 class CashHomeScreen extends StatefulWidget {
@@ -54,6 +56,9 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
   }
   if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
     viewModel.createWallet(viewModel.accountAddress);
+    Future.delayed(Duration(seconds: 5), () {
+      viewModel.identifyCall();
+    });
   }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&

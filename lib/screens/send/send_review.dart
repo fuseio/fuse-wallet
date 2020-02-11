@@ -103,30 +103,30 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         ],
                       ),
                     ),
-                    Text('What for?',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal)),
-                    Container(
-                      width: 200,
-                      padding: EdgeInsets.only(bottom: 30),
-                      child: TextFormField(
-                        controller: transferNoteController,
-                        keyboardType: TextInputType.text,
-                        // maxLength: 10,
-                        autofocus: false,
-                        decoration: const InputDecoration(
-                            border: null, fillColor: Colors.transparent),
-                        validator: (String value) {
-                          if (value.split(" ").length > 10) {
-                            return '10 characters max';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
+                    // Text('What for?',
+                    //     textAlign: TextAlign.center,
+                    //     style: TextStyle(
+                    //         color: Theme.of(context).primaryColor,
+                    //         fontSize: 16,
+                    //         fontWeight: FontWeight.normal)),
+                    // Container(
+                    //   width: 200,
+                    //   padding: EdgeInsets.only(bottom: 30),
+                    //   child: TextFormField(
+                    //     controller: transferNoteController,
+                    //     keyboardType: TextInputType.text,
+                    //     // maxLength: 10,
+                    //     autofocus: false,
+                    //     decoration: const InputDecoration(
+                    //         border: null, fillColor: Colors.transparent),
+                    //     validator: (String value) {
+                    //       if (value.split(" ").length > 10) {
+                    //         return '10 characters max';
+                    //       }
+                    //       return null;
+                    //     },
+                    //   ),
+                    // ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 10),
                       child: Text(I18n.of(context).to + ':',

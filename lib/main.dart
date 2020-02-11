@@ -35,7 +35,7 @@ void main() async {
       () async => runApp(CustomTheme(
         initialThemeKey: MyThemeKeys.DEFAULT,
         child: new MyApp(
-            store: await createReduxStore(),
+            store: await AppFactory().getStore(),
         ),
       )),
       onError: (Object error, StackTrace stackTrace) {

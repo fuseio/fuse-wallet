@@ -14,6 +14,7 @@ Transfer _$TransferFromJson(Map<String, dynamic> json) {
     text: json['text'] as String,
     jobId: json['jobId'] as String,
     blockNumber: json['blockNumber'] as int,
+    timestamp: json['timestamp'] as int,
     to: json['to'] as String,
     from: json['from'] as String,
     value: json['value'] == null ? null : BigInt.parse(json['value'] as String),
@@ -25,6 +26,7 @@ Transfer _$TransferFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{
       'txHash': instance.txHash,
+      'timestamp': instance.timestamp,
       'type': instance.type,
       'status': instance.status,
       'text': instance.text,
