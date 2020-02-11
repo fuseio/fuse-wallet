@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -12,20 +14,44 @@ import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
+import 'package:sentry/sentry.dart';
 
 void main() async {
   await DotEnv().load('.env_prod');
+  final SentryClient sentry = new SentryClient(dsn: DotEnv().env['SENTRY_DSN']);
+
+  Future<void> _reportError(dynamic error, dynamic stackTrace) async {
+    // Send the Exception and Stacktrace to Sentry in Production mode.
+    sentry.captureException(
+      exception: error,
+      stackTrace: stackTrace,
+    );
+  }
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp
   ]).then((_) async {
-    runApp(CustomTheme(
-      initialThemeKey: MyThemeKeys.DEFAULT,
-      child: new MyApp(
-          store: await createReduxStore(),
-       ),
-    ));
+    runZoned<Future<void>>(
+      () async => runApp(CustomTheme(
+        initialThemeKey: MyThemeKeys.DEFAULT,
+        child: new MyApp(
+            store: await createReduxStore(),
+        ),
+      )),
+      onError: (Object error, StackTrace stackTrace) {
+        try {
+          _reportError(error, stackTrace);
+        } catch (e) {
+          print('Sending report to sentry.io failed: $e');
+          print('Original error: $error');
+        }
+      }
+    );
   });
 
+  FlutterError.onError = (FlutterErrorDetails details) {
+    Zone.current.handleUncaughtError(details.exception, details.stack);
+  };
 }
 
 class MyApp extends StatefulWidget {
