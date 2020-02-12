@@ -137,7 +137,7 @@ PODS:
     - Flutter
   - url_launcher_web (0.0.1):
     - Flutter
-  - vibration (1.2.4):
+  - vibration (1.2.2):
     - Flutter
   - webview_flutter (0.0.1):
     - Flutter
@@ -277,7 +277,7 @@ SPEC CHECKSUMS:
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
-  vibration: f0c5bb486671fb81e973bfb451d89f8efd07c9c9
+  vibration: 2f659072a9e03ae160974238b728c96e98bce2b5
   webview_flutter: bec7599de6bfbe8008a739aa3ebd7b364ea9d0cd
 
 PODFILE CHECKSUM: 1f6cb123f6975d2d185ea5e6b1bb69d379fbd1fa

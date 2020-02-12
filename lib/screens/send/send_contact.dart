@@ -140,7 +140,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  listBody(List<Contact> group) {
+  listBody(viewModel, List<Contact> group) {
     List<Widget> listItems = List();
 
     for (Contact user in group) {
@@ -177,11 +177,16 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                   fontSize: 15, color: Theme.of(context).primaryColor),
             ),
             //subtitle: Text("user.company" ?? ""),
-            onTap: () {
+            onTap: () async{
+              Map<String, String> reverseContacts = viewModel.reverseContacts;
+                String number = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
+                String accountAddress = reverseContacts.keys.firstWhere(
+                    (k) => reverseContacts[k] == number,
+                    orElse: () => null);
               Navigator.pushNamed(context, '/SendAmount',
                   arguments: SendAmountArguments(
                       name: user.displayName,
-                      // accountAddress: t,
+                      accountAddress: accountAddress,
                       avatar: user.avatar != null && user.avatar.isNotEmpty
                           ? MemoryImage(user.avatar)
                           : new AssetImage('assets/images/anom.png'),
@@ -347,7 +352,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         avatar: contact?.avatar != null
                             ? MemoryImage(contact.avatar)
                             : new AssetImage('assets/images/anom.png'),
-                        phoneNumber: contact.phones.toList()[0].value));
+                        phoneNumber: number));
               },
             ),
           ),
@@ -390,7 +395,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     for (String title in titles) {
       List<Contact> group = groups[title];
       listItems.add(listHeader(title));
-      listItems.add(listBody(group));
+      listItems.add(listBody(viewModel, group));
     }
 
     return listItems;
