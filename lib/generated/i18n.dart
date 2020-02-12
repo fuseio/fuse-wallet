@@ -86,6 +86,8 @@ class I18n implements WidgetsLocalizations {
   String get transaction_details => "Transaction details";
   /// "To"
   String get to => "To";
+  /// "From"
+  String get from => "From";
   /// "Address"
   String get address => "Address";
   /// "Amount"

@@ -350,6 +350,8 @@ ThunkAction initWeb3Call(String privateKey) {
 
 ThunkAction startBalanceFetchingCall() {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    logger.info('Start Balance Fetching Call');
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddres];
@@ -377,6 +379,8 @@ ThunkAction startBalanceFetchingCall() {
 
 ThunkAction startTransfersFetchingCall() {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    logger.info('Start Transfers Fetching Call');
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddres];
@@ -661,7 +665,8 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       }
 
       response['job']['arguments'] = {
-        'transfer': transfer
+        'transfer': transfer,
+        'jobType': 'transfer'
       };
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
