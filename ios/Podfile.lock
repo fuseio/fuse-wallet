@@ -8,6 +8,8 @@ PODS:
   - Branch/Core (0.31.3)
   - contacts_service (0.2.1):
     - Flutter
+  - device_info (0.0.1):
+    - Flutter
   - Firebase/Core (6.16.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.2.2)
@@ -137,7 +139,7 @@ PODS:
     - Flutter
   - url_launcher_web (0.0.1):
     - Flutter
-  - vibration (1.2.4):
+  - vibration (1.2.2):
     - Flutter
   - webview_flutter (0.0.1):
     - Flutter
@@ -146,6 +148,7 @@ DEPENDENCIES:
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - Branch
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_branch_sdk (from `.symlinks/plugins/flutter_branch_sdk/ios`)
@@ -195,6 +198,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/barcode_scan/ios"
   contacts_service:
     :path: ".symlinks/plugins/contacts_service/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
@@ -241,6 +246,7 @@ SPEC CHECKSUMS:
   barcode_scan: 33f586d02270046fc6559135038b34b5754eaa4f
   Branch: 9b299693ee54b308ff8c18146afe1f711c2069ec
   contacts_service: d212985196c101372bb55c42f41dae7be59ab811
+  device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
   Firebase: 497158b816d0a86fc31babbd05546fcd7e6083ff
   firebase_messaging: b8543d17dd9825f4f24a585477f77db103e5228e
   FirebaseAnalytics: cf95d3aab897612783020fbd98401d5366f135ee
@@ -277,7 +283,7 @@ SPEC CHECKSUMS:
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
-  vibration: f0c5bb486671fb81e973bfb451d89f8efd07c9c9
+  vibration: 2f659072a9e03ae160974238b728c96e98bce2b5
   webview_flutter: bec7599de6bfbe8008a739aa3ebd7b364ea9d0cd
 
 PODFILE CHECKSUM: 1f6cb123f6975d2d185ea5e6b1bb69d379fbd1fa
