@@ -23,6 +23,11 @@ class _UserNameScreenState extends State<UserNameScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,

@@ -31,6 +31,11 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,

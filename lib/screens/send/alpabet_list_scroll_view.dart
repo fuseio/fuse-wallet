@@ -435,6 +435,11 @@ class _AlphabetListScollViewState extends State<_AlphabetListScollView> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   List<Widget> aToZ() {
     List<Widget> charList = [];
 

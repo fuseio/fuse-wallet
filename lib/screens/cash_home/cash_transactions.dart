@@ -64,6 +64,11 @@ class CashTransactionsState extends State<CashTransactios> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   renderTrasfers() {
     bool isWalletCreated = 'created' == this.widget.viewModel.walletStatus;
     Transfer generateWallet = new Transfer(

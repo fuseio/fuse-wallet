@@ -37,6 +37,12 @@ class _BuyScreenState extends State<BuyScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BuyViewModel>(
         distinct: true,

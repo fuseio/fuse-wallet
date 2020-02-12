@@ -86,6 +86,11 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SwitchCommunityViewModel>(
         converter: SwitchCommunityViewModel.fromStore,

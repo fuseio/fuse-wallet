@@ -22,6 +22,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,

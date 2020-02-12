@@ -15,6 +15,11 @@ class _LevelSelectorScreenState extends State<LevelSelectorScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MainScaffold(
         withPadding: true,

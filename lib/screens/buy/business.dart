@@ -66,7 +66,6 @@ String getImageUrl(business, communityAddress) {
 class _BusinessPageState extends State<BusinessPage> {
   GlobalKey<ScaffoldState> scaffoldState;
   Completer<GoogleMapController> _controller = Completer();
-  // LatLng _center = const LatLng(10.442883, -61.473868);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -75,6 +74,11 @@ class _BusinessPageState extends State<BusinessPage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override

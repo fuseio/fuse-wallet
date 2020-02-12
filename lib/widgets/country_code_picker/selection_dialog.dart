@@ -122,8 +122,13 @@ class _SelectionDialogState extends State<SelectionDialog> {
 
   @override
   void initState() {
-    filteredElements = widget.elements;
     super.initState();
+    filteredElements = widget.elements;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _filterElements(String s) {

@@ -24,6 +24,11 @@ class _PincodeScreenState extends State<PincodeScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
