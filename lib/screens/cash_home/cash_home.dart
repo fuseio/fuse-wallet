@@ -18,11 +18,6 @@ bool isDefaultCommunity(String communityAddress) {
           communityAddress.toLowerCase();
 }
 
-class CashHomeScreen extends StatefulWidget {
-  @override
-  _CashHomeScreenState createState() => _CashHomeScreenState();
-}
-
 void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
     BuildContext context) {
   String communityAddress = viewModel.communityAddress;
@@ -79,16 +74,8 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
   }
 }
 
-class _CashHomeScreenState extends State<CashHomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+class CashHomeScreen extends StatelessWidget {
+  CashHomeScreen();
 
   void _changeTheme(BuildContext buildContext, MyThemeKeys key) {
     CustomTheme.instanceOf(buildContext).changeTheme(key);
@@ -108,20 +95,8 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
         },
         builder: (_, viewModel) {
           return MainScaffold(
-            header: CashHeader(),
-            children: <Widget>[CashTransactios(viewModel: viewModel)],
-            // floatingActionButton: isDefaultCommunity(viewModel.community.address) ? FloatingActionButton(
-            //   heroTag: 'winWin',
-            //   backgroundColor: Color(0xFFF1EFEE),
-            //   child: Image.asset(
-            //     'assets/images/win.png',
-            //     width: 25.0,
-            //   ),
-            //   onPressed: () {
-            //     print('open lottery page');
-            //   },
-            // ): null,
-          );
+              header: CashHeader(),
+              children: <Widget>[CashTransactios(viewModel: viewModel)]);
         });
   }
 }

@@ -126,11 +126,6 @@ class _SelectionDialogState extends State<SelectionDialog> {
     filteredElements = widget.elements;
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   void _filterElements(String s) {
     s = s.toUpperCase();
     setState(() {

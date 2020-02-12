@@ -30,11 +30,6 @@ class _RecoveryPageState extends State<RecoveryPage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RecoveryViewModel>(converter: (store) {
       return RecoveryViewModel.fromStore(store);

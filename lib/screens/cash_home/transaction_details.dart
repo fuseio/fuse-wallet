@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/cash_home/transaction_row.dart';
+import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -41,11 +41,6 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override

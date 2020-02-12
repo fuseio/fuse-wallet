@@ -12,28 +12,11 @@ import 'dart:core';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 
-class ReceiveScreen extends StatefulWidget {
-  ReceiveScreen({Key key, this.title}) : super(key: key);
-
-  final String title;
+class ReceiveScreen extends StatelessWidget {
+  ReceiveScreen();
 
   @override
-  _ReceiveScreenState createState() => _ReceiveScreenState();
-}
-
-class _ReceiveScreenState extends State<ReceiveScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashWalletViewModel>(
         converter: CashWalletViewModel.fromStore,
         builder: (_, viewModel) {

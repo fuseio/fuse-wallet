@@ -7,25 +7,10 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 
-class UserNameScreen extends StatefulWidget {
-  @override
-  _UserNameScreenState createState() => _UserNameScreenState();
-}
-
-class _UserNameScreenState extends State<UserNameScreen> {
+class UserNameScreen extends StatelessWidget {
+  UserNameScreen();
   final verificationCodeController = TextEditingController(text: "");
-  bool isPreloading = false;
   final displayNameController = TextEditingController(text: "");
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,17 +37,21 @@ class _UserNameScreenState extends State<UserNameScreen> {
                       const SizedBox(height: 20.0),
                       Text(
                         I18n.of(context).pickup_display_name,
-                        style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary),
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                       const SizedBox(height: 10.0),
-                      Text(
-                          I18n.of(context).pickup_display_name_text,
+                      Text(I18n.of(context).pickup_display_name_text,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15, color: Theme.of(context).colorScheme.secondary)),
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Theme.of(context).colorScheme.secondary)),
                       const SizedBox(height: 10.0),
                       TextFormField(
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20, color: Colors.black),
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.black),
                         controller: displayNameController,
                         keyboardType: TextInputType.text,
                         autofocus: true,
@@ -85,10 +74,11 @@ class _UserNameScreenState extends State<UserNameScreen> {
                         label: I18n.of(context).next_button,
                         labelFontWeight: FontWeight.normal,
                         fontSize: 16,
-                        preload: isPreloading,
                         onPressed: () {
-                          viewModel.setDisplayName(capitalize(displayNameController.text ?? 'Anom'));
-                          Navigator.of(context).pushNamedAndRemoveUntil('/Cash', (Route<dynamic> route) => false);
+                          viewModel.setDisplayName(
+                              capitalize(displayNameController.text ?? 'Anom'));
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/Cash', (Route<dynamic> route) => false);
                         },
                       ),
                     ),

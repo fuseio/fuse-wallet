@@ -54,11 +54,6 @@ class CustomThemeState extends State<CustomTheme> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   void changeTheme(MyThemeKeys themeKey) {
     setState(() {
       _theme = MyThemes.getThemeFromKey(themeKey);

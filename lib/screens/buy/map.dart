@@ -31,11 +31,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BuyViewModel>(
         distinct: true,

@@ -28,11 +28,6 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {

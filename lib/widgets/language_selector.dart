@@ -17,11 +17,6 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return _buildTiles(context);
   }
