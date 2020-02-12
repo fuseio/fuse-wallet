@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/cash_home/transaction_row.dart';
+import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -62,7 +62,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 100, bottom: 50),
+                      padding: EdgeInsets.only(top: 80, bottom: 30),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +91,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
               ),
               Container(
                 padding:
-                    EdgeInsets.only(top: 40.0, bottom: 40, left: 50, right: 50),
+                    EdgeInsets.only(top: 25.0, bottom: 25, left: 50, right: 50),
                 color: Theme.of(context).backgroundColor,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +104,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                       children: <Widget>[
                         SizedBox(
                           width: 130,
-                          child: Text(I18n.of(context).to),
+                          child: Text(args.transfer.type == 'SEND' ? I18n.of(context).to : I18n.of(context).from),
                         ),
                         Row(
                           children: <Widget>[

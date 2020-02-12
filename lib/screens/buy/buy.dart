@@ -7,6 +7,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/buy_page.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,22 +20,8 @@ launchUrl(url) async {
   }
 }
 
-class BuyScreen extends StatefulWidget {
-  BuyScreen({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _BuyScreenState createState() => _BuyScreenState();
-}
-
-class _BuyScreenState extends State<BuyScreen> {
-  GlobalKey<ScaffoldState> scaffoldState;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+class BuyScreen extends StatelessWidget {
+  BuyScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +52,6 @@ class _BuyScreenState extends State<BuyScreen> {
               //     },
               //   ),
               // ],
-              key: scaffoldState,
               withPadding: false,
               titleFontSize: 15,
               footer: bottomBar(context),
@@ -75,25 +61,15 @@ class _BuyScreenState extends State<BuyScreen> {
   }
 }
 
-class BusinessesListView extends StatefulWidget {
-  @override
-  createState() => new BusinessesListViewState();
-}
+class BusinessesListView extends StatelessWidget {
+  BusinessesListView();
 
-class BusinessesListViewState extends State<BusinessesListView> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BuyViewModel>(
       converter: BuyViewModel.fromStore,
       builder: (_, viewModel) {
-        return Builder(
-            // viewModel.isCommunityBusinessesFetched
-            //       ? Padding(
-            //           child: Preloader(),
-            //           padding: EdgeInsets.only(top: 70),
-            //         )
-            //       :
-            builder: (context) {
+        return Builder(builder: (context) {
           Widget businesses = viewModel.businesses.isEmpty
               ? Container(
                   padding: const EdgeInsets.all(40.0),

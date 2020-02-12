@@ -4,16 +4,10 @@ import 'package:flutter/services.dart';
 import 'bottombar.dart';
 
 class MainScaffold extends StatelessWidget {
-  MainScaffold(
-      {this.title,
-      this.header,
-      this.children,
-      this.key,
-      this.floatingActionButton});
+  MainScaffold({this.title, this.header, this.children, this.key});
   final String title;
   final Widget header;
   final List<Widget> children;
-  final Widget floatingActionButton;
   final Key key;
 
   @override
@@ -31,23 +25,9 @@ class MainScaffold extends StatelessWidget {
                 preferredSize:
                     new Size(MediaQuery.of(context).size.width, 350.0))
             : null,
-        body: Stack(
-          children: <Widget>[
-            Column(children: <Widget>[
-              Expanded(child: ListView(children: children)),
-              bottomBar(context)
-            ]),
-            floatingActionButton != null
-                ? Positioned(
-                    right: 20,
-                    bottom: 90,
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: floatingActionButton,
-                    ),
-                  )
-                : SizedBox.shrink()
-          ],
-        ));
+        body: Column(children: <Widget>[
+          Expanded(child: ListView(children: children)),
+          bottomBar(context)
+        ]));
   }
 }

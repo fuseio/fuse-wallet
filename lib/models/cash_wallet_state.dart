@@ -35,7 +35,7 @@ class CashWalletState {
   final bool isCommunityBusinessesFetched;
   @JsonKey(defaultValue: false)
   final bool isBalanceFetchingStarted;
-  @JsonKey(defaultValue: false)
+  @JsonKey(ignore: true)
   final bool isTransfersFetchingStarted;
   @JsonKey(defaultValue: false)
   final bool isListeningToBranch;

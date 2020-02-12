@@ -10,14 +10,12 @@ import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/cash_home/cash_transactions.dart';
-import 'package:fusecash/screens/cash_home/transaction_row.dart';
 import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
+import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
@@ -98,11 +96,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         showFooter = !hasFocus;
       });
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   filterList() {

@@ -23,7 +23,12 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   Animation<double> offset;
   bool isPreloading = false;
   var squareScaleA = 1.0;
-  //AnimationController _controllerA;
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {

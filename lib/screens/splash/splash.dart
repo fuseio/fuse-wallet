@@ -33,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
+    super.initState();
     _slideController = HouseController(demoUpdated: _update);
 
     _pageController = PageController(
@@ -44,7 +45,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
     _previousPage = _pageController.initialPage;
 
-    super.initState();
   }
 
   _update() => setState(() {});

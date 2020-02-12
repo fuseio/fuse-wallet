@@ -24,9 +24,9 @@ class _DepositWebViewState extends State<DepositWebView> {
 
   @override
   void initState() {
+    super.initState();
     address.value =
         address.value.copyWith(text: widget.depositPlugin.widgetUrl);
-    super.initState();
   }
 
   @override
