@@ -39,6 +39,12 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen>
   }
 
   @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext _context) {
     return ScaleTransition(
         scale: scaleAnimatoin,

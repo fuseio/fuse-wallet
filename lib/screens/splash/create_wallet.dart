@@ -21,6 +21,11 @@ class _CreateWalletState extends State<CreateWallet> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SplashViewModel>(
         distinct: true,

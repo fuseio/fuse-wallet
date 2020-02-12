@@ -36,6 +36,11 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BackupViewModel>(converter: (store) {
       return BackupViewModel.fromStore(store);

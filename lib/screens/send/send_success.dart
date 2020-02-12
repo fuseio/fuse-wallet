@@ -24,6 +24,12 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
 

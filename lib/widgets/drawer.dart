@@ -32,6 +32,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Widget getListTile(label, onTap, {String icon}) {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),

@@ -44,6 +44,11 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final TransactionDetailArguments args =
         ModalRoute.of(context).settings.arguments;

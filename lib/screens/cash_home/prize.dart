@@ -80,6 +80,11 @@ class _PrizeScreenState extends State<PrizeScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, PrizeViewModel>(
         converter: PrizeViewModel.fromStore,

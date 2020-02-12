@@ -37,6 +37,12 @@ class SignupDialogState extends State<SignupDialog>
   }
 
   @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext _context) {
     return ScaleTransition(
         scale: scaleAnimatoin,

@@ -28,6 +28,11 @@ class _ReceiveScreenState extends State<ReceiveScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, CashWalletViewModel>(
         converter: CashWalletViewModel.fromStore,
