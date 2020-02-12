@@ -26,6 +26,7 @@
     "transactions": "Transactions",
     "transaction_details": "Transaction details",
     "to": "To",
+    "from": "From",
     "address": "Address",
     "amount": "Amount",
     "join_bonus": "You got a join bonus!",

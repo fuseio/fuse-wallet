@@ -231,7 +231,7 @@ class TransactionListItem extends StatelessWidget {
                     ],
                   )),
               Flexible(
-                  flex: 2,
+                  flex: 3,
                   child: Container(
                     width: 100,
                     child: Column(
