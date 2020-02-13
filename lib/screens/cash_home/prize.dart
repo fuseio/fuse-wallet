@@ -3,9 +3,20 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/prize.dart';
+import 'package:fusecash/screens/cash_home/deposit_webview.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'dart:core';
+
+import 'package:intl/intl.dart';
+
+Function add(double a) {
+  double innerFunction(double b) {
+    return a += b;
+  }
+  return innerFunction;
+}
 
 Widget counterItem(BuildContext context, number) {
   return Container(
@@ -31,12 +42,9 @@ Widget counterItem(BuildContext context, number) {
 
 Widget counterCard(BuildContext context, int number) {
   String a = number.toString();
-  print(a);
   bool isBigerThen = number > 10;
-  String firstNum = isBigerThen ? a.split('')[0] : 0;
-  String secondNum = isBigerThen ? a.split('')[1] : 0;
-  print(firstNum);
-  print(secondNum);
+  String firstNum = isBigerThen ? a.split('')[0] : '0';
+  String secondNum = isBigerThen ? a.split('')[1] : a;
   return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,7 +58,6 @@ Widget counterCard(BuildContext context, int number) {
 }
 
 Widget counter(BuildContext context, String text, int value) {
-  print('$text $value');
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,13 +91,8 @@ class _PrizeScreenState extends State<PrizeScreen> {
     return new StoreConnector<AppState, PrizeViewModel>(
         converter: PrizeViewModel.fromStore,
         builder: (_, viewModel) {
-          final DateTime dateTime = new DateTime.fromMillisecondsSinceEpoch(
-              viewModel.drawInfo.endTimestamp * 1000);
-          print(dateTime.toLocal());
-          // DateFormat temp = DateFormat('dd-MM-yyyy hh:mm a');
-          final num days = dateTime.day;
-          final int hour = dateTime.hour;
-          final int minute = dateTime.minute;
+          List depositPlugins = viewModel?.plugins?.getDepositPlugins();
+          Function currentAmountCb = add(double.parse(viewModel.drawInfo.reward['amount']));
           return MainScaffold(
             backgroundColor: Colors.white,
             title: '',
@@ -109,8 +111,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                       children: <Widget>[
                         Text(
                           'Win ' +
-                              num.parse(viewModel.drawInfo.reward['estimated'])
-                                  .toStringAsFixed(4) +
+                              num.parse(viewModel.drawInfo.reward['estimated']).toStringAsFixed(2) +
                               ' DAI points!',
                           style: TextStyle(
                               color: Color(0xFF00BE66),
@@ -143,21 +144,38 @@ class _PrizeScreenState extends State<PrizeScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        counter(context, 'Days', days),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        counter(context, 'Hours', hour),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        counter(context, 'Minutes', minute),
-                      ],
-                    ),
+                    StreamBuilder(
+                        stream: Stream.periodic(Duration(seconds: 1), (i) => i),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<int> snapshot) {
+                          DateFormat format = new DateFormat('hh:mm');
+                          int now = DateTime.now().millisecondsSinceEpoch;
+                          Duration remaining = Duration(
+                              milliseconds:
+                                  viewModel.drawInfo.endTimestamp - now);
+                          List<String> temp = format
+                              .format(DateTime.fromMillisecondsSinceEpoch(
+                                  remaining.inMilliseconds))
+                              .split(':');
+                          return Container(
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  counter(context, 'Days', remaining.inDays),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  counter(context, 'Hours', int.parse(temp[0])),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  counter(
+                                      context, 'Minutes', int.parse(temp[1]))
+                                ],
+                              ));
+                        }),
                     SizedBox(
                       height: 30,
                     ),
@@ -183,29 +201,29 @@ class _PrizeScreenState extends State<PrizeScreen> {
                             width: 40,
                             height: 40,
                           ),
-                          // Padding(
-                          //   padding: EdgeInsets.only(top: 10),
-                          //   child: Container(
-                          //     width: 60.0,
-                          //     padding: EdgeInsets.only(top: 3.0, right: 4.0),
-                          //     child: CountDownTimer(
-                          //       secondsRemaining: 30,
-                          //       whenTimeExpires: () {
-                          //         print('dfsdf');
-                          //       },
-                          //       countDownTimerStyle: TextStyle(
-                          //           fontSize: 20, fontWeight: FontWeight.bold),
-                          //     ),
-                          //   ),
-                          // )
-
-                            Text(
-                              num.parse(viewModel.drawInfo.reward['amount'])
-                                      .toStringAsFixed(4) +
-                                  ' points',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
+                          StreamBuilder(
+                              stream: Stream.periodic(
+                                  Duration(seconds: 1),
+                                  (i) => viewModel.drawInfo
+                                              .reward['growthRatePerSec'] !=
+                                          null
+                                      ? double.parse(viewModel
+                                          .drawInfo.reward['growthRatePerSec'])
+                                      : 0.0),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<double> snapshot) {
+                                if (snapshot.hasError) {
+                                  return SizedBox.shrink();
+                                }
+                                double growthedAmount =
+                                    currentAmountCb(snapshot.data ?? 0.0);
+                                return Text(
+                                  growthedAmount.toString() + ' points',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                );
+                              }),
                         ],
                       ),
                     ),
@@ -233,26 +251,44 @@ class _PrizeScreenState extends State<PrizeScreen> {
                           SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            'Top up to improve your chances',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Theme.of(context).primaryColor),
-                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DepositWebView(
+                                        depositPlugin: depositPlugins[0])),
+                              );
+                            },
+                            child: Text(
+                              'Top up to improve your chances',
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          )
                         ],
                       ),
                     ),
                     SizedBox(
                       height: 70,
                     ),
-                    Text(
-                      'Last prize 3500 went to Gilat',
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.secondary),
-                    ),
+                    viewModel.drawInfo.previous['winner'] != null
+                        ? Text(
+                            'Last prize ' +
+                                (viewModel.drawInfo.previous['reward']
+                                        .toString() ??
+                                    '') +
+                                'went to ' +
+                                formatAddress(
+                                    viewModel.drawInfo.previous['winner']),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Theme.of(context).colorScheme.secondary),
+                          )
+                        : SizedBox.shrink(),
                     SizedBox(
                       height: 10,
                     ),

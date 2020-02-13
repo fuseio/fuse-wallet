@@ -180,65 +180,6 @@ class CashHeader extends StatelessWidget {
                                             ],
                                     ),
                                   ),
-                                  // isDefaultCommunity(
-                                  //         viewModel.community.address) &&
-                                  //         depositPlugins.isNotEmpty
-                                  //     ? Container(
-                                  //         padding: EdgeInsets.only(
-                                  //             left: 5, right: 5),
-                                  //         height: 30,
-                                  //         width: 30,
-                                  //         child: VerticalDivider(
-                                  //             color: Colors.black))
-                                  //     : SizedBox.shrink(),
-                                  // isDefaultCommunity(
-                                  //             viewModel.community.address) &&
-                                  //         depositPlugins.isNotEmpty
-                                  //     ? InkWell(
-                                  //         onTap: () => Navigator.push(
-                                  //           context,
-                                  //           MaterialPageRoute(
-                                  //               builder: (context) =>
-                                  //                   DepositWebView(
-                                  //                       depositPlugin:
-                                  //                           depositPlugins[0])),
-                                  //         ),
-                                  //         child: new Container(
-                                  //           height: 30.0,
-                                  //           decoration: new BoxDecoration(
-                                  //             color: Colors.transparent,
-                                  //             border: new Border.all(
-                                  //                 color: Theme.of(context)
-                                  //                     .colorScheme
-                                  //                     .secondary,
-                                  //                 width: 2.0),
-                                  //             borderRadius:
-                                  //                 new BorderRadius.circular(
-                                  //                     4.0),
-                                  //           ),
-                                  //           child: new OutlineButton(
-                                  //               child: new Text(
-                                  //                 "Top up",
-                                  //                 style: TextStyle(
-                                  //                     fontWeight:
-                                  //                         FontWeight.bold,
-                                  //                     color: Theme.of(context)
-                                  //                         .colorScheme
-                                  //                         .secondary),
-                                  //               ),
-                                  //               onPressed: null,
-                                  //               color: Theme.of(context)
-                                  //                   .colorScheme
-                                  //                   .secondary,
-                                  //               shape:
-                                  //                   new RoundedRectangleBorder(
-                                  //                       borderRadius:
-                                  //                           new BorderRadius
-                                  //                                   .circular(
-                                  //                               3.0))),
-                                  //         ),
-                                  //       )
-                                  //     : SizedBox.shrink(),
                                 ])
                           ],
                         ),
@@ -252,14 +193,14 @@ class CashHeader extends StatelessWidget {
                                       height: 55,
                                     ),
                                     onTap: () {
-                                      Scaffold.of(context)
-                                          .showSnackBar(new SnackBar(
-                                        content: new Text(
-                                          "Coming soon",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ));
-                                      // Navigator.pushNamed(context, '/Prize');
+                                      // Scaffold.of(context)
+                                      //     .showSnackBar(new SnackBar(
+                                      //   content: new Text(
+                                      //     "Coming soon",
+                                      //     textAlign: TextAlign.center,
+                                      //   ),
+                                      // ));
+                                      Navigator.pushNamed(context, '/Prize');
                                     },
                                   )
                                 : SizedBox.shrink(),
