@@ -17,17 +17,9 @@ Widget scanQRButton(BuildContext context, Function switchCommunity) {
       width: 260.0,
       height: 50.0,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Theme.of(context).primaryColorLight,
-              Theme.of(context).primaryColorDark,
-            ],
-          ),
+          color: Theme.of(context).buttonColor,
           borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-          border:
-              Border.all(color: Theme.of(context).primaryColor.withAlpha(14))),
+          border: Border.all(color: Theme.of(context).primaryColor.withAlpha(14))),
       child: InkWell(
         onTap: () async {
           try {
@@ -52,12 +44,12 @@ Widget scanQRButton(BuildContext context, Function switchCommunity) {
                 padding: const EdgeInsets.all(8.0),
                 child: new FloatingActionButton(
                     mini: true,
-                    backgroundColor: const Color(0xFF292929),
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     elevation: 0,
                     child: Image.asset(
                       'assets/images/scan.png',
                       width: 20.0,
-                      color: Theme.of(context).scaffoldBackgroundColor,
+                      color: const Color(0xFF292929),
                     ),
                     onPressed: null),
               )

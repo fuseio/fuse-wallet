@@ -329,7 +329,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               title: Text(
                 displatName,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
               ),
               onTap: () {
                 Map<String, String> reverseContacts = viewModel.reverseContacts;

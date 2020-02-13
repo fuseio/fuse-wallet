@@ -21,7 +21,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 
 void main() async {
-  await DotEnv().load('.env_prod');
+  await DotEnv().load('.env_bilira');
   SentryClient sentry = await setupSentry();
 
   Future<void> _reportError(dynamic error, dynamic stackTrace) async {
@@ -37,7 +37,7 @@ void main() async {
   ]).then((_) async {
     runZoned<Future<void>>(
       () async => runApp(CustomTheme(
-        initialThemeKey: MyThemeKeys.DEFAULT,
+        initialThemeKey: MyThemeKeys.BILIRA,
         child: new MyApp(
             store: await AppFactory().getStore(),
         ),

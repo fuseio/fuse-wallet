@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -58,6 +56,7 @@ class CashHeader extends StatelessWidget {
                         child: Image.asset(
                           'assets/images/menu.png',
                           width: 20,
+                          color: Theme.of(context).splashColor,
                         ))),
                 Expanded(
                     child: Align(
@@ -72,13 +71,13 @@ class CashHeader extends StatelessWidget {
                               text: I18n.of(context).hi,
                               style: TextStyle(
                                   fontSize: 33,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).splashColor,
                                   fontWeight: FontWeight.normal)),
                           new TextSpan(
                               text: ' ' + viewModel.firstName(),
                               style: TextStyle(
                                   fontSize: 33,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).splashColor,
                                   fontWeight: FontWeight.normal)),
                         ],
                       ),
@@ -101,7 +100,7 @@ class CashHeader extends StatelessWidget {
                               child: Text(I18n.of(context).balance,
                                   style: TextStyle(
                                       color: Theme.of(context)
-                                          .primaryColor
+                                          .splashColor
                                           .withAlpha(150),
                                       fontSize: 12.0)),
                               padding: EdgeInsets.only(bottom: 6.0),
@@ -123,7 +122,7 @@ class CashHeader extends StatelessWidget {
                                                   style: new TextStyle(
                                                       fontSize: 30,
                                                       color: Theme.of(context)
-                                                          .primaryColor,
+                                                          .splashColor,
                                                       fontWeight:
                                                           FontWeight.bold))
                                             ]
@@ -137,7 +136,7 @@ class CashHeader extends StatelessWidget {
                                                   style: new TextStyle(
                                                       fontSize: 32,
                                                       color: Theme.of(context)
-                                                          .primaryColor,
+                                                          .splashColor,
                                                       fontWeight:
                                                           FontWeight.bold)),
                                               new TextSpan(
@@ -148,35 +147,10 @@ class CashHeader extends StatelessWidget {
                                                   style: new TextStyle(
                                                       fontSize: 18,
                                                       color: Theme.of(context)
-                                                          .primaryColor,
+                                                          .splashColor,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       height: 0.0)),
-                                              isDefaultCommunity(viewModel
-                                                      .community.address)
-                                                  ? new TextSpan(
-                                                      text: ' (\$' +
-                                                          calcValueInDollar(
-                                                              viewModel
-                                                                  .community
-                                                                  .tokenBalance,
-                                                              viewModel
-                                                                  .community
-                                                                  .token
-                                                                  .decimals) +
-                                                          ')',
-                                                      style:
-                                                          new TextStyle(
-                                                              fontSize: 15,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .secondary,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              height: 0.0))
-                                                  : new TextSpan(),
                                             ],
                                     ),
                                   ),
@@ -185,38 +159,14 @@ class CashHeader extends StatelessWidget {
                         ),
                         new Container(
                           child: Row(children: [
-                            isDefaultCommunity(viewModel.community.address)
-                                ? InkWell(
-                                    child: SvgPicture.asset(
-                                      'assets/images/winPoints.svg',
-                                      width: 55,
-                                      height: 55,
-                                    ),
-                                    onTap: () {
-                                      // Scaffold.of(context)
-                                      //     .showSnackBar(new SnackBar(
-                                      //   content: new Text(
-                                      //     "Coming soon",
-                                      //     textAlign: TextAlign.center,
-                                      //   ),
-                                      // ));
-                                      Navigator.pushNamed(context, '/Prize');
-                                    },
-                                  )
-                                : SizedBox.shrink(),
-                            isDefaultCommunity(viewModel.community.address)
-                                ? SizedBox(
-                                    width: 10,
-                                  )
-                                : SizedBox.shrink(),
                             new FloatingActionButton(
-                                backgroundColor: const Color(0xFF292929),
+                              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                                // backgroundColor: const Color(0xFF292929),
                                 elevation: 0,
                                 child: Image.asset(
                                   'assets/images/scan.png',
                                   width: 25.0,
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                  color: const Color(0xFF292929),
                                 ),
                                 onPressed: () async {
                                   try {
