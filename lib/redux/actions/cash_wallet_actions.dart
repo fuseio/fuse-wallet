@@ -224,7 +224,7 @@ ThunkAction enablePushNotifications() {
             IosNotificationSettings(sound: true, badge: true, alert: true));
         firebaseMessaging.onIosSettingsRegistered
             .listen((IosNotificationSettings settings) {
-          print("Settings registered: $settings");
+          logger.info("Settings registered: $settings");
         });
       }
 
@@ -254,7 +254,7 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('Track - $eventName');
-      await FlutterSegment.track(eventName: eventName, properties: properties);
+      await FlutterSegment.track(eventName: 'PAYWISE: ' + eventName, properties: properties);
     } catch (e) {
       logger.severe('ERROR - segment track call: $e');
     }
@@ -311,7 +311,7 @@ ThunkAction listenToBranchCall() {
     FlutterBranchSdk.initSession().listen((data) {
       handler(data);
     }, onError: (error) {
-      print(error);
+      logger.severe('ERROR - FlutterBranchSdk initSession $error');
     });
   };
 }
@@ -343,6 +343,8 @@ ThunkAction initWeb3Call(String privateKey) {
 
 ThunkAction startBalanceFetchingCall() {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    logger.info('Start Balance Fetching Call');
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddres];
@@ -370,6 +372,8 @@ ThunkAction startBalanceFetchingCall() {
 
 ThunkAction startTransfersFetchingCall() {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    logger.info('Start Transfers Fetching Call');
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddres];
@@ -404,7 +408,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
       store.dispatch(new CreateAccountWalletRequest(accountAddress));
       Map<String, dynamic> response = await api.createWallet();
       if (!response.containsKey('job')) {
-        print('Wallet already exists');
+        logger.info('Wallet already exists');
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
         return;
       }
@@ -654,7 +658,8 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       }
 
       response['job']['arguments'] = {
-        'transfer': transfer
+        'transfer': transfer,
+        'jobType': 'transfer'
       };
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
@@ -777,12 +782,12 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
         type: 'RECEIVE',
         value: value,
         status: 'PENDING');
+      store.dispatch(new AddTransaction(joinBonus));
       store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
         properties: new Map<String, dynamic>.from({
           "Community Name": community["name"],
           "Bonus amount": communityData.plugins.joinBonus.amount,
         })));
-      store.dispatch(new AddTransaction(joinBonus));
     }
   };
 }
@@ -816,14 +821,6 @@ ThunkAction switchCommunityCall(String communityAddress) {
       store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
-      store.dispatch(segmentTrackCall("Wallet: Switch Community",
-          properties: new Map<String, dynamic>.from({
-            "Community Name": community["name"],
-            "Community Address": communityAddress,
-            "Token Address": token["address"],
-            "Token Symbol": token["symbol"],
-            "Origin Network": token['originNetwork']
-          })));
       store.dispatch(getBusinessListCall());
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
@@ -838,6 +835,14 @@ ThunkAction switchCommunityCall(String communityAddress) {
           communityPlugins,
           communityData['isClosed']
           ));
+      store.dispatch(segmentTrackCall("Wallet: Switch Community",
+          properties: new Map<String, dynamic>.from({
+            "Community Name": community["name"],
+            "Community Address": communityAddress,
+            "Token Address": token["address"],
+            "Token Symbol": token["symbol"],
+            "Origin Network": token['originNetwork']
+          })));
     } catch (e) {
       logger.info('ERROR - switchCommunityCall $e');
       store.dispatch(new ErrorAction('Could not switch community'));
@@ -859,7 +864,6 @@ ThunkAction getJoinBonusCall() {
 }
 
 Map<String, dynamic> _responseHandler(Response response) {
-  print('response: ${response.statusCode}, ${response.reasonPhrase}');
   switch (response.statusCode) {
     case 200:
       Map<String, dynamic> obj = json.decode(response.body);

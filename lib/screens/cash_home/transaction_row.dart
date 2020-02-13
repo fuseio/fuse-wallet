@@ -1,75 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:paywise/generated/i18n.dart';
-import 'package:paywise/models/business.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
-import 'package:paywise/screens/buy/business.dart';
-import 'package:paywise/screens/cash_home/cash_transactions.dart';
+import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/screens/cash_home/transaction_details.dart';
 import 'package:paywise/utils/format.dart';
-
-String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true, List<Business> businesses}) {
-  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  if (businesses != null && businesses.isNotEmpty) {
-    Business business = businesses.firstWhere(
-        (business) => business.account.toLowerCase() == accountAddress.toLowerCase(),
-        orElse: () => null);
-    if (business != null) {
-      return business.name;
-    }
-  }
-  if (reverseContacts.containsKey(accountAddress)) {
-    return reverseContacts[accountAddress];
-  }
-  if (format) {
-    return formatAddress(accountAddress);
-  } else {
-    return accountAddress;
-  }
-}
-
-dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
-  if (transfer.isJoinCommunity() &&
-      vm.community.metadata.image != null &&
-      vm.community.metadata.image != '') {
-    return new NetworkImage(DotEnv().env['IPFS_BASE_URL'] + '/image/' + vm.community.metadata.image);
-  } else if (transfer.isGenerateWallet()) {
-    return new AssetImage(
-      'assets/images/generate_wallet.png',
-    );
-  } else if (transfer.isJoinBonus()) {
-    return new AssetImage(
-      'assets/images/join.png',
-    );
-  } else if (contact?.avatar != null) {
-    return new MemoryImage(contact.avatar);
-  }
-
-  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  Business business = vm.businesses.firstWhere(
-      (business) => business.account.toLowerCase() == accountAddress.toLowerCase(),
-      orElse: () => null);
-  if (business != null) {
-    return NetworkImage(getImageUrl(business, vm.communityAddress));
-  }
-  return new AssetImage('assets/images/anom.png');
-}
-
-Color deduceColor(Transfer transfer) {
-  if (transfer.isFailed()) {
-    return Color(0xFFE0E0E0);
-  } else {
-    if (transfer.type == 'SEND') {
-      return Color(0xFFFF0000);
-    } else {
-      return Color(0xFF00BE66);
-    }
-  }
-}
 
 class TransactionListItem extends StatelessWidget {
   final Transaction _transaction;
@@ -158,6 +95,7 @@ class TransactionListItem extends StatelessWidget {
                       Flexible(
                         flex: 4,
                         child: Stack(
+                          alignment: Alignment.center,
                           children: <Widget>[
                             Hero(
                               child: CircleAvatar(
@@ -177,45 +115,21 @@ class TransactionListItem extends StatelessWidget {
                                     width: 55,
                                     height: 55,
                                     child: CircularProgressIndicator(
-                                      backgroundColor:
-                                          Color(0xFF49D88D).withOpacity(0),
-                                      strokeWidth:
-                                          3, //backgroundColor: Color(0xFFb8e3a6),
-                                      valueColor:
-                                          new AlwaysStoppedAnimation<Color>(
-                                              Color(0xFF49D88D).withOpacity(1)),
+                                      backgroundColor: Color(0xFF49D88D).withOpacity(0),
+                                      strokeWidth: 3,
+                                      valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFF49D88D).withOpacity(1)),
                                     ))
                                 : SizedBox.shrink(),
                             _vm.community.metadata.isDefaultImage != null &&
                                     _vm.community.metadata.isDefaultImage &&
                                     transfer.isJoinCommunity()
-                                ? Positioned(
-                                    top: 16,
-                                    left: 12.0,
-                                    right: 0.0,
-                                    child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          Positioned(
-                                            top: 0,
-                                            left: 0,
-                                            child: Center(
-                                                child: Text(
-                                              _vm.community.token.symbol,
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.left,
-                                            )),
-                                          )
-                                        ],
-                                      ),
+                                ? Text(
+                                    _vm.community.token.symbol,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
                                     ),
+                                    textAlign: TextAlign.left,
                                   )
                                 : SizedBox.shrink()
                           ],

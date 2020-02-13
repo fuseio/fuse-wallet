@@ -10,14 +10,12 @@ import 'package:paywise/models/business.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/contacts.dart';
-import 'package:paywise/screens/buy/business.dart';
-import 'package:paywise/screens/cash_home/cash_transactions.dart';
-import 'package:paywise/screens/cash_home/transaction_item.dart';
 import 'package:paywise/screens/send/enable_contacts.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/contacts.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:paywise/utils/phone.dart';
+import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
@@ -56,10 +54,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
 
-  loadContacts(ContactsViewModel viewModel) async {
+  loadContacts(List<Contact> contacts, isContactsSynced) async {
     bool isPermitted = await Contacts.checkPermissions();
     if (this.mounted) {
-      if (!isPermitted && viewModel.isContactsSynced == null) {
+      if (!isPermitted && isContactsSynced == null) {
         Future.delayed(
             Duration.zero,
             () => showDialog(
@@ -70,7 +68,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         hasSynced = isPermitted;
       });
     }
-    for (var contact in viewModel.contacts) {
+    for (var contact in contacts) {
       userList.add(contact);
     }
     userList.sort((a, b) =>
@@ -98,11 +96,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         showFooter = !hasFocus;
       });
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   filterList() {
@@ -140,7 +133,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  listBody(List<Contact> group) {
+  listBody(viewModel, List<Contact> group) {
     List<Widget> listItems = List();
 
     for (Contact user in group) {
@@ -177,11 +170,17 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                   fontSize: 15, color: Theme.of(context).primaryColor),
             ),
             //subtitle: Text("user.company" ?? ""),
-            onTap: () {
+            onTap: () async {
+              Map<String, String> reverseContacts = viewModel.reverseContacts;
+              String number = formatPhoneNumber(
+                  user.phones.first.value, viewModel.countryCode);
+              String accountAddress = reverseContacts.keys.firstWhere(
+                  (k) => reverseContacts[k] == number,
+                  orElse: () => null);
               Navigator.pushNamed(context, '/SendAmount',
                   arguments: SendAmountArguments(
                       name: user.displayName,
-                      // accountAddress: t,
+                      accountAddress: accountAddress,
                       avatar: user.avatar != null && user.avatar.isNotEmpty
                           ? MemoryImage(user.avatar)
                           : new AssetImage('assets/images/anom.png'),
@@ -347,7 +346,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         avatar: contact?.avatar != null
                             ? MemoryImage(contact.avatar)
                             : new AssetImage('assets/images/anom.png'),
-                        phoneNumber: contact.phones.toList()[0].value));
+                        phoneNumber: number));
               },
             ),
           ),
@@ -390,7 +389,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     for (String title in titles) {
       List<Contact> group = groups[title];
       listItems.add(listHeader(title));
-      listItems.add(listBody(group));
+      listItems.add(listBody(viewModel, group));
     }
 
     return listItems;
@@ -478,7 +477,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         distinct: true,
         converter: ContactsViewModel.fromStore,
         onInitialBuild: (viewModel) {
-          loadContacts(viewModel);
+          loadContacts(viewModel.contacts, viewModel.isContactsSynced);
         },
         builder: (_, viewModel) {
           if (hasSynced) {
@@ -524,7 +523,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                           InkWell(
                             child: new Text(I18n.of(context).learn_more),
                             onTap: () {
-                              showDialog(child: new ContactsConfirmationScreen(), context: context);
+                              showDialog(
+                                  child: new ContactsConfirmationScreen(),
+                                  context: context);
                             },
                           ),
                           SizedBox(
@@ -552,7 +553,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                                   List<Contact> contacts =
                                       await ContactController.getContacts();
                                   viewModel.syncContacts(contacts);
-                                  loadContacts(viewModel);
+                                  loadContacts(
+                                      contacts, viewModel.isContactsSynced);
                                   setState(() {
                                     hasSynced = true;
                                   });

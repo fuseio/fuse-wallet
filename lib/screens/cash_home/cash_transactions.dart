@@ -1,12 +1,10 @@
 import 'dart:core';
-
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
-import 'package:contacts_service/contacts_service.dart';
-import 'package:paywise/screens/cash_home/transaction_item.dart';
-import 'package:paywise/utils/phone.dart';
+import 'package:paywise/screens/cash_home/transaction_row.dart';
+import 'package:paywise/utils/transaction_row.dart';
 
 class CashTransactios extends StatefulWidget {
   CashTransactios({@required this.viewModel});
@@ -14,47 +12,6 @@ class CashTransactios extends StatefulWidget {
   final CashWalletViewModel viewModel;
   @override
   createState() => new CashTransactionsState();
-}
-
-String deduceSign(Transfer transfer) {
-  if (transfer.type == 'SEND') {
-    return '-';
-  } else {
-    return '+';
-  }
-}
-
-Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
-    List<Contact> contacts, String countryCode) {
-  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  if (accountAddress == null) {
-    return null;
-  }
-  if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
-    String phoneNumber = reverseContacts[accountAddress.toLowerCase()];
-    if (contacts == null) return null;
-    for (Contact contact in contacts) {
-      for (Item contactPhoneNumber in contact.phones.toList()) {
-        if (formatPhoneNumber(contactPhoneNumber.value, countryCode) ==
-            phoneNumber) {
-          return contact;
-        }
-      }
-    }
-  }
-  return null;
-}
-
-Color deduceColor(Transfer transfer) {
-  if (transfer.isFailed()) {
-    return Color(0xFFE0E0E0);
-  } else {
-    if (transfer.type == 'SEND') {
-      return Color(0xFFFF0000);
-    } else {
-      return Color(0xFF00BE66);
-    }
-  }
 }
 
 class CashTransactionsState extends State<CashTransactios> {

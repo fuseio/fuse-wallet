@@ -24,9 +24,10 @@ Widget bottomBar(BuildContext context) {
       ),
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           bottomBarItem(
-              isHomePage
+              isCurrentRoute(context, '/Cash')
                   ? "home_selected.svg"
                   : "home.svg",
               I18n.of(context).home, () {
@@ -92,7 +93,6 @@ Widget bottomBarItem(String img, String text, Function ontap) {
     child: new InkWell(
       borderRadius: BorderRadius.all(new Radius.circular(30.0)),
       child: new Container(
-        width: 100,
         padding:
             const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 0.0, left: 0.0),
         child: new Column(

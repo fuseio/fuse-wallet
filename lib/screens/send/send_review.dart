@@ -23,7 +23,12 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   Animation<double> offset;
   bool isPreloading = false;
   var squareScaleA = 1.0;
-  //AnimationController _controllerA;
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -40,7 +45,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   }
 
   void send(SendAmountViewModel viewModel, SendAmountArguments args, String transferNote, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
-    if (args.phoneNumber != null) {
+    if (args.accountAddress == null || args.accountAddress == '' && args.phoneNumber != null) {
       viewModel.sendToContact(
           args.name,
           formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),

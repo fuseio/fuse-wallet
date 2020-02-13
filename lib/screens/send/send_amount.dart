@@ -26,6 +26,12 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   bool isPreloading = false;
 
   @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
 

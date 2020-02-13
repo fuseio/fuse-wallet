@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/business.dart';
 import 'package:paywise/models/token.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
-import 'package:paywise/utils/forks.dart';
+import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,7 +15,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 _launchPhone(phoneNumber) async {
   String url = 'tel:$phoneNumber';
   if (await canLaunch(url)) {
-    await launch(url);
+    await launch(url, forceSafariVC: false);
   } else {
     throw 'Could not launch $url';
   }
@@ -39,34 +38,9 @@ class BusinessPage extends StatefulWidget {
   _BusinessPageState createState() => _BusinessPageState();
 }
 
-String getCoverPhotoUrl(business, communityAddress) {
-  if (business.metadata.coverPhoto == null ||
-        business.metadata.coverPhoto == '') {
-         return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isPaywise(communityAddress)) {
-    return business.metadata.coverPhoto;
-  }
-  else {
-    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.coverPhoto;
-  }
-}
-
-String getImageUrl(business, communityAddress) {
-  if (business.metadata.image == null ||
-        business.metadata.image == '') {
-         return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isPaywise(communityAddress)) {
-    return business.metadata.image;
-  }
-  else {
-    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.image;
-  }
-}
-
 class _BusinessPageState extends State<BusinessPage> {
   GlobalKey<ScaffoldState> scaffoldState;
   Completer<GoogleMapController> _controller = Completer();
-  // LatLng _center = const LatLng(10.442883, -61.473868);
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);

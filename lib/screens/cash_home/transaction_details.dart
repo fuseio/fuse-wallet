@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/send_amount.dart';
-import 'package:paywise/screens/cash_home/transaction_item.dart';
+import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';

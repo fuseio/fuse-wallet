@@ -8,13 +8,9 @@ import 'package:paywise/widgets/drawer.dart';
 import 'package:paywise/widgets/language_selector.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 
-class SettingsScreen extends StatefulWidget {
-  @override
-  _SettingsScreenState createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  Widget getListTile(label, onTap) {
+class SettingsScreen extends StatelessWidget {
+  SettingsScreen();
+  Widget getListTile(context, label, onTap) {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, right: 30, left: 30),
       title: Text(
@@ -25,25 +21,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  List<Widget> menuItem(viewModel) {
+  List<Widget> menuItem(context, viewModel) {
     if (isFork()) {
       return [
-        getListTile(I18n.of(context).about, () {
+        getListTile(context, I18n.of(context).about, () {
           Navigator.pushNamed(context, '/About');
         })
       ];
     } else {
       return [
-        getListTile(I18n.of(context).about, () {
+        getListTile(context, I18n.of(context).about, () {
           Navigator.pushNamed(context, '/About');
         }),
         new Divider(),
-        getListTile(I18n.of(context).protect_wallet, () {}),
+        getListTile(context, I18n.of(context).protect_wallet, () {}),
         new Divider(),
         new LanguageSelector(),
         new Divider(),
-        getListTile(I18n.of(context).logout, () {
-          Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+        getListTile(context, I18n.of(context).logout, () {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
           viewModel.logout();
         })
       ];
@@ -68,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         shrinkWrap: true,
                         primary: false,
                         padding: EdgeInsets.symmetric(vertical: 8.0),
-                        children: <Widget>[...menuItem(viewModel)],
+                        children: <Widget>[...menuItem(context, viewModel)],
                       ),
                     ),
                   ],

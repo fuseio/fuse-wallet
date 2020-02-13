@@ -43,7 +43,6 @@ class _SplashScreenState extends State<SplashScreen> {
     notifier = ValueNotifier<double>(0);
 
     _previousPage = _pageController.initialPage;
-
     super.initState();
   }
 

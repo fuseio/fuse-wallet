@@ -1,5 +1,4 @@
 import 'dart:core';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
@@ -12,22 +11,8 @@ import 'package:paywise/widgets/preloader.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/widgets/transparent_button.dart';
 
-class ShowMnemonic extends StatefulWidget {
-  ShowMnemonic({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _ShowMnemonicState createState() => _ShowMnemonicState();
-}
-
-class _ShowMnemonicState extends State<ShowMnemonic> {
-  static GlobalKey<ScaffoldState> scaffoldState;
-
-  @override
-  initState() {
-    super.initState();
-  }
+class ShowMnemonic extends StatelessWidget {
+  ShowMnemonic();
 
   @override
   Widget build(BuildContext context) {
@@ -72,30 +57,30 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                wordWidget(viewModel.user.mnemonic[0]),
-                                wordWidget(viewModel.user.mnemonic[1]),
-                                wordWidget(viewModel.user.mnemonic[2])
+                                wordWidget(context, viewModel.user.mnemonic[0]),
+                                wordWidget(context, viewModel.user.mnemonic[1]),
+                                wordWidget(context, viewModel.user.mnemonic[2])
                               ],
                             ),
                             Row(
                               children: <Widget>[
-                                wordWidget(viewModel.user.mnemonic[3]),
-                                wordWidget(viewModel.user.mnemonic[4]),
-                                wordWidget(viewModel.user.mnemonic[5])
+                                wordWidget(context, viewModel.user.mnemonic[3]),
+                                wordWidget(context, viewModel.user.mnemonic[4]),
+                                wordWidget(context, viewModel.user.mnemonic[5])
                               ],
                             ),
                             Row(
                               children: <Widget>[
-                                wordWidget(viewModel.user.mnemonic[6]),
-                                wordWidget(viewModel.user.mnemonic[7]),
-                                wordWidget(viewModel.user.mnemonic[8])
+                                wordWidget(context, viewModel.user.mnemonic[6]),
+                                wordWidget(context, viewModel.user.mnemonic[7]),
+                                wordWidget(context, viewModel.user.mnemonic[8])
                               ],
                             ),
                             Row(
                               children: <Widget>[
-                                wordWidget(viewModel.user.mnemonic[9]),
-                                wordWidget(viewModel.user.mnemonic[10]),
-                                wordWidget(viewModel.user.mnemonic[11])
+                                wordWidget(context, viewModel.user.mnemonic[9]),
+                                wordWidget(context, viewModel.user.mnemonic[10]),
+                                wordWidget(context, viewModel.user.mnemonic[11])
                               ],
                             ),
                             Padding(
@@ -152,7 +137,7 @@ class _ShowMnemonicState extends State<ShowMnemonic> {
     ]);
   }
 
-  Widget wordWidget(word) {
+  Widget wordWidget(context, word) {
     return Expanded(
       child: Center(
         child: Padding(

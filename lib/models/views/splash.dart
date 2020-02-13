@@ -25,7 +25,7 @@ class SplashViewModel extends Equatable {
     return SplashViewModel(
         privateKey: store.state.userState.privateKey,
         jwtToken: store.state.userState.jwtToken,
-        isLoggedOut: store.state.userState.isLoggedOut,
+        isLoggedOut: store.state.userState.isLoggedOut ?? false,
         initWeb3: (privateKey) {
           store.dispatch(initWeb3Call(privateKey));
         },

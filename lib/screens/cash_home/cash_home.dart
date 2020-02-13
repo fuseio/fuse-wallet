@@ -1,7 +1,9 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:paywise/themes/app_theme.dart';
 import 'package:paywise/themes/custom_theme.dart';
+import 'package:paywise/utils/contacts.dart';
 import 'package:paywise/utils/forks.dart';
 import 'package:paywise/widgets/main_scaffold2.dart';
 import 'package:paywise/models/app_state.dart';
@@ -13,12 +15,7 @@ import 'package:paywise/models/views/cash_wallet.dart';
 bool isDefaultCommunity(String communityAddress) {
   return DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] != null &&
       DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase() ==
-          communityAddress;
-}
-
-class CashHomeScreen extends StatefulWidget {
-  @override
-  _CashHomeScreenState createState() => _CashHomeScreenState();
+          communityAddress.toLowerCase();
 }
 
 void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
@@ -39,9 +36,6 @@ void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
 
 void onChange(CashWalletViewModel viewModel, BuildContext context,
     {bool initial = false}) async {
-  if (initial) {
-    viewModel.syncContacts([]);
-  }
   if (!viewModel.isJobProcessingStarted) {
     viewModel.startProcessingJobs();
   }
@@ -71,13 +65,17 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
       viewModel.startTransfersFetching();
     }
   }
+  if (initial) {
+    bool isPermitted = await Contacts.checkPermissions();
+    if (isPermitted) {
+      List<Contact> contacts = await ContactController.getContacts();
+      viewModel.syncContacts(contacts);
+    }
+  }
 }
 
-class _CashHomeScreenState extends State<CashHomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class CashHomeScreen extends StatelessWidget {
+  CashHomeScreen();
 
   void _changeTheme(BuildContext buildContext, MyThemeKeys key) {
     CustomTheme.instanceOf(buildContext).changeTheme(key);
@@ -97,20 +95,8 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
         },
         builder: (_, viewModel) {
           return MainScaffold(
-            header: CashHeader(),
-            children: <Widget>[CashTransactios(viewModel: viewModel)],
-            // floatingActionButton: isDefaultCommunity(viewModel.community.address) ? FloatingActionButton(
-            //   heroTag: 'winWin',
-            //   backgroundColor: Color(0xFFF1EFEE),
-            //   child: Image.asset(
-            //     'assets/images/win.png',
-            //     width: 25.0,
-            //   ),
-            //   onPressed: () {
-            //     print('open lottery page');
-            //   },
-            // ): null,
-          );
+              header: CashHeader(),
+              children: <Widget>[CashTransactios(viewModel: viewModel)]);
         });
   }
 }

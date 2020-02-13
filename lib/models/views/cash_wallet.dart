@@ -33,7 +33,7 @@ class CashHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [community];
+  List<Object> get props => [community, plugins];
 }
 
 class CashWalletViewModel extends Equatable {
@@ -129,7 +129,7 @@ class CashWalletViewModel extends Equatable {
       isCommunityLoading: isCommunityLoading,
       isCommunityFetched: store.state.cashWalletState.isCommunityFetched,
       isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
-      isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted,
+      isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted ?? false,
       isListeningToBranch: store.state.cashWalletState.isListeningToBranch,
       isBranchDataReceived: store.state.cashWalletState.isBranchDataReceived,
       displayName: store.state.userState.displayName,
@@ -201,6 +201,7 @@ class CashWalletViewModel extends Equatable {
 
   @override
   List<Object> get props => [
+    contacts,
     accountAddress,
     walletAddress,
     walletStatus,
