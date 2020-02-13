@@ -9,7 +9,6 @@ import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
-  TypedReducer<CashWalletState, SetDrawInfo>(_setDrawInfo),
   TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
   TypedReducer<CashWalletState, GetWalletAddressSuccess>(
@@ -64,10 +63,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     TypedReducer<CashWalletState, JobProcessingStarted>(_jobProcessingStarted)
   ]);
 
-  CashWalletState _setDrawInfo(CashWalletState state, SetDrawInfo action) {
-    return state.copyWith(drawInfo: action.drawInfo);
-  }
-  
   CashWalletState _fetchCommunityMetadataSuccess(
     CashWalletState state, FetchCommunityMetadataSuccess action) {
     String communityAddress = state.communityAddress;
@@ -419,13 +414,16 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   
   CashWalletState _replaceTransfer(CashWalletState state, ReplaceTransaction action) {
     Community current = state.communities[state.communityAddress];
-    Transaction oldTx =
-      current.transactions.list.firstWhere((tx) => tx.jobId == action.transaction.jobId, orElse: () => null);
-    if (oldTx == null) {
+    List<Transaction> oldTxs = List<Transaction>.from(current.transactions.list.where((tx) =>
+      (tx.jobId != null && tx.jobId == action.transaction.jobId) ||
+      (tx.txHash != null && tx.txHash == action.transaction.txHash)));
+    if (oldTxs.isEmpty) {
       return state;
     }
-    int index = current.transactions.list.indexOf(oldTx);
+    int index = current.transactions.list.indexOf(oldTxs[0]);
     current.transactions.list[index] = action.transactionToReplace;
+    oldTxs.removeAt(0);
+    current.transactions.list.removeWhere((tx) => oldTxs.contains(tx));
     Community newCommunity = current.copyWith(
         transactions:
             current.transactions.copyWith(list: current.transactions.list));

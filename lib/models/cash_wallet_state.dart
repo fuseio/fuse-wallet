@@ -12,7 +12,6 @@ part 'cash_wallet_state.g.dart';
 @immutable
 @JsonSerializable(explicitToJson: true)
 class CashWalletState {
-  final DrawInfo drawInfo;
   final String walletStatus;
   final String walletAddress;
   final String communityAddress;
@@ -41,7 +40,7 @@ class CashWalletState {
   final bool isListeningToBranch;
   @JsonKey(defaultValue: false)
   final bool isBranchDataReceived;
-  @JsonKey(defaultValue: false)
+  @JsonKey(ignore: true, defaultValue: false)
   final bool isJobProcessingStarted;
   @JsonKey(ignore: true)
   final Map<String, num> sendToInvites;
@@ -85,8 +84,7 @@ class CashWalletState {
       this.isBranchDataReceived,
       this.isCommunityBusinessesFetched,
       this.isJobProcessingStarted,
-      this.communities,
-      this.drawInfo});
+      this.communities});
 
   factory CashWalletState.initial() {
     return new CashWalletState(
@@ -105,8 +103,7 @@ class CashWalletState {
         isTransfersFetchingStarted: false,
         isJobProcessingStarted: false,
         sendToInvites: new Map<String, num>(),
-        communities: new Map<String, Community>(),
-        drawInfo: null);
+        communities: new Map<String, Community>());
   }
 
   CashWalletState copyWith(
@@ -151,8 +148,7 @@ class CashWalletState {
         isJobProcessingStarted:
             isJobProcessingStarted ?? this.isJobProcessingStarted,
         sendToInvites: sendToInvites ?? this.sendToInvites,
-        communities: communities ?? this.communities,
-        drawInfo: drawInfo ?? this.drawInfo);
+        communities: communities ?? this.communities);
   }
 
   dynamic toJson() => _$CashWalletStateToJson(this);

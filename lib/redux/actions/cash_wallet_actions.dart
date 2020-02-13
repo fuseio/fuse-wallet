@@ -6,7 +6,6 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/community_metadata.dart';
-import 'package:fusecash/models/draw_info.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/job.dart';
@@ -15,7 +14,6 @@ import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/format.dart';
@@ -28,11 +26,6 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
-
-class SetDrawInfo {
-  DrawInfo drawInfo;
-  SetDrawInfo(this.drawInfo);
-}
 
 class SetDefaultCommunity {
   String defaultCommunity;
@@ -812,23 +805,6 @@ ThunkAction fetchCommunityMetadataCall(String communityURI) {
   };
 }
 
-ThunkAction daiPointsCommunityDrawsInfo() {
-  return (Store store) async {
-    Client client = new Client();
-    Response res = await client.get('https://daipoints-oracle.fuse.io/draw-info');
-    Map<String, dynamic> drawInfoResponse = _responseHandler(res);
-    final data = drawInfoResponse['data'];
-    DrawInfo drawInfo = new DrawInfo(
-      endTimestamp: int.parse(data['current']['endTimestamp']),
-      previous: data['previous'],
-      reward: data['current']['reward'],
-      blockNumber: data['current']['blockNumber'],
-      possibleWinnersCount: data['current']['possibleWinnersCount']
-    );
-    store.dispatch(SetDrawInfo(drawInfo));
-  };
-}
-
 ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
@@ -836,11 +812,6 @@ ThunkAction switchCommunityCall(String communityAddress) {
       if (store.state.cashWalletState.isCommunityLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
-      if (isDefaultCommunity(communityAddress)) {
-        store.dispatch(daiPointsCommunityDrawsInfo());
-      } else {
-        store.dispatch(SetDrawInfo(new DrawInfo()));
-      }
       logger.info('community fetched for $communityAddress');
       dynamic token = await graph.getTokenOfCommunity(communityAddress);
       logger.info('token ${token["address"]} (${token["symbol"]}) fetched for $communityAddress');
