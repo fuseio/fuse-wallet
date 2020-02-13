@@ -21,7 +21,6 @@ CashWalletState _$CashWalletStateFromJson(Map<String, dynamic> json) {
     isBranchDataReceived: json['isBranchDataReceived'] as bool ?? false,
     isCommunityBusinessesFetched:
         json['isCommunityBusinessesFetched'] as bool ?? false,
-    isJobProcessingStarted: json['isJobProcessingStarted'] as bool ?? false,
     communities: CashWalletState._communitiesFromJson(
         json['communities'] as Map<String, dynamic>),
   );
@@ -41,5 +40,4 @@ Map<String, dynamic> _$CashWalletStateToJson(CashWalletState instance) =>
       'isTransfersFetchingStarted': instance.isTransfersFetchingStarted,
       'isListeningToBranch': instance.isListeningToBranch,
       'isBranchDataReceived': instance.isBranchDataReceived,
-      'isJobProcessingStarted': instance.isJobProcessingStarted,
     };

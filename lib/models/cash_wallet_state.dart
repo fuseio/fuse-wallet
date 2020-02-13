@@ -39,7 +39,7 @@ class CashWalletState {
   final bool isListeningToBranch;
   @JsonKey(defaultValue: false)
   final bool isBranchDataReceived;
-  @JsonKey(defaultValue: false)
+  @JsonKey(ignore: true, defaultValue: false)
   final bool isJobProcessingStarted;
   @JsonKey(ignore: true)
   final Map<String, num> sendToInvites;

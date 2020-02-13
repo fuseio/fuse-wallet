@@ -142,7 +142,7 @@ class CashWalletViewModel extends Equatable {
       businesses: community?.businesses ?? [],
       isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,
       isContactsSynced: store.state.userState.isContactsSynced,
-      isJobProcessingStarted: store.state.cashWalletState.isJobProcessingStarted,
+      isJobProcessingStarted: store.state.cashWalletState.isJobProcessingStarted ?? false,
       community: community,
       createWallet: (accountAddress) {
         store.dispatch(createAccountWalletCall(accountAddress));
