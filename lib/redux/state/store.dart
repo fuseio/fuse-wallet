@@ -182,7 +182,7 @@ class AppFactory {
         name: Platform.operatingSystem,
         version: androidInfo.version.release,
         build: androidInfo.version.incremental,
-//        kernelVersion: "",
+        //        kernelVersion: "",
         //        rooted: false,
         //        rawDescription: ""
       );

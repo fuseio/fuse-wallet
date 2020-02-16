@@ -175,7 +175,15 @@ class Plugins {
       return Plugins();
     } else {
       dynamic services= Plugins.getServicesMap(json);
-      return _$PluginsFromJson(services);
+      return Plugins(
+        moonpay: MoonpayPlugin.fromJson(services["moonpay"]),
+        carbon: CarbonPlugin.fromJson(services["carbon"]),
+        wyre: WyrePlugin.fromJson(services["wyre"]),
+        coindirect: CoindirectPlugin.fromJson(services["coindirect"]),
+        ramp: RampPlugin.fromJson(services["ramp"]),
+        joinBonus:  JoinBonusPlugin.fromJson(json['joinBonus']),
+        walletBanner: WalletBannerPlugin.fromJson(json['walletBanner'])
+      );
     }
   }
 

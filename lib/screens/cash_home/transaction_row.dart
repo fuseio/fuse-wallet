@@ -185,15 +185,15 @@ class TransactionListItem extends StatelessWidget {
             ],
           ),
           onTap: () {
+            if (transfer.isGenerateWallet() || transfer.isJoinCommunity()) {
+              return;
+            }
             if (transfer.isJoinCommunity() &&
                 isDefaultCommunity(_vm.communityAddress)) {
               Future.delayed(
                   Duration.zero,
                   () => showDialog(
                       child: new DaiExplainedScreen(), context: context));
-              return;
-            }
-            if (transfer.isGenerateWallet()) {
               return;
             }
             if (!transfer.isGenerateWallet() || !transfer.isJoinCommunity()) {
