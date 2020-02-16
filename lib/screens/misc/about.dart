@@ -3,6 +3,15 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'dart:core';
 import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+launchUrl(url) async {
+  if (await canLaunch(url)) {
+    await launch(url, forceSafariVC: false);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
 class AboutScreen extends StatelessWidget {
   Future<String> getVersionNumber() async {
@@ -32,7 +41,9 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: Text(
                         I18n.of(context).version,
-                        style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).primaryColor),
                       ),
                       trailing: FutureBuilder(
                         future: getVersionNumber(),
@@ -48,9 +59,16 @@ class AboutScreen extends StatelessWidget {
                     ListTile(
                       contentPadding: EdgeInsets.only(
                           top: 5, bottom: 5, right: 30, left: 30),
-                      title: Text(
-                        I18n.of(context).legal,
-                        style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),
+                      title: InkWell(
+                        onTap: () {
+                          // TODO - link to privacy policy
+                        },
+                        child: Text(
+                          I18n.of(context).legal,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Theme.of(context).primaryColor),
+                        ),
                       ),
                     ),
                     new Divider(),

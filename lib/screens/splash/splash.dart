@@ -44,7 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
     notifier = ValueNotifier<double>(0);
 
     _previousPage = _pageController.initialPage;
-
   }
 
   _update() => setState(() {});
@@ -99,17 +98,13 @@ class _SplashScreenState extends State<SplashScreen> {
                                   controller: _slideController,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 100),
-                                child: new PageView.builder(
-                                  physics: new AlwaysScrollableScrollPhysics(),
-                                  controller: _pageController,
-                                  itemCount: 4,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return getPages(context)[index % 4];
-                                  },
-                                ),
+                              new PageView.builder(
+                                physics: new AlwaysScrollableScrollPhysics(),
+                                controller: _pageController,
+                                itemCount: 4,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return getPages(context)[index % 4];
+                                },
                               ),
                               new Positioned(
                                 bottom: 15.0,

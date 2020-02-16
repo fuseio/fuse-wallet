@@ -94,7 +94,9 @@ class CashHomeScreen extends StatelessWidget {
           onChange(viewModel, context);
         },
         builder: (_, viewModel) {
+          bool isWalletCreated = 'created' == viewModel.walletStatus;
           return MainScaffold(
+              showFooter: isWalletCreated,
               header: CashHeader(),
               children: <Widget>[CashTransactios(viewModel: viewModel)]);
         });
