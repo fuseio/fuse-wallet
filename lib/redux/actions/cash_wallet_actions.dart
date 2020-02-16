@@ -255,8 +255,9 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
     try {
       logger.info('Track - $eventName');
       await FlutterSegment.track(eventName: eventName, properties: properties);
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - segment track call: $e');
+      await AppFactory().reportError(e, s);
     }
   };
 }
@@ -267,8 +268,9 @@ ThunkAction segmentAliasCall(String userId) {
     try {
       logger.info('Alias - $userId');
       await FlutterSegment.alias(alias: userId);
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - segment alias call: $e');
+      await AppFactory().reportError(e, s);
     }
   };
 }
@@ -279,8 +281,9 @@ ThunkAction segmentIdentifyCall(String userId, Map<String, dynamic> traits) {
     try {
       logger.info('Identify - $userId');
       await FlutterSegment.identify(userId: userId, traits: traits);
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - segment identify call: $e');
+      await AppFactory().reportError(e, s);
     }
   };
 }
@@ -310,8 +313,9 @@ ThunkAction listenToBranchCall() {
 
     FlutterBranchSdk.initSession().listen((data) {
       handler(data);
-    }, onError: (error) {
+    }, onError: (error, s) async {
       logger.severe('ERROR - FlutterBranchSdk initSession $error');
+      await AppFactory().reportError(error, s);
     });
   };
 }

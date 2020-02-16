@@ -13,6 +13,9 @@ import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:sentry/sentry.dart';
+import 'package:package_info/package_info.dart';
+import 'package:device_info/device_info.dart';
 
 Future<File> getFile() async {
   final directory = await getApplicationDocumentsDirectory();
@@ -38,6 +41,8 @@ class AppFactory {
   static AppFactory _singleton;
   Map<String, Logger> _loggers = {};
   Store<AppState> _store;
+  SentryClient sentry;
+
 
   AppFactory._();
 
@@ -95,7 +100,6 @@ class AppFactory {
     return _store;
   }
 
-
   Future<Logger> getLogger(String name) async {
     if (_loggers[name] == null) {
       Logger.root.level = Level.ALL;
@@ -129,5 +133,125 @@ class AppFactory {
       _loggers[name] = mylogger;
     }
     return _loggers[name];
+  }
+
+  Future<SentryClient> getSentry() async {
+    if (sentry == null) {
+      sentry = await _setupSentry();
+    }
+    return sentry;
+  }
+
+  Future<SentryClient> _setupSentry() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String versionName = packageInfo.version;
+    String versionCode = packageInfo.buildNumber;
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    Device device;
+    OperatingSystem operatingSystem;
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      device = new Device(
+        name: androidInfo.device,
+        family: androidInfo.brand,
+        model: androidInfo.model,
+        modelId: androidInfo.id,
+        arch: androidInfo.hardware,
+        //      batteryLevel: 0,
+        //      orientation: null,
+        manufacturer: androidInfo.manufacturer,
+        brand: androidInfo.brand,
+        //      screenResolution: "",
+        //      screenDensity: "",
+        //      screenDpi: "",
+        //      online: false,
+        //      charging: false,
+        //      lowMemory: false,
+        simulator: !androidInfo.isPhysicalDevice,
+        //      memorySize: 0,
+        //      freeMemory: 0,
+        //      usableMemory: 0,
+        //      storageSize: 0,
+        //      freeStorage: 0,
+        //      externalStorageSize: 0,
+        //      externalFreeStorage: 0,
+        //      bootTime: null,
+        //      timezone: ""
+      );
+      operatingSystem = OperatingSystem(
+        name: Platform.operatingSystem,
+        version: androidInfo.version.release,
+        build: androidInfo.version.incremental,
+//        kernelVersion: "",
+        //        rooted: false,
+        //        rawDescription: ""
+      );
+
+    } else {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+
+      device = new Device(
+        name: iosInfo.name,
+        family: iosInfo.localizedModel,
+        model: iosInfo.model,
+        modelId: iosInfo.systemVersion,
+        arch: iosInfo.utsname.machine,
+        //      batteryLevel: 0,
+        //      orientation: null,
+        manufacturer: "Apple",
+        brand: iosInfo.localizedModel,
+        //      screenResolution: "",
+        //      screenDensity: "",
+        //      screenDpi: "",
+        //      online: false,
+        //      charging: false,
+        //      lowMemory: false,
+        simulator: !iosInfo.isPhysicalDevice,
+        //      memorySize: 0,
+        //      freeMemory: 0,
+        //      usableMemory: 0,
+        //      storageSize: 0,
+        //      freeStorage: 0,
+        //      externalStorageSize: 0,
+        //      externalFreeStorage: 0,
+        //      bootTime: null,
+        //      timezone: ""
+      );
+
+      operatingSystem = OperatingSystem(
+        name: iosInfo.utsname.sysname,
+        version: iosInfo.utsname.version,
+        build: iosInfo.utsname.release,
+        kernelVersion: iosInfo.utsname.machine,
+        //        rooted: false,
+        //        rawDescription: ""
+      );
+    }
+
+    final SentryClient sentry = new SentryClient(
+        dsn: DotEnv().env['SENTRY_DSN'],
+        environmentAttributes: new Event(
+            serverName: DotEnv().env['API_BASE_URL'],
+            release: versionName + ":" + versionCode,
+            environment: DotEnv().env['MODE'],
+            contexts: new Contexts(
+                device: device,
+                operatingSystem: operatingSystem
+            ),
+            userContext: new User(
+              id: await FlutterSegment.getAnonymousId,
+            )
+        )
+    );
+    return sentry;
+  }
+
+  Future<void> reportError(dynamic error, dynamic stackTrace) async {
+    // Send the Exception and Stacktrace to Sentry in Production mode.
+    sentry = await getSentry();
+    sentry.captureException(
+      exception: error,
+      stackTrace: stackTrace,
+    );
   }
 }
