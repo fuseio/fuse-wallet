@@ -247,27 +247,22 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   CashWalletState _switchCommunityRequest(
       CashWalletState state, SwitchCommunityRequested action) {
     String communityAddress = action.communityAddress.toLowerCase();
-    String currentAddress = state.communityAddress.toLowerCase();
-    if (currentAddress != communityAddress) {
-      if (state.communities.containsKey(communityAddress)) {
-        return state.copyWith(
-            isCommunityLoading: true,
-            communityAddress: communityAddress,
-            branchAddress: "");
-      } else {
-        Community current = new Community.initial();
-        Community defaultCom = current.copyWith(address: communityAddress);
-        Map<String, Community> newOne =
-            Map<String, Community>.from(state.communities);
-        newOne[communityAddress] = defaultCom;
-        return state.copyWith(
-            branchAddress: "",
-            isCommunityLoading: true,
-            communityAddress: communityAddress,
-            communities: newOne);
-      }
+    if (state.communities.containsKey(communityAddress)) {
+      return state.copyWith(
+          isCommunityLoading: true,
+          communityAddress: communityAddress,
+          branchAddress: "");
     } else {
-      return state.copyWith(branchAddress: "", isCommunityLoading: true);
+      Community current = new Community.initial();
+      Community defaultCom = current.copyWith(address: communityAddress);
+      Map<String, Community> newOne =
+          Map<String, Community>.from(state.communities);
+      newOne[communityAddress] = defaultCom;
+      return state.copyWith(
+          branchAddress: "",
+          isCommunityLoading: true,
+          communityAddress: communityAddress,
+          communities: newOne);
     }
   }
   

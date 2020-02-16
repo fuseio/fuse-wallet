@@ -295,20 +295,15 @@ ThunkAction listenToBranchCall() {
         var communityAddress = linkData["community_address"];
         logger.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
         logger.info("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
-      if (linkData["+is_first_session"] == true) {
-        store.dispatch(BranchDataReceived());
-        store.dispatch(segmentTrackCall("Wallet: first switch community", properties: new Map<String, dynamic>.from(linkData)));
-      }
+      store.dispatch(BranchDataReceived());
     };
 
     FlutterBranchSdk.initSession().listen((data) {
@@ -813,8 +808,10 @@ ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
+      String currentAddress = store.state.cashWalletState.communityAddress.toLowerCase();
+      String incomingCommunityAddress = communityAddress.toLowerCase();
       bool isLoading = store.state.cashWalletState.isCommunityLoading ?? false;
-      if (isLoading) return;
+      if ((incomingCommunityAddress == currentAddress) || isLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.info('community fetched for $communityAddress');
