@@ -808,10 +808,8 @@ ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      String currentAddress = store.state.cashWalletState.communityAddress.toLowerCase();
-      String incomingCommunityAddress = communityAddress.toLowerCase();
       bool isLoading = store.state.cashWalletState.isCommunityLoading ?? false;
-      if ((incomingCommunityAddress == currentAddress) || isLoading) return;
+      if (isLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.info('community fetched for $communityAddress');
