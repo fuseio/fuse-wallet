@@ -99,7 +99,7 @@ class TransactionListItem extends StatelessWidget {
                   ],
                 )
     ];
-
+    bool isWalletCreated = 'created' == this._vm.walletStatus;
     return Container(
         decoration: new BoxDecoration(
             border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
@@ -161,12 +161,25 @@ class TransactionListItem extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10.0),
-                      Flexible(
-                        flex: 10,
-                        child: Text(displayName,
-                            style: TextStyle(
-                                color: Color(0xFF333333), fontSize: 15)),
-                      ),
+                      transfer.isGenerateWallet() && !isWalletCreated
+                          ? Flexible(
+                              flex: 10,
+                              child: RichText(
+                                text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(text: displayName, style: TextStyle(
+                                      color: Color(0xFF333333), fontSize: 15)),
+                                    TextSpan(text: ' (up to 10 seconds)', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary)),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Flexible(
+                              flex: 10,
+                              child: Text(displayName,
+                                  style: TextStyle(
+                                      color: Color(0xFF333333), fontSize: 15)),
+                            ),
                     ],
                   )),
               Flexible(
