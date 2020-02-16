@@ -416,7 +416,10 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     Community current = state.communities[state.communityAddress];
     List<Transaction> oldTxs = List<Transaction>.from(current.transactions.list.where((tx) =>
       (tx.jobId != null && tx.jobId == action.transaction.jobId) ||
-      (tx.txHash != null && tx.txHash == action.transaction.txHash)));
+      (tx.txHash != null && tx.txHash == action.transaction.txHash) ||
+      (tx.jobId != null && tx.jobId == action.transactionToReplace.jobId) ||
+      (tx.txHash != null && tx.txHash == action.transactionToReplace.txHash)
+    ));
     if (oldTxs.isEmpty) {
       return state;
     }
