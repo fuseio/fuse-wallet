@@ -164,16 +164,26 @@ class TransactionListItem extends StatelessWidget {
                       transfer.isGenerateWallet() && !isWalletCreated
                           ? Flexible(
                               flex: 10,
-                              child: RichText(
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(text: displayName, style: TextStyle(
-                                      color: Color(0xFF333333), fontSize: 15)),
-                                    TextSpan(text: ' (up to 10 seconds)', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary)),
-                                  ],
-                                ),
-                              ),
-                            )
+                              child: Stack(
+                                overflow: Overflow.visible,
+                                alignment: AlignmentDirectional.bottomStart,
+                                children: <Widget>[
+                                  Text(displayName,
+                                      style: TextStyle(
+                                          color: Color(0xFF333333),
+                                          fontSize: 15)),
+                                  Positioned(
+                                      bottom: -20,
+                                      child: Padding(
+                                          child: Text('(up to 10 seconds)',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary)),
+                                          padding: EdgeInsets.only(top: 10)))
+                                ],
+                              ))
                           : Flexible(
                               flex: 10,
                               child: Text(displayName,
@@ -198,15 +208,15 @@ class TransactionListItem extends StatelessWidget {
             ],
           ),
           onTap: () {
-            if (transfer.isGenerateWallet() || transfer.isJoinCommunity()) {
-              return;
-            }
             if (transfer.isJoinCommunity() &&
                 isDefaultCommunity(_vm.communityAddress)) {
               Future.delayed(
                   Duration.zero,
                   () => showDialog(
                       child: new DaiExplainedScreen(), context: context));
+              return;
+            }
+            if (transfer.isGenerateWallet() || transfer.isJoinCommunity()) {
               return;
             }
             if (!transfer.isGenerateWallet() || !transfer.isJoinCommunity()) {

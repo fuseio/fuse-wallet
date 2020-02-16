@@ -295,15 +295,20 @@ ThunkAction listenToBranchCall() {
         var communityAddress = linkData["community_address"];
         logger.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
         logger.info("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
-      store.dispatch(BranchDataReceived());
+      if (linkData["+is_first_session"] == true) {
+        store.dispatch(BranchDataReceived());
+        store.dispatch(segmentTrackCall("Wallet: first switch community", properties: new Map<String, dynamic>.from(linkData)));
+      }
     };
 
     FlutterBranchSdk.initSession().listen((data) {
@@ -808,7 +813,8 @@ ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      if (store.state.cashWalletState.isCommunityLoading) return;
+      bool isLoading = store.state.cashWalletState.isCommunityLoading ?? false;
+      if (isLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.info('community fetched for $communityAddress');
@@ -842,8 +848,9 @@ ThunkAction switchCommunityCall(String communityAddress) {
             "Token Symbol": token["symbol"],
             "Origin Network": token['originNetwork']
           })));
-    } catch (e) {
+    } catch (e, s) {
       logger.info('ERROR - switchCommunityCall $e');
+      await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not switch community'));
       store.dispatch(new SwitchCommunityFailed());
     }

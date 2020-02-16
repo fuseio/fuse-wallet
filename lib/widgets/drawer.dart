@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -90,13 +91,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ],
           ),
         ),
-        onTap: () {
+        onTap: () async {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) =>
                     DepositWebView(depositPlugin: depositPlugins[0])),
           );
+          await FlutterSegment.track(eventName: 'User clicked on top up');
         },
       ));
     }
