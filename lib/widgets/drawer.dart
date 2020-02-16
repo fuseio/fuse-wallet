@@ -197,20 +197,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   @override
   Widget build(BuildContext _context) {
-    return Drawer(
-      child: new StoreConnector<AppState, DrawerViewModel>(
-        converter: DrawerViewModel.fromStore,
-        builder: (_, viewModel) {
-          return Builder(
-              builder: (context) => ListView(
-                    padding: EdgeInsets.all(10),
-                    children: <Widget>[
-                      drawerHeader(viewModel),
-                      ...menuItem(viewModel),
-                      ...pluginsItems(viewModel),
-                    ],
-                  ));
-        },
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.78,
+      child: Drawer(
+        child: new StoreConnector<AppState, DrawerViewModel>(
+          converter: DrawerViewModel.fromStore,
+          builder: (_, viewModel) {
+            return Builder(
+                builder: (context) => ListView(
+                      padding: EdgeInsets.all(10),
+                      children: <Widget>[
+                        drawerHeader(viewModel),
+                        ...menuItem(viewModel),
+                        ...pluginsItems(viewModel),
+                      ],
+                    ));
+          },
+        ),
       ),
     );
   }

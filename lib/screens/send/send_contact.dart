@@ -224,7 +224,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           ),
           title: Text(
             formatAddress(accountAddress),
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16, color: Colors.black),
           ),
           trailing: InkWell(
             child: Text(

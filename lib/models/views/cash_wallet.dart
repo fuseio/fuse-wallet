@@ -17,8 +17,9 @@ class CashHeaderViewModel extends Equatable {
   final Community community;
   final Function() firstName;
   final Plugins plugins;
+  final String walletStatus;
 
-  CashHeaderViewModel({this.community, this.firstName, this.plugins});
+  CashHeaderViewModel({this.community, this.firstName, this.plugins, this.walletStatus});
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -26,6 +27,7 @@ class CashHeaderViewModel extends Equatable {
     return CashHeaderViewModel(
       community: community,
       plugins: community?.plugins,
+      walletStatus: store.state.cashWalletState.walletStatus,
       firstName: () {
         String fullName = store.state.userState.displayName ?? '';
         return fullName.split(' ')[0];
@@ -118,7 +120,7 @@ class CashWalletViewModel extends Equatable {
   static CashWalletViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
-    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading;
+    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
     return CashWalletViewModel(
       accountAddress: store.state.userState.accountAddress,
@@ -127,11 +129,11 @@ class CashWalletViewModel extends Equatable {
       communityAddress: communityAddres,
       branchAddress: branchAddress,
       isCommunityLoading: isCommunityLoading,
-      isCommunityFetched: store.state.cashWalletState.isCommunityFetched,
-      isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted,
+      isCommunityFetched: store.state.cashWalletState.isCommunityFetched ?? false,
+      isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted ?? false,
       isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted ?? false,
-      isListeningToBranch: store.state.cashWalletState.isListeningToBranch,
-      isBranchDataReceived: store.state.cashWalletState.isBranchDataReceived,
+      isListeningToBranch: store.state.cashWalletState.isListeningToBranch ?? false,
+      isBranchDataReceived: store.state.cashWalletState.isBranchDataReceived ?? false,
       displayName: store.state.userState.displayName,
       tokenBalance: community?.tokenBalance ?? BigInt.from(0),
       token: community?.token,

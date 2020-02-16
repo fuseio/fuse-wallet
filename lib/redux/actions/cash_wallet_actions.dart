@@ -104,11 +104,6 @@ class FetchCommunityMetadataSuccess {
 
 class SwitchCommunityFailed {}
 
-class GetJoinBonusSuccess {
-  // TODO
-  GetJoinBonusSuccess();
-}
-
 class StartFetchingBusinessList {
   StartFetchingBusinessList();
 }
@@ -255,8 +250,9 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
     try {
       logger.info('Track - $eventName');
       await FlutterSegment.track(eventName: 'PAYWISE: ' + eventName, properties: properties);
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - segment track call: $e');
+      await AppFactory().reportError(e, s);
     }
   };
 }
@@ -267,8 +263,9 @@ ThunkAction segmentAliasCall(String userId) {
     try {
       logger.info('Alias - $userId');
       await FlutterSegment.alias(alias: userId);
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - segment alias call: $e');
+      await AppFactory().reportError(e, s);
     }
   };
 }
@@ -279,8 +276,9 @@ ThunkAction segmentIdentifyCall(String userId, Map<String, dynamic> traits) {
     try {
       logger.info('Identify - $userId');
       await FlutterSegment.identify(userId: userId, traits: traits);
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - segment identify call: $e');
+      await AppFactory().reportError(e, s);
     }
   };
 }
@@ -297,21 +295,23 @@ ThunkAction listenToBranchCall() {
         var communityAddress = linkData["community_address"];
         logger.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
         logger.info("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
-      store.dispatch(BranchDataReceived());
     };
 
     FlutterBranchSdk.initSession().listen((data) {
       handler(data);
-    }, onError: (error) {
+    }, onError: (error, s) async {
       logger.severe('ERROR - FlutterBranchSdk initSession $error');
+      await AppFactory().reportError(error, s);
     });
   };
 }
@@ -809,7 +809,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      if (store.state.cashWalletState.isCommunityLoading) return;
+      if (store.state.cashWalletState.isCommunityLoading != null && store.state.cashWalletState.isCommunityLoading) return;
       store.dispatch(new SwitchCommunityRequested(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.info('community fetched for $communityAddress');

@@ -1,6 +1,5 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:paywise/themes/app_theme.dart';
 import 'package:paywise/themes/custom_theme.dart';
 import 'package:paywise/utils/contacts.dart';
@@ -11,12 +10,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
-
-bool isDefaultCommunity(String communityAddress) {
-  return DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] != null &&
-      DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase() ==
-          communityAddress.toLowerCase();
-}
 
 void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
     BuildContext context) {
@@ -94,7 +87,9 @@ class CashHomeScreen extends StatelessWidget {
           onChange(viewModel, context);
         },
         builder: (_, viewModel) {
+          bool isWalletCreated = 'created' == viewModel.walletStatus;
           return MainScaffold(
+              showFooter: isWalletCreated,
               header: CashHeader(),
               children: <Widget>[CashTransactios(viewModel: viewModel)]);
         });

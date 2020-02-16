@@ -27,7 +27,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(
       _switchCommunitySuccess),
   TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
-  TypedReducer<CashWalletState, GetJoinBonusSuccess>(_getJoinBonusSuccess),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
   TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(
@@ -62,7 +61,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     TypedReducer<CashWalletState, JobDone>(_jobDone),
     TypedReducer<CashWalletState, JobProcessingStarted>(_jobProcessingStarted)
   ]);
-  
   CashWalletState _fetchCommunityMetadataSuccess(
     CashWalletState state, FetchCommunityMetadataSuccess action) {
     String communityAddress = state.communityAddress;
@@ -179,12 +177,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     return state.copyWith(isCommunityLoading: false);
   }
   
-  CashWalletState _getJoinBonusSuccess(
-      CashWalletState state, GetJoinBonusSuccess action) {
-    // TODO
-    return state;
-  }
-  
   CashWalletState _startFetchingBusinessList(
       CashWalletState state, StartFetchingBusinessList action) {
     return state.copyWith(isCommunityBusinessesFetched: true);
@@ -213,7 +205,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   CashWalletState _getTokenTransfersListSuccess(
       CashWalletState state, GetTokenTransfersListSuccess action) {
     print('Found ${action.tokenTransfers.length} token transfers');
-    if (state.isCommunityLoading) return state;
+    if (state.isCommunityLoading != null && state.isCommunityLoading) return state;
     if (state.walletAddress != '' && action.tokenTransfers.length > 0) {
       dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
               0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
