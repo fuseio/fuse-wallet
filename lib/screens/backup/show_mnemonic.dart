@@ -109,7 +109,7 @@ class ShowMnemonic extends StatelessWidget {
                         ),
                       ),
                   ),
-                  const SizedBox(height: 50.0),
+                  const SizedBox(height: 30.0),
                   Center(
                       child: PrimaryButton(
                     fontSize: 15,

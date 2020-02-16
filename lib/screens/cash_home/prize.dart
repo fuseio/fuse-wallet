@@ -277,8 +277,10 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                       if (snapshot.hasError) {
                                         return SizedBox.shrink();
                                       }
-                                      double growthedAmount =
-                                          currentAmountCb(snapshot.data ?? 0.0);
+                                      double growthedAmount = currentAmountCb(snapshot.data ?? 0.0);
+                                      String amount = growthedAmount.toStringAsFixed(5);
+                                      String last = amount.substring(amount.length - 3);
+                                      String first = amount.substring(0, amount.length - 3);
                                       return Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -286,15 +288,16 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                             CrossAxisAlignment.center,
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
-                                          SizedBox(
-                                            width: 95,
-                                            child: Text(
-                                              growthedAmount.toStringAsFixed(5),
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
+                                          RichText(
+                                            text: TextSpan(
+                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                              children: <TextSpan>[
+                                                TextSpan(text: first, style: TextStyle(color: Colors.black)),
+                                                TextSpan(text: last, style: TextStyle(color: Color(0xFF00BE66))),
+                                              ],
                                             ),
                                           ),
+                                          SizedBox(width: 10,),
                                           Text(
                                             'points',
                                             style: TextStyle(
@@ -317,7 +320,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                 fontSize: 14,
                                 color: Theme.of(context).colorScheme.secondary),
                           ),
-                          Padding(
+                          depositPlugins.isNotEmpty ? Padding(
                             padding: EdgeInsets.only(left: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -352,7 +355,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                 )
                               ],
                             ),
-                          ),
+                          ) : SizedBox.shrink(),
                           SizedBox(
                             height: 70,
                           ),

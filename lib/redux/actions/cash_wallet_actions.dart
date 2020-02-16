@@ -104,11 +104,6 @@ class FetchCommunityMetadataSuccess {
 
 class SwitchCommunityFailed {}
 
-class GetJoinBonusSuccess {
-  // TODO
-  GetJoinBonusSuccess();
-}
-
 class StartFetchingBusinessList {
   StartFetchingBusinessList();
 }

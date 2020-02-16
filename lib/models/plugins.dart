@@ -175,17 +175,11 @@ class Plugins {
       return Plugins();
     } else {
       dynamic services= Plugins.getServicesMap(json);
-      return Plugins(
-        moonpay: MoonpayPlugin.fromJson(services["moonpay"]),
-        carbon: CarbonPlugin.fromJson(services["carbon"]),
-        wyre: WyrePlugin.fromJson(services["wyre"]),
-        coindirect: CoindirectPlugin.fromJson(services["coindirect"]),
-        ramp: RampPlugin.fromJson(services["ramp"]),
-        joinBonus:  JoinBonusPlugin.fromJson(json['joinBonus']),
-        walletBanner: WalletBannerPlugin.fromJson(json['walletBanner'])
-      );
+      return _$PluginsFromJson(services);
     }
   }
+
+  dynamic toJson() => _$PluginsToJson(this);
 
   static JoinBonusPlugin _joinBonusFromJson(Map<String, dynamic> json) =>
       json == null ? null : JoinBonusPlugin.fromJson(json);
@@ -226,39 +220,6 @@ class Plugins {
 
   static Map<String, dynamic> _carbonToJson(CarbonPlugin carbon) =>
       carbon != null ? carbon.toJson() : null;
-  // static Plugins fromJson(dynamic json) => json != null
-  //   ? Plugins(
-  //       moonpay: MoonpayPlugin.fromJson(json["moonpay"]),
-  //       carbon: CarbonPlugin.fromJson(json["carbon"]),
-  //       wyre: WyrePlugin.fromJson(json["wyre"]),
-  //       coindirect: CoindirectPlugin.fromJson(json["coindirect"]),
-  //       ramp: RampPlugin.fromJson(json["ramp"]),
-  //     )
-  //   : {};
-  // static Plugins fromJson(dynamic json) {
-  //   if (json != null) {
-  //     Plugins(
-  //     moonpay: MoonpayPlugin.fromJson(json["moonpay"]),
-  //     carbon: CarbonPlugin.fromJson(json["carbon"]),
-  //     wyre: WyrePlugin.fromJson(json["wyre"]),
-  //     coindirect: CoindirectPlugin.fromJson(json["coindirect"]),
-  //     ramp: RampPlugin.fromJson(json["ramp"]),
-  //   );
-  //   } else {
-  //     return Plugins();
-  //   }
-  // }
-
-  // static Plugins fromJson(dynamic json) => _$PluginsFromJson(json);
-
-  dynamic toJson() => {
-        'moonpay': moonpay != null ? moonpay.toJson() : null,
-        'carbon': carbon != null ? carbon.toJson() : null,
-        'wyre': wyre != null ? wyre.toJson() : null,
-        'coindirect': coindirect != null ? coindirect.toJson() : null,
-        'ramp': ramp != null ? ramp.toJson() : null,
-        'joinBonus': joinBonus != null ? joinBonus.toJson() : null,
-      };
 
   List getDepositPlugins() {
     List depositPlugins = [];

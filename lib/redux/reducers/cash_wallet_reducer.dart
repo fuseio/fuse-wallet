@@ -27,7 +27,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(
       _switchCommunitySuccess),
   TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
-  TypedReducer<CashWalletState, GetJoinBonusSuccess>(_getJoinBonusSuccess),
   TypedReducer<CashWalletState, GetBusinessListSuccess>(
       _getBusinessListSuccess),
   TypedReducer<CashWalletState, GetTokenTransfersListSuccess>(
@@ -177,12 +176,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   CashWalletState _switchCommunityFailed(
       CashWalletState state, SwitchCommunityFailed action) {
     return state.copyWith(isCommunityLoading: false);
-  }
-  
-  CashWalletState _getJoinBonusSuccess(
-      CashWalletState state, GetJoinBonusSuccess action) {
-    // TODO
-    return state;
   }
   
   CashWalletState _startFetchingBusinessList(

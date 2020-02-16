@@ -5,29 +5,28 @@ import 'package:fusecash/screens/splash/create_wallet.dart';
 Widget introPage(BuildContext context, String title, String subTitle) {
   return Container(
       color: Colors.transparent,
-      child: Padding(
-          padding: EdgeInsets.only(bottom: 25),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 30.0),
-                child: Text(
-                  title,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    subTitle,
-                    style:
-                        TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary,),
-                    textAlign: TextAlign.center,
-                  ))
-            ],
-          )),
+      padding: EdgeInsets.only(bottom: 80),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(bottom: 30.0),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                subTitle,
+                style:
+                    TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.secondary,),
+                textAlign: TextAlign.center,
+              ))
+        ],
+      ),
     );
 }
 

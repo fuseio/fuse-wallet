@@ -137,9 +137,12 @@ class TransactionListItem extends StatelessWidget {
                                     width: 55,
                                     height: 55,
                                     child: CircularProgressIndicator(
-                                      backgroundColor: Color(0xFF49D88D).withOpacity(0),
+                                      backgroundColor:
+                                          Color(0xFF49D88D).withOpacity(0),
                                       strokeWidth: 3,
-                                      valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFF49D88D).withOpacity(1)),
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Color(0xFF49D88D).withOpacity(1)),
                                     ))
                                 : SizedBox.shrink(),
                             _vm.community.metadata.isDefaultImage != null &&
@@ -188,6 +191,10 @@ class TransactionListItem extends StatelessWidget {
                   Duration.zero,
                   () => showDialog(
                       child: new DaiExplainedScreen(), context: context));
+              return;
+            }
+            if (transfer.isGenerateWallet()) {
+              return;
             }
             if (!transfer.isGenerateWallet() || !transfer.isJoinCommunity()) {
               Navigator.pushNamed(context, '/TransactionDetails',

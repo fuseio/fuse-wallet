@@ -43,8 +43,8 @@ Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
       'transactions': instance.transactions?.toJson(),
       'token': instance.token?.toJson(),
-      'plugins': instance.plugins?.toJson(),
       'metadata': instance.metadata?.toJson(),
       'isClosed': instance.isClosed,
+      'plugins': instance.plugins?.toJson(),
       'jobs': Community._jobsToJson(instance.jobs),
     };

@@ -34,8 +34,8 @@ class SettingsScreen extends StatelessWidget {
           Navigator.pushNamed(context, '/About');
         }),
         new Divider(),
-        getListTile(context, I18n.of(context).protect_wallet, () {}),
-        new Divider(),
+        // getListTile(context, I18n.of(context).protect_wallet, () {}),
+        // new Divider(),
         new LanguageSelector(),
         new Divider(),
         getListTile(context, I18n.of(context).logout, () {

@@ -17,6 +17,7 @@ class CashHeader extends StatelessWidget {
     return new StoreConnector<AppState, CashHeaderViewModel>(
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
+          bool isWalletCreated = 'created' == viewModel.walletStatus;
           // List depositPlugins = viewModel?.plugins?.getDepositPlugins();
           return Container(
             height: 260.0,
@@ -185,7 +186,7 @@ class CashHeader extends StatelessWidget {
                         ),
                         new Container(
                           child: Row(children: [
-                            isDefaultCommunity(viewModel.community.address)
+                            isDefaultCommunity(viewModel.community.address) && isWalletCreated
                                 ? InkWell(
                                     child: SvgPicture.asset(
                                       'assets/images/winPoints.svg',

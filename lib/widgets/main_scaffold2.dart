@@ -4,11 +4,12 @@ import 'package:flutter/services.dart';
 import 'bottombar.dart';
 
 class MainScaffold extends StatelessWidget {
-  MainScaffold({this.title, this.header, this.children, this.key});
+  MainScaffold({this.title, this.header, this.children, this.key, this.showFooter});
   final String title;
   final Widget header;
   final List<Widget> children;
   final Key key;
+  final bool showFooter;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class MainScaffold extends StatelessWidget {
             : null,
         body: Column(children: <Widget>[
           Expanded(child: ListView(children: children)),
-          bottomBar(context)
+          showFooter ? bottomBar(context) : SizedBox.shrink()
         ]));
   }
 }

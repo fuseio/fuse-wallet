@@ -41,7 +41,6 @@ class ReceiveScreen extends StatelessWidget {
                               fontSize: 16,
                               fontWeight: FontWeight.normal)),
                     ),
-                    const SizedBox(height: 60.0),
                     Center(
                       child: Container(
                           width: 200,
@@ -73,7 +72,7 @@ class ReceiveScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 60.0),
+                    const SizedBox(height: 30.0),
                     Center(
                         child: PrimaryButton(
                       fontSize: 15,
