@@ -124,7 +124,7 @@ class CashWalletViewModel extends Equatable {
   static CashWalletViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
-    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading;
+    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
     return CashWalletViewModel(
       accountAddress: store.state.userState.accountAddress,
@@ -132,7 +132,7 @@ class CashWalletViewModel extends Equatable {
       walletStatus: store.state.cashWalletState.walletStatus,
       communityAddress: communityAddres,
       branchAddress: branchAddress,
-      isCommunityLoading: isCommunityLoading ?? false,
+      isCommunityLoading: isCommunityLoading,
       isCommunityFetched: store.state.cashWalletState.isCommunityFetched ?? false,
       isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted ?? false,
       isTransfersFetchingStarted: store.state.cashWalletState.isTransfersFetchingStarted ?? false,
