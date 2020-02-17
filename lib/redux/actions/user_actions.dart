@@ -215,13 +215,10 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
           partial = newPhones.take(limit).toList();
         }
       }
-      String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
       bool isPermitted = await Contacts.checkPermissions();
-      store.dispatch(segmentIdentifyCall(
-        phoneNumber,
-        new Map<String, dynamic>.from({
-          "Contacts Permission Granted": isPermitted,
-        })));
+      if (isPermitted) {
+        store.dispatch(segmentTrackCall("Contacts Permission Granted"));
+      }
     } catch (e) {
       logger.severe('ERROR - syncContactsCall $e');
     }

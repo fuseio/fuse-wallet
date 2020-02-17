@@ -86,6 +86,11 @@ class SwitchCommunityRequested {
   SwitchCommunityRequested(this.communityAddress);
 }
 
+class SwitchToNewCommunity {
+  final String communityAddress;
+  SwitchToNewCommunity(this.communityAddress);
+}
+
 class SwitchCommunitySuccess {
   final bool isClosed;
   final Token token;
@@ -295,20 +300,15 @@ ThunkAction listenToBranchCall() {
         var communityAddress = linkData["community_address"];
         logger.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
         logger.info("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
-      if (linkData["+is_first_session"] == true) {
-        store.dispatch(BranchDataReceived());
-        store.dispatch(segmentTrackCall("Wallet: first switch community", properties: new Map<String, dynamic>.from(linkData)));
-      }
+      store.dispatch(BranchDataReceived());
     };
 
     FlutterBranchSdk.initSession().listen((data) {
@@ -809,13 +809,11 @@ ThunkAction fetchCommunityMetadataCall(String communityURI) {
   };
 }
 
-ThunkAction switchCommunityCall(String communityAddress) {
+ThunkAction switchToNewCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      bool isLoading = store.state.cashWalletState.isCommunityLoading ?? false;
-      if (isLoading) return;
-      store.dispatch(new SwitchCommunityRequested(communityAddress));
+      store.dispatch(new SwitchToNewCommunity(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.info('community fetched for $communityAddress');
       dynamic token = await graph.getTokenOfCommunity(communityAddress);
@@ -848,6 +846,54 @@ ThunkAction switchCommunityCall(String communityAddress) {
             "Token Symbol": token["symbol"],
             "Origin Network": token['originNetwork']
           })));
+    } catch (e, s) {
+      logger.info('ERROR - switchToNewCommunityCall $e');
+      await AppFactory().reportError(e, s);
+      store.dispatch(new ErrorAction('Could not switch community'));
+      store.dispatch(new SwitchCommunityFailed());
+    }
+  };
+}
+
+ThunkAction switchToExisitingCommunityCall(String communityAddress) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      store.dispatch(new SwitchCommunityRequested(communityAddress));
+      Community current = store.state.cashWalletState.communities[communityAddress.toLowerCase()];
+      bool isRopsten = current.token != null && current.token.originNetwork == 'ropsten';
+      String walletAddress = store.state.cashWalletState.walletAddress;
+      Map<String, dynamic> communityData = await api.getCommunityData(communityAddress, isRopsten: isRopsten, walletAddress: walletAddress);
+      Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
+      store.dispatch(new SwitchCommunitySuccess(
+          communityAddress,
+          current.name,
+          current.token,
+          current.transactions,
+          communityPlugins,
+          current.isClosed
+          ));
+    } catch (e, s) {
+      logger.info('ERROR - switchToExisitingCommunityCall $e');
+      await AppFactory().reportError(e, s);
+      store.dispatch(new ErrorAction('Could not switch community'));
+      store.dispatch(new SwitchCommunityFailed());
+    }
+  };
+}
+
+ThunkAction switchCommunityCall(String communityAddress) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      bool isLoading = store.state.cashWalletState.isCommunityLoading ?? false;
+      if (isLoading) return;
+      Community current = store.state.cashWalletState.communities[communityAddress.toLowerCase()];
+      if (current != null && current.name != null && current.token != null) {
+        store.dispatch(switchToExisitingCommunityCall(communityAddress));
+      } else {
+        store.dispatch(switchToNewCommunityCall(communityAddress));
+      }
     } catch (e, s) {
       logger.info('ERROR - switchCommunityCall $e');
       await AppFactory().reportError(e, s);
