@@ -28,10 +28,11 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   void initState() {
     super.initState();
-  }  
+  }
 
   @override
   Widget build(BuildContext context) {
+    Locale myLocale = Localizations.localeOf(context);
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
@@ -124,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               onChanged: (_countryCode) {
                                 countryCode = _countryCode;
                               },
-                              initialSelection: 'IL',
+                              initialSelection: myLocale.countryCode,
                               favorite: [],
                               showCountryOnly: false,
                               showFlag: false,
