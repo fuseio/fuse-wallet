@@ -21,7 +21,6 @@ class ShowMnemonic extends StatelessWidget {
       footer: null,
       title: I18n.of(context).back_up,
       titleFontSize: 15,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       children: <Widget>[
       Container(
         padding:
@@ -30,7 +29,8 @@ class ShowMnemonic extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: 20),
-              child: Text(I18n.of(context).write_words, // "Please write down those 12 words:",
+              child: Text(I18n.of(context).important + " " + I18n.of(context).write_words,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.secondary,
                       fontSize: 16,
@@ -57,30 +57,30 @@ class ShowMnemonic extends StatelessWidget {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                wordWidget(context, viewModel.user.mnemonic[0]),
-                                wordWidget(context, viewModel.user.mnemonic[1]),
-                                wordWidget(context, viewModel.user.mnemonic[2])
+                                wordWidget(context, viewModel.user.mnemonic[0], 1),
+                                wordWidget(context, viewModel.user.mnemonic[1], 2),
+                                wordWidget(context, viewModel.user.mnemonic[2], 3)
                               ],
                             ),
                             Row(
                               children: <Widget>[
-                                wordWidget(context, viewModel.user.mnemonic[3]),
-                                wordWidget(context, viewModel.user.mnemonic[4]),
-                                wordWidget(context, viewModel.user.mnemonic[5])
+                                wordWidget(context, viewModel.user.mnemonic[3], 4),
+                                wordWidget(context, viewModel.user.mnemonic[4], 5),
+                                wordWidget(context, viewModel.user.mnemonic[5], 6)
                               ],
                             ),
                             Row(
                               children: <Widget>[
-                                wordWidget(context, viewModel.user.mnemonic[6]),
-                                wordWidget(context, viewModel.user.mnemonic[7]),
-                                wordWidget(context, viewModel.user.mnemonic[8])
+                                wordWidget(context, viewModel.user.mnemonic[6], 7),
+                                wordWidget(context, viewModel.user.mnemonic[7], 8),
+                                wordWidget(context, viewModel.user.mnemonic[8], 9)
                               ],
                             ),
                             Row(
                               children: <Widget>[
-                                wordWidget(context, viewModel.user.mnemonic[9]),
-                                wordWidget(context, viewModel.user.mnemonic[10]),
-                                wordWidget(context, viewModel.user.mnemonic[11])
+                                wordWidget(context, viewModel.user.mnemonic[9], 10),
+                                wordWidget(context, viewModel.user.mnemonic[10], 11),
+                                wordWidget(context, viewModel.user.mnemonic[11], 12)
                               ],
                             ),
                             Padding(
@@ -137,11 +137,11 @@ class ShowMnemonic extends StatelessWidget {
     ]);
   }
 
-  Widget wordWidget(context, word) {
+  Widget wordWidget(context, word, int index) {
     return Expanded(
       child: Center(
         child: Padding(
-          child: Text(word,
+          child: Text("${index.toString()}. $word",
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontSize: 16,

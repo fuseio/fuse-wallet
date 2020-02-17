@@ -43,8 +43,8 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
       return MainScaffold(
           withPadding: true,
           footer: null,
+          titleFontSize: 15,
           title: I18n.of(context).back_up,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(
@@ -52,12 +52,12 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 0),
+                    padding: EdgeInsets.only(top: 20),
                     child: Text(I18n.of(context).write_word +
                             selectedWordsNum.join(", "),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,
                             fontWeight: FontWeight.normal)),
                   )
@@ -83,7 +83,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                               validator: (String value) {
                                 if (viewModel.user
                                         .mnemonic[selectedWordsNum[0] - 1] !=
-                                    value) {
+                                    value.trim()) {
                                   return I18n.of(context).word_not_match;
                                 }
                                 return null;
@@ -99,7 +99,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                               validator: (String value) {
                                 if (viewModel.user
                                         .mnemonic[selectedWordsNum[1] - 1] !=
-                                    value) {
+                                    value.trim()) {
                                   return I18n.of(context).word_not_match;
                                 }
                                 return null;
@@ -115,7 +115,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                               validator: (String value) {
                                 if (viewModel.user
                                         .mnemonic[selectedWordsNum[2] - 1] !=
-                                    value) {
+                                    value.trim()) {
                                   return I18n.of(context).word_not_match;
                                 }
                                 return null;
@@ -138,7 +138,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                 width: 160,
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+                    Navigator.pushNamed(context, '/Backup3');
                   }
                 },
               )),
