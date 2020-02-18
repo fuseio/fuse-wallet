@@ -1,6 +1,6 @@
 import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/job.dart';
 import 'package:fusecash/models/transactions.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';

@@ -1,12 +1,12 @@
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community_metadata.dart';
+import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/token.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';
-import './job.dart';
 
 part 'community.g.dart';
 

@@ -6,9 +6,9 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/community_metadata.dart';
+import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/job.dart';
 import 'package:fusecash/models/transactions.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
@@ -526,17 +526,17 @@ ThunkAction processingJobsCall(Timer timer) {
     for (Job job in jobs) {
       String currentCommunityAddress = store.state.cashWalletState.communityAddress;
       String currentWalletAddress = store.state.cashWalletState.walletAddress;
-      bool isJobProcessValid() {
-        if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
-          timer.cancel();
-          return false;
-        }
-        if (job.status == 'DONE') {
-          return false;
-        }
-        return true;
-      }
       if (job.status != 'DONE') {
+        bool isJobProcessValid() {
+          if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
+            timer.cancel();
+            return false;
+          }
+          if (job.status == 'DONE') {
+            return false;
+          }
+          return true;
+        }
         await job.perform(store, isJobProcessValid);
       }
       if (job.status == 'DONE') {
