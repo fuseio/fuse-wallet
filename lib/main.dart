@@ -15,7 +15,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_qa');
+  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_prod');
   print('loading $configFile config file');
   await DotEnv().load(configFile);
 
