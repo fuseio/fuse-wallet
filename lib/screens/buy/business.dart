@@ -304,6 +304,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               onPressed: () {
                                 Navigator.pushNamed(context, '/SendAmount',
                                     arguments: SendAmountArguments(
+                                      isBusiness: true,
                                       accountAddress:
                                           businessArgs.business.account,
                                       avatar: NetworkImage(
