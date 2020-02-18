@@ -230,6 +230,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         setState(() {
                           isPreloading = false;
                         });
+                        if (args.isBusiness != null && args.isBusiness) {
+                          viewModel.trackTransferCall("Wallet: User Transfer - business");
+                        } else if (args.accountAddress == null || args.accountAddress == '' && args.phoneNumber != null) {
+                          viewModel.trackTransferCall("Wallet: User Transfer - contact");
+                        } else {
+                          viewModel.trackTransferCall("Wallet: User Transfer - address");
+                        }
                       }, () {
                         print('error');
                       });

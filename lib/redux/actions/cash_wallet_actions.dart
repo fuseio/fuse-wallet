@@ -672,7 +672,6 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       };
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
-      store.dispatch(segmentTrackCall("Wallet: User Transfer", properties: transfer.toJson()));
     } catch (e) {
       logger.severe('ERROR - sendTokenCall $e');
       sendFailureCallback();
