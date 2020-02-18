@@ -514,6 +514,7 @@ ThunkAction startFetchingJobCall(
 
 ThunkAction processingJobsCall(Timer timer) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     String communityAddres = store.state.cashWalletState.communityAddress;
     String walletAddress = store.state.cashWalletState.walletAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
@@ -521,18 +522,23 @@ ThunkAction processingJobsCall(Timer timer) {
     for (Job job in jobs) {
       String currentCommunityAddress = store.state.cashWalletState.communityAddress;
       String currentWalletAddress = store.state.cashWalletState.walletAddress;
-      bool isJobProcessValid() {
-        if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
-          timer.cancel();
-          return false;
-        }
-        if (job.status == 'DONE') {
-          return false;
-        }
-        return true;
-      }
       if (job.status != 'DONE') {
-        await job.perform(store, isJobProcessValid);
+        bool isJobProcessValid() {
+          if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
+            timer.cancel();
+            return false;
+          }
+          if (job.status == 'DONE') {
+            return false;
+          }
+          return true;
+        }
+        try {
+          await job.perform(store, isJobProcessValid);
+        } catch (e, s) {
+          logger.info('ERROR: ${job?.name} job.perform');
+          await AppFactory().reportError('ERROR: ${job?.name} ${job?.id} in job.perform', s);
+        }
       }
       if (job.status == 'DONE') {
         store.dispatch(JobDone(job));
