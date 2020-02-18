@@ -50,9 +50,6 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
   }
   if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
     viewModel.createWallet(viewModel.accountAddress);
-    Future.delayed(Duration(seconds: 5), () {
-      viewModel.identifyCall();
-    });
   }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&
