@@ -3,7 +3,6 @@ import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transactions.dart';
-import 'package:fusecash/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/token.dart';
@@ -77,7 +76,6 @@ class CashWalletViewModel extends Equatable {
   final bool isContactsSynced;
   final bool isJobProcessingStarted;
   final Community community;
-  final Function() identifyCall;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -117,8 +115,7 @@ class CashWalletViewModel extends Equatable {
     this.startProcessingJobs,
     this.isContactsSynced,
     this.isJobProcessingStarted,
-    this.community,
-    this.identifyCall
+    this.community
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -190,19 +187,6 @@ class CashWalletViewModel extends Equatable {
       },
       startProcessingJobs: () {
         store.dispatch(startProcessingJobsCall());
-      },
-      identifyCall: () {
-        String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-        store.dispatch(enablePushNotifications());
-        store.dispatch(segmentAliasCall(fullPhoneNumber));
-        store.dispatch(segmentIdentifyCall(
-            fullPhoneNumber,
-            new Map<String, dynamic>.from({
-              "Phone Number": fullPhoneNumber,
-              "Wallet Address": store.state.cashWalletState.walletAddress,
-              "Account Address": store.state.userState.accountAddress,
-              "Display Name": store.state.userState.displayName
-            })));
       }
     );
   }

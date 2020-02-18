@@ -231,7 +231,11 @@ ThunkAction enablePushNotifications() {
       if (Platform.isIOS) iosPermission();
       var token = await firebaseMessaging.getToken();
       logger.info("Firebase messaging token $token");
+
+      String walletAddress = store.state.cashWalletState.walletAddress;
+      await api.updateFirebaseToken(walletAddress, token);
       await FlutterSegment.putDeviceToken(token);
+
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           logger.info('onMessage called: $message');
@@ -438,6 +442,7 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.info('fullPhoneNumber: $fullPhoneNumber');
           store.dispatch(create3boxAccountCall(accountAddress));
+          store.dispatch(identifyCall());
           store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
     }
   };

@@ -225,6 +225,22 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
   };
 }
 
+ThunkAction identifyCall() {
+  return (Store store) async {
+    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    store.dispatch(enablePushNotifications());
+    store.dispatch(segmentAliasCall(fullPhoneNumber));
+    store.dispatch(segmentIdentifyCall(
+        fullPhoneNumber,
+        new Map<String, dynamic>.from({
+          "Phone Number": fullPhoneNumber,
+          "Wallet Address": store.state.cashWalletState.walletAddress,
+          "Account Address": store.state.userState.accountAddress,
+          "Display Name": store.state.userState.displayName
+        })));
+  };
+}
+
 ThunkAction setPincodeCall(String pincode) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
