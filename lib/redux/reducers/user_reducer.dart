@@ -13,8 +13,13 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SaveContacts>(_saveContacts),
   TypedReducer<UserState, SetPincodeSuccess>(_setPincode),
   TypedReducer<UserState, SetDisplayName>(_setDisplayName),
-  TypedReducer<UserState, ReLogin>(_reLoginUser)
+  TypedReducer<UserState, ReLogin>(_reLoginUser),
+  TypedReducer<UserState, BackupSuccess>(_backupSuccess),
 ]);
+
+UserState _backupSuccess(UserState state, BackupSuccess action) {
+  return state.copyWith(backup: true);
+}
 
 UserState _reLoginUser(UserState state, ReLogin action) {
   return state.copyWith(isLoggedOut: false);

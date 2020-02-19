@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fusecash/models/jobs/backup_job.dart';
 import 'package:fusecash/models/jobs/generate_wallet_job.dart';
 import 'package:fusecash/models/jobs/invite_job.dart';
 import 'package:fusecash/models/jobs/join_community_job.dart';
@@ -125,6 +126,15 @@ class JobFactory {
             arguments: json['arguments']);
       case 'invite':
         return new InviteJob(
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
+      case 'backup':
+        return new BackupJob(
             id: id,
             jobType: jobType,
             name: json['name'],

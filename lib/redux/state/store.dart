@@ -116,7 +116,6 @@ class AppFactory {
           .where((LogRecord record) => record.loggerName == mylogger.name)
           .listen((LogRecord record) {
             if (record.level.name == 'INFO') {
-
               logger.wtf(record);
             } else if (record.level.name == 'DEBUG') {
               logger.d(record);
