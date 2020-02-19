@@ -13,7 +13,7 @@ abstract class Job {
   static const String TRANSFER_MANAGER = "TransferManager";
 
   String status;
-  Map<String, dynamic> arguments;
+  dynamic arguments;
   final String id;
   final String jobType;
   final String name;
@@ -33,7 +33,16 @@ abstract class Job {
 
   Future<dynamic> fetch();
   Future<dynamic> onDone(store, dynamic fetchedData);
-  Map<String, dynamic> toJson() => {};
+
+  Map<String, dynamic> toJson() => {
+    'id': this.id,
+    'jobType': this.jobType,
+    'name': this.name,
+    'status': this.status,
+    'data': this.data,
+    'lastFinishedAt': this.lastFinishedAt,
+    'arguments': argumentsToJson()
+  };
 
   Future perform(dynamic store, Function isJobProcessValid) async {
     dynamic fetchedData = await fetch();

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -9,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer_job.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, createToJson: false)
 class TransferJob extends Job {
   TransferJob({id, jobType, name, status, data, arguments, lastFinishedAt})
       : super(
@@ -40,10 +38,12 @@ class TransferJob extends Job {
   }
 
   @override
-  dynamic argumentsToJson() => jsonEncode(Map.from({'transfer': arguments['transfer'].toJson()}));
+  dynamic argumentsToJson() => {
+    'transfer': arguments['transfer'].toJson()
+  };
 
   @override
-  dynamic argumentsFromJson(arguments) {
+  Map<String, dynamic> argumentsFromJson(arguments) {
     if (arguments == null) {
       return arguments;
     }
@@ -58,11 +58,4 @@ class TransferJob extends Job {
   }
 
   static TransferJob fromJson(dynamic json) => _$TransferJobFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() {
-    this.arguments = argumentsToJson();
-    return _$TransferJobToJson(this);
-  }
-
 }

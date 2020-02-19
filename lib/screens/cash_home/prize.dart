@@ -364,9 +364,9 @@ class _PrizeScreenState extends State<PrizeScreen> {
                           drawInfo.previous['winner'] != null
                               ? Text(
                                   'Last prize ' +
-                                      (drawInfo.previous['reward'].toString() ??
+                                      (num.parse(drawInfo.previous['reward']).toStringAsFixed(2).toString() ??
                                           '') +
-                                      'went to ' +
+                                      ' went to ' +
                                       formatAddress(
                                           drawInfo.previous['winner']),
                                   style: TextStyle(

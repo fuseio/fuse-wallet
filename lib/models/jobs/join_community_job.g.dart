@@ -17,14 +17,3 @@ JoinCommunityJob _$JoinCommunityJobFromJson(Map<String, dynamic> json) {
     lastFinishedAt: json['lastFinishedAt'],
   );
 }
-
-Map<String, dynamic> _$JoinCommunityJobToJson(JoinCommunityJob instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'arguments': instance.arguments,
-      'id': instance.id,
-      'jobType': instance.jobType,
-      'name': instance.name,
-      'data': instance.data,
-      'lastFinishedAt': instance.lastFinishedAt,
-    };

@@ -139,7 +139,7 @@ class RampPlugin extends DepositPlugin {
       : null;
 }
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, createFactory: false)
 class Plugins {
   @JsonKey(name: 'moonpay', fromJson: _moonpayFromJson, toJson: _moonpayToJson, includeIfNull: false)
   MoonpayPlugin moonpay;
@@ -170,7 +170,7 @@ class Plugins {
     }
   }
 
-  static Plugins fromJson(dynamic json) {
+  factory Plugins.fromJson(dynamic json) {
     if (json == null) {
       return Plugins();
     } else {

@@ -12,9 +12,7 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
     isClosed: json['isClosed'] as bool,
     isMember: json['isMember'] as bool,
     address: json['address'] as String,
-    plugins: json['plugins'] == null
-        ? null
-        : Plugins.fromJson(json['plugins'] as Map<String, dynamic>),
+    plugins: json['plugins'] == null ? null : Plugins.fromJson(json['plugins']),
     transactions: json['transactions'] == null
         ? null
         : Transactions.fromJson(json['transactions'] as Map<String, dynamic>),

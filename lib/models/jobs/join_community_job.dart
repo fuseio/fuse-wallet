@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -9,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'join_community_job.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, createToJson: false)
 class JoinCommunityJob extends Job {
   JoinCommunityJob({id, jobType, name, status, data, arguments, lastFinishedAt})
       : super(
@@ -41,12 +39,10 @@ class JoinCommunityJob extends Job {
   }
 
   @override
-  dynamic argumentsToJson() {
-    return jsonEncode(Map.from({
+  dynamic argumentsToJson() => {
       'transfer': arguments['transfer'].toJson(),
       'community': arguments['community']
-    }));
-  }
+    };
 
   @override
   dynamic argumentsFromJson(arguments) {
@@ -64,10 +60,4 @@ class JoinCommunityJob extends Job {
   }
 
   static JoinCommunityJob fromJson(dynamic json) => _$JoinCommunityJobFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() {
-    this.arguments = argumentsToJson();
-    return _$JoinCommunityJobToJson(this);
-  }
 }

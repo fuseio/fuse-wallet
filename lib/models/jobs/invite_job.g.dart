@@ -17,13 +17,3 @@ InviteJob _$InviteJobFromJson(Map<String, dynamic> json) {
     lastFinishedAt: json['lastFinishedAt'],
   );
 }
-
-Map<String, dynamic> _$InviteJobToJson(InviteJob instance) => <String, dynamic>{
-      'status': instance.status,
-      'arguments': instance.arguments,
-      'id': instance.id,
-      'jobType': instance.jobType,
-      'name': instance.name,
-      'data': instance.data,
-      'lastFinishedAt': instance.lastFinishedAt,
-    };
