@@ -22,6 +22,7 @@ class UserState {
   final bool loginVerifySuccess;
   final bool isLoggedOut;
   final bool isContactsSynced;
+  final bool backup;
 
   @JsonKey(ignore: true)
   final List<Contact> contacts;
@@ -42,7 +43,8 @@ class UserState {
       this.loginRequestSuccess,
       this.loginVerifySuccess,
       this.isLoggedOut,
-      this.isContactsSynced});
+      this.isContactsSynced,
+      this.backup});
 
   factory UserState.initial() {
     return new UserState(
@@ -61,7 +63,8 @@ class UserState {
         loginRequestSuccess: false,
         loginVerifySuccess: false,
         isLoggedOut: false,
-        isContactsSynced: null);
+        isContactsSynced: null,
+        backup: false);
   }
 
   UserState copyWith(
@@ -80,7 +83,8 @@ class UserState {
       bool loginRequestSuccess,
       bool loginVerifySuccess,
       bool isLoggedOut,
-      bool isContactsSynced}) {
+      bool isContactsSynced,
+      bool backup}) {
     return UserState(
         mnemonic: mnemonic ?? this.mnemonic,
         privateKey: privateKey ?? this.privateKey,
@@ -97,7 +101,8 @@ class UserState {
         loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
         loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
         isLoggedOut: isLoggedOut ?? this.isLoggedOut,
-        isContactsSynced: isContactsSynced ?? this.isContactsSynced);
+        isContactsSynced: isContactsSynced ?? this.isContactsSynced,
+        backup: backup ?? this.backup);
   }
 
   dynamic toJson() => _$UserStateToJson(this);

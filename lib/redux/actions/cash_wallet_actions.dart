@@ -907,18 +907,6 @@ ThunkAction switchCommunityCall(String communityAddress) {
   };
 }
 
-ThunkAction getJoinBonusCall() {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      // TODO
-    } catch (e) {
-      logger.severe('ERROR - getJoinBonusCall $e');
-      store.dispatch(new ErrorAction('Could not get join bonus'));
-    }
-  };
-}
-
 Map<String, dynamic> _responseHandler(Response response) {
   switch (response.statusCode) {
     case 200:

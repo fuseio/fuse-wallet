@@ -1,7 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/jobs/base.dart';
+import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/utils/contacts.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -70,6 +75,52 @@ class SetPincodeSuccess {
 class SetDisplayName {
   String displayName;
   SetDisplayName(this.displayName);
+}
+
+class BackupRequest {
+  BackupRequest();
+}
+
+class BackupSuccess {
+  BackupSuccess();
+}
+
+ThunkAction backupWalletCall() {
+  return (Store store) async {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    store.dispatch(BackupRequest());
+    dynamic response = await api.backupWallet(communityAddres);
+    Community community = store.state.cashWalletState.communities[communityAddres];
+    if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive) {
+      BigInt value = toBigInt(community.plugins.joinBonus.amount, community.token.decimals);
+      String walletAddress = store.state.cashWalletState.walletAddress;
+      Transfer backupBonus = new Transfer(
+        from: DotEnv().env['FUNDER_ADDRESS'],
+        to: walletAddress,
+        type: 'RECEIVE',
+        value: value,
+        status: 'PENDING',
+        jobId: response['job']['_id']);
+      store.dispatch(AddTransaction(backupBonus));
+
+      response['job']['arguments'] = {
+        'backupBonus': backupBonus,
+      };
+      response['job']['jobType'] = 'backup'; 
+
+      Job job = JobFactory.create(response['job']);
+      store.dispatch(AddJob(job));
+    }
+  };
+}
+
+ThunkAction backupSuccessCall(String txHash, transfer) {
+ return (Store store) async {
+    Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
+    store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+    store.dispatch(BackupSuccess());
+    store.dispatch(segmentTrackCall('Wallet: backup success'));
+  };
 }
 
 ThunkAction restoreWalletCall(
@@ -218,6 +269,8 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       bool isPermitted = await Contacts.checkPermissions();
       if (isPermitted) {
         store.dispatch(segmentTrackCall("Contacts Permission Granted"));
+      } else {
+        store.dispatch(segmentTrackCall("Contacts Permission Rejected"));
       }
     } catch (e) {
       logger.severe('ERROR - syncContactsCall $e');
