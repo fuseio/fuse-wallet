@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -9,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'invite_job.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, createToJson: false)
 class InviteJob extends Job {
   InviteJob({id, jobType, name, status, data, arguments, lastFinishedAt})
       : super(
@@ -44,25 +42,15 @@ class InviteJob extends Job {
         arguments['sendFailureCallback']));
   }
 
-  static InviteJob fromJson(dynamic json) => _$InviteJobFromJson(json);
-
   @override
-  Map<String, dynamic> toJson() {
-    this.arguments = argumentsToJson();
-    return _$InviteJobToJson(this);
-  }
-
-  @override
-  argumentsToJson() {
-    return jsonEncode(Map.from({
+  dynamic argumentsToJson() => {
       'tokensAmount': arguments['tokensAmount'],
       'receiverName': arguments['receiverName'],
       'inviteTransfer': arguments['inviteTransfer'].toJson()
-    }));
-  }
+    };
 
   @override
-  dynamic argumentsFromJson(arguments) {
+  Map<String, dynamic> argumentsFromJson(arguments) {
     if (arguments == null) {
       return arguments;
     }
@@ -75,4 +63,6 @@ class InviteJob extends Job {
     }
     return arguments;
   }
+
+  static InviteJob fromJson(dynamic json) => _$InviteJobFromJson(json);
 }

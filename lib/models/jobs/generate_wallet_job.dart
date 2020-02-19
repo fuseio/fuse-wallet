@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'generate_wallet_job.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, createToJson: false)
 class GenerateWalletJob extends Job {
   GenerateWalletJob(
       {id, jobType, name, status, data, arguments, lastFinishedAt})
@@ -33,7 +33,4 @@ class GenerateWalletJob extends Job {
   }
 
   static GenerateWalletJob fromJson(dynamic json) => _$GenerateWalletJobFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$GenerateWalletJobToJson(this);
 }

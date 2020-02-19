@@ -6,21 +6,6 @@ part of 'plugins.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Plugins _$PluginsFromJson(Map<String, dynamic> json) {
-  return Plugins(
-    moonpay: Plugins._moonpayFromJson(json['moonpay'] as Map<String, dynamic>),
-    carbon: Plugins._carbonFromJson(json['carbon'] as Map<String, dynamic>),
-    wyre: Plugins._wyreFromJson(json['wyre'] as Map<String, dynamic>),
-    coindirect:
-        Plugins._coindirectFromJson(json['coindirect'] as Map<String, dynamic>),
-    ramp: Plugins._rampFromJson(json['ramp'] as Map<String, dynamic>),
-    joinBonus:
-        Plugins._joinBonusFromJson(json['joinBonus'] as Map<String, dynamic>),
-    walletBanner: Plugins._wallerBannerFromJson(
-        json['walletBanner'] as Map<String, dynamic>),
-  );
-}
-
 Map<String, dynamic> _$PluginsToJson(Plugins instance) {
   final val = <String, dynamic>{};
 
