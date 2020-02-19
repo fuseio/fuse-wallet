@@ -203,6 +203,7 @@ class BusinessesListView extends StatelessWidget {
                                               Navigator.pushNamed(
                                                   context, '/SendAmount',
                                                   arguments: SendAmountArguments(
+                                                      isBusiness: true,
                                                       avatar: NetworkImage(
                                                           getImageUrl(
                                                               viewModel

@@ -16,7 +16,9 @@ import 'package:flutter/services.dart';
 import 'package:sentry/sentry.dart';
 
 void main() async {
-  await DotEnv().load('.env_paywise');
+  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_paywise');
+  print('loading $configFile config file');
+  await DotEnv().load(configFile);
   SentryClient sentry = await AppFactory().getSentry();
 
   SystemChrome.setPreferredOrientations([

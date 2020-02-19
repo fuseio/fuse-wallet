@@ -10,12 +10,14 @@ class SendAmountViewModel {
   final String myCountryCode;
   final Function(String name, String phoneNumber, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToContact;
   final Function(String, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
+  final Function(String eventName) trackTransferCall;
 
   SendAmountViewModel(
       {this.token,
       this.myCountryCode,
       this.sendToContact,
-      this.sendToAccountAddress});
+      this.sendToAccountAddress,
+      this.trackTransferCall});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -53,6 +55,9 @@ class SendAmountViewModel {
           ) {
           store.dispatch(sendTokenCall(recieverAddress, amount,
               sendSuccessCallback, sendFailureCallback, receiverName: receiverName, ));
+        },
+        trackTransferCall: (String eventName) {
+          store.dispatch(segmentTrackCall(eventName));
         });
   }
 }

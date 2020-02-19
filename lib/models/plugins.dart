@@ -36,6 +36,28 @@ class JoinBonusPlugin extends Plugin {
     : null;
 }
 
+class BackupBonusPlugin extends Plugin {
+  String amount;
+  final String type = 'backupBonus';
+
+  BackupBonusPlugin({
+    name,
+    isActive,
+    this.amount
+  }) : super(name, isActive);
+
+  @override
+  dynamic toJson() => {'name': name, 'isActive': isActive, 'type': type, 'amount': amount};
+
+  static BackupBonusPlugin fromJson(dynamic json) => json != null
+    ? BackupBonusPlugin(
+        name: json['name'],
+        amount: json.containsKey('backupInfo') ? json['backupInfo']['amount'] : json['amount'],
+        isActive: json["isActive"] || false,
+      )
+    : null;
+}
+
 class WalletBannerPlugin extends Plugin {
   String link;
   String walletBannerHash;
@@ -139,7 +161,7 @@ class RampPlugin extends DepositPlugin {
       : null;
 }
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, createFactory: false)
 class Plugins {
   @JsonKey(name: 'moonpay', fromJson: _moonpayFromJson, toJson: _moonpayToJson, includeIfNull: false)
   MoonpayPlugin moonpay;
@@ -155,8 +177,10 @@ class Plugins {
   JoinBonusPlugin joinBonus;
   @JsonKey(name: 'walletBanner', fromJson: _wallerBannerFromJson, toJson: _walletBannerToJson, includeIfNull: false)
   WalletBannerPlugin walletBanner;
+  @JsonKey(name: 'backupBonus', fromJson: _backupBonusFromJson, toJson: _backupBonusToJson, includeIfNull: false)
+  BackupBonusPlugin backupBonus;
 
-  Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp, this.joinBonus, this.walletBanner});
+  Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp, this.joinBonus, this.walletBanner, this.backupBonus});
 
   static Map getServicesMap (dynamic json) {
     if (json.containsKey('onramp')) {
@@ -170,7 +194,7 @@ class Plugins {
     }
   }
 
-  static Plugins fromJson(dynamic json) {
+  factory Plugins.fromJson(dynamic json) {
     if (json == null) {
       return Plugins();
     } else {
@@ -182,12 +206,18 @@ class Plugins {
         coindirect: CoindirectPlugin.fromJson(services["coindirect"]),
         ramp: RampPlugin.fromJson(services["ramp"]),
         joinBonus:  JoinBonusPlugin.fromJson(json['joinBonus']),
-        walletBanner: WalletBannerPlugin.fromJson(json['walletBanner'])
+        walletBanner: WalletBannerPlugin.fromJson(json['walletBanner']),
+        backupBonus: BackupBonusPlugin.fromJson(json['backupBonus']),
       );
     }
   }
 
   dynamic toJson() => _$PluginsToJson(this);
+
+  static BackupBonusPlugin _backupBonusFromJson(Map<String, dynamic> json) =>
+      json == null ? null : BackupBonusPlugin.fromJson(json);
+
+  static Map<String, dynamic> _backupBonusToJson(BackupBonusPlugin backupBonus) => backupBonus != null ? backupBonus.toJson() : null;
 
   static JoinBonusPlugin _joinBonusFromJson(Map<String, dynamic> json) =>
       json == null ? null : JoinBonusPlugin.fromJson(json);

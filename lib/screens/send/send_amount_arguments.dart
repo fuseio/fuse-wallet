@@ -6,6 +6,7 @@ class SendAmountArguments {
   String accountAddress;
   num amount;
   ImageProvider avatar;
+  bool isBusiness = false;
 
-  SendAmountArguments({this.name, this.phoneNumber, this.accountAddress, this.amount, this.avatar});
+  SendAmountArguments({this.name, this.phoneNumber, this.accountAddress, this.amount, this.avatar, this.isBusiness});
 }

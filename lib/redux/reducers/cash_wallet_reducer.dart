@@ -1,6 +1,6 @@
 import 'package:paywise/models/community.dart';
+import 'package:paywise/models/jobs/base.dart';
 import 'package:paywise/models/transaction.dart';
-import 'package:paywise/models/job.dart';
 import 'package:paywise/models/transactions.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/redux/actions/cash_wallet_actions.dart';
@@ -33,6 +33,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _getTokenTransfersListSuccess),
   TypedReducer<CashWalletState, SwitchCommunityRequested>(
       _switchCommunityRequest),
+  TypedReducer<CashWalletState, SwitchToNewCommunity>(_switchToNewCommunity),
   TypedReducer<CashWalletState, BranchListening>(_branchListening),
   TypedReducer<CashWalletState, BranchDataReceived>(_branchDataReceived),
   TypedReducer<CashWalletState, BranchCommunityUpdate>(_branchCommunityUpdate),
@@ -205,7 +206,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   CashWalletState _getTokenTransfersListSuccess(
       CashWalletState state, GetTokenTransfersListSuccess action) {
     print('Found ${action.tokenTransfers.length} token transfers');
-    if (state.isCommunityLoading != null && state.isCommunityLoading) return state;
+    bool isLoading = state.isCommunityLoading ?? false;
+    if (isLoading) return state;
     if (state.walletAddress != '' && action.tokenTransfers.length > 0) {
       dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
               0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
@@ -241,34 +243,28 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       return state;
     }
   }
-  
+
   CashWalletState _switchCommunityRequest(
       CashWalletState state, SwitchCommunityRequested action) {
-    String communityAddress = action.communityAddress.toLowerCase();
-    String currentAddress = state.communityAddress.toLowerCase();
-    if (currentAddress != communityAddress) {
-      if (state.communities.containsKey(communityAddress)) {
-        return state.copyWith(
-            isCommunityLoading: true,
-            communityAddress: communityAddress,
-            branchAddress: "");
-      } else {
-        Community current = new Community.initial();
-        Community defaultCom = current.copyWith(address: communityAddress);
-        Map<String, Community> newOne =
-            Map<String, Community>.from(state.communities);
-        newOne[communityAddress] = defaultCom;
-        return state.copyWith(
-            branchAddress: "",
-            isCommunityLoading: true,
-            communityAddress: communityAddress,
-            communities: newOne);
-      }
-    } else {
-      return state.copyWith(branchAddress: "", isCommunityLoading: true);
-    }
+    return state.copyWith(
+        isCommunityLoading: true,
+        communityAddress: action.communityAddress.toLowerCase(),
+        branchAddress: "");
   }
-  
+
+  CashWalletState _switchToNewCommunity(
+      CashWalletState state, SwitchToNewCommunity action) {
+    String communityAddress = action.communityAddress.toLowerCase();
+    Community newCommunity = new Community.initial().copyWith(address: communityAddress);
+    Map<String, Community> newOne = Map<String, Community>.from(state.communities);
+    newOne[communityAddress] = newCommunity;
+    return state.copyWith(
+        branchAddress: "",
+        isCommunityLoading: true,
+        communityAddress: communityAddress,
+        communities: newOne);
+  }
+
   CashWalletState _branchCommunityUpdate(
       CashWalletState state, BranchCommunityUpdate action) {
     return state.copyWith(

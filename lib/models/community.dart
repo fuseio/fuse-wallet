@@ -1,12 +1,12 @@
 import 'package:paywise/models/business.dart';
 import 'package:paywise/models/community_metadata.dart';
+import 'package:paywise/models/jobs/base.dart';
 import 'package:paywise/models/token.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';
-import './job.dart';
 
 part 'community.g.dart';
 

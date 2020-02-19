@@ -6,9 +6,9 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:paywise/models/business.dart';
 import 'package:paywise/models/community.dart';
 import 'package:paywise/models/community_metadata.dart';
+import 'package:paywise/models/jobs/base.dart';
 import 'package:paywise/models/plugins.dart';
 import 'package:paywise/models/transaction.dart';
-import 'package:paywise/models/job.dart';
 import 'package:paywise/models/transactions.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/redux/actions/error_actions.dart';
@@ -84,6 +84,11 @@ class AlreadyJoinedCommunity {
 class SwitchCommunityRequested {
   final String communityAddress;
   SwitchCommunityRequested(this.communityAddress);
+}
+
+class SwitchToNewCommunity {
+  final String communityAddress;
+  SwitchToNewCommunity(this.communityAddress);
 }
 
 class SwitchCommunitySuccess {
@@ -226,7 +231,11 @@ ThunkAction enablePushNotifications() {
       if (Platform.isIOS) iosPermission();
       var token = await firebaseMessaging.getToken();
       logger.info("Firebase messaging token $token");
+
+      String walletAddress = store.state.cashWalletState.walletAddress;
+      await api.updateFirebaseToken(walletAddress, token);
       await FlutterSegment.putDeviceToken(token);
+
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           logger.info('onMessage called: $message');
@@ -295,16 +304,15 @@ ThunkAction listenToBranchCall() {
         var communityAddress = linkData["community_address"];
         logger.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
         logger.info("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(BranchDataReceived());
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
+      store.dispatch(BranchDataReceived());
     };
 
     FlutterBranchSdk.initSession().listen((data) {
@@ -434,6 +442,7 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.info('fullPhoneNumber: $fullPhoneNumber');
           store.dispatch(create3boxAccountCall(accountAddress));
+          store.dispatch(identifyCall());
           store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
     }
   };
@@ -517,17 +526,17 @@ ThunkAction processingJobsCall(Timer timer) {
     for (Job job in jobs) {
       String currentCommunityAddress = store.state.cashWalletState.communityAddress;
       String currentWalletAddress = store.state.cashWalletState.walletAddress;
-      bool isJobProcessValid() {
-        if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
-          timer.cancel();
-          return false;
-        }
-        if (job.status == 'DONE') {
-          return false;
-        }
-        return true;
-      }
       if (job.status != 'DONE') {
+        bool isJobProcessValid() {
+          if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
+            timer.cancel();
+            return false;
+          }
+          if (job.status == 'DONE') {
+            return false;
+          }
+          return true;
+        }
         await job.perform(store, isJobProcessValid);
       }
       if (job.status == 'DONE') {
@@ -663,7 +672,6 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       };
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
-      store.dispatch(segmentTrackCall("Wallet: User Transfer", properties: transfer.toJson()));
     } catch (e) {
       logger.severe('ERROR - sendTokenCall $e');
       sendFailureCallback();
@@ -771,7 +779,6 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
       txHash: job.data['txHash']);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
 
-
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community communityData =
       store.state.cashWalletState.communities[communityAddres];
@@ -781,6 +788,7 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
         from: DotEnv().env['FUNDER_ADDRESS'],
         type: 'RECEIVE',
         value: value,
+        text: 'You got a join bonus!',
         status: 'PENDING');
       store.dispatch(new AddTransaction(joinBonus));
       store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
@@ -805,12 +813,11 @@ ThunkAction fetchCommunityMetadataCall(String communityURI) {
   };
 }
 
-ThunkAction switchCommunityCall(String communityAddress) {
+ThunkAction switchToNewCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      if (store.state.cashWalletState.isCommunityLoading != null && store.state.cashWalletState.isCommunityLoading) return;
-      store.dispatch(new SwitchCommunityRequested(communityAddress));
+      store.dispatch(new SwitchToNewCommunity(communityAddress));
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       logger.info('community fetched for $communityAddress');
       dynamic token = await graph.getTokenOfCommunity(communityAddress);
@@ -843,22 +850,59 @@ ThunkAction switchCommunityCall(String communityAddress) {
             "Token Symbol": token["symbol"],
             "Origin Network": token['originNetwork']
           })));
-    } catch (e) {
-      logger.info('ERROR - switchCommunityCall $e');
+    } catch (e, s) {
+      logger.info('ERROR - switchToNewCommunityCall $e');
+      await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not switch community'));
       store.dispatch(new SwitchCommunityFailed());
     }
   };
 }
 
-ThunkAction getJoinBonusCall() {
+ThunkAction switchToExisitingCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      // TODO
-    } catch (e) {
-      logger.severe('ERROR - getJoinBonusCall $e');
-      store.dispatch(new ErrorAction('Could not get join bonus'));
+      store.dispatch(new SwitchCommunityRequested(communityAddress));
+      Community current = store.state.cashWalletState.communities[communityAddress.toLowerCase()];
+      bool isRopsten = current.token != null && current.token.originNetwork == 'ropsten';
+      String walletAddress = store.state.cashWalletState.walletAddress;
+      Map<String, dynamic> communityData = await api.getCommunityData(communityAddress, isRopsten: isRopsten, walletAddress: walletAddress);
+      Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
+      store.dispatch(new SwitchCommunitySuccess(
+          communityAddress,
+          current.name,
+          current.token,
+          current.transactions,
+          communityPlugins,
+          current.isClosed
+          ));
+    } catch (e, s) {
+      logger.info('ERROR - switchToExisitingCommunityCall $e');
+      await AppFactory().reportError(e, s);
+      store.dispatch(new ErrorAction('Could not switch community'));
+      store.dispatch(new SwitchCommunityFailed());
+    }
+  };
+}
+
+ThunkAction switchCommunityCall(String communityAddress) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      bool isLoading = store.state.cashWalletState.isCommunityLoading ?? false;
+      if (isLoading) return;
+      Community current = store.state.cashWalletState.communities[communityAddress.toLowerCase()];
+      if (current != null && current.name != null && current.token != null) {
+        store.dispatch(switchToExisitingCommunityCall(communityAddress));
+      } else {
+        store.dispatch(switchToNewCommunityCall(communityAddress));
+      }
+    } catch (e, s) {
+      logger.info('ERROR - switchCommunityCall $e');
+      await AppFactory().reportError(e, s);
+      store.dispatch(new ErrorAction('Could not switch community'));
+      store.dispatch(new SwitchCommunityFailed());
     }
   };
 }

@@ -1,3 +1,4 @@
+import 'package:paywise/screens/backup/done_backup.dart';
 import 'package:paywise/screens/backup/show_mnemonic.dart';
 import 'package:paywise/screens/backup/verify_mnemonic.dart';
 import 'package:paywise/screens/buy/buy.dart';
@@ -44,6 +45,7 @@ getRoutes() {
     '/Recovery': (context) => RecoveryPage(),
     '/Backup1': (context) => ShowMnemonic(),
     '/Backup2': (context) => VerifyMnemonic(),
+    '/Backup3': (context) => DoneBackup(),
     '/About': (context) => AboutScreen(),
     '/Settings': (context) => SettingsScreen(),
     '/Map': (context) => MapScreen(),

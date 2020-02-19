@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/draw_info.dart';
@@ -335,7 +336,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                   width: 5,
                                 ),
                                 InkWell(
-                                  onTap: () {
+                                  onTap: () async {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -343,6 +344,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                               depositPlugin:
                                                   depositPlugins[0])),
                                     );
+                                    await FlutterSegment.track(eventName: 'User clicked on top up');
                                   },
                                   child: Text(
                                     'Top up to improve your chances',
@@ -362,9 +364,9 @@ class _PrizeScreenState extends State<PrizeScreen> {
                           drawInfo.previous['winner'] != null
                               ? Text(
                                   'Last prize ' +
-                                      (drawInfo.previous['reward'].toString() ??
+                                      (num.parse(drawInfo.previous['reward']).toStringAsFixed(2).toString() ??
                                           '') +
-                                      'went to ' +
+                                      ' went to ' +
                                       formatAddress(
                                           drawInfo.previous['winner']),
                                   style: TextStyle(

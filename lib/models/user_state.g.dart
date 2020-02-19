@@ -26,6 +26,7 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     loginVerifySuccess: json['loginVerifySuccess'] as bool,
     isLoggedOut: json['isLoggedOut'] as bool,
     isContactsSynced: json['isContactsSynced'] as bool,
+    backup: json['backup'] as bool,
   );
 }
 
@@ -45,4 +46,5 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'loginVerifySuccess': instance.loginVerifySuccess,
       'isLoggedOut': instance.isLoggedOut,
       'isContactsSynced': instance.isContactsSynced,
+      'backup': instance.backup,
     };

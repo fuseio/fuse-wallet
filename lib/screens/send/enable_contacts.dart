@@ -143,7 +143,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                           await ContactController.getContacts();
                                       viewModel.syncContacts(contacts);
                                     }
-                                    Navigator.of(context).pop();
+                                    Navigator.pushReplacementNamed(context, '/SendContact');
                                     setState(() {
                                       isPreloading = false;
                                     });
