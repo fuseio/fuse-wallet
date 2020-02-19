@@ -97,6 +97,7 @@ ThunkAction backupWalletCall() {
       Transfer backupBonus = new Transfer(
         from: DotEnv().env['FUNDER_ADDRESS'],
         to: walletAddress,
+        text: 'You got a backup bonus!',
         type: 'RECEIVE',
         value: value,
         status: 'PENDING',

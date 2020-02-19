@@ -26,7 +26,7 @@ class TransactionListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Transfer transfer = _transaction as Transfer;
     String displayName = transfer.isJoinBonus()
-        ? I18n.of(context).join_bonus
+        ? (transfer.text ?? I18n.of(context).join_bonus)
         : (transfer.receiverName != null && transfer.receiverName != '')
             ? transfer.receiverName
             : transfer.text != null

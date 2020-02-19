@@ -779,7 +779,6 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
       txHash: job.data['txHash']);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
 
-
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community communityData =
       store.state.cashWalletState.communities[communityAddres];
@@ -789,6 +788,7 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
         from: DotEnv().env['FUNDER_ADDRESS'],
         type: 'RECEIVE',
         value: value,
+        text: 'You got a join bonus!',
         status: 'PENDING');
       store.dispatch(new AddTransaction(joinBonus));
       store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
