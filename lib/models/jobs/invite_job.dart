@@ -9,7 +9,7 @@ part 'invite_job.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: false)
 class InviteJob extends Job {
-  InviteJob({id, jobType, name, status, data, arguments, lastFinishedAt})
+  InviteJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported})
       : super(
             id: id,
             jobType: jobType,
@@ -17,7 +17,9 @@ class InviteJob extends Job {
             status: status,
             data: data,
             arguments: arguments,
-            lastFinishedAt: lastFinishedAt);
+            lastFinishedAt: lastFinishedAt,
+            isReported: isReported ?? false,
+            timeStart: timeStart ?? new DateTime.now().millisecondsSinceEpoch);
 
   @override
   fetch() async {
@@ -26,6 +28,13 @@ class InviteJob extends Job {
 
   @override
   onDone(store, dynamic fetchedData) async {
+    int current = DateTime.now().millisecondsSinceEpoch;
+    int jobTime = this.timeStart;
+    final int millisecondsIntoMin = 2 * 60 * 1000;
+    if ((current - jobTime) > millisecondsIntoMin && !isReported) {
+      store.dispatch(segmentTrackCall('Wallet: pending job $id $name'));
+    }
+
     Job job = JobFactory.create(fetchedData);
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
       final logger = await AppFactory().getLogger('Job');

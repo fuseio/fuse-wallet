@@ -15,5 +15,7 @@ TransferJob _$TransferJobFromJson(Map<String, dynamic> json) {
     data: json['data'],
     arguments: json['arguments'],
     lastFinishedAt: json['lastFinishedAt'],
+    timeStart: json['timeStart'],
+    isReported: json['isReported'],
   );
 }
