@@ -69,7 +69,7 @@ Widget counterItem(BuildContext context, number) {
 
 Widget counterCard(BuildContext context, int number) {
   String a = number.toString();
-  bool isBigerThen = number > 10;
+  bool isBigerThen = number >= 10;
   String firstNum = isBigerThen ? a.split('')[0] : '0';
   String secondNum = isBigerThen ? a.split('')[1] : a;
   return Row(
@@ -254,7 +254,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Text(
-                                    'Current Prize amount:',
+                                    'Current prize amount:',
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ),
@@ -315,7 +315,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                             height: 30,
                           ),
                           Text(
-                            'Your chance are 1 in ' +
+                            'Your chances are 1 in ' +
                                 drawInfo.possibleWinnersCount.toString(),
                             style: TextStyle(
                                 fontSize: 14,

@@ -90,7 +90,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen>
                               ),
                             ),
                             Text(
-                              '''DAI points is the default community on Fuse wallet. Get some points to start exploring it’s features:''',
+                              '''DAI points is the default community on Fuse wallet. Get some points to start exploring its features:''',
                               style: TextStyle(
                                   fontSize: 16,
                                   color:
