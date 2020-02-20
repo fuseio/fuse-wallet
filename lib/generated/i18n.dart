@@ -68,8 +68,8 @@ class I18n implements WidgetsLocalizations {
   String get write_words => "write down the words in order and keep safe. You won’t be able to recover your account without it.";
   /// "Please write down words \n"
   String get write_word => "Please write down words \n";
-  /// "Word"
-  String get word => "Word";
+  /// "Word "
+  String get word => "Word ";
   /// "The word does not match"
   String get word_not_match => "The word does not match";
   /// "Back up"

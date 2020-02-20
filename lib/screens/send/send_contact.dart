@@ -12,6 +12,7 @@ import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -169,13 +170,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               style: TextStyle(
                   fontSize: 15, color: Theme.of(context).primaryColor),
             ),
-            //subtitle: Text("user.company" ?? ""),
-            onTap: () async{
-              Map<String, String> reverseContacts = viewModel.reverseContacts;
-                String number = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
-                String accountAddress = reverseContacts.keys.firstWhere(
-                    (k) => reverseContacts[k] == number,
-                    orElse: () => null);
+            onTap: () async {
+              String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
+              Map<String, dynamic> data = await api.getWalletByPhoneNumber(phoneNumber);
+              String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : '';
               Navigator.pushNamed(context, '/SendAmount',
                   arguments: SendAmountArguments(
                       name: user.displayName,
@@ -183,7 +181,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       avatar: user.avatar != null && user.avatar.isNotEmpty
                           ? MemoryImage(user.avatar)
                           : new AssetImage('assets/images/anom.png'),
-                      phoneNumber: user.phones.first.value));
+                      phoneNumber: phoneNumber));
             },
           ),
         ),
@@ -331,13 +329,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 displatName,
                 style: TextStyle(fontSize: 16),
               ),
-              onTap: () {
-                Map<String, String> reverseContacts = viewModel.reverseContacts;
-                String number = formatPhoneNumber(
-                    contact.phones.first.value, viewModel.countryCode);
-                String accountAddress = reverseContacts.keys.firstWhere(
-                    (k) => reverseContacts[k] == number,
-                    orElse: () => null);
+              onTap: () async {
+                String phoneNumber = formatPhoneNumber(contact.phones.first.value, viewModel.countryCode);
+                Map<String, dynamic> data = await api.getWalletByPhoneNumber(phoneNumber);
+                String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : '';
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
                         accountAddress: accountAddress,
@@ -345,7 +340,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         avatar: contact?.avatar != null
                             ? MemoryImage(contact.avatar)
                             : new AssetImage('assets/images/anom.png'),
-                        phoneNumber: number));
+                        phoneNumber: phoneNumber));
               },
             ),
           ),
