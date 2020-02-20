@@ -869,6 +869,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       String walletAddress = store.state.cashWalletState.walletAddress;
       Map<String, dynamic> communityData = await api.getCommunityData(communityAddress, isRopsten: isRopsten, walletAddress: walletAddress);
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
+      store.dispatch(getBusinessListCall());
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress,
           current.name,
@@ -922,8 +923,9 @@ ThunkAction getBusinessListCall() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
+      String communityAddress = store.state.cashWalletState.communityAddress;
       store.dispatch(StartFetchingBusinessList());
-      if (isPaywise(store.state.cashWalletState.communityAddress)) {
+      if (isPaywise(communityAddress)) {
         Client client = new Client();
         dynamic res = await client.get('https://api.airtable.com/v0/appVQfuM5SRKAGF1c/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
         dynamic a = _responseHandler(res);
@@ -953,32 +955,23 @@ ThunkAction getBusinessListCall() {
           store.dispatch(FetchingBusinessListSuccess());
         });
       } else {
-        dynamic community = await graph
-            .getCommunityByAddress(store.state.cashWalletState.communityAddress);
+        Community community = store.state.cashWalletState.communities[communityAddress];
+        bool isOriginRopsten = community.token?.originNetwork != null
+            ? community.token?.originNetwork == 'ropsten'
+            : false;
+        dynamic communityEntities = await graph.getCommunityBusinesses(communityAddress);
         List<Business> businessList = new List();
-        await Future.forEach(community['entitiesList']['communityEntities'],
-            (entity) async {
-          if (entity['isBusiness']) {
-            String communityAddres = store.state.cashWalletState.communityAddress;
-            Community community =
-                store.state.cashWalletState.communities[communityAddres];
-            bool isOriginRopsten = community.token?.originNetwork != null
-                ? community.token?.originNetwork == 'ropsten'
-                : false;
-            dynamic metadata = await api.getEntityMetadata(
-                store.state.cashWalletState.communityAddress, entity['address'],
-                isRopsten: isOriginRopsten);
-            entity['name'] = metadata['name'];
-            entity['metadata'] = metadata;
-            entity['account'] = entity['address'];
-            businessList.add(new Business.fromJson(entity));
-          }
+        await Future.forEach(communityEntities, (entity) async {
+          dynamic metadata = await api.getEntityMetadata(communityAddress, entity['address'], isRopsten: isOriginRopsten);
+          entity['name'] = metadata['name'];
+          entity['metadata'] = metadata;
+          entity['account'] = entity['address'];
+          businessList.add(new Business.fromJson(entity));
         }).then((r) {
           store.dispatch(new GetBusinessListSuccess(businessList));
           store.dispatch(FetchingBusinessListSuccess());
         });
       }
-
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');
       store.dispatch(FetchingBusinessListFailed());
