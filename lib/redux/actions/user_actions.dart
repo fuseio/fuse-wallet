@@ -87,6 +87,8 @@ class BackupSuccess {
 
 ThunkAction backupWalletCall() {
   return (Store store) async {
+    if (store.state.userState.backup) return;
+    final logger = await AppFactory().getLogger('action');
     String communityAddres = store.state.cashWalletState.communityAddress;
     store.dispatch(BackupRequest());
     dynamic response = await api.backupWallet(communityAddres);
@@ -94,20 +96,22 @@ ThunkAction backupWalletCall() {
     if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive) {
       BigInt value = toBigInt(community.plugins.joinBonus.amount, community.token.decimals);
       String walletAddress = store.state.cashWalletState.walletAddress;
+      dynamic jobId = response['job']['_id'];
+      logger.info('Job $jobId - sending backup bonus');
       Transfer backupBonus = new Transfer(
-        from: DotEnv().env['FUNDER_ADDRESS'],
-        to: walletAddress,
-        text: 'You got a backup bonus!',
-        type: 'RECEIVE',
-        value: value,
-        status: 'PENDING',
-        jobId: response['job']['_id']);
+          from: DotEnv().env['FUNDER_ADDRESS'],
+          to: walletAddress,
+          text: 'You got a backup bonus!',
+          type: 'RECEIVE',
+          value: value,
+          status: 'PENDING',
+          jobId: jobId);
       store.dispatch(AddTransaction(backupBonus));
 
       response['job']['arguments'] = {
         'backupBonus': backupBonus,
       };
-      response['job']['jobType'] = 'backup'; 
+      response['job']['jobType'] = 'backup';
 
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
@@ -116,7 +120,7 @@ ThunkAction backupWalletCall() {
 }
 
 ThunkAction backupSuccessCall(String txHash, transfer) {
- return (Store store) async {
+  return (Store store) async {
     Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
     store.dispatch(BackupSuccess());
@@ -141,7 +145,7 @@ ThunkAction restoreWalletCall(
       store.dispatch(new CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
-      store.dispatch(segmentTrackCall("Wallet: restored mnemonic", properties: new Map<String, dynamic>()));
+      store.dispatch(segmentTrackCall("Wallet: restored mnemonic"));
       successCallback();
     } catch (e) {
       logger.severe('ERROR - restoreWalletCall $e');
@@ -166,7 +170,7 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
       store.dispatch(new CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
-      store.dispatch(segmentTrackCall("Wallet: Create new wallet", properties: new Map<String, dynamic>()));
+      store.dispatch(segmentTrackCall("Wallet: Create new wallet"));
       successCallback();
     } catch (e) {
       logger.severe('ERROR - createLocalAccountCall $e');
@@ -185,7 +189,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       if (result) {
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
         successCallback();
-        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>()));
+        store.dispatch(segmentTrackCall("Wallet: user insert his phone number"));
       } else {
         store.dispatch(new ErrorAction('Could not login'));
         failCallback();
@@ -210,8 +214,9 @@ ThunkAction loginVerifyCall(
     try {
       String phone = formatPhoneNumber(phoneNumber, countryCode);
 
-      String jwtToken =await api.loginVerify(phone, verificationCode, accountAddress);
+      String jwtToken = await api.loginVerify(phone, verificationCode, accountAddress);
       store.dispatch(new LoginVerifySuccess(jwtToken));
+      store.dispatch(segmentTrackCall("Wallet: verified phone number"));
       successCallback();
     } catch (e) {
       logger.severe('ERROR - loginVerifyCall e');
@@ -230,7 +235,7 @@ ThunkAction logoutCall() {
 ThunkAction reLoginCall() {
   return (Store store) async {
     store.dispatch(new ReLogin());
-    store.dispatch(segmentTrackCall("Wallet: Login clicked", properties: new Map<String, dynamic>()));
+    store.dispatch(segmentTrackCall("Wallet: Login clicked"));
   };
 }
 
@@ -242,7 +247,11 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       List<String> syncedContacts = store.state.userState.syncedContacts;
       List<String> newPhones = new List<String>();
       for (Contact contact in contacts) {
-        List<String> uniquePhone = contact.phones.map((Item phone) => formatPhoneNumber(phone.value, store.state.userState.countryCode)).toSet().toList();
+        List<String> uniquePhone = contact.phones
+            .map((Item phone) => formatPhoneNumber(
+                phone.value, store.state.userState.countryCode))
+            .toSet()
+            .toList();
         for (String phone in uniquePhone) {
           if (!syncedContacts.contains(phone)) {
             newPhones.add(phone);
@@ -251,16 +260,16 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       }
       if (newPhones.length == 0) {
         dynamic response = await api.syncContacts(newPhones);
-        store.dispatch(new SyncContactsProgress(
-            newPhones, List<Map<String, dynamic>>.from(response['newContacts'])));
+        store.dispatch(new SyncContactsProgress(newPhones,
+            List<Map<String, dynamic>>.from(response['newContacts'])));
         await api.ackSync(response['nonce']);
       } else {
         int limit = 100;
         List<String> partial = newPhones.take(limit).toList();
         while (partial.length > 0) {
           dynamic response = await api.syncContacts(partial);
-          store.dispatch(new SyncContactsProgress(
-              partial, List<Map<String, dynamic>>.from(response['newContacts'])));
+          store.dispatch(new SyncContactsProgress(partial,
+              List<Map<String, dynamic>>.from(response['newContacts'])));
 
           await api.ackSync(response['nonce']);
           newPhones = newPhones.sublist(partial.length);
@@ -311,9 +320,8 @@ ThunkAction setDisplayNameCall(String displayName) {
   return (Store store) async {
     try {
       store.dispatch(new SetDisplayName(displayName));
-      store.dispatch(segmentTrackCall("Wallet: display name added", properties: new Map<String, dynamic>()));
-    } catch (e) {
-    }
+      store.dispatch(segmentTrackCall("Wallet: display name added"));
+    } catch (e) {}
   };
 }
 
@@ -332,6 +340,7 @@ ThunkAction create3boxAccountCall(accountAddress) {
         <body></body>
       </html>''';
     _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
+    store.dispatch(segmentTrackCall("Wallet: Profile created in 3box"));
     try {
       Map publicData = {
         'account': accountAddress,
