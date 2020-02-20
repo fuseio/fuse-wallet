@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-// import 'package:flutter_segment/flutter_segment.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/country_code_picker/country_code_picker.dart';
@@ -23,7 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isPreloading = false;
   bool isvalidPhone = true;
-  CountryCode countryCode = new CountryCode(dialCode: '+972');
+  CountryCode countryCode = new CountryCode(dialCode: '‎+1');
 
   @override
   void initState() {
@@ -32,7 +32,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
@@ -71,10 +70,10 @@ class _SignupScreenState extends State<SignupScreen> {
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
-                          // await FlutterSegment.track(
-                          //     eventName:
-                          //         "Wallet: opened modal - why do we need this",
-                          //     properties: new Map<String, dynamic>());
+                          await FlutterSegment.track(
+                              eventName:
+                                  "Wallet: opened modal - why do we need this",
+                              properties: new Map<String, dynamic>());
                         },
                         child: Center(
                           child: Text(
@@ -125,7 +124,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               onChanged: (_countryCode) {
                                 countryCode = _countryCode;
                               },
-                              initialSelection: myLocale.countryCode,
+                              initialSelection: 'US',
                               favorite: [],
                               showCountryOnly: false,
                               showFlag: false,
