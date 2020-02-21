@@ -34,6 +34,7 @@ class JoinCommunityJob extends Job {
     final int millisecondsIntoMin = 2 * 60 * 1000;
     if ((current - jobTime) > millisecondsIntoMin && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job $id $name'));
+      isReported = true;
     }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
