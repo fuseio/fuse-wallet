@@ -76,6 +76,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                               children: <Widget>[
                                 TextFormField(
                                   autofocus: false,
+                                  style: TextStyle(color: Colors.black),
                                   decoration: InputDecoration(
                                     labelText: I18n.of(context).word +
                                         selectedWordsNum[0].toString(),
@@ -92,6 +93,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                 const SizedBox(height: 16.0),
                                 TextFormField(
                                   autofocus: false,
+                                  style: TextStyle(color: Colors.black),
                                   decoration: InputDecoration(
                                     labelText: I18n.of(context).word +
                                         selectedWordsNum[1].toString(),
@@ -108,6 +110,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                 const SizedBox(height: 16.0),
                                 TextFormField(
                                   autofocus: false,
+                                  style: TextStyle(color: Colors.black),
                                   decoration: InputDecoration(
                                     labelText: I18n.of(context).word +
                                         selectedWordsNum[2].toString(),

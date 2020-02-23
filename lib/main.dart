@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
           child: new StoreProvider<AppState>(
             store: store,
             child: new MaterialApp(
-              title: 'Fuse Cash',
+              title: 'Paywise cash',
               initialRoute: '/',
               routes: getRoutes(),
               theme: CustomTheme.of(context),
