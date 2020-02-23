@@ -177,6 +177,8 @@ class RemoveSendToInvites {
 
 class BranchListening {}
 
+class BranchListeningStopped {}
+
 class BranchDataReceived {}
 
 class InviteSendSuccess {
@@ -319,8 +321,9 @@ ThunkAction listenToBranchCall() {
       handler(data);
     }, onError: (error, s) async {
       logger.severe('ERROR - FlutterBranchSdk initSession $error');
+      store.dispatch(BranchListeningStopped());
       await AppFactory().reportError(error, s);
-    });
+    }, cancelOnError: true);
   };
 }
 
