@@ -50,13 +50,13 @@ Widget bottomBar(BuildContext context) {
             }
           }),
           bottomBarItem(
-              isCurrentRoute(context, '/Buy') ? "buy_selected.svg" : "buy.svg",
-              I18n.of(context).buy, () {
+              isCurrentRoute(context, '/DaiPoints') ? "daipoints_selected.svg" : "daipoints.svg",
+              I18n.of(context).dai_points, () {
             if (isHomePage) {
-              redirect(context, '/Buy');
+              redirect(context, '/DaiPoints');
             } else {
               Navigator.popUntil(context, ModalRoute.withName('/Cash'));
-              redirect(context, '/Buy');
+              redirect(context, '/DaiPoints');
             }
           }),
           bottomBarItem(

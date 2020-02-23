@@ -1,7 +1,9 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/widgets/bottombar.dart';
+import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DaiExplainedScreen extends StatefulWidget {
@@ -17,193 +19,288 @@ launchUrl(url) async {
   }
 }
 
-class _DaiExplainedScreenState extends State<DaiExplainedScreen>
-    with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> scaleAnimatoin;
-  bool isPreloading = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-    scaleAnimatoin =
-        CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
-
-    controller.addListener(() {
-      setState(() {});
-    });
-
-    controller.forward();
-  }
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
+class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
   @override
   Widget build(BuildContext _context) {
-    return ScaleTransition(
-        scale: scaleAnimatoin,
-        child: AlertDialog(
-            contentPadding: EdgeInsets.all(0),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0))),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            content: Container(
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+    return MainScaffold(
+        title: I18n.of(context).dai_points,
+        titleFontSize: 15,
+        footer: bottomBar(context),
+        withPadding: false,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+                width: MediaQuery.of(context).size.width * 0.9,
+                padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                decoration: BoxDecoration(
+                    color: Color(0xFFF7FFF8),
+                    borderRadius:
+                        new BorderRadius.all(new Radius.circular(15.0)),
+                    border: Border.all(color: Color(0xFFECF7EF))),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Stack(
-                      overflow: Overflow.visible,
-                      alignment: AlignmentDirectional.bottomCenter,
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Image.asset("assets/images/dai_points_cover.png"),
-                        Positioned(
-                            bottom: -35,
-                            child: Image.asset(
-                              "assets/images/dai-point-community-logo.png",
-                            ))
-                      ],
-                    ),
-                    const SizedBox(height: 50.0),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 0, bottom: 10, left: 15, right: 15),
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Text(
-                                'Welcome to DAI points community!',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                        Image.asset(
+                          "assets/images/dai_points_logo.png",
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          '''DAI points is the default community on Fuse wallet. Get some points to start exploring its features:''',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Theme.of(context).colorScheme.secondary),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          '1 DAI = \$1 = 100 DAI points',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF00BE66)),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(0),
+                          child: Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Win up to 100 points!',
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .headline
+                                          .color),
+                                ),
                               ),
-                            ),
-                            Text(
-                              '''DAI points is the default community on Fuse wallet. Get some points to start exploring its features:''',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
-                              textAlign: TextAlign.center,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 30, right: 10),
-                              child: Column(
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
                                 children: <Widget>[
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      SvgPicture.asset(
-                                          'assets/images/v_sign.svg'),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                          'Get 10 points for installing the app',
-                                          style: TextStyle(
-                                              fontSize: 11,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary)),
-                                    ],
+                                  SvgPicture.asset('assets/images/v_sign.svg'),
+                                  SizedBox(
+                                    width: 5,
                                   ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      SvgPicture.asset(
-                                          'assets/images/v_sign.svg'),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                          'Get 10 points after sending money to a friend',
-                                          style: TextStyle(
-                                              fontSize: 11,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary)),
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      SvgPicture.asset(
-                                          'assets/images/v_sign.svg'),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                          'Get 10 points for backing-up your wallet',
-                                          style: TextStyle(
-                                              fontSize: 11,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary)),
-                                    ],
-                                  )
+                                  Text('Get 20 points for installing the app',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary)),
                                 ],
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 30, bottom: 30),
-                              child: Text(
-                                '1 DAI = \$1 = 100 DAI points',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF00BE66)),
-                                textAlign: TextAlign.center,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SvgPicture.asset('assets/images/v_sign.svg'),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                      'Get 40 points after sending money to a friend',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary)),
+                                ],
                               ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                launchUrl(
-                                    'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points');
-                              },
-                              child: Text(
-                                '''Learn more''',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    decoration: TextDecoration.underline,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SvgPicture.asset('assets/images/v_sign.svg'),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                      'Get 40 points for backing-up your wallet',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary)),
+                                ],
                               ),
-                            ),
-                            const SizedBox(height: 30.0),
-                            Center(
-                                child: PrimaryButton(
-                              fontSize: 15,
-                              preload: isPreloading,
-                              labelFontWeight: FontWeight.normal,
-                              label: "Ok",
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-                              },
-                            )),
-                            const SizedBox(height: 10.0),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: InkWell(
+                                  onTap: () {},
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Row(
+                                      children: <Widget>[
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, '/Prize');
+                                          },
+                                          child: Text(
+                                            'And get a chance to win a weekly prize!',
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .headline
+                                                  .color,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Image.asset(
+                                          'assets/images/arrow_black.png',
+                                          width: 10,
+                                          height: 9,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {},
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () {
+                              showDialog(builder: (context) {
+                                return Dialog(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: new BorderRadius.all(
+                                          new Radius.circular(30.0)),
+                                    ),
+                                    child: Text(''),
+                                  ),
+                                );
+                              });
+                            },
+                            child: Text(
+                              'Add DAI',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .headline
+                                      .color,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Image.asset(
+                            'assets/images/arrow_black.png',
+                            width: 15,
+                            height: 12,
+                          ),
+                        ],
                       ),
                     ),
-                  ]),
-            )));
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Withdrad DAI',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color:
+                                    Theme.of(context).textTheme.headline.color,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Image.asset(
+                            'assets/images/arrow_black.png',
+                            width: 15,
+                            height: 12,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              InkWell(
+                onTap: () {
+                  launchUrl(
+                      'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points');
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Still have question?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Theme.of(context).colorScheme.secondary)),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '''Learn more''',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 13,
+                          decoration: TextDecoration.underline,
+                          color: Theme.of(context).colorScheme.primary),
+                    )
+                  ],
+                ),
+              )
+            ],
+          )
+        ]);
   }
 }
