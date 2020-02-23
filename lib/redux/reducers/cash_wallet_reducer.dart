@@ -35,6 +35,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _switchCommunityRequest),
   TypedReducer<CashWalletState, SwitchToNewCommunity>(_switchToNewCommunity),
   TypedReducer<CashWalletState, BranchListening>(_branchListening),
+  TypedReducer<CashWalletState, BranchListeningStopped>(_branchListeningStopped),
   TypedReducer<CashWalletState, BranchDataReceived>(_branchDataReceived),
   TypedReducer<CashWalletState, BranchCommunityUpdate>(_branchCommunityUpdate),
   TypedReducer<CashWalletState, BranchCommunityToUpdate>(
@@ -283,6 +284,11 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   CashWalletState _branchListening(
       CashWalletState state, BranchListening action) {
     return state.copyWith(isListeningToBranch: true);
+  }
+
+  CashWalletState _branchListeningStopped(
+      CashWalletState state, BranchListeningStopped action) {
+    return state.copyWith(isListeningToBranch: false);
   }
   
   CashWalletState _branchDataReceived(
