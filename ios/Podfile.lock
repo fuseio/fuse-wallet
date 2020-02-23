@@ -66,7 +66,7 @@ PODS:
   - flutter_branch_sdk (0.0.1):
     - Branch (~> 0.31.3)
     - Flutter
-  - flutter_device_locale (0.0.1):
+  - flutter_plugin_android_lifecycle (0.0.1):
     - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
@@ -141,7 +141,7 @@ PODS:
     - Flutter
   - url_launcher_web (0.0.1):
     - Flutter
-  - vibration (1.2.2):
+  - vibration (1.2.4):
     - Flutter
   - webview_flutter (0.0.1):
     - Flutter
@@ -154,7 +154,7 @@ DEPENDENCIES:
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_branch_sdk (from `.symlinks/plugins/flutter_branch_sdk/ios`)
-  - flutter_device_locale (from `.symlinks/plugins/flutter_device_locale/ios`)
+  - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_segment (from `.symlinks/plugins/flutter_segment/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
@@ -209,8 +209,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_branch_sdk:
     :path: ".symlinks/plugins/flutter_branch_sdk/ios"
-  flutter_device_locale:
-    :path: ".symlinks/plugins/flutter_device_locale/ios"
+  flutter_plugin_android_lifecycle:
+    :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_segment:
@@ -264,7 +264,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 448cf4c727f3c95f4f90816907d67306ba785cfe
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_branch_sdk: 401d22e28b8669590a73a48619b81c6e066b503e
-  flutter_device_locale: bd88cfdfdcae58b2a9d5ec05389fd99631c9dca7
+  flutter_plugin_android_lifecycle: 47de533a02850f070f5696a623995e93eddcdb9b
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_segment: 31dce829260fc896cd391d7cee4fc3609003f93c
   google_maps_flutter: d0dd62f5a7d39bae61057eb9f52dd778d99c7c6c
@@ -289,7 +289,7 @@ SPEC CHECKSUMS:
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
-  vibration: 2f659072a9e03ae160974238b728c96e98bce2b5
+  vibration: f0c5bb486671fb81e973bfb451d89f8efd07c9c9
   webview_flutter: bec7599de6bfbe8008a739aa3ebd7b364ea9d0cd
 
 PODFILE CHECKSUM: 1f6cb123f6975d2d185ea5e6b1bb69d379fbd1fa

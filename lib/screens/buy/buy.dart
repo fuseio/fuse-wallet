@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
@@ -82,29 +81,29 @@ class BusinessesListView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      viewModel.walletBanner != null &&
-                              viewModel.walletBanner.walletBannerHash != null &&
-                              viewModel.walletBanner.walletBannerHash.isNotEmpty
-                          ? new Container(
-                              padding: EdgeInsets.all(10),
-                              child: InkWell(
-                                onTap: () {
-                                  launchUrl(viewModel.walletBanner.link);
-                                },
-                                child: new Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 140,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              DotEnv().env['IPFS_BASE_URL'] +
-                                                  '/image/' +
-                                                  viewModel.walletBanner
-                                                      .walletBannerHash,
-                                            )))),
-                              ))
-                          : Container(),
+                      // viewModel.walletBanner != null &&
+                      //         viewModel.walletBanner.walletBannerHash != null &&
+                      //         viewModel.walletBanner.walletBannerHash.isNotEmpty
+                      //     ? new Container(
+                      //         padding: EdgeInsets.all(10),
+                      //         child: InkWell(
+                      //           onTap: () {
+                      //             launchUrl(viewModel.walletBanner.link);
+                      //           },
+                      //           child: new Container(
+                      //               width: MediaQuery.of(context).size.width,
+                      //               height: 140,
+                      //               decoration: BoxDecoration(
+                      //                   image: DecorationImage(
+                      //                       fit: BoxFit.cover,
+                      //                       image: NetworkImage(
+                      //                         DotEnv().env['IPFS_BASE_URL'] +
+                      //                             '/image/' +
+                      //                             viewModel.walletBanner
+                      //                                 .walletBannerHash,
+                      //                       )))),
+                      //         ))
+                      //     : Container(),
                       new Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,

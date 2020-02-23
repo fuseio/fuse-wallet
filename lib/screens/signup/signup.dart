@@ -5,11 +5,11 @@ import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/widgets/country_code_picker/country_code_picker.dart';
 import 'package:paywise/widgets/country_code_picker/country_code.dart';
+import 'package:paywise/widgets/country_code_picker/country_codes.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/widgets/signup_dialog.dart';
 import 'package:paywise/models/views/onboard.dart';
-import 'package:redux/redux.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -30,8 +30,19 @@ class _SignupScreenState extends State<SignupScreen> {
     super.initState();
   }
 
+  _updateCountryCode(Locale myLocale) {
+    Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode);
+    if (mounted) {
+      setState(() {
+        countryCode = CountryCode(dialCode: localeData['dial_code']);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    Locale myLocale = Localizations.localeOf(context);
+    _updateCountryCode(myLocale);
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
@@ -91,114 +102,111 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ],
         footer: new StoreConnector<AppState, OnboardViewModel>(
-            converter: (Store<AppState> store) {
-          return OnboardViewModel.fromStore(store);
-        }, onWillChange: (viewModel) {
-          if (viewModel.loginRequestSuccess &&
-              ModalRoute.of(context).isCurrent) {}
-        }, builder: (_, viewModel) {
-          return Padding(
-            padding: EdgeInsets.only(top: 10, left: 30, right: 30),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Center(
-                    child: Container(
-                      width: 280,
-                      decoration: new BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                                color: isvalidPhone
-                                    ? Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(0.1)
-                                    : Colors.red,
-                                width: 2.0)),
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            child: CountryCodePicker(
-                              onChanged: (_countryCode) {
-                                countryCode = _countryCode;
-                              },
-                              initialSelection: 'TT',
-                              favorite: [],
-                              showCountryOnly: false,
-                              showFlag: false,
-                              textStyle: const TextStyle(fontSize: 16),
-                              alignLeft: false,
-                            ),
-                            width: 50,
+            converter: OnboardViewModel.fromStore,
+            builder: (_, viewModel) {
+              return Padding(
+                padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Center(
+                        child: Container(
+                          width: 280,
+                          decoration: new BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: isvalidPhone
+                                        ? Theme.of(context)
+                                            .primaryColor
+                                            .withOpacity(0.1)
+                                        : Colors.red,
+                                    width: 2.0)),
                           ),
-                          Icon(Icons.arrow_drop_down),
-                          new Container(
-                            height: 35,
-                            width: 1,
-                            color: const Color(0xFFc1c1c1),
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                child: CountryCodePicker(
+                                  onChanged: (_countryCode) {
+                                    countryCode = _countryCode;
+                                  },
+                                  initialSelection: myLocale.countryCode,
+                                  favorite: [],
+                                  showCountryOnly: false,
+                                  showFlag: false,
+                                  textStyle: const TextStyle(fontSize: 16),
+                                  alignLeft: false,
+                                ),
+                                width: 50,
+                              ),
+                              Icon(Icons.arrow_drop_down),
+                              new Container(
+                                height: 35,
+                                width: 1,
+                                color: const Color(0xFFc1c1c1),
+                                margin: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0),
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: phoneController,
+                                  keyboardType: TextInputType.number,
+                                  autofocus: true,
+                                  style: const TextStyle(
+                                      fontSize: 16, color: Colors.black),
+                                  decoration: const InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 20, horizontal: 10),
+                                      hintText: 'Phone number',
+                                      border: InputBorder.none,
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide.none),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide.none)),
+                                ),
+                              )
+                            ],
                           ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: phoneController,
-                              keyboardType: TextInputType.number,
-                              autofocus: true,
-                              style: const TextStyle(
-                                  fontSize: 16, color: Colors.black),
-                              decoration: const InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 20, horizontal: 10),
-                                  hintText: 'Phone number',
-                                  border: InputBorder.none,
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide.none),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide.none)),
-                            ),
-                          )
-                        ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 40.0),
+                      Center(
+                        child: PrimaryButton(
+                          label: I18n.of(context).next_button,
+                          fontSize: 16,
+                          labelFontWeight: FontWeight.normal,
+                          onPressed: () {
+                            if (phoneController.text.trim().isEmpty) {
+                              setState(() {
+                                isvalidPhone = false;
+                              });
+                            } else {
+                              setState(() {
+                                isPreloading = true;
+                              });
+                              viewModel.signUp(countryCode.dialCode.toString(),
+                                  phoneController.text, () {
+                                Navigator.pushNamed(context, '/Verify');
+                                setState(() {
+                                  isPreloading = false;
+                                });
+                              }, () {
+                                setState(() {
+                                  isPreloading = false;
+                                  isvalidPhone = false;
+                                });
+                              });
+                            }
+                          },
+                          preload: isPreloading,
+                        ),
+                      )
+                    ],
                   ),
-                  const SizedBox(height: 40.0),
-                  Center(
-                    child: PrimaryButton(
-                      label: I18n.of(context).next_button,
-                      fontSize: 16,
-                      labelFontWeight: FontWeight.normal,
-                      onPressed: () {
-                        if (phoneController.text.trim().isEmpty) {
-                          setState(() {
-                            isvalidPhone = false;
-                          });
-                        } else {
-                          setState(() {
-                            isPreloading = true;
-                          });
-                          viewModel.signUp(countryCode.dialCode.toString(),
-                              phoneController.text, () {
-                            Navigator.pushNamed(context, '/Verify');
-                            setState(() {
-                              isPreloading = false;
-                            });
-                          }, () {
-                            setState(() {
-                              isPreloading = false;
-                              isvalidPhone = false;
-                            });
-                          });
-                        }
-                      },
-                      preload: isPreloading,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        }));
+                ),
+              );
+            }));
   }
 }

@@ -12,6 +12,7 @@ import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/contacts.dart';
 import 'package:paywise/screens/send/enable_contacts.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
+import 'package:paywise/services.dart';
 import 'package:paywise/utils/contacts.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:paywise/utils/phone.dart';
@@ -50,7 +51,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Contact> userList = [];
   List<Contact> filteredUsers = [];
   bool showFooter = true;
-  bool hasSynced = true;
+  bool hasSynced = false;
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
 
@@ -67,6 +68,15 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         isPreloading = true;
         hasSynced = isPermitted;
       });
+    }
+    if (this.mounted) {
+      setState(() {
+        isPreloading = true;
+        hasSynced = isPermitted;
+      });
+    }
+    if (isPermitted && contacts.isEmpty) {
+      contacts = await ContactController.getContacts();
     }
     for (var contact in contacts) {
       userList.add(contact);
@@ -169,14 +179,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               style: TextStyle(
                   fontSize: 15, color: Theme.of(context).primaryColor),
             ),
-            //subtitle: Text("user.company" ?? ""),
             onTap: () async {
-              Map<String, String> reverseContacts = viewModel.reverseContacts;
-              String number = formatPhoneNumber(
-                  user.phones.first.value, viewModel.countryCode);
-              String accountAddress = reverseContacts.keys.firstWhere(
-                  (k) => reverseContacts[k] == number,
-                  orElse: () => null);
+              String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
+              dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
+              String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
               Navigator.pushNamed(context, '/SendAmount',
                   arguments: SendAmountArguments(
                       name: user.displayName,
@@ -184,7 +190,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       avatar: user.avatar != null && user.avatar.isNotEmpty
                           ? MemoryImage(user.avatar)
                           : new AssetImage('assets/images/anom.png'),
-                      phoneNumber: user.phones.first.value));
+                      phoneNumber: phoneNumber));
             },
           ),
         ),
@@ -332,13 +338,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 displatName,
                 style: TextStyle(fontSize: 16, color: Colors.black),
               ),
-              onTap: () {
-                Map<String, String> reverseContacts = viewModel.reverseContacts;
-                String number = formatPhoneNumber(
-                    contact.phones.first.value, viewModel.countryCode);
-                String accountAddress = reverseContacts.keys.firstWhere(
-                    (k) => reverseContacts[k] == number,
-                    orElse: () => null);
+              onTap: () async {
+                String phoneNumber = formatPhoneNumber(contact.phones.first.value, viewModel.countryCode);
+                dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
+                String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
                         accountAddress: accountAddress,
@@ -346,7 +349,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         avatar: contact?.avatar != null
                             ? MemoryImage(contact.avatar)
                             : new AssetImage('assets/images/anom.png'),
-                        phoneNumber: number));
+                        phoneNumber: phoneNumber));
               },
             ),
           ),

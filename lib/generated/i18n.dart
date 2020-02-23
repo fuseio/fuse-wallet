@@ -60,16 +60,16 @@ class I18n implements WidgetsLocalizations {
   String get ok => "Ok";
   /// "Contact us"
   String get contact_us => "Contact us";
-  /// "Your fuse wallet protected!"
-  String get wallet_protected => "Your fuse wallet protected!";
-  /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in safe and secure place and never let anyone know what it is."
-  String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in safe and secure place and never let anyone know what it is.";
+  /// "Your paywise wallet is protected!"
+  String get wallet_protected => "Your paywise wallet is protected!";
+  /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
+  String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
   /// "write down the words in order and keep safe. You won’t be able to recover your account without it."
   String get write_words => "write down the words in order and keep safe. You won’t be able to recover your account without it.";
   /// "Please write down words \n"
   String get write_word => "Please write down words \n";
-  /// "Word"
-  String get word => "Word";
+  /// "Word "
+  String get word => "Word ";
   /// "The word does not match"
   String get word_not_match => "The word does not match";
   /// "Back up"

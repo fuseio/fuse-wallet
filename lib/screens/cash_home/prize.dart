@@ -69,7 +69,7 @@ Widget counterItem(BuildContext context, number) {
 
 Widget counterCard(BuildContext context, int number) {
   String a = number.toString();
-  bool isBigerThen = number > 10;
+  bool isBigerThen = number >= 10;
   String firstNum = isBigerThen ? a.split('')[0] : '0';
   String secondNum = isBigerThen ? a.split('')[1] : a;
   return Row(
@@ -207,14 +207,9 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                   Duration(seconds: 1), (i) => i),
                               builder: (BuildContext context,
                                   AsyncSnapshot<int> snapshot) {
-                                DateFormat format = new DateFormat('hh:mm');
-                                int now = DateTime.now().millisecondsSinceEpoch;
-                                Duration remaining = Duration(
-                                    milliseconds: drawInfo.endTimestamp - now);
-                                List<String> temp = format
-                                    .format(DateTime.fromMillisecondsSinceEpoch(
-                                        remaining.inMilliseconds))
-                                    .split(':');
+                                DateTime endTimestamp = new DateTime.fromMillisecondsSinceEpoch(drawInfo.endTimestamp);
+                                Duration remaining = endTimestamp.difference(DateTime.now());
+                                List<String> formatted = new DateFormat.m().format(DateTime.fromMillisecondsSinceEpoch(remaining.inMilliseconds)).split(':');
                                 return Container(
                                     alignment: Alignment.center,
                                     child: Row(
@@ -229,12 +224,12 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                           width: 20,
                                         ),
                                         counter(context, 'Hours',
-                                            int.parse(temp[0])),
+                                            remaining.inHours),
                                         SizedBox(
                                           width: 20,
                                         ),
                                         counter(context, 'Minutes',
-                                            int.parse(temp[1]))
+                                            int.parse(formatted[0]))
                                       ],
                                     ));
                               }),
@@ -254,7 +249,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Text(
-                                    'Current Prize amount:',
+                                    'Current prize amount:',
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ),
@@ -315,7 +310,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                             height: 30,
                           ),
                           Text(
-                            'Your chance are 1 in ' +
+                            'Your chances are 1 in ' +
                                 drawInfo.possibleWinnersCount.toString(),
                             style: TextStyle(
                                 fontSize: 14,

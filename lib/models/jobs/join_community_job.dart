@@ -9,7 +9,7 @@ part 'join_community_job.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: false)
 class JoinCommunityJob extends Job {
-  JoinCommunityJob({id, jobType, name, status, data, arguments, lastFinishedAt})
+  JoinCommunityJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported})
       : super(
             id: id,
             jobType: jobType,
@@ -17,7 +17,9 @@ class JoinCommunityJob extends Job {
             status: status,
             data: data,
             arguments: arguments,
-            lastFinishedAt: lastFinishedAt);
+            lastFinishedAt: lastFinishedAt,
+            isReported: isReported ?? false,
+            timeStart: timeStart ?? new DateTime.now().millisecondsSinceEpoch);
 
   @override
   fetch() async {
@@ -27,6 +29,13 @@ class JoinCommunityJob extends Job {
   @override
   onDone(store, dynamic fetchedData) async {
     Job job = JobFactory.create(fetchedData);
+    int current = DateTime.now().millisecondsSinceEpoch;
+    int jobTime = this.timeStart;
+    final int millisecondsIntoMin = 2 * 60 * 1000;
+    if ((current - jobTime) > millisecondsIntoMin && !isReported) {
+      store.dispatch(segmentTrackCall('Wallet: pending job $id $name'));
+      isReported = true;
+    }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
       final logger = await AppFactory().getLogger('job');
@@ -34,8 +43,8 @@ class JoinCommunityJob extends Job {
       return;
     }
     status = 'DONE';
-    store.dispatch(joinCommunitySuccessCall(
-        job, arguments['transfer'], arguments['community']));
+    store.dispatch(joinCommunitySuccessCall(job, arguments['transfer'], arguments['community']));
+    store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
   }
 
   @override

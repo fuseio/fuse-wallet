@@ -66,14 +66,14 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0),
                     Text(
-                        "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
+                        "The paywise wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
                     Text(
-                        "Fuse will never share this information with 3rd party.",
+                        "Paywise will never share this information with 3rd party.",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,

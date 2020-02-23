@@ -278,9 +278,9 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       }
       bool isPermitted = await Contacts.checkPermissions();
       if (isPermitted) {
-        store.dispatch(segmentTrackCall("Contacts Permission Granted"));
+        store.dispatch(segmentTrackCall("Wallet: Contacts Permission Granted"));
       } else {
-        store.dispatch(segmentTrackCall("Contacts Permission Rejected"));
+        store.dispatch(segmentTrackCall("Wallet: Contacts Permission Rejected"));
       }
     } catch (e) {
       logger.severe('ERROR - syncContactsCall $e');

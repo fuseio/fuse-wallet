@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/redux/reducers/app_reducer.dart';
 import 'package:paywise/redux/state/state_secure_storage.dart';
+import 'package:paywise/utils/phone.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
@@ -41,7 +42,7 @@ class AppFactory {
   static AppFactory _singleton;
   Map<String, Logger> _loggers = {};
   Store<AppState> _store;
-  SentryClient sentry;
+  SentryClient _sentry;
 
 
   AppFactory._();
@@ -135,10 +136,10 @@ class AppFactory {
   }
 
   Future<SentryClient> getSentry() async {
-    if (sentry == null) {
-      sentry = await _setupSentry();
+    if (_sentry == null) {
+      _sentry = await _setupSentry();
     }
-    return sentry;
+    return _sentry;
   }
 
   Future<SentryClient> _setupSentry() async {
@@ -227,6 +228,11 @@ class AppFactory {
       );
     }
 
+    dynamic store = await getStore();
+    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode) ?? '';
+    String username = store.state.userState.displayName ?? '';
+    User user = new User(id: fullPhoneNumber, username: username);
+
     final SentryClient sentry = new SentryClient(
         dsn: DotEnv().env['SENTRY_DSN'],
         environmentAttributes: new Event(
@@ -237,18 +243,17 @@ class AppFactory {
                 device: device,
                 operatingSystem: operatingSystem
             ),
-            userContext: new User(
-              id: await FlutterSegment.getAnonymousId,
-            )
+            userContext: user
         )
     );
+
     return sentry;
   }
 
   Future<void> reportError(dynamic error, dynamic stackTrace) async {
     // Send the Exception and Stacktrace to Sentry in Production mode.
-    sentry = await getSentry();
-    sentry.captureException(
+    _sentry = await getSentry();
+    _sentry.captureException(
       exception: error,
       stackTrace: stackTrace,
     );

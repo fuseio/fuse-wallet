@@ -78,7 +78,6 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                   autofocus: false,
                                   decoration: InputDecoration(
                                     labelText: I18n.of(context).word +
-                                        ' ' +
                                         selectedWordsNum[0].toString(),
                                   ),
                                   validator: (String value) {
