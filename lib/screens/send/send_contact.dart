@@ -51,7 +51,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Contact> userList = [];
   List<Contact> filteredUsers = [];
   bool showFooter = true;
-  bool hasSynced = true;
+  bool hasSynced = false;
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
 
@@ -68,6 +68,15 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         isPreloading = true;
         hasSynced = isPermitted;
       });
+    }
+    if (this.mounted) {
+      setState(() {
+        isPreloading = true;
+        hasSynced = isPermitted;
+      });
+    }
+    if (isPermitted && contacts.isEmpty) {
+      contacts = await ContactController.getContacts();
     }
     for (var contact in contacts) {
       userList.add(contact);
@@ -172,8 +181,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
             ),
             onTap: () async {
               String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
-              Map<String, dynamic> data = await api.getWalletByPhoneNumber(phoneNumber);
-              String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : '';
+              dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
+              String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
               Navigator.pushNamed(context, '/SendAmount',
                   arguments: SendAmountArguments(
                       name: user.displayName,
@@ -331,8 +340,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               onTap: () async {
                 String phoneNumber = formatPhoneNumber(contact.phones.first.value, viewModel.countryCode);
-                Map<String, dynamic> data = await api.getWalletByPhoneNumber(phoneNumber);
-                String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : '';
+                dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
+                String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
                 Navigator.pushNamed(context, '/SendAmount',
                     arguments: SendAmountArguments(
                         accountAddress: accountAddress,
