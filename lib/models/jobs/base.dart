@@ -15,11 +15,13 @@ abstract class Job {
 
   String status;
   dynamic arguments;
+  bool isReported;
   final String id;
   final String jobType;
   final String name;
   final dynamic data;
   final String lastFinishedAt;
+  final int timeStart;
 
   Job(
       {this.id,
@@ -28,7 +30,9 @@ abstract class Job {
       status,
       arguments,
       this.data,
-      this.lastFinishedAt}) {
+      this.lastFinishedAt,
+      this.timeStart,
+      isReported}) {
     this.arguments = argumentsFromJson(arguments);
   }
 
@@ -41,6 +45,8 @@ abstract class Job {
     'name': this.name,
     'status': this.status,
     'data': this.data,
+    'isReported': this.isReported,
+    'timeStart': this.timeStart,
     'lastFinishedAt': this.lastFinishedAt,
     'arguments': argumentsToJson()
   };

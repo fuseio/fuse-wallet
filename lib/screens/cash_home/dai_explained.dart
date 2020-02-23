@@ -114,7 +114,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen>
                                       Text(
                                           'Get 10 points for installing the app',
                                           style: TextStyle(
-                                              fontSize: 10,
+                                              fontSize: 11,
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .secondary)),
@@ -132,7 +132,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen>
                                       Text(
                                           'Get 10 points after sending money to a friend',
                                           style: TextStyle(
-                                              fontSize: 10,
+                                              fontSize: 11,
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .secondary)),
@@ -150,7 +150,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen>
                                       Text(
                                           'Get 10 points for backing-up your wallet',
                                           style: TextStyle(
-                                              fontSize: 10,
+                                              fontSize: 11,
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .secondary)),
