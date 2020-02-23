@@ -44,6 +44,7 @@ class TransferJob extends Job {
     }
     status = 'DONE';
     store.dispatch(sendTokenSuccessCall(job, arguments['transfer']));
+    store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
   }
 
   @override

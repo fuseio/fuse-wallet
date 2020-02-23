@@ -40,6 +40,7 @@ class GenerateWalletJob extends Job {
       status = 'DONE';
     }
     store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
+    store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
   }
 
   static GenerateWalletJob fromJson(dynamic json) => _$GenerateWalletJobFromJson(json);

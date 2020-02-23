@@ -50,6 +50,7 @@ class InviteJob extends Job {
         arguments['inviteTransfer'],
         arguments['sendSuccessCallback'],
         arguments['sendFailureCallback']));
+    store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
   }
 
   @override

@@ -43,6 +43,7 @@ class BackupJob extends Job {
       if (data['status'] == 'SUCCEEDED') {
         status = 'DONE';
         store.dispatch(backupSuccessCall(data['txHash'], arguments['backupBonus']));
+        store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
         return;
       }
       final logger = await AppFactory().getLogger('Job');

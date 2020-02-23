@@ -43,8 +43,8 @@ class JoinCommunityJob extends Job {
       return;
     }
     status = 'DONE';
-    store.dispatch(joinCommunitySuccessCall(
-        job, arguments['transfer'], arguments['community']));
+    store.dispatch(joinCommunitySuccessCall(job, arguments['transfer'], arguments['community']));
+    store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
   }
 
   @override
