@@ -209,7 +209,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                   AsyncSnapshot<int> snapshot) {
                                 DateTime endTimestamp = new DateTime.fromMillisecondsSinceEpoch(drawInfo.endTimestamp);
                                 Duration remaining = endTimestamp.difference(DateTime.now());
-                                List<String> temp = new DateFormat.m().format(DateTime.fromMillisecondsSinceEpoch(remaining.inMilliseconds)).split(':');
+                                List<String> formatted = new DateFormat.m().format(DateTime.fromMillisecondsSinceEpoch(remaining.inMilliseconds)).split(':');
                                 return Container(
                                     alignment: Alignment.center,
                                     child: Row(
@@ -229,7 +229,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                           width: 20,
                                         ),
                                         counter(context, 'Minutes',
-                                            int.parse(temp[0]))
+                                            int.parse(formatted[0]))
                                       ],
                                     ));
                               }),
