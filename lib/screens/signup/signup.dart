@@ -32,8 +32,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   _updateCountryCode(Locale myLocale) {
     if (myLocale.countryCode != null) {
-      Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode) ?? '‎+1';
-      if (mounted) {
+      Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
+      if (mounted && localeData != null) {
         setState(() {
           countryCode = CountryCode(dialCode: localeData['dial_code']);
         });
