@@ -94,7 +94,7 @@ ThunkAction backupWalletCall() {
     dynamic response = await api.backupWallet(communityAddres);
     Community community = store.state.cashWalletState.communities[communityAddres];
     if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive) {
-      BigInt value = toBigInt(community.plugins.joinBonus.amount, community.token.decimals);
+      BigInt value = toBigInt(community.plugins.backupBonus.amount, community.token.decimals);
       String walletAddress = store.state.cashWalletState.walletAddress;
       dynamic jobId = response['job']['_id'];
       logger.info('Job $jobId - sending backup bonus');
