@@ -31,11 +31,13 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   _updateCountryCode(Locale myLocale) {
-    Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode);
-    if (mounted) {
-      setState(() {
-        countryCode = CountryCode(dialCode: localeData['dial_code']);
-      });
+    if (myLocale.countryCode != null) {
+      Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode) ?? '‎+1';
+      if (mounted) {
+        setState(() {
+          countryCode = CountryCode(dialCode: localeData['dial_code']);
+        });
+      }
     }
   }
 

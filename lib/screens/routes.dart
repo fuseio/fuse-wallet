@@ -8,6 +8,7 @@ import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/cash_home/dai_explained.dart';
 import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
+import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/misc/about.dart';
 import 'package:fusecash/screens/misc/settings.dart';
 import 'package:fusecash/screens/send/send_contact.dart';
@@ -52,6 +53,7 @@ getRoutes() {
     '/Settings': (context) => SettingsScreen(),
     '/Map': (context) => MapScreen(),
     '/Prize': (context) => PrizeScreen(),
-    '/DaiPoints': (context) => DaiExplainedScreen()
+    '/DaiPoints': (context) => DaiExplainedScreen(),
+    '/WebPage': (context) => WebViewPage(),
   };
 }
