@@ -204,6 +204,8 @@ class I18n implements WidgetsLocalizations {
   String get top_up => "Top-up your account";
   /// "Buy"
   String get buy => "Buy";
+  /// "DAI points"
+  String get dai_points => "DAI points";
   /// "Map"
   String get map => "Map";
   /// "APPROVED"
