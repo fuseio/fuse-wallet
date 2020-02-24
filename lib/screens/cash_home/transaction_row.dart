@@ -37,68 +37,48 @@ class TransactionListItem extends StatelessWidget {
                     : deducePhoneNumber(transfer, _vm.reverseContacts,
                         businesses: _vm.businesses);
     List<Widget> rightColumn = <Widget>[
-      transfer.isJoinCommunity() && isDefaultCommunity(_vm.communityAddress)
-          ? Row(
+      transfer.isGenerateWallet() || transfer.isJoinCommunity()
+          ? SizedBox.shrink()
+          : Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                  InkWell(
-                    onTap: () async {
-                      Future.delayed(
-                          Duration.zero,
-                          () => showDialog(
-                              child: new DaiExplainedScreen(),
-                              context: context));
-                      await FlutterSegment.track(
-                          eventName: "Wallet: open DAI points explanation",
-                          properties: new Map<String, dynamic>());
-                    },
-                    child: SvgPicture.asset('assets/images/info_svg.svg'),
-                  )
-                ])
-          : transfer.isGenerateWallet() || transfer.isJoinCommunity()
-              ? SizedBox.shrink()
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                Stack(
+                  overflow: Overflow.visible,
+                  alignment: AlignmentDirectional.bottomEnd,
                   children: <Widget>[
-                    Stack(
-                      overflow: Overflow.visible,
-                      alignment: AlignmentDirectional.bottomEnd,
-                      children: <Widget>[
-                        new RichText(
-                            text: new TextSpan(children: <TextSpan>[
-                          new TextSpan(
-                              text: deduceSign(transfer) +
-                                  formatValue(
-                                      transfer.value, _vm.token.decimals),
-                              style: new TextStyle(
-                                  color: deduceColor(transfer),
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.bold)),
-                          new TextSpan(
-                              text: " ${_vm.token.symbol}",
-                              style: new TextStyle(
-                                  color: deduceColor(transfer),
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.normal)),
-                        ])),
-                        Positioned(
-                            bottom: -20,
-                            child: (transfer.isPending() &&
-                                    !transfer.isGenerateWallet() &&
-                                    !transfer.isJoinCommunity())
-                                ? Padding(
-                                    child: Text(I18n.of(context).pending,
-                                        style: TextStyle(
-                                            color: Color(0xFF8D8D8D),
-                                            fontSize: 10)),
-                                    padding: EdgeInsets.only(top: 10))
-                                : SizedBox.shrink())
-                      ],
-                    )
+                    new RichText(
+                        text: new TextSpan(children: <TextSpan>[
+                      new TextSpan(
+                          text: deduceSign(transfer) +
+                              formatValue(transfer.value, _vm.token.decimals),
+                          style: new TextStyle(
+                              color: deduceColor(transfer),
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold)),
+                      new TextSpan(
+                          text: " ${_vm.token.symbol}",
+                          style: new TextStyle(
+                              color: deduceColor(transfer),
+                              fontSize: 10.0,
+                              fontWeight: FontWeight.normal)),
+                    ])),
+                    Positioned(
+                        bottom: -20,
+                        child: (transfer.isPending() &&
+                                !transfer.isGenerateWallet() &&
+                                !transfer.isJoinCommunity())
+                            ? Padding(
+                                child: Text(I18n.of(context).pending,
+                                    style: TextStyle(
+                                        color: Color(0xFF8D8D8D),
+                                        fontSize: 10)),
+                                padding: EdgeInsets.only(top: 10))
+                            : SizedBox.shrink())
                   ],
                 )
+              ],
+            )
     ];
     bool isWalletCreated = 'created' == this._vm.walletStatus;
     return Container(
