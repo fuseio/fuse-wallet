@@ -219,7 +219,7 @@ ThunkAction loginVerifyCall(
       store.dispatch(segmentTrackCall("Wallet: verified phone number"));
       successCallback();
     } catch (e) {
-      logger.severe('ERROR - loginVerifyCall e');
+      logger.severe('ERROR - loginVerifyCall $e');
       store.dispatch(new ErrorAction('Could not verify login'));
       failCallback();
     }

@@ -5,11 +5,11 @@ import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'join_community_job.g.dart';
+part 'join_bonus_job.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: false)
-class JoinCommunityJob extends Job {
-  JoinCommunityJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported, isFunderJob})
+class JoinBonusJob extends Job {
+  JoinBonusJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported, isFunderJob})
       : super(
             id: id,
             jobType: jobType,
@@ -19,11 +19,14 @@ class JoinCommunityJob extends Job {
             arguments: arguments,
             lastFinishedAt: lastFinishedAt,
             isReported: isReported,
-            timeStart: timeStart ?? new DateTime.now().millisecondsSinceEpoch,
-            isFunderJob: isFunderJob);
+            timeStart: timeStart ?? DateTime.now().millisecondsSinceEpoch,
+            isFunderJob: isFunderJob ?? true);
 
   @override
   fetch() async {
+    if (this.isFunderJob == true) {
+      return api.getFunderJob(this.id);
+    }
     return api.getJob(this.id);
   }
 
@@ -32,12 +35,11 @@ class JoinCommunityJob extends Job {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
       this.status = 'FAILED';
-      logger.info('JoinCommunityJob FAILED');
-      store.dispatch(transactionFailed(arguments['transfer']));
-      store.dispatch(segmentTrackCall('Wallet: JoinCommunityJob FAILED'));
+      logger.info('joinBonus FAILED');
+      store.dispatch(transactionFailed(arguments['joinBonus']));
+      store.dispatch(segmentTrackCall('Wallet: joinBonus FAILED'));
       return;
     }
-    Job job = JobFactory.create(fetchedData);
     int current = DateTime.now().millisecondsSinceEpoch;
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
@@ -46,35 +48,41 @@ class JoinCommunityJob extends Job {
       this.isReported = true;
     }
 
-    if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.info('JoinCommunityJob not done');
+    dynamic data = fetchedData['data'];
+    String responseStatus = data['status'];
+    if (responseStatus == 'SUCCEEDED') {
+      this.status = 'DONE';
+      store.dispatch(joinBonusSuccessCall(data['txHash'], arguments['joinBonus']));
+      store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
+      logger.info('JoinBonusJob SUCCEEDED');
       return;
+    } else if (responseStatus == 'FAILED') {
+      this.status = 'FAILED';
+      logger.info('JoinBonusJob FAILED');
+      store.dispatch(transactionFailed(arguments['joinBonus']));
     }
-    this.status = 'DONE';
-    store.dispatch(joinCommunitySuccessCall(job, fetchedData, arguments['transfer'], arguments['community']));
-    store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
   }
 
   @override
   dynamic argumentsToJson() => {
-      'transfer': arguments['transfer'].toJson(),
-      'community': arguments['community']
+      'joinBonus': arguments['joinBonus'].toJson(),
+      'jobType': arguments['jobType']
     };
 
   @override
-  dynamic argumentsFromJson(arguments) {
+  Map<String, dynamic> argumentsFromJson(arguments) {
     if (arguments == null) {
       return arguments;
     }
-    if (arguments.containsKey('transfer')) {
-      if (arguments['transfer'] is Map) {
+    if (arguments.containsKey('joinBonus')) {
+      if (arguments['joinBonus'] is Map) {
         Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
-        nArgs['transfer'] = TransactionFactory.fromJson(arguments['transfer']);
+        nArgs['joinBonus'] = TransactionFactory.fromJson(arguments['joinBonus']);
         return nArgs;
       }
     }
     return arguments;
   }
 
-  static JoinCommunityJob fromJson(dynamic json) => _$JoinCommunityJobFromJson(json);
+  static JoinBonusJob fromJson(dynamic json) => _$JoinBonusJobFromJson(json);
 }

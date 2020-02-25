@@ -88,6 +88,8 @@ class I18n implements WidgetsLocalizations {
   String get generated_wallet => "Generated wallet";
   /// "PENDING"
   String get pending => "PENDING";
+  /// "FAILED"
+  String get failed => "FAILED";
   /// "CONFIRMED"
   String get confirmed => "CONFIRMED";
   /// "Transactions"

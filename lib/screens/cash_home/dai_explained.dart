@@ -246,7 +246,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'Withdrad DAI',
+                            'Withdraw DAI',
                             style: TextStyle(
                                 fontSize: 16,
                                 color:

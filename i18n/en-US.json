@@ -27,6 +27,7 @@
     "generating_wallet": "Generating wallet",
     "generated_wallet": "Generated wallet",
     "pending": "PENDING",
+    "failed": "FAILED",
     "confirmed": "CONFIRMED",
     "transactions": "Transactions",
     "transaction_details": "Transaction details",

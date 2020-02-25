@@ -13,7 +13,6 @@ import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:sentry/sentry.dart';
 import 'package:package_info/package_info.dart';
 import 'package:device_info/device_info.dart';
@@ -58,7 +57,6 @@ class AppFactory {
     if (_store == null) {
       final Logger logger = await getLogger('action');
       bool isDevelopment = DotEnv().env['MODE'] == 'development';
-      await FlutterSegment.track(eventName: "Application Opened");
       FlutterSecureStorage storage = new FlutterSecureStorage();
 
       final persistor = Persistor<AppState>(
