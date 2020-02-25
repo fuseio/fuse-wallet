@@ -58,6 +58,28 @@ class BackupBonusPlugin extends Plugin {
     : null;
 }
 
+class InviteBonusPlugin extends Plugin {
+  String amount;
+  final String type = 'inviteBonus';
+
+  InviteBonusPlugin({
+    name,
+    isActive,
+    this.amount
+  }) : super(name, isActive);
+
+  @override
+  dynamic toJson() => {'name': name, 'isActive': isActive, 'type': type, 'amount': amount};
+
+  static InviteBonusPlugin fromJson(dynamic json) => json != null
+    ? InviteBonusPlugin(
+        name: json['name'],
+        amount: json.containsKey('inviteInfo') ? json['inviteInfo']['amount'] : json['amount'],
+        isActive: json["isActive"] || false,
+      )
+    : null;
+}
+
 class WalletBannerPlugin extends Plugin {
   String link;
   String walletBannerHash;
@@ -179,8 +201,10 @@ class Plugins {
   WalletBannerPlugin walletBanner;
   @JsonKey(name: 'backupBonus', fromJson: _backupBonusFromJson, toJson: _backupBonusToJson, includeIfNull: false)
   BackupBonusPlugin backupBonus;
+  @JsonKey(name: 'inviteBonus', fromJson: _inviteBonusFromJson, toJson: _inviteBonusToJson, includeIfNull: false)
+  InviteBonusPlugin inviteBonus;
 
-  Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp, this.joinBonus, this.walletBanner, this.backupBonus});
+  Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp, this.joinBonus, this.walletBanner, this.backupBonus, this.inviteBonus});
 
   static Map getServicesMap (dynamic json) {
     if (json.containsKey('onramp')) {
@@ -208,11 +232,17 @@ class Plugins {
         joinBonus:  JoinBonusPlugin.fromJson(json['joinBonus']),
         walletBanner: WalletBannerPlugin.fromJson(json['walletBanner']),
         backupBonus: BackupBonusPlugin.fromJson(json['backupBonus']),
+        inviteBonus: InviteBonusPlugin.fromJson(json['inviteBonus']),
       );
     }
   }
 
   dynamic toJson() => _$PluginsToJson(this);
+
+  static InviteBonusPlugin _inviteBonusFromJson(Map<String, dynamic> json) =>
+      json == null ? null : InviteBonusPlugin.fromJson(json);
+
+  static Map<String, dynamic> _inviteBonusToJson(InviteBonusPlugin inviteBonus) => inviteBonus != null ? inviteBonus.toJson() : null;
 
   static BackupBonusPlugin _backupBonusFromJson(Map<String, dynamic> json) =>
       json == null ? null : BackupBonusPlugin.fromJson(json);

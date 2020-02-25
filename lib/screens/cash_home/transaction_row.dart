@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/transfer.dart';
@@ -59,6 +60,12 @@ class TransactionListItem extends StatelessWidget {
                               fontSize: 10.0,
                               fontWeight: FontWeight.normal)),
                     ])),
+                    transfer.isFailed()
+                        ? Positioned(
+                            left: -25,
+                            child: SvgPicture.asset('assets/images/failed.svg'),
+                          )
+                        : SizedBox.shrink(),
                     Positioned(
                         bottom: -20,
                         child: (transfer.isPending() &&

@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'generate_wallet_job.dart';
+part of 'invite_bonus_job.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-GenerateWalletJob _$GenerateWalletJobFromJson(Map<String, dynamic> json) {
-  return GenerateWalletJob(
+InviteBonusJob _$InviteBonusJobFromJson(Map<String, dynamic> json) {
+  return InviteBonusJob(
     id: json['id'],
     jobType: json['jobType'],
     name: json['name'],
