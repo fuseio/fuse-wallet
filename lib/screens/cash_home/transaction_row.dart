@@ -1,14 +1,10 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/screens/cash_home/dai_explained.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/utils/format.dart';
 
@@ -189,14 +185,6 @@ class TransactionListItem extends StatelessWidget {
             ],
           ),
           onTap: () {
-            if (transfer.isJoinCommunity() &&
-                isDefaultCommunity(_vm.communityAddress)) {
-              Future.delayed(
-                  Duration.zero,
-                  () => showDialog(
-                      child: new DaiExplainedScreen(), context: context));
-              return;
-            }
             if (transfer.isGenerateWallet() || transfer.isJoinCommunity()) {
               return;
             }
