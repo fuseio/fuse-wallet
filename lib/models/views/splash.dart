@@ -28,6 +28,7 @@ class SplashViewModel extends Equatable {
         isLoggedOut: store.state.userState.isLoggedOut ?? false,
         initWeb3: (privateKey) {
           store.dispatch(initWeb3Call(privateKey));
+          store.dispatch(identifyCall());
         },
         createLocalAccount: (VoidCallback successCallback) {
           store.dispatch(createLocalAccountCall(successCallback));
