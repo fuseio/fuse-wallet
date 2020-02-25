@@ -445,7 +445,7 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.info('fullPhoneNumber: $fullPhoneNumber');
           store.dispatch(create3boxAccountCall(accountAddress));
-          store.dispatch(identifyCall());
+          store.dispatch(identifyFirstTimeCall());
           store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
     }
   };
