@@ -1,16 +1,15 @@
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'backup_job.g.dart';
+part 'invite_bonus_job.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: false)
-class BackupJob extends Job {
-  BackupJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported, isFunderJob})
+class InviteBonusJob extends Job {
+  InviteBonusJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported, isFunderJob})
       : super(
             id: id,
             jobType: jobType,
@@ -25,7 +24,11 @@ class BackupJob extends Job {
 
   @override
   fetch() async {
-    return api.getJob(this.id);
+    if (this.isFunderJob == null || !this.isFunderJob) {
+      return api.getJob(this.id);
+    } else {
+      return api.getFunderJob(this.id);
+    }
   }
 
   @override
@@ -33,9 +36,9 @@ class BackupJob extends Job {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
       this.status = 'FAILED';
-      logger.info('BackupJob FAILED');
-      store.dispatch(transactionFailed(arguments['backupBonus']));
-      store.dispatch(segmentTrackCall('Wallet: BackupJob FAILED'));
+      logger.info('InviteBonusJob FAILED');
+      store.dispatch(transactionFailed(arguments['inviteBonus']));
+      store.dispatch(segmentTrackCall('Wallet: InviteBonusJob FAILED'));
       return;
     }
     int current = DateTime.now().millisecondsSinceEpoch;
@@ -50,23 +53,23 @@ class BackupJob extends Job {
       String funderJobId = fetchedData['data']['funderJobId'];
       dynamic response = await api.getFunderJob(funderJobId);
       dynamic data = response['data'];
-      if (data['status'] == 'SUCCEEDED') {
+      String responseStatus = data['status'];
+      if (responseStatus == 'SUCCEEDED') {
         this.status = 'DONE';
-        store.dispatch(backupSuccessCall(data['txHash'], arguments['backupBonus']));
+        store.dispatch(inviteBonusSuccessCall(data['txHash'], arguments['inviteBonus']));
         store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
+        logger.info('InviteBonusJob SUCCEEDED');
         return;
-      } else if (status == 'FAILED') {
+      } else if (responseStatus == 'FAILED') {
         this.status = 'FAILED';
-        store.dispatch(segmentTrackCall('Wallet: FAILED job $id $name'));
-      } else if (status == 'STARTED') {
-        logger.info('BackupJob job not done');
+        logger.info('InviteBonusJob FAILED');
       }
     }
   }
 
   @override
   dynamic argumentsToJson() => {
-      'backupBonus': arguments['backupBonus'],
+      'inviteBonus': arguments['inviteBonus'].toJson(),
       'jobType': arguments['jobType']
     };
 
@@ -75,15 +78,15 @@ class BackupJob extends Job {
     if (arguments == null) {
       return arguments;
     }
-    if (arguments.containsKey('backupBonus')) {
-      if (arguments['backupBonus'] is Map) {
+    if (arguments.containsKey('inviteBonus')) {
+      if (arguments['inviteBonus'] is Map) {
         Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
-        nArgs['backupBonus'] = TransactionFactory.fromJson(arguments['backupBonus']);
+        nArgs['inviteBonus'] = TransactionFactory.fromJson(arguments['inviteBonus']);
         return nArgs;
       }
     }
     return arguments;
   }
 
-  static BackupJob fromJson(dynamic json) => _$BackupJobFromJson(json);
+  static InviteBonusJob fromJson(dynamic json) => _$InviteBonusJobFromJson(json);
 }

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:redux_persist/redux_persist.dart';
@@ -20,19 +19,4 @@ class SecureStorage implements StorageEngine {
   Future<void> save(Uint8List data) async {
     await storage.write(key: "data", value: uint8ListToString(data));
   }
-}
-
-/// Storage engine to save to memory.
-/// Do not use in production, this doesn't persist to disk.
-class MemoryStorage2 implements StorageEngine {
-  /// Internal memory.
-  Uint8List _memory;
-
-  MemoryStorage2([Uint8List memory]) : _memory = memory;
-
-  @override
-  Future<Uint8List> load() async => _memory;
-
-  @override
-  Future<void> save(Uint8List data) async => _memory = data;
 }

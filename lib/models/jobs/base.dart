@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:fusecash/models/jobs/backup_job.dart';
 import 'package:fusecash/models/jobs/generate_wallet_job.dart';
+import 'package:fusecash/models/jobs/invite_bonus_job.dart';
 import 'package:fusecash/models/jobs/invite_job.dart';
+import 'package:fusecash/models/jobs/join_bonus_job.dart';
 import 'package:fusecash/models/jobs/join_community_job.dart';
 import 'package:fusecash/models/jobs/transfer_job.dart';
 
@@ -16,6 +18,7 @@ abstract class Job {
   String status;
   dynamic arguments;
   bool isReported;
+  final bool isFunderJob;
   final String id;
   final String jobType;
   final String name;
@@ -29,6 +32,7 @@ abstract class Job {
       this.name,
       status,
       arguments,
+      this.isFunderJob,
       this.data,
       this.lastFinishedAt,
       this.timeStart,
@@ -40,16 +44,17 @@ abstract class Job {
   Future<dynamic> onDone(store, dynamic fetchedData);
 
   Map<String, dynamic> toJson() => {
-    'id': this.id,
-    'jobType': this.jobType,
-    'name': this.name,
-    'status': this.status,
-    'data': this.data,
-    'isReported': this.isReported,
-    'timeStart': this.timeStart,
-    'lastFinishedAt': this.lastFinishedAt,
-    'arguments': argumentsToJson()
-  };
+        'id': this.id,
+        'jobType': this.jobType,
+        'name': this.name,
+        'status': this.status,
+        'data': this.data,
+        'isReported': this.isReported,
+        'timeStart': this.timeStart,
+        'lastFinishedAt': this.lastFinishedAt,
+        'isFunderJob': this.isFunderJob,
+        'arguments': argumentsToJson()
+      };
 
   Future perform(dynamic store, Function isJobProcessValid) async {
     dynamic fetchedData = await fetch();
@@ -148,9 +153,26 @@ class JobFactory {
             data: json['data'],
             lastFinishedAt: json['lastFinishedAt'],
             arguments: json['arguments']);
+      case 'inviteBonus':
+        return new InviteBonusJob(
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
+      case 'joinBonus':
+        return new JoinBonusJob(
+            id: id,
+            isFunderJob: true,
+            jobType: jobType,
+            name: jobType,
+            status: status,
+            data: json['data'],
+            arguments: json['arguments']);
     }
     print('ERROR: $jobType not supported');
     return null;
   }
 }
-

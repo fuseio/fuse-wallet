@@ -445,7 +445,7 @@ ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           logger.info('fullPhoneNumber: $fullPhoneNumber');
           store.dispatch(create3boxAccountCall(accountAddress));
-          store.dispatch(identifyCall());
+          store.dispatch(identifyFirstTimeCall());
           store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
     }
   };
@@ -529,7 +529,7 @@ ThunkAction processingJobsCall(Timer timer) {
     for (Job job in jobs) {
       String currentCommunityAddress = store.state.cashWalletState.communityAddress;
       String currentWalletAddress = store.state.cashWalletState.walletAddress;
-      if (job.status != 'DONE') {
+      if (job.status != 'DONE' && job.status != 'FAILED') {
         bool isJobProcessValid() {
           if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
             timer.cancel();
@@ -552,6 +552,7 @@ ThunkAction processingJobsCall(Timer timer) {
     }
   };
 }
+
 ThunkAction startProcessingJobsCall() {
   return (Store store) async {
     new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
@@ -617,16 +618,64 @@ ThunkAction inviteAndSendCall(
   };
 }
 
-ThunkAction inviteAndSendSuccessCall(Job job, tokensAmount, receiverName, inviteTransfer, sendSuccessCallback, sendFailureCallback) {
+ThunkAction inviteAndSendSuccessCall(Job job, dynamic data, tokensAmount, receiverName, inviteTransfer, sendSuccessCallback, sendFailureCallback) {
   return (Store store) async {
+      String communityAddres = store.state.cashWalletState.communityAddress;
+      Community community = store.state.cashWalletState.communities[communityAddres];
+      Function successCallBack = () {
+        sendSuccessCallback();
+          if (community.plugins.inviteBonus != null && community.plugins.inviteBonus.isActive && data['bonusInfo'] != null) {
+          store.dispatch(inviteBonusCall(data));
+        }
+      };
+
       String receiverAddress = job.data["walletAddress"];
       store.dispatch(sendTokenCall(receiverAddress, tokensAmount,
-          sendSuccessCallback, sendFailureCallback,
+          successCallBack, sendFailureCallback,
           receiverName: receiverName, inviteTransfer: inviteTransfer));
       store.dispatch(syncContactsCall(store.state.userState.contacts));
+      
   };
 }
 
+ThunkAction inviteBonusCall(dynamic data) {
+  return (Store store) async {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres];
+    BigInt value = toBigInt(community.plugins.inviteBonus.amount, community.token.decimals);
+    String walletAddress = store.state.cashWalletState.walletAddress;
+    String bonusJobId = data['bonusJob']['_id'];
+    Transfer inviteBonus = new Transfer(
+        from: DotEnv().env['FUNDER_ADDRESS'],
+        to: walletAddress,
+        text: 'You got a invite bonus!',
+        type: 'RECEIVE',
+        value: value,
+        status: 'PENDING',
+        jobId: bonusJobId);
+    store.dispatch(AddTransaction(inviteBonus));
+    Map response = new Map.from({
+      'job': {
+        'id': bonusJobId,
+        'jobType': 'inviteBonus',
+        'arguments': {
+          'inviteBonus': inviteBonus,
+        }
+      }
+    });
+  
+    Job job = JobFactory.create(response['job']);
+    store.dispatch(AddJob(job));
+  };
+}
+
+ThunkAction inviteBonusSuccessCall(String txHash, transfer) {
+  return (Store store) async {
+    Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
+    store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+    store.dispatch(segmentTrackCall('Wallet: invite bonus success'));
+  };
+}
 
 ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
@@ -688,6 +737,14 @@ ThunkAction sendTokenSuccessCall(job, transfer) {
     Transfer confirmedTx =
         transfer.copyWith(status: 'CONFIRMED', txHash: job.data['txHash']);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+  };
+}
+
+ThunkAction transactionFailed(transfer) {
+  return (Store store) async {
+    Transfer failedTx =
+        transfer.copyWith(status: 'FAILED');
+    store.dispatch(new ReplaceTransaction(transfer, failedTx));
   };
 }
 
@@ -774,7 +831,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   };
 }
 
-ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic community) {
+ThunkAction joinCommunitySuccessCall(Job job, dynamic fetchedData, Transfer transfer, dynamic community) {
   return (Store store) async {
       Transfer confirmedTx = transfer.copyWith(
       status: 'CONFIRMED',
@@ -783,23 +840,44 @@ ThunkAction joinCommunitySuccessCall(Job job, Transfer transfer, dynamic communi
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
 
     String communityAddres = store.state.cashWalletState.communityAddress;
-    Community communityData =
-      store.state.cashWalletState.communities[communityAddres];
+    Community communityData = store.state.cashWalletState.communities[communityAddres];
     if (communityData.plugins.joinBonus != null && communityData.plugins.joinBonus.isActive) {
       BigInt value = toBigInt(communityData.plugins.joinBonus.amount, communityData.token.decimals);
+      String funderJobId = fetchedData['data']['funderJobId'];
       Transfer joinBonus = new Transfer(
         from: DotEnv().env['FUNDER_ADDRESS'],
         type: 'RECEIVE',
         value: value,
         text: 'You got a join bonus!',
-        status: 'PENDING');
+        status: 'PENDING',
+        jobId: funderJobId);
       store.dispatch(new AddTransaction(joinBonus));
-      store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
+      Map response = Map.from({
+        'job': {
+          'id': funderJobId,
+          'jobType': 'joinBonus',
+          'arguments': {
+            'joinBonus': joinBonus
+          }
+        }
+      });
+      Job job = JobFactory.create(response['job']);
+      store.dispatch(AddJob(job));
+    }
+  };
+}
+
+ThunkAction joinBonusSuccessCall(txHash, transfer) {
+  return (Store store) async {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community communityData = store.state.cashWalletState.communities[communityAddres];
+    Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
+    store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+    store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
         properties: new Map<String, dynamic>.from({
-          "Community Name": community["name"],
+          "Community Name": communityData.name,
           "Bonus amount": communityData.plugins.joinBonus.amount,
         })));
-    }
   };
 }
 

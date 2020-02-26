@@ -16,6 +16,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+        expandedHeight: MediaQuery.of(context).size.height / 8,
         title: I18n.of(context).dai_points,
         titleFontSize: 15,
         footer: bottomBar(context),
@@ -27,7 +28,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                 height: 20,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.5,
+                height: MediaQuery.of(context).size.height * 0.55,
                 width: MediaQuery.of(context).size.width * 0.9,
                 padding: EdgeInsets.only(left: 10, right: 10, top: 20),
                 decoration: BoxDecoration(
@@ -37,7 +38,6 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                     border: Border.all(color: Color(0xFFECF7EF))),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Column(
@@ -46,6 +46,8 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                       children: <Widget>[
                         Image.asset(
                           "assets/images/dai_points_logo.png",
+                          width: 75,
+                          height: 75,
                         ),
                         SizedBox(
                           height: 30,
@@ -53,7 +55,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                         Text(
                           '''DAI points is the default token of the Fuse wallet. Get some points to start exploring the features:''',
                           style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 17,
                               color: Theme.of(context).colorScheme.secondary),
                           textAlign: TextAlign.center,
                         ),
@@ -63,7 +65,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                         Text(
                           '1 DAI = \$1 = 100 DAI points',
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF00BE66)),
                           textAlign: TextAlign.center,
@@ -72,7 +74,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                           height: 30,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 15),
+                          padding: EdgeInsets.only(left: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
@@ -80,8 +82,9 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Win up to 100 points!',
+                                  'Win up to 30 points!',
                                   style: TextStyle(
+                                      fontSize: 13,
                                       color: Theme.of(context)
                                           .textTheme
                                           .headline
@@ -136,44 +139,53 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                               .secondary)),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5),
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                  width: 260.0,
+                                  height: 50.0,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Theme.of(context).primaryColorLight,
+                                          Theme.of(context).primaryColorDark,
+                                        ],
+                                      ),
+                                      borderRadius: new BorderRadius.all(
+                                          new Radius.circular(30.0)),
+                                      border: Border.all(
+                                          color: Theme.of(context)
+                                              .primaryColor
+                                              .withAlpha(14))),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/Prize');
+                                    },
                                     child: Row(
-                                      children: <Widget>[
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                                context, '/Prize');
-                                          },
-                                          child: Text(
-                                            'And get a chance to win a weekly prize!',
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .headline
-                                                  .color,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                            ),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text('Win a weekly prize!',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .button
+                                                      .color,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500)),
+                                          SizedBox(
+                                            width: 5,
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Image.asset(
-                                          'assets/images/arrow_black.png',
-                                          width: 10,
-                                          height: 9,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
+                                          SvgPicture.asset(
+                                            'assets/images/gift_black.svg',
+                                          ),
+                                        ]),
+                                  )),
                             ],
                           ),
                         ),
@@ -183,7 +195,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 30,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -246,7 +258,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'Withdrad DAI',
+                            'Withdraw DAI',
                             style: TextStyle(
                                 fontSize: 16,
                                 color:
@@ -268,7 +280,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                 ],
               ),
               SizedBox(
-                height: 40,
+                height: 30,
               ),
               InkWell(
                 onTap: () {
