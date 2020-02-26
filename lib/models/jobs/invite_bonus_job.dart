@@ -49,6 +49,15 @@ class InviteBonusJob extends Job {
       this.isReported = true;
     }
 
+    if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
+      logger.info('InviteBonusJob FAILED');
+      this.status = 'FAILED';
+      String failReason = fetchedData['failReason'];
+      store.dispatch(transactionFailed(arguments['inviteBonus']));
+      store.dispatch(segmentTrackCall('Wallet: InviteBonusJob FAILED - $failReason'));
+      return;
+    }
+
     if (fetchedData['data']['funderJobId'] != null) {
       String funderJobId = fetchedData['data']['funderJobId'];
       dynamic response = await api.getFunderJob(funderJobId);

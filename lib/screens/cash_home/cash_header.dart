@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
@@ -51,7 +52,7 @@ class CashHeader extends StatelessWidget {
               children: <Widget>[
                 InkWell(
                     onTap: () {
-                      Scaffold.of(context).openDrawer();
+                      if (isWalletCreated) Scaffold.of(context).openDrawer();
                     },
                     child: Padding(
                         padding:
@@ -193,15 +194,9 @@ class CashHeader extends StatelessWidget {
                                       width: 55,
                                       height: 55,
                                     ),
-                                    onTap: () {
-                                      // Scaffold.of(context)
-                                      //     .showSnackBar(new SnackBar(
-                                      //   content: new Text(
-                                      //     "Coming soon",
-                                      //     textAlign: TextAlign.center,
-                                      //   ),
-                                      // ));
+                                    onTap: () async {
                                       Navigator.pushNamed(context, '/Prize');
+                                      await FlutterSegment.track(eventName: "User open prize page");
                                     },
                                   )
                                 : SizedBox.shrink(),

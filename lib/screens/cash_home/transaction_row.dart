@@ -114,7 +114,7 @@ class TransactionListItem extends StatelessWidget {
                                   ? 'GenerateWallet'
                                   : transfer.isPending()
                                       ? "contactSent"
-                                      : "transaction" + transfer.txHash,
+                                      : "transaction" + (transfer?.txHash ?? transfer.jobId),
                             ),
                             transfer.isPending()
                                 ? Container(

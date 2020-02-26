@@ -46,6 +46,15 @@ class JoinCommunityJob extends Job {
       this.isReported = true;
     }
 
+    if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
+      logger.info('JoinCommunityJob FAILED');
+      this.status = 'FAILED';
+      String failReason = fetchedData['failReason'];
+      store.dispatch(transactionFailed(arguments['transfer']));
+      store.dispatch(segmentTrackCall('Wallet: JoinCommunityJob FAILED - $failReason'));
+      return;
+    }
+
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
       logger.info('JoinCommunityJob not done');
       return;

@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
@@ -16,7 +17,6 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-        expandedHeight: MediaQuery.of(context).size.height / 8,
         title: I18n.of(context).dai_points,
         titleFontSize: 15,
         footer: bottomBar(context),
@@ -161,8 +161,10 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                               .primaryColor
                                               .withAlpha(14))),
                                   child: InkWell(
-                                    onTap: () {
+                                    onTap: () async {
                                       Navigator.pushNamed(context, '/Prize');
+                                      await FlutterSegment.track(
+                                          eventName: "User open prize page");
                                     },
                                     child: Row(
                                         mainAxisAlignment:

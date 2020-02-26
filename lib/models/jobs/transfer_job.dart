@@ -49,6 +49,15 @@ class TransferJob extends Job {
       this.isReported = true;
     }
 
+    if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
+      logger.info('TransferJob FAILED');
+      this.status = 'FAILED';
+      String failReason = fetchedData['failReason'];
+      store.dispatch(transactionFailed(arguments['transfer']));
+      store.dispatch(segmentTrackCall('Wallet: TransferJob FAILED - $failReason'));
+      return;
+    }
+
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
       logger.info('TransferJob not done');
       return;

@@ -39,7 +39,7 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
 
 Color deduceColor(Transfer transfer) {
   if (transfer.isFailed()) {
-    return Color(0xFFE0E0E0);
+    return Color(0xFFBEBEBE);
   } else {
     if (transfer.type == 'SEND') {
       return Color(0xFFFF0000);
