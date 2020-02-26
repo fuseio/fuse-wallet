@@ -10,6 +10,9 @@ PODS:
     - Flutter
   - device_info (0.0.1):
     - Flutter
+  - Firebase/Auth (6.16.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 6.4.3)
   - Firebase/Core (6.16.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.2.2)
@@ -18,6 +21,17 @@ PODS:
   - Firebase/Messaging (6.16.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 4.2.0)
+  - firebase_auth (0.0.1):
+    - Firebase/Auth (~> 6.3)
+    - Firebase/Core
+    - Flutter
+  - firebase_auth_web (0.1.0):
+    - Flutter
+  - firebase_core (0.0.1):
+    - Firebase/Core
+    - Flutter
+  - firebase_core_web (0.1.0):
+    - Flutter
   - firebase_messaging (0.0.1):
     - Firebase/Core
     - Firebase/Messaging
@@ -32,6 +46,13 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
   - FirebaseAnalyticsInterop (1.5.0)
+  - FirebaseAuth (6.4.3):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.6)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.5)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GTMSessionFetcher/Core (~> 1.1)
+  - FirebaseAuthInterop (1.0.0)
   - FirebaseCore (6.6.1):
     - FirebaseCoreDiagnostics (~> 1.2)
     - FirebaseCoreDiagnosticsInterop (~> 1.2)
@@ -109,6 +130,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
+  - GTMSessionFetcher/Core (1.3.1)
   - interactive_webview (0.0.1):
     - Flutter
   - MTBBarcodeScanner (5.0.11)
@@ -151,6 +173,10 @@ DEPENDENCIES:
   - Branch
   - contacts_service (from `.symlinks/plugins/contacts_service/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
+  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
+  - firebase_auth_web (from `.symlinks/plugins/firebase_auth_web/ios`)
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_branch_sdk (from `.symlinks/plugins/flutter_branch_sdk/ios`)
@@ -180,6 +206,8 @@ SPEC REPOS:
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
+    - FirebaseAuth
+    - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
@@ -191,6 +219,7 @@ SPEC REPOS:
     - GoogleDataTransportCCTSupport
     - GoogleMaps
     - GoogleUtilities
+    - GTMSessionFetcher
     - MTBBarcodeScanner
     - nanopb
     - PromisesObjC
@@ -203,6 +232,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/contacts_service/ios"
   device_info:
     :path: ".symlinks/plugins/device_info/ios"
+  firebase_auth:
+    :path: ".symlinks/plugins/firebase_auth/ios"
+  firebase_auth_web:
+    :path: ".symlinks/plugins/firebase_auth_web/ios"
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_core_web:
+    :path: ".symlinks/plugins/firebase_core_web/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
@@ -253,9 +290,15 @@ SPEC CHECKSUMS:
   contacts_service: d212985196c101372bb55c42f41dae7be59ab811
   device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
   Firebase: 497158b816d0a86fc31babbd05546fcd7e6083ff
+  firebase_auth: 1f46484071219159ad6c64d304af425ad7373052
+  firebase_auth_web: 0955c07bcc06e84af76b9d4e32e6f31518f2d7de
+  firebase_core: dc539d4bdc69894823e4a6e557034a9e48960f21
+  firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
   firebase_messaging: b8543d17dd9825f4f24a585477f77db103e5228e
   FirebaseAnalytics: cf95d3aab897612783020fbd98401d5366f135ee
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
+  FirebaseAuth: 5ce2b03a3d7fe56b7a6e4c5ec7ff1522890b1d6f
+  FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: 85064903ed6c28e47fec9c7bd149d94ba1b6b6e7
   FirebaseCoreDiagnostics: 5e78803ab276bc5b50340e3c539c06c3de35c649
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
@@ -273,6 +316,7 @@ SPEC CHECKSUMS:
   GoogleDataTransportCCTSupport: f880d70972efa2ed1be4e9173a0f4c5f3dc2d176
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
+  GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   interactive_webview: 645deb8ecb0f8564ca2017e691338854c5d6a061
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
