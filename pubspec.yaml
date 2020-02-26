@@ -1,5 +1,5 @@
 name: paywise
-version: 2.3.5+68
+version: 2.3.5+69
 description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"

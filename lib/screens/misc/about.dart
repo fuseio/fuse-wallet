@@ -77,7 +77,8 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: InkWell(
                         onTap: () {
-                          launchUrl('mailto:hello@fuse.io');
+                          String whatsappUrl ="whatsapp://send?phone='18687238394'";
+                          launchUrl(whatsappUrl);
                         },
                         child: Text(
                           I18n.of(context).contact_us,
