@@ -27,12 +27,12 @@ abstract class Job {
       {this.id,
       this.jobType,
       this.name,
-      status,
+      this.status,
       arguments,
       this.data,
       this.lastFinishedAt,
       this.timeStart,
-      isReported}) {
+      this.isReported}) {
     this.arguments = argumentsFromJson(arguments);
   }
 
