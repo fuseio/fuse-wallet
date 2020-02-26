@@ -233,8 +233,10 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
 //      if (user != null) {
 //        await user.delete();
 //      }
-
-      await _auth.signOut();
+      FirebaseUser user = await _auth.currentUser();
+      if (user != null) {
+        await user.unlinkFromProvider("phone");
+      }
 
       await _auth.verifyPhoneNumber(
           phoneNumber: phone,

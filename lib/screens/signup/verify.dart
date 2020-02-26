@@ -49,7 +49,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 viewModel.accountAddress,
                 viewModel.verificationId, () async {
               // Navigator.popUntil(context, ModalRoute.withName('/'));
-              Navigator.popAndPushNamed(context, '/Cash');
+              Navigator.popAndPushNamed(context, '/UserName');
               setState(() {
                 isPreloading = false;
               });
@@ -155,7 +155,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             viewModel.accountAddress,
                             viewModel.verificationId, () async {
                           // Navigator.popUntil(context, ModalRoute.withName('/'));
-                          Navigator.popAndPushNamed(context, '/Cash');
+                          Navigator.popAndPushNamed(context, '/UserName');
                           setState(() {
                             isPreloading = false;
                           });

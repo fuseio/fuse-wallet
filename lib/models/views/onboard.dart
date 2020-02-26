@@ -61,6 +61,7 @@ class OnboardViewModel extends Equatable {
     countryCode,
     phoneNumber,
     accountAddress,
+    credentials,
     loginRequestSuccess,
     loginVerifySuccess
   ];
