@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/transfer.dart';
@@ -33,49 +34,54 @@ class TransactionListItem extends StatelessWidget {
                     : deducePhoneNumber(transfer, _vm.reverseContacts,
                         businesses: _vm.businesses);
     List<Widget> rightColumn = <Widget>[
-    transfer.isGenerateWallet() || transfer.isJoinCommunity()
-              ? SizedBox.shrink()
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+      transfer.isGenerateWallet() || transfer.isJoinCommunity()
+          ? SizedBox.shrink()
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Stack(
+                  overflow: Overflow.visible,
+                  alignment: AlignmentDirectional.bottomEnd,
                   children: <Widget>[
-                    Stack(
-                      overflow: Overflow.visible,
-                      alignment: AlignmentDirectional.bottomEnd,
-                      children: <Widget>[
-                        new RichText(
-                            text: new TextSpan(children: <TextSpan>[
-                          new TextSpan(
-                              text: deduceSign(transfer) +
-                                  formatValue(
-                                      transfer.value, _vm.token.decimals),
-                              style: new TextStyle(
-                                  color: deduceColor(transfer),
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.bold)),
-                          new TextSpan(
-                              text: " ${_vm.token.symbol}",
-                              style: new TextStyle(
-                                  color: deduceColor(transfer),
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.normal)),
-                        ])),
-                        Positioned(
-                            bottom: -20,
-                            child: (transfer.isPending() &&
-                                    !transfer.isGenerateWallet() &&
-                                    !transfer.isJoinCommunity())
-                                ? Padding(
-                                    child: Text(I18n.of(context).pending,
-                                        style: TextStyle(
-                                            color: Color(0xFF8D8D8D),
-                                            fontSize: 10)),
-                                    padding: EdgeInsets.only(top: 10))
-                                : SizedBox.shrink())
-                      ],
-                    )
+                    new RichText(
+                        text: new TextSpan(children: <TextSpan>[
+                      new TextSpan(
+                          text: deduceSign(transfer) +
+                              formatValue(transfer.value, _vm.token.decimals),
+                          style: new TextStyle(
+                              color: deduceColor(transfer),
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold)),
+                      new TextSpan(
+                          text: " ${_vm.token.symbol}",
+                          style: new TextStyle(
+                              color: deduceColor(transfer),
+                              fontSize: 10.0,
+                              fontWeight: FontWeight.normal)),
+                    ])),
+                    transfer.isFailed()
+                        ? Positioned(
+                            left: -25,
+                            child: SvgPicture.asset('assets/images/failed.svg'),
+                          )
+                        : SizedBox.shrink(),
+                    Positioned(
+                        bottom: -20,
+                        child: (transfer.isPending() &&
+                                !transfer.isGenerateWallet() &&
+                                !transfer.isJoinCommunity())
+                            ? Padding(
+                                child: Text(I18n.of(context).pending,
+                                    style: TextStyle(
+                                        color: Color(0xFF8D8D8D),
+                                        fontSize: 10)),
+                                padding: EdgeInsets.only(top: 10))
+                            : SizedBox.shrink())
                   ],
                 )
+              ],
+            )
     ];
     bool isWalletCreated = 'created' == this._vm.walletStatus;
     return Container(
@@ -108,7 +114,7 @@ class TransactionListItem extends StatelessWidget {
                                   ? 'GenerateWallet'
                                   : transfer.isPending()
                                       ? "contactSent"
-                                      : "transaction" + transfer.txHash,
+                                      : "transaction" + (transfer.txHash ?? transfer.jobId),
                             ),
                             transfer.isPending()
                                 ? Container(

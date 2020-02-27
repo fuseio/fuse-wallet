@@ -23,7 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isPreloading = false;
   bool isvalidPhone = true;
-  CountryCode countryCode = new CountryCode(dialCode: '‎‎+868');
+  CountryCode countryCode = new CountryCode(dialCode: '‎‎+868', code: 'TT');
 
   @override
   void initState() {
@@ -31,11 +31,13 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   _updateCountryCode(Locale myLocale) {
-    Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode);
-    if (mounted) {
-      setState(() {
-        countryCode = CountryCode(dialCode: localeData['dial_code']);
-      });
+    if (myLocale.countryCode != null) {
+      Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
+      if (mounted && localeData != null) {
+        setState(() {
+          countryCode = CountryCode(dialCode: localeData['dial_code']);
+        });
+      }
     }
   }
 
@@ -131,10 +133,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                   onChanged: (_countryCode) {
                                     countryCode = _countryCode;
                                   },
-                                  initialSelection: myLocale.countryCode,
+                                  initialSelection: countryCode.code,
                                   favorite: [],
                                   showCountryOnly: false,
                                   showFlag: false,
+                                  searchStyle: TextStyle(color: Colors.black),
                                   textStyle: const TextStyle(fontSize: 16),
                                   alignLeft: false,
                                 ),

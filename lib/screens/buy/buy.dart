@@ -9,15 +9,15 @@ import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
-launchUrl(url) async {
-  if (await canLaunch(url)) {
-    await launch(url, forceSafariVC: false);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
+// launchUrl(url) async {
+//   if (await canLaunch(url)) {
+//     await launch(url, forceSafariVC: false);
+//   } else {
+//     throw 'Could not launch $url';
+//   }
+// }
 
 class BuyScreen extends StatelessWidget {
   BuyScreen();

@@ -219,7 +219,7 @@ ThunkAction loginVerifyCall(
       store.dispatch(segmentTrackCall("Wallet: verified phone number"));
       successCallback();
     } catch (e) {
-      logger.severe('ERROR - loginVerifyCall e');
+      logger.severe('ERROR - loginVerifyCall $e');
       store.dispatch(new ErrorAction('Could not verify login'));
       failCallback();
     }
@@ -288,11 +288,25 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
   };
 }
 
-ThunkAction identifyCall() {
+ThunkAction identifyFirstTimeCall() {
   return (Store store) async {
     String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     store.dispatch(enablePushNotifications());
     store.dispatch(segmentAliasCall(fullPhoneNumber));
+    store.dispatch(segmentIdentifyCall(
+        fullPhoneNumber,
+        new Map<String, dynamic>.from({
+          "Phone Number": fullPhoneNumber,
+          "Wallet Address": store.state.cashWalletState.walletAddress,
+          "Account Address": store.state.userState.accountAddress,
+          "Display Name": store.state.userState.displayName
+        })));
+  };
+}
+
+ThunkAction identifyCall() {
+  return (Store store) async {
+    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     store.dispatch(segmentIdentifyCall(
         fullPhoneNumber,
         new Map<String, dynamic>.from({

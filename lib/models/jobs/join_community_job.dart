@@ -9,7 +9,7 @@ part 'join_community_job.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: false)
 class JoinCommunityJob extends Job {
-  JoinCommunityJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported})
+  JoinCommunityJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported, isFunderJob})
       : super(
             id: id,
             jobType: jobType,
@@ -18,8 +18,9 @@ class JoinCommunityJob extends Job {
             data: data,
             arguments: arguments,
             lastFinishedAt: lastFinishedAt,
-            isReported: isReported ?? false,
-            timeStart: timeStart ?? new DateTime.now().millisecondsSinceEpoch);
+            isReported: isReported,
+            timeStart: timeStart ?? new DateTime.now().millisecondsSinceEpoch,
+            isFunderJob: isFunderJob);
 
   @override
   fetch() async {
@@ -28,22 +29,29 @@ class JoinCommunityJob extends Job {
 
   @override
   onDone(store, dynamic fetchedData) async {
+    final logger = await AppFactory().getLogger('Job');
+    if (isReported == true) {
+      this.status = 'FAILED';
+      logger.info('JoinCommunityJob FAILED');
+      store.dispatch(transactionFailed(arguments['transfer']));
+      store.dispatch(segmentTrackCall('Wallet: JoinCommunityJob FAILED'));
+      return;
+    }
     Job job = JobFactory.create(fetchedData);
     int current = DateTime.now().millisecondsSinceEpoch;
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
-    if ((current - jobTime) > millisecondsIntoMin && !isReported) {
+    if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job $id $name'));
-      isReported = true;
+      this.isReported = true;
     }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      final logger = await AppFactory().getLogger('job');
       logger.info('JoinCommunityJob not done');
       return;
     }
-    status = 'DONE';
-    store.dispatch(joinCommunitySuccessCall(job, arguments['transfer'], arguments['community']));
+    this.status = 'DONE';
+    store.dispatch(joinCommunitySuccessCall(job, fetchedData, arguments['transfer'], arguments['community']));
     store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
   }
 

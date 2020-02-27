@@ -9,7 +9,7 @@ part 'invite_job.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: false)
 class InviteJob extends Job {
-  InviteJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported})
+  InviteJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported, isFunderJob})
       : super(
             id: id,
             jobType: jobType,
@@ -18,8 +18,9 @@ class InviteJob extends Job {
             data: data,
             arguments: arguments,
             lastFinishedAt: lastFinishedAt,
-            isReported: isReported ?? false,
-            timeStart: timeStart ?? new DateTime.now().millisecondsSinceEpoch);
+            isReported: isReported,
+            timeStart: timeStart ?? new DateTime.now().millisecondsSinceEpoch,
+            isFunderJob: isFunderJob);
 
   @override
   fetch() async {
@@ -28,12 +29,20 @@ class InviteJob extends Job {
 
   @override
   onDone(store, dynamic fetchedData) async {
+    final logger = await AppFactory().getLogger('Job');
+    if (isReported == true) {
+      this.status = 'FAILED';
+      logger.info('InviteJob FAILED');
+      store.dispatch(transactionFailed(arguments['inviteTransfer']));
+      store.dispatch(segmentTrackCall('Wallet: InviteJob FAILED'));
+      return;
+    }
     int current = DateTime.now().millisecondsSinceEpoch;
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
-    if ((current - jobTime) > millisecondsIntoMin && !isReported) {
+    if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job $id $name'));
-      isReported = true;
+      this.isReported = true;
     }
 
     Job job = JobFactory.create(fetchedData);
@@ -42,9 +51,10 @@ class InviteJob extends Job {
       logger.info('InviteJob job not done');
       return;
     }
-    status = 'DONE';
+    this.status = 'DONE';
     store.dispatch(inviteAndSendSuccessCall(
         job,
+        fetchedData['data'],
         arguments['tokensAmount'],
         arguments['receiverName'],
         arguments['inviteTransfer'],

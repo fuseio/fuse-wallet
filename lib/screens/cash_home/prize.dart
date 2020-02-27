@@ -8,15 +8,14 @@ import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/draw_info.dart';
 import 'package:paywise/models/views/prize.dart';
 import 'package:paywise/screens/cash_home/deposit_webview.dart';
+import 'package:paywise/screens/cash_home/webview_page.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/preloader.dart';
 import 'package:http/http.dart';
 import 'dart:core';
-
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 Map<String, dynamic> responseHandler(Response response) {
   switch (response.statusCode) {
@@ -26,14 +25,6 @@ Map<String, dynamic> responseHandler(Response response) {
       break;
     default:
       throw 'Error! status: ${response.statusCode}, reason: ${response.reasonPhrase}';
-  }
-}
-
-launchUrl(url) async {
-  if (await canLaunch(url)) {
-    await launch(url, forceSafariVC: false);
-  } else {
-    throw 'Could not launch $url';
   }
 }
 
@@ -386,8 +377,10 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                         .secondary),
                               ),
                               onTap: () {
-                                launchUrl(
-                                    'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points');
+                                Navigator.pushNamed(context, '/WebPage',
+                                  arguments: WebViewPageArguments(
+                                      url: 'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
+                                      title: 'What is dai points?'));
                               }),
                         ],
                       ),

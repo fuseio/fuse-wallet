@@ -1,5 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+final String pesoCommuntiyAddress =
+    '0xe1f64fb87fc521d8b3a7fc3b175d251dc201bc74';
 final String goodDollarCommuntiyAddress =
     '0xea64d7a2ed46898d22cc3183590f75258e763f5d';
 final String paywiseCommuntiyAddress =
@@ -32,6 +34,11 @@ bool isForkedBaseCommunityAddress(String communityAddress) {
 bool isPaywise(String communityAddress) {
   return communityAddress != null &&
       communityAddress == paywiseCommuntiyAddress;
+}
+
+bool isPeso(String communityAddress) {
+  return communityAddress != null &&
+      communityAddress == pesoCommuntiyAddress;
 }
 
 bool isWepy(String communityAddress) {

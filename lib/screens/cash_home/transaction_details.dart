@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/send_amount.dart';
@@ -67,13 +68,24 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          args.transfer.isConfirmed()
+                          args.transfer.isFailed()
                               ? Padding(
                                   padding: EdgeInsets.only(right: 10),
-                                  child: Image.asset('assets/images/check.png',
-                                      width: 25, height: 25),
+                                  child: SvgPicture.asset(
+                                    'assets/images/failed.svg',
+                                    width: 25,
+                                    height: 25,
+                                  ),
                                 )
-                              : SizedBox.shrink(),
+                              : args.transfer.isConfirmed()
+                                  ? Padding(
+                                      padding: EdgeInsets.only(right: 10),
+                                      child: Image.asset(
+                                          'assets/images/check.png',
+                                          width: 25,
+                                          height: 25),
+                                    )
+                                  : SizedBox.shrink(),
                           Text(
                               args.transfer.isConfirmed()
                                   ? I18n.of(context).approved
@@ -104,7 +116,9 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                       children: <Widget>[
                         SizedBox(
                           width: 130,
-                          child: Text(args.transfer.type == 'SEND' ? I18n.of(context).to : I18n.of(context).from),
+                          child: Text(args.transfer.type == 'SEND'
+                              ? I18n.of(context).to
+                              : I18n.of(context).from),
                         ),
                         Row(
                           children: <Widget>[

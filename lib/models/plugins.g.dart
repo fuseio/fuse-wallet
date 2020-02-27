@@ -24,5 +24,6 @@ Map<String, dynamic> _$PluginsToJson(Plugins instance) {
   writeNotNull(
       'walletBanner', Plugins._walletBannerToJson(instance.walletBanner));
   writeNotNull('backupBonus', Plugins._backupBonusToJson(instance.backupBonus));
+  writeNotNull('inviteBonus', Plugins._inviteBonusToJson(instance.inviteBonus));
   return val;
 }

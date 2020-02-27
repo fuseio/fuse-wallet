@@ -215,22 +215,14 @@ final cashWalletReducers = combineReducers<CashWalletState>([
           1;
       Community current = state.communities[state.communityAddress];
       for (Transfer tx in action.tokenTransfers.reversed) {
-        if (tx.isJoinBonus()) {
-          Transfer saved = current.transactions.list.firstWhere((t) => (t is Transfer && t.isJoinBonus()), orElse: () => null);
-          if (saved != null) {
-            int index = current.transactions.list.indexOf(saved);
-            current.transactions.list[index] = tx;
+        Transfer saved = current.transactions.list
+            .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+        if (saved != null) {
+          if (saved.isPending()) {
+            saved.status = 'CONFIRMED';
           }
         } else {
-          Transfer saved = current.transactions.list
-              .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
-          if (saved != null) {
-            if (saved.isPending()) {
-              saved.status = 'CONFIRMED';
-            }
-          } else {
-            current.transactions.list.add(tx);
-          }
+          current.transactions.list.add(tx);
         }
       }
       Community newCommunity = current.copyWith(

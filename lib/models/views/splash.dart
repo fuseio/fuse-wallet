@@ -28,23 +28,14 @@ class SplashViewModel extends Equatable {
         isLoggedOut: store.state.userState.isLoggedOut ?? false,
         initWeb3: (privateKey) {
           store.dispatch(initWeb3Call(privateKey));
+          store.dispatch(identifyCall());
         },
         createLocalAccount: (VoidCallback successCallback) {
           store.dispatch(createLocalAccountCall(successCallback));
         },
         loginAgain: () {
           store.dispatch(reLoginCall());
-        }
-        // accountAddress: store.state.userState.accountAddress,
-        // loginRequestSuccess: store.state.userState.loginRequestSuccess,
-        // loginVerifySuccess: store.state.userState.loginVerifySuccess,
-        // signUp: (countryCode, phoneNumber, successCallback, failCallback) {
-        //   store.dispatch(loginRequestCall(countryCode, phoneNumber, successCallback, failCallback));
-        // },
-        // verify: (countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback) {
-        //   store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback));
-        // }
-        );
+        });
   }
 
   @override
