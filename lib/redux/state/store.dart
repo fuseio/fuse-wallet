@@ -17,8 +17,6 @@ import 'package:sentry/sentry.dart';
 import 'package:package_info/package_info.dart';
 import 'package:device_info/device_info.dart';
 
-final bool isDevelopment = DotEnv().env['MODE'] == 'development';
-
 Future<File> getFile() async {
   final directory = await getApplicationDocumentsDirectory();
   return File(directory.path + "/logs.txt");
@@ -75,7 +73,7 @@ class AppFactory {
       final persistor = Persistor<AppState>(
         storage: SecureStorage(storage = storage),
         serializer: JsonSerializer<AppState>(AppState.fromJson),
-        debug: isDevelopment
+        debug: isInDebugMode
       );
 
       AppState initialState;
@@ -94,7 +92,7 @@ class AppFactory {
       }
 
       final List<Middleware<AppState>> wms = [];
-      if (isDevelopment) {
+      if (isInDebugMode) {
         wms.add(LoggingMiddleware<AppState>(logger:logger, level: Level.ALL, formatter: LoggingMiddleware.multiLineFormatter));
       }
       wms.addAll([
