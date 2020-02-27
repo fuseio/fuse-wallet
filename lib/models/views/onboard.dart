@@ -63,6 +63,7 @@ class OnboardViewModel extends Equatable {
     accountAddress,
     credentials,
     loginRequestSuccess,
-    loginVerifySuccess
+    loginVerifySuccess,
+    verificationId
   ];
 }

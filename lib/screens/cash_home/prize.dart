@@ -218,7 +218,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                         drawInfo.endTimestamp);
                                 Duration remaining =
                                     endTimestamp.difference(DateTime.now());
-                                List<String> formatted = new DateFormat.m()
+                                List<String> formatted = new DateFormat.Hm()
                                     .format(DateTime.fromMillisecondsSinceEpoch(
                                         remaining.inMilliseconds))
                                     .split(':');
@@ -236,12 +236,12 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                           width: 20,
                                         ),
                                         counter(context, 'Hours',
-                                            remaining.inHours),
+                                            int.parse(formatted[0])),
                                         SizedBox(
                                           width: 20,
                                         ),
                                         counter(context, 'Minutes',
-                                            int.parse(formatted[0]))
+                                            int.parse(formatted[1]))
                                       ],
                                     ));
                               }),

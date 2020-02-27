@@ -72,7 +72,6 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
 }
 
 class CashHomeScreen extends StatelessWidget {
-  CashHomeScreen();
 
   void _changeTheme(BuildContext buildContext, MyThemeKeys key) {
     CustomTheme.instanceOf(buildContext).changeTheme(key);

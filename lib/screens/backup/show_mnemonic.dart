@@ -11,7 +11,6 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/transparent_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
-  ShowMnemonic();
 
   @override
   Widget build(BuildContext context) {

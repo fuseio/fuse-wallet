@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transactions.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -11,31 +10,6 @@ import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
-
-class CashHeaderViewModel extends Equatable {
-  final Community community;
-  final Function() firstName;
-  final Plugins plugins;
-  final String walletStatus;
-
-  CashHeaderViewModel({this.community, this.firstName, this.plugins, this.walletStatus});
-
-  static CashHeaderViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
-    return CashHeaderViewModel(
-      community: community,
-      plugins: community?.plugins,
-      walletStatus: store.state.cashWalletState.walletStatus,
-      firstName: () {
-        String fullName = store.state.userState.displayName ?? '';
-        return fullName.split(' ')[0];
-      });
-  }
-
-  @override
-  List<Object> get props => [community, plugins];
-}
 
 class CashWalletViewModel extends Equatable {
   final String accountAddress;
@@ -53,8 +27,6 @@ class CashWalletViewModel extends Equatable {
   final String displayName;
   final BigInt tokenBalance;
   final Token token;
-  // final List<Transfer> tokenTransfers;
-  // final List<Transfer> pendingTransfers;
   final Transactions transactions;
   final List<Contact> contacts;
   final Map<String, String> reverseContacts;
@@ -92,8 +64,6 @@ class CashWalletViewModel extends Equatable {
     this.displayName,
     this.tokenBalance,
     this.token,
-    // this.tokenTransfers,
-    // this.pendingTransfers,
     this.transactions,
     this.contacts,
     this.countryCode,
@@ -138,8 +108,6 @@ class CashWalletViewModel extends Equatable {
       displayName: store.state.userState.displayName,
       tokenBalance: community?.tokenBalance ?? BigInt.from(0),
       token: community?.token,
-      // tokenTransfers: store.state.cashWalletState.tokenTransfers,
-      // pendingTransfers: store.state.cashWalletState.pendingTransfers,
       transactions: community?.transactions ?? new Transactions(list: new List<Transaction>()),
       contacts: store.state.userState.contacts,
       reverseContacts: store.state.userState.reverseContacts,

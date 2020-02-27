@@ -41,9 +41,7 @@ class LoginRequestSuccess {
   final String phoneNumber;
   final String displayName;
   final String email;
-  final String verificationId;
-  LoginRequestSuccess(
-      this.countryCode, this.phoneNumber, this.displayName, this.email, this.verificationId);
+  LoginRequestSuccess(this.countryCode, this.phoneNumber, this.displayName, this.email);
 }
 
 class LogoutRequestSuccess {
@@ -91,6 +89,11 @@ class BackupSuccess {
 class SetCredentials {
   PhoneAuthCredential credentials;
   SetCredentials(this.credentials);
+}
+
+class SetVerificationId {
+  String verificationId;
+  SetVerificationId(this.verificationId);
 }
 
 ThunkAction backupWalletCall() {
@@ -199,6 +202,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
         logger.info('Got credentials: $credentials');
         store.dispatch(new SetCredentials(credentials));
+        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
         if (!succeed) {
           succeed = true;
           successCallback();
@@ -214,7 +218,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       final PhoneCodeSent codeSent =
           (String verificationId, [int forceResendingToken]) async {
         logger.info("code sent to " + phone);
-        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", "", verificationId));
+        store.dispatch(new SetVerificationId(verificationId));
         if (!succeed) {
           succeed = true;
           successCallback();

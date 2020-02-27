@@ -119,7 +119,5 @@ class UserState {
 
   dynamic toJson() => _$UserStateToJson(this);
 
-  static UserState fromJson(dynamic json) {
-    return _$UserStateFromJson(json);
-  }
+  static UserState fromJson(dynamic json) => _$UserStateFromJson(json);
 }

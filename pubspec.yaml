@@ -1,8 +1,8 @@
 name: fusecash
 version: 1.1.9+119
 description: A new Flutter project.
-environment: 
-  sdk: '>=2.2.2 <3.0.0'
+environment:
+  sdk: ">=2.2.2 <3.0.0"
 dependencies:
   flushbar: ^1.9.1
   intl: 0.16.0
@@ -43,11 +43,14 @@ dependencies:
   flutter_segment: ^0.0.7
   firebase_messaging: ^5.0.2
   firebase_auth: ^0.15.4
-  flutter_branch_sdk: ^0.1.5
+  # flutter_branch_sdk: ^0.1.5
+  flutter_branch_sdk:
+    git:
+      url: https://github.com/fuseio/flutter_branch_sdk.git
   ethereum_address: 1.0.1
   sentry: ">=3.0.0 <4.0.0"
   device_info: ^0.4.1+4
-  flutter: 
+  flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
@@ -58,40 +61,32 @@ dev_dependencies:
   flutter_launcher_icons: ^0.7.4
   build_runner: ^1.0.0
   json_serializable: ^3.2.3
-  flutter_test: 
+  flutter_test:
     sdk: flutter
-flutter_icons: 
+flutter_icons:
   image_path: assets/images/icon_app.jpg
   android: true
   ios: true
-flutter: 
-  assets: 
+flutter:
+  assets:
     - .env_prod
     - .env_qa
     - assets/
     - assets/images/
-  fonts: 
-    - 
-      family: Europa
-      fonts: 
-        - 
-          asset: assets/fonts/europa-regular-webfont.ttf
-        - 
-          asset: assets/fonts/europa-light-webfont.ttf
+  fonts:
+    - family: Europa
+      fonts:
+        - asset: assets/fonts/europa-regular-webfont.ttf
+        - asset: assets/fonts/europa-light-webfont.ttf
           weight: 300
-        - 
-          asset: assets/fonts/europa-light-webfont.ttf
+        - asset: assets/fonts/europa-light-webfont.ttf
           weight: 400
-        - 
-          asset: assets/fonts/europa-regular-webfont.ttf
+        - asset: assets/fonts/europa-regular-webfont.ttf
           weight: 600
-        - 
-          asset: assets/fonts/europa-regular-webfont.ttf
+        - asset: assets/fonts/europa-regular-webfont.ttf
           weight: 700
-        - 
-          asset: assets/fonts/europa-bold-webfont.ttf
+        - asset: assets/fonts/europa-bold-webfont.ttf
           weight: 800
-        - 
-          asset: assets/fonts/europa-bold-webfont.ttf
+        - asset: assets/fonts/europa-bold-webfont.ttf
           weight: 900
   uses-material-design: true

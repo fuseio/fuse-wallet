@@ -16,6 +16,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, ReLogin>(_reLoginUser),
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
   TypedReducer<UserState, SetCredentials>(_setCredentials),
+  TypedReducer<UserState, SetVerificationId>(_setVerificationId),
 ]);
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
@@ -47,8 +48,11 @@ UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
       phoneNumber: action.phoneNumber,
       displayName: action.displayName,
       email: action.email,
-      verificationId: action.verificationId,
       loginRequestSuccess: true);
+}
+
+UserState _setVerificationId(UserState state, SetVerificationId action) {
+  return state.copyWith(verificationId: action.verificationId);
 }
 
 UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {

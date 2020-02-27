@@ -753,51 +753,6 @@ ThunkAction transactionFailed(transfer) {
   };
 }
 
-ThunkAction sendToInviteCall(String receiverAddress, num tokensAmount, Transfer inviteWithJobId) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
-      String walletAddress = store.state.cashWalletState.walletAddress;
-      String communityAddres = store.state.cashWalletState.communityAddress;
-      Community community =
-          store.state.cashWalletState.communities[communityAddres];
-      Token token = community.token;
-      String tokenAddress = token.address;
-
-      BigInt value = toBigInt(tokensAmount, token.decimals);
-
-      logger.info(
-          'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
-      dynamic response = await api.tokenTransfer(
-          web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
-
-      dynamic jobId = response['job']['_id'];
-      logger.info('Job $jobId for sending token sent to the relay service');
-
-      store.dispatch(startFetchingJobCall(jobId, (job) {
-        store.dispatch(new TransferJobSuccess(job));
-        Transfer confirmedTx = inviteWithJobId.copyWith(
-            status: 'CONFIRMED', txHash: job.data['txHash']);
-        store.dispatch(new ReplaceTransaction(inviteWithJobId, confirmedTx));
-      }));
-
-      Transfer transfer = new Transfer(
-          from: walletAddress,
-          to: receiverAddress,
-          tokenAddress: tokenAddress,
-          value: value,
-          type: 'SEND',
-          status: 'PENDING',
-          jobId: jobId);
-      store.dispatch(new ReplaceTransaction(inviteWithJobId, transfer));
-    } catch (e) {
-      logger.severe('ERROR - sendToInviteCall $e');
-      store.dispatch(new ErrorAction('Could not send token'));
-    }
-  };
-}
-
 ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');

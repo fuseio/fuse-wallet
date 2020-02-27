@@ -35,17 +35,7 @@ class SplashViewModel extends Equatable {
         },
         loginAgain: () {
           store.dispatch(reLoginCall());
-        }
-        // accountAddress: store.state.userState.accountAddress,
-        // loginRequestSuccess: store.state.userState.loginRequestSuccess,
-        // loginVerifySuccess: store.state.userState.loginVerifySuccess,
-        // signUp: (countryCode, phoneNumber, successCallback, failCallback) {
-        //   store.dispatch(loginRequestCall(countryCode, phoneNumber, successCallback, failCallback));
-        // },
-        // verify: (countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback) {
-        //   store.dispatch(loginVerifyCall(countryCode, phoneNumber, verificationCode, accountAddress, successCallback, failCallback));
-        // }
-        );
+        });
   }
 
   @override

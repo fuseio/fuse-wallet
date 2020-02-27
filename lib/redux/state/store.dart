@@ -17,6 +17,8 @@ import 'package:sentry/sentry.dart';
 import 'package:package_info/package_info.dart';
 import 'package:device_info/device_info.dart';
 
+final bool isDevelopment = DotEnv().env['MODE'] == 'development';
+
 Future<File> getFile() async {
   final directory = await getApplicationDocumentsDirectory();
   return File(directory.path + "/logs.txt");
@@ -53,10 +55,21 @@ class AppFactory {
     return _singleton;
   }
 
+  bool get isInDebugMode {
+    // Assume you're in production mode.
+    bool inDebugMode = false;
+
+    // Assert expressions are only evaluated during development. They are ignored
+    // in production. Therefore, this code only sets `inDebugMode` to true
+    // in a development environment.
+    assert(inDebugMode = true);
+
+    return inDebugMode;
+  }
+
   Future<Store<AppState>> getStore() async {
     if (_store == null) {
       final Logger logger = await getLogger('action');
-      bool isDevelopment = DotEnv().env['MODE'] == 'development';
       FlutterSecureStorage storage = new FlutterSecureStorage();
 
       final persistor = Persistor<AppState>(
@@ -103,7 +116,7 @@ class AppFactory {
     if (_loggers[name] == null) {
       Logger.root.level = Level.ALL;
       File file = await getFile();
-      var output = new ConsoleOutput(file);
+      ConsoleOutput output = new ConsoleOutput(file);
 
       logger_package.Logger logger = logger_package.Logger(
           printer: logger_package.PrettyPrinter(),
@@ -249,11 +262,15 @@ class AppFactory {
   }
 
   Future<void> reportError(dynamic error, dynamic stackTrace) async {
-    // Send the Exception and Stacktrace to Sentry in Production mode.
-    _sentry = await getSentry();
-    _sentry.captureException(
-      exception: error,
-      stackTrace: stackTrace,
-    );
+    if (isInDebugMode) {
+      final logger = await getLogger('Error');
+      logger.severe('Error', [error, stackTrace]);
+    } else {
+      _sentry = await getSentry();
+      _sentry.captureException(
+        exception: error,
+        stackTrace: stackTrace,
+      );
+    }
   }
 }

@@ -13,7 +13,6 @@ import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
-  BuyScreen();
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:fusecash/models/views/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
@@ -11,7 +11,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
 class CashHeader extends StatelessWidget {
-  CashHeader();
 
   @override
   Widget build(BuildContext context) {

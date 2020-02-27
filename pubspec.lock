@@ -345,10 +345,12 @@ packages:
   flutter_branch_sdk:
     dependency: "direct main"
     description:
-      name: flutter_branch_sdk
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.5"
+      path: "."
+      ref: HEAD
+      resolved-ref: "997fa878d6fe2eb8c2bcf35f1c7854c90f8d62aa"
+      url: "https://github.com/fuseio/flutter_branch_sdk.git"
+    source: git
+    version: "0.2.0"
   flutter_cupertino_localizations:
     dependency: "direct main"
     description:
