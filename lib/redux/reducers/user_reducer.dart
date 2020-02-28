@@ -17,7 +17,18 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
   TypedReducer<UserState, SetCredentials>(_setCredentials),
   TypedReducer<UserState, SetVerificationId>(_setVerificationId),
+  TypedReducer<UserState, SetLoginErrorMessage>(_setLoginErrorMessage),
+  TypedReducer<UserState, SetVerifyErrorMessage>(_setVerifyErrorMessage),
 ]);
+
+UserState _setLoginErrorMessage(UserState state, SetLoginErrorMessage action) {
+  return state.copyWith(loginErrorMessage: action.error);
+}
+
+UserState _setVerifyErrorMessage(
+    UserState state, SetVerifyErrorMessage action) {
+  return state.copyWith(verifyErrorMessage: action.error);
+}
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
   return state.copyWith(backup: true);

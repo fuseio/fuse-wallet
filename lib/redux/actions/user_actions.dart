@@ -96,6 +96,16 @@ class SetVerificationId {
   SetVerificationId(this.verificationId);
 }
 
+class SetLoginErrorMessage {
+  String error;
+  SetLoginErrorMessage(this.error);
+}
+
+class SetVerifyErrorMessage {
+  String error;
+  SetVerifyErrorMessage(this.error);
+}
+
 ThunkAction backupWalletCall() {
   return (Store store) async {
     if (store.state.userState.backup) return;
@@ -201,8 +211,11 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
 
       final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
         logger.info('Got credentials: $credentials');
+        _auth.signInWithCredential(credentials);
         store.dispatch(new SetCredentials(credentials));
+        store.dispatch(SetLoginErrorMessage(null));
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
+        store.dispatch(segmentTrackCall("Wallet: user insert his phone number"));
         if (!succeed) {
           succeed = true;
           successCallback();
@@ -211,30 +224,27 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
 
       final PhoneVerificationFailed verificationFailed = (AuthException authException) {
         logger.severe('Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
+        store.dispatch(SetLoginErrorMessage(authException.message));
         store.dispatch(new ErrorAction('Could not login $authException'));
         failCallback();
       };
 
-      final PhoneCodeSent codeSent =
-          (String verificationId, [int forceResendingToken]) async {
+      final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
         logger.info("code sent to " + phone);
+        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
         store.dispatch(new SetVerificationId(verificationId));
+        store.dispatch(SetLoginErrorMessage(null));
         if (!succeed) {
           succeed = true;
           successCallback();
         }
-        store.dispatch(segmentTrackCall("Wallet: user insert his phone number"));
       };
 
-      final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-          (String verificationId) {
+      final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
+        store.dispatch(new SetVerificationId(verificationId));
         logger.info("time out");
       };
 
-//      FirebaseUser user = await _auth.currentUser();
-//      if (user != null) {
-//        await user.delete();
-//      }
       FirebaseUser user = await _auth.currentUser();
       if (user != null) {
         await user.unlinkFromProvider("phone");
@@ -278,7 +288,9 @@ ThunkAction loginVerifyCall(
 
       final FirebaseUser user = (await _auth.signInWithCredential(credentials)).user;
       final FirebaseUser currentUser = await _auth.currentUser();
-      if (user.uid == currentUser.uid) {
+      assert(user.uid == currentUser.uid);
+      if (user.uid != null) {
+        store.dispatch(SetVerifyErrorMessage(null));
         logger.info('signed in with phone number successful: user -> $user');
 
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
@@ -290,8 +302,10 @@ ThunkAction loginVerifyCall(
         successCallback();
       } else {
         failCallback();
+        store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       }
     } catch (e) {
+      store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       logger.severe('ERROR - loginVerifyCall $e');
       store.dispatch(new ErrorAction('Could not verify login'));
       failCallback();

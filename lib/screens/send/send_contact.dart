@@ -266,7 +266,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     final sorted =
         new List<Transaction>.from(viewModel.transactions.list.toSet().toList())
             .where((t) {
-      return t.type == 'SEND';
+      return t.type == 'SEND' && t.isConfirmed();
     }).toList()
               ..sort((a, b) {
                 if (a.blockNumber != null && b.blockNumber != null) {
