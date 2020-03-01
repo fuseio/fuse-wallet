@@ -27,6 +27,10 @@ class UserState {
   final bool backup;
 
   @JsonKey(ignore: true)
+  final String loginErrorMessage;
+  @JsonKey(ignore: true)
+  final String verifyErrorMessage;
+  @JsonKey(ignore: true)
   final List<Contact> contacts;
   @JsonKey(ignore: true)
   final PhoneAuthCredential credentials;
@@ -50,7 +54,9 @@ class UserState {
       this.isLoggedOut,
       this.isContactsSynced,
       this.backup,
-      this.credentials});
+      this.credentials,
+      this.loginErrorMessage,
+      this.verifyErrorMessage});
 
   factory UserState.initial() {
     return new UserState(
@@ -72,7 +78,9 @@ class UserState {
         isLoggedOut: false,
         isContactsSynced: null,
         backup: false,
-        credentials: null);
+        credentials: null,
+        verifyErrorMessage: null,
+        loginErrorMessage: null);
   }
 
   UserState copyWith(
@@ -89,6 +97,8 @@ class UserState {
       String displayName,
       String email,
       String verificationId,
+      String verifyErrorMessage,
+      String loginErrorMessage,
       bool loginRequestSuccess,
       bool loginVerifySuccess,
       bool isLoggedOut,
@@ -114,12 +124,12 @@ class UserState {
         isLoggedOut: isLoggedOut ?? this.isLoggedOut,
         isContactsSynced: isContactsSynced ?? this.isContactsSynced,
         backup: backup ?? this.backup,
-        credentials: credentials ?? this.credentials);
+        credentials: credentials ?? this.credentials,
+        loginErrorMessage: loginErrorMessage ?? this.loginErrorMessage,
+        verifyErrorMessage: verifyErrorMessage ?? this.verifyErrorMessage);
   }
 
   dynamic toJson() => _$UserStateToJson(this);
 
-  static UserState fromJson(dynamic json) {
-    return _$UserStateFromJson(json);
-  }
+  static UserState fromJson(dynamic json) => _$UserStateFromJson(json);
 }

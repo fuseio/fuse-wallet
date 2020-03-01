@@ -10,6 +10,8 @@ class OnboardViewModel extends Equatable {
   final String phoneNumber;
   final String accountAddress;
   final String verificationId;
+  final String loginErrorMessage;
+  final String verifyErrorMessage;
   final PhoneAuthCredential credentials;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
@@ -29,7 +31,9 @@ class OnboardViewModel extends Equatable {
     this.signUp,
     this.verify,
     this.setPincode,
-    this.setDisplayName
+    this.setDisplayName,
+    this.loginErrorMessage,
+    this.verifyErrorMessage
   });
 
   static OnboardViewModel fromStore(Store<AppState> store) {
@@ -41,6 +45,8 @@ class OnboardViewModel extends Equatable {
       loginVerifySuccess: store.state.userState.loginVerifySuccess,
       verificationId: store.state.userState.verificationId,
       credentials: store.state.userState.credentials,
+      loginErrorMessage: store.state.userState.loginErrorMessage,
+      verifyErrorMessage: store.state.userState.verifyErrorMessage,
       signUp: (countryCode, phoneNumber, successCallback, failCallback) {
         store.dispatch(loginRequestCall(countryCode, phoneNumber, successCallback, failCallback));
       },
@@ -63,6 +69,9 @@ class OnboardViewModel extends Equatable {
     accountAddress,
     credentials,
     loginRequestSuccess,
-    loginVerifySuccess
+    loginVerifySuccess,
+    verificationId,
+    loginErrorMessage,
+    verifyErrorMessage
   ];
 }

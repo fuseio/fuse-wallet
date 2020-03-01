@@ -41,9 +41,7 @@ class LoginRequestSuccess {
   final String phoneNumber;
   final String displayName;
   final String email;
-  final String verificationId;
-  LoginRequestSuccess(
-      this.countryCode, this.phoneNumber, this.displayName, this.email, this.verificationId);
+  LoginRequestSuccess(this.countryCode, this.phoneNumber, this.displayName, this.email);
 }
 
 class LogoutRequestSuccess {
@@ -91,6 +89,21 @@ class BackupSuccess {
 class SetCredentials {
   PhoneAuthCredential credentials;
   SetCredentials(this.credentials);
+}
+
+class SetVerificationId {
+  String verificationId;
+  SetVerificationId(this.verificationId);
+}
+
+class SetLoginErrorMessage {
+  String error;
+  SetLoginErrorMessage(this.error);
+}
+
+class SetVerifyErrorMessage {
+  String error;
+  SetVerifyErrorMessage(this.error);
 }
 
 ThunkAction backupWalletCall() {
@@ -198,7 +211,11 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
 
       final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
         logger.info('Got credentials: $credentials');
+        _auth.signInWithCredential(credentials);
         store.dispatch(new SetCredentials(credentials));
+        store.dispatch(SetLoginErrorMessage(null));
+        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
+        store.dispatch(segmentTrackCall("Wallet: user insert his phone number"));
         if (!succeed) {
           succeed = true;
           successCallback();
@@ -207,34 +224,26 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
 
       final PhoneVerificationFailed verificationFailed = (AuthException authException) {
         logger.severe('Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
+        store.dispatch(SetLoginErrorMessage(authException.message));
         store.dispatch(new ErrorAction('Could not login $authException'));
         failCallback();
       };
 
-      final PhoneCodeSent codeSent =
-          (String verificationId, [int forceResendingToken]) async {
+      final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
         logger.info("code sent to " + phone);
-        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", "", verificationId));
+        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
+        store.dispatch(new SetVerificationId(verificationId));
+        store.dispatch(SetLoginErrorMessage(null));
         if (!succeed) {
           succeed = true;
           successCallback();
         }
-        store.dispatch(segmentTrackCall("Wallet: user insert his phone number"));
       };
 
-      final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-          (String verificationId) {
+      final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
+        store.dispatch(new SetVerificationId(verificationId));
         logger.info("time out");
       };
-
-//      FirebaseUser user = await _auth.currentUser();
-//      if (user != null) {
-//        await user.delete();
-//      }
-      FirebaseUser user = await _auth.currentUser();
-      if (user != null) {
-        await user.unlinkFromProvider("phone");
-      }
 
       await _auth.verifyPhoneNumber(
           phoneNumber: phone,
@@ -244,8 +253,9 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
           codeSent: codeSent,
           codeAutoRetrievalTimeout: codeAutoRetrievalTimeout
       );
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - loginRequestCall $e');
+      await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not login'));
       failCallback();
     }
@@ -274,7 +284,9 @@ ThunkAction loginVerifyCall(
 
       final FirebaseUser user = (await _auth.signInWithCredential(credentials)).user;
       final FirebaseUser currentUser = await _auth.currentUser();
-      if (user.uid == currentUser.uid) {
+      assert(user.uid == currentUser.uid);
+      if (user != null) {
+        store.dispatch(SetVerifyErrorMessage(null));
         logger.info('signed in with phone number successful: user -> $user');
 
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
@@ -286,9 +298,12 @@ ThunkAction loginVerifyCall(
         successCallback();
       } else {
         failCallback();
+        store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       }
-    } catch (e) {
+    } catch (e, s) {
+      store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       logger.severe('ERROR - loginVerifyCall $e');
+      await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not verify login'));
       failCallback();
     }
@@ -351,8 +366,9 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       } else {
         store.dispatch(segmentTrackCall("Wallet: Contacts Permission Rejected"));
       }
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - syncContactsCall $e');
+      await AppFactory().reportError(e, s);
     }
   };
 }
@@ -411,19 +427,23 @@ ThunkAction setDisplayNameCall(String displayName) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    final _webView = new InteractiveWebView();
-    String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-    final html = '''<html>
-        <head></head>
-        <script>
-          window.pk = '0x${store.state.userState.privateKey}';
-          window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '$phoneNumber'};
-        </script>
-        <script src='https://3box.fuse.io/main.js'></script>
-        <body></body>
-      </html>''';
-    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
-    store.dispatch(segmentTrackCall("Wallet: Profile created in 3box"));
+    try {
+      final _webView = new InteractiveWebView();
+      String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      final html = '''<html>
+          <head></head>
+          <script>
+            window.pk = '0x${store.state.userState.privateKey}';
+            window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '$phoneNumber'};
+          </script>
+          <script src='https://3box.fuse.io/main.js'></script>
+          <body></body>
+        </html>''';
+      _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
+      store.dispatch(segmentTrackCall("Wallet: Profile created in 3box"));
+    } catch (e, s) {
+      await AppFactory().reportError(e, s);
+    }
     try {
       Map publicData = {
         'account': accountAddress,
@@ -439,8 +459,9 @@ ThunkAction create3boxAccountCall(accountAddress) {
       };
       await api.saveUserToDb(user);
       logger.info('save user $accountAddress');
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('user $accountAddress already saved');
+      await AppFactory().reportError(e, s);
     }
   };
 }

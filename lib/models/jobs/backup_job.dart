@@ -46,6 +46,15 @@ class BackupJob extends Job {
       this.isReported = true;
     }
 
+    if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
+      logger.info('BackupJob FAILED');
+      this.status = 'FAILED';
+      String failReason = fetchedData['failReason'];
+      store.dispatch(transactionFailed(arguments['backupBonus']));
+      store.dispatch(segmentTrackCall('Wallet: BackupJob FAILED - $failReason'));
+      return;
+    }
+
     if (fetchedData['data']['funderJobId'] != null) {
       String funderJobId = fetchedData['data']['funderJobId'];
       dynamic response = await api.getFunderJob(funderJobId);

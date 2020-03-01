@@ -89,20 +89,6 @@ class _PincodeScreenState extends State<PincodeScreen> {
                     onPressed: () async {
                       Navigator.popUntil(context, ModalRoute.withName('/'));
                       Navigator.popAndPushNamed(context, '/Cash');
-                      // setState(() { isPreloading = true; });
-                      // viewModel.verify(
-                      //     viewModel.countryCode,
-                      //     viewModel.phoneNumber,
-                      //     pincodeController.text,
-                      //     viewModel.accountAddress,
-                      //     () {
-                      //       Navigator.popUntil(context, ModalRoute.withName('/'));
-                      //       Navigator.popAndPushNamed(context, '/Cash');
-                      //       setState(() { isPreloading = false; });
-                      //     },
-                      //     () {
-                      //       setState(() { isPreloading = false; });
-                      //     });
                     },
                   ),
                 ),

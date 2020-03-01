@@ -155,6 +155,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                   controller: phoneController,
                                   keyboardType: TextInputType.number,
                                   autofocus: true,
+                                  validator: (String value) {
+                                    if (viewModel.loginErrorMessage != null && viewModel.loginErrorMessage.isNotEmpty) {
+                                      return viewModel.loginErrorMessage;
+                                    }
+                                    return null;
+                                  },
                                   style: const TextStyle(
                                       fontSize: 16, color: Colors.black),
                                   decoration: const InputDecoration(

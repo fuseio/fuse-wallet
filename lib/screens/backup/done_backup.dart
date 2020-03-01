@@ -9,7 +9,6 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 
 class DoneBackup extends StatelessWidget {
-  DoneBackup();
 
   @override
   Widget build(BuildContext context) {

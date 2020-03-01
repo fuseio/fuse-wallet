@@ -45,6 +45,15 @@ class InviteJob extends Job {
       this.isReported = true;
     }
 
+    if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
+      logger.info('InviteJob FAILED');
+      this.status = 'FAILED';
+      String failReason = fetchedData['failReason'];
+      store.dispatch(transactionFailed(arguments['inviteTransfer']));
+      store.dispatch(segmentTrackCall('Wallet: InviteJob FAILED - $failReason'));
+      return;
+    }
+
     Job job = JobFactory.create(fetchedData);
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
       final logger = await AppFactory().getLogger('Job');

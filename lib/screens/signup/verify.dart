@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -8,7 +6,6 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
-import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 
 class VerifyScreen extends StatefulWidget {
   @override
@@ -16,7 +13,6 @@ class VerifyScreen extends StatefulWidget {
 }
 
 class _VerifyScreenState extends State<VerifyScreen> {
-//  final verificationCodeController = TextEditingController(text: "");
   bool isPreloading = false;
 
   @override
@@ -29,12 +25,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
-        onWillChange: (viewModel) {
-          if (viewModel.loginVerifySuccess) {
-            //Navigator.popUntil(context, ModalRoute.withName('/'));
-            //Navigator.popAndPushNamed(context, '/Cash');
-          }
-        },
         builder: (_, viewModel) {
           String autoCode = "";
           if (viewModel.credentials != null) {
@@ -47,8 +37,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 viewModel.phoneNumber,
                 autoCode,
                 viewModel.accountAddress,
-                viewModel.verificationId, () async {
-              // Navigator.popUntil(context, ModalRoute.withName('/'));
+                viewModel.verificationId, () {
               Navigator.popAndPushNamed(context, '/UserName');
               setState(() {
                 isPreloading = false;
@@ -154,7 +143,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             verificationCodeController.text,
                             viewModel.accountAddress,
                             viewModel.verificationId, () async {
-                          // Navigator.popUntil(context, ModalRoute.withName('/'));
                           Navigator.popAndPushNamed(context, '/UserName');
                           setState(() {
                             isPreloading = false;

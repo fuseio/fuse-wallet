@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:fusecash/models/views/receive.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/copy.dart';
@@ -13,12 +13,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 
 class ReceiveScreen extends StatelessWidget {
-  ReceiveScreen();
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, CashWalletViewModel>(
-        converter: CashWalletViewModel.fromStore,
+    return new StoreConnector<AppState, ReceiveModel>(
+        converter: ReceiveModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).receive,
