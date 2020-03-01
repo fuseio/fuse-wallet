@@ -39,7 +39,7 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
 
 Color deduceColor(Transfer transfer) {
   if (transfer.isFailed()) {
-    return Color(0xFFE0E0E0);
+    return Color(0xFFBEBEBE);
   } else {
     if (transfer.type == 'SEND') {
       return Color(0xFFFF0000);
@@ -85,7 +85,7 @@ dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
     return new AssetImage(
       'assets/images/join.png',
     );
-  } else if (contact?.avatar != null) {
+  } else if (contact?.avatar != null && contact.avatar.isNotEmpty) {
     return new MemoryImage(contact.avatar);
   }
 
@@ -103,7 +103,7 @@ String getCoverPhotoUrl(business, communityAddress) {
   if (business.metadata.coverPhoto == null ||
         business.metadata.coverPhoto == '') {
          return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isPaywise(communityAddress)) {
+  } else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
     return business.metadata.coverPhoto;
   }
   else {
@@ -115,7 +115,7 @@ String getImageUrl(business, communityAddress) {
   if (business.metadata.image == null ||
         business.metadata.image == '') {
          return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isPaywise(communityAddress)) {
+  } else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
     return business.metadata.image;
   }
   else {

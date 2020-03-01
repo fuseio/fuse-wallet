@@ -186,8 +186,8 @@ class I18n implements WidgetsLocalizations {
   String get enter_phone_number => "Please enter your phone number so we can setup your account";
   /// "Why do we need this?"
   String get why_do_we_need_this => "Why do we need this?";
-  /// "Pick up your display name"
-  String get pickup_display_name => "Pick up your display name";
+  /// "Pick your display name"
+  String get pickup_display_name => "Pick your display name";
   /// "This name will be shown to contacts that send you money to identify your account"
   String get pickup_display_name_text => "This name will be shown to contacts that send you money to identify your account";
   /// "Resend code"

@@ -9,7 +9,6 @@ import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 
 class DoneBackup extends StatelessWidget {
-  DoneBackup();
 
   @override
   Widget build(BuildContext context) {

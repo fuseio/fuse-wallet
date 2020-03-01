@@ -83,10 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
-                          await FlutterSegment.track(
-                              eventName:
-                                  "Wallet: opened modal - why do we need this",
-                              properties: new Map<String, dynamic>());
+                          await FlutterSegment.track(eventName: "Wallet: opened modal - why do we need this");
                         },
                         child: Center(
                           child: Text(

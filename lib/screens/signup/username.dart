@@ -8,7 +8,6 @@ import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/models/views/onboard.dart';
 
 class UserNameScreen extends StatelessWidget {
-  UserNameScreen();
   final verificationCodeController = TextEditingController(text: "");
   final displayNameController = TextEditingController(text: "");
 

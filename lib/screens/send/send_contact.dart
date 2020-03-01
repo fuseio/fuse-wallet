@@ -23,7 +23,7 @@ import "package:ethereum_address/ethereum_address.dart";
 import 'dart:math' as math;
 
 dynamic getImage(Transfer transfer, Contact contact, businesses) {
-  if (contact?.avatar != null) {
+  if (contact?.avatar != null && contact.avatar.isNotEmpty) {
     return new MemoryImage(contact.avatar);
   } else {
     String accountAddress =
@@ -266,7 +266,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     final sorted =
         new List<Transaction>.from(viewModel.transactions.list.toSet().toList())
             .where((t) {
-      return t.type == 'SEND';
+      return t.type == 'SEND' && t.isConfirmed();
     }).toList()
               ..sort((a, b) {
                 if (a.blockNumber != null && b.blockNumber != null) {
@@ -346,7 +346,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     arguments: SendAmountArguments(
                         accountAddress: accountAddress,
                         name: displatName,
-                        avatar: contact?.avatar != null
+                        avatar: contact?.avatar != null && contact.avatar.isNotEmpty
                             ? MemoryImage(contact.avatar)
                             : new AssetImage('assets/images/anom.png'),
                         phoneNumber: phoneNumber));

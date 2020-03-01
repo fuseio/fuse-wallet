@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
-import 'package:paywise/models/views/cash_wallet.dart';
+import 'package:paywise/models/views/cash_header.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:share/share.dart';
 
 class CashHeader extends StatelessWidget {
-  CashHeader();
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashHeaderViewModel>(
@@ -195,11 +194,26 @@ class CashHeader extends StatelessWidget {
                   top: 35,
                   child: Align(
                     alignment: Alignment.bottomRight,
-                    child: Image.asset(
-                      'assets/images/paywise-logo.png',
-                      width: 80,
-                      // height: 100,
-                      fit: BoxFit.fill,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/paywise-logo.png',
+                          width: 80,
+                          // height: 100,
+                          fit: BoxFit.fill,
+                        ),
+                        IconButton(
+                          iconSize: 14,
+                          icon: const Icon(Icons.share),
+                          color: const Color(0xFFFFFFFF),
+                          onPressed: () async {
+                            Share.share(
+                                'Hey, your friend shared with you the PayWise Points wallet: https://app.fuse.io/SIoLEBzlv4');
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 )

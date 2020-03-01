@@ -124,9 +124,24 @@ class _PrizeScreenState extends State<PrizeScreen> {
               titleFontSize: 15,
               footer: bottomBar(context),
               withPadding: false,
-              children: <Widget>[Preloader()]);
+              children: <Widget>[
+                Padding(padding: EdgeInsets.only(top: 20), child: Preloader())
+              ]);
         } else if (snapshot.hasError) {
-          return new Text('Error....');
+          return new MainScaffold(
+              backgroundColor: Colors.white,
+              title: '',
+              titleFontSize: 15,
+              footer: bottomBar(context),
+              withPadding: false,
+              children: <Widget>[
+                Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: new Text(
+                      'Error....',
+                      textAlign: TextAlign.center,
+                    ))
+              ]);
         } else {
           final data = snapshot.data;
           DrawInfo drawInfo = new DrawInfo(
@@ -198,9 +213,15 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                   Duration(seconds: 1), (i) => i),
                               builder: (BuildContext context,
                                   AsyncSnapshot<int> snapshot) {
-                                DateTime endTimestamp = new DateTime.fromMillisecondsSinceEpoch(drawInfo.endTimestamp);
-                                Duration remaining = endTimestamp.difference(DateTime.now());
-                                List<String> formatted = new DateFormat.m().format(DateTime.fromMillisecondsSinceEpoch(remaining.inMilliseconds)).split(':');
+                                DateTime endTimestamp =
+                                    new DateTime.fromMillisecondsSinceEpoch(
+                                        drawInfo.endTimestamp);
+                                Duration remaining =
+                                    endTimestamp.difference(DateTime.now());
+                                List<String> formatted = new DateFormat.Hm()
+                                    .format(DateTime.fromMillisecondsSinceEpoch(
+                                        remaining.inMilliseconds))
+                                    .split(':');
                                 return Container(
                                     alignment: Alignment.center,
                                     child: Row(
@@ -215,12 +236,12 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                           width: 20,
                                         ),
                                         counter(context, 'Hours',
-                                            remaining.inHours),
+                                            int.parse(formatted[0])),
                                         SizedBox(
                                           width: 20,
                                         ),
                                         counter(context, 'Minutes',
-                                            int.parse(formatted[0]))
+                                            int.parse(formatted[1]))
                                       ],
                                     ));
                               }),
@@ -264,10 +285,14 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                       if (snapshot.hasError) {
                                         return SizedBox.shrink();
                                       }
-                                      double growthedAmount = currentAmountCb(snapshot.data ?? 0.0);
-                                      String amount = growthedAmount.toStringAsFixed(5);
-                                      String last = amount.substring(amount.length - 3);
-                                      String first = amount.substring(0, amount.length - 3);
+                                      double growthedAmount =
+                                          currentAmountCb(snapshot.data ?? 0.0);
+                                      String amount =
+                                          growthedAmount.toStringAsFixed(5);
+                                      String last =
+                                          amount.substring(amount.length - 3);
+                                      String first = amount.substring(
+                                          0, amount.length - 3);
                                       return Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -277,14 +302,25 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                         children: <Widget>[
                                           RichText(
                                             text: TextSpan(
-                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
                                               children: <TextSpan>[
-                                                TextSpan(text: first, style: TextStyle(color: Colors.black)),
-                                                TextSpan(text: last, style: TextStyle(color: Color(0xFF00BE66))),
+                                                TextSpan(
+                                                    text: first,
+                                                    style: TextStyle(
+                                                        color: Colors.black)),
+                                                TextSpan(
+                                                    text: last,
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF00BE66))),
                                               ],
                                             ),
                                           ),
-                                          SizedBox(width: 10,),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
                                           Text(
                                             'points',
                                             style: TextStyle(
@@ -307,50 +343,60 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                 fontSize: 14,
                                 color: Theme.of(context).colorScheme.secondary),
                           ),
-                          depositPlugins.isNotEmpty ? Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                SvgPicture.asset(
-                                  'assets/images/top_up.svg',
-                                  width: 20,
-                                  height: 20,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DepositWebView(
-                                              depositPlugin:
-                                                  depositPlugins[0])),
-                                    );
-                                    await FlutterSegment.track(eventName: 'User clicked on top up');
-                                  },
-                                  child: Text(
-                                    'Top up to improve your chances',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: Theme.of(context).primaryColor),
+                          depositPlugins.isNotEmpty
+                              ? Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      SvgPicture.asset(
+                                        'assets/images/top_up.svg',
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DepositWebView(
+                                                        depositPlugin:
+                                                            depositPlugins[0])),
+                                          );
+                                          await FlutterSegment.track(
+                                              eventName:
+                                                  'User clicked on top up');
+                                        },
+                                        child: Text(
+                                          'Top up to improve your chances',
+                                          style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 )
-                              ],
-                            ),
-                          ) : SizedBox.shrink(),
+                              : SizedBox.shrink(),
                           SizedBox(
                             height: 70,
                           ),
                           drawInfo.previous['winner'] != null
                               ? Text(
                                   'Last prize ' +
-                                      (num.parse(drawInfo.previous['reward']).toStringAsFixed(2).toString() ??
+                                      (num.parse(drawInfo.previous['reward'])
+                                              .toStringAsFixed(2)
+                                              .toString() ??
                                           '') +
                                       ' went to ' +
                                       formatAddress(
@@ -378,9 +424,10 @@ class _PrizeScreenState extends State<PrizeScreen> {
                               ),
                               onTap: () {
                                 Navigator.pushNamed(context, '/WebPage',
-                                  arguments: WebViewPageArguments(
-                                      url: 'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
-                                      title: 'What is dai points?'));
+                                    arguments: WebViewPageArguments(
+                                        url:
+                                            'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
+                                        title: 'What is dai points?'));
                               }),
                         ],
                       ),

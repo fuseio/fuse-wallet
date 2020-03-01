@@ -30,7 +30,7 @@ class MainScaffold extends StatelessWidget {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-          expandedHeight: expandedHeight ?? MediaQuery.of(context).size.height / 7,
+          expandedHeight: expandedHeight ?? MediaQuery.of(context).size.height / 8,
           pinned: true,
           actions: actions,
           flexibleSpace: FlexibleSpaceBar(

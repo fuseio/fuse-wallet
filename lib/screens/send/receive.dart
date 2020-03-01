@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
-import 'package:paywise/models/views/cash_wallet.dart';
+import 'package:paywise/models/views/receive.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/copy.dart';
@@ -13,12 +13,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
 
 class ReceiveScreen extends StatelessWidget {
-  ReceiveScreen();
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, CashWalletViewModel>(
-        converter: CashWalletViewModel.fromStore,
+    return new StoreConnector<AppState, ReceiveModel>(
+        converter: ReceiveModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).receive,

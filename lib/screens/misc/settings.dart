@@ -9,7 +9,6 @@ import 'package:paywise/widgets/language_selector.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 
 class SettingsScreen extends StatelessWidget {
-  SettingsScreen();
   Widget getListTile(context, label, onTap) {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, right: 30, left: 30),

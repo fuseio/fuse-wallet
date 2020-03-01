@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 
 class LevelSelectorScreen extends StatelessWidget {
-  LevelSelectorScreen();
   @override
   Widget build(BuildContext context) {
     return MainScaffold(

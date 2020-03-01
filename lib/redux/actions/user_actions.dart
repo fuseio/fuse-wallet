@@ -124,6 +124,7 @@ ThunkAction backupSuccessCall(String txHash, transfer) {
     Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
     store.dispatch(BackupSuccess());
+    store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({ 'Wallet backed up success': true })));
     store.dispatch(segmentTrackCall('Wallet: backup success'));
   };
 }
@@ -194,9 +195,11 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
         store.dispatch(new ErrorAction('Could not login'));
         failCallback();
       }
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - loginRequestCall $e');
+      await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not login'));
+      store.dispatch(segmentTrackCall("ERROR in loginRequestCall"));
       failCallback();
     }
   };
@@ -218,9 +221,11 @@ ThunkAction loginVerifyCall(
       store.dispatch(new LoginVerifySuccess(jwtToken));
       store.dispatch(segmentTrackCall("Wallet: verified phone number"));
       successCallback();
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - loginVerifyCall $e');
+      await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not verify login'));
+      store.dispatch(segmentTrackCall("ERROR in loginVerifyCall"));
       failCallback();
     }
   };
@@ -282,8 +287,9 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       } else {
         store.dispatch(segmentTrackCall("Wallet: Contacts Permission Rejected"));
       }
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - syncContactsCall $e');
+      await AppFactory().reportError(e, s);
     }
   };
 }
@@ -294,8 +300,8 @@ ThunkAction identifyFirstTimeCall() {
     store.dispatch(enablePushNotifications());
     store.dispatch(segmentAliasCall(fullPhoneNumber));
     store.dispatch(segmentIdentifyCall(
-        fullPhoneNumber,
         new Map<String, dynamic>.from({
+          "Wallet Generated": true,
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
@@ -308,7 +314,6 @@ ThunkAction identifyCall() {
   return (Store store) async {
     String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     store.dispatch(segmentIdentifyCall(
-        fullPhoneNumber,
         new Map<String, dynamic>.from({
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,
@@ -342,19 +347,23 @@ ThunkAction setDisplayNameCall(String displayName) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    final _webView = new InteractiveWebView();
-    String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-    final html = '''<html>
-        <head></head>
-        <script>
-          window.pk = '0x${store.state.userState.privateKey}';
-          window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '$phoneNumber'};
-        </script>
-        <script src='https://3box.fuse.io/main.js'></script>
-        <body></body>
-      </html>''';
-    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
-    store.dispatch(segmentTrackCall("Wallet: Profile created in 3box"));
+    try {
+      final _webView = new InteractiveWebView();
+      String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      final html = '''<html>
+          <head></head>
+          <script>
+            window.pk = '0x${store.state.userState.privateKey}';
+            window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '$phoneNumber'};
+          </script>
+          <script src='https://3box.fuse.io/main.js'></script>
+          <body></body>
+        </html>''';
+      _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
+      store.dispatch(segmentTrackCall("Wallet: Profile created in 3box"));
+    } catch (e, s) {
+      await AppFactory().reportError(e, s);
+    }
     try {
       Map publicData = {
         'account': accountAddress,
@@ -363,15 +372,16 @@ ThunkAction create3boxAccountCall(accountAddress) {
       await api.createProfile(accountAddress, publicData);
       Map user = {
         "accountAddress": accountAddress,
-        "email": 'wallet-user@fuse.io',
+        "email": 'wallet-user@paywise.io',
         "provider": 'HDWallet',
         "subscribe": false,
         "source": 'wallet-v2'
       };
       await api.saveUserToDb(user);
       logger.info('save user $accountAddress');
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('user $accountAddress already saved');
+      await AppFactory().reportError(e, s);
     }
   };
 }

@@ -11,7 +11,6 @@ import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/widgets/transparent_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
-  ShowMnemonic();
 
   @override
   Widget build(BuildContext context) {

@@ -114,7 +114,7 @@ class TransactionListItem extends StatelessWidget {
                                   ? 'GenerateWallet'
                                   : transfer.isPending()
                                       ? "contactSent"
-                                      : "transaction" + (transfer.txHash ?? transfer.jobId),
+                                      : "transaction" + (transfer?.jobId ?? transfer.txHash),
                             ),
                             transfer.isPending()
                                 ? Container(
@@ -180,14 +180,28 @@ class TransactionListItem extends StatelessWidget {
                   flex: 3,
                   child: Container(
                     width: 100,
-                    child: Column(
-                        mainAxisAlignment: transfer.isPending()
-                            ? MainAxisAlignment.start
-                            : MainAxisAlignment.center,
-                        crossAxisAlignment: transfer.isPending()
-                            ? CrossAxisAlignment.end
-                            : CrossAxisAlignment.center,
-                        children: rightColumn),
+                    child: transfer.isFailed()
+                        ? InkWell(
+                            onTap: () {
+                              // TODO - Resend fail job
+                            },
+                            child: Column(
+                                mainAxisAlignment: transfer.isPending()
+                                    ? MainAxisAlignment.start
+                                    : MainAxisAlignment.center,
+                                crossAxisAlignment: transfer.isPending()
+                                    ? CrossAxisAlignment.end
+                                    : CrossAxisAlignment.center,
+                                children: rightColumn),
+                          )
+                        : Column(
+                            mainAxisAlignment: transfer.isPending()
+                                ? MainAxisAlignment.start
+                                : MainAxisAlignment.center,
+                            crossAxisAlignment: transfer.isPending()
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.center,
+                            children: rightColumn),
                   ))
             ],
           ),

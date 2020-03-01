@@ -26,12 +26,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
-        onWillChange: (viewModel) {
-          if (viewModel.loginVerifySuccess) {
-            //Navigator.popUntil(context, ModalRoute.withName('/'));
-            //Navigator.popAndPushNamed(context, '/Cash');
-          }
-        },
         builder: (_, viewModel) {
           return MainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -45,7 +39,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        I18n.of(context).we_just_sent +
+                          I18n.of(context).we_just_sent +
                               "${viewModel.countryCode} ${viewModel.phoneNumber}" +
                               "\n\n" +
                               I18n.of(context).enter_verification_code,
@@ -61,7 +55,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         child: Container(
                           width: 280,
                           child: new Theme(
-                              data: new ThemeData(hintColor: Theme.of(context).scaffoldBackgroundColor),
+                              data: new ThemeData(
+                                  hintColor: Theme.of(context)
+                                      .scaffoldBackgroundColor),
                               child: PinInputTextField(
                                 pinLength: 6,
                                 decoration: UnderlineDecoration(

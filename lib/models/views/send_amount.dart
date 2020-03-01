@@ -8,16 +8,20 @@ import 'package:redux/redux.dart';
 class SendAmountViewModel {
   final Token token;
   final String myCountryCode;
+  final Community community;
   final Function(String name, String phoneNumber, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToContact;
   final Function(String, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
   final Function(String eventName) trackTransferCall;
+  final Function(Map<String, dynamic> traits) idenyifyCall;
 
   SendAmountViewModel(
       {this.token,
       this.myCountryCode,
       this.sendToContact,
       this.sendToAccountAddress,
-      this.trackTransferCall});
+      this.trackTransferCall,
+      this.idenyifyCall,
+      this.community});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -26,6 +30,7 @@ class SendAmountViewModel {
             new Community.initial();
     return SendAmountViewModel(
         token: community.token,
+        community: community,
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
             String name,
@@ -58,6 +63,9 @@ class SendAmountViewModel {
         },
         trackTransferCall: (String eventName) {
           store.dispatch(segmentTrackCall(eventName));
+        },
+        idenyifyCall: (Map<String, dynamic> traits) {
+          store.dispatch(segmentIdentifyCall(traits));
         });
   }
 }
