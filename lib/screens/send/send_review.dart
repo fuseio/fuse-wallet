@@ -231,10 +231,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           isPreloading = false;
                         });
                         if (args.isBusiness != null && args.isBusiness) {
+                          viewModel.idenyifyCall(Map.from({ "Transferred ${viewModel.community.name} - business": true }));
                           viewModel.trackTransferCall("Wallet: User Transfer - business");
                         } else if (args.accountAddress == null || args.accountAddress == '' && args.phoneNumber != null) {
+                          viewModel.idenyifyCall(Map.from({ "Transferred ${viewModel.community.name} - contact": true }));
                           viewModel.trackTransferCall("Wallet: User Transfer - contact");
                         } else {
+                          viewModel.idenyifyCall(Map.from({ "Transferred ${viewModel.community.name} - address": true }));
                           viewModel.trackTransferCall("Wallet: User Transfer - address");
                         }
                       }, () {

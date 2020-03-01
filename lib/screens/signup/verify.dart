@@ -39,16 +39,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 viewModel.accountAddress,
                 viewModel.verificationId, () {
               Navigator.popAndPushNamed(context, '/UserName');
-              setState(() {
-                isPreloading = false;
-              });
-            }, () {
-              setState(() {
-                isPreloading = false;
-              });
-            });
+            }, () {});
           }
-          final verificationCodeController = TextEditingController(text: autoCode);
+          final verificationCodeController =
+              TextEditingController(text: autoCode);
           return MainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
@@ -61,7 +55,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        I18n.of(context).we_just_sent +
+                          I18n.of(context).we_just_sent +
                               "${viewModel.countryCode} ${viewModel.phoneNumber}" +
                               "\n\n" +
                               I18n.of(context).enter_verification_code,
@@ -77,7 +71,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         child: Container(
                           width: 280,
                           child: new Theme(
-                              data: new ThemeData(hintColor: Theme.of(context).scaffoldBackgroundColor),
+                              data: new ThemeData(
+                                  hintColor: Theme.of(context)
+                                      .scaffoldBackgroundColor),
                               child: PinInputTextField(
                                 pinLength: 6,
                                 decoration: UnderlineDecoration(

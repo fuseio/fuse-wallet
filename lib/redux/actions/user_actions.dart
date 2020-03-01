@@ -145,6 +145,7 @@ ThunkAction backupSuccessCall(String txHash, transfer) {
     Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
     store.dispatch(BackupSuccess());
+    store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({ 'Wallet backed up success': true })));
     store.dispatch(segmentTrackCall('Wallet: backup success'));
   };
 }
@@ -379,8 +380,8 @@ ThunkAction identifyFirstTimeCall() {
     store.dispatch(enablePushNotifications());
     store.dispatch(segmentAliasCall(fullPhoneNumber));
     store.dispatch(segmentIdentifyCall(
-        fullPhoneNumber,
         new Map<String, dynamic>.from({
+          "Wallet Generated": true,
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
@@ -393,7 +394,6 @@ ThunkAction identifyCall() {
   return (Store store) async {
     String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     store.dispatch(segmentIdentifyCall(
-        fullPhoneNumber,
         new Map<String, dynamic>.from({
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,
