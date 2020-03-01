@@ -245,11 +245,6 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
         logger.info("time out");
       };
 
-      FirebaseUser user = await _auth.currentUser();
-      if (user != null) {
-        await user.unlinkFromProvider("phone");
-      }
-
       await _auth.verifyPhoneNumber(
           phoneNumber: phone,
           timeout: const Duration(seconds: 15),
@@ -258,8 +253,9 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
           codeSent: codeSent,
           codeAutoRetrievalTimeout: codeAutoRetrievalTimeout
       );
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - loginRequestCall $e');
+      await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not login'));
       failCallback();
     }
@@ -289,7 +285,7 @@ ThunkAction loginVerifyCall(
       final FirebaseUser user = (await _auth.signInWithCredential(credentials)).user;
       final FirebaseUser currentUser = await _auth.currentUser();
       assert(user.uid == currentUser.uid);
-      if (user.uid != null) {
+      if (user != null) {
         store.dispatch(SetVerifyErrorMessage(null));
         logger.info('signed in with phone number successful: user -> $user');
 
@@ -304,9 +300,10 @@ ThunkAction loginVerifyCall(
         failCallback();
         store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       }
-    } catch (e) {
+    } catch (e, s) {
       store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       logger.severe('ERROR - loginVerifyCall $e');
+      await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not verify login'));
       failCallback();
     }
@@ -369,8 +366,9 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       } else {
         store.dispatch(segmentTrackCall("Wallet: Contacts Permission Rejected"));
       }
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - syncContactsCall $e');
+      await AppFactory().reportError(e, s);
     }
   };
 }
@@ -429,19 +427,23 @@ ThunkAction setDisplayNameCall(String displayName) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    final _webView = new InteractiveWebView();
-    String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-    final html = '''<html>
-        <head></head>
-        <script>
-          window.pk = '0x${store.state.userState.privateKey}';
-          window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '$phoneNumber'};
-        </script>
-        <script src='https://3box.fuse.io/main.js'></script>
-        <body></body>
-      </html>''';
-    _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
-    store.dispatch(segmentTrackCall("Wallet: Profile created in 3box"));
+    try {
+      final _webView = new InteractiveWebView();
+      String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      final html = '''<html>
+          <head></head>
+          <script>
+            window.pk = '0x${store.state.userState.privateKey}';
+            window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '$phoneNumber'};
+          </script>
+          <script src='https://3box.fuse.io/main.js'></script>
+          <body></body>
+        </html>''';
+      _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
+      store.dispatch(segmentTrackCall("Wallet: Profile created in 3box"));
+    } catch (e, s) {
+      await AppFactory().reportError(e, s);
+    }
     try {
       Map publicData = {
         'account': accountAddress,
@@ -457,8 +459,9 @@ ThunkAction create3boxAccountCall(accountAddress) {
       };
       await api.saveUserToDb(user);
       logger.info('save user $accountAddress');
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('user $accountAddress already saved');
+      await AppFactory().reportError(e, s);
     }
   };
 }
