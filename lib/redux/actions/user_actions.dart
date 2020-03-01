@@ -258,6 +258,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       logger.severe('ERROR - loginRequestCall $e');
       await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not login'));
+      store.dispatch(segmentTrackCall("ERROR in loginRequestCall"));
       failCallback();
     }
   };
@@ -306,6 +307,7 @@ ThunkAction loginVerifyCall(
       logger.severe('ERROR - loginVerifyCall $e');
       await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not verify login'));
+      store.dispatch(segmentTrackCall("ERROR in loginVerifyCall"));
       failCallback();
     }
   };
