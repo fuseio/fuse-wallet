@@ -216,7 +216,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
         store.dispatch(new SetCredentials(credentials));
         store.dispatch(SetLoginErrorMessage(null));
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
-        store.dispatch(segmentTrackCall("Wallet: user insert his phone number"));
+        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>.from({ "Phone number": phone })));
         if (!succeed) {
           succeed = true;
           successCallback();
