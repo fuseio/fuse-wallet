@@ -233,6 +233,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
         logger.info("code sent to " + phone);
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
+        store.dispatch(new SetCredentials(null));
         store.dispatch(new SetVerificationId(verificationId));
         store.dispatch(SetLoginErrorMessage(null));
         if (!succeed) {
@@ -242,13 +243,13 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       };
 
       final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
-        store.dispatch(new SetVerificationId(verificationId));
+//        store.dispatch(new SetVerificationId(verificationId));
         logger.info("time out");
       };
 
       await _auth.verifyPhoneNumber(
           phoneNumber: phone,
-          timeout: const Duration(seconds: 15),
+          timeout: const Duration(minutes: 2),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
           codeSent: codeSent,
@@ -303,11 +304,11 @@ ThunkAction loginVerifyCall(
         store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       }
     } catch (e, s) {
+      store.dispatch(segmentTrackCall("ERROR in loginVerifyCall", properties: {"error": e.toString()}));
       store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       logger.severe('ERROR - loginVerifyCall $e');
       await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not verify login'));
-      store.dispatch(segmentTrackCall("ERROR in loginVerifyCall"));
       failCallback();
     }
   };

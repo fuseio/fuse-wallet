@@ -14,6 +14,7 @@ class VerifyScreen extends StatefulWidget {
 
 class _VerifyScreenState extends State<VerifyScreen> {
   bool isPreloading = false;
+  String autoCode = "";
 
   @override
   void initState() {
@@ -26,7 +27,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
         distinct: true,
         converter: OnboardViewModel.fromStore,
         builder: (_, viewModel) {
-          String autoCode = "";
+
           if (viewModel.credentials != null) {
             autoCode = viewModel.credentials.smsCode ?? "";
 
@@ -111,12 +112,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           viewModel.accountAddress,
                           viewModel.verificationId, () async {
                         Navigator.popAndPushNamed(context, '/UserName');
-                        setState(() {
-                          isPreloading = false;
-                        });
                       }, () {
                         setState(() {
                           isPreloading = false;
+                          autoCode = verificationCodeController.text;
                         });
                       });
                     },
@@ -133,21 +132,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     FlatButton(
                       padding: EdgeInsets.only(right: 10),
                       onPressed: () {
-                        viewModel.verify(
-                            viewModel.countryCode,
-                            viewModel.phoneNumber,
-                            verificationCodeController.text,
-                            viewModel.accountAddress,
-                            viewModel.verificationId, () async {
-                          Navigator.popAndPushNamed(context, '/UserName');
-                          setState(() {
-                            isPreloading = false;
-                          });
-                        }, () {
-                          setState(() {
-                            isPreloading = false;
-                          });
-                        });
+                        Navigator.pop(context);
                       },
                       child: Text(
                         I18n.of(context).resend_code,
