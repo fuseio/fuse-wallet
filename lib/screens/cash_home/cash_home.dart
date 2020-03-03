@@ -2,7 +2,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
+// import 'package:fusecash/themes/custom_theme.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/main_scaffold2.dart';
@@ -73,9 +73,9 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
 
 class CashHomeScreen extends StatelessWidget {
 
-  void _changeTheme(BuildContext buildContext, MyThemeKeys key) {
-    CustomTheme.instanceOf(buildContext).changeTheme(key);
-  }
+  // void _changeTheme(BuildContext buildContext, MyThemeKeys key) {
+  //   CustomTheme.instanceOf(buildContext).changeTheme(key);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class CashHomeScreen extends StatelessWidget {
           onChange(viewModel, context, initial: true);
         },
         onWillChange: (viewModel) async {
-          updateTheme(viewModel, _changeTheme, context);
+          // updateTheme(viewModel, _changeTheme, context);
           onChange(viewModel, context);
         },
         builder: (_, viewModel) {
