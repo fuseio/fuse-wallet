@@ -145,6 +145,7 @@ ThunkAction backupSuccessCall(String txHash, transfer) {
     Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
     store.dispatch(BackupSuccess());
+    store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({ 'Wallet backed up success': true })));
     store.dispatch(segmentTrackCall('Wallet: backup success'));
   };
 }
@@ -215,7 +216,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
         store.dispatch(new SetCredentials(credentials));
         store.dispatch(SetLoginErrorMessage(null));
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
-        store.dispatch(segmentTrackCall("Wallet: user insert his phone number"));
+        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>.from({ "Phone number": phone })));
         if (!succeed) {
           succeed = true;
           successCallback();
@@ -232,6 +233,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
         logger.info("code sent to " + phone);
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
+        store.dispatch(new SetCredentials(null));
         store.dispatch(new SetVerificationId(verificationId));
         store.dispatch(SetLoginErrorMessage(null));
         if (!succeed) {
@@ -241,13 +243,13 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       };
 
       final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
-        store.dispatch(new SetVerificationId(verificationId));
+//        store.dispatch(new SetVerificationId(verificationId));
         logger.info("time out");
       };
 
       await _auth.verifyPhoneNumber(
           phoneNumber: phone,
-          timeout: const Duration(seconds: 15),
+          timeout: const Duration(minutes: 2),
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
           codeSent: codeSent,
@@ -257,6 +259,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       logger.severe('ERROR - loginRequestCall $e');
       await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not login'));
+      store.dispatch(segmentTrackCall("ERROR in loginRequestCall"));
       failCallback();
     }
   };
@@ -301,6 +304,7 @@ ThunkAction loginVerifyCall(
         store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       }
     } catch (e, s) {
+      store.dispatch(segmentTrackCall("ERROR in loginVerifyCall", properties: {"error": e.toString()}));
       store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
       logger.severe('ERROR - loginVerifyCall $e');
       await AppFactory().reportError(e, s);
@@ -379,8 +383,8 @@ ThunkAction identifyFirstTimeCall() {
     store.dispatch(enablePushNotifications());
     store.dispatch(segmentAliasCall(fullPhoneNumber));
     store.dispatch(segmentIdentifyCall(
-        fullPhoneNumber,
         new Map<String, dynamic>.from({
+          "Wallet Generated": true,
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
@@ -393,7 +397,6 @@ ThunkAction identifyCall() {
   return (Store store) async {
     String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     store.dispatch(segmentIdentifyCall(
-        fullPhoneNumber,
         new Map<String, dynamic>.from({
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,

@@ -281,12 +281,13 @@ ThunkAction segmentAliasCall(String userId) {
   };
 }
 
-ThunkAction segmentIdentifyCall(String userId, Map<String, dynamic> traits) {
+ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      logger.info('Identify - $userId');
-      await FlutterSegment.identify(userId: userId, traits: traits);
+      String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      logger.info('Identify - $fullPhoneNumber');
+      await FlutterSegment.identify(userId: fullPhoneNumber, traits: traits);
     } catch (e, s) {
       logger.severe('ERROR - segment identify call: $e');
       await AppFactory().reportError(e, s);
@@ -306,12 +307,14 @@ ThunkAction listenToBranchCall() {
         var communityAddress = linkData["community_address"];
         logger.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({ 'Referral': linkData["~feature"], 'Referral link': linkData['~referring_link'] })));
         store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
         logger.info("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({ 'Referral': linkData["~feature"], 'Referral link': linkData['~referring_link'] })));
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite", properties: new Map<String, dynamic>.from(linkData)));
       }
       store.dispatch(BranchDataReceived());
@@ -472,6 +475,9 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
       String walletAddress = store.state.cashWalletState.walletAddress;
       BigInt tokenBalance = await graph.getTokenBalance(walletAddress, tokenAddress);
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
+      String communityAddres = store.state.cashWalletState.communityAddress;
+      Community community = store.state.cashWalletState.communities[communityAddres];
+      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({ '${community.name} Balance': tokenBalance })));
     } catch (e) {
       logger.severe('ERROR - getTokenBalanceCall $e');
       store.dispatch(new ErrorAction('Could not get token balance'));
@@ -632,6 +638,11 @@ ThunkAction inviteAndSendSuccessCall(Job job, dynamic data, tokensAmount, receiv
           if (community.plugins.inviteBonus != null && community.plugins.inviteBonus.isActive && data['bonusInfo'] != null) {
           store.dispatch(inviteBonusCall(data));
         }
+        store.dispatch(segmentIdentifyCall(
+          new Map<String, dynamic>.from({
+            "Invite ${community.name}": true,
+          })
+        ));
       };
 
       String receiverAddress = job.data["walletAddress"];
@@ -798,7 +809,6 @@ ThunkAction joinCommunitySuccessCall(Job job, dynamic fetchedData, Transfer tran
       text: 'Joined ' + (community["name"]) + ' community',
       txHash: job.data['txHash']);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
-
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community communityData = store.state.cashWalletState.communities[communityAddres];
     if (communityData.plugins.joinBonus != null && communityData.plugins.joinBonus.isActive) {
@@ -823,6 +833,11 @@ ThunkAction joinCommunitySuccessCall(Job job, dynamic fetchedData, Transfer tran
       });
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
+      store.dispatch(segmentIdentifyCall(
+        new Map<String, dynamic>.from({
+          "Community ${communityData.name} Joined": true,
+        })
+      ));
     }
   };
 }
@@ -833,6 +848,11 @@ ThunkAction joinBonusSuccessCall(txHash, transfer) {
     Community communityData = store.state.cashWalletState.communities[communityAddres];
     Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
+    store.dispatch(segmentIdentifyCall(
+      new Map<String, dynamic>.from({
+        "Join Bonus ${communityData.name} Received": true,
+      })
+    ));
     store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
         properties: new Map<String, dynamic>.from({
           "Community Name": communityData.name,

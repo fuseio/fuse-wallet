@@ -14,6 +14,7 @@ class VerifyScreen extends StatefulWidget {
 
 class _VerifyScreenState extends State<VerifyScreen> {
   bool isPreloading = false;
+  String autoCode = "";
 
   @override
   void initState() {
@@ -26,7 +27,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
         distinct: true,
         converter: OnboardViewModel.fromStore,
         builder: (_, viewModel) {
-          String autoCode = "";
+
           if (viewModel.credentials != null) {
             autoCode = viewModel.credentials.smsCode ?? "";
 
@@ -39,16 +40,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 viewModel.accountAddress,
                 viewModel.verificationId, () {
               Navigator.popAndPushNamed(context, '/UserName');
-              setState(() {
-                isPreloading = false;
-              });
-            }, () {
-              setState(() {
-                isPreloading = false;
-              });
-            });
+            }, () {});
           }
-          final verificationCodeController = TextEditingController(text: autoCode);
+          final verificationCodeController =
+              TextEditingController(text: autoCode);
           return MainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
@@ -61,7 +56,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        I18n.of(context).we_just_sent +
+                          I18n.of(context).we_just_sent +
                               "${viewModel.countryCode} ${viewModel.phoneNumber}" +
                               "\n\n" +
                               I18n.of(context).enter_verification_code,
@@ -77,7 +72,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         child: Container(
                           width: 280,
                           child: new Theme(
-                              data: new ThemeData(hintColor: Theme.of(context).scaffoldBackgroundColor),
+                              data: new ThemeData(
+                                  hintColor: Theme.of(context)
+                                      .scaffoldBackgroundColor),
                               child: PinInputTextField(
                                 pinLength: 6,
                                 decoration: UnderlineDecoration(
@@ -115,12 +112,10 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           viewModel.accountAddress,
                           viewModel.verificationId, () async {
                         Navigator.popAndPushNamed(context, '/UserName');
-                        setState(() {
-                          isPreloading = false;
-                        });
                       }, () {
                         setState(() {
                           isPreloading = false;
+                          autoCode = verificationCodeController.text;
                         });
                       });
                     },
@@ -137,21 +132,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     FlatButton(
                       padding: EdgeInsets.only(right: 10),
                       onPressed: () {
-                        viewModel.verify(
-                            viewModel.countryCode,
-                            viewModel.phoneNumber,
-                            verificationCodeController.text,
-                            viewModel.accountAddress,
-                            viewModel.verificationId, () async {
-                          Navigator.popAndPushNamed(context, '/UserName');
-                          setState(() {
-                            isPreloading = false;
-                          });
-                        }, () {
-                          setState(() {
-                            isPreloading = false;
-                          });
-                        });
+                        Navigator.pop(context);
                       },
                       child: Text(
                         I18n.of(context).resend_code,
