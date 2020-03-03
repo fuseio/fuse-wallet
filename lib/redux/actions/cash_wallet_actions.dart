@@ -296,7 +296,7 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
         store.dispatch(new JustInstalled(installedAt));
       }
       traits["Installed At"] = installedAt.toIso8601String();
-      traits["Display Balance"] = userState.displayBalance;
+      traits["Display Balance"] = userState.displayBalance ?? 0;
       await FlutterSegment.identify(userId: fullPhoneNumber, traits: traits);
     } catch (e, s) {
       logger.severe('ERROR - segment identify call: $e');
