@@ -82,7 +82,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Win up to 30 points!',
+                                  'Win up to 100 points!',
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: Theme.of(context)
@@ -99,7 +99,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Text('Get 10 points for installing the app',
+                                  Text('Get 20 points for installing the app',
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Theme.of(context)
@@ -115,7 +115,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                      'Get 10 points after sending money to a friend',
+                                      'Get 40 points after sending money to a friend',
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Theme.of(context)
@@ -131,7 +131,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                      'Get 10 points for backing-up your wallet',
+                                      'Get 40 points for backing-up your wallet',
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Theme.of(context)
