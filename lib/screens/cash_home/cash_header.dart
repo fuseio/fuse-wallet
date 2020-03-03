@@ -11,7 +11,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
 class CashHeader extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashHeaderViewModel>(
@@ -35,14 +34,7 @@ class CashHeader extends StatelessWidget {
                     ),
                   )
                 ],
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Theme.of(context).primaryColorLight,
-                    Theme.of(context).primaryColorDark,
-                  ],
-                ),
+                color: Theme.of(context).primaryColorDark,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(30.0))),
@@ -73,13 +65,13 @@ class CashHeader extends StatelessWidget {
                               text: I18n.of(context).hi,
                               style: TextStyle(
                                   fontSize: 33,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).splashColor,
                                   fontWeight: FontWeight.normal)),
                           new TextSpan(
                               text: ' ' + viewModel.firstName(),
                               style: TextStyle(
                                   fontSize: 33,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).splashColor,
                                   fontWeight: FontWeight.normal)),
                         ],
                       ),
@@ -101,9 +93,7 @@ class CashHeader extends StatelessWidget {
                             new Container(
                               child: Text(I18n.of(context).balance,
                                   style: TextStyle(
-                                      color: Theme.of(context)
-                                          .primaryColor
-                                          .withAlpha(150),
+                                      color: Theme.of(context).splashColor,
                                       fontSize: 12.0)),
                               padding: EdgeInsets.only(bottom: 6.0),
                             ),
@@ -124,7 +114,7 @@ class CashHeader extends StatelessWidget {
                                                   style: new TextStyle(
                                                       fontSize: 30,
                                                       color: Theme.of(context)
-                                                          .primaryColor,
+                                                          .splashColor,
                                                       fontWeight:
                                                           FontWeight.bold))
                                             ]
@@ -138,7 +128,7 @@ class CashHeader extends StatelessWidget {
                                                   style: new TextStyle(
                                                       fontSize: 32,
                                                       color: Theme.of(context)
-                                                          .primaryColor,
+                                                          .splashColor,
                                                       fontWeight:
                                                           FontWeight.bold)),
                                               new TextSpan(
@@ -149,7 +139,7 @@ class CashHeader extends StatelessWidget {
                                                   style: new TextStyle(
                                                       fontSize: 18,
                                                       color: Theme.of(context)
-                                                          .primaryColor,
+                                                          .splashColor,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       height: 0.0)),
@@ -159,8 +149,7 @@ class CashHeader extends StatelessWidget {
                                                       text: ' (\$' +
                                                           calcValueInDollar(
                                                               viewModel
-                                                                  .community
-                                                                  .tokenBalance,
+                                                                  .community.tokenBalance,
                                                               viewModel
                                                                   .community
                                                                   .token
@@ -171,8 +160,7 @@ class CashHeader extends StatelessWidget {
                                                               fontSize: 15,
                                                               color: Theme.of(
                                                                       context)
-                                                                  .colorScheme
-                                                                  .secondary,
+                                                                  .splashColor,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .normal,
@@ -186,7 +174,8 @@ class CashHeader extends StatelessWidget {
                         ),
                         new Container(
                           child: Row(children: [
-                            isDefaultCommunity(viewModel.community.address) && isWalletCreated
+                            isDefaultCommunity(viewModel.community.address) &&
+                                    isWalletCreated
                                 ? InkWell(
                                     child: SvgPicture.asset(
                                       'assets/images/winPoints.svg',
@@ -195,7 +184,8 @@ class CashHeader extends StatelessWidget {
                                     ),
                                     onTap: () async {
                                       Navigator.pushNamed(context, '/Prize');
-                                      await FlutterSegment.track(eventName: "User open prize page");
+                                      await FlutterSegment.track(
+                                          eventName: "User open prize page");
                                     },
                                   )
                                 : SizedBox.shrink(),

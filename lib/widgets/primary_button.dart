@@ -17,14 +17,15 @@ class PrimaryButton extends StatelessWidget {
       width: width ?? 255.0,
       height: height ?? 50.0,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Theme.of(context).primaryColorLight,
-              Theme.of(context).primaryColorDark,
-            ],
-          ),
+          color: Theme.of(context).primaryColorDark,
+          // gradient: LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          //   colors: [
+          //     Theme.of(context).primaryColorLight,
+          //     Theme.of(context).primaryColorDark,
+          //   ],
+          // ),
           borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
           border: Border.all(color: Theme.of(context).primaryColor.withAlpha(14))),
       child: Material(
@@ -41,7 +42,7 @@ class PrimaryButton extends StatelessWidget {
                   ? Text(
                       label,
                       style: TextStyle(
-                          color: Theme.of(context).textTheme.button.color,
+                          color: Theme.of(context).splashColor,
                           fontSize: this.fontSize ?? 18,
                           fontWeight: this.labelFontWeight ?? FontWeight.w700),
                     )
@@ -49,7 +50,7 @@ class PrimaryButton extends StatelessWidget {
                       child: CircularProgressIndicator(
                           strokeWidth: 3,
                           valueColor: new AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).primaryColor)),
+                              Theme.of(context).splashColor)),
                       width: 21.0,
                       height: 21.0,
                       margin: EdgeInsets.only(left: 28, right: 28),

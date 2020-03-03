@@ -12,10 +12,12 @@ class MainScaffold extends StatelessWidget {
       this.withPadding,
       this.backgroundColor,
       this.expandedHeight,
-      this.titleFontSize})
+      this.titleFontSize,
+      this.customHeader})
       : sliverList = sliverList ?? new List<Widget>(),
         actions = actions ?? new List<Widget>();
   final String title;
+  final Widget customHeader;
   final List<Widget> children;
   final List<Widget> sliverList;
   final Widget footer;
@@ -35,7 +37,7 @@ class MainScaffold extends StatelessWidget {
           actions: actions,
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
-              child: Text(title,
+              child: customHeader ?? Text(title,
                   softWrap: true,
                   //overflow: TextOverflow.visible,
                   style: TextStyle(

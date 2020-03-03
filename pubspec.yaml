@@ -70,6 +70,7 @@ flutter_icons:
 flutter:
   assets:
     - .env_prod
+    - .env_roost
     - .env_qa
     - assets/
     - assets/images/

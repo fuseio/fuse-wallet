@@ -7,13 +7,13 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/buy_page.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
+import 'package:fusecash/screens/misc/about.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BuyViewModel>(
@@ -46,6 +46,29 @@ class BuyScreen extends StatelessWidget {
               withPadding: false,
               titleFontSize: 15,
               footer: bottomBar(context),
+              customHeader: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('Pay rent',
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline.color,
+                          fontSize: 12)),
+                  Text('Any Questions?',
+                      style: TextStyle(
+                          color: Theme.of(context).textTheme.headline.color,
+                          fontSize: 11)),
+                  InkWell(
+                    onTap: () {
+                      launchUrl('mailto:Leon@RoostNow.co.uk');
+                    },
+                    child: Text('Email: Leon@RoostNow.co.uk',
+                        style: TextStyle(
+                            color: Theme.of(context).textTheme.headline.color,
+                            fontSize: 9)),
+                  )
+                ],
+              ),
               title: I18n.of(context).buy,
               children: <Widget>[BusinessesListView()]);
         });

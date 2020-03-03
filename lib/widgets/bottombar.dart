@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/common.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/prize.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
+import 'package:fusecash/models/views/bottom_bar.dart';
+import 'package:fusecash/screens/cash_home/webview_page.dart';
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;
@@ -14,8 +14,8 @@ isCurrentRoute(BuildContext context, String route) {
 
 Widget bottomBar(BuildContext context) {
   bool isHomePage = isCurrentRoute(context, '/Cash');
-  return new StoreConnector<AppState, PrizeViewModel>(
-      converter: PrizeViewModel.fromStore,
+  return new StoreConnector<AppState, BottomBarViewModel>(
+      converter: BottomBarViewModel.fromStore,
       builder: (_, viewModel) {
         return Hero(
           tag: "footerNav",
@@ -36,7 +36,7 @@ Widget bottomBar(BuildContext context) {
                     isCurrentRoute(context, '/Cash')
                         ? "home_selected.svg"
                         : "home.svg",
-                    I18n.of(context).home, () {
+                    I18n.of(context).wallet, () {
                   if (isHomePage) {
                     redirect(context, '/Cash');
                   } else {
@@ -45,56 +45,49 @@ Widget bottomBar(BuildContext context) {
                   }
                 }),
                 bottomBarItem(
-                    isCurrentRoute(context, '/SendContact')
-                        ? "send_selected.svg"
-                        : "send.svg",
-                    I18n.of(context).send_button, () {
+                    isCurrentRoute(context, '/Home')
+                        ? "home_selected.svg"
+                        : "home.svg",
+                    'Your Home', () {
                   if (isHomePage) {
-                    redirect(context, '/SendContact');
+                    redirect(context, '/Home',
+                        arguments: WebViewPageArguments(
+                            url:
+                                'https://app.roostnow.co.uk/home?wallet=${viewModel.walletAddress}',
+                            title: 'Your Home'));
                   } else {
                     Navigator.pop(context, ModalRoute.withName('/Cash'));
-                    redirect(context, '/SendContact');
+                    redirect(context, '/Home',
+                        arguments: WebViewPageArguments(
+                            url:
+                                'https://app.roostnow.co.uk/home?wallet=${viewModel.walletAddress}',
+                            title: 'Your Home'));
                   }
                 }),
-                isDefaultCommunity(viewModel.community.address)
-                    ? bottomBarItem(
-                        isCurrentRoute(context, '/DaiPoints')
-                            ? "daipoints_selected.svg"
-                            : "daipoints.svg",
-                        I18n.of(context).dai_points, () {
-                        if (isHomePage) {
-                          redirect(context, '/DaiPoints');
-                        } else {
-                          Navigator.popUntil(
-                              context, ModalRoute.withName('/Cash'));
-                          redirect(context, '/DaiPoints');
-                        }
-                      })
-                    : bottomBarItem(
-                        isCurrentRoute(context, '/Buy')
-                            ? "buy_selected.svg"
-                            : "buy.svg",
-                        I18n.of(context).buy, () {
-                        if (isHomePage) {
-                          redirect(context, '/Buy');
-                        } else {
-                          Navigator.popUntil(
-                              context, ModalRoute.withName('/Cash'));
-                          redirect(context, '/Buy');
-                        }
-                      }),
                 bottomBarItem(
-                    isCurrentRoute(context, '/Receive')
-                        ? "receive_selected.svg"
-                        : "receive.svg",
-                    I18n.of(context).receive, () {
+                    isCurrentRoute(context, '/Buy')
+                        ? "buy_selected.svg"
+                        : "buy.svg",
+                    'Pay Rent', () {
                   if (isHomePage) {
-                    redirect(context, '/Receive');
+                    redirect(context, '/Buy');
                   } else {
                     Navigator.popUntil(context, ModalRoute.withName('/Cash'));
-                    redirect(context, '/Receive');
+                    redirect(context, '/Buy');
                   }
-                })
+                }),
+                // bottomBarItem(
+                //     isCurrentRoute(context, '/SendContact')
+                //         ? "send_selected.svg"
+                //         : "send.svg",
+                //     I18n.of(context).send_button, () {
+                //   if (isHomePage) {
+                //     redirect(context, '/SendContact');
+                //   } else {
+                //     Navigator.pop(context, ModalRoute.withName('/Cash'));
+                //     redirect(context, '/SendContact');
+                //   }
+                // }),
               ],
             ),
           ),
@@ -102,10 +95,10 @@ Widget bottomBar(BuildContext context) {
       });
 }
 
-void redirect(BuildContext context, String screen) {
+void redirect(BuildContext context, String screen, {dynamic arguments}) {
   Navigator.popUntil(context, (route) {
     if (route.settings.name != screen) {
-      Navigator.pushNamed(context, screen);
+      Navigator.pushNamed(context, screen, arguments: arguments);
     }
     return true;
   });

@@ -16,7 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:sentry/sentry.dart';
 
 void main() async {
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_prod');
+  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_roost');
   print('loading $configFile config file');
   await DotEnv().load(configFile);
   SentryClient sentry = await AppFactory().getSentry();
@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp> {
           child: new StoreProvider<AppState>(
             store: store,
             child: new MaterialApp(
-              title: 'Fuse Cash',
+              title: 'Roost wallet',
               initialRoute: '/',
               routes: getRoutes(),
               theme: CustomTheme.of(context),

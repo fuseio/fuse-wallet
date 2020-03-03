@@ -55,5 +55,7 @@ getRoutes() {
     '/Prize': (context) => PrizeScreen(),
     '/DaiPoints': (context) => DaiExplainedScreen(),
     '/WebPage': (context) => WebViewPage(),
+    '/PayRent': (context) => WebViewPage(),
+    '/Home': (context) => WebViewPage(),
   };
 }

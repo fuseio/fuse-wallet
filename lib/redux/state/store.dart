@@ -78,7 +78,8 @@ class AppFactory {
 
       AppState initialState;
       try {
-        initialState = await persistor.load();
+        // initialState = await persistor.load();
+        initialState = new AppState.initial();
         if (initialState?.userState?.jwtToken != '') {
           logger.info('jwt: ${initialState.userState.jwtToken}');
           logger.info('accountAddress: ${initialState.userState.accountAddress}');

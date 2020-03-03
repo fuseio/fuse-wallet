@@ -13,7 +13,7 @@
     "important": "Important!",
     "ok": "Ok",
     "contact_us": "Contact us",
-    "wallet_protected": "Your fuse wallet is protected!",
+    "wallet_protected": "Your roost wallet is protected!",
     "wallet_protected_text": "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.",
     "write_words": "write down the words in order and keep safe. You won’t be able to recover your account without it.",
     "write_word": "Please write down words \n",
@@ -93,5 +93,6 @@
     "useful": "Useful",
     "smart": "Smart",
     "settings": "Settings",
-    "home": "Home"
+    "home": "Home",
+    "wallet": "Wallet"
 }
