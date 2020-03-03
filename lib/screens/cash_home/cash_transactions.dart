@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/models/transfer.dart';
 import 'dart:core';
-import 'package:fusecash/models/views/cash_wallet.dart';
-import 'package:fusecash/screens/cash_home/transaction_row.dart';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:roost/models/views/cash_wallet.dart';
+import 'package:roost/screens/cash_home/transaction_row.dart';
+import 'package:roost/utils/transaction_row.dart';
 
 class CashTransactios extends StatefulWidget {
   CashTransactios({@required this.viewModel});

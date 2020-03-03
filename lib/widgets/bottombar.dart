@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/common.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/bottom_bar.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
+import 'package:roost/common.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/models/app_state.dart';
+import 'package:roost/models/views/bottom_bar.dart';
+import 'package:roost/screens/cash_home/webview_page.dart';
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;

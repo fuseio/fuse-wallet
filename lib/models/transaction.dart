@@ -1,5 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:roost/models/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transaction.g.dart';

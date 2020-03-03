@@ -2,10 +2,10 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/widgets/bottombar.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/screens/cash_home/webview_page.dart';
+import 'package:roost/widgets/bottombar.dart';
+import 'package:roost/widgets/main_scaffold.dart';
 import 'package:flushbar/flushbar.dart';
 
 class DaiExplainedScreen extends StatefulWidget {

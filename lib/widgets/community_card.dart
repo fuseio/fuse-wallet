@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/models/community.dart';
+import 'package:roost/models/community.dart';
 import 'dart:core';
 
 String getImageUrl(String imaga) {

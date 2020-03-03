@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/models/community.dart';
+import 'package:roost/screens/send/send_amount_arguments.dart';
+import 'package:roost/utils/format.dart';
+import 'package:roost/widgets/main_scaffold.dart';
+import 'package:roost/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:roost/models/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/token.dart';
+import 'package:roost/models/token.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 

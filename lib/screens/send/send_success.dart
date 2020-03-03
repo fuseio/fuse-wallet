@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/screens/send/send_amount_arguments.dart';
+import 'package:roost/widgets/main_scaffold.dart';
 
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 

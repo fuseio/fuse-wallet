@@ -2,16 +2,16 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/screens/cash_home/deposit_webview.dart';
-import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:roost/models/community.dart';
+import 'package:roost/models/plugins.dart';
+import 'package:roost/screens/cash_home/deposit_webview.dart';
+import 'package:roost/utils/forks.dart';
+import 'package:roost/utils/format.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:roost/redux/actions/user_actions.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 

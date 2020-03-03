@@ -1,6 +1,6 @@
 
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:roost/models/transaction.dart';
+import 'package:roost/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer.g.dart';

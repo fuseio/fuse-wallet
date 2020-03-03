@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:fusecash/models/jobs/backup_job.dart';
-import 'package:fusecash/models/jobs/generate_wallet_job.dart';
-import 'package:fusecash/models/jobs/invite_bonus_job.dart';
-import 'package:fusecash/models/jobs/invite_job.dart';
-import 'package:fusecash/models/jobs/join_bonus_job.dart';
-import 'package:fusecash/models/jobs/join_community_job.dart';
-import 'package:fusecash/models/jobs/transfer_job.dart';
+import 'package:roost/models/jobs/backup_job.dart';
+import 'package:roost/models/jobs/generate_wallet_job.dart';
+import 'package:roost/models/jobs/invite_bonus_job.dart';
+import 'package:roost/models/jobs/invite_job.dart';
+import 'package:roost/models/jobs/join_bonus_job.dart';
+import 'package:roost/models/jobs/join_community_job.dart';
+import 'package:roost/models/jobs/transfer_job.dart';
 
 abstract class Job {
   static const String RELAY = "relay";

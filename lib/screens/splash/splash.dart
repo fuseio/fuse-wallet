@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/widgets/on_boarding_pages.dart';
+import 'package:roost/models/app_state.dart';
+import 'package:roost/models/views/splash.dart';
+import 'package:roost/widgets/on_boarding_pages.dart';
 import 'package:redux/redux.dart';
-import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

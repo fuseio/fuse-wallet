@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/views/switch_community.dart';
-import 'package:fusecash/widgets/bottombar.dart';
-import 'package:fusecash/widgets/community_card.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/models/app_state.dart';
+import 'package:roost/models/community.dart';
+import 'package:roost/models/views/switch_community.dart';
+import 'package:roost/widgets/bottombar.dart';
+import 'package:roost/widgets/community_card.dart';
 import 'dart:core';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:roost/widgets/main_scaffold.dart';
 
 Widget scanQRButton(BuildContext context, Function switchCommunity) {
   return Container(

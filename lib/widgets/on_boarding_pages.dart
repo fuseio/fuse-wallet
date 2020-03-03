@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/splash/create_wallet.dart';
+import 'package:roost/screens/splash/create_wallet.dart';
 
 Widget introPage(BuildContext context, String title, String subTitle, String img) {
   return Container(

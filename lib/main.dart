@@ -3,23 +3,23 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/routes.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
+import 'package:roost/models/app_state.dart';
+import 'package:roost/redux/state/store.dart';
+import 'package:roost/screens/routes.dart';
+import 'package:roost/themes/app_theme.dart';
+import 'package:roost/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:roost/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
-import 'package:sentry/sentry.dart';
+// import 'package:sentry/sentry.dart';
 
 void main() async {
   String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_roost');
   print('loading $configFile config file');
   await DotEnv().load(configFile);
-  SentryClient sentry = await AppFactory().getSentry();
+  // SentryClient sentry = await AppFactory().getSentry();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp

@@ -1,8 +1,8 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:roost/models/jobs/base.dart';
+import 'package:roost/models/transaction.dart';
+import 'package:roost/redux/actions/cash_wallet_actions.dart';
+import 'package:roost/redux/state/store.dart';
+import 'package:roost/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'invite_bonus_job.g.dart';

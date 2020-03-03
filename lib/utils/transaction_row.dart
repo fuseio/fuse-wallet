@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/transfer.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
-import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:roost/models/business.dart';
+import 'package:roost/models/transfer.dart';
+import 'package:roost/models/views/cash_wallet.dart';
+import 'package:roost/utils/forks.dart';
+import 'package:roost/utils/format.dart';
+import 'package:roost/utils/phone.dart';
 
 String deduceSign(Transfer transfer) {
   if (transfer.type == 'SEND') {
