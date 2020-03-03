@@ -25,6 +25,8 @@ class UserState {
   final bool isLoggedOut;
   final bool isContactsSynced;
   final bool backup;
+  final int displayBalance;
+  final DateTime installedAt;
 
   @JsonKey(ignore: true)
   final String loginErrorMessage;
@@ -56,7 +58,9 @@ class UserState {
       this.backup,
       this.credentials,
       this.loginErrorMessage,
-      this.verifyErrorMessage});
+      this.verifyErrorMessage,
+      this.displayBalance,
+      this.installedAt});
 
   factory UserState.initial() {
     return new UserState(
@@ -80,7 +84,9 @@ class UserState {
         backup: false,
         credentials: null,
         verifyErrorMessage: null,
-        loginErrorMessage: null);
+        loginErrorMessage: null,
+        displayBalance: 0,
+        installedAt: DateTime.now().toUtc());
   }
 
   UserState copyWith(
@@ -104,7 +110,9 @@ class UserState {
       bool isLoggedOut,
       bool isContactsSynced,
       bool backup,
-      PhoneAuthCredential credentials}) {
+      PhoneAuthCredential credentials,
+      int displayBalance,
+      DateTime installedAt}) {
     return UserState(
         mnemonic: mnemonic ?? this.mnemonic,
         privateKey: privateKey ?? this.privateKey,
@@ -126,7 +134,9 @@ class UserState {
         backup: backup ?? this.backup,
         credentials: credentials ?? this.credentials,
         loginErrorMessage: loginErrorMessage ?? this.loginErrorMessage,
-        verifyErrorMessage: verifyErrorMessage ?? this.verifyErrorMessage);
+        verifyErrorMessage: verifyErrorMessage ?? this.verifyErrorMessage,
+        displayBalance: displayBalance ?? this.displayBalance,
+        installedAt: installedAt ?? this.installedAt);
   }
 
   dynamic toJson() => _$UserStateToJson(this);
