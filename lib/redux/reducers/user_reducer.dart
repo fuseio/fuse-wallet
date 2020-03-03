@@ -19,6 +19,8 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetVerificationId>(_setVerificationId),
   TypedReducer<UserState, SetLoginErrorMessage>(_setLoginErrorMessage),
   TypedReducer<UserState, SetVerifyErrorMessage>(_setVerifyErrorMessage),
+  TypedReducer<UserState, UpdateDisplayBalance>(_updateDisplayBalance),
+  TypedReducer<UserState, JustInstalled>(_justInstalled),
 ]);
 
 UserState _setLoginErrorMessage(UserState state, SetLoginErrorMessage action) {
@@ -111,4 +113,12 @@ UserState _setPincode(UserState state, SetPincodeSuccess action) {
 
 UserState _setCredentials(UserState state, SetCredentials action) {
   return state.copyWith(credentials: action.credentials);
+}
+
+UserState _updateDisplayBalance(UserState state, UpdateDisplayBalance action) {
+  return state.copyWith(displayBalance: action.displayBalance);
+}
+
+UserState _justInstalled(UserState state, JustInstalled action) {
+  return state.copyWith(installedAt: action.installedAt);
 }

@@ -106,6 +106,16 @@ class SetVerifyErrorMessage {
   SetVerifyErrorMessage(this.error);
 }
 
+class UpdateDisplayBalance {
+  final int displayBalance;
+  UpdateDisplayBalance(this.displayBalance);
+}
+
+class JustInstalled {
+  final DateTime installedAt;
+  JustInstalled(this.installedAt);
+}
+
 ThunkAction backupWalletCall() {
   return (Store store) async {
     if (store.state.userState.backup) return;

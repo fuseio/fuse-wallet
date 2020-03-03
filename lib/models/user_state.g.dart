@@ -28,6 +28,10 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     isLoggedOut: json['isLoggedOut'] as bool,
     isContactsSynced: json['isContactsSynced'] as bool,
     backup: json['backup'] as bool,
+    displayBalance: json['displayBalance'] as int,
+    installedAt: json['installedAt'] == null
+        ? null
+        : DateTime.parse(json['installedAt'] as String),
   );
 }
 
@@ -49,4 +53,6 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'isLoggedOut': instance.isLoggedOut,
       'isContactsSynced': instance.isContactsSynced,
       'backup': instance.backup,
+      'displayBalance': instance.displayBalance,
+      'installedAt': instance.installedAt?.toIso8601String(),
     };
