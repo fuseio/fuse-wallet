@@ -91,14 +91,14 @@ class AppFactory {
         initialState = new AppState.initial();
       }
 
-      final List<Middleware<AppState>> wms = [];
+      final List<Middleware<AppState>> wms = [
+        thunkMiddleware,
+        persistor.createMiddleware(),
+      ];
+
       if (isInDebugMode) {
         wms.add(LoggingMiddleware<AppState>(logger:logger, level: Level.ALL, formatter: LoggingMiddleware.multiLineFormatter));
       }
-      wms.addAll([
-        thunkMiddleware,
-        persistor.createMiddleware(),
-      ]);
 
       _store = Store<AppState>(
         appReducer,
