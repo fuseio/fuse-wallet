@@ -11,6 +11,7 @@ import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/transactions.dart';
 import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -285,8 +286,17 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      UserState userState = store.state.userState;
+      String fullPhoneNumber = formatPhoneNumber(userState.phoneNumber, userState.countryCode);
       logger.info('Identify - $fullPhoneNumber');
+      traits = traits ?? new Map<String, dynamic>();
+      DateTime installedAt = userState.installedAt;
+      if (installedAt == null) {
+        installedAt = DateTime.now().toUtc();
+        store.dispatch(new JustInstalled(installedAt));
+      }
+      traits["Installed At"] = installedAt.toIso8601String();
+      traits["Display Balance"] = userState.displayBalance ?? 0;
       await FlutterSegment.identify(userId: fullPhoneNumber, traits: traits);
     } catch (e, s) {
       logger.severe('ERROR - segment identify call: $e');
@@ -473,11 +483,17 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
     final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      BigInt tokenBalance = await graph.getTokenBalance(walletAddress, tokenAddress);
+      BigInt tokenBalance = (await graph.getTokenBalance(walletAddress, tokenAddress));
+      String communityAddress = store.state.cashWalletState.communityAddress;
+      Community community = store.state.cashWalletState.communities[communityAddress];
+      String balance = formatValue(tokenBalance, community.token.decimals);
+
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
-      String communityAddres = store.state.cashWalletState.communityAddress;
-      Community community = store.state.cashWalletState.communities[communityAddres];
-      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({ '${community.name} Balance': tokenBalance })));
+      store.dispatch(new UpdateDisplayBalance(int.parse(balance)));
+      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+        '${community.name} Balance': balance,
+        "DisplayBalance": balance
+      })));
     } catch (e) {
       logger.severe('ERROR - getTokenBalanceCall $e');
       store.dispatch(new ErrorAction('Could not get token balance'));
