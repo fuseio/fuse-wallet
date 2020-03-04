@@ -48,7 +48,7 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
       viewModel.walletAddress != '') {
     viewModel.branchCommunityUpdate();
   }
-  if (viewModel.walletStatus != 'deploying' && viewModel.accountAddress != '') {
+  if (viewModel.walletStatus != 'deploying' && viewModel.walletStatus != 'created' && viewModel.accountAddress != '') {
     viewModel.createWallet(viewModel.accountAddress);
   }
   if (!viewModel.isCommunityLoading &&
