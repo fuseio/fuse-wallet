@@ -16,11 +16,11 @@ dependencies:
   flutter_svg: 0.15.0
   cupertino_icons: ^0.1.2
   flutter_secure_storage: ^3.1.2
-  flutter_redux: ^0.5.4
+  flutter_redux: ^0.6.0
   flutter_dotenv: ^2.1.0
   webview_flutter: ^0.3.19+3
-  redux_thunk: ^0.2.1
-  redux_logging: ^0.3.0
+  redux_thunk: ^0.3.0
+  redux_logging: ^0.4.0
   redux_persist: ^0.8.2
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
@@ -40,10 +40,7 @@ dependencies:
   pin_input_text_field: ^2.1.0
   flare_flutter: ^1.8.3
   decimal: ^0.3.5
-#  flutter_segment: ^0.0.7
-  flutter_segment:
-    git:
-      url: https://github.com/animo-wellness/flutter-segment.git
+  flutter_segment: ^1.0.0
   firebase_messaging: ^5.0.2
   firebase_auth: ^0.15.4
   # flutter_branch_sdk: ^0.1.5

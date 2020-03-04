@@ -242,6 +242,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
 
       final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
         logger.info("code sent to " + phone);
+        logger.info('codeAutoRetrievalTimeout: $verificationId');
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
         store.dispatch(new SetCredentials(null));
         store.dispatch(new SetVerificationId(verificationId));
@@ -253,6 +254,7 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
       };
 
       final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
+        logger.info('codeAutoRetrievalTimeout: $verificationId');
 //        store.dispatch(new SetVerificationId(verificationId));
         logger.info("time out");
       };

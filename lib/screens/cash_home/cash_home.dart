@@ -85,9 +85,9 @@ class CashHomeScreen extends StatelessWidget {
         onInitialBuild: (viewModel) async {
           onChange(viewModel, context, initial: true);
         },
-        onWillChange: (viewModel) async {
-          updateTheme(viewModel, _changeTheme, context);
-          onChange(viewModel, context);
+        onWillChange: (prevViewModel, nextViewModel) async {
+          updateTheme(nextViewModel, _changeTheme, context);
+          onChange(nextViewModel, context);
         },
         builder: (_, viewModel) {
           bool isWalletCreated = 'created' == viewModel.walletStatus;

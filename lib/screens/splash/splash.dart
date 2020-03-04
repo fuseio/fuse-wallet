@@ -56,6 +56,19 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  onInitailBuild(SplashViewModel viewModel) {
+    if (viewModel.privateKey != '' &&
+        viewModel.jwtToken != '' &&
+        !viewModel.isLoggedOut) {
+      viewModel.initWeb3(viewModel.privateKey);
+      if (Navigator.canPop(context)) {
+        Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+      } else {
+        Navigator.pushReplacementNamed(context, '/Cash');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SplashViewModel>(
@@ -64,71 +77,65 @@ class _SplashScreenState extends State<SplashScreen> {
           return SplashViewModel.fromStore(store);
         },
         builder: (_, viewModel) {
-          var drawer = Drawer();
-
-          return Scaffold(
-              drawer: drawer,
-              body: new StoreBuilder(onInitialBuild: (store) {
-                if (viewModel.privateKey != '' &&
-                    viewModel.jwtToken != '' &&
-                    !viewModel.isLoggedOut) {
-                  viewModel.initWeb3(viewModel.privateKey);
-                  if (Navigator.canPop(context)) {
-                    Navigator.popUntil(context, ModalRoute.withName('/Cash'));
-                  } else {
-                    Navigator.pushReplacementNamed(context, '/Cash');
-                  }
-                }
-              }, builder: (BuildContext context, Store<AppState> store) {
-                return Container(
-                    child: Column(
-                  children: <Widget>[
-                    Expanded(
-                        flex: 20,
-                        child: Container(
-                          child: new Stack(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: 100, left: 20, right: 20),
-                                child: FlareActor(
-                                  "assets/images/animation.flr",
-                                  alignment: Alignment.center,
-                                  fit: BoxFit.contain,
-                                  controller: _slideController,
+          Drawer drawer = Drawer();
+          return new StoreConnector<AppState, SplashViewModel>(
+            distinct: true,
+            converter: SplashViewModel.fromStore,
+            onInitialBuild: onInitailBuild,
+            builder: (_, viewModel) {
+              return Scaffold(
+                  drawer: drawer,
+                  body: Container(
+                      child: Column(
+                    children: <Widget>[
+                      Expanded(
+                          flex: 20,
+                          child: Container(
+                            child: new Stack(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 100, left: 20, right: 20),
+                                  child: FlareActor(
+                                    "assets/images/animation.flr",
+                                    alignment: Alignment.center,
+                                    fit: BoxFit.contain,
+                                    controller: _slideController,
+                                  ),
                                 ),
-                              ),
-                              new PageView.builder(
-                                physics: new AlwaysScrollableScrollPhysics(),
-                                controller: _pageController,
-                                itemCount: 4,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return getPages(context)[index % 4];
-                                },
-                              ),
-                              new Positioned(
-                                bottom: 15.0,
-                                left: 0.0,
-                                right: 0.0,
-                                child: new Container(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: new Center(
-                                    child: new DotsIndicator(
-                                      controller: _pageController,
-                                      itemCount: 4,
-                                      onPageSelected: (int page) {
-                                        gotoPage(page);
-                                      },
+                                new PageView.builder(
+                                  physics: new AlwaysScrollableScrollPhysics(),
+                                  controller: _pageController,
+                                  itemCount: 4,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return getPages(context)[index % 4];
+                                  },
+                                ),
+                                new Positioned(
+                                  bottom: 15.0,
+                                  left: 0.0,
+                                  right: 0.0,
+                                  child: new Container(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: new Center(
+                                      child: new DotsIndicator(
+                                        controller: _pageController,
+                                        itemCount: 4,
+                                        onPageSelected: (int page) {
+                                          gotoPage(page);
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )),
-                  ],
-                ));
-              }));
+                              ],
+                            ),
+                          )),
+                    ],
+                  )));
+            },
+          );
         });
   }
 }
