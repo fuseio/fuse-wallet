@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/screens/routes.dart';
@@ -98,6 +99,7 @@ class _MyAppState extends State<MyApp> {
               supportedLocales: i18n.supportedLocales,
               localeResolutionCallback:
                   i18n.resolution(fallback: new Locale("en", "US")),
+              navigatorObservers: [SegmentObserver()],
             ),
           ),
         ),
