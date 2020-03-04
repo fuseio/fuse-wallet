@@ -220,17 +220,21 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
     final FirebaseAuth _auth = FirebaseAuth.instance;
     try {
 
+      final VoidCallback successCb = () {
+        if (!succeed) {
+          succeed = true;
+          successCallback();
+          store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>.from({ "Phone number": phone })));
+        }
+      };
+
       final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
         logger.info('Got credentials: $credentials');
         _auth.signInWithCredential(credentials);
         store.dispatch(new SetCredentials(credentials));
         store.dispatch(SetLoginErrorMessage(null));
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
-        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>.from({ "Phone number": phone })));
-        if (!succeed) {
-          succeed = true;
-          successCallback();
-        }
+        successCb();
       };
 
       final PhoneVerificationFailed verificationFailed = (AuthException authException) {
@@ -242,19 +246,16 @@ ThunkAction loginRequestCall(String countryCode, String phoneNumber,
 
       final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
         logger.info("code sent to " + phone);
-        logger.info('codeAutoRetrievalTimeout: $verificationId');
+        logger.info('PhoneCodeSent: $verificationId');
         store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
         store.dispatch(new SetCredentials(null));
         store.dispatch(new SetVerificationId(verificationId));
         store.dispatch(SetLoginErrorMessage(null));
-        if (!succeed) {
-          succeed = true;
-          successCallback();
-        }
+        successCb();
       };
 
       final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
-        logger.info('codeAutoRetrievalTimeout: $verificationId');
+        logger.info('PhoneCodeAutoRetrievalTimeout: $verificationId');
 //        store.dispatch(new SetVerificationId(verificationId));
         logger.info("time out");
       };
