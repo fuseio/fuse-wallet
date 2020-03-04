@@ -222,6 +222,8 @@ class I18n implements WidgetsLocalizations {
   String get settings => "Settings";
   /// "Home"
   String get home => "Home";
+  /// "Trade"
+  String get trade => "Trade";
 }
 
 class _I18n_en_US extends I18n {

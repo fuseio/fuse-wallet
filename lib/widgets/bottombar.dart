@@ -1,10 +1,11 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/common.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/prize.dart';
+import 'package:fusecash/models/views/bottom_bar.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
 
 isCurrentRoute(BuildContext context, String route) {
@@ -12,10 +13,11 @@ isCurrentRoute(BuildContext context, String route) {
   return currentRoute == route;
 }
 
-Widget bottomBar(BuildContext context) {
+Widget bottomBar(BuildContext context, {bool isProMode = false}) {
   bool isHomePage = isCurrentRoute(context, '/Cash');
-  return new StoreConnector<AppState, PrizeViewModel>(
-      converter: PrizeViewModel.fromStore,
+  return new StoreConnector<AppState, BottomBarViewModel>(
+      distinct: true,
+      converter: BottomBarViewModel.fromStore,
       builder: (_, viewModel) {
         return Hero(
           tag: "footerNav",
@@ -33,15 +35,15 @@ Widget bottomBar(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 bottomBarItem(
-                    isCurrentRoute(context, '/Cash')
+                    isCurrentRoute(context, '/CashPro')
                         ? "home_selected.svg"
                         : "home.svg",
                     I18n.of(context).home, () {
                   if (isHomePage) {
-                    redirect(context, '/Cash');
+                    redirect(context, '/CashPro');
                   } else {
                     Navigator.pop(context, ModalRoute.withName('/Cash'));
-                    redirect(context, '/Cash');
+                    redirect(context, '/CashPro');
                   }
                 }),
                 bottomBarItem(
@@ -56,33 +58,49 @@ Widget bottomBar(BuildContext context) {
                     redirect(context, '/SendContact');
                   }
                 }),
-                isDefaultCommunity(viewModel.community.address)
+                isProMode
                     ? bottomBarItem(
-                        isCurrentRoute(context, '/DaiPoints')
-                            ? "daipoints_selected.svg"
-                            : "daipoints.svg",
-                        I18n.of(context).dai_points, () {
-                        if (isHomePage) {
-                          redirect(context, '/DaiPoints');
-                        } else {
-                          Navigator.popUntil(
-                              context, ModalRoute.withName('/Cash'));
-                          redirect(context, '/DaiPoints');
-                        }
+                        isCurrentRoute(context, '/Trade')
+                            ? "trade_selected.svg"
+                            : "trade.svg",
+                        I18n.of(context).trade, () {
+                        Flushbar(
+                          flushbarPosition: FlushbarPosition.BOTTOM,
+                          duration: Duration(seconds: 2),
+                          messageText: new Text(
+                            "Coming soon",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )..show(context);
                       })
-                    : bottomBarItem(
-                        isCurrentRoute(context, '/Buy')
-                            ? "buy_selected.svg"
-                            : "buy.svg",
-                        I18n.of(context).buy, () {
-                        if (isHomePage) {
-                          redirect(context, '/Buy');
-                        } else {
-                          Navigator.popUntil(
-                              context, ModalRoute.withName('/Cash'));
-                          redirect(context, '/Buy');
-                        }
-                      }),
+                    : isDefaultCommunity(viewModel.communityAddres)
+                        ? bottomBarItem(
+                            isCurrentRoute(context, '/DaiPoints')
+                                ? "daipoints_selected.svg"
+                                : "daipoints.svg",
+                            I18n.of(context).dai_points, () {
+                            if (isHomePage) {
+                              redirect(context, '/DaiPoints');
+                            } else {
+                              Navigator.popUntil(
+                                  context, ModalRoute.withName('/Cash'));
+                              redirect(context, '/DaiPoints');
+                            }
+                          })
+                        : bottomBarItem(
+                            isCurrentRoute(context, '/Buy')
+                                ? "buy_selected.svg"
+                                : "buy.svg",
+                            I18n.of(context).buy, () {
+                            if (isHomePage) {
+                              redirect(context, '/Buy');
+                            } else {
+                              Navigator.popUntil(
+                                  context, ModalRoute.withName('/Cash'));
+                              redirect(context, '/Buy');
+                            }
+                          }),
                 bottomBarItem(
                     isCurrentRoute(context, '/Receive')
                         ? "receive_selected.svg"

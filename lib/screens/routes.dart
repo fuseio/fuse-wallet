@@ -9,6 +9,7 @@ import 'package:fusecash/screens/cash_home/dai_explained.dart';
 import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
+import 'package:fusecash/screens/cash_pro/cash_pro.dart';
 import 'package:fusecash/screens/misc/about.dart';
 import 'package:fusecash/screens/misc/settings.dart';
 import 'package:fusecash/screens/send/send_contact.dart';
@@ -34,6 +35,7 @@ getRoutes() {
     '/UserName': (context) => UserNameScreen(),
     '/LevelSelector': (context) => LevelSelectorScreen(),
     '/Cash': (context) => CashHomeScreen(),
+    '/CashPro': (context) => CashProHomeScreen(),
     '/TransactionDetails': (context) => TransactionDetailsScreen(),
     '/SendContact': (context) => SendToContactScreen(),
     '/SendAmount': (context) => SendAmountScreen(),

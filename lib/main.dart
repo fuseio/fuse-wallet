@@ -13,13 +13,11 @@ import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
-import 'package:sentry/sentry.dart';
 
 void main() async {
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_prod');
+  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_qa');
   print('loading $configFile config file');
   await DotEnv().load(configFile);
-  SentryClient sentry = await AppFactory().getSentry();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp
