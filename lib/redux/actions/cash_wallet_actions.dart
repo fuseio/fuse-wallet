@@ -429,11 +429,16 @@ ThunkAction createAccountWalletCall(String accountAddress) {
     try {
       logger.info('createAccountWalletCall');
       logger.info('accountAddress: $accountAddress');
-      store.dispatch(new CreateAccountWalletRequest(accountAddress));
       Map<String, dynamic> response = await api.createWallet();
       if (!response.containsKey('job')) {
         logger.info('Wallet already exists');
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
+        store.dispatch(new CreateAccountWalletSuccess(accountAddress));
+        return;
+      }
+      List<Job> jobs = store.state.cashWalletState.communities[store.state.cashWalletState.communityAddress].jobs;
+      if (jobs.any((other) {return other.jobType == "createWallet";})) {
+        store.dispatch(new CreateAccountWalletRequest(accountAddress));
         return;
       }
       response['job']['arguments'] = {
@@ -441,6 +446,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
       };
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
+      store.dispatch(new CreateAccountWalletRequest(accountAddress));
     } catch (e) {
       logger.severe('ERROR - createAccountWalletCall $e');
       store.dispatch(new ErrorAction('Could not create wallet'));
