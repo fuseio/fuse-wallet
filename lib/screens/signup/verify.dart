@@ -26,21 +26,19 @@ class _VerifyScreenState extends State<VerifyScreen> {
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
-        onWillChange: (prevViewModel, nextViewModel) {
-          if (prevViewModel.credentials != nextViewModel.credentials) {
-            autoCode = nextViewModel.credentials.smsCode ?? "";
+        builder: (_, viewModel) {
+          if (viewModel.credentials != null) {
+            autoCode = viewModel.credentials.smsCode ?? "";
             isPreloading = true;
-            nextViewModel.verify(
-                nextViewModel.countryCode,
-                nextViewModel.phoneNumber,
+            viewModel.verify(
+                viewModel.countryCode,
+                viewModel.phoneNumber,
                 autoCode,
-                nextViewModel.accountAddress,
-                nextViewModel.verificationId, () {
-              Navigator.pushNamed(context, '/UserName');
+                viewModel.accountAddress,
+                viewModel.verificationId, () {
+              Navigator.popAndPushNamed(context, '/UserName');
             }, () {});
           }
-        },
-        builder: (_, viewModel) {
           final verificationCodeController =
               TextEditingController(text: autoCode);
           return MainScaffold(
