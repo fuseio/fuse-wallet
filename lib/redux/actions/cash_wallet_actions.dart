@@ -551,16 +551,16 @@ ThunkAction startFetchingJobCall(
 ThunkAction processingJobsCall(Timer timer) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('Job');
-    String communityAddres = store.state.cashWalletState.communityAddress;
+    String communityAddress = store.state.cashWalletState.communityAddress;
     String walletAddress = store.state.cashWalletState.walletAddress;
-    Community community = store.state.cashWalletState.communities[communityAddres];
+    Community community = store.state.cashWalletState.communities[communityAddress];
     List<Job> jobs = community.jobs;
     for (Job job in jobs) {
       String currentCommunityAddress = store.state.cashWalletState.communityAddress;
       String currentWalletAddress = store.state.cashWalletState.walletAddress;
       if (job.status != 'DONE' && job.status != 'FAILED') {
         bool isJobProcessValid() {
-          if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
+          if ((currentCommunityAddress != communityAddress) || (currentWalletAddress != walletAddress)) {
             timer.cancel();
             return false;
           }
