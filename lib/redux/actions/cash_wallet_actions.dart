@@ -437,7 +437,8 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         return;
       }
       List<Job> jobs = store.state.cashWalletState.communities[store.state.cashWalletState.communityAddress].jobs;
-      if (jobs.any((other) {return other.jobType == "createWallet";})) {
+      bool hasCreateWallet = jobs.any((job) => job.jobType == 'createWallet');
+      if (hasCreateWallet) {
         store.dispatch(new CreateAccountWalletRequest(accountAddress));
         return;
       }
