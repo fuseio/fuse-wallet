@@ -51,7 +51,7 @@ class BackupJob extends Job {
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       store.dispatch(transactionFailed(arguments['backupBonus']));
-      store.dispatch(segmentTrackCall('Wallet: BackupJob FAILED - $failReason'));
+      store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
 
@@ -62,7 +62,7 @@ class BackupJob extends Job {
       if (data['status'] == 'SUCCEEDED') {
         this.status = 'DONE';
         store.dispatch(backupSuccessCall(data['txHash'], arguments['backupBonus']));
-        store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
+        store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         return;
       } else if (status == 'FAILED') {
         this.status = 'FAILED';

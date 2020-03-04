@@ -50,7 +50,7 @@ class InviteJob extends Job {
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       store.dispatch(transactionFailed(arguments['inviteTransfer']));
-      store.dispatch(segmentTrackCall('Wallet: InviteJob FAILED - $failReason'));
+      store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
 
@@ -69,7 +69,7 @@ class InviteJob extends Job {
         arguments['inviteTransfer'],
         arguments['sendSuccessCallback'],
         arguments['sendFailureCallback']));
-    store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
+    store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 
   @override
