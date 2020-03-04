@@ -73,9 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SplashViewModel>(
         distinct: true,
-        converter: (Store<AppState> store) {
-          return SplashViewModel.fromStore(store);
-        },
+        converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
           Drawer drawer = Drawer();
           return new StoreConnector<AppState, SplashViewModel>(
