@@ -85,7 +85,6 @@ class _WebViewPageState extends State<WebViewPage> {
                             child: InkWell(
                               onTap: () {
                                 Router.navigator.pop();
-                                // Navigator.of(context).pop();
                               },
                               child:
                                   SvgPicture.asset('assets/images/arrow.svg'),

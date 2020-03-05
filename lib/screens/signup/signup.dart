@@ -183,22 +183,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 isvalidPhone = false;
                               });
                             } else {
-                              // setState(() {
-                              //   isPreloading = true;
-                              // });
                               viewModel.signUp(countryCode.dialCode, phoneController.text);
-                              // viewModel.signUp(countryCode.dialCode.toString(),
-                              //     phoneController.text, () {
-                              //   Navigator.pushNamed(context, '/Verify');
-                              //   setState(() {
-                              //     isPreloading = false;
-                              //   });
-                              // }, () {
-                              //   setState(() {
-                              //     isPreloading = false;
-                              //     isvalidPhone = false;
-                              //   });
-                              // });
                             }
                           },
                           preload: isPreloading,

@@ -39,14 +39,15 @@ class _VerifyScreenState extends State<VerifyScreen> {
     final VerifyScreenArguments args =
         ModalRoute.of(context).settings.arguments;
     verificationId = args.verificationId;
-    print('verificationId verificationId verificationId verificationId');
-    print(verificationId);
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
         onInitialBuild: (viewModel) {
           if (viewModel.credentials != null) {
+            setState(() {
+              isPreloading = true;
+            });
             autoCode = viewModel.credentials.smsCode ?? "";
             viewModel.verify(autoCode, verificationId, _scaffoldKey);
           }
@@ -129,7 +130,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       padding: EdgeInsets.only(right: 10),
                       onPressed: () {
                         Router.navigator.pop();
-                        // Navigator.pop(context);
                       },
                       child: Text(
                         I18n.of(context).resend_code,

@@ -102,7 +102,6 @@ class SignupDialogState extends State<SignupDialog>
                       labelFontWeight: FontWeight.normal,
                       onPressed: () async {
                         Router.navigator.pop();
-                        // Navigator.of(context).pop();
                       },
                     )
                   ],

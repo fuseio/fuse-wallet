@@ -35,7 +35,6 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
         onTap: () {
           widget.switchCommunity(widget.community.address);
           Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
-          // Navigator.of(context).pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),

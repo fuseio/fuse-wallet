@@ -96,7 +96,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               left: 18.0,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  Router.navigator.pop();
                                 },
                                 child: SvgPicture.asset(
                                     'assets/images/arrow_back_business.svg',

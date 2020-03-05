@@ -99,7 +99,6 @@ class _DepositWebViewState extends State<DepositWebView> {
                                   child: InkWell(
                                     onTap: () {
                                       Router.navigator.pop();
-                                      // Navigator.of(context).pop();
                                     },
                                     child: SvgPicture.asset(
                                         'assets/images/arrow.svg'),

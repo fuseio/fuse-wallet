@@ -44,7 +44,6 @@ class _CreateWalletState extends State<CreateWallet> {
                     if (viewModel.isLoggedOut) {
                       viewModel.loginAgain();
                       viewModel.initWeb3(viewModel.privateKey);
-                      // Navigator.popUntil(context, ModalRoute.withName(Router.splashScreen));
                       Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
                       Router.navigator.pushNamed(Router.cashHomeScreen);
                     } else {

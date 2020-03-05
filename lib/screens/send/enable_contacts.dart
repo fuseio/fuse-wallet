@@ -144,8 +144,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                           await ContactController.getContacts();
                                       viewModel.syncContacts(contacts);
                                     }
-                                    Router.navigator.pushNamed(Router.sendSuccessScreen);
-                                    // Navigator.pushReplacementNamed(context, Router.sendSuccessScreen);
+                                    Router.navigator.pushReplacementNamed(Router.sendToContactScreen);
                                     setState(() {
                                       isPreloading = false;
                                     });
@@ -155,7 +154,6 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                   child: FlatButton(
                                     padding: EdgeInsets.only(top: 10),
                                     onPressed: () {
-                                      // Router.navigator.pop();
                                       Navigator.of(context).pop();
                                       viewModel.syncContactsRejected();
                                     },

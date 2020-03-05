@@ -77,9 +77,9 @@ class UserNameScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.setDisplayName(
                               capitalize(displayNameController.text ?? 'Anom'));
-                              Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
-                          // Navigator.of(context).pushNamedAndRemoveUntil(
-                          //     Router.cashHomeScreen, (Route<dynamic> route) => false);
+                          Router.navigator.pushNamedAndRemoveUntil(
+                              Router.cashHomeScreen,
+                              (Route<dynamic> route) => false);
                         },
                       ),
                     ),

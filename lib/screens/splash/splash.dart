@@ -76,10 +76,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SplashViewModel>(
         distinct: true,
-        // onInit: (store) async {
-        //   WidgetsFlutterBinding.ensureInitialized();
-        //   await Segment.track(eventName: 'Application Opened');
-        // },
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
           Drawer drawer = Drawer();
