@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/community.dart';
 import 'dart:core';
 
+import 'package:fusecash/screens/routes.gr.dart';
+
 String getImageUrl(String imaga) {
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + imaga;
 }
@@ -32,7 +34,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
     return InkWell(
         onTap: () {
           widget.switchCommunity(widget.community.address);
-          Navigator.of(context).pushNamedAndRemoveUntil('/Cash', (Route<dynamic> route) => false);
+          Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),

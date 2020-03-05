@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPageArguments {
@@ -83,7 +84,7 @@ class _WebViewPageState extends State<WebViewPage> {
                             left: 20,
                             child: InkWell(
                               onTap: () {
-                                Navigator.of(context).pop();
+                                Router.navigator.pop();
                               },
                               child:
                                   SvgPicture.asset('assets/images/arrow.svg'),

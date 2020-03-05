@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/send_amount.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
@@ -225,7 +226,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
                       send(viewModel, args, transferNoteController.text, () {
-                        Navigator.pushNamed(context, '/SendSuccess',
+                        Router.navigator.pushNamed(Router.sendSuccessScreen,
                             arguments: args);
                         setState(() {
                           isPreloading = false;

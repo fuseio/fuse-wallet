@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
@@ -144,7 +145,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 label: I18n.of(context).continue_with + ' $amountText ${viewModel.token.symbol}',
                 onPressed: () {
                   args.amount = num.parse(amountText);
-                  Navigator.pushNamed(context, '/SendReview', arguments: args);
+                  Router.navigator.pushNamed(Router.sendReviewScreen, arguments: args);
+                  // Navigator.pushNamed(context, Router.sendReviewScreen, arguments: args);
                 },
                 preload: isPreloading,
                 width: 300,

@@ -7,6 +7,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/buy_page.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/bottombar.dart';
@@ -80,7 +81,7 @@ class BusinessesListView extends StatelessWidget {
                               padding: EdgeInsets.all(10),
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(context, '/WebPage',
+                                  Router.navigator.pushNamed(Router.webViewPage,
                                       arguments: WebViewPageArguments(
                                           url: viewModel.walletBanner.link,
                                           title: ''));
@@ -161,8 +162,7 @@ class BusinessesListView extends StatelessWidget {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       onTap: () {
-                                        Navigator.pushNamed(
-                                            context, '/Business',
+                                        Router.navigator.pushNamed(Router.businessPage,
                                             arguments: BusinessRouteArguments(
                                                 communityAddress:
                                                     viewModel.communityAddres,
@@ -194,8 +194,7 @@ class BusinessesListView extends StatelessWidget {
                                                       FontWeight.normal),
                                             ),
                                             onPressed: () {
-                                              Navigator.pushNamed(
-                                                  context, '/SendAmount',
+                                              Router.navigator.pushNamed(Router.sendAmountScreen,
                                                   arguments: SendAmountArguments(
                                                       isBusiness: true,
                                                       avatar: NetworkImage(

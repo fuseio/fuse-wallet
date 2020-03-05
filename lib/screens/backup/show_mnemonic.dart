@@ -2,6 +2,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/backup.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -136,15 +137,14 @@ class ShowMnemonic extends StatelessWidget {
                             label: I18n.of(context).next_button,
                             labelFontWeight: FontWeight.normal,
                             onPressed: () async {
-                              Navigator.pushNamed(context, '/Backup2');
+                              Router.navigator.pushNamed(Router.verifyMnemonic);
                             },
                           )),
                           const SizedBox(height: 16.0),
                           TransparentButton(
                               label: I18n.of(context).skip_button,
                               onPressed: () {
-                                Navigator.pushReplacementNamed(
-                                    context, '/Cash');
+                                Router.navigator.pushReplacementNamed('/Cash');
                               }),
                           const SizedBox(height: 30.0),
                         ],

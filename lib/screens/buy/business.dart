@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/token.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/bottombar.dart';
@@ -12,12 +13,11 @@ import 'package:fusecash/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-_launchPhone(phoneNumber) async {
-  String url = 'tel:$phoneNumber';
-  if (await canLaunch(url)) {
-    await launch(url, forceSafariVC: false);
+_launchUrl(String urlToLaunch) async {
+  if (await canLaunch(urlToLaunch)) {
+    await launch(urlToLaunch, forceSafariVC: false);
   } else {
-    throw 'Could not launch $url';
+    throw 'Could not launch $urlToLaunch';
   }
 }
 
@@ -95,7 +95,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               left: 18.0,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  Router.navigator.pop();
                                 },
                                 child: SvgPicture.asset(
                                     'assets/images/arrow_back_business.svg',
@@ -185,8 +185,14 @@ class _BusinessPageState extends State<BusinessPage> {
                                           height: 19,
                                         ),
                                       ),
-                                      Text(businessArgs
-                                          .business.metadata.website)
+                                      InkWell(
+                                        onTap: () {
+                                          _launchUrl(businessArgs.business.metadata.website);
+                                        },
+                                        child: Text(businessArgs
+                                          .business.metadata.website),
+                                      ),
+                                      
                                     ],
                                   ),
                                 ): SizedBox.shrink(),
@@ -207,8 +213,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         child: Text(businessArgs
                                           .business.metadata.phoneNumber),
                                           onTap: () {
-                                            _launchPhone(businessArgs
-                                          .business.metadata.phoneNumber);
+                                            _launchUrl('tel:${businessArgs.business.metadata.phoneNumber}');
                                           },
                                       )
                                     ],
@@ -302,7 +307,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/SendAmount',
+                                Router.navigator.pushNamed(Router.sendAmountScreen,
                                     arguments: SendAmountArguments(
                                       isBusiness: true,
                                       accountAddress:

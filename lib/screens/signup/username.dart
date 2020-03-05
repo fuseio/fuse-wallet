@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/drawer.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -76,8 +77,9 @@ class UserNameScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.setDisplayName(
                               capitalize(displayNameController.text ?? 'Anom'));
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/Cash', (Route<dynamic> route) => false);
+                          Router.navigator.pushNamedAndRemoveUntil(
+                              Router.cashHomeScreen,
+                              (Route<dynamic> route) => false);
                         },
                       ),
                     ),

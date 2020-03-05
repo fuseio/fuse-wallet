@@ -53,7 +53,7 @@ class JoinBonusJob extends Job {
     if (responseStatus == 'SUCCEEDED') {
       this.status = 'DONE';
       store.dispatch(joinBonusSuccessCall(data['txHash'], arguments['joinBonus']));
-      store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
+      store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       logger.info('JoinBonusJob SUCCEEDED');
       return;
     } else if (responseStatus == 'FAILED') {

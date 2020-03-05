@@ -59,8 +59,6 @@ UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
   return state.copyWith(
       countryCode: action.countryCode,
       phoneNumber: action.phoneNumber,
-      displayName: action.displayName,
-      email: action.email,
       loginRequestSuccess: true);
 }
 
