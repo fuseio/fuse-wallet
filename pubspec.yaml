@@ -1,5 +1,5 @@
 name: fusecash
-version: 1.1.16+137
+version: 1.1.17+138
 description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -40,7 +40,10 @@ dependencies:
   pin_input_text_field: ^2.1.0
   flare_flutter: ^1.8.3
   decimal: ^0.3.5
-  flutter_segment: ^0.0.7
+#  flutter_segment: ^0.0.7
+  flutter_segment:
+    git:
+      url: https://github.com/animo-wellness/flutter-segment.git
   firebase_messaging: ^5.0.2
   firebase_auth: ^0.15.4
   # flutter_branch_sdk: ^0.1.5

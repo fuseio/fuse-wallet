@@ -195,7 +195,7 @@ class CashHeader extends StatelessWidget {
                                     ),
                                     onTap: () async {
                                       Navigator.pushNamed(context, '/Prize');
-                                      await FlutterSegment.track(eventName: "User open prize page");
+                                      await Segment.track(eventName: "User open prize page");
                                     },
                                   )
                                 : SizedBox.shrink(),

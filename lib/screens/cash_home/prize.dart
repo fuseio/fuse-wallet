@@ -369,7 +369,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                                         depositPlugin:
                                                             depositPlugins[0])),
                                           );
-                                          await FlutterSegment.track(
+                                          await Segment.track(
                                               eventName:
                                                   'User clicked on top up');
                                         },
