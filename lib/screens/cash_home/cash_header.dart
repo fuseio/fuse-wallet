@@ -5,6 +5,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -15,6 +16,21 @@ class CashHeader extends StatelessWidget {
   final bool proMode;
 
   CashHeader({this.proMode = false});
+
+  scanBarcode() async {
+    try {
+      String accountAddress = await BarcodeScanner.scan();
+      List<String> parts = accountAddress.split(':');
+      if (parts.length == 2 && parts[0] == 'fuse') {
+        Router.navigator.pushNamed(Router.sendAmountScreen,
+            arguments: SendAmountArguments(accountAddress: parts[1]));
+      } else {
+        print('Account address is not on Fuse');
+      }
+    } catch (e) {
+      print('ERROR - BarcodeScanner');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,8 +238,9 @@ class CashHeader extends StatelessWidget {
                                       height: 55,
                                     ),
                                     onTap: () async {
-                                      Navigator.pushNamed(context, '/Prize');
-                                      await FlutterSegment.track(
+                                      Router.navigator
+                                          .pushNamed(Router.prizeScreen);
+                                      await Segment.track(
                                           eventName: "User open prize page");
                                     },
                                   )
@@ -246,26 +263,7 @@ class CashHeader extends StatelessWidget {
                                         Theme.of(context).primaryColorLight,
                                       ],
                                     ),
-                                    onPressed: () async {
-                                      try {
-                                        String accountAddress =
-                                            await BarcodeScanner.scan();
-                                        List<String> parts =
-                                            accountAddress.split(':');
-                                        if (parts.length == 2 &&
-                                            parts[0] == 'fuse') {
-                                          Navigator.pushNamed(
-                                              context, '/SendAmount',
-                                              arguments: SendAmountArguments(
-                                                  accountAddress: parts[1]));
-                                        } else {
-                                          print(
-                                              'Account address is not on Fuse');
-                                        }
-                                      } catch (e) {
-                                        print('ERROR - BarcodeScanner');
-                                      }
-                                    },
+                                    onPressed: scanBarcode,
                                     child: Image.asset(
                                       'assets/images/scan.png',
                                       width: 25.0,
@@ -279,28 +277,9 @@ class CashHeader extends StatelessWidget {
                                       'assets/images/scan.png',
                                       width: 25.0,
                                       color: Theme.of(context)
-                                              .scaffoldBackgroundColor,
+                                          .scaffoldBackgroundColor,
                                     ),
-                                    onPressed: () async {
-                                      try {
-                                        String accountAddress =
-                                            await BarcodeScanner.scan();
-                                        List<String> parts =
-                                            accountAddress.split(':');
-                                        if (parts.length == 2 &&
-                                            parts[0] == 'fuse') {
-                                          Navigator.pushNamed(
-                                              context, '/SendAmount',
-                                              arguments: SendAmountArguments(
-                                                  accountAddress: parts[1]));
-                                        } else {
-                                          print(
-                                              'Account address is not on Fuse');
-                                        }
-                                      } catch (e) {
-                                        print('ERROR - BarcodeScanner');
-                                      }
-                                    })
+                                    onPressed: scanBarcode)
                           ]),
                         )
                       ],

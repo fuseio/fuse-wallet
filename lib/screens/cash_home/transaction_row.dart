@@ -5,6 +5,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transaction.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/utils/format.dart';
@@ -210,7 +211,7 @@ class TransactionListItem extends StatelessWidget {
               return;
             }
             if (!transfer.isGenerateWallet() || !transfer.isJoinCommunity()) {
-              Navigator.pushNamed(context, '/TransactionDetails',
+              Router.navigator.pushNamed(Router.transactionDetailsScreen,
                   arguments: TransactionDetailArguments(
                     transfer: transfer,
                     contact: _contact,

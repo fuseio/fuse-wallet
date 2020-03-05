@@ -43,6 +43,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
+  auto_route:
+    dependency: "direct main"
+    description:
+      name: auto_route
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
+  auto_route_generator:
+    dependency: "direct dev"
+    description:
+      name: auto_route_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   barcode_scan:
     dependency: "direct main"
     description:
@@ -245,7 +259,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   ethereum_address:
     dependency: "direct main"
     description:
@@ -408,10 +422,12 @@ packages:
   flutter_segment:
     dependency: "direct main"
     description:
-      name: flutter_segment
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.7"
+      path: "."
+      ref: HEAD
+      resolved-ref: e11d7986e73cfced87c53ebbf0ddc5aed16f2071
+      url: "https://github.com/animo-wellness/flutter-segment.git"
+    source: git
+    version: "2.0.1"
   flutter_slidable:
     dependency: "direct main"
     description:

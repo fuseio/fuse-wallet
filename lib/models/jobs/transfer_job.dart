@@ -45,7 +45,7 @@ class TransferJob extends Job {
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
-      store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ id: id, 'name': name })));
+      store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       this.isReported = true;
     }
 
@@ -54,7 +54,7 @@ class TransferJob extends Job {
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       store.dispatch(transactionFailed(arguments['transfer']));
-      store.dispatch(segmentTrackCall('Wallet: TransferJob FAILED - $failReason'));
+      store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
 
@@ -64,7 +64,7 @@ class TransferJob extends Job {
     }
     this.status = 'DONE';
     store.dispatch(sendTokenSuccessCall(job, arguments['transfer']));
-    store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
+    store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 
   @override

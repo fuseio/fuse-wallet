@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/drawer.dart';
 import 'package:fusecash/widgets/language_selector.dart';
@@ -24,13 +25,13 @@ class SettingsScreen extends StatelessWidget {
     if (isFork()) {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Navigator.pushNamed(context, '/About');
+          Router.navigator.pushNamed(Router.aboutScreen);
         }),
       ];
     } else {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Navigator.pushNamed(context, '/About');
+          Router.navigator.pushNamed(Router.aboutScreen);
         }),
         new Divider(),
         // getListTile(context, I18n.of(context).protect_wallet, () {}),
@@ -38,8 +39,9 @@ class SettingsScreen extends StatelessWidget {
         new LanguageSelector(),
         new Divider(),
         getListTile(context, I18n.of(context).logout, () {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+          Router.navigator.pushNamedAndRemoveUntil(Router.splashScreen, (Route<dynamic> route) => false);
+          // Navigator.of(context)
+          //     .pushNamedAndRemoveUntil(Router.splashScreen, (Route<dynamic> route) => false);
           viewModel.logout();
         })
       ];

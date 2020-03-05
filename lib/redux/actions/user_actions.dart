@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/jobs/base.dart';
@@ -18,6 +20,19 @@ import 'package:fusecash/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+class VerifyRequest {
+  final String verificationId;
+  final String verificationCode;
+  final GlobalKey<ScaffoldState> key;
+
+  VerifyRequest({@required this.verificationId, @required this.verificationCode, @required this.key});
+
+  @override
+  String toString() {
+    return 'VerifyRequest{verificationId: $verificationId, verificationCode: $verificationCode}';
+  }
+}
+
 class RestoreWalletSuccess {
   final List<String> mnemonic;
   final String privateKey;
@@ -34,6 +49,17 @@ class CreateLocalAccountSuccess {
 
 class ReLogin {
   ReLogin();
+}
+
+class LoginRequest {
+  final String countryCode;
+  final String phoneNumber;
+  final PhoneCodeSent codeSent;
+  final PhoneVerificationCompleted verificationCompleted;
+  final PhoneVerificationFailed verificationFailed;
+  final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout;
+
+  LoginRequest({@required this.countryCode, @required this.phoneNumber, @required this.codeSent, @required this.verificationCompleted, @required this.verificationFailed, @required this.codeAutoRetrievalTimeout });
 }
 
 class LoginRequestSuccess {
@@ -104,6 +130,16 @@ class SetLoginErrorMessage {
 class SetVerifyErrorMessage {
   String error;
   SetVerifyErrorMessage(this.error);
+}
+
+class UpdateDisplayBalance {
+  final int displayBalance;
+  UpdateDisplayBalance(this.displayBalance);
+}
+
+class JustInstalled {
+  final DateTime installedAt;
+  JustInstalled(this.installedAt);
 }
 
 ThunkAction backupWalletCall() {
@@ -197,119 +233,6 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
     } catch (e) {
       logger.severe('ERROR - createLocalAccountCall $e');
       store.dispatch(new ErrorAction('Could not create new wallet'));
-    }
-  };
-}
-
-ThunkAction loginRequestCall(String countryCode, String phoneNumber,
-    VoidCallback successCallback, VoidCallback failCallback) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    String phone = formatPhoneNumber(phoneNumber, countryCode);
-    bool succeed = false;
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    try {
-
-      final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
-        logger.info('Got credentials: $credentials');
-        _auth.signInWithCredential(credentials);
-        store.dispatch(new SetCredentials(credentials));
-        store.dispatch(SetLoginErrorMessage(null));
-        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
-        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>.from({ "Phone number": phone })));
-        if (!succeed) {
-          succeed = true;
-          successCallback();
-        }
-      };
-
-      final PhoneVerificationFailed verificationFailed = (AuthException authException) {
-        logger.severe('Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
-        store.dispatch(SetLoginErrorMessage(authException.message));
-        store.dispatch(new ErrorAction('Could not login $authException'));
-        failCallback();
-      };
-
-      final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
-        logger.info("code sent to " + phone);
-        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
-        store.dispatch(new SetCredentials(null));
-        store.dispatch(new SetVerificationId(verificationId));
-        store.dispatch(SetLoginErrorMessage(null));
-        if (!succeed) {
-          succeed = true;
-          successCallback();
-        }
-      };
-
-      final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
-//        store.dispatch(new SetVerificationId(verificationId));
-        logger.info("time out");
-      };
-
-      await _auth.verifyPhoneNumber(
-          phoneNumber: phone,
-          timeout: const Duration(minutes: 2),
-          verificationCompleted: verificationCompleted,
-          verificationFailed: verificationFailed,
-          codeSent: codeSent,
-          codeAutoRetrievalTimeout: codeAutoRetrievalTimeout
-      );
-    } catch (e, s) {
-      logger.severe('ERROR - loginRequestCall $e');
-      await AppFactory().reportError(e, s);
-      store.dispatch(new ErrorAction('Could not login'));
-      store.dispatch(segmentTrackCall("ERROR in loginRequestCall"));
-      failCallback();
-    }
-  };
-}
-
-ThunkAction loginVerifyCall(
-    String countryCode,
-    String phoneNumber,
-    String verificationCode,
-    String accountAddress,
-    String verificationId,
-    VoidCallback successCallback,
-    VoidCallback failCallback) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    try {
-      PhoneAuthCredential credentials = store.state.userState.credentials;
-      if (credentials == null) {
-        credentials = PhoneAuthProvider.getCredential(
-          verificationId: verificationId,
-          smsCode: verificationCode,
-        );
-      }
-
-      final FirebaseUser user = (await _auth.signInWithCredential(credentials)).user;
-      final FirebaseUser currentUser = await _auth.currentUser();
-      assert(user.uid == currentUser.uid);
-      if (user != null) {
-        store.dispatch(SetVerifyErrorMessage(null));
-        logger.info('signed in with phone number successful: user -> $user');
-
-        store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-        IdTokenResult token = await user.getIdToken();
-        logger.info('user token: ${token.token}');
-
-        String jwtToken = await api.login(token.token, accountAddress);
-        store.dispatch(new LoginVerifySuccess(jwtToken));
-        successCallback();
-      } else {
-        failCallback();
-        store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
-      }
-    } catch (e, s) {
-      store.dispatch(segmentTrackCall("ERROR in loginVerifyCall", properties: {"error": e.toString()}));
-      store.dispatch(SetVerifyErrorMessage('Something went wrong. Please try again'));
-      logger.severe('ERROR - loginVerifyCall $e');
-      await AppFactory().reportError(e, s);
-      store.dispatch(new ErrorAction('Could not verify login'));
-      failCallback();
     }
   };
 }

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/contacts.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'dart:core';
@@ -143,7 +144,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                           await ContactController.getContacts();
                                       viewModel.syncContacts(contacts);
                                     }
-                                    Navigator.pushReplacementNamed(context, '/SendContact');
+                                    Router.navigator.pushReplacementNamed(Router.sendToContactScreen);
                                     setState(() {
                                       isPreloading = false;
                                     });

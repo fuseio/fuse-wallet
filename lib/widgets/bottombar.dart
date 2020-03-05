@@ -1,4 +1,4 @@
-import 'package:flushbar/flushbar.dart';
+// import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,7 +6,8 @@ import 'package:fusecash/common.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/bottom_bar.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
+// import 'package:fusecash/screens/cash_home/cash_home.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;
@@ -35,82 +36,66 @@ Widget bottomBar(BuildContext context, {bool isProMode = false}) {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 bottomBarItem(
-                    isCurrentRoute(context, '/CashPro')
+                    isCurrentRoute(context, Router.cashHomeScreen)
                         ? "home_selected.svg"
                         : "home.svg",
                     I18n.of(context).home, () {
                   if (isHomePage) {
-                    redirect(context, '/CashPro');
+                    redirect(context, Router.cashHomeScreen);
                   } else {
-                    Navigator.pop(context, ModalRoute.withName('/Cash'));
-                    redirect(context, '/CashPro');
+                    Navigator.pop(context, ModalRoute.withName(Router.cashHomeScreen));
+                    redirect(context, Router.cashHomeScreen);
                   }
                 }),
                 bottomBarItem(
-                    isCurrentRoute(context, '/SendContact')
+                    isCurrentRoute(context, Router.sendToContactScreen)
                         ? "send_selected.svg"
                         : "send.svg",
                     I18n.of(context).send_button, () {
                   if (isHomePage) {
-                    redirect(context, '/SendContact');
+                    redirect(context, Router.sendToContactScreen);
                   } else {
-                    Navigator.pop(context, ModalRoute.withName('/Cash'));
-                    redirect(context, '/SendContact');
+                    Navigator.pop(context, ModalRoute.withName(Router.cashHomeScreen));
+                    redirect(context, Router.sendToContactScreen);
                   }
                 }),
                 isProMode
                     ? bottomBarItem(
-                        isCurrentRoute(context, '/Trade')
-                            ? "trade_selected.svg"
-                            : "trade.svg",
-                        I18n.of(context).trade, () {
-                        Flushbar(
-                          flushbarPosition: FlushbarPosition.BOTTOM,
-                          duration: Duration(seconds: 2),
-                          messageText: new Text(
-                            "Coming soon",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        )..show(context);
+                        isCurrentRoute(context, Router.daiExplainedScreen)
+                            ? "daipoints_selected.svg"
+                            : "daipoints.svg",
+                        I18n.of(context).dai_points, () {
+                        if (isHomePage) {
+                          redirect(context, Router.daiExplainedScreen);
+                        } else {
+                          Navigator.popUntil(
+                              context, ModalRoute.withName(Router.cashHomeScreen));
+                          redirect(context, Router.daiExplainedScreen);
+                        }
                       })
-                    : isDefaultCommunity(viewModel.communityAddres)
-                        ? bottomBarItem(
-                            isCurrentRoute(context, '/DaiPoints')
-                                ? "daipoints_selected.svg"
-                                : "daipoints.svg",
-                            I18n.of(context).dai_points, () {
-                            if (isHomePage) {
-                              redirect(context, '/DaiPoints');
-                            } else {
-                              Navigator.popUntil(
-                                  context, ModalRoute.withName('/Cash'));
-                              redirect(context, '/DaiPoints');
-                            }
-                          })
-                        : bottomBarItem(
-                            isCurrentRoute(context, '/Buy')
-                                ? "buy_selected.svg"
-                                : "buy.svg",
-                            I18n.of(context).buy, () {
-                            if (isHomePage) {
-                              redirect(context, '/Buy');
-                            } else {
-                              Navigator.popUntil(
-                                  context, ModalRoute.withName('/Cash'));
-                              redirect(context, '/Buy');
-                            }
-                          }),
+                    : bottomBarItem(
+                        isCurrentRoute(context, Router.buyScreen)
+                            ? "buy_selected.svg"
+                            : "buy.svg",
+                        I18n.of(context).buy, () {
+                        if (isHomePage) {
+                          redirect(context, Router.buyScreen);
+                        } else {
+                          Navigator.popUntil(
+                              context, ModalRoute.withName(Router.cashHomeScreen));
+                          redirect(context, Router.buyScreen);
+                        }
+                      }),
                 bottomBarItem(
-                    isCurrentRoute(context, '/Receive')
+                    isCurrentRoute(context, Router.receiveScreen)
                         ? "receive_selected.svg"
                         : "receive.svg",
                     I18n.of(context).receive, () {
                   if (isHomePage) {
-                    redirect(context, '/Receive');
+                    redirect(context, Router.receiveScreen);
                   } else {
-                    Navigator.popUntil(context, ModalRoute.withName('/Cash'));
-                    redirect(context, '/Receive');
+                    Navigator.popUntil(context, ModalRoute.withName(Router.cashHomeScreen));
+                    redirect(context, Router.receiveScreen);
                   }
                 })
               ],

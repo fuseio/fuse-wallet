@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fusecash/middlewares/auth_middleware.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/state_secure_storage.dart';
@@ -99,6 +100,11 @@ class AppFactory {
       if (isInDebugMode) {
         wms.add(LoggingMiddleware<AppState>(logger:logger, level: Level.ALL, formatter: LoggingMiddleware.multiLineFormatter));
       }
+      wms.addAll([
+        thunkMiddleware,
+        persistor.createMiddleware(),
+        ...createAuthMiddleware()
+      ]);
 
       _store = Store<AppState>(
         appReducer,
