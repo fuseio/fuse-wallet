@@ -7,6 +7,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/views/switch_community.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/community_card.dart';
 import 'dart:core';
@@ -34,7 +35,8 @@ Widget scanQRButton(BuildContext context, Function switchCommunity) {
             var json = await BarcodeScanner.scan();
             Map jsonMap = jsonDecode(json);
             switchCommunity(jsonMap['communityAddress']);
-            Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+            // Navigator.popUntil(context, ModalRoute.withName(Router.cashHomeScreen));
+            Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
           } catch (e) {
             print('BarcodeScanner scan error');
           }

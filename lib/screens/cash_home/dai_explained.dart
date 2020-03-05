@@ -4,6 +4,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:flushbar/flushbar.dart';
@@ -162,7 +163,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                               .withAlpha(14))),
                                   child: InkWell(
                                     onTap: () async {
-                                      Navigator.pushNamed(context, '/Prize');
+                                      Router.navigator.pushNamed(Router.prizeScreen);
                                       await Segment.track(
                                           eventName: "User open prize page");
                                     },
@@ -286,7 +287,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/WebPage',
+                  Router.navigator.pushNamed(Router.webViewPage,
                       arguments: WebViewPageArguments(
                           url:
                               'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',

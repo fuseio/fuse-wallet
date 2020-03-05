@@ -237,7 +237,11 @@ ThunkAction enablePushNotifications() {
 
       String walletAddress = store.state.cashWalletState.walletAddress;
       await api.updateFirebaseToken(walletAddress, token);
-      await Segment.putDeviceToken(token);
+      await Segment.setContext({
+        'device': {
+          'token': token
+        },
+      });
 
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {

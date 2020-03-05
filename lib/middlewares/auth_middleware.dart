@@ -1,49 +1,47 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/redux/state/store.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/keys.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:redux/redux.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 
 List<Middleware<AppState>> createAuthMiddleware() {
-  // final checkIfUserExists = _createCheckIfUserExistsMiddleware();
-  // final resgiterUser = _createRegisterUserMiddleware();
-  final sendOTP = _createSendOTPMiddleware();
-  final verifyPhoneNumber = _createVerifyPhoneNumberMiddleware();
-  // final logOut = _createLogOutMiddleware();
+  final loginRequest = _createLoginRequestMiddleware();
+  final verifyRequest = _createVerifyPhoneNumberMiddleware();
 
   return [
-    // TypedMiddleware<AppState, CheckIfUserExists>(checkIfUserExists),
-    // TypedMiddleware<AppState, RegisterUser>(resgiterUser),
-    TypedMiddleware<AppState, LoginRequestSuccess>(sendOTP),
-    TypedMiddleware<AppState, VerifyOTP>(verifyPhoneNumber),
-    // TypedMiddleware<AppState, LogOut>(logOut),
+    TypedMiddleware<AppState, LoginRequest>(loginRequest),
+    TypedMiddleware<AppState, VerifyRequest>(verifyRequest),
   ];
 }
 
-Middleware<AppState> _createSendOTPMiddleware() {
+Middleware<AppState> _createLoginRequestMiddleware() {
   return (Store store, action, NextDispatcher next) async {
-    // final FirebaseAuth _auth = FirebaseAuth.instance;
+    final logger = await AppFactory().getLogger('action');
 
-    if (action is LoginRequestSuccess) {
+    if (action is LoginRequest) {
       try {
-        // store.dispatch(StartLoading());
         String phone = formatPhoneNumber(action.phoneNumber, action.countryCode);
         await firebaseAuth.verifyPhoneNumber(
           phoneNumber: phone,
           codeAutoRetrievalTimeout: action.codeAutoRetrievalTimeout,
           codeSent: action.codeSent,
-          timeout: const Duration(seconds: 20),
+          timeout: Duration(minutes: 2),
           verificationCompleted: action.verificationCompleted,
           verificationFailed: action.verificationFailed
         );
+        store.dispatch(new LoginRequestSuccess(action.countryCode, action.phoneNumber, "", ""));
       }
-      catch (error) {
-        // store.dispatch(StopLoading());
-        print(error);
+      catch (e, s) {
+        logger.severe('ERROR - LoginRequest $e');
+        await AppFactory().reportError(e, s);
+        store.dispatch(new ErrorAction(e));
+        store.dispatch(segmentTrackCall("ERROR in LoginRequest", properties: new Map.from({ "error": e.toString() })));
       }
     }
     next(action);
@@ -52,44 +50,32 @@ Middleware<AppState> _createSendOTPMiddleware() {
 
 Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
   return (Store store, action, NextDispatcher next) async {
-    // final FirebaseAuth _auth = FirebaseAuth.instance;
-
-    if (action is VerifyOTP) {
+    final logger = await AppFactory().getLogger('action');
+    if (action is VerifyRequest) {
       try {
-        // store.dispatch(StartLoading());
-        final AuthCredential credential = PhoneAuthProvider.getCredential(
-          verificationId: action.verificationId,
-          smsCode: action.otp,
-        );
+        PhoneAuthCredential credential = store.state.userState.credentials;
+        if (credential == null) {
+          credential = PhoneAuthProvider.getCredential(
+            verificationId: action.verificationId,
+            smsCode: action.verificationCode,
+          );
+        }
         final FirebaseUser user = (await firebaseAuth.signInWithCredential(credential)).user;
         final FirebaseUser currentUser = await firebaseAuth.currentUser();
         assert(user.uid == currentUser.uid);
-        Keys.navigatorKey.currentState.pushReplacementNamed('/UserName');
-        // store.dispatch(StopLoading());
-        // store.dispatch(LogInSuccessful(user: user));
+        String accountAddress = store.state.userState.accountAddress;
+        IdTokenResult token = await user.getIdToken();
+        String jwtToken = await api.login(token.token, accountAddress);
+        store.dispatch(new LoginVerifySuccess(jwtToken));
+        Router.navigator.pushReplacementNamed(Router.userNameScreen);
       }
-      catch (error) {
-        // store.dispatch(StopLoading());
-        // store.dispatch(LogInFail(error: error));
-        action.key.currentState.showSnackBar(SnackBar(
-          content: Text("Verification failed.")
-        ));
+      catch (e, s) {
+        logger.severe('ERROR - Verification failed $e');
+        await AppFactory().reportError(e, s);
+        store.dispatch(new ErrorAction(e));
+        store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": e.toString() })));
       }
     }
     next(action);
   };
 }
-
-// Middleware<AppState> _createLogOutMiddleware() {
-//   return (Store store, action, NextDispatcher next) async {
-// 		final FirebaseAuth _auth = FirebaseAuth.instance;
-//     try {
-//       await _auth.signOut();
-//       print('logging out...');
-//       Keys.navigatorKey.currentState.pushNamedAndRemoveUntil(Routes.authScreen, (Route<dynamic> route) => false);
-//       store.dispatch(LogOutSuccessful());
-//     } catch (error) {
-//       print(error);
-//     }
-// 	};
-// }

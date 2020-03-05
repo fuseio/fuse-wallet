@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/token.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/bottombar.dart';
@@ -302,7 +303,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/SendAmount',
+                                Router.navigator.pushNamed(Router.sendAmountScreen,
                                     arguments: SendAmountArguments(
                                       isBusiness: true,
                                       accountAddress:

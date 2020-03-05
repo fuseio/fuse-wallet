@@ -43,6 +43,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
+  auto_route:
+    dependency: "direct main"
+    description:
+      name: auto_route
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
+  auto_route_generator:
+    dependency: "direct dev"
+    description:
+      name: auto_route_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   barcode_scan:
     dependency: "direct main"
     description:
@@ -245,7 +259,7 @@ packages:
       name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   ethereum_address:
     dependency: "direct main"
     description:
@@ -397,7 +411,7 @@ packages:
       name: flutter_redux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.4"
+    version: "0.6.0"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -780,14 +794,14 @@ packages:
       name: redux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "4.0.0"
   redux_logging:
     dependency: "direct main"
     description:
       name: redux_logging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.0"
   redux_persist:
     dependency: "direct main"
     description:
@@ -808,7 +822,7 @@ packages:
       name: redux_thunk
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.1"
+    version: "0.3.0"
   resource:
     dependency: transitive
     description:

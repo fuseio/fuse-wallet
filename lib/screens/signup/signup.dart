@@ -152,12 +152,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   controller: phoneController,
                                   keyboardType: TextInputType.number,
                                   autofocus: true,
-                                  validator: (String value) {
-                                    if (viewModel.loginErrorMessage != null && viewModel.loginErrorMessage.isNotEmpty) {
-                                      return viewModel.loginErrorMessage;
-                                    }
-                                    return null;
-                                  },
+                                  validator: (String value) => value.isEmpty ? "Please enter mobile number" : null,
                                   style: const TextStyle(
                                       fontSize: 16, color: Colors.black),
                                   decoration: const InputDecoration(
@@ -188,21 +183,22 @@ class _SignupScreenState extends State<SignupScreen> {
                                 isvalidPhone = false;
                               });
                             } else {
-                              setState(() {
-                                isPreloading = true;
-                              });
-                              viewModel.signUp(countryCode.dialCode.toString(),
-                                  phoneController.text, () {
-                                Navigator.pushNamed(context, '/Verify');
-                                setState(() {
-                                  isPreloading = false;
-                                });
-                              }, () {
-                                setState(() {
-                                  isPreloading = false;
-                                  isvalidPhone = false;
-                                });
-                              });
+                              // setState(() {
+                              //   isPreloading = true;
+                              // });
+                              viewModel.signUp(countryCode.dialCode, phoneController.text);
+                              // viewModel.signUp(countryCode.dialCode.toString(),
+                              //     phoneController.text, () {
+                              //   Navigator.pushNamed(context, '/Verify');
+                              //   setState(() {
+                              //     isPreloading = false;
+                              //   });
+                              // }, () {
+                              //   setState(() {
+                              //     isPreloading = false;
+                              //     isvalidPhone = false;
+                              //   });
+                              // });
                             }
                           },
                           preload: isPreloading,

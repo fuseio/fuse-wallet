@@ -4,12 +4,13 @@ description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"
 dependencies:
+  auto_route: ^0.3.1
   flushbar: ^1.9.1
   intl: 0.16.0
   url_launcher: ^5.4.1
   http: ^0.12.0+4
   google_maps_flutter: ^0.5.21+15
-  equatable: ^1.0.2
+  equatable: ^1.1.1
   package_info: ^0.4.0+13
   interactive_webview: ^0.1.2
   share: 0.6.3+5
@@ -40,7 +41,10 @@ dependencies:
   pin_input_text_field: ^2.1.0
   flare_flutter: ^1.8.3
   decimal: ^0.3.5
-  flutter_segment: ^1.0.0
+  #  flutter_segment: ^0.0.7
+  flutter_segment:
+    git:
+      url: https://github.com/animo-wellness/flutter-segment.git
   firebase_messaging: ^5.0.2
   firebase_auth: ^0.15.4
   ethereum_address: ^1.0.1
@@ -54,6 +58,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 dev_dependencies:
+  auto_route_generator: ^0.3.2
   flutter_native_splash: ^0.1.9
   dependency_validator: ^1.0.0
   flutter_launcher_icons: ^0.7.4

@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 // import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
 import 'package:fusecash/widgets/on_boarding_pages.dart';
 // import 'package:redux/redux.dart';
@@ -63,9 +64,10 @@ class _SplashScreenState extends State<SplashScreen> {
         !viewModel.isLoggedOut) {
       viewModel.initWeb3(viewModel.privateKey);
       if (Navigator.canPop(context)) {
-        Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+        Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
+        // Navigator.popUntil(context, ModalRoute.withName('/Cash'));
       } else {
-        Navigator.pushReplacementNamed(context, '/Cash');
+        Router.navigator.pushReplacementNamed(Router.cashHomeScreen);
       }
     }
   }

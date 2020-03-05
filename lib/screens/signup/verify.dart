@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
+
+class VerifyScreenArguments {
+  final String verificationId;
+
+  VerifyScreenArguments({this.verificationId});
+}
 
 class VerifyScreen extends StatefulWidget {
   @override
@@ -15,6 +22,7 @@ class VerifyScreen extends StatefulWidget {
 class _VerifyScreenState extends State<VerifyScreen> {
   bool isPreloading = false;
   String autoCode = "";
+  String verificationId;
 
   @override
   void initState() {
@@ -22,23 +30,28 @@ class _VerifyScreenState extends State<VerifyScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final VerifyScreenArguments args =
+        ModalRoute.of(context).settings.arguments;
+    verificationId = args.verificationId;
+    print('verificationId verificationId verificationId verificationId');
+    print(verificationId);
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
-        builder: (_, viewModel) {
+        onInitialBuild: (viewModel) {
           if (viewModel.credentials != null) {
             autoCode = viewModel.credentials.smsCode ?? "";
-            isPreloading = true;
-            viewModel.verify(
-                viewModel.countryCode,
-                viewModel.phoneNumber,
-                autoCode,
-                viewModel.accountAddress,
-                viewModel.verificationId, () {
-              Navigator.popAndPushNamed(context, '/UserName');
-            }, () {});
+            viewModel.verify(autoCode, verificationId, _scaffoldKey);
           }
+        },
+        builder: (_, viewModel) {
           final verificationCodeController =
               TextEditingController(text: autoCode);
           return MainScaffold(
@@ -99,22 +112,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     fontSize: 16,
                     preload: isPreloading,
                     onPressed: () {
-                      setState(() {
-                        isPreloading = true;
-                      });
-                      viewModel.verify(
-                          viewModel.countryCode,
-                          viewModel.phoneNumber,
-                          verificationCodeController.text,
-                          viewModel.accountAddress,
-                          viewModel.verificationId, () async {
-                        Navigator.popAndPushNamed(context, '/UserName');
-                      }, () {
-                        setState(() {
-                          isPreloading = false;
-                          autoCode = verificationCodeController.text;
-                        });
-                      });
+                      viewModel.verify(verificationCodeController.text,
+                          verificationId, _scaffoldKey);
                     },
                   ),
                 ),
@@ -129,7 +128,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     FlatButton(
                       padding: EdgeInsets.only(right: 10),
                       onPressed: () {
-                        Navigator.pop(context);
+                        Router.navigator.pop();
+                        // Navigator.pop(context);
                       },
                       child: Text(
                         I18n.of(context).resend_code,
