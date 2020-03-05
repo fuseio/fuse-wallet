@@ -183,6 +183,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                 isvalidPhone = false;
                               });
                             } else {
+                              setState(() {
+                                isPreloading = true;
+                              });
                               viewModel.signUp(countryCode.dialCode, phoneController.text);
                             }
                           },

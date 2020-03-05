@@ -13,12 +13,11 @@ import 'package:fusecash/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-_launchPhone(phoneNumber) async {
-  String url = 'tel:$phoneNumber';
-  if (await canLaunch(url)) {
-    await launch(url, forceSafariVC: false);
+_launchUrl(String urlToLaunch) async {
+  if (await canLaunch(urlToLaunch)) {
+    await launch(urlToLaunch, forceSafariVC: false);
   } else {
-    throw 'Could not launch $url';
+    throw 'Could not launch $urlToLaunch';
   }
 }
 
@@ -186,8 +185,14 @@ class _BusinessPageState extends State<BusinessPage> {
                                           height: 19,
                                         ),
                                       ),
-                                      Text(businessArgs
-                                          .business.metadata.website)
+                                      InkWell(
+                                        onTap: () {
+                                          _launchUrl(businessArgs.business.metadata.website);
+                                        },
+                                        child: Text(businessArgs
+                                          .business.metadata.website),
+                                      ),
+                                      
                                     ],
                                   ),
                                 ): SizedBox.shrink(),
@@ -208,8 +213,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         child: Text(businessArgs
                                           .business.metadata.phoneNumber),
                                           onTap: () {
-                                            _launchPhone(businessArgs
-                                          .business.metadata.phoneNumber);
+                                            _launchUrl('tel:${businessArgs.business.metadata.phoneNumber}');
                                           },
                                       )
                                     ],
