@@ -306,7 +306,7 @@ ThunkAction loginVerifyCall(
         IdTokenResult token = await user.getIdToken();
         logger.info('user token: ${token.token}');
 
-        String jwtToken = await api.login(token.token, accountAddress);
+        String jwtToken = await api.login(token.token, accountAddress, appName: "Roost");
         store.dispatch(new LoginVerifySuccess(jwtToken));
         successCallback();
       } else {

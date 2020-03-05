@@ -1,5 +1,5 @@
 name: roost
-version: 1.1.15+132
+version: 1.1.15+133
 description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -24,7 +24,7 @@ dependencies:
   redux_persist: ^0.8.2
   redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.1.5
-  wallet_core: ^0.0.1+65
+  wallet_core: ^0.0.1+66
   # wallet_core:
   #   path: ../wallet_core
   alphabet_list_scroll_view: 1.0.5

@@ -1,42 +1,43 @@
 {
   "project_info": {
-    "project_number": "863692183597",
-    "firebase_url": "https://fuse-2-0.firebaseio.com",
-    "project_id": "fuse-2-0",
-    "storage_bucket": "fuse-2-0.appspot.com"
+    "project_number": "629222004995",
+    "firebase_url": "https://roost-60f71.firebaseio.com",
+    "project_id": "roost-60f71",
+    "storage_bucket": "roost-60f71.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:863692183597:android:0591105e8b1bb60b9b80a4",
+        "mobilesdk_app_id": "1:629222004995:android:b0ef15d3565cbf4ebe3136",
         "android_client_info": {
           "package_name": "io.fuse.roost"
         }
       },
       "oauth_client": [
         {
-          "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+          "client_id": "629222004995-sfkh0j6c7e97arbf1ucckgdimfb1ug1u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.roost",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
+          "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvx56Wp3R5M4d0I1lwYc6fhgJy6dTFNPM"
+          "current_key": "AIzaSyBlZZHB3SD_-hgUuQ9G6xHUdrlXMCj6JbY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+              "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "io.fuse.roost"
-              }
             }
           ]
         }
