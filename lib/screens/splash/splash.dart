@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/splash.dart';
+import 'package:paywise/redux/actions/cash_wallet_actions.dart';
+import 'package:paywise/redux/actions/user_actions.dart';
 import 'package:paywise/screens/splash/dots_indicator.dart';
 import 'package:paywise/widgets/on_boarding_pages.dart';
 import 'package:paywise/screens/routes.gr.dart';
@@ -53,16 +55,13 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  onInitailBuild(SplashViewModel viewModel) {
-    if (viewModel.privateKey != '' &&
-        viewModel.jwtToken != '' &&
-        !viewModel.isLoggedOut) {
-      viewModel.initWeb3(viewModel.privateKey);
-      if (Navigator.canPop(context)) {
-        Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
-      } else {
-        Router.navigator.pushReplacementNamed(Router.cashHomeScreen);
-      }
+  onInit(store) {
+    if (store.state.userState.privateKey != '' &&
+        store.state.userState.jwtToken != '' &&
+        !store.state.userState.isLoggedOut) {
+      store.dispatch(initWeb3Call(store.state.userState.privateKey));
+      store.dispatch(identifyCall());
+      Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
     }
   }
 
@@ -72,6 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return new StoreConnector<AppState, SplashViewModel>(
         distinct: true,
         converter: SplashViewModel.fromStore,
+        onInit: onInit,
         builder: (_, viewModel) {
           List pages = getPages(context);
           return Scaffold(
