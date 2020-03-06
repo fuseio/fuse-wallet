@@ -7,6 +7,7 @@ import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/community.dart';
 import 'package:paywise/models/views/switch_community.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/community_card.dart';
 import 'dart:core';
@@ -34,7 +35,7 @@ Widget scanQRButton(BuildContext context, Function switchCommunity) {
             var json = await BarcodeScanner.scan();
             Map jsonMap = jsonDecode(json);
             switchCommunity(jsonMap['communityAddress']);
-            Navigator.popUntil(context, ModalRoute.withName('/Cash'));
+            Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
           } catch (e) {
             print('BarcodeScanner scan error');
           }
@@ -66,9 +67,9 @@ Widget scanQRButton(BuildContext context, Function switchCommunity) {
 }
 
 class SwitchCommunityScreen extends StatefulWidget {
-  SwitchCommunityScreen({Key key, this.title}) : super(key: key);
+  // SwitchCommunityScreen({Key key, this.title}) : super(key: key);
 
-  final String title;
+  // final String title;
 
   @override
   _SwitchCommunityScreenState createState() => _SwitchCommunityScreenState();

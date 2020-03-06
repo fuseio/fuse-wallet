@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/community.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
@@ -14,6 +15,8 @@ import 'package:paywise/models/token.dart';
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class SendAmountScreen extends StatefulWidget {
+  SendAmountScreen({this.pageArgs});
+  final SendAmountArguments pageArgs;
   @override
   _SendAmountScreenState createState() => _SendAmountScreenState();
 }
@@ -44,7 +47,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
+    final SendAmountArguments args = this.widget.pageArgs;
 
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
@@ -144,7 +147,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 label: I18n.of(context).continue_with + ' $amountText ${viewModel.token.symbol}',
                 onPressed: () {
                   args.amount = num.parse(amountText);
-                  Navigator.pushNamed(context, '/SendReview', arguments: args);
+                  Router.navigator.pushNamed(Router.sendReviewScreen, arguments: args);
                 },
                 preload: isPreloading,
                 width: 300,

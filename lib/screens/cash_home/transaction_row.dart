@@ -5,6 +5,7 @@ import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/screens/cash_home/transaction_details.dart';
 import 'package:paywise/utils/format.dart';
@@ -210,7 +211,7 @@ class TransactionListItem extends StatelessWidget {
               return;
             }
             if (!transfer.isGenerateWallet() || !transfer.isJoinCommunity()) {
-              Navigator.pushNamed(context, '/TransactionDetails',
+              Router.navigator.pushNamed(Router.transactionDetailsScreen,
                   arguments: TransactionDetailArguments(
                     transfer: transfer,
                     contact: _contact,

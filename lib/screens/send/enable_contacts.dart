@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/contacts.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/utils/contacts.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'dart:core';
@@ -143,7 +144,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                           await ContactController.getContacts();
                                       viewModel.syncContacts(contacts);
                                     }
-                                    Navigator.pushReplacementNamed(context, '/SendContact');
+                                    Router.navigator.pushReplacementNamed(Router.sendToContactScreen);
                                     setState(() {
                                       isPreloading = false;
                                     });
@@ -153,7 +154,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                   child: FlatButton(
                                     padding: EdgeInsets.only(top: 10),
                                     onPressed: () {
-                                      Navigator.of(context).pop();
+                                      Router.navigator.pop();
                                       viewModel.syncContactsRejected();
                                     },
                                     child: Text(

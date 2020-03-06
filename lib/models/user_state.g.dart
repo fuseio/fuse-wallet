@@ -22,11 +22,16 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     jwtToken: json['jwtToken'] as String,
     displayName: json['displayName'] as String,
     email: json['email'] as String,
+    verificationId: json['verificationId'] as String,
     loginRequestSuccess: json['loginRequestSuccess'] as bool,
     loginVerifySuccess: json['loginVerifySuccess'] as bool,
     isLoggedOut: json['isLoggedOut'] as bool,
     isContactsSynced: json['isContactsSynced'] as bool,
     backup: json['backup'] as bool,
+    displayBalance: json['displayBalance'] as int,
+    installedAt: json['installedAt'] == null
+        ? null
+        : DateTime.parse(json['installedAt'] as String),
   );
 }
 
@@ -42,9 +47,12 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'jwtToken': instance.jwtToken,
       'displayName': instance.displayName,
       'email': instance.email,
+      'verificationId': instance.verificationId,
       'loginRequestSuccess': instance.loginRequestSuccess,
       'loginVerifySuccess': instance.loginVerifySuccess,
       'isLoggedOut': instance.isLoggedOut,
       'isContactsSynced': instance.isContactsSynced,
       'backup': instance.backup,
+      'displayBalance': instance.displayBalance,
+      'installedAt': instance.installedAt?.toIso8601String(),
     };

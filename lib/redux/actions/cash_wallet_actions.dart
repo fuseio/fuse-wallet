@@ -21,6 +21,7 @@ import 'package:paywise/utils/phone.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
+import 'package:paywise/models/user_state.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:paywise/services.dart';
 import 'package:paywise/models/token.dart';
@@ -236,7 +237,11 @@ ThunkAction enablePushNotifications() {
 
       String walletAddress = store.state.cashWalletState.walletAddress;
       await api.updateFirebaseToken(walletAddress, token);
-      await FlutterSegment.putDeviceToken(token);
+      await Segment.setContext({
+        'device': {
+          'token': token
+        },
+      });
 
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
@@ -260,7 +265,7 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('Track - $eventName');
-      await FlutterSegment.track(eventName: 'PAYWISE: ' + eventName, properties: properties);
+      await Segment.track(eventName: 'PAYWISE: ' + eventName, properties: properties);
     } catch (e, s) {
       logger.severe('ERROR - segment track call: $e');
       await AppFactory().reportError(e, s);
@@ -273,7 +278,7 @@ ThunkAction segmentAliasCall(String userId) {
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('Alias - $userId');
-      await FlutterSegment.alias(alias: userId);
+      await Segment.alias(alias: userId);
     } catch (e, s) {
       logger.severe('ERROR - segment alias call: $e');
       await AppFactory().reportError(e, s);
@@ -285,9 +290,18 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      UserState userState = store.state.userState;
+      String fullPhoneNumber = formatPhoneNumber(userState.phoneNumber, userState.countryCode);
       logger.info('Identify - $fullPhoneNumber');
-      await FlutterSegment.identify(userId: fullPhoneNumber, traits: traits);
+      traits = traits ?? new Map<String, dynamic>();
+      DateTime installedAt = userState.installedAt;
+      if (installedAt == null) {
+        installedAt = DateTime.now().toUtc();
+        store.dispatch(new JustInstalled(installedAt));
+      }
+      traits["Installed At"] = installedAt.toIso8601String();
+      traits["Display Balance"] = userState.displayBalance ?? 0;
+      await Segment.identify(userId: fullPhoneNumber, traits: traits);
     } catch (e, s) {
       logger.severe('ERROR - segment identify call: $e');
       await AppFactory().reportError(e, s);
@@ -419,11 +433,17 @@ ThunkAction createAccountWalletCall(String accountAddress) {
     try {
       logger.info('createAccountWalletCall');
       logger.info('accountAddress: $accountAddress');
-      store.dispatch(new CreateAccountWalletRequest(accountAddress));
       Map<String, dynamic> response = await api.createWallet();
       if (!response.containsKey('job')) {
         logger.info('Wallet already exists');
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
+        store.dispatch(new CreateAccountWalletSuccess(accountAddress));
+        return;
+      }
+      List<Job> jobs = store.state.cashWalletState.communities[store.state.cashWalletState.communityAddress].jobs;
+      bool hasCreateWallet = jobs.any((job) => job.jobType == 'createWallet');
+      if (hasCreateWallet) {
+        store.dispatch(new CreateAccountWalletRequest(accountAddress));
         return;
       }
       response['job']['arguments'] = {
@@ -431,6 +451,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
       };
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
+      store.dispatch(new CreateAccountWalletRequest(accountAddress));
     } catch (e) {
       logger.severe('ERROR - createAccountWalletCall $e');
       store.dispatch(new ErrorAction('Could not create wallet'));
@@ -473,11 +494,17 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
     final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.cashWalletState.walletAddress;
-      BigInt tokenBalance = await graph.getTokenBalance(walletAddress, tokenAddress);
+      BigInt tokenBalance = (await graph.getTokenBalance(walletAddress, tokenAddress));
+      String communityAddress = store.state.cashWalletState.communityAddress;
+      Community community = store.state.cashWalletState.communities[communityAddress];
+      String balance = formatValue(tokenBalance, community.token.decimals);
+
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
-      String communityAddres = store.state.cashWalletState.communityAddress;
-      Community community = store.state.cashWalletState.communities[communityAddres];
-      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({ '${community.name} Balance': tokenBalance.toString() })));
+      store.dispatch(new UpdateDisplayBalance(int.parse(balance)));
+      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+        '${community.name} Balance': balance,
+        "DisplayBalance": balance
+      })));
     } catch (e) {
       logger.severe('ERROR - getTokenBalanceCall $e');
       store.dispatch(new ErrorAction('Could not get token balance'));
@@ -529,16 +556,16 @@ ThunkAction startFetchingJobCall(
 ThunkAction processingJobsCall(Timer timer) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('Job');
-    String communityAddres = store.state.cashWalletState.communityAddress;
+    String communityAddress = store.state.cashWalletState.communityAddress;
     String walletAddress = store.state.cashWalletState.walletAddress;
-    Community community = store.state.cashWalletState.communities[communityAddres];
+    Community community = store.state.cashWalletState.communities[communityAddress];
     List<Job> jobs = community.jobs;
     for (Job job in jobs) {
       String currentCommunityAddress = store.state.cashWalletState.communityAddress;
       String currentWalletAddress = store.state.cashWalletState.walletAddress;
       if (job.status != 'DONE' && job.status != 'FAILED') {
         bool isJobProcessValid() {
-          if ((currentCommunityAddress != communityAddres) || (currentWalletAddress != walletAddress)) {
+          if ((currentCommunityAddress != communityAddress) || (currentWalletAddress != walletAddress)) {
             timer.cancel();
             return false;
           }

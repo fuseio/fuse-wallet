@@ -49,7 +49,7 @@ class PrimaryButton extends StatelessWidget {
                       child: CircularProgressIndicator(
                           strokeWidth: 3,
                           valueColor: new AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).primaryColor)),
+                              Theme.of(context).splashColor)),
                       width: 21.0,
                       height: 21.0,
                       margin: EdgeInsets.only(left: 28, right: 28),

@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:paywise/middlewares/auth_middleware.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/redux/reducers/app_reducer.dart';
 import 'package:paywise/redux/state/state_secure_storage.dart';
@@ -98,6 +99,7 @@ class AppFactory {
       wms.addAll([
         thunkMiddleware,
         persistor.createMiddleware(),
+        // ...createAuthMiddleware()
       ]);
 
       _store = Store<AppState>(

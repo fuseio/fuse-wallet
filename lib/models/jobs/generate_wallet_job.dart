@@ -40,13 +40,14 @@ class GenerateWalletJob extends Job {
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
-      store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ id: id, 'name': name })));
+      store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       this.isReported = true;
     }
 
     String walletAddress = fetchedData["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
       this.status = 'DONE';
+      store.dispatch(new CreateAccountWalletSuccess(arguments['accountAddress']));
       store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
     }
   }

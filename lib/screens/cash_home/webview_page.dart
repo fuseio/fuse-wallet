@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPageArguments {
@@ -11,10 +12,11 @@ class WebViewPageArguments {
 }
 
 class WebViewPage extends StatefulWidget {
+  WebViewPage({this.pageArg});
+  final WebViewPageArguments pageArg;
+
   @override
   _WebViewPageState createState() => _WebViewPageState();
-
-  WebViewPage({Key key}) : super(key: key);
 }
 
 class _WebViewPageState extends State<WebViewPage> {
@@ -23,8 +25,7 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final WebViewPageArguments webPageArgs =
-        ModalRoute.of(context).settings.arguments;
+    final WebViewPageArguments webPageArgs = this.widget.pageArg;
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         return Container(
@@ -83,7 +84,7 @@ class _WebViewPageState extends State<WebViewPage> {
                             left: 20,
                             child: InkWell(
                               onTap: () {
-                                Navigator.of(context).pop();
+                                Router.navigator.pop();
                               },
                               child:
                                   SvgPicture.asset('assets/images/arrow.svg'),

@@ -1,7 +1,7 @@
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:json_annotation/json_annotation.dart';
-
 part 'user_state.g.dart';
 
 @immutable
@@ -18,14 +18,23 @@ class UserState {
   final String jwtToken;
   final String displayName;
   final String email;
+  final String verificationId;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
   final bool isLoggedOut;
   final bool isContactsSynced;
   final bool backup;
+  final int displayBalance;
+  final DateTime installedAt;
 
   @JsonKey(ignore: true)
+  final String loginErrorMessage;
+  @JsonKey(ignore: true)
+  final String verifyErrorMessage;
+  @JsonKey(ignore: true)
   final List<Contact> contacts;
+  @JsonKey(ignore: true)
+  final PhoneAuthCredential credentials;
 
   UserState(
       {this.mnemonic,
@@ -40,11 +49,17 @@ class UserState {
       this.jwtToken,
       this.displayName,
       this.email,
+      this.verificationId,
       this.loginRequestSuccess,
       this.loginVerifySuccess,
       this.isLoggedOut,
       this.isContactsSynced,
-      this.backup});
+      this.backup,
+      this.credentials,
+      this.loginErrorMessage,
+      this.verifyErrorMessage,
+      this.displayBalance,
+      this.installedAt});
 
   factory UserState.initial() {
     return new UserState(
@@ -60,11 +75,17 @@ class UserState {
         jwtToken: "",
         displayName: "Anom",
         email: "",
+        verificationId: "",
         loginRequestSuccess: false,
         loginVerifySuccess: false,
         isLoggedOut: false,
         isContactsSynced: null,
-        backup: false);
+        backup: false,
+        credentials: null,
+        verifyErrorMessage: null,
+        loginErrorMessage: null,
+        displayBalance: 0,
+        installedAt: DateTime.now().toUtc());
   }
 
   UserState copyWith(
@@ -80,11 +101,17 @@ class UserState {
       String jwtToken,
       String displayName,
       String email,
+      String verificationId,
+      String verifyErrorMessage,
+      String loginErrorMessage,
       bool loginRequestSuccess,
       bool loginVerifySuccess,
       bool isLoggedOut,
       bool isContactsSynced,
-      bool backup}) {
+      bool backup,
+      PhoneAuthCredential credentials,
+      int displayBalance,
+      DateTime installedAt}) {
     return UserState(
         mnemonic: mnemonic ?? this.mnemonic,
         privateKey: privateKey ?? this.privateKey,
@@ -98,16 +125,20 @@ class UserState {
         jwtToken: jwtToken ?? this.jwtToken,
         displayName: displayName ?? this.displayName,
         email: email ?? this.email,
+        verificationId: verificationId ?? this.verificationId,
         loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
         loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
         isLoggedOut: isLoggedOut ?? this.isLoggedOut,
         isContactsSynced: isContactsSynced ?? this.isContactsSynced,
-        backup: backup ?? this.backup);
+        backup: backup ?? this.backup,
+        credentials: credentials ?? this.credentials,
+        loginErrorMessage: loginErrorMessage ?? this.loginErrorMessage,
+        verifyErrorMessage: verifyErrorMessage ?? this.verifyErrorMessage,
+        displayBalance: displayBalance ?? this.displayBalance,
+        installedAt: installedAt ?? this.installedAt);
   }
 
   dynamic toJson() => _$UserStateToJson(this);
 
-  static UserState fromJson(dynamic json) {
-    return _$UserStateFromJson(json);
-  }
+  static UserState fromJson(dynamic json) => _$UserStateFromJson(json);
 }

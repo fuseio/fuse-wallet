@@ -44,7 +44,7 @@ class JoinBonusJob extends Job {
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
-      store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ id: id, 'name': name })));
+      store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       this.isReported = true;
     }
 
@@ -53,7 +53,7 @@ class JoinBonusJob extends Job {
     if (responseStatus == 'SUCCEEDED') {
       this.status = 'DONE';
       store.dispatch(joinBonusSuccessCall(data['txHash'], arguments['joinBonus']));
-      store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
+      store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       logger.info('JoinBonusJob SUCCEEDED');
       return;
     } else if (responseStatus == 'FAILED') {

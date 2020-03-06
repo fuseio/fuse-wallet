@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'dart:core';
 
 import 'package:paywise/widgets/primary_button.dart';
@@ -100,7 +101,7 @@ class SignupDialogState extends State<SignupDialog>
                       width: 140,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () async {
-                        Navigator.of(context).pop();
+                        Router.navigator.pop();
                       },
                     )
                   ],

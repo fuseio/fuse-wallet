@@ -6,6 +6,7 @@ import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
+import 'package:paywise/screens/routes.gr.dart';
 
 class VerifyScreen extends StatefulWidget {
   @override
@@ -93,7 +94,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           viewModel.phoneNumber,
                           verificationCodeController.text,
                           viewModel.accountAddress, () async {
-                        Navigator.popAndPushNamed(context, '/UserName');
+                            Router.navigator.popAndPushNamed(Router.userNameScreen);
                         setState(() {
                           isPreloading = false;
                         });
@@ -121,8 +122,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             viewModel.phoneNumber,
                             verificationCodeController.text,
                             viewModel.accountAddress, () async {
-                          // Navigator.popUntil(context, ModalRoute.withName('/'));
-                          Navigator.popAndPushNamed(context, '/Cash');
+                          Router.navigator.popAndPushNamed(Router.userNameScreen);
                           setState(() {
                             isPreloading = false;
                           });

@@ -32,6 +32,8 @@ class TransactionDetailArguments {
 }
 
 class TransactionDetailsScreen extends StatefulWidget {
+  TransactionDetailsScreen({this.pageArgs});
+  final TransactionDetailArguments pageArgs;
   @override
   _TransactionDetailsScreenState createState() =>
       _TransactionDetailsScreenState();
@@ -46,9 +48,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final TransactionDetailArguments args =
-        ModalRoute.of(context).settings.arguments;
-
+    final TransactionDetailArguments args = this.widget.pageArgs;
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {

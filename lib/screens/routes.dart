@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route_annotations.dart';
 import 'package:paywise/screens/backup/done_backup.dart';
 import 'package:paywise/screens/backup/show_mnemonic.dart';
 import 'package:paywise/screens/backup/verify_mnemonic.dart';
@@ -26,31 +26,33 @@ import 'package:paywise/screens/splash/splash.dart';
 import 'package:paywise/screens/misc/switch_commmunity.dart';
 import 'package:paywise/screens/misc/pincode.dart';
 
-Map<String, WidgetBuilder> getRoutes() => {
-      '/': (context) => SplashScreen(),
-      '/Signup': (context) => SignupScreen(),
-      '/UserName': (context) => UserNameScreen(),
-      '/LevelSelector': (context) => LevelSelectorScreen(),
-      '/Cash': (context) => CashHomeScreen(),
-      '/TransactionDetails': (context) => TransactionDetailsScreen(),
-      '/SendContact': (context) => SendToContactScreen(),
-      '/SendAmount': (context) => SendAmountScreen(),
-      '/SendReview': (context) => SendReviewScreen(),
-      '/SendSuccess': (context) => SendSuccessScreen(),
-      '/Verify': (context) => VerifyScreen(),
-      '/Receive': (context) => ReceiveScreen(),
-      '/Switch': (context) => SwitchCommunityScreen(),
-      '/Pincode': (context) => PincodeScreen(),
-      '/Buy': (context) => BuyScreen(),
-      '/Business': (context) => BusinessPage(),
-      '/Recovery': (context) => RecoveryPage(),
-      '/Backup1': (context) => ShowMnemonic(),
-      '/Backup2': (context) => VerifyMnemonic(),
-      '/Backup3': (context) => DoneBackup(),
-      '/About': (context) => AboutScreen(),
-      '/Settings': (context) => SettingsScreen(),
-      '/Map': (context) => MapScreen(),
-      '/Prize': (context) => PrizeScreen(),
-      '/DaiPoints': (context) => DaiExplainedScreen(),
-      '/WebPage': (context) => WebViewPage(),
-    };
+@MaterialAutoRouter()
+class $Router {
+  @initial
+  SplashScreen splashScreen;
+  SignupScreen signupScreen;
+  VerifyScreen verifyScreen;
+  UserNameScreen userNameScreen;
+  ReceiveScreen receiveScreen;
+  PincodeScreen pincodeScreen;
+  LevelSelectorScreen levelSelectorScreen;
+  CashHomeScreen cashHomeScreen;
+  TransactionDetailsScreen transactionDetailsScreen;
+  SendToContactScreen sendToContactScreen;
+  SendAmountScreen sendAmountScreen;
+  SendReviewScreen sendReviewScreen;
+  SendSuccessScreen sendSuccessScreen;
+  SwitchCommunityScreen switchCommunityScreen;
+  BuyScreen buyScreen;
+  BusinessPage businessPage;
+  RecoveryPage recoveryPage;
+  ShowMnemonic showMnemonic;
+  VerifyMnemonic verifyMnemonic;
+  DoneBackup doneBackup;
+  AboutScreen aboutScreen;
+  SettingsScreen settingsScreen;
+  MapScreen mapScreen;
+  PrizeScreen prizeScreen;
+  DaiExplainedScreen daiExplainedScreen;
+  WebViewPage webViewPage;
+}

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:paywise/common.dart';
 import 'package:paywise/generated/i18n.dart';
+import 'package:paywise/screens/routes.gr.dart';
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;
@@ -27,49 +28,55 @@ Widget bottomBar(BuildContext context) {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           bottomBarItem(
-              isCurrentRoute(context, '/Cash')
+              isCurrentRoute(context, Router.cashHomeScreen)
                   ? "home_selected.svg"
                   : "home.svg",
               I18n.of(context).home, () {
             if (isHomePage) {
-              redirect(context, '/Cash');
+              redirect(context, Router.cashHomeScreen);
             } else {
-              Navigator.pop(context, ModalRoute.withName('/Cash'));
-              redirect(context, '/Cash');
+              Router.navigator
+                  .popUntil(ModalRoute.withName(Router.cashHomeScreen));
+              redirect(context, Router.cashHomeScreen);
             }
           }),
           bottomBarItem(
-              isCurrentRoute(context, '/SendContact')
+              isCurrentRoute(context, Router.sendToContactScreen)
                   ? "send_selected.svg"
                   : "send.svg",
               I18n.of(context).send_button, () {
             if (isHomePage) {
-              redirect(context, '/SendContact');
+              redirect(context, Router.sendToContactScreen);
             } else {
-              Navigator.pop(context, ModalRoute.withName('/Cash'));
-              redirect(context, '/SendContact');
+              Router.navigator
+                  .popUntil(ModalRoute.withName(Router.cashHomeScreen));
+              redirect(context, Router.sendToContactScreen);
             }
           }),
           bottomBarItem(
-              isCurrentRoute(context, '/Buy') ? "buy_selected.svg" : "buy.svg",
+              isCurrentRoute(context, Router.buyScreen)
+                  ? "buy_selected.svg"
+                  : "buy.svg",
               I18n.of(context).buy, () {
             if (isHomePage) {
-              redirect(context, '/Buy');
+              redirect(context, Router.buyScreen);
             } else {
-              Navigator.popUntil(context, ModalRoute.withName('/Cash'));
-              redirect(context, '/Buy');
+              Router.navigator
+                  .popUntil(ModalRoute.withName(Router.cashHomeScreen));
+              redirect(context, Router.buyScreen);
             }
           }),
           bottomBarItem(
-              isCurrentRoute(context, '/Receive')
+              isCurrentRoute(context, Router.receiveScreen)
                   ? "receive_selected.svg"
                   : "receive.svg",
               I18n.of(context).receive, () {
             if (isHomePage) {
-              redirect(context, '/Receive');
+              redirect(context, Router.receiveScreen);
             } else {
-              Navigator.popUntil(context, ModalRoute.withName('/Cash'));
-              redirect(context, '/Receive');
+              Router.navigator
+                  .popUntil(ModalRoute.withName(Router.cashHomeScreen));
+              redirect(context, Router.receiveScreen);
             }
           })
         ],
@@ -79,9 +86,9 @@ Widget bottomBar(BuildContext context) {
 }
 
 void redirect(BuildContext context, String screen) {
-  Navigator.popUntil(context, (route) {
+  Router.navigator.popUntil((route) {
     if (route.settings.name != screen) {
-      Navigator.pushNamed(context, screen);
+      Router.navigator.pushNamed(screen);
     }
     return true;
   });

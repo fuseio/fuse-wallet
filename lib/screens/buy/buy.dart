@@ -7,19 +7,12 @@ import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/buy_page.dart';
 import 'package:paywise/screens/buy/business.dart';
 import 'package:paywise/screens/cash_home/webview_page.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
-// import 'package:url_launcher/url_launcher.dart';
-
-// launchUrl(url) async {
-//   if (await canLaunch(url)) {
-//     await launch(url, forceSafariVC: false);
-//   } else {
-//     throw 'Could not launch $url';
-//   }
-// }
+// import 'package:paywise/screens/routes.gr.dart';
 
 class BuyScreen extends StatelessWidget {
 
@@ -38,7 +31,7 @@ class BuyScreen extends StatelessWidget {
               //   IconButton(
               //     icon: InkWell(
               //         onTap: () {
-              //           Navigator.pushNamed(context, '/Map');
+              //           Router.navigator.pushNamed('/Map');
               //         },
               //         child: Padding(
               //             padding: EdgeInsets.all(0),
@@ -48,7 +41,7 @@ class BuyScreen extends StatelessWidget {
               //               height: 30,
               //             ))),
               //     onPressed: () {
-              //       Navigator.pushNamed(context, '/Map');
+              //       Router.navigator.pushNamed('/Map');
               //     },
               //   ),
               // ],
@@ -89,7 +82,7 @@ class BusinessesListView extends StatelessWidget {
                               padding: EdgeInsets.all(10),
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(context, '/WebPage',
+                                  Router.navigator.pushNamed(Router.webViewPage,
                                       arguments: WebViewPageArguments(
                                           url: viewModel.walletBanner.link,
                                           title: ''));
@@ -170,9 +163,8 @@ class BusinessesListView extends StatelessWidget {
                                             fontWeight: FontWeight.normal),
                                       ),
                                       onTap: () {
-                                        Navigator.pushNamed(
-                                            context, '/Business',
-                                            arguments: BusinessRouteArguments(
+                                        Router.navigator.pushNamed(Router.businessPage,
+                                            arguments: BusinessArguments(
                                                 communityAddress:
                                                     viewModel.communityAddres,
                                                 token: viewModel.token,
@@ -203,8 +195,7 @@ class BusinessesListView extends StatelessWidget {
                                                       FontWeight.normal),
                                             ),
                                             onPressed: () {
-                                              Navigator.pushNamed(
-                                                  context, '/SendAmount',
+                                              Router.navigator.pushNamed(Router.sendAmountScreen,
                                                   arguments: SendAmountArguments(
                                                       isBusiness: true,
                                                       avatar: NetworkImage(

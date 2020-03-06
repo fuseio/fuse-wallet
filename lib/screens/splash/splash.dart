@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/splash.dart';
-import 'package:paywise/screens/splash/create_wallet.dart';
 import 'package:paywise/screens/splash/dots_indicator.dart';
 import 'package:paywise/widgets/on_boarding_pages.dart';
-import 'package:redux/redux.dart';
+import 'package:paywise/screens/routes.gr.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -54,174 +53,73 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  var _pages = <Widget>[
-    Image.asset('assets/images/phone.png', width: 160),
-    Image.asset('assets/images/send.png', width: 160),
-    Image.asset('assets/images/world.png', width: 160),
-    CreateWallet()
-  ];
+  onInitailBuild(SplashViewModel viewModel) {
+    if (viewModel.privateKey != '' &&
+        viewModel.jwtToken != '' &&
+        !viewModel.isLoggedOut) {
+      viewModel.initWeb3(viewModel.privateKey);
+      if (Navigator.canPop(context)) {
+        Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
+      } else {
+        Router.navigator.pushReplacementNamed(Router.cashHomeScreen);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    Drawer drawer = Drawer();
     return new StoreConnector<AppState, SplashViewModel>(
         distinct: true,
-        converter: (Store<AppState> store) {
-          return SplashViewModel.fromStore(store);
-        },
+        converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
-          var drawer = Drawer();
-
+          List pages = getPages(context);
           return Scaffold(
               drawer: drawer,
-              body: new StoreBuilder(onInitialBuild: (store) {
-                if (viewModel.privateKey != '' &&
-                    viewModel.jwtToken != '' &&
-                    !viewModel.isLoggedOut) {
-                  viewModel.initWeb3(viewModel.privateKey);
-                  if (Navigator.canPop(context)) {
-                    Navigator.popUntil(context, ModalRoute.withName('/Cash'));
-                  } else {
-                    Navigator.pushReplacementNamed(context, '/Cash');
-                  }
-                }
-              }, builder: (BuildContext context, Store<AppState> store) {
-                return Container(
-                    child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 20,
-                      child: Container(
-                          child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: new Stack(
-                              children: <Widget>[
-                                new PageView.builder(
-                                  physics: new AlwaysScrollableScrollPhysics(),
-                                  controller: _controller,
-                                  itemCount: _pages.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return getPages(context)[index % _pages.length];
-                                  },
-                                ),
-                                new Positioned(
-                                  bottom: 15.0,
-                                  left: 0.0,
-                                  right: 0.0,
-                                  child: new Container(
-                                    //color: Colors.grey[800].withOpacity(0.5),
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: new Center(
-                                      child: new DotsIndicator(
-                                        controller: _controller,
-                                        itemCount: _pages.length,
-                                        onPageSelected: (int page) {
-                                          gotoPage(page);
-                                        },
-                                      ),
+              body: Container(
+                  child: Column(
+                children: <Widget>[
+                  Expanded(
+                    flex: 20,
+                    child: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: new Stack(
+                            children: <Widget>[
+                              new PageView.builder(
+                                physics: new AlwaysScrollableScrollPhysics(),
+                                controller: _controller,
+                                itemCount: pages.length,
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        pages[index % 4],
+                              ),
+                              new Positioned(
+                                bottom: 15.0,
+                                left: 0.0,
+                                right: 0.0,
+                                child: new Container(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: new Center(
+                                    child: new DotsIndicator(
+                                      controller: _controller,
+                                      itemCount: pages.length,
+                                      onPageSelected: (int page) {
+                                        gotoPage(page);
+                                      },
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      )
-                          // new Stack(
-                          //   children: <Widget>[
-                          //     Padding(
-                          //       padding: EdgeInsets.only(bottom: 100),
-                          //       child: new PageView.builder(
-                          //         physics: new AlwaysScrollableScrollPhysics(),
-                          //         controller: PageController(initialPage: 0),
-                          //         itemCount: _pages.length,
-                          //         itemBuilder:
-                          //             (BuildContext context, int index) {
-                          //           return _pages[index % _pages.length];
-                          //         },
-                          //       ),
-                          //     ),
-                          //     Padding(
-                          //       padding: const EdgeInsets.only(bottom: 100),
-                          //       child: new PageView.builder(
-                          //         physics: new AlwaysScrollableScrollPhysics(),
-                          //         controller: _pageController,
-                          //         itemCount: 4,
-                          //         itemBuilder:
-                          //             (BuildContext context, int index) {
-                          //           return getPages(context)[index % 4];
-                          //         },
-                          //       ),
-                          //     ),
-                          //     new Positioned(
-                          //       bottom: 30.0,
-                          //       left: 0.0,
-                          //       right: 0.0,
-                          //       child: new Center(
-                          //           child: new DotsIndicator(
-                          //             controller: _pageController,
-                          //             itemCount: 4,
-                          //             onPageSelected: (int page) {
-                          //               gotoPage(page);
-                          //             },
-                          //           ),
-                          //         ),
-                          //     ),
-                          // new Positioned(
-                          //   bottom: 15.0,
-                          //   left: 0.0,
-                          //   right: 0.0,
-                          //   child: new Container(
-                          //     padding: const EdgeInsets.all(20.0),
-                          //     child: new Center(
-                          //       child: new DotsIndicator(
-                          //         controller: _controller,
-                          //         itemCount: _pages.length,
-                          //         onPageSelected: (int page) {
-                          //           gotoPage(page);
-                          //         },
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          // ],
-                          // ),
-                          // )),
-                          // Expanded(
-                          //   flex: 20,
-                          //   child: Container(
-                          //     decoration: BoxDecoration(),
-                          //     child: Column(
-                          //       children: <Widget>[
-                          //         Expanded(
-                          //           child: new Stack(
-                          //             children: <Widget>[
-                          //               Padding(
-                          //                 padding: const EdgeInsets.only(top: 100),
-                          //                 child: Image.asset(
-                          //                   'assets/images/paywise.png',
-                          //                   fit: BoxFit.fill,
-                          //                 ),
-                          //               ),
-                          //               Container(
-                          //                 color: Colors.transparent,
-                          //                 child: Padding(
-                          //                     padding: EdgeInsets.only(bottom: 20),
-                          //                     child: Align(
-                          //                         alignment: Alignment.bottomCenter,
-                          //                         child: CreateWallet())),
-                          //               )
-                          //             ],
-                          //           ),
-                          //         )
-                          //       ],
-                          //     ),
-                          ),
-                    ),
-                  ],
-                ));
-              }));
+                        ),
+                      ],
+                    )),
+                  ),
+                ],
+              )));
         });
   }
 }

@@ -31,7 +31,7 @@ abstract class Job {
       this.jobType,
       this.name,
       this.status,
-      arguments,
+      this.arguments,
       this.isFunderJob,
       this.data,
       this.lastFinishedAt,

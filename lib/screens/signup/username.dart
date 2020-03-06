@@ -6,6 +6,9 @@ import 'package:paywise/widgets/drawer.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/models/views/onboard.dart';
+import 'package:paywise/screens/routes.gr.dart';
+
+import '../routes.gr.dart';
 
 class UserNameScreen extends StatelessWidget {
   final verificationCodeController = TextEditingController(text: "");
@@ -76,8 +79,9 @@ class UserNameScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.setDisplayName(
                               capitalize(displayNameController.text ?? 'Anom'));
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/Cash', (Route<dynamic> route) => false);
+                          Router.navigator.pushNamedAndRemoveUntil(
+                              Router.cashHomeScreen,
+                              (Route<dynamic> route) => false);
                         },
                       ),
                     ),

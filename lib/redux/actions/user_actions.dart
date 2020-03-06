@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:paywise/models/community.dart';
 import 'package:paywise/models/jobs/base.dart';
@@ -15,6 +17,19 @@ import 'package:paywise/services.dart';
 import 'package:paywise/redux/state/store.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:paywise/utils/phone.dart';
+
+class VerifyRequest {
+  final String verificationId;
+  final String verificationCode;
+  final GlobalKey<ScaffoldState> key;
+
+  VerifyRequest({@required this.verificationId, @required this.verificationCode, @required this.key});
+
+  @override
+  String toString() {
+    return 'VerifyRequest{verificationId: $verificationId, verificationCode: $verificationCode}';
+  }
+}
 
 class RestoreWalletSuccess {
   final List<String> mnemonic;
@@ -33,6 +48,17 @@ class CreateLocalAccountSuccess {
 class ReLogin {
   ReLogin();
 }
+
+// class LoginRequest {
+//   final String countryCode;
+//   final String phoneNumber;
+//   final PhoneCodeSent codeSent;
+//   final PhoneVerificationCompleted verificationCompleted;
+//   final PhoneVerificationFailed verificationFailed;
+//   final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout;
+
+//   LoginRequest({@required this.countryCode, @required this.phoneNumber, @required this.codeSent, @required this.verificationCompleted, @required this.verificationFailed, @required this.codeAutoRetrievalTimeout });
+// }
 
 class LoginRequestSuccess {
   final String countryCode;
@@ -83,6 +109,36 @@ class BackupRequest {
 
 class BackupSuccess {
   BackupSuccess();
+}
+
+class SetCredentials {
+  // PhoneAuthCredential credentials;
+  // SetCredentials(this.credentials);
+}
+
+class SetVerificationId {
+  String verificationId;
+  SetVerificationId(this.verificationId);
+}
+
+class SetLoginErrorMessage {
+  String error;
+  SetLoginErrorMessage(this.error);
+}
+
+class SetVerifyErrorMessage {
+  String error;
+  SetVerifyErrorMessage(this.error);
+}
+
+class UpdateDisplayBalance {
+  final int displayBalance;
+  UpdateDisplayBalance(this.displayBalance);
+}
+
+class JustInstalled {
+  final DateTime installedAt;
+  JustInstalled(this.installedAt);
 }
 
 ThunkAction backupWalletCall() {

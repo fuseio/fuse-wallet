@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/utils/forks.dart';
 import 'package:paywise/widgets/drawer.dart';
 import 'package:paywise/widgets/language_selector.dart';
@@ -24,13 +25,13 @@ class SettingsScreen extends StatelessWidget {
     if (isFork()) {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Navigator.pushNamed(context, '/About');
-        })
+          Router.navigator.pushNamed(Router.aboutScreen);
+        }),
       ];
     } else {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Navigator.pushNamed(context, '/About');
+          Router.navigator.pushNamed(Router.aboutScreen);
         }),
         new Divider(),
         // getListTile(context, I18n.of(context).protect_wallet, () {}),
@@ -38,8 +39,7 @@ class SettingsScreen extends StatelessWidget {
         new LanguageSelector(),
         new Divider(),
         getListTile(context, I18n.of(context).logout, () {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+          Router.navigator.pushNamedAndRemoveUntil(Router.splashScreen, (Route<dynamic> route) => false);
           viewModel.logout();
         })
       ];

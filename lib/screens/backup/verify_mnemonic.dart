@@ -3,13 +3,14 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/backup.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 
 class VerifyMnemonic extends StatefulWidget {
-  VerifyMnemonic({Key key, this.title}) : super(key: key);
+  // VerifyMnemonic({Key key, this.title}) : super(key: key);
 
-  final String title;
+  // final String title;
 
   @override
   _VerifyMnemonicState createState() => _VerifyMnemonicState();
@@ -141,7 +142,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     width: 160,
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        Navigator.pushNamed(context, '/Backup3');
+                        Router.navigator.pushNamed(Router.doneBackup);
                       }
                     },
                   )),

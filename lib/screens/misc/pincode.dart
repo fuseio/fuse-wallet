@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/models/views/onboard.dart';
@@ -74,8 +75,8 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                 });
                             } else if (pin.length == 6 && this.isRetype) {
                                 if (pin == this.lastPincode) {
-                                  Navigator.popUntil(context, ModalRoute.withName('/'));
-                                  Navigator.popAndPushNamed(context, '/Cash');
+                                  Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
+                                  Router.navigator.popAndPushNamed(Router.cashHomeScreen);
                                 }
                             }
                           }
@@ -87,8 +88,8 @@ class _PincodeScreenState extends State<PincodeScreen> {
                   child: PrimaryButton(
                     label: I18n.of(context).skip_button,
                     onPressed: () async {
-                      Navigator.popUntil(context, ModalRoute.withName('/'));
-                      Navigator.popAndPushNamed(context, '/Cash');
+                      Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
+                      Router.navigator.popAndPushNamed(Router.cashHomeScreen);
                     },
                   ),
                 ),

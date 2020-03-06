@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 
@@ -19,7 +20,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      Navigator.of(context).pushNamedAndRemoveUntil('/Cash', (Route<dynamic> route) => false);
+      Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
     });
   }
 

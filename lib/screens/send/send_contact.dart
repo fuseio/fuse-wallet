@@ -10,6 +10,7 @@ import 'package:paywise/models/business.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/contacts.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/screens/send/enable_contacts.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/services.dart';
@@ -183,7 +184,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
               dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
               String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
-              Navigator.pushNamed(context, '/SendAmount',
+              Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
                       name: user.displayName,
                       accountAddress: accountAddress,
@@ -238,7 +239,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               style: TextStyle(color: Color(0xFF0377FF)),
             ),
             onTap: () {
-              Navigator.pushNamed(context, '/SendAmount',
+              Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
                       accountAddress: accountAddress,
                       name: formatAddress(accountAddress),
@@ -247,7 +248,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           ),
           //subtitle: Text("user.company" ?? ""),
           onTap: () {
-            Navigator.pushNamed(context, '/SendAmount',
+            Router.navigator.pushNamed(Router.sendAmountScreen,
                 arguments: SendAmountArguments(
                     accountAddress: accountAddress,
                     name: formatAddress(accountAddress),
@@ -342,7 +343,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 String phoneNumber = formatPhoneNumber(contact.phones.first.value, viewModel.countryCode);
                 dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
                 String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
-                Navigator.pushNamed(context, '/SendAmount',
+                Router.navigator.pushNamed(Router.sendAmountScreen,
                     arguments: SendAmountArguments(
                         accountAddress: accountAddress,
                         name: displatName,
@@ -456,7 +457,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         String accountAddress = await BarcodeScanner.scan();
                         List<String> parts = accountAddress.split(':');
                         if (parts.length == 2 && parts[0] == 'fuse') {
-                          Navigator.pushNamed(context, '/SendAmount',
+                          Router.navigator.pushNamed(Router.sendAmountScreen,
                               arguments: SendAmountArguments(
                                   accountAddress: parts[1]));
                         } else {

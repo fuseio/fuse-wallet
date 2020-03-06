@@ -9,6 +9,7 @@ import 'package:paywise/models/draw_info.dart';
 import 'package:paywise/models/views/prize.dart';
 import 'package:paywise/screens/cash_home/deposit_webview.dart';
 import 'package:paywise/screens/cash_home/webview_page.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
@@ -98,9 +99,9 @@ Future<dynamic> _fetchDaiPointsInfo() async {
 }
 
 class PrizeScreen extends StatefulWidget {
-  PrizeScreen({Key key, this.title}) : super(key: key);
+  // PrizeScreen({Key key, this.title}) : super(key: key);
 
-  final String title;
+  // final String title;
 
   @override
   _PrizeScreenState createState() => _PrizeScreenState();
@@ -369,7 +370,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                                         depositPlugin:
                                                             depositPlugins[0])),
                                           );
-                                          await FlutterSegment.track(
+                                          await Segment.track(
                                               eventName:
                                                   'User clicked on top up');
                                         },
@@ -423,7 +424,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                         .secondary),
                               ),
                               onTap: () {
-                                Navigator.pushNamed(context, '/WebPage',
+                                Router.navigator.pushNamed(Router.webViewPage,
                                     arguments: WebViewPageArguments(
                                         url:
                                             'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',

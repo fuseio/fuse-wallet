@@ -57,6 +57,8 @@
 	</array>
 	<key>com.claimsforce.segment.WRITE_KEY</key>
 	<string>n2yoAnpD1bpDmAXBhUloLYpS1U5f7W09</string>
+	<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>
+	<false/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>branch_app_domain</key>

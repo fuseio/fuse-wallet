@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/plugins.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/widgets/drawer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -97,7 +98,7 @@ class _DepositWebViewState extends State<DepositWebView> {
                                   left: 20,
                                   child: InkWell(
                                     onTap: () {
-                                      Navigator.of(context).pop();
+                                      Router.navigator.pop();
                                     },
                                     child: SvgPicture.asset(
                                         'assets/images/arrow.svg'),

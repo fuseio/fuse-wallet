@@ -4,6 +4,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/screens/cash_home/webview_page.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:flushbar/flushbar.dart';
@@ -82,7 +83,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Win up to 30 points!',
+                                  'Win up to 100 points!',
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: Theme.of(context)
@@ -99,7 +100,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Text('Get 10 points for installing the app',
+                                  Text('Get 20 points for installing the app',
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Theme.of(context)
@@ -115,7 +116,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                      'Get 10 points after sending money to a friend',
+                                      'Get 40 points after sending money to a friend',
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Theme.of(context)
@@ -131,7 +132,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                      'Get 10 points for backing-up your wallet',
+                                      'Get 40 points for backing-up your wallet',
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Theme.of(context)
@@ -162,8 +163,8 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                               .withAlpha(14))),
                                   child: InkWell(
                                     onTap: () async {
-                                      Navigator.pushNamed(context, '/Prize');
-                                      await FlutterSegment.track(
+                                      Router.navigator.pushNamed(Router.prizeScreen);
+                                      await Segment.track(
                                           eventName: "User open prize page");
                                     },
                                     child: Row(
@@ -286,7 +287,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/WebPage',
+                  Router.navigator.pushNamed(Router.webViewPage,
                       arguments: WebViewPageArguments(
                           url:
                               'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',

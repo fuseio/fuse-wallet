@@ -3,9 +3,10 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/redux/state/store.dart';
-import 'package:paywise/screens/routes.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/themes/app_theme.dart';
 import 'package:paywise/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
@@ -13,13 +14,11 @@ import 'package:flutter/foundation.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
-import 'package:sentry/sentry.dart';
 
 void main() async {
   String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_paywise');
   print('loading $configFile config file');
   await DotEnv().load(configFile);
-  SentryClient sentry = await AppFactory().getSentry();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp
@@ -88,8 +87,9 @@ class _MyAppState extends State<MyApp> {
             store: store,
             child: new MaterialApp(
               title: 'Paywise cash',
-              initialRoute: '/',
-              routes: getRoutes(),
+              initialRoute: Router.splashScreen,
+              navigatorKey: Router.navigator.key,
+              onGenerateRoute: Router.onGenerateRoute,
               theme: CustomTheme.of(context),
               localizationsDelegates: [
                 i18n,
@@ -100,6 +100,7 @@ class _MyAppState extends State<MyApp> {
               supportedLocales: i18n.supportedLocales,
               localeResolutionCallback:
                   i18n.resolution(fallback: new Locale("en", "US")),
+              // navigatorObservers: [SegmentObserver()],
             ),
           ),
         ),

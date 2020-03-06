@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/views/send_amount.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
@@ -225,7 +226,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
                       send(viewModel, args, transferNoteController.text, () {
-                        Navigator.pushNamed(context, '/SendSuccess',
+                        Router.navigator.pushNamed(Router.sendSuccessScreen,
                             arguments: args);
                         setState(() {
                           isPreloading = false;

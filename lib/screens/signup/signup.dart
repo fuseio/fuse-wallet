@@ -10,6 +10,7 @@ import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/widgets/signup_dialog.dart';
 import 'package:paywise/models/views/onboard.dart';
+import 'package:paywise/screens/routes.gr.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -83,7 +84,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
-                          await FlutterSegment.track(eventName: "Wallet: opened modal - why do we need this");
+                          await Segment.track(eventName: "Wallet: opened modal - why do we need this");
                         },
                         child: Center(
                           child: Text(
@@ -188,7 +189,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               });
                               viewModel.signUp(countryCode.dialCode.toString(),
                                   phoneController.text, () {
-                                Navigator.pushNamed(context, '/Verify');
+                                Router.navigator.pushNamed(Router.verifyScreen);
                                 setState(() {
                                   isPreloading = false;
                                 });

@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/business.dart';
 import 'package:paywise/models/token.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/widgets/bottombar.dart';
@@ -12,27 +13,26 @@ import 'package:paywise/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-_launchPhone(phoneNumber) async {
-  String url = 'tel:$phoneNumber';
-  if (await canLaunch(url)) {
-    await launch(url, forceSafariVC: false);
+_launchUrl(String urlToLaunch) async {
+  if (await canLaunch(urlToLaunch)) {
+    await launch(urlToLaunch, forceSafariVC: false);
   } else {
-    throw 'Could not launch $url';
+    throw 'Could not launch $urlToLaunch';
   }
 }
 
-class BusinessRouteArguments {
+class BusinessArguments {
   final Business business;
   final Token token;
   final String communityAddress;
 
-  BusinessRouteArguments({this.token, this.business, this.communityAddress});
+  BusinessArguments({this.token, this.business, this.communityAddress});
 }
 
 class BusinessPage extends StatefulWidget {
-  BusinessPage({Key key, this.title}) : super(key: key);
+  BusinessPage({this.pageArg});
 
-  final String title;
+  final BusinessArguments pageArg;
 
   @override
   _BusinessPageState createState() => _BusinessPageState();
@@ -53,11 +53,9 @@ class _BusinessPageState extends State<BusinessPage> {
 
   @override
   Widget build(BuildContext context) {
-    final BusinessRouteArguments businessArgs =
-        ModalRoute.of(context).settings.arguments;
-    String coverPhotoUrl = getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
-    String imageUrl = getImageUrl(businessArgs.business, businessArgs.communityAddress);
-
+    final BusinessArguments businessArgs = this.widget.pageArg;
+    final String coverPhotoUrl = getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
+    final String imageUrl = getImageUrl(businessArgs.business, businessArgs.communityAddress);
     return new Scaffold(
       key: scaffoldState,
       body: Container(
@@ -95,7 +93,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               left: 18.0,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  Router.navigator.pop();
                                 },
                                 child: SvgPicture.asset(
                                     'assets/images/arrow_back_business.svg',
@@ -185,8 +183,14 @@ class _BusinessPageState extends State<BusinessPage> {
                                           height: 19,
                                         ),
                                       ),
-                                      Text(businessArgs
-                                          .business.metadata.website)
+                                      InkWell(
+                                        onTap: () {
+                                          _launchUrl(businessArgs.business.metadata.website);
+                                        },
+                                        child: Text(businessArgs
+                                          .business.metadata.website),
+                                      ),
+                                      
                                     ],
                                   ),
                                 ): SizedBox.shrink(),
@@ -207,8 +211,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         child: Text(businessArgs
                                           .business.metadata.phoneNumber),
                                           onTap: () {
-                                            _launchPhone(businessArgs
-                                          .business.metadata.phoneNumber);
+                                            _launchUrl('tel:${businessArgs.business.metadata.phoneNumber}');
                                           },
                                       )
                                     ],
@@ -302,7 +305,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, '/SendAmount',
+                                Router.navigator.pushNamed(Router.sendAmountScreen,
                                     arguments: SendAmountArguments(
                                       isBusiness: true,
                                       accountAddress:

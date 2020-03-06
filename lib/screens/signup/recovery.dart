@@ -7,11 +7,12 @@ import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/recovery.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
+import 'package:paywise/screens/routes.gr.dart';
 
 class RecoveryPage extends StatefulWidget {
-  RecoveryPage({Key key, this.title}) : super(key: key);
+  // RecoveryPage({Key key, this.title}) : super(key: key);
 
-  final String title;
+  // final String title;
 
   @override
   _RecoveryPageState createState() => _RecoveryPageState();
@@ -103,7 +104,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                   });
                   viewModel.generateWalletFromBackup(
                       wordsController.text.toLowerCase(), () {
-                    Navigator.pushNamed(context, '/Signup');
+                    Router.navigator.pushNamed(Router.signupScreen);
                     setState(() {
                       isPreloading = false;
                     });

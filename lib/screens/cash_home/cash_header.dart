@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter_segment/flutter_segment.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/views/cash_header.dart';
 import 'package:paywise/models/app_state.dart';
+// import 'package:paywise/screens/cash_home/cash_home.dart';
+// import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:share/share.dart';
 
 class CashHeader extends StatelessWidget {
@@ -169,8 +174,8 @@ class CashHeader extends StatelessWidget {
                                           accountAddress.split(':');
                                       if (parts.length == 2 &&
                                           parts[0] == 'fuse') {
-                                        Navigator.pushNamed(
-                                            context, '/SendAmount',
+                                        Router.navigator.pushNamed(
+                                            Router.sendAmountScreen,
                                             arguments: SendAmountArguments(
                                                 accountAddress: parts[1]));
                                       } else {
