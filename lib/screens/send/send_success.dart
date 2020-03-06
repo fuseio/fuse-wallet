@@ -9,6 +9,8 @@ import 'package:paywise/widgets/main_scaffold.dart';
 typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class SendSuccessScreen extends StatefulWidget {
+  final SendAmountArguments pageArgs;
+  SendSuccessScreen({this.pageArgs});
   @override
   _SendSuccessScreenState createState() => _SendSuccessScreenState();
 }
@@ -26,7 +28,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
+    final SendAmountArguments args = this.widget.pageArgs;
 
     return MainScaffold(
       withPadding: true,

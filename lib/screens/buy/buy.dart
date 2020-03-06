@@ -15,7 +15,6 @@ import 'package:paywise/widgets/main_scaffold.dart';
 // import 'package:paywise/screens/routes.gr.dart';
 
 class BuyScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BuyViewModel>(
@@ -49,185 +48,163 @@ class BuyScreen extends StatelessWidget {
               titleFontSize: 15,
               footer: bottomBar(context),
               title: I18n.of(context).buy,
-              children: <Widget>[BusinessesListView()]);
+              children: <Widget>[BusinessesListView(vm: viewModel)]);
         });
   }
 }
 
 class BusinessesListView extends StatelessWidget {
-  BusinessesListView();
+  final BuyViewModel vm;
+  BusinessesListView({this.vm});
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, BuyViewModel>(
-      converter: BuyViewModel.fromStore,
-      builder: (_, viewModel) {
-        return Builder(builder: (context) {
-          Widget businesses = viewModel.businesses.isEmpty
-              ? Container(
-                  padding: const EdgeInsets.all(40.0),
-                  child: Center(
-                    child: Text(I18n.of(context).no_businesses),
-                  ),
-                )
-              : new Container(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      viewModel.walletBanner != null &&
-                              viewModel.walletBanner.walletBannerHash != null &&
-                              viewModel.walletBanner.walletBannerHash.isNotEmpty
-                          ? new Container(
-                              padding: EdgeInsets.all(10),
-                              child: InkWell(
+    Widget businesses = vm.businesses.isEmpty
+        ? Container(
+            padding: const EdgeInsets.all(40.0),
+            child: Center(
+              child: Text(I18n.of(context).no_businesses),
+            ),
+          )
+        : new Container(
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                vm.walletBanner != null &&
+                        vm.walletBanner.walletBannerHash != null &&
+                        vm.walletBanner.walletBannerHash.isNotEmpty
+                    ? new Container(
+                        padding: EdgeInsets.all(10),
+                        child: InkWell(
+                          onTap: () {
+                            Router.navigator.pushNamed(Router.webViewPage,
+                                arguments: WebViewPageArguments(
+                                    url: vm.walletBanner.link, title: ''));
+                          },
+                          child: new Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        DotEnv().env['IPFS_BASE_URL'] +
+                                            '/image/' +
+                                            vm.walletBanner.walletBannerHash,
+                                      )))),
+                        ))
+                    : Container(),
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    new Expanded(
+                      child: new Padding(
+                          padding: new EdgeInsets.only(left: 10, bottom: 5.0),
+                          child: ListView.separated(
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    new Divider(),
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            itemCount: vm.businesses?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                contentPadding: EdgeInsets.all(0),
+                                leading: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(),
+                                  child: ClipOval(
+                                      child:
+                                          vm.businesses[index].metadata.image ==
+                                                      null ||
+                                                  vm.businesses[index].metadata
+                                                          .image ==
+                                                      ''
+                                              ? Image.network(getImageUrl(
+                                                  vm.businesses[index],
+                                                  vm.communityAddres))
+                                              : Image.network(
+                                                  getImageUrl(
+                                                      vm.businesses[index],
+                                                      vm.communityAddres),
+                                                  fit: BoxFit.cover,
+                                                  width: 50.0,
+                                                  height: 50.0,
+                                                )),
+                                ),
+                                title: Text(
+                                  vm.businesses[index].name ?? '',
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                subtitle: Text(
+                                  vm.businesses[index].metadata.description ??
+                                      '',
+                                  style: TextStyle(
+                                      color: Theme.of(context).accentColor,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal),
+                                ),
                                 onTap: () {
-                                  Router.navigator.pushNamed(Router.webViewPage,
-                                      arguments: WebViewPageArguments(
-                                          url: viewModel.walletBanner.link,
-                                          title: ''));
+                                  Router.navigator.pushNamed(
+                                      Router.businessPage,
+                                      arguments: BusinessArguments(
+                                          communityAddress: vm.communityAddres,
+                                          token: vm.token,
+                                          business: vm.businesses[index]));
                                 },
-                                child: new Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 140,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              DotEnv().env['IPFS_BASE_URL'] +
-                                                  '/image/' +
-                                                  viewModel.walletBanner
-                                                      .walletBannerHash,
-                                            )))),
-                              ))
-                          : Container(),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          new Expanded(
-                            child: new Padding(
-                                padding:
-                                    new EdgeInsets.only(left: 10, bottom: 5.0),
-                                child: ListView.separated(
-                                  separatorBuilder:
-                                      (BuildContext context, int index) =>
-                                          new Divider(),
-                                  shrinkWrap: true,
-                                  physics: ScrollPhysics(),
-                                  itemCount: viewModel.businesses?.length ?? 0,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      contentPadding: EdgeInsets.all(0),
-                                      leading: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(),
-                                        child: ClipOval(
-                                            child: viewModel.businesses[index]
-                                                            .metadata.image ==
-                                                        null ||
-                                                    viewModel.businesses[index]
-                                                            .metadata.image ==
-                                                        ''
-                                                ? Image.network(getImageUrl(
-                                                    viewModel.businesses[index],
-                                                    viewModel.communityAddres))
-                                                : Image.network(
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    FlatButton(
+                                      padding: EdgeInsets.all(10),
+                                      shape: CircleBorder(),
+                                      color: Theme.of(context).buttonColor,
+                                      child: Text(
+                                        I18n.of(context).pay,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .textTheme
+                                                .button
+                                                .color,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      onPressed: () {
+                                        Router.navigator.pushNamed(
+                                            Router.sendAmountScreen,
+                                            arguments: SendAmountArguments(
+                                                isBusiness: true,
+                                                avatar: NetworkImage(
                                                     getImageUrl(
-                                                        viewModel
-                                                            .businesses[index],
-                                                        viewModel
-                                                            .communityAddres),
-                                                    fit: BoxFit.cover,
-                                                    width: 50.0,
-                                                    height: 50.0,
-                                                  )),
-                                      ),
-                                      title: Text(
-                                        viewModel.businesses[index].name ?? '',
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      subtitle: Text(
-                                        viewModel.businesses[index].metadata
-                                                .description ??
-                                            '',
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).accentColor,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      onTap: () {
-                                        Router.navigator.pushNamed(Router.businessPage,
-                                            arguments: BusinessArguments(
-                                                communityAddress:
-                                                    viewModel.communityAddres,
-                                                token: viewModel.token,
-                                                business: viewModel
-                                                    .businesses[index]));
+                                                        vm.businesses[index],
+                                                        vm.communityAddres)),
+                                                name:
+                                                    vm.businesses[index].name ??
+                                                        '',
+                                                accountAddress: vm
+                                                    .businesses[index]
+                                                    .account));
                                       },
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          FlatButton(
-                                            padding: EdgeInsets.all(10),
-                                            shape: CircleBorder(),
-                                            color:
-                                                Theme.of(context).buttonColor,
-                                            child: Text(
-                                              I18n.of(context).pay,
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .button
-                                                      .color,
-                                                  fontSize: 15,
-                                                  fontWeight:
-                                                      FontWeight.normal),
-                                            ),
-                                            onPressed: () {
-                                              Router.navigator.pushNamed(Router.sendAmountScreen,
-                                                  arguments: SendAmountArguments(
-                                                      isBusiness: true,
-                                                      avatar: NetworkImage(
-                                                          getImageUrl(
-                                                              viewModel
-                                                                      .businesses[
-                                                                  index],
-                                                              viewModel
-                                                                  .communityAddres)),
-                                                      name: viewModel
-                                                              .businesses[index]
-                                                              .name ??
-                                                          '',
-                                                      accountAddress: viewModel
-                                                          .businesses[index]
-                                                          .account));
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                )),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                );
-          return businesses;
-        });
-      },
-    );
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          )),
+                    )
+                  ],
+                )
+              ],
+            ),
+          );
+    return businesses;
   }
 }

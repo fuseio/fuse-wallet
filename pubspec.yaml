@@ -46,7 +46,6 @@ dependencies:
     git:
       url: https://github.com/animo-wellness/flutter-segment.git
   firebase_messaging: ^5.0.2
-  firebase_auth: ^0.15.4
   ethereum_address: ^1.0.1
   sentry: ">=3.0.0 <4.0.0"
   device_info: ^0.4.1+4

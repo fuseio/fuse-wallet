@@ -15,10 +15,6 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetDisplayName>(_setDisplayName),
   TypedReducer<UserState, ReLogin>(_reLoginUser),
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
-  // TypedReducer<UserState, SetCredentials>(_setCredentials),
-  // TypedReducer<UserState, SetVerificationId>(_setVerificationId),
-  // TypedReducer<UserState, SetLoginErrorMessage>(_setLoginErrorMessage),
-  // TypedReducer<UserState, SetVerifyErrorMessage>(_setVerifyErrorMessage),
   TypedReducer<UserState, UpdateDisplayBalance>(_updateDisplayBalance),
   TypedReducer<UserState, JustInstalled>(_justInstalled),
 ]);
@@ -95,10 +91,6 @@ UserState _saveContacts(UserState state, SaveContacts action) {
 UserState _setPincode(UserState state, SetPincodeSuccess action) {
   return state.copyWith(pincode: action.pincode);
 }
-
-// UserState _setCredentials(UserState state, SetCredentials action) {
-//   return state.copyWith(credentials: action.credentials);
-// }
 
 UserState _updateDisplayBalance(UserState state, UpdateDisplayBalance action) {
   return state.copyWith(displayBalance: action.displayBalance);

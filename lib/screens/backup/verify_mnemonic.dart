@@ -8,9 +8,6 @@ import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 
 class VerifyMnemonic extends StatefulWidget {
-  // VerifyMnemonic({Key key, this.title}) : super(key: key);
-
-  // final String title;
 
   @override
   _VerifyMnemonicState createState() => _VerifyMnemonicState();

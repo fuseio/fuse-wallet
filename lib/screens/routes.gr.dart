@@ -130,13 +130,21 @@ class Router {
           settings: settings,
         );
       case Router.sendReviewScreen:
+        if (hasInvalidArgs<SendAmountArguments>(args)) {
+          return misTypedArgsRoute<SendAmountArguments>(args);
+        }
+        final typedArgs = args as SendAmountArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SendReviewScreen(),
+          builder: (_) => SendReviewScreen(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.sendSuccessScreen:
+        if (hasInvalidArgs<SendAmountArguments>(args)) {
+          return misTypedArgsRoute<SendAmountArguments>(args);
+        }
+        final typedArgs = args as SendAmountArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SendSuccessScreen(),
+          builder: (_) => SendSuccessScreen(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.switchCommunityScreen:

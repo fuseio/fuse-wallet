@@ -17,9 +17,6 @@ import 'package:paywise/redux/actions/user_actions.dart';
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
 class DrawerWidget extends StatefulWidget {
-  // DrawerWidget({Key key, this.title}) : super(key: key);
-
-  // final String title;
 
   @override
   _DrawerWidgetState createState() => _DrawerWidgetState();

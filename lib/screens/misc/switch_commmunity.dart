@@ -67,9 +67,6 @@ Widget scanQRButton(BuildContext context, Function switchCommunity) {
 }
 
 class SwitchCommunityScreen extends StatefulWidget {
-  // SwitchCommunityScreen({Key key, this.title}) : super(key: key);
-
-  // final String title;
 
   @override
   _SwitchCommunityScreenState createState() => _SwitchCommunityScreenState();

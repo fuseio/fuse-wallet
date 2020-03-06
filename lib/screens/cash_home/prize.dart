@@ -99,9 +99,6 @@ Future<dynamic> _fetchDaiPointsInfo() async {
 }
 
 class PrizeScreen extends StatefulWidget {
-  // PrizeScreen({Key key, this.title}) : super(key: key);
-
-  // final String title;
 
   @override
   _PrizeScreenState createState() => _PrizeScreenState();
