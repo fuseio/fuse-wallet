@@ -8,7 +8,6 @@ import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
@@ -289,12 +288,6 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
           newPhones = newPhones.sublist(partial.length);
           partial = newPhones.take(limit).toList();
         }
-      }
-      bool isPermitted = await Contacts.checkPermissions();
-      if (isPermitted) {
-        store.dispatch(segmentTrackCall("Wallet: Contacts Permission Granted"));
-      } else {
-        store.dispatch(segmentTrackCall("Wallet: Contacts Permission Rejected"));
       }
     } catch (e, s) {
       logger.severe('ERROR - syncContactsCall $e');

@@ -5,6 +5,7 @@ import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/token.dart';
 import 'package:fusecash/models/transactions.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
@@ -18,6 +19,7 @@ class ContactsViewModel extends Equatable {
   final String countryCode;
   final Function() syncContactsRejected;
   final List<Business> businesses;
+  final Function(String eventName) trackCall;
 
   ContactsViewModel(
       {this.contacts,
@@ -28,7 +30,8 @@ class ContactsViewModel extends Equatable {
       this.reverseContacts,
       this.countryCode,
       this.businesses,
-      this.syncContactsRejected});
+      this.syncContactsRejected,
+      this.trackCall});
 
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -46,6 +49,9 @@ class ContactsViewModel extends Equatable {
         },
         syncContactsRejected: () {
           store.dispatch(new SyncContactsRejected());
+        },
+        trackCall: (String eventName) {
+          store.dispatch(segmentTrackCall(eventName));
         });
   }
 

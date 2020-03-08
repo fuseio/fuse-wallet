@@ -1,6 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/themes/custom_theme.dart';
 import 'package:fusecash/utils/contacts.dart';
@@ -18,9 +19,7 @@ bool isDefaultCommunity(String communityAddress) {
           communityAddress.toLowerCase();
 }
 
-void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
-    BuildContext context) {
-  String communityAddress = viewModel.communityAddress;
+void updateTheme(String communityAddress, Function _changeTheme, BuildContext context) {
   if (isPaywise(communityAddress)) {
     _changeTheme(context, MyThemeKeys.PAYWISE);
   } else if (isGoodDollar(communityAddress)) {
@@ -34,8 +33,7 @@ void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
   }
 }
 
-void onChange(CashWalletViewModel viewModel, BuildContext context,
-    {bool initial = false}) async {
+void onChange(CashWalletViewModel viewModel, BuildContext context) async {
   if (!viewModel.isJobProcessingStarted) {
     viewModel.startProcessingJobs();
   }
@@ -62,13 +60,6 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
       viewModel.startTransfersFetching();
     }
   }
-  if (initial) {
-    bool isPermitted = await Contacts.checkPermissions();
-    if (isPermitted) {
-      List<Contact> contacts = await ContactController.getContacts();
-      viewModel.syncContacts(contacts);
-    }
-  }
 }
 
 class CashHomeScreen extends StatelessWidget {
@@ -82,11 +73,19 @@ class CashHomeScreen extends StatelessWidget {
     return new StoreConnector<AppState, CashWalletViewModel>(
         distinct: true,
         converter: CashWalletViewModel.fromStore,
+        onInit: (store) async {
+          bool isPermitted = await Contacts.checkPermissions();
+          if (isPermitted) {
+            List<Contact> contacts = await ContactController.getContacts();
+            store.dispatch(syncContactsCall(contacts));
+          }
+        },
         onInitialBuild: (viewModel) async {
-          onChange(viewModel, context, initial: true);
         },
         onWillChange: (prevViewModel, nextViewModel) async {
-          updateTheme(nextViewModel, _changeTheme, context);
+          if (prevViewModel.communityAddress != nextViewModel.communityAddress) {
+            updateTheme(nextViewModel.communityAddress, _changeTheme, context);
+          }
           onChange(nextViewModel, context);
         },
         builder: (_, viewModel) {
