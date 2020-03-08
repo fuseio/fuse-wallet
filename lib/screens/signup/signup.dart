@@ -21,7 +21,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  bool isPreloading = false;
   bool isvalidPhone = true;
   CountryCode countryCode = new CountryCode(dialCode: '‎+1');
 
@@ -101,6 +100,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ],
         footer: new StoreConnector<AppState, OnboardViewModel>(
+            distinct: true,
             converter: OnboardViewModel.fromStore,
             builder: (_, viewModel) {
               return Padding(
@@ -183,13 +183,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                 isvalidPhone = false;
                               });
                             } else {
-                              setState(() {
-                                isPreloading = true;
-                              });
                               viewModel.signUp(countryCode.dialCode, phoneController.text);
                             }
                           },
-                          preload: isPreloading,
+                          preload: viewModel.isLoginRequest,
                         ),
                       )
                     ],

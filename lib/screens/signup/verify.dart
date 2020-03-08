@@ -22,9 +22,7 @@ class VerifyScreen extends StatefulWidget {
 }
 
 class _VerifyScreenState extends State<VerifyScreen> {
-  bool isPreloading = false;
   String autoCode = "";
-  String verificationId;
 
   @override
   void initState() {
@@ -34,18 +32,14 @@ class _VerifyScreenState extends State<VerifyScreen> {
   @override
   Widget build(BuildContext context) {
     final VerifyScreenArguments args = this.widget.pageArgs;
-    verificationId = args.verificationId;
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
         onInitialBuild: (viewModel) {
           if (viewModel.credentials != null) {
-            setState(() {
-              isPreloading = true;
-            });
             autoCode = viewModel.credentials.smsCode ?? "";
-            viewModel.verify(autoCode, verificationId, _scaffoldKey);
+            viewModel.verify(autoCode, args.verificationId, _scaffoldKey);
           }
         },
         builder: (_, viewModel) {
@@ -107,10 +101,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     label: I18n.of(context).next_button,
                     labelFontWeight: FontWeight.normal,
                     fontSize: 16,
-                    preload: isPreloading,
+                    preload: viewModel.isVerifyRequest,
                     onPressed: () {
-                      viewModel.verify(verificationCodeController.text,
-                          verificationId, _scaffoldKey);
+                      viewModel.verify(verificationCodeController.text, args.verificationId, _scaffoldKey);
                     },
                   ),
                 ),
