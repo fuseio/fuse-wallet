@@ -73,7 +73,7 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         Router.navigator.pushReplacementNamed(Router.userNameScreen);
       }
       catch (e, s) {
-        store.dispatch(SetIsVerifyRequest(isLoading: true));
+        store.dispatch(SetIsVerifyRequest(isLoading: false));
         logger.severe('ERROR - Verification failed $e');
         await AppFactory().reportError(e, s);
         store.dispatch(new ErrorAction(e.toString()));
