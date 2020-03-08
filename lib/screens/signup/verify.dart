@@ -15,6 +15,8 @@ class VerifyScreenArguments {
 }
 
 class VerifyScreen extends StatefulWidget {
+  final VerifyScreenArguments pageArgs;
+  VerifyScreen({this.pageArgs});
   @override
   _VerifyScreenState createState() => _VerifyScreenState();
 }
@@ -30,14 +32,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final VerifyScreenArguments args =
-        ModalRoute.of(context).settings.arguments;
+    final VerifyScreenArguments args = this.widget.pageArgs;
     verificationId = args.verificationId;
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     return new StoreConnector<AppState, OnboardViewModel>(

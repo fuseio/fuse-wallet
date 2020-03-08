@@ -3,8 +3,11 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-// import 'package:flutter_segment/flutter_segment.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/views/splash.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/themes/app_theme.dart';
@@ -76,35 +79,50 @@ class _MyAppState extends State<MyApp> {
     I18n.onLocaleChanged = onLocaleChange;
   }
 
+  onInit(store) {
+    if (store.state.userState.privateKey != '' &&
+        store.state.userState.jwtToken != '' &&
+        !store.state.userState.isLoggedOut) {
+      store.dispatch(initWeb3Call(store.state.userState.privateKey));
+      store.dispatch(identifyCall());
+      Router.navigator.pushNamedAndRemoveUntil(
+          Router.cashHomeScreen, (Route<dynamic> route) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
         .copyWith(statusBarIconBrightness: Brightness.dark));
-    return new Column(
-      children: <Widget>[
-        new Expanded(
-          child: new StoreProvider<AppState>(
-            store: store,
-            child: new MaterialApp(
-              title: 'Fuse Cash',
-              initialRoute: Router.splashScreen,
-              navigatorKey: Router.navigator.key,
-              onGenerateRoute: Router.onGenerateRoute,
-              theme: CustomTheme.of(context),
-              localizationsDelegates: [
-                i18n,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: i18n.supportedLocales,
-              localeResolutionCallback:
-                  i18n.resolution(fallback: new Locale("en", "US")),
-              // navigatorObservers: [SegmentObserver()],
-            ),
-          ),
-        ),
-      ],
+    return new StoreProvider<AppState>(
+      store: store,
+      child: new StoreConnector<AppState, SplashViewModel>(
+          onInit: onInit,
+          converter: SplashViewModel.fromStore,
+          builder: (_, vm) {
+            return new Column(
+              children: <Widget>[
+                new Expanded(
+                  child: MaterialApp(
+                  title: 'Fuse Cash',
+                  initialRoute: Router.splashScreen,
+                  navigatorKey: Router.navigator.key,
+                  onGenerateRoute: Router.onGenerateRoute,
+                  theme: CustomTheme.of(context),
+                  localizationsDelegates: [
+                    i18n, 
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: i18n.supportedLocales,
+                  localeResolutionCallback:
+                      i18n.resolution(fallback: new Locale("en", "US")),
+                  navigatorObservers: [SegmentObserver()],
+                ))
+            ]);
+          }),
     );
+    // return
   }
 }
