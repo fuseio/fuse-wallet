@@ -36,6 +36,8 @@ Middleware<AppState> _createLoginRequestMiddleware() {
           verificationFailed: action.verificationFailed
         );
         store.dispatch(new LoginRequestSuccess(action.countryCode, action.phoneNumber, "", ""));
+        store.dispatch(segmentAliasCall(phone));
+        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>.from({ "Phone number": phone })));
       }
       catch (e, s) {
         store.dispatch(SetIsLoginRequest(isLoading: false));
@@ -70,6 +72,7 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         String jwtToken = await api.login(token.token, accountAddress);
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
+        store.dispatch(segmentTrackCall("Wallet: verified phone number"));
         Router.navigator.pushReplacementNamed(Router.userNameScreen);
       }
       catch (e, s) {

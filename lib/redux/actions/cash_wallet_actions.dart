@@ -232,7 +232,7 @@ ThunkAction enablePushNotifications() {
       }
 
       if (Platform.isIOS) iosPermission();
-      var token = await firebaseMessaging.getToken();
+      String token = await firebaseMessaging.getToken();
       logger.info("Firebase messaging token $token");
 
       String walletAddress = store.state.cashWalletState.walletAddress;
@@ -461,16 +461,21 @@ ThunkAction createAccountWalletCall(String accountAddress) {
 
 ThunkAction generateWalletSuccessCall(dynamic wallet, String accountAddress) {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-
     String walletAddress = wallet["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
           store.dispatch(new GetWalletAddressSuccess(walletAddress));
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-          logger.info('fullPhoneNumber: $fullPhoneNumber');
-          store.dispatch(create3boxAccountCall(accountAddress));
-          store.dispatch(identifyFirstTimeCall());
+          store.dispatch(segmentIdentifyCall(
+              new Map<String, dynamic>.from({
+                "Wallet Generated": true,
+                "Phone Number": fullPhoneNumber,
+                "Wallet Address": store.state.cashWalletState.walletAddress,
+                "Account Address": store.state.userState.accountAddress,
+                "Display Name": store.state.userState.displayName
+              })));
           store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
+          store.dispatch(create3boxAccountCall(accountAddress));
+          store.dispatch(enablePushNotifications());
     }
   };
 }
@@ -860,11 +865,6 @@ ThunkAction joinCommunitySuccessCall(Job job, dynamic fetchedData, Transfer tran
       });
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job));
-      store.dispatch(segmentIdentifyCall(
-        new Map<String, dynamic>.from({
-          "Community ${communityData.name} Joined": true,
-        })
-      ));
     }
   };
 }
@@ -878,6 +878,7 @@ ThunkAction joinBonusSuccessCall(txHash, transfer) {
     store.dispatch(segmentIdentifyCall(
       new Map<String, dynamic>.from({
         "Join Bonus ${communityData.name} Received": true,
+        "Community ${communityData.name} Joined": true,
       })
     ));
     store.dispatch(segmentTrackCall("Wallet: user got a join bonus",

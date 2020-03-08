@@ -82,11 +82,9 @@ class CashHomeScreen extends StatelessWidget {
         },
         onInitialBuild: (viewModel) async {
           onChange(viewModel, context);
+          updateTheme(viewModel.communityAddress, _changeTheme, context);
         },
         onWillChange: (prevViewModel, nextViewModel) async {
-          if (prevViewModel.communityAddress != nextViewModel.communityAddress) {
-            updateTheme(nextViewModel.communityAddress, _changeTheme, context);
-          }
           onChange(nextViewModel, context);
         },
         builder: (_, viewModel) {
