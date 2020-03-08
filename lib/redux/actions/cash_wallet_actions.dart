@@ -660,7 +660,7 @@ ThunkAction inviteAndSendSuccessCall(Job job, dynamic data, tokensAmount, receiv
   return (Store store) async {
       String communityAddres = store.state.cashWalletState.communityAddress;
       Community community = store.state.cashWalletState.communities[communityAddres];
-      Function successCallBack = () {
+      VoidCallback successCallBack = () {
         sendSuccessCallback();
           if (community.plugins.inviteBonus != null && community.plugins.inviteBonus.isActive && data['bonusInfo'] != null) {
           store.dispatch(inviteBonusCall(data));
