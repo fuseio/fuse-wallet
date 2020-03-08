@@ -133,6 +133,17 @@ class JustInstalled {
   JustInstalled(this.installedAt);
 }
 
+class SetIsLoginRequest {
+  final bool isLoading;
+  SetIsLoginRequest({this.isLoading});
+}
+
+class SetIsVerifyRequest {
+  final bool isLoading;
+  SetIsVerifyRequest({this.isLoading});
+}
+
+
 ThunkAction backupWalletCall() {
   return (Store store) async {
     if (store.state.userState.backup) return;

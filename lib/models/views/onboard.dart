@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/signup/verify.dart';
-import 'package:fusecash/services.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -18,6 +17,8 @@ class OnboardViewModel extends Equatable {
   final PhoneAuthCredential credentials;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
+  final bool isLoginRequest;
+  final bool isVerifyRequest;
   final Function(String, String) signUp;
   final Function(String, String, GlobalKey) verify;
   final Function(String) setPincode;
@@ -35,6 +36,8 @@ class OnboardViewModel extends Equatable {
     this.verify,
     this.setPincode,
     this.setDisplayName,
+    this.isLoginRequest,
+    this.isVerifyRequest
   });
 
   static OnboardViewModel fromStore(Store<AppState> store) {
@@ -54,11 +57,13 @@ class OnboardViewModel extends Equatable {
     final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
       print("PhoneCodeSent " + verificationId);
       store.dispatch(new SetCredentials(null));
+      store.dispatch(SetIsLoginRequest(isLoading: false));
       Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
     };
 
     final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
       print("PhoneCodeAutoRetrievalTimeout " + verificationId);
+      store.dispatch(SetIsLoginRequest(isLoading: false));
       Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
     };
     return OnboardViewModel(
@@ -69,6 +74,8 @@ class OnboardViewModel extends Equatable {
       loginVerifySuccess: store.state.userState.loginVerifySuccess,
       verificationId: store.state.userState.verificationId,
       credentials: store.state.userState.credentials,
+      isVerifyRequest: store.state.userState.isVerifyRequest,
+      isLoginRequest: store.state.userState.isLoginRequest,
       signUp: (String countryCode, String phoneNumber) {
         store.dispatch(LoginRequest(
           countryCode: countryCode,
@@ -104,5 +111,7 @@ class OnboardViewModel extends Equatable {
     loginRequestSuccess,
     loginVerifySuccess,
     verificationId,
+    isVerifyRequest,
+    isLoginRequest
   ];
 }
