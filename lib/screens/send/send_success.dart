@@ -6,9 +6,11 @@ import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
+// typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class SendSuccessScreen extends StatefulWidget {
+  final SendAmountArguments pageArgs;
+  SendSuccessScreen({this.pageArgs});
   @override
   _SendSuccessScreenState createState() => _SendSuccessScreenState();
 }
@@ -21,14 +23,12 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
 
     Future.delayed(const Duration(milliseconds: 2500), () {
       Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
-      // Navigator.of(context).pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
-
+    final SendAmountArguments args = this.widget.pageArgs;
     return MainScaffold(
       withPadding: true,
       title: I18n.of(context).success,

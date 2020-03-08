@@ -1,13 +1,10 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-// import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
 import 'package:fusecash/widgets/on_boarding_pages.dart';
-// import 'package:redux/redux.dart';
 import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -58,85 +55,63 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  onInitailBuild(SplashViewModel viewModel) {
-    if (viewModel.privateKey != '' &&
-        viewModel.jwtToken != '' &&
-        !viewModel.isLoggedOut) {
-      viewModel.initWeb3(viewModel.privateKey);
-      if (Navigator.canPop(context)) {
-        Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
-        // Navigator.popUntil(context, ModalRoute.withName('/Cash'));
-      } else {
-        Router.navigator.pushReplacementNamed(Router.cashHomeScreen);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    Drawer drawer = Drawer();
     return new StoreConnector<AppState, SplashViewModel>(
         distinct: true,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
-          Drawer drawer = Drawer();
-          return new StoreConnector<AppState, SplashViewModel>(
-            distinct: true,
-            converter: SplashViewModel.fromStore,
-            onInitialBuild: onInitailBuild,
-            builder: (_, viewModel) {
-              return Scaffold(
-                  drawer: drawer,
-                  body: Container(
-                      child: Column(
-                    children: <Widget>[
-                      Expanded(
-                          flex: 20,
-                          child: Container(
-                            child: new Stack(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 100, left: 20, right: 20),
-                                  child: FlareActor(
-                                    "assets/images/animation.flr",
-                                    alignment: Alignment.center,
-                                    fit: BoxFit.contain,
-                                    controller: _slideController,
-                                  ),
-                                ),
-                                new PageView.builder(
-                                  physics: new AlwaysScrollableScrollPhysics(),
-                                  controller: _pageController,
-                                  itemCount: 4,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return getPages(context)[index % 4];
-                                  },
-                                ),
-                                new Positioned(
-                                  bottom: 15.0,
-                                  left: 0.0,
-                                  right: 0.0,
-                                  child: new Container(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: new Center(
-                                      child: new DotsIndicator(
-                                        controller: _pageController,
-                                        itemCount: 4,
-                                        onPageSelected: (int page) {
-                                          gotoPage(page);
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+          List pages = getPages(context);
+          return Scaffold(
+              drawer: drawer,
+              body: Container(
+                  child: Column(
+                children: <Widget>[
+                  Expanded(
+                      flex: 20,
+                      child: Container(
+                        child: new Stack(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 100, left: 20, right: 20),
+                              child: FlareActor(
+                                "assets/images/animation.flr",
+                                alignment: Alignment.center,
+                                fit: BoxFit.contain,
+                                controller: _slideController,
+                              ),
                             ),
-                          )),
-                    ],
-                  )));
-            },
-          );
+                            new PageView.builder(
+                              physics: new AlwaysScrollableScrollPhysics(),
+                              controller: _pageController,
+                              itemCount: pages.length,
+                              itemBuilder: (BuildContext context, int index) =>
+                                  pages[index % 4],
+                            ),
+                            new Positioned(
+                              bottom: 15.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: new Container(
+                                padding: const EdgeInsets.all(20.0),
+                                child: new Center(
+                                  child: new DotsIndicator(
+                                    controller: _pageController,
+                                    itemCount: 4,
+                                    onPageSelected: (int page) {
+                                      gotoPage(page);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                ],
+              )));
         });
   }
 }

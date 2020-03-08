@@ -15,8 +15,6 @@ class OnboardViewModel extends Equatable {
   final String phoneNumber;
   final String accountAddress;
   final String verificationId;
-  final String loginErrorMessage;
-  final String verifyErrorMessage;
   final PhoneAuthCredential credentials;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
@@ -37,27 +35,25 @@ class OnboardViewModel extends Equatable {
     this.verify,
     this.setPincode,
     this.setDisplayName,
-    this.loginErrorMessage,
-    this.verifyErrorMessage
   });
 
   static OnboardViewModel fromStore(Store<AppState> store) {
     final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
       print('Got credentials: $credentials');
-      AuthResult authResult = await firebaseAuth.signInWithCredential(credentials);
-      print(authResult);
+      // AuthResult authResult = await firebaseAuth.signInWithCredential(credentials);
+      // print(authResult);
       store.dispatch(new SetCredentials(credentials));
       Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: ''));
     };
 
     final PhoneVerificationFailed verificationFailed = (AuthException authException) {
       print('Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
-      store.dispatch(SetLoginErrorMessage(authException.message));
       store.dispatch(new ErrorAction('Could not login $authException'));
     };
 
     final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
       print("PhoneCodeSent " + verificationId);
+      store.dispatch(new SetCredentials(null));
       Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
     };
 
@@ -73,8 +69,6 @@ class OnboardViewModel extends Equatable {
       loginVerifySuccess: store.state.userState.loginVerifySuccess,
       verificationId: store.state.userState.verificationId,
       credentials: store.state.userState.credentials,
-      loginErrorMessage: store.state.userState.loginErrorMessage,
-      verifyErrorMessage: store.state.userState.verifyErrorMessage,
       signUp: (String countryCode, String phoneNumber) {
         store.dispatch(LoginRequest(
           countryCode: countryCode,
@@ -110,7 +104,5 @@ class OnboardViewModel extends Equatable {
     loginRequestSuccess,
     loginVerifySuccess,
     verificationId,
-    loginErrorMessage,
-    verifyErrorMessage
   ];
 }

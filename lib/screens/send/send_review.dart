@@ -10,9 +10,11 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/utils/phone.dart';
 
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
+// typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class SendReviewScreen extends StatefulWidget {
+  final SendAmountArguments pageArgs;
+  SendReviewScreen({this.pageArgs});
   @override
   _SendReviewScreenState createState() => _SendReviewScreenState();
 }
@@ -70,8 +72,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
-
+    final SendAmountArguments args = this.widget.pageArgs;
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {

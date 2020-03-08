@@ -8,9 +8,6 @@ import 'package:fusecash/models/views/buy_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatefulWidget {
-  MapScreen({Key key, this.title}) : super(key: key);
-
-  final String title;
 
   @override
   _MapScreenState createState() => _MapScreenState();

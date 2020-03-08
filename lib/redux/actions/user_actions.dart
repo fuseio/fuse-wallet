@@ -7,6 +7,7 @@ import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:interactive_webview/interactive_webview.dart';
@@ -122,16 +123,6 @@ class SetVerificationId {
   SetVerificationId(this.verificationId);
 }
 
-class SetLoginErrorMessage {
-  String error;
-  SetLoginErrorMessage(this.error);
-}
-
-class SetVerifyErrorMessage {
-  String error;
-  SetVerifyErrorMessage(this.error);
-}
-
 class UpdateDisplayBalance {
   final int displayBalance;
   UpdateDisplayBalance(this.displayBalance);
@@ -171,6 +162,7 @@ ThunkAction backupWalletCall() {
       response['job']['jobType'] = 'backup';
 
       Job job = JobFactory.create(response['job']);
+      Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
       store.dispatch(AddJob(job));
     }
   };

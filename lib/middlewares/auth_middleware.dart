@@ -40,7 +40,7 @@ Middleware<AppState> _createLoginRequestMiddleware() {
       catch (e, s) {
         logger.severe('ERROR - LoginRequest $e');
         await AppFactory().reportError(e, s);
-        store.dispatch(new ErrorAction(e));
+        store.dispatch(new ErrorAction(e.toString()));
         store.dispatch(segmentTrackCall("ERROR in LoginRequest", properties: new Map.from({ "error": e.toString() })));
       }
     }
@@ -72,7 +72,7 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
       catch (e, s) {
         logger.severe('ERROR - Verification failed $e');
         await AppFactory().reportError(e, s);
-        store.dispatch(new ErrorAction(e));
+        store.dispatch(new ErrorAction(e.toString()));
         store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": e.toString() })));
       }
     }

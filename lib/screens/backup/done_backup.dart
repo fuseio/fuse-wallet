@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -72,7 +71,6 @@ class DoneBackup extends StatelessWidget {
                     // width: 160,
                     onPressed: () async {
                       viewModal.backupWallet();
-                      Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
                     },
                   ))
                 ],
