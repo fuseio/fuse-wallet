@@ -39,12 +39,8 @@ void main() async {
     );
   });
 
-  FlutterError.onError = (FlutterErrorDetails details) {
-    if (AppFactory().isInDebugMode) {
-      FlutterError.dumpErrorToConsole(details);
-    } else {
-      Zone.current.handleUncaughtError(details.exception, details.stack);
-    }
+  FlutterError.onError = (FlutterErrorDetails details) {   
+    Zone.current.handleUncaughtError(details.exception, details.stack);
   };
 }
 
