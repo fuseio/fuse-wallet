@@ -20,6 +20,7 @@ class ContactsViewModel extends Equatable {
   final Function() syncContactsRejected;
   final List<Business> businesses;
   final Function(String eventName) trackCall;
+  final Function(Map<String, dynamic> traits) idenyifyCall;
 
   ContactsViewModel(
       {this.contacts,
@@ -31,7 +32,8 @@ class ContactsViewModel extends Equatable {
       this.countryCode,
       this.businesses,
       this.syncContactsRejected,
-      this.trackCall});
+      this.trackCall,
+      this.idenyifyCall});
 
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -52,6 +54,9 @@ class ContactsViewModel extends Equatable {
         },
         trackCall: (String eventName) {
           store.dispatch(segmentTrackCall(eventName));
+        },
+        idenyifyCall: (Map<String, dynamic> traits) {
+          store.dispatch(segmentIdentifyCall(traits));
         });
   }
 

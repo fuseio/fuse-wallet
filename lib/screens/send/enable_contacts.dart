@@ -144,8 +144,10 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                           await ContactController.getContacts();
                                       viewModel.syncContacts(contacts);
                                       viewModel.trackCall("Wallet: Contacts Permission Granted");
+                                      viewModel.idenyifyCall(Map.from({ "Wallet: Contacts Permission Granted": true }));
                                     } else {
                                       viewModel.trackCall("Wallet: Contacts Permission Rejected");
+                                      viewModel.idenyifyCall(Map.from({ "Wallet: Contacts Permission Granted": false }));
                                     }
                                     Router.navigator.pushReplacementNamed(Router.sendToContactScreen);
                                     setState(() {

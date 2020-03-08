@@ -557,11 +557,13 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                                   viewModel.syncContacts(contacts);
                                   loadContacts(contacts, viewModel.isContactsSynced);
                                   viewModel.trackCall("Wallet: Contacts Permission Granted");
+                                  viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
                                   setState(() {
                                     hasSynced = true;
                                   });
                                 } else {
                                   viewModel.trackCall("Wallet: Contacts Permission Rejected");
+                                  viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
                                 }
                               })
                         ],
