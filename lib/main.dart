@@ -27,7 +27,7 @@ void main() async {
     DeviceOrientation.portraitUp
   ]).then((_) async {
     runZoned<Future<void>>(
-      () async => runApp(await CustomThemeApp()),
+      () async => runApp(await customThemeApp()),
       onError: (Object error, StackTrace stackTrace) async {
         try {
           await AppFactory().reportError(error, stackTrace);
@@ -48,7 +48,7 @@ void main() async {
   };
 }
 
-Future<CustomTheme> CustomThemeApp() async {
+Future<CustomTheme> customThemeApp() async {
   return CustomTheme(
       initialThemeKey: MyThemeKeys.DEFAULT,
       child: new MyApp(
