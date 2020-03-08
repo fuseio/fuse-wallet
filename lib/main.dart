@@ -27,12 +27,7 @@ void main() async {
     DeviceOrientation.portraitUp
   ]).then((_) async {
     runZoned<Future<void>>(
-      () async => runApp(CustomTheme(
-        initialThemeKey: MyThemeKeys.DEFAULT,
-        child: new MyApp(
-            store: await AppFactory().getStore(),
-        ),
-      )),
+      () async => runApp(await CustomThemeApp()),
       onError: (Object error, StackTrace stackTrace) async {
         try {
           await AppFactory().reportError(error, stackTrace);
@@ -51,6 +46,15 @@ void main() async {
       Zone.current.handleUncaughtError(details.exception, details.stack);
     }
   };
+}
+
+Future<CustomTheme> CustomThemeApp() async {
+  return CustomTheme(
+      initialThemeKey: MyThemeKeys.DEFAULT,
+      child: new MyApp(
+          store: await AppFactory().getStore(),
+      ),
+    );
 }
 
 class MyApp extends StatefulWidget {
