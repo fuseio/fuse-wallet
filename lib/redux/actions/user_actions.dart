@@ -123,16 +123,6 @@ class SetVerificationId {
   SetVerificationId(this.verificationId);
 }
 
-class SetLoginErrorMessage {
-  String error;
-  SetLoginErrorMessage(this.error);
-}
-
-class SetVerifyErrorMessage {
-  String error;
-  SetVerifyErrorMessage(this.error);
-}
-
 class UpdateDisplayBalance {
   final int displayBalance;
   UpdateDisplayBalance(this.displayBalance);
