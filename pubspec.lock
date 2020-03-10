@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  alphabet_list_scroll_view:
-    dependency: "direct main"
-    description:
-      name: alphabet_list_scroll_view
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.5"
   analyzer:
     dependency: transitive
     description:
@@ -359,11 +352,9 @@ packages:
   flutter_branch_sdk:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "997fa878d6fe2eb8c2bcf35f1c7854c90f8d62aa"
-      url: "https://github.com/fuseio/flutter_branch_sdk.git"
-    source: git
+      name: flutter_branch_sdk
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.2.0"
   flutter_cupertino_localizations:
     dependency: "direct main"
@@ -464,20 +455,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.24+1"
+  gql:
+    dependency: transitive
+    description:
+      name: gql
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.12.2"
   graphql:
     dependency: transitive
     description:
       name: graphql
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
-  graphql_parser:
-    dependency: transitive
-    description:
-      name: graphql_parser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.4"
+    version: "3.0.0"
   graphs:
     dependency: transitive
     description:
@@ -855,7 +846,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.22.6"
+    version: "0.23.1"
   sensors:
     dependency: transitive
     description:
@@ -1057,13 +1048,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.8"
-  vibration:
-    dependency: transitive
-    description:
-      name: vibration
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.4"
   virtual_keyboard:
     dependency: "direct main"
     description:
@@ -1077,7 +1061,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.1+65"
+    version: "0.0.1+67"
   watcher:
     dependency: transitive
     description:
