@@ -20,7 +20,7 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_qa');
+  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_prod');
   await DotEnv().load(configFile);
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runZoned<Future<void>>(
