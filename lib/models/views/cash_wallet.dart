@@ -31,12 +31,7 @@ class CashWalletViewModel extends Equatable {
   final List<Contact> contacts;
   final Map<String, String> reverseContacts;
   final String countryCode;
-  final Function(String) createWallet;
-  final Function() getWallet;
-  final Function() firstName;
-  final Function() getTokenBalance;
   final Function(String) switchCommunity;
-  final Function() startBalanceFetching;
   final Function() startTransfersFetching;
   final Function() listenToBranch;
   final Function(List<Contact>) syncContacts;
@@ -68,12 +63,7 @@ class CashWalletViewModel extends Equatable {
     this.contacts,
     this.countryCode,
     this.reverseContacts,
-    this.createWallet,
-    this.getWallet,
-    this.firstName,
-    this.getTokenBalance,
     this.switchCommunity,
-    this.startBalanceFetching,
     this.startTransfersFetching,
     this.listenToBranch,
     this.syncContacts,
@@ -117,22 +107,8 @@ class CashWalletViewModel extends Equatable {
       isContactsSynced: store.state.userState.isContactsSynced,
       isJobProcessingStarted: store.state.cashWalletState.isJobProcessingStarted ?? false,
       community: community,
-      createWallet: (accountAddress) {
-        store.dispatch(createAccountWalletCall(accountAddress));
-      },
-      getWallet: () {
-        store.dispatch(getWalletAddressCall());
-      },
-      firstName: () {
-        String fullName = store.state.userState.displayName ?? '';
-        return fullName.split(' ')[0];
-      },
       switchCommunity: (String communityAddress) {
         store.dispatch(switchCommunityCall(communityAddress));
-      },
-      startBalanceFetching: () {
-        if (isCommunityLoading) return;
-        store.dispatch(startBalanceFetchingCall());
       },
       startTransfersFetching: () {
         if (isCommunityLoading) return;

@@ -93,7 +93,6 @@ Widget counter(BuildContext context, String text, int value) {
 }
 
 class PrizeScreen extends StatefulWidget {
-
   @override
   _PrizeScreenState createState() => _PrizeScreenState();
 }
@@ -115,7 +114,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
       final data = drawInfoResponse['data'];
       return data;
     } catch (error, stackTrace) {
-      logger.info('_fetchDaiPointsInfo', [error, stackTrace]);
+      logger.severe('_fetchDaiPointsInfo');
       await AppFactory().reportError(error, stackTrace);
       throw 'Error while fetching prize info';
     }
@@ -182,10 +181,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                'Win ' +
-                                    num.parse(drawInfo.reward['estimated'])
-                                        .toStringAsFixed(2) +
-                                    ' DAI points!',
+                                'Win DAI points!',
                                 style: TextStyle(
                                     color: Color(0xFF00BE66),
                                     fontSize: 25,
@@ -198,6 +194,16 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                 height: 30,
                               )
                             ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'A weekly lottery that you join \n only by holding DAI points',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 16),
                           ),
                           SizedBox(
                             height: 30,
@@ -398,7 +404,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                 )
                               : SizedBox.shrink(),
                           SizedBox(
-                            height: 70,
+                            height: 40,
                           ),
                           drawInfo.previous['winner'] != null
                               ? Text(
