@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum SendType { CONTACT, BUSINESS, QR_ADDRESS, FUSE_ADDRESS }
+enum SendType { CONTACT, BUSINESS, QR_ADDRESS, FUSE_ADDRESS, PASTED_ADDRESS }
 
 class SendAmountArguments {
   String name;

@@ -180,7 +180,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
               Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
-                      sendType: accountAddress == null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
+                      sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
                       name: user.displayName,
                       accountAddress: accountAddress,
                       avatar: user.avatar != null && user.avatar.isNotEmpty
@@ -236,7 +236,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
             onTap: () {
               Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
-                      sendType: SendType.QR_ADDRESS,
+                      sendType: SendType.PASTED_ADDRESS,
                       accountAddress: accountAddress,
                       name: formatAddress(accountAddress),
                       avatar: new AssetImage('assets/images/anom.png')));
@@ -246,7 +246,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           onTap: () {
             Router.navigator.pushNamed(Router.sendAmountScreen,
                 arguments: SendAmountArguments(
-                    sendType: SendType.QR_ADDRESS,
+                    sendType: SendType.PASTED_ADDRESS,
                     accountAddress: accountAddress,
                     name: formatAddress(accountAddress),
                     avatar: new AssetImage('assets/images/anom.png')));
@@ -342,7 +342,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
                 Router.navigator.pushNamed(Router.sendAmountScreen,
                     arguments: SendAmountArguments(
-                        sendType: accountAddress == null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
+                        sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
                         accountAddress: accountAddress,
                         name: displatName,
                         avatar: contact?.avatar != null && contact.avatar.isNotEmpty
@@ -457,7 +457,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         if (parts.length == 2 && parts[0] == 'fuse') {
                           Router.navigator.pushNamed(Router.sendAmountScreen,
                               arguments: SendAmountArguments(
-                                  sendType: SendType.FUSE_ADDRESS,
+                                  sendType: SendType.QR_ADDRESS,
                                   accountAddress: parts[1]));
                         } else {
                           print('Account address is not on Fuse');

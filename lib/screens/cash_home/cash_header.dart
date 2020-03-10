@@ -220,7 +220,7 @@ class CashHeader extends StatelessWidget {
                                       Router.navigator.pushNamed(
                                           Router.sendAmountScreen,
                                           arguments: SendAmountArguments(
-                                              sendType: SendType.FUSE_ADDRESS,
+                                              sendType: SendType.QR_ADDRESS,
                                               accountAddress: parts[1]));
                                     } else {
                                       print('Account address is not on Fuse');
