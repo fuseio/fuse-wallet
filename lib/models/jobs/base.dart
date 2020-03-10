@@ -165,7 +165,7 @@ class JobFactory {
       case 'joinBonus':
         return new JoinBonusJob(
             id: id,
-            isFunderJob: true,
+            isFunderJob: json['isFunderJob'],
             jobType: jobType,
             name: jobType,
             status: status,

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_segment/flutter_segment.dart';
-// import 'package:flutter_svg/svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/views/cash_header.dart';
 import 'package:paywise/models/app_state.dart';
-// import 'package:paywise/screens/cash_home/cash_home.dart';
-// import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -151,6 +147,20 @@ class CashHeader extends StatelessWidget {
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     height: 0.0)),
+                                            new TextSpan(
+                                                text: ' (\$' +
+                                                    calcValueInDollar(
+                                                        viewModel.community
+                                                            .tokenBalance,
+                                                        viewModel.community
+                                                            .token.decimals) +
+                                                    ')',
+                                                style: new TextStyle(
+                                                    fontSize: 15,
+                                                    color:Theme.of(context).textTheme.subhead.color,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    height: 0.0))
                                           ],
                                   ),
                                 )
@@ -177,6 +187,7 @@ class CashHeader extends StatelessWidget {
                                         Router.navigator.pushNamed(
                                             Router.sendAmountScreen,
                                             arguments: SendAmountArguments(
+                                                sendType: SendType.QR_ADDRESS,
                                                 accountAddress: parts[1]));
                                       } else {
                                         print('Account address is not on Fuse');

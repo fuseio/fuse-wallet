@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:paywise/redux/actions/user_actions.dart';
 import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import 'package:paywise/models/app_state.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
 
 class SplashViewModel extends Equatable {
   final String privateKey;
   final String jwtToken;
   final bool isLoggedOut;
-  final Function(String) initWeb3;
   final Function() loginAgain;
   final Function(VoidCallback successCallback) createLocalAccount;
 
@@ -17,7 +17,6 @@ class SplashViewModel extends Equatable {
       {this.privateKey,
       this.jwtToken,
       this.isLoggedOut,
-      this.initWeb3,
       this.createLocalAccount,
       this.loginAgain});
 
@@ -26,15 +25,13 @@ class SplashViewModel extends Equatable {
         privateKey: store.state.userState.privateKey,
         jwtToken: store.state.userState.jwtToken,
         isLoggedOut: store.state.userState.isLoggedOut ?? false,
-        initWeb3: (privateKey) {
-          store.dispatch(initWeb3Call(privateKey));
-          store.dispatch(identifyCall());
-        },
         createLocalAccount: (VoidCallback successCallback) {
           store.dispatch(createLocalAccountCall(successCallback));
         },
         loginAgain: () {
-          store.dispatch(reLoginCall());
+          store.dispatch(getWalletAddressessCall());
+          store.dispatch(identifyCall());
+          Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
         });
   }
 

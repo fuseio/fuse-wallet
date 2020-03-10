@@ -63,13 +63,11 @@ class UserState {
         jwtToken: "",
         displayName: "Anom",
         email: "",
-        // verificationId: "",
         loginRequestSuccess: false,
         loginVerifySuccess: false,
         isLoggedOut: false,
         isContactsSynced: null,
         backup: false,
-        // credentials: null,
         displayBalance: 0,
         installedAt: DateTime.now().toUtc());
   }
@@ -93,7 +91,9 @@ class UserState {
       bool isContactsSynced,
       bool backup,
       int displayBalance,
-      DateTime installedAt}) {
+      DateTime installedAt,
+      bool isLoginRequest,
+      bool isVerifyRequest}) {
     return UserState(
         mnemonic: mnemonic ?? this.mnemonic,
         privateKey: privateKey ?? this.privateKey,

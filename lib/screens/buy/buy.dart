@@ -13,7 +13,6 @@ import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
-// import 'package:paywise/screens/routes.gr.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -154,7 +153,7 @@ class BusinessesListView extends StatelessWidget {
             onPressed: () {
               Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
-                      isBusiness: true,
+                      sendType: SendType.BUSINESS,
                       avatar: NetworkImage(image),
                       name: business.name ?? '',
                       accountAddress: business.account));

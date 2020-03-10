@@ -11,7 +11,7 @@ class SendAmountViewModel {
   final Community community;
   final Function(String name, String phoneNumber, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToContact;
   final Function(String, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
-  final Function(String eventName) trackTransferCall;
+  final Function(String eventName, {Map<String, dynamic> properties}) trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
 
   SendAmountViewModel(
@@ -61,8 +61,8 @@ class SendAmountViewModel {
           store.dispatch(sendTokenCall(recieverAddress, amount,
               sendSuccessCallback, sendFailureCallback, receiverName: receiverName, ));
         },
-        trackTransferCall: (String eventName) {
-          store.dispatch(segmentTrackCall(eventName));
+        trackTransferCall: (String eventName, {Map<String, dynamic> properties}) {
+          store.dispatch(segmentTrackCall(eventName, properties: properties));
         },
         idenyifyCall: (Map<String, dynamic> traits) {
           store.dispatch(segmentIdentifyCall(traits));

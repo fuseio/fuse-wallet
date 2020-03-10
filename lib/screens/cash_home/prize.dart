@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/draw_info.dart';
 import 'package:paywise/models/views/prize.dart';
+import 'package:paywise/redux/state/store.dart';
 import 'package:paywise/screens/cash_home/deposit_webview.dart';
 import 'package:paywise/screens/cash_home/webview_page.dart';
 import 'package:paywise/screens/routes.gr.dart';
@@ -90,24 +92,32 @@ Widget counter(BuildContext context, String text, int value) {
   );
 }
 
-Future<dynamic> _fetchDaiPointsInfo() async {
-  Client client = new Client();
-  Response res = await client.get('https://daipoints-oracle.fuse.io/draw-info');
-  Map<String, dynamic> drawInfoResponse = responseHandler(res);
-  final data = drawInfoResponse['data'];
-  return data;
-}
-
 class PrizeScreen extends StatefulWidget {
-
   @override
   _PrizeScreenState createState() => _PrizeScreenState();
 }
 
 class _PrizeScreenState extends State<PrizeScreen> {
+  Client client;
   @override
   void initState() {
     super.initState();
+    client = new Client();
+  }
+
+  Future<dynamic> _fetchDaiPointsInfo() async {
+    final logger = await AppFactory().getLogger('Prize');
+    try {
+      String daiPointsUri = DotEnv().env['DAI_POINTS'];
+      Response response = await client.get(daiPointsUri);
+      Map<String, dynamic> drawInfoResponse = responseHandler(response);
+      final data = drawInfoResponse['data'];
+      return data;
+    } catch (error, stackTrace) {
+      logger.severe('_fetchDaiPointsInfo');
+      await AppFactory().reportError(error, stackTrace);
+      throw 'Error while fetching prize info';
+    }
   }
 
   @override
@@ -171,10 +181,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                'Win ' +
-                                    num.parse(drawInfo.reward['estimated'])
-                                        .toStringAsFixed(2) +
-                                    ' DAI points!',
+                                'Win DAI points!',
                                 style: TextStyle(
                                     color: Color(0xFF00BE66),
                                     fontSize: 25,
@@ -187,6 +194,16 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                 height: 30,
                               )
                             ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'A weekly lottery that you join \n only by holding DAI points',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 16),
                           ),
                           SizedBox(
                             height: 30,
@@ -387,7 +404,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                 )
                               : SizedBox.shrink(),
                           SizedBox(
-                            height: 70,
+                            height: 40,
                           ),
                           drawInfo.previous['winner'] != null
                               ? Text(

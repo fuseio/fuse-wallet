@@ -83,6 +83,60 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
     super.initState();
   }
 
+  Widget scanQRButton(BuildContext context, Function switchCommunity) {
+    return Container(
+        width: 260.0,
+        height: 50.0,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).primaryColorLight,
+                Theme.of(context).primaryColorDark,
+              ],
+            ),
+            borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
+            border: Border.all(
+                color: Theme.of(context).primaryColor.withAlpha(14))),
+        child: InkWell(
+          onTap: () async {
+            try {
+              var json = await BarcodeScanner.scan();
+              Map jsonMap = jsonDecode(json);
+              switchCommunity(jsonMap['communityAddress']);
+              Router.navigator
+                  .popUntil(ModalRoute.withName(Router.cashHomeScreen));
+            } catch (e) {
+              print('BarcodeScanner scan error');
+            }
+          },
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(I18n.of(context).sqan_qr_code,
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.button.color,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500)),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new FloatingActionButton(
+                      mini: true,
+                      backgroundColor: const Color(0xFF292929),
+                      elevation: 0,
+                      child: Image.asset(
+                        'assets/images/scan.png',
+                        width: 20.0,
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                      ),
+                      onPressed: null),
+                )
+              ]),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SwitchCommunityViewModel>(

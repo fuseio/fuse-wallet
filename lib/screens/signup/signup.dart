@@ -3,9 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
-import 'package:paywise/widgets/country_code_picker/country_code_picker.dart';
-import 'package:paywise/widgets/country_code_picker/country_code.dart';
-import 'package:paywise/widgets/country_code_picker/country_codes.dart';
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_codes.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/widgets/signup_dialog.dart';
@@ -36,7 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
       Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
       if (mounted && localeData != null) {
         setState(() {
-          countryCode = CountryCode(dialCode: localeData['dial_code']);
+          countryCode = CountryCode(dialCode: localeData['dial_code'], code: localeData['code']);
         });
       }
     }
@@ -130,6 +129,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                 child: CountryCodePicker(
                                   onChanged: (_countryCode) {
                                     countryCode = _countryCode;
+                                    Segment.track(eventName: 'Wallet: country code selected', properties: new Map.from({
+                                      'Dial code': _countryCode.dialCode,
+                                      'County code': _countryCode.code,
+                                    }));
                                   },
                                   initialSelection: countryCode.code,
                                   favorite: [],

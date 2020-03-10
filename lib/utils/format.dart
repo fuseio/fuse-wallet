@@ -22,7 +22,7 @@ String formatValue(BigInt value, int decimals) {
 
 String calcValueInDollar(BigInt value, int decimals) {
   if (value == null || decimals == null) return '';
-  double s = (value / BigInt.from(pow(10, decimals)) / 100);
+  double s = (value / BigInt.from(pow(10, decimals))) / 2;
   String formatedValue;
   if (s.roundToDouble() == s) {
     formatedValue = s.round().toString();

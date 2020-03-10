@@ -5,6 +5,7 @@ import 'package:paywise/models/business.dart';
 import 'package:paywise/models/community.dart';
 import 'package:paywise/models/token.dart';
 import 'package:paywise/models/transactions.dart';
+import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import 'package:paywise/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
@@ -18,6 +19,8 @@ class ContactsViewModel extends Equatable {
   final String countryCode;
   final Function() syncContactsRejected;
   final List<Business> businesses;
+  final Function(String eventName) trackCall;
+  final Function(Map<String, dynamic> traits) idenyifyCall;
 
   ContactsViewModel(
       {this.contacts,
@@ -28,7 +31,9 @@ class ContactsViewModel extends Equatable {
       this.reverseContacts,
       this.countryCode,
       this.businesses,
-      this.syncContactsRejected});
+      this.syncContactsRejected,
+      this.trackCall,
+      this.idenyifyCall});
 
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -46,6 +51,12 @@ class ContactsViewModel extends Equatable {
         },
         syncContactsRejected: () {
           store.dispatch(new SyncContactsRejected());
+        },
+        trackCall: (String eventName) {
+          store.dispatch(segmentTrackCall(eventName));
+        },
+        idenyifyCall: (Map<String, dynamic> traits) {
+          store.dispatch(segmentIdentifyCall(traits));
         });
   }
 

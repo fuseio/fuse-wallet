@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/backup.dart';
-import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
@@ -72,7 +71,6 @@ class DoneBackup extends StatelessWidget {
                     // width: 160,
                     onPressed: () async {
                       viewModal.backupWallet();
-                      Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
                     },
                   ))
                 ],

@@ -156,13 +156,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            viewModel.firstName(),
+                            (viewModel?.firstName() ?? ''),
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontSize: 22,
                                 fontWeight: FontWeight.normal),
                           ),
-                          Row(
+                          viewModel.walletAddress != null ? Row(
                             children: <Widget>[
                               Text(
                                 formatAddress(viewModel.walletAddress),
@@ -180,7 +180,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                               //   height: 20,
                               // )
                             ],
-                          )
+                          ) : SizedBox.shrink()
                         ],
                       ),
                     ),
