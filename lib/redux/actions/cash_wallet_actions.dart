@@ -482,6 +482,7 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
                 "Wallet Generated": true,
+                "App name": 'Fuse',
                 "Phone Number": fullPhoneNumber,
                 "Wallet Address": store.state.cashWalletState.walletAddress,
                 "Account Address": store.state.userState.accountAddress,
