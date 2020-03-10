@@ -188,8 +188,7 @@ ThunkAction backupSuccessCall(String txHash, transfer) {
   };
 }
 
-ThunkAction restoreWalletCall(
-    List<String> _mnemonic, VoidCallback successCallback) {
+ThunkAction restoreWalletCall(List<String> _mnemonic, VoidCallback successCallback) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -290,8 +289,8 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
         }
       }
     } catch (e, s) {
-      logger.severe('ERROR - syncContactsCall $e');
-      await AppFactory().reportError(e, s);
+      logger.severe('ERROR - syncContactsCall', e, s);
+      // await AppFactory().reportError(e, s);
     }
   };
 }
@@ -381,9 +380,8 @@ ThunkAction create3boxAccountCall(accountAddress) {
       };
       await api.saveUserToDb(user);
       logger.info('save user $accountAddress');
-    } catch (e, s) {
+    } catch (e) {
       logger.severe('user $accountAddress already saved');
-      await AppFactory().reportError(e, s);
     }
   };
 }

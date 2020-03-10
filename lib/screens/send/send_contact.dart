@@ -70,12 +70,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         hasSynced = isPermitted;
       });
     }
-    if (this.mounted) {
-      setState(() {
-        isPreloading = true;
-        hasSynced = isPermitted;
-      });
-    }
     if (isPermitted && contacts.isEmpty) {
       contacts = await ContactController.getContacts();
     }
@@ -151,16 +145,16 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       dynamic component = Slidable(
         actionPane: SlidableDrawerActionPane(),
         actionExtentRatio: 0.25,
-        secondaryActions: <Widget>[
-          IconSlideAction(
-            iconWidget: Icon(Icons.star),
-            onTap: () {},
-          ),
-          IconSlideAction(
-            iconWidget: Icon(Icons.more_horiz),
-            onTap: () {},
-          ),
-        ],
+        // secondaryActions: <Widget>[
+        //   IconSlideAction(
+        //     iconWidget: Icon(Icons.star),
+        //     onTap: () {},
+        //   ),
+        //   IconSlideAction(
+        //     iconWidget: Icon(Icons.more_horiz),
+        //     onTap: () {},
+        //   ),
+        // ],
         child: Container(
           decoration: new BoxDecoration(
               border:
@@ -186,6 +180,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
               Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
+                      sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
                       name: user.displayName,
                       accountAddress: accountAddress,
                       avatar: user.avatar != null && user.avatar.isNotEmpty
@@ -208,16 +203,16 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     Widget component = Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
-      secondaryActions: <Widget>[
-        IconSlideAction(
-          iconWidget: Icon(Icons.star),
-          onTap: () {},
-        ),
-        IconSlideAction(
-          iconWidget: Icon(Icons.more_horiz),
-          onTap: () {},
-        ),
-      ],
+      // secondaryActions: <Widget>[
+      //   IconSlideAction(
+      //     iconWidget: Icon(Icons.star),
+      //     onTap: () {},
+      //   ),
+      //   IconSlideAction(
+      //     iconWidget: Icon(Icons.more_horiz),
+      //     onTap: () {},
+      //   ),
+      // ],
       child: Container(
         decoration: new BoxDecoration(
             border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
@@ -241,6 +236,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
             onTap: () {
               Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
+                      sendType: SendType.PASTED_ADDRESS,
                       accountAddress: accountAddress,
                       name: formatAddress(accountAddress),
                       avatar: new AssetImage('assets/images/anom.png')));
@@ -250,6 +246,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           onTap: () {
             Router.navigator.pushNamed(Router.sendAmountScreen,
                 arguments: SendAmountArguments(
+                    sendType: SendType.PASTED_ADDRESS,
                     accountAddress: accountAddress,
                     name: formatAddress(accountAddress),
                     avatar: new AssetImage('assets/images/anom.png')));
@@ -312,16 +309,16 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         Slidable(
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
-          secondaryActions: <Widget>[
-            IconSlideAction(
-              iconWidget: Icon(Icons.star),
-              onTap: () {},
-            ),
-            IconSlideAction(
-              iconWidget: Icon(Icons.more_horiz),
-              onTap: () {},
-            ),
-          ],
+          // secondaryActions: <Widget>[
+          //   IconSlideAction(
+          //     iconWidget: Icon(Icons.star),
+          //     onTap: () {},
+          //   ),
+          //   IconSlideAction(
+          //     iconWidget: Icon(Icons.more_horiz),
+          //     onTap: () {},
+          //   ),
+          // ],
           child: Container(
             decoration: new BoxDecoration(
                 border:
@@ -345,6 +342,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
                 Router.navigator.pushNamed(Router.sendAmountScreen,
                     arguments: SendAmountArguments(
+                        sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
                         accountAddress: accountAddress,
                         name: displatName,
                         avatar: contact?.avatar != null && contact.avatar.isNotEmpty
@@ -365,9 +363,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Widget> _buildPageList(viewModel) {
     List<Widget> listItems = List();
 
-    if (isPreloading) {
-      return listItems;
-    }
+    // if (isPreloading) {
+    //   return listItems;
+    // }
 
     listItems.add(searchPanel());
 
@@ -459,6 +457,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         if (parts.length == 2 && parts[0] == 'fuse') {
                           Router.navigator.pushNamed(Router.sendAmountScreen,
                               arguments: SendAmountArguments(
+                                  sendType: SendType.QR_ADDRESS,
                                   accountAddress: parts[1]));
                         } else {
                           print('Account address is not on Fuse');
@@ -480,8 +479,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
         converter: ContactsViewModel.fromStore,
-        onInitialBuild: (viewModel) {
-          loadContacts(viewModel.contacts, viewModel.isContactsSynced);
+        onInit: (store) {
+          loadContacts(store.state.userState.contacts, store.state.userState.isContactsSynced);
         },
         builder: (_, viewModel) {
           if (hasSynced) {

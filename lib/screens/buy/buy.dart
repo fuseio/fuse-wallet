@@ -161,7 +161,7 @@ class BusinessesListView extends StatelessWidget {
             onPressed: () {
               Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
-                      isBusiness: true,
+                      sendType: SendType.BUSINESS,
                       avatar: NetworkImage(image),
                       name: business.name ?? '',
                       accountAddress: business.account));
