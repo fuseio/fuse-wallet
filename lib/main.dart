@@ -19,27 +19,23 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_prod');
-  print('loading $configFile config file');
+  WidgetsFlutterBinding.ensureInitialized();
+  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_qa');
   await DotEnv().load(configFile);
-
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp
-  ]).then((_) async {
-    runZoned<Future<void>>(
-      () async => runApp(await customThemeApp()),
-      onError: (Object error, StackTrace stackTrace) async {
-        try {
-          await AppFactory().reportError(error, stackTrace);
-        } catch (e) {
-          print('Sending report to sentry.io failed: $e');
-          print('Original error: $error');
-        }
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runZoned<Future<void>>(
+    () async => runApp(await customThemeApp()),
+    onError: (Object error, StackTrace stackTrace) async {
+      try {
+        await AppFactory().reportError(error, stackTrace);
+      } catch (e) {
+        print('Sending report to sentry.io failed: $e');
+        print('Original error: $error');
       }
-    );
-  });
+    }
+  );
 
-  FlutterError.onError = (FlutterErrorDetails details) {   
+  FlutterError.onError = (FlutterErrorDetails details) {
     Zone.current.handleUncaughtError(details.exception, details.stack);
   };
 }
@@ -80,13 +76,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   onInit(store) {
-    if (store.state.userState.privateKey != '' &&
-        store.state.userState.jwtToken != '' &&
-        !store.state.userState.isLoggedOut) {
-      store.dispatch(initWeb3Call(store.state.userState.privateKey));
+    String privateKey = store.state.userState.privateKey;
+    String jwtToken = store.state.userState.jwtToken;
+    bool isLoggedOut = store.state.userState.isLoggedOut;
+    String communityManager = store.state.cashWalletState.communityManagerAddress;
+    String transferManager = store.state.cashWalletState.transferManagerAddress;
+    if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+      store.dispatch(getWalletAddressessCall(communityManager: communityManager, transferManager: transferManager));
       store.dispatch(identifyCall());
-      Router.navigator.pushNamedAndRemoveUntil(
-          Router.cashHomeScreen, (Route<dynamic> route) => false);
+      Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
     }
   }
 

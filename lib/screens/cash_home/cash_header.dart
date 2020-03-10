@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
@@ -12,14 +11,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
 class CashHeader extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashHeaderViewModel>(
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
-          bool isWalletCreated = 'created' == viewModel.walletStatus;
-          // List depositPlugins = viewModel?.plugins?.getDepositPlugins();
           return Container(
             height: 260.0,
             alignment: Alignment.bottomLeft,
@@ -52,7 +48,7 @@ class CashHeader extends StatelessWidget {
               children: <Widget>[
                 InkWell(
                     onTap: () {
-                      if (isWalletCreated) Scaffold.of(context).openDrawer();
+                      Scaffold.of(context).openDrawer();
                     },
                     child: Padding(
                         padding:
@@ -77,7 +73,7 @@ class CashHeader extends StatelessWidget {
                                   color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.normal)),
                           new TextSpan(
-                              text: ' ' + viewModel.firstName(),
+                              text: ' ' + (viewModel?.firstName() ?? ''),
                               style: TextStyle(
                                   fontSize: 33,
                                   color: Theme.of(context).primaryColor,
@@ -154,8 +150,7 @@ class CashHeader extends StatelessWidget {
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       height: 0.0)),
-                                              isDefaultCommunity(viewModel
-                                                      .community.address)
+                                              viewModel.isCommunityMember
                                                   ? new TextSpan(
                                                       text: ' (\$' +
                                                           calcValueInDollar(
@@ -167,17 +162,15 @@ class CashHeader extends StatelessWidget {
                                                                   .token
                                                                   .decimals) +
                                                           ')',
-                                                      style:
-                                                          new TextStyle(
-                                                              fontSize: 15,
-                                                              color: Theme.of(
-                                                                      context)
+                                                      style: new TextStyle(
+                                                          fontSize: 15,
+                                                          color:
+                                                              Theme.of(context)
                                                                   .colorScheme
                                                                   .secondary,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              height: 0.0))
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          height: 0.0))
                                                   : new TextSpan(),
                                             ],
                                     ),
@@ -187,7 +180,7 @@ class CashHeader extends StatelessWidget {
                         ),
                         new Container(
                           child: Row(children: [
-                            isDefaultCommunity(viewModel.community.address) && isWalletCreated
+                            viewModel.isCommunityMember
                                 ? InkWell(
                                     child: SvgPicture.asset(
                                       'assets/images/winPoints.svg',
@@ -195,12 +188,14 @@ class CashHeader extends StatelessWidget {
                                       height: 55,
                                     ),
                                     onTap: () async {
-                                      Router.navigator.pushNamed(Router.prizeScreen);
-                                      await Segment.track(eventName: "User open prize page");
+                                      Router.navigator
+                                          .pushNamed(Router.prizeScreen);
+                                      await Segment.track(
+                                          eventName: "User open prize page");
                                     },
                                   )
                                 : SizedBox.shrink(),
-                            isDefaultCommunity(viewModel.community.address)
+                            viewModel.isCommunityMember
                                 ? SizedBox(
                                     width: 10,
                                   )
@@ -222,8 +217,10 @@ class CashHeader extends StatelessWidget {
                                         accountAddress.split(':');
                                     if (parts.length == 2 &&
                                         parts[0] == 'fuse') {
-                                      Router.navigator.pushNamed(Router.sendAmountScreen,
+                                      Router.navigator.pushNamed(
+                                          Router.sendAmountScreen,
                                           arguments: SendAmountArguments(
+                                              sendType: SendType.FUSE_ADDRESS,
                                               accountAddress: parts[1]));
                                     } else {
                                       print('Account address is not on Fuse');

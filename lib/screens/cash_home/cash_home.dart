@@ -1,6 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/themes/custom_theme.dart';
@@ -12,12 +12,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
-
-bool isDefaultCommunity(String communityAddress) {
-  return DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] != null &&
-      DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase() ==
-          communityAddress.toLowerCase();
-}
 
 void updateTheme(String communityAddress, Function _changeTheme, BuildContext context) {
   if (isPaywise(communityAddress)) {
@@ -46,9 +40,6 @@ void onChange(CashWalletViewModel viewModel, BuildContext context) async {
       viewModel.walletAddress != '') {
     viewModel.branchCommunityUpdate();
   }
-  if (viewModel.walletStatus != 'deploying' && viewModel.walletStatus != 'created' && viewModel.accountAddress != '') {
-    viewModel.createWallet(viewModel.accountAddress);
-  }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&
       viewModel.isBranchDataReceived &&
@@ -68,18 +59,25 @@ class CashHomeScreen extends StatelessWidget {
     CustomTheme.instanceOf(buildContext).changeTheme(key);
   }
 
+  onInit(store) async {
+    String walletStatus = store.state.cashWalletState.walletStatus;
+    String accountAddress = store.state.userState.accountAddress;
+    if (walletStatus != 'deploying' && walletStatus != 'created' && accountAddress != '') {
+      store.dispatch(createAccountWalletCall(accountAddress));
+    }
+    bool isPermitted = await Contacts.checkPermissions();
+    if (isPermitted) {
+      List<Contact> contacts = await ContactController.getContacts();
+      store.dispatch(syncContactsCall(contacts));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashWalletViewModel>(
         distinct: true,
         converter: CashWalletViewModel.fromStore,
-        onInit: (store) async {
-          bool isPermitted = await Contacts.checkPermissions();
-          if (isPermitted) {
-            List<Contact> contacts = await ContactController.getContacts();
-            store.dispatch(syncContactsCall(contacts));
-          }
-        },
+        onInit: onInit,
         onInitialBuild: (viewModel) async {
           onChange(viewModel, context);
           updateTheme(viewModel.communityAddress, _changeTheme, context);

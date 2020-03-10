@@ -307,7 +307,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               onPressed: () {
                                 Router.navigator.pushNamed(Router.sendAmountScreen,
                                     arguments: SendAmountArguments(
-                                      isBusiness: true,
+                                      sendType: SendType.BUSINESS,
                                       accountAddress:
                                           businessArgs.business.account,
                                       avatar: NetworkImage(
