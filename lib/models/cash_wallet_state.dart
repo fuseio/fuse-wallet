@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/draw_info.dart';
 import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/models/transactions.dart';
+import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import './token.dart';
 import 'package:json_annotation/json_annotation.dart';

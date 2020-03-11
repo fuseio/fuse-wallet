@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/widgets/activate_pro_mode.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:flushbar/flushbar.dart';
@@ -163,7 +164,8 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                               .withAlpha(14))),
                                   child: InkWell(
                                     onTap: () async {
-                                      Router.navigator.pushNamed(Router.prizeScreen);
+                                      Router.navigator
+                                          .pushNamed(Router.prizeScreen);
                                       await Segment.track(
                                           eventName: "User open prize page");
                                     },
@@ -244,15 +246,21 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      Flushbar(
-                        flushbarPosition: FlushbarPosition.BOTTOM,
-                        duration: Duration(seconds: 2),
-                        messageText: new Text(
-                          "Coming soon",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )..show(context);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ActivateProModeDialog();
+                          });
+                      Segment.track(eventName: "Wallet: Withdraw DAI clicked");
+                      // Flushbar(
+                      //   flushbarPosition: FlushbarPosition.BOTTOM,
+                      //   duration: Duration(seconds: 2),
+                      //   messageText: new Text(
+                      //     "Coming soon",
+                      //     textAlign: TextAlign.center,
+                      //     style: TextStyle(color: Colors.white),
+                      //   ),
+                      // )..show(context);
                     },
                     child: Align(
                       alignment: Alignment.centerLeft,

@@ -7,8 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
+import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/enable_contacts.dart';
@@ -443,6 +443,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               Container(
                 child: new FloatingActionButton(
+                    heroTag: 'cash_scanner',
                     backgroundColor: const Color(0xFF292929),
                     elevation: 0,
                     child: Image.asset(

@@ -2,8 +2,7 @@ import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community_metadata.dart';
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/transactions.dart';
+import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';
@@ -55,7 +54,7 @@ class Community {
         isMember: false,
         tokenBalance: BigInt.from(0),
         businesses: new List<Business>(),
-        transactions: new Transactions(list: new List<Transaction>()),
+        transactions: Transactions.initial(),
         plugins: new Plugins(),
         jobs: new List<Job>());
   }

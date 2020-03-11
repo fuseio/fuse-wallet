@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/screens/routes.gr.dart';

@@ -1,6 +1,7 @@
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
+import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 
 part 'transactions.g.dart';
 
@@ -22,6 +23,10 @@ class Transactions {
         list: list ?? this.list,
         invites: invites ?? this.invites,
         blockNumber: blockNumber ?? this.blockNumber);
+  }
+
+  factory Transactions.initial() {
+    return Transactions(blockNumber: 0, list: new List<Transaction>());
   }
 
   static List<Transaction> _listFromJson(Map<String, dynamic> list) =>

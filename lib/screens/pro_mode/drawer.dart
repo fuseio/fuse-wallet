@@ -15,6 +15,8 @@ import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 
+final Key tempKey = GlobalKey<ScaffoldState>();
+
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
 class DrawerWidget extends StatefulWidget {
@@ -116,9 +118,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       ];
     } else {
       return [
-        getListTile(I18n.of(context).switch_community, () {
-          Router.navigator.pushNamed(Router.switchCommunityScreen);
-        }, icon: 'switch_icon.svg'),
+        // getListTile(I18n.of(context).switch_community, () {
+        //   Router.navigator.pushNamed(Router.switchCommunityScreen);
+        // }, icon: 'switch_icon.svg'),
         getListTile(I18n.of(context).backup_wallet, () {
           Router.navigator.pushNamed(Router.showMnemonic);
         }, icon: 'backup_icon.svg'),
@@ -197,49 +199,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  Widget switchToProMode() {
-    return Container(
-        width: MediaQuery.of(context).size.width / 2,
-        height: 50.0,
-        decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-            border: Border.all(
-                color: Theme.of(context).primaryColor.withAlpha(14))),
-        child: InkWell(
-          onTap: () {
-            Navigator(
-                key: ProRouter.navigator.key,
-                onGenerateRoute: ProRouter.onGenerateRoute);
-            Navigator.of(context).pushNamed(ProRouter.proModeHomeScreen);
-          },
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text('Pro mode',
-                    style: TextStyle(
-                        color: Theme.of(context).splashColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new FloatingActionButton(
-                      heroTag: 'cash_scanner',
-                      mini: true,
-                      backgroundColor: const Color(0xFF292929),
-                      elevation: 0,
-                      child: SvgPicture.asset(
-                        'assets/images/switch.svg',
-                        width: 20.0,
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                      ),
-                      onPressed: () {}),
-                )
-              ]),
-        ));
-  }
-
   Widget switchToCashMode() {
     return Container(
         width: MediaQuery.of(context).size.width / 2,
@@ -269,7 +228,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: new FloatingActionButton(
-                      heroTag: 'cash_scanner',
+                      heroTag: 'pro_scanner',
                       mini: true,
                       backgroundColor: const Color(0xFF292929),
                       elevation: 0,
@@ -311,7 +270,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 ),
                 Padding(
-                  child: switchToProMode(),
+                  child: switchToCashMode(),
                   padding: EdgeInsets.all(20),
                 ),
               ],

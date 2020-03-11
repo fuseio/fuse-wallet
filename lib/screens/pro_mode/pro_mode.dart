@@ -1,9 +1,9 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/cash_home/cash_header.dart';
-import 'package:fusecash/screens/cash_home/cash_transactions.dart';
+import 'package:fusecash/screens/pro_mode/pro_header.dart';
+import 'package:fusecash/screens/pro_mode/pro_mode_main_scaffold.dart';
 import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/widgets/main_scaffold2.dart';
+// import 'package:fusecash/widgets/main_scaffold2.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
@@ -21,9 +21,6 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
       viewModel.branchAddress != "" &&
       viewModel.walletAddress != '') {
     viewModel.branchCommunityUpdate();
-  }
-  if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
-    viewModel.createWallet(viewModel.accountAddress);
   }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&
@@ -45,7 +42,7 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
   }
 }
 
-class CashProHomeScreen extends StatelessWidget {
+class ProModeHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +56,10 @@ class CashProHomeScreen extends StatelessWidget {
           onChange(nextViewModel, context);
         },
         builder: (_, viewModel) {
-          bool isWalletCreated = 'created' == viewModel.walletStatus;
           return MainScaffold(
               isProMode: true,
-              showFooter: isWalletCreated,
-              header: CashHeader(proMode: true,),
+              showFooter: true,
+              header: ProHeader(),
               children: <Widget>[]);
         });
   }

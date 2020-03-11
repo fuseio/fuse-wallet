@@ -1,5 +1,5 @@
 
-import 'package:fusecash/models/transaction.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -63,4 +63,14 @@ class Transfer extends Transaction {
       _$TransferFromJson(json);
 
   Map<String, dynamic> toJson() => _$TransferToJson(this);
+}
+
+
+class TransactionFactory {
+  static fromJson(Map<String, dynamic> json) {
+    if (json['type'] == 'RECEIVE' || json['type'] == 'SEND') {
+      return Transfer.fromJson(json);
+    }
+    return Transaction.fromJson(json);
+  }
 }
