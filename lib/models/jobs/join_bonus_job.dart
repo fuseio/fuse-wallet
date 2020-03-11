@@ -20,7 +20,7 @@ class JoinBonusJob extends Job {
             lastFinishedAt: lastFinishedAt,
             isReported: isReported,
             timeStart: timeStart ?? DateTime.now().millisecondsSinceEpoch,
-            isFunderJob: isFunderJob ?? true);
+            isFunderJob: isFunderJob);
 
   @override
   fetch() async {
@@ -37,7 +37,7 @@ class JoinBonusJob extends Job {
       this.status = 'FAILED';
       logger.info('joinBonus FAILED');
       store.dispatch(transactionFailed(arguments['joinBonus']));
-      store.dispatch(segmentTrackCall('Wallet: joinBonus FAILED'));
+      store.dispatch(segmentTrackCall('Wallet: joinBonus failed'));
       return;
     }
     int current = DateTime.now().millisecondsSinceEpoch;
@@ -46,6 +46,24 @@ class JoinBonusJob extends Job {
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       this.isReported = true;
+    }
+
+    if (!this.isFunderJob && fetchedData['data']['funderJobId'] != null) {
+      String funderJobId = fetchedData['data']['funderJobId'];
+      dynamic response = await api.getFunderJob(funderJobId);
+      dynamic data = response['data'];
+      String responseStatus = data['status'];
+      if (responseStatus == 'SUCCEEDED') {
+        this.status = 'DONE';
+        store.dispatch(joinBonusSuccessCall(data['txHash'], arguments['joinBonus']));
+        store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+        logger.info('JoinBonusJob SUCCEEDED');
+        return;
+      } else if (responseStatus == 'FAILED') {
+        this.status = 'FAILED';
+        logger.info('JoinBonusJob FAILED');
+        store.dispatch(transactionFailed(arguments['joinBonus']));
+      }
     }
 
     dynamic data = fetchedData['data'];

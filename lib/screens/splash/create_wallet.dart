@@ -43,9 +43,6 @@ class _CreateWalletState extends State<CreateWallet> {
                   onPressed: () async {
                     if (viewModel.isLoggedOut) {
                       viewModel.loginAgain();
-                      viewModel.initWeb3(viewModel.privateKey);
-                      Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
-                      Router.navigator.pushNamed(Router.cashHomeScreen);
                     } else {
                       viewModel.createLocalAccount(() {
                         setState(() {

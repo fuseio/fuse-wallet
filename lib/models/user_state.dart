@@ -29,9 +29,9 @@ class UserState {
   final DateTime installedAt;
 
   @JsonKey(ignore: true)
-  final String loginErrorMessage;
+  final bool isLoginRequest;
   @JsonKey(ignore: true)
-  final String verifyErrorMessage;
+  final bool isVerifyRequest;
   @JsonKey(ignore: true)
   final List<Contact> contacts;
   @JsonKey(ignore: true)
@@ -57,10 +57,10 @@ class UserState {
       this.isContactsSynced,
       this.backup,
       this.credentials,
-      this.loginErrorMessage,
-      this.verifyErrorMessage,
       this.displayBalance,
-      this.installedAt});
+      this.installedAt,
+      this.isLoginRequest,
+      this.isVerifyRequest});
 
   factory UserState.initial() {
     return new UserState(
@@ -83,10 +83,10 @@ class UserState {
         isContactsSynced: null,
         backup: false,
         credentials: null,
-        verifyErrorMessage: null,
-        loginErrorMessage: null,
         displayBalance: 0,
-        installedAt: DateTime.now().toUtc());
+        installedAt: DateTime.now().toUtc(),
+        isLoginRequest: false,
+        isVerifyRequest: false);
   }
 
   UserState copyWith(
@@ -103,8 +103,6 @@ class UserState {
       String displayName,
       String email,
       String verificationId,
-      String verifyErrorMessage,
-      String loginErrorMessage,
       bool loginRequestSuccess,
       bool loginVerifySuccess,
       bool isLoggedOut,
@@ -112,7 +110,9 @@ class UserState {
       bool backup,
       PhoneAuthCredential credentials,
       int displayBalance,
-      DateTime installedAt}) {
+      DateTime installedAt,
+      bool isLoginRequest,
+      bool isVerifyRequest}) {
     return UserState(
         mnemonic: mnemonic ?? this.mnemonic,
         privateKey: privateKey ?? this.privateKey,
@@ -133,10 +133,10 @@ class UserState {
         isContactsSynced: isContactsSynced ?? this.isContactsSynced,
         backup: backup ?? this.backup,
         credentials: credentials ?? this.credentials,
-        loginErrorMessage: loginErrorMessage ?? this.loginErrorMessage,
-        verifyErrorMessage: verifyErrorMessage ?? this.verifyErrorMessage,
         displayBalance: displayBalance ?? this.displayBalance,
-        installedAt: installedAt ?? this.installedAt);
+        installedAt: installedAt ?? this.installedAt,
+        isLoginRequest: isLoginRequest ?? this.isLoginRequest,
+        isVerifyRequest: isVerifyRequest ?? this.isVerifyRequest);
   }
 
   dynamic toJson() => _$UserStateToJson(this);

@@ -7,7 +7,7 @@ import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
-import 'package:fusecash/utils/contacts.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
@@ -122,16 +122,6 @@ class SetVerificationId {
   SetVerificationId(this.verificationId);
 }
 
-class SetLoginErrorMessage {
-  String error;
-  SetLoginErrorMessage(this.error);
-}
-
-class SetVerifyErrorMessage {
-  String error;
-  SetVerifyErrorMessage(this.error);
-}
-
 class UpdateDisplayBalance {
   final int displayBalance;
   UpdateDisplayBalance(this.displayBalance);
@@ -141,6 +131,17 @@ class JustInstalled {
   final DateTime installedAt;
   JustInstalled(this.installedAt);
 }
+
+class SetIsLoginRequest {
+  final bool isLoading;
+  SetIsLoginRequest({this.isLoading});
+}
+
+class SetIsVerifyRequest {
+  final bool isLoading;
+  SetIsVerifyRequest({this.isLoading});
+}
+
 
 ThunkAction backupWalletCall() {
   return (Store store) async {
@@ -171,6 +172,7 @@ ThunkAction backupWalletCall() {
       response['job']['jobType'] = 'backup';
 
       Job job = JobFactory.create(response['job']);
+      Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
       store.dispatch(AddJob(job));
     }
   };
@@ -186,8 +188,7 @@ ThunkAction backupSuccessCall(String txHash, transfer) {
   };
 }
 
-ThunkAction restoreWalletCall(
-    List<String> _mnemonic, VoidCallback successCallback) {
+ThunkAction restoreWalletCall(List<String> _mnemonic, VoidCallback successCallback) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -287,15 +288,9 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
           partial = newPhones.take(limit).toList();
         }
       }
-      bool isPermitted = await Contacts.checkPermissions();
-      if (isPermitted) {
-        store.dispatch(segmentTrackCall("Wallet: Contacts Permission Granted"));
-      } else {
-        store.dispatch(segmentTrackCall("Wallet: Contacts Permission Rejected"));
-      }
     } catch (e, s) {
-      logger.severe('ERROR - syncContactsCall $e');
-      await AppFactory().reportError(e, s);
+      logger.severe('ERROR - syncContactsCall', e, s);
+      // await AppFactory().reportError(e, s);
     }
   };
 }
@@ -385,9 +380,8 @@ ThunkAction create3boxAccountCall(accountAddress) {
       };
       await api.saveUserToDb(user);
       logger.info('save user $accountAddress');
-    } catch (e, s) {
+    } catch (e) {
       logger.severe('user $accountAddress already saved');
-      await AppFactory().reportError(e, s);
     }
   };
 }

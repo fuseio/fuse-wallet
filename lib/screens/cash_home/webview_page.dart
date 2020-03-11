@@ -12,10 +12,13 @@ class WebViewPageArguments {
 }
 
 class WebViewPage extends StatefulWidget {
+  final WebViewPageArguments pageArgs;
+
+  WebViewPage({this.pageArgs});
+
   @override
   _WebViewPageState createState() => _WebViewPageState();
 
-  WebViewPage({Key key}) : super(key: key);
 }
 
 class _WebViewPageState extends State<WebViewPage> {
@@ -24,8 +27,7 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final WebViewPageArguments webPageArgs =
-        ModalRoute.of(context).settings.arguments;
+    final WebViewPageArguments webPageArgs = this.widget.pageArgs;
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         return Container(

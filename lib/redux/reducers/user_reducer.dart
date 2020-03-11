@@ -17,20 +17,11 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
   TypedReducer<UserState, SetCredentials>(_setCredentials),
   TypedReducer<UserState, SetVerificationId>(_setVerificationId),
-  TypedReducer<UserState, SetLoginErrorMessage>(_setLoginErrorMessage),
-  TypedReducer<UserState, SetVerifyErrorMessage>(_setVerifyErrorMessage),
   TypedReducer<UserState, UpdateDisplayBalance>(_updateDisplayBalance),
   TypedReducer<UserState, JustInstalled>(_justInstalled),
+  TypedReducer<UserState, SetIsLoginRequest>(_setIsLoginRequest),
+  TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
 ]);
-
-UserState _setLoginErrorMessage(UserState state, SetLoginErrorMessage action) {
-  return state.copyWith(loginErrorMessage: action.error);
-}
-
-UserState _setVerifyErrorMessage(
-    UserState state, SetVerifyErrorMessage action) {
-  return state.copyWith(verifyErrorMessage: action.error);
-}
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
   return state.copyWith(backup: true);
@@ -119,4 +110,12 @@ UserState _updateDisplayBalance(UserState state, UpdateDisplayBalance action) {
 
 UserState _justInstalled(UserState state, JustInstalled action) {
   return state.copyWith(installedAt: action.installedAt);
+}
+
+UserState _setIsLoginRequest(UserState state, SetIsLoginRequest action) {
+  return state.copyWith(isLoginRequest: action.isLoading);
+}
+
+UserState _setIsVerifyRequest(UserState state, SetIsVerifyRequest action) {
+  return state.copyWith(isVerifyRequest: action.isLoading);
 }

@@ -59,7 +59,8 @@ Widget bottomBar(BuildContext context, {bool isProMode = false}) {
                     redirect(context, Router.sendToContactScreen);
                   }
                 }),
-                isProMode
+                isProMode &&
+                viewModel.isDefaultCommunity
                     ? bottomBarItem(
                         isCurrentRoute(context, Router.daiExplainedScreen)
                             ? "daipoints_selected.svg"

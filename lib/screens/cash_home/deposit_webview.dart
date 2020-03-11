@@ -11,10 +11,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 class DepositWebView extends StatefulWidget {
   final DepositPlugin depositPlugin;
 
+  DepositWebView({this.depositPlugin});
+
   @override
   _DepositWebViewState createState() => _DepositWebViewState();
-
-  DepositWebView({Key key, this.depositPlugin}) : super(key: key);
 }
 
 class _DepositWebViewState extends State<DepositWebView> {

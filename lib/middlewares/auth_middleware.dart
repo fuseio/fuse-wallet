@@ -23,9 +23,9 @@ List<Middleware<AppState>> createAuthMiddleware() {
 Middleware<AppState> _createLoginRequestMiddleware() {
   return (Store store, action, NextDispatcher next) async {
     final logger = await AppFactory().getLogger('action');
-
     if (action is LoginRequest) {
       try {
+        store.dispatch(SetIsLoginRequest(isLoading: true));
         String phone = formatPhoneNumber(action.phoneNumber, action.countryCode);
         await firebaseAuth.verifyPhoneNumber(
           phoneNumber: phone,
@@ -36,11 +36,14 @@ Middleware<AppState> _createLoginRequestMiddleware() {
           verificationFailed: action.verificationFailed
         );
         store.dispatch(new LoginRequestSuccess(action.countryCode, action.phoneNumber, "", ""));
+        store.dispatch(segmentAliasCall(phone));
+        store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>.from({ "Phone number": phone })));
       }
       catch (e, s) {
+        store.dispatch(SetIsLoginRequest(isLoading: false));
         logger.severe('ERROR - LoginRequest $e');
         await AppFactory().reportError(e, s);
-        store.dispatch(new ErrorAction(e));
+        store.dispatch(new ErrorAction(e.toString()));
         store.dispatch(segmentTrackCall("ERROR in LoginRequest", properties: new Map.from({ "error": e.toString() })));
       }
     }
@@ -53,6 +56,7 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
     final logger = await AppFactory().getLogger('action');
     if (action is VerifyRequest) {
       try {
+        store.dispatch(SetIsVerifyRequest(isLoading: true));
         PhoneAuthCredential credential = store.state.userState.credentials;
         if (credential == null) {
           credential = PhoneAuthProvider.getCredential(
@@ -67,12 +71,15 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         IdTokenResult token = await user.getIdToken();
         String jwtToken = await api.login(token.token, accountAddress);
         store.dispatch(new LoginVerifySuccess(jwtToken));
+        store.dispatch(SetIsVerifyRequest(isLoading: false));
+        store.dispatch(segmentTrackCall("Wallet: verified phone number"));
         Router.navigator.pushReplacementNamed(Router.userNameScreen);
       }
       catch (e, s) {
+        store.dispatch(SetIsVerifyRequest(isLoading: false));
         logger.severe('ERROR - Verification failed $e');
         await AppFactory().reportError(e, s);
-        store.dispatch(new ErrorAction(e));
+        store.dispatch(new ErrorAction(e.toString()));
         store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": e.toString() })));
       }
     }

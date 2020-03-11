@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
@@ -23,7 +22,8 @@ class CashHeader extends StatelessWidget {
       List<String> parts = accountAddress.split(':');
       if (parts.length == 2 && parts[0] == 'fuse') {
         Router.navigator.pushNamed(Router.sendAmountScreen,
-            arguments: SendAmountArguments(accountAddress: parts[1]));
+            arguments: SendAmountArguments(
+                sendType: SendType.QR_ADDRESS, accountAddress: parts[1]));
       } else {
         print('Account address is not on Fuse');
       }
@@ -37,8 +37,6 @@ class CashHeader extends StatelessWidget {
     return new StoreConnector<AppState, CashHeaderViewModel>(
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
-          bool isWalletCreated = 'created' == viewModel.walletStatus;
-          // List depositPlugins = viewModel?.plugins?.getDepositPlugins();
           return Container(
             height: 260.0,
             alignment: Alignment.bottomLeft,
@@ -77,7 +75,7 @@ class CashHeader extends StatelessWidget {
               children: <Widget>[
                 InkWell(
                     onTap: () {
-                      if (isWalletCreated) Scaffold.of(context).openDrawer();
+                      Scaffold.of(context).openDrawer();
                     },
                     child: Padding(
                         padding:
@@ -106,7 +104,7 @@ class CashHeader extends StatelessWidget {
                                       : Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.normal)),
                           new TextSpan(
-                              text: ' ' + viewModel.firstName(),
+                              text: ' ' + (viewModel?.firstName() ?? ''),
                               style: TextStyle(
                                   fontSize: 33,
                                   color: proMode
@@ -194,8 +192,7 @@ class CashHeader extends StatelessWidget {
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       height: 0.0)),
-                                              isDefaultCommunity(viewModel
-                                                      .community.address)
+                                              viewModel.isCommunityMember
                                                   ? new TextSpan(
                                                       text: ' (\$' +
                                                           calcValueInDollar(
@@ -228,9 +225,7 @@ class CashHeader extends StatelessWidget {
                         ),
                         new Container(
                           child: Row(children: [
-                            isDefaultCommunity(viewModel.community.address) &&
-                                    isWalletCreated &&
-                                    !proMode
+                            viewModel.isCommunityMember && !proMode
                                 ? InkWell(
                                     child: SvgPicture.asset(
                                       'assets/images/winPoints.svg',
@@ -245,8 +240,7 @@ class CashHeader extends StatelessWidget {
                                     },
                                   )
                                 : SizedBox.shrink(),
-                            isDefaultCommunity(viewModel.community.address) &&
-                                    !proMode
+                            viewModel.isCommunityMember && !proMode
                                 ? SizedBox(
                                     width: 10,
                                   )

@@ -266,15 +266,10 @@ class AppFactory {
   }
 
   Future<void> reportError(dynamic error, dynamic stackTrace) async {
-    if (isInDebugMode) {
-      final logger = await getLogger('Error');
-      logger.severe('Error', [error, stackTrace]);
-    } else {
-      _sentry = await getSentry();
-      _sentry.captureException(
-        exception: error,
-        stackTrace: stackTrace,
-      );
-    }
+    _sentry = await getSentry();
+    _sentry.captureException(
+      exception: error,
+      stackTrace: stackTrace,
+    );
   }
 }

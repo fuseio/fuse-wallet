@@ -19,6 +19,7 @@ import 'package:fusecash/screens/cash_pro/cash_pro.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/screens/send/send_contact.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
+import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/screens/send/send_review.dart';
 import 'package:fusecash/screens/send/send_success.dart';
 import 'package:fusecash/screens/misc/switch_commmunity.dart';
@@ -78,8 +79,12 @@ class Router {
           settings: settings,
         );
       case Router.verifyScreen:
+        if (hasInvalidArgs<VerifyScreenArguments>(args)) {
+          return misTypedArgsRoute<VerifyScreenArguments>(args);
+        }
+        final typedArgs = args as VerifyScreenArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => VerifyScreen(),
+          builder: (_) => VerifyScreen(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.userNameScreen:
@@ -113,8 +118,12 @@ class Router {
           settings: settings,
         );
       case Router.transactionDetailsScreen:
+        if (hasInvalidArgs<TransactionDetailArguments>(args)) {
+          return misTypedArgsRoute<TransactionDetailArguments>(args);
+        }
+        final typedArgs = args as TransactionDetailArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => TransactionDetailsScreen(),
+          builder: (_) => TransactionDetailsScreen(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.sendToContactScreen:
@@ -123,29 +132,35 @@ class Router {
           settings: settings,
         );
       case Router.sendAmountScreen:
+        if (hasInvalidArgs<SendAmountArguments>(args)) {
+          return misTypedArgsRoute<SendAmountArguments>(args);
+        }
+        final typedArgs = args as SendAmountArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SendAmountScreen(),
+          builder: (_) => SendAmountScreen(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.sendReviewScreen:
+        if (hasInvalidArgs<SendAmountArguments>(args)) {
+          return misTypedArgsRoute<SendAmountArguments>(args);
+        }
+        final typedArgs = args as SendAmountArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SendReviewScreen(),
+          builder: (_) => SendReviewScreen(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.sendSuccessScreen:
+        if (hasInvalidArgs<SendAmountArguments>(args)) {
+          return misTypedArgsRoute<SendAmountArguments>(args);
+        }
+        final typedArgs = args as SendAmountArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => SendSuccessScreen(),
+          builder: (_) => SendSuccessScreen(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.switchCommunityScreen:
-        if (hasInvalidArgs<SwitchCommunityScreenArguments>(args)) {
-          return misTypedArgsRoute<SwitchCommunityScreenArguments>(args);
-        }
-        final typedArgs = args as SwitchCommunityScreenArguments ??
-            SwitchCommunityScreenArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) =>
-              SwitchCommunityScreen(key: typedArgs.key, title: typedArgs.title),
+          builder: (_) => SwitchCommunityScreen(),
           settings: settings,
         );
       case Router.buyScreen:
@@ -157,22 +172,14 @@ class Router {
         if (hasInvalidArgs<BusinessPageArguments>(args)) {
           return misTypedArgsRoute<BusinessPageArguments>(args);
         }
-        final typedArgs =
-            args as BusinessPageArguments ?? BusinessPageArguments();
+        final typedArgs = args as BusinessPageArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) =>
-              BusinessPage(key: typedArgs.key, title: typedArgs.title),
+          builder: (_) => BusinessPage(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.recoveryPage:
-        if (hasInvalidArgs<RecoveryPageArguments>(args)) {
-          return misTypedArgsRoute<RecoveryPageArguments>(args);
-        }
-        final typedArgs =
-            args as RecoveryPageArguments ?? RecoveryPageArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) =>
-              RecoveryPage(key: typedArgs.key, title: typedArgs.title),
+          builder: (_) => RecoveryPage(),
           settings: settings,
         );
       case Router.showMnemonic:
@@ -181,14 +188,8 @@ class Router {
           settings: settings,
         );
       case Router.verifyMnemonic:
-        if (hasInvalidArgs<VerifyMnemonicArguments>(args)) {
-          return misTypedArgsRoute<VerifyMnemonicArguments>(args);
-        }
-        final typedArgs =
-            args as VerifyMnemonicArguments ?? VerifyMnemonicArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) =>
-              VerifyMnemonic(key: typedArgs.key, title: typedArgs.title),
+          builder: (_) => VerifyMnemonic(),
           settings: settings,
         );
       case Router.doneBackup:
@@ -207,23 +208,13 @@ class Router {
           settings: settings,
         );
       case Router.mapScreen:
-        if (hasInvalidArgs<MapScreenArguments>(args)) {
-          return misTypedArgsRoute<MapScreenArguments>(args);
-        }
-        final typedArgs = args as MapScreenArguments ?? MapScreenArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => MapScreen(key: typedArgs.key, title: typedArgs.title),
+          builder: (_) => MapScreen(),
           settings: settings,
         );
       case Router.prizeScreen:
-        if (hasInvalidArgs<PrizeScreenArguments>(args)) {
-          return misTypedArgsRoute<PrizeScreenArguments>(args);
-        }
-        final typedArgs =
-            args as PrizeScreenArguments ?? PrizeScreenArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) =>
-              PrizeScreen(key: typedArgs.key, title: typedArgs.title),
+          builder: (_) => PrizeScreen(),
           settings: settings,
         );
       case Router.daiExplainedScreen:
@@ -232,62 +223,16 @@ class Router {
           settings: settings,
         );
       case Router.webViewPage:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+        if (hasInvalidArgs<WebViewPageArguments>(args)) {
+          return misTypedArgsRoute<WebViewPageArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs = args as WebViewPageArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => WebViewPage(key: typedArgs),
+          builder: (_) => WebViewPage(pageArgs: typedArgs),
           settings: settings,
         );
       default:
         return unknownRoutePage(settings.name);
     }
   }
-}
-
-//**************************************************************************
-// Arguments holder classes
-//***************************************************************************
-
-//SwitchCommunityScreen arguments holder class
-class SwitchCommunityScreenArguments {
-  final Key key;
-  final String title;
-  SwitchCommunityScreenArguments({this.key, this.title});
-}
-
-//BusinessPage arguments holder class
-class BusinessPageArguments {
-  final Key key;
-  final String title;
-  BusinessPageArguments({this.key, this.title});
-}
-
-//RecoveryPage arguments holder class
-class RecoveryPageArguments {
-  final Key key;
-  final String title;
-  RecoveryPageArguments({this.key, this.title});
-}
-
-//VerifyMnemonic arguments holder class
-class VerifyMnemonicArguments {
-  final Key key;
-  final String title;
-  VerifyMnemonicArguments({this.key, this.title});
-}
-
-//MapScreen arguments holder class
-class MapScreenArguments {
-  final Key key;
-  final String title;
-  MapScreenArguments({this.key, this.title});
-}
-
-//PrizeScreen arguments holder class
-class PrizeScreenArguments {
-  final Key key;
-  final String title;
-  PrizeScreenArguments({this.key, this.title});
 }

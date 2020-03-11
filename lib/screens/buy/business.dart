@@ -21,18 +21,17 @@ _launchUrl(String urlToLaunch) async {
   }
 }
 
-class BusinessRouteArguments {
+class BusinessPageArguments {
   final Business business;
   final Token token;
   final String communityAddress;
 
-  BusinessRouteArguments({this.token, this.business, this.communityAddress});
+  BusinessPageArguments({this.token, this.business, this.communityAddress});
 }
 
 class BusinessPage extends StatefulWidget {
-  BusinessPage({Key key, this.title}) : super(key: key);
-
-  final String title;
+  final BusinessPageArguments pageArgs;
+  BusinessPage({this.pageArgs});
 
   @override
   _BusinessPageState createState() => _BusinessPageState();
@@ -53,8 +52,7 @@ class _BusinessPageState extends State<BusinessPage> {
 
   @override
   Widget build(BuildContext context) {
-    final BusinessRouteArguments businessArgs =
-        ModalRoute.of(context).settings.arguments;
+    final BusinessPageArguments businessArgs = this.widget.pageArgs;
     String coverPhotoUrl = getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
     String imageUrl = getImageUrl(businessArgs.business, businessArgs.communityAddress);
 
@@ -309,7 +307,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               onPressed: () {
                                 Router.navigator.pushNamed(Router.sendAmountScreen,
                                     arguments: SendAmountArguments(
-                                      isBusiness: true,
+                                      sendType: SendType.BUSINESS,
                                       accountAddress:
                                           businessArgs.business.account,
                                       avatar: NetworkImage(

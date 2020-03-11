@@ -9,7 +9,7 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
+// typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class TransactionDetailArguments {
   List<Widget> amount;
@@ -32,6 +32,8 @@ class TransactionDetailArguments {
 }
 
 class TransactionDetailsScreen extends StatefulWidget {
+  final TransactionDetailArguments pageArgs;
+  TransactionDetailsScreen({this.pageArgs});
   @override
   _TransactionDetailsScreenState createState() =>
       _TransactionDetailsScreenState();
@@ -46,9 +48,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final TransactionDetailArguments args =
-        ModalRoute.of(context).settings.arguments;
-
+    final TransactionDetailArguments args = this.widget.pageArgs;
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
