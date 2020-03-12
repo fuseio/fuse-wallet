@@ -5,15 +5,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/plugins.dart';
+import 'package:fusecash/models/views/drawer.dart';
 import 'package:fusecash/screens/cash_home/deposit_webview.dart';
-import 'package:fusecash/screens/pro_routes.gr.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:redux/redux.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
@@ -197,7 +193,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  Widget switchToProMode() {
+  Widget switchToProMode(DrawerViewModel viewModel) {
     return Container(
         width: MediaQuery.of(context).size.width / 2,
         height: 50.0,
@@ -208,10 +204,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 color: Theme.of(context).primaryColor.withAlpha(14))),
         child: InkWell(
           onTap: () {
-            Navigator(
-                key: ProRouter.navigator.key,
-                onGenerateRoute: ProRouter.onGenerateRoute);
-            Navigator.of(context).pushNamed(ProRouter.proModeHomeScreen);
+            viewModel.replaceNavigator(true);
           },
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -225,51 +218,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: new FloatingActionButton(
-                      heroTag: 'cash_scanner',
-                      mini: true,
-                      backgroundColor: const Color(0xFF292929),
-                      elevation: 0,
-                      child: SvgPicture.asset(
-                        'assets/images/switch.svg',
-                        width: 20.0,
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                      ),
-                      onPressed: () {}),
-                )
-              ]),
-        ));
-  }
-
-  Widget switchToCashMode() {
-    return Container(
-        width: MediaQuery.of(context).size.width / 2,
-        height: 50.0,
-        decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-            border: Border.all(
-                color: Theme.of(context).primaryColor.withAlpha(14))),
-        child: InkWell(
-          onTap: () {
-            Navigator(
-                key: ProRouter.navigator.key,
-                onGenerateRoute: ProRouter.onGenerateRoute);
-            ProRouter.navigator.pushNamedAndRemoveUntil(
-                ProRouter.proModeHomeScreen, (Route<dynamic> route) => false);
-          },
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text('Pro mode',
-                    style: TextStyle(
-                        color: Theme.of(context).splashColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new FloatingActionButton(
-                      heroTag: 'cash_scanner',
+                      heroTag: 'header_scanner',
                       mini: true,
                       backgroundColor: const Color(0xFF292929),
                       elevation: 0,
@@ -279,11 +228,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         color: Theme.of(context).scaffoldBackgroundColor,
                       ),
                       onPressed: () {
-                        Navigator(
-                          key: ProRouter.navigator.key,
-                          onGenerateRoute: ProRouter.onGenerateRoute,
-                          initialRoute: ProRouter.proModeHomeScreen,
-                        );
+                        viewModel.replaceNavigator(true);
                       }),
                 )
               ]),
@@ -310,51 +255,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ],
                   ),
                 ),
-                Padding(
-                  child: switchToProMode(),
-                  padding: EdgeInsets.all(20),
-                ),
+                viewModel.isProModeActivate
+                    ? Padding(
+                        child: switchToProMode(viewModel),
+                        padding: EdgeInsets.all(20),
+                      )
+                    : SizedBox.shrink(),
               ],
             );
           },
         ),
       ),
     );
-  }
-}
-
-class DrawerViewModel {
-  final Function() logout;
-  final String walletStatus;
-  final String walletAddress;
-  final String communityAddress;
-  final Plugins plugins;
-  final Function() firstName;
-
-  DrawerViewModel(
-      {this.logout,
-      this.walletStatus,
-      this.plugins,
-      this.walletAddress,
-      this.firstName,
-      this.communityAddress});
-
-  static DrawerViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddress] ??
-            new Community.initial();
-    return DrawerViewModel(
-        communityAddress: communityAddress,
-        walletAddress: store.state.cashWalletState.walletAddress,
-        plugins: community?.plugins,
-        walletStatus: store.state.cashWalletState.walletStatus,
-        logout: () {
-          store.dispatch(logoutCall());
-        },
-        firstName: () {
-          String fullName = store.state.userState.displayName ?? '';
-          return fullName.split(' ')[0];
-        });
   }
 }

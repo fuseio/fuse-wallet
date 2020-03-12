@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/views/drawer.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/widgets/drawer.dart';
 import 'package:fusecash/widgets/language_selector.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 

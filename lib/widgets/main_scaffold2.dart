@@ -4,27 +4,22 @@ import 'package:flutter/services.dart';
 import 'bottombar.dart';
 
 class MainScaffold extends StatelessWidget {
-  MainScaffold(
+    MainScaffold(
       {this.title,
       this.header,
       this.children,
       this.key,
-      this.showFooter,
-      this.isProMode});
+      this.showFooter});
   final String title;
   final Widget header;
   final List<Widget> children;
   final Key key;
   final bool showFooter;
-  final bool isProMode;
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(isProMode
-        ? SystemUiOverlayStyle.light
-            .copyWith(statusBarIconBrightness: Brightness.light)
-        : SystemUiOverlayStyle.dark
-            .copyWith(statusBarIconBrightness: Brightness.dark));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+        .copyWith(statusBarIconBrightness: Brightness.dark));
 
     return Scaffold(
         key: key,
@@ -38,9 +33,7 @@ class MainScaffold extends StatelessWidget {
             : null,
         body: Column(children: <Widget>[
           Expanded(child: ListView(children: children)),
-          showFooter
-              ? bottomBar(context, isProMode: isProMode)
-              : SizedBox.shrink()
+          showFooter ? bottomBar(context) : SizedBox.shrink()
         ]));
   }
 }

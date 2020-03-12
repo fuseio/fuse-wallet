@@ -10,6 +10,7 @@ class DrawerViewModel {
   final String walletStatus;
   final String walletAddress;
   final String communityAddress;
+  final bool isProModeActivate;
   final Plugins plugins;
   final Function() firstName;
   final Function(bool isProMode) replaceNavigator;
@@ -21,14 +22,14 @@ class DrawerViewModel {
       this.walletAddress,
       this.firstName,
       this.communityAddress,
-      this.replaceNavigator});
+      this.replaceNavigator,
+      this.isProModeActivate});
 
   static DrawerViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddress] ??
-            new Community.initial();
+    Community community = store.state.cashWalletState.communities[communityAddress] ?? new Community.initial();
     return DrawerViewModel(
+        isProModeActivate: store.state.userState.isProModeActivated,
         communityAddress: communityAddress,
         walletAddress: store.state.cashWalletState.walletAddress,
         plugins: community?.plugins,

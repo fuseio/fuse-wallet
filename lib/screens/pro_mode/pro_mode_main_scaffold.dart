@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/pro_mode/drawer.dart';
-import 'package:fusecash/widgets/bottombar.dart';
+import 'package:fusecash/screens/pro_mode/bottombar.dart';
 import 'package:flutter/services.dart';
+import 'package:fusecash/screens/pro_mode/pro_drawer.dart';
 
 class MainScaffold extends StatelessWidget {
   MainScaffold(
@@ -38,7 +38,7 @@ class MainScaffold extends StatelessWidget {
             : null,
         body: Column(children: <Widget>[
           Expanded(child: ListView(children: children)),
-          // bottomBar(context, isProMode: isProMode)
+          bottomBar(context)
         ]));
   }
 }

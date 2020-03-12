@@ -23,6 +23,15 @@ import 'package:fusecash/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+class ActivateProMode {
+  ActivateProMode();
+}
+
+class SwitchWalletMode {
+  final bool isProMode;
+  SwitchWalletMode({this.isProMode});
+}
+
 class VerifyRequest {
   final String verificationId;
   final String verificationCode;

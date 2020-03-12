@@ -44,10 +44,11 @@ class OnboardUserSuccess {
 }
 
 class GetWalletAddressesSuccess {
+  final List<String> networks;
   final String walletAddress;
   final String communityManagerAddress;
   final String transferManagerAddress;
-  GetWalletAddressesSuccess({this.walletAddress, this.communityManagerAddress, this.transferManagerAddress});
+  GetWalletAddressesSuccess({this.networks, this.walletAddress, this.communityManagerAddress, this.transferManagerAddress});
 }
 
 class CreateAccountWalletRequest {
@@ -101,8 +102,10 @@ class SwitchCommunitySuccess {
   final String communityName;
   final Transactions transactions;
   final Plugins plugins;
-  SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token,
-      this.transactions, this.plugins, this.isClosed);
+  final String homeBridgeAddress;
+  final String foreignBridgeAddress;
+  SwitchCommunitySuccess({this.communityAddress, this.communityName, this.token,
+      this.transactions, this.plugins, this.isClosed, this.homeBridgeAddress, this.foreignBridgeAddress});
 }
 
 class FetchCommunityMetadataSuccess {
@@ -470,6 +473,7 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
     if (walletAddress != null && walletAddress.isNotEmpty) {
           store.dispatch(enablePushNotifications());
           String privateKey = store.state.userState.privateKey;
+          List<String> networks = List<String>.from(walletData['networks']);
           String communityManager = walletData['communityManager'];
           String transferManager = walletData['transferManager'];
           store.dispatch(initWeb3Call(
@@ -477,7 +481,7 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
             communityManagerContractAddress: communityManager,
             transferManagerContractAddress: transferManager
           ));
-          store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, communityManagerAddress: communityManager, transferManagerAddress: transferManager));
+          store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, communityManagerAddress: communityManager, transferManagerAddress: transferManager, networks: networks));
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
@@ -499,15 +503,23 @@ ThunkAction getWalletAddressessCall({String communityManager, String transferMan
     final logger = await AppFactory().getLogger('action');
     try {
       String privateKey = store.state.userState.privateKey;
+      List<String> networks = store.state.userState?.networks ?? [];
       String communityManagerAddress;
       String transferManagerAddress;
-      if (communityManager != null && communityManager != '' && transferManager != null && transferManager != '') {
+      if (communityManager != null &&
+          communityManager != '' &&
+          transferManager != null &&
+          transferManager != '' &&
+          networks.isNotEmpty) {
         communityManagerAddress = communityManager;
         transferManagerAddress = transferManager;
       } else {
         dynamic walletData = await api.getWallet();
-        communityManagerAddress = walletData['communityManager'];
-        transferManagerAddress = walletData['transferManager'];
+        List<String> networks = List<String>.from(walletData['networks']);
+        String walletAddress = walletData['walletAddress'];
+        communityManager = walletData['communityManager'];
+        transferManager = walletData['transferManager'];
+        store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, communityManagerAddress: communityManager, transferManagerAddress: transferManager, networks: networks));
       }
       store.dispatch(initWeb3Call(
         privateKey,
@@ -956,18 +968,22 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(getBusinessListCall());
+      String homeBridgeAddress = communityData['homeBridgeAddress'];
+      String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       store.dispatch(new SwitchCommunitySuccess(
-          communityAddress,
-          community["name"],
-          new Token(
+          communityAddress: communityAddress,
+          communityName: community["name"],
+          token: new Token(
               originNetwork: token['originNetwork'],
               address: token["address"],
               name: token["name"],
               symbol: token["symbol"],
               decimals: token["decimals"]),
-          new Transactions(),
-          communityPlugins,
-          communityData['isClosed']
+          transactions: new Transactions(),
+          plugins: communityPlugins,
+          isClosed: communityData['isClosed'],
+          homeBridgeAddress: homeBridgeAddress,
+          foreignBridgeAddress: foreignBridgeAddress
           ));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
           properties: new Map<String, dynamic>.from({
@@ -997,13 +1013,17 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       Map<String, dynamic> communityData = await api.getCommunityData(communityAddress, isRopsten: isRopsten, walletAddress: walletAddress);
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(getBusinessListCall());
+      String homeBridgeAddress = communityData['homeBridgeAddress'];
+      String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       store.dispatch(new SwitchCommunitySuccess(
-          communityAddress,
-          current.name,
-          current.token,
-          current.transactions,
-          communityPlugins,
-          current.isClosed
+          communityAddress: communityAddress,
+          communityName: current.name,
+          token: current.token,
+          transactions: current.transactions,
+          plugins: communityPlugins,
+          isClosed: current.isClosed,
+          homeBridgeAddress: homeBridgeAddress,
+          foreignBridgeAddress: foreignBridgeAddress
           ));
     } catch (e, s) {
       logger.info('ERROR - switchToExisitingCommunityCall $e');
@@ -1220,5 +1240,19 @@ ThunkAction sendTokenToContactCall(String name, String contactPhoneNumber, num t
       logger.severe('ERROR - sendTokenToContactCall $e');
       store.dispatch(new ErrorAction('Could not send token to contact'));
     }
+  };
+}
+
+ThunkAction transferDaipToForiegnNetwork() {
+  return (Store store) async {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddres];
+    String receiverAddress = community.homeBridgeAddress;
+    num tokensAmount = 1;
+
+    VoidCallback sendSuccessCallback = () { };
+    VoidCallback sendFailureCallback = () { };
+
+    store.dispatch(sendTokenCall(receiverAddress, tokensAmount, sendSuccessCallback, sendFailureCallback));
   };
 }

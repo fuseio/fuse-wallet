@@ -14,7 +14,7 @@ isCurrentRoute(BuildContext context, String route) {
   return currentRoute == route;
 }
 
-Widget bottomBar(BuildContext context, {bool isProMode = false}) {
+Widget bottomBar(BuildContext context) {
   bool isHomePage = isCurrentRoute(context, '/Cash');
   return new StoreConnector<AppState, BottomBarViewModel>(
       distinct: true,
@@ -59,7 +59,6 @@ Widget bottomBar(BuildContext context, {bool isProMode = false}) {
                     redirect(context, Router.sendToContactScreen);
                   }
                 }),
-                isProMode &&
                 viewModel.isDefaultCommunity
                     ? bottomBarItem(
                         isCurrentRoute(context, Router.daiExplainedScreen)
