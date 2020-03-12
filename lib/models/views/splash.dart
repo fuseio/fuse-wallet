@@ -31,7 +31,7 @@ class SplashViewModel extends Equatable {
           store.dispatch(createLocalAccountCall(successCallback));
         },
         setDeviceIdCall: () {
-          store.dispatch(setDeviceId());
+          store.dispatch(setDeviceId(false));
         },
         loginAgain: () {
           store.dispatch(getWalletAddressessCall());
