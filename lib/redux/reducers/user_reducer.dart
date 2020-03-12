@@ -21,6 +21,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, JustInstalled>(_justInstalled),
   TypedReducer<UserState, SetIsLoginRequest>(_setIsLoginRequest),
   TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
+  TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
 ]);
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
@@ -119,3 +120,8 @@ UserState _setIsLoginRequest(UserState state, SetIsLoginRequest action) {
 UserState _setIsVerifyRequest(UserState state, SetIsVerifyRequest action) {
   return state.copyWith(isVerifyRequest: action.isLoading);
 }
+
+UserState _deviceIdSuccess(UserState state, DeviceIdSuccess action) {
+  return state.copyWith(identifier: action.identifier);
+}
+

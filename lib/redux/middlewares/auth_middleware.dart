@@ -67,9 +67,10 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         final FirebaseUser user = (await firebaseAuth.signInWithCredential(credential)).user;
         final FirebaseUser currentUser = await firebaseAuth.currentUser();
         assert(user.uid == currentUser.uid);
-        String accountAddress = store.state.userState.accountAddress;
+        final String accountAddress = store.state.userState.accountAddress;
+        final String identifier = store.state.userState.identifier;
         IdTokenResult token = await user.getIdToken();
-        String jwtToken = await api.login(token.token, accountAddress);
+        String jwtToken = await api.login(token.token, accountAddress, identifier);
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));

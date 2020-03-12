@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -142,6 +145,10 @@ class SetIsVerifyRequest {
   SetIsVerifyRequest({this.isLoading});
 }
 
+class DeviceIdSuccess {
+  final String identifier;
+  DeviceIdSuccess(this.identifier);
+}
 
 ThunkAction backupWalletCall() {
   return (Store store) async {
@@ -210,6 +217,27 @@ ThunkAction restoreWalletCall(List<String> _mnemonic, VoidCallback successCallba
       logger.severe('ERROR - restoreWalletCall $e');
       store.dispatch(new ErrorAction('Could not restore wallet'));
     }
+  };
+}
+
+ThunkAction setDeviceId() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    String identifier;
+    final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
+    try {
+      if (Platform.isAndroid) {
+        var build = await deviceInfoPlugin.androidInfo;
+        identifier = build.androidId;  //UUID for Android
+      } else if (Platform.isIOS) {
+        var data = await deviceInfoPlugin.iosInfo;
+        identifier = data.identifierForVendor;  //UUID for iOS
+      }
+    } on Exception {
+      logger.severe('Failed to get platform version');
+    }
+    logger.info("device identifier: $identifier");
+    store.dispatch(new DeviceIdSuccess(identifier));
   };
 }
 
@@ -306,7 +334,8 @@ ThunkAction identifyFirstTimeCall() {
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
-          "Display Name": store.state.userState.displayName
+          "Display Name": store.state.userState.displayName,
+          "Identifier": store.state.userState.identifier
         })));
   };
 }
@@ -319,7 +348,8 @@ ThunkAction identifyCall() {
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
-          "Display Name": store.state.userState.displayName
+          "Display Name": store.state.userState.displayName,
+          "Identifier": store.state.userState.identifier
         })));
   };
 }
