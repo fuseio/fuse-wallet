@@ -220,7 +220,7 @@ ThunkAction restoreWalletCall(List<String> _mnemonic, VoidCallback successCallba
   };
 }
 
-ThunkAction setDeviceId() {
+ThunkAction setDeviceId(bool reLogin) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     String identifier;
@@ -238,6 +238,13 @@ ThunkAction setDeviceId() {
     }
     logger.info("device identifier: $identifier");
     store.dispatch(new DeviceIdSuccess(identifier));
+    if (reLogin) {
+      final FirebaseUser currentUser = await firebaseAuth.currentUser();
+      final String accountAddress = store.state.userState.accountAddress;
+      IdTokenResult token = await currentUser.getIdToken();
+      String jwtToken = await api.login(token.token, accountAddress, identifier);
+      store.dispatch(new LoginVerifySuccess(jwtToken));
+    }
   };
 }
 
