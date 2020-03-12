@@ -52,6 +52,9 @@ void onChange(CashWalletViewModel viewModel, BuildContext context) async {
       viewModel.startTransfersFetching();
     }
   }
+  if (viewModel.identifier == null) {
+    viewModel.setIdentifier();
+  }
 }
 
 class CashHomeScreen extends StatelessWidget {

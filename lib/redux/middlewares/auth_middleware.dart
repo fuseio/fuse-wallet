@@ -57,6 +57,7 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
     if (action is VerifyRequest) {
       try {
         store.dispatch(SetIsVerifyRequest(isLoading: true));
+        store.dispatch(setDeviceId(false));
         PhoneAuthCredential credential = store.state.userState.credentials;
         if (credential == null) {
           credential = PhoneAuthProvider.getCredential(
