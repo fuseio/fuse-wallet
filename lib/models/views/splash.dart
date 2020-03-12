@@ -11,6 +11,7 @@ class SplashViewModel extends Equatable {
   final String jwtToken;
   final bool isLoggedOut;
   final Function() loginAgain;
+  final Function() setDeviceIdCall;
   final Function(VoidCallback successCallback) createLocalAccount;
 
   SplashViewModel(
@@ -18,7 +19,8 @@ class SplashViewModel extends Equatable {
       this.jwtToken,
       this.isLoggedOut,
       this.createLocalAccount,
-      this.loginAgain});
+      this.loginAgain,
+      this.setDeviceIdCall});
 
   static SplashViewModel fromStore(Store<AppState> store) {
     return SplashViewModel(
@@ -27,6 +29,9 @@ class SplashViewModel extends Equatable {
         isLoggedOut: store.state.userState.isLoggedOut ?? false,
         createLocalAccount: (VoidCallback successCallback) {
           store.dispatch(createLocalAccountCall(successCallback));
+        },
+        setDeviceIdCall: () {
+          store.dispatch(setDeviceId());
         },
         loginAgain: () {
           store.dispatch(getWalletAddressessCall());

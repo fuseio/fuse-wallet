@@ -20,6 +20,7 @@ class UserState {
   final String displayName;
   final String email;
   final String verificationId;
+  final String identifier;
   final bool loginRequestSuccess;
   final bool loginVerifySuccess;
   final bool isLoggedOut;
@@ -51,6 +52,7 @@ class UserState {
       this.displayName,
       this.email,
       this.verificationId,
+      this.identifier,
       this.loginRequestSuccess,
       this.loginVerifySuccess,
       this.isLoggedOut,
@@ -77,6 +79,7 @@ class UserState {
         displayName: "Anom",
         email: "",
         verificationId: "",
+        identifier: "",
         loginRequestSuccess: false,
         loginVerifySuccess: false,
         isLoggedOut: false,
@@ -103,6 +106,7 @@ class UserState {
       String displayName,
       String email,
       String verificationId,
+      String identifier,
       bool loginRequestSuccess,
       bool loginVerifySuccess,
       bool isLoggedOut,
@@ -127,6 +131,7 @@ class UserState {
         displayName: displayName ?? this.displayName,
         email: email ?? this.email,
         verificationId: verificationId ?? this.verificationId,
+        identifier: identifier ?? this.identifier,
         loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
         loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
         isLoggedOut: isLoggedOut ?? this.isLoggedOut,
