@@ -23,15 +23,17 @@ void main() async {
   String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_paywise');
   await DotEnv().load(configFile);
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runZoned<Future<void>>(() async => runApp(await customThemeApp()),
-      onError: (Object error, StackTrace stackTrace) async {
-    try {
-      await AppFactory().reportError(error, stackTrace);
-    } catch (e) {
-      print('Sending report to sentry.io failed: $e');
-      print('Original error: $error');
+  runZoned<Future<void>>(
+    () async => runApp(await customThemeApp()),
+    onError: (Object error, StackTrace stackTrace) async {
+      try {
+        await AppFactory().reportError(error, stackTrace);
+      } catch (e) {
+        print('Sending report to sentry.io failed: $e');
+        print('Original error: $error');
+      }
     }
-  });
+  );
 
   FlutterError.onError = (FlutterErrorDetails details) {
     Zone.current.handleUncaughtError(details.exception, details.stack);

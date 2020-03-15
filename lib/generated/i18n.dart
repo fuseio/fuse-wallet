@@ -34,10 +34,10 @@ class I18n implements WidgetsLocalizations {
 
   /// "Use the wallet to send money \n to friends without fees or friction"
   String get intro_text_one => "Use the wallet to send money \n to friends without fees or friction";
-  /// "Pay and get paid using crypto \n and see where you can shop nearby"
-  String get intro_text_two => "Pay and get paid using crypto \n and see where you can shop nearby";
-  /// "Hold Ethereum assets and access \n decentralized finance with a few taps"
-  String get intro_text_three => "Hold Ethereum assets and access \n decentralized finance with a few taps";
+  /// "Pay and get paid using PayWise Points \n and see where you can shop nearby"
+  String get intro_text_two => "Pay and get paid using PayWise Points \n and see where you can shop nearby";
+  /// "Get rewarded for shopping in \n Trinidad & Tobago and beyond!"
+  String get intro_text_three => "Get rewarded for shopping in \n Trinidad & Tobago and beyond!";
   /// "Hello"
   String get hi => "Hello";
   /// "Language"

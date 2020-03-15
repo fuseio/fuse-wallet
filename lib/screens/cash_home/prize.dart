@@ -121,7 +121,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return new FutureBuilder<dynamic>(
       future: _fetchDaiPointsInfo(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

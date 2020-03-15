@@ -196,7 +196,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.78,
       child: Drawer(

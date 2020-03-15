@@ -1,10 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/transaction.dart';
 import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
+import 'package:paywise/screens/cash_home/paywise_explained.dart';
 import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/screens/cash_home/transaction_details.dart';
@@ -35,54 +37,75 @@ class TransactionListItem extends StatelessWidget {
                     : deducePhoneNumber(transfer, _vm.reverseContacts,
                         businesses: _vm.businesses);
     List<Widget> rightColumn = <Widget>[
-      transfer.isGenerateWallet() || transfer.isJoinCommunity()
+      transfer.isGenerateWallet()
           ? SizedBox.shrink()
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Stack(
-                  overflow: Overflow.visible,
-                  alignment: AlignmentDirectional.bottomEnd,
+          : transfer.isJoinCommunity()
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    new RichText(
-                        text: new TextSpan(children: <TextSpan>[
-                      new TextSpan(
-                          text: deduceSign(transfer) +
-                              formatValue(transfer.value, _vm.token.decimals),
-                          style: new TextStyle(
-                              color: deduceColor(transfer),
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold)),
-                      new TextSpan(
-                          text: " ${_vm.token.symbol}",
-                          style: new TextStyle(
-                              color: deduceColor(transfer),
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.normal)),
-                    ])),
-                    transfer.isFailed()
-                        ? Positioned(
-                            left: -25,
-                            child: SvgPicture.asset('assets/images/failed.svg'),
-                          )
-                        : SizedBox.shrink(),
-                    Positioned(
-                        bottom: -20,
-                        child: (transfer.isPending() &&
-                                !transfer.isGenerateWallet() &&
-                                !transfer.isJoinCommunity())
-                            ? Padding(
-                                child: Text(I18n.of(context).pending,
-                                    style: TextStyle(
-                                        color: Color(0xFF8D8D8D),
-                                        fontSize: 10)),
-                                padding: EdgeInsets.only(top: 10))
-                            : SizedBox.shrink())
+                      InkWell(
+                        onTap: () {
+                          Future.delayed(
+                              Duration.zero,
+                              () => showDialog(
+                                  child: new PaywiseExplainedScreen(),
+                                  context: context));
+                          Segment.track(
+                              eventName: "Wallet: open Paywise explanation pop up",
+                              properties: new Map<String, dynamic>());
+                        },
+                        child: SvgPicture.asset('assets/images/info_svg.svg'),
+                      )
+                    ])
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Stack(
+                      overflow: Overflow.visible,
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: <Widget>[
+                        new RichText(
+                            text: new TextSpan(children: <TextSpan>[
+                          new TextSpan(
+                              text: deduceSign(transfer) +
+                                  formatValue(
+                                      transfer.value, _vm.token.decimals),
+                              style: new TextStyle(
+                                  color: deduceColor(transfer),
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold)),
+                          new TextSpan(
+                              text: " ${_vm.token.symbol}",
+                              style: new TextStyle(
+                                  color: deduceColor(transfer),
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.normal)),
+                        ])),
+                        transfer.isFailed()
+                            ? Positioned(
+                                left: -25,
+                                child: SvgPicture.asset(
+                                    'assets/images/failed.svg'),
+                              )
+                            : SizedBox.shrink(),
+                        Positioned(
+                            bottom: -20,
+                            child: (transfer.isPending() &&
+                                    !transfer.isGenerateWallet() &&
+                                    !transfer.isJoinCommunity())
+                                ? Padding(
+                                    child: Text(I18n.of(context).pending,
+                                        style: TextStyle(
+                                            color: Color(0xFF8D8D8D),
+                                            fontSize: 10)),
+                                    padding: EdgeInsets.only(top: 10))
+                                : SizedBox.shrink())
+                      ],
+                    )
                   ],
                 )
-              ],
-            )
     ];
     bool isWalletCreated = 'created' == this._vm.walletStatus;
     return Container(
@@ -115,7 +138,8 @@ class TransactionListItem extends StatelessWidget {
                                   ? 'GenerateWallet'
                                   : transfer.isPending()
                                       ? "contactSent"
-                                      : "transaction" + (transfer?.jobId ?? transfer.txHash),
+                                      : "transaction" +
+                                          (transfer?.jobId ?? transfer.txHash),
                             ),
                             transfer.isPending()
                                 ? Container(
@@ -207,7 +231,14 @@ class TransactionListItem extends StatelessWidget {
             ],
           ),
           onTap: () {
-            if (transfer.isGenerateWallet() || transfer.isJoinCommunity()) {
+            if (transfer.isGenerateWallet()) {
+              return;
+            }
+            if (transfer.isJoinCommunity()) {
+              Future.delayed(
+                  Duration.zero,
+                  () => showDialog(
+                      child: new PaywiseExplainedScreen(), context: context));
               return;
             }
             if (!transfer.isGenerateWallet() || !transfer.isJoinCommunity()) {

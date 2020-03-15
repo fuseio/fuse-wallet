@@ -44,7 +44,7 @@ class SignupDialogState extends State<SignupDialog>
   }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return ScaleTransition(
         scale: scaleAnimatoin,
         child: AlertDialog(

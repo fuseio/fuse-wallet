@@ -70,7 +70,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         hasSynced = isPermitted;
       });
     }
-    if (isPermitted && (contacts == null || contacts.isEmpty)) {
+    if (isPermitted && contacts.isEmpty) {
       contacts = await ContactController.getContacts();
     }
     for (var contact in contacts) {
