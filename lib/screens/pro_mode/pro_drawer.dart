@@ -235,7 +235,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       backgroundColor: const Color(0xFF292929),
                       elevation: 0,
                       child: SvgPicture.asset(
-                        'assets/images/switch_cash.svg',
+                        'assets/images/pro_mode_icon.svg',
                         width: 20.0,
                       ),
                       onPressed: () {
