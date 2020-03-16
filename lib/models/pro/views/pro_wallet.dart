@@ -1,42 +1,28 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
+import 'package:fusecash/models/pro/token.dart';
+// import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-
 class ProWalletViewModel extends Equatable {
   final String walletAddress;
-  final String displayName;
-  final bool isTransfersFetchingStarted;
-  final Transactions transactions;
-  final Function() startTransfersFetching;
-  final bool isJobProcessingStarted;
+  final List<Token> tokens;
 
   ProWalletViewModel({
     this.walletAddress,
-    this.isTransfersFetchingStarted,
-    this.displayName,
-    this.transactions,
-    this.startTransfersFetching,
-    this.isJobProcessingStarted,
+    this.tokens
   });
 
   static ProWalletViewModel fromStore(Store<AppState> store) {
     return ProWalletViewModel(
       walletAddress: store.state.userState.walletAddress,
-      transactions: store.state.proWalletState.transactions,
-      startTransfersFetching: () {
-        store.dispatch(startTransfersFetchingCall());
-      },
+      tokens: store.state.proWalletState?.tokens ?? []
     );
   }
 
   @override
   List<Object> get props => [
     walletAddress,
-    displayName,
-    transactions,
-    isTransfersFetchingStarted
+    tokens
   ];
 }

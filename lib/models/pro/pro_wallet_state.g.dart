@@ -8,13 +8,16 @@ part of 'pro_wallet_state.dart';
 
 ProWalletState _$ProWalletStateFromJson(Map<String, dynamic> json) {
   return ProWalletState(
-    transactions: json['transactions'] == null
-        ? null
-        : Transactions.fromJson(json['transactions'] as Map<String, dynamic>),
+    blockNumber: json['blockNumber'] as num,
+    tokens: (json['tokens'] as List)
+        ?.map(
+            (e) => e == null ? null : Token.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
 Map<String, dynamic> _$ProWalletStateToJson(ProWalletState instance) =>
     <String, dynamic>{
-      'transactions': instance.transactions?.toJson(),
+      'tokens': instance.tokens?.map((e) => e?.toJson())?.toList(),
+      'blockNumber': instance.blockNumber,
     };

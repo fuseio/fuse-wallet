@@ -20,7 +20,8 @@ class AppState {
         proWalletState: ProWalletState.initial());
   }
 
-  AppState copyWith(UserState userState, CashWalletState cashWalletState) {
+  AppState copyWith(UserState userState, CashWalletState cashWalletState,
+      ProWalletState proWalletState) {
     return AppState(
         userState: userState ?? this.userState,
         cashWalletState: cashWalletState ?? this.cashWalletState,

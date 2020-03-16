@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
@@ -127,14 +125,8 @@ class _ActivateViewModel {
 
   static _ActivateViewModel fromStore(Store<AppState> store) {
     return _ActivateViewModel(
-      activateProMode: () {
-        String foreign = DotEnv().env['MODE'] == 'production' ? 'mainnet' : 'ropsten';
-        bool deployForeignToekn = store.state.userState.networks.contains(foreign);
-        store.dispatch(ActivateProMode());
-        store.dispatch(transferDaipToForiegnNetwork());
-        if (!deployForeignToekn) {
-          // await api.createWalletOnForeign();
-        }
+      activateProMode: () async {
+        store.dispatch(activateProModeCall());
     });
   }
 }

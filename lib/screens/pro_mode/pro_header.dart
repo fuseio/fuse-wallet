@@ -1,35 +1,35 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/models/pro/token.dart';
+import 'package:fusecash/utils/addresses.dart';
+import 'package:fusecash/widgets/coming_soon.dart';
+import 'package:redux/redux.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:fusecash/widgets/raised_gradient_button.dart';
 
 class ProHeader extends StatelessWidget {
-  scanBarcode() async {
-    try {
-      String accountAddress = await BarcodeScanner.scan();
-      List<String> parts = accountAddress.split(':');
-      if (parts.length == 2 && parts[0] == 'fuse') {
-        Router.navigator.pushNamed(Router.sendAmountScreen,
-            arguments: SendAmountArguments(
-                sendType: SendType.QR_ADDRESS, accountAddress: parts[1]));
-      } else {
-        print('Account address is not on Fuse');
-      }
-    } catch (e) {
-      print('ERROR - BarcodeScanner');
-    }
-  }
+  // scanBarcode() async {
+  //   try {
+  //     String accountAddress = await BarcodeScanner.scan();
+  //     List<String> parts = accountAddress.split(':');
+  //     if (parts.length == 2 && parts[0] == 'fuse') {
+  //       Router.navigator.pushNamed(Router.sendAmountScreen,
+  //           arguments: SendAmountArguments(
+  //               sendType: SendType.QR_ADDRESS, accountAddress: parts[1]));
+  //     } else {
+  //       print('Account address is not on Fuse');
+  //     }
+  //   } catch (e) {
+  //     print('ERROR - BarcodeScanner');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, CashHeaderViewModel>(
-        converter: CashHeaderViewModel.fromStore,
+    return new StoreConnector<AppState, _ProHeaderViewModel>(
+        converter: _ProHeaderViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(
             height: 260.0,
@@ -124,68 +124,15 @@ class ProHeader extends StatelessWidget {
                                 children: <Widget>[
                                   RichText(
                                     text: new TextSpan(
-                                      style: Theme.of(context).textTheme.title,
-                                      children: (viewModel
-                                                      .community.tokenBalance ==
-                                                  null ||
-                                              viewModel.community.token == null)
-                                          ? <TextSpan>[
-                                              new TextSpan(
-                                                  text: '0',
-                                                  style: new TextStyle(
-                                                      fontSize: 30,
-                                                      color: Theme.of(context)
-                                                          .splashColor,
-                                                      fontWeight:
-                                                          FontWeight.bold))
-                                            ]
-                                          : <TextSpan>[
-                                              new TextSpan(
-                                                  text: formatValue(
-                                                      viewModel.community
-                                                          .tokenBalance,
-                                                      viewModel.community.token
-                                                          .decimals),
-                                                  style: new TextStyle(
-                                                      fontSize: 32,
-                                                      color: Theme.of(context)
-                                                          .splashColor,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              new TextSpan(
-                                                  text: ' ' +
-                                                      viewModel.community.token
-                                                          ?.symbol
-                                                          .toString(),
-                                                  style: new TextStyle(
-                                                      fontSize: 18,
-                                                      color: Theme.of(context)
-                                                          .splashColor,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      height: 0.0)),
-                                              viewModel.isCommunityMember
-                                                  ? new TextSpan(
-                                                      text: ' (\$' +
-                                                          calcValueInDollar(
-                                                              viewModel
-                                                                  .community
-                                                                  .tokenBalance,
-                                                              viewModel
-                                                                  .community
-                                                                  .token
-                                                                  .decimals) +
-                                                          ')',
-                                                      style: new TextStyle(
-                                                          fontSize: 15,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .splashColor,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          height: 0.0))
-                                                  : new TextSpan(),
-                                            ],
+                                      children: <TextSpan>[
+                                        new TextSpan(
+                                            text: '\$' + viewModel.daiToken?.amount.toString(),
+                                            style: new TextStyle(
+                                                fontSize: 32,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                                fontWeight: FontWeight.bold)),
+                                      ],
                                     ),
                                   ),
                                 ])
@@ -204,7 +151,9 @@ class ProHeader extends StatelessWidget {
                                   Theme.of(context).primaryColorLight,
                                 ],
                               ),
-                              onPressed: scanBarcode,
+                              onPressed: () {
+                                comingSoon(context);
+                              },
                               child: Image.asset(
                                 'assets/images/scan.png',
                                 width: 25.0,
@@ -222,4 +171,24 @@ class ProHeader extends StatelessWidget {
           );
         });
   }
+}
+
+class _ProHeaderViewModel extends Equatable {
+  final Function() firstName;
+  final Token daiToken;
+
+  _ProHeaderViewModel({this.firstName, this.daiToken});
+
+  static _ProHeaderViewModel fromStore(Store<AppState> store) {
+    Token token = store.state.proWalletState.tokens.firstWhere((token) => token.address.contains(daiTokenAddress), orElse: () => new Token.initial());
+    return _ProHeaderViewModel(
+        daiToken: token,
+        firstName: () {
+          String fullName = store.state.userState.displayName ?? '';
+          return fullName.split(' ')[0];
+        });
+  }
+
+  @override
+  List<Object> get props => [];
 }

@@ -15,7 +15,7 @@ isCurrentRoute(BuildContext context, String route) {
 }
 
 Widget bottomBar(BuildContext context) {
-  bool isHomePage = isCurrentRoute(context, '/Cash');
+  bool isHomePage = isCurrentRoute(context, Router.cashHomeScreen);
   return new StoreConnector<AppState, BottomBarViewModel>(
       distinct: true,
       converter: BottomBarViewModel.fromStore,

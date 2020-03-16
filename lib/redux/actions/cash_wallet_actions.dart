@@ -14,6 +14,7 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
+import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/redux/state/store.dart';
@@ -1243,14 +1244,17 @@ ThunkAction sendTokenToContactCall(String name, String contactPhoneNumber, num t
   };
 }
 
-ThunkAction transferDaipToForiegnNetwork() {
+ThunkAction transferDaiPointsToForiegnNetwork() {
   return (Store store) async {
-    String communityAddres = store.state.cashWalletState.communityAddress;
+    String communityAddres = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
     Community community = store.state.cashWalletState.communities[communityAddres];
     String receiverAddress = community.homeBridgeAddress;
-    num tokensAmount = 1;
+    num tokensAmount = num.parse(formatValue(community.tokenBalance, community.token.decimals));
 
-    VoidCallback sendSuccessCallback = () { };
+    VoidCallback sendSuccessCallback = () {
+      store.dispatch(startListenToTransferEvents());
+    };
+
     VoidCallback sendFailureCallback = () { };
 
     store.dispatch(sendTokenCall(receiverAddress, tokensAmount, sendSuccessCallback, sendFailureCallback));

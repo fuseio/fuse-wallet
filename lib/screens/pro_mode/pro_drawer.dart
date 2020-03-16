@@ -7,9 +7,9 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/views/drawer.dart';
 import 'package:fusecash/screens/cash_home/deposit_webview.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/widgets/coming_soon.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
@@ -104,10 +104,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     if (isFork() || isPaywise(viewModel.communityAddress)) {
       return [
         getListTile(I18n.of(context).backup_wallet, () {
-          Router.navigator.pushNamed(Router.showMnemonic);
+          comingSoon(context);
+          // Router.navigator.pushNamed(Router.showMnemonic);
         }, icon: 'backup_icon.svg'),
         getListTile(I18n.of(context).settings, () {
-          Router.navigator.pushNamed(Router.settingsScreen);
+          comingSoon(context);
+          // Router.navigator.pushNamed(Router.settingsScreen);
         }, icon: 'settings_icon.svg'),
       ];
     } else {
@@ -116,10 +118,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         //   Router.navigator.pushNamed(Router.switchCommunityScreen);
         // }, icon: 'switch_icon.svg'),
         getListTile(I18n.of(context).backup_wallet, () {
-          Router.navigator.pushNamed(Router.showMnemonic);
+          comingSoon(context);
+          // Router.navigator.pushNamed(Router.showMnemonic);
         }, icon: 'backup_icon.svg'),
         getListTile(I18n.of(context).settings, () {
-          Router.navigator.pushNamed(Router.settingsScreen);
+          // Router.navigator.pushNamed(Router.settingsScreen);
+          comingSoon(context);
         }, icon: 'settings_icon.svg'),
       ];
     }
@@ -233,7 +237,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       child: SvgPicture.asset(
                         'assets/images/switch_cash.svg',
                         width: 20.0,
-                        color: Theme.of(context).scaffoldBackgroundColor,
                       ),
                       onPressed: () {
                         viewModel.replaceNavigator(false);
@@ -259,7 +262,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     children: <Widget>[
                       drawerHeader(viewModel),
                       ...menuItem(viewModel),
-                      ...pluginsItems(viewModel),
                     ],
                   ),
                 ),

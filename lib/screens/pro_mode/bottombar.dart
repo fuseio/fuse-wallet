@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,18 +7,9 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/bottom_bar.dart';
 import 'package:fusecash/screens/pro_routes.gr.dart';
 import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/widgets/coming_soon.dart';
 
-void comingSoon(context) {
-  Flushbar(
-    flushbarPosition: FlushbarPosition.BOTTOM,
-    duration: Duration(seconds: 2),
-    messageText: new Text(
-      "Coming soon",
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.white),
-    ),
-  )..show(context);
-}
+
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;
@@ -27,7 +17,7 @@ isCurrentRoute(BuildContext context, String route) {
 }
 
 Widget bottomBar(BuildContext context) {
-  bool isHomePage = isCurrentRoute(context, '/Cash');
+  bool isHomePage = isCurrentRoute(context, ProRouter.proModeHomeScreen);
   return new StoreConnector<AppState, BottomBarViewModel>(
       distinct: true,
       converter: BottomBarViewModel.fromStore,

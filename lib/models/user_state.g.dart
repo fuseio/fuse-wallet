@@ -12,6 +12,7 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     walletAddress: json['walletAddress'] as String,
     communityManagerAddress: json['communityManagerAddress'] as String,
     transferManagerAddress: json['transferManagerAddress'] as String,
+    networks: (json['networks'] as List)?.map((e) => e as String)?.toList(),
     mnemonic: (json['mnemonic'] as List)?.map((e) => e as String)?.toList(),
     privateKey: json['privateKey'] as String,
     pincode: json['pincode'] as String,
@@ -37,7 +38,6 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     installedAt: json['installedAt'] == null
         ? null
         : DateTime.parse(json['installedAt'] as String),
-    networks: (json['networks'] as List)?.map((e) => e as String)?.toList(),
     isProModeActivated: json['isProModeActivated'] as bool,
   );
 }
@@ -47,10 +47,10 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'walletAddress': instance.walletAddress,
       'communityManagerAddress': instance.communityManagerAddress,
       'transferManagerAddress': instance.transferManagerAddress,
+      'networks': instance.networks,
       'mnemonic': instance.mnemonic,
       'privateKey': instance.privateKey,
       'pincode': instance.pincode,
-      'networks': instance.networks,
       'accountAddress': instance.accountAddress,
       'countryCode': instance.countryCode,
       'phoneNumber': instance.phoneNumber,

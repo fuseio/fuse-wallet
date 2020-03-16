@@ -10,6 +10,7 @@ dependencies:
   http: ^0.12.0+4
   google_maps_flutter: ^0.5.24+1
   equatable: ^1.1.1
+  shared_preferences: ^0.5.6+3
   package_info: ^0.4.0+14
   interactive_webview: ^0.1.2
   share: ^0.6.3+6
@@ -22,9 +23,8 @@ dependencies:
   redux_thunk: ^0.3.0
   redux_logging: ^0.4.0
   redux_persist: ^0.8.2
-  redux_persist_flutter: ^0.8.2
   country_code_picker: ^1.2.4
-  wallet_core: ^0.1.2
+  wallet_core: ^0.1.2+1
   # wallet_core:
     # path: ../wallet_core
   barcode_scan: ^2.0.1
@@ -44,7 +44,7 @@ dependencies:
   firebase_auth: ^0.15.5+2
   ethereum_address: ^1.0.1
   sentry: ">=3.0.0 <4.0.0"
-  device_info: ^0.4.1+5
+  device_info: ^0.4.2+1
   flutter_cupertino_localizations: ^1.0.1
   flutter_branch_sdk: ^0.2.0
   flutter:

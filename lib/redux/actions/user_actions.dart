@@ -10,6 +10,7 @@ import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:interactive_webview/interactive_webview.dart';
@@ -428,6 +429,31 @@ ThunkAction create3boxAccountCall(accountAddress) {
       logger.info('save user $accountAddress');
     } catch (e) {
       logger.severe('user $accountAddress already saved');
+    }
+  };
+}
+
+ThunkAction activateProModeCall() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    store.dispatch(ActivateProMode());
+    store.dispatch(initWeb3ProMode());
+    try {
+      String foreign = DotEnv().env['MODE'] == 'production' ? 'mainnet' : 'ropsten';
+      bool deployForeignToken = store.state.userState.networks.contains(foreign);
+      if (!deployForeignToken) {
+        store.dispatch(transferDaiPointsToForiegnNetwork());
+        dynamic walletData = await api.getWallet();
+        String communityManager = walletData['communityManager'];
+        String transferManager = walletData['transferManager'];
+        List<String> networks = List<String>.from(walletData['networks']);
+        String walletAddress = store.state.userState.walletAddress;
+        store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, communityManagerAddress: communityManager, transferManagerAddress: transferManager, networks: networks));
+        await api.createWalletOnForeign();
+      }
+    } catch (error, stackTrace) {
+      logger.severe('Error createWalletOnForeign', error);
+      await AppFactory().reportError(error, stackTrace);
     }
   };
 }
