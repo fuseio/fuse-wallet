@@ -15,10 +15,8 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
         ? null
         : CashWalletState.fromJson(
             json['cashWalletState'] as Map<String, dynamic>),
-    proWalletState: json['proWalletState'] == null
-        ? null
-        : ProWalletState.fromJson(
-            json['proWalletState'] as Map<String, dynamic>),
+    proWalletState: AppState._proStateFromJson(
+        json['proWalletState'] as Map<String, dynamic>),
   );
 }
 

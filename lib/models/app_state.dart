@@ -9,7 +9,11 @@ part 'app_state.g.dart';
 class AppState {
   final UserState userState;
   final CashWalletState cashWalletState;
+  @JsonKey(fromJson: _proStateFromJson)
   final ProWalletState proWalletState;
+
+  static ProWalletState _proStateFromJson(Map<String, dynamic> json) =>
+      json == null ? ProWalletState.initial() : ProWalletState.fromJson(json);
 
   AppState({this.userState, this.cashWalletState, this.proWalletState});
 
