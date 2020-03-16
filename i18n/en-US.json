@@ -52,7 +52,7 @@
     "save_button": "Save",
     "fuse_studio": "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code",
     "enable_contacts_access": "Enable Contacts Access",
-    "enable_text": "Your contacts will not be saved on our \n server and this action will not send  \n them any massages",
+    "enable_text": "Your contacts will not be saved on our \n server and this action will not send  \n them any messages",
     "dont_worry": "Don't worry:",
     "enable_contacts_text": "Enable contact sync to send\n money to your phone contacts",
     "sync_contacts": "Sync contcats",
