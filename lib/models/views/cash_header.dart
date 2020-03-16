@@ -29,5 +29,5 @@ class CashHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [community, plugins];
+  List<Object> get props => [community, plugins, isCommunityMember, walletStatus];
 }
