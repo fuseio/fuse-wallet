@@ -6,6 +6,7 @@ import 'package:fusecash/screens/buy/buy.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/buy/map.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
+import 'package:fusecash/screens/cash_home/cash_mode.dart';
 import 'package:fusecash/screens/cash_home/dai_explained.dart';
 import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
@@ -37,6 +38,7 @@ class $Router {
   PincodeScreen pincodeScreen;
   LevelSelectorScreen levelSelectorScreen;
   CashHomeScreen cashHomeScreen;
+  CashModeScaffold homeScreen;
   TransactionDetailsScreen transactionDetailsScreen;
   SendToContactScreen sendToContactScreen;
   SendAmountScreen sendAmountScreen;

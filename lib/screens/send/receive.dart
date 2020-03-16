@@ -22,7 +22,7 @@ class ReceiveScreen extends StatelessWidget {
           return MainScaffold(
             title: I18n.of(context).receive,
             titleFontSize: 15,
-            footer: bottomBar(context),
+            footer: null, // bottomBar(context),
             withPadding: false,
             children: <Widget>[
               Container(

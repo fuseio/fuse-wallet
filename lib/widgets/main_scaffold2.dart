@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/widgets/drawer.dart';
+// import 'package:fusecash/widgets/drawer.dart';
 import 'package:flutter/services.dart';
-import 'bottombar.dart';
+import 'package:fusecash/widgets/drawer.dart';
+// import 'bottombar.dart';
 
 class MainScaffold extends StatelessWidget {
-    MainScaffold(
-      {this.title,
-      this.header,
-      this.children,
-      this.key,
-      this.showFooter});
+  MainScaffold(
+      {this.title, this.header, this.children, this.key, this.showFooter});
   final String title;
   final Widget header;
   final List<Widget> children;
@@ -23,17 +20,17 @@ class MainScaffold extends StatelessWidget {
 
     return Scaffold(
         key: key,
-        drawer: DrawerWidget(),
-        drawerEdgeDragWidth: 0,
-        appBar: header != null
-            ? new PreferredSize(
-                child: header,
-                preferredSize:
-                    new Size(MediaQuery.of(context).size.width, 350.0))
-            : null,
+        // drawer: DrawerWidget(),
+        // drawerEdgeDragWidth: 0,
+        // appBar: header != null
+        //     ? new PreferredSize(
+        //         child: header,
+        //         preferredSize:
+        //             new Size(MediaQuery.of(context).size.width, 350.0))
+        //     : null,
         body: Column(children: <Widget>[
           Expanded(child: ListView(children: children)),
-          showFooter ? bottomBar(context) : SizedBox.shrink()
+          // showFooter ? bottomBar(context) : SizedBox.shrink()
         ]));
   }
 }

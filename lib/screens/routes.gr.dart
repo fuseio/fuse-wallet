@@ -15,6 +15,7 @@ import 'package:fusecash/screens/send/receive.dart';
 import 'package:fusecash/screens/misc/pincode.dart';
 import 'package:fusecash/screens/signup/level_selector.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
+import 'package:fusecash/screens/cash_home/cash_mode.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/screens/send/send_contact.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
@@ -44,6 +45,7 @@ class Router {
   static const pincodeScreen = '/pincode-screen';
   static const levelSelectorScreen = '/level-selector-screen';
   static const cashHomeScreen = '/cash-home-screen';
+  static const homeScreen = '/home-screen';
   static const transactionDetailsScreen = '/transaction-details-screen';
   static const sendToContactScreen = '/send-to-contact-screen';
   static const sendAmountScreen = '/send-amount-screen';
@@ -108,6 +110,15 @@ class Router {
       case Router.cashHomeScreen:
         return MaterialPageRoute<dynamic>(
           builder: (_) => CashHomeScreen(),
+          settings: settings,
+        );
+      case Router.homeScreen:
+        if (hasInvalidArgs<Key>(args)) {
+          return misTypedArgsRoute<Key>(args);
+        }
+        final typedArgs = args as Key;
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => CashModeScaffold(key: typedArgs),
           settings: settings,
         );
       case Router.transactionDetailsScreen:

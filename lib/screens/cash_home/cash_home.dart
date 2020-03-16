@@ -93,7 +93,7 @@ class CashHomeScreen extends StatelessWidget {
         builder: (_, viewModel) {
           return MainScaffold(
               showFooter: true,
-              header: CashHeader(),
+              // header: CashHeader(),
               children: <Widget>[CashTransactios(viewModel: viewModel)]);
         });
   }

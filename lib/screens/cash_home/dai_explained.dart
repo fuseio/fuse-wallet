@@ -6,7 +6,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/activate_pro_mode.dart';
-import 'package:fusecash/widgets/bottombar.dart';
+// import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:flushbar/flushbar.dart';
 
@@ -21,7 +21,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
     return MainScaffold(
         title: I18n.of(context).dai_points,
         titleFontSize: 15,
-        footer: bottomBar(context),
+        footer: null, // bottomBar(context),
         withPadding: false,
         children: <Widget>[
           Column(
