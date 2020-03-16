@@ -10,21 +10,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/widgets/raised_gradient_button.dart';
 
 class ProHeader extends StatelessWidget {
-  // scanBarcode() async {
-  //   try {
-  //     String accountAddress = await BarcodeScanner.scan();
-  //     List<String> parts = accountAddress.split(':');
-  //     if (parts.length == 2 && parts[0] == 'fuse') {
-  //       Router.navigator.pushNamed(Router.sendAmountScreen,
-  //           arguments: SendAmountArguments(
-  //               sendType: SendType.QR_ADDRESS, accountAddress: parts[1]));
-  //     } else {
-  //       print('Account address is not on Fuse');
-  //     }
-  //   } catch (e) {
-  //     print('ERROR - BarcodeScanner');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

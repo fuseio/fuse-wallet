@@ -135,7 +135,6 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     width: 160,
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        // Navigator.pushNamed(context, Router.doneBackup);
                         Router.navigator.pushNamed(Router.doneBackup);
                       }
                     },

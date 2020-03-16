@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/pro/views/pro_wallet.dart';
-// import 'package:fusecash/utils/format.dart';
 
 class ProTransactios extends StatelessWidget {
   ProTransactios({this.viewModel});

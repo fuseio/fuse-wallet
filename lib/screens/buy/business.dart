@@ -259,11 +259,6 @@ class _BusinessPageState extends State<BusinessPage> {
                                                       .secondary),
                                             ),
                                           ),
-                                          // Text('',
-                                          //     style: TextStyle(
-                                          //         color: Theme.of(context)
-                                          //             .colorScheme
-                                          //             .secondary)),
                                         ],
                                       )
                                     ],

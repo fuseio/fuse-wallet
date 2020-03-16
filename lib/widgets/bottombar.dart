@@ -1,4 +1,3 @@
-// import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,7 +5,6 @@ import 'package:fusecash/common.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/bottom_bar.dart';
-// import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 
 isCurrentRoute(BuildContext context, String route) {

@@ -40,8 +40,6 @@ class SettingsScreen extends StatelessWidget {
         new Divider(),
         getListTile(context, I18n.of(context).logout, () {
           Router.navigator.pushNamedAndRemoveUntil(Router.splashScreen, (Route<dynamic> route) => false);
-          // Navigator.of(context)
-          //     .pushNamedAndRemoveUntil(Router.splashScreen, (Route<dynamic> route) => false);
           viewModel.logout();
         })
       ];
