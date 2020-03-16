@@ -7,9 +7,9 @@ import 'package:fusecash/models/community.dart';
 
 class PrizeViewModel extends Equatable {
   final Community community;
-  final Function() firstName;
   final Plugins plugins;
   final bool isDefaultCommunity;
+  final Function() firstName;
 
   PrizeViewModel({this.community, this.firstName, this.plugins, this.isDefaultCommunity});
 
@@ -27,5 +27,5 @@ class PrizeViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [community];
+  List<Object> get props => [community, isDefaultCommunity, plugins];
 }

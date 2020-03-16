@@ -1,10 +1,6 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/models/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transaction.g.dart';
-
-String funderAddress = DotEnv().env['FUNDER_ADDRESS'];
 
 @JsonSerializable(explicitToJson: true)
 class Transaction {
@@ -45,14 +41,3 @@ class Transaction {
 
   Map<String, dynamic> toJson() => _$TransactionToJson(this);
 }
-
-
-class TransactionFactory {
-  static fromJson(Map<String, dynamic> json) {
-    if (json['type'] == 'RECEIVE' || json['type'] == 'SEND') {
-      return Transfer.fromJson(json);
-    }
-    return Transaction.fromJson(json);
-  }
-}
-

@@ -4,7 +4,12 @@ import 'package:flutter/services.dart';
 import 'bottombar.dart';
 
 class MainScaffold extends StatelessWidget {
-  MainScaffold({this.title, this.header, this.children, this.key, this.showFooter});
+    MainScaffold(
+      {this.title,
+      this.header,
+      this.children,
+      this.key,
+      this.showFooter});
   final String title;
   final Widget header;
   final List<Widget> children;

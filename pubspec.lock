@@ -245,7 +245,7 @@ packages:
       name: device_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.1+5"
+    version: "0.4.2+1"
   equatable:
     dependency: "direct main"
     description:
@@ -819,13 +819,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.3"
-  redux_persist_flutter:
-    dependency: "direct main"
-    description:
-      name: redux_persist_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.2"
   redux_thunk:
     dependency: "direct main"
     description:
@@ -869,12 +862,12 @@ packages:
     source: hosted
     version: "0.6.3+6"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.6+2"
+    version: "0.5.6+3"
   shared_preferences_macos:
     dependency: transitive
     description:
@@ -1061,7 +1054,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.2+1"
   watcher:
     dependency: transitive
     description:

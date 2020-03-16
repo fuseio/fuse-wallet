@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
 import 'package:fusecash/widgets/on_boarding_pages.dart';
 import 'dots_indicator.dart';
@@ -55,11 +58,28 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  onInit(store) {
+    String privateKey = store.state.userState.privateKey;
+    String jwtToken = store.state.userState.jwtToken;
+    bool isLoggedOut = store.state.userState.isLoggedOut;
+    String communityManager = store.state.cashWalletState.communityManagerAddress;
+    String transferManager = store.state.cashWalletState.transferManagerAddress;
+    if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+      store.dispatch(getWalletAddressessCall(
+          communityManager: communityManager,
+          transferManager: transferManager));
+      store.dispatch(identifyCall());
+      Router.navigator.pushNamedAndRemoveUntil(
+          Router.cashHomeScreen, (Route<dynamic> route) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Drawer drawer = Drawer();
     return new StoreConnector<AppState, SplashViewModel>(
         distinct: true,
+        onInit: onInit,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
           List pages = getPages(context);

@@ -1,8 +1,12 @@
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([
+  TypedReducer<UserState, GetWalletAddressesSuccess>(_getWalletAddressesSuccess),
+  TypedReducer<UserState, ActivateProMode>(_activateProMode),
+  TypedReducer<UserState, SwitchWalletMode>(_switchWalletMode),
   TypedReducer<UserState, RestoreWalletSuccess>(_restoreWalletSuccess),
   TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
@@ -23,6 +27,23 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
   TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
 ]);
+
+UserState _getWalletAddressesSuccess(UserState state, GetWalletAddressesSuccess action) {
+  return state.copyWith(
+    networks: action.networks,
+    walletAddress: action.walletAddress,
+    transferManagerAddress: action.transferManagerAddress,
+    communityManagerAddress: action.communityManagerAddress,
+    walletStatus: 'created');
+}
+
+UserState _activateProMode(UserState state, ActivateProMode action) {
+  return state.copyWith(isProModeActivated: true);
+}
+
+UserState _switchWalletMode(UserState state, SwitchWalletMode action) {
+  return state.copyWith(isProMode: action.isProMode);
+}
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
   return state.copyWith(backup: true);

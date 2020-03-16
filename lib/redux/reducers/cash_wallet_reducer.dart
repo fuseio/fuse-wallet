@@ -1,8 +1,8 @@
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/transactions.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
+import 'package:fusecash/models/transactions/transactions.dart';
+import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
@@ -164,7 +164,9 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       plugins: action.plugins,
       token: action.token,
       name: action.communityName,
-      isClosed: action.isClosed
+      isClosed: action.isClosed,
+      homeBridgeAddress: action.homeBridgeAddress,
+      foreignBridgeAddress: action.foreignBridgeAddress
     );
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);

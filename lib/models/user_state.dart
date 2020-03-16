@@ -8,6 +8,11 @@ part 'user_state.g.dart';
 @immutable
 @JsonSerializable(explicitToJson: true)
 class UserState {
+  final String walletStatus;
+  final String walletAddress;
+  final String communityManagerAddress;
+  final String transferManagerAddress;
+  final List<String> networks;
   final List<String> mnemonic;
   final String privateKey;
   final String pincode;
@@ -28,7 +33,10 @@ class UserState {
   final bool backup;
   final int displayBalance;
   final DateTime installedAt;
+  final bool isProModeActivated;
 
+  @JsonKey(ignore: true, defaultValue: false)
+  final bool isProMode;
   @JsonKey(ignore: true)
   final bool isLoginRequest;
   @JsonKey(ignore: true)
@@ -39,7 +47,12 @@ class UserState {
   final PhoneAuthCredential credentials;
 
   UserState(
-      {this.mnemonic,
+      {this.walletStatus,
+      this.walletAddress,
+      this.communityManagerAddress,
+      this.transferManagerAddress,
+      this.networks,
+      this.mnemonic,
       this.privateKey,
       this.pincode,
       this.accountAddress,
@@ -62,10 +75,17 @@ class UserState {
       this.displayBalance,
       this.installedAt,
       this.isLoginRequest,
-      this.isVerifyRequest});
+      this.isVerifyRequest,
+      this.isProMode,
+      this.isProModeActivated});
 
   factory UserState.initial() {
     return new UserState(
+        walletAddress: "",
+        transferManagerAddress: "",
+        communityManagerAddress: "",
+        walletStatus: null,
+        networks: [],
         mnemonic: [],
         privateKey: "",
         pincode: null,
@@ -89,11 +109,18 @@ class UserState {
         displayBalance: 0,
         installedAt: DateTime.now().toUtc(),
         isLoginRequest: false,
-        isVerifyRequest: false);
+        isVerifyRequest: false,
+        isProMode: false,
+        isProModeActivated: false);
   }
 
   UserState copyWith(
-      {List<String> mnemonic,
+      {String walletAddress,
+      String communityManagerAddress,
+      String transferManagerAddress,
+      String walletStatus,
+      List<String> networks,
+      List<String> mnemonic,
       String privateKey,
       String pincode,
       String accountAddress,
@@ -116,8 +143,15 @@ class UserState {
       int displayBalance,
       DateTime installedAt,
       bool isLoginRequest,
-      bool isVerifyRequest}) {
+      bool isVerifyRequest,
+      bool isProMode,
+      bool isProModeActivated}) {
     return UserState(
+        walletAddress: walletAddress ?? this.walletAddress,
+        communityManagerAddress: communityManagerAddress ?? this.communityManagerAddress,
+        transferManagerAddress: transferManagerAddress ?? this.transferManagerAddress,
+        walletStatus: walletStatus ?? this.walletStatus,
+        networks: networks ?? this.networks,
         mnemonic: mnemonic ?? this.mnemonic,
         privateKey: privateKey ?? this.privateKey,
         pincode: pincode ?? this.pincode,
@@ -141,7 +175,9 @@ class UserState {
         displayBalance: displayBalance ?? this.displayBalance,
         installedAt: installedAt ?? this.installedAt,
         isLoginRequest: isLoginRequest ?? this.isLoginRequest,
-        isVerifyRequest: isVerifyRequest ?? this.isVerifyRequest);
+        isVerifyRequest: isVerifyRequest ?? this.isVerifyRequest,
+        isProMode: isProMode ?? this.isProMode,
+        isProModeActivated: isProModeActivated ?? this.isProModeActivated);
   }
 
   dynamic toJson() => _$UserStateToJson(this);

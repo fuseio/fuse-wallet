@@ -69,6 +69,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: new FloatingActionButton(
+                      heroTag: 'switch_scanner',
                       mini: true,
                       backgroundColor: const Color(0xFF292929),
                       elevation: 0,

@@ -8,6 +8,11 @@ part of 'user_state.dart';
 
 UserState _$UserStateFromJson(Map<String, dynamic> json) {
   return UserState(
+    walletStatus: json['walletStatus'] as String,
+    walletAddress: json['walletAddress'] as String,
+    communityManagerAddress: json['communityManagerAddress'] as String,
+    transferManagerAddress: json['transferManagerAddress'] as String,
+    networks: (json['networks'] as List)?.map((e) => e as String)?.toList(),
     mnemonic: (json['mnemonic'] as List)?.map((e) => e as String)?.toList(),
     privateKey: json['privateKey'] as String,
     pincode: json['pincode'] as String,
@@ -33,10 +38,16 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     installedAt: json['installedAt'] == null
         ? null
         : DateTime.parse(json['installedAt'] as String),
+    isProModeActivated: json['isProModeActivated'] as bool,
   );
 }
 
 Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
+      'walletStatus': instance.walletStatus,
+      'walletAddress': instance.walletAddress,
+      'communityManagerAddress': instance.communityManagerAddress,
+      'transferManagerAddress': instance.transferManagerAddress,
+      'networks': instance.networks,
       'mnemonic': instance.mnemonic,
       'privateKey': instance.privateKey,
       'pincode': instance.pincode,
@@ -57,4 +68,5 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'backup': instance.backup,
       'displayBalance': instance.displayBalance,
       'installedAt': instance.installedAt?.toIso8601String(),
+      'isProModeActivated': instance.isProModeActivated,
     };

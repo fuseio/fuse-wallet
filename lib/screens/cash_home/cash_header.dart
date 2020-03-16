@@ -11,6 +11,22 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
 class CashHeader extends StatelessWidget {
+  scanBarcode() async {
+    try {
+      String accountAddress = await BarcodeScanner.scan();
+      List<String> parts = accountAddress.split(':');
+      if (parts.length == 2 && parts[0] == 'fuse') {
+        Router.navigator.pushNamed(Router.sendAmountScreen,
+            arguments: SendAmountArguments(
+                sendType: SendType.QR_ADDRESS, accountAddress: parts[1]));
+      } else {
+        print('Account address is not on Fuse');
+      }
+    } catch (e) {
+      print('ERROR - BarcodeScanner');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashHeaderViewModel>(
@@ -201,6 +217,7 @@ class CashHeader extends StatelessWidget {
                                   )
                                 : SizedBox.shrink(),
                             new FloatingActionButton(
+                                heroTag: 'cash_scanner',
                                 backgroundColor: const Color(0xFF292929),
                                 elevation: 0,
                                 child: Image.asset(
@@ -209,26 +226,7 @@ class CashHeader extends StatelessWidget {
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                 ),
-                                onPressed: () async {
-                                  try {
-                                    String accountAddress =
-                                        await BarcodeScanner.scan();
-                                    List<String> parts =
-                                        accountAddress.split(':');
-                                    if (parts.length == 2 &&
-                                        parts[0] == 'fuse') {
-                                      Router.navigator.pushNamed(
-                                          Router.sendAmountScreen,
-                                          arguments: SendAmountArguments(
-                                              sendType: SendType.QR_ADDRESS,
-                                              accountAddress: parts[1]));
-                                    } else {
-                                      print('Account address is not on Fuse');
-                                    }
-                                  } catch (e) {
-                                    print('ERROR - BarcodeScanner');
-                                  }
-                                })
+                                onPressed: scanBarcode)
                           ]),
                         )
                       ],

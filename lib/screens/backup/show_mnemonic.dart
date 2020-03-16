@@ -111,7 +111,6 @@ class ShowMnemonic extends StatelessWidget {
                                         children: <Widget>[
                                           CopyToClipboard(
                                             context: context,
-                                            // scaffoldState: scaffoldState,
                                             content: viewModel.user.mnemonic
                                                 .join(" "),
                                           ),

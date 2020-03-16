@@ -147,7 +147,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 onPressed: () {
                   args.amount = num.parse(amountText);
                   Router.navigator.pushNamed(Router.sendReviewScreen, arguments: args);
-                  // Navigator.pushNamed(context, Router.sendReviewScreen, arguments: args);
                 },
                 preload: isPreloading,
                 width: 300,

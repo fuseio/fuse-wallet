@@ -2,7 +2,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';

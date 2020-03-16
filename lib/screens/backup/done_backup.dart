@@ -68,7 +68,6 @@ class DoneBackup extends StatelessWidget {
                     labelFontWeight: FontWeight.normal,
                     label: I18n.of(context).ok,
                     fontSize: 15,
-                    // width: 160,
                     onPressed: () async {
                       viewModal.backupWallet();
                     },

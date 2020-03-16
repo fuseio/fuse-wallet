@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/draw_info.dart';
 import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/models/transactions.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import './token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cash_wallet_state.g.dart';
@@ -125,13 +122,9 @@ class CashWalletState {
       bool isListeningToBranch,
       bool isBranchDataReceived,
       bool isJobProcessingStarted,
-      Token token,
-      BigInt tokenBalance,
       Map<String, num> sendToInvites,
-      Transactions transactions,
       Plugins plugins,
-      Map<String, Community> communities,
-      DrawInfo drawInfo}) {
+      Map<String, Community> communities}) {
     return CashWalletState(
         web3: web3 ?? this.web3,
         walletAddress: walletAddress ?? this.walletAddress,

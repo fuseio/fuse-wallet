@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/common.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/prize.dart';
+import 'package:fusecash/models/views/bottom_bar.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 
 isCurrentRoute(BuildContext context, String route) {
@@ -14,8 +14,9 @@ isCurrentRoute(BuildContext context, String route) {
 
 Widget bottomBar(BuildContext context) {
   bool isHomePage = isCurrentRoute(context, Router.cashHomeScreen);
-  return new StoreConnector<AppState, PrizeViewModel>(
-      converter: PrizeViewModel.fromStore,
+  return new StoreConnector<AppState, BottomBarViewModel>(
+      distinct: true,
+      converter: BottomBarViewModel.fromStore,
       builder: (_, viewModel) {
         return Hero(
           tag: "footerNav",

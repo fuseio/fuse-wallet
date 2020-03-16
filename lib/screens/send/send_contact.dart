@@ -7,8 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/transfer.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
+import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/enable_contacts.dart';
@@ -337,18 +337,27 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 style: TextStyle(fontSize: 16),
               ),
               onTap: () async {
-                String phoneNumber = formatPhoneNumber(contact.phones.first.value, viewModel.countryCode);
-                dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
-                String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
-                Router.navigator.pushNamed(Router.sendAmountScreen,
+                if (contact == null) {
+                  Router.navigator.pushNamed(Router.sendAmountScreen,
                     arguments: SendAmountArguments(
-                        sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
-                        accountAddress: accountAddress,
+                        sendType: SendType.FUSE_ADDRESS,
+                        accountAddress: transfer.to,
                         name: displatName,
-                        avatar: contact?.avatar != null && contact.avatar.isNotEmpty
-                            ? MemoryImage(contact.avatar)
-                            : new AssetImage('assets/images/anom.png'),
-                        phoneNumber: phoneNumber));
+                        avatar: new AssetImage('assets/images/anom.png')));
+                } else {
+                  String phoneNumber = formatPhoneNumber(contact.phones.first.value, viewModel.countryCode);
+                  dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
+                  String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
+                  Router.navigator.pushNamed(Router.sendAmountScreen,
+                      arguments: SendAmountArguments(
+                          sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
+                          accountAddress: accountAddress,
+                          name: displatName,
+                          avatar: contact?.avatar != null && contact.avatar.isNotEmpty
+                              ? MemoryImage(contact.avatar)
+                              : new AssetImage('assets/images/anom.png'),
+                          phoneNumber: phoneNumber));
+                }
               },
             ),
           ),
@@ -443,6 +452,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               Container(
                 child: new FloatingActionButton(
+                    heroTag: 'cash_scanner',
                     backgroundColor: const Color(0xFF292929),
                     elevation: 0,
                     child: Image.asset(

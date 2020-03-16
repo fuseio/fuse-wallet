@@ -199,7 +199,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                             height: 10,
                           ),
                           Text(
-                            'A weekly lottery that you join \n only by holding DAI points',
+                            'A weekly lottery that you join \n just by holding DAI points',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.secondary,

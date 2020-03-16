@@ -2,8 +2,7 @@ import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community_metadata.dart';
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/transaction.dart';
-import 'package:fusecash/models/transactions.dart';
+import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';
@@ -14,6 +13,8 @@ part 'community.g.dart';
 class Community {
   final String name;
   final String address;
+  final String homeBridgeAddress;
+  final String foreignBridgeAddress;
   final BigInt tokenBalance;
   final bool isMember;
   final List<Business> businesses;
@@ -37,7 +38,9 @@ class Community {
       this.tokenBalance,
       this.businesses,
       this.jobs,
-      this.metadata});
+      this.metadata,
+      this.homeBridgeAddress,
+      this.foreignBridgeAddress});
 
   static List<Job> _jobsFromJson(Map<String, dynamic> json) =>
       List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
@@ -51,11 +54,13 @@ class Community {
         isClosed: false,
         metadata: CommunityMetadata.initial(),
         address: null,
+        foreignBridgeAddress: null,
+        homeBridgeAddress: null,
         token: null,
         isMember: false,
         tokenBalance: BigInt.from(0),
         businesses: new List<Business>(),
-        transactions: new Transactions(list: new List<Transaction>()),
+        transactions: Transactions.initial(),
         plugins: new Plugins(),
         jobs: new List<Job>());
   }
@@ -63,6 +68,8 @@ class Community {
   Community copyWith({
     String name,
     String address,
+    String foreignBridgeAddress,
+    String homeBridgeAddress,
     Plugins plugins,
     Token token,
     Transactions transactions,
@@ -84,7 +91,9 @@ class Community {
         businesses: businesses ?? this.businesses,
         isMember: isMember ?? this.isMember,
         jobs: jobs ?? this.jobs,
-        transactions: transactions ?? this.transactions);
+        transactions: transactions ?? this.transactions,
+        homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
+        foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,);
   }
 
   factory Community.fromJson(Map<String, dynamic> json) =>

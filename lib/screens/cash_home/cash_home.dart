@@ -13,7 +13,8 @@ import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 
-void updateTheme(String communityAddress, Function _changeTheme, BuildContext context) {
+void updateTheme(
+    String communityAddress, Function _changeTheme, BuildContext context) {
   if (isPaywise(communityAddress)) {
     _changeTheme(context, MyThemeKeys.PAYWISE);
   } else if (isGoodDollar(communityAddress)) {
@@ -57,7 +58,6 @@ void onChange(CashWalletViewModel viewModel, BuildContext context) async {
 }
 
 class CashHomeScreen extends StatelessWidget {
-
   void _changeTheme(BuildContext buildContext, MyThemeKeys key) {
     CustomTheme.instanceOf(buildContext).changeTheme(key);
   }
@@ -65,7 +65,9 @@ class CashHomeScreen extends StatelessWidget {
   onInit(store) async {
     String walletStatus = store.state.cashWalletState.walletStatus;
     String accountAddress = store.state.userState.accountAddress;
-    if (walletStatus != 'deploying' && walletStatus != 'created' && accountAddress != '') {
+    if (walletStatus != 'deploying' &&
+        walletStatus != 'created' &&
+        accountAddress != '') {
       store.dispatch(createAccountWalletCall(accountAddress));
     }
     bool isPermitted = await Contacts.checkPermissions();
@@ -89,9 +91,8 @@ class CashHomeScreen extends StatelessWidget {
           onChange(nextViewModel, context);
         },
         builder: (_, viewModel) {
-          bool isWalletCreated = 'created' == viewModel.walletStatus;
           return MainScaffold(
-              showFooter: isWalletCreated,
+              showFooter: true,
               header: CashHeader(),
               children: <Widget>[CashTransactios(viewModel: viewModel)]);
         });
