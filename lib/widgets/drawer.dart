@@ -215,22 +215,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         color: Theme.of(context).splashColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w500)),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new FloatingActionButton(
-                      heroTag: 'header_scanner',
-                      mini: true,
-                      backgroundColor: const Color(0xFF292929),
-                      elevation: 0,
-                      child: SvgPicture.asset(
-                        'assets/images/cash_mode_icon.svg',
-                        width: 20.0,
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                      ),
-                      onPressed: () {
-                        viewModel.replaceNavigator(true);
-                      }),
-                )
+                new FloatingActionButton(
+                    heroTag: 'header_scanner',
+                    mini: true,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    child: SvgPicture.asset(
+                      'assets/images/cash_mode_icon.svg',
+                      width: 20.0,
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                    ),
+                    onPressed: () {
+                      viewModel.replaceNavigator(true);
+                    })
               ]),
         ));
   }

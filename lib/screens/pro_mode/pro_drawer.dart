@@ -227,21 +227,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         color: Theme.of(context).primaryColor,
                         fontSize: 13,
                         fontWeight: FontWeight.w500)),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new FloatingActionButton(
-                      heroTag: 'pro_scanner',
-                      mini: true,
-                      backgroundColor: const Color(0xFF292929),
-                      elevation: 0,
-                      child: SvgPicture.asset(
-                        'assets/images/pro_mode_icon.svg',
-                        width: 20.0,
-                      ),
-                      onPressed: () {
-                        viewModel.replaceNavigator(false);
-                      }),
-                )
+                new FloatingActionButton(
+                    heroTag: 'pro_scanner',
+                    mini: true,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    child: SvgPicture.asset(
+                      'assets/images/pro_mode_icon.svg',
+                      width: 20.0,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      viewModel.replaceNavigator(false);
+                    })
               ]),
         ));
   }
