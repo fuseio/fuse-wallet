@@ -83,7 +83,7 @@ ThunkAction getAccountTokens() {
     final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.userState.walletAddress;
-      dynamic response = await graph.getAccountToken(walletAddress); // daiTokenAddress
+      dynamic response = await graph.getAccountTokens(walletAddress);
       List<dynamic> accounts = List<dynamic>.from(response);
       if (accounts.isNotEmpty) {
         Map<String, dynamic> accountsBalances = Map<String, dynamic>.from(accounts[0]);
