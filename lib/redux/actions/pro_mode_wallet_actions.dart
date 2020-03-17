@@ -4,7 +4,6 @@ import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/addresses.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
@@ -73,7 +72,6 @@ ThunkAction startListenToTransferEvents() {
   return (Store store) async {
     new Timer.periodic(Duration(seconds: 5), (Timer timer) async {
       store.dispatch(getAccountTokens());
-      // store.dispatch(getForeignTransfersEvents(timer));
     });
     store.dispatch(new StartListenToTransferEventsSuccess());
   };
@@ -84,13 +82,8 @@ ThunkAction getAccountTokens() {
     final logger = await AppFactory().getLogger('action');
 
     try {
-      wallet_core.Web3 web3 = store.state.proWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
-      
       String walletAddress = store.state.userState.walletAddress;
-      dynamic response = await graph.getAccountTokens(walletAddress, daiTokenAddress);
+      dynamic response = await graph.getAccountTokens(walletAddress);
       List<dynamic> accounts = List<dynamic>.from(response);
       if (accounts.isNotEmpty) {
         Map<String, dynamic> accountsBalances = Map<String, dynamic>.from(accounts[0]);

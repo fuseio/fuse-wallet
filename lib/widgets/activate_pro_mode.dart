@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/models/community.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
@@ -51,9 +53,9 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
               borderRadius: BorderRadius.all(Radius.circular(12.0))),
           content: Stack(
             children: <Widget>[
-              new StoreConnector<AppState, _ActivateViewModel>(
+              new StoreConnector<AppState, ActivateProModeViewModel>(
                   distinct: true,
-                  converter: _ActivateViewModel.fromStore,
+                  converter: ActivateProModeViewModel.fromStore,
                   builder: (_, viewModel) {
                     return Container(
                       padding: EdgeInsets.only(top: 20, bottom: 20),
@@ -119,12 +121,16 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
   }
 }
 
-class _ActivateViewModel {
+class ActivateProModeViewModel {
   final Function activateProMode;
-  _ActivateViewModel({this.activateProMode});
+  final String daiPointsHomeBridgeAddress;
+  ActivateProModeViewModel({this.activateProMode, this.daiPointsHomeBridgeAddress});
 
-  static _ActivateViewModel fromStore(Store<AppState> store) {
-    return _ActivateViewModel(
+  static ActivateProModeViewModel fromStore(Store<AppState> store) {
+    String communityAddres = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
+    Community community = store.state.cashWalletState.communities[communityAddres];
+    return ActivateProModeViewModel(
+      daiPointsHomeBridgeAddress: community.homeBridgeAddress,
       activateProMode: () async {
         store.dispatch(activateProModeCall());
     });
