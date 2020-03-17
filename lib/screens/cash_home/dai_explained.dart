@@ -1,14 +1,20 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/community.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/activate_pro_mode.dart';
 import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:redux/redux.dart';
 
 class DaiExplainedScreen extends StatefulWidget {
   @override
@@ -244,40 +250,55 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                       ],
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return ActivateProModeDialog();
-                          });
-                      Segment.track(eventName: "Wallet: Withdraw DAI clicked");
+                  new StoreConnector<AppState, _DaiPointsViewModel>(
+                    converter: _DaiPointsViewModel.fromStore,
+                    builder: (_, vm) {
+                      return InkWell(
+                        onTap: () {
+                          if (vm.isProModeActivate) {
+                            Router.navigator.pushNamed(Router.sendAmountScreen,
+                                arguments: SendAmountArguments(
+                                    sendType: SendType.FUSE_ADDRESS,
+                                    accountAddress:
+                                        vm.daiPointsHomeBridgeAddress));
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ActivateProModeDialog();
+                                });
+                            Segment.track(eventName: "Wallet: Withdraw DAI clicked");
+                          }
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Withdraw DAI',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline
+                                        .color,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Image.asset(
+                                'assets/images/arrow_black.png',
+                                width: 15,
+                                height: 12,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     },
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'Withdraw DAI',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color:
-                                    Theme.of(context).textTheme.headline.color,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Image.asset(
-                            'assets/images/arrow_black.png',
-                            width: 15,
-                            height: 12,
-                          ),
-                        ],
-                      ),
-                    ),
                   )
                 ],
               ),
@@ -318,5 +339,22 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
             ],
           )
         ]);
+  }
+}
+
+class _DaiPointsViewModel {
+  final bool isProModeActivate;
+  final String daiPointsHomeBridgeAddress;
+  _DaiPointsViewModel({this.isProModeActivate, this.daiPointsHomeBridgeAddress});
+
+  static _DaiPointsViewModel fromStore(Store<AppState> store) {
+    String communityAddres =
+        DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
+    Community community =
+        store.state.cashWalletState.communities[communityAddres];
+    return _DaiPointsViewModel(
+      daiPointsHomeBridgeAddress: community.homeBridgeAddress,
+      isProModeActivate: store.state.userState.isProModeActivated,
+    );
   }
 }

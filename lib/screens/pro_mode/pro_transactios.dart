@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/pro/views/pro_wallet.dart';
+import 'package:fusecash/utils/addresses.dart';
 
 class ProTransactios extends StatelessWidget {
   ProTransactios({this.viewModel});
@@ -98,30 +99,40 @@ class _TokenRow extends StatelessWidget {
                             children: <Widget>[
                               new RichText(
                                   text: new TextSpan(children: <TextSpan>[
-                                new TextSpan(
-                                    text:
-                                        '\$' + token.amount.toStringAsFixed(3),
-                                    style: new TextStyle(
-                                        // color: deduceColor(transfer),
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).colorScheme.secondary)),
-                                // new TextSpan(
-                                //     text: " ${token.symbol}",
-                                //     style: new TextStyle(
-                                //         // color: deduceColor(transfer),
-                                //         fontSize: 10.0,
-                                //         fontWeight: FontWeight.normal,
-                                //         color: Theme.of(context).primaryColor)),
+                                token.address.contains(daiTokenAddress)
+                                    ? new TextSpan(
+                                        text: '\$' +
+                                            token.amount.toStringAsFixed(2),
+                                        style: new TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary))
+                                    : new TextSpan(
+                                        text: token.amount.toStringAsFixed(2) +
+                                            ' ' +
+                                            token.symbol,
+                                        style: new TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary)),
                               ])),
-                              Positioned(
-                                  bottom: -20,
-                                  child: Padding(
-                                      child: Text(token.amount.toStringAsFixed(3) + ' ' + token.symbol,
-                                          style: TextStyle(
-                                              color: Color(0xFF8D8D8D),
-                                              fontSize: 10)),
-                                      padding: EdgeInsets.only(top: 10)))
+                              token.address.contains(daiTokenAddress)
+                                  ? Positioned(
+                                      bottom: -20,
+                                      child: Padding(
+                                          child: Text(
+                                              token.amount.toStringAsFixed(2) +
+                                                  ' ' +
+                                                  token.symbol,
+                                              style: TextStyle(
+                                                  color: Color(0xFF8D8D8D),
+                                                  fontSize: 10)),
+                                          padding: EdgeInsets.only(top: 10)))
+                                  : SizedBox.shrink()
                             ],
                           )
                         ],
