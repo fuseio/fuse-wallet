@@ -4,48 +4,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/bottom_bar.dart';
-import 'package:fusecash/screens/buy/buy.dart';
-import 'package:fusecash/screens/cash_home/cash_header.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
-import 'package:fusecash/screens/cash_home/dai_explained.dart';
-import 'package:fusecash/screens/send/receive.dart';
-import 'package:fusecash/screens/send/send_contact.dart';
-import 'package:fusecash/widgets/drawer.dart';
+import 'package:fusecash/screens/pro_mode/pro_drawer.dart';
+import 'package:fusecash/screens/pro_mode/pro_header.dart';
+import 'package:fusecash/screens/pro_mode/pro_mode.dart';
 import 'package:flutter/services.dart';
+import 'package:fusecash/widgets/coming_soon.dart';
+// import 'package:fusecash/screens/pro_routes.gr.dart';
 
-class CashModeScaffold extends StatefulWidget {
-  final int tabIndex;
-  CashModeScaffold({Key key, this.tabIndex}) : super(key: key);
+class ProModeScaffold extends StatefulWidget {
+  // ProModeScaffold({Key key}) : super(key: key);
   @override
-  _CashModeScaffoldState createState() => _CashModeScaffoldState();
+  _ProModeScaffoldState createState() => _ProModeScaffoldState();
 }
 
-class _CashModeScaffoldState extends State<CashModeScaffold> {
+class _ProModeScaffoldState extends State<ProModeScaffold> {
   int _currentIndex = 0;
-
-  List<Widget> _pages(bool isDefualtCommunity) {
-    if (isDefualtCommunity) {
-      return [
-        CashHomeScreen(),
-        SendToContactScreen(),
-        DaiExplainedScreen(),
-        ReceiveScreen()
-      ];
-    } else {
-      return [
-        CashHomeScreen(),
-        SendToContactScreen(),
-        BuyScreen(),
-        ReceiveScreen()
-      ];
-    }
-  }
-
-  _onTap(int itemIndex) {
-    setState(() {
-      _currentIndex = itemIndex;
-    });
-  }
+  List<Widget> _pages = [
+    ProModeHomeScreen(),
+  ];
 
   BottomNavigationBarItem bottomBarItem(title, img) {
     return BottomNavigationBarItem(
@@ -68,12 +44,11 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
-        .copyWith(statusBarIconBrightness: Brightness.dark));
+        .copyWith(statusBarIconBrightness: Brightness.light));
 
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
-          final List<Widget> pages = _pages(vm.isDefaultCommunity);
           return Scaffold(
               key: widget.key,
               drawer: DrawerWidget(),
@@ -81,11 +56,20 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
               appBar: _currentIndex != 0
                   ? null
                   : new PreferredSize(
-                      child: CashHeader(),
+                      child: ProHeader(),
                       preferredSize:
                           new Size(MediaQuery.of(context).size.width, 350.0)),
               bottomNavigationBar: BottomNavigationBar(
-                onTap: _onTap,
+              onTap: (int itemIndex) {
+                  if (itemIndex != 0) {
+                    comingSoon(context);
+                    return;
+                  } else {
+                    setState(() {
+                      _currentIndex = itemIndex;
+                    });
+                  }
+                },
                 selectedFontSize: 13,
                 unselectedFontSize: 13,
                 type: BottomNavigationBarType.fixed,
@@ -95,13 +79,11 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
                 items: [
                   bottomBarItem(I18n.of(context).home, 'home'),
                   bottomBarItem(I18n.of(context).send_button, 'send'),
-                  vm.isDefaultCommunity
-                      ? bottomBarItem(I18n.of(context).dai_points, 'daipoints')
-                      : bottomBarItem(I18n.of(context).buy, 'buy'),
+                  bottomBarItem(I18n.of(context).trade, 'trade'),
                   bottomBarItem(I18n.of(context).receive, 'receive'),
                 ],
               ),
-              body: pages[_currentIndex]);
+              body: _pages[_currentIndex]);
         });
   }
 }

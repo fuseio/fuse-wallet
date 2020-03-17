@@ -13,7 +13,7 @@ import 'package:fusecash/screens/cash_home/deposit_webview.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/bottombar.dart';
+// import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:http/http.dart';
@@ -130,7 +130,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
               backgroundColor: Colors.white,
               title: '',
               titleFontSize: 15,
-              footer: bottomBar(context),
+              footer: null, // bottomBar(context),
               withPadding: false,
               children: <Widget>[
                 Padding(padding: EdgeInsets.only(top: 20), child: Preloader())
@@ -140,7 +140,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
               backgroundColor: Colors.white,
               title: '',
               titleFontSize: 15,
-              footer: bottomBar(context),
+              footer: null, // bottomBar(context),
               withPadding: false,
               children: <Widget>[
                 Padding(
@@ -168,7 +168,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                   backgroundColor: Colors.white,
                   title: '',
                   titleFontSize: 15,
-                  footer: bottomBar(context),
+                  footer: null, // bottomBar(context),
                   withPadding: false,
                   children: <Widget>[
                     Container(

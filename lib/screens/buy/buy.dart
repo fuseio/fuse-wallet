@@ -11,7 +11,7 @@ import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/widgets/bottombar.dart';
+// import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
@@ -46,7 +46,7 @@ class BuyScreen extends StatelessWidget {
               // ],
               withPadding: false,
               titleFontSize: 15,
-              footer: bottomBar(context),
+              footer: null, // bottomBar(context),
               title: I18n.of(context).buy,
               children: <Widget>[BusinessesListView()]);
         });

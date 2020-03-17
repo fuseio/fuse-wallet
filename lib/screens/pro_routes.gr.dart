@@ -7,7 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/pro_mode/pro_mode.dart';
+import 'package:fusecash/screens/pro_mode/pro_mode_main.dart';
 
 class ProRouter {
   static const proModeHomeScreen = '/';
@@ -17,7 +17,7 @@ class ProRouter {
     switch (settings.name) {
       case ProRouter.proModeHomeScreen:
         return MaterialPageRoute<dynamic>(
-          builder: (_) => ProModeHomeScreen(),
+          builder: (_) => ProModeScaffold(),
           settings: settings,
         );
       default:

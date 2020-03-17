@@ -51,21 +51,21 @@ Widget bottomBar(BuildContext context) {
                   }
                 }),
                 bottomBarItem(
-                    isCurrentRoute(context, Router.sendToContactScreen)
+                    isCurrentRoute(context, Router.prizeScreen)
                         ? "send_selected.svg"
                         : "send.svg",
                     I18n.of(context).send_button, () {
                   comingSoon(context);
                 }),
                 bottomBarItem(
-                    isCurrentRoute(context, Router.daiExplainedScreen)
+                    isCurrentRoute(context, Router.recoveryPage)
                         ? "trade_selected.svg"
                         : "trade.svg",
                     I18n.of(context).trade, () {
                   comingSoon(context);
                 }),
                 bottomBarItem(
-                    isCurrentRoute(context, Router.receiveScreen)
+                    isCurrentRoute(context, Router.prizeScreen)
                         ? "receive_selected.svg"
                         : "receive.svg",
                     I18n.of(context).receive, () {

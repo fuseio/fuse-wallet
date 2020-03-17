@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
           transferManager: transferManager));
       store.dispatch(identifyCall());
       Router.navigator.pushNamedAndRemoveUntil(
-          Router.homeScreen, (Route<dynamic> route) => false);
+          Router.cashHomeScreen, (Route<dynamic> route) => false);
     }
   }
 

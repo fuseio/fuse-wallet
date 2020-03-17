@@ -18,7 +18,7 @@ import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/widgets/bottombar.dart';
+// import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
 import 'dart:math' as math;

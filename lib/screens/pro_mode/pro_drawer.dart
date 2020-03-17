@@ -255,6 +255,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             return Column(
               children: <Widget>[
                 Expanded(
+                  flex: 5,
                   child: ListView(
                     padding: EdgeInsets.all(10),
                     children: <Widget>[
@@ -263,10 +264,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ],
                   ),
                 ),
-                Padding(
-                  child: switchToCashMode(viewModel),
-                  padding: EdgeInsets.all(20),
-                ),
+                Flexible(
+                    flex: 1,
+                    child: Padding(
+                      child: switchToCashMode(viewModel),
+                      padding: EdgeInsets.all(20),
+                    )),
               ],
             );
           },

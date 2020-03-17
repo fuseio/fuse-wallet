@@ -143,7 +143,7 @@ class ShowMnemonic extends StatelessWidget {
                           TransparentButton(
                               label: I18n.of(context).skip_button,
                               onPressed: () {
-                                Router.navigator.pushReplacementNamed('/Cash');
+                                Router.navigator.pushReplacementNamed(Router.cashHomeScreen);
                               }),
                           const SizedBox(height: 30.0),
                         ],

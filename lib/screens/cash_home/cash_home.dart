@@ -9,7 +9,7 @@ import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/main_scaffold2.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'cash_header.dart';
+// import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 

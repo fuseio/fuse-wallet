@@ -46,55 +46,55 @@ Widget bottomBar(BuildContext context) {
                   }
                 }),
                 bottomBarItem(
-                    isCurrentRoute(context, Router.sendToContactScreen)
+                    isCurrentRoute(context, Router.cashHomeScreen)
                         ? "send_selected.svg"
                         : "send.svg",
                     I18n.of(context).send_button, () {
-                  if (isHomePage) {
-                    redirect(context, Router.sendToContactScreen);
-                  } else {
-                    Navigator.pop(context, ModalRoute.withName(Router.cashHomeScreen));
-                    redirect(context, Router.sendToContactScreen);
-                  }
+                  // if (isHomePage) {
+                  //   redirect(context, Router.sendToContactScreen);
+                  // } else {
+                  //   Navigator.pop(context, ModalRoute.withName(Router.cashHomeScreen));
+                  //   redirect(context, Router.sendToContactScreen);
+                  // }
                 }),
                 viewModel.isDefaultCommunity
                     ? bottomBarItem(
-                        isCurrentRoute(context, Router.daiExplainedScreen)
+                        isCurrentRoute(context, Router.pincodeScreen)
                             ? "daipoints_selected.svg"
                             : "daipoints.svg",
                         I18n.of(context).dai_points, () {
-                        if (isHomePage) {
-                          redirect(context, Router.daiExplainedScreen);
-                        } else {
-                          Navigator.popUntil(
-                              context, ModalRoute.withName(Router.cashHomeScreen));
-                          redirect(context, Router.daiExplainedScreen);
-                        }
+                        // if (isHomePage) {
+                        //   redirect(context, Router.daiExplainedScreen);
+                        // } else {
+                        //   Navigator.popUntil(
+                        //       context, ModalRoute.withName(Router.cashHomeScreen));
+                        //   redirect(context, Router.daiExplainedScreen);
+                        // }
                       })
                     : bottomBarItem(
-                        isCurrentRoute(context, Router.buyScreen)
+                        isCurrentRoute(context, Router.pincodeScreen)
                             ? "buy_selected.svg"
                             : "buy.svg",
                         I18n.of(context).buy, () {
-                        if (isHomePage) {
-                          redirect(context, Router.buyScreen);
-                        } else {
-                          Navigator.popUntil(
-                              context, ModalRoute.withName(Router.cashHomeScreen));
-                          redirect(context, Router.buyScreen);
-                        }
+                        // if (isHomePage) {
+                        //   redirect(context, Router.buyScreen);
+                        // } else {
+                        //   Navigator.popUntil(
+                        //       context, ModalRoute.withName(Router.cashHomeScreen));
+                        //   redirect(context, Router.buyScreen);
+                        // }
                       }),
                 bottomBarItem(
-                    isCurrentRoute(context, Router.receiveScreen)
+                    isCurrentRoute(context, Router.pincodeScreen)
                         ? "receive_selected.svg"
                         : "receive.svg",
                     I18n.of(context).receive, () {
-                  if (isHomePage) {
-                    redirect(context, Router.receiveScreen);
-                  } else {
-                    Navigator.popUntil(context, ModalRoute.withName(Router.cashHomeScreen));
-                    redirect(context, Router.receiveScreen);
-                  }
+                  // if (isHomePage) {
+                  //   redirect(context, Router.receiveScreen);
+                  // } else {
+                  //   Navigator.popUntil(context, ModalRoute.withName(Router.cashHomeScreen));
+                  //   redirect(context, Router.receiveScreen);
+                  // }
                 })
               ],
             ),
@@ -103,10 +103,10 @@ Widget bottomBar(BuildContext context) {
       });
 }
 
-void redirect(BuildContext context, String screen) {
+void redirect(BuildContext context, String screen, {Object arguments}) {
   Navigator.popUntil(context, (route) {
     if (route.settings.name != screen) {
-      Navigator.pushNamed(context, screen);
+      Navigator.pushNamed(context, screen, arguments: arguments);
     }
     return true;
   });
