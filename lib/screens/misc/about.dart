@@ -23,7 +23,6 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainScaffold(
       title: I18n.of(context).about,
-      titleFontSize: 15,
       withPadding: true,
       children: <Widget>[
         Container(

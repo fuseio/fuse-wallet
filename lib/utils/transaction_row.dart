@@ -70,7 +70,8 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
   }
 }
 
-dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
+dynamic getTransferImage(
+    Transfer transfer, Contact contact, CashWalletViewModel vm) {
   if (transfer.isJoinCommunity() &&
       vm.community.metadata.image != null &&
       vm.community.metadata.image != '') {
@@ -101,25 +102,39 @@ dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
 
 String getCoverPhotoUrl(business, communityAddress) {
   if (business.metadata.coverPhoto == null ||
-        business.metadata.coverPhoto == '') {
-         return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+      business.metadata.coverPhoto == '') {
+    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
   } else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
     return business.metadata.coverPhoto;
-  }
-  else {
-    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.coverPhoto;
+  } else {
+    return DotEnv().env['IPFS_BASE_URL'] +
+        '/image/' +
+        business.metadata.coverPhoto;
   }
 }
 
 String getImageUrl(business, communityAddress) {
-  if (business.metadata.image == null ||
-        business.metadata.image == '') {
-         return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+  if (business.metadata.image == null || business.metadata.image == '') {
+    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
   } else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
     return business.metadata.image;
-  }
-  else {
+  } else {
     return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.image;
   }
 }
 
+dynamic getContactImage(Transfer transfer, Contact contact, businesses) {
+  if (contact?.avatar != null && contact.avatar.isNotEmpty) {
+    return new MemoryImage(contact.avatar);
+  } else {
+    String accountAddress =
+        transfer.type == 'SEND' ? transfer.to : transfer.from;
+    Business business = businesses.firstWhere(
+        (business) => business.account == accountAddress,
+        orElse: () => null);
+    if (business != null) {
+      return NetworkImage(getImageUrl(business, ''));
+    }
+  }
+  return new AssetImage('assets/images/anom.png');
+}

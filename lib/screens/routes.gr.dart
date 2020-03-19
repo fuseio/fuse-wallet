@@ -12,21 +12,14 @@ import 'package:fusecash/screens/signup/signup.dart';
 import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/screens/signup/username.dart';
 import 'package:fusecash/screens/misc/pincode.dart';
-import 'package:fusecash/screens/signup/level_selector.dart';
 import 'package:fusecash/screens/cash_home/cash_mode.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/screens/send/send_review.dart';
 import 'package:fusecash/screens/send/send_success.dart';
-import 'package:fusecash/screens/misc/switch_commmunity.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/signup/recovery.dart';
-import 'package:fusecash/screens/backup/show_mnemonic.dart';
-import 'package:fusecash/screens/backup/verify_mnemonic.dart';
-import 'package:fusecash/screens/backup/done_backup.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/screens/misc/settings.dart';
 import 'package:fusecash/screens/buy/map.dart';
 import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
@@ -37,20 +30,13 @@ class Router {
   static const verifyScreen = '/verify-screen';
   static const userNameScreen = '/user-name-screen';
   static const pincodeScreen = '/pincode-screen';
-  static const levelSelectorScreen = '/level-selector-screen';
   static const cashHomeScreen = '/cash-home-screen';
   static const transactionDetailsScreen = '/transaction-details-screen';
   static const sendAmountScreen = '/send-amount-screen';
   static const sendReviewScreen = '/send-review-screen';
   static const sendSuccessScreen = '/send-success-screen';
-  static const switchCommunityScreen = '/switch-community-screen';
   static const businessPage = '/business-page';
   static const recoveryPage = '/recovery-page';
-  static const showMnemonic = '/show-mnemonic';
-  static const verifyMnemonic = '/verify-mnemonic';
-  static const doneBackup = '/done-backup';
-  static const aboutScreen = '/about-screen';
-  static const settingsScreen = '/settings-screen';
   static const mapScreen = '/map-screen';
   static const prizeScreen = '/prize-screen';
   static const webViewPage = '/web-view-page';
@@ -87,20 +73,13 @@ class Router {
           builder: (_) => PincodeScreen(),
           settings: settings,
         );
-      case Router.levelSelectorScreen:
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => LevelSelectorScreen(),
-          settings: settings,
-        );
       case Router.cashHomeScreen:
-        if (hasInvalidArgs<CashModeScaffoldArguments>(args)) {
-          return misTypedArgsRoute<CashModeScaffoldArguments>(args);
+        if (hasInvalidArgs<Key>(args)) {
+          return misTypedArgsRoute<Key>(args);
         }
-        final typedArgs =
-            args as CashModeScaffoldArguments ?? CashModeScaffoldArguments();
+        final typedArgs = args as Key;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => CashModeScaffold(
-              key: typedArgs.key, tabIndex: typedArgs.tabIndex),
+          builder: (_) => CashModeScaffold(key: typedArgs),
           settings: settings,
         );
       case Router.transactionDetailsScreen:
@@ -139,11 +118,6 @@ class Router {
           builder: (_) => SendSuccessScreen(pageArgs: typedArgs),
           settings: settings,
         );
-      case Router.switchCommunityScreen:
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => SwitchCommunityScreen(),
-          settings: settings,
-        );
       case Router.businessPage:
         if (hasInvalidArgs<BusinessPageArguments>(args)) {
           return misTypedArgsRoute<BusinessPageArguments>(args);
@@ -156,31 +130,6 @@ class Router {
       case Router.recoveryPage:
         return MaterialPageRoute<dynamic>(
           builder: (_) => RecoveryPage(),
-          settings: settings,
-        );
-      case Router.showMnemonic:
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => ShowMnemonic(),
-          settings: settings,
-        );
-      case Router.verifyMnemonic:
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => VerifyMnemonic(),
-          settings: settings,
-        );
-      case Router.doneBackup:
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => DoneBackup(),
-          settings: settings,
-        );
-      case Router.aboutScreen:
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => AboutScreen(),
-          settings: settings,
-        );
-      case Router.settingsScreen:
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => SettingsScreen(),
           settings: settings,
         );
       case Router.mapScreen:
@@ -206,15 +155,4 @@ class Router {
         return unknownRoutePage(settings.name);
     }
   }
-}
-
-//**************************************************************************
-// Arguments holder classes
-//***************************************************************************
-
-//CashModeScaffold arguments holder class
-class CashModeScaffoldArguments {
-  final Key key;
-  final int tabIndex;
-  CashModeScaffoldArguments({this.key, this.tabIndex});
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
@@ -10,10 +9,8 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/cash_home/cash_header.dart';
 import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/transaction_row.dart';
@@ -21,14 +18,15 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
 import 'dart:math' as math;
 
-class SendToContactScreen extends StatefulWidget {
-  SendToContactScreen();
+class ContactsList extends StatefulWidget {
+  final List<Contact> contacts;
+  ContactsList({this.contacts});
 
   @override
-  _SendToContactScreenState createState() => _SendToContactScreenState();
+  _ContactsListState createState() => _ContactsListState();
 }
 
-class _SendToContactScreenState extends State<SendToContactScreen> {
+class _ContactsListState extends State<ContactsList> {
   List<Contact> userList = [];
   List<Contact> filteredUsers = [];
   bool showFooter = true;
@@ -36,28 +34,18 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
 
-  loadContacts(List<Contact> contacts, isContactsSynced) async {
-    bool isPermitted = await Contacts.checkPermissions();
+  loadContacts(List<Contact> contacts) async {
     if (this.mounted) {
-      if (!isPermitted && isContactsSynced == null) {
-        Future.delayed(
-            Duration.zero,
-            () => showDialog(
-                child: new ContactsConfirmationScreen(), context: context));
-      }
       setState(() {
         isPreloading = true;
-        hasSynced = isPermitted;
       });
-    }
-    if (isPermitted && contacts.isEmpty) {
-      contacts = await ContactController.getContacts();
     }
     for (var contact in contacts) {
       userList.add(contact);
     }
     userList.sort((a, b) =>
         a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
+
     filterList();
     searchController.addListener(() {
       filterList();
@@ -73,6 +61,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   @override
   void initState() {
     super.initState();
+    loadContacts(widget.contacts);
   }
 
   void _onFocusChange(hasFocus) {
@@ -118,7 +107,26 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  listBody(viewModel, List<Contact> group) {
+  sendToContact(user, countryCode) async {
+    String phoneNumber =
+        formatPhoneNumber(user.phones.first.value, countryCode);
+    dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
+    String accountAddress =
+        data['walletAddress'] != null ? data['walletAddress'] : null;
+    Router.navigator.pushNamed(Router.sendAmountScreen,
+        arguments: SendAmountArguments(
+            sendType: accountAddress != null
+                ? SendType.FUSE_ADDRESS
+                : SendType.CONTACT,
+            name: user.displayName,
+            accountAddress: accountAddress,
+            avatar: user.avatar != null && user.avatar.isNotEmpty
+                ? MemoryImage(user.avatar)
+                : new AssetImage('assets/images/anom.png'),
+            phoneNumber: phoneNumber));
+  }
+
+  listBody(ContactsViewModel viewModel, List<Contact> group) {
     List<Widget> listItems = List();
 
     for (Contact user in group) {
@@ -154,7 +162,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               style: TextStyle(
                   fontSize: 15, color: Theme.of(context).primaryColor),
             ),
-            onTap: () async {
+            onTap: () {
               sendToContact(user, viewModel.countryCode);
             },
           ),
@@ -211,6 +219,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       avatar: new AssetImage('assets/images/anom.png')));
             },
           ),
+          //subtitle: Text("user.company" ?? ""),
           onTap: () {
             Router.navigator.pushNamed(Router.sendAmountScreen,
                 arguments: SendAmountArguments(
@@ -227,7 +236,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  Widget recentContacts(numToShow, ContactsViewModel viewModel) {
+  Widget recentContacts(int numToShow, ContactsViewModel viewModel) {
     List<Widget> listItems = List();
     final sorted =
         new List<Transaction>.from(viewModel.transactions.list.toSet().toList())
@@ -236,6 +245,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ..sort((a, b) => a.blockNumber != null && b.blockNumber != null
                   ? b.blockNumber?.compareTo(a.blockNumber)
                   : b.status.compareTo(a.status));
+
     Map<String, Transaction> uniqueValues = {};
     for (var item in sorted) {
       final Contact contact = getContact(item, viewModel.reverseContacts,
@@ -306,6 +316,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         ),
       );
     }
+
     if (listItems.isNotEmpty) {
       listItems.insert(
           0,
@@ -322,12 +333,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  List<Widget> _buildPageList(viewModel) {
+  List<Widget> _buildPageList(ContactsViewModel viewModel) {
     List<Widget> listItems = List();
-
-    // if (isPreloading) {
-    //   return listItems;
-    // }
 
     listItems.add(searchPanel());
 
@@ -424,130 +431,17 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  sendToContact(user, countryCode) async {
-    String phoneNumber =
-        formatPhoneNumber(user.phones.first.value, countryCode);
-    dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
-    String accountAddress =
-        data['walletAddress'] != null ? data['walletAddress'] : null;
-    Router.navigator.pushNamed(Router.sendAmountScreen,
-        arguments: SendAmountArguments(
-            sendType: accountAddress != null
-                ? SendType.FUSE_ADDRESS
-                : SendType.CONTACT,
-            name: user.displayName,
-            accountAddress: accountAddress,
-            avatar: user.avatar != null && user.avatar.isNotEmpty
-                ? MemoryImage(user.avatar)
-                : new AssetImage('assets/images/anom.png'),
-            phoneNumber: phoneNumber));
-  }
-
-  onInit(store) {
-    loadContacts(
-        store.state.userState.contacts ?? [], store.state.userState.isContactsSynced);
-  }
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
         converter: ContactsViewModel.fromStore,
-        onInit: onInit,
         builder: (_, viewModel) {
-          if (hasSynced) {
-            return MainScaffold(
-                withPadding: false,
-                title: I18n.of(context).send_to,
-                footer: null, // showFooter ? bottomBar(context) : null,
-                sliverList: _buildPageList(viewModel),
-                children: <Widget>[]);
-          } else {
-            return MainScaffold(
-                withPadding: false,
-                title: I18n.of(context).send_to,
-                footer: null, // showFooter ? bottomBar(context) : null,
-                sliverList: _buildPageList(viewModel),
-                children: <Widget>[
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(top: 100),
-                        child: SvgPicture.asset(
-                          'assets/images/contacts.svg',
-                          width: 70.0,
-                          height: 70,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      new Text(I18n.of(context).sync_your_contacts),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          InkWell(
-                            child: new Text(I18n.of(context).learn_more),
-                            onTap: () {
-                              showDialog(
-                                  child: new ContactsConfirmationScreen(),
-                                  context: context);
-                            },
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          InkWell(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  new Text(
-                                    I18n.of(context).activate,
-                                    style: TextStyle(color: Color(0xFF0377FF)),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  SvgPicture.asset(
-                                      'assets/images/blue_arrow.svg')
-                                ],
-                              ),
-                              onTap: () async {
-                                bool premission =
-                                    await ContactController.getPermissions();
-                                if (premission) {
-                                  List<Contact> contacts =
-                                      await ContactController.getContacts();
-                                  viewModel.syncContacts(contacts);
-                                  loadContacts(
-                                      contacts, viewModel.isContactsSynced);
-                                  viewModel.trackCall(
-                                      "Wallet: Contacts Permission Granted");
-                                  viewModel.idenyifyCall(Map.from(
-                                      {"Contacts Permission Granted": false}));
-                                  setState(() {
-                                    hasSynced = true;
-                                  });
-                                } else {
-                                  viewModel.trackCall(
-                                      "Wallet: Contacts Permission Rejected");
-                                  viewModel.idenyifyCall(Map.from(
-                                      {"Contacts Permission Granted": false}));
-                                }
-                              })
-                        ],
-                      )
-                    ],
-                  )
-                ]);
-          }
+          return MainScaffold(
+            withPadding: false,
+            title: I18n.of(context).send_to,
+            sliverList: _buildPageList(viewModel),
+          );
         });
   }
 }

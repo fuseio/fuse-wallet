@@ -1,6 +1,6 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/bottom_bar.dart';
@@ -8,14 +8,16 @@ import 'package:fusecash/screens/buy/buy.dart';
 import 'package:fusecash/screens/cash_home/cash_header.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/cash_home/dai_explained.dart';
+import 'package:fusecash/screens/send/contacts_list.dart';
 import 'package:fusecash/screens/send/receive.dart';
 import 'package:fusecash/screens/send/send_contact.dart';
+import 'package:fusecash/widgets/bottom_bar_item.dart';
 import 'package:fusecash/widgets/drawer.dart';
-import 'package:flutter/services.dart';
+import 'package:fusecash/widgets/my_app_bar.dart';
+import 'package:fusecash/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
-  final int tabIndex;
-  CashModeScaffold({Key key, this.tabIndex}) : super(key: key);
+  CashModeScaffold({Key key}) : super(key: key);
   @override
   _CashModeScaffoldState createState() => _CashModeScaffoldState();
 }
@@ -23,18 +25,23 @@ class CashModeScaffold extends StatefulWidget {
 class _CashModeScaffoldState extends State<CashModeScaffold> {
   int _currentIndex = 0;
 
-  List<Widget> _pages(bool isDefualtCommunity) {
+  List<Widget> _pages(List<Contact> contacts, bool isDefualtCommunity) {
+    bool hasContactsInStore = contacts.isNotEmpty;
     if (isDefualtCommunity) {
       return [
         CashHomeScreen(),
-        SendToContactScreen(),
+        !hasContactsInStore
+            ? SendToContactScreen()
+            : ContactsList(contacts: contacts),
         DaiExplainedScreen(),
         ReceiveScreen()
       ];
     } else {
       return [
         CashHomeScreen(),
-        SendToContactScreen(),
+        !hasContactsInStore
+            ? SendToContactScreen()
+            : ContactsList(contacts: contacts),
         BuyScreen(),
         ReceiveScreen()
       ];
@@ -47,43 +54,22 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     });
   }
 
-  BottomNavigationBarItem bottomBarItem(title, img) {
-    return BottomNavigationBarItem(
-        icon: Padding(
-          padding: EdgeInsets.only(top: 5),
-          child: SvgPicture.asset('assets/images/$img\.svg'),
-        ),
-        activeIcon: Padding(
-          padding: EdgeInsets.only(top: 5),
-          child: SvgPicture.asset('assets/images/$img\_selected.svg'),
-        ),
-        title: Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: new Text(title,
-              style: new TextStyle(
-                  fontSize: 13.0, color: const Color(0xFF292929))),
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
-        .copyWith(statusBarIconBrightness: Brightness.dark));
-
     return new StoreConnector<AppState, BottomBarViewModel>(
+        distinct: true,
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
-          final List<Widget> pages = _pages(vm.isDefaultCommunity);
-          return Scaffold(
-              key: widget.key,
-              drawer: DrawerWidget(),
+          final List<Widget> pages = _pages(vm.contacts, vm.isDefaultCommunity);
+          return TabsScaffold(
+              header: MyAppBar(
+                backgroundColor: Colors.white,
+                child: CashHeader(),
+              ),
               drawerEdgeDragWidth: 0,
-              appBar: _currentIndex != 0
-                  ? null
-                  : new PreferredSize(
-                      child: CashHeader(),
-                      preferredSize:
-                          new Size(MediaQuery.of(context).size.width, 350.0)),
+              pages: pages,
+              currentIndex: _currentIndex,
+              drawer: DrawerWidget(),
               bottomNavigationBar: BottomNavigationBar(
                 onTap: _onTap,
                 selectedFontSize: 13,
@@ -100,8 +86,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
                       : bottomBarItem(I18n.of(context).buy, 'buy'),
                   bottomBarItem(I18n.of(context).receive, 'receive'),
                 ],
-              ),
-              body: pages[_currentIndex]);
+              ));
         });
   }
 }

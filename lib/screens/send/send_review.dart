@@ -10,8 +10,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/utils/phone.dart';
 
-// typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
-
 class SendReviewScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;
   SendReviewScreen({this.pageArgs});
@@ -77,7 +75,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         return MainScaffold(
-            titleFontSize: 15,
             withPadding: true,
             title: I18n.of(context).review_transfer,
             children: <Widget>[

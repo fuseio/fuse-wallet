@@ -85,6 +85,7 @@ class TransactionListItem extends StatelessWidget {
             )
     ];
     bool isWalletCreated = 'created' == this._vm.walletStatus;
+    dynamic image = getTransferImage(transfer, _contact, _vm);
     return Container(
         decoration: new BoxDecoration(
             border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
@@ -108,8 +109,7 @@ class TransactionListItem extends StatelessWidget {
                               child: CircleAvatar(
                                 backgroundColor: Color(0xFFE0E0E0),
                                 radius: 27,
-                                backgroundImage:
-                                    getImage(transfer, _contact, _vm),
+                                backgroundImage: image,
                               ),
                               tag: transfer.isGenerateWallet()
                                   ? 'GenerateWallet'
@@ -218,7 +218,7 @@ class TransactionListItem extends StatelessWidget {
                     from: displayName,
                     reverseContacts: _vm.reverseContacts,
                     symbol: _vm.token.symbol,
-                    image: getImage(transfer, _contact, _vm),
+                    image: image,
                     amount: [
                       Text(
                         deduceSign(transfer) +

@@ -7,11 +7,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community.dart';
+import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/activate_pro_mode.dart';
-// import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:redux/redux.dart';
@@ -26,7 +26,6 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
   Widget build(BuildContext context) {
     return MainScaffold(
         title: I18n.of(context).dai_points,
-        titleFontSize: 15,
         footer: null, // bottomBar(context),
         withPadding: false,
         children: <Widget>[
@@ -169,10 +168,15 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                               .primaryColor
                                               .withAlpha(14))),
                                   child: InkWell(
-                                    onTap: () async {
-                                      Router.navigator
-                                          .pushNamed(Router.prizeScreen);
-                                      await Segment.track(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PrizeScreen()));
+                                      // Router.navigator
+                                      //     .pushNamed(Router.prizeScreen);
+                                      Segment.track(
                                           eventName: "User open prize page");
                                     },
                                     child: Row(
@@ -251,6 +255,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                     ),
                   ),
                   new StoreConnector<AppState, _DaiPointsViewModel>(
+                    distinct: true,
                     converter: _DaiPointsViewModel.fromStore,
                     builder: (_, vm) {
                       return InkWell(
@@ -267,7 +272,8 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                 builder: (BuildContext context) {
                                   return ActivateProModeDialog();
                                 });
-                            Segment.track(eventName: "Wallet: Withdraw DAI clicked");
+                            Segment.track(
+                                eventName: "Wallet: Withdraw DAI clicked");
                           }
                         },
                         child: Align(
@@ -345,7 +351,8 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
 class _DaiPointsViewModel {
   final bool isProModeActivate;
   final String daiPointsHomeBridgeAddress;
-  _DaiPointsViewModel({this.isProModeActivate, this.daiPointsHomeBridgeAddress});
+  _DaiPointsViewModel(
+      {this.isProModeActivate, this.daiPointsHomeBridgeAddress});
 
   static _DaiPointsViewModel fromStore(Store<AppState> store) {
     String communityAddres =

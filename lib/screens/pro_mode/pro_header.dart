@@ -14,6 +14,7 @@ class ProHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _ProHeaderViewModel>(
+        distinct: true,
         converter: _ProHeaderViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(

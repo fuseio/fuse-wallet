@@ -11,7 +11,6 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
@@ -160,7 +159,7 @@ class DeviceIdSuccess {
   DeviceIdSuccess(this.identifier);
 }
 
-ThunkAction backupWalletCall() {
+ThunkAction backupWalletCall(VoidCallback successCb) {
   return (Store store) async {
     if (store.state.userState.backup) return;
     final logger = await AppFactory().getLogger('action');
@@ -187,10 +186,10 @@ ThunkAction backupWalletCall() {
         'backupBonus': backupBonus,
       };
       response['job']['jobType'] = 'backup';
-
       Job job = JobFactory.create(response['job']);
-      Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
       store.dispatch(AddJob(job));
+      // Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
+      successCb();
     }
   };
 }
@@ -442,7 +441,6 @@ ThunkAction activateProModeCall() {
       String foreign = DotEnv().env['MODE'] == 'production' ? 'mainnet' : 'ropsten';
       bool deployForeignToken = store.state.userState.networks.contains(foreign);
       if (!deployForeignToken) {
-        store.dispatch(transferDaiPointsToForiegnNetwork());
         dynamic walletData = await api.getWallet();
         String communityManager = walletData['communityManager'];
         String transferManager = walletData['transferManager'];

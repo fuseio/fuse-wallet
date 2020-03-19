@@ -7,7 +7,6 @@ import 'package:fusecash/services.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-// import 'package:fusecash/utils/addresses.dart';
 
 Future<bool> approvalCallback() async {
   return true;

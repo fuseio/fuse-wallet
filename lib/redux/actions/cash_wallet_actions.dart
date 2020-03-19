@@ -499,29 +499,21 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
   };
 }
 
-ThunkAction getWalletAddressessCall({String communityManager, String transferManager}) {
+ThunkAction getWalletAddressessCall() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
       String privateKey = store.state.userState.privateKey;
-      List<String> networks = store.state.userState?.networks ?? [];
-      String communityManagerAddress;
-      String transferManagerAddress;
-      if (communityManager != null &&
-          communityManager != '' &&
-          transferManager != null &&
-          transferManager != '' &&
-          networks.isNotEmpty) {
-        communityManagerAddress = communityManager;
-        transferManagerAddress = transferManager;
-      } else {
-        dynamic walletData = await api.getWallet();
-        List<String> networks = List<String>.from(walletData['networks']);
-        String walletAddress = walletData['walletAddress'];
-        communityManager = walletData['communityManager'];
-        transferManager = walletData['transferManager'];
-        store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, communityManagerAddress: communityManager, transferManagerAddress: transferManager, networks: networks));
-      }
+      dynamic walletData = await api.getWallet();
+      List<String> networks = List<String>.from(walletData['networks']);
+      String walletAddress = walletData['walletAddress'];
+      String communityManagerAddress = walletData['communityManager'];
+      String transferManagerAddress = walletData['transferManager'];
+      store.dispatch(GetWalletAddressesSuccess(
+        walletAddress: walletAddress,
+        communityManagerAddress: communityManagerAddress,
+        transferManagerAddress: transferManagerAddress,
+        networks: networks));
       store.dispatch(initWeb3Call(
         privateKey,
         communityManagerContractAddress: communityManagerAddress,

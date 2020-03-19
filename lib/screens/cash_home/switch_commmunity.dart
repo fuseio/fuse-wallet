@@ -8,7 +8,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/views/switch_community.dart';
 import 'package:fusecash/screens/routes.gr.dart';
-// import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/community_card.dart';
 import 'dart:core';
 import 'package:fusecash/widgets/main_scaffold.dart';
@@ -87,11 +86,11 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SwitchCommunityViewModel>(
+        distinct: true,
         converter: SwitchCommunityViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).switch_community,
-            titleFontSize: 15,
             footer: null, // bottomBar(context),
             withPadding: false,
             children: <Widget>[

@@ -8,7 +8,6 @@ import 'package:fusecash/models/token.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/transaction_row.dart';
-// import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -93,7 +92,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               left: 18.0,
                               child: InkWell(
                                 onTap: () {
-                                  Router.navigator.pop();
+                                  Navigator.of(context).pop();
                                 },
                                 child: SvgPicture.asset(
                                     'assets/images/arrow_back_business.svg',

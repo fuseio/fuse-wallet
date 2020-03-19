@@ -47,7 +47,6 @@ class _SignupScreenState extends State<SignupScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
         title: I18n.of(context).sign_up,
-        titleFontSize: 15,
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(20.0),

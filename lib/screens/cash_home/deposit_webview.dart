@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/models/views/drawer.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -33,6 +32,7 @@ class _DepositWebViewState extends State<DepositWebView> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, DrawerViewModel>(
+        distinct: true,
         converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
           return Scaffold(
@@ -98,7 +98,7 @@ class _DepositWebViewState extends State<DepositWebView> {
                                   left: 20,
                                   child: InkWell(
                                     onTap: () {
-                                      Router.navigator.pop();
+                                      Navigator.of(context).pop();
                                     },
                                     child: SvgPicture.asset(
                                         'assets/images/arrow.svg'),

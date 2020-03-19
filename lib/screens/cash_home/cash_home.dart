@@ -6,10 +6,8 @@ import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/themes/custom_theme.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/widgets/main_scaffold2.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-// import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 
@@ -91,10 +89,14 @@ class CashHomeScreen extends StatelessWidget {
           onChange(nextViewModel, context);
         },
         builder: (_, viewModel) {
-          return MainScaffold(
-              showFooter: true,
-              // header: CashHeader(),
-              children: <Widget>[CashTransactios(viewModel: viewModel)]);
+          return Scaffold(
+              key: key,
+              body: Column(children: <Widget>[
+                Expanded(
+                    child: ListView(children: <Widget>[
+                  CashTransactios(viewModel: viewModel)
+                ])),
+              ]));
         });
   }
 }

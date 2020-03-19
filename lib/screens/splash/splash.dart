@@ -62,12 +62,8 @@ class _SplashScreenState extends State<SplashScreen> {
     String privateKey = store.state.userState.privateKey;
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
-    String communityManager = store.state.cashWalletState.communityManagerAddress;
-    String transferManager = store.state.cashWalletState.transferManagerAddress;
     if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-      store.dispatch(getWalletAddressessCall(
-          communityManager: communityManager,
-          transferManager: transferManager));
+      store.dispatch(getWalletAddressessCall());
       store.dispatch(identifyCall());
       Router.navigator.pushNamedAndRemoveUntil(
           Router.cashHomeScreen, (Route<dynamic> route) => false);

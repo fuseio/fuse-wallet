@@ -12,8 +12,6 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/token.dart';
 
-// typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
-
 class SendAmountScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;
   SendAmountScreen({this.pageArgs});
@@ -93,7 +91,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
         return MainScaffold(
             withPadding: true,
-            titleFontSize: 15,
             title:
                 I18n.of(context).send_to + " ${args.name != null ? args.name : formatAddress(args.accountAddress)}",
             children: <Widget>[

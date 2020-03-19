@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,8 +7,10 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/views/drawer.dart';
+import 'package:fusecash/screens/backup/show_mnemonic.dart';
 import 'package:fusecash/screens/cash_home/deposit_webview.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/screens/cash_home/switch_commmunity.dart';
+import 'package:fusecash/screens/misc/settings.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
 
@@ -90,7 +93,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    DepositWebView(depositPlugin: depositPlugins[0])),
+                    DepositWebView(depositPlugin: depositPlugins[0]),
+                fullscreenDialog: true),
           );
           await Segment.track(eventName: 'User clicked on top up');
         },
@@ -101,25 +105,32 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   List<Widget> menuItem(DrawerViewModel viewModel) {
-    if (isFork() || isPaywise(viewModel.communityAddress)) {
+    if (isFork()) {
       return [
         getListTile(I18n.of(context).backup_wallet, () {
-          Router.navigator.pushNamed(Router.showMnemonic);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => ShowMnemonic()));
         }, icon: 'backup_icon.svg'),
         getListTile(I18n.of(context).settings, () {
-          Router.navigator.pushNamed(Router.settingsScreen);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => SettingsScreen()));
         }, icon: 'settings_icon.svg'),
       ];
     } else {
       return [
         getListTile(I18n.of(context).switch_community, () {
-          Router.navigator.pushNamed(Router.switchCommunityScreen);
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => SwitchCommunityScreen()));
         }, icon: 'switch_icon.svg'),
         getListTile(I18n.of(context).backup_wallet, () {
-          Router.navigator.pushNamed(Router.showMnemonic);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => ShowMnemonic()));
         }, icon: 'backup_icon.svg'),
         getListTile(I18n.of(context).settings, () {
-          Router.navigator.pushNamed(Router.settingsScreen);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => SettingsScreen()));
         }, icon: 'settings_icon.svg'),
       ];
     }
@@ -171,11 +182,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                     SizedBox(
                                       width: 10,
                                     ),
-                                    // SvgPicture.asset(
-                                    //   'assets/images/header_arrow.svg',
-                                    //   width: 20,
-                                    //   height: 20,
-                                    // )
                                   ],
                                 )
                               : SizedBox.shrink()

@@ -6,8 +6,6 @@ import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
-// typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
-
 class SendSuccessScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;
   SendSuccessScreen({this.pageArgs});

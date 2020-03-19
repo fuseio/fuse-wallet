@@ -4,17 +4,20 @@ import 'package:flutter/services.dart';
 class MainScaffold extends StatelessWidget {
   MainScaffold(
       {this.title,
-      this.children,
       List<Widget> actions,
+      List<Widget> children,
       List<Widget> sliverList,
+      double titleFontSize,
       this.key,
       this.footer,
       this.withPadding,
       this.backgroundColor,
-      this.expandedHeight,
-      this.titleFontSize})
+      this.expandedHeight})
       : sliverList = sliverList ?? new List<Widget>(),
+        children = children ?? new List<Widget>(),
+        titleFontSize = titleFontSize ?? 15,
         actions = actions ?? new List<Widget>();
+
   final String title;
   final List<Widget> children;
   final List<Widget> sliverList;
@@ -26,34 +29,33 @@ class MainScaffold extends StatelessWidget {
   final double titleFontSize;
   final List<Widget> actions;
 
-  scrollView(context) {
+  SliverAppBar appBar(BuildContext context) {
+    return SliverAppBar(
+      expandedHeight: expandedHeight ?? MediaQuery.of(context).size.height / 8,
+      pinned: true,
+      actions: actions,
+      flexibleSpace: FlexibleSpaceBar(
+        title: Container(
+          child: Text(title,
+              softWrap: true,
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.body1.color,
+                  fontSize: titleFontSize,
+                  fontWeight: FontWeight.w800)),
+        ),
+        centerTitle: true,
+        collapseMode: CollapseMode.parallax,
+      ),
+      iconTheme: IconThemeData(color: Theme.of(context).textTheme.body1.color),
+      backgroundColor: backgroundColor ?? Theme.of(context).backgroundColor,
+      brightness: Brightness.light,
+    );
+  }
+
+  scrollView(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[
-        SliverAppBar(
-          expandedHeight: expandedHeight ?? MediaQuery.of(context).size.height / 8,
-          pinned: true,
-          actions: actions,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Container(
-              child: Text(title,
-                  softWrap: true,
-                  //overflow: TextOverflow.visible,
-                  style: TextStyle(
-                      color: Theme.of(context).textTheme.body1.color,
-                      fontSize: titleFontSize ?? 20,
-                      fontWeight: FontWeight.w800)),
-            ),
-            centerTitle: true,
-            collapseMode: CollapseMode.parallax,
-            //background: Container(
-            //color: Theme.of(context).canvasColor,
-            //),
-          ),
-          iconTheme:
-              IconThemeData(color: Theme.of(context).textTheme.body1.color),
-          backgroundColor: backgroundColor ?? Theme.of(context).backgroundColor,
-          brightness: Brightness.light,
-        ),
+        appBar(context),
         ...sliverList,
         SliverList(
           delegate: SliverChildListDelegate(children),
@@ -64,8 +66,6 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
-        .copyWith(statusBarIconBrightness: Brightness.dark));
     return Scaffold(
       key: key,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,

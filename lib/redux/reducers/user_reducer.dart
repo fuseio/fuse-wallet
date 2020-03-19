@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/user_state.dart';
@@ -29,7 +30,9 @@ final userReducers = combineReducers<UserState>([
 ]);
 
 UserState _getWalletAddressesSuccess(UserState state, GetWalletAddressesSuccess action) {
+  String foreign = DotEnv().env['MODE'] == 'production' ? 'mainnet' : 'ropsten';
   return state.copyWith(
+    isProModeActivated: action.networks.contains(foreign),
     networks: action.networks,
     walletAddress: action.walletAddress,
     transferManagerAddress: action.transferManagerAddress,
@@ -84,7 +87,7 @@ UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
 }
 
 UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
-  return state.copyWith(isLoggedOut: true);
+  return state.copyWith(isLoggedOut: true, isProMode: false);
   // return UserState.initial();
 }
 

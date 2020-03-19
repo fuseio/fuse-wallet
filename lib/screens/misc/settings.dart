@@ -4,7 +4,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/drawer.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/screens/misc/about.dart';
+import 'package:fusecash/screens/splash/splash.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/language_selector.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
@@ -21,17 +22,19 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> menuItem(context, viewModel) {
+  List<Widget> menuItem(context, DrawerViewModel viewModel) {
     if (isFork()) {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Router.navigator.pushNamed(Router.aboutScreen);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => AboutScreen()));
         }),
       ];
     } else {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Router.navigator.pushNamed(Router.aboutScreen);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => AboutScreen()));
         }),
         new Divider(),
         // getListTile(context, I18n.of(context).protect_wallet, () {}),
@@ -39,8 +42,9 @@ class SettingsScreen extends StatelessWidget {
         new LanguageSelector(),
         new Divider(),
         getListTile(context, I18n.of(context).logout, () {
-          Router.navigator.pushNamedAndRemoveUntil(Router.splashScreen, (Route<dynamic> route) => false);
           viewModel.logout();
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => SplashScreen()));
         })
       ];
     }
@@ -48,11 +52,11 @@ class SettingsScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, DrawerViewModel>(
+        distinct: true,
         converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).settings,
-            titleFontSize: 15,
             withPadding: true,
             children: <Widget>[
               Container(

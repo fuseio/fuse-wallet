@@ -1,6 +1,7 @@
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 final proWalletReducers = combineReducers<ProWalletState>([
@@ -9,7 +10,12 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, AddToken>(_addToken),
   TypedReducer<ProWalletState, UpadteBlockNumber>(_updateBlockNumber),
   TypedReducer<ProWalletState, InitWeb3ProModeSuccess>(_initWeb3ProModeSuccess),
+  TypedReducer<ProWalletState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
 ]);
+
+ProWalletState _createNewWalletSuccess(ProWalletState state, CreateLocalAccountSuccess action) {
+  return ProWalletState.initial();
+}
 
 ProWalletState _initWeb3ProModeSuccess(ProWalletState state, InitWeb3ProModeSuccess action) {
   return state.copyWith(web3: action.web3);
@@ -32,7 +38,7 @@ ProWalletState _addToken(ProWalletState state, AddToken action) {
     tokens[index] = action.token;
     return state.copyWith(tokens: tokens);
   }
-  return state.copyWith(tokens: state.tokens..add(action.token));
+  return state.copyWith(tokens: tokens..add(action.token));
 }
 
 ProWalletState _updateToken(ProWalletState state, UpdateToken action) {

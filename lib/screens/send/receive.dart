@@ -4,7 +4,6 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/receive.dart';
 import 'package:fusecash/utils/format.dart';
-// import 'package:fusecash/widgets/bottombar.dart';
 import 'package:fusecash/widgets/copy.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -16,11 +15,11 @@ class ReceiveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ReceiveModel>(
+        distinct: true,
         converter: ReceiveModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).receive,
-            titleFontSize: 15,
             footer: null, // bottomBar(context),
             withPadding: false,
             children: <Widget>[
