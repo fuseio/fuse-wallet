@@ -17,7 +17,6 @@ import 'package:fusecash/screens/misc/pincode.dart';
 
 @MaterialAutoRouter()
 class $Router {
-  @initial
   SplashScreen splashScreen;
   SignupScreen signupScreen;
   VerifyScreen verifyScreen;

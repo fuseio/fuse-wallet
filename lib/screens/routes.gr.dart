@@ -25,7 +25,7 @@ import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 
 class Router {
-  static const splashScreen = '/';
+  static const splashScreen = '/splash-screen';
   static const signupScreen = '/signup-screen';
   static const verifyScreen = '/verify-screen';
   static const userNameScreen = '/user-name-screen';

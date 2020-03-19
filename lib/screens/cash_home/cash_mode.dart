@@ -57,7 +57,6 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BottomBarViewModel>(
-        distinct: true,
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
           final List<Widget> pages = _pages(vm.contacts, vm.isDefaultCommunity);
