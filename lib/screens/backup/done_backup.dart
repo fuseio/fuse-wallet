@@ -69,12 +69,10 @@ class DoneBackup extends StatelessWidget {
                     fontSize: 15,
                     onPressed: () async {
                       VoidCallback successCb = () {
-                        if (Router.navigator.key == null) {
-                          ProRouter.navigator.popUntil(
-                              ModalRoute.withName(ProRouter.proModeHomeScreen));
-                        } else if (ProRouter.navigator.key == null) {
-                          Router.navigator.popUntil(
-                              ModalRoute.withName(Router.cashHomeScreen));
+                        if (viewModal.isProMode) {
+                          ProRouter.navigator.popUntil(ModalRoute.withName(ProRouter.proModeHomeScreen));
+                        } else {
+                          Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
                         }
                       };
                       viewModal.backupWallet(successCb);

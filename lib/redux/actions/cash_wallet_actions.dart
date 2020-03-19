@@ -482,6 +482,12 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
             communityManagerContractAddress: communityManager,
             transferManagerContractAddress: transferManager
           ));
+          String foreign = DotEnv().env['MODE'] == 'production' ? 'mainnet' : 'ropsten';
+          bool deployedToForeign = networks?.contains(foreign) ?? false;
+          if (deployedToForeign) {
+            store.dispatch(ActivateProMode());
+            store.dispatch(initWeb3ProMode());
+          }
           store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, communityManagerAddress: communityManager, transferManagerAddress: transferManager, networks: networks));
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           store.dispatch(segmentIdentifyCall(

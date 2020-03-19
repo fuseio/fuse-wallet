@@ -165,30 +165,34 @@ ThunkAction backupWalletCall(VoidCallback successCb) {
     final logger = await AppFactory().getLogger('action');
     String communityAddres = store.state.cashWalletState.communityAddress;
     store.dispatch(BackupRequest());
-    dynamic response = await api.backupWallet(communityAddres);
-    Community community = store.state.cashWalletState.communities[communityAddres];
-    if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive) {
-      BigInt value = toBigInt(community.plugins.backupBonus.amount, community.token.decimals);
-      String walletAddress = store.state.cashWalletState.walletAddress;
-      dynamic jobId = response['job']['_id'];
-      logger.info('Job $jobId - sending backup bonus');
-      Transfer backupBonus = new Transfer(
-          from: DotEnv().env['FUNDER_ADDRESS'],
-          to: walletAddress,
-          text: 'You got a backup bonus!',
-          type: 'RECEIVE',
-          value: value,
-          status: 'PENDING',
-          jobId: jobId);
-      store.dispatch(AddTransaction(backupBonus));
+    try {
+      dynamic response = await api.backupWallet(communityAddres);
+      Community community = store.state.cashWalletState.communities[communityAddres];
+      if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive) {
+        BigInt value = toBigInt(community.plugins.backupBonus.amount, community.token.decimals);
+        String walletAddress = store.state.cashWalletState.walletAddress;
+        dynamic jobId = response['job']['_id'];
+        logger.info('Job $jobId - sending backup bonus');
+        Transfer backupBonus = new Transfer(
+            from: DotEnv().env['FUNDER_ADDRESS'],
+            to: walletAddress,
+            text: 'You got a backup bonus!',
+            type: 'RECEIVE',
+            value: value,
+            status: 'PENDING',
+            jobId: jobId);
+        store.dispatch(AddTransaction(backupBonus));
 
-      response['job']['arguments'] = {
-        'backupBonus': backupBonus,
-      };
-      response['job']['jobType'] = 'backup';
-      Job job = JobFactory.create(response['job']);
-      store.dispatch(AddJob(job));
-      // Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
+        response['job']['arguments'] = {
+          'backupBonus': backupBonus,
+        };
+        response['job']['jobType'] = 'backup';
+        Job job = JobFactory.create(response['job']);
+        store.dispatch(AddJob(job));
+        // Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
+        successCb();
+      }
+    } catch (e, s) {
       successCb();
     }
   };

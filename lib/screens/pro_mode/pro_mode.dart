@@ -31,39 +31,41 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     );
     rateMyApp.init().then((_) {
       if (rateMyApp.shouldOpenDialog) {
-        rateMyApp.showStarRateDialog(
-          context,
-          title: 'Rate this app',
-          message:
-              'You like this app ? Then take a little bit of your time to leave a rating :', // The dialog message.
-          actionsBuilder: (_, stars) {
-            return [
-              FlatButton(
-                child: Text('OK'),
-                onPressed: () async {
-                  print('Thanks for the ' +
-                      (stars == null ? '0' : stars.round().toString()) +
-                      ' star(s) !');
-                  await rateMyApp
-                      .callEvent(RateMyAppEventType.rateButtonPressed);
-                  Navigator.pop<RateMyAppDialogButton>(
-                      context, RateMyAppDialogButton.rate);
-                },
-              ),
-            ];
-          },
-          ignoreIOS: false,
-          dialogStyle: DialogStyle(
-            titleAlign: TextAlign.center,
-            dialogShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0))),
-            messageAlign: TextAlign.center,
-            messagePadding: EdgeInsets.only(bottom: 20),
-          ),
-          starRatingOptions: StarRatingOptions(),
-          onDismissed: () =>
-              rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed),
-        );
+        Future.delayed(const Duration(milliseconds: 2500), () {
+          rateMyApp.showStarRateDialog(
+            context,
+            title: 'Rate this app',
+            message:
+                'You like this app ? Then take a little bit of your time to leave a rating :', // The dialog message.
+            actionsBuilder: (_, stars) {
+              return [
+                FlatButton(
+                  child: Text('OK'),
+                  onPressed: () async {
+                    print('Thanks for the ' +
+                        (stars == null ? '0' : stars.round().toString()) +
+                        ' star(s) !');
+                    await rateMyApp
+                        .callEvent(RateMyAppEventType.rateButtonPressed);
+                    Navigator.pop<RateMyAppDialogButton>(
+                        context, RateMyAppDialogButton.rate);
+                  },
+                ),
+              ];
+            },
+            ignoreIOS: false,
+            dialogStyle: DialogStyle(
+              titleAlign: TextAlign.center,
+              dialogShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              messageAlign: TextAlign.center,
+              messagePadding: EdgeInsets.only(bottom: 20),
+            ),
+            starRatingOptions: StarRatingOptions(),
+            onDismissed: () =>
+                rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed),
+          );
+        });
       }
     });
   }
