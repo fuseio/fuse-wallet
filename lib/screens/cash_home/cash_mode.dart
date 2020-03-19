@@ -17,13 +17,20 @@ import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
-  CashModeScaffold({Key key}) : super(key: key);
+  final int tabIndex;
+  CashModeScaffold({Key key, this.tabIndex = 0}) : super(key: key);
   @override
   _CashModeScaffoldState createState() => _CashModeScaffoldState();
 }
 
 class _CashModeScaffoldState extends State<CashModeScaffold> {
   int _currentIndex = 0;
+
+  @override
+  void initState() { 
+    super.initState();
+    _currentIndex = widget.tabIndex;
+  }
 
   List<Widget> _pages(List<Contact> contacts, bool isDefualtCommunity) {
     bool hasContactsInStore = contacts.isNotEmpty;

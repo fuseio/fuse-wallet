@@ -12,8 +12,8 @@ import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/widgets/activate_pro_mode.dart';
+import 'package:fusecash/widgets/deposit_dai_popup.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:redux/redux.dart';
 
 class DaiExplainedScreen extends StatefulWidget {
@@ -212,53 +212,61 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
               SizedBox(
                 height: 30,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            Flushbar(
-                              flushbarPosition: FlushbarPosition.BOTTOM,
-                              duration: Duration(seconds: 2),
-                              messageText: new Text(
-                                "Coming soon",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white),
+              new StoreConnector<AppState, _DaiPointsViewModel>(
+                distinct: true,
+                converter: _DaiPointsViewModel.fromStore,
+                builder: (_, vm) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            InkWell(
+                              onTap: () {
+                                if (vm.isProModeActivate) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return DepositDaiDialog();
+                                      });
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ActivateProModeDialog();
+                                      });
+                                  Segment.track(
+                                      eventName: "Wallet: ADD DAI clicked");
+                                }
+                              },
+                              child: Text(
+                                'Add DAI',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .headline
+                                        .color,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            )..show(context);
-                          },
-                          child: Text(
-                            'Add DAI',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color:
-                                    Theme.of(context).textTheme.headline.color,
-                                fontWeight: FontWeight.bold),
-                          ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Image.asset(
+                              'assets/images/arrow_black.png',
+                              width: 15,
+                              height: 12,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Image.asset(
-                          'assets/images/arrow_black.png',
-                          width: 15,
-                          height: 12,
-                        ),
-                      ],
-                    ),
-                  ),
-                  new StoreConnector<AppState, _DaiPointsViewModel>(
-                    distinct: true,
-                    converter: _DaiPointsViewModel.fromStore,
-                    builder: (_, vm) {
-                      return InkWell(
+                      ),
+                      InkWell(
                         onTap: () {
                           if (vm.isProModeActivate) {
                             Router.navigator.pushNamed(Router.sendAmountScreen,
@@ -303,10 +311,10 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                             ],
                           ),
                         ),
-                      );
-                    },
-                  )
-                ],
+                      )
+                    ],
+                  );
+                },
               ),
               SizedBox(
                 height: 30,

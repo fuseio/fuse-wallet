@@ -74,12 +74,14 @@ class Router {
           settings: settings,
         );
       case Router.cashHomeScreen:
-        if (hasInvalidArgs<Key>(args)) {
-          return misTypedArgsRoute<Key>(args);
+        if (hasInvalidArgs<CashModeScaffoldArguments>(args)) {
+          return misTypedArgsRoute<CashModeScaffoldArguments>(args);
         }
-        final typedArgs = args as Key;
+        final typedArgs =
+            args as CashModeScaffoldArguments ?? CashModeScaffoldArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => CashModeScaffold(key: typedArgs),
+          builder: (_) => CashModeScaffold(
+              key: typedArgs.key, tabIndex: typedArgs.tabIndex),
           settings: settings,
         );
       case Router.transactionDetailsScreen:
@@ -155,4 +157,15 @@ class Router {
         return unknownRoutePage(settings.name);
     }
   }
+}
+
+//**************************************************************************
+// Arguments holder classes
+//***************************************************************************
+
+//CashModeScaffold arguments holder class
+class CashModeScaffoldArguments {
+  final Key key;
+  final int tabIndex;
+  CashModeScaffoldArguments({this.key, this.tabIndex = 0});
 }
