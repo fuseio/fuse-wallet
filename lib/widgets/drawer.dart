@@ -240,13 +240,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   @override
   Widget build(BuildContext _context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.78,
-      child: Drawer(
-        child: new StoreConnector<AppState, DrawerViewModel>(
-          converter: DrawerViewModel.fromStore,
-          builder: (_, viewModel) {
-            return Column(
+    return new StoreConnector<AppState, DrawerViewModel>(
+        converter: DrawerViewModel.fromStore,
+        builder: (_, viewModel) {
+          return SizedBox(
+            width: MediaQuery.of(context).size.width * 0.78,
+            child: Drawer(
+                child: Column(
               children: <Widget>[
                 Expanded(
                   flex: 5,
@@ -268,10 +268,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         ))
                     : SizedBox.shrink(),
               ],
-            );
-          },
-        ),
-      ),
-    );
+            )),
+          );
+        });
   }
 }

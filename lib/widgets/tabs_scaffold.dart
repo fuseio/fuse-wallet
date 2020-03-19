@@ -24,12 +24,17 @@ class TabsScaffold extends StatefulWidget {
 class _TabsScaffoldState extends State<TabsScaffold> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: widget.key,
-        drawer: widget.drawer,
-        drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-        appBar: widget.currentIndex != 0 ? null : widget.header,
-        bottomNavigationBar: widget.bottomNavigationBar,
-        body: widget.pages[widget.currentIndex]);
+    return new WillPopScope(
+      onWillPop: () {
+        return new Future(() => false);
+      },
+      child: Scaffold(
+          key: widget.key,
+          drawer: widget.drawer,
+          drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+          appBar: widget.currentIndex != 0 ? null : widget.header,
+          bottomNavigationBar: widget.bottomNavigationBar,
+          body: widget.pages[widget.currentIndex]),
+    );
   }
 }

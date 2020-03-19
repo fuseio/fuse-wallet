@@ -10,7 +10,6 @@ class AssetsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ProWalletViewModel>(
-        distinct: true,
         converter: ProWalletViewModel.fromStore,
         builder: (_, viewModel) {
           return Column(

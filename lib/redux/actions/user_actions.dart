@@ -441,12 +441,6 @@ ThunkAction activateProModeCall() {
       String foreign = DotEnv().env['MODE'] == 'production' ? 'mainnet' : 'ropsten';
       bool deployForeignToken = store.state.userState.networks.contains(foreign);
       if (!deployForeignToken) {
-        dynamic walletData = await api.getWallet();
-        String communityManager = walletData['communityManager'];
-        String transferManager = walletData['transferManager'];
-        List<String> networks = List<String>.from(walletData['networks']);
-        String walletAddress = store.state.userState.walletAddress;
-        store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, communityManagerAddress: communityManager, transferManagerAddress: transferManager, networks: networks));
         await api.createWalletOnForeign();
       }
     } catch (error, stackTrace) {

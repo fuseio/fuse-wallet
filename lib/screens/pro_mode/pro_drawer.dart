@@ -92,7 +92,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    DepositWebView(depositPlugin: depositPlugins[0]), fullscreenDialog: true),
+                    DepositWebView(depositPlugin: depositPlugins[0]),
+                fullscreenDialog: true),
           );
           await Segment.track(eventName: 'User clicked on top up');
         },
@@ -245,35 +246,34 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   @override
   Widget build(BuildContext _context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.78,
-      child: Drawer(
-        child: new StoreConnector<AppState, DrawerViewModel>(
-          converter: DrawerViewModel.fromStore,
-          builder: (_, viewModel) {
-            return Column(
-              children: <Widget>[
-                Expanded(
-                  flex: 5,
-                  child: ListView(
-                    padding: EdgeInsets.all(10),
-                    children: <Widget>[
-                      drawerHeader(viewModel),
-                      ...menuItem(viewModel),
-                    ],
-                  ),
+    return new StoreConnector<AppState, DrawerViewModel>(
+      converter: DrawerViewModel.fromStore,
+      builder: (_, viewModel) {
+        return SizedBox(
+          width: MediaQuery.of(context).size.width * 0.78,
+          child: Drawer(
+              child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 5,
+                child: ListView(
+                  padding: EdgeInsets.all(10),
+                  children: <Widget>[
+                    drawerHeader(viewModel),
+                    ...menuItem(viewModel),
+                  ],
                 ),
-                Flexible(
-                    flex: 1,
-                    child: Padding(
-                      child: switchToCashMode(viewModel),
-                      padding: EdgeInsets.all(20),
-                    )),
-              ],
-            );
-          },
-        ),
-      ),
+              ),
+              Flexible(
+                  flex: 1,
+                  child: Padding(
+                    child: switchToCashMode(viewModel),
+                    padding: EdgeInsets.all(20),
+                  )),
+            ],
+          )),
+        );
+      },
     );
   }
 }

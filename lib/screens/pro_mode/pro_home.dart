@@ -18,7 +18,6 @@ class ProModeHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ProWalletViewModel>(
-        distinct: true,
         converter: ProWalletViewModel.fromStore,
         onInit: onInit,
         builder: (_, viewModel) {
