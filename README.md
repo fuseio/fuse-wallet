@@ -33,7 +33,7 @@ You can download the beta version of our app from the [Google Play](https://play
 - Clone the project.
 
       git clone https://github.com/fuseio/fuse-wallet.git
-      cd fuse-wallet2.0
+      cd fuse-wallet
 
 - For Android development, create a file at `./android/key.properties`, [as described here](https://flutter.dev/docs/deployment/android), containing the keystore path and passwords, as set up earlier.
 - Run the app.
