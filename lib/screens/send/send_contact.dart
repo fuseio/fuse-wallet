@@ -457,6 +457,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         builder: (_, viewModel) {
           if (hasSynced) {
             return MainScaffold(
+                automaticallyImplyLeading: false,
                 withPadding: false,
                 title: I18n.of(context).send_to,
                 footer: null, // showFooter ? bottomBar(context) : null,
@@ -464,6 +465,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 children: <Widget>[]);
           } else {
             return MainScaffold(
+                automaticallyImplyLeading: false,
                 withPadding: false,
                 title: I18n.of(context).send_to,
                 footer: null, // showFooter ? bottomBar(context) : null,

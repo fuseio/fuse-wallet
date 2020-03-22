@@ -25,6 +25,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+        automaticallyImplyLeading: false,
         title: I18n.of(context).dai_points,
         footer: null, // bottomBar(context),
         withPadding: false,

@@ -74,13 +74,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                        onTap: () async {
+                        onTap: () {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
-                          await Segment.track(eventName: "Wallet: opened modal - why do we need this");
+                          Segment.track(eventName: "Wallet: opened modal - why do we need this");
                         },
                         child: Center(
                           child: Text(

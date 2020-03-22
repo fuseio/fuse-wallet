@@ -62,14 +62,13 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                     List depositPlugins =
                         viewModel?.plugins?.getDepositPlugins();
                     return Container(
-                      width: 400,
                       padding: EdgeInsets.only(top: 20, bottom: 20),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Text("Please choose how you \n want to deposit",
+                          Text("Please choose how you want to deposit",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   letterSpacing: .2,
@@ -102,15 +101,10 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DepositWebView(
-                                            depositPlugin: depositPlugins[0]),
-                                        fullscreenDialog: true),
-                                  );
-                                  Segment.track(
-                                      eventName: 'User clicked on top up');
+                                  Router.navigator.pushNamed(
+                                      Router.cashHomeScreen,
+                                      arguments: CashModeScaffoldArguments(
+                                          tabIndex: 3));
                                 },
                               ),
                               Padding(
@@ -139,10 +133,15 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  Router.navigator.pushNamed(
-                                      Router.cashHomeScreen,
-                                      arguments: CashModeScaffoldArguments(
-                                          tabIndex: 3));
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DepositWebView(
+                                            depositPlugin: depositPlugins[0]),
+                                        fullscreenDialog: true),
+                                  );
+                                  Segment.track(
+                                      eventName: 'User clicked on top up');
                                 },
                               )
                             ],

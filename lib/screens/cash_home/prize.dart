@@ -364,7 +364,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                         width: 5,
                                       ),
                                       InkWell(
-                                        onTap: () async {
+                                        onTap: () {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -374,7 +374,7 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                                             depositPlugins[0]),
                                                 fullscreenDialog: true),
                                           );
-                                          await Segment.track(
+                                          Segment.track(
                                               eventName:
                                                   'User clicked on top up');
                                         },

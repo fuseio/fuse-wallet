@@ -205,15 +205,13 @@ class CashHeader extends StatelessWidget {
                                       width: 55,
                                       height: 55,
                                     ),
-                                    onTap: () async {
+                                    onTap: () {
                                       Navigator.push(
                                           context,
                                           new MaterialPageRoute(
                                               builder: (context) =>
                                                   PrizeScreen()));
-                                      // Router.navigator
-                                      //     .pushNamed(Router.prizeScreen);
-                                      await Segment.track(
+                                      Segment.track(
                                           eventName: "User open prize page");
                                     },
                                   )

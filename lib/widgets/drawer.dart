@@ -88,7 +88,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ],
           ),
         ),
-        onTap: () async {
+        onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -96,7 +96,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     DepositWebView(depositPlugin: depositPlugins[0]),
                 fullscreenDialog: true),
           );
-          await Segment.track(eventName: 'User clicked on top up');
+          Segment.track(eventName: 'User clicked on top up');
         },
       ));
     }
@@ -213,14 +213,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             viewModel.replaceNavigator(true);
           },
           child: Row(
+              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Pro mode',
-                    style: TextStyle(
-                        color: Theme.of(context).splashColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text('Pro mode',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Theme.of(context).splashColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500)),
+                ),
                 new FloatingActionButton(
                     heroTag: 'header_scanner',
                     mini: true,

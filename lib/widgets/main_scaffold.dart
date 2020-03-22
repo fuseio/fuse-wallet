@@ -8,6 +8,7 @@ class MainScaffold extends StatelessWidget {
       List<Widget> children,
       List<Widget> sliverList,
       double titleFontSize,
+      bool automaticallyImplyLeading,
       this.key,
       this.footer,
       this.withPadding,
@@ -16,6 +17,7 @@ class MainScaffold extends StatelessWidget {
       : sliverList = sliverList ?? new List<Widget>(),
         children = children ?? new List<Widget>(),
         titleFontSize = titleFontSize ?? 15,
+        automaticallyImplyLeading = automaticallyImplyLeading ?? true,
         actions = actions ?? new List<Widget>();
 
   final String title;
@@ -28,9 +30,11 @@ class MainScaffold extends StatelessWidget {
   final double expandedHeight;
   final double titleFontSize;
   final List<Widget> actions;
+  final bool automaticallyImplyLeading;
 
   SliverAppBar appBar(BuildContext context) {
     return SliverAppBar(
+      automaticallyImplyLeading: automaticallyImplyLeading,
       expandedHeight: expandedHeight ?? MediaQuery.of(context).size.height / 8,
       pinned: true,
       actions: actions,

@@ -88,6 +88,10 @@ dynamic getTransferImage(
     );
   } else if (contact?.avatar != null && contact.avatar.isNotEmpty) {
     return new MemoryImage(contact.avatar);
+  } else if (vm.community != null && vm.community.homeBridgeAddress != null && transfer.to != null && transfer.to?.toLowerCase() == vm.community.homeBridgeAddress?.toLowerCase()) {
+    return new AssetImage(
+      'assets/images/ethereume_icon.png',
+    );
   }
 
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;

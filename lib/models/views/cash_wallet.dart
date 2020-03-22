@@ -45,6 +45,7 @@ class CashWalletViewModel extends Equatable {
   final bool isContactsSynced;
   final bool isJobProcessingStarted;
   final Community community;
+  final Function(bool isProMode) replaceNavigator;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -79,7 +80,8 @@ class CashWalletViewModel extends Equatable {
     this.setIdentifier,
     this.isContactsSynced,
     this.isJobProcessingStarted,
-    this.community
+    this.community,
+    this.replaceNavigator
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -139,6 +141,9 @@ class CashWalletViewModel extends Equatable {
       },
       setIdentifier: () {
         store.dispatch(setDeviceId(true));
+      },
+      replaceNavigator: (isProMode) {
+        store.dispatch(SwitchWalletMode(isProMode: isProMode));
       }
     );
   }

@@ -192,7 +192,7 @@ ThunkAction backupWalletCall(VoidCallback successCb) {
         // Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
         successCb();
       }
-    } catch (e, s) {
+    } catch (e) {
       successCb();
     }
   };

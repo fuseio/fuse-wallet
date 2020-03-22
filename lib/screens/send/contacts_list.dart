@@ -438,6 +438,7 @@ class _ContactsListState extends State<ContactsList> {
         converter: ContactsViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
+            automaticallyImplyLeading: false,
             withPadding: false,
             title: I18n.of(context).send_to,
             sliverList: _buildPageList(viewModel),

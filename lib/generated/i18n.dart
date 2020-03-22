@@ -226,6 +226,10 @@ class I18n implements WidgetsLocalizations {
   String get trade => "Trade";
   /// "Assets and contracts"
   String get assets_and_contracts => "Assets and contracts";
+  /// "Sent to your Ethereum wallet"
+  String get sending_to_ethereum => "Sent to your Ethereum wallet";
+  /// "Sending to your Ethereum wallet"
+  String get sent_to_ethereum => "Sending to your Ethereum wallet";
 }
 
 class _I18n_en_US extends I18n {

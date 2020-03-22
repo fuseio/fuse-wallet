@@ -43,6 +43,7 @@ class BuyScreen extends StatelessWidget {
               //     },
               //   ),
               // ],
+              automaticallyImplyLeading: false,
               withPadding: false,
               footer: null, // bottomBar(context),
               title: I18n.of(context).buy,
