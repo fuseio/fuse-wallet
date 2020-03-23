@@ -27,8 +27,6 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
     return MainScaffold(
         automaticallyImplyLeading: false,
         title: I18n.of(context).dai_points,
-        footer: null, // bottomBar(context),
-        withPadding: false,
         children: <Widget>[
           Column(
             children: <Widget>[

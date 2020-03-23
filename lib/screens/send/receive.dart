@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/receive.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/copy.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
@@ -10,19 +9,19 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'dart:core';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share/share.dart';
+import 'package:equatable/equatable.dart';
+import 'package:redux/redux.dart';
 
 class ReceiveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, ReceiveModel>(
+    return new StoreConnector<AppState, _ReceiveModel>(
         distinct: true,
-        converter: ReceiveModel.fromStore,
+        converter: _ReceiveModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).receive,
             automaticallyImplyLeading: false,
-            footer: null, // bottomBar(context),
-            withPadding: false,
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height * 0.7,
@@ -49,7 +48,7 @@ class ReceiveScreen extends StatelessWidget {
                                 data: 'fuse:${viewModel.walletAddress}',
                               )),
                         ),
-                        const SizedBox(height: 20.0),
+                        const SizedBox(height: 10.0),
                         Container(
                           width: 220,
                           child: new Text(
@@ -61,7 +60,7 @@ class ReceiveScreen extends StatelessWidget {
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal)),
                         ),
-                        const SizedBox(height: 20.0),
+                        const SizedBox(height: 30.0),
                         Container(
                           width: 250,
                           child: Opacity(
@@ -76,7 +75,6 @@ class ReceiveScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // const SizedBox(height: 30.0),
                     Center(
                         child: PrimaryButton(
                       fontSize: 15,
@@ -94,4 +92,18 @@ class ReceiveScreen extends StatelessWidget {
           );
         });
   }
+}
+
+class _ReceiveModel extends Equatable {
+  final String walletAddress;
+  _ReceiveModel({this.walletAddress});
+
+  static _ReceiveModel fromStore(Store<AppState> store) {
+    return _ReceiveModel(
+      walletAddress: store.state.cashWalletState.walletAddress,
+    );
+  }
+
+  @override
+  List<Object> get props => [walletAddress];
 }

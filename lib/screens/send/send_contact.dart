@@ -458,17 +458,13 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           if (hasSynced) {
             return MainScaffold(
                 automaticallyImplyLeading: false,
-                withPadding: false,
                 title: I18n.of(context).send_to,
-                footer: null, // showFooter ? bottomBar(context) : null,
                 sliverList: _buildPageList(viewModel),
                 children: <Widget>[]);
           } else {
             return MainScaffold(
                 automaticallyImplyLeading: false,
-                withPadding: false,
                 title: I18n.of(context).send_to,
-                footer: null, // showFooter ? bottomBar(context) : null,
                 sliverList: _buildPageList(viewModel),
                 children: <Widget>[
                   Column(

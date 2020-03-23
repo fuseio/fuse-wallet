@@ -15,7 +15,6 @@ class ShowMnemonic extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainScaffold(
         withPadding: true,
-        footer: null,
         title: I18n.of(context).back_up,
         children: <Widget>[
           Container(

@@ -339,9 +339,7 @@ class _ContactsListState extends State<ContactsList> {
     listItems.add(searchPanel());
 
     if (searchController.text.isEmpty) {
-      if (hasSynced) {
-        listItems.add(recentContacts(3, viewModel));
-      }
+      listItems.add(recentContacts(3, viewModel));
     } else if (isValidEthereumAddress(searchController.text)) {
       listItems.add(sendToAcccountAddress(searchController.text));
     }
@@ -439,7 +437,6 @@ class _ContactsListState extends State<ContactsList> {
         builder: (_, viewModel) {
           return MainScaffold(
             automaticallyImplyLeading: false,
-            withPadding: false,
             title: I18n.of(context).send_to,
             sliverList: _buildPageList(viewModel),
           );

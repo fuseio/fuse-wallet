@@ -65,7 +65,7 @@ class CashTransactionsState extends State<CashTransactios> {
           ListView(
               shrinkWrap: true,
               primary: false,
-              padding: EdgeInsets.symmetric(vertical: 8.0),
+              padding: EdgeInsets.only(left: 15, right: 15),
               children: renderTrasfers())
         ]);
   }

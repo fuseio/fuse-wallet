@@ -45,26 +45,26 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       });
   }
 
-  void send(SendAmountViewModel viewModel, SendAmountArguments args, String transferNote, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
-    if (args.accountAddress == null || args.accountAddress == '' && args.phoneNumber != null) {
+  void send(
+      SendAmountViewModel viewModel,
+      SendAmountArguments args,
+      String transferNote,
+      VoidCallback sendSuccessCallback,
+      VoidCallback sendFailureCallback) {
+    if (args.accountAddress == null ||
+        args.accountAddress == '' && args.phoneNumber != null) {
       viewModel.sendToContact(
-          args.name,
-          formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
-          args.amount,
-          args.name,
-          transferNote,
-          sendSuccessCallback,
-          sendFailureCallback,
-      );
-    } else {
-      viewModel.sendToAccountAddress(
-        args.accountAddress,
+        args.name,
+        formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
         args.amount,
         args.name,
         transferNote,
         sendSuccessCallback,
-        sendFailureCallback
+        sendFailureCallback,
       );
+    } else {
+      viewModel.sendToAccountAddress(args.accountAddress, args.amount,
+          args.name, transferNote, sendSuccessCallback, sendFailureCallback);
     }
   }
 
@@ -78,70 +78,73 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             withPadding: true,
             title: I18n.of(context).review_transfer,
             children: <Widget>[
-              Container(
-                  child: Column(children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 50),
-                      child: Text(I18n.of(context).amount,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal)),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 50),
+                    child: Text(I18n.of(context).amount,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 40.0, bottom: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: <Widget>[
+                        Text('${args.amount} ', // ${viewModel.token.symbol}
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 50,
+                                fontWeight: FontWeight.w900)),
+                        Text(viewModel.token.symbol,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 30,
+                                fontWeight: FontWeight.w900)),
+                      ],
                     ),
-                    Container(
-                      padding: EdgeInsets.all(0.0),
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(top: 20.0, bottom: 20),
-                            child: Text(
-                                "${args.amount} ${viewModel.token.symbol}",
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontSize: 45,
-                                    fontWeight: FontWeight.w900)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Text('What for?',
-                    //     textAlign: TextAlign.center,
-                    //     style: TextStyle(
-                    //         color: Theme.of(context).primaryColor,
-                    //         fontSize: 16,
-                    //         fontWeight: FontWeight.normal)),
-                    // Container(
-                    //   width: 200,
-                    //   padding: EdgeInsets.only(bottom: 30),
-                    //   child: TextFormField(
-                    //     controller: transferNoteController,
-                    //     keyboardType: TextInputType.text,
-                    //     // maxLength: 10,
-                    //     autofocus: false,
-                    //     decoration: const InputDecoration(
-                    //         border: null, fillColor: Colors.transparent),
-                    //     validator: (String value) {
-                    //       if (value.split(" ").length > 10) {
-                    //         return '10 characters max';
-                    //       }
-                    //       return null;
-                    //     },
-                    //   ),
-                    // ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Text(I18n.of(context).to + ':',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal)),
-                    )
-                  ],
-                ),
+                  ),
+                  // Text('What for?',
+                  //     textAlign: TextAlign.center,
+                  //     style: TextStyle(
+                  //         color: Theme.of(context).primaryColor,
+                  //         fontSize: 16,
+                  //         fontWeight: FontWeight.normal)),
+                  // Container(
+                  //   width: 200,
+                  //   padding: EdgeInsets.only(bottom: 30),
+                  //   child: TextFormField(
+                  //     controller: transferNoteController,
+                  //     keyboardType: TextInputType.text,
+                  //     // maxLength: 10,
+                  //     autofocus: false,
+                  //     decoration: const InputDecoration(
+                  //         border: null, fillColor: Colors.transparent),
+                  //     validator: (String value) {
+                  //       if (value.split(" ").length > 10) {
+                  //         return '10 characters max';
+                  //       }
+                  //       return null;
+                  //     },
+                  //   ),
+                  // ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(I18n.of(context).to + ':',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
+                  )
+                ],
+              ),
+              Column(children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(
                       top: 50.0, bottom: 50, left: 40, right: 40),
@@ -216,7 +219,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                 fontSize: 14)),
                       )
                     : SizedBox.shrink()
-              ]))
+              ])
             ],
             footer: Center(
                 child: PrimaryButton(
@@ -224,13 +227,21 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
                       send(viewModel, args, transferNoteController.text, () {
-                        Router.navigator.pushNamed(Router.sendSuccessScreen, arguments: args);
+                        Router.navigator.pushNamed(Router.sendSuccessScreen,
+                            arguments: args);
                         setState(() {
                           isPreloading = false;
                         });
-                        String transferType = args.sendType.toString().split('.')[1].toLowerCase() ?? '';
-                        viewModel.idenyifyCall(Map.from({ "Transferred ${viewModel.community.name}": true }));
-                        viewModel.trackTransferCall("Wallet: User Transfer", properties: Map.from({ 'transfer type': transferType }));
+                        String transferType = args.sendType
+                                .toString()
+                                .split('.')[1]
+                                .toLowerCase() ??
+                            '';
+                        viewModel.idenyifyCall(Map.from(
+                            {"Transferred ${viewModel.community.name}": true}));
+                        viewModel.trackTransferCall("Wallet: User Transfer",
+                            properties:
+                                Map.from({'transfer type': transferType}));
                       }, () {
                         // print('error');
                       });
