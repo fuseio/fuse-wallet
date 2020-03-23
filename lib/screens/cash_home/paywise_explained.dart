@@ -88,7 +88,7 @@ class _PaywiseExplainedScreenState extends State<PaywiseExplainedScreen>
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    '''With this app you can earn points and use them in stores around you. Each point is worth 0.5 Trinidad \$ and the first 100 users get 10 points for creating an account!''',
+                                    '''With this app you can earn points and use them in stores around you. Each point is worth 0.50 TTD and the first 100 users get 10 points for creating an account!''',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Theme.of(context)
