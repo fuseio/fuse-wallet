@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/pro/views/pro_wallet.dart';
+import 'package:fusecash/screens/pro_mode/token_transfers.dart';
+import 'package:fusecash/screens/pro_routes.gr.dart';
 import 'package:fusecash/utils/addresses.dart';
 
 final Token daiToken = Token(
@@ -59,6 +62,15 @@ class _TokenRow extends StatelessWidget {
       decoration: new BoxDecoration(
           border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
       child: ListTile(
+          onTap: () {
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => TokenTransfersScreen(token: token),
+                    settings: RouteSettings(
+                        arguments:
+                            TokenTransfersScreenArguments(token: token))));
+          },
           contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
           title: Row(
             mainAxisSize: MainAxisSize.max,
@@ -90,9 +102,23 @@ class _TokenRow extends StatelessWidget {
                       SizedBox(width: 10.0),
                       Flexible(
                         flex: 10,
-                        child: Text(token.name,
-                            style: TextStyle(
-                                color: Color(0xFF333333), fontSize: 15)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(token.name,
+                                style: TextStyle(
+                                    color: Color(0xFF333333), fontSize: 15)),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            SvgPicture.asset(
+                              'assets/images/go_to_pro.svg',
+                              width: 10,
+                              height: 8,
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   )),

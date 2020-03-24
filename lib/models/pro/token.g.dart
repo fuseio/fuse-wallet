@@ -14,6 +14,8 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
     decimals: json['decimals'] as int,
     amount: json['amount'] as num,
     imageUrl: json['imageUrl'] as String,
+    transactions: Token._transactionsFromJson(
+        json['transactions'] as Map<String, dynamic>),
   );
 }
 
@@ -24,4 +26,5 @@ Map<String, dynamic> _$TokenToJson(Token instance) => <String, dynamic>{
       'imageUrl': instance.imageUrl,
       'decimals': instance.decimals,
       'amount': instance.amount,
+      'transactions': instance.transactions?.toJson(),
     };

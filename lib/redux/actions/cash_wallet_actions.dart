@@ -1054,7 +1054,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
   };
 }
 
-Map<String, dynamic> _responseHandler(Response response) {
+Map<String, dynamic> responseHandler(Response response) {
   switch (response.statusCode) {
     case 200:
       Map<String, dynamic> obj = json.decode(response.body);
@@ -1074,7 +1074,7 @@ ThunkAction getBusinessListCall() {
       if (isPaywise(communityAddress)) {
         Client client = new Client();
         dynamic res = await client.get('https://api.airtable.com/v0/appVQfuM5SRKAGF1c/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
-        dynamic a = _responseHandler(res);
+        dynamic a = responseHandler(res);
         List<Business> businessList = new List();
         await Future.forEach(a['records'], (record) {
           if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
@@ -1103,7 +1103,7 @@ ThunkAction getBusinessListCall() {
       } else if (isPeso(communityAddress)) {
         Client client = new Client();
         dynamic res = await client.get('https://api.airtable.com/v0/applg6xomn2EIirM0/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
-        dynamic a = _responseHandler(res);
+        dynamic a = responseHandler(res);
         List<Business> businessList = new List();
         await Future.forEach(a['records'], (record) {
           if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
