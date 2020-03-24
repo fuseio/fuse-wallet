@@ -24,7 +24,11 @@ class TransactionListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Transfer transfer = _transaction as Transfer;
-    bool isSendingToForeign = (_vm.community.homeBridgeAddress != null && transfer.to != null && transfer.to?.toLowerCase() == _vm.community.homeBridgeAddress?.toLowerCase()) ?? false;
+    bool isSendingToForeign = (_vm.community.homeBridgeAddress != null &&
+            transfer.to != null &&
+            transfer.to?.toLowerCase() ==
+                _vm.community.homeBridgeAddress?.toLowerCase()) ??
+        false;
     bool isWalletCreated = 'created' == this._vm.walletStatus;
     ImageProvider<dynamic> image = getTransferImage(transfer, _contact, _vm);
     String displayName = transfer.isJoinBonus()
@@ -154,15 +158,40 @@ class TransactionListItem extends StatelessWidget {
                           overflow: Overflow.visible,
                           alignment: AlignmentDirectional.bottomStart,
                           children: <Widget>[
-                            Text(
-                                isSendingToForeign && transfer.isConfirmed()
-                                    ? I18n.of(context).sending_to_ethereum
-                                    : isSendingToForeign && transfer.isPending()
-                                        ? I18n.of(context).sent_to_ethereum
-                                        : displayName,
-                                style: TextStyle(
-                                    color: Color(0xFF333333),
-                                    fontSize: isSendingToForeign ? 13 : 15)),
+                            transfer.isJoinCommunity()
+                                ? RichText(
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: transfer.isJoinCommunity() &&
+                                                    transfer.isPending()
+                                                ? I18n.of(context).joining
+                                                : I18n.of(context).joined,
+                                            style:
+                                                TextStyle(color: Colors.black)),
+                                        TextSpan(
+                                            text: ' \‘${_vm.community.name}\’ ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black)),
+                                        TextSpan(
+                                            text: I18n.of(context).community,
+                                            style:
+                                                TextStyle(color: Colors.black)),
+                                      ],
+                                    ),
+                                  )
+                                : Text(
+                                    isSendingToForeign && transfer.isConfirmed()
+                                        ? I18n.of(context).sending_to_ethereum
+                                        : isSendingToForeign &&
+                                                transfer.isPending()
+                                            ? I18n.of(context).sent_to_ethereum
+                                            : displayName,
+                                    style: TextStyle(
+                                        color: Color(0xFF333333),
+                                        fontSize:
+                                            isSendingToForeign ? 13 : 15)),
                             isSendingToForeign
                                 ? Positioned(
                                     bottom: -20,

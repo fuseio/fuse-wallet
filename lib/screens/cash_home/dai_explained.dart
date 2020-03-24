@@ -213,6 +213,9 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
               ),
               new StoreConnector<AppState, _DaiPointsViewModel>(
                 distinct: true,
+                onInit: (store) {
+                  Segment.screen(screenName: '/dai-explained-screen');
+                },
                 converter: _DaiPointsViewModel.fromStore,
                 builder: (_, vm) {
                   return Row(

@@ -7,6 +7,7 @@ import 'package:redux/redux.dart';
 
 class SendAmountViewModel {
   final Token token;
+  final bool isProMode;
   final String myCountryCode;
   final Community community;
   final Function(String name, String phoneNumber, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToContact;
@@ -21,6 +22,7 @@ class SendAmountViewModel {
       this.sendToAccountAddress,
       this.trackTransferCall,
       this.idenyifyCall,
+      this.isProMode,
       this.community});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
@@ -29,6 +31,7 @@ class SendAmountViewModel {
         store.state.cashWalletState.communities[communityAddres] ??
             new Community.initial();
     return SendAmountViewModel(
+        isProMode: store.state.userState.isProMode ?? false,
         token: community.token,
         community: community,
         myCountryCode: store.state.userState.countryCode,

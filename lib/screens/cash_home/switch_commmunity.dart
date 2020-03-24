@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community.dart';
@@ -87,6 +88,9 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SwitchCommunityViewModel>(
         distinct: true,
+        onInit: (store) {
+          Segment.screen(screenName: '/switch-community-screen');
+        },
         converter: SwitchCommunityViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(

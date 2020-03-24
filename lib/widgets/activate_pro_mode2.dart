@@ -96,9 +96,6 @@ class ActivateProMode2DialogState extends State<ActivateProMode2Dialog>
                                       sendType: SendType.FUSE_ADDRESS,
                                       accountAddress: viewModel.daiPointsHomeBridgeAddress
                                     ));
-                                // Router.navigator.pushNamedAndRemoveUntil(
-                                //     Router.cashHomeScreen,
-                                //     (Route<dynamic> route) => false);
                               },
                             ))
                           ],

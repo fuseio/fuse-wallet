@@ -337,6 +337,9 @@ class _PrizeScreenState extends State<PrizeScreen> {
                     ),
                     new StoreConnector<AppState, PrizeViewModel>(
                         distinct: true,
+                        onInit: (store) {
+                          Segment.screen(screenName: '/prize-scree');
+                        },
                         converter: PrizeViewModel.fromStore,
                         builder: (_, viewModel) {
                           List depositPlugins =

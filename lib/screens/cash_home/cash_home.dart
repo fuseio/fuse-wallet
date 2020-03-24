@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/themes/app_theme.dart';
@@ -61,6 +62,7 @@ class CashHomeScreen extends StatelessWidget {
   }
 
   onInit(store) async {
+    Segment.screen(screenName: '/cash-home-screen');
     String walletStatus = store.state.cashWalletState.walletStatus;
     String accountAddress = store.state.userState.accountAddress;
     if (walletStatus != 'deploying' &&

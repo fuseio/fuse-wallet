@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -33,6 +34,23 @@ class _ContactsListState extends State<ContactsList> {
   bool hasSynced = false;
   TextEditingController searchController = TextEditingController();
   bool isPreloading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return new StoreConnector<AppState, ContactsViewModel>(
+        distinct: true,
+        onInit: (store) {
+          Segment.screen(screenName: '/send-to-contact-screen');
+        },
+        converter: ContactsViewModel.fromStore,
+        builder: (_, viewModel) {
+          return MainScaffold(
+            automaticallyImplyLeading: false,
+            title: I18n.of(context).send_to,
+            sliverList: _buildPageList(viewModel),
+          );
+        });
+  }
 
   loadContacts(List<Contact> contacts) async {
     if (this.mounted) {
@@ -427,20 +445,6 @@ class _ContactsListState extends State<ContactsList> {
         ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new StoreConnector<AppState, ContactsViewModel>(
-        distinct: true,
-        converter: ContactsViewModel.fromStore,
-        builder: (_, viewModel) {
-          return MainScaffold(
-            automaticallyImplyLeading: false,
-            title: I18n.of(context).send_to,
-            sliverList: _buildPageList(viewModel),
-          );
-        });
   }
 }
 

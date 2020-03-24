@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/backup.dart';
 import 'package:fusecash/screens/backup/verify_mnemonic.dart';
@@ -46,6 +47,9 @@ class ShowMnemonic extends StatelessWidget {
           ),
           new StoreConnector<AppState, BackupViewModel>(
               distinct: true,
+              onInit: (store) {
+                Segment.screen(screenName: '/show-mnemonic');
+              },
               converter: BackupViewModel.fromStore,
               builder: (_, viewModel) {
                 return (viewModel.user != null &&

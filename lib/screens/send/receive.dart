@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/utils/format.dart';
@@ -17,6 +18,9 @@ class ReceiveScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _ReceiveModel>(
         distinct: true,
+        onInit: (store) {
+          Segment.screen(screenName: '/receive-screen');
+        },
         converter: _ReceiveModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(

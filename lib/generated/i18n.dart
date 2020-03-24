@@ -108,8 +108,12 @@ class I18n implements WidgetsLocalizations {
   String get join_bonus => "You got a join bonus!";
   /// "Joining Community"
   String get joining_community => "Joining Community";
-  /// "Joined Community"
-  String get joined_community => "Joined Community";
+  /// "Joining"
+  String get joining => "Joining";
+  /// "Joined"
+  String get joined => "Joined";
+  /// "community"
+  String get community => "community";
   /// "About"
   String get about => "About";
   /// "Version"
@@ -335,9 +339,6 @@ class _I18n_he_IL extends I18n {
   /// "מצטרף לקהילה"
   @override
   String get joining_community => "מצטרף לקהילה";
-  /// "הצטרפת לקהילה"
-  @override
-  String get joined_community => "הצטרפת לקהילה";
   /// "אודות"
   @override
   String get about => "אודות";
@@ -571,9 +572,6 @@ class _I18n_es_ES extends I18n {
   /// "Unirse a la Comunidad"
   @override
   String get joining_community => "Unirse a la Comunidad";
-  /// "Ingresaste a la Coumunidad"
-  @override
-  String get joined_community => "Ingresaste a la Coumunidad";
   /// "Acerca de"
   @override
   String get about => "Acerca de";
@@ -807,9 +805,6 @@ class _I18n_br_BR extends I18n {
   /// "Participar da comunidade"
   @override
   String get joining_community => "Participar da comunidade";
-  /// "Comunidade aderida"
-  @override
-  String get joined_community => "Comunidade aderida";
   /// "sobre"
   @override
   String get about => "sobre";

@@ -369,7 +369,9 @@ ThunkAction identifyCall() {
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
           "Display Name": store.state.userState.displayName,
-          "Identifier": store.state.userState.identifier
+          "Identifier": store.state.userState.identifier,
+          "Pro mode active": store.state.userState.isProMode,
+          "Joined Communities": store.state.cashWalletState.communities.keys.toList(),
         })));
   };
 }

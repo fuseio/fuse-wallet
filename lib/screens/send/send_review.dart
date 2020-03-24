@@ -240,8 +240,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         viewModel.idenyifyCall(Map.from(
                             {"Transferred ${viewModel.community.name}": true}));
                         viewModel.trackTransferCall("Wallet: User Transfer",
-                            properties:
-                                Map.from({'transfer type': transferType}));
+                            properties: Map.from({
+                              'transfer type': transferType,
+                              'network': viewModel.isProMode ? 'Ethereum' : 'Fuse'
+                            }));
                       }, () {
                         // print('error');
                       });

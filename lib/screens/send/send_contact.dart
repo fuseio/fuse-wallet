@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,8 +23,6 @@ import "package:ethereum_address/ethereum_address.dart";
 import 'dart:math' as math;
 
 class SendToContactScreen extends StatefulWidget {
-  SendToContactScreen();
-
   @override
   _SendToContactScreenState createState() => _SendToContactScreenState();
 }
@@ -444,6 +443,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   }
 
   onInit(store) {
+    Segment.screen(screenName: '/send-to-contact-screen');
     loadContacts(
         store.state.userState.contacts ?? [], store.state.userState.isContactsSynced);
   }
