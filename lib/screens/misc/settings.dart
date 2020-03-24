@@ -1,13 +1,13 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/drawer.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/widgets/language_selector.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:localpay/generated/i18n.dart';
+import 'package:localpay/models/app_state.dart';
+import 'package:localpay/models/views/drawer.dart';
+import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/utils/forks.dart';
+import 'package:localpay/widgets/language_selector.dart';
+import 'package:localpay/widgets/main_scaffold.dart';
 
 class SettingsScreen extends StatelessWidget {
   Widget getListTile(context, label, onTap) {

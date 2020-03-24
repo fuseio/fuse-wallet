@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/widgets/coming_soon.dart';
+import 'package:localpay/models/pro/token.dart';
+import 'package:localpay/utils/addresses.dart';
+import 'package:localpay/widgets/coming_soon.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:localpay/generated/i18n.dart';
+import 'package:localpay/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/widgets/raised_gradient_button.dart';
+import 'package:localpay/widgets/raised_gradient_button.dart';
 
 class ProHeader extends StatelessWidget {
 

@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:localpay/generated/i18n.dart';
+import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/screens/send/send_amount_arguments.dart';
+import 'package:localpay/widgets/main_scaffold.dart';
 
 // typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/cash_header.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:localpay/generated/i18n.dart';
+import 'package:localpay/models/views/cash_header.dart';
+import 'package:localpay/models/app_state.dart';
+import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/screens/send/send_amount_arguments.dart';
+import 'package:localpay/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 

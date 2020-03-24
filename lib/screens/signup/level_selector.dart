@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:localpay/widgets/main_scaffold.dart';
 
 class LevelSelectorScreen extends StatelessWidget {
   @override

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:localpay/models/pro/token.dart';
+import 'package:localpay/models/transactions/transfer.dart';
+import 'package:localpay/redux/state/store.dart';
+import 'package:localpay/services.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;

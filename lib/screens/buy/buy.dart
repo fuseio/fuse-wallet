@@ -2,17 +2,17 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/widgets/bottombar.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:localpay/generated/i18n.dart';
+import 'package:localpay/models/app_state.dart';
+import 'package:localpay/models/business.dart';
+import 'package:localpay/models/views/buy_page.dart';
+import 'package:localpay/screens/buy/business.dart';
+import 'package:localpay/screens/cash_home/webview_page.dart';
+import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/screens/send/send_amount_arguments.dart';
+import 'package:localpay/utils/transaction_row.dart';
+import 'package:localpay/widgets/bottombar.dart';
+import 'package:localpay/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override

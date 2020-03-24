@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/pro/token.dart';
+import 'package:localpay/models/pro/token.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:localpay/models/app_state.dart';
 
 class ProWalletViewModel extends Equatable {
   final String walletAddress;

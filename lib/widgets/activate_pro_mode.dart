@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:localpay/models/community.dart';
+import 'package:localpay/redux/actions/user_actions.dart';
+import 'package:localpay/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/activate_pro_mode2.dart';
+import 'package:localpay/models/app_state.dart';
+import 'package:localpay/widgets/activate_pro_mode2.dart';
 import 'dart:core';
 
 class ActivateProModeDialog extends StatefulWidget {

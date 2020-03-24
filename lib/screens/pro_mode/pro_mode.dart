@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/pro/views/pro_wallet.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/pro_mode/pro_header.dart';
-import 'package:fusecash/screens/pro_mode/pro_mode_main_scaffold.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:localpay/models/pro/views/pro_wallet.dart';
+import 'package:localpay/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:localpay/screens/pro_mode/pro_header.dart';
+import 'package:localpay/screens/pro_mode/pro_mode_main_scaffold.dart';
+import 'package:localpay/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/screens/pro_mode/pro_transactios.dart';
+import 'package:localpay/screens/pro_mode/pro_transactios.dart';
 import 'package:redux/redux.dart';
 
 class ProModeHomeScreen extends StatelessWidget {

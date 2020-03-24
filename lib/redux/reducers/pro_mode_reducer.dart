@@ -1,6 +1,6 @@
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:localpay/models/pro/pro_wallet_state.dart';
+import 'package:localpay/models/pro/token.dart';
+import 'package:localpay/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 final proWalletReducers = combineReducers<ProWalletState>([

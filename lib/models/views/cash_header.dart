@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:localpay/models/community.dart';
+import 'package:localpay/models/plugins.dart';
+import 'package:localpay/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:localpay/models/app_state.dart';
 
 class CashHeaderViewModel extends Equatable {
   final Community community;

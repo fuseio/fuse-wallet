@@ -1,13 +1,13 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/splash/slide_animation_controller.dart';
-import 'package:fusecash/widgets/on_boarding_pages.dart';
+import 'package:localpay/models/app_state.dart';
+import 'package:localpay/models/views/splash.dart';
+import 'package:localpay/redux/actions/cash_wallet_actions.dart';
+import 'package:localpay/redux/actions/user_actions.dart';
+import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/screens/splash/slide_animation_controller.dart';
+import 'package:localpay/widgets/on_boarding_pages.dart';
 import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {

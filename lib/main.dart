@@ -3,22 +3,22 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/main_wrapper.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
+import 'package:localpay/main_wrapper.dart';
+import 'package:localpay/models/app_state.dart';
+import 'package:localpay/models/views/splash.dart';
+import 'package:localpay/redux/actions/cash_wallet_actions.dart';
+import 'package:localpay/redux/actions/user_actions.dart';
+import 'package:localpay/redux/state/store.dart';
+import 'package:localpay/themes/app_theme.dart';
+import 'package:localpay/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:localpay/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_prod');
+  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_localpay');
   await DotEnv().load(configFile);
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runZoned<Future<void>>(() async => runApp(await customThemeApp()),

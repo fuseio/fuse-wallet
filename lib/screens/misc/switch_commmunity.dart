@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/views/switch_community.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/bottombar.dart';
-import 'package:fusecash/widgets/community_card.dart';
+import 'package:localpay/generated/i18n.dart';
+import 'package:localpay/models/app_state.dart';
+import 'package:localpay/models/community.dart';
+import 'package:localpay/models/views/switch_community.dart';
+import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/widgets/bottombar.dart';
+import 'package:localpay/widgets/community_card.dart';
 import 'dart:core';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:localpay/widgets/main_scaffold.dart';
 
 class SwitchCommunityScreen extends StatefulWidget {
   @override

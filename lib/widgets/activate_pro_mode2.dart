@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/widgets/activate_pro_mode.dart';
+import 'package:localpay/models/app_state.dart';
+import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/screens/send/send_amount_arguments.dart';
+import 'package:localpay/widgets/activate_pro_mode.dart';
 import 'dart:core';
 
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:localpay/widgets/primary_button.dart';
 
 class ActivateProMode2Dialog extends StatefulWidget {
   @override
