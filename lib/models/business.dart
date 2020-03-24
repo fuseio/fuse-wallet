@@ -1,4 +1,4 @@
-import 'package:localdollarmx/models/business_metadata.dart';
+import 'package:localdolarmx/models/business_metadata.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business.g.dart';

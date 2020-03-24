@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:localdollarmx/models/app_state.dart';
-import 'package:localdollarmx/models/plugins.dart';
-import 'package:localdollarmx/models/views/drawer.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/models/app_state.dart';
+import 'package:localdolarmx/models/plugins.dart';
+import 'package:localdolarmx/models/views/drawer.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

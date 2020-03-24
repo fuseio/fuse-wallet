@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/models/pro/token.dart';
-import 'package:localdollarmx/utils/addresses.dart';
-import 'package:localdollarmx/widgets/coming_soon.dart';
+import 'package:localdolarmx/models/pro/token.dart';
+import 'package:localdolarmx/utils/addresses.dart';
+import 'package:localdolarmx/widgets/coming_soon.dart';
 import 'package:redux/redux.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:localdollarmx/widgets/raised_gradient_button.dart';
+import 'package:localdolarmx/widgets/raised_gradient_button.dart';
 
 class ProHeader extends StatelessWidget {
 

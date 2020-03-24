@@ -1,8 +1,8 @@
-import 'package:localdollarmx/models/business.dart';
-import 'package:localdollarmx/models/community_metadata.dart';
-import 'package:localdollarmx/models/jobs/base.dart';
-import 'package:localdollarmx/models/token.dart';
-import 'package:localdollarmx/models/transactions/transactions.dart';
+import 'package:localdolarmx/models/business.dart';
+import 'package:localdolarmx/models/community_metadata.dart';
+import 'package:localdolarmx/models/jobs/base.dart';
+import 'package:localdolarmx/models/token.dart';
+import 'package:localdolarmx/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';

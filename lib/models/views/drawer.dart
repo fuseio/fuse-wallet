@@ -1,10 +1,10 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdolarmx/models/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:localdollarmx/models/community.dart';
-import 'package:localdollarmx/models/plugins.dart';
-import 'package:localdollarmx/redux/actions/user_actions.dart';
+import 'package:localdolarmx/models/community.dart';
+import 'package:localdolarmx/models/plugins.dart';
+import 'package:localdolarmx/redux/actions/user_actions.dart';
 
 class DrawerViewModel extends Equatable {
   final Function() logout;

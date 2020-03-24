@@ -3,22 +3,22 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:localdollarmx/main_wrapper.dart';
-import 'package:localdollarmx/models/app_state.dart';
-import 'package:localdollarmx/models/views/splash.dart';
-import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
-import 'package:localdollarmx/redux/actions/user_actions.dart';
-import 'package:localdollarmx/redux/state/store.dart';
-import 'package:localdollarmx/themes/app_theme.dart';
-import 'package:localdollarmx/themes/custom_theme.dart';
+import 'package:localdolarmx/main_wrapper.dart';
+import 'package:localdolarmx/models/app_state.dart';
+import 'package:localdolarmx/models/views/splash.dart';
+import 'package:localdolarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdolarmx/redux/actions/user_actions.dart';
+import 'package:localdolarmx/redux/state/store.dart';
+import 'package:localdolarmx/themes/app_theme.dart';
+import 'package:localdolarmx/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:localdollarmx/generated/i18n.dart';
+import 'package:localdolarmx/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_localdollarmx');
+  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_localdolarmx');
   await DotEnv().load(configFile);
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runZoned<Future<void>>(() async => runApp(await customThemeApp()),

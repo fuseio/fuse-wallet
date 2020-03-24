@@ -2,14 +2,14 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:localdollarmx/models/views/drawer.dart';
-import 'package:localdollarmx/screens/cash_home/deposit_webview.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
-import 'package:localdollarmx/utils/forks.dart';
-import 'package:localdollarmx/utils/format.dart';
+import 'package:localdolarmx/models/views/drawer.dart';
+import 'package:localdolarmx/screens/cash_home/deposit_webview.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/utils/forks.dart';
+import 'package:localdolarmx/utils/format.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 

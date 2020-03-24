@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>710885036256-4uof9kek2u99b7koqrpqjgarlkkt69mh.apps.googleusercontent.com</string>
+	<string>710885036256-0p16a1prt9r6vbitfbdsnv52evu87foq.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.710885036256-4uof9kek2u99b7koqrpqjgarlkkt69mh</string>
+	<string>com.googleusercontent.apps.710885036256-0p16a1prt9r6vbitfbdsnv52evu87foq</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>710885036256-dide2t9l8bst70mj4tqdc565lt6p7p51.apps.googleusercontent.com</string>
+	<string>710885036256-pjqntkl0biv4fst7aoqfse1p3f2qgcmg.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBgiKPZfE2Mx-eT3yvXJsRG_O-YlOjGGRg</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.fuse.localdollarmx</string>
+	<string>io.fuse.localdolarmx</string>
 	<key>PROJECT_ID</key>
 	<string>localdollarmx</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:710885036256:ios:303e41bced32d251bf8085</string>
+	<string>1:710885036256:ios:0cf611e2ebcba983bf8085</string>
 	<key>DATABASE_URL</key>
 	<string>https://localdollarmx.firebaseio.com</string>
 </dict>

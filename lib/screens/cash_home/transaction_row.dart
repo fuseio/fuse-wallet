@@ -1,14 +1,14 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/models/transactions/transaction.dart';
-import 'package:localdollarmx/models/transactions/transfer.dart';
-import 'package:localdollarmx/models/views/cash_wallet.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
-import 'package:localdollarmx/utils/transaction_row.dart';
-import 'package:localdollarmx/screens/cash_home/transaction_details.dart';
-import 'package:localdollarmx/utils/format.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/models/transactions/transaction.dart';
+import 'package:localdolarmx/models/transactions/transfer.dart';
+import 'package:localdolarmx/models/views/cash_wallet.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/utils/transaction_row.dart';
+import 'package:localdolarmx/screens/cash_home/transaction_details.dart';
+import 'package:localdolarmx/utils/format.dart';
 
 class TransactionListItem extends StatelessWidget {
   final Transaction _transaction;

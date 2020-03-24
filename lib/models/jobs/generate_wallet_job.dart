@@ -1,7 +1,7 @@
-import 'package:localdollarmx/models/jobs/base.dart';
-import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
-import 'package:localdollarmx/redux/state/store.dart';
-import 'package:localdollarmx/services.dart';
+import 'package:localdolarmx/models/jobs/base.dart';
+import 'package:localdolarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdolarmx/redux/state/store.dart';
+import 'package:localdolarmx/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generate_wallet_job.g.dart';

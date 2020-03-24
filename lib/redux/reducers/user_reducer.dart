@@ -1,6 +1,6 @@
-import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
-import 'package:localdollarmx/redux/actions/user_actions.dart';
-import 'package:localdollarmx/models/user_state.dart';
+import 'package:localdolarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdolarmx/redux/actions/user_actions.dart';
+import 'package:localdolarmx/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([

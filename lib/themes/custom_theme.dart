@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:localdollarmx/themes/app_theme.dart';
+import 'package:localdolarmx/themes/app_theme.dart';
 
 class _CustomTheme extends InheritedWidget {
   final CustomThemeState data;

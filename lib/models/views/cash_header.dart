@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:localdollarmx/models/community.dart';
-import 'package:localdollarmx/models/plugins.dart';
-import 'package:localdollarmx/utils/addresses.dart';
+import 'package:localdolarmx/models/community.dart';
+import 'package:localdolarmx/models/plugins.dart';
+import 'package:localdolarmx/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdolarmx/models/app_state.dart';
 
 class CashHeaderViewModel extends Equatable {
   final Community community;

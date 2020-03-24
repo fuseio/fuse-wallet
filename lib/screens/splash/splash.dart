@@ -1,13 +1,13 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:localdollarmx/models/app_state.dart';
-import 'package:localdollarmx/models/views/splash.dart';
-import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
-import 'package:localdollarmx/redux/actions/user_actions.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
-import 'package:localdollarmx/screens/splash/slide_animation_controller.dart';
-import 'package:localdollarmx/widgets/on_boarding_pages.dart';
+import 'package:localdolarmx/models/app_state.dart';
+import 'package:localdolarmx/models/views/splash.dart';
+import 'package:localdolarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdolarmx/redux/actions/user_actions.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/screens/splash/slide_animation_controller.dart';
+import 'package:localdolarmx/widgets/on_boarding_pages.dart';
 import 'dots_indicator.dart';
 
 class SplashScreen extends StatefulWidget {

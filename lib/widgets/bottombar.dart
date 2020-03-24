@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:localdollarmx/common.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/models/app_state.dart';
-import 'package:localdollarmx/models/views/bottom_bar.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/common.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/models/app_state.dart';
+import 'package:localdolarmx/models/views/bottom_bar.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;

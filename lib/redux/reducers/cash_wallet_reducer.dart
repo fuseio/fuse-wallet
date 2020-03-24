@@ -1,11 +1,11 @@
-import 'package:localdollarmx/models/community.dart';
-import 'package:localdollarmx/models/jobs/base.dart';
-import 'package:localdollarmx/models/transactions/transaction.dart';
-import 'package:localdollarmx/models/transactions/transactions.dart';
-import 'package:localdollarmx/models/transactions/transfer.dart';
-import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
-import 'package:localdollarmx/redux/actions/user_actions.dart';
-import 'package:localdollarmx/models/cash_wallet_state.dart';
+import 'package:localdolarmx/models/community.dart';
+import 'package:localdolarmx/models/jobs/base.dart';
+import 'package:localdolarmx/models/transactions/transaction.dart';
+import 'package:localdolarmx/models/transactions/transactions.dart';
+import 'package:localdolarmx/models/transactions/transfer.dart';
+import 'package:localdolarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdolarmx/redux/actions/user_actions.dart';
+import 'package:localdolarmx/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([

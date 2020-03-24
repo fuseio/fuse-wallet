@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/screens/splash/create_wallet.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/screens/splash/create_wallet.dart';
 
 Widget introPage(BuildContext context, String title, String subTitle) {
   return Container(

@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:localdollarmx/models/app_state.dart';
-import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
-import 'package:localdollarmx/redux/actions/error_actions.dart';
-import 'package:localdollarmx/redux/actions/user_actions.dart';
-import 'package:localdollarmx/redux/state/store.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
-import 'package:localdollarmx/services.dart';
-import 'package:localdollarmx/utils/phone.dart';
+import 'package:localdolarmx/models/app_state.dart';
+import 'package:localdolarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdolarmx/redux/actions/error_actions.dart';
+import 'package:localdolarmx/redux/actions/user_actions.dart';
+import 'package:localdolarmx/redux/state/store.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/services.dart';
+import 'package:localdolarmx/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 

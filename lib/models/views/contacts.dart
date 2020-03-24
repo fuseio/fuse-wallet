@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
-import 'package:localdollarmx/models/app_state.dart';
-import 'package:localdollarmx/models/business.dart';
-import 'package:localdollarmx/models/community.dart';
-import 'package:localdollarmx/models/token.dart';
-import 'package:localdollarmx/models/transactions/transactions.dart';
-import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
-import 'package:localdollarmx/redux/actions/user_actions.dart';
+import 'package:localdolarmx/models/app_state.dart';
+import 'package:localdolarmx/models/business.dart';
+import 'package:localdolarmx/models/community.dart';
+import 'package:localdolarmx/models/token.dart';
+import 'package:localdolarmx/models/transactions/transactions.dart';
+import 'package:localdolarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdolarmx/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {

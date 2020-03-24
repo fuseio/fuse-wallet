@@ -2,17 +2,17 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/models/app_state.dart';
-import 'package:localdollarmx/models/business.dart';
-import 'package:localdollarmx/models/views/buy_page.dart';
-import 'package:localdollarmx/screens/buy/business.dart';
-import 'package:localdollarmx/screens/cash_home/webview_page.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
-import 'package:localdollarmx/screens/send/send_amount_arguments.dart';
-import 'package:localdollarmx/utils/transaction_row.dart';
-import 'package:localdollarmx/widgets/bottombar.dart';
-import 'package:localdollarmx/widgets/main_scaffold.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/models/app_state.dart';
+import 'package:localdolarmx/models/business.dart';
+import 'package:localdolarmx/models/views/buy_page.dart';
+import 'package:localdolarmx/screens/buy/business.dart';
+import 'package:localdolarmx/screens/cash_home/webview_page.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/screens/send/send_amount_arguments.dart';
+import 'package:localdolarmx/utils/transaction_row.dart';
+import 'package:localdolarmx/widgets/bottombar.dart';
+import 'package:localdolarmx/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override

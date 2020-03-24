@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/widgets/drawer.dart';
+import 'package:localdolarmx/widgets/drawer.dart';
 import 'package:flutter/services.dart';
 import 'bottombar.dart';
 

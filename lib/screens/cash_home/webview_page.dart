@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPageArguments {

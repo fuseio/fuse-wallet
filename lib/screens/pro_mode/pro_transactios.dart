@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/models/pro/token.dart';
-import 'package:localdollarmx/models/pro/views/pro_wallet.dart';
-import 'package:localdollarmx/utils/addresses.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/models/pro/token.dart';
+import 'package:localdolarmx/models/pro/views/pro_wallet.dart';
+import 'package:localdolarmx/utils/addresses.dart';
 
 class ProTransactios extends StatelessWidget {
   ProTransactios({this.viewModel});

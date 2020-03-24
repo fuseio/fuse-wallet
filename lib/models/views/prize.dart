@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:localdollarmx/models/plugins.dart';
-import 'package:localdollarmx/utils/addresses.dart' as util;
+import 'package:localdolarmx/models/plugins.dart';
+import 'package:localdolarmx/utils/addresses.dart' as util;
 import 'package:redux/redux.dart';
-import 'package:localdollarmx/models/app_state.dart';
-import 'package:localdollarmx/models/community.dart';
+import 'package:localdolarmx/models/app_state.dart';
+import 'package:localdolarmx/models/community.dart';
 
 class PrizeViewModel extends Equatable {
   final Community community;

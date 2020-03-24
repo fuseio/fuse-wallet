@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
 import 'dart:core';
 
-import 'package:localdollarmx/widgets/primary_button.dart';
+import 'package:localdolarmx/widgets/primary_button.dart';
 
 class SignupDialog extends StatefulWidget {
   SignupDialog();

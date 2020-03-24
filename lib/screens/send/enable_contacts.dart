@@ -2,12 +2,12 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/models/app_state.dart';
-import 'package:localdollarmx/models/views/contacts.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
-import 'package:localdollarmx/utils/contacts.dart';
-import 'package:localdollarmx/widgets/primary_button.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/models/app_state.dart';
+import 'package:localdolarmx/models/views/contacts.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/utils/contacts.dart';
+import 'package:localdolarmx/widgets/primary_button.dart';
 import 'dart:core';
 
 class ContactsConfirmationScreen extends StatefulWidget {

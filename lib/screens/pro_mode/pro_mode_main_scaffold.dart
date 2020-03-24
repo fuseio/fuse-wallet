@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/screens/pro_mode/bottombar.dart';
+import 'package:localdolarmx/screens/pro_mode/bottombar.dart';
 import 'package:flutter/services.dart';
-import 'package:localdollarmx/screens/pro_mode/pro_drawer.dart';
+import 'package:localdolarmx/screens/pro_mode/pro_drawer.dart';
 
 class MainScaffold extends StatelessWidget {
   MainScaffold(

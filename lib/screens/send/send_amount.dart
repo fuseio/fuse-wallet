@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/models/community.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
-import 'package:localdollarmx/screens/send/send_amount_arguments.dart';
-import 'package:localdollarmx/utils/format.dart';
-import 'package:localdollarmx/widgets/main_scaffold.dart';
-import 'package:localdollarmx/widgets/primary_button.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/models/community.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/screens/send/send_amount_arguments.dart';
+import 'package:localdolarmx/utils/format.dart';
+import 'package:localdolarmx/widgets/main_scaffold.dart';
+import 'package:localdolarmx/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
-import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdolarmx/models/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:localdollarmx/models/token.dart';
+import 'package:localdolarmx/models/token.dart';
 
 // typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 

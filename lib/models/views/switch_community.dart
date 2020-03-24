@@ -1,9 +1,9 @@
 import 'dart:core';
 import 'package:equatable/equatable.dart';
-import 'package:localdollarmx/models/community.dart';
-import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdolarmx/models/community.dart';
+import 'package:localdolarmx/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdolarmx/models/app_state.dart';
 
 class SwitchCommunityViewModel extends Equatable {
   final Map<String, Community> communities;

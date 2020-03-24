@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/screens/pro_routes.gr.dart';
-import 'package:localdollarmx/screens/routes.gr.dart';
-import 'package:localdollarmx/themes/custom_theme.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/screens/pro_routes.gr.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/themes/custom_theme.dart';
 
 class MainWrapper extends StatefulWidget {
   final GeneratedLocalizationsDelegate i18n;

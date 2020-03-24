@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/models/pro/views/pro_wallet.dart';
-import 'package:localdollarmx/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:localdollarmx/screens/pro_mode/pro_header.dart';
-import 'package:localdollarmx/screens/pro_mode/pro_mode_main_scaffold.dart';
-import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdolarmx/models/pro/views/pro_wallet.dart';
+import 'package:localdolarmx/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:localdolarmx/screens/pro_mode/pro_header.dart';
+import 'package:localdolarmx/screens/pro_mode/pro_mode_main_scaffold.dart';
+import 'package:localdolarmx/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:localdollarmx/screens/pro_mode/pro_transactios.dart';
+import 'package:localdolarmx/screens/pro_mode/pro_transactios.dart';
 import 'package:redux/redux.dart';
 
 class ProModeHomeScreen extends StatelessWidget {

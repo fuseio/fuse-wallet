@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:localdollarmx/models/pro/token.dart';
+import 'package:localdolarmx/models/pro/token.dart';
 import 'package:redux/redux.dart';
-import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdolarmx/models/app_state.dart';
 
 class ProWalletViewModel extends Equatable {
   final String walletAddress;

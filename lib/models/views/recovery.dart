@@ -1,8 +1,8 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/redux/actions/user_actions.dart';
+import 'package:localdolarmx/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdolarmx/models/app_state.dart';
 
 class RecoveryViewModel {
   final Function(String, VoidCallback) generateWalletFromBackup;

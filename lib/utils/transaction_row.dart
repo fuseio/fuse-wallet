@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:localdollarmx/models/business.dart';
-import 'package:localdollarmx/models/transactions/transfer.dart';
-import 'package:localdollarmx/models/views/cash_wallet.dart';
-import 'package:localdollarmx/utils/forks.dart';
-import 'package:localdollarmx/utils/format.dart';
-import 'package:localdollarmx/utils/phone.dart';
+import 'package:localdolarmx/models/business.dart';
+import 'package:localdolarmx/models/transactions/transfer.dart';
+import 'package:localdolarmx/models/views/cash_wallet.dart';
+import 'package:localdolarmx/utils/forks.dart';
+import 'package:localdolarmx/utils/format.dart';
+import 'package:localdolarmx/utils/phone.dart';
 
 String deduceSign(Transfer transfer) {
   if (transfer.type == 'SEND') {

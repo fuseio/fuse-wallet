@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:localdollarmx/models/pro/token.dart';
-import 'package:localdollarmx/models/transactions/transfer.dart';
-import 'package:localdollarmx/redux/state/store.dart';
-import 'package:localdollarmx/services.dart';
+import 'package:localdolarmx/models/pro/token.dart';
+import 'package:localdolarmx/models/transactions/transfer.dart';
+import 'package:localdolarmx/redux/state/store.dart';
+import 'package:localdolarmx/services.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;

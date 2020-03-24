@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:localdollarmx/generated/i18n.dart';
-import 'package:localdollarmx/widgets/main_scaffold.dart';
+import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/widgets/main_scaffold.dart';
 import 'dart:core';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';

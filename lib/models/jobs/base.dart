@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:localdollarmx/models/jobs/backup_job.dart';
-import 'package:localdollarmx/models/jobs/generate_wallet_job.dart';
-import 'package:localdollarmx/models/jobs/invite_bonus_job.dart';
-import 'package:localdollarmx/models/jobs/invite_job.dart';
-import 'package:localdollarmx/models/jobs/join_bonus_job.dart';
-import 'package:localdollarmx/models/jobs/join_community_job.dart';
-import 'package:localdollarmx/models/jobs/transfer_job.dart';
+import 'package:localdolarmx/models/jobs/backup_job.dart';
+import 'package:localdolarmx/models/jobs/generate_wallet_job.dart';
+import 'package:localdolarmx/models/jobs/invite_bonus_job.dart';
+import 'package:localdolarmx/models/jobs/invite_job.dart';
+import 'package:localdolarmx/models/jobs/join_bonus_job.dart';
+import 'package:localdolarmx/models/jobs/join_community_job.dart';
+import 'package:localdolarmx/models/jobs/transfer_job.dart';
 
 abstract class Job {
   static const String RELAY = "relay";
