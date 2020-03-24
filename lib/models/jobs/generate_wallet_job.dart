@@ -1,7 +1,7 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:localdollarmx/models/jobs/base.dart';
+import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdollarmx/redux/state/store.dart';
+import 'package:localdollarmx/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generate_wallet_job.g.dart';

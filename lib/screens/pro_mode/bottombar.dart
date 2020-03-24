@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/common.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/bottom_bar.dart';
-import 'package:fusecash/screens/pro_routes.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/coming_soon.dart';
+import 'package:localdollarmx/common.dart';
+import 'package:localdollarmx/generated/i18n.dart';
+import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdollarmx/models/views/bottom_bar.dart';
+import 'package:localdollarmx/screens/pro_routes.gr.dart';
+import 'package:localdollarmx/screens/routes.gr.dart';
+import 'package:localdollarmx/widgets/coming_soon.dart';
 
 
 

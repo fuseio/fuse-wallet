@@ -1,11 +1,11 @@
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
+import 'package:localdollarmx/models/community.dart';
+import 'package:localdollarmx/models/jobs/base.dart';
+import 'package:localdollarmx/models/transactions/transaction.dart';
+import 'package:localdollarmx/models/transactions/transactions.dart';
+import 'package:localdollarmx/models/transactions/transfer.dart';
+import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdollarmx/redux/actions/user_actions.dart';
+import 'package:localdollarmx/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([

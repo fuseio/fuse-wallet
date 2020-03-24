@@ -1,12 +1,12 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/widgets/bottombar.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:localdollarmx/generated/i18n.dart';
+import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdollarmx/models/views/backup.dart';
+import 'package:localdollarmx/widgets/bottombar.dart';
+import 'package:localdollarmx/widgets/main_scaffold.dart';
+import 'package:localdollarmx/widgets/primary_button.dart';
 
 class DoneBackup extends StatelessWidget {
 

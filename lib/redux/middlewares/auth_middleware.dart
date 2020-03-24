@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdollarmx/redux/actions/error_actions.dart';
+import 'package:localdollarmx/redux/actions/user_actions.dart';
+import 'package:localdollarmx/redux/state/store.dart';
+import 'package:localdollarmx/screens/routes.gr.dart';
+import 'package:localdollarmx/services.dart';
+import 'package:localdollarmx/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 

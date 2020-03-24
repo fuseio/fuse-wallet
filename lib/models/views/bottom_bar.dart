@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
+import 'package:localdollarmx/models/app_state.dart';
+import 'package:localdollarmx/utils/addresses.dart' as util;
 
 class BottomBarViewModel extends Equatable {
   final String communityAddres;

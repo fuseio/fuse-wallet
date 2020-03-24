@@ -1,17 +1,17 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/widgets/main_scaffold2.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:localdollarmx/redux/actions/cash_wallet_actions.dart';
+import 'package:localdollarmx/redux/actions/user_actions.dart';
+import 'package:localdollarmx/themes/app_theme.dart';
+import 'package:localdollarmx/themes/custom_theme.dart';
+import 'package:localdollarmx/utils/contacts.dart';
+import 'package:localdollarmx/utils/forks.dart';
+import 'package:localdollarmx/widgets/main_scaffold2.dart';
+import 'package:localdollarmx/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_header.dart';
 import 'cash_transactions.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:localdollarmx/models/views/cash_wallet.dart';
 
 void updateTheme(
     String communityAddress, Function _changeTheme, BuildContext context) {

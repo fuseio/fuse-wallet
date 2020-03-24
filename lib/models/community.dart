@@ -1,8 +1,8 @@
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
+import 'package:localdollarmx/models/business.dart';
+import 'package:localdollarmx/models/community_metadata.dart';
+import 'package:localdollarmx/models/jobs/base.dart';
+import 'package:localdollarmx/models/token.dart';
+import 'package:localdollarmx/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';

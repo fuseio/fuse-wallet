@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:localdollarmx/models/app_state.dart';
 
 class ReceiveModel extends Equatable {
   final String walletAddress;
