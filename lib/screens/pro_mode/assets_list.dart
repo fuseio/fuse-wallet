@@ -7,10 +7,9 @@ import 'package:fusecash/models/pro/views/pro_wallet.dart';
 import 'package:fusecash/utils/addresses.dart';
 
 final Token daiToken = Token(
-    address: "0x6b175474e89094c44da98b954eedeac495271d0f",
+    address: daiTokenAddress,
     decimals: 18,
-    imageUrl:
-        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+    imageUrl: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
     name: "Dai Stablecoin",
     symbol: "DAI");
 

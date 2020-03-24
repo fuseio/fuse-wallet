@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/pro/token.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/widgets/coming_soon.dart';
 import 'package:redux/redux.dart';
@@ -15,6 +16,12 @@ class ProHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _ProHeaderViewModel>(
         converter: _ProHeaderViewModel.fromStore,
+        onInitialBuild: (vm) {
+          String name = vm.daiToken.name;
+          vm.idenyifyCall(Map<String, dynamic>.from({
+            "Token balance of $name": vm.daiToken.amount
+          }));
+        },
         builder: (_, viewModel) {
           return Container(
             height: 260.0,
@@ -161,8 +168,9 @@ class ProHeader extends StatelessWidget {
 class _ProHeaderViewModel extends Equatable {
   final Function() firstName;
   final Token daiToken;
+  final Function(Map<String, dynamic> traits) idenyifyCall;
 
-  _ProHeaderViewModel({this.firstName, this.daiToken});
+  _ProHeaderViewModel({this.firstName, this.daiToken, this.idenyifyCall});
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
     Token token = store.state.proWalletState.tokens.firstWhere((token) => token.address.contains(daiTokenAddress), orElse: () => new Token.initial());
@@ -171,6 +179,9 @@ class _ProHeaderViewModel extends Equatable {
         firstName: () {
           String fullName = store.state.userState.displayName ?? '';
           return fullName.split(' ')[0];
+        },
+        idenyifyCall: (Map<String, dynamic> traits) {
+          store.dispatch(segmentIdentifyCall(traits));
         });
   }
 
