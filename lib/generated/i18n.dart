@@ -702,6 +702,36 @@ class _I18n_es_ES extends I18n {
   /// "Comprar"
   @override
   String get buy => "Comprar";
+  /// "DAI points"
+  @override
+  String get dai_points => "DAI points";
+  /// "Mapa"
+  @override
+  String get map => "Mapa";
+  /// "APROBADO"
+  @override
+  String get approved => "APROBADO";
+  /// "Sencillo"
+  @override
+  String get simple => "Sencillo";
+  /// "Útil"
+  @override
+  String get useful => "Útil";
+  /// "Inteligente"
+  @override
+  String get smart => "Inteligente";
+  /// "Configuraciones"
+  @override
+  String get settings => "Configuraciones";
+  /// "Hogar"
+  @override
+  String get home => "Hogar";
+  /// "Comercio"
+  @override
+  String get trade => "Comercio";
+  /// "Activos y contratos"
+  @override
+  String get assets_and_contracts => "Activos y contratos";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

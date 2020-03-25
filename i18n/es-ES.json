@@ -76,5 +76,15 @@
   "protect_wallet": "Protege tu monedero",
   "backup_wallet": "Respalda tu monedero",
   "top_up": "Cargar dinero",
-  "buy": "Comprar"
+  "buy": "Comprar",
+  "dai_points": "DAI points",
+  "map": "Mapa",
+  "approved": "APROBADO",
+  "simple": "Sencillo",
+  "useful": "Útil",
+  "smart": "Inteligente",
+  "settings": "Configuraciones",
+  "home": "Hogar",
+  "trade": "Comercio",
+  "assets_and_contracts": "Activos y contratos"
 }

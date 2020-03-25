@@ -72,9 +72,9 @@ ThemeData getTheme() {
     textSelectionColor: Colors.black12,
     cursorColor: const Color(0xFF05283e),
     toggleableActiveColor: const Color(0xFF05283e),
-    primaryColorLight: const Color(0xFF8AD57F),
-    primaryColorDark: const Color(0xFF1876B5),
-    buttonColor: const Color(0xFF1876B5),
+    primaryColorLight: const Color(0xFF5AC98B),
+    primaryColorDark: const Color(0xFF328D5B),
+    buttonColor: const Color(0xFF328D5B),
     splashColor: Colors.white,
     textTheme: TextTheme(
         headline: new TextStyle(color: Colors.black),
@@ -87,7 +87,7 @@ ThemeData getTheme() {
         title: new TextStyle(color: Colors.black),
         body1: new TextStyle(color: const Color(0xFF333333)),
         body2: new TextStyle(color: const Color(0xFF333333)),
-        button: new TextStyle(color: const Color(0xFF333333))),
+        button: new TextStyle(color: Colors.white)),
     inputDecorationTheme: InputDecorationTheme(
         border: const OutlineInputBorder(
           borderSide: BorderSide(color: const Color(0xFF05283e)),

@@ -6,6 +6,7 @@ import 'package:localdolarmx/generated/i18n.dart';
 import 'package:localdolarmx/models/app_state.dart';
 import 'package:localdolarmx/models/views/bottom_bar.dart';
 import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/utils/forks.dart';
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;
@@ -41,7 +42,8 @@ Widget bottomBar(BuildContext context) {
                   if (isHomePage) {
                     redirect(context, Router.cashHomeScreen);
                   } else {
-                    Navigator.pop(context, ModalRoute.withName(Router.cashHomeScreen));
+                    Navigator.pop(
+                        context, ModalRoute.withName(Router.cashHomeScreen));
                     redirect(context, Router.cashHomeScreen);
                   }
                 }),
@@ -53,11 +55,12 @@ Widget bottomBar(BuildContext context) {
                   if (isHomePage) {
                     redirect(context, Router.sendToContactScreen);
                   } else {
-                    Navigator.pop(context, ModalRoute.withName(Router.cashHomeScreen));
+                    Navigator.pop(
+                        context, ModalRoute.withName(Router.cashHomeScreen));
                     redirect(context, Router.sendToContactScreen);
                   }
                 }),
-                viewModel.isDefaultCommunity
+                viewModel.isDefaultCommunity && !isFork()
                     ? bottomBarItem(
                         isCurrentRoute(context, Router.daiExplainedScreen)
                             ? "daipoints_selected.svg"
@@ -66,8 +69,8 @@ Widget bottomBar(BuildContext context) {
                         if (isHomePage) {
                           redirect(context, Router.daiExplainedScreen);
                         } else {
-                          Navigator.popUntil(
-                              context, ModalRoute.withName(Router.cashHomeScreen));
+                          Navigator.popUntil(context,
+                              ModalRoute.withName(Router.cashHomeScreen));
                           redirect(context, Router.daiExplainedScreen);
                         }
                       })
@@ -79,8 +82,8 @@ Widget bottomBar(BuildContext context) {
                         if (isHomePage) {
                           redirect(context, Router.buyScreen);
                         } else {
-                          Navigator.popUntil(
-                              context, ModalRoute.withName(Router.cashHomeScreen));
+                          Navigator.popUntil(context,
+                              ModalRoute.withName(Router.cashHomeScreen));
                           redirect(context, Router.buyScreen);
                         }
                       }),
@@ -92,7 +95,8 @@ Widget bottomBar(BuildContext context) {
                   if (isHomePage) {
                     redirect(context, Router.receiveScreen);
                   } else {
-                    Navigator.popUntil(context, ModalRoute.withName(Router.cashHomeScreen));
+                    Navigator.popUntil(
+                        context, ModalRoute.withName(Router.cashHomeScreen));
                     redirect(context, Router.receiveScreen);
                   }
                 })

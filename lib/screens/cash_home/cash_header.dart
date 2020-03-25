@@ -165,29 +165,7 @@ class CashHeader extends StatelessWidget {
                                                           .primaryColor,
                                                       fontWeight:
                                                           FontWeight.normal,
-                                                      height: 0.0)),
-                                              viewModel.isCommunityMember
-                                                  ? new TextSpan(
-                                                      text: ' (\$' +
-                                                          calcValueInDollar(
-                                                              viewModel
-                                                                  .community
-                                                                  .tokenBalance,
-                                                              viewModel
-                                                                  .community
-                                                                  .token
-                                                                  .decimals) +
-                                                          ')',
-                                                      style: new TextStyle(
-                                                          fontSize: 15,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .secondary,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          height: 0.0))
-                                                  : new TextSpan(),
+                                                      height: 0.0))
                                             ],
                                     ),
                                   ),
@@ -196,26 +174,6 @@ class CashHeader extends StatelessWidget {
                         ),
                         new Container(
                           child: Row(children: [
-                            viewModel.isCommunityMember
-                                ? InkWell(
-                                    child: SvgPicture.asset(
-                                      'assets/images/winPoints.svg',
-                                      width: 55,
-                                      height: 55,
-                                    ),
-                                    onTap: () async {
-                                      Router.navigator
-                                          .pushNamed(Router.prizeScreen);
-                                      await Segment.track(
-                                          eventName: "User open prize page");
-                                    },
-                                  )
-                                : SizedBox.shrink(),
-                            viewModel.isCommunityMember
-                                ? SizedBox(
-                                    width: 10,
-                                  )
-                                : SizedBox.shrink(),
                             new FloatingActionButton(
                                 heroTag: 'cash_scanner',
                                 backgroundColor: const Color(0xFF292929),
