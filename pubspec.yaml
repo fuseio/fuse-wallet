@@ -66,6 +66,7 @@ flutter_icons:
   ios: true
 flutter:
   assets:
+    - .env_localpay
     - .env_prod
     - .env_qa
     - assets/
