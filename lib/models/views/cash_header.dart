@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:localpay/models/community.dart';
 import 'package:localpay/models/plugins.dart';
-import 'package:localpay/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:localpay/models/app_state.dart';
 
@@ -10,9 +9,8 @@ class CashHeaderViewModel extends Equatable {
   final Function() firstName;
   final Plugins plugins;
   final String walletStatus;
-  final bool isCommunityMember;
 
-  CashHeaderViewModel({this.community, this.firstName, this.plugins, this.walletStatus, this.isCommunityMember});
+  CashHeaderViewModel({this.community, this.firstName, this.plugins, this.walletStatus});
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -21,7 +19,6 @@ class CashHeaderViewModel extends Equatable {
       community: community,
       plugins: community?.plugins,
       walletStatus: store.state.cashWalletState.walletStatus,
-      isCommunityMember: community.isMember && isDefaultCommunity(communityAddres),
       firstName: () {
         String fullName = store.state.userState.displayName ?? '';
         return fullName.split(' ')[0];
@@ -29,5 +26,5 @@ class CashHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [community, plugins, isCommunityMember, walletStatus];
+  List<Object> get props => [community, plugins, walletStatus];
 }

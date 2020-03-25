@@ -6,6 +6,7 @@ import 'package:localpay/generated/i18n.dart';
 import 'package:localpay/models/app_state.dart';
 import 'package:localpay/models/views/bottom_bar.dart';
 import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/utils/forks.dart';
 
 isCurrentRoute(BuildContext context, String route) {
   String currentRoute = ModalRoute.of(context).settings.name;
@@ -57,7 +58,7 @@ Widget bottomBar(BuildContext context) {
                     redirect(context, Router.sendToContactScreen);
                   }
                 }),
-                viewModel.isDefaultCommunity
+                viewModel.isDefaultCommunity && !isFork()
                     ? bottomBarItem(
                         isCurrentRoute(context, Router.daiExplainedScreen)
                             ? "daipoints_selected.svg"

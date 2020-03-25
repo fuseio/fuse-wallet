@@ -39,7 +39,7 @@ dependencies:
   pin_input_text_field: ^3.0.1
   flare_flutter: ^2.0.1
   decimal: ^0.3.5
-  flutter_segment: ^2.0.0
+  flutter_segment: ^2.0.1
   firebase_messaging: ^6.0.12
   firebase_auth: ^0.15.5+2
   ethereum_address: ^1.0.1
