@@ -24,10 +24,10 @@ dependencies:
   redux_thunk: ^0.3.0
   redux_logging: ^0.4.0
   redux_persist: ^0.8.2
-  country_code_picker: ^1.3.6
+  country_code_picker: ^1.3.7
   wallet_core: ^0.1.2+3
   # wallet_core:
-    # path: ../wallet_core
+  # path: ../wallet_core
   barcode_scan: ^2.0.1
   flutter_slidable: ^0.5.4
   contacts_service: ^0.3.10
@@ -40,11 +40,11 @@ dependencies:
   pin_input_text_field: ^3.0.1
   flare_flutter: ^2.0.1
   decimal: ^0.3.5
-  flutter_segment: 
+  flutter_segment:
     git:
       url: https://github.com/animo-wellness/flutter-segment.git
-  firebase_messaging: ^6.0.12
-  firebase_auth: ^0.15.5+2
+  firebase_messaging: ^6.0.13
+  firebase_auth: ^0.15.5+3
   ethereum_address: ^1.0.1
   sentry: ">=3.0.0 <4.0.0"
   device_info: ^0.4.2+1
