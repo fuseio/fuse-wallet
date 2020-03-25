@@ -10,6 +10,8 @@ final String openMoneyCommuntiyAddress =
     '0x1ea00ed26cf65a4b0038786d1652de72265762b4';
 final String wepyCommuntiyAddress =
     '0x3a84e05b3128d87fccb5c5ff3f4d34908981a8d4';
+final String localPayCommuntiyAddress =
+    '0xeadc097efaf4b9994ef76db86570a79a24a03ae5';
 
 final Map<dynamic, dynamic> goodDollarToken = Map.from({
   "address": "0xf5800134da809c98dc9d2c662a259f6988673925",
@@ -37,8 +39,11 @@ bool isPaywise(String communityAddress) {
 }
 
 bool isPeso(String communityAddress) {
-  return communityAddress != null &&
-      communityAddress == pesoCommuntiyAddress;
+  return communityAddress != null && communityAddress == pesoCommuntiyAddress;
+}
+
+bool isLocalPay(String communityAddress) {
+  return communityAddress != null && communityAddress == pesoCommuntiyAddress;
 }
 
 bool isWepy(String communityAddress) {

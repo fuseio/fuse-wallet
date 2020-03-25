@@ -1073,9 +1073,9 @@ ThunkAction getBusinessListCall() {
     try {
       String communityAddress = store.state.cashWalletState.communityAddress;
       store.dispatch(StartFetchingBusinessList());
-      if (isPaywise(communityAddress)) {
+      if (isLocalPay(communityAddress)) {
         Client client = new Client();
-        dynamic res = await client.get('https://api.airtable.com/v0/appVQfuM5SRKAGF1c/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
+        dynamic res = await client.get('https://api.airtable.com/v0/appW2pCpqwfbEOsJt/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
         dynamic a = _responseHandler(res);
         List<Business> businessList = new List();
         await Future.forEach(a['records'], (record) {
@@ -1098,57 +1098,28 @@ ThunkAction getBusinessListCall() {
             });
             businessList.add(new Business.fromJson(business));
           }
-        }).then((r) {
-          store.dispatch(new GetBusinessListSuccess(businessList));
-          store.dispatch(FetchingBusinessListSuccess());
-        });
-      } else if (isPeso(communityAddress)) {
-        Client client = new Client();
-        dynamic res = await client.get('https://api.airtable.com/v0/applg6xomn2EIirM0/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
-        dynamic a = _responseHandler(res);
-        List<Business> businessList = new List();
-        await Future.forEach(a['records'], (record) {
-          if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
-            dynamic data = record['fields'];
-            Map<String, dynamic> business = Map.from({
-              'name': data['name'] ?? '',
-              'account': data['account'] ?? '',
-              'metadata': {
-                'image': data['image'][0]['url'] ?? '',
-                "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
-                'address': data['address'] ?? '',
-                'description': data['description'] ?? '',
-                'phoneNumber': data['phoneNumber'] ?? '',
-                'website': data['website'] ?? '',
-                'type': data['type'] ?? '',
-                'address': data['address'] ?? '',
-                'latLng': data['GPS'] != null ? data['GPS'].split(',').toList().map((item) => double.parse(item.trim())).toList() : null
-              }
-            });
-            businessList.add(new Business.fromJson(business));
-          }
-        }).then((r) {
-          store.dispatch(new GetBusinessListSuccess(businessList));
-          store.dispatch(FetchingBusinessListSuccess());
-        });
-      } else {
-        Community community = store.state.cashWalletState.communities[communityAddress];
-        bool isOriginRopsten = community.token?.originNetwork != null
-            ? community.token?.originNetwork == 'ropsten'
-            : false;
-        dynamic communityEntities = await graph.getCommunityBusinesses(communityAddress);
-        List<Business> businessList = new List();
-        await Future.forEach(communityEntities, (entity) async {
-          dynamic metadata = await api.getEntityMetadata(communityAddress, entity['address'], isRopsten: isOriginRopsten);
-          entity['name'] = metadata['name'];
-          entity['metadata'] = metadata;
-          entity['account'] = entity['address'];
-          businessList.add(new Business.fromJson(entity));
         }).then((r) {
           store.dispatch(new GetBusinessListSuccess(businessList));
           store.dispatch(FetchingBusinessListSuccess());
         });
       }
+        // Community community = store.state.cashWalletState.communities[communityAddress];
+        // bool isOriginRopsten = community.token?.originNetwork != null
+        //     ? community.token?.originNetwork == 'ropsten'
+        //     : false;
+        // dynamic communityEntities = await graph.getCommunityBusinesses(communityAddress);
+        // List<Business> businessList = new List();
+        // await Future.forEach(communityEntities, (entity) async {
+        //   dynamic metadata = await api.getEntityMetadata(communityAddress, entity['address'], isRopsten: isOriginRopsten);
+        //   entity['name'] = metadata['name'];
+        //   entity['metadata'] = metadata;
+        //   entity['account'] = entity['address'];
+        //   businessList.add(new Business.fromJson(entity));
+        // }).then((r) {
+        //   store.dispatch(new GetBusinessListSuccess(businessList));
+        //   store.dispatch(FetchingBusinessListSuccess());
+        // });
+      // }
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');
       store.dispatch(FetchingBusinessListFailed());

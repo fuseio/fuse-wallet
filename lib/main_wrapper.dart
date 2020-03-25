@@ -29,7 +29,7 @@ class _MainWrapperState extends State<MainWrapper> {
   Widget build(BuildContext context) {
     return new Expanded(
         child: MaterialApp(
-      title: 'Fuse Cash',
+      title: 'Local pay',
       initialRoute: widget.isProMode
           ? ProRouter.proModeHomeScreen
           : widget.isLoggedIn
@@ -40,6 +40,7 @@ class _MainWrapperState extends State<MainWrapper> {
       onGenerateRoute:
           widget.isProMode ? ProRouter.onGenerateRoute : Router.onGenerateRoute,
       theme: CustomTheme.of(context),
+      locale: new Locale("it", "IT"),
       localizationsDelegates: [
         widget.i18n,
         GlobalMaterialLocalizations.delegate,
