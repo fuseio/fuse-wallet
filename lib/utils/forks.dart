@@ -43,7 +43,7 @@ bool isPeso(String communityAddress) {
 }
 
 bool isLocalPay(String communityAddress) {
-  return communityAddress != null && communityAddress == pesoCommuntiyAddress;
+  return communityAddress != null && communityAddress == localPayCommuntiyAddress;
 }
 
 bool isWepy(String communityAddress) {
