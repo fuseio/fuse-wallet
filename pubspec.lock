@@ -413,11 +413,9 @@ packages:
   flutter_segment:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: f69b351ad2075fc9dfef01c5e2ad06d96413a6f5
-      url: "https://github.com/animo-wellness/flutter-segment.git"
-    source: git
+      name: flutter_segment
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.0.1"
   flutter_slidable:
     dependency: "direct main"

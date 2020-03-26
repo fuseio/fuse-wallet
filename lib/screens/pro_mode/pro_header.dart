@@ -11,16 +11,17 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/widgets/raised_gradient_button.dart';
 
 class ProHeader extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _ProHeaderViewModel>(
         converter: _ProHeaderViewModel.fromStore,
-        onInitialBuild: (vm) {
-          String name = vm.daiToken.name;
-          vm.idenyifyCall(Map<String, dynamic>.from({
-            "Token balance of $name": vm.daiToken.amount
-          }));
+        onWillChange: (prevVm, nextVm) {
+          if (nextVm.daiToken.address != null && nextVm.daiToken.address != '') {
+            String name = nextVm.daiToken.name;
+            nextVm.idenyifyCall(Map<String, dynamic>.from({
+              "$name balance": nextVm.daiToken.amount,
+            }));
+          }
         },
         builder: (_, viewModel) {
           return Container(
@@ -118,7 +119,9 @@ class ProHeader extends StatelessWidget {
                                     text: new TextSpan(
                                       children: <TextSpan>[
                                         new TextSpan(
-                                            text: '\$' + viewModel.daiToken?.amount.toString(),
+                                            text: '\$' +
+                                                viewModel.daiToken?.amount
+                                                    .toString(),
                                             style: new TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
@@ -173,7 +176,9 @@ class _ProHeaderViewModel extends Equatable {
   _ProHeaderViewModel({this.firstName, this.daiToken, this.idenyifyCall});
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
-    Token token = store.state.proWalletState.tokens.firstWhere((token) => token.address.contains(daiTokenAddress), orElse: () => new Token.initial());
+    Token token = store.state.proWalletState.tokens.firstWhere(
+        (token) => token.address.contains(daiTokenAddress),
+        orElse: () => new Token.initial());
     return _ProHeaderViewModel(
         daiToken: token,
         firstName: () {

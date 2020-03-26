@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/routes.gr.dart';
@@ -93,9 +94,10 @@ class ActivateProMode2DialogState extends State<ActivateProMode2Dialog>
                               onPressed: () {
                                 Router.navigator.pushNamed(Router.sendAmountScreen,
                                     arguments: SendAmountArguments(
-                                      sendType: SendType.FUSE_ADDRESS,
+                                      sendType: SendType.ETHEREUM_ADDRESS,
                                       accountAddress: viewModel.daiPointsHomeBridgeAddress
                                     ));
+                                Segment.track(eventName: 'Wallet: Choose amount to transfer - activate pro mode');
                               },
                             ))
                           ],

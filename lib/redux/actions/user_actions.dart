@@ -448,6 +448,11 @@ ThunkAction activateProModeCall() {
       bool deployForeignToken = store.state.userState.networks.contains(foreign);
       if (!deployForeignToken) {
         await api.createWalletOnForeign();
+        store.dispatch(segmentTrackCall('Activate pro mode clicked'));
+        store.dispatch(segmentIdentifyCall(
+        new Map<String, dynamic>.from({
+          "Pro mode active": true,
+        })));
       }
     } catch (error, stackTrace) {
       logger.severe('Error createWalletOnForeign', error);

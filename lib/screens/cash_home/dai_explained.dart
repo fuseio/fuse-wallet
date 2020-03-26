@@ -173,8 +173,6 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                           new MaterialPageRoute(
                                               builder: (context) =>
                                                   PrizeScreen()));
-                                      // Router.navigator
-                                      //     .pushNamed(Router.prizeScreen);
                                       Segment.track(
                                           eventName: "User open prize page");
                                     },
