@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:localpay/generated/i18n.dart';
 import 'package:localpay/models/views/cash_header.dart';
 import 'package:localpay/models/app_state.dart';
