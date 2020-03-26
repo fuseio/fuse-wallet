@@ -47,6 +47,7 @@ class _CreateWalletState extends State<CreateWallet> {
                   if (viewModel.isLoggedOut) {
                     viewModel.loginAgain();
                   } else {
+                    viewModel.setDeviceIdCall();
                     viewModel.createLocalAccount(() {
                       setState(() {
                         isPrimaryPreloading = false;
@@ -81,6 +82,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                 fontSize: 14,
                                 label: I18n.of(context).create__wallet,
                                 onPressed: () async {
+                                  viewModel.setDeviceIdCall();
                                   viewModel.createLocalAccount(() {
                                     setState(() {
                                       isTransparentPreloading = false;
