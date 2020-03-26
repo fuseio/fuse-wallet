@@ -1,5 +1,5 @@
 import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/transaction.dart';
+import 'package:roost/models/transactions/transfer.dart';
 import 'package:roost/redux/actions/cash_wallet_actions.dart';
 import 'package:roost/redux/state/store.dart';
 import 'package:roost/services.dart';
@@ -51,7 +51,7 @@ class JoinCommunityJob extends Job {
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       store.dispatch(transactionFailed(arguments['transfer']));
-      store.dispatch(segmentTrackCall('Wallet: JoinCommunityJob FAILED - $failReason'));
+      store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
 
@@ -61,7 +61,7 @@ class JoinCommunityJob extends Job {
     }
     this.status = 'DONE';
     store.dispatch(joinCommunitySuccessCall(job, fetchedData, arguments['transfer'], arguments['community']));
-    store.dispatch(segmentTrackCall('Wallet: SUCCEEDED job $id $name'));
+    store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 
   @override

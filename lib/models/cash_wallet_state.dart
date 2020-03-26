@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:roost/models/community.dart';
-import 'package:roost/models/draw_info.dart';
 import 'package:roost/models/plugins.dart';
-import 'package:roost/models/transactions.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import './token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cash_wallet_state.g.dart';
@@ -14,8 +11,9 @@ part 'cash_wallet_state.g.dart';
 class CashWalletState {
   final String walletStatus;
   final String walletAddress;
+  final String communityManagerAddress;
+  final String transferManagerAddress;
   final String communityAddress;
-  final String communityName;
   @JsonKey(
       name: 'communities',
       fromJson: _communitiesFromJson,
@@ -71,11 +69,12 @@ class CashWalletState {
   CashWalletState(
       {this.web3,
       this.walletAddress,
+      this.communityManagerAddress,
+      this.transferManagerAddress,
       this.walletStatus,
       this.communityAddress,
       this.branchAddress,
       this.sendToInvites,
-      this.communityName,
       this.isCommunityLoading,
       this.isCommunityFetched,
       this.isBalanceFetchingStarted,
@@ -90,10 +89,11 @@ class CashWalletState {
     return new CashWalletState(
         web3: null,
         walletAddress: "",
+        transferManagerAddress: "",
+        communityManagerAddress: "",
         walletStatus: null,
         communityAddress: null,
         branchAddress: "",
-        communityName: "",
         isCommunityLoading: false,
         isCommunityFetched: false,
         isListeningToBranch: false,
@@ -109,10 +109,11 @@ class CashWalletState {
   CashWalletState copyWith(
       {wallet_core.Web3 web3,
       String walletAddress,
+      String communityManagerAddress,
+      String transferManagerAddress,
       String walletStatus,
       String communityAddress,
       String branchAddress,
-      String communityName,
       bool isCommunityLoading,
       bool isCommunityFetched,
       bool isCommunityBusinessesFetched,
@@ -121,20 +122,17 @@ class CashWalletState {
       bool isListeningToBranch,
       bool isBranchDataReceived,
       bool isJobProcessingStarted,
-      Token token,
-      BigInt tokenBalance,
       Map<String, num> sendToInvites,
-      Transactions transactions,
       Plugins plugins,
-      Map<String, Community> communities,
-      DrawInfo drawInfo}) {
+      Map<String, Community> communities}) {
     return CashWalletState(
         web3: web3 ?? this.web3,
         walletAddress: walletAddress ?? this.walletAddress,
+        communityManagerAddress: communityManagerAddress ?? this.communityManagerAddress,
+        transferManagerAddress: transferManagerAddress ?? this.transferManagerAddress,
         walletStatus: walletStatus ?? this.walletStatus,
         communityAddress: communityAddress ?? this.communityAddress,
         branchAddress: branchAddress ?? this.branchAddress,
-        communityName: communityName ?? this.communityName,
         isCommunityLoading: isCommunityLoading ?? this.isCommunityLoading,
         isCommunityFetched: isCommunityFetched ?? this.isCommunityFetched,
         isCommunityBusinessesFetched:

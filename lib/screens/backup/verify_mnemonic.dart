@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/app_state.dart';
 import 'package:roost/models/views/backup.dart';
+import 'package:roost/screens/backup/done_backup.dart';
 import 'package:roost/widgets/main_scaffold.dart';
 import 'package:roost/widgets/primary_button.dart';
 
 class VerifyMnemonic extends StatefulWidget {
-  VerifyMnemonic({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _VerifyMnemonicState createState() => _VerifyMnemonicState();
 }
@@ -38,11 +36,12 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BackupViewModel>(
         converter: BackupViewModel.fromStore,
+        onInit: (store) {
+          Segment.screen(screenName: '/verify-mnemonic');
+        },
         builder: (_, viewModel) {
           return MainScaffold(
               withPadding: true,
-              footer: null,
-              titleFontSize: 15,
               title: I18n.of(context).back_up,
               children: <Widget>[
                 Container(
@@ -138,7 +137,11 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     width: 160,
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        Navigator.pushNamed(context, '/Backup3');
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => DoneBackup()));
+                        // Router.navigator.pushNamed(Router.doneBackup);
                       }
                     },
                   )),

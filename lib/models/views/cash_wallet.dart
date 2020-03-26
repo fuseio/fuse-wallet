@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:roost/models/business.dart';
 import 'package:roost/models/community.dart';
-import 'package:roost/models/transactions.dart';
+import 'package:roost/models/transactions/transactions.dart';
 import 'package:redux/redux.dart';
 import 'package:roost/models/app_state.dart';
 import 'package:roost/models/token.dart';
-import 'package:roost/models/transaction.dart';
+import 'package:roost/models/transactions/transaction.dart';
 
 import 'package:roost/redux/actions/cash_wallet_actions.dart';
 import 'package:roost/redux/actions/user_actions.dart';
@@ -16,6 +16,7 @@ class CashWalletViewModel extends Equatable {
   final String walletAddress;
   final String communityAddress;
   final String branchAddress;
+  final String identifier;
   final bool isCommunityLoading;
   final bool isCommunityFetched;
   final bool isCommunityBusinessesFetched;
@@ -31,12 +32,7 @@ class CashWalletViewModel extends Equatable {
   final List<Contact> contacts;
   final Map<String, String> reverseContacts;
   final String countryCode;
-  final Function(String) createWallet;
-  final Function() getWallet;
-  final Function() firstName;
-  final Function() getTokenBalance;
   final Function(String) switchCommunity;
-  final Function() startBalanceFetching;
   final Function() startTransfersFetching;
   final Function() listenToBranch;
   final Function(List<Contact>) syncContacts;
@@ -45,9 +41,11 @@ class CashWalletViewModel extends Equatable {
   final Function() loadBusinesses;
   final Function() syncContactsRejected;
   final Function() startProcessingJobs;
+  final Function() setIdentifier;
   final bool isContactsSynced;
   final bool isJobProcessingStarted;
   final Community community;
+  final Function(bool isProMode) replaceNavigator;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -55,6 +53,7 @@ class CashWalletViewModel extends Equatable {
     this.walletStatus,
     this.communityAddress,
     this.branchAddress,
+    this.identifier,
     this.isCommunityLoading,
     this.isCommunityFetched,
     this.isBalanceFetchingStarted,
@@ -68,12 +67,7 @@ class CashWalletViewModel extends Equatable {
     this.contacts,
     this.countryCode,
     this.reverseContacts,
-    this.createWallet,
-    this.getWallet,
-    this.firstName,
-    this.getTokenBalance,
     this.switchCommunity,
-    this.startBalanceFetching,
     this.startTransfersFetching,
     this.listenToBranch,
     this.syncContacts,
@@ -83,22 +77,25 @@ class CashWalletViewModel extends Equatable {
     this.syncContactsRejected,
     this.isCommunityBusinessesFetched,
     this.startProcessingJobs,
+    this.setIdentifier,
     this.isContactsSynced,
     this.isJobProcessingStarted,
-    this.community
+    this.community,
+    this.replaceNavigator
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddress] ?? new Community.initial();
     bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
     return CashWalletViewModel(
       accountAddress: store.state.userState.accountAddress,
       walletAddress: store.state.cashWalletState.walletAddress,
       walletStatus: store.state.cashWalletState.walletStatus,
-      communityAddress: communityAddres,
+      communityAddress: communityAddress,
       branchAddress: branchAddress,
+      identifier: store.state.userState.identifier,
       isCommunityLoading: isCommunityLoading,
       isCommunityFetched: store.state.cashWalletState.isCommunityFetched ?? false,
       isBalanceFetchingStarted: store.state.cashWalletState.isBalanceFetchingStarted ?? false,
@@ -117,22 +114,8 @@ class CashWalletViewModel extends Equatable {
       isContactsSynced: store.state.userState.isContactsSynced,
       isJobProcessingStarted: store.state.cashWalletState.isJobProcessingStarted ?? false,
       community: community,
-      createWallet: (accountAddress) {
-        store.dispatch(createAccountWalletCall(accountAddress));
-      },
-      getWallet: () {
-        store.dispatch(getWalletAddressCall());
-      },
-      firstName: () {
-        String fullName = store.state.userState.displayName ?? '';
-        return fullName.split(' ')[0];
-      },
       switchCommunity: (String communityAddress) {
         store.dispatch(switchCommunityCall(communityAddress));
-      },
-      startBalanceFetching: () {
-        if (isCommunityLoading) return;
-        store.dispatch(startBalanceFetchingCall());
       },
       startTransfersFetching: () {
         if (isCommunityLoading) return;
@@ -155,6 +138,12 @@ class CashWalletViewModel extends Equatable {
       },
       startProcessingJobs: () {
         store.dispatch(startProcessingJobsCall());
+      },
+      setIdentifier: () {
+        store.dispatch(setDeviceId(true));
+      },
+      replaceNavigator: (isProMode) {
+        store.dispatch(SwitchWalletMode(isProMode: isProMode));
       }
     );
   }

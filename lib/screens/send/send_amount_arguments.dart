@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+enum SendType { CONTACT, BUSINESS, QR_ADDRESS, FUSE_ADDRESS, PASTED_ADDRESS, ETHEREUM_ADDRESS }
+
 class SendAmountArguments {
   String name;
   String phoneNumber;
   String accountAddress;
   num amount;
   ImageProvider avatar;
-  bool isBusiness = false;
+  SendType sendType;
 
-  SendAmountArguments({this.name, this.phoneNumber, this.accountAddress, this.amount, this.avatar, this.isBusiness});
+  SendAmountArguments({this.sendType, this.name, this.phoneNumber, this.accountAddress, this.amount, this.avatar});
 }

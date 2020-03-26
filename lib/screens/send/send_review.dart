@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/views/send_amount.dart';
+import 'package:roost/screens/routes.gr.dart';
 import 'package:roost/screens/send/send_amount_arguments.dart';
 import 'package:roost/utils/format.dart';
 import 'package:roost/widgets/main_scaffold.dart';
@@ -9,9 +10,9 @@ import 'package:roost/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:roost/utils/phone.dart';
 
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
-
 class SendReviewScreen extends StatefulWidget {
+  final SendAmountArguments pageArgs;
+  SendReviewScreen({this.pageArgs});
   @override
   _SendReviewScreenState createState() => _SendReviewScreenState();
 }
@@ -44,105 +45,106 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       });
   }
 
-  void send(SendAmountViewModel viewModel, SendAmountArguments args, String transferNote, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) {
-    if (args.accountAddress == null || args.accountAddress == '' && args.phoneNumber != null) {
+  void send(
+      SendAmountViewModel viewModel,
+      SendAmountArguments args,
+      String transferNote,
+      VoidCallback sendSuccessCallback,
+      VoidCallback sendFailureCallback) {
+    if (args.accountAddress == null ||
+        args.accountAddress == '' && args.phoneNumber != null) {
       viewModel.sendToContact(
-          args.name,
-          formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
-          args.amount,
-          args.name,
-          transferNote,
-          sendSuccessCallback,
-          sendFailureCallback,
-      );
-    } else {
-      viewModel.sendToAccountAddress(
-        args.accountAddress,
+        args.name,
+        formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
         args.amount,
         args.name,
         transferNote,
         sendSuccessCallback,
-        sendFailureCallback
+        sendFailureCallback,
       );
+    } else {
+      viewModel.sendToAccountAddress(args.accountAddress, args.amount,
+          args.name, transferNote, sendSuccessCallback, sendFailureCallback);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
-
+    final SendAmountArguments args = this.widget.pageArgs;
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         return MainScaffold(
-            titleFontSize: 15,
             withPadding: true,
             title: I18n.of(context).review_transfer,
             children: <Widget>[
-              Container(
-                  child: Column(children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 50),
-                      child: Text(I18n.of(context).amount,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal)),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 50),
+                    child: Text(I18n.of(context).amount,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 40.0, bottom: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: <Widget>[
+                        Text('${args.amount} ', // ${viewModel.token.symbol}
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 50,
+                                fontWeight: FontWeight.w900)),
+                        Text(viewModel.token.symbol,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 30,
+                                fontWeight: FontWeight.w900)),
+                      ],
                     ),
-                    Container(
-                      padding: EdgeInsets.all(0.0),
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(top: 20.0, bottom: 20),
-                            child: Text(
-                                "${args.amount} ${viewModel.token.symbol}",
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontSize: 45,
-                                    fontWeight: FontWeight.w900)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Text('What for?',
-                    //     textAlign: TextAlign.center,
-                    //     style: TextStyle(
-                    //         color: Theme.of(context).primaryColor,
-                    //         fontSize: 16,
-                    //         fontWeight: FontWeight.normal)),
-                    // Container(
-                    //   width: 200,
-                    //   padding: EdgeInsets.only(bottom: 30),
-                    //   child: TextFormField(
-                    //     controller: transferNoteController,
-                    //     keyboardType: TextInputType.text,
-                    //     // maxLength: 10,
-                    //     autofocus: false,
-                    //     decoration: const InputDecoration(
-                    //         border: null, fillColor: Colors.transparent),
-                    //     validator: (String value) {
-                    //       if (value.split(" ").length > 10) {
-                    //         return '10 characters max';
-                    //       }
-                    //       return null;
-                    //     },
-                    //   ),
-                    // ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: Text(I18n.of(context).to + ':',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal)),
-                    )
-                  ],
-                ),
+                  ),
+                  // Text('What for?',
+                  //     textAlign: TextAlign.center,
+                  //     style: TextStyle(
+                  //         color: Theme.of(context).primaryColor,
+                  //         fontSize: 16,
+                  //         fontWeight: FontWeight.normal)),
+                  // Container(
+                  //   width: 200,
+                  //   padding: EdgeInsets.only(bottom: 30),
+                  //   child: TextFormField(
+                  //     controller: transferNoteController,
+                  //     keyboardType: TextInputType.text,
+                  //     // maxLength: 10,
+                  //     autofocus: false,
+                  //     decoration: const InputDecoration(
+                  //         border: null, fillColor: Colors.transparent),
+                  //     validator: (String value) {
+                  //       if (value.split(" ").length > 10) {
+                  //         return '10 characters max';
+                  //       }
+                  //       return null;
+                  //     },
+                  //   ),
+                  // ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(I18n.of(context).to + ':',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal)),
+                  )
+                ],
+              ),
+              Column(children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(
                       top: 50.0, bottom: 50, left: 40, right: 40),
@@ -181,7 +183,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     ),
                                     args.accountAddress == null ||
                                             args.accountAddress.isEmpty
-                                        ? Text('')
+                                        ? SizedBox.shrink()
                                         : Text(
                                             I18n.of(context).address +
                                                 ": ${formatAddress(args.accountAddress)}",
@@ -217,7 +219,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                 fontSize: 14)),
                       )
                     : SizedBox.shrink()
-              ]))
+              ])
             ],
             footer: Center(
                 child: PrimaryButton(
@@ -225,23 +227,25 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
                       send(viewModel, args, transferNoteController.text, () {
-                        Navigator.pushNamed(context, '/SendSuccess',
+                        Router.navigator.pushNamed(Router.sendSuccessScreen,
                             arguments: args);
                         setState(() {
                           isPreloading = false;
                         });
-                        if (args.isBusiness != null && args.isBusiness) {
-                          viewModel.idenyifyCall(Map.from({ "Transferred ${viewModel.community.name} - business": true }));
-                          viewModel.trackTransferCall("Wallet: User Transfer - business");
-                        } else if (args.accountAddress == null || args.accountAddress == '' && args.phoneNumber != null) {
-                          viewModel.idenyifyCall(Map.from({ "Transferred ${viewModel.community.name} - contact": true }));
-                          viewModel.trackTransferCall("Wallet: User Transfer - contact");
-                        } else {
-                          viewModel.idenyifyCall(Map.from({ "Transferred ${viewModel.community.name} - address": true }));
-                          viewModel.trackTransferCall("Wallet: User Transfer - address");
-                        }
+                        String transferType = args.sendType
+                                .toString()
+                                .split('.')[1]
+                                .toLowerCase() ??
+                            '';
+                        viewModel.idenyifyCall(Map.from(
+                            {"Transferred ${viewModel.community.name}": true}));
+                        viewModel.trackTransferCall("Wallet: User Transfer",
+                            properties: Map.from({
+                              'transfer type': transferType,
+                              'network': viewModel.isProMode ? 'Ethereum' : 'Fuse'
+                            }));
                       }, () {
-                        print('error');
+                        // print('error');
                       });
                       setState(() {
                         isPreloading = true;

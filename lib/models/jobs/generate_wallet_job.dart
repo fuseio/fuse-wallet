@@ -9,7 +9,16 @@ part 'generate_wallet_job.g.dart';
 @JsonSerializable(explicitToJson: true, createToJson: false)
 class GenerateWalletJob extends Job {
   GenerateWalletJob(
-      {id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported, isFunderJob})
+      {id,
+      jobType,
+      name,
+      status,
+      data,
+      arguments,
+      lastFinishedAt,
+      timeStart,
+      isReported,
+      isFunderJob})
       : super(
             id: id,
             jobType: jobType,
@@ -24,7 +33,14 @@ class GenerateWalletJob extends Job {
 
   @override
   fetch() async {
-    return api.getWallet();
+    int current = DateTime.now().millisecondsSinceEpoch;
+    int jobTime = this.timeStart;
+    final int timeFromStart = current - jobTime;
+    if (timeFromStart > 10000) {
+      return api.getWallet();
+    } else {
+      return Map.from({'data': {}});
+    }
   }
 
   @override
@@ -40,13 +56,14 @@ class GenerateWalletJob extends Job {
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
-      store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+      store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
       this.isReported = true;
     }
 
     String walletAddress = fetchedData["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
       this.status = 'DONE';
+      store.dispatch(new CreateAccountWalletSuccess(arguments['accountAddress']));
       store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
     }
   }

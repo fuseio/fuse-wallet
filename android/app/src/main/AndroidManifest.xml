@@ -56,6 +56,7 @@
         <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_laLuH5hCCQKQjv5eM1Kugongssgw79iU" />
         <meta-data android:name="io.branch.sdk.TestMode" android:value="false" /> <!-- Set to true to use Branch_Test_Key -->
         <meta-data android:name="com.claimsforce.segment.WRITE_KEY" android:value="UdBbfFPkYCntzoFaWyEiwfKRKFLtTz14" />
+        <meta-data android:name="com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS" android:value="false" />
         <!-- Branch install referrer tracking -->
         <receiver android:name="io.branch.referral.InstallListener" android:exported="true">
             <intent-filter>
@@ -66,6 +67,5 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.CAMERA" />
 </manifest>

@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/app_state.dart';
 import 'package:roost/models/views/splash.dart';
+import 'package:roost/screens/routes.gr.dart';
 import 'package:roost/widgets/primary_button.dart';
 import 'package:roost/widgets/transparent_button.dart';
 
@@ -45,15 +46,12 @@ class _CreateWalletState extends State<CreateWallet> {
                 onPressed: () async {
                   if (viewModel.isLoggedOut) {
                     viewModel.loginAgain();
-                    viewModel.initWeb3(viewModel.privateKey);
-                    Navigator.popUntil(context, ModalRoute.withName('/'));
-                    Navigator.pushNamed(context, '/Cash');
                   } else {
                     viewModel.createLocalAccount(() {
                       setState(() {
                         isPrimaryPreloading = false;
                       });
-                      Navigator.pushNamed(context, '/Signup');
+                      Router.navigator.pushNamed(Router.signupScreen);
                     });
                     setState(() {
                       isPrimaryPreloading = true;
@@ -73,7 +71,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                 fontSize: 14,
                                 label: I18n.of(context).restore_backup,
                                 onPressed: () async {
-                                  Navigator.pushNamed(context, '/Recovery');
+                                  Router.navigator.pushNamed(Router.recoveryPage);
                                 }),
                             Text(
                               I18n.of(context).or,
@@ -87,7 +85,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                     setState(() {
                                       isTransparentPreloading = false;
                                     });
-                                    Navigator.pushNamed(context, '/Signup');
+                                    Router.navigator.pushNamed(Router.signupScreen);
                                   });
                                   setState(() {
                                     isTransparentPreloading = true;
@@ -100,7 +98,7 @@ class _CreateWalletState extends State<CreateWallet> {
                           fontSize: 16,
                           label: I18n.of(context).restore_from_backup,
                           onPressed: () async {
-                            Navigator.pushNamed(context, '/Recovery');
+                            Router.navigator.pushNamed(Router.recoveryPage);
                           }))
             ],
           );

@@ -15,7 +15,7 @@ class LevelSelectorScreen extends StatelessWidget {
                 Text("Choose what's best describes you",
                     softWrap: true,
                     style: TextStyle(
-                        color: Theme.of(context).textTheme.body1.color,
+                        color: Theme.of(context).textTheme.button.color,
                         fontSize: 20,
                         fontWeight: FontWeight.w800)),
                 Padding(

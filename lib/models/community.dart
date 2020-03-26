@@ -2,9 +2,8 @@ import 'package:roost/models/business.dart';
 import 'package:roost/models/community_metadata.dart';
 import 'package:roost/models/jobs/base.dart';
 import 'package:roost/models/token.dart';
-import 'package:roost/models/transaction.dart';
-import 'package:roost/models/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:roost/models/transactions/transactions.dart';
 
 import './plugins.dart';
 
@@ -14,7 +13,11 @@ part 'community.g.dart';
 class Community {
   final String name;
   final String address;
+  final String homeBridgeAddress;
+  final String foreignBridgeAddress;
+  final String secondaryTokenAddress;
   final BigInt tokenBalance;
+  final BigInt secondaryTokenBalance;
   final bool isMember;
   final List<Business> businesses;
   final Transactions transactions;
@@ -37,7 +40,11 @@ class Community {
       this.tokenBalance,
       this.businesses,
       this.jobs,
-      this.metadata});
+      this.metadata,
+      this.homeBridgeAddress,
+      this.foreignBridgeAddress,
+      this.secondaryTokenAddress,
+      this.secondaryTokenBalance});
 
   static List<Job> _jobsFromJson(Map<String, dynamic> json) =>
       List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
@@ -51,11 +58,15 @@ class Community {
         isClosed: false,
         metadata: CommunityMetadata.initial(),
         address: null,
+        foreignBridgeAddress: null,
+        homeBridgeAddress: null,
+        secondaryTokenAddress: null,
+        secondaryTokenBalance: BigInt.from(0),
         token: null,
         isMember: false,
         tokenBalance: BigInt.from(0),
         businesses: new List<Business>(),
-        transactions: new Transactions(list: new List<Transaction>()),
+        transactions: Transactions.initial(),
         plugins: new Plugins(),
         jobs: new List<Job>());
   }
@@ -63,10 +74,14 @@ class Community {
   Community copyWith({
     String name,
     String address,
+    String foreignBridgeAddress,
+    String homeBridgeAddress,
+    String secondaryTokenAddress,
     Plugins plugins,
     Token token,
     Transactions transactions,
     BigInt tokenBalance,
+    BigInt secondaryTokenBalance,
     List<Business> businesses,
     List<Job> jobs,
     bool isMember,
@@ -80,11 +95,15 @@ class Community {
         address: address ?? this.address,
         name: name ?? this.name,
         plugins: plugins ?? this.plugins,
+        secondaryTokenAddress: secondaryTokenAddress ?? this.secondaryTokenAddress,
         token: token ?? this.token,
+        secondaryTokenBalance: secondaryTokenBalance ?? this.secondaryTokenBalance,
         businesses: businesses ?? this.businesses,
         isMember: isMember ?? this.isMember,
         jobs: jobs ?? this.jobs,
-        transactions: transactions ?? this.transactions);
+        transactions: transactions ?? this.transactions,
+        homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
+        foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,);
   }
 
   factory Community.fromJson(Map<String, dynamic> json) =>

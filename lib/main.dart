@@ -2,44 +2,36 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:roost/models/app_state.dart';
+import 'package:roost/models/views/splash.dart';
+import 'package:roost/redux/actions/cash_wallet_actions.dart';
+import 'package:roost/redux/actions/user_actions.dart';
 import 'package:roost/redux/state/store.dart';
-import 'package:roost/screens/routes.dart';
+import 'package:roost/screens/pro_routes.gr.dart';
+import 'package:roost/screens/routes.gr.dart';
 import 'package:roost/themes/app_theme.dart';
 import 'package:roost/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:roost/generated/i18n.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
-// import 'package:sentry/sentry.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_roost');
-  print('loading $configFile config file');
   await DotEnv().load(configFile);
-  // SentryClient sentry = await AppFactory().getSentry();
-
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp
-  ]).then((_) async {
-    runZoned<Future<void>>(
-      () async => runApp(CustomTheme(
-        initialThemeKey: MyThemeKeys.DEFAULT,
-        child: new MyApp(
-            store: await AppFactory().getStore(),
-        ),
-      )),
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  runZoned<Future<void>>(() async => runApp(await customThemeApp()),
       onError: (Object error, StackTrace stackTrace) async {
-        try {
-          await AppFactory().reportError(error, stackTrace);
-        } catch (e) {
-          print('Sending report to sentry.io failed: $e');
-          print('Original error: $error');
-        }
-      }
-    );
+    try {
+      await AppFactory().reportError(error, stackTrace);
+    } catch (e) {
+      print('Sending report to sentry.io failed: $e');
+      print('Original error: $error');
+    }
   });
 
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -51,19 +43,39 @@ void main() async {
   };
 }
 
+bool checkIsLoggedIn(Store<AppState> store) {
+  String privateKey = store.state.userState.privateKey;
+  String jwtToken = store.state.userState.jwtToken;
+  bool isLoggedOut = store.state.userState.isLoggedOut;
+  if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+    return true;
+  }
+  return false;
+}
+
+Future<CustomTheme> customThemeApp() async {
+  Store<AppState> store = await AppFactory().getStore();
+
+  String initialRoute = checkIsLoggedIn(store) ? Router.cashHomeScreen : Router.splashScreen;
+
+  return CustomTheme(
+    initialThemeKey: MyThemeKeys.DEFAULT,
+    child: new MyApp(store: store, initialRoute: initialRoute),
+  );
+}
+
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
-
-  MyApp({Key key, this.store}) : super(key: key);
+  final String initialRoute;
+  MyApp({Key key, this.store, this.initialRoute}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState(store);
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  Store<AppState> store;
-  _MyAppState(this.store);
   final i18n = I18n.delegate;
+  bool isProMode = false;
 
   void onLocaleChange(Locale locale) {
     setState(() {
@@ -77,33 +89,58 @@ class _MyAppState extends State<MyApp> {
     I18n.onLocaleChanged = onLocaleChange;
   }
 
+  onWillChange(prevVM, nextVM) {
+    if (prevVM.isProMode != nextVM.isProMode) {
+      setState(() {
+        isProMode = nextVM.isProMode;
+      });
+    }
+  }
+
+  onInit(store) {
+    String privateKey = store.state.userState.privateKey;
+    String jwtToken = store.state.userState.jwtToken;
+    bool isLoggedOut = store.state.userState.isLoggedOut;
+    if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+      store.dispatch(getWalletAddressessCall());
+      store.dispatch(identifyCall());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
-        .copyWith(statusBarIconBrightness: Brightness.dark));
-    return new Column(
-      children: <Widget>[
-        new Expanded(
-          child: new StoreProvider<AppState>(
-            store: store,
-            child: new MaterialApp(
-              title: 'Roost wallet',
-              initialRoute: '/',
-              routes: getRoutes(),
-              theme: CustomTheme.of(context),
-              localizationsDelegates: [
-                i18n,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: i18n.supportedLocales,
-              localeResolutionCallback:
-                  i18n.resolution(fallback: new Locale("en", "US")),
-            ),
-          ),
-        ),
-      ],
+    return new StoreProvider<AppState>(
+      store: widget.store,
+      child: new StoreConnector<AppState, SplashViewModel>(
+          converter: SplashViewModel.fromStore,
+          onInit: onInit,
+          builder: (_, vm) {
+            return new Column(children: <Widget>[
+              Expanded(
+                  child: MaterialApp(
+                title: 'Roost wallet',
+                initialRoute: isProMode
+                    ? ProRouter.proModeHomeScreen
+                    : widget.initialRoute,
+                navigatorKey:
+                    isProMode ? ProRouter.navigator.key : Router.navigator.key,
+                onGenerateRoute: isProMode
+                    ? ProRouter.onGenerateRoute
+                    : Router.onGenerateRoute,
+                theme: CustomTheme.of(context),
+                localizationsDelegates: [
+                  i18n,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: i18n.supportedLocales,
+                localeResolutionCallback:
+                    i18n.resolution(fallback: new Locale("en", "US")),
+                navigatorObservers: [SegmentObserver()],
+              ))
+            ]);
+          }),
     );
   }
 }

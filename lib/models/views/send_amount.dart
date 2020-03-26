@@ -7,11 +7,12 @@ import 'package:redux/redux.dart';
 
 class SendAmountViewModel {
   final Token token;
+  final bool isProMode;
   final String myCountryCode;
   final Community community;
   final Function(String name, String phoneNumber, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToContact;
   final Function(String, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
-  final Function(String eventName) trackTransferCall;
+  final Function(String eventName, {Map<String, dynamic> properties}) trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
 
   SendAmountViewModel(
@@ -21,6 +22,7 @@ class SendAmountViewModel {
       this.sendToAccountAddress,
       this.trackTransferCall,
       this.idenyifyCall,
+      this.isProMode,
       this.community});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
@@ -29,6 +31,7 @@ class SendAmountViewModel {
         store.state.cashWalletState.communities[communityAddres] ??
             new Community.initial();
     return SendAmountViewModel(
+        isProMode: store.state.userState.isProMode ?? false,
         token: community.token,
         community: community,
         myCountryCode: store.state.userState.countryCode,
@@ -61,8 +64,8 @@ class SendAmountViewModel {
           store.dispatch(sendTokenCall(recieverAddress, amount,
               sendSuccessCallback, sendFailureCallback, receiverName: receiverName, ));
         },
-        trackTransferCall: (String eventName) {
-          store.dispatch(segmentTrackCall(eventName));
+        trackTransferCall: (String eventName, {Map<String, dynamic> properties}) {
+          store.dispatch(segmentTrackCall(eventName, properties: properties));
         },
         idenyifyCall: (Map<String, dynamic> traits) {
           store.dispatch(segmentIdentifyCall(traits));

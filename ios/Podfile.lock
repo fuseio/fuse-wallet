@@ -3,24 +3,24 @@ PODS:
   - barcode_scan (0.0.1):
     - Flutter
     - MTBBarcodeScanner
-  - Branch (0.31.3):
-    - Branch/Core (= 0.31.3)
-  - Branch/Core (0.31.3)
+  - Branch (0.31.4):
+    - Branch/Core (= 0.31.4)
+  - Branch/Core (0.31.4)
   - contacts_service (0.2.1):
     - Flutter
   - device_info (0.0.1):
     - Flutter
-  - Firebase/Auth (6.16.0):
+  - Firebase/Auth (6.18.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.4.3)
-  - Firebase/Core (6.16.0):
+  - Firebase/Core (6.18.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.2.2)
-  - Firebase/CoreOnly (6.16.0):
-    - FirebaseCore (= 6.6.1)
-  - Firebase/Messaging (6.16.0):
+    - FirebaseAnalytics (= 6.3.0)
+  - Firebase/CoreOnly (6.18.0):
+    - FirebaseCore (= 6.6.3)
+  - Firebase/Messaging (6.18.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (~> 4.2.0)
+    - FirebaseMessaging (~> 4.3.0)
   - firebase_auth (0.0.1):
     - Firebase/Auth (~> 6.3)
     - Firebase/Core
@@ -36,10 +36,10 @@ PODS:
     - Firebase/Core
     - Firebase/Messaging
     - Flutter
-  - FirebaseAnalytics (6.2.2):
+  - FirebaseAnalytics (6.3.0):
     - FirebaseCore (~> 6.6)
-    - FirebaseInstanceID (~> 4.3)
-    - GoogleAppMeasurement (= 6.2.2)
+    - FirebaseInstallations (~> 1.1)
+    - GoogleAppMeasurement (= 6.3.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
@@ -53,12 +53,12 @@ PODS:
     - GoogleUtilities/Environment (~> 6.5)
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseAuthInterop (1.0.0)
-  - FirebaseCore (6.6.1):
+  - FirebaseCore (6.6.3):
     - FirebaseCoreDiagnostics (~> 1.2)
     - FirebaseCoreDiagnosticsInterop (~> 1.2)
     - GoogleUtilities/Environment (~> 6.5)
     - GoogleUtilities/Logger (~> 6.5)
-  - FirebaseCoreDiagnostics (1.2.0):
+  - FirebaseCoreDiagnostics (1.2.1):
     - FirebaseCoreDiagnosticsInterop (~> 1.2)
     - GoogleDataTransportCCTSupport (~> 1.3)
     - GoogleUtilities/Environment (~> 6.5)
@@ -69,12 +69,12 @@ PODS:
     - FirebaseCore (~> 6.6)
     - GoogleUtilities/UserDefaults (~> 6.5)
     - PromisesObjC (~> 1.2)
-  - FirebaseInstanceID (4.3.0):
+  - FirebaseInstanceID (4.3.2):
     - FirebaseCore (~> 6.6)
     - FirebaseInstallations (~> 1.0)
     - GoogleUtilities/Environment (~> 6.5)
     - GoogleUtilities/UserDefaults (~> 6.5)
-  - FirebaseMessaging (4.2.0):
+  - FirebaseMessaging (4.3.0):
     - FirebaseAnalyticsInterop (~> 1.5)
     - FirebaseCore (~> 6.6)
     - FirebaseInstanceID (~> 4.3)
@@ -97,15 +97,15 @@ PODS:
   - google_maps_flutter (0.0.1):
     - Flutter
     - GoogleMaps
-  - GoogleAppMeasurement (6.2.2):
+  - GoogleAppMeasurement (6.3.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
-  - GoogleDataTransport (3.3.1)
-  - GoogleDataTransportCCTSupport (1.3.1):
-    - GoogleDataTransport (~> 3.3)
+  - GoogleDataTransport (4.0.1)
+  - GoogleDataTransportCCTSupport (1.4.1):
+    - GoogleDataTransport (~> 4.0)
     - nanopb (~> 0.3.901)
   - GoogleMaps (2.7.0):
     - GoogleMaps/Maps (= 2.7.0)
@@ -143,10 +143,14 @@ PODS:
     - Flutter
   - path_provider (0.0.1):
     - Flutter
-  - permission_handler (3.3.0):
+  - path_provider_macos (0.0.1):
+    - Flutter
+  - "permission_handler (4.4.0+hotfix.2)":
     - Flutter
   - PromisesObjC (1.2.8)
-  - Protobuf (3.11.2)
+  - Protobuf (3.11.4)
+  - rate_my_app (0.1):
+    - Flutter
   - sensors (0.0.1):
     - Flutter
   - share (0.5.2):
@@ -162,8 +166,6 @@ PODS:
   - url_launcher_macos (0.0.1):
     - Flutter
   - url_launcher_web (0.0.1):
-    - Flutter
-  - vibration (1.2.4):
     - Flutter
   - webview_flutter (0.0.1):
     - Flutter
@@ -187,7 +189,9 @@ DEPENDENCIES:
   - interactive_webview (from `.symlinks/plugins/interactive_webview/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - rate_my_app (from `.symlinks/plugins/rate_my_app/ios`)
   - sensors (from `.symlinks/plugins/sensors/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -196,7 +200,6 @@ DEPENDENCIES:
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
   - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
-  - vibration (from `.symlinks/plugins/vibration/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 SPEC REPOS:
@@ -260,8 +263,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_macos:
+    :path: ".symlinks/plugins/path_provider_macos/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
+  rate_my_app:
+    :path: ".symlinks/plugins/rate_my_app/ios"
   sensors:
     :path: ".symlinks/plugins/sensors/ios"
   share:
@@ -278,42 +285,40 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_macos/ios"
   url_launcher_web:
     :path: ".symlinks/plugins/url_launcher_web/ios"
-  vibration:
-    :path: ".symlinks/plugins/vibration/ios"
   webview_flutter:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
   Analytics: 77fd5fb102a4a5eedafa2c2b0245ceb7b7c15e45
   barcode_scan: 33f586d02270046fc6559135038b34b5754eaa4f
-  Branch: 9b299693ee54b308ff8c18146afe1f711c2069ec
+  Branch: 5180bca89b8942dd0fe8175d7ecb8a8a451cf5b0
   contacts_service: d212985196c101372bb55c42f41dae7be59ab811
   device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
-  Firebase: 497158b816d0a86fc31babbd05546fcd7e6083ff
-  firebase_auth: 1f46484071219159ad6c64d304af425ad7373052
+  Firebase: 0490eca762a72e4f1582319539153897f1508dee
+  firebase_auth: 4ee3a54d3f09434c508c284a62f895a741a30637
   firebase_auth_web: 0955c07bcc06e84af76b9d4e32e6f31518f2d7de
-  firebase_core: dc539d4bdc69894823e4a6e557034a9e48960f21
+  firebase_core: 0d8be0e0d14c4902953aeb5ac5d7316d1fe4b978
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
-  firebase_messaging: b8543d17dd9825f4f24a585477f77db103e5228e
-  FirebaseAnalytics: cf95d3aab897612783020fbd98401d5366f135ee
+  firebase_messaging: cffb57ce40958c6204f03fb0c81713e4cd1e240c
+  FirebaseAnalytics: 058d71e714a1a6804d9e0f25e3bb18e377a51579
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
   FirebaseAuth: 5ce2b03a3d7fe56b7a6e4c5ec7ff1522890b1d6f
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
-  FirebaseCore: 85064903ed6c28e47fec9c7bd149d94ba1b6b6e7
-  FirebaseCoreDiagnostics: 5e78803ab276bc5b50340e3c539c06c3de35c649
+  FirebaseCore: 78276943ad85e616dfa54dafa6c89512987d9d60
+  FirebaseCoreDiagnostics: 2109d10c35e8289b1ee6cabf44d9ffb055620194
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseInstallations: 575cd32f2aec0feeb0e44f5d0110a09e5e60b47b
-  FirebaseInstanceID: 6668efc1655a4052c083f287a7141f1ead12f9c2
-  FirebaseMessaging: 448cf4c727f3c95f4f90816907d67306ba785cfe
+  FirebaseInstanceID: 7ee0d6777013bb952f377b41965bf132b6a075be
+  FirebaseMessaging: 4ec33842d36b3319e062e51fb8b35a74f726950d
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_branch_sdk: 401d22e28b8669590a73a48619b81c6e066b503e
   flutter_plugin_android_lifecycle: 47de533a02850f070f5696a623995e93eddcdb9b
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_segment: 31dce829260fc896cd391d7cee4fc3609003f93c
   google_maps_flutter: d0dd62f5a7d39bae61057eb9f52dd778d99c7c6c
-  GoogleAppMeasurement: d0560d915abf15e692e8538ba1d58442217b6aff
-  GoogleDataTransport: 0048df6388dab1c254799f2a30365b1dffe20422
-  GoogleDataTransportCCTSupport: f880d70972efa2ed1be4e9173a0f4c5f3dc2d176
+  GoogleAppMeasurement: 39ecba10918b21c83877d392246157f65db351cf
+  GoogleDataTransport: 653963cf5be60fb59cf051e070f0836fdc305f81
+  GoogleDataTransportCCTSupport: 84e4d4bbab642f2e9d83ee65d78aca2b5527d314
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
@@ -322,9 +327,11 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
-  permission_handler: 67637977b227d62d46bfbf524f335f8568de5a73
+  path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
+  permission_handler: d5d46b2ca93671e8dcf870b949e304c7ddb65ad0
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
-  Protobuf: dd1aaea7140debfe4dd0683fb8ef208e527ae153
+  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
+  rate_my_app: 45513a2f4d9a55b7b46d19b64fc13882fd101157
   sensors: 4bd31219c4bf9d7d4401b392a1701ee3adc1a296
   share: bae0a282aab4483288913fc4dc0b935d4b491f2e
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
@@ -333,9 +340,8 @@ SPEC CHECKSUMS:
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
-  vibration: f0c5bb486671fb81e973bfb451d89f8efd07c9c9
   webview_flutter: bec7599de6bfbe8008a739aa3ebd7b364ea9d0cd
 
 PODFILE CHECKSUM: 1f6cb123f6975d2d185ea5e6b1bb69d379fbd1fa
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.0

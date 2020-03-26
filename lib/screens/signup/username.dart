@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/app_state.dart';
+import 'package:roost/screens/routes.gr.dart';
 import 'package:roost/widgets/drawer.dart';
 import 'package:roost/widgets/main_scaffold.dart';
 import 'package:roost/widgets/primary_button.dart';
@@ -20,7 +21,6 @@ class UserNameScreen extends StatelessWidget {
           return MainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
-              titleFontSize: 15,
               title: I18n.of(context).sign_up,
               children: <Widget>[
                 Padding(
@@ -76,8 +76,9 @@ class UserNameScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.setDisplayName(
                               capitalize(displayNameController.text ?? 'Anom'));
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/Cash', (Route<dynamic> route) => false);
+                          Router.navigator.pushNamedAndRemoveUntil(
+                              Router.cashHomeScreen,
+                              (Route<dynamic> route) => false);
                         },
                       ),
                     ),

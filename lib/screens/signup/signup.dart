@@ -3,9 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/app_state.dart';
-import 'package:roost/widgets/country_code_picker/country_code_picker.dart';
-import 'package:roost/widgets/country_code_picker/country_code.dart';
-import 'package:roost/widgets/country_code_picker/country_codes.dart';
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_codes.dart';
 import 'package:roost/widgets/main_scaffold.dart';
 import 'package:roost/widgets/primary_button.dart';
 import 'package:roost/widgets/signup_dialog.dart';
@@ -21,7 +20,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  bool isPreloading = false;
   bool isvalidPhone = true;
   CountryCode countryCode = new CountryCode(dialCode: '‎+1');
 
@@ -35,7 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
       Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
       if (mounted && localeData != null) {
         setState(() {
-          countryCode = CountryCode(dialCode: localeData['dial_code']);
+          countryCode = CountryCode(dialCode: localeData['dial_code'], code: localeData['code']);
         });
       }
     }
@@ -49,7 +47,6 @@ class _SignupScreenState extends State<SignupScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
         title: I18n.of(context).sign_up,
-        titleFontSize: 15,
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(20.0),
@@ -77,13 +74,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                        onTap: () async {
+                        onTap: () {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
-                          await FlutterSegment.track(eventName: "Wallet: opened modal - why do we need this");
+                          Segment.track(eventName: "Wallet: opened modal - why do we need this");
                         },
                         child: Center(
                           child: Text(
@@ -101,6 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ],
         footer: new StoreConnector<AppState, OnboardViewModel>(
+            distinct: true,
             converter: OnboardViewModel.fromStore,
             builder: (_, viewModel) {
               return Padding(
@@ -129,8 +127,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                 child: CountryCodePicker(
                                   onChanged: (_countryCode) {
                                     countryCode = _countryCode;
+                                    Segment.track(eventName: 'Wallet: country code selected', properties: new Map.from({
+                                      'Dial code': _countryCode.dialCode,
+                                      'County code': _countryCode.code,
+                                    }));
                                   },
-                                  initialSelection: myLocale.countryCode,
+                                  initialSelection: countryCode.code,
                                   favorite: [],
                                   showCountryOnly: false,
                                   showFlag: false,
@@ -152,12 +154,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   controller: phoneController,
                                   keyboardType: TextInputType.number,
                                   autofocus: true,
-                                  validator: (String value) {
-                                    if (viewModel.loginErrorMessage != null && viewModel.loginErrorMessage.isNotEmpty) {
-                                      return viewModel.loginErrorMessage;
-                                    }
-                                    return null;
-                                  },
+                                  validator: (String value) => value.isEmpty ? "Please enter mobile number" : null,
                                   style: const TextStyle(
                                       fontSize: 16, color: Colors.black),
                                   decoration: const InputDecoration(
@@ -188,24 +185,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                 isvalidPhone = false;
                               });
                             } else {
-                              setState(() {
-                                isPreloading = true;
-                              });
-                              viewModel.signUp(countryCode.dialCode.toString(),
-                                  phoneController.text, () {
-                                Navigator.pushNamed(context, '/Verify');
-                                setState(() {
-                                  isPreloading = false;
-                                });
-                              }, () {
-                                setState(() {
-                                  isPreloading = false;
-                                  isvalidPhone = false;
-                                });
-                              });
+                              viewModel.signUp(countryCode.dialCode, phoneController.text);
                             }
                           },
-                          preload: isPreloading,
+                          preload: viewModel.isLoginRequest,
                         ),
                       )
                     ],

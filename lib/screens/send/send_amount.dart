@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/community.dart';
+import 'package:roost/screens/routes.gr.dart';
 import 'package:roost/screens/send/send_amount_arguments.dart';
 import 'package:roost/utils/format.dart';
 import 'package:roost/widgets/main_scaffold.dart';
@@ -11,9 +12,9 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:roost/models/token.dart';
 
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
-
 class SendAmountScreen extends StatefulWidget {
+  final SendAmountArguments pageArgs;
+  SendAmountScreen({this.pageArgs});
   @override
   _SendAmountScreenState createState() => _SendAmountScreenState();
 }
@@ -44,8 +45,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = ModalRoute.of(context).settings.arguments;
-
+    final SendAmountArguments args = this.widget.pageArgs;
+    String title =
+        "${I18n.of(context).send_to} ${args.name != null ? args.name : formatAddress(args.accountAddress)}";
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
@@ -79,7 +81,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             if (amount > 0 &&
                 viewModel.balance >=
                     toBigInt(amount, viewModel.token.decimals)) {
-              // if (double s = value / BigInt.from(pow(10, decimals));)
               controller.forward();
             } else {
               controller.reverse();
@@ -91,60 +92,70 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
         return MainScaffold(
             withPadding: true,
-            titleFontSize: 15,
-            title:
-                I18n.of(context).send_to + " ${args.name != null ? args.name : formatAddress(args.accountAddress)}",
+            title: title,
             children: <Widget>[
               Container(
-                  child: Column(children: <Widget>[
-                Container(
-                  child: Column(
+                height: MediaQuery.of(context).size.height * 0.7,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Text(I18n.of(context).how_much,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal)),
-                      ),
                       Container(
-                        padding: EdgeInsets.all(0.0),
                         child: Column(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(top: 20.0, bottom: 30),
-                              child: Text(
-                                  '$amountText ${viewModel.token.symbol}',
+                              padding: EdgeInsets.only(top: 60),
+                              child: Text(I18n.of(context).how_much,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
-                                      fontSize: 50,
-                                      fontWeight: FontWeight.w900)),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.normal)),
                             ),
+                            Container(
+                              padding: EdgeInsets.only(top: 40.0, bottom: 30),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
+                                children: <Widget>[
+                                  Text('$amountText ', // ${viewModel.token.symbol}
+                                      style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.w900)),
+                                  Text(viewModel.token.symbol,
+                                      style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w900)),
+                                ],
+                              ),
+                            )
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                ),
-                VirtualKeyboard(
-                    height: 300,
-                    fontSize: 28,
-                    textColor: Theme.of(context).primaryColor,
-                    type: VirtualKeyboardType.Numeric,
-                    onKeyPress: _onKeyPress),
-              ]))
+                      ),
+                      VirtualKeyboard(
+                          height: 300,
+                          fontSize: 28,
+                          textColor: Theme.of(context).primaryColor,
+                          type: VirtualKeyboardType.Numeric,
+                          onKeyPress: _onKeyPress),
+                    ]),
+              )
             ],
             footer: Center(
                 child: SlideTransition(
               position: offset,
               child: PrimaryButton(
                 labelFontWeight: FontWeight.normal,
-                label: I18n.of(context).continue_with + ' $amountText ${viewModel.token.symbol}',
+                label: I18n.of(context).continue_with +
+                    ' $amountText ${viewModel.token.symbol}',
                 onPressed: () {
                   args.amount = num.parse(amountText);
-                  Navigator.pushNamed(context, '/SendReview', arguments: args);
+                  Router.navigator
+                      .pushNamed(Router.sendReviewScreen, arguments: args);
                 },
                 preload: isPreloading,
                 width: 300,
@@ -163,10 +174,10 @@ class SendAmountViewModel {
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
+    Community community =
+        store.state.cashWalletState.communities[communityAddres] ??
+            new Community.initial();
     return SendAmountViewModel(
-      token: community.token,
-      balance: community.tokenBalance
-    );
+        token: community.token, balance: community.tokenBalance);
   }
 }

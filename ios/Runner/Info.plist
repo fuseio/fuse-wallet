@@ -18,6 +18,8 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -37,8 +39,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<string>NO</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -86,7 +86,13 @@
 	<string>key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr</string>
 	<key>com.claimsforce.segment.WRITE_KEY</key>
 	<string>n2yoAnpD1bpDmAXBhUloLYpS1U5f7W09</string>
+	<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>
+	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+    <string>itms</string>
+	</array>
 </dict>
 </plist>

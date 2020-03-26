@@ -1,15 +1,15 @@
+import 'dart:core';
+
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/transfer.dart';
+import 'package:roost/models/transactions/transfer.dart';
 import 'package:roost/models/views/send_amount.dart';
 import 'package:roost/utils/transaction_row.dart';
 import 'package:roost/widgets/main_scaffold.dart';
 import 'package:roost/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class TransactionDetailArguments {
   List<Widget> amount;
@@ -32,6 +32,8 @@ class TransactionDetailArguments {
 }
 
 class TransactionDetailsScreen extends StatefulWidget {
+  final TransactionDetailArguments pageArgs;
+  TransactionDetailsScreen({this.pageArgs});
   @override
   _TransactionDetailsScreenState createState() =>
       _TransactionDetailsScreenState();
@@ -46,15 +48,13 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final TransactionDetailArguments args =
-        ModalRoute.of(context).settings.arguments;
-
+    final TransactionDetailArguments args = this.widget.pageArgs;
     return new StoreConnector<AppState, SendAmountViewModel>(
+      distinct: true,
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
         return MainScaffold(
           withPadding: true,
-          titleFontSize: 15,
           title: I18n.of(context).transaction_details,
           children: <Widget>[
             Container(

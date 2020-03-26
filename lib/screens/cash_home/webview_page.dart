@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPageArguments {
@@ -11,10 +10,12 @@ class WebViewPageArguments {
 }
 
 class WebViewPage extends StatefulWidget {
+  final WebViewPageArguments pageArgs;
+
+  WebViewPage({this.pageArgs});
+
   @override
   _WebViewPageState createState() => _WebViewPageState();
-
-  WebViewPage({Key key}) : super(key: key);
 }
 
 class _WebViewPageState extends State<WebViewPage> {
@@ -23,8 +24,7 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final WebViewPageArguments webPageArgs =
-        ModalRoute.of(context).settings.arguments;
+    final WebViewPageArguments webPageArgs = this.widget.pageArgs;
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         return Container(
@@ -72,22 +72,10 @@ class _WebViewPageState extends State<WebViewPage> {
                               Text(webPageArgs.title,
                                   style: TextStyle(
                                       color: Theme.of(context)
-                                          .textTheme
-                                          .body1
-                                          .color,
+                                          .primaryColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w800))
                             ]),
-                        Positioned(
-                            top: 60,
-                            left: 20,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child:
-                                  SvgPicture.asset('assets/images/arrow.svg'),
-                            )),
                       ],
                     ),
                   ),

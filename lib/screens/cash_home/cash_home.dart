@@ -1,26 +1,18 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+import 'package:roost/redux/actions/cash_wallet_actions.dart';
+import 'package:roost/redux/actions/user_actions.dart';
 import 'package:roost/themes/app_theme.dart';
-// import 'package:roost/themes/custom_theme.dart';
 import 'package:roost/utils/contacts.dart';
 import 'package:roost/utils/forks.dart';
-import 'package:roost/widgets/main_scaffold2.dart';
 import 'package:roost/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'cash_header.dart';
 import 'cash_transactions.dart';
 import 'package:roost/models/views/cash_wallet.dart';
 
-bool isDefaultCommunity(String communityAddress) {
-  return DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] != null &&
-      DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase() ==
-          communityAddress.toLowerCase();
-}
-
-void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
-    BuildContext context) {
-  String communityAddress = viewModel.communityAddress;
+void updateTheme(
+    String communityAddress, Function _changeTheme, BuildContext context) {
   if (isPaywise(communityAddress)) {
     _changeTheme(context, MyThemeKeys.PAYWISE);
   } else if (isGoodDollar(communityAddress)) {
@@ -34,8 +26,7 @@ void updateTheme(CashWalletViewModel viewModel, Function _changeTheme,
   }
 }
 
-void onChange(CashWalletViewModel viewModel, BuildContext context,
-    {bool initial = false}) async {
+void onChange(CashWalletViewModel viewModel, BuildContext context) async {
   if (!viewModel.isJobProcessingStarted) {
     viewModel.startProcessingJobs();
   }
@@ -48,9 +39,6 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
       viewModel.walletAddress != '') {
     viewModel.branchCommunityUpdate();
   }
-  if (viewModel.walletStatus == null && viewModel.accountAddress != '') {
-    viewModel.createWallet(viewModel.accountAddress);
-  }
   if (!viewModel.isCommunityLoading &&
       !viewModel.isCommunityFetched &&
       viewModel.isBranchDataReceived &&
@@ -62,39 +50,49 @@ void onChange(CashWalletViewModel viewModel, BuildContext context,
       viewModel.startTransfersFetching();
     }
   }
-  if (initial) {
-    bool isPermitted = await Contacts.checkPermissions();
-    if (isPermitted) {
-      List<Contact> contacts = await ContactController.getContacts();
-      viewModel.syncContacts(contacts);
-    }
+  if (viewModel.identifier == null) {
+    viewModel.setIdentifier();
   }
 }
 
 class CashHomeScreen extends StatelessWidget {
-
-  // void _changeTheme(BuildContext buildContext, MyThemeKeys key) {
-  //   CustomTheme.instanceOf(buildContext).changeTheme(key);
-  // }
+  onInit(store) async {
+    Segment.screen(screenName: '/cash-home-screen');
+    String walletStatus = store.state.cashWalletState.walletStatus;
+    String accountAddress = store.state.userState.accountAddress;
+    if (walletStatus != 'deploying' &&
+        walletStatus != 'created' &&
+        accountAddress != '') {
+      store.dispatch(createAccountWalletCall(accountAddress));
+    }
+    bool isPermitted = await Contacts.checkPermissions();
+    if (isPermitted) {
+      List<Contact> contacts = await ContactController.getContacts();
+      store.dispatch(syncContactsCall(contacts));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashWalletViewModel>(
         distinct: true,
         converter: CashWalletViewModel.fromStore,
+        onInit: onInit,
         onInitialBuild: (viewModel) async {
-          onChange(viewModel, context, initial: true);
-        },
-        onWillChange: (viewModel) async {
-          // updateTheme(viewModel, _changeTheme, context);
           onChange(viewModel, context);
         },
+        onWillChange: (prevVm, nextVm) async {
+          onChange(nextVm, context);
+        },
         builder: (_, viewModel) {
-          bool isWalletCreated = 'created' == viewModel.walletStatus;
-          return MainScaffold(
-              showFooter: isWalletCreated,
-              header: CashHeader(),
-              children: <Widget>[CashTransactios(viewModel: viewModel)]);
+          return Scaffold(
+              key: key,
+              body: Column(children: <Widget>[
+                Expanded(
+                    child: ListView(children: <Widget>[
+                  CashTransactios(viewModel: viewModel)
+                ])),
+              ]));
         });
   }
 }

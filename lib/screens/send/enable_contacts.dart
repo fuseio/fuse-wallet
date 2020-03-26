@@ -46,6 +46,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, ContactsViewModel>(
+        distinct: true,
         converter: ContactsViewModel.fromStore,
         builder: (_, viewModel) {
           return ScaleTransition(
@@ -70,6 +71,8 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Text(I18n.of(context).sync_contacts,
                                         textAlign: TextAlign.center,
@@ -80,7 +83,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                             fontWeight: FontWeight.bold)),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          top: 30, bottom: 30, right: 20),
+                                          top: 30, bottom: 30),
                                       child: SvgPicture.asset(
                                         'assets/images/contacts.svg',
                                         width: 70.0,
@@ -142,8 +145,13 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                       List<Contact> contacts =
                                           await ContactController.getContacts();
                                       viewModel.syncContacts(contacts);
+                                      viewModel.trackCall("Wallet: Contacts Permission Granted");
+                                      viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": true }));
+                                    } else {
+                                      viewModel.trackCall("Wallet: Contacts Permission Rejected");
+                                      viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
                                     }
-                                    Navigator.pushReplacementNamed(context, '/SendContact');
+                                    Navigator.of(context).pop();
                                     setState(() {
                                       isPreloading = false;
                                     });

@@ -4,14 +4,16 @@
         "en-US",
         "he-IL",
         "es-ES",
-        "br-BR"
+        "br-BR",
+        "it-IT"
     ],
     "localePath": "i18n",
     "generatedPath": "lib/generated",
     "ltr": [
         "en-US",
         "es-ES",
-        "br-BR"
+        "br-BR",
+        "it-IT"
     ],
     "rtl": [
         "he-IL"

@@ -25,5 +25,5 @@ class SwitchCommunityViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [communities];
+  List<Object> get props => [communities, currentCommunity];
 }

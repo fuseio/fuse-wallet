@@ -30,13 +30,13 @@ abstract class Job {
       {this.id,
       this.jobType,
       this.name,
-      status,
-      arguments,
+      this.status,
+      this.arguments,
       this.isFunderJob,
       this.data,
       this.lastFinishedAt,
       this.timeStart,
-      isReported}) {
+      this.isReported}) {
     this.arguments = argumentsFromJson(arguments);
   }
 
@@ -165,7 +165,7 @@ class JobFactory {
       case 'joinBonus':
         return new JoinBonusJob(
             id: id,
-            isFunderJob: true,
+            isFunderJob: json['isFunderJob'],
             jobType: jobType,
             name: jobType,
             status: status,

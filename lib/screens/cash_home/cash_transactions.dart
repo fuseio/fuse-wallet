@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/transfer.dart';
+import 'package:roost/models/transactions/transfer.dart';
 import 'dart:core';
 import 'package:roost/models/views/cash_wallet.dart';
 import 'package:roost/screens/cash_home/transaction_row.dart';
@@ -65,7 +65,7 @@ class CashTransactionsState extends State<CashTransactios> {
           ListView(
               shrinkWrap: true,
               primary: false,
-              padding: EdgeInsets.symmetric(vertical: 8.0),
+              padding: EdgeInsets.only(left: 15, right: 15),
               children: renderTrasfers())
         ]);
   }

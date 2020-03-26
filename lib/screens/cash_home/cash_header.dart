@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/views/cash_header.dart';
 import 'package:roost/models/app_state.dart';
-import 'package:roost/screens/cash_home/cash_home.dart';
+import 'package:roost/screens/routes.gr.dart';
 import 'package:roost/screens/send/send_amount_arguments.dart';
 import 'package:roost/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+
+scanFuseAddress() async {
+  try {
+    String accountAddress = await BarcodeScanner.scan();
+    List<String> parts = accountAddress.split(':');
+    if (parts.length == 2 && parts[0] == 'fuse') {
+      Router.navigator.pushNamed(Router.sendAmountScreen,
+          arguments: SendAmountArguments(
+              sendType: SendType.QR_ADDRESS, accountAddress: parts[1]));
+    } else {
+      print('Account address is not on Fuse');
+    }
+  } catch (e) {
+    print('ERROR - BarcodeScanner');
+  }
+}
 
 class CashHeader extends StatelessWidget {
   @override
@@ -16,8 +30,6 @@ class CashHeader extends StatelessWidget {
     return new StoreConnector<AppState, CashHeaderViewModel>(
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
-          bool isWalletCreated = 'created' == viewModel.walletStatus;
-          // List depositPlugins = viewModel?.plugins?.getDepositPlugins();
           return Container(
             height: 260.0,
             alignment: Alignment.bottomLeft,
@@ -34,7 +46,14 @@ class CashHeader extends StatelessWidget {
                     ),
                   )
                 ],
-                color: Theme.of(context).primaryColorDark,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Theme.of(context).primaryColorLight,
+                    Theme.of(context).primaryColorDark,
+                  ],
+                ),
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(30.0))),
@@ -43,7 +62,7 @@ class CashHeader extends StatelessWidget {
               children: <Widget>[
                 InkWell(
                     onTap: () {
-                      if (isWalletCreated) Scaffold.of(context).openDrawer();
+                      Scaffold.of(context).openDrawer();
                     },
                     child: Padding(
                         padding:
@@ -59,7 +78,7 @@ class CashHeader extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 0.0),
                     child: new RichText(
                       text: new TextSpan(
-                        style: Theme.of(context).textTheme.title,
+                        // style: Theme.of(context).textTheme.,
                         children: <TextSpan>[
                           new TextSpan(
                               text: I18n.of(context).hi,
@@ -68,7 +87,7 @@ class CashHeader extends StatelessWidget {
                                   color: Theme.of(context).splashColor,
                                   fontWeight: FontWeight.normal)),
                           new TextSpan(
-                              text: ' ' + viewModel.firstName(),
+                              text: ' ' + (viewModel?.firstName() ?? ''),
                               style: TextStyle(
                                   fontSize: 33,
                                   color: Theme.of(context).splashColor,
@@ -103,7 +122,6 @@ class CashHeader extends StatelessWidget {
                                 children: <Widget>[
                                   RichText(
                                     text: new TextSpan(
-                                      style: Theme.of(context).textTheme.title,
                                       children: (viewModel
                                                       .community.tokenBalance ==
                                                   null ||
@@ -143,58 +161,67 @@ class CashHeader extends StatelessWidget {
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       height: 0.0)),
-                                              isDefaultCommunity(viewModel
-                                                      .community.address)
-                                                  ? new TextSpan(
-                                                      text: ' (\$' +
-                                                          calcValueInDollar(
-                                                              viewModel
-                                                                  .community.tokenBalance,
-                                                              viewModel
-                                                                  .community
-                                                                  .token
-                                                                  .decimals) +
-                                                          ')',
-                                                      style:
-                                                          new TextStyle(
-                                                              fontSize: 15,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .splashColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                              height: 0.0))
-                                                  : new TextSpan(),
                                             ],
                                     ),
                                   ),
-                                ])
+                                ]),
                           ],
                         ),
+                        (viewModel.community.secondaryTokenBalance != null)
+                            ? SizedBox.shrink()
+                            : Column(
+                                children: <Widget>[
+                                  new Container(
+                                    child: Text('Roost token',
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).splashColor,
+                                            fontSize: 12.0)),
+                                    padding: EdgeInsets.only(bottom: 6.0),
+                                  ),
+                                  Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        RichText(
+                                          text: new TextSpan(
+                                            children: <TextSpan>[
+                                              new TextSpan(
+                                                  text: formatValue(
+                                                      viewModel.community
+                                                          .secondaryTokenBalance,
+                                                      viewModel.community.token
+                                                          .decimals),
+                                                  style: new TextStyle(
+                                                      fontSize: 32,
+                                                      color: Theme.of(context)
+                                                          .splashColor,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              new TextSpan(
+                                                  text: ' ' +
+                                                      viewModel.community.token
+                                                          ?.symbol
+                                                          .toString(),
+                                                  style: new TextStyle(
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .splashColor,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      height: 0.0)),
+                                            ],
+                                          ),
+                                        ),
+                                      ])
+                                ],
+                              ),
                         new Container(
                           child: Row(children: [
-                            isDefaultCommunity(viewModel.community.address) &&
-                                    isWalletCreated
-                                ? InkWell(
-                                    child: SvgPicture.asset(
-                                      'assets/images/winPoints.svg',
-                                      width: 55,
-                                      height: 55,
-                                    ),
-                                    onTap: () async {
-                                      Navigator.pushNamed(context, '/Prize');
-                                      await FlutterSegment.track(
-                                          eventName: "User open prize page");
-                                    },
-                                  )
-                                : SizedBox.shrink(),
-                            isDefaultCommunity(viewModel.community.address)
-                                ? SizedBox(
-                                    width: 10,
-                                  )
-                                : SizedBox.shrink(),
                             new FloatingActionButton(
+                                heroTag: 'cash_scanner',
                                 backgroundColor: const Color(0xFF292929),
                                 elevation: 0,
                                 child: Image.asset(
@@ -203,25 +230,7 @@ class CashHeader extends StatelessWidget {
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                 ),
-                                onPressed: () async {
-                                  try {
-                                    String accountAddress =
-                                        await BarcodeScanner.scan();
-                                    List<String> parts =
-                                        accountAddress.split(':');
-                                    if (parts.length == 2 &&
-                                        parts[0] == 'fuse') {
-                                      Navigator.pushNamed(
-                                          context, '/SendAmount',
-                                          arguments: SendAmountArguments(
-                                              accountAddress: parts[1]));
-                                    } else {
-                                      print('Account address is not on Fuse');
-                                    }
-                                  } catch (e) {
-                                    print('ERROR - BarcodeScanner');
-                                  }
-                                })
+                                onPressed: scanFuseAddress)
                           ]),
                         )
                       ],

@@ -30,13 +30,23 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
     metadata: json['metadata'] == null
         ? null
         : CommunityMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+    homeBridgeAddress: json['homeBridgeAddress'] as String,
+    foreignBridgeAddress: json['foreignBridgeAddress'] as String,
+    secondaryTokenAddress: json['secondaryTokenAddress'] as String,
+    secondaryTokenBalance: json['secondaryTokenBalance'] == null
+        ? null
+        : BigInt.parse(json['secondaryTokenBalance'] as String),
   );
 }
 
 Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'name': instance.name,
       'address': instance.address,
+      'homeBridgeAddress': instance.homeBridgeAddress,
+      'foreignBridgeAddress': instance.foreignBridgeAddress,
+      'secondaryTokenAddress': instance.secondaryTokenAddress,
       'tokenBalance': instance.tokenBalance?.toString(),
+      'secondaryTokenBalance': instance.secondaryTokenBalance?.toString(),
       'isMember': instance.isMember,
       'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
       'transactions': instance.transactions?.toJson(),

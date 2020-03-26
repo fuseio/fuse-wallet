@@ -6,33 +6,24 @@ class MyThemes {
   static final ThemeData defaultTheme = getTheme();
 
   static final ThemeData paywiseTheme = getTheme().copyWith(
-      primaryColorLight: const Color(0xFF8AD57F),
-      primaryColorDark: const Color(0xFF1876B5),
-      buttonColor: const Color(0xFF8AD57F),
-      textTheme: TextTheme(
-          body1: new TextStyle(color: const Color(0xFF333333)),
-          button: new TextStyle(color: Colors.white)));
+    primaryColorLight: const Color(0xFF8AD57F),
+    primaryColorDark: const Color(0xFF1876B5),
+    buttonColor: const Color(0xFF8AD57F),
+  );
 
   static final ThemeData openMoneyTheme = getTheme().copyWith(
-      primaryColorLight: const Color(0xFF65944A),
-      primaryColorDark: const Color(0xFF2C4514),
-      textTheme: TextTheme(
-          body1: new TextStyle(color: const Color(0xFF333333)),
-          button: new TextStyle(color: Colors.white)));
+    primaryColorLight: const Color(0xFF65944A),
+    primaryColorDark: const Color(0xFF2C4514),
+  );
 
   static final ThemeData goodDollarTheme = getTheme().copyWith(
-      primaryColorLight: const Color(0xFF02B0FF),
-      primaryColorDark: const Color(0xFF00B247),
-      textTheme: TextTheme(
-          body1: new TextStyle(color: const Color(0xFF333333)),
-          button: new TextStyle(color: Colors.white)));
+    primaryColorLight: const Color(0xFF02B0FF),
+    primaryColorDark: const Color(0xFF00B247),
+  );
 
   static final ThemeData wepyTheme = getTheme().copyWith(
       primaryColorLight: const Color(0xFF06DEA4),
-      primaryColorDark: const Color(0xFF1077D8),
-      textTheme: TextTheme(
-          body1: new TextStyle(color: const Color(0xFF333333)),
-          button: new TextStyle(color: Colors.white)));
+      primaryColorDark: const Color(0xFF1077D8));
 
   static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
     switch (themeKey) {
@@ -72,22 +63,11 @@ ThemeData getTheme() {
     textSelectionColor: Colors.black12,
     cursorColor: const Color(0xFF05283e),
     toggleableActiveColor: const Color(0xFF05283e),
-    primaryColorLight: const Color(0xFFC0E4EF),
-    primaryColorDark: const Color(0xFF1A59F5),
-    buttonColor: const Color(0xFFC0E4EF),
+    primaryColorLight: const Color(0xFF05D3A8),
+    primaryColorDark: const Color(0xFF097CD1),
+    buttonColor: const Color(0xFF05D3A8),
     splashColor: Colors.white,
-    textTheme: TextTheme(
-        headline: new TextStyle(color: Colors.black),
-        subhead: new TextStyle(color: Colors.black),
-        subtitle: new TextStyle(color: Colors.black),
-        display1: new TextStyle(color: const Color(0xFF808080)),
-        display2: new TextStyle(color: Colors.black),
-        display3: new TextStyle(color: Colors.black),
-        display4: new TextStyle(color: Colors.black),
-        title: new TextStyle(color: Colors.black),
-        body1: new TextStyle(color: const Color(0xFF333333)),
-        body2: new TextStyle(color: const Color(0xFF333333)),
-        button: new TextStyle(color: const Color(0xFF333333))),
+    textTheme: TextTheme(button: new TextStyle(color: Colors.white)),
     inputDecorationTheme: InputDecorationTheme(
         border: const OutlineInputBorder(
           borderSide: BorderSide(color: const Color(0xFF05283e)),

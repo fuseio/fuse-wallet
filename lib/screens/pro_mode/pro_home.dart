@@ -1,0 +1,33 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+import 'package:roost/models/pro/views/pro_wallet.dart';
+import 'package:roost/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:roost/models/app_state.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:roost/screens/pro_mode/assets_list.dart';
+import 'package:redux/redux.dart';
+
+class ProModeHomeScreen extends StatelessWidget {
+  onInit(Store<AppState> store) {
+    Segment.screen(screenName: '/pro-home-screen');
+    store.dispatch(initWeb3ProMode());
+    if (store.state.proWalletState.isListenToTransferEvents == null ||
+        store.state.proWalletState.isListenToTransferEvents == false) {
+      store.dispatch(startListenToTransferEvents());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new StoreConnector<AppState, ProWalletViewModel>(
+        converter: ProWalletViewModel.fromStore,
+        onInit: onInit,
+        builder: (_, viewModel) {
+          return Scaffold(
+              key: key,
+              body: Column(children: <Widget>[
+                Expanded(child: ListView(children: [AssetsList()])),
+              ]));
+        });
+  }
+}

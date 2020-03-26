@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:roost/redux/middlewares/auth_middleware.dart';
 import 'package:roost/models/app_state.dart';
 import 'package:roost/redux/reducers/app_reducer.dart';
 import 'package:roost/redux/state/state_secure_storage.dart';
@@ -98,6 +99,7 @@ class AppFactory {
       wms.addAll([
         thunkMiddleware,
         persistor.createMiddleware(),
+        ...createAuthMiddleware()
       ]);
 
       _store = Store<AppState>(
@@ -260,15 +262,10 @@ class AppFactory {
   }
 
   Future<void> reportError(dynamic error, dynamic stackTrace) async {
-    if (isInDebugMode) {
-      final logger = await getLogger('Error');
-      logger.severe('Error', [error, stackTrace]);
-    } else {
-      _sentry = await getSentry();
-      _sentry.captureException(
-        exception: error,
-        stackTrace: stackTrace,
-      );
-    }
+    _sentry = await getSentry();
+    _sentry.captureException(
+      exception: error,
+      stackTrace: stackTrace,
+    );
   }
 }

@@ -1,8 +1,12 @@
+import 'package:roost/redux/actions/cash_wallet_actions.dart';
 import 'package:roost/redux/actions/user_actions.dart';
 import 'package:roost/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([
+  TypedReducer<UserState, GetWalletAddressesSuccess>(_getWalletAddressesSuccess),
+  TypedReducer<UserState, ActivateProMode>(_activateProMode),
+  TypedReducer<UserState, SwitchWalletMode>(_switchWalletMode),
   TypedReducer<UserState, RestoreWalletSuccess>(_restoreWalletSuccess),
   TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
@@ -17,19 +21,28 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
   TypedReducer<UserState, SetCredentials>(_setCredentials),
   TypedReducer<UserState, SetVerificationId>(_setVerificationId),
-  TypedReducer<UserState, SetLoginErrorMessage>(_setLoginErrorMessage),
-  TypedReducer<UserState, SetVerifyErrorMessage>(_setVerifyErrorMessage),
   TypedReducer<UserState, UpdateDisplayBalance>(_updateDisplayBalance),
   TypedReducer<UserState, JustInstalled>(_justInstalled),
+  TypedReducer<UserState, SetIsLoginRequest>(_setIsLoginRequest),
+  TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
+  TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
 ]);
 
-UserState _setLoginErrorMessage(UserState state, SetLoginErrorMessage action) {
-  return state.copyWith(loginErrorMessage: action.error);
+UserState _getWalletAddressesSuccess(UserState state, GetWalletAddressesSuccess action) {
+  return state.copyWith(
+    networks: action.networks,
+    walletAddress: action.walletAddress,
+    transferManagerAddress: action.transferManagerAddress,
+    communityManagerAddress: action.communityManagerAddress,
+    walletStatus: 'created');
 }
 
-UserState _setVerifyErrorMessage(
-    UserState state, SetVerifyErrorMessage action) {
-  return state.copyWith(verifyErrorMessage: action.error);
+UserState _activateProMode(UserState state, ActivateProMode action) {
+  return state.copyWith(isProModeActivated: true);
+}
+
+UserState _switchWalletMode(UserState state, SwitchWalletMode action) {
+  return state.copyWith(isProMode: action.isProMode);
 }
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
@@ -59,8 +72,6 @@ UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
   return state.copyWith(
       countryCode: action.countryCode,
       phoneNumber: action.phoneNumber,
-      displayName: action.displayName,
-      email: action.email,
       loginRequestSuccess: true);
 }
 
@@ -73,7 +84,7 @@ UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
 }
 
 UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
-  return state.copyWith(isLoggedOut: true);
+  return state.copyWith(isLoggedOut: true, isProMode: false);
   // return UserState.initial();
 }
 
@@ -122,3 +133,16 @@ UserState _updateDisplayBalance(UserState state, UpdateDisplayBalance action) {
 UserState _justInstalled(UserState state, JustInstalled action) {
   return state.copyWith(installedAt: action.installedAt);
 }
+
+UserState _setIsLoginRequest(UserState state, SetIsLoginRequest action) {
+  return state.copyWith(isLoginRequest: action.isLoading);
+}
+
+UserState _setIsVerifyRequest(UserState state, SetIsVerifyRequest action) {
+  return state.copyWith(isVerifyRequest: action.isLoading);
+}
+
+UserState _deviceIdSuccess(UserState state, DeviceIdSuccess action) {
+  return state.copyWith(identifier: action.identifier);
+}
+

@@ -1,8 +1,8 @@
 import 'package:roost/models/community.dart';
 import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/transaction.dart';
-import 'package:roost/models/transactions.dart';
-import 'package:roost/models/transfer.dart';
+import 'package:roost/models/transactions/transaction.dart';
+import 'package:roost/models/transactions/transactions.dart';
+import 'package:roost/models/transactions/transfer.dart';
 import 'package:roost/redux/actions/cash_wallet_actions.dart';
 import 'package:roost/redux/actions/user_actions.dart';
 import 'package:roost/models/cash_wallet_state.dart';
@@ -11,14 +11,15 @@ import 'package:redux/redux.dart';
 final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
-  TypedReducer<CashWalletState, GetWalletAddressSuccess>(
-      _getWalletAddressSuccess),
+  TypedReducer<CashWalletState, GetWalletAddressesSuccess>(
+      _getWalletAddressesSuccess),
   TypedReducer<CashWalletState, CreateAccountWalletRequest>(
       _createAccountWalletRequest),
-  TypedReducer<CashWalletState, CreateAccountWalletSuccess>(
-      _createAccountWalletSuccess),
+  TypedReducer<CashWalletState, CreateAccountWalletSuccess>(_createAccountWalletSuccess),
   TypedReducer<CashWalletState, GetTokenBalanceSuccess>(
       _getTokenBalanceSuccess),
+      TypedReducer<CashWalletState, GetSecondaryTokenBalanceSuccess>(
+      _getSecondaryTokenBalanceSuccess),
   TypedReducer<CashWalletState, SendTokenSuccess>(_sendTokenSuccess),
   TypedReducer<CashWalletState, JoinCommunitySuccess>(_joinCommunitySuccess),
   TypedReducer<CashWalletState, FetchCommunityMetadataSuccess>(_fetchCommunityMetadataSuccess),
@@ -91,10 +92,13 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     return state.copyWith(web3: action.web3);
   }
   
-  CashWalletState _getWalletAddressSuccess(
-      CashWalletState state, GetWalletAddressSuccess action) {
+  CashWalletState _getWalletAddressesSuccess(
+      CashWalletState state, GetWalletAddressesSuccess action) {
     return state.copyWith(
-        walletAddress: action.walletAddress, walletStatus: 'created');
+        walletAddress: action.walletAddress,
+        transferManagerAddress: action.transferManagerAddress,
+        communityManagerAddress: action.communityManagerAddress,
+        walletStatus: 'created');
   }
   
   CashWalletState _createAccountWalletRequest(
@@ -102,11 +106,23 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     return state.copyWith(walletStatus: 'requested');
   }
   
-  CashWalletState _createAccountWalletSuccess(
-      CashWalletState state, CreateAccountWalletSuccess action) {
+  CashWalletState _createAccountWalletSuccess(CashWalletState state, CreateAccountWalletSuccess action) {
     return state.copyWith(walletStatus: 'deploying');
   }
-  
+
+  CashWalletState _getSecondaryTokenBalanceSuccess(
+      CashWalletState state, GetSecondaryTokenBalanceSuccess action) {
+    if (state.walletAddress != '') {
+      Community current = state.communities[state.communityAddress];
+      Community newCommunity = current.copyWith(secondaryTokenBalance: action.balance);
+      Map<String, Community> newOne = Map<String, Community>.from(state.communities);
+      newOne[state.communityAddress] = newCommunity;
+      return state.copyWith(communities: newOne);
+    } else {
+      return state;
+    }
+  }
+
   CashWalletState _getTokenBalanceSuccess(
       CashWalletState state, GetTokenBalanceSuccess action) {
     if (state.walletAddress != '') {
@@ -163,7 +179,10 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       plugins: action.plugins,
       token: action.token,
       name: action.communityName,
-      isClosed: action.isClosed
+      isClosed: action.isClosed,
+      homeBridgeAddress: action.homeBridgeAddress,
+      foreignBridgeAddress: action.foreignBridgeAddress,
+      secondaryTokenAddress: action.secondaryTokenAddress
     );
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);
