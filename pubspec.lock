@@ -340,11 +340,9 @@ packages:
   flushbar:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "58b6ba2872503813fe8aa5a843d99e5f7af9b97c"
-      url: "https://github.com/AndreHaueisen/flushbar"
-    source: git
+      name: flushbar
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.10.0"
   flutter:
     dependency: "direct main"

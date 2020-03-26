@@ -167,12 +167,13 @@ class CashHeader extends StatelessWidget {
                                 ]),
                           ],
                         ),
-                        (viewModel.community.secondaryTokenBalance != null)
+                        (viewModel.community.secondaryTokenAddress == null ||
+                                viewModel.community.token == null)
                             ? SizedBox.shrink()
                             : Column(
                                 children: <Widget>[
                                   new Container(
-                                    child: Text('Roost token',
+                                    child: Text('Roost coin',
                                         style: TextStyle(
                                             color:
                                                 Theme.of(context).splashColor,
@@ -201,10 +202,7 @@ class CashHeader extends StatelessWidget {
                                                       fontWeight:
                                                           FontWeight.bold)),
                                               new TextSpan(
-                                                  text: ' ' +
-                                                      viewModel.community.token
-                                                          ?.symbol
-                                                          .toString(),
+                                                  text: ' RST',
                                                   style: new TextStyle(
                                                       fontSize: 18,
                                                       color: Theme.of(context)

@@ -6,11 +6,7 @@ environment:
 dependencies:
   rate_my_app: ^0.6.0+2
   auto_route: ^0.3.1
-  # flushbar: ^1.10.0
-  flushbar:
-    git:
-      url: https://github.com/AndreHaueisen/flushbar
-      ref: master
+  flushbar: ^1.9.1
   url_launcher: ^5.4.2
   http: ^0.12.0+4
   google_maps_flutter: ^0.5.24+1
