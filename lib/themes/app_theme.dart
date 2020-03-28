@@ -10,28 +10,24 @@ class MyThemes {
       primaryColorDark: const Color(0xFF1876B5),
       buttonColor: const Color(0xFF8AD57F),
       textTheme: TextTheme(
-          body1: new TextStyle(color: const Color(0xFF333333)),
           button: new TextStyle(color: Colors.white)));
 
   static final ThemeData openMoneyTheme = getTheme().copyWith(
       primaryColorLight: const Color(0xFF65944A),
       primaryColorDark: const Color(0xFF2C4514),
       textTheme: TextTheme(
-          body1: new TextStyle(color: const Color(0xFF333333)),
           button: new TextStyle(color: Colors.white)));
 
   static final ThemeData goodDollarTheme = getTheme().copyWith(
       primaryColorLight: const Color(0xFF02B0FF),
       primaryColorDark: const Color(0xFF00B247),
       textTheme: TextTheme(
-          body1: new TextStyle(color: const Color(0xFF333333)),
           button: new TextStyle(color: Colors.white)));
 
   static final ThemeData wepyTheme = getTheme().copyWith(
       primaryColorLight: const Color(0xFF06DEA4),
       primaryColorDark: const Color(0xFF1077D8),
       textTheme: TextTheme(
-          body1: new TextStyle(color: const Color(0xFF333333)),
           button: new TextStyle(color: Colors.white)));
 
   static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
@@ -77,16 +73,6 @@ ThemeData getTheme() {
     buttonColor: const Color(0xFF329ACE),
     splashColor: Colors.white,
     textTheme: TextTheme(
-        headline: new TextStyle(color: Colors.black),
-        subhead: new TextStyle(color: Colors.black),
-        subtitle: new TextStyle(color: Colors.black),
-        display1: new TextStyle(color: const Color(0xFF808080)),
-        display2: new TextStyle(color: Colors.black),
-        display3: new TextStyle(color: Colors.black),
-        display4: new TextStyle(color: Colors.black),
-        title: new TextStyle(color: Colors.black),
-        body1: new TextStyle(color: const Color(0xFF333333)),
-        body2: new TextStyle(color: const Color(0xFF333333)),
         button: new TextStyle(color: const Color(0xFF333333))),
     inputDecorationTheme: InputDecorationTheme(
         border: const OutlineInputBorder(

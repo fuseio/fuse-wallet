@@ -39,7 +39,7 @@ class MainScaffold extends StatelessWidget {
                   softWrap: true,
                   //overflow: TextOverflow.visible,
                   style: TextStyle(
-                      color: Theme.of(context).textTheme.body1.color,
+                      color: Theme.of(context).primaryColor,
                       fontSize: titleFontSize ?? 20,
                       fontWeight: FontWeight.w800)),
             ),
@@ -50,7 +50,7 @@ class MainScaffold extends StatelessWidget {
             //),
           ),
           iconTheme:
-              IconThemeData(color: Theme.of(context).textTheme.body1.color),
+              IconThemeData(color: Theme.of(context).primaryColor),
           backgroundColor: backgroundColor ?? Theme.of(context).backgroundColor,
           brightness: Brightness.light,
         ),

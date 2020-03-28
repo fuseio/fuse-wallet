@@ -54,7 +54,6 @@ class BuyScreen extends StatelessWidget {
 }
 
 class BusinessesListView extends StatelessWidget {
-
   Widget banner(BuildContext context, BuyViewModel vm) {
     return vm.walletBanner != null &&
             vm.walletBanner.walletBannerHash != null &&
@@ -102,7 +101,8 @@ class BusinessesListView extends StatelessWidget {
         ]);
   }
 
-  ListTile businessTile(context, Business business, String communityAddres, token) {
+  ListTile businessTile(
+      context, Business business, String communityAddres, token) {
     var image = getImageUrl(business, communityAddres);
     return ListTile(
       contentPadding: EdgeInsets.all(0),
@@ -147,18 +147,16 @@ class BusinessesListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
+          InkWell(
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/go.png',
+                  fit: BoxFit.fill,
+                  width: 25,
+                  height: 25,
+                )),
+            onTap: () {
               Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
                       sendType: SendType.BUSINESS,
@@ -166,7 +164,7 @@ class BusinessesListView extends StatelessWidget {
                       name: business.name ?? '',
                       accountAddress: business.account));
             },
-          ),
+          )
         ],
       ),
     );

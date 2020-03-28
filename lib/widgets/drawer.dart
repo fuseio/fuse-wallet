@@ -101,7 +101,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   List<Widget> menuItem(DrawerViewModel viewModel) {
-    if (isFork() || isPaywise(viewModel.communityAddress)) {
+    if (isFork()) {
       return [
         getListTile(I18n.of(context).backup_wallet, () {
           Router.navigator.pushNamed(Router.showMnemonic);

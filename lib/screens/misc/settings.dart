@@ -5,12 +5,11 @@ import 'package:localpay/generated/i18n.dart';
 import 'package:localpay/models/app_state.dart';
 import 'package:localpay/models/views/drawer.dart';
 import 'package:localpay/screens/routes.gr.dart';
-import 'package:localpay/utils/forks.dart';
 import 'package:localpay/widgets/language_selector.dart';
 import 'package:localpay/widgets/main_scaffold.dart';
 
 class SettingsScreen extends StatelessWidget {
-  Widget getListTile(context, label, onTap) {
+  Widget getListTile(BuildContext context, String label, void Function() onTap) {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, right: 30, left: 30),
       title: Text(
@@ -21,15 +20,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> menuItem(context, viewModel) {
-    if (isFork()) {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          Router.navigator.pushNamed(Router.aboutScreen);
-        }),
-      ];
-    } else {
-      return [
+  List<Widget> menuItem(BuildContext context, DrawerViewModel viewModel) => [
         getListTile(context, I18n.of(context).about, () {
           Router.navigator.pushNamed(Router.aboutScreen);
         }),
@@ -39,12 +30,11 @@ class SettingsScreen extends StatelessWidget {
         new LanguageSelector(),
         new Divider(),
         getListTile(context, I18n.of(context).logout, () {
-          Router.navigator.pushNamedAndRemoveUntil(Router.splashScreen, (Route<dynamic> route) => false);
+          Router.navigator.pushNamedAndRemoveUntil(
+              Router.splashScreen, (Route<dynamic> route) => false);
           viewModel.logout();
         })
       ];
-    }
-  }
 
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, DrawerViewModel>(

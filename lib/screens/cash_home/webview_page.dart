@@ -74,10 +74,7 @@ class _WebViewPageState extends State<WebViewPage> {
                             children: [
                               Text(webPageArgs.title,
                                   style: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .body1
-                                          .color,
+                                      color: Theme.of(context).primaryColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w800))
                             ]),
