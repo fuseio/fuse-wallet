@@ -68,7 +68,7 @@ class CashHeader extends StatelessWidget {
                         padding:
                             EdgeInsets.only(top: 35, bottom: 35, right: 35),
                         child: Image.asset(
-                          'assets/images/menu.png',
+                          'assets/images/menu_white.png',
                           width: 20,
                         ))),
                 Expanded(
@@ -78,7 +78,6 @@ class CashHeader extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 0.0),
                     child: new RichText(
                       text: new TextSpan(
-                        // style: Theme.of(context).textTheme.,
                         children: <TextSpan>[
                           new TextSpan(
                               text: I18n.of(context).hi,
@@ -106,116 +105,131 @@ class CashHeader extends StatelessWidget {
                       verticalDirection: VerticalDirection.up,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: <Widget>[
-                            new Container(
-                              child: Text(I18n.of(context).balance,
-                                  style: TextStyle(
-                                      color: Theme.of(context).splashColor,
-                                      fontSize: 12.0)),
-                              padding: EdgeInsets.only(bottom: 6.0),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new Container(
+                                  child: Text(I18n.of(context).balance,
+                                      style: TextStyle(
+                                          color: Theme.of(context).splashColor,
+                                          fontSize: 12.0)),
+                                  padding: EdgeInsets.only(bottom: 6.0),
+                                ),
+                                Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      RichText(
+                                        text: new TextSpan(
+                                          children: (viewModel.community
+                                                          .tokenBalance ==
+                                                      null ||
+                                                  viewModel.community.token ==
+                                                      null)
+                                              ? <TextSpan>[
+                                                  new TextSpan(
+                                                      text: '0',
+                                                      style: new TextStyle(
+                                                          fontSize: 30,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .splashColor,
+                                                          fontWeight:
+                                                              FontWeight.bold))
+                                                ]
+                                              : <TextSpan>[
+                                                  new TextSpan(
+                                                      text: formatValue(
+                                                          viewModel.community
+                                                              .tokenBalance,
+                                                          viewModel.community
+                                                              .token.decimals),
+                                                      style: new TextStyle(
+                                                          fontSize: 32,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .splashColor,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  new TextSpan(
+                                                      text: ' ' +
+                                                          viewModel.community
+                                                              .token?.symbol
+                                                              .toString(),
+                                                      style: new TextStyle(
+                                                          fontSize: 18,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .splashColor,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          height: 0.0)),
+                                                ],
+                                        ),
+                                      ),
+                                    ]),
+                              ],
                             ),
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  RichText(
-                                    text: new TextSpan(
-                                      children: (viewModel
-                                                      .community.tokenBalance ==
-                                                  null ||
-                                              viewModel.community.token == null)
-                                          ? <TextSpan>[
-                                              new TextSpan(
-                                                  text: '0',
-                                                  style: new TextStyle(
-                                                      fontSize: 30,
-                                                      color: Theme.of(context)
-                                                          .splashColor,
-                                                      fontWeight:
-                                                          FontWeight.bold))
-                                            ]
-                                          : <TextSpan>[
-                                              new TextSpan(
-                                                  text: formatValue(
-                                                      viewModel.community
-                                                          .tokenBalance,
-                                                      viewModel.community.token
-                                                          .decimals),
-                                                  style: new TextStyle(
-                                                      fontSize: 32,
-                                                      color: Theme.of(context)
-                                                          .splashColor,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              new TextSpan(
-                                                  text: ' ' +
-                                                      viewModel.community.token
-                                                          ?.symbol
-                                                          .toString(),
-                                                  style: new TextStyle(
-                                                      fontSize: 18,
-                                                      color: Theme.of(context)
-                                                          .splashColor,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      height: 0.0)),
-                                            ],
-                                    ),
+                            SizedBox(width: 30,),
+                            (viewModel.community.secondaryTokenAddress ==
+                                        null ||
+                                    viewModel.community.secondaryTokenAddress ==
+                                            '' &&
+                                        viewModel.community.token == null)
+                                ? SizedBox.shrink()
+                                : Column(
+                                    children: <Widget>[
+                                      new Container(
+                                        child: Text('Roost coin',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                                fontSize: 12.0)),
+                                        padding: EdgeInsets.only(bottom: 6.0),
+                                      ),
+                                      Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            RichText(
+                                              text: new TextSpan(
+                                                children: <TextSpan>[
+                                                  new TextSpan(
+                                                      text: formatValue(
+                                                          viewModel.community
+                                                              .secondaryTokenBalance,
+                                                          viewModel.community
+                                                              .token.decimals),
+                                                      style: new TextStyle(
+                                                          fontSize: 32,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .splashColor,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  new TextSpan(
+                                                      text: ' RST',
+                                                      style: new TextStyle(
+                                                          fontSize: 18,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .splashColor,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          height: 0.0)),
+                                                ],
+                                              ),
+                                            ),
+                                          ])
+                                    ],
                                   ),
-                                ]),
                           ],
                         ),
-                        (viewModel.community.secondaryTokenAddress == null ||
-                                viewModel.community.token == null)
-                            ? SizedBox.shrink()
-                            : Column(
-                                children: <Widget>[
-                                  new Container(
-                                    child: Text('Roost coin',
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).splashColor,
-                                            fontSize: 12.0)),
-                                    padding: EdgeInsets.only(bottom: 6.0),
-                                  ),
-                                  Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        RichText(
-                                          text: new TextSpan(
-                                            children: <TextSpan>[
-                                              new TextSpan(
-                                                  text: formatValue(
-                                                      viewModel.community
-                                                          .secondaryTokenBalance,
-                                                      viewModel.community.token
-                                                          .decimals),
-                                                  style: new TextStyle(
-                                                      fontSize: 32,
-                                                      color: Theme.of(context)
-                                                          .splashColor,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              new TextSpan(
-                                                  text: ' RST',
-                                                  style: new TextStyle(
-                                                      fontSize: 18,
-                                                      color: Theme.of(context)
-                                                          .splashColor,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      height: 0.0)),
-                                            ],
-                                          ),
-                                        ),
-                                      ])
-                                ],
-                              ),
                         new Container(
                           child: Row(children: [
                             new FloatingActionButton(

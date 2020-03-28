@@ -548,7 +548,7 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
       String communityAddress = store.state.cashWalletState.communityAddress;
       Community community = store.state.cashWalletState.communities[communityAddress];
       if (community.secondaryTokenAddress != null && community.secondaryTokenAddress != '') {
-        BigInt secondaryTokenBalance = (await graph.getTokenBalance(walletAddress, tokenAddress));
+        BigInt secondaryTokenBalance = (await graph.getTokenBalance(walletAddress, community.secondaryTokenAddress));
         String balance = formatValue(secondaryTokenBalance, community.token.decimals);
         store.dispatch(new GetSecondaryTokenBalanceSuccess(secondaryTokenBalance));
         store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
