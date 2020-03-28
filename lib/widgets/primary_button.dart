@@ -53,8 +53,7 @@ class PrimaryButton extends StatelessWidget {
                   ? Text(
                       label,
                       style: TextStyle(
-                          color: labalColor ??
-                              Theme.of(context).textTheme.button.color,
+                          color: labalColor ?? Theme.of(context).splashColor,
                           fontSize: this.fontSize ?? 18,
                           fontWeight: this.labelFontWeight ?? FontWeight.w700),
                     )
@@ -62,7 +61,7 @@ class PrimaryButton extends StatelessWidget {
                       child: CircularProgressIndicator(
                           strokeWidth: 3,
                           valueColor: new AlwaysStoppedAnimation<Color>(
-                              Theme.of(context).textTheme.button.color)),
+                              Theme.of(context).splashColor)),
                       width: 21.0,
                       height: 21.0,
                       margin: EdgeInsets.only(left: 28, right: 28),

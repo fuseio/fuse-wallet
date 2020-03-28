@@ -68,7 +68,7 @@ class CashHeader extends StatelessWidget {
                         padding:
                             EdgeInsets.only(top: 35, bottom: 35, right: 35),
                         child: Image.asset(
-                          'assets/images/menu.png',
+                          'assets/images/menu_white.png',
                           width: 20,
                         ))),
                 Expanded(
@@ -78,19 +78,18 @@ class CashHeader extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 0.0),
                     child: new RichText(
                       text: new TextSpan(
-                        style: Theme.of(context).textTheme.title,
                         children: <TextSpan>[
                           new TextSpan(
                               text: I18n.of(context).hi,
                               style: TextStyle(
                                   fontSize: 33,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).splashColor,
                                   fontWeight: FontWeight.normal)),
                           new TextSpan(
                               text: ' ' + (viewModel?.firstName() ?? ''),
                               style: TextStyle(
                                   fontSize: 33,
-                                  color: Theme.of(context).primaryColor,
+                                  color: Theme.of(context).splashColor,
                                   fontWeight: FontWeight.normal)),
                         ],
                       ),
@@ -113,8 +112,7 @@ class CashHeader extends StatelessWidget {
                               child: Text(I18n.of(context).balance,
                                   style: TextStyle(
                                       color: Theme.of(context)
-                                          .primaryColor
-                                          .withAlpha(150),
+                                          .splashColor,
                                       fontSize: 12.0)),
                               padding: EdgeInsets.only(bottom: 6.0),
                             ),
@@ -124,7 +122,6 @@ class CashHeader extends StatelessWidget {
                                 children: <Widget>[
                                   RichText(
                                     text: new TextSpan(
-                                      style: Theme.of(context).textTheme.title,
                                       children: (viewModel
                                                       .community.tokenBalance ==
                                                   null ||
@@ -135,7 +132,7 @@ class CashHeader extends StatelessWidget {
                                                   style: new TextStyle(
                                                       fontSize: 30,
                                                       color: Theme.of(context)
-                                                          .primaryColor,
+                                                          .splashColor,
                                                       fontWeight:
                                                           FontWeight.bold))
                                             ]
@@ -149,7 +146,7 @@ class CashHeader extends StatelessWidget {
                                                   style: new TextStyle(
                                                       fontSize: 32,
                                                       color: Theme.of(context)
-                                                          .primaryColor,
+                                                          .splashColor,
                                                       fontWeight:
                                                           FontWeight.bold)),
                                               new TextSpan(
@@ -160,7 +157,7 @@ class CashHeader extends StatelessWidget {
                                                   style: new TextStyle(
                                                       fontSize: 18,
                                                       color: Theme.of(context)
-                                                          .primaryColor,
+                                                          .splashColor,
                                                       fontWeight:
                                                           FontWeight.normal,
                                                       height: 0.0))

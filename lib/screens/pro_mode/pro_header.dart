@@ -65,7 +65,6 @@ class ProHeader extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 0.0),
                     child: new RichText(
                       text: new TextSpan(
-                        style: Theme.of(context).textTheme.title,
                         children: <TextSpan>[
                           new TextSpan(
                               text: I18n.of(context).hi,

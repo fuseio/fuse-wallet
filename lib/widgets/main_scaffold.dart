@@ -30,27 +30,23 @@ class MainScaffold extends StatelessWidget {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-          expandedHeight: expandedHeight ?? MediaQuery.of(context).size.height / 8,
+          expandedHeight:
+              expandedHeight ?? MediaQuery.of(context).size.height / 8,
           pinned: true,
           actions: actions,
           flexibleSpace: FlexibleSpaceBar(
             title: Container(
               child: Text(title,
                   softWrap: true,
-                  //overflow: TextOverflow.visible,
                   style: TextStyle(
-                      color: Theme.of(context).textTheme.body1.color,
+                      color: Theme.of(context).primaryColor,
                       fontSize: titleFontSize ?? 20,
                       fontWeight: FontWeight.w800)),
             ),
             centerTitle: true,
             collapseMode: CollapseMode.parallax,
-            //background: Container(
-            //color: Theme.of(context).canvasColor,
-            //),
           ),
-          iconTheme:
-              IconThemeData(color: Theme.of(context).textTheme.body1.color),
+          iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
           backgroundColor: backgroundColor ?? Theme.of(context).backgroundColor,
           brightness: Brightness.light,
         ),

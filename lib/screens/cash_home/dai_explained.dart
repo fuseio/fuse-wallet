@@ -93,10 +93,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                   'Win up to 100 points!',
                                   style: TextStyle(
                                       fontSize: 13,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .headline
-                                          .color),
+                                      color: Theme.of(context).primaryColor),
                                 ),
                               ),
                               Row(
@@ -234,8 +231,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                             'Add DAI',
                             style: TextStyle(
                                 fontSize: 16,
-                                color:
-                                    Theme.of(context).textTheme.headline.color,
+                                color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -267,7 +263,8 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                 builder: (BuildContext context) {
                                   return ActivateProModeDialog();
                                 });
-                            Segment.track(eventName: "Wallet: Withdraw DAI clicked");
+                            Segment.track(
+                                eventName: "Wallet: Withdraw DAI clicked");
                           }
                         },
                         child: Align(
@@ -280,10 +277,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                 'Withdraw DAI',
                                 style: TextStyle(
                                     fontSize: 16,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .headline
-                                        .color,
+                                    color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
@@ -345,7 +339,8 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
 class _DaiPointsViewModel {
   final bool isProModeActivate;
   final String daiPointsHomeBridgeAddress;
-  _DaiPointsViewModel({this.isProModeActivate, this.daiPointsHomeBridgeAddress});
+  _DaiPointsViewModel(
+      {this.isProModeActivate, this.daiPointsHomeBridgeAddress});
 
   static _DaiPointsViewModel fromStore(Store<AppState> store) {
     String communityAddres =
