@@ -10,7 +10,7 @@ final String wepyCommuntiyAddress =
     '0x3a84e05b3128d87fccb5c5ff3f4d34908981a8d4';
 
 final String localDolarMXCommuntiyAddress =
-    '0xe8f18ebE449A8f63435C2f3889AFaEE4625b3Da3';
+    '0xe8f18ebe449a8f63435c2f3889afaee4625b3da3';
 
 final Map<dynamic, dynamic> goodDollarToken = Map.from({
   "address": "0xf5800134da809c98dc9d2c662a259f6988673925",
