@@ -9,7 +9,6 @@ import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import 'package:paywise/redux/actions/error_actions.dart';
 import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/utils/format.dart';
-import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
@@ -387,35 +386,17 @@ ThunkAction setDisplayNameCall(String displayName) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
+    // String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    String displayName = store.state.userState.displayName;
     try {
-      final _webView = new InteractiveWebView();
-      String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-      final html = '''<html>
-          <head></head>
-          <script>
-            window.pk = '0x${store.state.userState.privateKey}';
-            window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '$phoneNumber'};
-          </script>
-          <script src='https://3box.fuse.io/main.js'></script>
-          <body></body>
-        </html>''';
-      _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
-      store.dispatch(segmentTrackCall("Wallet: Profile created in 3box"));
-    } catch (e, s) {
-      await AppFactory().reportError(e, s);
-    }
-    try {
-      Map publicData = {
-        'account': accountAddress,
-        'name': store.state.userState.displayName
-      };
-      await api.createProfile(accountAddress, publicData);
       Map user = {
         "accountAddress": accountAddress,
         "email": 'wallet-user@paywise.io',
         "provider": 'HDWallet',
         "subscribe": false,
-        "source": 'wallet-v2'
+        "source": 'wallet-v2',
+        "displayName": displayName,
+        // "phoneNumber": phoneNumber,
       };
       await api.saveUserToDb(user);
       logger.info('save user $accountAddress');
