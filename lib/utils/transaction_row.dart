@@ -50,7 +50,7 @@ Color deduceColor(Transfer transfer) {
 }
 
 String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true, List<Business> businesses}) {
+    {bool format = true, List<Business> businesses, bool getReverseContact = true}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (businesses != null && businesses.isNotEmpty) {
     Business business = businesses.firstWhere(
@@ -60,7 +60,7 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
       return business.name;
     }
   }
-  if (reverseContacts.containsKey(accountAddress)) {
+  if (reverseContacts.containsKey(accountAddress) && getReverseContact) {
     return reverseContacts[accountAddress];
   }
   if (format) {

@@ -141,7 +141,6 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                             context,
                             new MaterialPageRoute(
                                 builder: (context) => DoneBackup()));
-                        // Router.navigator.pushNamed(Router.doneBackup);
                       }
                     },
                   )),

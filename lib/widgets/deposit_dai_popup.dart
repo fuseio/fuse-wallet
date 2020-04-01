@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -7,6 +6,7 @@ import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
 import 'package:fusecash/screens/cash_home/deposit_webview.dart';
 import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'dart:core';
@@ -161,10 +161,8 @@ class DepositDaiDialogViewModel {
   DepositDaiDialogViewModel({this.plugins});
 
   static DepositDaiDialogViewModel fromStore(Store<AppState> store) {
-    String communityAddres =
-        DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
     Community community =
-        store.state.cashWalletState.communities[communityAddres];
+        store.state.cashWalletState.communities[defaultCommunityAddress];
     return DepositDaiDialogViewModel(
       plugins: community?.plugins,
     );
