@@ -163,7 +163,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                   child: InkWell(
                                     onTap: () async {
                                       Navigator.pushNamed(context, '/Prize');
-                                      await FlutterSegment.track(
+                                      await Segment.track(
                                           eventName: "User open prize page");
                                     },
                                     child: Row(

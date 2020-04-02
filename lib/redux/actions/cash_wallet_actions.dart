@@ -237,7 +237,11 @@ ThunkAction enablePushNotifications() {
 
       String walletAddress = store.state.cashWalletState.walletAddress;
       await api.updateFirebaseToken(walletAddress, token);
-      await FlutterSegment.putDeviceToken(token);
+      await Segment.setContext({
+        'device': {
+          'token': token
+        },
+      });
 
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
@@ -261,7 +265,7 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('Track - $eventName');
-      await FlutterSegment.track(eventName: eventName, properties: properties);
+      await Segment.track(eventName: eventName, properties: properties);
     } catch (e, s) {
       logger.severe('ERROR - segment track call: $e');
       await AppFactory().reportError(e, s);
@@ -274,7 +278,7 @@ ThunkAction segmentAliasCall(String userId) {
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('Alias - $userId');
-      await FlutterSegment.alias(alias: userId);
+      await Segment.alias(alias: userId);
     } catch (e, s) {
       logger.severe('ERROR - segment alias call: $e');
       await AppFactory().reportError(e, s);
@@ -297,7 +301,7 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
       }
       traits["Installed At"] = installedAt.toIso8601String();
       traits["Display Balance"] = userState.displayBalance ?? 0;
-      await FlutterSegment.identify(userId: fullPhoneNumber, traits: traits);
+      await Segment.identify(userId: fullPhoneNumber, traits: traits);
     } catch (e, s) {
       logger.severe('ERROR - segment identify call: $e');
       await AppFactory().reportError(e, s);

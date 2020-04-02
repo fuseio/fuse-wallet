@@ -98,7 +98,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 builder: (context) =>
                     DepositWebView(depositPlugin: depositPlugins[0])),
           );
-          await FlutterSegment.track(eventName: 'User clicked on top up');
+          await Segment.track(eventName: 'User clicked on top up');
         },
       ));
     }

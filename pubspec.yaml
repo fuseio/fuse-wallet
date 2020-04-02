@@ -4,8 +4,8 @@ description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"
 dependencies:
-  flushbar: ^1.9.1
-  intl: 0.16.0
+  flushbar: ^1.10.0
+  intl: 0.16.1
   url_launcher: ^5.4.1
   http: ^0.12.0+4
   google_maps_flutter: ^0.5.21+15
@@ -40,7 +40,7 @@ dependencies:
   pin_input_text_field: ^2.1.0
   flare_flutter: ^1.8.3
   decimal: ^0.3.5
-  flutter_segment: ^0.0.7
+  flutter_segment: ^2.0.0
   firebase_messaging: ^5.0.2
   firebase_auth: ^0.15.4
   # flutter_branch_sdk: ^0.1.5
