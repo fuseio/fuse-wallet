@@ -2,16 +2,16 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:supervenica/generated/i18n.dart';
+import 'package:supervenica/models/app_state.dart';
+import 'package:supervenica/models/business.dart';
+import 'package:supervenica/models/views/buy_page.dart';
+import 'package:supervenica/screens/buy/business.dart';
+import 'package:supervenica/screens/cash_home/webview_page.dart';
+import 'package:supervenica/screens/routes.gr.dart';
+import 'package:supervenica/screens/send/send_amount_arguments.dart';
+import 'package:supervenica/utils/transaction_row.dart';
+import 'package:supervenica/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -144,18 +144,16 @@ class BusinessesListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
+          InkWell(
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/go.png',
+                  fit: BoxFit.fill,
+                  width: 25,
+                  height: 25,
+                )),
+            onTap: () {
               Router.navigator.pushNamed(Router.sendAmountScreen,
                   arguments: SendAmountArguments(
                       sendType: SendType.BUSINESS,
@@ -163,7 +161,7 @@ class BusinessesListView extends StatelessWidget {
                       name: business.name ?? '',
                       accountAddress: business.account));
             },
-          ),
+          )
         ],
       ),
     );

@@ -1,20 +1,21 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/screens/cash_home/prize.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/widgets/activate_pro_mode.dart';
-import 'package:fusecash/widgets/deposit_dai_popup.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:supervenica/generated/i18n.dart';
+import 'package:supervenica/models/app_state.dart';
+import 'package:supervenica/models/community.dart';
+import 'package:supervenica/screens/cash_home/prize.dart';
+import 'package:supervenica/screens/cash_home/webview_page.dart';
+import 'package:supervenica/screens/routes.gr.dart';
+import 'package:supervenica/screens/send/send_amount_arguments.dart';
+import 'package:supervenica/widgets/activate_pro_mode.dart';
+import 'package:supervenica/widgets/deposit_dai_popup.dart';
+import 'package:supervenica/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
+
+import '../../utils/addresses.dart';
 
 class DaiExplainedScreen extends StatefulWidget {
   @override
@@ -92,9 +93,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: Theme.of(context)
-                                          .textTheme
-                                          .headline
-                                          .color),
+                                          .primaryColor),
                                 ),
                               ),
                               Row(
@@ -249,9 +248,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Theme.of(context)
-                                        .textTheme
-                                        .headline
-                                        .color,
+                                        .primaryColor,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -295,9 +292,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Theme.of(context)
-                                        .textTheme
-                                        .headline
-                                        .color,
+                                        .primaryColor,
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
@@ -363,10 +358,8 @@ class _DaiPointsViewModel {
       {this.isProModeActivate, this.daiPointsHomeBridgeAddress});
 
   static _DaiPointsViewModel fromStore(Store<AppState> store) {
-    String communityAddres =
-        DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
     Community community =
-        store.state.cashWalletState.communities[communityAddres];
+        store.state.cashWalletState.communities[defaultCommunityAddress];
     return _DaiPointsViewModel(
       daiPointsHomeBridgeAddress: community.homeBridgeAddress,
       isProModeActivate: store.state.userState.isProModeActivated,

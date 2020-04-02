@@ -5,23 +5,23 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/pro_routes.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
+import 'package:supervenica/models/app_state.dart';
+import 'package:supervenica/models/views/splash.dart';
+import 'package:supervenica/redux/actions/cash_wallet_actions.dart';
+import 'package:supervenica/redux/actions/user_actions.dart';
+import 'package:supervenica/redux/state/store.dart';
+import 'package:supervenica/screens/pro_routes.gr.dart';
+import 'package:supervenica/screens/routes.gr.dart';
+import 'package:supervenica/themes/app_theme.dart';
+import 'package:supervenica/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:supervenica/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_prod');
+  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_supervenica');
   await DotEnv().load(configFile);
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runZoned<Future<void>>(() async => runApp(await customThemeApp()),

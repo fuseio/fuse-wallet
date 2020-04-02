@@ -1,8 +1,8 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:supervenica/models/jobs/base.dart';
+import 'package:supervenica/models/transactions/transfer.dart';
+import 'package:supervenica/redux/actions/cash_wallet_actions.dart';
+import 'package:supervenica/redux/state/store.dart';
+import 'package:supervenica/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer_job.g.dart';

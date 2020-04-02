@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/plugins.dart';
+import 'package:supervenica/models/community.dart';
+import 'package:supervenica/models/plugins.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 

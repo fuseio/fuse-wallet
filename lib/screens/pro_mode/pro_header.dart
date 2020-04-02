@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/widgets/coming_soon.dart';
+import 'package:supervenica/models/pro/token.dart';
+import 'package:supervenica/redux/actions/cash_wallet_actions.dart';
+import 'package:supervenica/utils/addresses.dart';
+import 'package:supervenica/widgets/coming_soon.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervenica/generated/i18n.dart';
+import 'package:supervenica/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/widgets/raised_gradient_button.dart';
+import 'package:supervenica/widgets/raised_gradient_button.dart';
 
 class ProHeader extends StatelessWidget {
   @override
@@ -73,7 +73,6 @@ class ProHeader extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 0.0),
                     child: new RichText(
                       text: new TextSpan(
-                        style: Theme.of(context).textTheme.title,
                         children: <TextSpan>[
                           new TextSpan(
                               text: I18n.of(context).hi,

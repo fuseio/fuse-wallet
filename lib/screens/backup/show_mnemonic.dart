@@ -1,15 +1,15 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/backup/verify_mnemonic.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:supervenica/generated/i18n.dart';
+import 'package:supervenica/models/views/backup.dart';
+import 'package:supervenica/screens/backup/verify_mnemonic.dart';
+import 'package:supervenica/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/copy.dart';
-import 'package:fusecash/widgets/preloader.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:supervenica/models/app_state.dart';
+import 'package:supervenica/widgets/copy.dart';
+import 'package:supervenica/widgets/preloader.dart';
+import 'package:supervenica/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   @override
@@ -28,15 +28,15 @@ class ShowMnemonic extends StatelessWidget {
                   child: RichText(
                       textAlign: TextAlign.center,
                       text: new TextSpan(
-                          style: Theme.of(context).textTheme.title,
                           children: <InlineSpan>[
                             TextSpan(
                               text: I18n.of(context).important + ' ',
-                              style: TextStyle(color: Colors.black),
+                              style: TextStyle(color: Colors.black, fontSize: 16),
                             ),
                             TextSpan(
                                 text: I18n.of(context).write_words,
                                 style: TextStyle(
+                                    fontSize: 16,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .secondary))

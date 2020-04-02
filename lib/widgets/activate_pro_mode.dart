@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:supervenica/models/community.dart';
+import 'package:supervenica/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/activate_pro_mode2.dart';
+import 'package:supervenica/models/app_state.dart';
+import 'package:supervenica/widgets/activate_pro_mode2.dart';
 import 'dart:core';
+
+import '../utils/addresses.dart';
 
 class ActivateProModeDialog extends StatefulWidget {
   @override
@@ -126,8 +127,7 @@ class ActivateProModeViewModel {
   ActivateProModeViewModel({this.activateProMode, this.daiPointsHomeBridgeAddress});
 
   static ActivateProModeViewModel fromStore(Store<AppState> store) {
-    String communityAddres = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
-    Community community = store.state.cashWalletState.communities[communityAddres];
+    Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
     return ActivateProModeViewModel(
       daiPointsHomeBridgeAddress: community.homeBridgeAddress,
       activateProMode: () async {

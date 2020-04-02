@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/pro_mode/pro_drawer.dart';
-import 'package:fusecash/screens/pro_mode/pro_header.dart';
-import 'package:fusecash/screens/pro_mode/pro_home.dart';
-import 'package:fusecash/screens/send/receive.dart';
-import 'package:fusecash/widgets/bottom_bar_item.dart';
-import 'package:fusecash/widgets/coming_soon.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
-import 'package:fusecash/widgets/tabs_scaffold.dart';
+import 'package:supervenica/generated/i18n.dart';
+import 'package:supervenica/screens/pro_mode/pro_drawer.dart';
+import 'package:supervenica/screens/pro_mode/pro_header.dart';
+import 'package:supervenica/screens/pro_mode/pro_home.dart';
+import 'package:supervenica/screens/send/receive.dart';
+import 'package:supervenica/widgets/bottom_bar_item.dart';
+import 'package:supervenica/widgets/coming_soon.dart';
+import 'package:supervenica/widgets/my_app_bar.dart';
+import 'package:supervenica/widgets/tabs_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 class ProModeScaffold extends StatefulWidget {

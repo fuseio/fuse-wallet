@@ -1,7 +1,7 @@
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:supervenica/models/pro/pro_wallet_state.dart';
+import 'package:supervenica/models/pro/token.dart';
+import 'package:supervenica/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:supervenica/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 final proWalletReducers = combineReducers<ProWalletState>([

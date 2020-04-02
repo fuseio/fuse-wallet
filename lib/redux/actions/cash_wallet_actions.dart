@@ -3,29 +3,29 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:supervenica/models/business.dart';
+import 'package:supervenica/models/community.dart';
+import 'package:supervenica/models/community_metadata.dart';
+import 'package:supervenica/models/jobs/base.dart';
+import 'package:supervenica/models/plugins.dart';
+import 'package:supervenica/models/transactions/transaction.dart';
+import 'package:supervenica/models/transactions/transactions.dart';
+import 'package:supervenica/models/transactions/transfer.dart';
+import 'package:supervenica/models/user_state.dart';
+import 'package:supervenica/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:supervenica/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:supervenica/redux/actions/user_actions.dart';
+import 'package:supervenica/utils/forks.dart';
+import 'package:supervenica/redux/state/store.dart';
+import 'package:supervenica/utils/format.dart';
+import 'package:supervenica/utils/phone.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:fusecash/services.dart';
-import 'package:fusecash/models/token.dart';
+import 'package:supervenica/services.dart';
+import 'package:supervenica/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -1239,22 +1239,5 @@ ThunkAction sendTokenToContactCall(String name, String contactPhoneNumber, num t
       logger.severe('ERROR - sendTokenToContactCall $e');
       store.dispatch(new ErrorAction('Could not send token to contact'));
     }
-  };
-}
-
-ThunkAction transferDaiPointsToForiegnNetwork() {
-  return (Store store) async {
-    String communityAddres = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
-    Community community = store.state.cashWalletState.communities[communityAddres];
-    String receiverAddress = community.homeBridgeAddress;
-    num tokensAmount = num.parse(formatValue(community.tokenBalance, community.token.decimals));
-
-    VoidCallback sendSuccessCallback = () {
-      store.dispatch(startListenToTransferEvents());
-    };
-
-    VoidCallback sendFailureCallback = () { };
-
-    store.dispatch(sendTokenCall(receiverAddress, tokensAmount, sendSuccessCallback, sendFailureCallback));
   };
 }

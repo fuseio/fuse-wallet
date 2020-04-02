@@ -2,11 +2,11 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:supervenica/generated/i18n.dart';
+import 'package:supervenica/models/app_state.dart';
+import 'package:supervenica/models/views/contacts.dart';
+import 'package:supervenica/utils/contacts.dart';
+import 'package:supervenica/widgets/primary_button.dart';
 import 'dart:core';
 
 class ContactsConfirmationScreen extends StatefulWidget {

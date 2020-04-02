@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:supervenica/widgets/primary_button.dart';
 
 class SignupDialog extends StatefulWidget {
   SignupDialog();

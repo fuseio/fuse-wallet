@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/models/views/drawer.dart';
+import 'package:supervenica/models/app_state.dart';
+import 'package:supervenica/models/plugins.dart';
+import 'package:supervenica/models/views/drawer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -86,10 +86,7 @@ class _DepositWebViewState extends State<DepositWebView> {
                                   children: [
                                     Text('Top up',
                                         style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .body1
-                                                .color,
+                                            color: Theme.of(context).primaryColor,
                                             fontSize: 20,
                                             fontWeight: FontWeight.w800))
                                   ]),

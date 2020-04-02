@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervenica/generated/i18n.dart';
+import 'package:supervenica/models/transactions/transfer.dart';
+import 'package:supervenica/models/views/send_amount.dart';
+import 'package:supervenica/utils/transaction_row.dart';
+import 'package:supervenica/widgets/main_scaffold.dart';
+import 'package:supervenica/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class TransactionDetailArguments {

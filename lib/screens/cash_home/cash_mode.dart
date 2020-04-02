@@ -1,20 +1,19 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/bottom_bar.dart';
-import 'package:fusecash/screens/buy/buy.dart';
-import 'package:fusecash/screens/cash_home/cash_header.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
-import 'package:fusecash/screens/cash_home/dai_explained.dart';
-import 'package:fusecash/screens/send/contacts_list.dart';
-import 'package:fusecash/screens/send/receive.dart';
-import 'package:fusecash/screens/send/send_contact.dart';
-import 'package:fusecash/widgets/bottom_bar_item.dart';
-import 'package:fusecash/widgets/drawer.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
-import 'package:fusecash/widgets/tabs_scaffold.dart';
+import 'package:supervenica/generated/i18n.dart';
+import 'package:supervenica/models/app_state.dart';
+import 'package:supervenica/models/views/bottom_bar.dart';
+import 'package:supervenica/screens/buy/buy.dart';
+import 'package:supervenica/screens/cash_home/cash_header.dart';
+import 'package:supervenica/screens/cash_home/cash_home.dart';
+import 'package:supervenica/screens/send/contacts_list.dart';
+import 'package:supervenica/screens/send/receive.dart';
+import 'package:supervenica/screens/send/send_contact.dart';
+import 'package:supervenica/widgets/bottom_bar_item.dart';
+import 'package:supervenica/widgets/drawer.dart';
+import 'package:supervenica/widgets/my_app_bar.dart';
+import 'package:supervenica/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;
@@ -27,32 +26,21 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
   int _currentIndex = 0;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _currentIndex = widget.tabIndex;
   }
 
-  List<Widget> _pages(List<Contact> contacts, bool isDefualtCommunity) {
+  List<Widget> _pages(List<Contact> contacts) {
     bool hasContactsInStore = contacts.isNotEmpty;
-    if (isDefualtCommunity) {
-      return [
-        CashHomeScreen(),
-        !hasContactsInStore
-            ? SendToContactScreen()
-            : ContactsList(contacts: contacts),
-        DaiExplainedScreen(),
-        ReceiveScreen()
-      ];
-    } else {
-      return [
-        CashHomeScreen(),
-        !hasContactsInStore
-            ? SendToContactScreen()
-            : ContactsList(contacts: contacts),
-        BuyScreen(),
-        ReceiveScreen()
-      ];
-    }
+    return [
+      CashHomeScreen(),
+      !hasContactsInStore
+          ? SendToContactScreen()
+          : ContactsList(contacts: contacts),
+      BuyScreen(),
+      ReceiveScreen()
+    ];
   }
 
   _onTap(int itemIndex) {
@@ -66,7 +54,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
-          final List<Widget> pages = _pages(vm.contacts, vm.isDefaultCommunity);
+          final List<Widget> pages = _pages(vm.contacts);
           return TabsScaffold(
               header: MyAppBar(
                 backgroundColor: Colors.white,
@@ -87,9 +75,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
                 items: [
                   bottomBarItem(I18n.of(context).home, 'home'),
                   bottomBarItem(I18n.of(context).send_button, 'send'),
-                  vm.isDefaultCommunity
-                      ? bottomBarItem(I18n.of(context).dai_points, 'daipoints')
-                      : bottomBarItem(I18n.of(context).buy, 'buy'),
+                  bottomBarItem(I18n.of(context).buy, 'buy'),
                   bottomBarItem(I18n.of(context).receive, 'receive'),
                 ],
               ));

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervenica/generated/i18n.dart';
+import 'package:supervenica/models/views/send_amount.dart';
+import 'package:supervenica/screens/routes.gr.dart';
+import 'package:supervenica/screens/send/send_amount_arguments.dart';
+import 'package:supervenica/utils/format.dart';
+import 'package:supervenica/widgets/main_scaffold.dart';
+import 'package:supervenica/widgets/primary_button.dart';
+import 'package:supervenica/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:supervenica/utils/phone.dart';
 
 class SendReviewScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

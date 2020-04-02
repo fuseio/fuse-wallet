@@ -1,5 +1,5 @@
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
+import 'package:supervenica/models/transactions/transaction.dart';
+import 'package:supervenica/models/transactions/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 

@@ -1,11 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:supervenica/models/community.dart';
+import 'package:supervenica/models/pro/token.dart';
+import 'package:supervenica/models/transactions/transfer.dart';
+import 'package:supervenica/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervenica/models/app_state.dart';
 
 class ProWalletViewModel extends Equatable {
   final String walletAddress;
@@ -20,8 +19,7 @@ class ProWalletViewModel extends Equatable {
 
   static ProWalletViewModel fromStore(Store<AppState> store) {
     List<Token> tokens = store.state.proWalletState?.tokens ?? [];
-    String communityAddres = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
-    Community community = store.state.cashWalletState.communities[communityAddres];
+    Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
     bool hasTrasnferdToForeign = community.transactions.list.any((item) {
         Transfer transfer = item as Transfer;
         return (transfer?.to?.toLowerCase() == community?.homeBridgeAddress?.toLowerCase()) ?? false;

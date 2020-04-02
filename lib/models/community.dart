@@ -1,8 +1,8 @@
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
+import 'package:supervenica/models/business.dart';
+import 'package:supervenica/models/community_metadata.dart';
+import 'package:supervenica/models/jobs/base.dart';
+import 'package:supervenica/models/token.dart';
+import 'package:supervenica/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';
