@@ -343,7 +343,7 @@ packages:
       name: flushbar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.1"
+    version: "1.10.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -518,13 +518,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
-  interactive_webview:
-    dependency: "direct main"
-    description:
-      name: interactive_webview
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.2"
   intl:
     dependency: transitive
     description:
