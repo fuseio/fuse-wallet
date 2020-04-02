@@ -12,7 +12,6 @@ import 'package:supervenica/redux/actions/cash_wallet_actions.dart';
 import 'package:supervenica/redux/actions/error_actions.dart';
 import 'package:supervenica/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:supervenica/utils/format.dart';
-import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
