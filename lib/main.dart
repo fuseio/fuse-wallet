@@ -119,7 +119,7 @@ class _MyAppState extends State<MyApp> {
             return new Column(children: <Widget>[
               Expanded(
                   child: MaterialApp(
-                title: 'Fuse Cash',
+                title: 'Supervenice wallet',
                 initialRoute: isProMode
                     ? ProRouter.proModeHomeScreen
                     : widget.initialRoute,
@@ -128,6 +128,7 @@ class _MyAppState extends State<MyApp> {
                 onGenerateRoute: isProMode
                     ? ProRouter.onGenerateRoute
                     : Router.onGenerateRoute,
+                locale: Locale('es', 'ES'),
                 theme: CustomTheme.of(context),
                 localizationsDelegates: [
                   i18n,
