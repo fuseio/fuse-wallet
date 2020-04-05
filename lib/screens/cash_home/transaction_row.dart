@@ -1,14 +1,14 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:supervenica/generated/i18n.dart';
-import 'package:supervenica/models/transactions/transaction.dart';
-import 'package:supervenica/models/transactions/transfer.dart';
-import 'package:supervenica/models/views/cash_wallet.dart';
-import 'package:supervenica/screens/routes.gr.dart';
-import 'package:supervenica/utils/transaction_row.dart';
-import 'package:supervenica/screens/cash_home/transaction_details.dart';
-import 'package:supervenica/utils/format.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/transactions/transaction.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/models/views/cash_wallet.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/utils/transaction_row.dart';
+import 'package:supervecina/screens/cash_home/transaction_details.dart';
+import 'package:supervecina/utils/format.dart';
 
 class TransactionListItem extends StatelessWidget {
   final Transaction _transaction;

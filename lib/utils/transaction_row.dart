@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:supervenica/models/business.dart';
-import 'package:supervenica/models/transactions/transfer.dart';
-import 'package:supervenica/models/views/cash_wallet.dart';
-import 'package:supervenica/utils/forks.dart';
-import 'package:supervenica/utils/format.dart';
-import 'package:supervenica/utils/phone.dart';
+import 'package:supervecina/models/business.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/models/views/cash_wallet.dart';
+import 'package:supervecina/utils/forks.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/phone.dart';
 
 String deduceSign(Transfer transfer) {
   if (transfer.type == 'SEND') {

@@ -1,7 +1,7 @@
-import 'package:supervenica/models/pro/pro_wallet_state.dart';
-import 'package:supervenica/models/pro/token.dart';
-import 'package:supervenica/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:supervenica/redux/actions/user_actions.dart';
+import 'package:supervecina/models/pro/pro_wallet_state.dart';
+import 'package:supervecina/models/pro/token.dart';
+import 'package:supervecina/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 final proWalletReducers = combineReducers<ProWalletState>([

@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
-import 'package:supervenica/models/app_state.dart';
-import 'package:supervenica/models/business.dart';
-import 'package:supervenica/models/community.dart';
-import 'package:supervenica/models/token.dart';
-import 'package:supervenica/models/transactions/transactions.dart';
-import 'package:supervenica/redux/actions/cash_wallet_actions.dart';
-import 'package:supervenica/redux/actions/user_actions.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/business.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/models/token.dart';
+import 'package:supervecina/models/transactions/transactions.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {

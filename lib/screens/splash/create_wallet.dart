@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervenica/generated/i18n.dart';
-import 'package:supervenica/models/app_state.dart';
-import 'package:supervenica/models/views/splash.dart';
-import 'package:supervenica/screens/routes.gr.dart';
-import 'package:supervenica/widgets/primary_button.dart';
-import 'package:supervenica/widgets/transparent_button.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/splash.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/widgets/primary_button.dart';
+import 'package:supervecina/widgets/transparent_button.dart';
 
 class CreateWallet extends StatefulWidget {
   @override

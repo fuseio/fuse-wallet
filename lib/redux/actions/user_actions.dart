@@ -5,20 +5,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:supervenica/models/community.dart';
-import 'package:supervenica/models/jobs/base.dart';
-import 'package:supervenica/models/transactions/transfer.dart';
-import 'package:supervenica/redux/actions/cash_wallet_actions.dart';
-import 'package:supervenica/redux/actions/error_actions.dart';
-import 'package:supervenica/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:supervenica/utils/format.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/models/jobs/base.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/error_actions.dart';
+import 'package:supervecina/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:supervecina/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
-import 'package:supervenica/services.dart';
-import 'package:supervenica/redux/state/store.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/redux/state/store.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:supervenica/utils/phone.dart';
+import 'package:supervecina/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -403,7 +403,7 @@ ThunkAction create3boxAccountCall(accountAddress) {
     try {
       Map user = {
         "accountAddress": accountAddress,
-        "email": 'wallet-user@supervenice.io',
+        "email": 'wallet-user@supervecina.io',
         "provider": 'HDWallet',
         "subscribe": false,
         "source": 'wallet-v2',

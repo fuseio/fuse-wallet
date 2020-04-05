@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervenica/generated/i18n.dart';
-import 'package:supervenica/models/app_state.dart';
-import 'package:supervenica/models/views/recovery.dart';
-import 'package:supervenica/screens/routes.gr.dart';
-import 'package:supervenica/widgets/main_scaffold.dart';
-import 'package:supervenica/widgets/primary_button.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/recovery.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:supervecina/widgets/primary_button.dart';
 
 class RecoveryPage extends StatefulWidget {
   @override

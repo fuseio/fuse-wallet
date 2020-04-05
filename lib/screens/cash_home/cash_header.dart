@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:supervenica/generated/i18n.dart';
-import 'package:supervenica/models/views/cash_header.dart';
-import 'package:supervenica/models/app_state.dart';
-import 'package:supervenica/screens/routes.gr.dart';
-import 'package:supervenica/screens/send/send_amount_arguments.dart';
-import 'package:supervenica/utils/format.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/views/cash_header.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/send/send_amount_arguments.dart';
+import 'package:supervecina/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 

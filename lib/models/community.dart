@@ -1,8 +1,8 @@
-import 'package:supervenica/models/business.dart';
-import 'package:supervenica/models/community_metadata.dart';
-import 'package:supervenica/models/jobs/base.dart';
-import 'package:supervenica/models/token.dart';
-import 'package:supervenica/models/transactions/transactions.dart';
+import 'package:supervecina/models/business.dart';
+import 'package:supervecina/models/community_metadata.dart';
+import 'package:supervecina/models/jobs/base.dart';
+import 'package:supervecina/models/token.dart';
+import 'package:supervecina/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';

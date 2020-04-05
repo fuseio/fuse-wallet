@@ -1,9 +1,9 @@
-import 'package:supervenica/models/jobs/base.dart';
-import 'package:supervenica/models/transactions/transfer.dart';
-import 'package:supervenica/redux/actions/cash_wallet_actions.dart';
-import 'package:supervenica/redux/actions/user_actions.dart';
-import 'package:supervenica/redux/state/store.dart';
-import 'package:supervenica/services.dart';
+import 'package:supervecina/models/jobs/base.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/redux/state/store.dart';
+import 'package:supervecina/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'backup_job.g.dart';

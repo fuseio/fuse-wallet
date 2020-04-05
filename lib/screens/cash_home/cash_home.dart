@@ -1,16 +1,16 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervenica/redux/actions/cash_wallet_actions.dart';
-import 'package:supervenica/redux/actions/user_actions.dart';
-import 'package:supervenica/themes/app_theme.dart';
-import 'package:supervenica/themes/custom_theme.dart';
-import 'package:supervenica/utils/contacts.dart';
-import 'package:supervenica/utils/forks.dart';
-import 'package:supervenica/models/app_state.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/themes/app_theme.dart';
+import 'package:supervecina/themes/custom_theme.dart';
+import 'package:supervecina/utils/contacts.dart';
+import 'package:supervecina/utils/forks.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_transactions.dart';
-import 'package:supervenica/models/views/cash_wallet.dart';
+import 'package:supervecina/models/views/cash_wallet.dart';
 
 void updateTheme(
     String communityAddress, Function _changeTheme, BuildContext context) {

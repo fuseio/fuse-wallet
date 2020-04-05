@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:supervenica/models/app_state.dart';
-import 'package:supervenica/models/user_state.dart';
-import 'package:supervenica/redux/actions/user_actions.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/user_state.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 class BackupViewModel extends Equatable {

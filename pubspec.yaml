@@ -1,4 +1,4 @@
-name: supervenica
+name: supervecina
 version: 1.1.27+154
 description: A new Flutter project.
 environment:
@@ -66,7 +66,7 @@ flutter_icons:
   ios: true
 flutter:
   assets:
-    - .env_supervenica
+    - .env_supervecina
     - .env_prod
     - .env_qa
     - assets/

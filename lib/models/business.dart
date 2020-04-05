@@ -1,4 +1,4 @@
-import 'package:supervenica/models/business_metadata.dart';
+import 'package:supervecina/models/business_metadata.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business.g.dart';

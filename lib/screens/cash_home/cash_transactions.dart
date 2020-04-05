@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:supervenica/generated/i18n.dart';
-import 'package:supervenica/models/transactions/transfer.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
 import 'dart:core';
-import 'package:supervenica/models/views/cash_wallet.dart';
-import 'package:supervenica/screens/cash_home/transaction_row.dart';
-import 'package:supervenica/utils/transaction_row.dart';
+import 'package:supervecina/models/views/cash_wallet.dart';
+import 'package:supervecina/screens/cash_home/transaction_row.dart';
+import 'package:supervecina/utils/transaction_row.dart';
 
 class CashTransactios extends StatefulWidget {
   CashTransactios({@required this.viewModel});

@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:supervenica/generated/i18n.dart';
-import 'package:supervenica/screens/routes.gr.dart';
-import 'package:supervenica/screens/send/send_amount_arguments.dart';
-import 'package:supervenica/widgets/main_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/send/send_amount_arguments.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

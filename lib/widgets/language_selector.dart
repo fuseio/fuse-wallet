@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:supervenica/generated/i18n.dart';
+import 'package:supervecina/generated/i18n.dart';
 
 class LanguageSelector extends StatefulWidget {
   @override

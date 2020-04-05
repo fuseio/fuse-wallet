@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:supervenica/generated/i18n.dart';
-import 'package:supervenica/models/transactions/transfer.dart';
-import 'package:supervenica/models/views/send_amount.dart';
-import 'package:supervenica/utils/transaction_row.dart';
-import 'package:supervenica/widgets/main_scaffold.dart';
-import 'package:supervenica/models/app_state.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/models/views/send_amount.dart';
+import 'package:supervecina/utils/transaction_row.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class TransactionDetailArguments {

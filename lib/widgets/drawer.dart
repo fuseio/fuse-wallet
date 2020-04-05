@@ -3,16 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:supervenica/generated/i18n.dart';
-import 'package:supervenica/models/app_state.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervenica/models/views/drawer.dart';
-import 'package:supervenica/screens/backup/show_mnemonic.dart';
-import 'package:supervenica/screens/cash_home/deposit_webview.dart';
-import 'package:supervenica/screens/cash_home/switch_commmunity.dart';
-import 'package:supervenica/screens/misc/settings.dart';
-import 'package:supervenica/utils/forks.dart';
-import 'package:supervenica/utils/format.dart';
+import 'package:supervecina/models/views/drawer.dart';
+import 'package:supervecina/screens/backup/show_mnemonic.dart';
+import 'package:supervecina/screens/cash_home/deposit_webview.dart';
+import 'package:supervecina/screens/cash_home/switch_commmunity.dart';
+import 'package:supervecina/screens/misc/settings.dart';
+import 'package:supervecina/utils/forks.dart';
+import 'package:supervecina/utils/format.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervenica/generated/i18n.dart';
-import 'package:supervenica/models/app_state.dart';
-import 'package:supervenica/models/pro/token.dart';
-import 'package:supervenica/models/pro/views/pro_wallet.dart';
-import 'package:supervenica/utils/addresses.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/pro/token.dart';
+import 'package:supervecina/models/pro/views/pro_wallet.dart';
+import 'package:supervecina/utils/addresses.dart';
 
 final Token daiToken = Token(
     address: daiTokenAddress,

@@ -1,10 +1,10 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:supervenica/models/app_state.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:supervenica/models/community.dart';
-import 'package:supervenica/models/plugins.dart';
-import 'package:supervenica/redux/actions/user_actions.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/models/plugins.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 
 class DrawerViewModel extends Equatable {
   final Function() logout;

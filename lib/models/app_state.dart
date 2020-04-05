@@ -1,6 +1,6 @@
-import 'package:supervenica/models/user_state.dart';
-import 'package:supervenica/models/cash_wallet_state.dart';
-import 'package:supervenica/models/pro/pro_wallet_state.dart';
+import 'package:supervecina/models/user_state.dart';
+import 'package:supervecina/models/cash_wallet_state.dart';
+import 'package:supervecina/models/pro/pro_wallet_state.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'app_state.g.dart';

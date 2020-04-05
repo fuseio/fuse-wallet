@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervenica/models/app_state.dart';
-import 'package:supervenica/models/views/splash.dart';
-import 'package:supervenica/redux/actions/cash_wallet_actions.dart';
-import 'package:supervenica/redux/actions/user_actions.dart';
-import 'package:supervenica/screens/routes.gr.dart';
-import 'package:supervenica/widgets/on_boarding_pages.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/splash.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/widgets/on_boarding_pages.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

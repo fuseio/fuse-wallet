@@ -1,7 +1,7 @@
-import 'package:supervenica/models/app_state.dart';
-import 'package:supervenica/redux/reducers/pro_mode_reducer.dart';
-import 'package:supervenica/redux/reducers/user_reducer.dart';
-import 'package:supervenica/redux/reducers/cash_wallet_reducer.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/reducers/pro_mode_reducer.dart';
+import 'package:supervecina/redux/reducers/user_reducer.dart';
+import 'package:supervecina/redux/reducers/cash_wallet_reducer.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   return AppState(
