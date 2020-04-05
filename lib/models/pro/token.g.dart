@@ -12,10 +12,13 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     symbol: json['symbol'] as String,
     decimals: json['decimals'] as int,
-    amount: json['amount'] as num,
+    amount:
+        json['amount'] == null ? null : BigInt.parse(json['amount'] as String),
     imageUrl: json['imageUrl'] as String,
+    timestamp: json['timestamp'] as int,
     transactions: Token._transactionsFromJson(
         json['transactions'] as Map<String, dynamic>),
+    jobs: Token._jobsFromJson(json['jobs'] as Map<String, dynamic>),
   );
 }
 
@@ -25,6 +28,8 @@ Map<String, dynamic> _$TokenToJson(Token instance) => <String, dynamic>{
       'symbol': instance.symbol,
       'imageUrl': instance.imageUrl,
       'decimals': instance.decimals,
-      'amount': instance.amount,
+      'timestamp': instance.timestamp,
+      'amount': instance.amount?.toString(),
       'transactions': instance.transactions?.toJson(),
+      'jobs': Token._jobsToJson(instance.jobs),
     };

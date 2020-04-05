@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/pro/token.dart' as erc20Token;
 import 'package:fusecash/models/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel {
@@ -14,6 +16,8 @@ class SendAmountViewModel {
   final Function(String, num, String receiverName, String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
   final Function(String eventName, {Map<String, dynamic> properties}) trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
+  final Function(num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback) sendToCashMode;
+  final Function(erc20Token.Token token, String recieverAddress, num amount, VoidCallback, VoidCallback, {String receiverName, String transferNote, }) sendToErc20Token;
 
   SendAmountViewModel(
       {this.token,
@@ -23,13 +27,13 @@ class SendAmountViewModel {
       this.trackTransferCall,
       this.idenyifyCall,
       this.isProMode,
-      this.community});
+      this.community,
+      this.sendToCashMode,
+      this.sendToErc20Token,});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
-            new Community.initial();
+    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
     return SendAmountViewModel(
         isProMode: store.state.userState.isProMode ?? false,
         token: community.token,
@@ -54,15 +58,48 @@ class SendAmountViewModel {
           ));
         },
         sendToAccountAddress: (
-          String recieverAddress,
+            String recieverAddress,
             num amount,
             String receiverName,
             String transferNote,
             VoidCallback sendSuccessCallback,
             VoidCallback sendFailureCallback,
           ) {
-          store.dispatch(sendTokenCall(recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback, receiverName: receiverName, ));
+          store.dispatch(sendTokenCall(
+            recieverAddress,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+          ));
+        },
+        sendToCashMode: (
+            num tokensAmount, 
+            VoidCallback sendSuccessCallback,
+            VoidCallback sendFailureCallback,
+          ) {
+          store.dispatch(sendDaiToDaiPointsCall(
+            tokensAmount,
+            sendSuccessCallback,
+            sendFailureCallback
+          ));
+        },
+        sendToErc20Token: (
+            erc20Token.Token token,
+            String recieverAddress,
+            num amount,
+            VoidCallback sendSuccessCallback,
+            VoidCallback sendFailureCallback,
+          {String receiverName,
+            String transferNote,}) {
+          store.dispatch(sendErc20TokenCall(
+            token,
+            recieverAddress,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+          ));
         },
         trackTransferCall: (String eventName, {Map<String, dynamic> properties}) {
           store.dispatch(segmentTrackCall(eventName, properties: properties));

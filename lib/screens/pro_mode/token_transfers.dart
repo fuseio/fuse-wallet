@@ -1,18 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/screens/pro_mode/pro_token_header.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
-import 'package:redux/redux.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/models/pro/views/pro_wallet.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/utils/addresses.dart';
 
 class TokenTransfersScreen extends StatelessWidget {
   TokenTransfersScreen({Key key, this.token}) : super(key: key);
@@ -22,7 +20,8 @@ class TokenTransfersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         key: key,
-        appBar: MyAppBar(child: ProTokenHeader(token: token), backgroundColor: Colors.red),
+        appBar: MyAppBar(
+            child: ProTokenHeader(token: token), backgroundColor: Colors.red),
         drawerEdgeDragWidth: 0,
         body: Column(children: <Widget>[
           Expanded(child: ListView(children: [TransfersList(token: token)])),
@@ -50,7 +49,7 @@ class TransfersList extends StatelessWidget {
               primary: false,
               padding: EdgeInsets.only(left: 15, right: 15),
               children: [
-                ...token.transactions.list
+                ...token.transactions.list.reversed
                     .map((Transaction transaction) =>
                         _TransferRow(transaction: transaction, token: token))
                     .toList()
@@ -86,15 +85,17 @@ class _TransferRow extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: <Widget>[
-                            Hero(
-                              child: CircleAvatar(
-                                backgroundColor: Color(0xFFE0E0E0),
-                                radius: 27,
-                                backgroundImage: NetworkImage(
-                                  token.imageUrl,
-                                ),
+                            CachedNetworkImage(
+                              width: 54,
+                              height: 54,
+                              imageUrl: getTokenUrl(
+                                  checksumEthereumAddress(token.address)),
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.error,
+                                size: 54,
                               ),
-                              tag: transfer.txHash,
                             )
                           ],
                         ),

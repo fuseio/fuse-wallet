@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/coming_soon.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -16,10 +17,11 @@ class ProHeader extends StatelessWidget {
     return new StoreConnector<AppState, _ProHeaderViewModel>(
         converter: _ProHeaderViewModel.fromStore,
         onWillChange: (prevVm, nextVm) {
-          if (nextVm.daiToken.address != null && nextVm.daiToken.address != '') {
+          if (nextVm.daiToken.address != null &&
+              nextVm.daiToken.address != '') {
             String name = nextVm.daiToken.name;
             nextVm.idenyifyCall(Map<String, dynamic>.from({
-              "$name balance": nextVm.daiToken.amount,
+              "ERC20 Token: $name balance": formatValue(nextVm.daiToken.amount, nextVm.daiToken.decimals),
             }));
           }
         },
@@ -73,7 +75,7 @@ class ProHeader extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 0.0),
                     child: new RichText(
                       text: new TextSpan(
-                        style: Theme.of(context).textTheme.title,
+                        style: TextStyle(color: Theme.of(context).primaryColor),
                         children: <TextSpan>[
                           new TextSpan(
                               text: I18n.of(context).hi,
@@ -119,9 +121,7 @@ class ProHeader extends StatelessWidget {
                                     text: new TextSpan(
                                       children: <TextSpan>[
                                         new TextSpan(
-                                            text: '\$' +
-                                                viewModel.daiToken?.amount
-                                                    .toString(),
+                                            text: '\$' + formatValue(viewModel.daiToken?.amount, viewModel.daiToken?.decimals),
                                             style: new TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
@@ -176,9 +176,7 @@ class _ProHeaderViewModel extends Equatable {
   _ProHeaderViewModel({this.firstName, this.daiToken, this.idenyifyCall});
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
-    Token token = store.state.proWalletState.tokens.firstWhere(
-        (token) => token.address.contains(daiTokenAddress),
-        orElse: () => new Token.initial());
+    Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()] ?? new Token.initial();
     return _ProHeaderViewModel(
         daiToken: token,
         firstName: () {

@@ -19,8 +19,14 @@ class ProRouter {
     final args = settings.arguments;
     switch (settings.name) {
       case ProRouter.proModeHomeScreen:
+        if (hasInvalidArgs<ProModeScaffoldArguments>(args)) {
+          return misTypedArgsRoute<ProModeScaffoldArguments>(args);
+        }
+        final typedArgs =
+            args as ProModeScaffoldArguments ?? ProModeScaffoldArguments();
         return MaterialPageRoute<dynamic>(
-          builder: (_) => ProModeScaffold(),
+          builder: (_) =>
+              ProModeScaffold(key: typedArgs.key, tabIndex: typedArgs.tabIndex),
           settings: settings,
         );
       case ProRouter.tokenTransfersScreen:
@@ -43,6 +49,13 @@ class ProRouter {
 //**************************************************************************
 // Arguments holder classes
 //***************************************************************************
+
+//ProModeScaffold arguments holder class
+class ProModeScaffoldArguments {
+  final Key key;
+  final int tabIndex;
+  ProModeScaffoldArguments({this.key, this.tabIndex = 0});
+}
 
 //TokenTransfersScreen arguments holder class
 class TokenTransfersScreenArguments {

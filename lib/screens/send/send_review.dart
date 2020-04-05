@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/screens/send/send_success.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -34,6 +35,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   @override
   void initState() {
     super.initState();
+    Segment.screen(screenName: '/send-review-screen');
 
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 2000));
@@ -51,20 +53,28 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       String transferNote,
       VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) {
-    if (args.accountAddress == null ||
-        args.accountAddress == '' && args.phoneNumber != null) {
-      viewModel.sendToContact(
-        args.name,
-        formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
-        args.amount,
-        args.name,
-        transferNote,
-        sendSuccessCallback,
-        sendFailureCallback,
-      );
-    } else {
-      viewModel.sendToAccountAddress(args.accountAddress, args.amount,
-          args.name, transferNote, sendSuccessCallback, sendFailureCallback);
+    if (viewModel.isProMode) {
+      if (args.sendToCashMode) {
+        viewModel.sendToCashMode(args.amount, sendSuccessCallback, sendFailureCallback);
+      } else {
+        viewModel.sendToErc20Token(args.erc20Token, args.accountAddress, args.amount, sendSuccessCallback, sendFailureCallback);
+      } 
+    }else {
+      if (args.accountAddress == null ||
+          args.accountAddress == '' && args.phoneNumber != null) {
+        viewModel.sendToContact(
+          args.name,
+          formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
+          args.amount,
+          args.name,
+          transferNote,
+          sendSuccessCallback,
+          sendFailureCallback,
+        );
+      } else {
+        viewModel.sendToAccountAddress(args.accountAddress, args.amount,
+            args.name, transferNote, sendSuccessCallback, sendFailureCallback);
+      }
     }
   }
 
@@ -207,7 +217,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     ],
                   ),
                 ),
-                args.accountAddress == null || args.accountAddress.isEmpty
+                args.accountAddress == null || args.accountAddress.isEmpty && !viewModel.isProMode
                     ? Padding(
                         padding:
                             EdgeInsets.only(top: 20.0, left: 30, right: 30),
@@ -226,9 +236,14 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     label: I18n.of(context).send_button,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
+                      args.isProMode = viewModel.isProMode;
                       send(viewModel, args, transferNoteController.text, () {
-                        Router.navigator.pushNamed(Router.sendSuccessScreen,
-                            arguments: args);
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => SendSuccessScreen(
+                                      pageArgs: args,
+                                    )));
                         setState(() {
                           isPreloading = false;
                         });
@@ -242,7 +257,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         viewModel.trackTransferCall("Wallet: User Transfer",
                             properties: Map.from({
                               'transfer type': transferType,
-                              'network': viewModel.isProMode ? 'Ethereum' : 'Fuse'
+                              'network':
+                                  viewModel.isProMode ? 'Ethereum' : 'Fuse'
                             }));
                       }, () {
                         // print('error');

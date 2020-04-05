@@ -11,8 +11,8 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:interactive_webview/interactive_webview.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
@@ -189,7 +189,6 @@ ThunkAction backupWalletCall(VoidCallback successCb) {
         response['job']['jobType'] = 'backup';
         Job job = JobFactory.create(response['job']);
         store.dispatch(AddJob(job));
-        // Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
         successCb();
       }
     } catch (e) {
@@ -273,7 +272,6 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
       logger.info('privateKey: $privateKey');
       Credentials c = EthPrivateKey.fromHex(privateKey);
       dynamic accountAddress = await c.extractAddress();
-      // api.setJwtToken('');
       store.dispatch(new CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
@@ -338,7 +336,6 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       }
     } catch (e, s) {
       logger.severe('ERROR - syncContactsCall', e, s);
-      // await AppFactory().reportError(e, s);
     }
   };
 }
@@ -400,35 +397,15 @@ ThunkAction setDisplayNameCall(String displayName) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
+    String displayName = store.state.userState.displayName;
     try {
-      final _webView = new InteractiveWebView();
-      String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
-      final html = '''<html>
-          <head></head>
-          <script>
-            window.pk = '0x${store.state.userState.privateKey}';
-            window.user = { name: '${store.state.userState.displayName}', account: '$accountAddress', phoneNumber: '$phoneNumber'};
-          </script>
-          <script src='https://3box.fuse.io/main.js'></script>
-          <body></body>
-        </html>''';
-      _webView.loadHTML(html, baseUrl: "https://beta.3box.io");
-      store.dispatch(segmentTrackCall("Wallet: Profile created in 3box"));
-    } catch (e, s) {
-      await AppFactory().reportError(e, s);
-    }
-    try {
-      Map publicData = {
-        'account': accountAddress,
-        'name': store.state.userState.displayName
-      };
-      await api.createProfile(accountAddress, publicData);
       Map user = {
         "accountAddress": accountAddress,
         "email": 'wallet-user@fuse.io',
         "provider": 'HDWallet',
         "subscribe": false,
-        "source": 'wallet-v2'
+        "source": 'wallet-v2',
+        "displayName": displayName
       };
       await api.saveUserToDb(user);
       logger.info('save user $accountAddress');
@@ -444,11 +421,14 @@ ThunkAction activateProModeCall() {
     store.dispatch(ActivateProMode());
     store.dispatch(initWeb3ProMode());
     try {
-      String foreign = DotEnv().env['MODE'] == 'production' ? 'mainnet' : 'ropsten';
-      bool deployForeignToken = store.state.userState.networks.contains(foreign);
+      bool deployForeignToken = store.state.userState.networks.contains(foreignNetwork);
       if (!deployForeignToken) {
-        await api.createWalletOnForeign();
+        dynamic response =  await api.createWalletOnForeign();
+        // String jobId = response['job']['_id'];
+        // store.dispatch(startFetchingJobCall(jobId, (job) {
+        // }));
         store.dispatch(segmentTrackCall('Activate pro mode clicked'));
+        store.dispatch(startListenToTransferEvents());
         store.dispatch(segmentIdentifyCall(
         new Map<String, dynamic>.from({
           "Pro mode active": true,

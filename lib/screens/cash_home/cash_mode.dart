@@ -8,6 +8,7 @@ import 'package:fusecash/screens/buy/buy.dart';
 import 'package:fusecash/screens/cash_home/cash_header.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
 import 'package:fusecash/screens/cash_home/dai_explained.dart';
+import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/send/contacts_list.dart';
 import 'package:fusecash/screens/send/receive.dart';
 import 'package:fusecash/screens/send/send_contact.dart';
@@ -27,14 +28,27 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
   int _currentIndex = 0;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _currentIndex = widget.tabIndex;
   }
 
-  List<Widget> _pages(List<Contact> contacts, bool isDefualtCommunity) {
+  List<Widget> _pages(
+      List<Contact> contacts, bool isDefualtCommunity, String webUrl) {
     bool hasContactsInStore = contacts.isNotEmpty;
-    if (isDefualtCommunity) {
+    if (webUrl != null && webUrl.isNotEmpty) {
+      return [
+        CashHomeScreen(),
+        !hasContactsInStore
+            ? SendToContactScreen()
+            : ContactsList(contacts: contacts),
+        WebViewPage(
+          pageArgs: WebViewPageArguments(
+              url: webUrl, withBack: false, title: 'Community webpage'),
+        ),
+        ReceiveScreen()
+      ];
+    } else if (isDefualtCommunity) {
       return [
         CashHomeScreen(),
         !hasContactsInStore
@@ -66,7 +80,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
-          final List<Widget> pages = _pages(vm.contacts, vm.isDefaultCommunity);
+          final List<Widget> pages = _pages(vm.contacts, vm.isDefaultCommunity, vm.community?.webUrl);
           return TabsScaffold(
               header: MyAppBar(
                 backgroundColor: Colors.white,

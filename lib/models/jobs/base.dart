@@ -14,6 +14,7 @@ abstract class Job {
 
   static const String COMMUNITY_MANAGER = "CommunityManager";
   static const String TRANSFER_MANAGER = "TransferManager";
+  static const String DAI_POINTS_MANAGER = "DAIPointsManager";
 
   String status;
   dynamic arguments;
@@ -81,6 +82,8 @@ class JobFactory {
       if (job['data']['walletModule'] == Job.COMMUNITY_MANAGER) {
         return 'joinCommunity';
       } else if (job['data']['walletModule'] == Job.TRANSFER_MANAGER) {
+        return 'transfer';
+      } else if (job['data']['walletModule'] == Job.DAI_POINTS_MANAGER) {
         return 'transfer';
       }
     }

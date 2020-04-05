@@ -34,6 +34,7 @@ UserState _getWalletAddressesSuccess(UserState state, GetWalletAddressesSuccess 
     walletAddress: action.walletAddress,
     transferManagerAddress: action.transferManagerAddress,
     communityManagerAddress: action.communityManagerAddress,
+    daiPointsManagerAddress: action.daiPointsManagerAddress,
     walletStatus: 'created');
 }
 

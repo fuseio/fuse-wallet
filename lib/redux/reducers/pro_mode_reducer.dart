@@ -7,10 +7,10 @@ import 'package:redux/redux.dart';
 final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, StartListenToTransferEventsSuccess>(_startListenToTransferEventsSuccess),
   TypedReducer<ProWalletState, UpdateToken>(_updateToken),
-  TypedReducer<ProWalletState, AddToken>(_addToken),
   TypedReducer<ProWalletState, UpadteBlockNumber>(_updateBlockNumber),
   TypedReducer<ProWalletState, InitWeb3ProModeSuccess>(_initWeb3ProModeSuccess),
   TypedReducer<ProWalletState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
+  TypedReducer<ProWalletState, GetTokenListSuccess>(_getTokenListSuccess),
 ]);
 
 ProWalletState _createNewWalletSuccess(ProWalletState state, CreateLocalAccountSuccess action) {
@@ -29,21 +29,21 @@ ProWalletState _startListenToTransferEventsSuccess(ProWalletState state, StartLi
   return state.copyWith(isListenToTransferEvents: true);
 }
 
-ProWalletState _addToken(ProWalletState state, AddToken action) {
-  List<Token> tokens = state.tokens;
-  bool isTokenExist = tokens.any((token) => token.address == action.token.address);
-  if (isTokenExist) {
-    List<Token> tokens = state.tokens;
-    int index = tokens.indexWhere((token) => token.address == action.token.address);
-    tokens[index] = action.token;
-    return state.copyWith(tokens: tokens);
+ProWalletState _getTokenListSuccess(ProWalletState state, GetTokenListSuccess action) {
+  List<Token> currentErc20TokensList = List<Token>.from(action.erc20Tokens.values);
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+  for (Token token in currentErc20TokensList) {
+    if (newOne.containsKey(token.address)) {
+      newOne[token.address] = newOne[token.address].copyWith(amount: token.amount, timestamp: token.timestamp);
+    } else if (!newOne.containsKey(token.address)) {
+      newOne[token.address] = token;
+    }
   }
-  return state.copyWith(tokens: tokens..add(action.token));
+  return state.copyWith(erc20Tokens: newOne);
 }
 
 ProWalletState _updateToken(ProWalletState state, UpdateToken action) {
-  List<Token> tokens = state.tokens;
-  int index = tokens.indexOf(action.token);
-  tokens[index] = action.tokenToUpdate;
-  return state.copyWith(tokens: tokens);
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+  newOne[action.tokenToUpdate.address] = action.tokenToUpdate;
+  return state.copyWith(erc20Tokens: newOne);
 }

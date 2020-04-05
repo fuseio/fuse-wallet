@@ -1,3 +1,4 @@
+import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -10,12 +11,21 @@ class Token {
   final String symbol;
   final String imageUrl;
   final int decimals;
-  final num amount;
+  final int timestamp;
+  final BigInt amount;
   @JsonKey(fromJson: _transactionsFromJson)
   final Transactions transactions;
+  @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
+  final List<Job> jobs;
 
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);
+
+  static List<Job> _jobsFromJson(Map<String, dynamic> json) =>
+      json == null ? List<Job>() : List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
+
+  static Map<String, dynamic> _jobsToJson(List<dynamic> jobs) =>
+      new Map.from({"jobs": jobs.map((job) => job.toJson()).toList()});
 
   Token(
       {this.address,
@@ -24,25 +34,31 @@ class Token {
       this.decimals,
       this.amount,
       this.imageUrl,
-      this.transactions});
+      this.timestamp,
+      this.transactions,
+      this.jobs});
 
-  Token copyWith({
-    String address,
-    String name,
-    String symbol,
-    String imageUrl,
-    int decimals,
-    num amount,
-    Transactions transactions
-  }) {
+  Token copyWith(
+      {String address,
+      String name,
+      String symbol,
+      String imageUrl,
+      int decimals,
+      BigInt amount,
+      int timestamp,
+      Transactions transactions,
+      List<Job> jobs}) {
     return Token(
-        address: address ?? this.address,
-        name: name ?? this.name,
-        symbol: symbol ?? this.symbol,
-        imageUrl: imageUrl ?? this.imageUrl,
-        decimals: decimals ?? this.decimals,
-        amount: amount ?? this.amount,
-        transactions: transactions ?? this.transactions,);
+      address: address ?? this.address,
+      name: name ?? this.name,
+      symbol: symbol ?? this.symbol,
+      imageUrl: imageUrl ?? this.imageUrl,
+      decimals: decimals ?? this.decimals,
+      amount: amount ?? this.amount,
+      timestamp: timestamp ?? this.timestamp,
+      transactions: transactions ?? this.transactions,
+      jobs: jobs ?? this.jobs
+    );
   }
 
   factory Token.initial() {
@@ -50,10 +66,12 @@ class Token {
         address: '',
         imageUrl: null,
         name: '',
-        amount: 0,
+        amount: BigInt.from(0),
         decimals: 0,
         symbol: '',
-        transactions: Transactions.initial());
+        timestamp: 0,
+        transactions: Transactions.initial(),
+        jobs: new List<Job>());
   }
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);

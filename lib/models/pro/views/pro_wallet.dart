@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
@@ -19,13 +18,12 @@ class ProWalletViewModel extends Equatable {
   });
 
   static ProWalletViewModel fromStore(Store<AppState> store) {
-    List<Token> tokens = store.state.proWalletState?.tokens ?? [];
-    String communityAddres = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
-    Community community = store.state.cashWalletState.communities[communityAddres];
+    List<Token> tokens = List<Token>.from(store.state.proWalletState.erc20Tokens.values);
+    Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
     bool hasTrasnferdToForeign = community.transactions.list.any((item) {
         Transfer transfer = item as Transfer;
         return (transfer?.to?.toLowerCase() == community?.homeBridgeAddress?.toLowerCase()) ?? false;
-      }) && !tokens.any((token) => token?.address == daiTokenAddress);
+      }) && !tokens.any((token) => token?.address == daiTokenAddress.toLowerCase());
     return ProWalletViewModel(
       hasTrasnferdToForeign: hasTrasnferdToForeign,
       walletAddress: store.state.userState.walletAddress,
