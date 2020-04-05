@@ -105,8 +105,9 @@ class SwitchCommunitySuccess {
   final Plugins plugins;
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
+  final String webUrl;
   SwitchCommunitySuccess({this.communityAddress, this.communityName, this.token,
-      this.transactions, this.plugins, this.isClosed, this.homeBridgeAddress, this.foreignBridgeAddress});
+      this.transactions, this.plugins, this.isClosed, this.homeBridgeAddress, this.foreignBridgeAddress, this.webUrl});
 }
 
 class FetchCommunityMetadataSuccess {
@@ -969,6 +970,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       store.dispatch(getBusinessListCall());
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
+      String webUrl = communityData['webUrl'];
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress: communityAddress,
           communityName: community["name"],
@@ -982,7 +984,8 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           plugins: communityPlugins,
           isClosed: communityData['isClosed'],
           homeBridgeAddress: homeBridgeAddress,
-          foreignBridgeAddress: foreignBridgeAddress
+          foreignBridgeAddress: foreignBridgeAddress,
+          webUrl: webUrl
           ));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
           properties: new Map<String, dynamic>.from({
@@ -1014,6 +1017,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       store.dispatch(getBusinessListCall());
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
+      String webUrl = communityData['webUrl'];
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress: communityAddress,
           communityName: current.name,
@@ -1022,7 +1026,8 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           plugins: communityPlugins,
           isClosed: current.isClosed,
           homeBridgeAddress: homeBridgeAddress,
-          foreignBridgeAddress: foreignBridgeAddress
+          foreignBridgeAddress: foreignBridgeAddress,
+          webUrl: webUrl,
           ));
     } catch (e, s) {
       logger.info('ERROR - switchToExisitingCommunityCall $e');

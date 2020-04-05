@@ -123,29 +123,46 @@ class CashHeader extends StatelessWidget {
                                 children: <Widget>[
                                   RichText(
                                     text: new TextSpan(
-                                      children: <TextSpan>[
-                                        new TextSpan(
-                                            text: formatValue(
-                                                viewModel
-                                                    .community.tokenBalance,
-                                                viewModel
-                                                    .community.token.decimals),
-                                            style: new TextStyle(
-                                                fontSize: 32,
-                                                color: Theme.of(context)
-                                                    .splashColor,
-                                                fontWeight: FontWeight.bold)),
-                                        new TextSpan(
-                                            text: ' ' +
-                                                viewModel
-                                                    .community.token?.symbol
-                                                    .toString(),
-                                            style: new TextStyle(
-                                                fontSize: 18,
-                                                color: Theme.of(context).splashColor,
-                                                fontWeight: FontWeight.normal,
-                                                height: 0.0)),
-                                      ],
+                                      children: (viewModel
+                                                      .community.tokenBalance ==
+                                                  null ||
+                                              viewModel.community.token == null)
+                                          ? <TextSpan>[
+                                              new TextSpan(
+                                                  text: '0',
+                                                  style: new TextStyle(
+                                                      fontSize: 32,
+                                                      color: Theme.of(context)
+                                                          .splashColor,
+                                                      fontWeight:
+                                                          FontWeight.bold))
+                                            ]
+                                          : <TextSpan>[
+                                              new TextSpan(
+                                                  text: formatValue(
+                                                      viewModel.community
+                                                          .tokenBalance,
+                                                      viewModel.community.token
+                                                          .decimals),
+                                                  style: new TextStyle(
+                                                      fontSize: 32,
+                                                      color: Theme.of(context)
+                                                          .splashColor,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              new TextSpan(
+                                                  text: ' ' +
+                                                      viewModel.community.token
+                                                          ?.symbol
+                                                          .toString(),
+                                                  style: new TextStyle(
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .splashColor,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      height: 0.0)),
+                                            ],
                                     ),
                                   ),
                                 ])

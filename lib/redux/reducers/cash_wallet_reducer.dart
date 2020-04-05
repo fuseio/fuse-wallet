@@ -166,7 +166,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       name: action.communityName,
       isClosed: action.isClosed,
       homeBridgeAddress: action.homeBridgeAddress,
-      foreignBridgeAddress: action.foreignBridgeAddress
+      foreignBridgeAddress: action.foreignBridgeAddress,
+      webUrl: action.webUrl
     );
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);

@@ -234,6 +234,8 @@ class I18n implements WidgetsLocalizations {
   String get sending_to_ethereum => "Sent to your Ethereum wallet";
   /// "Sending to your Ethereum wallet"
   String get sent_to_ethereum => "Sending to your Ethereum wallet";
+  /// "Community webpage"
+  String get communityWepbpage => "Community webpage";
 }
 
 class _I18n_en_US extends I18n {
@@ -734,6 +736,9 @@ class _I18n_es_ES extends I18n {
   /// "Activos y contratos"
   @override
   String get assets_and_contracts => "Activos y contratos";
+  /// "Página web de la comunidad"
+  @override
+  String get communityWepbpage => "Página web de la comunidad";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
