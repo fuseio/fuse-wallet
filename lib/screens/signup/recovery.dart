@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/models/views/recovery.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/widgets/main_scaffold.dart';
-import 'package:supervecina/widgets/primary_button.dart';
+import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:farmly_ledger/models/app_state.dart';
+import 'package:farmly_ledger/models/views/recovery.dart';
+import 'package:farmly_ledger/screens/routes.gr.dart';
+import 'package:farmly_ledger/widgets/main_scaffold.dart';
+import 'package:farmly_ledger/widgets/primary_button.dart';
 
 class RecoveryPage extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
-import 'package:supervecina/models/jobs/base.dart';
-import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
-import 'package:supervecina/redux/state/store.dart';
-import 'package:supervecina/services.dart';
+import 'package:farmly_ledger/models/jobs/base.dart';
+import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmly_ledger/redux/state/store.dart';
+import 'package:farmly_ledger/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generate_wallet_job.g.dart';

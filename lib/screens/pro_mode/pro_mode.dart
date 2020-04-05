@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/screens/pro_mode/pro_drawer.dart';
-import 'package:supervecina/screens/pro_mode/pro_header.dart';
-import 'package:supervecina/screens/pro_mode/pro_home.dart';
-import 'package:supervecina/screens/send/receive.dart';
-import 'package:supervecina/widgets/bottom_bar_item.dart';
-import 'package:supervecina/widgets/coming_soon.dart';
-import 'package:supervecina/widgets/my_app_bar.dart';
-import 'package:supervecina/widgets/tabs_scaffold.dart';
+import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:farmly_ledger/screens/pro_mode/pro_drawer.dart';
+import 'package:farmly_ledger/screens/pro_mode/pro_header.dart';
+import 'package:farmly_ledger/screens/pro_mode/pro_home.dart';
+import 'package:farmly_ledger/screens/send/receive.dart';
+import 'package:farmly_ledger/widgets/bottom_bar_item.dart';
+import 'package:farmly_ledger/widgets/coming_soon.dart';
+import 'package:farmly_ledger/widgets/my_app_bar.dart';
+import 'package:farmly_ledger/widgets/tabs_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 class ProModeScaffold extends StatefulWidget {

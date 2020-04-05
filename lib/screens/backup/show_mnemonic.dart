@@ -1,15 +1,15 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/views/backup.dart';
-import 'package:supervecina/screens/backup/verify_mnemonic.dart';
-import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:farmly_ledger/models/views/backup.dart';
+import 'package:farmly_ledger/screens/backup/verify_mnemonic.dart';
+import 'package:farmly_ledger/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/widgets/copy.dart';
-import 'package:supervecina/widgets/preloader.dart';
-import 'package:supervecina/widgets/primary_button.dart';
+import 'package:farmly_ledger/models/app_state.dart';
+import 'package:farmly_ledger/widgets/copy.dart';
+import 'package:farmly_ledger/widgets/preloader.dart';
+import 'package:farmly_ledger/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   @override

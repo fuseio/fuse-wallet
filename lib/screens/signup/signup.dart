@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/app_state.dart';
+import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:farmly_ledger/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
-import 'package:supervecina/widgets/main_scaffold.dart';
-import 'package:supervecina/widgets/primary_button.dart';
-import 'package:supervecina/widgets/signup_dialog.dart';
-import 'package:supervecina/models/views/onboard.dart';
+import 'package:farmly_ledger/widgets/main_scaffold.dart';
+import 'package:farmly_ledger/widgets/primary_button.dart';
+import 'package:farmly_ledger/widgets/signup_dialog.dart';
+import 'package:farmly_ledger/models/views/onboard.dart';
 
 class SignupScreen extends StatefulWidget {
   @override

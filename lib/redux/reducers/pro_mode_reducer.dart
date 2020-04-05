@@ -1,7 +1,7 @@
-import 'package:supervecina/models/pro/pro_wallet_state.dart';
-import 'package:supervecina/models/pro/token.dart';
-import 'package:supervecina/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:farmly_ledger/models/pro/pro_wallet_state.dart';
+import 'package:farmly_ledger/models/pro/token.dart';
+import 'package:farmly_ledger/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:farmly_ledger/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 final proWalletReducers = combineReducers<ProWalletState>([

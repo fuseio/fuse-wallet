@@ -1,19 +1,19 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:supervecina/screens/buy/business.dart';
-import 'package:supervecina/screens/buy/map.dart';
-import 'package:supervecina/screens/cash_home/cash_mode.dart';
-import 'package:supervecina/screens/cash_home/prize.dart';
-import 'package:supervecina/screens/cash_home/transaction_details.dart';
-import 'package:supervecina/screens/cash_home/webview_page.dart';
-import 'package:supervecina/screens/send/send_amount.dart';
-import 'package:supervecina/screens/send/send_review.dart';
-import 'package:supervecina/screens/send/send_success.dart';
-import 'package:supervecina/screens/signup/recovery.dart';
-import 'package:supervecina/screens/signup/username.dart';
-import 'package:supervecina/screens/signup/signup.dart';
-import 'package:supervecina/screens/signup/verify.dart';
-import 'package:supervecina/screens/splash/splash.dart';
-import 'package:supervecina/screens/misc/pincode.dart';
+import 'package:farmly_ledger/screens/buy/business.dart';
+import 'package:farmly_ledger/screens/buy/map.dart';
+import 'package:farmly_ledger/screens/cash_home/cash_mode.dart';
+import 'package:farmly_ledger/screens/cash_home/prize.dart';
+import 'package:farmly_ledger/screens/cash_home/transaction_details.dart';
+import 'package:farmly_ledger/screens/cash_home/webview_page.dart';
+import 'package:farmly_ledger/screens/send/send_amount.dart';
+import 'package:farmly_ledger/screens/send/send_review.dart';
+import 'package:farmly_ledger/screens/send/send_success.dart';
+import 'package:farmly_ledger/screens/signup/recovery.dart';
+import 'package:farmly_ledger/screens/signup/username.dart';
+import 'package:farmly_ledger/screens/signup/signup.dart';
+import 'package:farmly_ledger/screens/signup/verify.dart';
+import 'package:farmly_ledger/screens/splash/splash.dart';
+import 'package:farmly_ledger/screens/misc/pincode.dart';
 
 @MaterialAutoRouter()
 class $Router {

@@ -3,29 +3,29 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/models/business.dart';
-import 'package:supervecina/models/community.dart';
-import 'package:supervecina/models/community_metadata.dart';
-import 'package:supervecina/models/jobs/base.dart';
-import 'package:supervecina/models/plugins.dart';
-import 'package:supervecina/models/transactions/transaction.dart';
-import 'package:supervecina/models/transactions/transactions.dart';
-import 'package:supervecina/models/transactions/transfer.dart';
-import 'package:supervecina/models/user_state.dart';
-import 'package:supervecina/redux/actions/error_actions.dart';
+import 'package:farmly_ledger/models/business.dart';
+import 'package:farmly_ledger/models/community.dart';
+import 'package:farmly_ledger/models/community_metadata.dart';
+import 'package:farmly_ledger/models/jobs/base.dart';
+import 'package:farmly_ledger/models/plugins.dart';
+import 'package:farmly_ledger/models/transactions/transaction.dart';
+import 'package:farmly_ledger/models/transactions/transactions.dart';
+import 'package:farmly_ledger/models/transactions/transfer.dart';
+import 'package:farmly_ledger/models/user_state.dart';
+import 'package:farmly_ledger/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:supervecina/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:supervecina/redux/actions/user_actions.dart';
-import 'package:supervecina/utils/forks.dart';
-import 'package:supervecina/redux/state/store.dart';
-import 'package:supervecina/utils/format.dart';
-import 'package:supervecina/utils/phone.dart';
+import 'package:farmly_ledger/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:farmly_ledger/redux/actions/user_actions.dart';
+import 'package:farmly_ledger/utils/forks.dart';
+import 'package:farmly_ledger/redux/state/store.dart';
+import 'package:farmly_ledger/utils/format.dart';
+import 'package:farmly_ledger/utils/phone.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:supervecina/services.dart';
-import 'package:supervecina/models/token.dart';
+import 'package:farmly_ledger/services.dart';
+import 'package:farmly_ledger/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -494,7 +494,7 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
                 "Wallet Generated": true,
-                "App name": 'Supervecina',
+                "App name": 'Farmly ledger',
                 "Phone Number": fullPhoneNumber,
                 "Wallet Address": store.state.cashWalletState.walletAddress,
                 "Account Address": store.state.userState.accountAddress,

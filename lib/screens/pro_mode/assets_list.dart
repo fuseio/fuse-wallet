@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/models/pro/token.dart';
-import 'package:supervecina/models/pro/views/pro_wallet.dart';
-import 'package:supervecina/utils/addresses.dart';
+import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:farmly_ledger/models/app_state.dart';
+import 'package:farmly_ledger/models/pro/token.dart';
+import 'package:farmly_ledger/models/pro/views/pro_wallet.dart';
+import 'package:farmly_ledger/utils/addresses.dart';
 
 final Token daiToken = Token(
     address: daiTokenAddress,

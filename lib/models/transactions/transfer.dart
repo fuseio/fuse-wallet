@@ -1,6 +1,6 @@
 
-import 'package:supervecina/models/transactions/transaction.dart';
-import 'package:supervecina/utils/addresses.dart';
+import 'package:farmly_ledger/models/transactions/transaction.dart';
+import 'package:farmly_ledger/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer.g.dart';

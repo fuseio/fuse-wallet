@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/views/send_amount.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/screens/send/send_amount_arguments.dart';
-import 'package:supervecina/utils/format.dart';
-import 'package:supervecina/widgets/main_scaffold.dart';
-import 'package:supervecina/widgets/primary_button.dart';
-import 'package:supervecina/models/app_state.dart';
+import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:farmly_ledger/models/views/send_amount.dart';
+import 'package:farmly_ledger/screens/routes.gr.dart';
+import 'package:farmly_ledger/screens/send/send_amount_arguments.dart';
+import 'package:farmly_ledger/utils/format.dart';
+import 'package:farmly_ledger/widgets/main_scaffold.dart';
+import 'package:farmly_ledger/widgets/primary_button.dart';
+import 'package:farmly_ledger/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervecina/utils/phone.dart';
+import 'package:farmly_ledger/utils/phone.dart';
 
 class SendReviewScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

@@ -1,11 +1,11 @@
-import 'package:supervecina/models/community.dart';
-import 'package:supervecina/models/jobs/base.dart';
-import 'package:supervecina/models/transactions/transaction.dart';
-import 'package:supervecina/models/transactions/transactions.dart';
-import 'package:supervecina/models/transactions/transfer.dart';
-import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
-import 'package:supervecina/redux/actions/user_actions.dart';
-import 'package:supervecina/models/cash_wallet_state.dart';
+import 'package:farmly_ledger/models/community.dart';
+import 'package:farmly_ledger/models/jobs/base.dart';
+import 'package:farmly_ledger/models/transactions/transaction.dart';
+import 'package:farmly_ledger/models/transactions/transactions.dart';
+import 'package:farmly_ledger/models/transactions/transfer.dart';
+import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmly_ledger/redux/actions/user_actions.dart';
+import 'package:farmly_ledger/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([

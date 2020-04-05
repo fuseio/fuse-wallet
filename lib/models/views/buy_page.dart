@@ -1,10 +1,10 @@
-import 'package:supervecina/models/business.dart';
-import 'package:supervecina/models/community.dart';
-import 'package:supervecina/models/plugins.dart';
-import 'package:supervecina/models/token.dart';
-import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:farmly_ledger/models/business.dart';
+import 'package:farmly_ledger/models/community.dart';
+import 'package:farmly_ledger/models/plugins.dart';
+import 'package:farmly_ledger/models/token.dart';
+import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:supervecina/models/app_state.dart';
+import 'package:farmly_ledger/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 
 class BuyViewModel extends Equatable {

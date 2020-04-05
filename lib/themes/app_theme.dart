@@ -68,9 +68,9 @@ ThemeData getTheme() {
     textSelectionColor: Colors.black12,
     cursorColor: const Color(0xFF05283e),
     toggleableActiveColor: const Color(0xFF05283e),
-    primaryColorLight: const Color(0xFFEE3C54),
-    primaryColorDark: const Color(0xFFA72C3C),
-    buttonColor: const Color(0xFFEE3C54),
+    primaryColorLight: const Color(0xFFB4E170),
+    primaryColorDark: const Color(0xFF4AB848),
+    buttonColor: const Color(0xFF61BDD6),
     splashColor: Colors.white,
     textTheme: TextTheme(button: new TextStyle(color: const Color(0xFF333333))),
     inputDecorationTheme: InputDecorationTheme(

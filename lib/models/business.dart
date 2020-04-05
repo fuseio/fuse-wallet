@@ -1,4 +1,4 @@
-import 'package:supervecina/models/business_metadata.dart';
+import 'package:farmly_ledger/models/business_metadata.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business.g.dart';

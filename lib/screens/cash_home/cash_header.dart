@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/views/cash_header.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/screens/send/send_amount_arguments.dart';
-import 'package:supervecina/utils/format.dart';
+import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:farmly_ledger/models/views/cash_header.dart';
+import 'package:farmly_ledger/models/app_state.dart';
+import 'package:farmly_ledger/screens/routes.gr.dart';
+import 'package:farmly_ledger/screens/send/send_amount_arguments.dart';
+import 'package:farmly_ledger/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
@@ -51,9 +51,14 @@ class CashHeader extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Theme.of(context).primaryColorLight,
-                    Theme.of(context).primaryColorDark,
+                    Color(0xFF4AB848),
+                    Color(0xFFB4E170),
+                    Color(0xFF61BDD6),
                   ],
+                  // colors: [
+                  //   Theme.of(context).primaryColorLight,
+                  //   Theme.of(context).primaryColorDark,
+                  // ],
                 ),
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30.0),

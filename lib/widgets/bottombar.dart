@@ -2,10 +2,10 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_redux/flutter_redux.dart';
 // import 'package:flutter_svg/svg.dart';
-// import 'package:supervecina/generated/i18n.dart';
-// import 'package:supervecina/models/app_state.dart';
-// import 'package:supervecina/models/views/bottom_bar.dart';
-// import 'package:supervecina/screens/routes.gr.dart';
+// import 'package:farmly_ledger/generated/i18n.dart';
+// import 'package:farmly_ledger/models/app_state.dart';
+// import 'package:farmly_ledger/models/views/bottom_bar.dart';
+// import 'package:farmly_ledger/screens/routes.gr.dart';
 
 // isCurrentRoute(BuildContext context, String route) {
 //   String currentRoute = ModalRoute.of(context).settings.name;

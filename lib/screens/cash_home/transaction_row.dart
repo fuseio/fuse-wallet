@@ -1,14 +1,14 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/transactions/transaction.dart';
-import 'package:supervecina/models/transactions/transfer.dart';
-import 'package:supervecina/models/views/cash_wallet.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/utils/transaction_row.dart';
-import 'package:supervecina/screens/cash_home/transaction_details.dart';
-import 'package:supervecina/utils/format.dart';
+import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:farmly_ledger/models/transactions/transaction.dart';
+import 'package:farmly_ledger/models/transactions/transfer.dart';
+import 'package:farmly_ledger/models/views/cash_wallet.dart';
+import 'package:farmly_ledger/screens/routes.gr.dart';
+import 'package:farmly_ledger/utils/transaction_row.dart';
+import 'package:farmly_ledger/screens/cash_home/transaction_details.dart';
+import 'package:farmly_ledger/utils/format.dart';
 
 class TransactionListItem extends StatelessWidget {
   final Transaction _transaction;

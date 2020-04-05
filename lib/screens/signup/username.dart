@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/widgets/drawer.dart';
-import 'package:supervecina/widgets/main_scaffold.dart';
-import 'package:supervecina/widgets/primary_button.dart';
-import 'package:supervecina/models/views/onboard.dart';
+import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:farmly_ledger/models/app_state.dart';
+import 'package:farmly_ledger/screens/routes.gr.dart';
+import 'package:farmly_ledger/widgets/drawer.dart';
+import 'package:farmly_ledger/widgets/main_scaffold.dart';
+import 'package:farmly_ledger/widgets/primary_button.dart';
+import 'package:farmly_ledger/models/views/onboard.dart';
 
 class UserNameScreen extends StatelessWidget {
   final verificationCodeController = TextEditingController(text: "");

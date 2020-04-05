@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/screens/send/send_amount_arguments.dart';
-import 'package:supervecina/widgets/activate_pro_mode.dart';
+import 'package:farmly_ledger/models/app_state.dart';
+import 'package:farmly_ledger/screens/routes.gr.dart';
+import 'package:farmly_ledger/screens/send/send_amount_arguments.dart';
+import 'package:farmly_ledger/widgets/activate_pro_mode.dart';
 import 'dart:core';
 
-import 'package:supervecina/widgets/primary_button.dart';
+import 'package:farmly_ledger/widgets/primary_button.dart';
 
 class ActivateProMode2Dialog extends StatefulWidget {
   @override
