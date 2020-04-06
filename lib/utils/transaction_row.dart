@@ -108,7 +108,7 @@ String getCoverPhotoUrl(business, communityAddress) {
   if (business.metadata.coverPhoto == null ||
       business.metadata.coverPhoto == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
+  } else if (isSupervecina(communityAddress)) {
     return business.metadata.coverPhoto;
   } else {
     return DotEnv().env['IPFS_BASE_URL'] +
@@ -120,7 +120,7 @@ String getCoverPhotoUrl(business, communityAddress) {
 String getImageUrl(business, communityAddress) {
   if (business.metadata.image == null || business.metadata.image == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
+  } else if (isSupervecina(communityAddress)) {
     return business.metadata.image;
   } else {
     return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.image;
