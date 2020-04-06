@@ -8,6 +8,10 @@ import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 
+String getIPFSImageUrl(String image) {
+  return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;
+}
+
 String deduceSign(Transfer transfer) {
   if (transfer.type == 'SEND') {
     return '-';
@@ -75,9 +79,7 @@ dynamic getTransferImage(
   if (transfer.isJoinCommunity() &&
       vm.community.metadata.image != null &&
       vm.community.metadata.image != '') {
-    return new NetworkImage(DotEnv().env['IPFS_BASE_URL'] +
-        '/image/' +
-        vm.community.metadata.image);
+    return new NetworkImage(getIPFSImageUrl(vm.community.metadata.image));
   } else if (transfer.isGenerateWallet()) {
     return new AssetImage(
       'assets/images/generate_wallet.png',
@@ -111,9 +113,7 @@ String getCoverPhotoUrl(business, communityAddress) {
   } else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
     return business.metadata.coverPhoto;
   } else {
-    return DotEnv().env['IPFS_BASE_URL'] +
-        '/image/' +
-        business.metadata.coverPhoto;
+    return getIPFSImageUrl(business.metadata.coverPhoto);
   }
 }
 
@@ -123,7 +123,7 @@ String getImageUrl(business, communityAddress) {
   } else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
     return business.metadata.image;
   } else {
-    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.image;
+    return getIPFSImageUrl(business.metadata.image);
   }
 }
 

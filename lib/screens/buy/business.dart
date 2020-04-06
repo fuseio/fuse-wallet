@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:core';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -52,8 +53,10 @@ class _BusinessPageState extends State<BusinessPage> {
   @override
   Widget build(BuildContext context) {
     final BusinessPageArguments businessArgs = this.widget.pageArgs;
-    String coverPhotoUrl = getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
-    String imageUrl = getImageUrl(businessArgs.business, businessArgs.communityAddress);
+    String coverPhotoUrl =
+        getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
+    String imageUrl =
+        getImageUrl(businessArgs.business, businessArgs.communityAddress);
 
     return new Scaffold(
       key: scaffoldState,
@@ -79,20 +82,34 @@ class _BusinessPageState extends State<BusinessPage> {
                                               .business.metadata.coverPhoto ==
                                           ''
                                   ? SizedBox.expand(
-                                      child: Image.network(
-                                        coverPhotoUrl,
+                                      child: CachedNetworkImage(
+                                      imageUrl: coverPhotoUrl,
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      imageBuilder: (context, imageProvider) =>
+                                          Image(
+                                        image: imageProvider,
                                         fit: BoxFit.fill,
                                       ),
-                                    )
+                                    ))
                                   : SizedBox.expand(
-                                      child: Image.network(
-                                        coverPhotoUrl,
+                                      child: CachedNetworkImage(
+                                      imageUrl: coverPhotoUrl,
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      imageBuilder: (context, imageProvider) =>
+                                          Image(
+                                        image: imageProvider,
                                         width:
                                             MediaQuery.of(context).size.width,
                                         fit: BoxFit.fill,
                                         height: 200,
                                       ),
-                                    )),
+                                    ))),
                           new Positioned(
                               top: 50.0,
                               left: 18.0,
@@ -117,11 +134,18 @@ class _BusinessPageState extends State<BusinessPage> {
                           Padding(
                             padding: const EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
-                                child: Image.network(
-                              imageUrl,
-                              fit: BoxFit.cover,
-                              width: 75.0,
-                              height: 75.0,
+                                child: CachedNetworkImage(
+                              imageUrl: imageUrl,
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                              imageBuilder: (context, imageProvider) => Image(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                                width: 75.0,
+                                height: 75.0,
+                              ),
                             )),
                           ),
                           Wrap(

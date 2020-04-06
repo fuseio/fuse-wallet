@@ -1,7 +1,6 @@
 import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -70,9 +69,7 @@ class BusinessesListView extends StatelessWidget {
                             )));
               },
               child: CachedNetworkImage(
-                imageUrl: DotEnv().env['IPFS_BASE_URL'] +
-                    '/image/' +
-                    vm.walletBanner.walletBannerHash,
+                imageUrl: getIPFSImageUrl(vm.walletBanner.walletBannerHash),
                 imageBuilder: (context, imageProvider) => new Container(
                     width: MediaQuery.of(context).size.width,
                     height: 140,
@@ -112,20 +109,21 @@ class BusinessesListView extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       leading: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(),
-        child: ClipOval(
-            child:
-                business.metadata.image == null || business.metadata.image == ''
-                    ? Image.network(image)
-                    : Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                        width: 50.0,
-                        height: 50.0,
-                      )),
-      ),
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(),
+          child: ClipOval(
+              child: CachedNetworkImage(
+            imageUrl: image,
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+            imageBuilder: (context, imageProvider) => Image(
+              image: imageProvider,
+              fit: BoxFit.cover,
+              width: 50.0,
+              height: 50.0,
+            ),
+          ))),
       title: Text(
         business.name ?? '',
         style: TextStyle(
