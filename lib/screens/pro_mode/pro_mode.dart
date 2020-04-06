@@ -90,6 +90,33 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     ];
   }
 
+  void _onTap(int itemIndex) {
+    if (itemIndex == 2) {
+      comingSoon(context);
+      return;
+    } else {
+      setState(() {
+        _currentIndex = itemIndex;
+      });
+    }
+  }
+
+  BottomNavigationBar _bottomNavigationBar() => BottomNavigationBar(
+        selectedFontSize: 13,
+        unselectedFontSize: 13,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        backgroundColor: Theme.of(context).bottomAppBarColor,
+        showUnselectedLabels: true,
+        items: [
+          bottomBarItem(I18n.of(context).home, 'home'),
+          bottomBarItem(I18n.of(context).send_button, 'send'),
+          bottomBarItem(I18n.of(context).trade, 'trade'),
+          bottomBarItem(I18n.of(context).receive, 'receive'),
+        ],
+        onTap: _onTap,
+      );
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BottomBarViewModel>(
@@ -97,35 +124,12 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
         builder: (_, vm) {
           final List<Widget> pages = _pages(vm.contacts);
           return TabsScaffold(
+              drawer: DrawerWidget(),
               header: MyAppBar(child: ProHeader(), backgroundColor: Colors.red),
               drawerEdgeDragWidth: 0,
               pages: pages,
               currentIndex: _currentIndex,
-              drawer: DrawerWidget(),
-              bottomNavigationBar: BottomNavigationBar(
-                onTap: (int itemIndex) {
-                  if (itemIndex == 2) {
-                    comingSoon(context);
-                    return;
-                  } else {
-                    setState(() {
-                      _currentIndex = itemIndex;
-                    });
-                  }
-                },
-                selectedFontSize: 13,
-                unselectedFontSize: 13,
-                type: BottomNavigationBarType.fixed,
-                currentIndex: _currentIndex,
-                backgroundColor: Theme.of(context).bottomAppBarColor,
-                showUnselectedLabels: true,
-                items: [
-                  bottomBarItem(I18n.of(context).home, 'home'),
-                  bottomBarItem(I18n.of(context).send_button, 'send'),
-                  bottomBarItem(I18n.of(context).trade, 'trade'),
-                  bottomBarItem(I18n.of(context).receive, 'receive'),
-                ],
-              ));
+              bottomNavigationBar: _bottomNavigationBar());
         });
   }
 }

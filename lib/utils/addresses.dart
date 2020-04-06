@@ -14,5 +14,5 @@ Map<String, String> funderAddresses = {
 };
 
 bool isDefaultCommunity(String communityAddress) {
-  return defaultCommunityAddress != null && defaultCommunityAddress == communityAddress.toLowerCase();
+  return (communityAddress != null && defaultCommunityAddress != null) && defaultCommunityAddress == communityAddress.toLowerCase();
 }

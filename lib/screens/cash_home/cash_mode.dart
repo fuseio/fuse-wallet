@@ -69,18 +69,38 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     }
   }
 
-  _onTap(int itemIndex) {
+  void _onTap(int itemIndex) {
     setState(() {
       _currentIndex = itemIndex;
     });
   }
+
+  BottomNavigationBar _bottomNavigationBar(BottomBarViewModel vm) =>
+      BottomNavigationBar(
+        selectedFontSize: 13,
+        unselectedFontSize: 13,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        backgroundColor: Theme.of(context).bottomAppBarColor,
+        showUnselectedLabels: true,
+        items: [
+          bottomBarItem(I18n.of(context).home, 'home'),
+          bottomBarItem(I18n.of(context).send_button, 'send'),
+          vm.isDefaultCommunity
+              ? bottomBarItem(I18n.of(context).dai_points, 'daipoints')
+              : bottomBarItem(I18n.of(context).buy, 'buy'),
+          bottomBarItem(I18n.of(context).receive, 'receive'),
+        ],
+        onTap: _onTap,
+      );
 
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
-          final List<Widget> pages = _pages(vm.contacts, vm.isDefaultCommunity, vm.community?.webUrl);
+          final List<Widget> pages =
+              _pages(vm.contacts, vm.isDefaultCommunity, vm.community?.webUrl);
           return TabsScaffold(
               header: MyAppBar(
                 backgroundColor: Colors.white,
@@ -90,23 +110,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
               pages: pages,
               currentIndex: _currentIndex,
               drawer: DrawerWidget(),
-              bottomNavigationBar: BottomNavigationBar(
-                onTap: _onTap,
-                selectedFontSize: 13,
-                unselectedFontSize: 13,
-                type: BottomNavigationBarType.fixed,
-                currentIndex: _currentIndex,
-                backgroundColor: Theme.of(context).bottomAppBarColor,
-                showUnselectedLabels: true,
-                items: [
-                  bottomBarItem(I18n.of(context).home, 'home'),
-                  bottomBarItem(I18n.of(context).send_button, 'send'),
-                  vm.isDefaultCommunity
-                      ? bottomBarItem(I18n.of(context).dai_points, 'daipoints')
-                      : bottomBarItem(I18n.of(context).buy, 'buy'),
-                  bottomBarItem(I18n.of(context).receive, 'receive'),
-                ],
-              ));
+              bottomNavigationBar: _bottomNavigationBar(vm));
         });
   }
 }
