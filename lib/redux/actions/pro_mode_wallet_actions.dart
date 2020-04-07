@@ -18,10 +18,6 @@ Future<bool> approvalCallback() async {
   return true;
 }
 
-class StartFetchAccountAssets {
-  StartFetchAccountAssets();
-}
-
 class UpadteBlockNumber {
   final num blockNumber;
   UpadteBlockNumber({this.blockNumber});
@@ -34,20 +30,6 @@ class UpdateToken {
 
 class StartListenToTransferEventsSuccess {
   StartListenToTransferEventsSuccess();
-}
-
-class GetAssetsListSuccess {
-  List<Transfer> tokenTransfers;
-  GetAssetsListSuccess(this.tokenTransfers);
-}
-
-class StartFetchAssetsBalances {
-  StartFetchAssetsBalances();
-}
-
-class GetTokenTransfersListSuccess {
-  List<Transfer> tokenTransfers;
-  GetTokenTransfersListSuccess(this.tokenTransfers);
 }
 
 class GetTokenListSuccess {

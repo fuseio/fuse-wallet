@@ -1,15 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/screens/pro_mode/assets_list.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/deposit_dai_popup.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -24,7 +19,7 @@ class ProTokenHeader extends StatelessWidget {
         converter: _ProTokenHeaderViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(
-            height: 260.0,
+            height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.all(30.0),
             decoration: BoxDecoration(
@@ -92,7 +87,7 @@ class ProTokenHeader extends StatelessWidget {
                             RichText(
                                 text: new TextSpan(
                                     text:
-                                        "\$ ${formatValue(token.amount, token.decimals)}",
+                                        token.address.contains(daiTokenAddress) ? "\$ ${formatValue(token.amount, token.decimals)}" : "${formatValue(token.amount, token.decimals)}",
                                     style: new TextStyle(
                                         fontSize: 32,
                                         color: Theme.of(context).splashColor,
@@ -108,8 +103,8 @@ class ProTokenHeader extends StatelessWidget {
                                         fontWeight: FontWeight.bold),
                                     children: [
                                   new TextSpan(
-                                      text: formatValue(
-                                          token.amount, token.decimals)),
+                                      text: token.address.contains(daiTokenAddress) ? formatValue(
+                                          token.amount, token.decimals) : ''),
                                   new TextSpan(text: " ${token.symbol}")
                                 ])),
                           ],
@@ -118,88 +113,6 @@ class ProTokenHeader extends StatelessWidget {
                     ),
                   ),
                 )),
-                token.address.contains(daiTokenAddress)
-                    ? Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          padding:
-                              EdgeInsets.only(bottom: 0.0, left: 10, right: 10),
-                          child: new Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            verticalDirection: VerticalDirection.up,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              InkWell(
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  width: MediaQuery.of(context).size.width * .3,
-                                  decoration: BoxDecoration(
-                                    borderRadius: new BorderRadius.all(
-                                        new Radius.circular(5.0)),
-                                    color: Color(0xFF1D1D1D),
-                                    shape: BoxShape.rectangle,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      I18n.of(context).addDai,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Theme.of(context).splashColor),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return DepositDaiDialog();
-                                      });
-                                },
-                              ),
-                              InkWell(
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  width: MediaQuery.of(context).size.width * .4,
-                                  decoration: BoxDecoration(
-                                    borderRadius: new BorderRadius.all(
-                                        new Radius.circular(5.0)),
-                                    color: Color(0xFF1D1D1D),
-                                    shape: BoxShape.rectangle,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      I18n.of(context).sendToCashMode,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Theme.of(context).splashColor),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (context) =>
-                                              SendAmountScreen(
-                                                  pageArgs: SendAmountArguments(
-                                                sendType:
-                                                    SendType.ETHEREUM_ADDRESS,
-                                                sendToCashMode: true,
-                                                avatar: NetworkImage(
-                                                  getTokenUrl(
-                                                      checksumEthereumAddress(
-                                                          token.address)),
-                                                ),
-                                                name: 'Cash mode',
-                                                erc20Token: token,
-                                              ))));
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : SizedBox.shrink()
               ],
             ),
           );
@@ -214,9 +127,8 @@ class _ProTokenHeaderViewModel extends Equatable {
   _ProTokenHeaderViewModel({this.firstName, this.daiToken});
 
   static _ProTokenHeaderViewModel fromStore(Store<AppState> store) {
-    Token token = store.state.proWalletState.tokens.firstWhere(
-        (token) => token.address.contains(daiTokenAddress),
-        orElse: () => new Token.initial());
+    Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress] ??
+        Token.initial();
     return _ProTokenHeaderViewModel(
         daiToken: token,
         firstName: () {

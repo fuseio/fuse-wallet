@@ -9,7 +9,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/cash_home/cash_header.dart';
+import 'package:fusecash/utils/barcode.dart';
 import 'package:fusecash/screens/send/enable_contacts.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
@@ -411,7 +411,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     onPressed: () {
-                      scanFuseAddress(context);
+                      bracodeScannerHandler(context);
                     }),
                 width: 50.0,
                 height: 50.0,

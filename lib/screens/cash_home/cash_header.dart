@@ -5,31 +5,9 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/cash_home/prize.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/barcode.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:barcode_scan/barcode_scan.dart';
-
-scanFuseAddress(context) async {
-  try {
-    String accountAddress = await BarcodeScanner.scan();
-    List<String> parts = accountAddress.split(':');
-    if (parts.length == 2 && parts[0] == 'fuse') {
-      Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (context) => SendAmountScreen(
-                  pageArgs: SendAmountArguments(
-                      sendType: SendType.QR_ADDRESS,
-                      accountAddress: parts[1]))));
-    } else {
-      print('Account address is not on Fuse');
-    }
-  } catch (e) {
-    print('ERROR - BarcodeScanner');
-  }
-}
 
 class CashHeader extends StatelessWidget {
   @override
@@ -238,7 +216,7 @@ class CashHeader extends StatelessWidget {
                                       Theme.of(context).scaffoldBackgroundColor,
                                 ),
                                 onPressed: () {
-                                  scanFuseAddress(context);
+                                  bracodeScannerHandler(context);
                                 })
                           ]),
                         )

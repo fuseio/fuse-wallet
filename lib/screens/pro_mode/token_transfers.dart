@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/screens/pro_mode/pro_token_header.dart';
+import 'package:fusecash/screens/send/send_amount.dart';
+import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/transaction_row.dart';
+import 'package:fusecash/widgets/deposit_dai_popup.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/pro/token.dart';
@@ -21,7 +25,9 @@ class TokenTransfersScreen extends StatelessWidget {
     return Scaffold(
         key: key,
         appBar: MyAppBar(
-            child: ProTokenHeader(token: token), backgroundColor: Colors.red),
+            height: MediaQuery.of(context).size.height * .1789,
+            child: ProTokenHeader(token: token),
+            backgroundColor: Colors.red),
         drawerEdgeDragWidth: 0,
         body: Column(children: <Widget>[
           Expanded(child: ListView(children: [TransfersList(token: token)])),
@@ -37,8 +43,83 @@ class TransfersList extends StatelessWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          token.address.contains(daiTokenAddress)
+              ? Container(
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    verticalDirection: VerticalDirection.up,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      InkWell(
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          width: MediaQuery.of(context).size.width * .3,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                new BorderRadius.all(new Radius.circular(5.0)),
+                            color: Theme.of(context).backgroundColor,
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              I18n.of(context).addDai,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return DepositDaiDialog();
+                              });
+                        },
+                      ),
+                      InkWell(
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          width: MediaQuery.of(context).size.width * .4,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                new BorderRadius.all(new Radius.circular(5.0)),
+                            color: Theme.of(context).backgroundColor,
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              I18n.of(context).sendToCashMode,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => SendAmountScreen(
+                                          pageArgs: SendAmountArguments(
+                                        sendType: SendType.ETHEREUM_ADDRESS,
+                                        sendToCashMode: true,
+                                        avatar: NetworkImage(
+                                          getTokenUrl(checksumEthereumAddress(
+                                              token.address)),
+                                        ),
+                                        name: 'Cash mode',
+                                        erc20Token: token,
+                                      ))));
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox.shrink(),
           Container(
-              padding: EdgeInsets.only(left: 15, top: 27, bottom: 8),
+              padding: EdgeInsets.only(left: 15, top: 20, bottom: 8),
               child: Text(I18n.of(context).transactions,
                   style: TextStyle(
                       color: Color(0xFF979797),

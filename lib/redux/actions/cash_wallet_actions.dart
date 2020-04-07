@@ -628,7 +628,7 @@ ThunkAction processingJobsCall(Timer timer) {
     String communityAddress = store.state.cashWalletState.communityAddress;
     String walletAddress = store.state.cashWalletState.walletAddress;
     Community community = store.state.cashWalletState.communities[communityAddress];
-    List<Job> jobs = community.jobs;
+    List<Job> jobs = community?.jobs ?? [];
     for (Job job in jobs) {
       String currentCommunityAddress = store.state.cashWalletState.communityAddress;
       String currentWalletAddress = store.state.cashWalletState.walletAddress;

@@ -23,7 +23,7 @@ class ProWalletViewModel extends Equatable {
     bool hasTrasnferdToForeign = community.transactions.list.any((item) {
         Transfer transfer = item as Transfer;
         return (transfer?.to?.toLowerCase() == community?.homeBridgeAddress?.toLowerCase()) ?? false;
-      }) && !tokens.any((token) => token?.address == daiTokenAddress.toLowerCase());
+      }) && !store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress);
     return ProWalletViewModel(
       hasTrasnferdToForeign: hasTrasnferdToForeign,
       walletAddress: store.state.userState.walletAddress,
