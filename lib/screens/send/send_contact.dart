@@ -167,7 +167,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  Widget sendToAcccountAddress(String accountAddress) {
+  Widget sendToAcccountAddress(String accountAddress, viewModel) {
     Widget component = Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
@@ -207,7 +207,12 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                   new MaterialPageRoute(
                       builder: (context) => SendAmountScreen(
                           pageArgs: SendAmountArguments(
-                              sendType: SendType.PASTED_ADDRESS,
+                              erc20Token: viewModel.isProMode
+                                  ? viewModel.daiToken
+                                  : null,
+                              sendType: viewModel.isProMode
+                                  ? SendType.ETHEREUM_ADDRESS
+                                  : SendType.PASTED_ADDRESS,
                               accountAddress: accountAddress,
                               name: formatAddress(accountAddress),
                               avatar:
@@ -215,17 +220,22 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
             },
           ),
           onTap: () {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => SendAmountScreen(
-                        pageArgs: SendAmountArguments(
-                            sendType: SendType.PASTED_ADDRESS,
-                            accountAddress: accountAddress,
-                            name: formatAddress(accountAddress),
-                            avatar:
-                                new AssetImage('assets/images/anom.png')))));
-          },
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => SendAmountScreen(
+                          pageArgs: SendAmountArguments(
+                              erc20Token: viewModel.isProMode
+                                  ? viewModel.daiToken
+                                  : null,
+                              sendType: viewModel.isProMode
+                                  ? SendType.ETHEREUM_ADDRESS
+                                  : SendType.PASTED_ADDRESS,
+                              accountAddress: accountAddress,
+                              name: formatAddress(accountAddress),
+                              avatar:
+                                  new AssetImage('assets/images/anom.png')))));
+            },
         ),
       ),
     );
@@ -333,7 +343,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         listItems.add(recentContacts(3, viewModel));
       }
     } else if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(searchController.text));
+      listItems.add(sendToAcccountAddress(searchController.text, viewModel));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();

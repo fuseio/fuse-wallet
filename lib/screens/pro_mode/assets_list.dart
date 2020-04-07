@@ -31,6 +31,7 @@ class AssetsList extends StatelessWidget {
         converter: ProWalletViewModel.fromStore,
         builder: (_, viewModel) {
           final List<Token> tokens = viewModel.tokens.where((Token token) => num.parse(formatValue(token.amount, token.decimals)) > 0).toList().reversed.toList();
+          tokens.sort((a, b) => b.amount.compareTo(a.amount));
           return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[

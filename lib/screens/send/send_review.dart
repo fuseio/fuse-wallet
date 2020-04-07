@@ -217,18 +217,20 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     ],
                   ),
                 ),
-                args.accountAddress == null || args.accountAddress.isEmpty && !viewModel.isProMode
-                    ? Padding(
-                        padding:
-                            EdgeInsets.only(top: 20.0, left: 30, right: 30),
-                        child: Text(
-                            '''Sending money to ${args.name != null ? args.name : 'friend'} will automatically invite them to Fuse and let them redeem the funds you sent''',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontSize: 14)),
-                      )
-                    : SizedBox.shrink()
+                viewModel.isProMode
+                    ? SizedBox.shrink()
+                    : (args.accountAddress == null || args.accountAddress.isEmpty)
+                        ? Padding(
+                            padding:
+                                EdgeInsets.only(top: 20.0, left: 30, right: 30),
+                            child: Text(
+                                '''Sending money to ${args.name != null ? args.name : 'friend'} will automatically invite them to Fuse and let them redeem the funds you sent''',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    fontSize: 14)),
+                          )
+                        : SizedBox.shrink()
               ])
             ],
             footer: Center(

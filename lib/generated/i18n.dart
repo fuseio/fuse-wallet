@@ -1572,6 +1572,302 @@ class _I18n_en_PH extends _I18n_en_US {
   TextDirection get textDirection => TextDirection.ltr;
 }
 
+class _I18n_id_ID extends I18n {
+  const _I18n_id_ID();
+
+  /// "Gunakan dompet untuk mengirim uang \n kepada teman tanpa biaya atau selisih"
+  @override
+  String get intro_text_one => "Gunakan dompet untuk mengirim uang \n kepada teman tanpa biaya atau selisih";
+  /// "Membayar dan di bayar menggunakan kripto \n dan lihatlah dimana anda bisa belanja di toko sekitar"
+  @override
+  String get intro_text_two => "Membayar dan di bayar menggunakan kripto \n dan lihatlah dimana anda bisa belanja di toko sekitar";
+  /// "Simpan Aset Ethereum dan akses \n desentralisasi keuangan hanya dengan beberapa ketukan"
+  @override
+  String get intro_text_three => "Simpan Aset Ethereum dan akses \n desentralisasi keuangan hanya dengan beberapa ketukan";
+  /// "Halo"
+  @override
+  String get hi => "Halo";
+  /// "Bahasa Indonesia"
+  @override
+  String get language => "Bahasa Indonesia";
+  /// "Keluar"
+  @override
+  String get logout => "Keluar";
+  /// "Masuk"
+  @override
+  String get login => "Masuk";
+  /// "Membuat dompet baru"
+  @override
+  String get create_new_wallet => "Membuat dompet baru";
+  /// "Membuat dompet"
+  @override
+  String get create__wallet => "Membuat dompet";
+  /// "Memulihkan perlindungan"
+  @override
+  String get restore_backup => "Memulihkan perlindungan";
+  /// "Saldo"
+  @override
+  String get balance => "Saldo";
+  /// "Penting!"
+  @override
+  String get important => "Penting!";
+  /// "Ok"
+  @override
+  String get ok => "Ok";
+  /// "Hubungi Kami"
+  @override
+  String get contact_us => "Hubungi Kami";
+  /// "Dompet fuse anda terlindungi!"
+  @override
+  String get wallet_protected => "Dompet fuse anda terlindungi!";
+  /// "Hebat, kamu telah melakukan perlindungan susunan kata rahasia kamu. Ingat untuk menjaga susunan kata rahasia kamu di tempat yang aman dan nyaman dan jangan biarkan orang lain tahu."
+  @override
+  String get wallet_protected_text => "Hebat, kamu telah melakukan perlindungan susunan kata rahasia kamu. Ingat untuk menjaga susunan kata rahasia kamu di tempat yang aman dan nyaman dan jangan biarkan orang lain tahu.";
+  /// "tulislah secara berurutan dan jaga tetap aman. Anda tidak akan bisa memulihkan akun anda tanpa itu."
+  @override
+  String get write_words => "tulislah secara berurutan dan jaga tetap aman. Anda tidak akan bisa memulihkan akun anda tanpa itu.";
+  /// "Mohon tuliskan kata-kata \n"
+  @override
+  String get write_word => "Mohon tuliskan kata-kata \n";
+  /// "kata "
+  @override
+  String get word => "kata ";
+  /// "Kata tidak cocok"
+  @override
+  String get word_not_match => "Kata tidak cocok";
+  /// "Perlindungan"
+  @override
+  String get back_up => "Perlindungan";
+  /// "Lanjutkan"
+  @override
+  String get next_button => "Lanjutkan";
+  /// "Lewatkan"
+  @override
+  String get skip_button => "Lewatkan";
+  /// "Bayar"
+  @override
+  String get pay => "Bayar";
+  /// "Tidak ada bisnis di temukan"
+  @override
+  String get no_businesses => "Tidak ada bisnis di temukan";
+  /// "Sedang membuat dompet"
+  @override
+  String get generating_wallet => "Sedang membuat dompet";
+  /// "Dompet di buat"
+  @override
+  String get generated_wallet => "Dompet di buat";
+  /// "TERTUNDA"
+  @override
+  String get pending => "TERTUNDA";
+  /// "GAGAL"
+  @override
+  String get failed => "GAGAL";
+  /// "TERKONFIRMASI"
+  @override
+  String get confirmed => "TERKONFIRMASI";
+  /// "Transaksi"
+  @override
+  String get transactions => "Transaksi";
+  /// "Rincian transaksi"
+  @override
+  String get transaction_details => "Rincian transaksi";
+  /// "Kepada"
+  @override
+  String get to => "Kepada";
+  /// "Dari"
+  @override
+  String get from => "Dari";
+  /// "Alamat"
+  @override
+  String get address => "Alamat";
+  /// "Jumlah"
+  @override
+  String get amount => "Jumlah";
+  /// "Anda mendapatkan bonus bergabung!"
+  @override
+  String get join_bonus => "Anda mendapatkan bonus bergabung!";
+  /// "Bergabung komunitas"
+  @override
+  String get joining_community => "Bergabung komunitas";
+  /// "Tentang"
+  @override
+  String get about => "Tentang";
+  /// "Versi"
+  @override
+  String get version => "Versi";
+  /// "Legalitas"
+  @override
+  String get legal => "Legalitas";
+  /// "Kode pin"
+  @override
+  String get pincode => "Kode pin";
+  /// "Tulis kembali kode sandi "
+  @override
+  String get re_type_passcode => "Tulis kembali kode sandi ";
+  /// "Buat kode sandi anda"
+  @override
+  String get create_passcode => "Buat kode sandi anda";
+  /// "Ganti komunitas"
+  @override
+  String get switch_community => "Ganti komunitas";
+  /// "Scan QR untuk ganti"
+  @override
+  String get sqan_qr_code => "Scan QR untuk ganti";
+  /// "atau"
+  @override
+  String get or => "atau";
+  /// "Masukan alamat komunitas"
+  @override
+  String get enter_community_address => "Masukan alamat komunitas";
+  /// "Alamat komunitas"
+  @override
+  String get community_address => "Alamat komunitas";
+  /// "Simpan"
+  @override
+  String get save_button => "Simpan";
+  /// "Anda dapat ganti ke komunitas baru dengan memasukan aset ID anda(tersedia dari Fuse Studio) atau scan QR kode"
+  @override
+  String get fuse_studio => "Anda dapat ganti ke komunitas baru dengan memasukan aset ID anda(tersedia dari Fuse Studio) atau scan QR kode";
+  /// "Mengizinkan akses kontak"
+  @override
+  String get enable_contacts_access => "Mengizinkan akses kontak";
+  /// "Kontak anda tidak akan di simpan pada \n server kami dan tindakan ini tidak akan mengirimkan \n kepada mereka pesan apapun"
+  @override
+  String get enable_text => "Kontak anda tidak akan di simpan pada \n server kami dan tindakan ini tidak akan mengirimkan \n kepada mereka pesan apapun";
+  /// "Jangan khawatir:"
+  @override
+  String get dont_worry => "Jangan khawatir:";
+  /// "Mengizinkan sinkron kontak untuk mengirim \n uang kepada nomer kontak anda"
+  @override
+  String get enable_contacts_text => "Mengizinkan sinkron kontak untuk mengirim \n uang kepada nomer kontak anda";
+  /// "Sinkronisasi kontak"
+  @override
+  String get sync_contacts => "Sinkronisasi kontak";
+  /// "Terima"
+  @override
+  String get receive => "Terima";
+  /// "Scan Kode QR untuk terima uang"
+  @override
+  String get scan_to_receive => "Scan Kode QR untuk terima uang";
+  /// "Bagikan"
+  @override
+  String get share_button => "Bagikan";
+  /// "Kirim kepada"
+  @override
+  String get send_to => "Kirim kepada";
+  /// "Berapa jumlah?"
+  @override
+  String get how_much => "Berapa jumlah?";
+  /// "Melanjutkan"
+  @override
+  String get continue_with => "Melanjutkan";
+  /// "Sinkronisasi kontak anda"
+  @override
+  String get sync_your_contacts => "Sinkronisasi kontak anda";
+  /// "Pelajari lebih lanjut"
+  @override
+  String get learn_more => "Pelajari lebih lanjut";
+  /// "Aktif"
+  @override
+  String get activate => "Aktif";
+  /// "Saat ini"
+  @override
+  String get recent => "Saat ini";
+  /// "Nama atau Alamat"
+  @override
+  String get search => "Nama atau Alamat";
+  /// "Tinjau pengiriman"
+  @override
+  String get review_transfer => "Tinjau pengiriman";
+  /// "Kirim"
+  @override
+  String get send_button => "Kirim";
+  /// "Berhasil"
+  @override
+  String get success => "Berhasil";
+  /// "Memulihkan dari perlindungan"
+  @override
+  String get restore_from_backup => "Memulihkan dari perlindungan";
+  /// "Ini adalah 12 susunan kata yang di berikan kepada anda ketika anda membuat dompet sebelumnya"
+  @override
+  String get restore_words => "Ini adalah 12 susunan kata yang di berikan kepada anda ketika anda membuat dompet sebelumnya";
+  /// "Tuliskan 12 susunan kata anda..."
+  @override
+  String get write_down_your_words => "Tuliskan 12 susunan kata anda...";
+  /// "Daftar"
+  @override
+  String get sign_up => "Daftar";
+  /// "Mohon masukan nomor telephone anda sehingga kami dapat menyiapkan akun anda"
+  @override
+  String get enter_phone_number => "Mohon masukan nomor telephone anda sehingga kami dapat menyiapkan akun anda";
+  /// "Mengapa kami memerlukan ini?"
+  @override
+  String get why_do_we_need_this => "Mengapa kami memerlukan ini?";
+  /// "Pilih nama akun anda"
+  @override
+  String get pickup_display_name => "Pilih nama akun anda";
+  /// "Nama ini akan di perlihatkan kepada kontak yang mengirimkan anda uang agar mengenali akun anda"
+  @override
+  String get pickup_display_name_text => "Nama ini akan di perlihatkan kepada kontak yang mengirimkan anda uang agar mengenali akun anda";
+  /// "Kirim kembali kode"
+  @override
+  String get resend_code => "Kirim kembali kode";
+  /// "Tidak mendapatkan pesan? - "
+  @override
+  String get didnt_get_message => "Tidak mendapatkan pesan? - ";
+  /// "Kami baru mengirimkan pesan ke \n"
+  @override
+  String get we_just_sent => "Kami baru mengirimkan pesan ke \n";
+  /// " Silahkan masukan 6-digit kode dari \n pesan itu disini"
+  @override
+  String get enter_verification_code => " Silahkan masukan 6-digit kode dari \n pesan itu disini";
+  /// "Lindungi dompet anda"
+  @override
+  String get protect_wallet => "Lindungi dompet anda";
+  /// "Perlindungan"
+  @override
+  String get backup_wallet => "Perlindungan";
+  /// "Isi ulang akun anda"
+  @override
+  String get top_up => "Isi ulang akun anda";
+  /// "Beli"
+  @override
+  String get buy => "Beli";
+  /// "DAI points"
+  @override
+  String get dai_points => "DAI points";
+  /// "Peta"
+  @override
+  String get map => "Peta";
+  /// "Disetujui"
+  @override
+  String get approved => "Disetujui";
+  /// "Mudah"
+  @override
+  String get simple => "Mudah";
+  /// "Berguna"
+  @override
+  String get useful => "Berguna";
+  /// "Pintar"
+  @override
+  String get smart => "Pintar";
+  /// "Pengaturan"
+  @override
+  String get settings => "Pengaturan";
+  /// "Home"
+  @override
+  String get home => "Home";
+  /// "Perdagangan"
+  @override
+  String get trade => "Perdagangan";
+  /// "Aset dan kontrak"
+  @override
+  String get assets_and_contracts => "Aset dan kontrak";
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+}
+
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocalizations> {
   const GeneratedLocalizationsDelegate();
   List<Locale> get supportedLocales {
@@ -1581,7 +1877,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
       Locale("es", "ES"),
       Locale("br", "BR"),
       Locale("it", "IT"),
-      Locale("en", "PH")
+      Locale("en", "PH"),
+      Locale("id", "ID")
     ];
   }
 
@@ -1619,6 +1916,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     else if ("en_PH" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_PH());
     }
+    else if ("id_ID" == lang) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_id_ID());
+    }
     else if ("en" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
     }
@@ -1633,6 +1933,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     }
     else if ("it" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_it_IT());
+    }
+    else if ("id" == languageCode) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_id_ID());
     }
 
     return SynchronousFuture<WidgetsLocalizations>(const I18n());

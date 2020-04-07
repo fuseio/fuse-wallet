@@ -5,7 +5,7 @@ import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
@@ -16,6 +16,12 @@ import 'package:wallet_core/wallet_core.dart' as wallet_core;
 
 Future<bool> approvalCallback() async {
   return true;
+}
+
+class AddProJob {
+  final String tokenAddress;
+  final Job job;
+  AddProJob({this.job, this.tokenAddress});
 }
 
 class UpadteBlockNumber {
@@ -118,6 +124,7 @@ ThunkAction getAddressBalances() {
           store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20RTokens));
         }
         store.dispatch(startFetchTransferEventsCall());
+        store.dispatch(startProcessingTokensJobsCall());
       }
     } catch (error) {
       logger.severe('Error in Get Address Balances');
@@ -195,18 +202,20 @@ ThunkAction sendErc20TokenCall(Token token, String receiverAddress, num tokensAm
       if (web3 == null) {
         throw "Web3 is empty";
       }
-      dynamic approveTrasfer = await api.approveTokenTransfer(web3, walletAddress, token.address, tokensAmount, network: foreignNetwork);
-      dynamic approveJobId = approveTrasfer['job']['_id'];
       logger.info('Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
-      logger.info('approveJobId approveJobId approveJobId $approveJobId');
-      store.dispatch(startFetchingJobCall(approveJobId, (job) async {
-        dynamic response = await api.tokenTransfer(web3, walletAddress, token.address, receiverAddress, tokensAmount, network: foreignNetwork);
-        sendSuccessCallback();
-        // dynamic jobId = response['job']['_id'];
-        // logger.info('Job $jobId for sending token sent to the relay service');
-        // store.dispatch(startFetchingJobCall(jobId, (job) async {
-        // }));
-      }));
+      dynamic approveTrasfer = await api.approveTokenTransfer(web3, walletAddress, token.address, tokensAmount, network: foreignNetwork);
+      sendSuccessCallback();
+      dynamic approveJobId = approveTrasfer['job']['_id'];
+      logger.info('Job $approveJobId for sending token sent to the relay service');
+      approveTrasfer['job']['arguments'] = {
+        'receiverAddress': receiverAddress,
+        'tokensAmount': tokensAmount,
+        'network': foreignNetwork,
+        'jobType': 'approveToken',
+        'tokenAddress': token.address,
+      };
+      Job job = JobFactory.create(approveTrasfer['job']);
+      store.dispatch(AddProJob(job: job, tokenAddress: token.address));
     } catch (e) {
       logger.severe('ERROR - sendErc20TokenCall $e');
       store.dispatch(new ErrorAction(e.toString()));
@@ -222,44 +231,59 @@ ThunkAction sendDaiToDaiPointsCall(num tokensAmount, VoidCallback sendSuccessCal
     try {
       UserState userState = store.state.userState;
       String walletAddress = userState.walletAddress;
-      Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()] ?? new Token.initial();
+      Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress] ?? new Token.initial();
       wallet_core.Web3 web3 = store.state.proWalletState.web3;
       logger.info('Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $walletAddress on fuse');
       dynamic response = await api.trasferDaiToDaiPointsOffChain(web3, walletAddress, tokensAmount, token.decimals, network: foreignNetwork);
       dynamic jobId = response['job']['_id'];
-      logger.info('Job $jobId for sending token sent to the relay service');
-      // store.dispatch(startFetchingJobCall(jobId, (job) async {
-      // }));
+      logger.info('Job $jobId for sending token sent to the relay service');;
       sendSuccessCallback();
-
-
-      // sendSuccessCallback();
-      // Transfer transfer = new Transfer(
-      //     from: walletAddress,
-      //     to: walletAddress,
-      //     tokenAddress: token.address,
-      //     value: value,
-      //     type: 'SEND',
-      //     note: transferNote,
-      //     status: 'PENDING',
-      //     jobId: jobId);
-
-      // if (inviteTransfer != null) {
-      //   store.dispatch(new ReplaceTransaction(inviteTransfer, transfer));
-      // } else {
-      //   store.dispatch(new AddTransaction(transfer));
-      // }
-
-      // response['job']['arguments'] = {
-      //   'transfer': transfer,
-      //   'jobType': 'transfer'
-      // };
-      // Job job = JobFactory.create(response['job']);
-      // store.dispatch(AddJob(job));
     } catch (e) {
       logger.severe('ERROR - sendDaiToDaiPointsCall $e');
       sendFailureCallback();
       // store.dispatch(new ErrorAction('Could not send token'));
     }
+  };
+}
+
+ThunkAction startProcessingTokensJobsCall() {
+  return (Store store) async {
+    new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+      store.dispatch(processingTokenJobsCall(timer));
+    });
+  };
+}
+
+ThunkAction processingTokenJobsCall(Timer timer) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('Job');
+    String walletAddress = store.state.userState.walletAddress;
+    ProWalletState proWalletState = store.state.proWalletState;
+    List<String> tokenAddresses = List<String>.from(proWalletState.erc20Tokens.keys);
+    for (String tokenAddress in tokenAddresses) {
+      List<Job> jobs = proWalletState.erc20Tokens[tokenAddress]?.jobs ?? [];
+      logger.info('processing $tokenAddress job - jobs ${jobs.length}');
+      for (Job job in jobs) {
+        if (job.status != 'DONE' && job.status != 'FAILED') {
+          String currentWalletAddress = store.state.userState.walletAddress;
+          bool isJobProcessValid() {
+            if (currentWalletAddress != walletAddress) {
+              timer.cancel();
+              return false;
+            }
+            if (job.status == 'DONE') {
+              return false;
+            }
+            return true;
+          }
+          try {
+            await job.perform(store, isJobProcessValid);
+          } catch (e) {
+            logger.severe('failed perform ${job.name}');
+          }
+        }
+      }
+    }
+    
   };
 }

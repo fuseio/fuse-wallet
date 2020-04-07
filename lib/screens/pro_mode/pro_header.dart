@@ -176,7 +176,7 @@ class _ProHeaderViewModel extends Equatable {
   _ProHeaderViewModel({this.firstName, this.daiToken, this.idenyifyCall});
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
-    Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()] ?? new Token.initial();
+    Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress] ?? new Token.initial();
     return _ProHeaderViewModel(
         daiToken: token,
         firstName: () {

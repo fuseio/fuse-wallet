@@ -46,8 +46,9 @@ class TransfersList extends StatelessWidget {
           token.address.contains(daiTokenAddress)
               ? Container(
                   padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                  color: Theme.of(context).splashColor,
                   child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     verticalDirection: VerticalDirection.up,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -77,6 +78,9 @@ class TransfersList extends StatelessWidget {
                                 return DepositDaiDialog();
                               });
                         },
+                      ),
+                      SizedBox(
+                        width: 20,
                       ),
                       InkWell(
                         child: Container(

@@ -57,60 +57,58 @@ class ProTokenHeader extends StatelessWidget {
                         padding:
                             EdgeInsets.only(top: 10, bottom: 35, right: 35),
                         child: SvgPicture.asset(
-                          'assets/images/arrow_back_business.svg',
+                          'assets/images/arrow_white.svg',
                           fit: BoxFit.fill,
-                          width: 25,
-                          height: 25,
+                          width: 18,
+                          height: 18,
                           alignment: Alignment.topLeft,
                         ))),
                 Expanded(
                     child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 0.0, left: 10, right: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        new Container(
-                          child: Text(I18n.of(context).balance,
-                              style: TextStyle(
-                                  color: Theme.of(context).splashColor,
-                                  fontSize: 12.0)),
-                          padding: EdgeInsets.only(bottom: 6.0),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          verticalDirection: VerticalDirection.down,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: <Widget>[
-                            RichText(
-                                text: new TextSpan(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Container(
+                        child: Text(I18n.of(context).balance,
+                            style: TextStyle(
+                                color: Theme.of(context).splashColor,
+                                fontSize: 12.0)),
+                        padding: EdgeInsets.only(bottom: 6.0),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        verticalDirection: VerticalDirection.down,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: <Widget>[
+                          RichText(
+                              text: new TextSpan(
+                                  text: token.address.contains(daiTokenAddress)
+                                      ? "\$${formatValue(token.amount, token.decimals)}"
+                                      : "${formatValue(token.amount, token.decimals)}",
+                                  style: new TextStyle(
+                                      fontSize: 32,
+                                      color: Theme.of(context).splashColor))),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          RichText(
+                              text: new TextSpan(
+                                  style: TextStyle(
+                                      color: Color(0xFFBEBEBE), fontSize: 18),
+                                  children: [
+                                new TextSpan(
                                     text:
-                                        token.address.contains(daiTokenAddress) ? "\$ ${formatValue(token.amount, token.decimals)}" : "${formatValue(token.amount, token.decimals)}",
-                                    style: new TextStyle(
-                                        fontSize: 32,
-                                        color: Theme.of(context).splashColor,
-                                        fontWeight: FontWeight.bold))),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            RichText(
-                                text: new TextSpan(
-                                    style: TextStyle(
-                                        color: Color(0xFFBEBEBE),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                    children: [
-                                  new TextSpan(
-                                      text: token.address.contains(daiTokenAddress) ? formatValue(
-                                          token.amount, token.decimals) : ''),
-                                  new TextSpan(text: " ${token.symbol}")
-                                ])),
-                          ],
-                        )
-                      ],
-                    ),
+                                        token.address.contains(daiTokenAddress)
+                                            ? formatValue(
+                                                token.amount, token.decimals)
+                                            : ''),
+                                new TextSpan(text: " ${token.symbol}")
+                              ])),
+                        ],
+                      )
+                    ],
                   ),
                 )),
               ],

@@ -1,3 +1,4 @@
+import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
@@ -11,7 +12,16 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, InitWeb3ProModeSuccess>(_initWeb3ProModeSuccess),
   TypedReducer<ProWalletState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<ProWalletState, GetTokenListSuccess>(_getTokenListSuccess),
+  TypedReducer<ProWalletState, AddProJob>(_addProJob),
 ]);
+
+ProWalletState _addProJob(ProWalletState state, AddProJob action) {
+  Token currentToken = state.erc20Tokens[action.tokenAddress];
+  Token newToken = currentToken.copyWith(jobs: List<Job>.from(currentToken.jobs)..add(action.job));
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+  newOne[action.tokenAddress] = newToken;
+  return state.copyWith(erc20Tokens: newOne);
+}
 
 ProWalletState _createNewWalletSuccess(ProWalletState state, CreateLocalAccountSuccess action) {
   return ProWalletState.initial();
