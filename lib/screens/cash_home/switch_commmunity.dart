@@ -4,14 +4,14 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/models/community.dart';
-import 'package:supervecina/models/views/switch_community.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/widgets/community_card.dart';
+import 'package:wiki_bank/generated/i18n.dart';
+import 'package:wiki_bank/models/app_state.dart';
+import 'package:wiki_bank/models/community.dart';
+import 'package:wiki_bank/models/views/switch_community.dart';
+import 'package:wiki_bank/screens/routes.gr.dart';
+import 'package:wiki_bank/widgets/community_card.dart';
 import 'dart:core';
-import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:wiki_bank/widgets/main_scaffold.dart';
 
 class SwitchCommunityScreen extends StatefulWidget {
   @override
@@ -34,14 +34,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
         width: 260.0,
         height: 50.0,
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorDark,
-              ],
-            ),
+            color: Theme.of(context).primaryColorLight,
             borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
             border: Border.all(
                 color: Theme.of(context).primaryColor.withAlpha(14))),
@@ -51,8 +44,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
               var json = await BarcodeScanner.scan();
               Map jsonMap = jsonDecode(json);
               switchCommunity(jsonMap['communityAddress']);
-              Router.navigator
-                  .popUntil(ModalRoute.withName(Router.cashHomeScreen));
+              Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
             } catch (e) {
               print('BarcodeScanner scan error');
             }
@@ -63,7 +55,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
               children: [
                 Text(I18n.of(context).sqan_qr_code,
                     style: TextStyle(
-                        color: Theme.of(context).textTheme.button.color,
+                        color: Theme.of(context).splashColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w500)),
                 Padding(

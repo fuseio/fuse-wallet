@@ -1,13 +1,13 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-final String supervecinaCommunityAddress =
-    '0xbbb854a02766aab8b1716afff26a20fb5b51bfa0';
+final String wikBankCommunityAddress =
+    '0xff4e4b6283db9e1d4690160a0cf740736e2b3ee8';
 
 bool isFork() {
   return DotEnv().env['FORK'] != null && DotEnv().env['FORK'] == 'true';
 }
 
-bool isSupervecina(String communityAddress) {
+bool isWikiBank(String communityAddress) {
   return communityAddress != null &&
-      communityAddress == supervecinaCommunityAddress;
+      communityAddress == wikBankCommunityAddress;
 }

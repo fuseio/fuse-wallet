@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/models/views/splash.dart';
-import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
-import 'package:supervecina/redux/actions/user_actions.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/widgets/on_boarding_pages.dart';
+import 'package:wiki_bank/models/app_state.dart';
+import 'package:wiki_bank/models/views/splash.dart';
+import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
+import 'package:wiki_bank/redux/actions/user_actions.dart';
+import 'package:wiki_bank/screens/routes.gr.dart';
+import 'package:wiki_bank/screens/splash/create_wallet.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -38,33 +38,78 @@ class _SplashScreenState extends State<SplashScreen> {
         onInit: onInit,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
-          List pages = getPages(context);
           return Scaffold(
               drawer: drawer,
               body: Container(
                   child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
-                    flex: 20,
-                    child: Container(
-                        child: Column(
-                      children: <Widget>[
-                        Expanded(
-                          child: new Stack(
-                            children: <Widget>[
-                              new PageView.builder(
-                                physics: new AlwaysScrollableScrollPhysics(),
-                                itemCount: pages.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return pages[index % pages.length];
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    )),
+                  Image.asset(
+                    'assets/images/wikibank_logo.png',
+                    width: 350,
+                    height: 300,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: RichText(
+                        textAlign: TextAlign.center,
+                        text: new TextSpan(children: <InlineSpan>[
+                          TextSpan(
+                            text: 'Caja de Ahorros Digitales',
+                            style: TextStyle(
+                                fontFamily: 'Eras',
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColorDark,
+                                fontSize: 16),
+                          ),
+                          TextSpan(
+                              text: ' de Sevilla',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'Eras',
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColorLight))
+                        ])),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/images/1.jpg',
+                            width: 100,
+                            height: 100,
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Image.asset('assets/images/2.png',
+                              width: 100, height: 100),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image.asset('assets/images/3.jpg',
+                              width: 100, height: 100),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Image.asset('assets/images/4.jpg',
+                              width: 100, height: 100),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  CreateWallet()
                 ],
               )));
         });

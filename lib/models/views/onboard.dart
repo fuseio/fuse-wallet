@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:supervecina/redux/actions/error_actions.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/screens/signup/verify.dart';
+import 'package:wiki_bank/redux/actions/error_actions.dart';
+import 'package:wiki_bank/screens/routes.gr.dart';
+import 'package:wiki_bank/screens/signup/verify.dart';
 import 'package:redux/redux.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:wiki_bank/models/app_state.dart';
+import 'package:wiki_bank/redux/actions/user_actions.dart';
 
 class OnboardViewModel extends Equatable {
   final String countryCode;

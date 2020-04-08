@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:supervecina/models/business.dart';
-import 'package:supervecina/models/transactions/transfer.dart';
-import 'package:supervecina/models/views/cash_wallet.dart';
-import 'package:supervecina/utils/forks.dart';
-import 'package:supervecina/utils/format.dart';
-import 'package:supervecina/utils/phone.dart';
+import 'package:wiki_bank/models/business.dart';
+import 'package:wiki_bank/models/transactions/transfer.dart';
+import 'package:wiki_bank/models/views/cash_wallet.dart';
+import 'package:wiki_bank/utils/forks.dart';
+import 'package:wiki_bank/utils/format.dart';
+import 'package:wiki_bank/utils/phone.dart';
 
 String deduceSign(Transfer transfer) {
   if (transfer.type == 'SEND') {
@@ -108,7 +108,7 @@ String getCoverPhotoUrl(business, communityAddress) {
   if (business.metadata.coverPhoto == null ||
       business.metadata.coverPhoto == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isSupervecina(communityAddress)) {
+  } else if (isWikiBank(communityAddress)) {
     return business.metadata.coverPhoto;
   } else {
     return DotEnv().env['IPFS_BASE_URL'] +
@@ -120,7 +120,7 @@ String getCoverPhotoUrl(business, communityAddress) {
 String getImageUrl(business, communityAddress) {
   if (business.metadata.image == null || business.metadata.image == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isSupervecina(communityAddress)) {
+  } else if (isWikiBank(communityAddress)) {
     return business.metadata.image;
   } else {
     return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.image;

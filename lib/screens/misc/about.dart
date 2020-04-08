@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:wiki_bank/generated/i18n.dart';
+import 'package:wiki_bank/widgets/main_scaffold.dart';
 import 'dart:core';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -56,38 +56,38 @@ class AboutScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    new Divider(),
-                    ListTile(
-                      contentPadding: EdgeInsets.only(
-                          top: 5, bottom: 5, right: 30, left: 30),
-                      title: InkWell(
-                        onTap: () {
-                          // TODO - link to privacy policy
-                        },
-                        child: Text(
-                          I18n.of(context).legal,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ),
-                    new Divider(),
-                    ListTile(
-                      contentPadding: EdgeInsets.only(
-                          top: 5, bottom: 5, right: 30, left: 30),
-                      title: InkWell(
-                        onTap: () {
-                          launchUrl('mailto:hello@fuse.io');
-                        },
-                        child: Text(
-                          I18n.of(context).contact_us,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ),
+                    // new Divider(),
+                    // ListTile(
+                    //   contentPadding: EdgeInsets.only(
+                    //       top: 5, bottom: 5, right: 30, left: 30),
+                    //   title: InkWell(
+                    //     onTap: () {
+                    //       // TODO - link to privacy policy
+                    //     },
+                    //     child: Text(
+                    //       I18n.of(context).legal,
+                    //       style: TextStyle(
+                    //           fontSize: 16,
+                    //           color: Theme.of(context).primaryColor),
+                    //     ),
+                    //   ),
+                    // ),
+                    // new Divider(),
+                    // ListTile(
+                    //   contentPadding: EdgeInsets.only(
+                    //       top: 5, bottom: 5, right: 30, left: 30),
+                    //   title: InkWell(
+                    //     onTap: () {
+                    //       launchUrl('mailto:hello@fuse.io');
+                    //     },
+                    //     child: Text(
+                    //       I18n.of(context).contact_us,
+                    //       style: TextStyle(
+                    //           fontSize: 16,
+                    //           color: Theme.of(context).primaryColor),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

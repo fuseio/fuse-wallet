@@ -5,24 +5,23 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/models/views/splash.dart';
-import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
-import 'package:supervecina/redux/actions/user_actions.dart';
-import 'package:supervecina/redux/state/store.dart';
-import 'package:supervecina/screens/pro_routes.gr.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/themes/app_theme.dart';
-import 'package:supervecina/themes/custom_theme.dart';
+import 'package:wiki_bank/models/app_state.dart';
+import 'package:wiki_bank/models/views/splash.dart';
+import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
+import 'package:wiki_bank/redux/actions/user_actions.dart';
+import 'package:wiki_bank/redux/state/store.dart';
+import 'package:wiki_bank/screens/pro_routes.gr.dart';
+import 'package:wiki_bank/screens/routes.gr.dart';
+import 'package:wiki_bank/themes/app_theme.dart';
+import 'package:wiki_bank/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:supervecina/generated/i18n.dart';
+import 'package:wiki_bank/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_supervecina');
-  await DotEnv().load(configFile);
+  await DotEnv().load('.env_wikibank');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runZoned<Future<void>>(() async => runApp(await customThemeApp()),
       onError: (Object error, StackTrace stackTrace) async {
@@ -119,7 +118,7 @@ class _MyAppState extends State<MyApp> {
             return new Column(children: <Widget>[
               Expanded(
                   child: MaterialApp(
-                title: 'Supervecina wallet',
+                title: 'Wiki Bank',
                 initialRoute: isProMode
                     ? ProRouter.proModeHomeScreen
                     : widget.initialRoute,

@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
-import 'package:supervecina/redux/actions/error_actions.dart';
-import 'package:supervecina/redux/actions/user_actions.dart';
-import 'package:supervecina/redux/state/store.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/services.dart';
-import 'package:supervecina/utils/phone.dart';
+import 'package:wiki_bank/models/app_state.dart';
+import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
+import 'package:wiki_bank/redux/actions/error_actions.dart';
+import 'package:wiki_bank/redux/actions/user_actions.dart';
+import 'package:wiki_bank/redux/state/store.dart';
+import 'package:wiki_bank/screens/routes.gr.dart';
+import 'package:wiki_bank/services.dart';
+import 'package:wiki_bank/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 

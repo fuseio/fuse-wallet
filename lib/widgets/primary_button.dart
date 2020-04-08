@@ -27,15 +27,7 @@ class PrimaryButton extends StatelessWidget {
       width: width ?? 255.0,
       height: height ?? 50.0,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: colors ??
-                [
-                  Theme.of(context).primaryColorLight,
-                  Theme.of(context).primaryColorDark,
-                ],
-          ),
+          color: Theme.of(context).primaryColorLight,
           borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
           border:
               Border.all(color: Theme.of(context).primaryColor.withAlpha(14))),

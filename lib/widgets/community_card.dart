@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:supervecina/models/community.dart';
+import 'package:wiki_bank/models/community.dart';
 import 'dart:core';
 
-import 'package:supervecina/screens/routes.gr.dart';
+import 'package:wiki_bank/screens/routes.gr.dart';
 
 String getImageUrl(String imaga) {
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + imaga;

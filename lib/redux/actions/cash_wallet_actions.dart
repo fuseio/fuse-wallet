@@ -3,29 +3,29 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/models/business.dart';
-import 'package:supervecina/models/community.dart';
-import 'package:supervecina/models/community_metadata.dart';
-import 'package:supervecina/models/jobs/base.dart';
-import 'package:supervecina/models/plugins.dart';
-import 'package:supervecina/models/transactions/transaction.dart';
-import 'package:supervecina/models/transactions/transactions.dart';
-import 'package:supervecina/models/transactions/transfer.dart';
-import 'package:supervecina/models/user_state.dart';
-import 'package:supervecina/redux/actions/error_actions.dart';
+import 'package:wiki_bank/models/business.dart';
+import 'package:wiki_bank/models/community.dart';
+import 'package:wiki_bank/models/community_metadata.dart';
+import 'package:wiki_bank/models/jobs/base.dart';
+import 'package:wiki_bank/models/plugins.dart';
+import 'package:wiki_bank/models/transactions/transaction.dart';
+import 'package:wiki_bank/models/transactions/transactions.dart';
+import 'package:wiki_bank/models/transactions/transfer.dart';
+import 'package:wiki_bank/models/user_state.dart';
+import 'package:wiki_bank/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:supervecina/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:supervecina/redux/actions/user_actions.dart';
-import 'package:supervecina/utils/forks.dart';
-import 'package:supervecina/redux/state/store.dart';
-import 'package:supervecina/utils/format.dart';
-import 'package:supervecina/utils/phone.dart';
+import 'package:wiki_bank/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:wiki_bank/redux/actions/user_actions.dart';
+import 'package:wiki_bank/utils/forks.dart';
+import 'package:wiki_bank/redux/state/store.dart';
+import 'package:wiki_bank/utils/format.dart';
+import 'package:wiki_bank/utils/phone.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:supervecina/services.dart';
-import 'package:supervecina/models/token.dart';
+import 'package:wiki_bank/services.dart';
+import 'package:wiki_bank/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -494,7 +494,7 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
                 "Wallet Generated": true,
-                "App name": 'Supervecina',
+                "App name": 'Wiki Bank',
                 "Phone Number": fullPhoneNumber,
                 "Wallet Address": store.state.cashWalletState.walletAddress,
                 "Account Address": store.state.userState.accountAddress,
@@ -1076,7 +1076,7 @@ ThunkAction getBusinessListCall() {
     try {
       String communityAddress = store.state.cashWalletState.communityAddress;
       store.dispatch(StartFetchingBusinessList());
-      if (isSupervecina(communityAddress)) {
+      if (isWikiBank(communityAddress)) {
         Client client = new Client();
         dynamic res = await client.get('https://api.airtable.com/v0/appQ4QMWLG5Y5ECsg/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
         dynamic a = _responseHandler(res);

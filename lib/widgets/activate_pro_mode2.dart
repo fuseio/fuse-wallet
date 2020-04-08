@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/screens/send/send_amount_arguments.dart';
-import 'package:supervecina/widgets/activate_pro_mode.dart';
+import 'package:wiki_bank/models/app_state.dart';
+import 'package:wiki_bank/screens/routes.gr.dart';
+import 'package:wiki_bank/screens/send/send_amount_arguments.dart';
+import 'package:wiki_bank/widgets/activate_pro_mode.dart';
 import 'dart:core';
 
-import 'package:supervecina/widgets/primary_button.dart';
+import 'package:wiki_bank/widgets/primary_button.dart';
 
 class ActivateProMode2Dialog extends StatefulWidget {
   @override

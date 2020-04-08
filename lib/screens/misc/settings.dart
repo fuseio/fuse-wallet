@@ -2,14 +2,14 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/models/views/drawer.dart';
-import 'package:supervecina/screens/misc/about.dart';
-import 'package:supervecina/screens/splash/splash.dart';
-import 'package:supervecina/utils/forks.dart';
-import 'package:supervecina/widgets/language_selector.dart';
-import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:wiki_bank/generated/i18n.dart';
+import 'package:wiki_bank/models/app_state.dart';
+import 'package:wiki_bank/models/views/drawer.dart';
+import 'package:wiki_bank/screens/misc/about.dart';
+import 'package:wiki_bank/screens/splash/splash.dart';
+import 'package:wiki_bank/utils/forks.dart';
+import 'package:wiki_bank/widgets/language_selector.dart';
+import 'package:wiki_bank/widgets/main_scaffold.dart';
 
 class SettingsScreen extends StatelessWidget {
   Widget getListTile(context, label, onTap) {

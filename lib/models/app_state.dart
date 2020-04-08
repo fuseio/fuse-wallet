@@ -1,6 +1,6 @@
-import 'package:supervecina/models/user_state.dart';
-import 'package:supervecina/models/cash_wallet_state.dart';
-import 'package:supervecina/models/pro/pro_wallet_state.dart';
+import 'package:wiki_bank/models/user_state.dart';
+import 'package:wiki_bank/models/cash_wallet_state.dart';
+import 'package:wiki_bank/models/pro/pro_wallet_state.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'app_state.g.dart';

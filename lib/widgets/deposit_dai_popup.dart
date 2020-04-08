@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/community.dart';
-import 'package:supervecina/models/plugins.dart';
-import 'package:supervecina/utils/addresses.dart';
-import 'package:supervecina/screens/cash_home/deposit_webview.dart';
-import 'package:supervecina/screens/routes.gr.dart';
+import 'package:wiki_bank/generated/i18n.dart';
+import 'package:wiki_bank/models/community.dart';
+import 'package:wiki_bank/models/plugins.dart';
+import 'package:wiki_bank/utils/addresses.dart';
+import 'package:wiki_bank/screens/cash_home/deposit_webview.dart';
+import 'package:wiki_bank/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
-import 'package:supervecina/models/app_state.dart';
+import 'package:wiki_bank/models/app_state.dart';
 import 'dart:core';
 
 class DepositDaiDialog extends StatefulWidget {

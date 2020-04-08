@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervecina/generated/i18n.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/models/views/splash.dart';
-import 'package:supervecina/screens/routes.gr.dart';
-import 'package:supervecina/widgets/primary_button.dart';
-import 'package:supervecina/widgets/transparent_button.dart';
+import 'package:wiki_bank/generated/i18n.dart';
+import 'package:wiki_bank/models/app_state.dart';
+import 'package:wiki_bank/models/views/splash.dart';
+import 'package:wiki_bank/screens/routes.gr.dart';
+import 'package:wiki_bank/widgets/primary_button.dart';
+import 'package:wiki_bank/widgets/transparent_button.dart';
 
 class CreateWallet extends StatefulWidget {
   @override
@@ -28,15 +28,15 @@ class _CreateWalletState extends State<CreateWallet> {
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
           return Column(
-            mainAxisSize: MainAxisSize.max,
+            // mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.asset(
-                'assets/images/supervecina_log.png',
-                width: 350,
-                height: 550,
-              ),
+              // Image.asset(
+              //   'assets/images/wikibank_logo.png',
+              //   width: 350,
+              //   height: 550,
+              // ),
               PrimaryButton(
                 fontSize: 16,
                 labelFontWeight: FontWeight.normal,
@@ -72,7 +72,8 @@ class _CreateWalletState extends State<CreateWallet> {
                                 fontSize: 14,
                                 label: I18n.of(context).restore_backup,
                                 onPressed: () async {
-                                  Router.navigator.pushNamed(Router.recoveryPage);
+                                  Router.navigator
+                                      .pushNamed(Router.recoveryPage);
                                 }),
                             Text(
                               I18n.of(context).or,
@@ -87,7 +88,8 @@ class _CreateWalletState extends State<CreateWallet> {
                                     setState(() {
                                       isTransparentPreloading = false;
                                     });
-                                    Router.navigator.pushNamed(Router.signupScreen);
+                                    Router.navigator
+                                        .pushNamed(Router.signupScreen);
                                   });
                                   setState(() {
                                     isTransparentPreloading = true;

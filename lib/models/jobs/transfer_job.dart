@@ -1,8 +1,8 @@
-import 'package:supervecina/models/jobs/base.dart';
-import 'package:supervecina/models/transactions/transfer.dart';
-import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
-import 'package:supervecina/redux/state/store.dart';
-import 'package:supervecina/services.dart';
+import 'package:wiki_bank/models/jobs/base.dart';
+import 'package:wiki_bank/models/transactions/transfer.dart';
+import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
+import 'package:wiki_bank/redux/state/store.dart';
+import 'package:wiki_bank/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer_job.g.dart';

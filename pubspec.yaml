@@ -1,4 +1,4 @@
-name: supervecina
+name: wiki_bank
 version: 1.1.27+154
 description: A new Flutter project.
 environment:
@@ -61,12 +61,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_icons:
-  image_path: assets/images/icon_app.png
+  image_path: assets/images/app_icon.png
   android: true
   ios: true
 flutter:
   assets:
-    - .env_supervecina
+    - .env_wikibank
     - .env_prod
     - .env_qa
     - assets/
@@ -86,5 +86,19 @@ flutter:
         - asset: assets/fonts/europa-bold-webfont.ttf
           weight: 800
         - asset: assets/fonts/europa-bold-webfont.ttf
+          weight: 900
+    - family: Eras
+      fonts:
+        - asset: assets/fonts/eras_bd.ttf
+          weight: 300
+        - asset: assets/fonts/eras_bd.ttf
+          weight: 400
+        - asset: assets/fonts/eras_bd.ttf
+          weight: 600
+        - asset: assets/fonts/eras_bold.ttf
+          weight: 700
+        - asset: assets/fonts/eras_bold.ttf
+          weight: 800
+        - asset: assets/fonts/eras_bold.ttf
           weight: 900
   uses-material-design: true

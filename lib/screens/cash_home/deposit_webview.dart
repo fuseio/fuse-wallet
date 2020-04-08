@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/models/plugins.dart';
-import 'package:supervecina/models/views/drawer.dart';
+import 'package:wiki_bank/models/app_state.dart';
+import 'package:wiki_bank/models/plugins.dart';
+import 'package:wiki_bank/models/views/drawer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

@@ -1,13 +1,13 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
-import 'package:supervecina/redux/actions/user_actions.dart';
-import 'package:supervecina/utils/contacts.dart';
-import 'package:supervecina/models/app_state.dart';
+import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
+import 'package:wiki_bank/redux/actions/user_actions.dart';
+import 'package:wiki_bank/utils/contacts.dart';
+import 'package:wiki_bank/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_transactions.dart';
-import 'package:supervecina/models/views/cash_wallet.dart';
+import 'package:wiki_bank/models/views/cash_wallet.dart';
 
 void onChange(CashWalletViewModel viewModel, BuildContext context) async {
   if (!viewModel.isJobProcessingStarted) {

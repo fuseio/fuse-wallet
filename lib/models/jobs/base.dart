@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:supervecina/models/jobs/backup_job.dart';
-import 'package:supervecina/models/jobs/generate_wallet_job.dart';
-import 'package:supervecina/models/jobs/invite_bonus_job.dart';
-import 'package:supervecina/models/jobs/invite_job.dart';
-import 'package:supervecina/models/jobs/join_bonus_job.dart';
-import 'package:supervecina/models/jobs/join_community_job.dart';
-import 'package:supervecina/models/jobs/transfer_job.dart';
+import 'package:wiki_bank/models/jobs/backup_job.dart';
+import 'package:wiki_bank/models/jobs/generate_wallet_job.dart';
+import 'package:wiki_bank/models/jobs/invite_bonus_job.dart';
+import 'package:wiki_bank/models/jobs/invite_job.dart';
+import 'package:wiki_bank/models/jobs/join_bonus_job.dart';
+import 'package:wiki_bank/models/jobs/join_community_job.dart';
+import 'package:wiki_bank/models/jobs/transfer_job.dart';
 
 abstract class Job {
   static const String RELAY = "relay";
