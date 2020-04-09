@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>App</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.fuse.roost.app</string>
+	<string>com.roostnow.Roost.app</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

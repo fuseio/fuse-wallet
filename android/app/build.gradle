@@ -45,7 +45,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "io.fuse.roost"
+        applicationId "com.roostnow.Roost"
         minSdkVersion 18
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
