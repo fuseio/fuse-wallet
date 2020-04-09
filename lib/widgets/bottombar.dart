@@ -66,8 +66,8 @@ Widget bottomBar(BuildContext context) {
                 }),
                 bottomBarItem(
                     isCurrentRoute(context, '/Buy')
-                        ? "buy_selected.svg"
-                        : "buy.svg",
+                        ? "rent_selected.svg"
+                        : "rent.svg",
                     'Pay Rent', () {
                   if (isHomePage) {
                     redirect(context, '/Buy');
