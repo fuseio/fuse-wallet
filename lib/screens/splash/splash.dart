@@ -51,26 +51,29 @@ class _SplashScreenState extends State<SplashScreen> {
                     height: 300,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: RichText(
-                        textAlign: TextAlign.center,
-                        text: new TextSpan(children: <InlineSpan>[
-                          TextSpan(
-                            text: 'Caja de Ahorros Digitales',
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Center(
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'Caja de Ahorros Digitales',
                             style: TextStyle(
                                 fontFamily: 'Eras',
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).primaryColorDark,
-                                fontSize: 16),
+                                fontSize: 18),
                           ),
-                          TextSpan(
-                              text: ' de Sevilla',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'Eras',
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColorLight))
-                        ])),
+                          Text(
+                            '\nde Triana',
+                            style: TextStyle(
+                                fontFamily: 'Eras',
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColorLight,
+                                fontSize: 18),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                   Column(
                     children: <Widget>[

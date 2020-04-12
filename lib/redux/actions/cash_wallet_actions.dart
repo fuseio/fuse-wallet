@@ -899,7 +899,7 @@ ThunkAction joinCommunitySuccessCall(Job job, dynamic fetchedData, Transfer tran
         from: DotEnv().env['FUNDER_ADDRESS'],
         type: 'RECEIVE',
         value: value,
-        text: 'You got a join bonus!',
+        text: 'Tienes un regalo por unirte!',
         status: 'PENDING',
         jobId: joinBonusJobId ?? joinCommunityJobId);
       store.dispatch(new AddTransaction(joinBonus));
@@ -1095,7 +1095,6 @@ ThunkAction getBusinessListCall() {
                 'phoneNumber': data['phoneNumber'] ?? '',
                 'website': data['website'] ?? '',
                 'type': data['type'] ?? '',
-                'address': data['address'] ?? '',
                 'latLng': data['GPS'] != null ? data['GPS'].split(',').toList().map((item) => double.parse(item.trim())).toList() : null
               }
             });

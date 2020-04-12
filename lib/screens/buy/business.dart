@@ -39,6 +39,7 @@ class BusinessPage extends StatefulWidget {
 class _BusinessPageState extends State<BusinessPage> {
   GlobalKey<ScaffoldState> scaffoldState;
   Completer<GoogleMapController> _controller = Completer();
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -47,6 +48,25 @@ class _BusinessPageState extends State<BusinessPage> {
   @override
   void initState() {
     super.initState();
+    bool showMap = this.widget.pageArgs.business.metadata.latLng != null && this.widget.pageArgs.business.metadata.latLng.isNotEmpty;
+    if (showMap) {
+      _add();
+    }
+  }
+
+
+  void _add() {
+    final String markerIdVal = this.widget.pageArgs.business.name;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    final BusinessPageArguments businessArgs = this.widget.pageArgs;
+    final Marker marker = Marker(
+      markerId: markerId,
+      position: LatLng(businessArgs.business.metadata.latLng[0], businessArgs.business.metadata.latLng[1]),
+      infoWindow: InfoWindow(title: this.widget.pageArgs.business.metadata.address, snippet: '*'));
+
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
   @override
@@ -54,7 +74,7 @@ class _BusinessPageState extends State<BusinessPage> {
     final BusinessPageArguments businessArgs = this.widget.pageArgs;
     String coverPhotoUrl = getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
     String imageUrl = getImageUrl(businessArgs.business, businessArgs.communityAddress);
-
+    bool showMap = businessArgs.business.metadata.latLng != null && businessArgs.business.metadata.latLng.isNotEmpty;
     return new Scaffold(
       key: scaffoldState,
       body: Container(
@@ -275,8 +295,9 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: <Widget>[
-                         businessArgs.business.metadata.latLng != null && businessArgs.business.metadata.latLng.isNotEmpty ? GoogleMap(
+                          showMap ? GoogleMap(
                             onMapCreated: _onMapCreated,
+                            markers: Set<Marker>.from(markers.values),
                             initialCameraPosition: CameraPosition(
                               target: LatLng(businessArgs.business.metadata.latLng[0], businessArgs.business.metadata.latLng[1]),
                               zoom: 13.0,
@@ -294,9 +315,9 @@ class _BusinessPageState extends State<BusinessPage> {
                               child: Text(
                                 I18n.of(context).pay,
                                 style: TextStyle(
-                                    color: Theme.of(context).textTheme.button.color,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal),
+                                    color: Theme.of(context).splashColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
                               ),
                               onPressed: () {
                                 Router.navigator.pushNamed(Router.sendAmountScreen,

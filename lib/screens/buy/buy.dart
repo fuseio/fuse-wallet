@@ -122,14 +122,14 @@ class BusinessesListView extends StatelessWidget {
         business.name ?? '',
         style: TextStyle(
             color: Theme.of(context).primaryColor,
-            fontSize: 14,
+            fontSize: 15,
             fontWeight: FontWeight.normal),
       ),
       subtitle: Text(
         business.metadata.description ?? '',
         style: TextStyle(
             color: Theme.of(context).accentColor,
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: FontWeight.normal),
       ),
       onTap: () {

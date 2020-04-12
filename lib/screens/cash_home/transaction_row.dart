@@ -41,6 +41,7 @@ class TransactionListItem extends StatelessWidget {
                     ? _contact.displayName
                     : deducePhoneNumber(transfer, _vm.reverseContacts,
                         businesses: _vm.businesses);
+    print('displayName displayName displayName $displayName');
     List<Widget> rightColumn = <Widget>[
       transfer.isGenerateWallet() || transfer.isJoinCommunity()
           ? SizedBox.shrink()
@@ -220,12 +221,11 @@ class TransactionListItem extends StatelessWidget {
                                           ],
                                         ),
                                         padding: EdgeInsets.only(top: 10)))
-                                : transfer.isGenerateWallet() &&
-                                        !isWalletCreated
+                                : transfer.isGenerateWallet() && !isWalletCreated
                                     ? Positioned(
                                         bottom: -20,
                                         child: Padding(
-                                            child: Text('(up to 10 seconds)',
+                                            child: Text('(hasta 10 segundos)',
                                                 style: TextStyle(
                                                     fontSize: 12,
                                                     color: Theme.of(context)

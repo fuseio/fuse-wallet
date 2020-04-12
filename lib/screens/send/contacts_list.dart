@@ -406,7 +406,7 @@ class _ContactsListState extends State<ContactsList> {
                     onFocusChange: (showFooter) => _onFocusChange(showFooter),
                     child: TextFormField(
                       controller: searchController,
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: TextStyle(fontSize: 18, color: Colors.black),
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(0.0),
                         border: OutlineInputBorder(

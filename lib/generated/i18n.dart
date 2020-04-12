@@ -56,6 +56,8 @@ class I18n implements WidgetsLocalizations {
   String get balance => "Balance";
   /// "Important!"
   String get important => "Important!";
+  /// "Phone number"
+  String get phoneNumber => "Phone number";
   /// "Ok"
   String get ok => "Ok";
   /// "Contact us"
@@ -232,10 +234,20 @@ class I18n implements WidgetsLocalizations {
   String get assets_and_contracts => "Assets and contracts";
   /// "Sent to your Ethereum wallet"
   String get sending_to_ethereum => "Sent to your Ethereum wallet";
-  /// "Sending to your Ethereum wallet"
-  String get sent_to_ethereum => "Sending to your Ethereum wallet";
+  /// "Sent to Ethereum"
+  String get sent_to_ethereum => "Sent to Ethereum";
   /// "Community webpage"
   String get communityWepbpage => "Community webpage";
+  /// "Received from Ethereum"
+  String get received_from_ethereum => "Received from Ethereum";
+  /// "Add DAI"
+  String get addDai => "Add DAI";
+  /// "Withdraw DAI"
+  String get withdrawDAI => "Withdraw DAI";
+  /// "Send to cash mode"
+  String get sendToCashMode => "Send to cash mode";
+  /// "generateWallet"
+  String get generateWallet => "generateWallet";
 }
 
 class _I18n_en_US extends I18n {
@@ -502,18 +514,36 @@ class _I18n_es_ES extends I18n {
   /// "Iniciar Sesión"
   @override
   String get login => "Iniciar Sesión";
-  /// "Crear un monedero nuevo"
+  /// "Crear una nueva cuenta"
   @override
-  String get create_new_wallet => "Crear un monedero nuevo";
+  String get create_new_wallet => "Crear una nueva cuenta";
   /// "Crear un monedero"
   @override
   String get create__wallet => "Crear un monedero";
   /// "Restauras copia de seguridad"
   @override
   String get restore_backup => "Restauras copia de seguridad";
-  /// "Mi balance"
+  /// "Mi cuenta"
   @override
-  String get balance => "Mi balance";
+  String get balance => "Mi cuenta";
+  /// "Important!"
+  @override
+  String get important => "Important!";
+  /// "Número de teléfono"
+  @override
+  String get phoneNumber => "Número de teléfono";
+  /// "Ok"
+  @override
+  String get ok => "Ok";
+  /// "Contact us"
+  @override
+  String get contact_us => "Contact us";
+  /// "Your fuse wallet is protected!"
+  @override
+  String get wallet_protected => "Your fuse wallet is protected!";
+  /// "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
+  @override
+  String get wallet_protected_text => "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
   /// "Las siguientes 12 palabras te darán acceso a recuperar tu cuenta."
   @override
   String get write_words => "Las siguientes 12 palabras te darán acceso a recuperar tu cuenta.";
@@ -541,15 +571,18 @@ class _I18n_es_ES extends I18n {
   /// "No se encontraron negocios"
   @override
   String get no_businesses => "No se encontraron negocios";
-  /// "Crear monedero"
+  /// "Creando tu cuenta"
   @override
-  String get generating_wallet => "Crear monedero";
-  /// "Monedero creado"
+  String get generating_wallet => "Creando tu cuenta";
+  /// "Cuenta creada"
   @override
-  String get generated_wallet => "Monedero creado";
+  String get generated_wallet => "Cuenta creada";
   /// "PENDIENTE"
   @override
   String get pending => "PENDIENTE";
+  /// "FAILED"
+  @override
+  String get failed => "FAILED";
   /// "CONFIRMADO"
   @override
   String get confirmed => "CONFIRMADO";
@@ -562,18 +595,30 @@ class _I18n_es_ES extends I18n {
   /// "A"
   @override
   String get to => "A";
+  /// "From"
+  @override
+  String get from => "From";
   /// "Dirección"
   @override
   String get address => "Dirección";
   /// "Cantidad"
   @override
   String get amount => "Cantidad";
-  /// "Bono de bienvenida!"
+  /// "Tienes un regalo por unirte!"
   @override
-  String get join_bonus => "Bono de bienvenida!";
+  String get join_bonus => "Tienes un regalo por unirte!";
   /// "Unirse a la Comunidad"
   @override
   String get joining_community => "Unirse a la Comunidad";
+  /// "Unirse"
+  @override
+  String get joining => "Unirse";
+  /// "Unido"
+  @override
+  String get joined => "Unido";
+  /// "comunidad"
+  @override
+  String get community => "comunidad";
   /// "Acerca de"
   @override
   String get about => "Acerca de";
@@ -625,12 +670,15 @@ class _I18n_es_ES extends I18n {
   /// "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos"
   @override
   String get enable_contacts_text => "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos";
-  /// "Recibir dinero"
+  /// "Sync contcats"
   @override
-  String get receive => "Recibir dinero";
-  /// "Escanea el código QR para recibir dinero"
+  String get sync_contacts => "Sync contcats";
+  /// "Recibir"
   @override
-  String get scan_to_receive => "Escanea el código QR para recibir dinero";
+  String get receive => "Recibir";
+  /// "Escanea el código QR para recibir"
+  @override
+  String get scan_to_receive => "Escanea el código QR para recibir";
   /// "Compartir"
   @override
   String get share_button => "Compartir";
@@ -643,6 +691,15 @@ class _I18n_es_ES extends I18n {
   /// "Continua con"
   @override
   String get continue_with => "Continua con";
+  /// "Sync your contact"
+  @override
+  String get sync_your_contacts => "Sync your contact";
+  /// "Learn more"
+  @override
+  String get learn_more => "Learn more";
+  /// "Activate"
+  @override
+  String get activate => "Activate";
   /// "Reciente"
   @override
   String get recent => "Reciente";
@@ -658,9 +715,9 @@ class _I18n_es_ES extends I18n {
   /// "Éxito"
   @override
   String get success => "Éxito";
-  /// "Recuperar de tu soporte"
+  /// "Recuperar tu cuenta"
   @override
-  String get restore_from_backup => "Recuperar de tu soporte";
+  String get restore_from_backup => "Recuperar tu cuenta";
   /// "Estas son las 12 palabras que te fueron entregadas para recuperar tu monedero"
   @override
   String get restore_words => "Estas son las 12 palabras que te fueron entregadas para recuperar tu monedero";
@@ -670,9 +727,9 @@ class _I18n_es_ES extends I18n {
   /// "Ingresar"
   @override
   String get sign_up => "Ingresar";
-  /// "Porfavor escribe tu número telefónico para que podamos crear tu monedero"
+  /// "Por favor escribe tu número telefónico para que podamos crear tu cuenta"
   @override
-  String get enter_phone_number => "Porfavor escribe tu número telefónico para que podamos crear tu monedero";
+  String get enter_phone_number => "Por favor escribe tu número telefónico para que podamos crear tu cuenta";
   /// "¿Por qué necesitamos esto?"
   @override
   String get why_do_we_need_this => "¿Por qué necesitamos esto?";
@@ -727,18 +784,36 @@ class _I18n_es_ES extends I18n {
   /// "Configuraciones"
   @override
   String get settings => "Configuraciones";
-  /// "Hogar"
+  /// "Inicio"
   @override
-  String get home => "Hogar";
+  String get home => "Inicio";
   /// "Comercio"
   @override
   String get trade => "Comercio";
   /// "Activos y contratos"
   @override
   String get assets_and_contracts => "Activos y contratos";
-  /// "Página web de la comunidad"
+  /// "Sent to your Ethereum wallet"
   @override
-  String get communityWepbpage => "Página web de la comunidad";
+  String get sending_to_ethereum => "Sent to your Ethereum wallet";
+  /// "Sent to Ethereum"
+  @override
+  String get sent_to_ethereum => "Sent to Ethereum";
+  /// "Received from Ethereum"
+  @override
+  String get received_from_ethereum => "Received from Ethereum";
+  /// "Add DAI"
+  @override
+  String get addDai => "Add DAI";
+  /// "Withdraw DAI"
+  @override
+  String get withdrawDAI => "Withdraw DAI";
+  /// "Send to cash mode"
+  @override
+  String get sendToCashMode => "Send to cash mode";
+  /// "generateWallet"
+  @override
+  String get generateWallet => "generateWallet";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

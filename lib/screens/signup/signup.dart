@@ -41,8 +41,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
-    _updateCountryCode(myLocale);
+    // Locale myLocale = Localizations.localeOf(context);
+    // _updateCountryCode(myLocale);
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
@@ -155,13 +155,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                   keyboardType: TextInputType.number,
                                   autofocus: true,
                                   validator: (String value) => value.isEmpty ? "Please enter mobile number" : null,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: 16, color: Colors.black),
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                       contentPadding:
-                                          const EdgeInsets.symmetric(
+                                          EdgeInsets.symmetric(
                                               vertical: 20, horizontal: 10),
-                                      hintText: 'Phone number',
+                                      hintText: I18n.of(context).phoneNumber,
                                       border: InputBorder.none,
                                       focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide.none),

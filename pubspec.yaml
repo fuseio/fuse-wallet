@@ -9,7 +9,7 @@ dependencies:
   flushbar: ^1.10.0
   url_launcher: ^5.4.2
   http: ^0.12.0+4
-  google_maps_flutter: ^0.5.24+1
+  google_maps_flutter: ^0.5.25+3
   equatable: ^1.1.1
   shared_preferences: ^0.5.6+3
   package_info: ^0.4.0+16
@@ -67,8 +67,6 @@ flutter_icons:
 flutter:
   assets:
     - .env_wikibank
-    - .env_prod
-    - .env_qa
     - assets/
     - assets/images/
   fonts:

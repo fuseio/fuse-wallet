@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:wiki_bank/generated/i18n.dart';
+import 'package:country_code_picker/country_codes.dart';
 
 class LanguageSelector extends StatefulWidget {
   @override
@@ -21,24 +22,26 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     return _buildTiles(context);
   }
 
-  List<Widget> _languageItems() {
-    return I18n.delegate.supportedLocales.map((lang) {
-      bool isSelected = Localizations.localeOf(context).languageCode == lang.languageCode;
+  List<Widget> _languageItems(context) {
+    Locale currentLocal = Localizations.localeOf(context);
+    return I18n.delegate.supportedLocales.map((local) {
+      bool isSelected = currentLocal == local;
+      Map code = codes.firstWhere((code) => code['code'] == local.countryCode, orElse: () => null);
+      String name = code['name'] ?? local.countryCode;
       return new ListTile(
           contentPadding:
               EdgeInsets.only(top: 5, bottom: 5, left: 30, right: 15),
           title: new Text(
-            lang.languageCode,
+            name,
             style: TextStyle(color: Theme.of(context).primaryColor),
           ),
           trailing:
-              Localizations.localeOf(context).languageCode == lang.languageCode
+              isSelected
                   ? new Icon(Icons.check, color: Colors.green)
                   : null,
           selected: isSelected,
           onTap: () {
-            I18n.onLocaleChanged(
-                new Locale(lang.languageCode, lang.countryCode));
+            I18n.onLocaleChanged(Locale(local.languageCode, local.countryCode));
             setState(() {
               _collapse();
             });
@@ -60,7 +63,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
           )
         ],
       ),
-      children: _languageItems(),
+      children: _languageItems(context),
     );
   }
 
