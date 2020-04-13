@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/models/views/drawer.dart';
+import 'package:BIM/models/app_state.dart';
+import 'package:BIM/models/plugins.dart';
+import 'package:BIM/models/views/drawer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

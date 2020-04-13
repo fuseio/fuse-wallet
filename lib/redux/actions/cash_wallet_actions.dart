@@ -3,31 +3,32 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:BIM/models/business.dart';
+import 'package:BIM/models/community.dart';
+import 'package:BIM/models/community_metadata.dart';
+import 'package:BIM/models/jobs/base.dart';
+import 'package:BIM/models/plugins.dart';
+import 'package:BIM/models/transactions/transaction.dart';
+import 'package:BIM/models/transactions/transactions.dart';
+import 'package:BIM/models/transactions/transfer.dart';
+import 'package:BIM/models/user_state.dart';
+import 'package:BIM/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:BIM/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:BIM/redux/actions/user_actions.dart';
+import 'package:BIM/utils/addresses.dart';
+import 'package:BIM/redux/state/store.dart';
+import 'package:BIM/utils/format.dart';
+import 'package:BIM/utils/phone.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:fusecash/services.dart';
-import 'package:fusecash/models/token.dart';
+import 'package:BIM/services.dart';
+import 'package:BIM/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:BIM/utils/forks.dart';
 
 class SetDefaultCommunity {
   String defaultCommunity;
@@ -503,7 +504,7 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
                 "Wallet Generated": true,
-                "App name": 'Fuse',
+                "App name": 'BIM',
                 "Phone Number": fullPhoneNumber,
                 "Wallet Address": store.state.cashWalletState.walletAddress,
                 "Account Address": store.state.userState.accountAddress,
@@ -1090,6 +1091,16 @@ Map<String, dynamic> responseHandler(Response response) {
       throw 'Error! status: ${response.statusCode}, reason: ${response.reasonPhrase}';
   }
 }
+Map<String, dynamic> _responseHandler(Response response) {
+  switch (response.statusCode) {
+    case 200:
+      Map<String, dynamic> obj = json.decode(response.body);
+      return obj;
+      break;
+    default:
+      throw 'Error! status: ${response.statusCode}, reason: ${response.reasonPhrase}';
+  }
+}
 
 ThunkAction getBusinessListCall() {
   return (Store store) async {
@@ -1097,22 +1108,52 @@ ThunkAction getBusinessListCall() {
     try {
       String communityAddress = store.state.cashWalletState.communityAddress;
       store.dispatch(StartFetchingBusinessList());
-      Community community = store.state.cashWalletState.communities[communityAddress];
-        bool isOriginRopsten = community.token?.originNetwork != null
-            ? community.token?.originNetwork == 'ropsten'
-            : false;
-        dynamic communityEntities = await graph.getCommunityBusinesses(communityAddress);
+      if (isBIM(communityAddress)) {
+        Client client = new Client();
+        dynamic res = await client.get('https://api.airtable.com/v0/appjAS5oZMJn14Ea1/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
+        dynamic a = _responseHandler(res);
         List<Business> businessList = new List();
-        await Future.forEach(communityEntities, (entity) async {
-          dynamic metadata = await api.getEntityMetadata(communityAddress, entity['address'], isRopsten: isOriginRopsten);
-          entity['name'] = metadata['name'];
-          entity['metadata'] = metadata;
-          entity['account'] = entity['address'];
-          businessList.add(new Business.fromJson(entity));
+        await Future.forEach(a['records'], (record) {
+          if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
+            dynamic data = record['fields'];
+            Map<String, dynamic> business = Map.from({
+              'name': data['name'] ?? '',
+              'account': data['account'] ?? '',
+              'metadata': {
+                'image': data['image'][0]['url'] ?? '',
+                "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
+                'address': data['address'] ?? '',
+                'description': data['description'] ?? '',
+                'phoneNumber': data['phoneNumber'] ?? '',
+                'website': data['website'] ?? '',
+                'type': data['type'] ?? '',
+                'latLng': data['GPS'] != null ? data['GPS'].split(',').toList().map((item) => double.parse(item.trim())).toList() : null
+              }
+            });
+            businessList.add(new Business.fromJson(business));
+          }
         }).then((r) {
           store.dispatch(new GetBusinessListSuccess(businessList));
           store.dispatch(FetchingBusinessListSuccess());
         });
+      } else {
+        Community community = store.state.cashWalletState.communities[communityAddress];
+          bool isOriginRopsten = community.token?.originNetwork != null
+              ? community.token?.originNetwork == 'ropsten'
+              : false;
+          dynamic communityEntities = await graph.getCommunityBusinesses(communityAddress);
+          List<Business> businessList = new List();
+          await Future.forEach(communityEntities, (entity) async {
+            dynamic metadata = await api.getEntityMetadata(communityAddress, entity['address'], isRopsten: isOriginRopsten);
+            entity['name'] = metadata['name'];
+            entity['metadata'] = metadata;
+            entity['account'] = entity['address'];
+            businessList.add(new Business.fromJson(entity));
+          }).then((r) {
+            store.dispatch(new GetBusinessListSuccess(businessList));
+            store.dispatch(FetchingBusinessListSuccess());
+          });
+      }
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');
       store.dispatch(FetchingBusinessListFailed());

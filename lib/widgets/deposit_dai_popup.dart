@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/screens/cash_home/deposit_webview.dart';
-import 'package:fusecash/screens/pro_routes.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:BIM/generated/i18n.dart';
+import 'package:BIM/models/community.dart';
+import 'package:BIM/models/plugins.dart';
+import 'package:BIM/screens/cash_home/deposit_webview.dart';
+import 'package:BIM/screens/pro_routes.gr.dart';
+import 'package:BIM/screens/routes.gr.dart';
+import 'package:BIM/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:BIM/models/app_state.dart';
 import 'dart:core';
 
 class DepositDaiDialog extends StatefulWidget {

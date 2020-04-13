@@ -2,13 +2,13 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/pro_routes.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:BIM/generated/i18n.dart';
+import 'package:BIM/models/app_state.dart';
+import 'package:BIM/models/views/backup.dart';
+import 'package:BIM/screens/pro_routes.gr.dart';
+import 'package:BIM/screens/routes.gr.dart';
+import 'package:BIM/widgets/main_scaffold.dart';
+import 'package:BIM/widgets/primary_button.dart';
 
 class DoneBackup extends StatelessWidget {
   @override

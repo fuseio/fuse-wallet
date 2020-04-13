@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/pro/token.dart';
+import 'package:BIM/models/pro/token.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 

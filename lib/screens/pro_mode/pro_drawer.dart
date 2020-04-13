@@ -3,15 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:BIM/generated/i18n.dart';
+import 'package:BIM/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/views/drawer.dart';
-import 'package:fusecash/screens/backup/show_mnemonic.dart';
-import 'package:fusecash/screens/cash_home/deposit_webview.dart';
-import 'package:fusecash/screens/misc/settings.dart';
-import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:BIM/models/views/drawer.dart';
+import 'package:BIM/screens/backup/show_mnemonic.dart';
+import 'package:BIM/screens/cash_home/deposit_webview.dart';
+import 'package:BIM/screens/misc/settings.dart';
+import 'package:BIM/utils/forks.dart';
+import 'package:BIM/utils/format.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 

@@ -1,15 +1,15 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/backup/verify_mnemonic.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:BIM/generated/i18n.dart';
+import 'package:BIM/models/views/backup.dart';
+import 'package:BIM/screens/backup/verify_mnemonic.dart';
+import 'package:BIM/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/copy.dart';
-import 'package:fusecash/widgets/preloader.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:BIM/models/app_state.dart';
+import 'package:BIM/widgets/copy.dart';
+import 'package:BIM/widgets/preloader.dart';
+import 'package:BIM/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   @override

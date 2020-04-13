@@ -4,14 +4,14 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/views/switch_community.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/community_card.dart';
+import 'package:BIM/generated/i18n.dart';
+import 'package:BIM/models/app_state.dart';
+import 'package:BIM/models/community.dart';
+import 'package:BIM/models/views/switch_community.dart';
+import 'package:BIM/screens/routes.gr.dart';
+import 'package:BIM/widgets/community_card.dart';
 import 'dart:core';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:BIM/widgets/main_scaffold.dart';
 
 class SwitchCommunityScreen extends StatefulWidget {
   @override
@@ -34,14 +34,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
         width: 260.0,
         height: 50.0,
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorDark,
-              ],
-            ),
+            color: Theme.of(context).buttonColor,
             borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
             border: Border.all(
                 color: Theme.of(context).primaryColor.withAlpha(14))),
@@ -63,7 +56,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
               children: [
                 Text(I18n.of(context).sqan_qr_code,
                     style: TextStyle(
-                        color: Theme.of(context).textTheme.button.color,
+                        color: Theme.of(context).splashColor,
                         fontSize: 16,
                         fontWeight: FontWeight.w500)),
                 Padding(

@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:BIM/generated/i18n.dart';
+import 'package:BIM/models/pro/token.dart';
+import 'package:BIM/utils/addresses.dart';
+import 'package:BIM/utils/format.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:BIM/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class ProTokenHeader extends StatelessWidget {

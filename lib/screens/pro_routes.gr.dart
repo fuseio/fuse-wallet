@@ -7,9 +7,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/pro_mode/pro_mode.dart';
-import 'package:fusecash/screens/pro_mode/token_transfers.dart';
-import 'package:fusecash/models/pro/token.dart';
+import 'package:BIM/screens/pro_mode/pro_mode.dart';
+import 'package:BIM/screens/pro_mode/token_transfers.dart';
+import 'package:BIM/models/pro/token.dart';
 
 class ProRouter {
   static const proModeHomeScreen = '/';

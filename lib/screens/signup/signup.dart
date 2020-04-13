@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:BIM/generated/i18n.dart';
+import 'package:BIM/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:country_code_picker/country_codes.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/signup_dialog.dart';
-import 'package:fusecash/models/views/onboard.dart';
+import 'package:BIM/widgets/main_scaffold.dart';
+import 'package:BIM/widgets/primary_button.dart';
+import 'package:BIM/widgets/signup_dialog.dart';
+import 'package:BIM/models/views/onboard.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -21,28 +20,28 @@ class _SignupScreenState extends State<SignupScreen> {
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
   bool isvalidPhone = true;
-  CountryCode countryCode = new CountryCode(dialCode: '‎+1');
+  CountryCode countryCode = new CountryCode(dialCode: '‎+51', code: 'PE');
 
   @override
   void initState() {
     super.initState();
   }
 
-  _updateCountryCode(Locale myLocale) {
-    if (myLocale.countryCode != null) {
-      Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
-      if (mounted && localeData != null) {
-        setState(() {
-          countryCode = CountryCode(dialCode: localeData['dial_code'], code: localeData['code']);
-        });
-      }
-    }
-  }
+  // _updateCountryCode(Locale myLocale) {
+  //   if (myLocale.countryCode != null) {
+  //     Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
+  //     if (mounted && localeData != null) {
+  //       setState(() {
+  //         countryCode = CountryCode(dialCode: localeData['dial_code'], code: localeData['code']);
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
-    _updateCountryCode(myLocale);
+    // Locale myLocale = Localizations.localeOf(context);
+    // _updateCountryCode(myLocale);
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,

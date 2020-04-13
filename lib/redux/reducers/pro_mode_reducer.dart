@@ -1,8 +1,8 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:BIM/models/jobs/base.dart';
+import 'package:BIM/models/pro/pro_wallet_state.dart';
+import 'package:BIM/models/pro/token.dart';
+import 'package:BIM/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:BIM/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 final proWalletReducers = combineReducers<ProWalletState>([

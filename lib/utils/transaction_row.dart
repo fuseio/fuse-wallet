@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
-// import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:BIM/models/business.dart';
+import 'package:BIM/models/transactions/transfer.dart';
+import 'package:BIM/models/views/cash_wallet.dart';
+import 'package:BIM/utils/forks.dart';
+import 'package:BIM/utils/format.dart';
+import 'package:BIM/utils/phone.dart';
 
 String getIPFSImageUrl(String image) {
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;
@@ -110,11 +110,9 @@ String getCoverPhotoUrl(business, communityAddress) {
   if (business.metadata.coverPhoto == null ||
       business.metadata.coverPhoto == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  }
-  //  else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
-  //   return business.metadata.coverPhoto;
-  // }
-  else {
+  } else if (isBIM(communityAddress)) {
+    return business.metadata.coverPhoto;
+  } else {
     return getIPFSImageUrl(business.metadata.coverPhoto);
   }
 }
@@ -122,11 +120,9 @@ String getCoverPhotoUrl(business, communityAddress) {
 String getImageUrl(business, communityAddress) {
   if (business.metadata.image == null || business.metadata.image == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  }
-  // else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
-  //   return business.metadata.image;
-  // }
-  else {
+  } else if (isBIM(communityAddress)) {
+    return business.metadata.image;
+  } else {
     return getIPFSImageUrl(business.metadata.image);
   }
 }

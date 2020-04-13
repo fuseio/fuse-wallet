@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/pro/views/pro_wallet.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:BIM/models/pro/views/pro_wallet.dart';
+import 'package:BIM/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:BIM/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/screens/pro_mode/assets_list.dart';
+import 'package:BIM/screens/pro_mode/assets_list.dart';
 import 'package:redux/redux.dart';
 
 class ProModeHomeScreen extends StatelessWidget {

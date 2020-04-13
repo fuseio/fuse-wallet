@@ -3,13 +3,13 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/widgets/drawer.dart';
+import 'package:BIM/generated/i18n.dart';
+import 'package:BIM/models/business.dart';
+import 'package:BIM/models/token.dart';
+import 'package:BIM/screens/send/send_amount.dart';
+import 'package:BIM/screens/send/send_amount_arguments.dart';
+import 'package:BIM/utils/transaction_row.dart';
+import 'package:BIM/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -40,6 +40,7 @@ class BusinessPage extends StatefulWidget {
 class _BusinessPageState extends State<BusinessPage> {
   GlobalKey<ScaffoldState> scaffoldState;
   Completer<GoogleMapController> _controller = Completer();
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -48,15 +49,32 @@ class _BusinessPageState extends State<BusinessPage> {
   @override
   void initState() {
     super.initState();
+    bool showMap = this.widget.pageArgs.business.metadata.latLng != null && this.widget.pageArgs.business.metadata.latLng.isNotEmpty;
+    if (showMap) {
+      _add();
+    }
+  }
+
+  void _add() {
+    final String markerIdVal = this.widget.pageArgs.business.name;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    final BusinessPageArguments businessArgs = this.widget.pageArgs;
+    final Marker marker = Marker(
+        markerId: markerId,
+        position: LatLng(businessArgs.business.metadata.latLng[0], businessArgs.business.metadata.latLng[1]),
+        infoWindow: InfoWindow(title: this.widget.pageArgs.business.metadata.address));
+
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final BusinessPageArguments businessArgs = this.widget.pageArgs;
-    String coverPhotoUrl =
-        getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
-    String imageUrl =
-        getImageUrl(businessArgs.business, businessArgs.communityAddress);
+    String coverPhotoUrl = getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
+    String imageUrl = getImageUrl(businessArgs.business, businessArgs.communityAddress);
+    bool showMap = businessArgs.business.metadata.latLng != null && businessArgs.business.metadata.latLng.isNotEmpty;
 
     return new Scaffold(
       key: scaffoldState,
@@ -317,11 +335,10 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: <Widget>[
-                          businessArgs.business.metadata.latLng != null &&
-                                  businessArgs
-                                      .business.metadata.latLng.isNotEmpty
+                          showMap
                               ? GoogleMap(
                                   onMapCreated: _onMapCreated,
+                                  markers: Set<Marker>.from(markers.values),
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(
                                         businessArgs
@@ -373,10 +390,6 @@ class _BusinessPageState extends State<BusinessPage> {
                     ),
                   ]),
             ),
-            // Expanded(
-            //   flex: 1,
-            //   child: bottomBar(context),
-            // )
           ],
         ),
       ),

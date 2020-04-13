@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:BIM/widgets/primary_button.dart';
 
 class SignupDialog extends StatefulWidget {
   SignupDialog();
@@ -66,33 +66,33 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0),
                     Text(
-                        "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
+                        "The BIM wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
                     Text(
-                        "Fuse will never share this information with 3rd party.",
+                        "BIM will never share this information with 3rd party.",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
-                    Text("For more information: ",
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal)),
-                    InkWell(
-                        onTap: () {
-                          // TODO - link to privacy policy
-                        },
-                        child: Text("Fuse.io/privacy",
-                            style: TextStyle(
-                                color: Color(0xFF0076FF),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal))),
+                    // Text("For more information: ",
+                    //     style: TextStyle(
+                    //         color: Theme.of(context).primaryColor,
+                    //         fontSize: 14,
+                    //         fontWeight: FontWeight.normal)),
+                    // InkWell(
+                    //     onTap: () {
+                    //       // TODO - link to privacy policy
+                    //     },
+                    //     child: Text("Fuse.io/privacy",
+                    //         style: TextStyle(
+                    //             color: Color(0xFF0076FF),
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.normal))),
                     const SizedBox(height: 20.0),
                     PrimaryButton(
                       label: "OK Thanks",
