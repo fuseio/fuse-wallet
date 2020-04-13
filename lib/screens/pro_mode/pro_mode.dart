@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/bottom_bar.dart';
+import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/screens/pro_mode/pro_drawer.dart';
 import 'package:fusecash/screens/pro_mode/pro_header.dart';
 import 'package:fusecash/screens/pro_mode/pro_home.dart';
@@ -14,6 +15,7 @@ import 'package:fusecash/widgets/coming_soon.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/widgets/tabs_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'package:redux/redux.dart';
 
 class ProModeScaffold extends StatefulWidget {
   final int tabIndex;
@@ -117,15 +119,35 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
         onTap: _onTap,
       );
 
+  onInit(Store<AppState> store) {
+    bool isListenToTransferEvents = store.state.proWalletState?.isListenToTransferEvents ?? false;
+    bool isFetchTransferEvents = store.state.proWalletState?.isFetchTransferEvents ?? false;
+    bool isProcessingTokensJobs = store.state.proWalletState?.isProcessingTokensJobs ?? false;
+    if (!isListenToTransferEvents) {
+      store.dispatch(startListenToTransferEvents());
+    }
+    if (!isFetchTransferEvents) {
+      store.dispatch(startFetchTransferEventsCall());
+    }
+    if (!isProcessingTokensJobs) {
+      store.dispatch(startProcessingTokensJobsCall());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
+        onInit: onInit,
         builder: (_, vm) {
           final List<Widget> pages = _pages(vm.contacts);
           return TabsScaffold(
               drawer: DrawerWidget(),
-              header: MyAppBar(child: ProHeader(), backgroundColor: Colors.red),
+              header: MyAppBar(
+                child: ProHeader(),
+                backgroundColor: Colors.red,
+                height: MediaQuery.of(context).size.height * .25,
+              ),
               drawerEdgeDragWidth: 0,
               pages: pages,
               currentIndex: _currentIndex,

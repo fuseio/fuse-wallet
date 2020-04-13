@@ -21,6 +21,7 @@ import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
 import 'dart:math' as math;
+import 'package:redux/redux.dart';
 
 class SendToContactScreen extends StatefulWidget {
   @override
@@ -49,23 +50,22 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         hasSynced = isPermitted;
       });
     }
-    if (isPermitted && contacts.isEmpty) {
-      contacts = await ContactController.getContacts();
-    }
-    for (var contact in contacts) {
-      userList.add(contact);
-    }
-    userList.sort((a, b) =>
-        a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
-    filterList();
-    searchController.addListener(() {
+    if (contacts != null) {
+      for (var contact in contacts) {
+        userList.add(contact);
+      }
+      userList.sort((a, b) =>
+          a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
       filterList();
-    });
-
-    if (this.mounted) {
-      setState(() {
-        isPreloading = false;
+      searchController.addListener(() {
+        filterList();
       });
+
+      if (this.mounted) {
+        setState(() {
+          isPreloading = false;
+        });
+      }
     }
   }
 
@@ -154,7 +154,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                   fontSize: 15, color: Theme.of(context).primaryColor),
             ),
             onTap: () async {
-              sendToContact(context, user, viewModel.countryCode);
+              sendToContact(context, user, viewModel);
             },
           ),
         ),
@@ -456,10 +456,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     phoneNumber: phoneNumber))));
   }
 
-  onInit(store) {
+  onInit(Store<AppState> store) {
     Segment.screen(screenName: '/send-to-contact-screen');
-    loadContacts(store.state.userState.contacts ?? [],
-        store.state.userState.isContactsSynced);
+    loadContacts(store.state.userState?.contacts ?? [], store.state.userState.isContactsSynced);
   }
 
   @override

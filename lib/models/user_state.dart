@@ -95,7 +95,7 @@ class UserState {
         accountAddress: "",
         countryCode: "",
         phoneNumber: "",
-        contacts: null,
+        contacts: [],
         syncedContacts: [],
         reverseContacts: new Map<String, String>(),
         jwtToken: "",

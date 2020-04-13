@@ -44,13 +44,15 @@ class ContactsViewModel extends Equatable {
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
-    erc20Token.Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress] ?? new erc20Token.Token.initial();
+    erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)
+        ? store.state.proWalletState.erc20Tokens[daiTokenAddress]
+        : new erc20Token.Token.initial();
     return ContactsViewModel(
         daiToken: token,
         isProMode: store.state.userState.isProMode ?? false,
         businesses: community?.businesses ?? [],
         isContactsSynced: store.state.userState.isContactsSynced,
-        contacts: store.state.userState.contacts ?? [],
+        contacts: store.state.userState?.contacts ?? [],
         token: community?.token,
         transactions: community?.transactions,
         reverseContacts: store.state.userState.reverseContacts,

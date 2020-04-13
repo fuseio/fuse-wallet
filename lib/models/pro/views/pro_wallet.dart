@@ -18,7 +18,7 @@ class ProWalletViewModel extends Equatable {
   });
 
   static ProWalletViewModel fromStore(Store<AppState> store) {
-    List<Token> tokens = List<Token>.from(store.state.proWalletState.erc20Tokens.values);
+    List<Token> tokens = List<Token>.from(store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty());
     Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
     bool hasTrasnferdToForeign = community.transactions.list.any((item) {
         Transfer transfer = item as Transfer;

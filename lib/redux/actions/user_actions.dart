@@ -12,6 +12,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
+import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -424,8 +425,10 @@ ThunkAction activateProModeCall() {
       bool deployForeignToken = store.state.userState.networks.contains(foreignNetwork);
       if (!deployForeignToken) {
         dynamic response =  await api.createWalletOnForeign();
-        // String jobId = response['job']['_id'];
+        String jobId = response['job']['_id'];
+        logger.info('createWalletOnForeign jobId $jobId');
         // store.dispatch(startFetchingJobCall(jobId, (job) {
+        //   store.dispatch(getWalletAddressessCall());
         // }));
         store.dispatch(segmentTrackCall('Activate pro mode clicked'));
         store.dispatch(startListenToTransferEvents());
@@ -437,6 +440,23 @@ ThunkAction activateProModeCall() {
     } catch (error, stackTrace) {
       logger.severe('Error createWalletOnForeign', error);
       await AppFactory().reportError(error, stackTrace);
+    }
+  };
+}
+
+ThunkAction loadContacts() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      bool isPermitted = await Contacts.checkPermissions();
+      if (isPermitted) {
+        logger.info('Start - load contacts');
+        List<Contact> contacts = await ContactController.getContacts();
+        logger.info('Done - load contacts');
+        store.dispatch(syncContactsCall(contacts));
+      }
+    } catch (error) {
+      logger.severe('ERROR - load contacts $error');
     }
   };
 }
