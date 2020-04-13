@@ -23,12 +23,11 @@ class _LanguageSelectorState extends State<LanguageSelector> {
   }
 
   List<Widget> _languageItems(context) {
-    return I18n.delegate.supportedLocales.map((lang) {
-      bool isSelected = Localizations.localeOf(context).languageCode == lang.languageCode;
-      Map code = codes.firstWhere((code) => code['code'] == lang.countryCode, orElse: () => null);
-      String name = code['name'] ?? lang.countryCode;
-      String languageCode = lang.languageCode;
-      String current = Localizations.localeOf(context).languageCode;
+    Locale currentLocal = Localizations.localeOf(context);
+    return I18n.delegate.supportedLocales.map((local) {
+      bool isSelected = currentLocal == local;
+      Map code = codes.firstWhere((code) => code['code'] == local.countryCode, orElse: () => null);
+      String name = code['name'] ?? local.countryCode;
       return new ListTile(
           contentPadding:
               EdgeInsets.only(top: 5, bottom: 5, left: 30, right: 15),
@@ -36,14 +35,10 @@ class _LanguageSelectorState extends State<LanguageSelector> {
             name,
             style: TextStyle(color: Theme.of(context).primaryColor),
           ),
-          trailing:
-              current == languageCode
-                  ? new Icon(Icons.check, color: Colors.green)
-                  : null,
+          trailing: isSelected ? new Icon(Icons.check, color: Colors.green) : null,
           selected: isSelected,
           onTap: () {
-            I18n.onLocaleChanged(
-                new Locale(lang.languageCode, lang.countryCode));
+            I18n.onLocaleChanged(local);
             setState(() {
               _collapse();
             });
