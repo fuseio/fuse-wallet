@@ -38,6 +38,14 @@ class StartListenToTransferEventsSuccess {
   StartListenToTransferEventsSuccess();
 }
 
+class StartProcessingTokensJobs {
+  StartProcessingTokensJobs();
+}
+
+class StartFetchTransferEvents {
+  StartFetchTransferEvents();
+}
+
 class GetTokenListSuccess {
   Map<String, Token> erc20Tokens;
   GetTokenListSuccess({this.erc20Tokens});
@@ -86,8 +94,6 @@ ThunkAction startListenToTransferEvents() {
 
 ThunkAction getAddressBalances() {
   return (Store store) async {
-    // new Timer.periodic(Duration(seconds: 10), (Timer timer) async {
-    // });
     final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.userState.walletAddress;
@@ -134,13 +140,17 @@ ThunkAction getAddressBalances() {
 
 ThunkAction startFetchTransferEventsCall() {
   return (Store store) async {
-    new Timer.periodic(Duration(seconds: 10), (Timer timer) async {
-      ProWalletState proWalletState = store.state.proWalletState;
-      List<String> tokenAddresses = List<String>.from(proWalletState.erc20Tokens.keys);
-      for (String tokenAddress in tokenAddresses) {
-        store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
-      }
-    });
+    bool isFetchTransferEvents = store.state.proWalletState?.isFetchTransferEvents ?? false;
+    if (!isFetchTransferEvents) {
+      new Timer.periodic(Duration(seconds: 10), (Timer timer) async {
+        ProWalletState proWalletState = store.state.proWalletState;
+        List<String> tokenAddresses = List<String>.from(proWalletState.erc20Tokens.keys);
+        for (String tokenAddress in tokenAddresses) {
+          store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
+        }
+      });
+      store.dispatch(StartFetchTransferEvents());
+    }
   };
 }
 
@@ -229,15 +239,19 @@ ThunkAction sendDaiToDaiPointsCall(num tokensAmount, VoidCallback sendSuccessCal
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      UserState userState = store.state.userState;
-      String walletAddress = userState.walletAddress;
-      Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress] ?? new Token.initial();
-      wallet_core.Web3 web3 = store.state.proWalletState.web3;
-      logger.info('Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $walletAddress on fuse');
-      dynamic response = await api.trasferDaiToDaiPointsOffChain(web3, walletAddress, tokensAmount, token.decimals, network: foreignNetwork);
-      dynamic jobId = response['job']['_id'];
-      logger.info('Job $jobId for sending token sent to the relay service');;
-      sendSuccessCallback();
+      if (store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)) {
+        UserState userState = store.state.userState;
+        String walletAddress = userState.walletAddress;
+        Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress];
+        wallet_core.Web3 web3 = store.state.proWalletState.web3;
+        logger.info('Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $walletAddress on fuse');
+        dynamic response = await api.trasferDaiToDaiPointsOffChain(web3, walletAddress, tokensAmount, token.decimals, network: foreignNetwork);
+        dynamic jobId = response['job']['_id'];
+        logger.info('Job $jobId for sending token sent to the relay service');
+        sendSuccessCallback();
+      } else {
+        sendFailureCallback();  
+      }
     } catch (e) {
       logger.severe('ERROR - sendDaiToDaiPointsCall $e');
       sendFailureCallback();
@@ -248,9 +262,13 @@ ThunkAction sendDaiToDaiPointsCall(num tokensAmount, VoidCallback sendSuccessCal
 
 ThunkAction startProcessingTokensJobsCall() {
   return (Store store) async {
-    new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
-      store.dispatch(processingTokenJobsCall(timer));
-    });
+    bool isProcessingTokensJobs = store.state.proWalletState?.isProcessingTokensJobs ?? false;
+    if (!isProcessingTokensJobs) {
+      new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+        store.dispatch(processingTokenJobsCall(timer));
+      });
+      store.dispatch(new StartProcessingTokensJobs());
+    }
   };
 }
 
@@ -262,7 +280,6 @@ ThunkAction processingTokenJobsCall(Timer timer) {
     List<String> tokenAddresses = List<String>.from(proWalletState.erc20Tokens.keys);
     for (String tokenAddress in tokenAddresses) {
       List<Job> jobs = proWalletState.erc20Tokens[tokenAddress]?.jobs ?? [];
-      logger.info('processing $tokenAddress job - jobs ${jobs.length}');
       for (Job job in jobs) {
         if (job.status != 'DONE' && job.status != 'FAILED') {
           String currentWalletAddress = store.state.userState.walletAddress;

@@ -17,7 +17,7 @@ class CashHeader extends StatelessWidget {
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(
-            height: 260.0,
+            height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.all(20.0),
             decoration: BoxDecoration(

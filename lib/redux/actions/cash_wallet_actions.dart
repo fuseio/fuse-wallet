@@ -17,7 +17,6 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -540,7 +539,6 @@ ThunkAction getWalletAddressessCall() {
           transferManagerAddress: transferManagerAddress,
           dAIPointsManagerAddress: dAIPointsManagerAddress
         ));
-        store.dispatch(getAddressBalances());
       }
       store.dispatch(initWeb3Call(
         privateKey,
@@ -1099,66 +1097,7 @@ ThunkAction getBusinessListCall() {
     try {
       String communityAddress = store.state.cashWalletState.communityAddress;
       store.dispatch(StartFetchingBusinessList());
-      if (isPaywise(communityAddress)) {
-        Client client = new Client();
-        dynamic res = await client.get('https://api.airtable.com/v0/appVQfuM5SRKAGF1c/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
-        dynamic a = responseHandler(res);
-        List<Business> businessList = new List();
-        await Future.forEach(a['records'], (record) {
-          if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
-            dynamic data = record['fields'];
-            Map<String, dynamic> business = Map.from({
-              'name': data['name'] ?? '',
-              'account': data['account'] ?? '',
-              'metadata': {
-                'image': data['image'][0]['url'] ?? '',
-                "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
-                'address': data['address'] ?? '',
-                'description': data['description'] ?? '',
-                'phoneNumber': data['phoneNumber'] ?? '',
-                'website': data['website'] ?? '',
-                'type': data['type'] ?? '',
-                'address': data['address'] ?? '',
-                'latLng': data['GPS'] != null ? data['GPS'].split(',').toList().map((item) => double.parse(item.trim())).toList() : null
-              }
-            });
-            businessList.add(new Business.fromJson(business));
-          }
-        }).then((r) {
-          store.dispatch(new GetBusinessListSuccess(businessList));
-          store.dispatch(FetchingBusinessListSuccess());
-        });
-      } else if (isPeso(communityAddress)) {
-        Client client = new Client();
-        dynamic res = await client.get('https://api.airtable.com/v0/applg6xomn2EIirM0/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
-        dynamic a = responseHandler(res);
-        List<Business> businessList = new List();
-        await Future.forEach(a['records'], (record) {
-          if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
-            dynamic data = record['fields'];
-            Map<String, dynamic> business = Map.from({
-              'name': data['name'] ?? '',
-              'account': data['account'] ?? '',
-              'metadata': {
-                'image': data['image'][0]['url'] ?? '',
-                "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
-                'address': data['address'] ?? '',
-                'description': data['description'] ?? '',
-                'phoneNumber': data['phoneNumber'] ?? '',
-                'website': data['website'] ?? '',
-                'type': data['type'] ?? '',
-                'address': data['address'] ?? '',
-                'latLng': data['GPS'] != null ? data['GPS'].split(',').toList().map((item) => double.parse(item.trim())).toList() : null
-              }
-            });
-            businessList.add(new Business.fromJson(business));
-          }
-        }).then((r) {
-          store.dispatch(new GetBusinessListSuccess(businessList));
-          store.dispatch(FetchingBusinessListSuccess());
-        });
-      } else {
-        Community community = store.state.cashWalletState.communities[communityAddress];
+      Community community = store.state.cashWalletState.communities[communityAddress];
         bool isOriginRopsten = community.token?.originNetwork != null
             ? community.token?.originNetwork == 'ropsten'
             : false;
@@ -1174,7 +1113,6 @@ ThunkAction getBusinessListCall() {
           store.dispatch(new GetBusinessListSuccess(businessList));
           store.dispatch(FetchingBusinessListSuccess());
         });
-      }
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');
       store.dispatch(FetchingBusinessListFailed());

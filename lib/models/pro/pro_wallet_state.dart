@@ -9,21 +9,30 @@ part 'pro_wallet_state.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ProWalletState {
   final num blockNumber;
+  @JsonKey(fromJson: _erc20TokensFromJson)
   final Map<String, Token> erc20Tokens;
+
+  static Map<String, Token> _erc20TokensFromJson(Map<String, dynamic> json) =>
+      json == null
+          ? Map<String, Token>()
+          : json.map((k, e) => MapEntry(k, Token.fromJson(e as Map<String, dynamic>)));
 
   @JsonKey(ignore: true)
   final wallet_core.Web3 web3;
   @JsonKey(ignore: true, defaultValue: false)
-  final bool isBalanceFetchingStarted;
-  @JsonKey(ignore: true, defaultValue: false)
   final bool isListenToTransferEvents;
+  @JsonKey(ignore: true, defaultValue: false)
+  final bool isFetchTransferEvents;
+  @JsonKey(ignore: true, defaultValue: false)
+  final bool isProcessingTokensJobs;
 
   ProWalletState({
     this.web3,
     this.blockNumber,
-    this.isBalanceFetchingStarted,
     this.erc20Tokens,
+    this.isFetchTransferEvents,
     this.isListenToTransferEvents,
+    this.isProcessingTokensJobs,
   });
 
   factory ProWalletState.initial() {
@@ -31,26 +40,30 @@ class ProWalletState {
       web3: null,
       blockNumber: 0,
       erc20Tokens: new Map<String, Token>(),
-      isBalanceFetchingStarted: false,
+      isFetchTransferEvents: false,
+      isProcessingTokensJobs: false,
       isListenToTransferEvents: false,
     );
   }
 
   ProWalletState copyWith({
     wallet_core.Web3 web3,
-    bool isBalanceFetchingStarted,
     bool isListenToTransferEvents,
     bool isJobProcessingStarted,
     String walletAddress,
     num blockNumber,
     Map<String, Token> erc20Tokens,
+    bool isProcessingTokensJobs,
+    bool isFetchTransferEvents,
   }) {
     return ProWalletState(
+      isProcessingTokensJobs:
+          isProcessingTokensJobs ?? this.isProcessingTokensJobs,
+      isFetchTransferEvents:
+          isFetchTransferEvents ?? this.isFetchTransferEvents,
       blockNumber: blockNumber ?? this.blockNumber,
       web3: web3 ?? this.web3,
       erc20Tokens: erc20Tokens ?? this.erc20Tokens,
-      isBalanceFetchingStarted:
-          isBalanceFetchingStarted ?? this.isBalanceFetchingStarted,
       isListenToTransferEvents:
           isListenToTransferEvents ?? this.isListenToTransferEvents,
     );

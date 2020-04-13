@@ -9,6 +9,8 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, StartListenToTransferEventsSuccess>(_startListenToTransferEventsSuccess),
   TypedReducer<ProWalletState, UpdateToken>(_updateToken),
   TypedReducer<ProWalletState, UpadteBlockNumber>(_updateBlockNumber),
+  TypedReducer<ProWalletState, StartProcessingTokensJobs>(_startProcessingTokensJobs),
+  TypedReducer<ProWalletState, StartFetchTransferEvents>(_startFetchTransferEvents),
   TypedReducer<ProWalletState, InitWeb3ProModeSuccess>(_initWeb3ProModeSuccess),
   TypedReducer<ProWalletState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<ProWalletState, GetTokenListSuccess>(_getTokenListSuccess),
@@ -25,6 +27,14 @@ ProWalletState _addProJob(ProWalletState state, AddProJob action) {
 
 ProWalletState _createNewWalletSuccess(ProWalletState state, CreateLocalAccountSuccess action) {
   return ProWalletState.initial();
+}
+
+ProWalletState _startProcessingTokensJobs(ProWalletState state, StartProcessingTokensJobs action) {
+  return state.copyWith(isProcessingTokensJobs: true);
+}
+
+ProWalletState _startFetchTransferEvents(ProWalletState state, StartFetchTransferEvents action) {
+  return state.copyWith(isFetchTransferEvents: true);
 }
 
 ProWalletState _initWeb3ProModeSuccess(ProWalletState state, InitWeb3ProModeSuccess action) {
