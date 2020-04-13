@@ -7,7 +7,8 @@
         "br-BR",
         "it-IT",
         "en-PH",
-        "id-ID"
+        "id-ID",
+        "es-MX"
     ],
     "localePath": "i18n",
     "generatedPath": "lib/generated",
@@ -17,7 +18,8 @@
         "br-BR",
         "it-IT",
         "en-PH",
-        "id-ID"
+        "id-ID",
+        "es-MX"
     ],
     "rtl": [
         "he-IL"
