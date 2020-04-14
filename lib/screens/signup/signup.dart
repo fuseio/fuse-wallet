@@ -21,23 +21,23 @@ class _SignupScreenState extends State<SignupScreen> {
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
   bool isvalidPhone = true;
-  CountryCode countryCode = new CountryCode(dialCode: '‎+1');
+  CountryCode countryCode = new CountryCode(dialCode: '‎+34', code: 'ES');
 
   @override
   void initState() {
     super.initState();
   }
 
-  _updateCountryCode(Locale myLocale) {
-    if (myLocale.countryCode != null) {
-      Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
-      if (mounted && localeData != null) {
-        setState(() {
-          countryCode = CountryCode(dialCode: localeData['dial_code'], code: localeData['code']);
-        });
-      }
-    }
-  }
+  // _updateCountryCode(Locale myLocale) {
+  //   if (myLocale.countryCode != null) {
+  //     Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
+  //     if (mounted && localeData != null) {
+  //       setState(() {
+  //         countryCode = CountryCode(dialCode: localeData['dial_code'], code: localeData['code']);
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
