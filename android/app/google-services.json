@@ -1,41 +1,89 @@
 {
   "project_info": {
-    "project_number": "863692183597",
-    "firebase_url": "https://fuse-2-0.firebaseio.com",
-    "project_id": "fuse-2-0",
-    "storage_bucket": "fuse-2-0.appspot.com"
+    "project_number": "553527502093",
+    "firebase_url": "https://bim-fork.firebaseio.com",
+    "project_id": "bim-fork",
+    "storage_bucket": "bim-fork.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:863692183597:android:0591105e8b1bb60b9b80a4",
+        "mobilesdk_app_id": "1:553527502093:android:7badeac0f4741f949a7c44",
         "android_client_info": {
-          "package_name": "io.fuse.fusecash"
+          "package_name": "io.fuse.bim"
         }
       },
       "oauth_client": [
         {
-          "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+          "client_id": "553527502093-ddmo7aqsl5lbl1in42d0bn3o1t5m0n8t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.bim",
+            "certificate_hash": "e69185290b29a29589349975b5cdebc080f0d7d5"
+          }
+        },
+        {
+          "client_id": "553527502093-j46cr99m6oc234cg9fb0a958c8u1vco6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.bim",
+            "certificate_hash": "45ceff1f5f49fdecae14ccc13974544f97fa83bf"
+          }
+        },
+        {
+          "client_id": "553527502093-hcqe1o2n5i87hucakgnc6thgicdg0i8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.bim",
+            "certificate_hash": "ff0350a69bf0ce5bd0840044ecc754e7d3680e74"
+          }
+        },
+        {
+          "client_id": "553527502093-42mp6qpuk18n0pvda3im2ucm8ja6csbo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.bim",
+            "certificate_hash": "6ef39bd8ccb23c9a98a00f615c21c0732cc8097b"
+          }
+        },
+        {
+          "client_id": "553527502093-0h42ejiqls3rfu35rqf8ec5lbmet5fh8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.bim",
+            "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
+          }
+        },
+        {
+          "client_id": "553527502093-88dahqge2uasat900ana1trt8f08l7vg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.bim",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
+          "client_id": "553527502093-trimnnegjejj88kuhhrrgsrcq1urut40.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvx56Wp3R5M4d0I1lwYc6fhgJy6dTFNPM"
+          "current_key": "AIzaSyChU45Lj8tp_na4QzMUGh_tXMGUnAQDtZ0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+              "client_id": "553527502093-trimnnegjejj88kuhhrrgsrcq1urut40.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com",
+              "client_id": "553527502093-mnn74nle1it8o3m99f5qtjk2decg5q34.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "io.fuse.fusecash"
+                "bundle_id": "io.fuse.bim"
               }
             }
           ]

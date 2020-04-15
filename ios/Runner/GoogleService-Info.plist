@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com</string>
+	<string>553527502093-mnn74nle1it8o3m99f5qtjk2decg5q34.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
+	<string>com.googleusercontent.apps.553527502093-mnn74nle1it8o3m99f5qtjk2decg5q34</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>553527502093-ddmo7aqsl5lbl1in42d0bn3o1t5m0n8t.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC1DHZQFPrNZo-dgm68PSaABIeGIc16nbY</string>
+	<string>AIzaSyDRtrfFOM-RNbJucZjZc4vUFM2d4kwLIJw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>863692183597</string>
+	<string>553527502093</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.fuse.fusecash</string>
+	<string>io.fuse.bim</string>
 	<key>PROJECT_ID</key>
-	<string>fuse-2-0</string>
+	<string>bim-fork</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fuse-2-0.appspot.com</string>
+	<string>bim-fork.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:863692183597:ios:91186a513b10fab59b80a4</string>
+	<string>1:553527502093:ios:29fd64977ad39afa9a7c44</string>
 	<key>DATABASE_URL</key>
-	<string>https://fuse-2-0.firebaseio.com</string>
+	<string>https://bim-fork.firebaseio.com</string>
 </dict>
 </plist>
