@@ -1,10 +1,10 @@
-import 'package:wiki_bank/models/business.dart';
-import 'package:wiki_bank/models/community.dart';
-import 'package:wiki_bank/models/plugins.dart';
-import 'package:wiki_bank/models/token.dart';
-import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/models/business.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/models/plugins.dart';
+import 'package:supervecina/models/token.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:wiki_bank/models/app_state.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 
 class BuyViewModel extends Equatable {

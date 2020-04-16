@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:wiki_bank/models/pro/token.dart';
-import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
-import 'package:wiki_bank/utils/addresses.dart';
-import 'package:wiki_bank/widgets/coming_soon.dart';
+import 'package:supervecina/models/pro/token.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/utils/addresses.dart';
+import 'package:supervecina/widgets/coming_soon.dart';
 import 'package:redux/redux.dart';
-import 'package:wiki_bank/generated/i18n.dart';
-import 'package:wiki_bank/models/app_state.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/widgets/raised_gradient_button.dart';
+import 'package:supervecina/widgets/raised_gradient_button.dart';
 
 class ProHeader extends StatelessWidget {
   @override

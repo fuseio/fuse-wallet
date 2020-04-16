@@ -1,5 +1,5 @@
-name: wiki_bank
-version: 1.1.27+154
+name: supervecina
+version: 1.1.29+156
 description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"

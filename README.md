@@ -21,7 +21,7 @@ We developed and deployed a set of smart contracts, which the wallet interacts w
 
 ## Download the App
 
-You can download the beta version of our app from the [Google Play](https://play.google.com/store/apps/details?id=io.fuse.fusecash&hl=en) or the [App Store](https://apps.apple.com/us/app/fuse-wallet/id1491783654?ls=1)
+You can download the beta version of our app from the [Google Play](https://play.google.com/store/apps/details?id=io.fuse.supervecina&hl=en) or the [App Store](https://apps.apple.com/us/app/fuse-wallet/id1491783654?ls=1)
 
 ## Getting Started
 

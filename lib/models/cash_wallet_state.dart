@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wiki_bank/models/community.dart';
-import 'package:wiki_bank/models/plugins.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/models/plugins.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 

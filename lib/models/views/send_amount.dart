@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/models/community.dart';
-import 'package:wiki_bank/models/token.dart';
-import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/models/token.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel {

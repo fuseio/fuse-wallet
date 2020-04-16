@@ -1,8 +1,8 @@
-import 'package:wiki_bank/models/business.dart';
-import 'package:wiki_bank/models/community_metadata.dart';
-import 'package:wiki_bank/models/jobs/base.dart';
-import 'package:wiki_bank/models/token.dart';
-import 'package:wiki_bank/models/transactions/transactions.dart';
+import 'package:supervecina/models/business.dart';
+import 'package:supervecina/models/community_metadata.dart';
+import 'package:supervecina/models/jobs/base.dart';
+import 'package:supervecina/models/token.dart';
+import 'package:supervecina/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';

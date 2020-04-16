@@ -1,7 +1,7 @@
-import 'package:wiki_bank/models/pro/pro_wallet_state.dart';
-import 'package:wiki_bank/models/pro/token.dart';
-import 'package:wiki_bank/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:wiki_bank/redux/actions/user_actions.dart';
+import 'package:supervecina/models/pro/pro_wallet_state.dart';
+import 'package:supervecina/models/pro/token.dart';
+import 'package:supervecina/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 final proWalletReducers = combineReducers<ProWalletState>([

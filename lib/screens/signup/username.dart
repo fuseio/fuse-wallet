@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/generated/i18n.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/screens/routes.gr.dart';
-import 'package:wiki_bank/widgets/drawer.dart';
-import 'package:wiki_bank/widgets/main_scaffold.dart';
-import 'package:wiki_bank/widgets/primary_button.dart';
-import 'package:wiki_bank/models/views/onboard.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/widgets/drawer.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:supervecina/widgets/primary_button.dart';
+import 'package:supervecina/models/views/onboard.dart';
 
 class UserNameScreen extends StatelessWidget {
   final verificationCodeController = TextEditingController(text: "");

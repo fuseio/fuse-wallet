@@ -1,5 +1,5 @@
-import 'package:wiki_bank/models/transactions/transaction.dart';
-import 'package:wiki_bank/models/transactions/transfer.dart';
+import 'package:supervecina/models/transactions/transaction.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 

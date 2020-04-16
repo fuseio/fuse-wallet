@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:wiki_bank/generated/i18n.dart';
-import 'package:wiki_bank/models/community.dart';
-import 'package:wiki_bank/screens/routes.gr.dart';
-import 'package:wiki_bank/screens/send/send_amount_arguments.dart';
-import 'package:wiki_bank/utils/format.dart';
-import 'package:wiki_bank/widgets/main_scaffold.dart';
-import 'package:wiki_bank/widgets/primary_button.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/send/send_amount_arguments.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:supervecina/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
-import 'package:wiki_bank/models/app_state.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/models/token.dart';
+import 'package:supervecina/models/token.dart';
 
 class SendAmountScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

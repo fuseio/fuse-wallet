@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/models/views/splash.dart';
-import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
-import 'package:wiki_bank/redux/actions/user_actions.dart';
-import 'package:wiki_bank/screens/routes.gr.dart';
-import 'package:wiki_bank/screens/splash/create_wallet.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/splash.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/splash/create_wallet.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

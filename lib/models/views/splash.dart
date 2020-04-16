@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:wiki_bank/redux/actions/user_actions.dart';
-import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/screens/routes.gr.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
 
 class SplashViewModel extends Equatable {

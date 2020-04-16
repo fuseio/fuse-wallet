@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:wiki_bank/generated/i18n.dart';
-import 'package:wiki_bank/widgets/main_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
 import 'dart:core';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';

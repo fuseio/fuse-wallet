@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/generated/i18n.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/models/views/buy_page.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/buy_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatefulWidget {

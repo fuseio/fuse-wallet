@@ -1,15 +1,15 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:wiki_bank/generated/i18n.dart';
-import 'package:wiki_bank/models/views/backup.dart';
-import 'package:wiki_bank/screens/backup/verify_mnemonic.dart';
-import 'package:wiki_bank/widgets/main_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/views/backup.dart';
+import 'package:supervecina/screens/backup/verify_mnemonic.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/widgets/copy.dart';
-import 'package:wiki_bank/widgets/preloader.dart';
-import 'package:wiki_bank/widgets/primary_button.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/widgets/copy.dart';
+import 'package:supervecina/widgets/preloader.dart';
+import 'package:supervecina/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   @override

@@ -1,6 +1,6 @@
 
-import 'package:wiki_bank/models/transactions/transaction.dart';
-import 'package:wiki_bank/utils/addresses.dart';
+import 'package:supervecina/models/transactions/transaction.dart';
+import 'package:supervecina/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer.g.dart';

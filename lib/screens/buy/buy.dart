@@ -2,16 +2,16 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/generated/i18n.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/models/business.dart';
-import 'package:wiki_bank/models/views/buy_page.dart';
-import 'package:wiki_bank/screens/buy/business.dart';
-import 'package:wiki_bank/screens/cash_home/webview_page.dart';
-import 'package:wiki_bank/screens/routes.gr.dart';
-import 'package:wiki_bank/screens/send/send_amount_arguments.dart';
-import 'package:wiki_bank/utils/transaction_row.dart';
-import 'package:wiki_bank/widgets/main_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/business.dart';
+import 'package:supervecina/models/views/buy_page.dart';
+import 'package:supervecina/screens/buy/business.dart';
+import 'package:supervecina/screens/cash_home/webview_page.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/send/send_amount_arguments.dart';
+import 'package:supervecina/utils/transaction_row.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override

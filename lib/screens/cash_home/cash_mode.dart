@@ -1,20 +1,20 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/generated/i18n.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/models/views/bottom_bar.dart';
-import 'package:wiki_bank/screens/buy/buy.dart';
-import 'package:wiki_bank/screens/cash_home/cash_header.dart';
-import 'package:wiki_bank/screens/cash_home/cash_home.dart';
-import 'package:wiki_bank/screens/cash_home/webview_page.dart';
-import 'package:wiki_bank/screens/send/contacts_list.dart';
-import 'package:wiki_bank/screens/send/receive.dart';
-import 'package:wiki_bank/screens/send/send_contact.dart';
-import 'package:wiki_bank/widgets/bottom_bar_item.dart';
-import 'package:wiki_bank/widgets/drawer.dart';
-import 'package:wiki_bank/widgets/my_app_bar.dart';
-import 'package:wiki_bank/widgets/tabs_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/bottom_bar.dart';
+import 'package:supervecina/screens/buy/buy.dart';
+import 'package:supervecina/screens/cash_home/cash_header.dart';
+import 'package:supervecina/screens/cash_home/cash_home.dart';
+import 'package:supervecina/screens/cash_home/webview_page.dart';
+import 'package:supervecina/screens/send/contacts_list.dart';
+import 'package:supervecina/screens/send/receive.dart';
+import 'package:supervecina/screens/send/send_contact.dart';
+import 'package:supervecina/widgets/bottom_bar_item.dart';
+import 'package:supervecina/widgets/drawer.dart';
+import 'package:supervecina/widgets/my_app_bar.dart';
+import 'package:supervecina/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;

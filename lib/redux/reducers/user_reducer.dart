@@ -1,6 +1,6 @@
-import 'package:wiki_bank/redux/actions/cash_wallet_actions.dart';
-import 'package:wiki_bank/redux/actions/user_actions.dart';
-import 'package:wiki_bank/models/user_state.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([

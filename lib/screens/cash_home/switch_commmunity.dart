@@ -4,14 +4,14 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:wiki_bank/generated/i18n.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/models/community.dart';
-import 'package:wiki_bank/models/views/switch_community.dart';
-import 'package:wiki_bank/screens/routes.gr.dart';
-import 'package:wiki_bank/widgets/community_card.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/models/views/switch_community.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/widgets/community_card.dart';
 import 'dart:core';
-import 'package:wiki_bank/widgets/main_scaffold.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
 
 class SwitchCommunityScreen extends StatefulWidget {
   @override

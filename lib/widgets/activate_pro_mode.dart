@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/models/community.dart';
-import 'package:wiki_bank/redux/actions/user_actions.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:wiki_bank/models/app_state.dart';
-import 'package:wiki_bank/widgets/activate_pro_mode2.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/widgets/activate_pro_mode2.dart';
 import 'dart:core';
 
 import '../utils/addresses.dart';

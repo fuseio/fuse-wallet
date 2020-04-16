@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:wiki_bank/models/pro/views/pro_wallet.dart';
-import 'package:wiki_bank/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:wiki_bank/models/app_state.dart';
+import 'package:supervecina/models/pro/views/pro_wallet.dart';
+import 'package:supervecina/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wiki_bank/screens/pro_mode/assets_list.dart';
+import 'package:supervecina/screens/pro_mode/assets_list.dart';
 import 'package:redux/redux.dart';
 
 class ProModeHomeScreen extends StatelessWidget {

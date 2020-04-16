@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:wiki_bank/models/community.dart';
-import 'package:wiki_bank/models/pro/token.dart';
-import 'package:wiki_bank/models/transactions/transfer.dart';
-import 'package:wiki_bank/utils/addresses.dart';
+import 'package:supervecina/models/community.dart';
+import 'package:supervecina/models/pro/token.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:wiki_bank/models/app_state.dart';
+import 'package:supervecina/models/app_state.dart';
 
 class ProWalletViewModel extends Equatable {
   final String walletAddress;
