@@ -105,6 +105,5 @@
     "received_from_ethereum": "Received from Ethereum",
     "addDai": "Add DAI",
     "withdrawDAI": "Withdraw DAI",
-    "sendToCashMode": "Send to cash mode",
-    "generateWallet": "generateWallet"
+    "sendToCashMode": "Send to cash mode"
 }

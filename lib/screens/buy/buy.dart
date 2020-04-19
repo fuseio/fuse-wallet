@@ -1,6 +1,6 @@
 import 'dart:core';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:supervecina/generated/i18n.dart';
 import 'package:supervecina/models/app_state.dart';
@@ -9,6 +9,7 @@ import 'package:supervecina/models/views/buy_page.dart';
 import 'package:supervecina/screens/buy/business.dart';
 import 'package:supervecina/screens/cash_home/webview_page.dart';
 import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/send/send_amount.dart';
 import 'package:supervecina/screens/send/send_amount_arguments.dart';
 import 'package:supervecina/utils/transaction_row.dart';
 import 'package:supervecina/widgets/main_scaffold.dart';
@@ -59,21 +60,25 @@ class BusinessesListView extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
-                Router.navigator.pushNamed(Router.webViewPage,
-                    arguments: WebViewPageArguments(
-                        url: vm.walletBanner.link, title: ''));
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => WebViewPage(
+                              pageArgs: WebViewPageArguments(
+                                  url: vm.walletBanner.link, title: ''),
+                            )));
               },
-              child: new Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 140,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            DotEnv().env['IPFS_BASE_URL'] +
-                                '/image/' +
-                                vm.walletBanner.walletBannerHash,
-                          )))),
+              child: CachedNetworkImage(
+                imageUrl: getIPFSImageUrl(vm.walletBanner.walletBannerHash),
+                imageBuilder: (context, imageProvider) => new Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 140,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover, image: imageProvider))),
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ))
         : Container();
   }
@@ -104,20 +109,21 @@ class BusinessesListView extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       leading: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(),
-        child: ClipOval(
-            child:
-                business.metadata.image == null || business.metadata.image == ''
-                    ? Image.network(image)
-                    : Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                        width: 50.0,
-                        height: 50.0,
-                      )),
-      ),
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(),
+          child: ClipOval(
+              child: CachedNetworkImage(
+            imageUrl: image,
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+            imageBuilder: (context, imageProvider) => Image(
+              image: imageProvider,
+              fit: BoxFit.cover,
+              width: 50.0,
+              height: 50.0,
+            ),
+          ))),
       title: Text(
         business.name ?? '',
         style: TextStyle(
@@ -154,12 +160,15 @@ class BusinessesListView extends StatelessWidget {
                   height: 25,
                 )),
             onTap: () {
-              Router.navigator.pushNamed(Router.sendAmountScreen,
-                  arguments: SendAmountArguments(
-                      sendType: SendType.BUSINESS,
-                      avatar: NetworkImage(image),
-                      name: business.name ?? '',
-                      accountAddress: business.account));
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => SendAmountScreen(
+                          pageArgs: SendAmountArguments(
+                              sendType: SendType.BUSINESS,
+                              avatar: NetworkImage(image),
+                              name: business.name ?? '',
+                              accountAddress: business.account))));
             },
           )
         ],

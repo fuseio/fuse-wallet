@@ -26,14 +26,19 @@ You can download the beta version of our app from the [Google Play](https://play
 ## Getting Started
 
 ## As a developer
-- Set a Flutter environment on your machine, you can start from [here](https://flutter.dev/docs/get-started/install)
-- Connect a phone or run a simulator
-- Then clone the project and run futter
-```
- git clone https://github.com/fuseio/fuse-wallet2.0.git
- cd fuse-wallet2.0
- flutter run
-```
+- Set up a Flutter environment on your machine.
+   - [You can get started here](https://flutter.dev/docs/get-started/install).
+   - Make sure to also [create a keystore as described here](https://flutter.dev/docs/deployment/android).
+- Connect a phone or run a simulator.
+- Clone the project.
+
+      git clone https://github.com/fuseio/fuse-wallet.git
+      cd fuse-wallet
+
+- For Android development, create a file at `./android/key.properties`, [as described here](https://flutter.dev/docs/deployment/android), containing the keystore path and passwords, as set up earlier.
+- Run the app.
+
+      flutter run
 
 ## As an enterprenuer or a community manager
 Launch your community on the [Fuse Studio](https://studio.fuse.io/), then open the community dashboard. There you can configure it and *customize your wallet* app. When you done go to "White label wallet" and send an app invite link to yourself. Visit our [docs](https://docs.fuse.io/the-fuse-studio/overview) to learn about the Fuse Studio.

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:supervecina/models/community.dart';
 import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'package:supervecina/widgets/activate_pro_mode2.dart';

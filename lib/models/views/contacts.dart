@@ -4,15 +4,18 @@ import 'package:supervecina/models/app_state.dart';
 import 'package:supervecina/models/business.dart';
 import 'package:supervecina/models/community.dart';
 import 'package:supervecina/models/token.dart';
+import 'package:supervecina/models/pro/token.dart' as erc20Token;
 import 'package:supervecina/models/transactions/transactions.dart';
 import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/utils/addresses.dart';
 import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {
   final List<Contact> contacts;
   final Token token;
   final bool isContactsSynced;
+  final bool isProMode;
   final Function(List<Contact>) syncContacts;
   final Transactions transactions;
   final Map<String, String> reverseContacts;
@@ -21,12 +24,15 @@ class ContactsViewModel extends Equatable {
   final List<Business> businesses;
   final Function(String eventName) trackCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
+  final erc20Token.Token daiToken;
 
   ContactsViewModel(
       {this.contacts,
       this.token,
       this.syncContacts,
       this.isContactsSynced,
+      this.isProMode,
+      this.daiToken,
       this.transactions,
       this.reverseContacts,
       this.countryCode,
@@ -38,10 +44,15 @@ class ContactsViewModel extends Equatable {
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
+    erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)
+        ? store.state.proWalletState.erc20Tokens[daiTokenAddress]
+        : new erc20Token.Token.initial();
     return ContactsViewModel(
+        daiToken: token,
+        isProMode: store.state.userState.isProMode ?? false,
         businesses: community?.businesses ?? [],
         isContactsSynced: store.state.userState.isContactsSynced,
-        contacts: store.state.userState.contacts ?? [],
+        contacts: store.state.userState?.contacts ?? [],
         token: community?.token,
         transactions: community?.transactions,
         reverseContacts: store.state.userState.reverseContacts,

@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:supervecina/models/app_state.dart';
-import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/send/send_amount.dart';
 import 'package:supervecina/screens/send/send_amount_arguments.dart';
 import 'package:supervecina/widgets/activate_pro_mode.dart';
 import 'dart:core';
@@ -92,12 +92,16 @@ class ActivateProMode2DialogState extends State<ActivateProMode2Dialog>
                               label: 'Choose amount to transfer',
                               fontSize: 15,
                               onPressed: () {
-                                Router.navigator.pushNamed(Router.sendAmountScreen,
-                                    arguments: SendAmountArguments(
-                                      sendType: SendType.ETHEREUM_ADDRESS,
-                                      accountAddress: viewModel.daiPointsHomeBridgeAddress
-                                    ));
-                                Segment.track(eventName: 'Wallet: Choose amount to transfer - activate pro mode');
+                                Navigator.push(
+                                    context,new MaterialPageRoute(
+                                    builder: (context) => SendAmountScreen(
+                                        pageArgs: SendAmountArguments(
+                                            sendType: SendType.ETHEREUM_ADDRESS,
+                                            accountAddress: viewModel
+                                                .daiPointsHomeBridgeAddress))));
+                                Segment.track(
+                                    eventName:
+                                        'Wallet: Choose amount to transfer - activate pro mode');
                               },
                             ))
                           ],

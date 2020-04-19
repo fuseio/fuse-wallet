@@ -4,9 +4,10 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:supervecina/generated/i18n.dart';
 import 'package:supervecina/models/community.dart';
 import 'package:supervecina/models/plugins.dart';
-import 'package:supervecina/utils/addresses.dart';
 import 'package:supervecina/screens/cash_home/deposit_webview.dart';
+import 'package:supervecina/screens/pro_routes.gr.dart';
 import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'dart:core';
@@ -101,10 +102,17 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  Router.navigator.pushNamed(
+                                  if (viewModel.isProMode) {
+                                    ProRouter.navigator.pushNamed(
+                                      ProRouter.proModeHomeScreen,
+                                      arguments: ProModeScaffoldArguments(
+                                          tabIndex: 3));
+                                  } else {
+                                    Router.navigator.pushNamed(
                                       Router.cashHomeScreen,
                                       arguments: CashModeScaffoldArguments(
                                           tabIndex: 3));
+                                  }
                                 },
                               ),
                               Padding(
@@ -158,12 +166,14 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
 
 class DepositDaiDialogViewModel {
   final Plugins plugins;
-  DepositDaiDialogViewModel({this.plugins});
+  final bool isProMode;
+  DepositDaiDialogViewModel({this.plugins, this.isProMode});
 
   static DepositDaiDialogViewModel fromStore(Store<AppState> store) {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return DepositDaiDialogViewModel(
+      isProMode: store.state.userState.isProMode ?? false,
       plugins: community?.plugins,
     );
   }

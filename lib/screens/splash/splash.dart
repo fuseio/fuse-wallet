@@ -5,6 +5,7 @@ import 'package:supervecina/models/views/splash.dart';
 import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:supervecina/screens/routes.gr.dart';
+import 'package:redux/redux.dart';
 import 'package:supervecina/screens/splash/create_wallet.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  onInit(store) {
+  onInit(Store<AppState> store) {
     String privateKey = store.state.userState.privateKey;
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
@@ -42,16 +43,19 @@ class _SplashScreenState extends State<SplashScreen> {
               drawer: drawer,
               body: Container(
                   child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset(
-                    'assets/images/wikibank_logo.png',
-                    width: 350,
-                    height: 300,
+                  Flexible(
+                    flex: 3,
+                    child: Image.asset(
+                      'assets/images/wikibank_logo.png',
+                      width: 350,
+                      // height: 300,
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                  Flexible(
+                    flex: 1,
                     child: Center(
                       child: Column(
                         children: <Widget>[
@@ -75,44 +79,44 @@ class _SplashScreenState extends State<SplashScreen> {
                       ),
                     ),
                   ),
-                  Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/1.jpg',
-                            width: 100,
-                            height: 100,
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Image.asset('assets/images/2.png',
-                              width: 100, height: 100),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset('assets/images/3.jpg',
-                              width: 100, height: 100),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Image.asset('assets/images/4.jpg',
-                              width: 100, height: 100),
-                        ],
-                      ),
-                    ],
+                  Flexible(
+                    flex: 3,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset(
+                              'assets/images/1.jpg',
+                              width: 100,
+                              height: 100,
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Image.asset('assets/images/2.png',
+                                width: 100, height: 100),
+                          ],
+                        ),
+                        // SizedBox(
+                        //   height: 30,
+                        // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset('assets/images/3.jpg',
+                                width: 100, height: 100),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Image.asset('assets/images/4.jpg',
+                                width: 100, height: 100),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  CreateWallet()
+                  Flexible(flex: 2, child: CreateWallet()),
                 ],
               )));
         });

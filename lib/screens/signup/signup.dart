@@ -4,7 +4,6 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:supervecina/generated/i18n.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:country_code_picker/country_codes.dart';
 import 'package:supervecina/widgets/main_scaffold.dart';
 import 'package:supervecina/widgets/primary_button.dart';
 import 'package:supervecina/widgets/signup_dialog.dart';
@@ -155,12 +154,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                   keyboardType: TextInputType.number,
                                   autofocus: true,
                                   validator: (String value) => value.isEmpty ? "Please enter mobile number" : null,
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.black),
+                                  style: TextStyle(fontSize: 16, color: Colors.black),
                                   decoration: InputDecoration(
-                                      contentPadding:
-                                          EdgeInsets.symmetric(
-                                              vertical: 20, horizontal: 10),
+                                      contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                                       hintText: I18n.of(context).phoneNumber,
                                       border: InputBorder.none,
                                       focusedBorder: OutlineInputBorder(

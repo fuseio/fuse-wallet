@@ -35,13 +35,10 @@ class _LanguageSelectorState extends State<LanguageSelector> {
             name,
             style: TextStyle(color: Theme.of(context).primaryColor),
           ),
-          trailing:
-              isSelected
-                  ? new Icon(Icons.check, color: Colors.green)
-                  : null,
+          trailing: isSelected ? new Icon(Icons.check, color: Colors.green) : null,
           selected: isSelected,
           onTap: () {
-            I18n.onLocaleChanged(Locale(local.languageCode, local.countryCode));
+            I18n.onLocaleChanged(local);
             setState(() {
               _collapse();
             });

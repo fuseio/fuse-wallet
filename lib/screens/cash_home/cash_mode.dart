@@ -32,7 +32,8 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     _currentIndex = widget.tabIndex;
   }
 
-  List<Widget> _pages(BuildContext context, List<Contact> contacts, String webUrl) {
+  List<Widget> _pages(
+      BuildContext context, List<Contact> contacts, String webUrl) {
     bool hasContactsInStore = contacts.isNotEmpty;
     if (webUrl != null && webUrl.isNotEmpty) {
       return [
@@ -42,7 +43,9 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
             : ContactsList(contacts: contacts),
         WebViewPage(
           pageArgs: WebViewPageArguments(
-              url: webUrl, withBack: false, title: I18n.of(context).communityWepbpage),
+              url: webUrl,
+              withBack: false,
+              title: I18n.of(context).communityWepbpage),
         ),
         ReceiveScreen()
       ];
@@ -58,7 +61,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     }
   }
 
-  _onTap(int itemIndex) {
+  void _onTap(int itemIndex) {
     setState(() {
       _currentIndex = itemIndex;
     });
@@ -69,9 +72,11 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
-          final List<Widget> pages = _pages(context, vm.contacts, vm.community.webUrl);
+          final List<Widget> pages =
+              _pages(context, vm.contacts, vm.community.webUrl);
           return TabsScaffold(
               header: MyAppBar(
+                height: 230.0,
                 backgroundColor: Colors.white,
                 child: CashHeader(),
               ),
