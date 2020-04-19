@@ -224,7 +224,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                             padding:
                                 EdgeInsets.only(top: 20.0, left: 30, right: 30),
                             child: Text(
-                                '''Sending money to ${args.name != null ? args.name : 'friend'} will automatically invite them to Fuse and let them redeem the funds you sent''',
+                                '''Sending money to ${args.name != null ? args.name : 'friend'} will automatically invite them to Bit2c and let them redeem the funds you sent''',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Theme.of(context).colorScheme.secondary,

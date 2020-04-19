@@ -68,9 +68,7 @@ flutter_icons:
   ios: true
 flutter:
   assets:
-    - .env
-    - .env_prod
-    - .env_qa
+    - .env_bit2c
     - assets/
     - assets/images/
   fonts:

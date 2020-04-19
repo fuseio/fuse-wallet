@@ -59,7 +59,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                           height: 30,
                         ),
                         Text(
-                          '''DAI points is the default token of the Fuse wallet. Get some points to start exploring the features:''',
+                          '''DAI points is the default token of the Bit2c wallet. Get some points to start exploring the features:''',
                           style: TextStyle(
                               fontSize: 17,
                               color: Theme.of(context).colorScheme.secondary),

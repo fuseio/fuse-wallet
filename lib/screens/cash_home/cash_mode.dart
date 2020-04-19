@@ -7,7 +7,6 @@ import 'package:fusecash/models/views/bottom_bar.dart';
 import 'package:fusecash/screens/buy/buy.dart';
 import 'package:fusecash/screens/cash_home/cash_header.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
-import 'package:fusecash/screens/cash_home/dai_explained.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/send/contacts_list.dart';
 import 'package:fusecash/screens/send/receive.dart';
@@ -33,8 +32,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     _currentIndex = widget.tabIndex;
   }
 
-  List<Widget> _pages(
-      List<Contact> contacts, bool isDefualtCommunity, String webUrl) {
+  List<Widget> _pages(List<Contact> contacts, String webUrl) {
     bool hasContactsInStore = contacts.isNotEmpty;
     if (webUrl != null && webUrl.isNotEmpty) {
       return [
@@ -46,15 +44,6 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           pageArgs: WebViewPageArguments(
               url: webUrl, withBack: false, title: 'Community webpage'),
         ),
-        ReceiveScreen()
-      ];
-    } else if (isDefualtCommunity) {
-      return [
-        CashHomeScreen(),
-        !hasContactsInStore
-            ? SendToContactScreen()
-            : ContactsList(contacts: contacts),
-        DaiExplainedScreen(),
         ReceiveScreen()
       ];
     } else {
@@ -75,7 +64,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     });
   }
 
-  BottomNavigationBar _bottomNavigationBar(BottomBarViewModel vm) =>
+  BottomNavigationBar _bottomNavigationBar() =>
       BottomNavigationBar(
         selectedFontSize: 13,
         unselectedFontSize: 13,
@@ -86,9 +75,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
         items: [
           bottomBarItem(I18n.of(context).home, 'home'),
           bottomBarItem(I18n.of(context).send_button, 'send'),
-          vm.isDefaultCommunity
-              ? bottomBarItem(I18n.of(context).dai_points, 'daipoints')
-              : bottomBarItem(I18n.of(context).buy, 'buy'),
+          bottomBarItem(I18n.of(context).buy, 'buy'),
           bottomBarItem(I18n.of(context).receive, 'receive'),
         ],
         onTap: _onTap,
@@ -99,19 +86,18 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
-          final List<Widget> pages =
-              _pages(vm.contacts, vm.isDefaultCommunity, vm.community?.webUrl);
+          final List<Widget> pages = _pages(vm.contacts, vm.community?.webUrl);
           return TabsScaffold(
               header: MyAppBar(
                 height: MediaQuery.of(context).size.height * .25,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.black,
                 child: CashHeader(),
               ),
               drawerEdgeDragWidth: 0,
               pages: pages,
               currentIndex: _currentIndex,
               drawer: DrawerWidget(),
-              bottomNavigationBar: _bottomNavigationBar(vm));
+              bottomNavigationBar: _bottomNavigationBar());
         });
   }
 }

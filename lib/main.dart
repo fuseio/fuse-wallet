@@ -21,7 +21,7 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv().load('.env');
+  await DotEnv().load('.env_bit2c');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runZonedGuarded<Future<void>>(() async => runApp(await customThemeApp()),
       (Object error, StackTrace stackTrace) async {
@@ -119,7 +119,7 @@ class _MyAppState extends State<MyApp> {
             return new Column(children: <Widget>[
               Expanded(
                   child: MaterialApp(
-                title: 'Fuse Cash',
+                title: 'Bit2c wallet',
                 initialRoute: isProMode
                     ? ProRouter.proModeHomeScreen
                     : widget.initialRoute,
