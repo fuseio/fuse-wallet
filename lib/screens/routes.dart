@@ -18,6 +18,7 @@ class $Router {
   VerifyScreen verifyScreen;
   UserNameScreen userNameScreen;
   PincodeScreen pincodeScreen;
+  @initial
   CashModeScaffold cashHomeScreen;
   TransactionDetailsScreen transactionDetailsScreen;
   BusinessPage businessPage;

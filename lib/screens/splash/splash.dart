@@ -39,34 +39,40 @@ class _SplashScreenState extends State<SplashScreen> {
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
           List pages = getPages(context);
-          return Scaffold(
-              drawer: drawer,
-              body: Container(
-                  child: Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 20,
-                    child: Container(
-                        child: Column(
-                      children: <Widget>[
-                        Expanded(
-                          child: new Stack(
-                            children: <Widget>[
-                              new PageView.builder(
-                                physics: new AlwaysScrollableScrollPhysics(),
-                                itemCount: pages.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return pages[index % pages.length];
-                                },
+          return new WillPopScope(
+              onWillPop: () {
+                return new Future(() => false);
+              },
+              child: Scaffold(
+                  drawer: drawer,
+                  body: Container(
+                      child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 20,
+                        child: Container(
+                            child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: new Stack(
+                                children: <Widget>[
+                                  new PageView.builder(
+                                    physics:
+                                        new AlwaysScrollableScrollPhysics(),
+                                    itemCount: pages.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return pages[index % pages.length];
+                                    },
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    )),
-                  ),
-                ],
-              )));
+                            ),
+                          ],
+                        )),
+                      ),
+                    ],
+                  ))));
         });
   }
 }

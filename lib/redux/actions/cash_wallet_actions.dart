@@ -963,14 +963,21 @@ ThunkAction joinBonusSuccessCall(txHash, transfer) {
 
 ThunkAction fetchCommunityMetadataCall(String communityURI) {
   return (Store store) async {
-    String uri = communityURI.split('://')[1];
-    dynamic metadata = await api.fetchMetadata(uri);
-    CommunityMetadata communityMetadata = new CommunityMetadata(
-      image: metadata['image'],
-      coverPhoto: metadata['coverPhoto'],
-      isDefaultImage: metadata['isDefault'] != null ? metadata['isDefault'] : false
-    );
-    store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
+    final logger = await AppFactory().getLogger('action');
+    try {
+      String uri = communityURI.split('://')[1];
+      dynamic metadata = await api.fetchMetadata(uri);
+      CommunityMetadata communityMetadata = new CommunityMetadata(
+        image: metadata['image'],
+        coverPhoto: metadata['coverPhoto'],
+        isDefaultImage: metadata['isDefault'] != null ? metadata['isDefault'] : false
+      );
+      store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
+    } catch (e, s) {
+      logger.info('ERROR - fetchCommunityMetadataCall $e');
+      await AppFactory().reportError(e, s);
+      store.dispatch(new ErrorAction('Could not fetch community metadata'));
+    }
   };
 }
 

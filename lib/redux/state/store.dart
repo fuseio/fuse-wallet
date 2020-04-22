@@ -214,6 +214,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
+                app: App(name: 'BIM'),
                 operatingSystem: operatingSystem
             ),
             userContext: user
