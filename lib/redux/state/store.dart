@@ -214,6 +214,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
+                app: App(name: 'WikiBank'),
                 operatingSystem: operatingSystem
             ),
             userContext: user
