@@ -25,7 +25,7 @@ class Router {
   static const verifyScreen = '/verify-screen';
   static const userNameScreen = '/user-name-screen';
   static const pincodeScreen = '/pincode-screen';
-  static const cashHomeScreen = '/cash-home-screen';
+  static const cashHomeScreen = '/';
   static const transactionDetailsScreen = '/transaction-details-screen';
   static const businessPage = '/business-page';
   static const recoveryPage = '/recovery-page';
