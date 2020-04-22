@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "553527502093-9p97jnpjt3cc67rigp6d9g1d2ernr7uj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.bim",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
           "client_id": "553527502093-ddmo7aqsl5lbl1in42d0bn3o1t5m0n8t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -52,14 +60,6 @@
           "android_info": {
             "package_name": "io.fuse.bim",
             "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
-          }
-        },
-        {
-          "client_id": "553527502093-88dahqge2uasat900ana1trt8f08l7vg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.fuse.bim",
-            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
           }
         },
         {
