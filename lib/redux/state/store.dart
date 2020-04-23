@@ -232,6 +232,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
+                app: App(name: 'Fuse Wallet'),
                 operatingSystem: operatingSystem
             ),
             userContext: user
