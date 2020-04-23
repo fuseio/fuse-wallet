@@ -2,13 +2,13 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/views/backup.dart';
-import 'package:farmly_ledger/screens/pro_routes.gr.dart';
-import 'package:farmly_ledger/screens/routes.gr.dart';
-import 'package:farmly_ledger/widgets/main_scaffold.dart';
-import 'package:farmly_ledger/widgets/primary_button.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/views/backup.dart';
+import 'package:local_champions/screens/pro_routes.gr.dart';
+import 'package:local_champions/screens/routes.gr.dart';
+import 'package:local_champions/widgets/main_scaffold.dart';
+import 'package:local_champions/widgets/primary_button.dart';
 
 class DoneBackup extends StatelessWidget {
   @override

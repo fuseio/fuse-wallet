@@ -2,14 +2,14 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/views/drawer.dart';
-import 'package:farmly_ledger/screens/misc/about.dart';
-import 'package:farmly_ledger/screens/splash/splash.dart';
-import 'package:farmly_ledger/utils/forks.dart';
-import 'package:farmly_ledger/widgets/language_selector.dart';
-import 'package:farmly_ledger/widgets/main_scaffold.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/views/drawer.dart';
+import 'package:local_champions/screens/misc/about.dart';
+import 'package:local_champions/screens/splash/splash.dart';
+import 'package:local_champions/utils/forks.dart';
+import 'package:local_champions/widgets/language_selector.dart';
+import 'package:local_champions/widgets/main_scaffold.dart';
 
 class SettingsScreen extends StatelessWidget {
   Widget getListTile(context, label, onTap) {

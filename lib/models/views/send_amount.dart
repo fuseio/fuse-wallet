@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/community.dart';
-import 'package:farmly_ledger/models/token.dart';
-import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/community.dart';
+import 'package:local_champions/models/token.dart';
+import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel {

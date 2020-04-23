@@ -1,8 +1,8 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:redux/redux.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/community.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/community.dart';
 
 class BottomBarViewModel extends Equatable {
   final String communityAddres;

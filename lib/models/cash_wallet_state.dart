@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:farmly_ledger/models/community.dart';
-import 'package:farmly_ledger/models/plugins.dart';
+import 'package:local_champions/models/community.dart';
+import 'package:local_champions/models/plugins.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 

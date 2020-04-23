@@ -1,10 +1,10 @@
-import 'package:farmly_ledger/models/business.dart';
-import 'package:farmly_ledger/models/community.dart';
-import 'package:farmly_ledger/models/plugins.dart';
-import 'package:farmly_ledger/models/token.dart';
-import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
+import 'package:local_champions/models/business.dart';
+import 'package:local_champions/models/community.dart';
+import 'package:local_champions/models/plugins.dart';
+import 'package:local_champions/models/token.dart';
+import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:farmly_ledger/models/app_state.dart';
+import 'package:local_champions/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 
 class BuyViewModel extends Equatable {

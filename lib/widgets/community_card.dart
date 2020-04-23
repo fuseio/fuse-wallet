@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:farmly_ledger/models/community.dart';
+import 'package:local_champions/models/community.dart';
 import 'dart:core';
 
-import 'package:farmly_ledger/screens/routes.gr.dart';
+import 'package:local_champions/screens/routes.gr.dart';
 
 String getImageUrl(String imaga) {
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + imaga;

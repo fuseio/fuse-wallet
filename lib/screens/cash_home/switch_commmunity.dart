@@ -4,14 +4,14 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/community.dart';
-import 'package:farmly_ledger/models/views/switch_community.dart';
-import 'package:farmly_ledger/screens/routes.gr.dart';
-import 'package:farmly_ledger/widgets/community_card.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/community.dart';
+import 'package:local_champions/models/views/switch_community.dart';
+import 'package:local_champions/screens/routes.gr.dart';
+import 'package:local_champions/widgets/community_card.dart';
 import 'dart:core';
-import 'package:farmly_ledger/widgets/main_scaffold.dart';
+import 'package:local_champions/widgets/main_scaffold.dart';
 
 class SwitchCommunityScreen extends StatefulWidget {
   @override

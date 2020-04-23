@@ -7,22 +7,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:farmly_ledger/screens/splash/splash.dart';
-import 'package:farmly_ledger/screens/signup/signup.dart';
-import 'package:farmly_ledger/screens/signup/verify.dart';
-import 'package:farmly_ledger/screens/signup/username.dart';
-import 'package:farmly_ledger/screens/misc/pincode.dart';
-import 'package:farmly_ledger/screens/cash_home/cash_mode.dart';
-import 'package:farmly_ledger/screens/cash_home/transaction_details.dart';
-import 'package:farmly_ledger/screens/send/send_amount.dart';
-import 'package:farmly_ledger/screens/send/send_amount_arguments.dart';
-import 'package:farmly_ledger/screens/send/send_review.dart';
-import 'package:farmly_ledger/screens/send/send_success.dart';
-import 'package:farmly_ledger/screens/buy/business.dart';
-import 'package:farmly_ledger/screens/signup/recovery.dart';
-import 'package:farmly_ledger/screens/buy/map.dart';
-import 'package:farmly_ledger/screens/cash_home/prize.dart';
-import 'package:farmly_ledger/screens/cash_home/webview_page.dart';
+import 'package:local_champions/screens/splash/splash.dart';
+import 'package:local_champions/screens/signup/signup.dart';
+import 'package:local_champions/screens/signup/verify.dart';
+import 'package:local_champions/screens/signup/username.dart';
+import 'package:local_champions/screens/misc/pincode.dart';
+import 'package:local_champions/screens/cash_home/cash_mode.dart';
+import 'package:local_champions/screens/cash_home/transaction_details.dart';
+import 'package:local_champions/screens/send/send_amount.dart';
+import 'package:local_champions/screens/send/send_amount_arguments.dart';
+import 'package:local_champions/screens/send/send_review.dart';
+import 'package:local_champions/screens/send/send_success.dart';
+import 'package:local_champions/screens/buy/business.dart';
+import 'package:local_champions/screens/signup/recovery.dart';
+import 'package:local_champions/screens/buy/map.dart';
+import 'package:local_champions/screens/cash_home/prize.dart';
+import 'package:local_champions/screens/cash_home/webview_page.dart';
 
 class Router {
   static const splashScreen = '/splash-screen';

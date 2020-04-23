@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/models/transactions/transfer.dart';
-import 'package:farmly_ledger/models/views/send_amount.dart';
-import 'package:farmly_ledger/utils/transaction_row.dart';
-import 'package:farmly_ledger/widgets/main_scaffold.dart';
-import 'package:farmly_ledger/models/app_state.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/models/transactions/transfer.dart';
+import 'package:local_champions/models/views/send_amount.dart';
+import 'package:local_champions/utils/transaction_row.dart';
+import 'package:local_champions/widgets/main_scaffold.dart';
+import 'package:local_champions/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class TransactionDetailArguments {

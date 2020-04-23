@@ -1,16 +1,16 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
-import 'package:farmly_ledger/redux/actions/user_actions.dart';
-import 'package:farmly_ledger/themes/app_theme.dart';
-import 'package:farmly_ledger/themes/custom_theme.dart';
-import 'package:farmly_ledger/utils/contacts.dart';
-import 'package:farmly_ledger/utils/forks.dart';
-import 'package:farmly_ledger/models/app_state.dart';
+import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
+import 'package:local_champions/redux/actions/user_actions.dart';
+import 'package:local_champions/themes/app_theme.dart';
+import 'package:local_champions/themes/custom_theme.dart';
+import 'package:local_champions/utils/contacts.dart';
+import 'package:local_champions/utils/forks.dart';
+import 'package:local_champions/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'cash_transactions.dart';
-import 'package:farmly_ledger/models/views/cash_wallet.dart';
+import 'package:local_champions/models/views/cash_wallet.dart';
 
 void updateTheme(
     String communityAddress, Function _changeTheme, BuildContext context) {

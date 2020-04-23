@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:farmly_ledger/models/business.dart';
-import 'package:farmly_ledger/models/transactions/transfer.dart';
-import 'package:farmly_ledger/models/views/cash_wallet.dart';
-import 'package:farmly_ledger/utils/forks.dart';
-import 'package:farmly_ledger/utils/format.dart';
-import 'package:farmly_ledger/utils/phone.dart';
+import 'package:local_champions/models/business.dart';
+import 'package:local_champions/models/transactions/transfer.dart';
+import 'package:local_champions/models/views/cash_wallet.dart';
+import 'package:local_champions/utils/forks.dart';
+import 'package:local_champions/utils/format.dart';
+import 'package:local_champions/utils/phone.dart';
 
 String deduceSign(Transfer transfer) {
   if (transfer.type == 'SEND') {

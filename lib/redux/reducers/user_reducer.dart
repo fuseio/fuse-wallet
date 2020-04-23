@@ -1,6 +1,6 @@
-import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
-import 'package:farmly_ledger/redux/actions/user_actions.dart';
-import 'package:farmly_ledger/models/user_state.dart';
+import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
+import 'package:local_champions/redux/actions/user_actions.dart';
+import 'package:local_champions/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([

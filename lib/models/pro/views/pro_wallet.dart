@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:farmly_ledger/models/community.dart';
-import 'package:farmly_ledger/models/pro/token.dart';
-import 'package:farmly_ledger/models/transactions/transfer.dart';
-import 'package:farmly_ledger/utils/addresses.dart';
+import 'package:local_champions/models/community.dart';
+import 'package:local_champions/models/pro/token.dart';
+import 'package:local_champions/models/transactions/transfer.dart';
+import 'package:local_champions/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:farmly_ledger/models/app_state.dart';
+import 'package:local_champions/models/app_state.dart';
 
 class ProWalletViewModel extends Equatable {
   final String walletAddress;

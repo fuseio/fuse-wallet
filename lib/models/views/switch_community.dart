@@ -1,9 +1,9 @@
 import 'dart:core';
 import 'package:equatable/equatable.dart';
-import 'package:farmly_ledger/models/community.dart';
-import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
+import 'package:local_champions/models/community.dart';
+import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:farmly_ledger/models/app_state.dart';
+import 'package:local_champions/models/app_state.dart';
 
 class SwitchCommunityViewModel extends Equatable {
   final Map<String, Community> communities;

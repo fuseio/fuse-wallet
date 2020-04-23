@@ -1,8 +1,8 @@
-import 'package:farmly_ledger/models/jobs/base.dart';
-import 'package:farmly_ledger/models/transactions/transfer.dart';
-import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
-import 'package:farmly_ledger/redux/state/store.dart';
-import 'package:farmly_ledger/services.dart';
+import 'package:local_champions/models/jobs/base.dart';
+import 'package:local_champions/models/transactions/transfer.dart';
+import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
+import 'package:local_champions/redux/state/store.dart';
+import 'package:local_champions/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'invite_job.g.dart';

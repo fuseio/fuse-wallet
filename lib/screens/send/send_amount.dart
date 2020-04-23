@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/models/community.dart';
-import 'package:farmly_ledger/screens/routes.gr.dart';
-import 'package:farmly_ledger/screens/send/send_amount_arguments.dart';
-import 'package:farmly_ledger/utils/format.dart';
-import 'package:farmly_ledger/widgets/main_scaffold.dart';
-import 'package:farmly_ledger/widgets/primary_button.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/models/community.dart';
+import 'package:local_champions/screens/routes.gr.dart';
+import 'package:local_champions/screens/send/send_amount_arguments.dart';
+import 'package:local_champions/utils/format.dart';
+import 'package:local_champions/widgets/main_scaffold.dart';
+import 'package:local_champions/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
-import 'package:farmly_ledger/models/app_state.dart';
+import 'package:local_champions/models/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:farmly_ledger/models/token.dart';
+import 'package:local_champions/models/token.dart';
 
 class SendAmountScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

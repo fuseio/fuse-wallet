@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/pro/token.dart';
-import 'package:farmly_ledger/models/pro/views/pro_wallet.dart';
-import 'package:farmly_ledger/utils/addresses.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/pro/token.dart';
+import 'package:local_champions/models/pro/views/pro_wallet.dart';
+import 'package:local_champions/utils/addresses.dart';
 
 final Token daiToken = Token(
     address: daiTokenAddress,

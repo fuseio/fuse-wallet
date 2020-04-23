@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/plugins.dart';
-import 'package:farmly_ledger/models/views/drawer.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/plugins.dart';
+import 'package:local_champions/models/views/drawer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

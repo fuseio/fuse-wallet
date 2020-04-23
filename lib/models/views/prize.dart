@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:farmly_ledger/models/plugins.dart';
+import 'package:local_champions/models/plugins.dart';
 import 'package:redux/redux.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/community.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/community.dart';
 
 class PrizeViewModel extends Equatable {
   final Plugins plugins;

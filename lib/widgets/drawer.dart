@@ -3,16 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/models/app_state.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:farmly_ledger/models/views/drawer.dart';
-import 'package:farmly_ledger/screens/backup/show_mnemonic.dart';
-import 'package:farmly_ledger/screens/cash_home/deposit_webview.dart';
-import 'package:farmly_ledger/screens/cash_home/switch_commmunity.dart';
-import 'package:farmly_ledger/screens/misc/settings.dart';
-import 'package:farmly_ledger/utils/forks.dart';
-import 'package:farmly_ledger/utils/format.dart';
+import 'package:local_champions/models/views/drawer.dart';
+import 'package:local_champions/screens/backup/show_mnemonic.dart';
+import 'package:local_champions/screens/cash_home/deposit_webview.dart';
+import 'package:local_champions/screens/cash_home/switch_commmunity.dart';
+import 'package:local_champions/screens/misc/settings.dart';
+import 'package:local_champions/utils/forks.dart';
+import 'package:local_champions/utils/format.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 

@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:local_champions/generated/i18n.dart';
 
 class LanguageSelector extends StatefulWidget {
   @override

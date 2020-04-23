@@ -5,18 +5,18 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/views/splash.dart';
-import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
-import 'package:farmly_ledger/redux/actions/user_actions.dart';
-import 'package:farmly_ledger/redux/state/store.dart';
-import 'package:farmly_ledger/screens/pro_routes.gr.dart';
-import 'package:farmly_ledger/screens/routes.gr.dart';
-import 'package:farmly_ledger/themes/app_theme.dart';
-import 'package:farmly_ledger/themes/custom_theme.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/views/splash.dart';
+import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
+import 'package:local_champions/redux/actions/user_actions.dart';
+import 'package:local_champions/redux/state/store.dart';
+import 'package:local_champions/screens/pro_routes.gr.dart';
+import 'package:local_champions/screens/routes.gr.dart';
+import 'package:local_champions/themes/app_theme.dart';
+import 'package:local_champions/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
+import 'package:local_champions/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
@@ -118,7 +118,7 @@ class _MyAppState extends State<MyApp> {
             return new Column(children: <Widget>[
               Expanded(
                   child: MaterialApp(
-                title: 'Farmly ledger',
+                title: 'Local Champions',
                 initialRoute: isProMode
                     ? ProRouter.proModeHomeScreen
                     : widget.initialRoute,

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:farmly_ledger/models/pro/token.dart';
-import 'package:farmly_ledger/models/transactions/transfer.dart';
-import 'package:farmly_ledger/redux/state/store.dart';
-import 'package:farmly_ledger/services.dart';
+import 'package:local_champions/models/pro/token.dart';
+import 'package:local_champions/models/transactions/transfer.dart';
+import 'package:local_champions/redux/state/store.dart';
+import 'package:local_champions/services.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;

@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/models/business.dart';
-import 'package:farmly_ledger/models/token.dart';
-import 'package:farmly_ledger/screens/routes.gr.dart';
-import 'package:farmly_ledger/screens/send/send_amount_arguments.dart';
-import 'package:farmly_ledger/utils/transaction_row.dart';
-import 'package:farmly_ledger/widgets/drawer.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/models/business.dart';
+import 'package:local_champions/models/token.dart';
+import 'package:local_champions/screens/routes.gr.dart';
+import 'package:local_champions/screens/send/send_amount_arguments.dart';
+import 'package:local_champions/utils/transaction_row.dart';
+import 'package:local_champions/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -317,10 +317,6 @@ class _BusinessPageState extends State<BusinessPage> {
                     ),
                   ]),
             ),
-            // Expanded(
-            //   flex: 1,
-            //   child: bottomBar(context),
-            // )
           ],
         ),
       ),

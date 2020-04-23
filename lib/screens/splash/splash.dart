@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:farmly_ledger/models/app_state.dart';
-import 'package:farmly_ledger/models/views/splash.dart';
-import 'package:farmly_ledger/redux/actions/cash_wallet_actions.dart';
-import 'package:farmly_ledger/redux/actions/user_actions.dart';
-import 'package:farmly_ledger/screens/routes.gr.dart';
-import 'package:farmly_ledger/widgets/on_boarding_pages.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/views/splash.dart';
+import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
+import 'package:local_champions/redux/actions/user_actions.dart';
+import 'package:local_champions/screens/routes.gr.dart';
+import 'package:local_champions/widgets/on_boarding_pages.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -39,7 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
           List pages = getPages(context);
-          return Scaffold(
+          return new WillPopScope(
+              onWillPop: () {
+                return new Future(() => false);
+              },
+              child: Scaffold(
               drawer: drawer,
               body: Container(
                   child: Column(
@@ -66,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     )),
                   ),
                 ],
-              )));
+              ))));
         });
   }
 }

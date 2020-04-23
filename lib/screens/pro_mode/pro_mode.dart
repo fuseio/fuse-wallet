@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/screens/pro_mode/pro_drawer.dart';
-import 'package:farmly_ledger/screens/pro_mode/pro_header.dart';
-import 'package:farmly_ledger/screens/pro_mode/pro_home.dart';
-import 'package:farmly_ledger/screens/send/receive.dart';
-import 'package:farmly_ledger/widgets/bottom_bar_item.dart';
-import 'package:farmly_ledger/widgets/coming_soon.dart';
-import 'package:farmly_ledger/widgets/my_app_bar.dart';
-import 'package:farmly_ledger/widgets/tabs_scaffold.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/screens/pro_mode/pro_drawer.dart';
+import 'package:local_champions/screens/pro_mode/pro_header.dart';
+import 'package:local_champions/screens/pro_mode/pro_home.dart';
+import 'package:local_champions/screens/send/receive.dart';
+import 'package:local_champions/widgets/bottom_bar_item.dart';
+import 'package:local_champions/widgets/coming_soon.dart';
+import 'package:local_champions/widgets/my_app_bar.dart';
+import 'package:local_champions/widgets/tabs_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 class ProModeScaffold extends StatefulWidget {

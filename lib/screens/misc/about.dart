@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:farmly_ledger/generated/i18n.dart';
-import 'package:farmly_ledger/widgets/main_scaffold.dart';
+import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/widgets/main_scaffold.dart';
 import 'dart:core';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
