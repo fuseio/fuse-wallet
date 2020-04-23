@@ -9,26 +9,22 @@ class MyThemes {
       primaryColorLight: const Color(0xFF8AD57F),
       primaryColorDark: const Color(0xFF1876B5),
       buttonColor: const Color(0xFF8AD57F),
-      textTheme: TextTheme(
-          button: new TextStyle(color: Colors.white)));
+      textTheme: TextTheme(button: new TextStyle(color: Colors.white)));
 
   static final ThemeData openMoneyTheme = getTheme().copyWith(
       primaryColorLight: const Color(0xFF65944A),
       primaryColorDark: const Color(0xFF2C4514),
-      textTheme: TextTheme(
-          button: new TextStyle(color: Colors.white)));
+      textTheme: TextTheme(button: new TextStyle(color: Colors.white)));
 
   static final ThemeData goodDollarTheme = getTheme().copyWith(
       primaryColorLight: const Color(0xFF02B0FF),
       primaryColorDark: const Color(0xFF00B247),
-      textTheme: TextTheme(
-          button: new TextStyle(color: Colors.white)));
+      textTheme: TextTheme(button: new TextStyle(color: Colors.white)));
 
   static final ThemeData wepyTheme = getTheme().copyWith(
       primaryColorLight: const Color(0xFF06DEA4),
       primaryColorDark: const Color(0xFF1077D8),
-      textTheme: TextTheme(
-            button: new TextStyle(color: Colors.white)));
+      textTheme: TextTheme(button: new TextStyle(color: Colors.white)));
 
   static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
     switch (themeKey) {

@@ -1,14 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:local_champions/models/community.dart';
 import 'dart:core';
 
 import 'package:local_champions/screens/routes.gr.dart';
-
-String getImageUrl(String imaga) {
-  return DotEnv().env['IPFS_BASE_URL'] + '/image/' + imaga;
-}
+import 'package:local_champions/utils/transaction_row.dart';
 
 class CommunityCardScreen extends StatefulWidget {
   CommunityCardScreen(
@@ -34,7 +31,8 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
     return InkWell(
         onTap: () {
           widget.switchCommunity(widget.community.address);
-          Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
+          Router.navigator.pushNamedAndRemoveUntil(
+              Router.cashHomeScreen, (Route<dynamic> route) => false);
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -64,16 +62,24 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                   alignment: Alignment.bottomRight,
                   children: <Widget>[
                     ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12.0),
-                          topRight: Radius.circular(12.0)),
-                      child: Image.network(
-                        getImageUrl(widget.community.metadata.coverPhoto),
-                        height: 100,
-                        width: MediaQuery.of(context).size.width,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12.0),
+                            topRight: Radius.circular(12.0)),
+                        child: CachedNetworkImage(
+                          imageUrl: getIPFSImageUrl(
+                              widget.community.metadata.coverPhoto),
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                          ),
+                          imageBuilder: (context, imageProvider) => Image(
+                            image: imageProvider,
+                            fit: BoxFit.fill,
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                        )),
                     Positioned(
                       bottom: -30,
                       right: 10,
@@ -92,12 +98,20 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                                 children: <Widget>[
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
-                                    child: Image.network(
-                                      getImageUrl(
+                                    child: CachedNetworkImage(
+                                      imageUrl: getIPFSImageUrl(
                                           widget.community.metadata.image),
-                                      height: 50.0,
-                                      width: 50.0,
-                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      imageBuilder: (context, imageProvider) =>
+                                          Image(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                        height: 50.0,
+                                        width: 50.0,
+                                      ),
                                     ),
                                   ),
                                   widget.community.metadata.isDefaultImage !=

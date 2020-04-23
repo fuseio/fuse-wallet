@@ -8,13 +8,9 @@ import 'package:local_champions/screens/pro_mode/assets_list.dart';
 import 'package:redux/redux.dart';
 
 class ProModeHomeScreen extends StatelessWidget {
-  onInit(Store<AppState> store) {
+  onInit(Store<AppState> store) async {
     Segment.screen(screenName: '/pro-home-screen');
-    store.dispatch(initWeb3ProMode());
-    if (store.state.proWalletState.isListenToTransferEvents == null ||
-        store.state.proWalletState.isListenToTransferEvents == false) {
-      store.dispatch(startListenToTransferEvents());
-    }
+    store.dispatch(getAddressBalances());
   }
 
   @override

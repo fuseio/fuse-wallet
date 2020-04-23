@@ -6,6 +6,7 @@ import 'package:local_champions/models/transactions/transaction.dart';
 import 'package:local_champions/models/transactions/transfer.dart';
 import 'package:local_champions/models/views/cash_wallet.dart';
 import 'package:local_champions/screens/routes.gr.dart';
+import 'package:local_champions/utils/addresses.dart';
 import 'package:local_champions/utils/transaction_row.dart';
 import 'package:local_champions/screens/cash_home/transaction_details.dart';
 import 'package:local_champions/utils/format.dart';
@@ -30,7 +31,10 @@ class TransactionListItem extends StatelessWidget {
                 _vm.community.homeBridgeAddress?.toLowerCase()) ??
         false;
     bool isWalletCreated = 'created' == this._vm.walletStatus;
-    ImageProvider<dynamic> image = getTransferImage(transfer, _contact, _vm);
+    bool isZeroAddress = transfer.from == zeroAddress;
+    ImageProvider<dynamic> image = isZeroAddress ? AssetImage(
+      'assets/images/ethereume_icon.png',
+      ) : getTransferImage(transfer, _contact, _vm);
     String displayName = transfer.isJoinBonus()
         ? (transfer.text ?? I18n.of(context).join_bonus)
         : (transfer.receiverName != null && transfer.receiverName != '')
@@ -182,16 +186,14 @@ class TransactionListItem extends StatelessWidget {
                                     ),
                                   )
                                 : Text(
-                                    isSendingToForeign && transfer.isConfirmed()
-                                        ? I18n.of(context).sending_to_ethereum
-                                        : isSendingToForeign &&
-                                                transfer.isPending()
-                                            ? I18n.of(context).sent_to_ethereum
-                                            : displayName,
+                                    isZeroAddress
+                                      ? I18n.of(context).received_from_ethereum
+                                      : isSendingToForeign
+                                        ? I18n.of(context).sent_to_ethereum
+                                        : displayName,
                                     style: TextStyle(
                                         color: Color(0xFF333333),
-                                        fontSize:
-                                            isSendingToForeign ? 13 : 15)),
+                                        fontSize: 15)),
                             isSendingToForeign
                                 ? Positioned(
                                     bottom: -20,

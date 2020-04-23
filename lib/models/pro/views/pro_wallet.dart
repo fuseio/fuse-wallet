@@ -18,12 +18,12 @@ class ProWalletViewModel extends Equatable {
   });
 
   static ProWalletViewModel fromStore(Store<AppState> store) {
-    List<Token> tokens = store.state.proWalletState?.tokens ?? [];
+    List<Token> tokens = List<Token>.from(store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty());
     Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
     bool hasTrasnferdToForeign = community.transactions.list.any((item) {
         Transfer transfer = item as Transfer;
         return (transfer?.to?.toLowerCase() == community?.homeBridgeAddress?.toLowerCase()) ?? false;
-      }) && !tokens.any((token) => token?.address == daiTokenAddress);
+      }) && !store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress);
     return ProWalletViewModel(
       hasTrasnferdToForeign: hasTrasnferdToForeign,
       walletAddress: store.state.userState.walletAddress,

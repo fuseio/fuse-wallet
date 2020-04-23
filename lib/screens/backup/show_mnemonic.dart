@@ -28,15 +28,15 @@ class ShowMnemonic extends StatelessWidget {
                   child: RichText(
                       textAlign: TextAlign.center,
                       text: new TextSpan(
+                          style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16),
                           children: <InlineSpan>[
                             TextSpan(
                               text: I18n.of(context).important + ' ',
-                              style: TextStyle(color: Colors.black, fontSize: 16),
+                              style: TextStyle(color: Colors.black),
                             ),
                             TextSpan(
                                 text: I18n.of(context).write_words,
                                 style: TextStyle(
-                                    fontSize: 16,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .secondary))
@@ -148,16 +148,8 @@ class ShowMnemonic extends StatelessWidget {
                                   context,
                                   new MaterialPageRoute(
                                       builder: (context) => VerifyMnemonic()));
-                              // Router.navigator.pushNamed(Router.verifyMnemonic);
                             },
                           )),
-                          // const SizedBox(height: 16.0),
-                          // TransparentButton(
-                          //     label: I18n.of(context).skip_button,
-                          //     onPressed: () {
-                          //       Navigator.of(context).pop();
-                          //     }),
-                          // const SizedBox(height: 30.0),
                         ],
                       )
                     : Padding(

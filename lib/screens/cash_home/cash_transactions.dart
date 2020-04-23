@@ -27,7 +27,7 @@ class CashTransactionsState extends State<CashTransactios> {
     Transfer generateWallet = new Transfer(
         type: 'RECEIVE',
         text: !isWalletCreated ? I18n.of(context).generating_wallet : I18n.of(context).generated_wallet,
-        status: !isWalletCreated ? I18n.of(context).pending : I18n.of(context).confirmed,
+        status: !isWalletCreated ? 'PENDING' : 'CONFIRMED',
         jobId: 'generateWallet');
     List<TransactionListItem> transfers = [
       ...this

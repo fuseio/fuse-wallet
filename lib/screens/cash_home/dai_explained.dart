@@ -8,8 +8,9 @@ import 'package:local_champions/models/app_state.dart';
 import 'package:local_champions/models/community.dart';
 import 'package:local_champions/screens/cash_home/prize.dart';
 import 'package:local_champions/screens/cash_home/webview_page.dart';
-import 'package:local_champions/screens/routes.gr.dart';
+import 'package:local_champions/screens/send/send_amount.dart';
 import 'package:local_champions/screens/send/send_amount_arguments.dart';
+import 'package:local_champions/utils/addresses.dart';
 import 'package:local_champions/widgets/activate_pro_mode.dart';
 import 'package:local_champions/widgets/deposit_dai_popup.dart';
 import 'package:local_champions/widgets/main_scaffold.dart';
@@ -92,8 +93,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                   'Win up to 100 points!',
                                   style: TextStyle(
                                       fontSize: 13,
-                                      color: Theme.of(context)
-                                          .primaryColor),
+                                      color: Theme.of(context).primaryColor),
                                 ),
                               ),
                               Row(
@@ -244,11 +244,10 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                 }
                               },
                               child: Text(
-                                'Add DAI',
+                                I18n.of(context).addDai,
                                 style: TextStyle(
                                     fontSize: 16,
-                                    color: Theme.of(context)
-                                        .primaryColor,
+                                    color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -266,11 +265,14 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                       InkWell(
                         onTap: () {
                           if (vm.isProModeActivate) {
-                            Router.navigator.pushNamed(Router.sendAmountScreen,
-                                arguments: SendAmountArguments(
-                                    sendType: SendType.FUSE_ADDRESS,
-                                    accountAddress:
-                                        vm.daiPointsHomeBridgeAddress));
+                            Navigator.push(
+                                    context,
+                                new MaterialPageRoute(
+                                    builder: (context) => SendAmountScreen(
+                                        pageArgs: SendAmountArguments(
+                                            sendType: SendType.FUSE_ADDRESS,
+                                            accountAddress: vm
+                                                .daiPointsHomeBridgeAddress))));
                           } else {
                             showDialog(
                                 context: context,
@@ -288,11 +290,10 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                'Withdraw DAI',
+                                I18n.of(context).withdrawDAI,
                                 style: TextStyle(
                                     fontSize: 16,
-                                    color: Theme.of(context)
-                                        .primaryColor,
+                                    color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.bold),
                               ),
                               SizedBox(
@@ -316,11 +317,13 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Router.navigator.pushNamed(Router.webViewPage,
-                      arguments: WebViewPageArguments(
-                          url:
-                              'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
-                          title: 'What is dai points?'));
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => WebViewPage(
+                              pageArgs: WebViewPageArguments(
+                                  url: 'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points', title: 'What is dai points?'),
+                            )));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

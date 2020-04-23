@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:local_champions/models/community.dart';
 import 'package:local_champions/redux/actions/user_actions.dart';
+import 'package:local_champions/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:local_champions/models/app_state.dart';
 import 'package:local_champions/widgets/activate_pro_mode2.dart';

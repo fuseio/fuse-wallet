@@ -11,6 +11,7 @@
     "restore_backup": "Restore backup",
     "balance": "Balance",
     "important": "Important!",
+    "phoneNumber": "Phone number",
     "ok": "Ok",
     "contact_us": "Contact us",
     "wallet_protected": "Your fuse wallet is protected!",
@@ -99,6 +100,10 @@
     "trade": "Trade",
     "assets_and_contracts": "Assets and contracts",
     "sending_to_ethereum": "Sent to your Ethereum wallet",
-    "sent_to_ethereum": "Sending to your Ethereum wallet",
+    "sent_to_ethereum": "Sent to Ethereum",
+    "received_from_ethereum": "Received from Ethereum",
+    "addDai": "Add DAI",
+    "withdrawDAI": "Withdraw DAI",
+    "sendToCashMode": "Send to cash mode",
     "communityWepbpage": "Community webpage"
 }

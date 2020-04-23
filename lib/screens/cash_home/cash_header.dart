@@ -2,27 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:local_champions/generated/i18n.dart';
 import 'package:local_champions/models/views/cash_header.dart';
 import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/screens/send/send_amount_arguments.dart';
+import 'package:local_champions/utils/barcode.dart';
 import 'package:local_champions/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:barcode_scan/barcode_scan.dart';
-
-scanFuseAddress() async {
-  try {
-    String accountAddress = await BarcodeScanner.scan();
-    List<String> parts = accountAddress.split(':');
-    if (parts.length == 2 && parts[0] == 'fuse') {
-      Router.navigator.pushNamed(Router.sendAmountScreen,
-          arguments: SendAmountArguments(
-              sendType: SendType.QR_ADDRESS, accountAddress: parts[1]));
-    } else {
-      print('Account address is not on Fuse');
-    }
-  } catch (e) {
-    print('ERROR - BarcodeScanner');
-  }
-}
 
 class CashHeader extends StatelessWidget {
   @override
@@ -32,7 +14,7 @@ class CashHeader extends StatelessWidget {
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(
-            height: 260.0,
+            height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.all(20.0),
             decoration: BoxDecoration(
@@ -51,14 +33,9 @@ class CashHeader extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF4AB848),
-                    Color(0xFFB4E170),
-                    Color(0xFF61BDD6),
+                    Theme.of(context).primaryColorLight,
+                    Theme.of(context).primaryColorDark,
                   ],
-                  // colors: [
-                  //   Theme.of(context).primaryColorLight,
-                  //   Theme.of(context).primaryColorDark,
-                  // ],
                 ),
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30.0),
@@ -185,7 +162,9 @@ class CashHeader extends StatelessWidget {
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                 ),
-                                onPressed: scanFuseAddress)
+                                onPressed: () {
+                                  bracodeScannerHandler(context);
+                                })
                           ]),
                         )
                       ],

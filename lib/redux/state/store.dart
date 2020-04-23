@@ -92,10 +92,7 @@ class AppFactory {
         initialState = new AppState.initial();
       }
 
-      final List<Middleware<AppState>> wms = [
-        thunkMiddleware,
-        persistor.createMiddleware(),
-      ];
+      final List<Middleware<AppState>> wms = [];
 
       if (isInDebugMode) {
         wms.add(LoggingMiddleware<AppState>(logger:logger, level: Level.ALL, formatter: LoggingMiddleware.multiLineFormatter));
@@ -172,34 +169,14 @@ class AppFactory {
         model: androidInfo.model,
         modelId: androidInfo.id,
         arch: androidInfo.hardware,
-        //      batteryLevel: 0,
-        //      orientation: null,
         manufacturer: androidInfo.manufacturer,
         brand: androidInfo.brand,
-        //      screenResolution: "",
-        //      screenDensity: "",
-        //      screenDpi: "",
-        //      online: false,
-        //      charging: false,
-        //      lowMemory: false,
         simulator: !androidInfo.isPhysicalDevice,
-        //      memorySize: 0,
-        //      freeMemory: 0,
-        //      usableMemory: 0,
-        //      storageSize: 0,
-        //      freeStorage: 0,
-        //      externalStorageSize: 0,
-        //      externalFreeStorage: 0,
-        //      bootTime: null,
-        //      timezone: ""
       );
       operatingSystem = OperatingSystem(
         name: Platform.operatingSystem,
         version: androidInfo.version.release,
         build: androidInfo.version.incremental,
-        //        kernelVersion: "",
-        //        rooted: false,
-        //        rawDescription: ""
       );
 
     } else {
@@ -211,26 +188,9 @@ class AppFactory {
         model: iosInfo.model,
         modelId: iosInfo.systemVersion,
         arch: iosInfo.utsname.machine,
-        //      batteryLevel: 0,
-        //      orientation: null,
         manufacturer: "Apple",
         brand: iosInfo.localizedModel,
-        //      screenResolution: "",
-        //      screenDensity: "",
-        //      screenDpi: "",
-        //      online: false,
-        //      charging: false,
-        //      lowMemory: false,
         simulator: !iosInfo.isPhysicalDevice,
-        //      memorySize: 0,
-        //      freeMemory: 0,
-        //      usableMemory: 0,
-        //      storageSize: 0,
-        //      freeStorage: 0,
-        //      externalStorageSize: 0,
-        //      externalFreeStorage: 0,
-        //      bootTime: null,
-        //      timezone: ""
       );
 
       operatingSystem = OperatingSystem(
@@ -238,8 +198,6 @@ class AppFactory {
         version: iosInfo.utsname.version,
         build: iosInfo.utsname.release,
         kernelVersion: iosInfo.utsname.machine,
-        //        rooted: false,
-        //        rawDescription: ""
       );
     }
 
@@ -256,6 +214,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
+                app: App(name: 'Local champions'),
                 operatingSystem: operatingSystem
             ),
             userContext: user

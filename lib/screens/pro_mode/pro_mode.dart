@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:local_champions/generated/i18n.dart';
+import 'package:local_champions/models/app_state.dart';
+import 'package:local_champions/models/views/bottom_bar.dart';
+import 'package:local_champions/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:local_champions/screens/pro_mode/pro_drawer.dart';
 import 'package:local_champions/screens/pro_mode/pro_header.dart';
 import 'package:local_champions/screens/pro_mode/pro_home.dart';
+import 'package:local_champions/screens/send/contacts_list.dart';
 import 'package:local_champions/screens/send/receive.dart';
+import 'package:local_champions/screens/send/send_contact.dart';
 import 'package:local_champions/widgets/bottom_bar_item.dart';
 import 'package:local_champions/widgets/coming_soon.dart';
 import 'package:local_champions/widgets/my_app_bar.dart';
 import 'package:local_champions/widgets/tabs_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'package:redux/redux.dart';
 
 class ProModeScaffold extends StatefulWidget {
+  final int tabIndex;
+  ProModeScaffold({Key key, this.tabIndex = 0}) : super(key: key);
   @override
   _ProModeScaffoldState createState() => _ProModeScaffoldState();
 }
@@ -23,6 +32,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
   @override
   void initState() {
     super.initState();
+    _currentIndex = widget.tabIndex;
     rateMyApp = RateMyApp(
       minDays: 0,
       minLaunches: 0,
@@ -70,44 +80,78 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     });
   }
 
-  List<Widget> _pages = [
-    ProModeHomeScreen(),
-    Container(),
-    Container(),
-    ReceiveScreen()
-  ];
+  List<Widget> _pages(contacts) {
+    bool hasContactsInStore = contacts.isNotEmpty;
+    return [
+      ProModeHomeScreen(),
+      !hasContactsInStore
+          ? SendToContactScreen()
+          : ContactsList(contacts: contacts),
+      Container(),
+      ReceiveScreen()
+    ];
+  }
+
+  void _onTap(int itemIndex) {
+    if (itemIndex == 2) {
+      comingSoon(context);
+      return;
+    } else {
+      setState(() {
+        _currentIndex = itemIndex;
+      });
+    }
+  }
+
+  BottomNavigationBar _bottomNavigationBar() => BottomNavigationBar(
+        selectedFontSize: 13,
+        unselectedFontSize: 13,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _currentIndex,
+        backgroundColor: Theme.of(context).bottomAppBarColor,
+        showUnselectedLabels: true,
+        items: [
+          bottomBarItem(I18n.of(context).home, 'home'),
+          bottomBarItem(I18n.of(context).send_button, 'send'),
+          bottomBarItem(I18n.of(context).trade, 'trade'),
+          bottomBarItem(I18n.of(context).receive, 'receive'),
+        ],
+        onTap: _onTap,
+      );
+
+  onInit(Store<AppState> store) {
+    bool isListenToTransferEvents = store.state.proWalletState?.isListenToTransferEvents ?? false;
+    bool isFetchTransferEvents = store.state.proWalletState?.isFetchTransferEvents ?? false;
+    bool isProcessingTokensJobs = store.state.proWalletState?.isProcessingTokensJobs ?? false;
+    if (!isListenToTransferEvents) {
+      store.dispatch(startListenToTransferEvents());
+    }
+    if (!isFetchTransferEvents) {
+      store.dispatch(startFetchTransferEventsCall());
+    }
+    if (!isProcessingTokensJobs) {
+      store.dispatch(startProcessingTokensJobsCall());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TabsScaffold(
-        header: MyAppBar(child: ProHeader(), backgroundColor: Colors.red),
-        drawerEdgeDragWidth: 0,
-        pages: _pages,
-        currentIndex: _currentIndex,
-        drawer: DrawerWidget(),
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: (int itemIndex) {
-            if (itemIndex != 0 && itemIndex != 3) {
-              comingSoon(context);
-              return;
-            } else {
-              setState(() {
-                _currentIndex = itemIndex;
-              });
-            }
-          },
-          selectedFontSize: 13,
-          unselectedFontSize: 13,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _currentIndex,
-          backgroundColor: Theme.of(context).bottomAppBarColor,
-          showUnselectedLabels: true,
-          items: [
-            bottomBarItem(I18n.of(context).home, 'home'),
-            bottomBarItem(I18n.of(context).send_button, 'send'),
-            bottomBarItem(I18n.of(context).trade, 'trade'),
-            bottomBarItem(I18n.of(context).receive, 'receive'),
-          ],
-        ));
+    return new StoreConnector<AppState, BottomBarViewModel>(
+        converter: BottomBarViewModel.fromStore,
+        onInit: onInit,
+        builder: (_, vm) {
+          final List<Widget> pages = _pages(vm.contacts);
+          return TabsScaffold(
+              drawer: DrawerWidget(),
+              header: MyAppBar(
+                child: ProHeader(),
+                backgroundColor: Colors.red,
+                height: MediaQuery.of(context).size.height * .25,
+              ),
+              drawerEdgeDragWidth: 0,
+              pages: pages,
+              currentIndex: _currentIndex,
+              bottomNavigationBar: _bottomNavigationBar());
+        });
   }
 }

@@ -14,15 +14,10 @@ import 'package:local_champions/screens/signup/username.dart';
 import 'package:local_champions/screens/misc/pincode.dart';
 import 'package:local_champions/screens/cash_home/cash_mode.dart';
 import 'package:local_champions/screens/cash_home/transaction_details.dart';
-import 'package:local_champions/screens/send/send_amount.dart';
-import 'package:local_champions/screens/send/send_amount_arguments.dart';
-import 'package:local_champions/screens/send/send_review.dart';
-import 'package:local_champions/screens/send/send_success.dart';
 import 'package:local_champions/screens/buy/business.dart';
 import 'package:local_champions/screens/signup/recovery.dart';
 import 'package:local_champions/screens/buy/map.dart';
 import 'package:local_champions/screens/cash_home/prize.dart';
-import 'package:local_champions/screens/cash_home/webview_page.dart';
 
 class Router {
   static const splashScreen = '/splash-screen';
@@ -32,14 +27,10 @@ class Router {
   static const pincodeScreen = '/pincode-screen';
   static const cashHomeScreen = '/cash-home-screen';
   static const transactionDetailsScreen = '/transaction-details-screen';
-  static const sendAmountScreen = '/send-amount-screen';
-  static const sendReviewScreen = '/send-review-screen';
-  static const sendSuccessScreen = '/send-success-screen';
   static const businessPage = '/business-page';
   static const recoveryPage = '/recovery-page';
   static const mapScreen = '/map-screen';
   static const prizeScreen = '/prize-screen';
-  static const webViewPage = '/web-view-page';
   static final navigator = ExtendedNavigator();
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -93,33 +84,6 @@ class Router {
           builder: (_) => TransactionDetailsScreen(pageArgs: typedArgs),
           settings: settings,
         );
-      case Router.sendAmountScreen:
-        if (hasInvalidArgs<SendAmountArguments>(args)) {
-          return misTypedArgsRoute<SendAmountArguments>(args);
-        }
-        final typedArgs = args as SendAmountArguments;
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => SendAmountScreen(pageArgs: typedArgs),
-          settings: settings,
-        );
-      case Router.sendReviewScreen:
-        if (hasInvalidArgs<SendAmountArguments>(args)) {
-          return misTypedArgsRoute<SendAmountArguments>(args);
-        }
-        final typedArgs = args as SendAmountArguments;
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => SendReviewScreen(pageArgs: typedArgs),
-          settings: settings,
-        );
-      case Router.sendSuccessScreen:
-        if (hasInvalidArgs<SendAmountArguments>(args)) {
-          return misTypedArgsRoute<SendAmountArguments>(args);
-        }
-        final typedArgs = args as SendAmountArguments;
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => SendSuccessScreen(pageArgs: typedArgs),
-          settings: settings,
-        );
       case Router.businessPage:
         if (hasInvalidArgs<BusinessPageArguments>(args)) {
           return misTypedArgsRoute<BusinessPageArguments>(args);
@@ -142,15 +106,6 @@ class Router {
       case Router.prizeScreen:
         return MaterialPageRoute<dynamic>(
           builder: (_) => PrizeScreen(),
-          settings: settings,
-        );
-      case Router.webViewPage:
-        if (hasInvalidArgs<WebViewPageArguments>(args)) {
-          return misTypedArgsRoute<WebViewPageArguments>(args);
-        }
-        final typedArgs = args as WebViewPageArguments;
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => WebViewPage(pageArgs: typedArgs),
           settings: settings,
         );
       default:

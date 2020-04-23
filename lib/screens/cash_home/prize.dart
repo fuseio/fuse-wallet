@@ -11,7 +11,6 @@ import 'package:local_champions/models/views/prize.dart';
 import 'package:local_champions/redux/state/store.dart';
 import 'package:local_champions/screens/cash_home/deposit_webview.dart';
 import 'package:local_champions/screens/cash_home/webview_page.dart';
-import 'package:local_champions/screens/routes.gr.dart';
 import 'package:local_champions/utils/format.dart';
 import 'package:local_champions/widgets/main_scaffold.dart';
 import 'package:local_champions/widgets/preloader.dart';
@@ -421,11 +420,15 @@ class _PrizeScreenState extends State<PrizeScreen> {
                               color: Theme.of(context).colorScheme.secondary),
                         ),
                         onTap: () {
-                          Router.navigator.pushNamed(Router.webViewPage,
-                              arguments: WebViewPageArguments(
-                                  url:
-                                      'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
-                                  title: 'What is dai points?'));
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => WebViewPage(
+                                        pageArgs: WebViewPageArguments(
+                                            url:
+                                                'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
+                                            title: 'What is dai points?'),
+                                      )));
                         }),
                   ],
                 ),

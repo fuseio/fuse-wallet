@@ -58,7 +58,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     }
   }
 
-  _onTap(int itemIndex) {
+  void _onTap(int itemIndex) {
     setState(() {
       _currentIndex = itemIndex;
     });
@@ -72,6 +72,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           final List<Widget> pages = _pages(context, vm.contacts, vm.community.webUrl);
           return TabsScaffold(
               header: MyAppBar(
+                height: 260.0,
                 backgroundColor: Colors.white,
                 child: CashHeader(),
               ),
