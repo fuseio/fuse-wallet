@@ -372,11 +372,7 @@ class _BusinessPageState extends State<BusinessPage> {
                       ),
                     ),
                   ]),
-            ),
-            // Expanded(
-            //   flex: 1,
-            //   child: bottomBar(context),
-            // )
+            )
           ],
         ),
       ),
