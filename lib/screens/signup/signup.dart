@@ -47,7 +47,6 @@ class _SignupScreenState extends State<SignupScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
         title: I18n.of(context).sign_up,
-        titleFontSize: 15,
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(20.0),
@@ -75,13 +74,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                        onTap: () async {
+                        onTap: () {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
-                          await Segment.track(eventName: "Wallet: opened modal - why do we need this");
+                          Segment.track(eventName: "Wallet: opened modal - why do we need this");
                         },
                         child: Center(
                           child: Text(
@@ -156,13 +155,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                   keyboardType: TextInputType.number,
                                   autofocus: true,
                                   validator: (String value) => value.isEmpty ? "Please enter mobile number" : null,
-                                  style: const TextStyle(
-                                      fontSize: 16, color: Colors.black),
-                                  decoration: const InputDecoration(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 20, horizontal: 10),
-                                      hintText: 'Phone number',
+                                  style: TextStyle(fontSize: 16, color: Colors.black),
+                                  decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                                      hintText: I18n.of(context).phoneNumber,
                                       border: InputBorder.none,
                                       focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide.none),

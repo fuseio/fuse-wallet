@@ -9,6 +9,7 @@ import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
 import 'package:fusecash/widgets/on_boarding_pages.dart';
 import 'dots_indicator.dart';
+import 'package:redux/redux.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -58,16 +59,12 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  onInit(store) {
+  onInit(Store<AppState> store) {
     String privateKey = store.state.userState.privateKey;
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
-    String communityManager = store.state.cashWalletState.communityManagerAddress;
-    String transferManager = store.state.cashWalletState.transferManagerAddress;
     if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-      store.dispatch(getWalletAddressessCall(
-          communityManager: communityManager,
-          transferManager: transferManager));
+      store.dispatch(getWalletAddressessCall());
       store.dispatch(identifyCall());
       Router.navigator.pushNamedAndRemoveUntil(
           Router.cashHomeScreen, (Route<dynamic> route) => false);
