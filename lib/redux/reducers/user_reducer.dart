@@ -26,7 +26,12 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetIsLoginRequest>(_setIsLoginRequest),
   TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
   TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
+  TypedReducer<UserState, SetIsoCode>(_setIsoCode),
 ]);
+
+UserState _setIsoCode(UserState state, SetIsoCode action) {
+  return state.copyWith(normalizedPhoneNumber: action.normalizedPhoneNumber, isoCode: action.countryCode.code, countryCode: action.countryCode.dialCode);
+}
 
 UserState _getWalletAddressesSuccess(UserState state, GetWalletAddressesSuccess action) {
   return state.copyWith(
@@ -72,7 +77,9 @@ UserState _createNewWalletSuccess(
 
 UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
   return state.copyWith(
-      countryCode: action.countryCode,
+      countryCode: action.countryCode.dialCode,
+      isoCode: action.countryCode.code,
+      normalizedPhoneNumber: action.normalizedPhoneNumber,
       phoneNumber: action.phoneNumber,
       loginRequestSuccess: true);
 }
