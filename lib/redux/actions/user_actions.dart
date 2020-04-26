@@ -326,7 +326,7 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
             String phoneNum = formatPhoneNumber(phone.value, countryCode);
             bool isValid = await PhoneService.isValid(phoneNum, isoCode);
             if (isValid) {
-              String ph = await PhoneService.getNormalizedPhoneNumber(formatPhoneNumber(phone.value, countryCode), isoCode);
+              String ph = await PhoneService.getNormalizedPhoneNumber(phoneNum, isoCode);
               return ph;
             }
             return phoneNum;
