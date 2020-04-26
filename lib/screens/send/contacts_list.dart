@@ -127,9 +127,9 @@ class _ContactsListState extends State<ContactsList> {
   }
 
   sendToContact(BuildContext context, Contact user, ContactsViewModel viewModel) async {
-    String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
-    dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
-    String accountAddress = data['walletAddress'] ?? null;
+    String phoneNumber = await PhoneService.getNormalizedPhoneNumber(formatPhoneNumber(user.phones.first.value, viewModel.countryCode), viewModel.isoCode);
+    Map wallet = await api.getWalletByPhoneNumber(phoneNumber);
+    String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
     Navigator.push(
         context,
         new MaterialPageRoute(

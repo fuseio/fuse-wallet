@@ -26,7 +26,9 @@ Middleware<AppState> _createLoginRequestMiddleware() {
     if (action is LoginRequest) {
       try {
         store.dispatch(SetIsLoginRequest(isLoading: true));
-        String phone = formatPhoneNumber(action.phoneNumber, action.countryCode);
+        String phone = await PhoneService.getNormalizedPhoneNumber(
+          formatPhoneNumber(action.phoneNumber, action.countryCode.dialCode),
+          action.countryCode.code);
         await firebaseAuth.verifyPhoneNumber(
           phoneNumber: phone,
           codeAutoRetrievalTimeout: action.codeAutoRetrievalTimeout,
@@ -35,7 +37,13 @@ Middleware<AppState> _createLoginRequestMiddleware() {
           verificationCompleted: action.verificationCompleted,
           verificationFailed: action.verificationFailed
         );
-        store.dispatch(new LoginRequestSuccess(action.countryCode, action.phoneNumber, "", ""));
+        store.dispatch(new LoginRequestSuccess(
+          countryCode: action.countryCode,
+          phoneNumber: action.phoneNumber,
+          email: "",
+          displayName: "",
+          normalizedPhoneNumber: phone
+        ));
         store.dispatch(segmentAliasCall(phone));
         store.dispatch(segmentTrackCall("Wallet: user insert his phone number", properties: new Map<String, dynamic>.from({ "Phone number": phone })));
       }

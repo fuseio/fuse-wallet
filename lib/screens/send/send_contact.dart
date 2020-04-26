@@ -1,4 +1,3 @@
-import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -435,9 +434,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   }
 
   sendToContact(BuildContext context, Contact user, ContactsViewModel viewModel) async {
-    String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
-    dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
-    String accountAddress = data['walletAddress'] ?? null;
+    String phoneNumber = await PhoneService.getNormalizedPhoneNumber(formatPhoneNumber(user.phones.first.value, viewModel.countryCode), viewModel.isoCode);
+    Map wallet = await api.getWalletByPhoneNumber(phoneNumber);
+    String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
     Navigator.push(
         context,
         new MaterialPageRoute(

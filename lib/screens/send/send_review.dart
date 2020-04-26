@@ -9,8 +9,6 @@ import 'package:supervecina/widgets/main_scaffold.dart';
 import 'package:supervecina/widgets/primary_button.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:supervecina/utils/phone.dart';
-
 class SendReviewScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;
   SendReviewScreen({this.pageArgs});
@@ -58,13 +56,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         viewModel.sendToCashMode(args.amount, sendSuccessCallback, sendFailureCallback);
       } else {
         viewModel.sendToErc20Token(args.erc20Token, args.accountAddress, args.amount, sendSuccessCallback, sendFailureCallback);
-      } 
+      }
     }else {
       if (args.accountAddress == null ||
           args.accountAddress == '' && args.phoneNumber != null) {
         viewModel.sendToContact(
           args.name,
-          formatPhoneNumber(args.phoneNumber, viewModel.myCountryCode),
+          args.phoneNumber,
           args.amount,
           args.name,
           transferNote,

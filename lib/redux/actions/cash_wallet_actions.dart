@@ -17,10 +17,9 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:supervecina/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:supervecina/utils/addresses.dart';
-import 'package:supervecina/utils/forks.dart';
 import 'package:supervecina/redux/state/store.dart';
+import 'package:supervecina/utils/forks.dart';
 import 'package:supervecina/utils/format.dart';
-import 'package:supervecina/utils/phone.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -300,7 +299,7 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
     final logger = await AppFactory().getLogger('action');
     try {
       UserState userState = store.state.userState;
-      String fullPhoneNumber = formatPhoneNumber(userState.phoneNumber, userState.countryCode);
+      String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';// formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
       logger.info('Identify - $fullPhoneNumber');
       traits = traits ?? new Map<String, dynamic>();
       DateTime installedAt = userState.installedAt;
@@ -500,12 +499,11 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
             ));
           }
           store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, daiPointsManagerAddress: dAIPointsManager,communityManagerAddress: communityManager, transferManagerAddress: transferManager, networks: networks));
-          String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
                 "Wallet Generated": true,
                 "App name": 'Wiki Bank',
-                "Phone Number": fullPhoneNumber,
+                "Phone Number": store.state.userState.normalizedPhoneNumber,
                 "Wallet Address": store.state.cashWalletState.walletAddress,
                 "Account Address": store.state.userState.accountAddress,
                 "Display Name": store.state.userState.displayName
@@ -963,14 +961,21 @@ ThunkAction joinBonusSuccessCall(txHash, transfer) {
 
 ThunkAction fetchCommunityMetadataCall(String communityURI) {
   return (Store store) async {
-    String uri = communityURI.split('://')[1];
-    dynamic metadata = await api.fetchMetadata(uri);
-    CommunityMetadata communityMetadata = new CommunityMetadata(
-      image: metadata['image'],
-      coverPhoto: metadata['coverPhoto'],
-      isDefaultImage: metadata['isDefault'] != null ? metadata['isDefault'] : false
-    );
-    store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
+    final logger = await AppFactory().getLogger('action');
+    try {
+      String uri = communityURI.split('://')[1];
+      dynamic metadata = await api.fetchMetadata(uri);
+      CommunityMetadata communityMetadata = new CommunityMetadata(
+        image: metadata['image'],
+        coverPhoto: metadata['coverPhoto'],
+        isDefaultImage: metadata['isDefault'] != null ? metadata['isDefault'] : false
+      );
+      store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
+    } catch (e, s) {
+      logger.info('ERROR - fetchCommunityMetadataCall $e');
+      await AppFactory().reportError(e, s);
+      store.dispatch(new ErrorAction('Could not fetch community metadata'));
+    }
   };
 }
 
