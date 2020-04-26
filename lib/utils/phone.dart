@@ -1,4 +1,28 @@
-String formatPhoneNumber (String phoneNumber, String myCountryCode) {
+import 'package:libphonenumber/libphonenumber.dart';
+import 'package:flutter/services.dart';
+
+class PhoneService {
+  static Future<bool> isValid(String number, String iso) async {
+    try {
+      bool isValid = await PhoneNumberUtil.isValidPhoneNumber(phoneNumber: number, isoCode: iso);
+      return isValid;
+    } on PlatformException {
+      return false;
+    }
+  }
+
+  static Future<String> getNormalizedPhoneNumber(String number, String iso) async {
+    try {
+      String normalizedNumber = await PhoneNumberUtil.normalizePhoneNumber(phoneNumber: number, isoCode: iso);
+      return normalizedNumber;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+}
+
+String formatPhoneNumber(String phoneNumber, String myCountryCode) {
   phoneNumber = removeUnicodes(phoneNumber);
   myCountryCode = removeUnicodes(myCountryCode);
   String countryCodeNumeric = myCountryCode.replaceFirst('+', '');
@@ -17,6 +41,6 @@ String formatPhoneNumber (String phoneNumber, String myCountryCode) {
   return phoneNumber;
 }
 
-String removeUnicodes (String value) {
-  return value.replaceAll(new RegExp('/\u200F|\u200E/g'), '');
+String removeUnicodes(String value) {
+  return value.replaceAll(new RegExp(r"[^\s\w]"), '');
 }
