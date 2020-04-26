@@ -5,7 +5,6 @@ import 'package:fusecash/redux/middlewares/auth_middleware.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/state_secure_storage.dart';
-import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/jwt.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -220,7 +219,7 @@ class AppFactory {
     }
 
     dynamic store = await getStore();
-    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode) ?? '';
+    String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';
     String username = store.state.userState.displayName ?? '';
     User user = new User(id: fullPhoneNumber, username: username);
 

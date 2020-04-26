@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
@@ -19,7 +20,7 @@ class OnboardViewModel extends Equatable {
   final bool loginVerifySuccess;
   final bool isLoginRequest;
   final bool isVerifyRequest;
-  final Function(String, String) signUp;
+  final Function(CountryCode, String) signUp;
   final Function(String, String, GlobalKey) verify;
   final Function(String) setPincode;
   final Function(String) setDisplayName;
@@ -73,7 +74,7 @@ class OnboardViewModel extends Equatable {
       credentials: store.state.userState.credentials,
       isVerifyRequest: store.state.userState.isVerifyRequest,
       isLoginRequest: store.state.userState.isLoginRequest,
-      signUp: (String countryCode, String phoneNumber) {
+      signUp: (CountryCode countryCode, String phoneNumber) {
         store.dispatch(LoginRequest(
           countryCode: countryCode,
           phoneNumber: phoneNumber,
