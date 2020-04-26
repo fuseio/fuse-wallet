@@ -220,7 +220,7 @@ class AppFactory {
     }
 
     dynamic store = await getStore();
-    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode) ?? '';
+    String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';
     String username = store.state.userState.displayName ?? '';
     User user = new User(id: fullPhoneNumber, username: username);
 

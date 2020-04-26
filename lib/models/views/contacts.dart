@@ -20,6 +20,7 @@ class ContactsViewModel extends Equatable {
   final Transactions transactions;
   final Map<String, String> reverseContacts;
   final String countryCode;
+  final String isoCode;
   final Function() syncContactsRejected;
   final List<Business> businesses;
   final Function(String eventName) trackCall;
@@ -36,6 +37,7 @@ class ContactsViewModel extends Equatable {
       this.transactions,
       this.reverseContacts,
       this.countryCode,
+      this.isoCode,
       this.businesses,
       this.syncContactsRejected,
       this.trackCall,
@@ -49,6 +51,7 @@ class ContactsViewModel extends Equatable {
         : new erc20Token.Token.initial();
     return ContactsViewModel(
         daiToken: token,
+        isoCode: store.state.userState.isoCode,
         isProMode: store.state.userState.isProMode ?? false,
         businesses: community?.businesses ?? [],
         isContactsSynced: store.state.userState.isContactsSynced,
@@ -79,6 +82,7 @@ class ContactsViewModel extends Equatable {
     transactions,
     reverseContacts,
     countryCode,
-    businesses
+    businesses,
+    isoCode
   ];
 }
