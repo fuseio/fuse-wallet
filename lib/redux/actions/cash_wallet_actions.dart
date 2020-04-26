@@ -20,7 +20,6 @@ import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/constans.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -300,7 +299,7 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
     final logger = await AppFactory().getLogger('action');
     try {
       UserState userState = store.state.userState;
-      String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';// formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';
       logger.info('Identify - $fullPhoneNumber');
       traits = traits ?? new Map<String, dynamic>();
       DateTime installedAt = userState.installedAt;

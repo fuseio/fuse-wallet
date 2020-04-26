@@ -44,8 +44,6 @@ class OnboardViewModel extends Equatable {
   static OnboardViewModel fromStore(Store<AppState> store) {
     final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
       print('Got credentials: $credentials');
-      // AuthResult authResult = await firebaseAuth.signInWithCredential(credentials);
-      // print(authResult);
       store.dispatch(new SetCredentials(credentials));
       Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: ''));
     };
