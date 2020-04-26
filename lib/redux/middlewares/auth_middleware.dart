@@ -7,7 +7,6 @@ import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/phone.dart';
-// import 'package:libphonenumber/libphonenumber.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 
@@ -28,9 +27,6 @@ Middleware<AppState> _createLoginRequestMiddleware() {
       try {
         store.dispatch(SetIsLoginRequest(isLoading: true));
         String normalizedPhoneNumber = await PhoneService.getNormalizedPhoneNumber(formatPhoneNumber(action.phoneNumber, action.countryCode.dialCode), action.countryCode.code);
-        // RegionInfo _regionInfo = await PhoneNumberUtil.getRegionInfo(phoneNumber: normalizedPhoneNumber, isoCode: action.countryCode.code);
-        // logger.info('normalizedPhoneNumber $normalizedPhoneNumber');
-        // logger.info(_regionInfo.toString());
         await firebaseAuth.verifyPhoneNumber(
           phoneNumber: normalizedPhoneNumber,
           codeAutoRetrievalTimeout: action.codeAutoRetrievalTimeout,

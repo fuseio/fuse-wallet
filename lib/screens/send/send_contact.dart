@@ -124,16 +124,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
       dynamic component = Slidable(
         actionPane: SlidableDrawerActionPane(),
         actionExtentRatio: 0.25,
-        // secondaryActions: <Widget>[
-        //   IconSlideAction(
-        //     iconWidget: Icon(Icons.star),
-        //     onTap: () {},
-        //   ),
-        //   IconSlideAction(
-        //     iconWidget: Icon(Icons.more_horiz),
-        //     onTap: () {},
-        //   ),
-        // ],
         child: Container(
           decoration: new BoxDecoration(
               border:
@@ -171,16 +161,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     Widget component = Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
-      // secondaryActions: <Widget>[
-      //   IconSlideAction(
-      //     iconWidget: Icon(Icons.star),
-      //     onTap: () {},
-      //   ),
-      //   IconSlideAction(
-      //     iconWidget: Icon(Icons.more_horiz),
-      //     onTap: () {},
-      //   ),
-      // ],
       child: Container(
         decoration: new BoxDecoration(
             border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),

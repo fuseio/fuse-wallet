@@ -165,8 +165,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           viewModel.walletAddress != null
                               ? Row(
                                   children: <Widget>[
-                                    Text(
-                                      formatAddress(viewModel.walletAddress),
+                                    Text(formatAddress(viewModel.walletAddress),
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
@@ -174,12 +173,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                     ),
                                     SizedBox(
                                       width: 10,
-                                    ),
-                                    // SvgPicture.asset(
-                                    //   'assets/images/header_arrow.svg',
-                                    //   width: 20,
-                                    //   height: 20,
-                                    // )
+                                    )
                                   ],
                                 )
                               : SizedBox.shrink()

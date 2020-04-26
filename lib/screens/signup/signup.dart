@@ -186,6 +186,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               });
                               }
                             } on PlatformException catch (e) {
+                              print(e);
                               setState(() {
                                 isvalidPhone = false;
                               });

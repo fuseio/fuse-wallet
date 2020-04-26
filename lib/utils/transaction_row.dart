@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
-// import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 
@@ -110,11 +109,7 @@ String getCoverPhotoUrl(business, communityAddress) {
   if (business.metadata.coverPhoto == null ||
       business.metadata.coverPhoto == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  }
-  //  else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
-  //   return business.metadata.coverPhoto;
-  // }
-  else {
+  } else {
     return getIPFSImageUrl(business.metadata.coverPhoto);
   }
 }
@@ -122,11 +117,7 @@ String getCoverPhotoUrl(business, communityAddress) {
 String getImageUrl(business, communityAddress) {
   if (business.metadata.image == null || business.metadata.image == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  }
-  // else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
-  //   return business.metadata.image;
-  // }
-  else {
+  } else {
     return getIPFSImageUrl(business.metadata.image);
   }
 }
