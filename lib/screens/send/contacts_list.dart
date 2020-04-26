@@ -292,17 +292,6 @@ class _ContactsListState extends State<ContactsList> {
       listItems.add(
         Slidable(
           actionPane: SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
-          // secondaryActions: <Widget>[
-          //   IconSlideAction(
-          //     iconWidget: Icon(Icons.star),
-          //     onTap: () {},
-          //   ),
-          //   IconSlideAction(
-          //     iconWidget: Icon(Icons.more_horiz),
-          //     onTap: () {},
-          //   ),
-          // ],
           child: Container(
             decoration: new BoxDecoration(
                 border:

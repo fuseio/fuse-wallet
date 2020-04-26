@@ -312,8 +312,7 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       for (Contact contact in contacts) {
         if (isoCode == null) {
           List<String> uniquePhone = contact.phones
-            .map((Item phone) => formatPhoneNumber(
-                phone.value, store.state.userState.countryCode))
+            .map((Item phone) => formatPhoneNumber(phone.value, store.state.userState.countryCode))
             .toSet()
             .toList();
           for (String phone in uniquePhone) {
@@ -326,7 +325,7 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
             String phoneNum = formatPhoneNumber(phone.value, countryCode);
             bool isValid = await PhoneService.isValid(phoneNum, isoCode);
             if (isValid) {
-              String ph = await PhoneService.getNormalizedPhoneNumber(formatPhoneNumber(phone.value, countryCode), isoCode);
+              String ph = await PhoneService.getNormalizedPhoneNumber(phoneNum, isoCode);
               return ph;
             }
             return phoneNum;
@@ -358,7 +357,7 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
           partial = newPhones.take(limit).toList();
         }
       }
-    } catch (e, s) {
+    } catch (e) {
       logger.severe('ERROR - syncContactsCall $e');
     }
   };
@@ -366,7 +365,7 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
 
 ThunkAction identifyFirstTimeCall() {
   return (Store store) async {
-    String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';// formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';
     store.dispatch(enablePushNotifications());
     store.dispatch(segmentAliasCall(fullPhoneNumber));
     store.dispatch(segmentIdentifyCall(
@@ -383,7 +382,6 @@ ThunkAction identifyFirstTimeCall() {
 
 ThunkAction identifyCall() {
   return (Store store) async {
-    // String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     store.dispatch(segmentIdentifyCall(
         new Map<String, dynamic>.from({
           "Phone Number": store.state.userState.normalizedPhoneNumber ?? '',
