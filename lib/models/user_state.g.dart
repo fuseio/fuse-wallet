@@ -20,6 +20,8 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     accountAddress: json['accountAddress'] as String,
     countryCode: json['countryCode'] as String,
     phoneNumber: json['phoneNumber'] as String,
+    normalizedPhoneNumber: json['normalizedPhoneNumber'] as String,
+    isoCode: json['isoCode'] as String,
     reverseContacts: (json['reverseContacts'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -55,7 +57,9 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'pincode': instance.pincode,
       'accountAddress': instance.accountAddress,
       'countryCode': instance.countryCode,
+      'isoCode': instance.isoCode,
       'phoneNumber': instance.phoneNumber,
+      'normalizedPhoneNumber': instance.normalizedPhoneNumber,
       'syncedContacts': instance.syncedContacts,
       'reverseContacts': instance.reverseContacts,
       'jwtToken': instance.jwtToken,

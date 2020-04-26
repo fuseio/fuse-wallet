@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class ReLogin {
 }
 
 class LoginRequest {
-  final String countryCode;
+  final CountryCode countryCode;
   final String phoneNumber;
   final PhoneCodeSent codeSent;
   final PhoneVerificationCompleted verificationCompleted;
@@ -74,11 +75,18 @@ class LoginRequest {
 }
 
 class LoginRequestSuccess {
-  final String countryCode;
+  final CountryCode countryCode;
   final String phoneNumber;
   final String displayName;
   final String email;
-  LoginRequestSuccess(this.countryCode, this.phoneNumber, this.displayName, this.email);
+  final String normalizedPhoneNumber;
+  LoginRequestSuccess({this.countryCode, this.phoneNumber, this.displayName, this.email, this.normalizedPhoneNumber});
+}
+
+class SetIsoCode {
+  final CountryCode countryCode;
+  final String normalizedPhoneNumber;
+  SetIsoCode({this.countryCode, this.normalizedPhoneNumber});
 }
 
 class LogoutRequestSuccess {
@@ -156,6 +164,14 @@ class SetIsVerifyRequest {
 class DeviceIdSuccess {
   final String identifier;
   DeviceIdSuccess(this.identifier);
+}
+
+ThunkAction setCountryCode(CountryCode countryCode) {
+  return (Store store) async {
+    String phone = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    String normalizedPhoneNumber = await PhoneService.getNormalizedPhoneNumber(phone, countryCode.code);
+    SetIsoCode(countryCode: countryCode, normalizedPhoneNumber: normalizedPhoneNumber);
+  };
 }
 
 ThunkAction backupWalletCall(VoidCallback successCb) {
@@ -291,15 +307,36 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       store.dispatch(new SaveContacts(contacts));
       List<String> syncedContacts = store.state.userState.syncedContacts;
       List<String> newPhones = new List<String>();
+      String countryCode = store.state.userState.countryCode;
+      String isoCode = store.state.userState.isoCode;
       for (Contact contact in contacts) {
-        List<String> uniquePhone = contact.phones
+        if (isoCode == null) {
+          List<String> uniquePhone = contact.phones
             .map((Item phone) => formatPhoneNumber(
                 phone.value, store.state.userState.countryCode))
             .toSet()
             .toList();
-        for (String phone in uniquePhone) {
-          if (!syncedContacts.contains(phone)) {
-            newPhones.add(phone);
+          for (String phone in uniquePhone) {
+            if (!syncedContacts.contains(phone)) {
+              newPhones.add(phone);
+            }
+          }
+        } else {
+          Future<List<String>> phones = Future.wait(contact.phones.map((Item phone) async {
+            String phoneNum = formatPhoneNumber(phone.value, countryCode);
+            bool isValid = await PhoneService.isValid(phoneNum, isoCode);
+            if (isValid) {
+              String ph = await PhoneService.getNormalizedPhoneNumber(formatPhoneNumber(phone.value, countryCode), isoCode);
+              return ph;
+            }
+            return phoneNum;
+          }));
+          List<String> result = await phones;
+          result = result.toSet().toList();
+          for (String phone in result) {
+            if (!syncedContacts.contains(phone)) {
+              newPhones.add(phone);
+            }
           }
         }
       }
@@ -322,14 +359,14 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
         }
       }
     } catch (e, s) {
-      logger.severe('ERROR - syncContactsCall', e, s);
+      logger.severe('ERROR - syncContactsCall $e');
     }
   };
 }
 
 ThunkAction identifyFirstTimeCall() {
   return (Store store) async {
-    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';// formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     store.dispatch(enablePushNotifications());
     store.dispatch(segmentAliasCall(fullPhoneNumber));
     store.dispatch(segmentIdentifyCall(
@@ -346,10 +383,10 @@ ThunkAction identifyFirstTimeCall() {
 
 ThunkAction identifyCall() {
   return (Store store) async {
-    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    // String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     store.dispatch(segmentIdentifyCall(
         new Map<String, dynamic>.from({
-          "Phone Number": fullPhoneNumber,
+          "Phone Number": store.state.userState.normalizedPhoneNumber ?? '',
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
           "Display Name": store.state.userState.displayName,
