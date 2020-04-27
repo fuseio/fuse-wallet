@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/cash_header.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/utils/barcode.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/views/cash_header.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/utils/barcode.dart';
+import 'package:bit2c/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class CashHeader extends StatelessWidget {

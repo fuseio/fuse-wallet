@@ -1,20 +1,20 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/bottom_bar.dart';
-import 'package:fusecash/screens/buy/buy.dart';
-import 'package:fusecash/screens/cash_home/cash_header.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/send/contacts_list.dart';
-import 'package:fusecash/screens/send/receive.dart';
-import 'package:fusecash/screens/send/send_contact.dart';
-import 'package:fusecash/widgets/bottom_bar_item.dart';
-import 'package:fusecash/widgets/drawer.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
-import 'package:fusecash/widgets/tabs_scaffold.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/models/views/bottom_bar.dart';
+import 'package:bit2c/screens/buy/buy.dart';
+import 'package:bit2c/screens/cash_home/cash_header.dart';
+import 'package:bit2c/screens/cash_home/cash_home.dart';
+import 'package:bit2c/screens/cash_home/webview_page.dart';
+import 'package:bit2c/screens/send/contacts_list.dart';
+import 'package:bit2c/screens/send/receive.dart';
+import 'package:bit2c/screens/send/send_contact.dart';
+import 'package:bit2c/widgets/bottom_bar_item.dart';
+import 'package:bit2c/widgets/drawer.dart';
+import 'package:bit2c/widgets/my_app_bar.dart';
+import 'package:bit2c/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;

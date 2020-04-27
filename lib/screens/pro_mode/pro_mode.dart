@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/bottom_bar.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/pro_mode/pro_drawer.dart';
-import 'package:fusecash/screens/pro_mode/pro_header.dart';
-import 'package:fusecash/screens/pro_mode/pro_home.dart';
-import 'package:fusecash/screens/send/contacts_list.dart';
-import 'package:fusecash/screens/send/receive.dart';
-import 'package:fusecash/screens/send/send_contact.dart';
-import 'package:fusecash/widgets/bottom_bar_item.dart';
-import 'package:fusecash/widgets/coming_soon.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
-import 'package:fusecash/widgets/tabs_scaffold.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/models/views/bottom_bar.dart';
+import 'package:bit2c/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:bit2c/screens/pro_mode/pro_drawer.dart';
+import 'package:bit2c/screens/pro_mode/pro_header.dart';
+import 'package:bit2c/screens/pro_mode/pro_home.dart';
+import 'package:bit2c/screens/send/contacts_list.dart';
+import 'package:bit2c/screens/send/receive.dart';
+import 'package:bit2c/screens/send/send_contact.dart';
+import 'package:bit2c/widgets/bottom_bar_item.dart';
+import 'package:bit2c/widgets/coming_soon.dart';
+import 'package:bit2c/widgets/my_app_bar.dart';
+import 'package:bit2c/widgets/tabs_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:redux/redux.dart';
 
@@ -36,7 +36,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     rateMyApp = RateMyApp(
       minDays: 0,
       minLaunches: 0,
-      googlePlayIdentifier: 'io.fuse.fusecash',
+      googlePlayIdentifier: 'io.fuse.bit2c',
       appStoreIdentifier: '1491783654',
     );
     rateMyApp.init().then((_) {

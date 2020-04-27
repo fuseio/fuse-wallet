@@ -2,10 +2,10 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_redux/flutter_redux.dart';
 // import 'package:flutter_svg/svg.dart';
-// import 'package:fusecash/generated/i18n.dart';
-// import 'package:fusecash/models/app_state.dart';
-// import 'package:fusecash/models/views/bottom_bar.dart';
-// import 'package:fusecash/screens/routes.gr.dart';
+// import 'package:bit2c/generated/i18n.dart';
+// import 'package:bit2c/models/app_state.dart';
+// import 'package:bit2c/models/views/bottom_bar.dart';
+// import 'package:bit2c/screens/routes.gr.dart';
 
 // isCurrentRoute(BuildContext context, String route) {
 //   String currentRoute = ModalRoute.of(context).settings.name;

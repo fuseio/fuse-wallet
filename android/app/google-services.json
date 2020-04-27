@@ -1,42 +1,43 @@
 {
   "project_info": {
-    "project_number": "863692183597",
-    "firebase_url": "https://fuse-2-0.firebaseio.com",
-    "project_id": "fuse-2-0",
-    "storage_bucket": "fuse-2-0.appspot.com"
+    "project_number": "57975489080",
+    "firebase_url": "https://bit2c-619b6.firebaseio.com",
+    "project_id": "bit2c-619b6",
+    "storage_bucket": "bit2c-619b6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:863692183597:android:0591105e8b1bb60b9b80a4",
+        "mobilesdk_app_id": "1:57975489080:android:4a2d61fe700fabbd635ccd",
         "android_client_info": {
-          "package_name": "io.fuse.fusecash"
+          "package_name": "io.fuse.bit2c"
         }
       },
       "oauth_client": [
         {
-          "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+          "client_id": "57975489080-niko18558j5ns72ttdgflih0jhmpbmck.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.bit2c",
+            "certificate_hash": "64a998c9100ef3d9cfd6b33f942e3a7e13fa78df"
+          }
+        },
+        {
+          "client_id": "57975489080-178apj70o71khmbv2geir8becqpo2rif.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvx56Wp3R5M4d0I1lwYc6fhgJy6dTFNPM"
+          "current_key": "AIzaSyCGwD9FgEmif-p1mqezUuZf5i7mLnKmdyw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+              "client_id": "57975489080-178apj70o71khmbv2geir8becqpo2rif.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "io.fuse.fusecash"
-              }
             }
           ]
         }

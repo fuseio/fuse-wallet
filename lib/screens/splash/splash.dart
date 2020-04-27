@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/widgets/on_boarding_pages.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/models/views/splash.dart';
+import 'package:bit2c/widgets/on_boarding_pages.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

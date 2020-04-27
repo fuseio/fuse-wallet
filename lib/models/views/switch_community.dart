@@ -1,9 +1,9 @@
 import 'dart:core';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/models/community.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:bit2c/models/app_state.dart';
 
 class SwitchCommunityViewModel extends Equatable {
   final Map<String, Community> communities;

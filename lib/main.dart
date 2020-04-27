@@ -5,18 +5,18 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/pro_routes.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/models/views/splash.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/redux/actions/user_actions.dart';
+import 'package:bit2c/redux/state/store.dart';
+import 'package:bit2c/screens/pro_routes.gr.dart';
+import 'package:bit2c/screens/routes.gr.dart';
+import 'package:bit2c/themes/app_theme.dart';
+import 'package:bit2c/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:bit2c/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {

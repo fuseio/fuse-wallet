@@ -2,17 +2,17 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/models/business.dart';
+import 'package:bit2c/models/views/buy_page.dart';
+import 'package:bit2c/screens/buy/business.dart';
+import 'package:bit2c/screens/cash_home/webview_page.dart';
+import 'package:bit2c/screens/routes.gr.dart';
+import 'package:bit2c/screens/send/send_amount.dart';
+import 'package:bit2c/screens/send/send_amount_arguments.dart';
+import 'package:bit2c/utils/transaction_row.dart';
+import 'package:bit2c/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override

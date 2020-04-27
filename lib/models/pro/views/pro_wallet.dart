@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:bit2c/models/community.dart';
+import 'package:bit2c/models/pro/token.dart';
+import 'package:bit2c/models/transactions/transfer.dart';
+import 'package:bit2c/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:bit2c/models/app_state.dart';
 
 class ProWalletViewModel extends Equatable {
   final String walletAddress;

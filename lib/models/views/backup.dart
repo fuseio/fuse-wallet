@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/models/user_state.dart';
+import 'package:bit2c/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 class BackupViewModel extends Equatable {

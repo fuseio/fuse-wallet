@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/buy/map.dart';
-import 'package:fusecash/screens/cash_home/cash_mode.dart';
-import 'package:fusecash/screens/cash_home/prize.dart';
-import 'package:fusecash/screens/cash_home/transaction_details.dart';
-import 'package:fusecash/screens/signup/recovery.dart';
-import 'package:fusecash/screens/signup/username.dart';
-import 'package:fusecash/screens/signup/signup.dart';
-import 'package:fusecash/screens/signup/verify.dart';
-import 'package:fusecash/screens/splash/splash.dart';
-import 'package:fusecash/screens/misc/pincode.dart';
+import 'package:bit2c/screens/buy/business.dart';
+import 'package:bit2c/screens/buy/map.dart';
+import 'package:bit2c/screens/cash_home/cash_mode.dart';
+import 'package:bit2c/screens/cash_home/prize.dart';
+import 'package:bit2c/screens/cash_home/transaction_details.dart';
+import 'package:bit2c/screens/signup/recovery.dart';
+import 'package:bit2c/screens/signup/username.dart';
+import 'package:bit2c/screens/signup/signup.dart';
+import 'package:bit2c/screens/signup/verify.dart';
+import 'package:bit2c/screens/splash/splash.dart';
+import 'package:bit2c/screens/misc/pincode.dart';
 
 @MaterialAutoRouter()
 class $Router {

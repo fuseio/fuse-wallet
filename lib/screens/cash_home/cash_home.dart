@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'cash_transactions.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:bit2c/models/views/cash_wallet.dart';
 
 void onChange(CashWalletViewModel viewModel, BuildContext context) async {
   if (!viewModel.isJobProcessingStarted) {

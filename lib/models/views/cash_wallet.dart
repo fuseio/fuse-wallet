@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
+import 'package:bit2c/models/business.dart';
+import 'package:bit2c/models/community.dart';
+import 'package:bit2c/models/transactions/transactions.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/models/token.dart';
+import 'package:bit2c/models/transactions/transaction.dart';
 
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 class CashWalletViewModel extends Equatable {

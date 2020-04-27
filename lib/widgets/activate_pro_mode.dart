@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:bit2c/models/community.dart';
+import 'package:bit2c/redux/actions/user_actions.dart';
+import 'package:bit2c/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/activate_pro_mode2.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/widgets/activate_pro_mode2.dart';
 import 'dart:core';
 
 class ActivateProModeDialog extends StatefulWidget {

@@ -1,8 +1,8 @@
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
+import 'package:bit2c/models/business.dart';
+import 'package:bit2c/models/community_metadata.dart';
+import 'package:bit2c/models/jobs/base.dart';
+import 'package:bit2c/models/token.dart';
+import 'package:bit2c/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';

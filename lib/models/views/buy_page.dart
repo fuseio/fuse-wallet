@@ -1,10 +1,10 @@
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/models/business.dart';
+import 'package:bit2c/models/community.dart';
+import 'package:bit2c/models/plugins.dart';
+import 'package:bit2c/models/token.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:bit2c/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 
 class BuyViewModel extends Equatable {

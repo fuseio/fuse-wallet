@@ -1,4 +1,4 @@
-import 'package:fusecash/models/business_metadata.dart';
+import 'package:bit2c/models/business_metadata.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business.g.dart';

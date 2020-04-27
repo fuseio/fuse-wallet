@@ -1,4 +1,4 @@
-package io.fuse.fusecash
+package io.fuse.bit2c
 
 import android.os.Bundle
 
