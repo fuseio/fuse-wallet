@@ -760,12 +760,22 @@ class _I18n_es_ES extends I18n {
   String get enable_contacts_text => "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos";
   /// "Sync contcats"
   @override
+  String get sync_contacts => "Sync contcats";
+  /// "Recibir"
+  @override
+  String get receive => "Recibir";
+  /// "Escanea el código QR para recibir"
+  @override
+  String get scan_to_receive => "Escanea el código QR para recibir";
+  /// "Compartir"
+  @override
   String get share_button => "Compartir";
   /// "Enviar a"
   @override
   String get send_to => "Enviar a";
   /// "¿Cuánto?"
   @override
+  String get how_much => "¿Cuánto?";
   /// "Continua con"
   @override
   String get continue_with => "Continua con";
@@ -2192,12 +2202,12 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "No te preocupes:"
   @override
   String get dont_worry => "No te preocupes:";
-  /// "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos"
+  /// "Por favor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos"
   @override
-  String get enable_contacts_text => "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos";
-  /// "Sync contcats"
+  String get enable_contacts_text => "Por favor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos";
+  /// "Sincronizar contactos"
   @override
-  String get sync_contacts => "Sync contcats";
+  String get sync_contacts => "Sincronizar contactos";
   /// "Recibir dinero"
   @override
   String get receive => "Recibir dinero";
@@ -2252,9 +2262,9 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "Ingresar"
   @override
   String get sign_up => "Ingresar";
-  /// "Porfavor escribe tu número telefónico para que podamos crear tu monedero"
+  /// "Por favor escribe tu número telefónico para que podamos crear tu monedero"
   @override
-  String get enter_phone_number => "Porfavor escribe tu número telefónico para que podamos crear tu monedero";
+  String get enter_phone_number => "Por favor escribe tu número telefónico para que podamos crear tu monedero";
   /// "¿Por qué necesitamos esto?"
   @override
   String get why_do_we_need_this => "¿Por qué necesitamos esto?";
