@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Flexible(
-                        flex: 3,
+                        flex: 4,
                         child: Image.asset(
                           'assets/images/wikibank_logo.png',
                           width: 350,
@@ -59,7 +59,6 @@ class _SplashScreenState extends State<SplashScreen> {
                         ),
                       ),
                       Flexible(
-                        flex: 1,
                         child: Center(
                           child: Column(
                             children: <Widget>[
@@ -90,21 +89,12 @@ class _SplashScreenState extends State<SplashScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Image.asset(
-                                  'assets/images/1.jpg',
-                                  width: 100,
-                                  height: 100,
-                                ),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                                Image.asset('assets/images/2.png',
-                                    width: 100, height: 100),
+                                Image.asset('assets/images/2.png', width: MediaQuery.of(context).size.width * 0.5, height: 100),
                               ],
                             ),
-                            // SizedBox(
-                            //   height: 30,
-                            // ),
+                            SizedBox(
+                              height: 30,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
