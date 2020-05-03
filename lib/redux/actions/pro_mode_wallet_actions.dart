@@ -56,6 +56,10 @@ class InitWeb3ProModeSuccess {
   InitWeb3ProModeSuccess({this.web3});
 }
 
+class StartFetchTokensBalances {
+  StartFetchTokensBalances();
+}
+
 ThunkAction initWeb3ProMode({
   String privateKey,
   String communityManagerAddress,
@@ -89,6 +93,31 @@ ThunkAction startListenToTransferEvents() {
       }
     });
     store.dispatch(new StartListenToTransferEventsSuccess());
+  };
+}
+
+ThunkAction fetchTokensBalances() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    bool isFetchTokensBalances = store.state.proWalletState?.isFetchTokensBalances ?? false;
+    if (!isFetchTokensBalances) {
+      UserState userState = store.state.userState;
+      new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+        ProWalletState proWalletState = store.state.proWalletState;
+        for (Token token in proWalletState.erc20Tokens.values) {
+          void Function(BigInt) onDone = (BigInt balance) {
+            logger.info('${token.name} balance updated');
+            store.dispatch(UpdateToken(tokenToUpdate: store.state.proWalletState.erc20Tokens[token.address].copyWith(amount: balance)));
+          };
+          void Function(Object error, StackTrace stackTrace) onError = (Object error, StackTrace stackTrace) {
+            logger.severe('Error in fetchTokenBalance for - ${token.name}');
+            logger.severe(error);
+          };
+          await token.fetchTokenBalance(userState.walletAddress, onDone: onDone, onError: onError);
+        }
+      });
+      store.dispatch(StartFetchTokensBalances());
+    }
   };
 }
 
