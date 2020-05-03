@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
@@ -48,7 +47,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
           return MainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
-              titleFontSize: 15,
               title: I18n.of(context).sign_up,
               children: <Widget>[
                 Padding(
@@ -118,7 +116,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     FlatButton(
                       padding: EdgeInsets.only(right: 10),
                       onPressed: () {
-                        Router.navigator.pop();
+                        Navigator.of(context).pop();
                       },
                       child: Text(
                         I18n.of(context).resend_code,

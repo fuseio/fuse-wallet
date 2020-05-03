@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'dart:core';
 
 import 'package:fusecash/widgets/primary_button.dart';
@@ -101,7 +100,7 @@ class SignupDialogState extends State<SignupDialog>
                       width: 140,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () async {
-                        Router.navigator.pop();
+                        Navigator.of(context).pop();
                       },
                     )
                   ],

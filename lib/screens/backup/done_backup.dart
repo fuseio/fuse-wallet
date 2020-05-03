@@ -1,24 +1,25 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/widgets/bottombar.dart';
+import 'package:fusecash/screens/pro_routes.gr.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 
 class DoneBackup extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BackupViewModel>(
       converter: BackupViewModel.fromStore,
+      onInit: (store) {
+        Segment.screen(screenName: '/done-backup');
+      },
       builder: (_, viewModal) => MainScaffold(
-          withPadding: false,
-          footer: bottomBar(context),
           title: I18n.of(context).back_up,
-          titleFontSize: 15,
           children: <Widget>[
             Container(
               height: MediaQuery.of(context).size.height * 0.7,
@@ -69,7 +70,14 @@ class DoneBackup extends StatelessWidget {
                     label: I18n.of(context).ok,
                     fontSize: 15,
                     onPressed: () async {
-                      viewModal.backupWallet();
+                      VoidCallback successCb = () {
+                        if (viewModal.isProMode) {
+                          ProRouter.navigator.popUntil(ModalRoute.withName(ProRouter.proModeHomeScreen));
+                        } else {
+                          Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
+                        }
+                      };
+                      viewModal.backupWallet(successCb);
                     },
                   ))
                 ],

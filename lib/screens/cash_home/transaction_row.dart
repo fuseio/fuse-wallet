@@ -6,6 +6,7 @@ import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/utils/format.dart';
@@ -24,6 +25,16 @@ class TransactionListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Transfer transfer = _transaction as Transfer;
+    bool isSendingToForeign = (_vm.community.homeBridgeAddress != null &&
+            transfer.to != null &&
+            transfer.to?.toLowerCase() ==
+                _vm.community.homeBridgeAddress?.toLowerCase()) ??
+        false;
+    bool isWalletCreated = 'created' == this._vm.walletStatus;
+    bool isZeroAddress = transfer.from == zeroAddress;
+    ImageProvider<dynamic> image = isZeroAddress ? AssetImage(
+      'assets/images/ethereume_icon.png',
+      ) : getTransferImage(transfer, _contact, _vm);
     String displayName = transfer.isJoinBonus()
         ? (transfer.text ?? I18n.of(context).join_bonus)
         : (transfer.receiverName != null && transfer.receiverName != '')
@@ -84,18 +95,17 @@ class TransactionListItem extends StatelessWidget {
               ],
             )
     ];
-    bool isWalletCreated = 'created' == this._vm.walletStatus;
     return Container(
         decoration: new BoxDecoration(
             border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-        padding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
         child: ListTile(
+          contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
           title: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Flexible(
-                  flex: 10,
+                  flex: 12,
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
@@ -108,14 +118,14 @@ class TransactionListItem extends StatelessWidget {
                               child: CircleAvatar(
                                 backgroundColor: Color(0xFFE0E0E0),
                                 radius: 27,
-                                backgroundImage:
-                                    getImage(transfer, _contact, _vm),
+                                backgroundImage: image,
                               ),
                               tag: transfer.isGenerateWallet()
                                   ? 'GenerateWallet'
                                   : transfer.isPending()
                                       ? "contactSent"
-                                      : "transaction" + (transfer?.jobId ?? transfer.txHash),
+                                      : "transaction" +
+                                          (transfer?.jobId ?? transfer.txHash),
                             ),
                             transfer.isPending()
                                 ? Container(
@@ -146,41 +156,93 @@ class TransactionListItem extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10.0),
-                      transfer.isGenerateWallet() && !isWalletCreated
-                          ? Flexible(
-                              flex: 10,
-                              child: Stack(
-                                overflow: Overflow.visible,
-                                alignment: AlignmentDirectional.bottomStart,
-                                children: <Widget>[
-                                  Text(displayName,
-                                      style: TextStyle(
-                                          color: Color(0xFF333333),
-                                          fontSize: 15)),
-                                  Positioned(
-                                      bottom: -20,
-                                      child: Padding(
-                                          child: Text('(up to 10 seconds)',
-                                              style: TextStyle(
-                                                  fontSize: 12,
+                      Flexible(
+                        flex: 10,
+                        child: Stack(
+                          overflow: Overflow.visible,
+                          alignment: AlignmentDirectional.bottomStart,
+                          children: <Widget>[
+                            transfer.isJoinCommunity()
+                                ? RichText(
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: transfer.isJoinCommunity() &&
+                                                    transfer.isPending()
+                                                ? I18n.of(context).joining
+                                                : I18n.of(context).joined,
+                                            style:
+                                                TextStyle(color: Colors.black)),
+                                        TextSpan(
+                                            text: ' \‘${_vm.community.name}\’ ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black)),
+                                        TextSpan(
+                                            text: I18n.of(context).community,
+                                            style:
+                                                TextStyle(color: Colors.black)),
+                                      ],
+                                    ),
+                                  )
+                                : Text(
+                                    isZeroAddress
+                                      ? I18n.of(context).received_from_ethereum
+                                      : isSendingToForeign
+                                        ? I18n.of(context).sent_to_ethereum
+                                        : displayName,
+                                    style: TextStyle(
+                                        color: Color(0xFF333333),
+                                        fontSize: 15)),
+                            isSendingToForeign
+                                ? Positioned(
+                                    bottom: -20,
+                                    child: Padding(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text('Go to pro mode',
+                                                style: TextStyle(
+                                                  fontSize: 10,
                                                   color: Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary)),
-                                          padding: EdgeInsets.only(top: 10)))
-                                ],
-                              ))
-                          : Flexible(
-                              flex: 10,
-                              child: Text(displayName,
-                                  style: TextStyle(
-                                      color: Color(0xFF333333), fontSize: 15)),
-                            ),
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            SvgPicture.asset(
+                                              'assets/images/go_to_pro.svg',
+                                              width: 10,
+                                              height: 8,
+                                            )
+                                          ],
+                                        ),
+                                        padding: EdgeInsets.only(top: 10)))
+                                : transfer.isGenerateWallet() &&
+                                        !isWalletCreated
+                                    ? Positioned(
+                                        bottom: -20,
+                                        child: Padding(
+                                            child: Text('(up to 10 seconds)',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary)),
+                                            padding: EdgeInsets.only(top: 10)))
+                                    : SizedBox.shrink()
+                          ],
+                        ),
+                      ),
                     ],
                   )),
               Flexible(
                   flex: 3,
                   child: Container(
-                    width: 100,
                     child: transfer.isFailed()
                         ? InkWell(
                             onTap: () {
@@ -207,6 +269,9 @@ class TransactionListItem extends StatelessWidget {
             ],
           ),
           onTap: () {
+            if (isSendingToForeign) {
+              _vm.replaceNavigator(true);
+            }
             if (transfer.isGenerateWallet() || transfer.isJoinCommunity()) {
               return;
             }
@@ -218,7 +283,7 @@ class TransactionListItem extends StatelessWidget {
                     from: displayName,
                     reverseContacts: _vm.reverseContacts,
                     symbol: _vm.token.symbol,
-                    image: getImage(transfer, _contact, _vm),
+                    image: image,
                     amount: [
                       Text(
                         deduceSign(transfer) +

@@ -21,7 +21,6 @@ class UserNameScreen extends StatelessWidget {
           return MainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
-              titleFontSize: 15,
               title: I18n.of(context).sign_up,
               children: <Widget>[
                 Padding(

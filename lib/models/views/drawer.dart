@@ -30,7 +30,7 @@ class DrawerViewModel extends Equatable {
     String communityAddress = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddress] ?? new Community.initial();
     return DrawerViewModel(
-        isProModeActivate: store.state.userState.isProModeActivated,
+        isProModeActivate: store.state.userState.isProModeActivated ?? false,
         communityAddress: communityAddress,
         walletAddress: store.state.cashWalletState.walletAddress,
         plugins: community?.plugins,

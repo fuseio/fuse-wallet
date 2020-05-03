@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'dart:core';
@@ -47,6 +46,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, ContactsViewModel>(
+        distinct: true,
         converter: ContactsViewModel.fromStore,
         builder: (_, viewModel) {
           return ScaleTransition(
@@ -151,7 +151,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                       viewModel.trackCall("Wallet: Contacts Permission Rejected");
                                       viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
                                     }
-                                    Router.navigator.pushReplacementNamed(Router.sendToContactScreen);
+                                    Navigator.of(context).pop();
                                     setState(() {
                                       isPreloading = false;
                                     });
