@@ -19,7 +19,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sentry/sentry.dart';
 import 'package:package_info/package_info.dart';
 import 'package:device_info/device_info.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 
 Future<File> getFile() async {
   final directory = await getApplicationDocumentsDirectory();
