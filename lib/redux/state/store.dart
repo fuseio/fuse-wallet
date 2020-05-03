@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fusecash/redux/middlewares/auth_middleware.dart';
@@ -5,6 +6,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/state_secure_storage.dart';
 import 'package:fusecash/utils/phone.dart';
+import 'package:fusecash/utils/jwt.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
@@ -17,6 +19,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sentry/sentry.dart';
 import 'package:package_info/package_info.dart';
 import 'package:device_info/device_info.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 
 Future<File> getFile() async {
   final directory = await getApplicationDocumentsDirectory();
@@ -81,9 +84,25 @@ class AppFactory {
       try {
         initialState = await persistor.load();
         if (initialState?.userState?.jwtToken != '') {
-          logger.info('jwt: ${initialState.userState.jwtToken}');
-          logger.info('accountAddress: ${initialState.userState.accountAddress}');
-          api.setJwtToken(initialState.userState.jwtToken);
+          String jwtToken = initialState.userState.jwtToken;
+          Map<String, dynamic> tokenData = parseJwt(jwtToken);
+          DateTime exp = new DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
+          DateTime now = DateTime.now();
+          Duration diff = exp.difference(now);
+          logger.info('diff', diff);
+
+          if (diff.inDays <= 1) {
+            logger.info('relogin');
+            final FirebaseUser currentUser = await firebaseAuth.currentUser();
+            IdTokenResult token = await currentUser.getIdToken();
+            jwtToken = await api.login(token.token, initialState.userState.accountAddress, initialState.userState.identifier);
+          }
+
+          logger.info('jwt: $jwtToken');
+          logger.info(
+              'accountAddress: ${initialState.userState.accountAddress}');
+          api.setJwtToken(jwtToken);
+
         } else {
           logger.info('no JWT');
         }
