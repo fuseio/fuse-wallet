@@ -18,6 +18,7 @@ import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/redux/state/store.dart';
+import 'package:fusecash/utils/constans.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:http/http.dart';
@@ -393,7 +394,7 @@ ThunkAction startBalanceFetchingCall() {
     if (tokenAddress != null) {
       store.dispatch(getTokenBalanceCall(tokenAddress));
     }
-    new Timer.periodic(Duration(seconds: 3), (Timer t) async {
+    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
         t.cancel();
         return;
@@ -423,7 +424,7 @@ ThunkAction startTransfersFetchingCall() {
       store.dispatch(getTokenTransfersListCall(tokenAddress));
       store.dispatch(getTokenBalanceCall(tokenAddress));
     }
-    new Timer.periodic(Duration(seconds: 3), (Timer t) async {
+    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
         t.cancel();
         return;
@@ -613,7 +614,7 @@ ThunkAction startFetchingJobCall(
     String jobId, Function(Job) fetchSuccessCallback,
     {bool untilDone: true}) {
   return (Store store) async {
-    new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
       store.dispatch(fetchJobCall(jobId, fetchSuccessCallback,
           timer: timer, untilDone: untilDone));
     });
@@ -660,7 +661,7 @@ ThunkAction processingJobsCall(Timer timer) {
 
 ThunkAction startProcessingJobsCall() {
   return (Store store) async {
-    new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
       store.dispatch(processingJobsCall(timer));
     });
     store.dispatch(JobProcessingStarted());
