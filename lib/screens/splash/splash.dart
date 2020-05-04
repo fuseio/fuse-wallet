@@ -6,6 +6,7 @@ import 'package:BIM/redux/actions/cash_wallet_actions.dart';
 import 'package:BIM/redux/actions/user_actions.dart';
 import 'package:BIM/screens/routes.gr.dart';
 import 'package:BIM/widgets/on_boarding_pages.dart';
+import 'package:redux/redux.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  onInit(store) {
+  onInit(Store<AppState> store) {
     String privateKey = store.state.userState.privateKey;
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;

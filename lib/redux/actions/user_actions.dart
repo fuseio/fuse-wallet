@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +20,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:BIM/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 
 class ActivateProMode {
   ActivateProMode();
@@ -236,19 +234,7 @@ ThunkAction restoreWalletCall(List<String> _mnemonic, VoidCallback successCallba
 ThunkAction setDeviceId(bool reLogin) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    String identifier;
-    final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
-    try {
-      if (Platform.isAndroid) {
-        var build = await deviceInfoPlugin.androidInfo;
-        identifier = build.androidId;  //UUID for Android
-      } else if (Platform.isIOS) {
-        var data = await deviceInfoPlugin.iosInfo;
-        identifier = data.identifierForVendor;  //UUID for iOS
-      }
-    } on Exception {
-      logger.severe('Failed to get platform version');
-    }
+    String identifier = await FlutterUdid.udid;
     logger.info("device identifier: $identifier");
     store.dispatch(new DeviceIdSuccess(identifier));
     if (reLogin) {
@@ -432,6 +418,7 @@ ThunkAction activateProModeCall() {
         // }));
         store.dispatch(segmentTrackCall('Activate pro mode clicked'));
         store.dispatch(startListenToTransferEvents());
+        store.dispatch(fetchTokensBalances());
         store.dispatch(segmentIdentifyCall(
         new Map<String, dynamic>.from({
           "Pro mode active": true,

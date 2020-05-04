@@ -189,6 +189,7 @@ DEPENDENCIES:
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_segment (from `.symlinks/plugins/flutter_segment/ios`)
+  - flutter_udid (from `.symlinks/plugins/flutter_udid/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -232,6 +233,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Protobuf
+    - SAMKeychain
 
 EXTERNAL SOURCES:
   barcode_scan:
@@ -260,6 +262,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_segment:
     :path: ".symlinks/plugins/flutter_segment/ios"
+  flutter_udid:
+    :path: ".symlinks/plugins/flutter_udid/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   package_info:
@@ -337,6 +341,10 @@ SPEC CHECKSUMS:
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   rate_my_app: 45513a2f4d9a55b7b46d19b64fc13882fd101157
+<<<<<<< HEAD
+=======
+  SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
+>>>>>>> origin/master
   sensors: 4bd31219c4bf9d7d4401b392a1701ee3adc1a296
   share: bae0a282aab4483288913fc4dc0b935d4b491f2e
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01

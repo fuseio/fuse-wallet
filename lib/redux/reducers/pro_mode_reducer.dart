@@ -15,6 +15,7 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<ProWalletState, GetTokenListSuccess>(_getTokenListSuccess),
   TypedReducer<ProWalletState, AddProJob>(_addProJob),
+  TypedReducer<ProWalletState, StartFetchTokensBalances>(_startFetchTokensBalances),
 ]);
 
 ProWalletState _addProJob(ProWalletState state, AddProJob action) {
@@ -66,4 +67,8 @@ ProWalletState _updateToken(ProWalletState state, UpdateToken action) {
   Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
   newOne[action.tokenToUpdate.address] = action.tokenToUpdate;
   return state.copyWith(erc20Tokens: newOne);
+}
+
+ProWalletState _startFetchTokensBalances(ProWalletState state, StartFetchTokensBalances action) {
+  return state.copyWith(isFetchTokensBalances: true);
 }
