@@ -71,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                     fontSize: 18),
                               ),
                               Text(
-                                '\nde Triana',
+                                '\nde Sevilla',
                                 style: TextStyle(
                                     fontFamily: 'Eras',
                                     fontWeight: FontWeight.bold,
