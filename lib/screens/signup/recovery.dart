@@ -34,9 +34,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
         builder: (_, viewModel) {
           return MainScaffold(
               expandedHeight: 130,
-              footer: null,
               withPadding: true,
-              titleFontSize: 15,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               title: I18n.of(context).restore_from_backup,
               children: <Widget>[

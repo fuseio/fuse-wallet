@@ -34,6 +34,7 @@ UserState _getWalletAddressesSuccess(UserState state, GetWalletAddressesSuccess 
     walletAddress: action.walletAddress,
     transferManagerAddress: action.transferManagerAddress,
     communityManagerAddress: action.communityManagerAddress,
+    daiPointsManagerAddress: action.daiPointsManagerAddress,
     walletStatus: 'created');
 }
 
@@ -84,7 +85,7 @@ UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
 }
 
 UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
-  return state.copyWith(isLoggedOut: true);
+  return state.copyWith(isLoggedOut: true, isProMode: false);
   // return UserState.initial();
 }
 

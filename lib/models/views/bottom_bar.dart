@@ -1,20 +1,30 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:localpay/models/community.dart';
 import 'package:redux/redux.dart';
 import 'package:localpay/models/app_state.dart';
-import 'package:localpay/utils/addresses.dart' as util;
 
 class BottomBarViewModel extends Equatable {
   final String communityAddres;
-  final bool isDefaultCommunity;
-  BottomBarViewModel({this.communityAddres, this.isDefaultCommunity});
+  final Community community;
+  final List<Contact> contacts;
+  final bool isProModeActivate;
+  BottomBarViewModel(
+      {this.communityAddres,
+      this.community,
+      this.contacts,
+      this.isProModeActivate});
 
   static BottomBarViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
+    Community community = store.state.cashWalletState.communities[communityAddress] ?? new Community.initial();
     return BottomBarViewModel(
+        contacts: store.state.userState.contacts ?? [],
+        isProModeActivate: store.state.userState.isProModeActivated,
         communityAddres: communityAddress,
-        isDefaultCommunity: util.isDefaultCommunity(communityAddress));
+        community: community,);
   }
 
   @override
-  List<Object> get props => [communityAddres];
+  List<Object> get props => [communityAddres, isProModeActivate, contacts];
 }

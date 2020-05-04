@@ -1,25 +1,22 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:localpay/generated/i18n.dart';
 import 'package:localpay/models/views/backup.dart';
-import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/screens/backup/verify_mnemonic.dart';
 import 'package:localpay/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:localpay/models/app_state.dart';
 import 'package:localpay/widgets/copy.dart';
 import 'package:localpay/widgets/preloader.dart';
 import 'package:localpay/widgets/primary_button.dart';
-import 'package:localpay/widgets/transparent_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
         withPadding: true,
-        footer: null,
         title: I18n.of(context).back_up,
-        titleFontSize: 15,
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(
@@ -28,20 +25,31 @@ class ShowMnemonic extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 20),
-                  child: Text(
-                      I18n.of(context).important +
-                          " " +
-                          I18n.of(context).write_words,
+                  child: RichText(
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal)),
+                      text: new TextSpan(
+                          style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16),
+                          children: <InlineSpan>[
+                            TextSpan(
+                              text: I18n.of(context).important + ' ',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            TextSpan(
+                                text: I18n.of(context).write_words,
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary))
+                          ])),
                 )
               ],
             ),
           ),
           new StoreConnector<AppState, BackupViewModel>(
+              distinct: true,
+              onInit: (store) {
+                Segment.screen(screenName: '/show-mnemonic');
+              },
               converter: BackupViewModel.fromStore,
               builder: (_, viewModel) {
                 return (viewModel.user != null &&
@@ -136,16 +144,12 @@ class ShowMnemonic extends StatelessWidget {
                             label: I18n.of(context).next_button,
                             labelFontWeight: FontWeight.normal,
                             onPressed: () async {
-                              Router.navigator.pushNamed(Router.verifyMnemonic);
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) => VerifyMnemonic()));
                             },
                           )),
-                          const SizedBox(height: 16.0),
-                          TransparentButton(
-                              label: I18n.of(context).skip_button,
-                              onPressed: () {
-                                Router.navigator.pushReplacementNamed('/Cash');
-                              }),
-                          const SizedBox(height: 30.0),
                         ],
                       )
                     : Padding(

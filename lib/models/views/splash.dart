@@ -37,6 +37,7 @@ class SplashViewModel extends Equatable {
           store.dispatch(setDeviceId(false));
         },
         loginAgain: () {
+          store.dispatch(reLoginCall());
           store.dispatch(getWalletAddressessCall());
           store.dispatch(identifyCall());
           Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);

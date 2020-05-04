@@ -5,8 +5,13 @@ import 'package:localpay/models/business.dart';
 import 'package:localpay/models/transactions/transfer.dart';
 import 'package:localpay/models/views/cash_wallet.dart';
 import 'package:localpay/utils/forks.dart';
+// import 'package:localpay/utils/forks.dart';
 import 'package:localpay/utils/format.dart';
 import 'package:localpay/utils/phone.dart';
+
+String getIPFSImageUrl(String image) {
+  return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;
+}
 
 String deduceSign(Transfer transfer) {
   if (transfer.type == 'SEND') {
@@ -50,7 +55,7 @@ Color deduceColor(Transfer transfer) {
 }
 
 String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true, List<Business> businesses}) {
+    {bool format = true, List<Business> businesses, bool getReverseContact = true}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (businesses != null && businesses.isNotEmpty) {
     Business business = businesses.firstWhere(
@@ -60,7 +65,7 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
       return business.name;
     }
   }
-  if (reverseContacts.containsKey(accountAddress)) {
+  if (reverseContacts.containsKey(accountAddress) && getReverseContact) {
     return reverseContacts[accountAddress];
   }
   if (format) {
@@ -70,13 +75,12 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
   }
 }
 
-dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
+dynamic getTransferImage(
+    Transfer transfer, Contact contact, CashWalletViewModel vm) {
   if (transfer.isJoinCommunity() &&
       vm.community.metadata.image != null &&
       vm.community.metadata.image != '') {
-    return new NetworkImage(DotEnv().env['IPFS_BASE_URL'] +
-        '/image/' +
-        vm.community.metadata.image);
+    return new NetworkImage(getIPFSImageUrl(vm.community.metadata.image));
   } else if (transfer.isGenerateWallet()) {
     return new AssetImage(
       'assets/images/generate_wallet.png',
@@ -87,6 +91,10 @@ dynamic getImage(Transfer transfer, Contact contact, CashWalletViewModel vm) {
     );
   } else if (contact?.avatar != null && contact.avatar.isNotEmpty) {
     return new MemoryImage(contact.avatar);
+  } else if (vm.community != null && vm.community.homeBridgeAddress != null && transfer.to != null && transfer.to?.toLowerCase() == vm.community.homeBridgeAddress?.toLowerCase()) {
+    return new AssetImage(
+      'assets/images/ethereume_icon.png',
+    );
   }
 
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
@@ -103,11 +111,10 @@ String getCoverPhotoUrl(business, communityAddress) {
   if (business.metadata.coverPhoto == null ||
         business.metadata.coverPhoto == '') {
          return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isPaywise(communityAddress) || isPeso(communityAddress) || isLocalPay(communityAddress)) {
+  } else if (isLocalPay(communityAddress)) {
     return business.metadata.coverPhoto;
-  }
-  else {
-    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.coverPhoto;
+  } else {
+    return getIPFSImageUrl(business.metadata.coverPhoto);
   }
 }
 
@@ -115,11 +122,25 @@ String getImageUrl(business, communityAddress) {
   if (business.metadata.image == null ||
         business.metadata.image == '') {
          return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else if (isPaywise(communityAddress) || isPeso(communityAddress) || isLocalPay(communityAddress)) {
+  } else if (isLocalPay(communityAddress)) {
     return business.metadata.image;
-  }
-  else {
-    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + business.metadata.image;
+  } else {
+    return getIPFSImageUrl(business.metadata.image);
   }
 }
 
+dynamic getContactImage(Transfer transfer, Contact contact, businesses) {
+  if (contact?.avatar != null && contact.avatar.isNotEmpty) {
+    return new MemoryImage(contact.avatar);
+  } else {
+    String accountAddress =
+        transfer.type == 'SEND' ? transfer.to : transfer.from;
+    Business business = businesses.firstWhere(
+        (business) => business.account == accountAddress,
+        orElse: () => null);
+    if (business != null) {
+      return NetworkImage(getImageUrl(business, ''));
+    }
+  }
+  return new AssetImage('assets/images/anom.png');
+}

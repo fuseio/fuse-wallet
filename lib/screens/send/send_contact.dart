@@ -1,49 +1,29 @@
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:localpay/generated/i18n.dart';
 import 'package:localpay/models/app_state.dart';
-import 'package:localpay/models/business.dart';
 import 'package:localpay/models/transactions/transaction.dart';
 import 'package:localpay/models/transactions/transfer.dart';
 import 'package:localpay/models/views/contacts.dart';
-import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/utils/barcode.dart';
 import 'package:localpay/screens/send/enable_contacts.dart';
+import 'package:localpay/screens/send/send_amount.dart';
 import 'package:localpay/screens/send/send_amount_arguments.dart';
 import 'package:localpay/services.dart';
 import 'package:localpay/utils/contacts.dart';
 import 'package:localpay/utils/format.dart';
 import 'package:localpay/utils/phone.dart';
 import 'package:localpay/utils/transaction_row.dart';
-import 'package:localpay/widgets/bottombar.dart';
 import 'package:localpay/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
 import 'dart:math' as math;
-
-dynamic getImage(Transfer transfer, Contact contact, businesses) {
-  if (contact?.avatar != null && contact.avatar.isNotEmpty) {
-    return new MemoryImage(contact.avatar);
-  } else {
-    String accountAddress =
-        transfer.type == 'SEND' ? transfer.to : transfer.from;
-    Business business = businesses.firstWhere(
-        (business) => business.account == accountAddress,
-        orElse: () => null);
-    if (business != null) {
-      return NetworkImage(getImageUrl(business, ''));
-    }
-  }
-  return new AssetImage('assets/images/anom.png');
-}
-
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
+import 'package:redux/redux.dart';
 
 class SendToContactScreen extends StatefulWidget {
-  SendToContactScreen();
-
   @override
   _SendToContactScreenState createState() => _SendToContactScreenState();
 }
@@ -70,23 +50,22 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         hasSynced = isPermitted;
       });
     }
-    if (isPermitted && contacts.isEmpty) {
-      contacts = await ContactController.getContacts();
-    }
-    for (var contact in contacts) {
-      userList.add(contact);
-    }
-    userList.sort((a, b) =>
-        a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
-    filterList();
-    searchController.addListener(() {
+    if (contacts != null) {
+      for (var contact in contacts) {
+        userList.add(contact);
+      }
+      userList.sort((a, b) =>
+          a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
       filterList();
-    });
-
-    if (this.mounted) {
-      setState(() {
-        isPreloading = false;
+      searchController.addListener(() {
+        filterList();
       });
+
+      if (this.mounted) {
+        setState(() {
+          isPreloading = false;
+        });
+      }
     }
   }
 
@@ -175,18 +154,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                   fontSize: 15, color: Theme.of(context).primaryColor),
             ),
             onTap: () async {
-              String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
-              dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
-              String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
-              Router.navigator.pushNamed(Router.sendAmountScreen,
-                  arguments: SendAmountArguments(
-                      sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
-                      name: user.displayName,
-                      accountAddress: accountAddress,
-                      avatar: user.avatar != null && user.avatar.isNotEmpty
-                          ? MemoryImage(user.avatar)
-                          : new AssetImage('assets/images/anom.png'),
-                      phoneNumber: phoneNumber));
+              sendToContact(context, user, viewModel);
             },
           ),
         ),
@@ -199,7 +167,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  Widget sendToAcccountAddress(String accountAddress) {
+  Widget sendToAcccountAddress(String accountAddress, viewModel) {
     Widget component = Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
@@ -234,23 +202,40 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               style: TextStyle(color: Color(0xFF0377FF)),
             ),
             onTap: () {
-              Router.navigator.pushNamed(Router.sendAmountScreen,
-                  arguments: SendAmountArguments(
-                      sendType: SendType.PASTED_ADDRESS,
-                      accountAddress: accountAddress,
-                      name: formatAddress(accountAddress),
-                      avatar: new AssetImage('assets/images/anom.png')));
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => SendAmountScreen(
+                          pageArgs: SendAmountArguments(
+                              erc20Token: viewModel.isProMode
+                                  ? viewModel.daiToken
+                                  : null,
+                              sendType: viewModel.isProMode
+                                  ? SendType.ETHEREUM_ADDRESS
+                                  : SendType.PASTED_ADDRESS,
+                              accountAddress: accountAddress,
+                              name: formatAddress(accountAddress),
+                              avatar:
+                                  new AssetImage('assets/images/anom.png')))));
             },
           ),
-          //subtitle: Text("user.company" ?? ""),
           onTap: () {
-            Router.navigator.pushNamed(Router.sendAmountScreen,
-                arguments: SendAmountArguments(
-                    sendType: SendType.PASTED_ADDRESS,
-                    accountAddress: accountAddress,
-                    name: formatAddress(accountAddress),
-                    avatar: new AssetImage('assets/images/anom.png')));
-          },
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => SendAmountScreen(
+                          pageArgs: SendAmountArguments(
+                              erc20Token: viewModel.isProMode
+                                  ? viewModel.daiToken
+                                  : null,
+                              sendType: viewModel.isProMode
+                                  ? SendType.ETHEREUM_ADDRESS
+                                  : SendType.PASTED_ADDRESS,
+                              accountAddress: accountAddress,
+                              name: formatAddress(accountAddress),
+                              avatar:
+                                  new AssetImage('assets/images/anom.png')))));
+            },
         ),
       ),
     );
@@ -263,17 +248,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     List<Widget> listItems = List();
     final sorted =
         new List<Transaction>.from(viewModel.transactions.list.toSet().toList())
-            .where((t) {
-      return t.type == 'SEND' && t.isConfirmed();
-    }).toList()
-              ..sort((a, b) {
-                if (a.blockNumber != null && b.blockNumber != null) {
-                  return b.blockNumber?.compareTo(a.blockNumber);
-                } else {
-                  return b.status.compareTo(a.status);
-                }
-              });
-
+            .where((t) => t.type == 'SEND' && t.isConfirmed())
+            .toList()
+              ..sort((a, b) => a.blockNumber != null && b.blockNumber != null
+                  ? b.blockNumber?.compareTo(a.blockNumber)
+                  : b.status.compareTo(a.status));
     Map<String, Transaction> uniqueValues = {};
     for (var item in sorted) {
       final Contact contact = getContact(item, viewModel.reverseContacts,
@@ -289,15 +268,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         ? uniqueValues.values.toList().sublist(0, numToShow)
         : uniqueValues.values.toList();
     for (int i = 0; i < uniqueList.length; i++) {
-      if (i == 0) {
-        listItems.add(Container(
-            padding: EdgeInsets.only(left: 15, top: 15, bottom: 8),
-            child: Text(I18n.of(context).recent,
-                style: TextStyle(
-                    color: Color(0xFF979797),
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.normal))));
-      }
       final Transfer transfer = uniqueList[i];
       final Contact contact = getContact(transfer, viewModel.reverseContacts,
           viewModel.contacts, viewModel.countryCode);
@@ -305,20 +275,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           ? contact.displayName
           : deducePhoneNumber(transfer, viewModel.reverseContacts,
               businesses: viewModel.businesses);
+      dynamic image = getContactImage(transfer, contact, viewModel.businesses);
       listItems.add(
         Slidable(
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
-          // secondaryActions: <Widget>[
-          //   IconSlideAction(
-          //     iconWidget: Icon(Icons.star),
-          //     onTap: () {},
-          //   ),
-          //   IconSlideAction(
-          //     iconWidget: Icon(Icons.more_horiz),
-          //     onTap: () {},
-          //   ),
-          // ],
           child: Container(
             decoration: new BoxDecoration(
                 border:
@@ -329,40 +290,43 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               leading: CircleAvatar(
                 backgroundColor: Color(0xFFE0E0E0),
                 radius: 25,
-                backgroundImage:
-                    getImage(transfer, contact, viewModel.businesses),
+                backgroundImage: image,
               ),
               title: Text(
                 displatName,
                 style: TextStyle(fontSize: 16),
               ),
-              onTap: () async {
+              onTap: () {
                 if (contact == null) {
-                  Router.navigator.pushNamed(Router.sendAmountScreen,
-                    arguments: SendAmountArguments(
-                        sendType: SendType.FUSE_ADDRESS,
-                        accountAddress: transfer.to,
-                        name: displatName,
-                        avatar: new AssetImage('assets/images/anom.png')));
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => SendAmountScreen(
+                              pageArgs: SendAmountArguments(
+                                  sendType: SendType.FUSE_ADDRESS,
+                                  accountAddress: transfer.to,
+                                  name: displatName,
+                                  avatar: new AssetImage(
+                                      'assets/images/anom.png')))));
                 } else {
-                  String phoneNumber = formatPhoneNumber(contact.phones.first.value, viewModel.countryCode);
-                  dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
-                  String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
-                  Router.navigator.pushNamed(Router.sendAmountScreen,
-                      arguments: SendAmountArguments(
-                          sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
-                          accountAddress: accountAddress,
-                          name: displatName,
-                          avatar: contact?.avatar != null && contact.avatar.isNotEmpty
-                              ? MemoryImage(contact.avatar)
-                              : new AssetImage('assets/images/anom.png'),
-                          phoneNumber: phoneNumber));
+                  sendToContact(context, contact, viewModel);
                 }
               },
             ),
           ),
         ),
       );
+    }
+    if (listItems.isNotEmpty) {
+      listItems.insert(
+          0,
+          Container(
+              padding: EdgeInsets.only(left: 15, top: 15, bottom: 8),
+              child: Text(I18n.of(context).recent,
+                  style: TextStyle(
+                      color: Color(0xFF979797),
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.normal))));
     }
     return SliverList(
       delegate: SliverChildListDelegate(listItems),
@@ -372,10 +336,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Widget> _buildPageList(viewModel) {
     List<Widget> listItems = List();
 
-    // if (isPreloading) {
-    //   return listItems;
-    // }
-
     listItems.add(searchPanel());
 
     if (searchController.text.isEmpty) {
@@ -383,7 +343,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         listItems.add(recentContacts(3, viewModel));
       }
     } else if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(searchController.text));
+      listItems.add(sendToAcccountAddress(searchController.text, viewModel));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
@@ -460,19 +420,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       width: 25.0,
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
-                    onPressed: () async {
-                      try {
-                        String accountAddress = await BarcodeScanner.scan();
-                        List<String> parts = accountAddress.split(':');
-                        if (parts.length == 2 && parts[0] == 'fuse') {
-                          Router.navigator.pushNamed(Router.sendAmountScreen,
-                              arguments: SendAmountArguments(
-                                  sendType: SendType.QR_ADDRESS,
-                                  accountAddress: parts[1]));
-                        } else {
-                          print('Account address is not on Fuse');
-                        }
-                      } catch (e) {}
+                    onPressed: () {
+                      bracodeScannerHandler(context);
                     }),
                 width: 50.0,
                 height: 50.0,
@@ -484,29 +433,51 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
+  sendToContact(BuildContext context, Contact user, ContactsViewModel viewModel) async {
+    String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
+    dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
+    String accountAddress = data['walletAddress'] ?? null;
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => SendAmountScreen(
+                pageArgs: SendAmountArguments(
+                    erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
+                    sendType: viewModel.isProMode
+                        ? SendType.ETHEREUM_ADDRESS
+                        : accountAddress != null
+                            ? SendType.FUSE_ADDRESS
+                            : SendType.CONTACT,
+                    name: user.displayName,
+                    accountAddress: accountAddress,
+                    avatar: user.avatar != null && user.avatar.isNotEmpty
+                        ? MemoryImage(user.avatar)
+                        : new AssetImage('assets/images/anom.png'),
+                    phoneNumber: phoneNumber))));
+  }
+
+  onInit(Store<AppState> store) {
+    Segment.screen(screenName: '/send-to-contact-screen');
+    loadContacts(store.state.userState?.contacts ?? [], store.state.userState.isContactsSynced);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
         converter: ContactsViewModel.fromStore,
-        onInit: (store) {
-          loadContacts(store.state.userState.contacts, store.state.userState.isContactsSynced);
-        },
+        onInit: onInit,
         builder: (_, viewModel) {
           if (hasSynced) {
             return MainScaffold(
-                withPadding: false,
+                automaticallyImplyLeading: false,
                 title: I18n.of(context).send_to,
-                titleFontSize: 15,
-                footer: showFooter ? bottomBar(context) : null,
                 sliverList: _buildPageList(viewModel),
                 children: <Widget>[]);
           } else {
             return MainScaffold(
-                withPadding: false,
+                automaticallyImplyLeading: false,
                 title: I18n.of(context).send_to,
-                titleFontSize: 15,
-                footer: showFooter ? bottomBar(context) : null,
                 sliverList: _buildPageList(viewModel),
                 children: <Widget>[
                   Column(
@@ -536,7 +507,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                           InkWell(
                             child: new Text(I18n.of(context).learn_more),
                             onTap: () {
-                              showDialog(child: new ContactsConfirmationScreen(), context: context);
+                              showDialog(
+                                  child: new ContactsConfirmationScreen(),
+                                  context: context);
                             },
                           ),
                           SizedBox(
@@ -564,15 +537,20 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                                   List<Contact> contacts =
                                       await ContactController.getContacts();
                                   viewModel.syncContacts(contacts);
-                                  loadContacts(contacts, viewModel.isContactsSynced);
-                                  viewModel.trackCall("Wallet: Contacts Permission Granted");
-                                  viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
+                                  loadContacts(
+                                      contacts, viewModel.isContactsSynced);
+                                  viewModel.trackCall(
+                                      "Wallet: Contacts Permission Granted");
+                                  viewModel.idenyifyCall(Map.from(
+                                      {"Contacts Permission Granted": false}));
                                   setState(() {
                                     hasSynced = true;
                                   });
                                 } else {
-                                  viewModel.trackCall("Wallet: Contacts Permission Rejected");
-                                  viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
+                                  viewModel.trackCall(
+                                      "Wallet: Contacts Permission Rejected");
+                                  viewModel.idenyifyCall(Map.from(
+                                      {"Contacts Permission Granted": false}));
                                 }
                               })
                         ],

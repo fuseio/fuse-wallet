@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:localpay/generated/i18n.dart';
 import 'package:localpay/models/app_state.dart';
 import 'package:localpay/models/views/backup.dart';
-import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/screens/backup/done_backup.dart';
 import 'package:localpay/widgets/main_scaffold.dart';
 import 'package:localpay/widgets/primary_button.dart';
 
@@ -35,11 +36,12 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BackupViewModel>(
         converter: BackupViewModel.fromStore,
+        onInit: (store) {
+          Segment.screen(screenName: '/verify-mnemonic');
+        },
         builder: (_, viewModel) {
           return MainScaffold(
               withPadding: true,
-              footer: null,
-              titleFontSize: 15,
               title: I18n.of(context).back_up,
               children: <Widget>[
                 Container(
@@ -135,7 +137,10 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     width: 160,
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        Router.navigator.pushNamed(Router.doneBackup);
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => DoneBackup()));
                       }
                     },
                   )),

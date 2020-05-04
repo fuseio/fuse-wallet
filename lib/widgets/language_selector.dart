@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:localpay/generated/i18n.dart';
+import 'package:country_code_picker/country_codes.dart';
 
 class LanguageSelector extends StatefulWidget {
   @override
@@ -21,28 +22,28 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     return _buildTiles(context);
   }
 
-  List<Widget> _languageItems() {
-    List<Widget> list = [];
-    I18n.delegate.supportedLocales.forEach((lang) {
-      list.add(new ListTile(
-        contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 30, right: 15),
-        title: new Text(lang.languageCode, style: TextStyle(color: Theme.of(context).primaryColor),),
-        trailing: Localizations.localeOf(context).languageCode == lang.languageCode
-            ? new Icon(Icons.check, color: Colors.green)
-            : null,
-        selected: false, //_transl.currentLanguage == lang,
-        onTap: () {
-           //I18n.._locale.locale(new Locale("he"));
-          I18n.onLocaleChanged(new Locale(lang.languageCode, lang.countryCode));
-            //applic.onLocaleChanged(new Locale(lang.languageCode, ''));
+  List<Widget> _languageItems(context) {
+    Locale currentLocal = Localizations.localeOf(context);
+    return I18n.delegate.supportedLocales.map((local) {
+      bool isSelected = currentLocal == local;
+      Map code = codes.firstWhere((code) => code['code'] == local.countryCode, orElse: () => null);
+      String name = code['name'] ?? local.countryCode;
+      return new ListTile(
+          contentPadding:
+              EdgeInsets.only(top: 5, bottom: 5, left: 30, right: 15),
+          title: new Text(
+            name,
+            style: TextStyle(color: Theme.of(context).primaryColor),
+          ),
+          trailing: isSelected ? new Icon(Icons.check, color: Colors.green) : null,
+          selected: isSelected,
+          onTap: () {
+            I18n.onLocaleChanged(local);
             setState(() {
               _collapse();
             });
-        },
-      ));
-    });
-
-    return list;
+          });
+    }).toList();
   }
 
   Widget _buildTiles(BuildContext context) {
@@ -50,12 +51,16 @@ class _LanguageSelectorState extends State<LanguageSelector> {
       key: new Key(_key.toString()),
       initiallyExpanded: false,
       title: new Row(
-        children: [Padding(
-          padding: EdgeInsets.only(top: 5, bottom: 5, left: 15),
-          child: new Text(I18n.of(context).language, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor)),
-        )],
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 5, bottom: 5, left: 15),
+            child: new Text(I18n.of(context).language,
+                style: TextStyle(
+                    fontSize: 16, color: Theme.of(context).primaryColor)),
+          )
+        ],
       ),
-      children: _languageItems(),
+      children: _languageItems(context),
     );
   }
 

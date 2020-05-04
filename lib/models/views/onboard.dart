@@ -62,9 +62,6 @@ class OnboardViewModel extends Equatable {
     };
 
     final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
-      print("PhoneCodeAutoRetrievalTimeout " + verificationId);
-      store.dispatch(SetIsLoginRequest(isLoading: false));
-      Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
     };
     return OnboardViewModel(
       countryCode: store.state.userState.countryCode,

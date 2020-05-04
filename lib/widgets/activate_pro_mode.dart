@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:localpay/models/community.dart';
 import 'package:localpay/redux/actions/user_actions.dart';
-import 'package:localpay/screens/routes.gr.dart';
+import 'package:localpay/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:localpay/models/app_state.dart';
 import 'package:localpay/widgets/activate_pro_mode2.dart';
@@ -92,7 +91,7 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
                               child: InkWell(
                                 onTap: () {
                                   viewModel.activateProMode();
-                                  Router.navigator.pop();
+                                  Navigator.of(context).pop();
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
@@ -127,8 +126,7 @@ class ActivateProModeViewModel {
   ActivateProModeViewModel({this.activateProMode, this.daiPointsHomeBridgeAddress});
 
   static ActivateProModeViewModel fromStore(Store<AppState> store) {
-    String communityAddres = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
-    Community community = store.state.cashWalletState.communities[communityAddres];
+    Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
     return ActivateProModeViewModel(
       daiPointsHomeBridgeAddress: community.homeBridgeAddress,
       activateProMode: () async {
