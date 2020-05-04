@@ -232,6 +232,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
+                app: App(name: 'LocalDollarMX'),
                 operatingSystem: operatingSystem
             ),
             userContext: user
