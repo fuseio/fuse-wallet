@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:localdolarmx/models/jobs/approve_job.dart';
 import 'package:localdolarmx/models/jobs/backup_job.dart';
 import 'package:localdolarmx/models/jobs/generate_wallet_job.dart';
 import 'package:localdolarmx/models/jobs/invite_bonus_job.dart';
@@ -14,6 +15,7 @@ abstract class Job {
 
   static const String COMMUNITY_MANAGER = "CommunityManager";
   static const String TRANSFER_MANAGER = "TransferManager";
+  static const String DAI_POINTS_MANAGER = "DAIPointsManager";
 
   String status;
   dynamic arguments;
@@ -80,7 +82,12 @@ class JobFactory {
     if (job['name'] == Job.RELAY) {
       if (job['data']['walletModule'] == Job.COMMUNITY_MANAGER) {
         return 'joinCommunity';
+      } else if (job['data']['walletModule'] == Job.TRANSFER_MANAGER &&
+          (job['data']['methodName'] != null && job['data']['methodName'] == 'approveToken')) {
+        return 'approveToken';
       } else if (job['data']['walletModule'] == Job.TRANSFER_MANAGER) {
+        return 'transfer';
+      } else if (job['data']['walletModule'] == Job.DAI_POINTS_MANAGER) {
         return 'transfer';
       }
     }
@@ -170,6 +177,15 @@ class JobFactory {
             name: jobType,
             status: status,
             data: json['data'],
+            arguments: json['arguments']);
+      case 'approveToken':
+        return new ApproveJob(
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
             arguments: json['arguments']);
     }
     print('ERROR: $jobType not supported');

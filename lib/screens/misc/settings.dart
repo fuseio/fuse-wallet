@@ -1,10 +1,12 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:localdolarmx/generated/i18n.dart';
 import 'package:localdolarmx/models/app_state.dart';
 import 'package:localdolarmx/models/views/drawer.dart';
-import 'package:localdolarmx/screens/routes.gr.dart';
+import 'package:localdolarmx/screens/misc/about.dart';
+import 'package:localdolarmx/screens/splash/splash.dart';
 import 'package:localdolarmx/utils/forks.dart';
 import 'package:localdolarmx/widgets/language_selector.dart';
 import 'package:localdolarmx/widgets/main_scaffold.dart';
@@ -21,17 +23,19 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> menuItem(context, viewModel) {
+  List<Widget> menuItem(context, DrawerViewModel viewModel) {
     if (isFork()) {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Router.navigator.pushNamed(Router.aboutScreen);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => AboutScreen()));
         }),
       ];
     } else {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Router.navigator.pushNamed(Router.aboutScreen);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => AboutScreen()));
         }),
         new Divider(),
         // getListTile(context, I18n.of(context).protect_wallet, () {}),
@@ -39,8 +43,9 @@ class SettingsScreen extends StatelessWidget {
         new LanguageSelector(),
         new Divider(),
         getListTile(context, I18n.of(context).logout, () {
-          Router.navigator.pushNamedAndRemoveUntil(Router.splashScreen, (Route<dynamic> route) => false);
           viewModel.logout();
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => SplashScreen()));
         })
       ];
     }
@@ -48,11 +53,14 @@ class SettingsScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, DrawerViewModel>(
+        distinct: true,
+        onInit: (store) {
+          Segment.screen(screenName: '/settings-screen');
+        },
         converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).settings,
-            titleFontSize: 15,
             withPadding: true,
             children: <Widget>[
               Container(

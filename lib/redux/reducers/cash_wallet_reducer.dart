@@ -75,14 +75,13 @@ final cashWalletReducers = combineReducers<CashWalletState>([
 
   CashWalletState _setDefaultCommunity(
       CashWalletState state, SetDefaultCommunity action) {
-    String defaultCommunityAddress = action.defaultCommunity.toLowerCase();
     Community current = new Community.initial();
-    Community defaultCom = current.copyWith(address: defaultCommunityAddress);
+    Community defaultCom = current.copyWith(address: action.defaultCommunity);
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);
-    newOne[defaultCommunityAddress] = defaultCom;
+    newOne[action.defaultCommunity] = defaultCom;
     return state.copyWith(
-        communityAddress: defaultCommunityAddress, communities: newOne);
+        communityAddress: action.defaultCommunity, communities: newOne);
   }
   
   CashWalletState _initWeb3Success(
@@ -166,7 +165,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       name: action.communityName,
       isClosed: action.isClosed,
       homeBridgeAddress: action.homeBridgeAddress,
-      foreignBridgeAddress: action.foreignBridgeAddress
+      foreignBridgeAddress: action.foreignBridgeAddress,
+      webUrl: action.webUrl
     );
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);

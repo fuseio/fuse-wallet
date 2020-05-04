@@ -2,36 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:localdolarmx/generated/i18n.dart';
 import 'package:localdolarmx/models/views/cash_header.dart';
 import 'package:localdolarmx/models/app_state.dart';
-import 'package:localdolarmx/screens/routes.gr.dart';
-import 'package:localdolarmx/screens/send/send_amount_arguments.dart';
+import 'package:localdolarmx/utils/barcode.dart';
 import 'package:localdolarmx/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 
 class CashHeader extends StatelessWidget {
-  scanBarcode() async {
-    try {
-      String accountAddress = await BarcodeScanner.scan();
-      List<String> parts = accountAddress.split(':');
-      if (parts.length == 2 && parts[0] == 'fuse') {
-        Router.navigator.pushNamed(Router.sendAmountScreen,
-            arguments: SendAmountArguments(
-                sendType: SendType.QR_ADDRESS, accountAddress: parts[1]));
-      } else {
-        print('Account address is not on Fuse');
-      }
-    } catch (e) {
-      print('ERROR - BarcodeScanner');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashHeaderViewModel>(
+        distinct: true,
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(
-            height: 260.0,
+            height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.all(20.0),
             decoration: BoxDecoration(
@@ -179,7 +162,9 @@ class CashHeader extends StatelessWidget {
                                   color:
                                       Theme.of(context).scaffoldBackgroundColor,
                                 ),
-                                onPressed: scanBarcode)
+                                onPressed: () {
+                                  bracodeScannerHandler(context);
+                                })
                           ]),
                         )
                       ],

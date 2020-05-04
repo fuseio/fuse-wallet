@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:localdolarmx/generated/i18n.dart';
 import 'package:localdolarmx/models/app_state.dart';
 import 'package:localdolarmx/models/community.dart';
 import 'package:localdolarmx/models/views/switch_community.dart';
 import 'package:localdolarmx/screens/routes.gr.dart';
-import 'package:localdolarmx/widgets/bottombar.dart';
 import 'package:localdolarmx/widgets/community_card.dart';
 import 'dart:core';
 import 'package:localdolarmx/widgets/main_scaffold.dart';
@@ -87,13 +87,14 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SwitchCommunityViewModel>(
+        distinct: true,
+        onInit: (store) {
+          Segment.screen(screenName: '/switch-community-screen');
+        },
         converter: SwitchCommunityViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).switch_community,
-            titleFontSize: 15,
-            footer: bottomBar(context),
-            withPadding: false,
             children: <Widget>[
               Container(
                 padding: EdgeInsets.all(20),

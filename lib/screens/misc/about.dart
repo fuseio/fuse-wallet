@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:localdolarmx/generated/i18n.dart';
 import 'package:localdolarmx/widgets/main_scaffold.dart';
 import 'dart:core';
@@ -21,9 +22,9 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/about-screen');
     return MainScaffold(
       title: I18n.of(context).about,
-      titleFontSize: 15,
       withPadding: true,
       children: <Widget>[
         Container(

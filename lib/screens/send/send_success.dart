@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:localdolarmx/generated/i18n.dart';
+import 'package:localdolarmx/screens/pro_routes.gr.dart';
 import 'package:localdolarmx/screens/routes.gr.dart';
 import 'package:localdolarmx/screens/send/send_amount_arguments.dart';
 import 'package:localdolarmx/widgets/main_scaffold.dart';
-
-// typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class SendSuccessScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;
@@ -20,9 +20,14 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
   @override
   void initState() {
     super.initState();
+    Segment.screen(screenName: '/send-success-screen');
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
+      if (this.widget.pageArgs.isProMode) {
+        ProRouter.navigator.pushNamedAndRemoveUntil(ProRouter.proModeHomeScreen, (Route<dynamic> route) => false);
+      } else {
+        Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
+      }
     });
   }
 

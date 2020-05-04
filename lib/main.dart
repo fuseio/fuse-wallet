@@ -2,13 +2,16 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:localdolarmx/main_wrapper.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:localdolarmx/models/app_state.dart';
 import 'package:localdolarmx/models/views/splash.dart';
 import 'package:localdolarmx/redux/actions/cash_wallet_actions.dart';
 import 'package:localdolarmx/redux/actions/user_actions.dart';
 import 'package:localdolarmx/redux/state/store.dart';
+import 'package:localdolarmx/screens/pro_routes.gr.dart';
+import 'package:localdolarmx/screens/routes.gr.dart';
 import 'package:localdolarmx/themes/app_theme.dart';
 import 'package:localdolarmx/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
@@ -18,11 +21,10 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_localdolarmx');
-  await DotEnv().load(configFile);
+  await DotEnv().load('.env_localdolarmx');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runZoned<Future<void>>(() async => runApp(await customThemeApp()),
-      onError: (Object error, StackTrace stackTrace) async {
+  runZonedGuarded<Future<void>>(() async => runApp(await customThemeApp()),
+      (Object error, StackTrace stackTrace) async {
     try {
       await AppFactory().reportError(error, stackTrace);
     } catch (e) {
@@ -40,31 +42,39 @@ void main() async {
   };
 }
 
+bool checkIsLoggedIn(Store<AppState> store) {
+  String privateKey = store.state.userState.privateKey;
+  String jwtToken = store.state.userState.jwtToken;
+  bool isLoggedOut = store.state.userState.isLoggedOut;
+  if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+    return true;
+  }
+  return false;
+}
+
 Future<CustomTheme> customThemeApp() async {
+  Store<AppState> store = await AppFactory().getStore();
+
+  String initialRoute = checkIsLoggedIn(store) ? Router.cashHomeScreen : Router.splashScreen;
+
   return CustomTheme(
     initialThemeKey: MyThemeKeys.DEFAULT,
-    child: new MyApp(
-      store: await AppFactory().getStore(),
-    ),
+    child: new MyApp(store: store, initialRoute: initialRoute),
   );
 }
 
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
-
-  MyApp({Key key, this.store}) : super(key: key);
+  final String initialRoute;
+  MyApp({Key key, this.store, this.initialRoute}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState(store);
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  Store<AppState> store;
-  _MyAppState(this.store);
   final i18n = I18n.delegate;
   bool isProMode = false;
-  bool isNavigated = false;
-  bool isLoggedIn = false;
 
   void onLocaleChange(Locale locale) {
     setState(() {
@@ -78,55 +88,59 @@ class _MyAppState extends State<MyApp> {
     I18n.onLocaleChanged = onLocaleChange;
   }
 
-  onInitialBuild(vm) {
-    if (vm.privateKey.isNotEmpty && vm.jwtToken.isNotEmpty && !vm.isLoggedOut) {
-      setState(() {
-        isLoggedIn = true;
-      });
-    }
-  }
-
   onWillChange(prevVM, nextVM) {
     if (prevVM.isProMode != nextVM.isProMode) {
       setState(() {
         isProMode = nextVM.isProMode;
-        isNavigated = false;
       });
     }
   }
 
-  onInit(store) {
+  onInit(Store<AppState> store) {
     String privateKey = store.state.userState.privateKey;
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
-    String communityManager = store.state.cashWalletState.communityManagerAddress;
-    String transferManager = store.state.cashWalletState.transferManagerAddress;
     if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-      store.dispatch(getWalletAddressessCall(
-          communityManager: communityManager,
-          transferManager: transferManager));
+      store.dispatch(getWalletAddressessCall());
       store.dispatch(identifyCall());
+      store.dispatch(loadContacts());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
-        .copyWith(statusBarIconBrightness: Brightness.dark));
     return new StoreProvider<AppState>(
-      store: store,
+      store: widget.store,
       child: new StoreConnector<AppState, SplashViewModel>(
           converter: SplashViewModel.fromStore,
-          onInitialBuild: onInitialBuild,
           onWillChange: onWillChange,
           onInit: onInit,
           builder: (_, vm) {
             return new Column(children: <Widget>[
-              new MainWrapper(
-                  isNavigated: isNavigated,
-                  i18n: i18n,
-                  isProMode: isProMode,
-                  isLoggedIn: isLoggedIn)
+              Expanded(
+                  child: MaterialApp(
+                title: 'Local Dolar MX',
+                initialRoute: isProMode
+                    ? ProRouter.proModeHomeScreen
+                    : widget.initialRoute,
+                navigatorKey:
+                    isProMode ? ProRouter.navigator.key : Router.navigator.key,
+                onGenerateRoute: isProMode
+                    ? ProRouter.onGenerateRoute
+                    : Router.onGenerateRoute,
+                theme: CustomTheme.of(context),
+                locale: new Locale("es", "MX"),
+                localizationsDelegates: [
+                  i18n,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: i18n.supportedLocales,
+                localeResolutionCallback:
+                    i18n.resolution(fallback: new Locale("en", "US")),
+                navigatorObservers: [SegmentObserver()],
+              ))
             ]);
           }),
     );
