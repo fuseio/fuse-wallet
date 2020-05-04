@@ -26,10 +26,10 @@ Map<String, dynamic> _$TokenToJson(Token instance) => <String, dynamic>{
       'address': instance.address,
       'name': instance.name,
       'symbol': instance.symbol,
-      'imageUrl': instance.imageUrl,
       'decimals': instance.decimals,
-      'timestamp': instance.timestamp,
       'amount': instance.amount?.toString(),
+      'imageUrl': instance.imageUrl,
+      'timestamp': instance.timestamp,
       'transactions': instance.transactions?.toJson(),
       'jobs': Token._jobsToJson(instance.jobs),
     };

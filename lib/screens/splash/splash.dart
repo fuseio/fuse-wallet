@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:bit2c/models/app_state.dart';
 import 'package:bit2c/models/views/splash.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/redux/actions/user_actions.dart';
+import 'package:bit2c/screens/routes.gr.dart';
 import 'package:bit2c/widgets/on_boarding_pages.dart';
+import 'package:redux/redux.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -50,11 +54,24 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
+  onInit(Store<AppState> store) {
+    String privateKey = store.state.userState.privateKey;
+    String jwtToken = store.state.userState.jwtToken;
+    bool isLoggedOut = store.state.userState.isLoggedOut;
+    if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+      store.dispatch(getWalletAddressessCall());
+      store.dispatch(identifyCall());
+      Router.navigator.pushNamedAndRemoveUntil(
+          Router.cashHomeScreen, (Route<dynamic> route) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Drawer drawer = Drawer();
     return new StoreConnector<AppState, SplashViewModel>(
         distinct: true,
+        onInit: onInit,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
           List pages = getPages(context);

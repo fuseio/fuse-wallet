@@ -25,6 +25,8 @@ class ProWalletState {
   final bool isFetchTransferEvents;
   @JsonKey(ignore: true, defaultValue: false)
   final bool isProcessingTokensJobs;
+  @JsonKey(ignore: true, defaultValue: false)
+  final bool isFetchTokensBalances;
 
   ProWalletState({
     this.web3,
@@ -33,6 +35,7 @@ class ProWalletState {
     this.isFetchTransferEvents,
     this.isListenToTransferEvents,
     this.isProcessingTokensJobs,
+    this.isFetchTokensBalances,
   });
 
   factory ProWalletState.initial() {
@@ -43,6 +46,7 @@ class ProWalletState {
       isFetchTransferEvents: false,
       isProcessingTokensJobs: false,
       isListenToTransferEvents: false,
+      isFetchTokensBalances: false,
     );
   }
 
@@ -55,6 +59,7 @@ class ProWalletState {
     Map<String, Token> erc20Tokens,
     bool isProcessingTokensJobs,
     bool isFetchTransferEvents,
+    bool isFetchTokensBalances,
   }) {
     return ProWalletState(
       isProcessingTokensJobs:
@@ -66,6 +71,7 @@ class ProWalletState {
       erc20Tokens: erc20Tokens ?? this.erc20Tokens,
       isListenToTransferEvents:
           isListenToTransferEvents ?? this.isListenToTransferEvents,
+      isFetchTokensBalances: isFetchTokensBalances ?? this.isFetchTokensBalances,
     );
   }
 
