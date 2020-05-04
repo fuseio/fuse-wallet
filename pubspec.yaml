@@ -1,5 +1,5 @@
 name: local_champions
-version: 1.1.28+155
+version: 1.1.29+156
 description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"
