@@ -455,6 +455,7 @@ ThunkAction activateProModeCall() {
         // }));
         store.dispatch(segmentTrackCall('Activate pro mode clicked'));
         store.dispatch(startListenToTransferEvents());
+        store.dispatch(fetchTokensBalances());
         store.dispatch(segmentIdentifyCall(
         new Map<String, dynamic>.from({
           "Pro mode active": true,

@@ -120,12 +120,13 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
       );
 
   onInit(Store<AppState> store) {
-    bool isListenToTransferEvents =
-        store.state.proWalletState?.isListenToTransferEvents ?? false;
-    bool isFetchTransferEvents =
-        store.state.proWalletState?.isFetchTransferEvents ?? false;
-    bool isProcessingTokensJobs =
-        store.state.proWalletState?.isProcessingTokensJobs ?? false;
+    bool isListenToTransferEvents = store.state.proWalletState?.isListenToTransferEvents ?? false;
+    bool isFetchTransferEvents = store.state.proWalletState?.isFetchTransferEvents ?? false;
+    bool isProcessingTokensJobs = store.state.proWalletState?.isProcessingTokensJobs ?? false;
+    bool isFetchTokensBalances = store.state.proWalletState?.isFetchTokensBalances ?? false;
+    if (!isFetchTokensBalances) {
+      store.dispatch(fetchTokensBalances());
+    }
     if (!isListenToTransferEvents) {
       store.dispatch(startListenToTransferEvents());
     }

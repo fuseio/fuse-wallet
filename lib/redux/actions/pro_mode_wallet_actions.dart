@@ -12,6 +12,7 @@ import 'package:supervecina/services.dart';
 import 'package:supervecina/utils/addresses.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
+import 'package:supervecina/utils/constans.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 
 Future<bool> approvalCallback() async {
@@ -56,6 +57,10 @@ class InitWeb3ProModeSuccess {
   InitWeb3ProModeSuccess({this.web3});
 }
 
+class StartFetchTokensBalances {
+  StartFetchTokensBalances();
+}
+
 ThunkAction initWeb3ProMode({
   String privateKey,
   String communityManagerAddress,
@@ -78,7 +83,7 @@ ThunkAction initWeb3ProMode({
 
 ThunkAction startListenToTransferEvents() {
   return (Store store) async {
-    new Timer.periodic(Duration(seconds: 5), (Timer timer) async {
+    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
       String walletAddress = store.state.userState.walletAddress;
       dynamic response = await graph.getTransferEvents(
           foreignNetwork: foreignNetwork, to: walletAddress);
@@ -89,6 +94,31 @@ ThunkAction startListenToTransferEvents() {
       }
     });
     store.dispatch(new StartListenToTransferEventsSuccess());
+  };
+}
+
+ThunkAction fetchTokensBalances() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    bool isFetchTokensBalances = store.state.proWalletState?.isFetchTokensBalances ?? false;
+    if (!isFetchTokensBalances) {
+      UserState userState = store.state.userState;
+      new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
+        ProWalletState proWalletState = store.state.proWalletState;
+        for (Token token in proWalletState.erc20Tokens.values) {
+          void Function(BigInt) onDone = (BigInt balance) {
+            logger.info('${token.name} balance updated');
+            store.dispatch(UpdateToken(tokenToUpdate: store.state.proWalletState.erc20Tokens[token.address].copyWith(amount: balance)));
+          };
+          void Function(Object error, StackTrace stackTrace) onError = (Object error, StackTrace stackTrace) {
+            logger.severe('Error in fetchTokenBalance for - ${token.name}');
+            logger.severe(error);
+          };
+          await token.fetchTokenBalance(userState.walletAddress, onDone: onDone, onError: onError);
+        }
+      });
+      store.dispatch(StartFetchTokensBalances());
+    }
   };
 }
 
@@ -142,7 +172,7 @@ ThunkAction startFetchTransferEventsCall() {
   return (Store store) async {
     bool isFetchTransferEvents = store.state.proWalletState?.isFetchTransferEvents ?? false;
     if (!isFetchTransferEvents) {
-      new Timer.periodic(Duration(seconds: 10), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: (intervalSeconds * 2)), (Timer timer) async {
         ProWalletState proWalletState = store.state.proWalletState;
         List<String> tokenAddresses = List<String>.from(proWalletState.erc20Tokens.keys);
         for (String tokenAddress in tokenAddresses) {
@@ -264,7 +294,7 @@ ThunkAction startProcessingTokensJobsCall() {
   return (Store store) async {
     bool isProcessingTokensJobs = store.state.proWalletState?.isProcessingTokensJobs ?? false;
     if (!isProcessingTokensJobs) {
-      new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
         store.dispatch(processingTokenJobsCall(timer));
       });
       store.dispatch(new StartProcessingTokensJobs());
