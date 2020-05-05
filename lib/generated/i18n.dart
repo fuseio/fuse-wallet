@@ -2351,6 +2351,302 @@ class _I18n_es_MX extends _I18n_es_ES {
   TextDirection get textDirection => TextDirection.ltr;
 }
 
+class _I18n_de_DE extends I18n {
+  const _I18n_de_DE();
+
+  /// "Verwende die kontaktlose Gutschein-App um Wertgutscheine \n ohne Probleme und Kosten zu verwalten und einzulˆsen."
+  @override
+  String get intro_text_one => "Verwende die kontaktlose Gutschein-App um Wertgutscheine \n ohne Probleme und Kosten zu verwalten und einzulˆsen.";
+  /// "Gutscheine kˆnnen ¸ber Crypto-Token erhalten und eingelˆst werden\n gleichzeitig findest Du heraus, wo Du ¸berall damit Einkaufen oder Vorteile erhalten kannst."
+  @override
+  String get intro_text_two => "Gutscheine kˆnnen ¸ber Crypto-Token erhalten und eingelˆst werden\n gleichzeitig findest Du heraus, wo Du ¸berall damit Einkaufen oder Vorteile erhalten kannst.";
+  /// "Sichere Dir Wertgutscheine und lˆse diese\n ganz einfach und dezentralisiert bei Deinen Local Champions ein."
+  @override
+  String get intro_text_three => "Sichere Dir Wertgutscheine und lˆse diese\n ganz einfach und dezentralisiert bei Deinen Local Champions ein.";
+  /// "Hallo"
+  @override
+  String get hi => "Hallo";
+  /// "Sprache"
+  @override
+  String get language => "Sprache";
+  /// "Abmelden"
+  @override
+  String get logout => "Abmelden";
+  /// "Anmelden"
+  @override
+  String get login => "Anmelden";
+  /// "Neue kontaktlose Gutschein-App anlegen"
+  @override
+  String get create_new_wallet => "Neue kontaktlose Gutschein-App anlegen";
+  /// "kontaktlose Gutschein-App anlegen"
+  @override
+  String get create__wallet => "kontaktlose Gutschein-App anlegen";
+  /// "Sicherung zur¸ckholen"
+  @override
+  String get restore_backup => "Sicherung zur¸ckholen";
+  /// "Wert-‹bersicht"
+  @override
+  String get balance => "Wert-‹bersicht";
+  /// "Wichtig!"
+  @override
+  String get important => "Wichtig!";
+  /// "Abschicken"
+  @override
+  String get ok => "Abschicken";
+  /// "Kontaktiere uns"
+  @override
+  String get contact_us => "Kontaktiere uns";
+  /// "Deine kontaktlose Gutschein-App ist gesch¸tzt!"
+  @override
+  String get wallet_protected => "Deine kontaktlose Gutschein-App ist gesch¸tzt!";
+  /// "Sehr gut, Du hast Deine Sicherheitscodes gespeichert. Bewahre die Codes an einem sicheren Ort auf und gebe niemandem Zugriff auf diese Codes."
+  @override
+  String get wallet_protected_text => "Sehr gut, Du hast Deine Sicherheitscodes gespeichert. Bewahre die Codes an einem sicheren Ort auf und gebe niemandem Zugriff auf diese Codes.";
+  /// "Schreibe diese Worte in dieser Reihenfolge auf und bewahre sie an einem sicheren Ort auf. Anderenfalls kannst Du die Sicherungskopie  Deiner Gutscheine nicht wieder herstellen."
+  @override
+  String get write_words => "Schreibe diese Worte in dieser Reihenfolge auf und bewahre sie an einem sicheren Ort auf. Anderenfalls kannst Du die Sicherungskopie  Deiner Gutscheine nicht wieder herstellen.";
+  /// "Bitte schreibe diese Worte auf \n"
+  @override
+  String get write_word => "Bitte schreibe diese Worte auf \n";
+  /// "Wort "
+  @override
+  String get word => "Wort ";
+  /// "Die Worte stimmen nicht ¸berein"
+  @override
+  String get word_not_match => "Die Worte stimmen nicht ¸berein";
+  /// "Sicherung"
+  @override
+  String get back_up => "Sicherung";
+  /// "N‰chste"
+  @override
+  String get next_button => "N‰chste";
+  /// "‹berspringen"
+  @override
+  String get skip_button => "‹berspringen";
+  /// "Zahlen"
+  @override
+  String get pay => "Zahlen";
+  /// "Keine lokalen Gesch‰fte gefunden"
+  @override
+  String get no_businesses => "Keine lokalen Gesch‰fte gefunden";
+  /// "Gutschein-Ablage anlegen"
+  @override
+  String get generating_wallet => "Gutschein-Ablage anlegen";
+  /// "Gutschein-Ablage angelegt"
+  @override
+  String get generated_wallet => "Gutschein-Ablage angelegt";
+  /// "Warten"
+  @override
+  String get pending => "Warten";
+  /// "Fehlgeschlagen"
+  @override
+  String get failed => "Fehlgeschlagen";
+  /// "Best‰tigt"
+  @override
+  String get confirmed => "Best‰tigt";
+  /// "‹bertragungen"
+  @override
+  String get transactions => "‹bertragungen";
+  /// "Details der ‹bertragung"
+  @override
+  String get transaction_details => "Details der ‹bertragung";
+  /// "ZU"
+  @override
+  String get to => "ZU";
+  /// "VON"
+  @override
+  String get from => "VON";
+  /// "Adresse"
+  @override
+  String get address => "Adresse";
+  /// "Anzahl"
+  @override
+  String get amount => "Anzahl";
+  /// "Du hast einen Begr¸ﬂungs-Wert erhalten!"
+  @override
+  String get join_bonus => "Du hast einen Begr¸ﬂungs-Wert erhalten!";
+  /// "Bei LocalChampions.de teilnehmen"
+  @override
+  String get joining_community => "Bei LocalChampions.de teilnehmen";
+  /// "‹ber"
+  @override
+  String get about => "‹ber";
+  /// "Version"
+  @override
+  String get version => "Version";
+  /// "Rechtliches"
+  @override
+  String get legal => "Rechtliches";
+  /// "PIN-Nummer"
+  @override
+  String get pincode => "PIN-Nummer";
+  /// "Passwort wiederholen"
+  @override
+  String get re_type_passcode => "Passwort wiederholen";
+  /// "Ein Passwort festlegen"
+  @override
+  String get create_passcode => "Ein Passwort festlegen";
+  /// "Die Plattform wechseln"
+  @override
+  String get switch_community => "Die Plattform wechseln";
+  /// "Die Kamera auf den QR-Code richten"
+  @override
+  String get sqan_qr_code => "Die Kamera auf den QR-Code richten";
+  /// "oder"
+  @override
+  String get or => "oder";
+  /// "Die Plattform-Adresse eingeben"
+  @override
+  String get enter_community_address => "Die Plattform-Adresse eingeben";
+  /// "Plattform-Adresse"
+  @override
+  String get community_address => "Plattform-Adresse";
+  /// "Sichern"
+  @override
+  String get save_button => "Sichern";
+  /// "Du kannst durch die Eingabe einer eindeutigen ID-Nummer auf eine andere Plattform wechseln (erh‰ltlich beim Plattform Betreiber) oder einfach mit der Kamera einen QR-Code aufnehmen"
+  @override
+  String get fuse_studio => "Du kannst durch die Eingabe einer eindeutigen ID-Nummer auf eine andere Plattform wechseln (erh‰ltlich beim Plattform Betreiber) oder einfach mit der Kamera einen QR-Code aufnehmen";
+  /// "Zugriff auf Kontakte gew‰hren"
+  @override
+  String get enable_contacts_access => "Zugriff auf Kontakte gew‰hren";
+  /// "Deine Kontakte werden nicht auf unseren Servern gespeichert\n und Informationen werden nicht versendet oder mit Dritten geteilt.  \n Wir senden keine Nachrichten oder E-Mails an Deine Kontakte"
+  @override
+  String get enable_text => "Deine Kontakte werden nicht auf unseren Servern gespeichert\n und Informationen werden nicht versendet oder mit Dritten geteilt.  \n Wir senden keine Nachrichten oder E-Mails an Deine Kontakte";
+  /// "Deine Daten sind sicher:"
+  @override
+  String get dont_worry => "Deine Daten sind sicher:";
+  /// "Ermˆgliche den Zugriff auf Deine Kontakte\n um Gutscheine bei gespeicherten Kontakten einzulˆsen"
+  @override
+  String get enable_contacts_text => "Ermˆgliche den Zugriff auf Deine Kontakte\n um Gutscheine bei gespeicherten Kontakten einzulˆsen";
+  /// "Kontakte lesen"
+  @override
+  String get sync_contacts => "Kontakte lesen";
+  /// "Empfangen"
+  @override
+  String get receive => "Empfangen";
+  /// "QR-Code scannen um Wert-Gutscheine zu erhalten"
+  @override
+  String get scan_to_receive => "QR-Code scannen um Wert-Gutscheine zu erhalten";
+  /// "Teilen"
+  @override
+  String get share_button => "Teilen";
+  /// "Senden"
+  @override
+  String get send_to => "Senden";
+  /// "Wieviel?"
+  @override
+  String get how_much => "Wieviel?";
+  /// "Weiter mit"
+  @override
+  String get continue_with => "Weiter mit";
+  /// "Kontakt synchronisieren"
+  @override
+  String get sync_your_contacts => "Kontakt synchronisieren";
+  /// "Mehr dar¸ber"
+  @override
+  String get learn_more => "Mehr dar¸ber";
+  /// "Aktivieren"
+  @override
+  String get activate => "Aktivieren";
+  /// "Aktuell"
+  @override
+  String get recent => "Aktuell";
+  /// "Name oder Adresse"
+  @override
+  String get search => "Name oder Adresse";
+  /// "‹bertragung ‹berpr¸fen"
+  @override
+  String get review_transfer => "‹bertragung ‹berpr¸fen";
+  /// "Senden"
+  @override
+  String get send_button => "Senden";
+  /// "Erfolg!"
+  @override
+  String get success => "Erfolg!";
+  /// "Wiederherstellen"
+  @override
+  String get restore_from_backup => "Wiederherstellen";
+  /// "Hier benˆtigst Du die 12 Worte, die Du beim Anlegen zuvor festgelegt und sicher aufbewahrt hattest."
+  @override
+  String get restore_words => "Hier benˆtigst Du die 12 Worte, die Du beim Anlegen zuvor festgelegt und sicher aufbewahrt hattest.";
+  /// "Schreibe die 12 Worte auf..."
+  @override
+  String get write_down_your_words => "Schreibe die 12 Worte auf...";
+  /// "Registrierung"
+  @override
+  String get sign_up => "Registrierung";
+  /// "Bitte Deine persˆnliche Mobilfunknummer eingeben, damit wir Deinen Account anlegen kˆnnen."
+  @override
+  String get enter_phone_number => "Bitte Deine persˆnliche Mobilfunknummer eingeben, damit wir Deinen Account anlegen kˆnnen.";
+  /// "Warum benˆtigen wir das?"
+  @override
+  String get why_do_we_need_this => "Warum benˆtigen wir das?";
+  /// "W‰hle Dein Pseudonym"
+  @override
+  String get pickup_display_name => "W‰hle Dein Pseudonym";
+  /// "Dieser Name wird sichtbar, um Dich gegen¸ber Partnern zu identifizieren die Dir Gutscheine ¸bermitteln oder bei denen Du Gutscheine einlˆsen willst."
+  @override
+  String get pickup_display_name_text => "Dieser Name wird sichtbar, um Dich gegen¸ber Partnern zu identifizieren die Dir Gutscheine ¸bermitteln oder bei denen Du Gutscheine einlˆsen willst.";
+  /// "Code erneut per SMS senden"
+  @override
+  String get resend_code => "Code erneut per SMS senden";
+  /// "SMS-Nachricht nicht erhalten? - "
+  @override
+  String get didnt_get_message => "SMS-Nachricht nicht erhalten? - ";
+  /// "Wir haben gerade eine Nachricht gesendet an \n"
+  @override
+  String get we_just_sent => "Wir haben gerade eine Nachricht gesendet an \n";
+  /// "Bitte den 6-stelligen Code aus der Best‰tigungsnachricht\n hier eingeben"
+  @override
+  String get enter_verification_code => "Bitte den 6-stelligen Code aus der Best‰tigungsnachricht\n hier eingeben";
+  /// "Sch¸tze Deine Gutschein-Ablage"
+  @override
+  String get protect_wallet => "Sch¸tze Deine Gutschein-Ablage";
+  /// "Sicherung"
+  @override
+  String get backup_wallet => "Sicherung";
+  /// "Gutschein aufnehmen"
+  @override
+  String get top_up => "Gutschein aufnehmen";
+  /// "Kaufen"
+  @override
+  String get buy => "Kaufen";
+  /// "FOOT miles"
+  @override
+  String get dai_points => "FOOT miles";
+  /// "Karte"
+  @override
+  String get map => "Karte";
+  /// "Genehmigt"
+  @override
+  String get approved => "Genehmigt";
+  /// "Einfach"
+  @override
+  String get simple => "Einfach";
+  /// "N¸tzlich"
+  @override
+  String get useful => "N¸tzlich";
+  /// "Geschickt"
+  @override
+  String get smart => "Geschickt";
+  /// "Einstellungen"
+  @override
+  String get settings => "Einstellungen";
+  /// "Start"
+  @override
+  String get home => "Start";
+  /// "Handel"
+  @override
+  String get trade => "Handel";
+  /// "Anlagen und Vertr‰ge"
+  @override
+  String get assets_and_contracts => "Anlagen und Vertr‰ge";
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+}
+
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocalizations> {
   const GeneratedLocalizationsDelegate();
   List<Locale> get supportedLocales {
@@ -2362,7 +2658,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
       Locale("it", "IT"),
       Locale("en", "PH"),
       Locale("id", "ID"),
-      Locale("es", "MX")
+      Locale("es", "MX"),
+      Locale("de", "DE")
     ];
   }
 
@@ -2406,6 +2703,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     else if ("es_MX" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_es_MX());
     }
+    else if ("de_DE" == lang) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_de_DE());
+    }
     else if ("en" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
     }
@@ -2423,6 +2723,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     }
     else if ("id" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_id_ID());
+    }
+    else if ("de" == languageCode) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_de_DE());
     }
 
     return SynchronousFuture<WidgetsLocalizations>(const I18n());
