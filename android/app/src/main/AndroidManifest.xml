@@ -8,7 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Roost Wallet"
+        android:label="Roost"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAa0iA6PW7eyis0TYHxSwsF5y-SqSLklkk"/>
         <activity
