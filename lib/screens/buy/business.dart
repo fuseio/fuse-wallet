@@ -6,20 +6,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:local_champions/generated/i18n.dart';
 import 'package:local_champions/models/business.dart';
 import 'package:local_champions/models/token.dart';
+import 'package:local_champions/screens/misc/about.dart';
 import 'package:local_champions/screens/send/send_amount.dart';
 import 'package:local_champions/screens/send/send_amount_arguments.dart';
 import 'package:local_champions/utils/transaction_row.dart';
 import 'package:local_champions/widgets/drawer.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-_launchUrl(String urlToLaunch) async {
-  if (await canLaunch(urlToLaunch)) {
-    await launch(urlToLaunch, forceSafariVC: false);
-  } else {
-    throw 'Could not launch $urlToLaunch';
-  }
-}
 
 class BusinessPageArguments {
   final Business business;
@@ -213,7 +205,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                _launchUrl(businessArgs
+                                                launchUrl(businessArgs
                                                     .business.metadata.website);
                                               },
                                               child: Text(businessArgs
@@ -242,7 +234,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                               child: Text(businessArgs.business
                                                   .metadata.phoneNumber),
                                               onTap: () {
-                                                _launchUrl(
+                                                launchUrl(
                                                     'tel:${businessArgs.business.metadata.phoneNumber}');
                                               },
                                             )

@@ -388,7 +388,7 @@ ThunkAction create3boxAccountCall(accountAddress) {
     try {
       Map user = {
         "accountAddress": accountAddress,
-        "email": 'wallet-user@supervecina.io',
+        "email": 'wallet-user@localchampions.io',
         "provider": 'HDWallet',
         "subscribe": false,
         "source": 'wallet-v2',

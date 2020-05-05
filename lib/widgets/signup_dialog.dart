@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:local_champions/screens/misc/about.dart';
 import 'dart:core';
 
 import 'package:local_champions/widgets/primary_button.dart';
@@ -66,14 +67,14 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0),
                     Text(
-                        "The supervecina wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
+                        "The local champions wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
                     Text(
-                        "Supervecina will never share this information with 3rd party.",
+                        "Local champions will never share this information with 3rd party.",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,
@@ -86,9 +87,9 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.normal)),
                     InkWell(
                         onTap: () {
-                          // TODO - link to privacy policy
+                          launchUrl('https://farmlyledger.com/privacy-en_de/');
                         },
-                        child: Text("Fuse.io/privacy",
+                        child: Text("Privacy",
                             style: TextStyle(
                                 color: Color(0xFF0076FF),
                                 fontSize: 14,
