@@ -86,8 +86,7 @@ class _DepositWebViewState extends State<DepositWebView> {
                                   children: [
                                     Text('Top up',
                                         style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor,
+                                            color: Theme.of(context).primaryColor,
                                             fontSize: 20,
                                             fontWeight: FontWeight.w800))
                                   ]),

@@ -6,6 +6,7 @@ import 'package:roost/models/transactions/transaction.dart';
 import 'package:roost/models/transactions/transfer.dart';
 import 'package:roost/models/views/cash_wallet.dart';
 import 'package:roost/screens/routes.gr.dart';
+import 'package:roost/utils/addresses.dart';
 import 'package:roost/utils/transaction_row.dart';
 import 'package:roost/screens/cash_home/transaction_details.dart';
 import 'package:roost/utils/format.dart';
@@ -30,7 +31,10 @@ class TransactionListItem extends StatelessWidget {
                 _vm.community.homeBridgeAddress?.toLowerCase()) ??
         false;
     bool isWalletCreated = 'created' == this._vm.walletStatus;
-    ImageProvider<dynamic> image = getTransferImage(transfer, _contact, _vm);
+    bool isZeroAddress = transfer.from == zeroAddress;
+    ImageProvider<dynamic> image = isZeroAddress ? AssetImage(
+      'assets/images/ethereume_icon.png',
+      ) : getTransferImage(transfer, _contact, _vm);
     String displayName = transfer.isJoinBonus()
         ? (transfer.text ?? I18n.of(context).join_bonus)
         : (transfer.receiverName != null && transfer.receiverName != '')
@@ -41,6 +45,11 @@ class TransactionListItem extends StatelessWidget {
                     ? _contact.displayName
                     : deducePhoneNumber(transfer, _vm.reverseContacts,
                         businesses: _vm.businesses);
+    String symbol = _vm.token != null && _vm.token.address != null &&  transfer.tokenAddress != null
+      ? _vm.token.address == transfer.tokenAddress
+        ? _vm.token.symbol
+          : _vm.community.secondaryToken?.symbol
+          : '';
     List<Widget> rightColumn = <Widget>[
       transfer.isGenerateWallet() || transfer.isJoinCommunity()
           ? SizedBox.shrink()
@@ -59,10 +68,10 @@ class TransactionListItem extends StatelessWidget {
                               formatValue(transfer.value, _vm.token.decimals),
                           style: new TextStyle(
                               color: deduceColor(transfer),
-                              fontSize: 13.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.bold)),
                       new TextSpan(
-                          text: " ${_vm.token.symbol}",
+                          text: " $symbol",
                           style: new TextStyle(
                               color: deduceColor(transfer),
                               fontSize: 10.0,
@@ -70,7 +79,7 @@ class TransactionListItem extends StatelessWidget {
                     ])),
                     transfer.isFailed()
                         ? Positioned(
-                            left: -30,
+                            left: -25,
                             child: SvgPicture.asset('assets/images/failed.svg'),
                           )
                         : SizedBox.shrink(),
@@ -140,7 +149,7 @@ class TransactionListItem extends StatelessWidget {
                                     _vm.community.metadata.isDefaultImage &&
                                     transfer.isJoinCommunity()
                                 ? Text(
-                                    _vm.community.token.symbol,
+                                    symbol,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
@@ -182,16 +191,14 @@ class TransactionListItem extends StatelessWidget {
                                     ),
                                   )
                                 : Text(
-                                    isSendingToForeign && transfer.isConfirmed()
-                                        ? I18n.of(context).sending_to_ethereum
-                                        : isSendingToForeign &&
-                                                transfer.isPending()
-                                            ? I18n.of(context).sent_to_ethereum
-                                            : displayName,
+                                    isZeroAddress
+                                      ? I18n.of(context).received_from_ethereum
+                                      : isSendingToForeign
+                                        ? I18n.of(context).sent_to_ethereum
+                                        : displayName,
                                     style: TextStyle(
                                         color: Color(0xFF333333),
-                                        fontSize:
-                                            isSendingToForeign ? 13 : 15)),
+                                        fontSize: 15)),
                             isSendingToForeign
                                 ? Positioned(
                                     bottom: -20,
@@ -280,7 +287,7 @@ class TransactionListItem extends StatelessWidget {
                     contact: _contact,
                     from: displayName,
                     reverseContacts: _vm.reverseContacts,
-                    symbol: _vm.token.symbol,
+                    symbol: symbol,
                     image: image,
                     amount: [
                       Text(
@@ -292,7 +299,7 @@ class TransactionListItem extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        " ${_vm.token.symbol}",
+                        " $symbol",
                         style: TextStyle(
                             color: deduceColor(transfer),
                             fontSize: 16.0,

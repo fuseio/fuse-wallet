@@ -12,6 +12,7 @@ class UserState {
   final String walletAddress;
   final String communityManagerAddress;
   final String transferManagerAddress;
+  final String daiPointsManagerAddress;
   final List<String> networks;
   final List<String> mnemonic;
   final String privateKey;
@@ -51,6 +52,7 @@ class UserState {
       this.walletAddress,
       this.communityManagerAddress,
       this.transferManagerAddress,
+      this.daiPointsManagerAddress,
       this.networks,
       this.mnemonic,
       this.privateKey,
@@ -84,6 +86,7 @@ class UserState {
         walletAddress: "",
         transferManagerAddress: "",
         communityManagerAddress: "",
+        daiPointsManagerAddress: "",
         walletStatus: null,
         networks: [],
         mnemonic: [],
@@ -92,7 +95,7 @@ class UserState {
         accountAddress: "",
         countryCode: "",
         phoneNumber: "",
-        contacts: null,
+        contacts: [],
         syncedContacts: [],
         reverseContacts: new Map<String, String>(),
         jwtToken: "",
@@ -118,6 +121,7 @@ class UserState {
       {String walletAddress,
       String communityManagerAddress,
       String transferManagerAddress,
+      String daiPointsManagerAddress,
       String walletStatus,
       List<String> networks,
       List<String> mnemonic,

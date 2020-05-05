@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:roost/models/community.dart';
 import 'package:roost/redux/actions/user_actions.dart';
+import 'package:roost/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:roost/models/app_state.dart';
 import 'package:roost/widgets/activate_pro_mode2.dart';
@@ -126,8 +126,7 @@ class ActivateProModeViewModel {
   ActivateProModeViewModel({this.activateProMode, this.daiPointsHomeBridgeAddress});
 
   static ActivateProModeViewModel fromStore(Store<AppState> store) {
-    String communityAddres = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
-    Community community = store.state.cashWalletState.communities[communityAddres];
+    Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
     return ActivateProModeViewModel(
       daiPointsHomeBridgeAddress: community.homeBridgeAddress,
       activateProMode: () async {

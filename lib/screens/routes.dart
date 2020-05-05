@@ -5,9 +5,6 @@ import 'package:roost/screens/cash_home/cash_mode.dart';
 import 'package:roost/screens/cash_home/prize.dart';
 import 'package:roost/screens/cash_home/transaction_details.dart';
 import 'package:roost/screens/cash_home/webview_page.dart';
-import 'package:roost/screens/send/send_amount.dart';
-import 'package:roost/screens/send/send_review.dart';
-import 'package:roost/screens/send/send_success.dart';
 import 'package:roost/screens/signup/recovery.dart';
 import 'package:roost/screens/signup/username.dart';
 import 'package:roost/screens/signup/signup.dart';
@@ -22,14 +19,13 @@ class $Router {
   VerifyScreen verifyScreen;
   UserNameScreen userNameScreen;
   PincodeScreen pincodeScreen;
+  @initial
   CashModeScaffold cashHomeScreen;
   TransactionDetailsScreen transactionDetailsScreen;
-  SendAmountScreen sendAmountScreen;
-  SendReviewScreen sendReviewScreen;
-  SendSuccessScreen sendSuccessScreen;
   BusinessPage businessPage;
   RecoveryPage recoveryPage;
   MapScreen mapScreen;
   PrizeScreen prizeScreen;
   WebViewPage webViewPage;
+
 }

@@ -14,10 +14,6 @@ import 'package:roost/screens/signup/username.dart';
 import 'package:roost/screens/misc/pincode.dart';
 import 'package:roost/screens/cash_home/cash_mode.dart';
 import 'package:roost/screens/cash_home/transaction_details.dart';
-import 'package:roost/screens/send/send_amount.dart';
-import 'package:roost/screens/send/send_amount_arguments.dart';
-import 'package:roost/screens/send/send_review.dart';
-import 'package:roost/screens/send/send_success.dart';
 import 'package:roost/screens/buy/business.dart';
 import 'package:roost/screens/signup/recovery.dart';
 import 'package:roost/screens/buy/map.dart';
@@ -30,11 +26,8 @@ class Router {
   static const verifyScreen = '/verify-screen';
   static const userNameScreen = '/user-name-screen';
   static const pincodeScreen = '/pincode-screen';
-  static const cashHomeScreen = '/cash-home-screen';
+  static const cashHomeScreen = '/';
   static const transactionDetailsScreen = '/transaction-details-screen';
-  static const sendAmountScreen = '/send-amount-screen';
-  static const sendReviewScreen = '/send-review-screen';
-  static const sendSuccessScreen = '/send-success-screen';
   static const businessPage = '/business-page';
   static const recoveryPage = '/recovery-page';
   static const mapScreen = '/map-screen';
@@ -91,33 +84,6 @@ class Router {
         final typedArgs = args as TransactionDetailArguments;
         return MaterialPageRoute<dynamic>(
           builder: (_) => TransactionDetailsScreen(pageArgs: typedArgs),
-          settings: settings,
-        );
-      case Router.sendAmountScreen:
-        if (hasInvalidArgs<SendAmountArguments>(args)) {
-          return misTypedArgsRoute<SendAmountArguments>(args);
-        }
-        final typedArgs = args as SendAmountArguments;
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => SendAmountScreen(pageArgs: typedArgs),
-          settings: settings,
-        );
-      case Router.sendReviewScreen:
-        if (hasInvalidArgs<SendAmountArguments>(args)) {
-          return misTypedArgsRoute<SendAmountArguments>(args);
-        }
-        final typedArgs = args as SendAmountArguments;
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => SendReviewScreen(pageArgs: typedArgs),
-          settings: settings,
-        );
-      case Router.sendSuccessScreen:
-        if (hasInvalidArgs<SendAmountArguments>(args)) {
-          return misTypedArgsRoute<SendAmountArguments>(args);
-        }
-        final typedArgs = args as SendAmountArguments;
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => SendSuccessScreen(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.businessPage:

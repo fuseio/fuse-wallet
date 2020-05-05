@@ -8,8 +8,8 @@ import 'package:roost/models/app_state.dart';
 import 'package:roost/models/transactions/transaction.dart';
 import 'package:roost/models/transactions/transfer.dart';
 import 'package:roost/models/views/contacts.dart';
-import 'package:roost/screens/cash_home/cash_header.dart';
-import 'package:roost/screens/routes.gr.dart';
+import 'package:roost/utils/barcode.dart';
+import 'package:roost/screens/send/send_amount.dart';
 import 'package:roost/screens/send/send_amount_arguments.dart';
 import 'package:roost/services.dart';
 import 'package:roost/utils/format.dart';
@@ -106,7 +106,7 @@ class _ContactsListState extends State<ContactsList> {
     }
   }
 
-  listHeader(title) {
+  listHeader(String title) {
     return SliverPersistentHeader(
       pinned: true,
       floating: true,
@@ -125,42 +125,36 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  sendToContact(user, countryCode) async {
-    String phoneNumber =
-        formatPhoneNumber(user.phones.first.value, countryCode);
+  sendToContact(BuildContext context, Contact user, ContactsViewModel viewModel) async {
+    String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
     dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
-    String accountAddress =
-        data['walletAddress'] != null ? data['walletAddress'] : null;
-    Router.navigator.pushNamed(Router.sendAmountScreen,
-        arguments: SendAmountArguments(
-            sendType: accountAddress != null
-                ? SendType.FUSE_ADDRESS
-                : SendType.CONTACT,
-            name: user.displayName,
-            accountAddress: accountAddress,
-            avatar: user.avatar != null && user.avatar.isNotEmpty
-                ? MemoryImage(user.avatar)
-                : new AssetImage('assets/images/anom.png'),
-            phoneNumber: phoneNumber));
+    String accountAddress = data['walletAddress'] ?? null;
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => SendAmountScreen(
+                pageArgs: SendAmountArguments(
+                    erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
+                    sendType: viewModel.isProMode
+                        ? SendType.ETHEREUM_ADDRESS
+                        : accountAddress != null
+                            ? SendType.FUSE_ADDRESS
+                            : SendType.CONTACT,
+                    name: user.displayName,
+                    accountAddress: accountAddress,
+                    avatar: user.avatar != null && user.avatar.isNotEmpty
+                        ? MemoryImage(user.avatar)
+                        : new AssetImage('assets/images/anom.png'),
+                    phoneNumber: phoneNumber))));
   }
 
-  listBody(ContactsViewModel viewModel, List<Contact> group) {
+  listBody(context, ContactsViewModel viewModel, List<Contact> group) {
     List<Widget> listItems = List();
 
     for (Contact user in group) {
       dynamic component = Slidable(
         actionPane: SlidableDrawerActionPane(),
         actionExtentRatio: 0.25,
-        // secondaryActions: <Widget>[
-        //   IconSlideAction(
-        //     iconWidget: Icon(Icons.star),
-        //     onTap: () {},
-        //   ),
-        //   IconSlideAction(
-        //     iconWidget: Icon(Icons.more_horiz),
-        //     onTap: () {},
-        //   ),
-        // ],
         child: Container(
           decoration: new BoxDecoration(
               border:
@@ -181,7 +175,7 @@ class _ContactsListState extends State<ContactsList> {
                   fontSize: 15, color: Theme.of(context).primaryColor),
             ),
             onTap: () {
-              sendToContact(user, viewModel.countryCode);
+              sendToContact(context, user, viewModel);
             },
           ),
         ),
@@ -194,59 +188,67 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  Widget sendToAcccountAddress(String accountAddress) {
+  Widget sendToAcccountAddress(
+      ContactsViewModel viewModel, String accountAddress) {
     Widget component = Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
-      // secondaryActions: <Widget>[
-      //   IconSlideAction(
-      //     iconWidget: Icon(Icons.star),
-      //     onTap: () {},
-      //   ),
-      //   IconSlideAction(
-      //     iconWidget: Icon(Icons.more_horiz),
-      //     onTap: () {},
-      //   ),
-      // ],
       child: Container(
         decoration: new BoxDecoration(
             border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
         child: ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
-          leading: CircleAvatar(
-            backgroundColor: Color(0xFFE0E0E0),
-            radius: 25,
-            backgroundImage: new AssetImage('assets/images/anom.png'),
-          ),
-          title: Text(
-            formatAddress(accountAddress),
-            style: TextStyle(fontSize: 16),
-          ),
-          trailing: InkWell(
-            child: Text(
-              I18n.of(context).next_button,
-              style: TextStyle(color: Color(0xFF0377FF)),
+            contentPadding:
+                EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
+            leading: CircleAvatar(
+              backgroundColor: Color(0xFFE0E0E0),
+              radius: 25,
+              backgroundImage: new AssetImage('assets/images/anom.png'),
             ),
+            title: Text(
+              formatAddress(accountAddress),
+              style: TextStyle(fontSize: 16),
+            ),
+            trailing: InkWell(
+              child: Text(
+                I18n.of(context).next_button,
+                style: TextStyle(color: Color(0xFF0377FF)),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => SendAmountScreen(
+                            pageArgs: SendAmountArguments(
+                                erc20Token: viewModel.isProMode
+                                    ? viewModel.daiToken
+                                    : null,
+                                sendType: viewModel.isProMode
+                                    ? SendType.ETHEREUM_ADDRESS
+                                    : SendType.PASTED_ADDRESS,
+                                accountAddress: accountAddress,
+                                name: formatAddress(accountAddress),
+                                avatar: new AssetImage(
+                                    'assets/images/anom.png')))));
+              },
+            ),
+            //subtitle: Text("user.company" ?? ""),
             onTap: () {
-              Router.navigator.pushNamed(Router.sendAmountScreen,
-                  arguments: SendAmountArguments(
-                      sendType: SendType.PASTED_ADDRESS,
-                      accountAddress: accountAddress,
-                      name: formatAddress(accountAddress),
-                      avatar: new AssetImage('assets/images/anom.png')));
-            },
-          ),
-          //subtitle: Text("user.company" ?? ""),
-          onTap: () {
-            Router.navigator.pushNamed(Router.sendAmountScreen,
-                arguments: SendAmountArguments(
-                    sendType: SendType.PASTED_ADDRESS,
-                    accountAddress: accountAddress,
-                    name: formatAddress(accountAddress),
-                    avatar: new AssetImage('assets/images/anom.png')));
-          },
-        ),
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => SendAmountScreen(
+                          pageArgs: SendAmountArguments(
+                              erc20Token: viewModel.isProMode
+                                  ? viewModel.daiToken
+                                  : null,
+                              sendType: viewModel.isProMode
+                                  ? SendType.ETHEREUM_ADDRESS
+                                  : SendType.PASTED_ADDRESS,
+                              accountAddress: accountAddress,
+                              name: formatAddress(accountAddress),
+                              avatar:
+                                  new AssetImage('assets/images/anom.png')))));
+            }),
       ),
     );
     return SliverList(
@@ -317,16 +319,20 @@ class _ContactsListState extends State<ContactsList> {
                 displatName,
                 style: TextStyle(fontSize: 16),
               ),
-              onTap: () async {
+              onTap: () {
                 if (contact == null) {
-                  Router.navigator.pushNamed(Router.sendAmountScreen,
-                      arguments: SendAmountArguments(
-                          sendType: SendType.FUSE_ADDRESS,
-                          accountAddress: transfer.to,
-                          name: displatName,
-                          avatar: new AssetImage('assets/images/anom.png')));
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => SendAmountScreen(
+                              pageArgs: SendAmountArguments(
+                                  sendType: SendType.FUSE_ADDRESS,
+                                  accountAddress: transfer.to,
+                                  name: displatName,
+                                  avatar: new AssetImage(
+                                      'assets/images/anom.png')))));
                 } else {
-                  sendToContact(contact, viewModel.countryCode);
+                  sendToContact(context, contact, viewModel);
                 }
               },
             ),
@@ -356,10 +362,10 @@ class _ContactsListState extends State<ContactsList> {
 
     listItems.add(searchPanel());
 
-    if (searchController.text.isEmpty) {
+    if (searchController.text.isEmpty && !viewModel.isProMode) {
       listItems.add(recentContacts(3, viewModel));
     } else if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(searchController.text));
+      listItems.add(sendToAcccountAddress(viewModel, searchController.text));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
@@ -376,7 +382,7 @@ class _ContactsListState extends State<ContactsList> {
     for (String title in titles) {
       List<Contact> group = groups[title];
       listItems.add(listHeader(title));
-      listItems.add(listBody(viewModel, group));
+      listItems.add(listBody(context, viewModel, group));
     }
 
     return listItems;
@@ -436,7 +442,9 @@ class _ContactsListState extends State<ContactsList> {
                       width: 25.0,
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
-                    onPressed: scanFuseAddress),
+                    onPressed: () {
+                      bracodeScannerHandler(context);
+                    }),
                 width: 50.0,
                 height: 50.0,
               )

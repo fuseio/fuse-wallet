@@ -19,11 +19,13 @@ class BottomBarViewModel extends Equatable {
 
   static BottomBarViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
+    // Community community = store.state.cashWalletState.communities[communityAddress] ?? new Community.initial();
     return BottomBarViewModel(
         walletAddress: store.state.cashWalletState.walletAddress,
         contacts: store.state.userState.contacts ?? [],
         isProModeActivate: store.state.userState.isProModeActivated,
         communityAddres: communityAddress,
+        // community: community,
         isDefaultCommunity: util.isDefaultCommunity(communityAddress));
   }
 

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/community.dart';
 import 'package:roost/models/plugins.dart';
 import 'package:roost/screens/cash_home/deposit_webview.dart';
+import 'package:roost/screens/pro_routes.gr.dart';
 import 'package:roost/screens/routes.gr.dart';
+import 'package:roost/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:roost/models/app_state.dart';
 import 'dart:core';
@@ -101,10 +102,17 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  Router.navigator.pushNamed(
+                                  if (viewModel.isProMode) {
+                                    ProRouter.navigator.pushNamed(
+                                      ProRouter.proModeHomeScreen,
+                                      arguments: ProModeScaffoldArguments(
+                                          tabIndex: 3));
+                                  } else {
+                                    Router.navigator.pushNamed(
                                       Router.cashHomeScreen,
                                       arguments: CashModeScaffoldArguments(
                                           tabIndex: 3));
+                                  }
                                 },
                               ),
                               Padding(
@@ -158,14 +166,14 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
 
 class DepositDaiDialogViewModel {
   final Plugins plugins;
-  DepositDaiDialogViewModel({this.plugins});
+  final bool isProMode;
+  DepositDaiDialogViewModel({this.plugins, this.isProMode});
 
   static DepositDaiDialogViewModel fromStore(Store<AppState> store) {
-    String communityAddres =
-        DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
     Community community =
-        store.state.cashWalletState.communities[communityAddres];
+        store.state.cashWalletState.communities[defaultCommunityAddress];
     return DepositDaiDialogViewModel(
+      isProMode: store.state.userState.isProMode ?? false,
       plugins: community?.plugins,
     );
   }

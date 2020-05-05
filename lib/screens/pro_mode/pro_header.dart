@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:roost/models/pro/token.dart';
 import 'package:roost/redux/actions/cash_wallet_actions.dart';
 import 'package:roost/utils/addresses.dart';
-import 'package:roost/widgets/coming_soon.dart';
+import 'package:roost/utils/format.dart';
+import 'package:roost/utils/barcode.dart';
 import 'package:redux/redux.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/app_state.dart';
@@ -16,16 +17,17 @@ class ProHeader extends StatelessWidget {
     return new StoreConnector<AppState, _ProHeaderViewModel>(
         converter: _ProHeaderViewModel.fromStore,
         onWillChange: (prevVm, nextVm) {
-          if (nextVm.daiToken.address != null && nextVm.daiToken.address != '') {
+          if (nextVm.daiToken.address != null &&
+              nextVm.daiToken.address != '') {
             String name = nextVm.daiToken.name;
             nextVm.idenyifyCall(Map<String, dynamic>.from({
-              "$name balance": nextVm.daiToken.amount,
+              "ERC20 Token: $name balance": formatValue(nextVm.daiToken.amount, nextVm.daiToken.decimals),
             }));
           }
         },
         builder: (_, viewModel) {
           return Container(
-            height: 260.0,
+            height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.all(20.0),
             decoration: BoxDecoration(
@@ -73,6 +75,7 @@ class ProHeader extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 0.0),
                     child: new RichText(
                       text: new TextSpan(
+                        style: TextStyle(color: Theme.of(context).primaryColor),
                         children: <TextSpan>[
                           new TextSpan(
                               text: I18n.of(context).hi,
@@ -118,9 +121,7 @@ class ProHeader extends StatelessWidget {
                                     text: new TextSpan(
                                       children: <TextSpan>[
                                         new TextSpan(
-                                            text: '\$' +
-                                                viewModel.daiToken?.amount
-                                                    .toString(),
+                                            text: '\$' + formatValue(viewModel.daiToken?.amount, viewModel.daiToken?.decimals),
                                             style: new TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
@@ -146,7 +147,7 @@ class ProHeader extends StatelessWidget {
                                 ],
                               ),
                               onPressed: () {
-                                comingSoon(context);
+                                bracodeScannerHandler(context, isProMode: true, daiToken: viewModel.daiToken);
                               },
                               child: Image.asset(
                                 'assets/images/scan.png',
@@ -175,9 +176,9 @@ class _ProHeaderViewModel extends Equatable {
   _ProHeaderViewModel({this.firstName, this.daiToken, this.idenyifyCall});
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
-    Token token = store.state.proWalletState.tokens.firstWhere(
-        (token) => token.address.contains(daiTokenAddress),
-        orElse: () => new Token.initial());
+    Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)
+        ? store.state.proWalletState.erc20Tokens[daiTokenAddress]
+        : new Token.initial();
     return _ProHeaderViewModel(
         daiToken: token,
         firstName: () {

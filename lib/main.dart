@@ -21,11 +21,10 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String configFile = String.fromEnvironment('CONFIG_FILE', defaultValue: '.env_roost');
-  await DotEnv().load(configFile);
+  await DotEnv().load('.env_roost');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runZoned<Future<void>>(() async => runApp(await customThemeApp()),
-      onError: (Object error, StackTrace stackTrace) async {
+  runZonedGuarded<Future<void>>(() async => runApp(await customThemeApp()),
+      (Object error, StackTrace stackTrace) async {
     try {
       await AppFactory().reportError(error, stackTrace);
     } catch (e) {
@@ -97,13 +96,14 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  onInit(store) {
+  onInit(Store<AppState> store) {
     String privateKey = store.state.userState.privateKey;
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
     if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
       store.dispatch(getWalletAddressessCall());
       store.dispatch(identifyCall());
+      store.dispatch(loadContacts());
     }
   }
 
@@ -113,6 +113,7 @@ class _MyAppState extends State<MyApp> {
       store: widget.store,
       child: new StoreConnector<AppState, SplashViewModel>(
           converter: SplashViewModel.fromStore,
+          onWillChange: onWillChange,
           onInit: onInit,
           builder: (_, vm) {
             return new Column(children: <Widget>[

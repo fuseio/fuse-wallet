@@ -155,13 +155,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                   keyboardType: TextInputType.number,
                                   autofocus: true,
                                   validator: (String value) => value.isEmpty ? "Please enter mobile number" : null,
-                                  style: const TextStyle(
-                                      fontSize: 16, color: Colors.black),
-                                  decoration: const InputDecoration(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 20, horizontal: 10),
-                                      hintText: 'Phone number',
+                                  style: TextStyle(fontSize: 16, color: Colors.black),
+                                  decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                                      hintText: I18n.of(context).phoneNumber,
                                       border: InputBorder.none,
                                       focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide.none),

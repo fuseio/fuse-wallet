@@ -33,6 +33,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       CashHomeScreen(),
       WebViewPage(
           pageArgs: WebViewPageArguments(
+              withBack: false,
               url: 'https://app.roostnow.co.uk/home?wallet=$walletAddress',
               title: 'Your Home')),
       BuyScreen(),
@@ -53,7 +54,8 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           final List<Widget> pages = _pages(vm.walletAddress);
           return TabsScaffold(
               header: MyAppBar(
-                backgroundColor: Colors.white,
+                height: MediaQuery.of(context).size.height * .25,
+                backgroundColor: Colors.red,
                 child: CashHeader(),
               ),
               drawerEdgeDragWidth: 0,

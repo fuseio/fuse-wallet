@@ -151,13 +151,6 @@ class ShowMnemonic extends StatelessWidget {
                               // Router.navigator.pushNamed(Router.verifyMnemonic);
                             },
                           )),
-                          // const SizedBox(height: 16.0),
-                          // TransparentButton(
-                          //     label: I18n.of(context).skip_button,
-                          //     onPressed: () {
-                          //       Navigator.of(context).pop();
-                          //     }),
-                          // const SizedBox(height: 30.0),
                         ],
                       )
                     : Padding(
