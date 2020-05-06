@@ -1,7 +1,7 @@
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/redux/reducers/pro_mode_reducer.dart';
-import 'package:local_champions/redux/reducers/user_reducer.dart';
-import 'package:local_champions/redux/reducers/cash_wallet_reducer.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/redux/reducers/pro_mode_reducer.dart';
+import 'package:farmlyledger/redux/reducers/user_reducer.dart';
+import 'package:farmlyledger/redux/reducers/cash_wallet_reducer.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   return AppState(

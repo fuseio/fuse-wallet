@@ -1,6 +1,6 @@
 
-import 'package:local_champions/models/transactions/transaction.dart';
-import 'package:local_champions/utils/addresses.dart';
+import 'package:farmlyledger/models/transactions/transaction.dart';
+import 'package:farmlyledger/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer.g.dart';

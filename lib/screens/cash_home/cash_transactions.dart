@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/transactions/transfer.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/transactions/transfer.dart';
 import 'dart:core';
-import 'package:local_champions/models/views/cash_wallet.dart';
-import 'package:local_champions/screens/cash_home/transaction_row.dart';
-import 'package:local_champions/utils/transaction_row.dart';
+import 'package:farmlyledger/models/views/cash_wallet.dart';
+import 'package:farmlyledger/screens/cash_home/transaction_row.dart';
+import 'package:farmlyledger/utils/transaction_row.dart';
 
 class CashTransactios extends StatefulWidget {
   CashTransactios({@required this.viewModel});

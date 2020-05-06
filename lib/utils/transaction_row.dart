@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:local_champions/models/business.dart';
-import 'package:local_champions/models/transactions/transfer.dart';
-import 'package:local_champions/models/views/cash_wallet.dart';
-// import 'package:local_champions/utils/forks.dart';
-import 'package:local_champions/utils/format.dart';
-import 'package:local_champions/utils/phone.dart';
+import 'package:farmlyledger/models/business.dart';
+import 'package:farmlyledger/models/transactions/transfer.dart';
+import 'package:farmlyledger/models/views/cash_wallet.dart';
+// import 'package:farmlyledger/utils/forks.dart';
+import 'package:farmlyledger/utils/format.dart';
+import 'package:farmlyledger/utils/phone.dart';
 
 String getIPFSImageUrl(String image) {
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;

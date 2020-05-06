@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:local_champions/models/pro/token.dart';
+import 'package:farmlyledger/models/pro/token.dart';
 
 enum SendType {
   CONTACT,

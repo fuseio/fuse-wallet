@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/community.dart';
-import 'package:local_champions/models/plugins.dart';
-import 'package:local_champions/screens/cash_home/deposit_webview.dart';
-import 'package:local_champions/screens/pro_routes.gr.dart';
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/utils/addresses.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/community.dart';
+import 'package:farmlyledger/models/plugins.dart';
+import 'package:farmlyledger/screens/cash_home/deposit_webview.dart';
+import 'package:farmlyledger/screens/pro_routes.gr.dart';
+import 'package:farmlyledger/screens/routes.gr.dart';
+import 'package:farmlyledger/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:local_champions/models/app_state.dart';
+import 'package:farmlyledger/models/app_state.dart';
 import 'dart:core';
 
 class DepositDaiDialog extends StatefulWidget {

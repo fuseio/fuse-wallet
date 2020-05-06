@@ -5,18 +5,18 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/views/splash.dart';
-import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
-import 'package:local_champions/redux/actions/user_actions.dart';
-import 'package:local_champions/redux/state/store.dart';
-import 'package:local_champions/screens/pro_routes.gr.dart';
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/themes/app_theme.dart';
-import 'package:local_champions/themes/custom_theme.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/views/splash.dart';
+import 'package:farmlyledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmlyledger/redux/actions/user_actions.dart';
+import 'package:farmlyledger/redux/state/store.dart';
+import 'package:farmlyledger/screens/pro_routes.gr.dart';
+import 'package:farmlyledger/screens/routes.gr.dart';
+import 'package:farmlyledger/themes/app_theme.dart';
+import 'package:farmlyledger/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:local_champions/generated/i18n.dart';
+import 'package:farmlyledger/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {

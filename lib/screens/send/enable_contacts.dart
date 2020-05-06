@@ -2,11 +2,11 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/views/contacts.dart';
-import 'package:local_champions/utils/contacts.dart';
-import 'package:local_champions/widgets/primary_button.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/views/contacts.dart';
+import 'package:farmlyledger/utils/contacts.dart';
+import 'package:farmlyledger/widgets/primary_button.dart';
 import 'dart:core';
 
 class ContactsConfirmationScreen extends StatefulWidget {

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/views/bottom_bar.dart';
-import 'package:local_champions/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:local_champions/screens/pro_mode/pro_drawer.dart';
-import 'package:local_champions/screens/pro_mode/pro_header.dart';
-import 'package:local_champions/screens/pro_mode/pro_home.dart';
-import 'package:local_champions/screens/send/contacts_list.dart';
-import 'package:local_champions/screens/send/receive.dart';
-import 'package:local_champions/screens/send/send_contact.dart';
-import 'package:local_champions/widgets/bottom_bar_item.dart';
-import 'package:local_champions/widgets/coming_soon.dart';
-import 'package:local_champions/widgets/my_app_bar.dart';
-import 'package:local_champions/widgets/tabs_scaffold.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/views/bottom_bar.dart';
+import 'package:farmlyledger/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:farmlyledger/screens/pro_mode/pro_drawer.dart';
+import 'package:farmlyledger/screens/pro_mode/pro_header.dart';
+import 'package:farmlyledger/screens/pro_mode/pro_home.dart';
+import 'package:farmlyledger/screens/send/contacts_list.dart';
+import 'package:farmlyledger/screens/send/receive.dart';
+import 'package:farmlyledger/screens/send/send_contact.dart';
+import 'package:farmlyledger/widgets/bottom_bar_item.dart';
+import 'package:farmlyledger/widgets/coming_soon.dart';
+import 'package:farmlyledger/widgets/my_app_bar.dart';
+import 'package:farmlyledger/widgets/tabs_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:redux/redux.dart';
 
@@ -36,7 +36,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     rateMyApp = RateMyApp(
       minDays: 0,
       minLaunches: 0,
-      googlePlayIdentifier: 'io.fuse.fusecash',
+      googlePlayIdentifier: 'io.fuse.farmlyledger',
       appStoreIdentifier: '1491783654',
     );
     rateMyApp.init().then((_) {

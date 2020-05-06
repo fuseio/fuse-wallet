@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:local_champions/screens/misc/about.dart';
+import 'package:farmlyledger/screens/misc/about.dart';
 import 'dart:core';
 
-import 'package:local_champions/widgets/primary_button.dart';
+import 'package:farmlyledger/widgets/primary_button.dart';
 
 class SignupDialog extends StatefulWidget {
   SignupDialog();

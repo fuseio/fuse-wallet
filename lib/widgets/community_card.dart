@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:local_champions/models/community.dart';
+import 'package:farmlyledger/models/community.dart';
 import 'dart:core';
 
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/utils/transaction_row.dart';
+import 'package:farmlyledger/screens/routes.gr.dart';
+import 'package:farmlyledger/utils/transaction_row.dart';
 
 class CommunityCardScreen extends StatefulWidget {
   CommunityCardScreen(

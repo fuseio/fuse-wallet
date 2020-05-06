@@ -1,4 +1,4 @@
-package io.fuse.fusecash
+package io.fuse.farmlyledger
 
 import android.os.Bundle
 

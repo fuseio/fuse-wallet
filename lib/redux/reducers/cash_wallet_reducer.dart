@@ -1,11 +1,11 @@
-import 'package:local_champions/models/community.dart';
-import 'package:local_champions/models/jobs/base.dart';
-import 'package:local_champions/models/transactions/transaction.dart';
-import 'package:local_champions/models/transactions/transactions.dart';
-import 'package:local_champions/models/transactions/transfer.dart';
-import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
-import 'package:local_champions/redux/actions/user_actions.dart';
-import 'package:local_champions/models/cash_wallet_state.dart';
+import 'package:farmlyledger/models/community.dart';
+import 'package:farmlyledger/models/jobs/base.dart';
+import 'package:farmlyledger/models/transactions/transaction.dart';
+import 'package:farmlyledger/models/transactions/transactions.dart';
+import 'package:farmlyledger/models/transactions/transfer.dart';
+import 'package:farmlyledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmlyledger/redux/actions/user_actions.dart';
+import 'package:farmlyledger/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([

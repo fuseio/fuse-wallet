@@ -1,5 +1,5 @@
-import 'package:local_champions/models/transactions/transaction.dart';
-import 'package:local_champions/models/transactions/transfer.dart';
+import 'package:farmlyledger/models/transactions/transaction.dart';
+import 'package:farmlyledger/models/transactions/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 

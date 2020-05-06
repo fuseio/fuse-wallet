@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/views/splash.dart';
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/widgets/primary_button.dart';
-import 'package:local_champions/widgets/transparent_button.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/views/splash.dart';
+import 'package:farmlyledger/screens/routes.gr.dart';
+import 'package:farmlyledger/widgets/primary_button.dart';
+import 'package:farmlyledger/widgets/transparent_button.dart';
 
 class CreateWallet extends StatefulWidget {
   @override

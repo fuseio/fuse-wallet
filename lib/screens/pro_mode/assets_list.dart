@@ -3,13 +3,13 @@ import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/pro/token.dart';
-import 'package:local_champions/models/pro/views/pro_wallet.dart';
-import 'package:local_champions/screens/pro_mode/token_transfers.dart';
-import 'package:local_champions/utils/addresses.dart';
-import 'package:local_champions/utils/format.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/pro/token.dart';
+import 'package:farmlyledger/models/pro/views/pro_wallet.dart';
+import 'package:farmlyledger/screens/pro_mode/token_transfers.dart';
+import 'package:farmlyledger/utils/addresses.dart';
+import 'package:farmlyledger/utils/format.dart';
 
 String getTokenUrl(tokenAddress) {
   return "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/$tokenAddress/logo.png";

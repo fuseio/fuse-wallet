@@ -1,8 +1,8 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
-import 'package:local_champions/models/pro/token.dart';
-import 'package:local_champions/screens/send/send_amount.dart';
-import 'package:local_champions/screens/send/send_amount_arguments.dart';
+import 'package:farmlyledger/models/pro/token.dart';
+import 'package:farmlyledger/screens/send/send_amount.dart';
+import 'package:farmlyledger/screens/send/send_amount_arguments.dart';
 
 bracodeScannerHandler(BuildContext context,
     {bool isProMode = false, Token daiToken}) async {

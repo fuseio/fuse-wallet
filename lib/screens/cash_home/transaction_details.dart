@@ -1,11 +1,11 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/transactions/transfer.dart';
-import 'package:local_champions/utils/format.dart';
-import 'package:local_champions/utils/transaction_row.dart';
-import 'package:local_champions/widgets/main_scaffold.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/transactions/transfer.dart';
+import 'package:farmlyledger/utils/format.dart';
+import 'package:farmlyledger/utils/transaction_row.dart';
+import 'package:farmlyledger/widgets/main_scaffold.dart';
 
 class TransactionDetailArguments {
   List<Widget> amount;

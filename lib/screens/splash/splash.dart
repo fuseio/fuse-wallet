@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/views/splash.dart';
-import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
-import 'package:local_champions/redux/actions/user_actions.dart';
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/widgets/on_boarding_pages.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/views/splash.dart';
+import 'package:farmlyledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmlyledger/redux/actions/user_actions.dart';
+import 'package:farmlyledger/screens/routes.gr.dart';
+import 'package:farmlyledger/widgets/on_boarding_pages.dart';
 import 'package:redux/redux.dart';
 
 class SplashScreen extends StatefulWidget {

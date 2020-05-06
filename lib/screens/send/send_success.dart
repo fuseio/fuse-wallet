@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/screens/pro_routes.gr.dart';
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/screens/send/send_amount_arguments.dart';
-import 'package:local_champions/widgets/main_scaffold.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/screens/pro_routes.gr.dart';
+import 'package:farmlyledger/screens/routes.gr.dart';
+import 'package:farmlyledger/screens/send/send_amount_arguments.dart';
+import 'package:farmlyledger/widgets/main_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

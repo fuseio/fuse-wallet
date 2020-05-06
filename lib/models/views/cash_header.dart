@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:local_champions/models/community.dart';
-import 'package:local_champions/models/plugins.dart';
+import 'package:farmlyledger/models/community.dart';
+import 'package:farmlyledger/models/plugins.dart';
 import 'package:redux/redux.dart';
-import 'package:local_champions/models/app_state.dart';
+import 'package:farmlyledger/models/app_state.dart';
 
 class CashHeaderViewModel extends Equatable {
   final Community community;

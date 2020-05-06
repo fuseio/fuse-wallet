@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:local_champions/screens/splash/create_wallet.dart';
+import 'package:farmlyledger/screens/splash/create_wallet.dart';
 
 Widget introPage(
     BuildContext context, String title, String subTitle, String img) {

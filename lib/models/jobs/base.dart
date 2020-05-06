@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:local_champions/models/jobs/approve_job.dart';
-import 'package:local_champions/models/jobs/backup_job.dart';
-import 'package:local_champions/models/jobs/generate_wallet_job.dart';
-import 'package:local_champions/models/jobs/invite_bonus_job.dart';
-import 'package:local_champions/models/jobs/invite_job.dart';
-import 'package:local_champions/models/jobs/join_bonus_job.dart';
-import 'package:local_champions/models/jobs/join_community_job.dart';
-import 'package:local_champions/models/jobs/transfer_job.dart';
+import 'package:farmlyledger/models/jobs/approve_job.dart';
+import 'package:farmlyledger/models/jobs/backup_job.dart';
+import 'package:farmlyledger/models/jobs/generate_wallet_job.dart';
+import 'package:farmlyledger/models/jobs/invite_bonus_job.dart';
+import 'package:farmlyledger/models/jobs/invite_job.dart';
+import 'package:farmlyledger/models/jobs/join_bonus_job.dart';
+import 'package:farmlyledger/models/jobs/join_community_job.dart';
+import 'package:farmlyledger/models/jobs/transfer_job.dart';
 
 abstract class Job {
   static const String RELAY = "relay";

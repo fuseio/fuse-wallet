@@ -1,8 +1,8 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:local_champions/redux/actions/user_actions.dart';
+import 'package:farmlyledger/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:local_champions/models/app_state.dart';
+import 'package:farmlyledger/models/app_state.dart';
 
 class RecoveryViewModel {
   final Function(String, VoidCallback) generateWalletFromBackup;

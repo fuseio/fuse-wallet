@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/views/send_amount.dart';
-import 'package:local_champions/screens/send/send_amount_arguments.dart';
-import 'package:local_champions/screens/send/send_success.dart';
-import 'package:local_champions/utils/format.dart';
-import 'package:local_champions/widgets/main_scaffold.dart';
-import 'package:local_champions/widgets/primary_button.dart';
-import 'package:local_champions/models/app_state.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/views/send_amount.dart';
+import 'package:farmlyledger/screens/send/send_amount_arguments.dart';
+import 'package:farmlyledger/screens/send/send_success.dart';
+import 'package:farmlyledger/utils/format.dart';
+import 'package:farmlyledger/widgets/main_scaffold.dart';
+import 'package:farmlyledger/widgets/primary_button.dart';
+import 'package:farmlyledger/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:local_champions/utils/phone.dart';
+import 'package:farmlyledger/utils/phone.dart';
 
 class SendReviewScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

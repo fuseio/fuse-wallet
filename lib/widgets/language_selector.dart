@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:local_champions/generated/i18n.dart';
+import 'package:farmlyledger/generated/i18n.dart';
 import 'package:country_code_picker/country_codes.dart';
 
 class LanguageSelector extends StatefulWidget {

@@ -1,20 +1,20 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/views/bottom_bar.dart';
-import 'package:local_champions/screens/buy/buy.dart';
-import 'package:local_champions/screens/cash_home/cash_header.dart';
-import 'package:local_champions/screens/cash_home/cash_home.dart';
-import 'package:local_champions/screens/cash_home/webview_page.dart';
-import 'package:local_champions/screens/send/contacts_list.dart';
-import 'package:local_champions/screens/send/receive.dart';
-import 'package:local_champions/screens/send/send_contact.dart';
-import 'package:local_champions/widgets/bottom_bar_item.dart';
-import 'package:local_champions/widgets/drawer.dart';
-import 'package:local_champions/widgets/my_app_bar.dart';
-import 'package:local_champions/widgets/tabs_scaffold.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/views/bottom_bar.dart';
+import 'package:farmlyledger/screens/buy/buy.dart';
+import 'package:farmlyledger/screens/cash_home/cash_header.dart';
+import 'package:farmlyledger/screens/cash_home/cash_home.dart';
+import 'package:farmlyledger/screens/cash_home/webview_page.dart';
+import 'package:farmlyledger/screens/send/contacts_list.dart';
+import 'package:farmlyledger/screens/send/receive.dart';
+import 'package:farmlyledger/screens/send/send_contact.dart';
+import 'package:farmlyledger/widgets/bottom_bar_item.dart';
+import 'package:farmlyledger/widgets/drawer.dart';
+import 'package:farmlyledger/widgets/my_app_bar.dart';
+import 'package:farmlyledger/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;

@@ -1,8 +1,8 @@
-import 'package:local_champions/models/jobs/base.dart';
-import 'package:local_champions/models/pro/pro_wallet_state.dart';
-import 'package:local_champions/models/pro/token.dart';
-import 'package:local_champions/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:local_champions/redux/actions/user_actions.dart';
+import 'package:farmlyledger/models/jobs/base.dart';
+import 'package:farmlyledger/models/pro/pro_wallet_state.dart';
+import 'package:farmlyledger/models/pro/token.dart';
+import 'package:farmlyledger/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:farmlyledger/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 final proWalletReducers = combineReducers<ProWalletState>([

@@ -1,4 +1,4 @@
-import 'package:local_champions/models/business_metadata.dart';
+import 'package:farmlyledger/models/business_metadata.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business.g.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/community.dart';
-import 'package:local_champions/models/pro/token.dart' as erc20Token;
-import 'package:local_champions/models/token.dart';
-import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
-import 'package:local_champions/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/community.dart';
+import 'package:farmlyledger/models/pro/token.dart' as erc20Token;
+import 'package:farmlyledger/models/token.dart';
+import 'package:farmlyledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmlyledger/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel {

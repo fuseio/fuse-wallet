@@ -1,7 +1,7 @@
-import 'package:local_champions/models/jobs/base.dart';
-import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
-import 'package:local_champions/redux/state/store.dart';
-import 'package:local_champions/services.dart';
+import 'package:farmlyledger/models/jobs/base.dart';
+import 'package:farmlyledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmlyledger/redux/state/store.dart';
+import 'package:farmlyledger/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generate_wallet_job.g.dart';

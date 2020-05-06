@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/user_state.dart';
-import 'package:local_champions/redux/actions/user_actions.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/user_state.dart';
+import 'package:farmlyledger/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 class BackupViewModel extends Equatable {

@@ -1,6 +1,6 @@
-import 'package:local_champions/models/user_state.dart';
-import 'package:local_champions/models/cash_wallet_state.dart';
-import 'package:local_champions/models/pro/pro_wallet_state.dart';
+import 'package:farmlyledger/models/user_state.dart';
+import 'package:farmlyledger/models/cash_wallet_state.dart';
+import 'package:farmlyledger/models/pro/pro_wallet_state.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'app_state.g.dart';

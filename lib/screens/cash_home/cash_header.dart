@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/views/cash_header.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/utils/barcode.dart';
-import 'package:local_champions/utils/format.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/views/cash_header.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/utils/barcode.dart';
+import 'package:farmlyledger/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class CashHeader extends StatelessWidget {

@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:local_champions/models/pro/token.dart';
-import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
-import 'package:local_champions/utils/addresses.dart';
-import 'package:local_champions/utils/format.dart';
-import 'package:local_champions/utils/barcode.dart';
+import 'package:farmlyledger/models/pro/token.dart';
+import 'package:farmlyledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmlyledger/utils/addresses.dart';
+import 'package:farmlyledger/utils/format.dart';
+import 'package:farmlyledger/utils/barcode.dart';
 import 'package:redux/redux.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/app_state.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:local_champions/widgets/raised_gradient_button.dart';
+import 'package:farmlyledger/widgets/raised_gradient_button.dart';
 
 class ProHeader extends StatelessWidget {
   @override

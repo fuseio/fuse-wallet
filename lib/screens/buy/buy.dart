@@ -2,17 +2,17 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/models/business.dart';
-import 'package:local_champions/models/views/buy_page.dart';
-import 'package:local_champions/screens/buy/business.dart';
-import 'package:local_champions/screens/cash_home/webview_page.dart';
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/screens/send/send_amount.dart';
-import 'package:local_champions/screens/send/send_amount_arguments.dart';
-import 'package:local_champions/utils/transaction_row.dart';
-import 'package:local_champions/widgets/main_scaffold.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/business.dart';
+import 'package:farmlyledger/models/views/buy_page.dart';
+import 'package:farmlyledger/screens/buy/business.dart';
+import 'package:farmlyledger/screens/cash_home/webview_page.dart';
+import 'package:farmlyledger/screens/routes.gr.dart';
+import 'package:farmlyledger/screens/send/send_amount.dart';
+import 'package:farmlyledger/screens/send/send_amount_arguments.dart';
+import 'package:farmlyledger/utils/transaction_row.dart';
+import 'package:farmlyledger/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override

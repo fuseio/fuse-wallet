@@ -1,8 +1,8 @@
-import 'package:local_champions/models/business.dart';
-import 'package:local_champions/models/community_metadata.dart';
-import 'package:local_champions/models/jobs/base.dart';
-import 'package:local_champions/models/token.dart';
-import 'package:local_champions/models/transactions/transactions.dart';
+import 'package:farmlyledger/models/business.dart';
+import 'package:farmlyledger/models/community_metadata.dart';
+import 'package:farmlyledger/models/jobs/base.dart';
+import 'package:farmlyledger/models/token.dart';
+import 'package:farmlyledger/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';

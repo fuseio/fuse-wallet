@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/screens/send/send_amount.dart';
-import 'package:local_champions/screens/send/send_amount_arguments.dart';
-import 'package:local_champions/widgets/activate_pro_mode.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/screens/send/send_amount.dart';
+import 'package:farmlyledger/screens/send/send_amount_arguments.dart';
+import 'package:farmlyledger/widgets/activate_pro_mode.dart';
 import 'dart:core';
 
-import 'package:local_champions/widgets/primary_button.dart';
+import 'package:farmlyledger/widgets/primary_button.dart';
 
 class ActivateProMode2Dialog extends StatefulWidget {
   @override

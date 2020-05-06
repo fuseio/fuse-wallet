@@ -1,15 +1,15 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/views/backup.dart';
-import 'package:local_champions/screens/backup/verify_mnemonic.dart';
-import 'package:local_champions/widgets/main_scaffold.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/views/backup.dart';
+import 'package:farmlyledger/screens/backup/verify_mnemonic.dart';
+import 'package:farmlyledger/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/widgets/copy.dart';
-import 'package:local_champions/widgets/preloader.dart';
-import 'package:local_champions/widgets/primary_button.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/widgets/copy.dart';
+import 'package:farmlyledger/widgets/preloader.dart';
+import 'package:farmlyledger/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   @override

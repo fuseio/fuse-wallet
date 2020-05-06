@@ -1,15 +1,15 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:local_champions/generated/i18n.dart';
-import 'package:local_champions/models/transactions/transaction.dart';
-import 'package:local_champions/models/transactions/transfer.dart';
-import 'package:local_champions/models/views/cash_wallet.dart';
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/utils/addresses.dart';
-import 'package:local_champions/utils/transaction_row.dart';
-import 'package:local_champions/screens/cash_home/transaction_details.dart';
-import 'package:local_champions/utils/format.dart';
+import 'package:farmlyledger/generated/i18n.dart';
+import 'package:farmlyledger/models/transactions/transaction.dart';
+import 'package:farmlyledger/models/transactions/transfer.dart';
+import 'package:farmlyledger/models/views/cash_wallet.dart';
+import 'package:farmlyledger/screens/routes.gr.dart';
+import 'package:farmlyledger/utils/addresses.dart';
+import 'package:farmlyledger/utils/transaction_row.dart';
+import 'package:farmlyledger/screens/cash_home/transaction_details.dart';
+import 'package:farmlyledger/utils/format.dart';
 
 class TransactionListItem extends StatelessWidget {
   final Transaction _transaction;

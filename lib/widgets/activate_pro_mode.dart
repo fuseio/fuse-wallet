@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:local_champions/models/community.dart';
-import 'package:local_champions/redux/actions/user_actions.dart';
-import 'package:local_champions/utils/addresses.dart';
+import 'package:farmlyledger/models/community.dart';
+import 'package:farmlyledger/redux/actions/user_actions.dart';
+import 'package:farmlyledger/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/widgets/activate_pro_mode2.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/widgets/activate_pro_mode2.dart';
 import 'dart:core';
 
 import '../utils/addresses.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
-import 'package:local_champions/models/app_state.dart';
+import 'package:farmlyledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmlyledger/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'cash_transactions.dart';
-import 'package:local_champions/models/views/cash_wallet.dart';
+import 'package:farmlyledger/models/views/cash_wallet.dart';
 
 void onChange(CashWalletViewModel viewModel, BuildContext context) async {
   if (!viewModel.isJobProcessingStarted) {

@@ -1,7 +1,7 @@
-import 'package:local_champions/models/jobs/base.dart';
-import 'package:local_champions/models/tokens/base.dart';
-import 'package:local_champions/models/transactions/transactions.dart';
-import 'package:local_champions/services.dart';
+import 'package:farmlyledger/models/jobs/base.dart';
+import 'package:farmlyledger/models/tokens/base.dart';
+import 'package:farmlyledger/models/transactions/transactions.dart';
+import 'package:farmlyledger/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';

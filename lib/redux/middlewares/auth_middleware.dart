@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:local_champions/models/app_state.dart';
-import 'package:local_champions/redux/actions/cash_wallet_actions.dart';
-import 'package:local_champions/redux/actions/error_actions.dart';
-import 'package:local_champions/redux/actions/user_actions.dart';
-import 'package:local_champions/redux/state/store.dart';
-import 'package:local_champions/screens/routes.gr.dart';
-import 'package:local_champions/services.dart';
-import 'package:local_champions/utils/phone.dart';
+import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/redux/actions/cash_wallet_actions.dart';
+import 'package:farmlyledger/redux/actions/error_actions.dart';
+import 'package:farmlyledger/redux/actions/user_actions.dart';
+import 'package:farmlyledger/redux/state/store.dart';
+import 'package:farmlyledger/screens/routes.gr.dart';
+import 'package:farmlyledger/services.dart';
+import 'package:farmlyledger/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 
