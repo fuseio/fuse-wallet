@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>342076443769-7r6mr841l37spsfhltsjgmoubl79grcs.apps.googleusercontent.com</string>
+	<string>989676454711-9103ubhiomdt56hs5i30vn5rl96kjcts.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.342076443769-7r6mr841l37spsfhltsjgmoubl79grcs</string>
+	<string>com.googleusercontent.apps.989676454711-9103ubhiomdt56hs5i30vn5rl96kjcts</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>342076443769-avp6k8jbf1ra4j4pmlqai4id1crh2ur4.apps.googleusercontent.com</string>
+	<string>989676454711-08bmmfjm0fhqgpvr2e7kon8ug73garn9.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDwXe_Soyy_aD6tTB67GU__7bn8Ofyuuhc</string>
+	<string>AIzaSyBZAAxq7Yv-QH3V9FdMmhSgbAG_b_pme6Q</string>
 	<key>GCM_SENDER_ID</key>
-	<string>342076443769</string>
+	<string>989676454711</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.fuse.localchampions</string>
+	<string>io.fuse.farmlyledger</string>
 	<key>PROJECT_ID</key>
-	<string>local-champions</string>
+	<string>farmlyledger-bd9e7</string>
 	<key>STORAGE_BUCKET</key>
-	<string>local-champions.appspot.com</string>
+	<string>farmlyledger-bd9e7.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:342076443769:ios:7925adea270677ae5258a8</string>
+	<string>1:989676454711:ios:3357a8e5aa30521eb750b2</string>
 	<key>DATABASE_URL</key>
-	<string>https://local-champions.firebaseio.com</string>
+	<string>https://farmlyledger-bd9e7.firebaseio.com</string>
 </dict>
 </plist>
