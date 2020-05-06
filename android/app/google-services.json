@@ -1,41 +1,105 @@
 {
   "project_info": {
-    "project_number": "863692183597",
-    "firebase_url": "https://fuse-2-0.firebaseio.com",
-    "project_id": "fuse-2-0",
-    "storage_bucket": "fuse-2-0.appspot.com"
+    "project_number": "342076443769",
+    "firebase_url": "https://local-champions.firebaseio.com",
+    "project_id": "local-champions",
+    "storage_bucket": "local-champions.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:863692183597:android:0591105e8b1bb60b9b80a4",
+        "mobilesdk_app_id": "1:342076443769:android:4e32815e8615ac985258a8",
         "android_client_info": {
-          "package_name": "io.fuse.farmlyledger"
+          "package_name": "io.fuse.localchampions"
         }
       },
       "oauth_client": [
         {
-          "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+          "client_id": "342076443769-avp6k8jbf1ra4j4pmlqai4id1crh2ur4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.localchampions",
+            "certificate_hash": "94d411f90e46768df0c189cce054bdb6155a8029"
+          }
+        },
+        {
+          "client_id": "342076443769-tggh86lb5prfh59i1ki6cjcbu0kn7p60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.localchampions",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
+          "client_id": "342076443769-qsjrm9qhacdqj8rhgpg4unfg23893mq4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.localchampions",
+            "certificate_hash": "e69185290b29a29589349975b5cdebc080f0d7d5"
+          }
+        },
+        {
+          "client_id": "342076443769-kisvt0jcajhe57tq685o1bnmd1pjfara.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.localchampions",
+            "certificate_hash": "45ceff1f5f49fdecae14ccc13974544f97fa83bf"
+          }
+        },
+        {
+          "client_id": "342076443769-v4a85qf59jntp6kl2a4m36ehl0197rhk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.localchampions",
+            "certificate_hash": "ff0350a69bf0ce5bd0840044ecc754e7d3680e74"
+          }
+        },
+        {
+          "client_id": "342076443769-bnsj2fmbuslnlcl4sb1mpe01moc0qos2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.localchampions",
+            "certificate_hash": "6ef39bd8ccb23c9a98a00f615c21c0732cc8097b"
+          }
+        },
+        {
+          "client_id": "342076443769-an6lejfs2kff78mpma3l881360pik6pd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.localchampions",
+            "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
+          }
+        },
+        {
+          "client_id": "342076443769-0h90vq5d98g3s1mu1k8afv7r0k5j128c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.localchampions",
+            "certificate_hash": "64a998c9100ef3d9cfd6b33f942e3a7e13fa78df"
+          }
+        },
+        {
+          "client_id": "342076443769-pf4g5hmge0ffdpsh8kfbl70lo9e5rom7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvx56Wp3R5M4d0I1lwYc6fhgJy6dTFNPM"
+          "current_key": "AIzaSyDn4I32Qo0eqd5Z7r_A_8VprDIKfQSSLmo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+              "client_id": "342076443769-pf4g5hmge0ffdpsh8kfbl70lo9e5rom7.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com",
+              "client_id": "342076443769-7r6mr841l37spsfhltsjgmoubl79grcs.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "io.fuse.farmlyledger"
+                "bundle_id": "io.fuse.localchampions"
               }
             }
           ]
