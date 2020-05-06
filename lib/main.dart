@@ -129,6 +129,7 @@ class _MyAppState extends State<MyApp> {
                     ? ProRouter.onGenerateRoute
                     : Router.onGenerateRoute,
                 theme: CustomTheme.of(context),
+                locale: Locale('de', 'DE'),
                 localizationsDelegates: [
                   i18n,
                   GlobalMaterialLocalizations.delegate,
