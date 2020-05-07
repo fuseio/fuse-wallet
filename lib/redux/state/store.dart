@@ -94,7 +94,7 @@ class AppFactory {
             logger.info('relogin');
             final FirebaseUser currentUser = await firebaseAuth.currentUser();
             IdTokenResult token = await currentUser.getIdToken();
-            jwtToken = await api.login(token.token, initialState.userState.accountAddress, initialState.userState.identifier);
+            jwtToken = await api.login(token.token, initialState.userState.accountAddress, initialState.userState.identifier, appName: 'Bit2C');
           }
 
           logger.info('jwt: $jwtToken');
