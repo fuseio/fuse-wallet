@@ -24,8 +24,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width ?? 255.0,
-      height: height ?? 50.0,
+      constraints: BoxConstraints(minWidth: width ?? 255.0, maxHeight: height ?? 50.0, maxWidth: 350),
       decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,

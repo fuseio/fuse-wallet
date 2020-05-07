@@ -2390,6 +2390,9 @@ class _I18n_de_DE extends I18n {
   /// "Wichtig!"
   @override
   String get important => "Wichtig!";
+  /// "Telefonnummer"
+  @override
+  String get phoneNumber => "Telefonnummer";
   /// "Abschicken"
   @override
   String get ok => "Abschicken";
@@ -2468,6 +2471,15 @@ class _I18n_de_DE extends I18n {
   /// "Bei LocalChampions.de teilnehmen"
   @override
   String get joining_community => "Bei LocalChampions.de teilnehmen";
+  /// "Beitreten"
+  @override
+  String get joining => "Beitreten";
+  /// "Beitritt"
+  @override
+  String get joined => "Beitritt";
+  /// "gemeinschaft"
+  @override
+  String get community => "gemeinschaft";
   /// "‹ber"
   @override
   String get about => "‹ber";
@@ -2642,6 +2654,27 @@ class _I18n_de_DE extends I18n {
   /// "Anlagen und Vertr‰ge"
   @override
   String get assets_and_contracts => "Anlagen und Vertr‰ge";
+  /// "Sent to your Ethereum wallet"
+  @override
+  String get sending_to_ethereum => "Sent to your Ethereum wallet";
+  /// "Sent to Ethereum"
+  @override
+  String get sent_to_ethereum => "Sent to Ethereum";
+  /// "Received from Ethereum"
+  @override
+  String get received_from_ethereum => "Received from Ethereum";
+  /// "Add DAI"
+  @override
+  String get addDai => "Add DAI";
+  /// "Withdraw DAI"
+  @override
+  String get withdrawDAI => "Withdraw DAI";
+  /// "Send to cash mode"
+  @override
+  String get sendToCashMode => "Send to cash mode";
+  /// "Community webpage"
+  @override
+  String get communityWepbpage => "Community webpage";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;

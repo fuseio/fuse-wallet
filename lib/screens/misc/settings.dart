@@ -24,15 +24,7 @@ class SettingsScreen extends StatelessWidget {
   }
 
   List<Widget> menuItem(context, DrawerViewModel viewModel) {
-    if (isFork()) {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => AboutScreen()));
-        }),
-      ];
-    } else {
-      return [
+    return [
         getListTile(context, I18n.of(context).about, () {
           Navigator.push(context,
               new MaterialPageRoute(builder: (context) => AboutScreen()));
@@ -49,7 +41,6 @@ class SettingsScreen extends StatelessWidget {
         })
       ];
     }
-  }
 
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, DrawerViewModel>(

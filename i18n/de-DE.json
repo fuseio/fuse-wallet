@@ -11,6 +11,7 @@
   "restore_backup": "Sicherung zur¸ckholen",
   "balance": "Wert-‹bersicht",
   "important": "Wichtig!",
+  "phoneNumber": "Telefonnummer",
   "ok": "Abschicken",
   "contact_us": "Kontaktiere uns",
   "wallet_protected": "Deine kontaktlose Gutschein-App ist gesch¸tzt!",
@@ -37,7 +38,9 @@
   "amount": "Anzahl",
   "join_bonus": "Du hast einen Begr¸ﬂungs-Wert erhalten!",
   "joining_community": "Bei LocalChampions.de teilnehmen",
-  "joined_community": "Mitglied von LocalChampions.de",
+  "joining": "Beitreten",
+  "joined": "Beitritt",
+  "community": "gemeinschaft",
   "about": "‹ber",
   "version": "Version",
   "legal": "Rechtliches",
@@ -95,5 +98,13 @@
   "settings": "Einstellungen",
   "home": "Start",
   "trade": "Handel",
-  "assets_and_contracts": "Anlagen und Vertr‰ge"
+  "assets_and_contracts": "Anlagen und Vertr‰ge",
+  "sending_to_ethereum": "Sent to your Ethereum wallet",
+  "sent_to_ethereum": "Sent to Ethereum",
+  "received_from_ethereum": "Received from Ethereum",
+  "addDai": "Add DAI",
+  "withdrawDAI": "Withdraw DAI",
+  "sendToCashMode": "Send to cash mode",
+  "communityWepbpage": "Community webpage",
+  "joined_community": "Mitglied von LocalChampions.de"
 }
