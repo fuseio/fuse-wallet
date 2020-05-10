@@ -28,6 +28,28 @@ class OnboardViewModel extends Equatable {
   });
 
   static OnboardViewModel fromStore(Store<AppState> store) {
+    // final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
+    //   print('Got credentials: $credentials');
+    //   // AuthResult authResult = await firebaseAuth.signInWithCredential(credentials);
+    //   // print(authResult);
+    //   store.dispatch(new SetCredentials(credentials));
+    //   Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: ''));
+    // };
+
+    // final PhoneVerificationFailed verificationFailed = (AuthException authException) {
+    //   print('Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
+    //   store.dispatch(new ErrorAction('Could not login $authException'));
+    // };
+
+    // final PhoneCodeSent codeSent = (String verificationId, [int forceResendingToken]) async {
+    //   print("PhoneCodeSent " + verificationId);
+    //   store.dispatch(new SetCredentials(null));
+    //   store.dispatch(SetIsLoginRequest(isLoading: false));
+    //   Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
+    // };
+
+    // final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {
+    // };
     return OnboardViewModel(
       countryCode: store.state.userState.countryCode,
       phoneNumber: store.state.userState.phoneNumber,

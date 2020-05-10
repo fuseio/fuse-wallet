@@ -1,9 +1,12 @@
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:paywise/redux/middlewares/auth_middleware.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/redux/reducers/app_reducer.dart';
 import 'package:paywise/redux/state/state_secure_storage.dart';
 import 'package:paywise/utils/phone.dart';
+import 'package:paywise/utils/jwt.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
@@ -80,9 +83,27 @@ class AppFactory {
       try {
         initialState = await persistor.load();
         if (initialState?.userState?.jwtToken != '') {
-          logger.info('jwt: ${initialState.userState.jwtToken}');
-          logger.info('accountAddress: ${initialState.userState.accountAddress}');
-          api.setJwtToken(initialState.userState.jwtToken);
+          String jwtToken = initialState.userState.jwtToken;
+          Map<String, dynamic> tokenData = parseJwt(jwtToken);
+          DateTime exp = new DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
+          DateTime now = DateTime.now();
+          Duration diff = exp.difference(now);
+          logger.info('diff', diff);
+
+          if (diff.inDays <= 1) {
+            logger.info('relogin');
+            // TODO - token
+            // final FirebaseUser currentUser = await firebaseAuth.currentUser();
+            // IdTokenResult token = await currentUser.getIdToken();
+            // jwtToken = await api.login(token.token, initialState.userState.accountAddress, initialState.userState.identifier);
+            // jwtToken = await api.loginVerify(phone, verificationCode, initialState.userState.accountAddress);
+          }
+
+          logger.info('jwt: $jwtToken');
+          logger.info(
+              'accountAddress: ${initialState.userState.accountAddress}');
+          api.setJwtToken(jwtToken);
+
         } else {
           logger.info('no JWT');
         }
@@ -92,6 +113,7 @@ class AppFactory {
       }
 
       final List<Middleware<AppState>> wms = [];
+
       if (isInDebugMode) {
         wms.add(LoggingMiddleware<AppState>(logger:logger, level: Level.ALL, formatter: LoggingMiddleware.multiLineFormatter));
       }
@@ -167,34 +189,14 @@ class AppFactory {
         model: androidInfo.model,
         modelId: androidInfo.id,
         arch: androidInfo.hardware,
-        //      batteryLevel: 0,
-        //      orientation: null,
         manufacturer: androidInfo.manufacturer,
         brand: androidInfo.brand,
-        //      screenResolution: "",
-        //      screenDensity: "",
-        //      screenDpi: "",
-        //      online: false,
-        //      charging: false,
-        //      lowMemory: false,
         simulator: !androidInfo.isPhysicalDevice,
-        //      memorySize: 0,
-        //      freeMemory: 0,
-        //      usableMemory: 0,
-        //      storageSize: 0,
-        //      freeStorage: 0,
-        //      externalStorageSize: 0,
-        //      externalFreeStorage: 0,
-        //      bootTime: null,
-        //      timezone: ""
       );
       operatingSystem = OperatingSystem(
         name: Platform.operatingSystem,
         version: androidInfo.version.release,
         build: androidInfo.version.incremental,
-        //        kernelVersion: "",
-        //        rooted: false,
-        //        rawDescription: ""
       );
 
     } else {
@@ -206,26 +208,9 @@ class AppFactory {
         model: iosInfo.model,
         modelId: iosInfo.systemVersion,
         arch: iosInfo.utsname.machine,
-        //      batteryLevel: 0,
-        //      orientation: null,
         manufacturer: "Apple",
         brand: iosInfo.localizedModel,
-        //      screenResolution: "",
-        //      screenDensity: "",
-        //      screenDpi: "",
-        //      online: false,
-        //      charging: false,
-        //      lowMemory: false,
         simulator: !iosInfo.isPhysicalDevice,
-        //      memorySize: 0,
-        //      freeMemory: 0,
-        //      usableMemory: 0,
-        //      storageSize: 0,
-        //      freeStorage: 0,
-        //      externalStorageSize: 0,
-        //      externalFreeStorage: 0,
-        //      bootTime: null,
-        //      timezone: ""
       );
 
       operatingSystem = OperatingSystem(
@@ -233,8 +218,6 @@ class AppFactory {
         version: iosInfo.utsname.version,
         build: iosInfo.utsname.release,
         kernelVersion: iosInfo.utsname.machine,
-        //        rooted: false,
-        //        rawDescription: ""
       );
     }
 

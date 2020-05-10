@@ -1,8 +1,8 @@
 import 'package:paywise/models/community.dart';
 import 'package:paywise/models/jobs/base.dart';
-import 'package:paywise/models/transaction.dart';
-import 'package:paywise/models/transactions.dart';
-import 'package:paywise/models/transfer.dart';
+import 'package:paywise/models/transactions/transaction.dart';
+import 'package:paywise/models/transactions/transactions.dart';
+import 'package:paywise/models/transactions/transfer.dart';
 import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import 'package:paywise/redux/actions/user_actions.dart';
 import 'package:paywise/models/cash_wallet_state.dart';
@@ -74,14 +74,13 @@ final cashWalletReducers = combineReducers<CashWalletState>([
 
   CashWalletState _setDefaultCommunity(
       CashWalletState state, SetDefaultCommunity action) {
-    String defaultCommunityAddress = action.defaultCommunity.toLowerCase();
     Community current = new Community.initial();
-    Community defaultCom = current.copyWith(address: defaultCommunityAddress);
+    Community defaultCom = current.copyWith(address: action.defaultCommunity);
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);
-    newOne[defaultCommunityAddress] = defaultCom;
+    newOne[action.defaultCommunity] = defaultCom;
     return state.copyWith(
-        communityAddress: defaultCommunityAddress, communities: newOne);
+        communityAddress: action.defaultCommunity, communities: newOne);
   }
   
   CashWalletState _initWeb3Success(
@@ -163,7 +162,10 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       plugins: action.plugins,
       token: action.token,
       name: action.communityName,
-      isClosed: action.isClosed
+      isClosed: action.isClosed,
+      homeBridgeAddress: action.homeBridgeAddress,
+      foreignBridgeAddress: action.foreignBridgeAddress,
+      webUrl: action.webUrl
     );
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);

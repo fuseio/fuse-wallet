@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/views/cash_header.dart';
 import 'package:paywise/models/app_state.dart';
+import 'package:paywise/screens/send/send_amount.dart';
 import 'package:paywise/screens/send/send_amount_arguments.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:paywise/screens/routes.gr.dart';
 import 'package:share/share.dart';
 
 class CashHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, CashHeaderViewModel>(
+        distinct: true,
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
           return Container(
-            height: 260.0,
+            height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.all(20.0),
             decoration: BoxDecoration(
@@ -65,7 +66,6 @@ class CashHeader extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 0.0),
                         child: new RichText(
                           text: new TextSpan(
-                            style: Theme.of(context).textTheme.title,
                             children: <TextSpan>[
                               new TextSpan(
                                   text: I18n.of(context).hi,
@@ -107,7 +107,7 @@ class CashHeader extends StatelessWidget {
                                 ),
                                 new RichText(
                                   text: new TextSpan(
-                                    style: Theme.of(context).textTheme.title,
+                                    // style: Theme.of(context).textTheme.title,
                                     children: (viewModel
                                                     .community.tokenBalance ==
                                                 null ||
@@ -157,7 +157,7 @@ class CashHeader extends StatelessWidget {
                                                     ')',
                                                 style: new TextStyle(
                                                     fontSize: 15,
-                                                    color:Theme.of(context).textTheme.subhead.color,
+                                                    // color:Theme.of(context).textTheme.subhead.color,
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     height: 0.0))
@@ -184,11 +184,13 @@ class CashHeader extends StatelessWidget {
                                           accountAddress.split(':');
                                       if (parts.length == 2 &&
                                           parts[0] == 'fuse') {
-                                        Router.navigator.pushNamed(
-                                            Router.sendAmountScreen,
-                                            arguments: SendAmountArguments(
-                                                sendType: SendType.QR_ADDRESS,
-                                                accountAddress: parts[1]));
+                                            Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder: (context) => SendAmountScreen(
+                                                    pageArgs: SendAmountArguments(
+                                                        sendType: SendType.QR_ADDRESS,
+                                                        accountAddress: parts[1]))));
                                       } else {
                                         print('Account address is not on Fuse');
                                       }

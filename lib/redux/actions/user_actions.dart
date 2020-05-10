@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:paywise/models/community.dart';
 import 'package:paywise/models/jobs/base.dart';
-import 'package:paywise/models/transfer.dart';
+import 'package:paywise/models/transactions/transfer.dart';
 import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import 'package:paywise/redux/actions/error_actions.dart';
-import 'package:paywise/screens/routes.gr.dart';
+import 'package:paywise/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:paywise/utils/addresses.dart';
+import 'package:paywise/utils/contacts.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -16,6 +18,18 @@ import 'package:paywise/services.dart';
 import 'package:paywise/redux/state/store.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:paywise/utils/phone.dart';
+// import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_udid/flutter_udid.dart';
+
+class ActivateProMode {
+  ActivateProMode();
+}
+
+class SwitchWalletMode {
+  final bool isProMode;
+  SwitchWalletMode({this.isProMode});
+}
 
 class VerifyRequest {
   final String verificationId;
@@ -130,37 +144,55 @@ class JustInstalled {
   JustInstalled(this.installedAt);
 }
 
-ThunkAction backupWalletCall() {
+class SetIsLoginRequest {
+  final bool isLoading;
+  SetIsLoginRequest({this.isLoading});
+}
+
+class SetIsVerifyRequest {
+  final bool isLoading;
+  SetIsVerifyRequest({this.isLoading});
+}
+
+class DeviceIdSuccess {
+  final String identifier;
+  DeviceIdSuccess(this.identifier);
+}
+
+ThunkAction backupWalletCall(VoidCallback successCb) {
   return (Store store) async {
     if (store.state.userState.backup) return;
     final logger = await AppFactory().getLogger('action');
     String communityAddres = store.state.cashWalletState.communityAddress;
     store.dispatch(BackupRequest());
-    dynamic response = await api.backupWallet(communityAddres);
-    Community community = store.state.cashWalletState.communities[communityAddres];
-    if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive) {
-      BigInt value = toBigInt(community.plugins.joinBonus.amount, community.token.decimals);
-      String walletAddress = store.state.cashWalletState.walletAddress;
-      dynamic jobId = response['job']['_id'];
-      logger.info('Job $jobId - sending backup bonus');
-      Transfer backupBonus = new Transfer(
-          from: DotEnv().env['FUNDER_ADDRESS'],
-          to: walletAddress,
-          text: 'You got a backup bonus!',
-          type: 'RECEIVE',
-          value: value,
-          status: 'PENDING',
-          jobId: jobId);
-      store.dispatch(AddTransaction(backupBonus));
+    try {
+      dynamic response = await api.backupWallet(communityAddres);
+      Community community = store.state.cashWalletState.communities[communityAddres];
+      if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive) {
+        BigInt value = toBigInt(community.plugins.backupBonus.amount, community.token.decimals);
+        String walletAddress = store.state.cashWalletState.walletAddress;
+        dynamic jobId = response['job']['_id'];
+        logger.info('Job $jobId - sending backup bonus');
+        Transfer backupBonus = new Transfer(
+            from: DotEnv().env['FUNDER_ADDRESS'],
+            to: walletAddress,
+            text: 'You got a backup bonus!',
+            type: 'RECEIVE',
+            value: value,
+            status: 'PENDING',
+            jobId: jobId);
+        store.dispatch(AddTransaction(backupBonus));
 
-      response['job']['arguments'] = {
-        'backupBonus': backupBonus,
-      };
-      response['job']['jobType'] = 'backup';
-
-      Job job = JobFactory.create(response['job']);
-      Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
-      store.dispatch(AddJob(job));
+        response['job']['arguments'] = {
+          'backupBonus': backupBonus,
+        };
+        response['job']['jobType'] = 'backup';
+        Job job = JobFactory.create(response['job']);
+        store.dispatch(AddJob(job));
+        successCb();
+      }
+    } catch (e) {
+      successCb();
     }
   };
 }
@@ -200,6 +232,22 @@ ThunkAction restoreWalletCall(List<String> _mnemonic, VoidCallback successCallba
   };
 }
 
+ThunkAction setDeviceId(bool reLogin) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    String identifier = await FlutterUdid.udid;
+    logger.info("device identifier: $identifier");
+    store.dispatch(new DeviceIdSuccess(identifier));
+    if (reLogin) {
+      // final FirebaseUser currentUser = await firebaseAuth.currentUser();
+      // final String accountAddress = store.state.userState.accountAddress;
+      // IdTokenResult token = await currentUser.getIdToken();
+      // String jwtToken = await api.login(token.token, accountAddress, identifier);
+      // store.dispatch(new LoginVerifySuccess(jwtToken));
+    }
+  };
+}
+
 ThunkAction createLocalAccountCall(VoidCallback successCallback) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
@@ -212,7 +260,6 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
       logger.info('privateKey: $privateKey');
       Credentials c = EthPrivateKey.fromHex(privateKey);
       dynamic accountAddress = await c.extractAddress();
-      // api.setJwtToken('');
       store.dispatch(new CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey));
@@ -328,7 +375,6 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       }
     } catch (e, s) {
       logger.severe('ERROR - syncContactsCall', e, s);
-      // await AppFactory().reportError(e, s);
     }
   };
 }
@@ -344,7 +390,8 @@ ThunkAction identifyFirstTimeCall() {
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
-          "Display Name": store.state.userState.displayName
+          "Display Name": store.state.userState.displayName,
+          "Identifier": store.state.userState.identifier
         })));
   };
 }
@@ -357,7 +404,10 @@ ThunkAction identifyCall() {
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
-          "Display Name": store.state.userState.displayName
+          "Display Name": store.state.userState.displayName,
+          "Identifier": store.state.userState.identifier,
+          "Pro mode active": store.state.userState.isProMode,
+          "Joined Communities": store.state.cashWalletState.communities.keys.toList(),
         })));
   };
 }
@@ -386,7 +436,6 @@ ThunkAction setDisplayNameCall(String displayName) {
 ThunkAction create3boxAccountCall(accountAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    // String phoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     String displayName = store.state.userState.displayName;
     try {
       Map user = {
@@ -395,13 +444,58 @@ ThunkAction create3boxAccountCall(accountAddress) {
         "provider": 'HDWallet',
         "subscribe": false,
         "source": 'wallet-v2',
-        "displayName": displayName,
-        // "phoneNumber": phoneNumber,
+        "displayName": displayName
       };
       await api.saveUserToDb(user);
       logger.info('save user $accountAddress');
     } catch (e) {
       logger.severe('user $accountAddress already saved');
+    }
+  };
+}
+
+ThunkAction activateProModeCall() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    store.dispatch(ActivateProMode());
+    store.dispatch(initWeb3ProMode());
+    try {
+      bool deployForeignToken = store.state.userState.networks.contains(foreignNetwork);
+      if (!deployForeignToken) {
+        dynamic response =  await api.createWalletOnForeign();
+        String jobId = response['job']['_id'];
+        logger.info('createWalletOnForeign jobId $jobId');
+        // store.dispatch(startFetchingJobCall(jobId, (job) {
+        //   store.dispatch(getWalletAddressessCall());
+        // }));
+        store.dispatch(segmentTrackCall('Activate pro mode clicked'));
+        store.dispatch(startListenToTransferEvents());
+        store.dispatch(fetchTokensBalances());
+        store.dispatch(segmentIdentifyCall(
+        new Map<String, dynamic>.from({
+          "Pro mode active": true,
+        })));
+      }
+    } catch (error, stackTrace) {
+      logger.severe('Error createWalletOnForeign', error);
+      await AppFactory().reportError(error, stackTrace);
+    }
+  };
+}
+
+ThunkAction loadContacts() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      bool isPermitted = await Contacts.checkPermissions();
+      if (isPermitted) {
+        logger.info('Start - load contacts');
+        List<Contact> contacts = await ContactController.getContacts();
+        logger.info('Done - load contacts');
+        store.dispatch(syncContactsCall(contacts));
+      }
+    } catch (error) {
+      logger.severe('ERROR - load contacts $error');
     }
   };
 }

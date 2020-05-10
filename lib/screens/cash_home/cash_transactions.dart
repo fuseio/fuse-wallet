@@ -1,7 +1,7 @@
-import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
-import 'package:paywise/models/transfer.dart';
+import 'package:paywise/models/transactions/transfer.dart';
+import 'dart:core';
 import 'package:paywise/models/views/cash_wallet.dart';
 import 'package:paywise/screens/cash_home/transaction_row.dart';
 import 'package:paywise/utils/transaction_row.dart';
@@ -27,7 +27,7 @@ class CashTransactionsState extends State<CashTransactios> {
     Transfer generateWallet = new Transfer(
         type: 'RECEIVE',
         text: !isWalletCreated ? I18n.of(context).generating_wallet : I18n.of(context).generated_wallet,
-        status: !isWalletCreated ? I18n.of(context).pending : I18n.of(context).confirmed,
+        status: !isWalletCreated ? 'PENDING' : 'CONFIRMED',
         jobId: 'generateWallet');
     List<TransactionListItem> transfers = [
       ...this
@@ -65,7 +65,7 @@ class CashTransactionsState extends State<CashTransactios> {
           ListView(
               shrinkWrap: true,
               primary: false,
-              padding: EdgeInsets.symmetric(vertical: 8.0),
+              padding: EdgeInsets.only(left: 15, right: 15),
               children: renderTrasfers())
         ]);
   }

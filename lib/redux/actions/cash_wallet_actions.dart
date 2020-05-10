@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:core';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,20 +9,23 @@ import 'package:paywise/models/community.dart';
 import 'package:paywise/models/community_metadata.dart';
 import 'package:paywise/models/jobs/base.dart';
 import 'package:paywise/models/plugins.dart';
-import 'package:paywise/models/transaction.dart';
-import 'package:paywise/models/transactions.dart';
-import 'package:paywise/models/transfer.dart';
+import 'package:paywise/models/transactions/transaction.dart';
+import 'package:paywise/models/transactions/transactions.dart';
+import 'package:paywise/models/transactions/transfer.dart';
+import 'package:paywise/models/user_state.dart';
 import 'package:paywise/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
+import 'package:paywise/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:paywise/redux/actions/user_actions.dart';
-import 'package:paywise/utils/forks.dart';
+import 'package:paywise/utils/addresses.dart';
 import 'package:paywise/redux/state/store.dart';
+import 'package:paywise/utils/constans.dart';
+import 'package:paywise/utils/forks.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:paywise/utils/phone.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
-import 'package:paywise/models/user_state.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:paywise/services.dart';
 import 'package:paywise/models/token.dart';
@@ -44,10 +48,12 @@ class OnboardUserSuccess {
 }
 
 class GetWalletAddressesSuccess {
+  final List<String> networks;
   final String walletAddress;
   final String communityManagerAddress;
   final String transferManagerAddress;
-  GetWalletAddressesSuccess({this.walletAddress, this.communityManagerAddress, this.transferManagerAddress});
+  final String daiPointsManagerAddress;
+  GetWalletAddressesSuccess({this.networks, this.daiPointsManagerAddress,this.walletAddress, this.communityManagerAddress, this.transferManagerAddress});
 }
 
 class CreateAccountWalletRequest {
@@ -101,8 +107,11 @@ class SwitchCommunitySuccess {
   final String communityName;
   final Transactions transactions;
   final Plugins plugins;
-  SwitchCommunitySuccess(this.communityAddress, this.communityName, this.token,
-      this.transactions, this.plugins, this.isClosed);
+  final String homeBridgeAddress;
+  final String foreignBridgeAddress;
+  final String webUrl;
+  SwitchCommunitySuccess({this.communityAddress, this.communityName, this.token,
+      this.transactions, this.plugins, this.isClosed, this.homeBridgeAddress, this.foreignBridgeAddress, this.webUrl});
 }
 
 class FetchCommunityMetadataSuccess {
@@ -267,7 +276,7 @@ ThunkAction segmentTrackCall(eventName, {Map<String, dynamic> properties}) {
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('Track - $eventName');
-      await Segment.track(eventName: eventName, properties: properties);
+      Segment.track(eventName: eventName, properties: properties);
     } catch (e, s) {
       logger.severe('ERROR - segment track call: $e');
       await AppFactory().reportError(e, s);
@@ -280,7 +289,7 @@ ThunkAction segmentAliasCall(String userId) {
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('Alias - $userId');
-      await Segment.alias(alias: userId);
+      Segment.alias(alias: userId);
     } catch (e, s) {
       logger.severe('ERROR - segment alias call: $e');
       await AppFactory().reportError(e, s);
@@ -303,7 +312,7 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
       }
       traits["Installed At"] = installedAt.toIso8601String();
       traits["Display Balance"] = userState.displayBalance ?? 0;
-      await Segment.identify(userId: fullPhoneNumber, traits: traits);
+      Segment.identify(userId: fullPhoneNumber, traits: traits);
     } catch (e, s) {
       logger.severe('ERROR - segment identify call: $e');
       await AppFactory().reportError(e, s);
@@ -347,23 +356,25 @@ ThunkAction listenToBranchCall() {
 }
 
 ThunkAction initWeb3Call(String privateKey, {
-  String communityManagerContractAddress,
-  String transferManagerContractAddress
+  String communityManagerAddress,
+  String transferManagerAddress,
+  String dAIPointsManagerAddress,
 }) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('initWeb3. privateKey: $privateKey');
       wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
-          defaultCommunityAddress:
-            DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
+          defaultCommunityAddress: DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
           communityManagerAddress:
-            communityManagerContractAddress ?? DotEnv().env['COMMUNITY_MANAGER_CONTRACT_ADDRESS'],
+            communityManagerAddress ?? DotEnv().env['COMMUNITY_MANAGER_CONTRACT_ADDRESS'],
           transferManagerAddress:
-            transferManagerContractAddress ?? DotEnv().env['TRANSFER_MANAGER_CONTRACT_ADDRESS']);
+            transferManagerAddress ?? DotEnv().env['TRANSFER_MANAGER_CONTRACT_ADDRESS'],
+            daiPointsManagerAddress:
+            dAIPointsManagerAddress ?? DotEnv().env['DAI_POINTS_MANAGER_CONTRACT_ADDRESS']);
       if (store.state.cashWalletState.communityAddress == null ||
           store.state.cashWalletState.communityAddress.isEmpty) {
-        store.dispatch(SetDefaultCommunity(web3.getDefaultCommunity()));
+        store.dispatch(SetDefaultCommunity(web3.getDefaultCommunity().toLowerCase()));
       }
       web3.setCredentials(privateKey);
       store.dispatch(new InitWeb3Success(web3));
@@ -385,7 +396,7 @@ ThunkAction startBalanceFetchingCall() {
     if (tokenAddress != null) {
       store.dispatch(getTokenBalanceCall(tokenAddress));
     }
-    new Timer.periodic(Duration(seconds: 3), (Timer t) async {
+    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
         t.cancel();
         return;
@@ -415,7 +426,7 @@ ThunkAction startTransfersFetchingCall() {
       store.dispatch(getTokenTransfersListCall(tokenAddress));
       store.dispatch(getTokenBalanceCall(tokenAddress));
     }
-    new Timer.periodic(Duration(seconds: 3), (Timer t) async {
+    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer t) async {
       if (store.state.cashWalletState.walletAddress == '') {
         t.cancel();
         return;
@@ -470,14 +481,27 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
     if (walletAddress != null && walletAddress.isNotEmpty) {
           store.dispatch(enablePushNotifications());
           String privateKey = store.state.userState.privateKey;
+          List<String> networks = List<String>.from(walletData['networks']);
           String communityManager = walletData['communityManager'];
           String transferManager = walletData['transferManager'];
+          String dAIPointsManager = walletData['dAIPointsManager'];
           store.dispatch(initWeb3Call(
             privateKey,
-            communityManagerContractAddress: communityManager,
-            transferManagerContractAddress: transferManager
+            communityManagerAddress: communityManager,
+            transferManagerAddress: transferManager,
+            dAIPointsManagerAddress: dAIPointsManager
           ));
-          store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, communityManagerAddress: communityManager, transferManagerAddress: transferManager));
+          bool deployedToForeign = networks?.contains(foreignNetwork) ?? false;
+          if (deployedToForeign) {
+            store.dispatch(ActivateProMode());
+            store.dispatch(initWeb3ProMode(
+              privateKey: privateKey,
+              communityManagerAddress: communityManager,
+              transferManagerAddress: transferManager,
+              dAIPointsManagerAddress: dAIPointsManager
+            ));
+          }
+          store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, daiPointsManagerAddress: dAIPointsManager,communityManagerAddress: communityManager, transferManagerAddress: transferManager, networks: networks));
           String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
@@ -494,25 +518,36 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
   };
 }
 
-ThunkAction getWalletAddressessCall({String communityManager, String transferManager}) {
+ThunkAction getWalletAddressessCall() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
       String privateKey = store.state.userState.privateKey;
-      String communityManagerAddress;
-      String transferManagerAddress;
-      if (communityManager != null && communityManager != '' && transferManager != null && transferManager != '') {
-        communityManagerAddress = communityManager;
-        transferManagerAddress = transferManager;
-      } else {
-        dynamic walletData = await api.getWallet();
-        communityManagerAddress = walletData['communityManager'];
-        transferManagerAddress = walletData['transferManager'];
+      dynamic walletData = await api.getWallet();
+      List<String> networks = List<String>.from(walletData['networks']);
+      String walletAddress = walletData['walletAddress'];
+      String communityManagerAddress = walletData['communityManager'];
+      String transferManagerAddress = walletData['transferManager'];
+      String dAIPointsManagerAddress = walletData['dAIPointsManager'];
+      store.dispatch(GetWalletAddressesSuccess(
+        walletAddress: walletAddress,
+        daiPointsManagerAddress: dAIPointsManagerAddress,
+        communityManagerAddress: communityManagerAddress,
+        transferManagerAddress: transferManagerAddress,
+        networks: networks));
+      if (networks.contains(foreignNetwork)) {
+        store.dispatch(initWeb3ProMode(
+          privateKey: privateKey,
+          communityManagerAddress: communityManagerAddress,
+          transferManagerAddress: transferManagerAddress,
+          dAIPointsManagerAddress: dAIPointsManagerAddress
+        ));
       }
       store.dispatch(initWeb3Call(
         privateKey,
-        communityManagerContractAddress: communityManagerAddress,
-        transferManagerContractAddress: transferManagerAddress
+        communityManagerAddress: communityManagerAddress,
+        transferManagerAddress: transferManagerAddress,
+        dAIPointsManagerAddress: dAIPointsManagerAddress
       ));
     } catch (e) {
       logger.severe('ERROR - getWalletAddressCall $e');
@@ -534,7 +569,7 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
       String balance = formatValue(tokenBalance, community.token.decimals);
 
       store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
-      store.dispatch(new UpdateDisplayBalance(int.parse(balance)));
+      store.dispatch(new UpdateDisplayBalance(int.tryParse(balance)));
       store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
         '${community.name} Balance': balance,
         "DisplayBalance": balance
@@ -580,7 +615,7 @@ ThunkAction startFetchingJobCall(
     String jobId, Function(Job) fetchSuccessCallback,
     {bool untilDone: true}) {
   return (Store store) async {
-    new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
       store.dispatch(fetchJobCall(jobId, fetchSuccessCallback,
           timer: timer, untilDone: untilDone));
     });
@@ -593,7 +628,7 @@ ThunkAction processingJobsCall(Timer timer) {
     String communityAddress = store.state.cashWalletState.communityAddress;
     String walletAddress = store.state.cashWalletState.walletAddress;
     Community community = store.state.cashWalletState.communities[communityAddress];
-    List<Job> jobs = community.jobs;
+    List<Job> jobs = community?.jobs ?? [];
     for (Job job in jobs) {
       String currentCommunityAddress = store.state.cashWalletState.communityAddress;
       String currentWalletAddress = store.state.cashWalletState.walletAddress;
@@ -627,7 +662,7 @@ ThunkAction processingJobsCall(Timer timer) {
 
 ThunkAction startProcessingJobsCall() {
   return (Store store) async {
-    new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
       store.dispatch(processingJobsCall(timer));
     });
     store.dispatch(JobProcessingStarted());
@@ -956,18 +991,24 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(joinCommunityCall(community: community, token: token));
       store.dispatch(getBusinessListCall());
+      String homeBridgeAddress = communityData['homeBridgeAddress'];
+      String foreignBridgeAddress = communityData['foreignBridgeAddress'];
+      String webUrl = communityData['webUrl'];
       store.dispatch(new SwitchCommunitySuccess(
-          communityAddress,
-          community["name"],
-          new Token(
+          communityAddress: communityAddress,
+          communityName: community["name"],
+          token: new Token(
               originNetwork: token['originNetwork'],
               address: token["address"],
               name: token["name"],
               symbol: token["symbol"],
               decimals: token["decimals"]),
-          new Transactions(),
-          communityPlugins,
-          communityData['isClosed']
+          transactions: new Transactions(),
+          plugins: communityPlugins,
+          isClosed: communityData['isClosed'],
+          homeBridgeAddress: homeBridgeAddress,
+          foreignBridgeAddress: foreignBridgeAddress,
+          webUrl: webUrl
           ));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
           properties: new Map<String, dynamic>.from({
@@ -997,13 +1038,19 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       Map<String, dynamic> communityData = await api.getCommunityData(communityAddress, isRopsten: isRopsten, walletAddress: walletAddress);
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(getBusinessListCall());
+      String homeBridgeAddress = communityData['homeBridgeAddress'];
+      String foreignBridgeAddress = communityData['foreignBridgeAddress'];
+      String webUrl = communityData['webUrl'];
       store.dispatch(new SwitchCommunitySuccess(
-          communityAddress,
-          current.name,
-          current.token,
-          current.transactions,
-          communityPlugins,
-          current.isClosed
+          communityAddress: communityAddress,
+          communityName: current.name,
+          token: current.token,
+          transactions: current.transactions,
+          plugins: communityPlugins,
+          isClosed: current.isClosed,
+          homeBridgeAddress: homeBridgeAddress,
+          foreignBridgeAddress: foreignBridgeAddress,
+          webUrl: webUrl
           ));
     } catch (e, s) {
       logger.info('ERROR - switchToExisitingCommunityCall $e');
@@ -1035,7 +1082,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
   };
 }
 
-Map<String, dynamic> _responseHandler(Response response) {
+Map<String, dynamic> responseHandler(Response response) {
   switch (response.statusCode) {
     case 200:
       Map<String, dynamic> obj = json.decode(response.body);
@@ -1055,7 +1102,7 @@ ThunkAction getBusinessListCall() {
       if (isPaywise(communityAddress)) {
         Client client = new Client();
         dynamic res = await client.get('https://api.airtable.com/v0/appVQfuM5SRKAGF1c/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
-        dynamic a = _responseHandler(res);
+        dynamic a = responseHandler(res);
         List<Business> businessList = new List();
         await Future.forEach(a['records'], (record) {
           if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
@@ -1071,36 +1118,6 @@ ThunkAction getBusinessListCall() {
                 'phoneNumber': data['phoneNumber'] ?? '',
                 'website': data['website'] ?? '',
                 'type': data['type'] ?? '',
-                'address': data['address'] ?? '',
-                'latLng': data['GPS'] != null ? data['GPS'].split(',').toList().map((item) => double.parse(item.trim())).toList() : null
-              }
-            });
-            businessList.add(new Business.fromJson(business));
-          }
-        }).then((r) {
-          store.dispatch(new GetBusinessListSuccess(businessList));
-          store.dispatch(FetchingBusinessListSuccess());
-        });
-      } else if (isPeso(communityAddress)) {
-        Client client = new Client();
-        dynamic res = await client.get('https://api.airtable.com/v0/applg6xomn2EIirM0/Table%201', headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
-        dynamic a = _responseHandler(res);
-        List<Business> businessList = new List();
-        await Future.forEach(a['records'], (record) {
-          if (record['fields'].containsKey('name') && record['fields'].containsKey('account')) {
-            dynamic data = record['fields'];
-            Map<String, dynamic> business = Map.from({
-              'name': data['name'] ?? '',
-              'account': data['account'] ?? '',
-              'metadata': {
-                'image': data['image'][0]['url'] ?? '',
-                "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
-                'address': data['address'] ?? '',
-                'description': data['description'] ?? '',
-                'phoneNumber': data['phoneNumber'] ?? '',
-                'website': data['website'] ?? '',
-                'type': data['type'] ?? '',
-                'address': data['address'] ?? '',
                 'latLng': data['GPS'] != null ? data['GPS'].split(',').toList().map((item) => double.parse(item.trim())).toList() : null
               }
             });
@@ -1112,22 +1129,22 @@ ThunkAction getBusinessListCall() {
         });
       } else {
         Community community = store.state.cashWalletState.communities[communityAddress];
-        bool isOriginRopsten = community.token?.originNetwork != null
-            ? community.token?.originNetwork == 'ropsten'
-            : false;
-        dynamic communityEntities = await graph.getCommunityBusinesses(communityAddress);
-        List<Business> businessList = new List();
-        await Future.forEach(communityEntities, (entity) async {
-          dynamic metadata = await api.getEntityMetadata(communityAddress, entity['address'], isRopsten: isOriginRopsten);
-          entity['name'] = metadata['name'];
-          entity['metadata'] = metadata;
-          entity['account'] = entity['address'];
-          businessList.add(new Business.fromJson(entity));
-        }).then((r) {
-          store.dispatch(new GetBusinessListSuccess(businessList));
-          store.dispatch(FetchingBusinessListSuccess());
-        });
-      }
+          bool isOriginRopsten = community.token?.originNetwork != null
+              ? community.token?.originNetwork == 'ropsten'
+              : false;
+          dynamic communityEntities = await graph.getCommunityBusinesses(communityAddress);
+          List<Business> businessList = new List();
+          await Future.forEach(communityEntities, (entity) async {
+            dynamic metadata = await api.getEntityMetadata(communityAddress, entity['address'], isRopsten: isOriginRopsten);
+            entity['name'] = metadata['name'];
+            entity['metadata'] = metadata;
+            entity['account'] = entity['address'];
+            businessList.add(new Business.fromJson(entity));
+          }).then((r) {
+            store.dispatch(new GetBusinessListSuccess(businessList));
+            store.dispatch(FetchingBusinessListSuccess());
+          });
+        }
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');
       store.dispatch(FetchingBusinessListFailed());

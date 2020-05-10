@@ -1,23 +1,22 @@
 import 'dart:core';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:paywise/models/community.dart';
-import 'package:paywise/models/plugins.dart';
+import 'package:paywise/models/views/drawer.dart';
+import 'package:paywise/screens/backup/show_mnemonic.dart';
 import 'package:paywise/screens/cash_home/deposit_webview.dart';
-import 'package:paywise/screens/routes.gr.dart';
+import 'package:paywise/screens/cash_home/switch_commmunity.dart';
+import 'package:paywise/screens/misc/settings.dart';
 import 'package:paywise/utils/forks.dart';
 import 'package:paywise/utils/format.dart';
-import 'package:redux/redux.dart';
-import 'package:paywise/redux/actions/user_actions.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
 class DrawerWidget extends StatefulWidget {
-
   @override
   _DrawerWidgetState createState() => _DrawerWidgetState();
 }
@@ -89,14 +88,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ],
           ),
         ),
-        onTap: () async {
+        onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    DepositWebView(depositPlugin: depositPlugins[0])),
+                    DepositWebView(depositPlugin: depositPlugins[0]),
+                fullscreenDialog: true),
           );
-          await Segment.track(eventName: 'User clicked on top up');
+          Segment.track(eventName: 'User clicked on top up');
         },
       ));
     }
@@ -105,25 +105,32 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   List<Widget> menuItem(DrawerViewModel viewModel) {
-    if (isFork() || isPaywise(viewModel.communityAddress)) {
+    if (isFork()) {
       return [
         getListTile(I18n.of(context).backup_wallet, () {
-          Router.navigator.pushNamed(Router.showMnemonic);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => ShowMnemonic()));
         }, icon: 'backup_icon.svg'),
         getListTile(I18n.of(context).settings, () {
-          Router.navigator.pushNamed(Router.settingsScreen);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => SettingsScreen()));
         }, icon: 'settings_icon.svg'),
       ];
     } else {
       return [
         getListTile(I18n.of(context).switch_community, () {
-          Router.navigator.pushNamed(Router.switchCommunityScreen);
+          Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => SwitchCommunityScreen()));
         }, icon: 'switch_icon.svg'),
         getListTile(I18n.of(context).backup_wallet, () {
-          Router.navigator.pushNamed(Router.showMnemonic);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => ShowMnemonic()));
         }, icon: 'backup_icon.svg'),
         getListTile(I18n.of(context).settings, () {
-          Router.navigator.pushNamed(Router.settingsScreen);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => SettingsScreen()));
         }, icon: 'settings_icon.svg'),
       ];
     }
@@ -162,25 +169,22 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                 fontSize: 22,
                                 fontWeight: FontWeight.normal),
                           ),
-                          viewModel.walletAddress != null ? Row(
-                            children: <Widget>[
-                              Text(
-                                formatAddress(viewModel.walletAddress),
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              // SvgPicture.asset(
-                              //   'assets/images/header_arrow.svg',
-                              //   width: 20,
-                              //   height: 20,
-                              // )
-                            ],
-                          ) : SizedBox.shrink()
+                          viewModel.walletAddress != null
+                              ? Row(
+                                  children: <Widget>[
+                                    Text(
+                                      formatAddress(viewModel.walletAddress),
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                  ],
+                                )
+                              : SizedBox.shrink()
                         ],
                       ),
                     ),
@@ -195,62 +199,82 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.78,
-      child: Drawer(
-        child: new StoreConnector<AppState, DrawerViewModel>(
-          converter: DrawerViewModel.fromStore,
-          builder: (_, viewModel) {
-            return Builder(
-                builder: (context) => ListView(
-                      padding: EdgeInsets.all(10),
-                      children: <Widget>[
-                        drawerHeader(viewModel),
-                        ...menuItem(viewModel),
-                        ...pluginsItems(viewModel),
-                      ],
-                    ));
+  Widget switchToProMode(DrawerViewModel viewModel) {
+    return Container(
+        width: MediaQuery.of(context).size.width / 2,
+        height: 50.0,
+        decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
+            border: Border.all(
+                color: Theme.of(context).primaryColor.withAlpha(14))),
+        child: InkWell(
+          onTap: () {
+            viewModel.replaceNavigator(true);
           },
-        ),
-      ),
-    );
+          child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text('Pro mode',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Theme.of(context).splashColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500)),
+                ),
+                new FloatingActionButton(
+                    heroTag: 'header_scanner',
+                    mini: true,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    child: SvgPicture.asset(
+                      'assets/images/cash_mode_icon.svg',
+                      width: 20.0,
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                    ),
+                    onPressed: () {
+                      viewModel.replaceNavigator(true);
+                    })
+              ]),
+        ));
   }
-}
 
-class DrawerViewModel {
-  final Function() logout;
-  final String walletStatus;
-  final String walletAddress;
-  final String communityAddress;
-  final Plugins plugins;
-  final Function() firstName;
-
-  DrawerViewModel(
-      {this.logout,
-      this.walletStatus,
-      this.plugins,
-      this.walletAddress,
-      this.firstName,
-      this.communityAddress});
-
-  static DrawerViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddress] ??
-            new Community.initial();
-    return DrawerViewModel(
-        communityAddress: communityAddress,
-        walletAddress: store.state.cashWalletState.walletAddress,
-        plugins: community?.plugins,
-        walletStatus: store.state.cashWalletState.walletStatus,
-        logout: () {
-          store.dispatch(logoutCall());
-        },
-        firstName: () {
-          String fullName = store.state.userState.displayName ?? '';
-          return fullName.split(' ')[0];
+  @override
+  Widget build(BuildContext _context) {
+    return new StoreConnector<AppState, DrawerViewModel>(
+        converter: DrawerViewModel.fromStore,
+        builder: (_, viewModel) {
+          return SizedBox(
+            width: MediaQuery.of(context).size.width * 0.78,
+            child: Drawer(
+                child: Column(
+              children: <Widget>[
+                Expanded(
+                  flex: 5,
+                  child: ListView(
+                    padding: EdgeInsets.all(10),
+                    children: <Widget>[
+                      drawerHeader(viewModel),
+                      ...menuItem(viewModel),
+                      ...pluginsItems(viewModel),
+                    ],
+                  ),
+                ),
+                viewModel.isProModeActivate
+                    ? Flexible(
+                        flex: 1,
+                        child: Padding(
+                          child: switchToProMode(viewModel),
+                          padding: EdgeInsets.all(20),
+                        ))
+                    : SizedBox.shrink(),
+              ],
+            )),
+          );
         });
   }
 }

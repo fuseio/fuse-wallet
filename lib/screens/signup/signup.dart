@@ -5,11 +5,11 @@ import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/widgets/signup_dialog.dart';
 import 'package:paywise/models/views/onboard.dart';
-import 'package:paywise/screens/routes.gr.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -49,7 +49,6 @@ class _SignupScreenState extends State<SignupScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
         title: I18n.of(context).sign_up,
-        titleFontSize: 15,
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(20.0),
@@ -77,13 +76,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                        onTap: () async {
+                        onTap: () {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
-                          await Segment.track(eventName: "Wallet: opened modal - why do we need this");
+                          Segment.track(eventName: "Wallet: opened modal - why do we need this");
                         },
                         child: Center(
                           child: Text(
@@ -157,13 +156,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                   controller: phoneController,
                                   keyboardType: TextInputType.number,
                                   autofocus: true,
-                                  style: const TextStyle(
-                                      fontSize: 16, color: Colors.black),
-                                  decoration: const InputDecoration(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                              vertical: 20, horizontal: 10),
-                                      hintText: 'Phone number',
+                                  validator: (String value) => value.isEmpty ? "Please enter mobile number" : null,
+                                  style: TextStyle(fontSize: 16, color: Colors.black),
+                                  decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                                      hintText: I18n.of(context).phoneNumber,
                                       border: InputBorder.none,
                                       focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide.none),

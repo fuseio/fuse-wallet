@@ -16,7 +16,7 @@ class BuyViewModel extends Equatable {
   final WalletBannerPlugin walletBanner;
 
   @override
-  List<Object> get props => [token, businesses, isCommunityBusinessesFetched, businesses];
+  List<Object> get props => [token, businesses, isCommunityBusinessesFetched, businesses, walletBanner];
 
   BuyViewModel({
     this.communityAddres,

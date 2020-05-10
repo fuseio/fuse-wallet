@@ -2,8 +2,7 @@ import 'package:paywise/models/business.dart';
 import 'package:paywise/models/community_metadata.dart';
 import 'package:paywise/models/jobs/base.dart';
 import 'package:paywise/models/token.dart';
-import 'package:paywise/models/transaction.dart';
-import 'package:paywise/models/transactions.dart';
+import 'package:paywise/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import './plugins.dart';
@@ -14,6 +13,8 @@ part 'community.g.dart';
 class Community {
   final String name;
   final String address;
+  final String homeBridgeAddress;
+  final String foreignBridgeAddress;
   final BigInt tokenBalance;
   final bool isMember;
   final List<Business> businesses;
@@ -22,6 +23,7 @@ class Community {
   final Plugins plugins;
   final CommunityMetadata metadata;
   final bool isClosed;
+  final String webUrl;
 
   @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
   final List<Job> jobs;
@@ -37,7 +39,10 @@ class Community {
       this.tokenBalance,
       this.businesses,
       this.jobs,
-      this.metadata});
+      this.metadata,
+      this.homeBridgeAddress,
+      this.webUrl,
+      this.foreignBridgeAddress});
 
   static List<Job> _jobsFromJson(Map<String, dynamic> json) =>
       List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
@@ -51,11 +56,13 @@ class Community {
         isClosed: false,
         metadata: CommunityMetadata.initial(),
         address: null,
+        foreignBridgeAddress: null,
+        homeBridgeAddress: null,
         token: null,
         isMember: false,
         tokenBalance: BigInt.from(0),
         businesses: new List<Business>(),
-        transactions: new Transactions(list: new List<Transaction>()),
+        transactions: Transactions.initial(),
         plugins: new Plugins(),
         jobs: new List<Job>());
   }
@@ -63,6 +70,8 @@ class Community {
   Community copyWith({
     String name,
     String address,
+    String foreignBridgeAddress,
+    String homeBridgeAddress,
     Plugins plugins,
     Token token,
     Transactions transactions,
@@ -71,10 +80,12 @@ class Community {
     List<Job> jobs,
     bool isMember,
     CommunityMetadata metadata,
-    bool isClosed
+    bool isClosed,
+    String webUrl,
   }) {
     return Community(
-        isClosed: isClosed ?? isClosed,
+        isClosed: isClosed ?? this.isClosed,
+        webUrl: webUrl ?? this.webUrl,
         metadata: metadata ?? this.metadata,
         tokenBalance: tokenBalance ?? this.tokenBalance,
         address: address ?? this.address,
@@ -84,7 +95,9 @@ class Community {
         businesses: businesses ?? this.businesses,
         isMember: isMember ?? this.isMember,
         jobs: jobs ?? this.jobs,
-        transactions: transactions ?? this.transactions);
+        transactions: transactions ?? this.transactions,
+        homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
+        foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,);
   }
 
   factory Community.fromJson(Map<String, dynamic> json) =>

@@ -47,6 +47,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
+        distinct: true,
         converter: ContactsViewModel.fromStore,
         builder: (_, viewModel) {
           return ScaleTransition(
@@ -151,7 +152,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                       viewModel.trackCall("Wallet: Contacts Permission Rejected");
                                       viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
                                     }
-                                    Router.navigator.pushReplacementNamed(Router.sendToContactScreen);
+                                    Navigator.of(context).pop();
                                     setState(() {
                                       isPreloading = false;
                                     });

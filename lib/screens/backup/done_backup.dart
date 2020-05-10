@@ -1,24 +1,25 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/views/backup.dart';
-import 'package:paywise/widgets/bottombar.dart';
+import 'package:paywise/screens/pro_routes.gr.dart';
+import 'package:paywise/screens/routes.gr.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 
 class DoneBackup extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BackupViewModel>(
       converter: BackupViewModel.fromStore,
+      onInit: (store) {
+        Segment.screen(screenName: '/done-backup');
+      },
       builder: (_, viewModal) => MainScaffold(
-          withPadding: false,
-          footer: bottomBar(context),
           title: I18n.of(context).back_up,
-          titleFontSize: 15,
           children: <Widget>[
             Container(
               height: MediaQuery.of(context).size.height * 0.7,
@@ -68,9 +69,15 @@ class DoneBackup extends StatelessWidget {
                     labelFontWeight: FontWeight.normal,
                     label: I18n.of(context).ok,
                     fontSize: 15,
-                    // width: 160,
                     onPressed: () async {
-                      viewModal.backupWallet();
+                      VoidCallback successCb = () {
+                        if (viewModal.isProMode) {
+                          ProRouter.navigator.popUntil(ModalRoute.withName(ProRouter.proModeHomeScreen));
+                        } else {
+                          Router.navigator.popUntil(ModalRoute.withName(Router.cashHomeScreen));
+                        }
+                      };
+                      viewModal.backupWallet(successCb);
                     },
                   ))
                 ],

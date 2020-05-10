@@ -15,10 +15,13 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
         ? null
         : CashWalletState.fromJson(
             json['cashWalletState'] as Map<String, dynamic>),
+    proWalletState: AppState._proStateFromJson(
+        json['proWalletState'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
       'userState': instance.userState?.toJson(),
       'cashWalletState': instance.cashWalletState?.toJson(),
+      'proWalletState': instance.proWalletState?.toJson(),
     };
