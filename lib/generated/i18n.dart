@@ -2354,15 +2354,15 @@ class _I18n_es_MX extends _I18n_es_ES {
 class _I18n_de_DE extends I18n {
   const _I18n_de_DE();
 
-  /// "Verwende die kontaktlose Gutschein-App um Wertgutscheine \n ohne Probleme und Kosten zu verwalten und einzulˆsen."
+  /// "Verwende die kontaktlose Gutschein-App um Wertgutscheine \n ohne Probleme und Kosten zu verwalten und einzulösen."
   @override
-  String get intro_text_one => "Verwende die kontaktlose Gutschein-App um Wertgutscheine \n ohne Probleme und Kosten zu verwalten und einzulˆsen.";
-  /// "Gutscheine kˆnnen ¸ber Crypto-Token erhalten und eingelˆst werden\n gleichzeitig findest Du heraus, wo Du ¸berall damit Einkaufen oder Vorteile erhalten kannst."
+  String get intro_text_one => "Verwende die kontaktlose Gutschein-App um Wertgutscheine \n ohne Probleme und Kosten zu verwalten und einzulösen.";
+  /// "Gutscheine können über Crypto-Token erhalten und eingelöst werden\n gleichzeitig findest Du heraus, wo Du überall damit Einkaufen oder Vorteile erhalten kannst."
   @override
-  String get intro_text_two => "Gutscheine kˆnnen ¸ber Crypto-Token erhalten und eingelˆst werden\n gleichzeitig findest Du heraus, wo Du ¸berall damit Einkaufen oder Vorteile erhalten kannst.";
-  /// "Sichere Dir Wertgutscheine und lˆse diese\n ganz einfach und dezentralisiert bei Deinen Local Champions ein."
+  String get intro_text_two => "Gutscheine können über Crypto-Token erhalten und eingelöst werden\n gleichzeitig findest Du heraus, wo Du überall damit Einkaufen oder Vorteile erhalten kannst.";
+  /// "Sichere Dir Wertgutscheine und löse diese\n ganz einfach und dezentralisiert bei Deinen Local Champions ein."
   @override
-  String get intro_text_three => "Sichere Dir Wertgutscheine und lˆse diese\n ganz einfach und dezentralisiert bei Deinen Local Champions ein.";
+  String get intro_text_three => "Sichere Dir Wertgutscheine und löse diese\n ganz einfach und dezentralisiert bei Deinen Local Champions ein.";
   /// "Hallo"
   @override
   String get hi => "Hallo";
@@ -2381,27 +2381,24 @@ class _I18n_de_DE extends I18n {
   /// "kontaktlose Gutschein-App anlegen"
   @override
   String get create__wallet => "kontaktlose Gutschein-App anlegen";
-  /// "Sicherung zur¸ckholen"
+  /// "Sicherung zurückholen"
   @override
-  String get restore_backup => "Sicherung zur¸ckholen";
-  /// "Wert-‹bersicht"
+  String get restore_backup => "Sicherung zurückholen";
+  /// "Wert-Übersicht"
   @override
-  String get balance => "Wert-‹bersicht";
+  String get balance => "Wert-Übersicht";
   /// "Wichtig!"
   @override
   String get important => "Wichtig!";
-  /// "Telefonnummer"
-  @override
-  String get phoneNumber => "Telefonnummer";
   /// "Abschicken"
   @override
   String get ok => "Abschicken";
   /// "Kontaktiere uns"
   @override
   String get contact_us => "Kontaktiere uns";
-  /// "Deine kontaktlose Gutschein-App ist gesch¸tzt!"
+  /// "Deine kontaktlose Gutschein-App ist geschützt!"
   @override
-  String get wallet_protected => "Deine kontaktlose Gutschein-App ist gesch¸tzt!";
+  String get wallet_protected => "Deine kontaktlose Gutschein-App ist geschützt!";
   /// "Sehr gut, Du hast Deine Sicherheitscodes gespeichert. Bewahre die Codes an einem sicheren Ort auf und gebe niemandem Zugriff auf diese Codes."
   @override
   String get wallet_protected_text => "Sehr gut, Du hast Deine Sicherheitscodes gespeichert. Bewahre die Codes an einem sicheren Ort auf und gebe niemandem Zugriff auf diese Codes.";
@@ -2414,24 +2411,24 @@ class _I18n_de_DE extends I18n {
   /// "Wort "
   @override
   String get word => "Wort ";
-  /// "Die Worte stimmen nicht ¸berein"
+  /// "Die Worte stimmen nicht überein"
   @override
-  String get word_not_match => "Die Worte stimmen nicht ¸berein";
+  String get word_not_match => "Die Worte stimmen nicht überein";
   /// "Sicherung"
   @override
   String get back_up => "Sicherung";
-  /// "N‰chste"
+  /// "Nächste"
   @override
-  String get next_button => "N‰chste";
-  /// "‹berspringen"
+  String get next_button => "Nächste";
+  /// "Überspringen"
   @override
-  String get skip_button => "‹berspringen";
+  String get skip_button => "Überspringen";
   /// "Zahlen"
   @override
   String get pay => "Zahlen";
-  /// "Keine lokalen Gesch‰fte gefunden"
+  /// "Keine lokalen Geschäfte gefunden"
   @override
-  String get no_businesses => "Keine lokalen Gesch‰fte gefunden";
+  String get no_businesses => "Keine lokalen Geschäfte gefunden";
   /// "Gutschein-Ablage anlegen"
   @override
   String get generating_wallet => "Gutschein-Ablage anlegen";
@@ -2444,15 +2441,15 @@ class _I18n_de_DE extends I18n {
   /// "Fehlgeschlagen"
   @override
   String get failed => "Fehlgeschlagen";
-  /// "Best‰tigt"
+  /// "Bestätigt"
   @override
-  String get confirmed => "Best‰tigt";
-  /// "‹bertragungen"
+  String get confirmed => "Bestätigt";
+  /// "Übertragungen"
   @override
-  String get transactions => "‹bertragungen";
-  /// "Details der ‹bertragung"
+  String get transactions => "Übertragungen";
+  /// "Details der Übertragung"
   @override
-  String get transaction_details => "Details der ‹bertragung";
+  String get transaction_details => "Details der Übertragung";
   /// "ZU"
   @override
   String get to => "ZU";
@@ -2465,24 +2462,15 @@ class _I18n_de_DE extends I18n {
   /// "Anzahl"
   @override
   String get amount => "Anzahl";
-  /// "Du hast einen Begr¸ﬂungs-Wert erhalten!"
+  /// "Du hast einen Begrüßungs-Wert erhalten!"
   @override
-  String get join_bonus => "Du hast einen Begr¸ﬂungs-Wert erhalten!";
+  String get join_bonus => "Du hast einen Begrüßungs-Wert erhalten!";
   /// "Bei LocalChampions.de teilnehmen"
   @override
   String get joining_community => "Bei LocalChampions.de teilnehmen";
-  /// "Beitreten"
+  /// "Über"
   @override
-  String get joining => "Beitreten";
-  /// "Beitritt"
-  @override
-  String get joined => "Beitritt";
-  /// "gemeinschaft"
-  @override
-  String get community => "gemeinschaft";
-  /// "‹ber"
-  @override
-  String get about => "‹ber";
+  String get about => "Über";
   /// "Version"
   @override
   String get version => "Version";
@@ -2516,21 +2504,21 @@ class _I18n_de_DE extends I18n {
   /// "Sichern"
   @override
   String get save_button => "Sichern";
-  /// "Du kannst durch die Eingabe einer eindeutigen ID-Nummer auf eine andere Plattform wechseln (erh‰ltlich beim Plattform Betreiber) oder einfach mit der Kamera einen QR-Code aufnehmen"
+  /// "Du kannst durch die Eingabe einer eindeutigen ID-Nummer auf eine andere Plattform wechseln (erhältlich beim Plattform Betreiber) oder einfach mit der Kamera einen QR-Code aufnehmen"
   @override
-  String get fuse_studio => "Du kannst durch die Eingabe einer eindeutigen ID-Nummer auf eine andere Plattform wechseln (erh‰ltlich beim Plattform Betreiber) oder einfach mit der Kamera einen QR-Code aufnehmen";
-  /// "Zugriff auf Kontakte gew‰hren"
+  String get fuse_studio => "Du kannst durch die Eingabe einer eindeutigen ID-Nummer auf eine andere Plattform wechseln (erhältlich beim Plattform Betreiber) oder einfach mit der Kamera einen QR-Code aufnehmen";
+  /// "Zugriff auf Kontakte gewähren"
   @override
-  String get enable_contacts_access => "Zugriff auf Kontakte gew‰hren";
+  String get enable_contacts_access => "Zugriff auf Kontakte gewähren";
   /// "Deine Kontakte werden nicht auf unseren Servern gespeichert\n und Informationen werden nicht versendet oder mit Dritten geteilt.  \n Wir senden keine Nachrichten oder E-Mails an Deine Kontakte"
   @override
   String get enable_text => "Deine Kontakte werden nicht auf unseren Servern gespeichert\n und Informationen werden nicht versendet oder mit Dritten geteilt.  \n Wir senden keine Nachrichten oder E-Mails an Deine Kontakte";
   /// "Deine Daten sind sicher:"
   @override
   String get dont_worry => "Deine Daten sind sicher:";
-  /// "Ermˆgliche den Zugriff auf Deine Kontakte\n um Gutscheine bei gespeicherten Kontakten einzulˆsen"
+  /// "Ermögliche den Zugriff auf Deine Kontakte\n um Gutscheine bei gespeicherten Kontakten einzulösen"
   @override
-  String get enable_contacts_text => "Ermˆgliche den Zugriff auf Deine Kontakte\n um Gutscheine bei gespeicherten Kontakten einzulˆsen";
+  String get enable_contacts_text => "Ermögliche den Zugriff auf Deine Kontakte\n um Gutscheine bei gespeicherten Kontakten einzulösen";
   /// "Kontakte lesen"
   @override
   String get sync_contacts => "Kontakte lesen";
@@ -2555,9 +2543,9 @@ class _I18n_de_DE extends I18n {
   /// "Kontakt synchronisieren"
   @override
   String get sync_your_contacts => "Kontakt synchronisieren";
-  /// "Mehr dar¸ber"
+  /// "Mehr darüber"
   @override
-  String get learn_more => "Mehr dar¸ber";
+  String get learn_more => "Mehr darüber";
   /// "Aktivieren"
   @override
   String get activate => "Aktivieren";
@@ -2567,9 +2555,9 @@ class _I18n_de_DE extends I18n {
   /// "Name oder Adresse"
   @override
   String get search => "Name oder Adresse";
-  /// "‹bertragung ‹berpr¸fen"
+  /// "Übertragung Überprüfen"
   @override
-  String get review_transfer => "‹bertragung ‹berpr¸fen";
+  String get review_transfer => "Übertragung Überprüfen";
   /// "Senden"
   @override
   String get send_button => "Senden";
@@ -2579,27 +2567,27 @@ class _I18n_de_DE extends I18n {
   /// "Wiederherstellen"
   @override
   String get restore_from_backup => "Wiederherstellen";
-  /// "Hier benˆtigst Du die 12 Worte, die Du beim Anlegen zuvor festgelegt und sicher aufbewahrt hattest."
+  /// "Hier benötigst Du die 12 Worte, die Du beim Anlegen zuvor festgelegt und sicher aufbewahrt hattest."
   @override
-  String get restore_words => "Hier benˆtigst Du die 12 Worte, die Du beim Anlegen zuvor festgelegt und sicher aufbewahrt hattest.";
+  String get restore_words => "Hier benötigst Du die 12 Worte, die Du beim Anlegen zuvor festgelegt und sicher aufbewahrt hattest.";
   /// "Schreibe die 12 Worte auf..."
   @override
   String get write_down_your_words => "Schreibe die 12 Worte auf...";
   /// "Registrierung"
   @override
   String get sign_up => "Registrierung";
-  /// "Bitte Deine persˆnliche Mobilfunknummer eingeben, damit wir Deinen Account anlegen kˆnnen."
+  /// "Bitte Deine persönliche Mobilfunknummer eingeben, damit wir Deinen Account anlegen können."
   @override
-  String get enter_phone_number => "Bitte Deine persˆnliche Mobilfunknummer eingeben, damit wir Deinen Account anlegen kˆnnen.";
-  /// "Warum benˆtigen wir das?"
+  String get enter_phone_number => "Bitte Deine persönliche Mobilfunknummer eingeben, damit wir Deinen Account anlegen können.";
+  /// "Warum benötigen wir das?"
   @override
-  String get why_do_we_need_this => "Warum benˆtigen wir das?";
-  /// "W‰hle Dein Pseudonym"
+  String get why_do_we_need_this => "Warum benötigen wir das?";
+  /// "Wähle Dein Pseudonym"
   @override
-  String get pickup_display_name => "W‰hle Dein Pseudonym";
-  /// "Dieser Name wird sichtbar, um Dich gegen¸ber Partnern zu identifizieren die Dir Gutscheine ¸bermitteln oder bei denen Du Gutscheine einlˆsen willst."
+  String get pickup_display_name => "Wähle Dein Pseudonym";
+  /// "Dieser Name wird sichtbar, um Dich gegenüber Partnern zu identifizieren die Dir Gutscheine übermitteln oder bei denen Du Gutscheine einlösen willst."
   @override
-  String get pickup_display_name_text => "Dieser Name wird sichtbar, um Dich gegen¸ber Partnern zu identifizieren die Dir Gutscheine ¸bermitteln oder bei denen Du Gutscheine einlˆsen willst.";
+  String get pickup_display_name_text => "Dieser Name wird sichtbar, um Dich gegenüber Partnern zu identifizieren die Dir Gutscheine übermitteln oder bei denen Du Gutscheine einlösen willst.";
   /// "Code erneut per SMS senden"
   @override
   String get resend_code => "Code erneut per SMS senden";
@@ -2609,12 +2597,12 @@ class _I18n_de_DE extends I18n {
   /// "Wir haben gerade eine Nachricht gesendet an \n"
   @override
   String get we_just_sent => "Wir haben gerade eine Nachricht gesendet an \n";
-  /// "Bitte den 6-stelligen Code aus der Best‰tigungsnachricht\n hier eingeben"
+  /// "Bitte den 6-stelligen Code aus der Bestätigungsnachricht\n hier eingeben"
   @override
-  String get enter_verification_code => "Bitte den 6-stelligen Code aus der Best‰tigungsnachricht\n hier eingeben";
-  /// "Sch¸tze Deine Gutschein-Ablage"
+  String get enter_verification_code => "Bitte den 6-stelligen Code aus der Bestätigungsnachricht\n hier eingeben";
+  /// "Schütze Deine Gutschein-Ablage"
   @override
-  String get protect_wallet => "Sch¸tze Deine Gutschein-Ablage";
+  String get protect_wallet => "Schütze Deine Gutschein-Ablage";
   /// "Sicherung"
   @override
   String get backup_wallet => "Sicherung";
@@ -2636,9 +2624,9 @@ class _I18n_de_DE extends I18n {
   /// "Einfach"
   @override
   String get simple => "Einfach";
-  /// "N¸tzlich"
+  /// "Nützlich"
   @override
-  String get useful => "N¸tzlich";
+  String get useful => "Nützlich";
   /// "Geschickt"
   @override
   String get smart => "Geschickt";
@@ -2651,30 +2639,9 @@ class _I18n_de_DE extends I18n {
   /// "Handel"
   @override
   String get trade => "Handel";
-  /// "Anlagen und Vertr‰ge"
+  /// "Anlagen und Verträge"
   @override
-  String get assets_and_contracts => "Anlagen und Vertr‰ge";
-  /// "Sent to your Ethereum wallet"
-  @override
-  String get sending_to_ethereum => "Sent to your Ethereum wallet";
-  /// "Sent to Ethereum"
-  @override
-  String get sent_to_ethereum => "Sent to Ethereum";
-  /// "Received from Ethereum"
-  @override
-  String get received_from_ethereum => "Received from Ethereum";
-  /// "Add DAI"
-  @override
-  String get addDai => "Add DAI";
-  /// "Withdraw DAI"
-  @override
-  String get withdrawDAI => "Withdraw DAI";
-  /// "Send to cash mode"
-  @override
-  String get sendToCashMode => "Send to cash mode";
-  /// "Community webpage"
-  @override
-  String get communityWepbpage => "Community webpage";
+  String get assets_and_contracts => "Anlagen und Verträge";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
