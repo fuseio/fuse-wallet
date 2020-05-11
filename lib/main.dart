@@ -5,23 +5,23 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/pro_routes.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/views/splash.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/user_actions.dart';
+import 'package:digitalrand/redux/state/store.dart';
+import 'package:digitalrand/screens/pro_routes.gr.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/themes/app_theme.dart';
+import 'package:digitalrand/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:digitalrand/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv().load('.env');
+  await DotEnv().load('.env_prod');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runZonedGuarded<Future<void>>(() async => runApp(await customThemeApp()),
       (Object error, StackTrace stackTrace) async {

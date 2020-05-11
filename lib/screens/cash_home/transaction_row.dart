@@ -1,15 +1,15 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/screens/cash_home/transaction_details.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/transactions/transaction.dart';
+import 'package:digitalrand/models/transactions/transfer.dart';
+import 'package:digitalrand/models/views/cash_wallet.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/utils/addresses.dart';
+import 'package:digitalrand/utils/transaction_row.dart';
+import 'package:digitalrand/screens/cash_home/transaction_details.dart';
+import 'package:digitalrand/utils/format.dart';
 
 class TransactionListItem extends StatelessWidget {
   final Transaction _transaction;

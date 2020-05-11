@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/screens/cash_home/prize.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/widgets/activate_pro_mode.dart';
-import 'package:fusecash/widgets/deposit_dai_popup.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/screens/cash_home/prize.dart';
+import 'package:digitalrand/screens/cash_home/webview_page.dart';
+import 'package:digitalrand/screens/send/send_amount.dart';
+import 'package:digitalrand/screens/send/send_amount_arguments.dart';
+import 'package:digitalrand/utils/addresses.dart';
+import 'package:digitalrand/widgets/activate_pro_mode.dart';
+import 'package:digitalrand/widgets/deposit_dai_popup.dart';
+import 'package:digitalrand/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
 
 class DaiExplainedScreen extends StatefulWidget {

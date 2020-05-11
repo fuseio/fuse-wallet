@@ -3,29 +3,29 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:digitalrand/models/business.dart';
+import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community_metadata.dart';
+import 'package:digitalrand/models/jobs/base.dart';
+import 'package:digitalrand/models/plugins.dart';
+import 'package:digitalrand/models/transactions/transaction.dart';
+import 'package:digitalrand/models/transactions/transactions.dart';
+import 'package:digitalrand/models/transactions/transfer.dart';
+import 'package:digitalrand/models/user_state.dart';
+import 'package:digitalrand/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/utils/constans.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/user_actions.dart';
+import 'package:digitalrand/utils/addresses.dart';
+import 'package:digitalrand/redux/state/store.dart';
+import 'package:digitalrand/utils/constans.dart';
+import 'package:digitalrand/utils/format.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:fusecash/services.dart';
-import 'package:fusecash/models/token.dart';
+import 'package:digitalrand/services.dart';
+import 'package:digitalrand/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -361,6 +361,7 @@ ThunkAction initWeb3Call(String privateKey, {
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('initWeb3. privateKey: $privateKey');
+      String defaultAddress = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
       wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
           defaultCommunityAddress: DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
           communityManagerAddress:
@@ -371,7 +372,7 @@ ThunkAction initWeb3Call(String privateKey, {
             dAIPointsManagerAddress ?? DotEnv().env['DAI_POINTS_MANAGER_CONTRACT_ADDRESS']);
       if (store.state.cashWalletState.communityAddress == null ||
           store.state.cashWalletState.communityAddress.isEmpty) {
-        store.dispatch(SetDefaultCommunity(web3.getDefaultCommunity().toLowerCase()));
+        store.dispatch(SetDefaultCommunity(defaultAddress));
       }
       web3.setCredentials(privateKey);
       store.dispatch(new InitWeb3Success(web3));
@@ -446,6 +447,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
     try {
       logger.info('createAccountWalletCall');
       logger.info('accountAddress: $accountAddress');
+      String communityAddress = store.state.cashWalletState.communityAddress;
       Map<String, dynamic> response = await api.createWallet();
       if (!response.containsKey('job')) {
         logger.info('Wallet already exists');
@@ -453,7 +455,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
         return;
       }
-      List<Job> jobs = store.state.cashWalletState.communities[store.state.cashWalletState.communityAddress].jobs;
+      List<Job> jobs = store.state.cashWalletState.communities[communityAddress]?.jobs ?? [];
       bool hasCreateWallet = jobs.any((job) => job.jobType == 'createWallet');
       if (hasCreateWallet) {
         store.dispatch(new CreateAccountWalletRequest(accountAddress));

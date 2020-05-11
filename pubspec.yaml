@@ -1,4 +1,4 @@
-name: fusecash
+name: digitalrand
 version: 1.1.30+162
 description: A new Flutter project.
 environment:
@@ -64,12 +64,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_icons:
-  image_path: assets/images/icon_app.jpg
+  image_path: assets/images/icon_app.png
   android: true
   ios: true
 flutter:
   assets:
-    - .env
     - .env_prod
     - .env_qa
     - assets/

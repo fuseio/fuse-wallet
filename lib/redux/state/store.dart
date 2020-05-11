@@ -1,17 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fusecash/redux/middlewares/auth_middleware.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/reducers/app_reducer.dart';
-import 'package:fusecash/redux/state/state_secure_storage.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/utils/jwt.dart';
+import 'package:digitalrand/redux/middlewares/auth_middleware.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/redux/reducers/app_reducer.dart';
+import 'package:digitalrand/redux/state/state_secure_storage.dart';
+import 'package:digitalrand/utils/jwt.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
-import 'package:fusecash/services.dart';
+import 'package:digitalrand/services.dart';
 import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
@@ -94,7 +93,7 @@ class AppFactory {
             logger.info('relogin');
             final FirebaseUser currentUser = await firebaseAuth.currentUser();
             IdTokenResult token = await currentUser.getIdToken();
-            jwtToken = await api.login(token.token, initialState.userState.accountAddress, initialState.userState.identifier);
+            jwtToken = await api.login(token.token, initialState.userState.accountAddress, initialState.userState.identifier, appName: 'DigitalRand');
           }
 
           logger.info('jwt: $jwtToken');

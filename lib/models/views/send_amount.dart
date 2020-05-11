@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/pro/token.dart' as erc20Token;
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/pro/token.dart' as erc20Token;
+import 'package:digitalrand/models/token.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel {

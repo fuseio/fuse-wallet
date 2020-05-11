@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/screens/send/send_review.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/screens/send/send_amount_arguments.dart';
+import 'package:digitalrand/screens/send/send_review.dart';
+import 'package:digitalrand/utils/format.dart';
+import 'package:digitalrand/widgets/main_scaffold.dart';
+import 'package:digitalrand/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:digitalrand/models/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/token.dart';
+import 'package:digitalrand/models/token.dart';
 
 class SendAmountScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

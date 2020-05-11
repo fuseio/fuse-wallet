@@ -2,17 +2,17 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/business.dart';
+import 'package:digitalrand/models/views/buy_page.dart';
+import 'package:digitalrand/screens/buy/business.dart';
+import 'package:digitalrand/screens/cash_home/webview_page.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/screens/send/send_amount.dart';
+import 'package:digitalrand/screens/send/send_amount_arguments.dart';
+import 'package:digitalrand/utils/transaction_row.dart';
+import 'package:digitalrand/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -157,7 +157,7 @@ class BusinessesListView extends StatelessWidget {
             child: Text(
               I18n.of(context).pay,
               style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
+                  color: Theme.of(context).splashColor,
                   fontSize: 15,
                   fontWeight: FontWeight.normal),
             ),

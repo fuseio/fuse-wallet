@@ -1,42 +1,35 @@
 {
   "project_info": {
-    "project_number": "863692183597",
-    "firebase_url": "https://fuse-2-0.firebaseio.com",
-    "project_id": "fuse-2-0",
-    "storage_bucket": "fuse-2-0.appspot.com"
+    "project_number": "262793449920",
+    "firebase_url": "https://digitalrand-5c2a7.firebaseio.com",
+    "project_id": "digitalrand-5c2a7",
+    "storage_bucket": "digitalrand-5c2a7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:863692183597:android:0591105e8b1bb60b9b80a4",
+        "mobilesdk_app_id": "1:262793449920:android:b7d0fb6c9cc935e324b825",
         "android_client_info": {
-          "package_name": "io.fuse.fusecash"
+          "package_name": "io.fuse.digitalrand"
         }
       },
       "oauth_client": [
         {
-          "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+          "client_id": "262793449920-gkkgldusmo055425jt648evcd7fct3oj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvx56Wp3R5M4d0I1lwYc6fhgJy6dTFNPM"
+          "current_key": "AIzaSyCFT3QOtLv-Oosk4MT9u0RT3w6Y3XVgV0g"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+              "client_id": "262793449920-gkkgldusmo055425jt648evcd7fct3oj.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "io.fuse.fusecash"
-              }
             }
           ]
         }

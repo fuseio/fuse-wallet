@@ -2,12 +2,12 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'cash_transactions.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
+import 'package:digitalrand/models/views/cash_wallet.dart';
 
 class CashHomeScreen extends StatelessWidget {
   onInit(Store<AppState> store) async {

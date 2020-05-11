@@ -1,7 +1,7 @@
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/reducers/pro_mode_reducer.dart';
-import 'package:fusecash/redux/reducers/user_reducer.dart';
-import 'package:fusecash/redux/reducers/cash_wallet_reducer.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/redux/reducers/pro_mode_reducer.dart';
+import 'package:digitalrand/redux/reducers/user_reducer.dart';
+import 'package:digitalrand/redux/reducers/cash_wallet_reducer.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   return AppState(

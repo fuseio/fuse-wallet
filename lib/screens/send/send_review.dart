@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/screens/send/send_success.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/views/send_amount.dart';
+import 'package:digitalrand/screens/send/send_amount_arguments.dart';
+import 'package:digitalrand/screens/send/send_success.dart';
+import 'package:digitalrand/utils/format.dart';
+import 'package:digitalrand/widgets/main_scaffold.dart';
+import 'package:digitalrand/widgets/primary_button.dart';
+import 'package:digitalrand/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SendReviewScreen extends StatefulWidget {

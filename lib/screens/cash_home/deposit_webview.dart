@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/models/views/drawer.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/plugins.dart';
+import 'package:digitalrand/models/views/drawer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

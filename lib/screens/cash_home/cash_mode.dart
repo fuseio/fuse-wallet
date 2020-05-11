@@ -1,21 +1,20 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/bottom_bar.dart';
-import 'package:fusecash/screens/buy/buy.dart';
-import 'package:fusecash/screens/cash_home/cash_header.dart';
-import 'package:fusecash/screens/cash_home/cash_home.dart';
-import 'package:fusecash/screens/cash_home/dai_explained.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/send/contacts_list.dart';
-import 'package:fusecash/screens/send/receive.dart';
-import 'package:fusecash/screens/send/send_contact.dart';
-import 'package:fusecash/widgets/bottom_bar_item.dart';
-import 'package:fusecash/widgets/drawer.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
-import 'package:fusecash/widgets/tabs_scaffold.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/views/bottom_bar.dart';
+import 'package:digitalrand/screens/buy/buy.dart';
+import 'package:digitalrand/screens/cash_home/cash_header.dart';
+import 'package:digitalrand/screens/cash_home/cash_home.dart';
+import 'package:digitalrand/screens/cash_home/webview_page.dart';
+import 'package:digitalrand/screens/send/contacts_list.dart';
+import 'package:digitalrand/screens/send/receive.dart';
+import 'package:digitalrand/screens/send/send_contact.dart';
+import 'package:digitalrand/widgets/bottom_bar_item.dart';
+import 'package:digitalrand/widgets/drawer.dart';
+import 'package:digitalrand/widgets/my_app_bar.dart';
+import 'package:digitalrand/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;
@@ -33,8 +32,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     _currentIndex = widget.tabIndex;
   }
 
-  List<Widget> _pages(
-      List<Contact> contacts, bool isDefualtCommunity, String webUrl) {
+  List<Widget> _pages(List<Contact> contacts, String webUrl) {
     bool hasContactsInStore = contacts.isNotEmpty;
     if (webUrl != null && webUrl.isNotEmpty) {
       return [
@@ -46,15 +44,6 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           pageArgs: WebViewPageArguments(
               url: webUrl, withBack: false, title: 'Community webpage'),
         ),
-        ReceiveScreen()
-      ];
-    } else if (isDefualtCommunity) {
-      return [
-        CashHomeScreen(),
-        !hasContactsInStore
-            ? SendToContactScreen()
-            : ContactsList(contacts: contacts),
-        DaiExplainedScreen(),
         ReceiveScreen()
       ];
     } else {
@@ -86,9 +75,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
         items: [
           bottomBarItem(I18n.of(context).home, 'home'),
           bottomBarItem(I18n.of(context).send_button, 'send'),
-          vm.isDefaultCommunity
-              ? bottomBarItem(I18n.of(context).dai_points, 'daipoints')
-              : bottomBarItem(I18n.of(context).buy, 'buy'),
+          bottomBarItem(I18n.of(context).buy, 'buy'),
           bottomBarItem(I18n.of(context).receive, 'receive'),
         ],
         onTap: _onTap,
@@ -99,12 +86,11 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
-          final List<Widget> pages =
-              _pages(vm.contacts, vm.isDefaultCommunity, vm.community?.webUrl);
+          final List<Widget> pages = _pages(vm.contacts, vm.community?.webUrl);
           return TabsScaffold(
               header: MyAppBar(
-                height: MediaQuery.of(context).size.height * .25,
-                backgroundColor: Colors.white,
+                height: 230.0,
+                backgroundColor: Colors.red,
                 child: CashHeader(),
               ),
               drawerEdgeDragWidth: 0,

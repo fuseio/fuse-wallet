@@ -3,13 +3,13 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/widgets/drawer.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/business.dart';
+import 'package:digitalrand/models/token.dart';
+import 'package:digitalrand/screens/send/send_amount.dart';
+import 'package:digitalrand/screens/send/send_amount_arguments.dart';
+import 'package:digitalrand/utils/transaction_row.dart';
+import 'package:digitalrand/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -344,10 +344,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               child: Text(
                                 I18n.of(context).pay,
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        .color,
+                                    color: Theme.of(context).splashColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal),
                               ),

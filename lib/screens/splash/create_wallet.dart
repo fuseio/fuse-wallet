@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/transparent_button.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/views/splash.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/widgets/primary_button.dart';
+import 'package:digitalrand/widgets/transparent_button.dart';
 
 class CreateWallet extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class _CreateWalletState extends State<CreateWallet> {
               Expanded(
                 flex: 6,
                 child: Image.asset(
-                  'assets/images/digital_rand_logo.jpg',
+                  'assets/images/digital_rand_logo.png',
                   width: 350,
                   height: 350,
                 ),
