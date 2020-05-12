@@ -103,7 +103,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
               _pages(vm.contacts, vm.isDefaultCommunity, vm.community?.webUrl);
           return TabsScaffold(
               header: MyAppBar(
-                height: MediaQuery.of(context).size.height * .25,
+                height: 230.0,
                 backgroundColor: Colors.white,
                 child: CashHeader(),
               ),

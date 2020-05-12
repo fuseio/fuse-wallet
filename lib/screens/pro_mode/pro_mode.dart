@@ -150,7 +150,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
               header: MyAppBar(
                 child: ProHeader(),
                 backgroundColor: Colors.red,
-                height: MediaQuery.of(context).size.height * .25,
+                height: 230.0,
               ),
               drawerEdgeDragWidth: 0,
               pages: pages,
