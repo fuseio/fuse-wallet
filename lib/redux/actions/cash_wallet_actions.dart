@@ -19,6 +19,7 @@ import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/constans.dart';
+import 'package:fusecash/utils/firebase.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:http/http.dart';
@@ -254,13 +255,28 @@ ThunkAction enablePushNotifications() {
 
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          logger.info('onMessage called: $message');
+          final dynamic data = message['data'] ?? message;
+          logger.info('onMessage called: $data');
+          String communityAddress = communityAddressFromNotification(message);
+          if (communityAddress != null && communityAddress.isNotEmpty) {
+            store.dispatch(switchCommunityCall(communityAddress));
+          }
         },
         onResume: (Map<String, dynamic> message) async {
-          logger.info('onResume called: $message');
+          final dynamic data = message['data'] ?? message;
+          logger.info('onResume called: $data');
+          String communityAddress = communityAddressFromNotification(message);
+          if (communityAddress != null && communityAddress.isNotEmpty) {
+            store.dispatch(switchCommunityCall(communityAddress));
+          }
         },
         onLaunch: (Map<String, dynamic> message) async {
-          logger.info('onLaunch called: $message');
+          final dynamic data = message['data'] ?? message;
+          logger.info('onLaunch called: $data');
+          String communityAddress = communityAddressFromNotification(message);
+          if (communityAddress != null && communityAddress.isNotEmpty) {
+            store.dispatch(switchCommunityCall(communityAddress));
+          }
         },
       );
     } catch (e) {
