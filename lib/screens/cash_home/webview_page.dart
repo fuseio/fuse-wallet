@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 
@@ -29,7 +30,7 @@ class _WebViewPageState extends State<WebViewPage> {
             url: webPageArgs.url,
             appBar: MyAppBar(
               child: Container(
-                height: 150,
+                height: 120,
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -59,7 +60,19 @@ class _WebViewPageState extends State<WebViewPage> {
                                     color: Theme.of(context).primaryColor,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800))
-                          ])
+                          ]),
+                      webPageArgs.withBack
+                          ? Positioned(
+                              top: 60,
+                              left: 20,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child:
+                                    SvgPicture.asset('assets/images/arrow.svg'),
+                              ))
+                          : SizedBox.shrink(),
                     ],
                   ),
                 ),
