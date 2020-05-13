@@ -253,30 +253,22 @@ ThunkAction enablePushNotifications() {
         },
       });
 
+      void switchOnPush(message) {
+        String communityAddress = communityAddressFromNotification(message);
+          if (communityAddress != null && communityAddress.isNotEmpty) {
+            store.dispatch(switchCommunityCall(communityAddress));
+          }
+      }
+
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          final dynamic data = message['data'] ?? message;
-          logger.info('onMessage called: $data');
-          String communityAddress = communityAddressFromNotification(message);
-          if (communityAddress != null && communityAddress.isNotEmpty) {
-            store.dispatch(switchCommunityCall(communityAddress));
-          }
+          switchOnPush(message);
         },
         onResume: (Map<String, dynamic> message) async {
-          final dynamic data = message['data'] ?? message;
-          logger.info('onResume called: $data');
-          String communityAddress = communityAddressFromNotification(message);
-          if (communityAddress != null && communityAddress.isNotEmpty) {
-            store.dispatch(switchCommunityCall(communityAddress));
-          }
+          switchOnPush(message);
         },
         onLaunch: (Map<String, dynamic> message) async {
-          final dynamic data = message['data'] ?? message;
-          logger.info('onLaunch called: $data');
-          String communityAddress = communityAddressFromNotification(message);
-          if (communityAddress != null && communityAddress.isNotEmpty) {
-            store.dispatch(switchCommunityCall(communityAddress));
-          }
+          switchOnPush(message);
         },
       );
     } catch (e) {
