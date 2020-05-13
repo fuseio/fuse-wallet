@@ -9,7 +9,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/draw_info.dart';
 import 'package:fusecash/models/views/prize.dart';
 import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/cash_home/deposit_webview.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
@@ -361,13 +360,20 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                       ),
                                       InkWell(
                                         onTap: () {
+                                          dynamic depositPlugin =
+                                              depositPlugins[0];
+                                          dynamic url =
+                                              depositPlugin.generateUrl();
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    DepositWebView(
-                                                        depositPlugin:
-                                                            depositPlugins[0]),
+                                                    WebViewPage(
+                                                        pageArgs:
+                                                            WebViewPageArguments(
+                                                                url: url,
+                                                                title:
+                                                                    'Top up')),
                                                 fullscreenDialog: true),
                                           );
                                           Segment.track(

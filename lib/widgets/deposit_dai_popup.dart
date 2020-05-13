@@ -4,7 +4,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins.dart';
-import 'package:fusecash/screens/cash_home/deposit_webview.dart';
+import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/pro_routes.gr.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/addresses.dart';
@@ -104,14 +104,14 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                 onTap: () {
                                   if (viewModel.isProMode) {
                                     ProRouter.navigator.pushNamed(
-                                      ProRouter.proModeHomeScreen,
-                                      arguments: ProModeScaffoldArguments(
-                                          tabIndex: 3));
+                                        ProRouter.proModeHomeScreen,
+                                        arguments: ProModeScaffoldArguments(
+                                            tabIndex: 3));
                                   } else {
                                     Router.navigator.pushNamed(
-                                      Router.cashHomeScreen,
-                                      arguments: CashModeScaffoldArguments(
-                                          tabIndex: 3));
+                                        Router.cashHomeScreen,
+                                        arguments: CashModeScaffoldArguments(
+                                            tabIndex: 3));
                                   }
                                 },
                               ),
@@ -141,11 +141,13 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
+                                  dynamic url = depositPlugins[0].generateUrl();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => DepositWebView(
-                                            depositPlugin: depositPlugins[0]),
+                                        builder: (context) => WebViewPage(
+                                            pageArgs: WebViewPageArguments(
+                                                url: url, title: 'Top up')),
                                         fullscreenDialog: true),
                                   );
                                   Segment.track(
