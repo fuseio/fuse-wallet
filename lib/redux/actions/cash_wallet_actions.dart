@@ -19,6 +19,7 @@ import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/constans.dart';
+import 'package:fusecash/utils/firebase.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:http/http.dart';
@@ -252,15 +253,22 @@ ThunkAction enablePushNotifications() {
         },
       });
 
+      void switchOnPush(message) {
+        String communityAddress = communityAddressFromNotification(message);
+          if (communityAddress != null && communityAddress.isNotEmpty) {
+            store.dispatch(switchCommunityCall(communityAddress));
+          }
+      }
+
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          logger.info('onMessage called: $message');
+          switchOnPush(message);
         },
         onResume: (Map<String, dynamic> message) async {
-          logger.info('onResume called: $message');
+          switchOnPush(message);
         },
         onLaunch: (Map<String, dynamic> message) async {
-          logger.info('onLaunch called: $message');
+          switchOnPush(message);
         },
       );
     } catch (e) {
