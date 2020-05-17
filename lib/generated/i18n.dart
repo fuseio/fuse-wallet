@@ -508,9 +508,9 @@ class _I18n_he_IL extends I18n {
   /// "הרגע שלנו לך הודעה \n"
   @override
   String get we_just_sent => "הרגע שלנו לך הודעה \n";
-  /// "אנא הכנס את הקוד בין ה-6 ספרות שנשלח אלך"
+  /// "אנא הכנס את הקוד בין ה-6 ספרות שנשלח אלייך"
   @override
-  String get enter_verification_code => "אנא הכנס את הקוד בין ה-6 ספרות שנשלח אלך";
+  String get enter_verification_code => "אנא הכנס את הקוד בין ה-6 ספרות שנשלח אלייך";
   /// "הגן על חשבונך"
   @override
   String get protect_wallet => "הגן על חשבונך";
