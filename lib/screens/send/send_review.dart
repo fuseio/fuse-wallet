@@ -9,6 +9,7 @@ import 'package:supervecina/widgets/main_scaffold.dart';
 import 'package:supervecina/widgets/primary_button.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
 class SendReviewScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;
   SendReviewScreen({this.pageArgs});
@@ -57,7 +58,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       } else {
         viewModel.sendToErc20Token(args.erc20Token, args.accountAddress, args.amount, sendSuccessCallback, sendFailureCallback);
       }
-    }else {
+    } else {
       if (args.accountAddress == null ||
           args.accountAddress == '' && args.phoneNumber != null) {
         viewModel.sendToContact(
@@ -189,6 +190,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                       args.name,
                                       style: TextStyle(fontSize: 18),
                                     ),
+                                    args.phoneNumber == null ||
+                                            args.phoneNumber.isEmpty
+                                        ? SizedBox.shrink()
+                                        : Text(
+                                            args.phoneNumber,
+                                            style: TextStyle(fontSize: 13),
+                                          ),
                                     args.accountAddress == null ||
                                             args.accountAddress.isEmpty
                                         ? SizedBox.shrink()

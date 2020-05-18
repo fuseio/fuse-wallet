@@ -51,8 +51,7 @@ class RecentContacts extends StatelessWidget {
               ? contact.displayName
               : deducePhoneNumber(transfer, viewModel.reverseContacts,
                   businesses: viewModel.businesses);
-          dynamic image =
-              getContactImage(transfer, contact, viewModel.businesses);
+          dynamic image = getContactImage(transfer, contact, viewModel.businesses);
           listItems.add(
             Slidable(
               actionPane: SlidableDrawerActionPane(),
@@ -86,7 +85,7 @@ class RecentContacts extends StatelessWidget {
                                       avatar: new AssetImage(
                                           'assets/images/anom.png')))));
                     } else {
-                      sendToContact(context, viewModel, displatName, null,avatar: image, address: transfer.to);
+                      sendToContact(context, viewModel, displatName, '',avatar: contact.avatar, address: transfer.to);
                     }
                   },
                 ),
