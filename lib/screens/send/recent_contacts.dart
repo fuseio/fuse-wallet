@@ -86,7 +86,7 @@ class RecentContacts extends StatelessWidget {
                                       avatar: new AssetImage(
                                           'assets/images/anom.png')))));
                     } else {
-                      sendToContact(context, viewModel, displatName, null,avatar: image, address: transfer.to);
+                      sendToContact(context, viewModel, displatName, '',avatar: image, address: transfer.to);
                     }
                   },
                 ),

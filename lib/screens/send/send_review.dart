@@ -190,6 +190,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                       args.name,
                                       style: TextStyle(fontSize: 18),
                                     ),
+                                    args.phoneNumber == null ||
+                                            args.phoneNumber.isEmpty
+                                        ? SizedBox.shrink()
+                                        : Text(
+                                            args.phoneNumber,
+                                            style: TextStyle(fontSize: 13),
+                                          ),
                                     args.accountAddress == null ||
                                             args.accountAddress.isEmpty
                                         ? SizedBox.shrink()
