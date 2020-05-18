@@ -16,6 +16,7 @@ Map<String, dynamic> _$PluginsToJson(Plugins instance) {
   }
 
   writeNotNull('moonpay', Plugins._moonpayToJson(instance.moonpay));
+  writeNotNull('transak', Plugins._transakToJson(instance.transak));
   writeNotNull('carbon', Plugins._carbonToJson(instance.carbon));
   writeNotNull('wyre', Plugins._wyreToJson(instance.wyre));
   writeNotNull('coindirect', Plugins._coindirectToJson(instance.coindirect));

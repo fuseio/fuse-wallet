@@ -134,6 +134,18 @@ class MoonpayPlugin extends DepositPlugin {
       : null;
 }
 
+class TransakPlugin extends DepositPlugin {
+  TransakPlugin({name, isActive, widgetUrl}) : super(name, isActive, widgetUrl);
+
+  static TransakPlugin fromJson(dynamic json) => json != null
+      ? TransakPlugin(
+          name: json['name'],
+          widgetUrl: json['widgetUrl'],
+          isActive: json["isActive"] || false,
+        )
+      : null;
+}
+
 class CarbonPlugin extends DepositPlugin {
   CarbonPlugin({name, isActive, widgetUrl}) : super(name, isActive, widgetUrl);
 
@@ -187,6 +199,8 @@ class RampPlugin extends DepositPlugin {
 class Plugins {
   @JsonKey(name: 'moonpay', fromJson: _moonpayFromJson, toJson: _moonpayToJson, includeIfNull: false)
   MoonpayPlugin moonpay;
+  @JsonKey(name: 'transak', fromJson: _transakFromJson, toJson: _transakToJson, includeIfNull: false)
+  TransakPlugin transak;
   @JsonKey(name: 'carbon', fromJson: _carbonFromJson, toJson: _carbonToJson, includeIfNull: false)
   CarbonPlugin carbon;
   @JsonKey(name: 'wyre', fromJson: _wyreFromJson, toJson: _wyreToJson, includeIfNull: false)
@@ -204,7 +218,7 @@ class Plugins {
   @JsonKey(name: 'inviteBonus', fromJson: _inviteBonusFromJson, toJson: _inviteBonusToJson, includeIfNull: false)
   InviteBonusPlugin inviteBonus;
 
-  Plugins({this.moonpay, this.carbon, this.wyre, this.coindirect, this.ramp, this.joinBonus, this.walletBanner, this.backupBonus, this.inviteBonus});
+  Plugins({this.moonpay, this.transak, this.carbon, this.wyre, this.coindirect, this.ramp, this.joinBonus, this.walletBanner, this.backupBonus, this.inviteBonus});
 
   static Map getServicesMap (dynamic json) {
     if (json.containsKey('onramp')) {
@@ -225,6 +239,7 @@ class Plugins {
       dynamic services= Plugins.getServicesMap(json);
       return Plugins(
         moonpay: MoonpayPlugin.fromJson(services["moonpay"]),
+        transak: TransakPlugin.fromJson(services["transak"]),
         carbon: CarbonPlugin.fromJson(services["carbon"]),
         wyre: WyrePlugin.fromJson(services["wyre"]),
         coindirect: CoindirectPlugin.fromJson(services["coindirect"]),
@@ -280,8 +295,14 @@ class Plugins {
   static MoonpayPlugin _moonpayFromJson(Map<String, dynamic> json) =>
       json == null ? null : MoonpayPlugin.fromJson(json);
 
+  static TransakPlugin _transakFromJson(Map<String, dynamic> json) =>
+  json == null ? null : TransakPlugin.fromJson(json);
+
   static Map<String, dynamic> _moonpayToJson(MoonpayPlugin moonpay) =>
       moonpay != null ? moonpay.toJson() : null;
+
+  static Map<String, dynamic> _transakToJson(TransakPlugin transak) =>
+      transak != null ? transak.toJson() : null;
 
   static CarbonPlugin _carbonFromJson(Map<String, dynamic> json) =>
       json == null ? null : CarbonPlugin.fromJson(json);
@@ -291,6 +312,9 @@ class Plugins {
 
   List getDepositPlugins() {
     List depositPlugins = [];
+    if (this.transak != null && this.transak.isActive) {
+      depositPlugins.add(this.transak);
+    }
     if (this.moonpay != null && this.moonpay.isActive) {
       depositPlugins.add(this.moonpay);
     }

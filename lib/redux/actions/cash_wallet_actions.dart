@@ -19,6 +19,7 @@ import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:supervecina/utils/addresses.dart';
 import 'package:supervecina/redux/state/store.dart';
 import 'package:supervecina/utils/constans.dart';
+import 'package:supervecina/utils/firebase.dart';
 import 'package:supervecina/utils/forks.dart';
 import 'package:supervecina/utils/format.dart';
 import 'package:http/http.dart';
@@ -252,15 +253,22 @@ ThunkAction enablePushNotifications() {
         },
       });
 
+      void switchOnPush(message) {
+        String communityAddress = communityAddressFromNotification(message);
+          if (communityAddress != null && communityAddress.isNotEmpty) {
+            // store.dispatch(switchCommunityCall(communityAddress));
+          }
+      }
+
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          logger.info('onMessage called: $message');
+          switchOnPush(message);
         },
         onResume: (Map<String, dynamic> message) async {
-          logger.info('onResume called: $message');
+          switchOnPush(message);
         },
         onLaunch: (Map<String, dynamic> message) async {
-          logger.info('onLaunch called: $message');
+          switchOnPush(message);
         },
       );
     } catch (e) {

@@ -8,8 +8,8 @@ import 'package:supervecina/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:supervecina/models/views/drawer.dart';
 import 'package:supervecina/screens/backup/show_mnemonic.dart';
-import 'package:supervecina/screens/cash_home/deposit_webview.dart';
 import 'package:supervecina/screens/cash_home/switch_commmunity.dart';
+import 'package:supervecina/screens/cash_home/webview_page.dart';
 import 'package:supervecina/screens/misc/settings.dart';
 import 'package:supervecina/utils/forks.dart';
 import 'package:supervecina/utils/format.dart';
@@ -89,11 +89,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
         ),
         onTap: () {
+          dynamic url = depositPlugins[0].generateUrl();
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    DepositWebView(depositPlugin: depositPlugins[0]),
+                builder: (context) => WebViewPage(
+                    pageArgs: WebViewPageArguments(url: url, title: 'Top up')),
                 fullscreenDialog: true),
           );
           Segment.track(eventName: 'User clicked on top up');
