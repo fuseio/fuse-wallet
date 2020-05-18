@@ -21,14 +21,11 @@ class RecentContacts extends StatelessWidget {
       converter: ContactsViewModel.fromStore,
       builder: (_, viewModel) {
         List<Widget> listItems = List();
+        Map<String, Transaction> uniqueValues = {};
         final List<Transaction> sorted = new List<Transaction>.from(viewModel.transactions.list.toSet().toList())
             .where((t) => t.type == 'SEND' && t.isConfirmed())
-            .toList()
-              ..sort((a, b) => a.blockNumber != null && b.blockNumber != null
-                  ? b.blockNumber?.compareTo(a.blockNumber)
-                  : b.status.compareTo(a.status));
+            .toList();
 
-        Map<String, Transaction> uniqueValues = {};
         for (Transaction item in sorted) {
           final Contact contact = getContact(item, viewModel.reverseContacts,
               viewModel.contacts, viewModel.countryCode);
@@ -38,10 +35,10 @@ class RecentContacts extends StatelessWidget {
                   businesses: viewModel.businesses);
           uniqueValues[a] = item;
         }
-
-        List uniqueList = uniqueValues.values.toList().length > numToShow
-            ? uniqueValues.values.toList().sublist(0, numToShow)
-            : uniqueValues.values.toList();
+        List test = uniqueValues.values.toList().reversed.toList();
+        List uniqueList = test.length > numToShow
+            ? test.sublist(0, numToShow)
+            : test;
 
         for (int i = 0; i < uniqueList.length; i++) {
           final Transfer transfer = uniqueList[i];
