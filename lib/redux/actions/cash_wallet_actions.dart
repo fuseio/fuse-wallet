@@ -49,10 +49,11 @@ class OnboardUserSuccess {
 class GetWalletAddressesSuccess {
   final List<String> networks;
   final String walletAddress;
+  final bool backup;
   final String communityManagerAddress;
   final String transferManagerAddress;
   final String daiPointsManagerAddress;
-  GetWalletAddressesSuccess({this.networks, this.daiPointsManagerAddress,this.walletAddress, this.communityManagerAddress, this.transferManagerAddress});
+  GetWalletAddressesSuccess({this.backup, this.networks, this.daiPointsManagerAddress,this.walletAddress, this.communityManagerAddress, this.transferManagerAddress});
 }
 
 class CreateAccountWalletRequest {
@@ -532,10 +533,12 @@ ThunkAction getWalletAddressessCall() {
       dynamic walletData = await api.getWallet();
       List<String> networks = List<String>.from(walletData['networks']);
       String walletAddress = walletData['walletAddress'];
+      bool backup = walletData['backup'];
       String communityManagerAddress = walletData['communityManager'];
       String transferManagerAddress = walletData['transferManager'];
       String dAIPointsManagerAddress = walletData['dAIPointsManager'];
       store.dispatch(GetWalletAddressesSuccess(
+        backup: backup,
         walletAddress: walletAddress,
         daiPointsManagerAddress: dAIPointsManagerAddress,
         communityManagerAddress: communityManagerAddress,
