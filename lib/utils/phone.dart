@@ -46,5 +46,5 @@ String removeUnicodes(String value) {
 }
 
 String clearNotNumbersAndPlusSymbol(String phoneNumber) {
-  return phoneNumber.replaceAll(new RegExp(r'^[\d\(\)\-+]+$'), '');
+  return phoneNumber.replaceAll(new RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
 }
