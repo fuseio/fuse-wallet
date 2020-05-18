@@ -44,3 +44,7 @@ String formatPhoneNumber(String phoneNumber, String myCountryCode) {
 String removeUnicodes(String value) {
   return value.replaceAll(new RegExp(r"[^\s\w]"), '');
 }
+
+String clearNotNumbersAndPlusSymbol (String phoneNumber) {
+  return phoneNumber.replaceAll(new RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
+}

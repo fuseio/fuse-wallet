@@ -4,6 +4,7 @@ description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"
 dependencies:
+  phone_number: ^0.6.2+2
   libphonenumber: ^1.0.1
   cached_network_image: ^2.0.0
   rate_my_app: ^0.6.0+2

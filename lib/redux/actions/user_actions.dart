@@ -310,33 +310,26 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       String countryCode = store.state.userState.countryCode;
       String isoCode = store.state.userState.isoCode;
       for (Contact contact in contacts) {
-        if (isoCode == null) {
-          List<String> uniquePhone = contact.phones
-            .map((Item phone) => formatPhoneNumber(
-                phone.value, store.state.userState.countryCode))
-            .toSet()
-            .toList();
-          for (String phone in uniquePhone) {
-            if (!syncedContacts.contains(phone)) {
-              newPhones.add(phone);
-            }
-          }
-        } else {
-          Future<List<String>> phones = Future.wait(contact.phones.map((Item phone) async {
+        Future<List<String>> phones = Future.wait(contact.phones.map((Item phone) async {
+          String value = clearNotNumbersAndPlusSymbol(phone.value);
+          try {
+            Map<String, dynamic> response = await phoneNumberUtil.parse(value);
+            return response['e164'];
+          } catch (e) {
             String phoneNum = formatPhoneNumber(phone.value, countryCode);
             bool isValid = await PhoneService.isValid(phoneNum, isoCode);
             if (isValid) {
               String ph = await PhoneService.getNormalizedPhoneNumber(phoneNum, isoCode);
               return ph;
             }
-            return phoneNum;
-          }));
-          List<String> result = await phones;
-          result = result.toSet().toList();
-          for (String phone in result) {
-            if (!syncedContacts.contains(phone)) {
-              newPhones.add(phone);
-            }
+            return '';
+          }
+        }));
+        List<String> result = await phones;
+        result = result.toSet().toList()..removeWhere((element) => element == '');
+        for (String phone in result) {
+          if (!syncedContacts.contains(phone)) {
+            newPhones.add(phone);
           }
         }
       }

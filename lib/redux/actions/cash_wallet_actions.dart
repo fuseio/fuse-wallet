@@ -300,7 +300,7 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
     final logger = await AppFactory().getLogger('action');
     try {
       UserState userState = store.state.userState;
-      String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';// formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+      String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';
       logger.info('Identify - $fullPhoneNumber');
       traits = traits ?? new Map<String, dynamic>();
       DateTime installedAt = userState.installedAt;
