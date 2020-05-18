@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:digitalrand/screens/cash_home/webview_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -8,7 +9,6 @@ import 'package:digitalrand/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/models/views/drawer.dart';
 import 'package:digitalrand/screens/backup/show_mnemonic.dart';
-import 'package:digitalrand/screens/cash_home/deposit_webview.dart';
 import 'package:digitalrand/screens/misc/settings.dart';
 import 'package:digitalrand/utils/forks.dart';
 import 'package:digitalrand/utils/format.dart';
@@ -88,11 +88,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
         ),
         onTap: () {
+          dynamic url = depositPlugins[0].generateUrl();
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    DepositWebView(depositPlugin: depositPlugins[0]),
+                builder: (context) => WebViewPage(
+                    pageArgs: WebViewPageArguments(url: url, title: 'Top up')),
                 fullscreenDialog: true),
           );
           Segment.track(eventName: 'User clicked on top up');

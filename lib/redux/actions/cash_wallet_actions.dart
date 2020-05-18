@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:digitalrand/utils/firebase.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -251,15 +252,22 @@ ThunkAction enablePushNotifications() {
         },
       });
 
+      void switchOnPush(message) {
+        String communityAddress = communityAddressFromNotification(message);
+          if (communityAddress != null && communityAddress.isNotEmpty) {
+            // store.dispatch(switchCommunityCall(communityAddress));
+          }
+      }
+
       firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-          logger.info('onMessage called: $message');
+          switchOnPush(message);
         },
         onResume: (Map<String, dynamic> message) async {
-          logger.info('onResume called: $message');
+          switchOnPush(message);
         },
         onLaunch: (Map<String, dynamic> message) async {
-          logger.info('onLaunch called: $message');
+          switchOnPush(message);
         },
       );
     } catch (e) {

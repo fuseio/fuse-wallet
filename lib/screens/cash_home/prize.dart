@@ -9,7 +9,6 @@ import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/draw_info.dart';
 import 'package:digitalrand/models/views/prize.dart';
 import 'package:digitalrand/redux/state/store.dart';
-import 'package:digitalrand/screens/cash_home/deposit_webview.dart';
 import 'package:digitalrand/screens/cash_home/webview_page.dart';
 import 'package:digitalrand/utils/format.dart';
 import 'package:digitalrand/widgets/main_scaffold.dart';
@@ -361,13 +360,20 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                       ),
                                       InkWell(
                                         onTap: () {
+                                          dynamic depositPlugin =
+                                              depositPlugins[0];
+                                          dynamic url =
+                                              depositPlugin.generateUrl();
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    DepositWebView(
-                                                        depositPlugin:
-                                                            depositPlugins[0]),
+                                                    WebViewPage(
+                                                        pageArgs:
+                                                            WebViewPageArguments(
+                                                                url: url,
+                                                                title:
+                                                                    'Top up')),
                                                 fullscreenDialog: true),
                                           );
                                           Segment.track(
