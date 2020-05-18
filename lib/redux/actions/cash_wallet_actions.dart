@@ -21,7 +21,6 @@ import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/constans.dart';
 import 'package:fusecash/utils/firebase.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
@@ -309,7 +308,7 @@ ThunkAction segmentIdentifyCall(Map<String, dynamic> traits) {
     final logger = await AppFactory().getLogger('action');
     try {
       UserState userState = store.state.userState;
-      String fullPhoneNumber = formatPhoneNumber(userState.phoneNumber, userState.countryCode);
+      String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';
       logger.info('Identify - $fullPhoneNumber');
       traits = traits ?? new Map<String, dynamic>();
       DateTime installedAt = userState.installedAt;
@@ -509,12 +508,11 @@ ThunkAction generateWalletSuccessCall(dynamic walletData, String accountAddress)
             ));
           }
           store.dispatch(new GetWalletAddressesSuccess(walletAddress: walletAddress, daiPointsManagerAddress: dAIPointsManager,communityManagerAddress: communityManager, transferManagerAddress: transferManager, networks: networks));
-          String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
           store.dispatch(segmentIdentifyCall(
               new Map<String, dynamic>.from({
                 "Wallet Generated": true,
                 "App name": 'Fuse',
-                "Phone Number": fullPhoneNumber,
+                "Phone Number": store.state.userState.normalizedPhoneNumber,
                 "Wallet Address": store.state.cashWalletState.walletAddress,
                 "Account Address": store.state.userState.accountAddress,
                 "Display Name": store.state.userState.displayName
@@ -974,14 +972,21 @@ ThunkAction joinBonusSuccessCall(txHash, transfer) {
 
 ThunkAction fetchCommunityMetadataCall(String communityURI) {
   return (Store store) async {
-    String uri = communityURI.split('://')[1];
-    dynamic metadata = await api.fetchMetadata(uri);
-    CommunityMetadata communityMetadata = new CommunityMetadata(
-      image: metadata['image'],
-      coverPhoto: metadata['coverPhoto'],
-      isDefaultImage: metadata['isDefault'] != null ? metadata['isDefault'] : false
-    );
-    store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
+    final logger = await AppFactory().getLogger('action');
+    try {
+      String uri = communityURI.split('://')[1];
+      dynamic metadata = await api.fetchMetadata(uri);
+      CommunityMetadata communityMetadata = new CommunityMetadata(
+        image: metadata['image'],
+        coverPhoto: metadata['coverPhoto'],
+        isDefaultImage: metadata['isDefault'] != null ? metadata['isDefault'] : false
+      );
+      store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
+    } catch (e, s) {
+      logger.info('ERROR - fetchCommunityMetadataCall $e');
+      await AppFactory().reportError(e, s);
+      store.dispatch(new ErrorAction('Could not fetch community metadata'));
+    }
   };
 }
 

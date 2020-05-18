@@ -45,8 +45,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
           rateMyApp.showStarRateDialog(
             context,
             title: 'Rate this app',
-            message:
-                'You like this app ? Then take a little bit of your time to leave a rating :', // The dialog message.
+            message: 'You like this app ? Then take a little bit of your time to leave a rating :',
             actionsBuilder: (_, stars) {
               return [
                 FlatButton(
