@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -67,13 +69,15 @@ class _ContactsListState extends State<ContactsList> {
       filterList();
     });
 
-    for (final contact in contacts) {
-      ContactsService.getAvatar(contact).then((avatar) {
-        if (avatar == null) return;
-        if (mounted) {
-          setState(() => contact.avatar = avatar);
-        }
-      });
+    if (Platform.isAndroid) {
+      for (final contact in contacts) {
+        ContactsService.getAvatar(contact).then((avatar) {
+          if (avatar == null) return;
+          if (mounted) {
+            setState(() => contact.avatar = avatar);
+          }
+        });
+      }
     }
   }
 
