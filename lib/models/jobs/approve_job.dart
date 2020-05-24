@@ -60,9 +60,9 @@ class ApproveJob extends Job {
     wallet_core.Web3 web3 = store.state.proWalletState.web3;
     if (web3 != null) {
       this.status = 'DONE';
-      logger.info('start tokenTransfer job');
-      String walletAddress = store.state.userState.walletAddress;
-      await api.tokenTransfer(web3, walletAddress, arguments['tokenAddress'], arguments['receiverAddress'], arguments['tokensAmount'], network: arguments['network']);
+      // logger.info('start tokenTransfer job');
+      // String walletAddress = store.state.userState.walletAddress;
+      // await api.tokenTransfer(web3, walletAddress, arguments['tokenAddress'], arguments['receiverAddress'], arguments['tokensAmount'], network: arguments['network']);
       store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
     }
   }
