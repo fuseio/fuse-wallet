@@ -1,9 +1,5 @@
-// import 'package:json_annotation/json_annotation.dart';
-
 import 'plugin_base.dart';
-// part 'wallet_banner.g.dart';
 
-// @JsonSerializable(explicitToJson: true)
 class WalletBannerPlugin extends Plugin {
   String link;
   String walletBannerHash;

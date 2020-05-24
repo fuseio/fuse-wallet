@@ -36,30 +36,6 @@ class Plugins {
       toJson: _transakToJson,
       includeIfNull: false)
   TransakPlugin transak;
-  // @JsonKey(
-  //     name: 'carbon',
-  //     fromJson: _carbonFromJson,
-  //     toJson: _carbonToJson,
-  //     includeIfNull: false)
-  // CarbonPlugin carbon;
-  // @JsonKey(
-  //     name: 'wyre',
-  //     fromJson: _wyreFromJson,
-  //     toJson: _wyreToJson,
-  //     includeIfNull: false)
-  // WyrePlugin wyre;
-  // @JsonKey(
-  //     name: 'coindirect',
-  //     fromJson: _coindirectFromJson,
-  //     toJson: _coindirectToJson,
-  //     includeIfNull: false)
-  // CoindirectPlugin coindirect;
-  // @JsonKey(
-  //     name: 'ramp',
-  //     fromJson: _rampFromJson,
-  //     toJson: _rampToJson,
-  //     includeIfNull: false)
-  // RampPlugin ramp;
   @JsonKey(
       name: 'joinBonus',
       fromJson: _joinBonusFromJson,
@@ -88,10 +64,6 @@ class Plugins {
   Plugins(
       {this.moonpay,
       this.transak,
-      // this.carbon,
-      // this.wyre,
-      // this.coindirect,
-      // this.ramp,
       this.joinBonus,
       this.walletBanner,
       this.backupBonus,
