@@ -78,8 +78,7 @@ ThunkAction initWeb3ProMode(
             dAIPointsManagerAddress ?? userState.daiPointsManagerAddress,
         communityManagerAddress:
             communityManagerAddress ?? userState.communityManagerAddress,
-        url: DotEnv().env['FOREIGN_PROVIDER_URL'],
-        wrapperAddress: DotEnv().env['MAINNET_WRAPPER_ADDRESS']);
+        url: DotEnv().env['FOREIGN_PROVIDER_URL']);
     await web3.setCredentials(privateKey);
     store.dispatch(new InitWeb3ProModeSuccess(web3: web3));
   };

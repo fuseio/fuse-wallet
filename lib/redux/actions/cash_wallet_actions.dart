@@ -400,8 +400,7 @@ ThunkAction initWeb3Call(
           transferManagerAddress: transferManagerAddress ??
               DotEnv().env['TRANSFER_MANAGER_CONTRACT_ADDRESS'],
           daiPointsManagerAddress: dAIPointsManagerAddress ??
-              DotEnv().env['DAI_POINTS_MANAGER_CONTRACT_ADDRESS'],
-          wrapperAddress: DotEnv().env['FUSE_WRAPPER_ADDRESS']);
+              DotEnv().env['DAI_POINTS_MANAGER_CONTRACT_ADDRESS']);
       if (store.state.cashWalletState.communityAddress == null ||
           store.state.cashWalletState.communityAddress.isEmpty) {
         store.dispatch(
