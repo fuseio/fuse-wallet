@@ -3,7 +3,6 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:wallet_core/wallet_core.dart' as wallet_core;
 
 part 'approve_job.g.dart';
 

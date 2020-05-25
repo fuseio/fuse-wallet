@@ -92,11 +92,15 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         BigInt balance = args.erc20Token == null
             ? viewModel.balance
             : args.erc20Token.amount;
-        bool hasFund = num.parse(formatValue(balance,
-                    args.erc20Token?.decimals ?? viewModel.token.decimals))
-                .compareTo(num.parse(
-                    viewModel.community.plugins.foreignTransfers.amount)) !=
-            -1;
+        num feeAmount = 0;
+        bool hasFund = true;
+        if (args.feePlugin != null) {
+          feeAmount = args.feePlugin.calcFee(args.amount);
+          num tokenBalance = num.parse(formatValue(balance,
+                  args.erc20Token?.decimals ?? viewModel.token.decimals)) +
+              feeAmount;
+          hasFund = args.amount.compareTo(tokenBalance) != -1;
+        }
         return MainScaffold(
             withPadding: true,
             title: I18n.of(context).review_transfer,
@@ -119,7 +123,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: <Widget>[
-                        Text('${args.amount} ', // ${viewModel.token.symbol}
+                        Text('${args.amount} ',
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontSize: 50,

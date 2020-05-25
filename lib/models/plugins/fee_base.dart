@@ -14,8 +14,7 @@ abstract class FeePlugin extends Plugin {
     if (this.type == 'fixed') {
       return num.parse(this.amount);
     } else if (this.type == 'percentage') {
-      return num.parse(
-          ((num.parse(this.amount) / 100) % tokensAmount).toString());
+      return ((num.parse(this.amount) / 100) * tokensAmount);
     }
     return 0;
   }

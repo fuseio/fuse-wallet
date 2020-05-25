@@ -261,8 +261,13 @@ ThunkAction sendErc20TokenCall(
         walletAddress, token.address, tokensAmount, network: foreignNetwork);
       Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
         walletAddress, token.address, receiverAddress, tokensAmount, network: foreignNetwork);
+      num feeAmount = community.plugins.foreignTransfers.calcFee(tokensAmount);
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-        walletAddress, token.address, community.plugins.foreignTransfers.receiverAddress, community.plugins.foreignTransfers.calcFee(tokensAmount), network: foreignNetwork);
+        walletAddress,
+        token.address,
+        community.plugins.foreignTransfers.receiverAddress,
+        feeAmount,
+        network: foreignNetwork);
       dynamic approveTrasfer = await api.multiRelay([approveTokenData, transferTokenData, feeTrasnferData]);
       sendSuccessCallback();
       dynamic approveJobId = approveTrasfer['job']['_id'];
@@ -302,7 +307,7 @@ ThunkAction sendDaiToDaiPointsCall(num tokensAmount,
         Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
           walletAddress,
           token.address,
-          community.plugins.foreignTransfers.receiverAddress,
+          community.plugins.bridgeToForeign.receiverAddress,
           community.plugins.bridgeToForeign.calcFee(tokensAmount),
           network: foreignNetwork);
         dynamic response = await api.multiRelay([data, feeTrasnferData]);
