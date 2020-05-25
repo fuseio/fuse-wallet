@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
@@ -54,11 +55,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       VoidCallback sendFailureCallback) {
     if (viewModel.isProMode) {
       if (args.sendToCashMode) {
-        viewModel.sendToCashMode(args.amount, sendSuccessCallback, sendFailureCallback);
+        viewModel.sendToCashMode(
+            args.amount, sendSuccessCallback, sendFailureCallback);
       } else {
-        viewModel.sendToErc20Token(args.erc20Token, args.accountAddress, args.amount, sendSuccessCallback, sendFailureCallback);
+        viewModel.sendToErc20Token(args.erc20Token, args.accountAddress,
+            args.amount, sendSuccessCallback, sendFailureCallback);
       }
-    }else {
+    } else {
       if (args.accountAddress == null ||
           args.accountAddress == '' && args.phoneNumber != null) {
         viewModel.sendToContact(
@@ -83,6 +86,21 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
+        String symbol = args.erc20Token != null
+            ? args.erc20Token.symbol
+            : viewModel.token.symbol;
+        BigInt balance = args.erc20Token == null
+            ? viewModel.balance
+            : args.erc20Token.amount;
+        num feeAmount = 0;
+        bool hasFund = true;
+        if (args.feePlugin != null) {
+          feeAmount = args.feePlugin.calcFee(args.amount);
+          num tokenBalance = num.parse(formatValue(balance,
+                  args.erc20Token?.decimals ?? viewModel.token.decimals)) +
+              feeAmount;
+          hasFund = args.amount.compareTo(tokenBalance) != -1;
+        }
         return MainScaffold(
             withPadding: true,
             title: I18n.of(context).review_transfer,
@@ -105,12 +123,12 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: <Widget>[
-                        Text('${args.amount} ', // ${viewModel.token.symbol}
+                        Text('${args.amount} ',
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontSize: 50,
                                 fontWeight: FontWeight.w900)),
-                        Text(viewModel.token.symbol,
+                        Text(symbol,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontSize: 30,
@@ -223,9 +241,54 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     ],
                   ),
                 ),
+                args.feePlugin != null
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SvgPicture.asset('assets/images/ether_small.svg'),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Text('Sending to ethereum',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 14)),
+                            ],
+                          ),
+                          Text(
+                              'Transcation fee: ${args.feePlugin.getAmountText()} $symbol',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontSize: 14)),
+                          !hasFund
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.error,
+                                      color: Colors.red,
+                                      size: 16,
+                                    ),
+                                    Text('Not enough balance in your account',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.red)),
+                                  ],
+                                )
+                              : SizedBox.shrink(),
+                        ],
+                      )
+                    : SizedBox.shrink(),
                 viewModel.isProMode
                     ? SizedBox.shrink()
-                    : (args.accountAddress == null || args.accountAddress.isEmpty)
+                    : (args.accountAddress == null ||
+                            args.accountAddress.isEmpty)
                         ? Padding(
                             padding:
                                 EdgeInsets.only(top: 20.0, left: 30, right: 30),
@@ -233,7 +296,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                 '''Sending money to ${args.name != null ? args.name : 'friend'} will automatically invite them to Fuse and let them redeem the funds you sent''',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: Theme.of(context).colorScheme.secondary,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     fontSize: 14)),
                           )
                         : SizedBox.shrink()
@@ -244,6 +308,9 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     label: I18n.of(context).send_button,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
+                      if (args.feePlugin != null && !hasFund) {
+                        return;
+                      }
                       args.isProMode = viewModel.isProMode;
                       send(viewModel, args, transferNoteController.text, () {
                         Navigator.push(

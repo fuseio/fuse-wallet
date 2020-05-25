@@ -93,12 +93,15 @@ class ActivateProMode2DialogState extends State<ActivateProMode2Dialog>
                               fontSize: 15,
                               onPressed: () {
                                 Navigator.push(
-                                    context,new MaterialPageRoute(
-                                    builder: (context) => SendAmountScreen(
-                                        pageArgs: SendAmountArguments(
-                                            sendType: SendType.ETHEREUM_ADDRESS,
-                                            accountAddress: viewModel
-                                                .daiPointsHomeBridgeAddress))));
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (context) => SendAmountScreen(
+                                            pageArgs: SendAmountArguments(
+                                                feePlugin: viewModel.feePlugin,
+                                                sendType:
+                                                    SendType.ETHEREUM_ADDRESS,
+                                                accountAddress: viewModel
+                                                    .daiPointsHomeBridgeAddress))));
                                 Segment.track(
                                     eventName:
                                         'Wallet: Choose amount to transfer - activate pro mode');

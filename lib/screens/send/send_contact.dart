@@ -149,7 +149,9 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               onTap: () {
                 sendToContact(context, viewModel, user.displayName, phone.value,
-                    avatar: user.avatar);
+                    avatar: user.avatar != null && user.avatar.isNotEmpty
+                      ? MemoryImage(user.avatar)
+                      : new AssetImage('assets/images/anom.png'));
               },
             ),
           ),

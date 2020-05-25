@@ -15,12 +15,12 @@ Map<String, dynamic> _$PluginsToJson(Plugins instance) {
     }
   }
 
+  writeNotNull('foreignTransfers',
+      Plugins._foreignTransfersToJson(instance.foreignTransfers));
+  writeNotNull('bridgeToForeign',
+      Plugins._bridgeToForeignToJson(instance.bridgeToForeign));
   writeNotNull('moonpay', Plugins._moonpayToJson(instance.moonpay));
   writeNotNull('transak', Plugins._transakToJson(instance.transak));
-  writeNotNull('carbon', Plugins._carbonToJson(instance.carbon));
-  writeNotNull('wyre', Plugins._wyreToJson(instance.wyre));
-  writeNotNull('coindirect', Plugins._coindirectToJson(instance.coindirect));
-  writeNotNull('ramp', Plugins._rampToJson(instance.ramp));
   writeNotNull('joinBonus', Plugins._joinBonusToJson(instance.joinBonus));
   writeNotNull(
       'walletBanner', Plugins._walletBannerToJson(instance.walletBanner));

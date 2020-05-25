@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13" height="13" viewBox="0 0 13 13">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.767" y1="0.93" x2="0.245" y2="0.067" gradientUnits="objectBoundingBox">
+      <stop offset="0"/>
+      <stop offset="1" stop-color="#7c7c7c"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_3641" data-name="Group 3641" transform="translate(-112 -478)">
+    <circle id="Ellipse_328" data-name="Ellipse 328" cx="6.5" cy="6.5" r="6.5" transform="translate(112 478)" fill="url(#linear-gradient)"/>
+    <g id="Group_3626" data-name="Group 3626" transform="translate(115.661 480.011)">
+      <g id="Group_3625" data-name="Group 3625" transform="translate(0 0)">
+        <path id="Path_3814" data-name="Path 3814" d="M11,6.451,13.833,2l2.833,4.451L13.833,8.07Z" transform="translate(-10.956 -2)" fill="#fff"/>
+        <path id="Path_3815" data-name="Path 3815" d="M25,2l2.833,4.451L25,8.07Z" transform="translate(-22.124 -2)" fill="#bebebe"/>
+        <path id="Path_3816" data-name="Path 3816" d="M11,27l2.833,1.619L16.665,27l-2.833,3.844Z" transform="translate(-10.956 -21.942)" fill="#fff"/>
+        <path id="Path_3817" data-name="Path 3817" d="M25,21.44l2.833-1.619L25,23.665ZM25,18l2.833,1.214L25,20.833Z" transform="translate(-22.124 -14.763)" fill="#bebebe"/>
+        <path id="Path_3818" data-name="Path 3818" d="M25,18l2.833,1.214L25,20.833Z" transform="translate(-22.124 -14.763)" fill="#9a9a9a"/>
+        <path id="Path_3819" data-name="Path 3819" d="M-6694.34,14436.852l-2.876-1.631,2.876-1.2Z" transform="translate(6697.216 -14430.782)" fill="#bebebe"/>
+      </g>
+    </g>
+  </g>
+</svg>
