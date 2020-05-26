@@ -55,6 +55,15 @@ class _ExchangeState extends State<Exchange> {
           isFetchingPayWith = true;
         });
       }
+      if (value.isEmpty) {
+        if (this.mounted) {
+          setState(() {
+            receiveController.text = '';
+            isFetchingPayWith = false;
+          });
+        }
+        return;
+      }
       dynamic response = await fetchSwap(walletAddress, tokenToPayWith.address,
           tokenToReceive.address, value, tokenToPayWith.decimals);
       dynamic summary = response['response']['summary'][0];
@@ -84,6 +93,15 @@ class _ExchangeState extends State<Exchange> {
           isFetchingReceive = true;
         });
       }
+      if (value.isEmpty) {
+        if (this.mounted) {
+          setState(() {
+            isFetchingReceive = false;
+            payWithController.text = '';
+          });
+        }
+        return;
+      }
       dynamic response = await fetchSwap(walletAddress, tokenToReceive.address,
           tokenToPayWith.address, value, tokenToReceive.decimals);
       dynamic summary = response['response']['summary'][0];
@@ -92,7 +110,7 @@ class _ExchangeState extends State<Exchange> {
           tokenToPayWith.decimals);
       if (this.mounted) {
         setState(() {
-          isFetchingReceive = true;
+          isFetchingReceive = false;
           payWithController.text = fromTokenAmount;
         });
       }
