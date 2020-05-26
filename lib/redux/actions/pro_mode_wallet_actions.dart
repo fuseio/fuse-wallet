@@ -111,7 +111,10 @@ ThunkAction fetchTokensBalances() {
         for (Token token in proWalletState.erc20Tokens.values) {
           void Function(BigInt) onDone = (BigInt balance) {
             logger.info('${token.name} balance updated');
-            store.dispatch(UpdateToken(tokenToUpdate: store.state.proWalletState.erc20Tokens[token.address].copyWith(amount: balance)));
+            Token tokenToUpdate = store.state.proWalletState.erc20Tokens[token.address];
+            store.dispatch(UpdateToken(
+              tokenToUpdate: tokenToUpdate.copyWith(amount: balance,
+              timestamp: DateTime.now().millisecondsSinceEpoch)));
           };
           void Function(Object error, StackTrace stackTrace) onError = (Object error, StackTrace stackTrace) {
             logger.severe('Error in fetchTokenBalance for - ${token.name}');
