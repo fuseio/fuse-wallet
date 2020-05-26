@@ -4,6 +4,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/bottom_bar.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:fusecash/screens/exchange/exchange.dart';
 import 'package:fusecash/screens/pro_mode/pro_drawer.dart';
 import 'package:fusecash/screens/pro_mode/pro_header.dart';
 import 'package:fusecash/screens/pro_mode/pro_home.dart';
@@ -45,7 +46,8 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
           rateMyApp.showStarRateDialog(
             context,
             title: 'Rate this app',
-            message: 'You like this app ? Then take a little bit of your time to leave a rating :',
+            message:
+                'You like this app ? Then take a little bit of your time to leave a rating :',
             actionsBuilder: (_, stars) {
               return [
                 FlatButton(
@@ -119,10 +121,14 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
       );
 
   onInit(Store<AppState> store) {
-    bool isListenToTransferEvents = store.state.proWalletState?.isListenToTransferEvents ?? false;
-    bool isFetchTransferEvents = store.state.proWalletState?.isFetchTransferEvents ?? false;
-    bool isProcessingTokensJobs = store.state.proWalletState?.isProcessingTokensJobs ?? false;
-    bool isFetchTokensBalances = store.state.proWalletState?.isFetchTokensBalances ?? false;
+    bool isListenToTransferEvents =
+        store.state.proWalletState?.isListenToTransferEvents ?? false;
+    bool isFetchTransferEvents =
+        store.state.proWalletState?.isFetchTransferEvents ?? false;
+    bool isProcessingTokensJobs =
+        store.state.proWalletState?.isProcessingTokensJobs ?? false;
+    bool isFetchTokensBalances =
+        store.state.proWalletState?.isFetchTokensBalances ?? false;
     if (!isFetchTokensBalances) {
       store.dispatch(fetchTokensBalances());
     }

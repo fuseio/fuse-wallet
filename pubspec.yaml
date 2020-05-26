@@ -27,9 +27,9 @@ dependencies:
   redux_logging: ^0.4.0
   redux_persist: ^0.8.2
   country_code_picker: ^1.3.9
-  wallet_core: ^0.2.2
-#  wallet_core:
-#    path: ../wallet_core
+  # wallet_core: ^0.2.2
+  wallet_core:
+    path: ../wallet_core
   barcode_scan: ^2.0.1
   flutter_slidable: ^0.5.4
   contacts_service: ^0.3.10

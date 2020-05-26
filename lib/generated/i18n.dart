@@ -244,6 +244,8 @@ class I18n implements WidgetsLocalizations {
   String get withdrawDAI => "Withdraw DAI";
   /// "Send to cash mode"
   String get sendToCashMode => "Send to cash mode";
+  /// "Exchange"
+  String get exchnage => "Exchange";
 }
 
 class _I18n_en_US extends I18n {
