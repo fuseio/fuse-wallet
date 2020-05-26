@@ -19,8 +19,8 @@ class BridgeToForeignFeePlugin extends FeePlugin {
             receiverAddress: receiverAddress,
             type: type);
 
-  factory BridgeToForeignFeePlugin.fromJson(Map<String, dynamic> json) => json != null ?
-      _$BridgeToForeignFeePluginFromJson(json) : null;
+  factory BridgeToForeignFeePlugin.fromJson(Map<String, dynamic> json) =>
+      json != null ? _$BridgeToForeignFeePluginFromJson(json) : null;
 
   @override
   String getAmountText() => '$amount%';

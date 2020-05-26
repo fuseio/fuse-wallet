@@ -97,6 +97,10 @@ class ActivateProMode2DialogState extends State<ActivateProMode2Dialog>
                                     new MaterialPageRoute(
                                         builder: (context) => SendAmountScreen(
                                             pageArgs: SendAmountArguments(
+                                                avatar: AssetImage(
+                                                  'assets/images/ethereume_icon.png',
+                                                ),
+                                                name: 'Send to ethereum',
                                                 feePlugin: viewModel.feePlugin,
                                                 sendType:
                                                     SendType.ETHEREUM_ADDRESS,

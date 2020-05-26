@@ -66,7 +66,7 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Text(
-                              "In order to witdraw DAI to Ethereum we first need to transfer it from Fuse to Ethereum mainnet.",
+                              "In order to withdraw DAI to Ethereum we first need to transfer it from Fuse to Ethereum mainnet.",
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 14,

@@ -269,6 +269,10 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                 new MaterialPageRoute(
                                     builder: (context) => SendAmountScreen(
                                         pageArgs: SendAmountArguments(
+                                            avatar: AssetImage(
+                                              'assets/images/ethereume_icon.png',
+                                            ),
+                                            name: 'Send to ethereum',
                                             feePlugin: vm.feePlugin,
                                             sendType: SendType.ETHEREUM_ADDRESS,
                                             accountAddress: vm

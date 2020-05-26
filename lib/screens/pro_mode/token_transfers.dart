@@ -31,7 +31,7 @@ class TokenTransfersScreen extends StatelessWidget {
     return Scaffold(
         key: key,
         appBar: MyAppBar(
-            height: MediaQuery.of(context).size.height * .1789,
+            height: MediaQuery.of(context).size.height * .21,
             child: ProTokenHeader(token: token),
             backgroundColor: Colors.red),
         drawerEdgeDragWidth: 0,
@@ -283,7 +283,7 @@ class _SendToCashModeViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return _SendToCashModeViewModel(
-      feePlugin: community.plugins.bridgeToForeign,
+      feePlugin: community.plugins.foreignTransfers,
     );
   }
 }

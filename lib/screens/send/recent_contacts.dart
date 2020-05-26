@@ -81,14 +81,16 @@ class RecentContacts extends StatelessWidget {
                           new MaterialPageRoute(
                               builder: (context) => SendAmountScreen(
                                   pageArgs: SendAmountArguments(
+                                      avatar: AssetImage(
+                                        'assets/images/ethereume_icon.png',
+                                      ),
+                                      name: 'Send to ethereum',
                                       feePlugin: viewModel
                                           .community.plugins.bridgeToForeign,
                                       sendType: viewModel.isProMode
                                           ? SendType.ETHEREUM_ADDRESS
                                           : SendType.FUSE_ADDRESS,
-                                      accountAddress: transfer.to,
-                                      name: displatName,
-                                      avatar: image))));
+                                      accountAddress: transfer.to))));
                       return;
                     }
                     if (contact == null) {
