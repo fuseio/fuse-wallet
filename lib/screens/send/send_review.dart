@@ -96,8 +96,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         bool hasFund = true;
         if (args.feePlugin != null) {
           feeAmount = args.feePlugin.calcFee(args.amount);
-          num tokenBalance = num.parse(formatValue(balance,
-                  args.erc20Token?.decimals ?? viewModel.token.decimals));
+          num tokenBalance = num.parse(formatValue(
+              balance, args.erc20Token?.decimals ?? viewModel.token.decimals));
           hasFund = (args.amount + feeAmount).compareTo(tokenBalance) == -1;
         }
         return MainScaffold(
@@ -245,25 +245,25 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              SvgPicture.asset('assets/images/ether_small.svg'),
-                              SizedBox(
-                                width: 3,
-                              ),
-                              Text('Sending to ethereum',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 14)),
-                            ],
+                          SizedBox(
+                            height: 10,
                           ),
                           Text(
-                              'Transcation fee: ${args.feePlugin.getAmountText()} $symbol',
+                              'Fee amount: ${feeAmount.toStringAsFixed(1)} $symbol',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontSize: 14)),
+                                  fontSize: 12, color: Color(0xFF777777))),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                              'Total amount: ${(args.amount + feeAmount).toStringAsFixed(1)} $symbol',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
+                          SizedBox(
+                            height: 10,
+                          ),
                           !hasFund
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

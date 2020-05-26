@@ -20,9 +20,6 @@ import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/silver_app_bar.dart';
 
 class ContactsList extends StatefulWidget {
-  final List<Contact> contacts;
-  ContactsList({this.contacts});
-
   @override
   _ContactsListState createState() => _ContactsListState();
 }
@@ -65,9 +62,7 @@ class _ContactsListState extends State<ContactsList> {
     }
 
     filterList();
-    searchController.addListener(() {
-      filterList();
-    });
+    searchController.addListener(filterList);
 
     if (Platform.isAndroid) {
       for (final contact in contacts) {

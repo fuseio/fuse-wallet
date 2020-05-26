@@ -283,7 +283,7 @@ class _SendToCashModeViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return _SendToCashModeViewModel(
-      feePlugin: community.plugins.bridgeToForeign,
+      feePlugin: community.plugins.foreignTransfers,
     );
   }
 }

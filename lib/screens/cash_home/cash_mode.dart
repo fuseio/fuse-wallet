@@ -39,9 +39,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     if (webUrl != null && webUrl.isNotEmpty) {
       return [
         CashHomeScreen(),
-        !hasContactsInStore
-            ? SendToContactScreen()
-            : ContactsList(contacts: contacts),
+        !hasContactsInStore ? SendToContactScreen() : ContactsList(),
         WebViewPage(
           pageArgs: WebViewPageArguments(
               url: webUrl, withBack: false, title: 'Community webpage'),
@@ -51,18 +49,14 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     } else if (isDefualtCommunity) {
       return [
         CashHomeScreen(),
-        !hasContactsInStore
-            ? SendToContactScreen()
-            : ContactsList(contacts: contacts),
+        !hasContactsInStore ? SendToContactScreen() : ContactsList(),
         DaiExplainedScreen(),
         ReceiveScreen()
       ];
     } else {
       return [
         CashHomeScreen(),
-        !hasContactsInStore
-            ? SendToContactScreen()
-            : ContactsList(contacts: contacts),
+        !hasContactsInStore ? SendToContactScreen() : ContactsList(),
         BuyScreen(),
         ReceiveScreen()
       ];
