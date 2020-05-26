@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
