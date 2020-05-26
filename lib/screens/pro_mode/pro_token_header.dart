@@ -64,52 +64,49 @@ class ProTokenHeader extends StatelessWidget {
                           alignment: Alignment.topLeft,
                         ))),
                 Expanded(
-                    child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      new Container(
-                        child: Text(I18n.of(context).balance,
-                            style: TextStyle(
-                                color: Theme.of(context).splashColor,
-                                fontSize: 12.0)),
-                        padding: EdgeInsets.only(bottom: 6.0),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        verticalDirection: VerticalDirection.down,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: <Widget>[
-                          RichText(
-                              text: new TextSpan(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Container(
+                      child: Text('${token.symbol} ${I18n.of(context).balance}',
+                          style: TextStyle(
+                              color: Theme.of(context).splashColor,
+                              fontSize: 12.0)),
+                      padding: EdgeInsets.only(bottom: 6.0),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      verticalDirection: VerticalDirection.down,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: <Widget>[
+                        RichText(
+                            text: new TextSpan(
+                                text: token.address.contains(daiTokenAddress)
+                                    ? "\$${formatValue(token.amount, token.decimals)}"
+                                    : "${formatValue(token.amount, token.decimals)}",
+                                style: new TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).splashColor))),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        RichText(
+                            text: new TextSpan(
+                                style: TextStyle(
+                                    color: Color(0xFFBEBEBE), fontSize: 18),
+                                children: [
+                              new TextSpan(
                                   text: token.address.contains(daiTokenAddress)
-                                      ? "\$${formatValue(token.amount, token.decimals)}"
-                                      : "${formatValue(token.amount, token.decimals)}",
-                                  style: new TextStyle(
-                                      fontSize: 32,
-                                      color: Theme.of(context).splashColor))),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          RichText(
-                              text: new TextSpan(
-                                  style: TextStyle(
-                                      color: Color(0xFFBEBEBE), fontSize: 18),
-                                  children: [
-                                new TextSpan(
-                                    text:
-                                        token.address.contains(daiTokenAddress)
-                                            ? formatValue(
-                                                token.amount, token.decimals)
-                                            : ''),
-                                new TextSpan(text: " ${token.symbol}")
-                              ])),
-                        ],
-                      )
-                    ],
-                  ),
+                                      ? formatValue(
+                                          token.amount, token.decimals)
+                                      : ''),
+                              new TextSpan(text: " ${token.symbol}")
+                            ])),
+                      ],
+                    )
+                  ],
                 )),
               ],
             ),
