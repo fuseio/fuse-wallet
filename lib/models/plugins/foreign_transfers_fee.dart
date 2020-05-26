@@ -19,8 +19,8 @@ class ForeignTransfersFeePlugin extends FeePlugin {
             receiverAddress: receiverAddress,
             type: type);
 
-  factory ForeignTransfersFeePlugin.fromJson(Map<String, dynamic> json) => json != null ?
-      _$ForeignTransfersFeePluginFromJson(json) : null;
+  factory ForeignTransfersFeePlugin.fromJson(Map<String, dynamic> json) =>
+      json != null ? _$ForeignTransfersFeePluginFromJson(json) : null;
 
   @override
   String getAmountText() => '$amount';
