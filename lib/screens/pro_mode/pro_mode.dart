@@ -94,14 +94,17 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
   }
 
   void _onTap(int itemIndex) {
-    if (itemIndex == 2) {
-      comingSoon(context);
-      return;
-    } else {
-      setState(() {
-        _currentIndex = itemIndex;
-      });
-    }
+    // if (itemIndex == 2) {
+    //   comingSoon(context);
+    //   return;
+    // } else {
+    //   setState(() {
+    //     _currentIndex = itemIndex;
+    //   });
+    // }
+    setState(() {
+      _currentIndex = itemIndex;
+    });
   }
 
   BottomNavigationBar _bottomNavigationBar() => BottomNavigationBar(

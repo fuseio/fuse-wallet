@@ -136,7 +136,7 @@ ThunkAction getAddressBalances() {
       dynamic response = await tokenAPI.getAddressBalances(walletAddress);
       List tokensList = List.from(response['tokens']);
       if (tokensList.isNotEmpty) {
-        logger.info('found ${tokensList.length} tokens');
+        // logger.info('found ${tokensList.length} tokens');
         ProWalletState proWalletState = store.state.proWalletState;
         List filterNewToken = tokensList.where((token) {
           String tokenAddress = (token['address'] as String).toLowerCase();
@@ -145,7 +145,7 @@ ThunkAction getAddressBalances() {
           }
           return true;
         }).toList();
-        logger.info('new token ${filterNewToken.length} tokens');
+        // logger.info('new token ${filterNewToken.length} tokens');
         Iterable<MapEntry<String, Token>> entries = filterNewToken.map((token) {
           String tokenAddress = token['address'].toLowerCase();
           Token newToken = proWalletState.erc20Tokens[tokenAddress] ?? new Token.initial();
@@ -199,8 +199,6 @@ ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
       dynamic response = await tokenAPI.getTokenTransferEventsByAccountAddress(
           tokenAddress, walletAddress,
           startblock: token.transactions?.blockNumber ?? 0);
-      logger.info(
-          'Transfer Events of account $walletAddress and tokenAddress $tokenAddress');
       List<dynamic> tokensTransferEvents = List<dynamic>.from(response);
       if (tokensTransferEvents.isNotEmpty) {
         int combiner(int max, dynamic transferEvent) =>
