@@ -1083,7 +1083,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
             "Origin Network": token['originNetwork']
           })));
     } catch (e, s) {
-      logger.info('ERROR - switchToNewCommunityCall $e');
+      logger.severe('ERROR - switchToNewCommunityCall $e');
       await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not switch community'));
       store.dispatch(new SwitchCommunityFailed());
@@ -1121,7 +1121,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           foreignBridgeAddress: foreignBridgeAddress,
           webUrl: webUrl));
     } catch (e, s) {
-      logger.info('ERROR - switchToExisitingCommunityCall $e');
+      logger.severe('ERROR - switchToExisitingCommunityCall $e');
       await AppFactory().reportError(e, s);
       store.dispatch(new ErrorAction('Could not switch community'));
       store.dispatch(new SwitchCommunityFailed());
