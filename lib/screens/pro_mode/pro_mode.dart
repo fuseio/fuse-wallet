@@ -12,7 +12,6 @@ import 'package:fusecash/screens/send/contacts_list.dart';
 import 'package:fusecash/screens/send/receive.dart';
 import 'package:fusecash/screens/send/send_contact.dart';
 import 'package:fusecash/widgets/bottom_bar_item.dart';
-import 'package:fusecash/widgets/coming_soon.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/widgets/tabs_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
@@ -88,20 +87,12 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
       !hasContactsInStore
           ? SendToContactScreen()
           : ContactsList(),
-      Container(),
+      Exchange(),
       ReceiveScreen()
     ];
   }
 
   void _onTap(int itemIndex) {
-    // if (itemIndex == 2) {
-    //   comingSoon(context);
-    //   return;
-    // } else {
-    //   setState(() {
-    //     _currentIndex = itemIndex;
-    //   });
-    // }
     setState(() {
       _currentIndex = itemIndex;
     });

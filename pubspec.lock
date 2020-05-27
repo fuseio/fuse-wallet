@@ -337,13 +337,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
-  flushbar:
-    dependency: "direct main"
-    description:
-      name: flushbar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.10.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -1107,10 +1100,10 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
-    version: "0.2.2+1"
+      name: wallet_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.3"
   watcher:
     dependency: transitive
     description:

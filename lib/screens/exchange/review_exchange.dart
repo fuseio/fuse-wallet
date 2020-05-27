@@ -1,38 +1,20 @@
 import 'dart:core';
-import 'package:fusecash/utils/debouncer.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:fusecash/screens/pro_routes.gr.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/screens/exchange/card.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 
-class ReviewExchange extends StatefulWidget {
-  const ReviewExchange({Key key}) : super(key: key);
-
-  @override
-  _ReviewExchangeState createState() => _ReviewExchangeState();
-}
-
-class _ReviewExchangeState extends State<ReviewExchange> {
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class ReviewExchange extends StatelessWidget {
+  final Map exchangeSummry;
+  const ReviewExchange({Key key, this.exchangeSummry}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
@@ -40,21 +22,9 @@ class _ReviewExchangeState extends State<ReviewExchange> {
         title: I18n.of(context).exchnage,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
             child: Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        'Use max',
-                        style: TextStyle(fontSize: 16),
-                      )
-                    ],
-                  ),
-                ),
                 Container(
                   decoration: BoxDecoration(
                     color: Color(0xFFF4FCFF),
@@ -65,30 +35,98 @@ class _ReviewExchangeState extends State<ReviewExchange> {
                     borderRadius: BorderRadius.all(Radius.circular(9.0)),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 20, right: 20),
-                            child: SizedBox(
-                              child: Divider(
-                                thickness: 1.0,
-                                color: Color(0xFFD0E3EA),
-                              ),
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        constraints: BoxConstraints(
+                            minHeight: 165,
+                            minWidth: MediaQuery.of(context).size.width,
+                            maxWidth: MediaQuery.of(context).size.width),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Pay with',
+                              style: TextStyle(fontSize: 16),
                             ),
-                          ),
-                          InkWell(
-                              onTap: () {},
-                              child: SvgPicture.asset(
-                                'assets/images/swap_icon.svg',
-                                fit: BoxFit.fill,
-                                width: 40,
-                                height: 40,
-                                alignment: Alignment.topLeft,
-                              ))
-                        ],
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              verticalDirection: VerticalDirection.down,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: <Widget>[
+                                Text(
+                                  formatValue(
+                                      BigInt.from(num.parse(
+                                          exchangeSummry['sourceAmount'])),
+                                      int.parse(exchangeSummry['sourceAsset']
+                                          ['decimals'])),
+                                  style: TextStyle(fontSize: 40),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  exchangeSummry['sourceAsset']['symbol'],
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        constraints: BoxConstraints(
+                            minHeight: 165,
+                            minWidth: MediaQuery.of(context).size.width,
+                            maxWidth: MediaQuery.of(context).size.width),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Receive',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              verticalDirection: VerticalDirection.down,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: <Widget>[
+                                Text(
+                                  formatValue(
+                                      BigInt.from(num.parse(
+                                          exchangeSummry['destinationAmount'])),
+                                      int.parse(
+                                          exchangeSummry['destinationAsset']
+                                              ['decimals'])),
+                                  style: TextStyle(fontSize: 40),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  exchangeSummry['destinationAsset']['symbol'],
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 )
@@ -108,7 +146,15 @@ class _ReviewExchangeState extends State<ReviewExchange> {
                   labelFontWeight: FontWeight.normal,
                   label: I18n.of(context).exchnage,
                   fontSize: 15,
-                  onPressed: () async {},
+                  onPressed: () {
+                    viewModel.swap(
+                        exchangeSummry['sourceAsset']['address'],
+                        exchangeSummry['amount'],
+                        exchangeSummry['tx']['to'],
+                        exchangeSummry['tx']['data']);
+                    ProRouter.navigator.pushNamed(ProRouter.proModeHomeScreen,
+                        arguments: ProModeScaffoldArguments(tabIndex: 0));
+                  },
                 ),
               );
             }));
@@ -117,13 +163,19 @@ class _ReviewExchangeState extends State<ReviewExchange> {
 
 class ReviewExchangeViewModel extends Equatable {
   final String walletAddress;
+  final Function(String tokenAddress, num tokensAmoun,
+      String swapContractAddress, String swapData) swap;
 
-  ReviewExchangeViewModel({this.walletAddress});
+  ReviewExchangeViewModel({this.walletAddress, this.swap});
 
   static ReviewExchangeViewModel fromStore(Store<AppState> store) {
     return ReviewExchangeViewModel(
-      walletAddress: store.state.userState.walletAddress,
-    );
+        walletAddress: store.state.userState.walletAddress,
+        swap: (String tokenAddress, num tokensAmount,
+            String swapContractAddress, String swapData) {
+          store.dispatch(totleSwap(
+              tokenAddress, tokensAmount, swapContractAddress, swapData));
+        });
   }
 
   @override

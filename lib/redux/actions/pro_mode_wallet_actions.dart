@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
@@ -367,5 +368,30 @@ ThunkAction processingTokenJobsCall(Timer timer) {
         }
       }
     }
+  };
+}
+
+ThunkAction totleSwap(String tokenAddress, num tokensAmount, String swapContractAddress, String swapData,) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('Job');
+    UserState userState = store.state.userState;
+    String walletAddress = userState.walletAddress;
+    wallet_core.Web3 web3 = store.state.proWalletState.web3;
+    if (web3 == null) {
+      throw "Web3 is empty";
+    }
+
+    dynamic response = await api.totleSwap(
+      web3,
+      walletAddress,
+      tokenAddress,
+      tokensAmount,
+      DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'], 
+      swapContractAddress,
+      swapData,
+      network: 'mainnet'
+    );
+    dynamic jobId = response['job']['_id'];
+    logger.info('$jobId for totleSwap');
   };
 }

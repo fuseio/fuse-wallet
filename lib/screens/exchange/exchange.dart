@@ -1,8 +1,8 @@
 import 'dart:core';
+import 'package:fusecash/models/pro/views/pro_wallet.dart';
+import 'package:fusecash/screens/exchange/review_exchange.dart';
 import 'package:fusecash/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:redux/redux.dart';
-import 'package:equatable/equatable.dart';
 import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -32,7 +32,10 @@ class _ExchangeState extends State<Exchange> {
   final _payWithDebouncer = Debouncer(milliseconds: 500);
   final _receiveDebouncer = Debouncer(milliseconds: 500);
   bool isFetchingPayWith = false;
+  Map swapResponse;
+  Map transactionsResponse;
   bool isFetchingReceive = false;
+  bool isSwap = false;
 
   @override
   void dispose() {
@@ -48,24 +51,32 @@ class _ExchangeState extends State<Exchange> {
     tokenToReceive = _tokens[1];
   }
 
-  void getQuateForPayWith(String value, String walletAddress) async {
+  void getQuateForPayWith(
+      String value, String walletAddress, Token token) async {
     try {
       if (this.mounted) {
         setState(() {
+          swapResponse = null;
           isFetchingPayWith = true;
         });
       }
       if (value.isEmpty) {
         if (this.mounted) {
           setState(() {
+            swapResponse = null;
             receiveController.text = '';
             isFetchingPayWith = false;
           });
         }
         return;
       }
-      dynamic response = await fetchSwap(walletAddress, tokenToPayWith.address,
-          tokenToReceive.address, value, tokenToPayWith.decimals);
+      dynamic response = await fetchSwap(
+          walletAddress, token.address, tokenToReceive.address,
+          sourceAmount: toBigInt(value, token.decimals).toString());
+      swapResponse = Map.from(response['response']['summary'][0]);
+      swapResponse['tx'] =
+          Map.from(response['response']['transactions'][1]['tx']);
+      swapResponse['amount'] = num.parse(value);
       dynamic summary = response['response']['summary'][0];
       String toTokenAmount = formatValue(
           BigInt.from(num.parse(summary['destinationAmount'])),
@@ -76,63 +87,102 @@ class _ExchangeState extends State<Exchange> {
           isFetchingPayWith = false;
         });
       }
-      return response;
     } catch (error) {
       if (this.mounted) {
         setState(() {
+          swapResponse = null;
+          payWithController.text = '';
+          receiveController.text = '';
           isFetchingPayWith = false;
         });
       }
     }
   }
 
-  void getQuateForReceive(String value, String walletAddress) async {
+  void getQuateForReceive(
+      String value, String walletAddress, Token token) async {
     try {
       if (this.mounted) {
         setState(() {
+          swapResponse = null;
           isFetchingReceive = true;
         });
       }
       if (value.isEmpty) {
         if (this.mounted) {
           setState(() {
-            isFetchingReceive = false;
+            swapResponse = null;
             payWithController.text = '';
+            isFetchingReceive = false;
           });
         }
         return;
       }
-      dynamic response = await fetchSwap(walletAddress, tokenToReceive.address,
-          tokenToPayWith.address, value, tokenToReceive.decimals);
+      dynamic response = await fetchSwap(
+          walletAddress, tokenToReceive.address, token.address,
+          sourceAmount: toBigInt(value, tokenToReceive.decimals).toString());
+      swapResponse = Map.from(response['response']['summary'][0]);
+      swapResponse['tx'] =
+          Map.from(response['response']['transactions'][1]['tx']);
+      swapResponse['amount'] = num.parse(value);
       dynamic summary = response['response']['summary'][0];
       String fromTokenAmount = formatValue(
-          BigInt.from(num.parse(summary['destinationAmount'])),
-          tokenToPayWith.decimals);
+          BigInt.from(num.parse(summary['destinationAmount'])), token.decimals);
       if (this.mounted) {
         setState(() {
-          isFetchingReceive = false;
           payWithController.text = fromTokenAmount;
+          isFetchingReceive = false;
         });
       }
     } catch (error) {
       if (this.mounted) {
         setState(() {
+          swapResponse = null;
+          payWithController.text = '';
+          receiveController.text = '';
           isFetchingReceive = false;
         });
       }
     }
   }
 
+  void swap() {
+    // if (this.mounted) {
+    //   if (isSwap) {
+    //     setState(() {
+    //       isSwap = !isSwap;
+    //       tokenToPayWith = _tokens[0];
+    //       tokenToReceive = _tokens[1];
+    //     });
+    //   } else {
+    //     setState(() {
+    //       isSwap = !isSwap;
+    //       tokenToPayWith = _tokens[1];
+    //       tokenToReceive = _tokens[0];
+    //     });
+    //   }
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, ExchangeViewModel>(
+    return new StoreConnector<AppState, ProWalletViewModel>(
         distinct: true,
         onInit: (store) {
           Segment.screen(screenName: '/exchange-screen');
         },
-        converter: ExchangeViewModel.fromStore,
+        converter: ProWalletViewModel.fromStore,
         builder: (_, viewModel) {
+          final List<Token> tokens = viewModel.tokens
+              .where((Token token) =>
+                  num.parse(formatValue(token.amount, token.decimals)) > 0)
+              .toList()
+              .reversed
+              .toList();
+          tokens.sort((a, b) => b.amount.compareTo(a.amount));
+          final Token token = tokens[0];
           return MainScaffold(
+            automaticallyImplyLeading: false,
             withPadding: true,
             title: I18n.of(context).exchnage,
             children: <Widget>[
@@ -164,16 +214,16 @@ class _ExchangeState extends State<Exchange> {
                       child: Column(
                         children: <Widget>[
                           ExchangeCard(
-                            walletAddress: viewModel.walletAddress,
                             onChanged: (value) {
                               _payWithDebouncer.run(() => getQuateForPayWith(
-                                  value, viewModel.walletAddress));
+                                  value, viewModel.walletAddress, token));
                             },
-                            token: tokenToPayWith,
-                            tokenToReceive: tokenToReceive,
-                            title: 'Pay with',
-                            isFetching: isFetchingReceive,
+                            walletAddress: viewModel.walletAddress,
                             textEditingController: payWithController,
+                            isFetching: isFetchingReceive,
+                            tokenToReceive: tokenToReceive,
+                            token: token,
+                            title: 'Pay with',
                           ),
                           Stack(
                             alignment: Alignment.center,
@@ -188,26 +238,27 @@ class _ExchangeState extends State<Exchange> {
                                 ),
                               ),
                               InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    // swap();
+                                  },
                                   child: SvgPicture.asset(
                                     'assets/images/swap_icon.svg',
                                     fit: BoxFit.fill,
                                     width: 40,
                                     height: 40,
-                                    alignment: Alignment.topLeft,
                                   ))
                             ],
                           ),
                           ExchangeCard(
-                            isFetching: isFetchingPayWith,
-                            walletAddress: viewModel.walletAddress,
                             onChanged: (value) {
                               _receiveDebouncer.run(() => getQuateForReceive(
-                                  value, viewModel.walletAddress));
+                                  value, viewModel.walletAddress, token));
                             },
+                            walletAddress: viewModel.walletAddress,
                             textEditingController: receiveController,
+                            isFetching: isFetchingPayWith,
+                            tokenToReceive: token,
                             token: tokenToReceive,
-                            tokenToReceive: tokenToPayWith,
                             title: 'Receive',
                           ),
                         ],
@@ -222,25 +273,19 @@ class _ExchangeState extends State<Exchange> {
                 labelFontWeight: FontWeight.normal,
                 label: I18n.of(context).exchnage,
                 fontSize: 15,
-                onPressed: () async {},
+                onPressed: () async {
+                  if (swapResponse != null && swapResponse['tx'] != null) {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => ReviewExchange(
+                                  exchangeSummry: swapResponse,
+                                )));
+                  }
+                },
               ),
             ),
           );
         });
   }
-}
-
-class ExchangeViewModel extends Equatable {
-  final String walletAddress;
-
-  ExchangeViewModel({this.walletAddress});
-
-  static ExchangeViewModel fromStore(Store<AppState> store) {
-    return ExchangeViewModel(
-      walletAddress: store.state.userState.walletAddress,
-    );
-  }
-
-  @override
-  List<Object> get props => [walletAddress];
 }

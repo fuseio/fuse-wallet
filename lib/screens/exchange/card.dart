@@ -129,7 +129,10 @@ class ExchangeCard extends StatelessWidget {
                     ),
                     new FutureBuilder<dynamic>(
                         future: fetchSwap(walletAddress, token.address,
-                            tokenToReceive.address, '1', token.decimals),
+                            tokenToReceive.address,
+                            sourceAmount:
+                                toBigInt(num.parse('1'), token.decimals)
+                                    .toString()),
                         builder: (BuildContext _context,
                             AsyncSnapshot<dynamic> snapshot) {
                           if (snapshot.hasData) {
@@ -156,6 +159,36 @@ class ExchangeCard extends StatelessWidget {
                             width: 10,
                             height: 10,
                           );
+                          // if (snapshot.connectionState ==
+                          //     ConnectionState.waiting) {
+                          //   return Container(
+                          //     child: CircularProgressIndicator(
+                          //         strokeWidth: 2,
+                          //         valueColor: new AlwaysStoppedAnimation<Color>(
+                          //             Color(0xFF8E8E8E))),
+                          //     width: 10,
+                          //     height: 10,
+                          //   );
+                          // } else if (snapshot.hasError) {
+                          //   return Text(
+                          //     'Error....',
+                          //     style: TextStyle(fontSize: 10),
+                          //   );
+                          // }
+                          // dynamic summary =
+                          //     snapshot.data['response']['summary'][0];
+                          // String fromTokenAmount = formatValue(
+                          //     BigInt.from(num.parse(summary['sourceAmount'])),
+                          //     token.decimals);
+                          // String toTokenAmount = formatValue(
+                          //     BigInt.from(
+                          //         num.parse(summary['destinationAmount'])),
+                          //     tokenToReceive.decimals);
+                          // return Text(
+                          //   '$fromTokenAmount ${token.symbol} = $toTokenAmount ${tokenToReceive.symbol}',
+                          //   style: TextStyle(
+                          //       color: Color(0xFF8E8E8E), fontSize: 10),
+                          // );
                         }),
                   ],
                 ),
@@ -168,12 +201,31 @@ class ExchangeCard extends StatelessWidget {
   }
 }
 
-Future<dynamic> fetchSwap(String walletAddress, String fromTokenAddress,
-    String toTokenAddress, String amount, int decimals) async {
+Future<dynamic> fetchSwap(
+  String walletAddress,
+  String fromTokenAddress,
+  String toTokenAddress, {
+  String sourceAmount,
+  String destinationAmount,
+}) async {
   final logger = await AppFactory().getLogger('Fetch quate');
   try {
-    dynamic response = await exchangeApi.swap(walletAddress, fromTokenAddress,
-        toTokenAddress, toBigInt(amount, decimals).toString());
+    Map apiOptions = Map.from({
+      'swap': {
+        'sourceAsset': fromTokenAddress,
+        'destinationAsset': toTokenAddress,
+      },
+      'config': {'transactions': true, 'skipBalanceChecks': true}
+    });
+    if (sourceAmount != null && sourceAmount.isNotEmpty) {
+      apiOptions['swap']['sourceAmount'] = sourceAmount;
+    }
+    if (destinationAmount != null && destinationAmount.isNotEmpty) {
+      apiOptions['swap']['destinationAmount'] = destinationAmount;
+    }
+    logger.info(apiOptions.toString());
+    dynamic response =
+        await exchangeApi.swap(walletAddress, options: apiOptions);
     return response;
   } catch (error) {
     logger.severe('$error');

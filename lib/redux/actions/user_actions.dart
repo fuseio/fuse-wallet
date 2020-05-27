@@ -168,7 +168,7 @@ class DeviceIdSuccess {
 
 ThunkAction setCountryCode(CountryCode countryCode) {
   return (Store store) async {
-    String phone = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    String phone = '${countryCode.dialCode}${store.state.userState.phoneNumber}';
     String normalizedPhoneNumber = await PhoneService.getNormalizedPhoneNumber(phone, countryCode.code);
     SetIsoCode(countryCode: countryCode, normalizedPhoneNumber: normalizedPhoneNumber);
   };
