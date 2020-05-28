@@ -73,7 +73,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
                 items: [
                   bottomBarItem(I18n.of(context).home, 'home'),
                   bottomBarItem(I18n.of(context).your_home, 'home'),
-                  bottomBarItem(I18n.of(context).buy, 'rent'),
+                  bottomBarItem(I18n.of(context).pay_rent, 'rent'),
                   // bottomBarItem(I18n.of(context).receive, 'receive'),
                 ],
               ));
