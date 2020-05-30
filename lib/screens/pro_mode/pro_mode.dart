@@ -45,8 +45,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
           rateMyApp.showStarRateDialog(
             context,
             title: 'Rate this app',
-            message:
-                'You like this app ? Then take a little bit of your time to leave a rating :', // The dialog message.
+            message: 'You like this app ? Then take a little bit of your time to leave a rating :',
             actionsBuilder: (_, stars) {
               return [
                 FlatButton(
@@ -86,7 +85,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
       ProModeHomeScreen(),
       !hasContactsInStore
           ? SendToContactScreen()
-          : ContactsList(contacts: contacts),
+          : ContactsList(),
       Container(),
       ReceiveScreen()
     ];
@@ -150,7 +149,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
               header: MyAppBar(
                 child: ProHeader(),
                 backgroundColor: Colors.red,
-                height: MediaQuery.of(context).size.height * .25,
+                height: 230.0,
               ),
               drawerEdgeDragWidth: 0,
               pages: pages,

@@ -19,7 +19,9 @@ class UserState {
   final String pincode;
   final String accountAddress;
   final String countryCode;
+  final String isoCode;
   final String phoneNumber;
+  final String normalizedPhoneNumber;
   final List<String> syncedContacts;
   final Map<String, String> reverseContacts;
   final String jwtToken;
@@ -60,6 +62,8 @@ class UserState {
       this.accountAddress,
       this.countryCode,
       this.phoneNumber,
+      this.normalizedPhoneNumber,
+      this.isoCode,
       this.contacts,
       this.reverseContacts,
       this.syncedContacts,
@@ -94,7 +98,9 @@ class UserState {
         pincode: null,
         accountAddress: "",
         countryCode: "",
+        isoCode: "",
         phoneNumber: "",
+        normalizedPhoneNumber: "",
         contacts: [],
         syncedContacts: [],
         reverseContacts: new Map<String, String>(),
@@ -129,7 +135,9 @@ class UserState {
       String pincode,
       String accountAddress,
       String countryCode,
+      String isoCode,
       String phoneNumber,
+      String normalizedPhoneNumber,
       List<Contact> contacts,
       List<String> syncedContacts,
       Map<String, String> reverseContacts,
@@ -161,7 +169,9 @@ class UserState {
         pincode: pincode ?? this.pincode,
         accountAddress: accountAddress ?? this.accountAddress,
         countryCode: countryCode ?? this.countryCode,
+        isoCode: isoCode ?? this.isoCode,
         phoneNumber: phoneNumber ?? this.phoneNumber,
+        normalizedPhoneNumber: normalizedPhoneNumber ?? this.normalizedPhoneNumber,
         contacts: contacts ?? this.contacts,
         syncedContacts: syncedContacts ?? this.syncedContacts,
         reverseContacts: reverseContacts ?? this.reverseContacts,

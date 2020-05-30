@@ -239,7 +239,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     print('Found ${action.tokenTransfers.length} token transfers');
     bool isLoading = state.isCommunityLoading ?? false;
     if (isLoading) return state;
-    if (state.walletAddress != '' && action.tokenTransfers.length > 0) {
+    if (state.walletAddress != '' && action.tokenTransfers.isNotEmpty) {
       dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
               0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
           1;

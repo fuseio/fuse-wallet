@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:roost/models/business.dart';
 import 'package:roost/models/community.dart';
@@ -17,6 +18,7 @@ class CashWalletViewModel extends Equatable {
   final String communityAddress;
   final String branchAddress;
   final String identifier;
+  final String isoCode;
   final bool isCommunityLoading;
   final bool isCommunityFetched;
   final bool isCommunityBusinessesFetched;
@@ -46,6 +48,7 @@ class CashWalletViewModel extends Equatable {
   final bool isJobProcessingStarted;
   final Community community;
   final Function(bool isProMode) replaceNavigator;
+  final Function(CountryCode countryCode) setCountyCode;
 
   CashWalletViewModel({
     this.accountAddress,
@@ -54,6 +57,7 @@ class CashWalletViewModel extends Equatable {
     this.communityAddress,
     this.branchAddress,
     this.identifier,
+    this.isoCode,
     this.isCommunityLoading,
     this.isCommunityFetched,
     this.isBalanceFetchingStarted,
@@ -81,7 +85,8 @@ class CashWalletViewModel extends Equatable {
     this.isContactsSynced,
     this.isJobProcessingStarted,
     this.community,
-    this.replaceNavigator
+    this.replaceNavigator,
+    this.setCountyCode,
   });
 
   static CashWalletViewModel fromStore(Store<AppState> store) {
@@ -90,6 +95,7 @@ class CashWalletViewModel extends Equatable {
     bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
     return CashWalletViewModel(
+      isoCode: store.state.userState.isoCode,
       accountAddress: store.state.userState.accountAddress,
       walletAddress: store.state.cashWalletState.walletAddress,
       walletStatus: store.state.cashWalletState.walletStatus,
@@ -144,6 +150,9 @@ class CashWalletViewModel extends Equatable {
       },
       replaceNavigator: (isProMode) {
         store.dispatch(SwitchWalletMode(isProMode: isProMode));
+      },
+      setCountyCode: (CountryCode countryCode) {
+        store.dispatch(setCountryCode(countryCode));
       }
     );
   }
@@ -163,6 +172,7 @@ class CashWalletViewModel extends Equatable {
     transactions,
     isListeningToBranch,
     isBranchDataReceived,
-    isCommunityBusinessesFetched
+    isCommunityBusinessesFetched,
+    isoCode
   ];
 }

@@ -54,8 +54,8 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           final List<Widget> pages = _pages(vm.walletAddress);
           return TabsScaffold(
               header: MyAppBar(
-                height: MediaQuery.of(context).size.height * .25,
-                backgroundColor: Colors.red,
+                height: 230.0,
+                backgroundColor: Colors.white,
                 child: CashHeader(),
               ),
               drawerEdgeDragWidth: 0,
@@ -71,9 +71,9 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
                 backgroundColor: Theme.of(context).bottomAppBarColor,
                 showUnselectedLabels: true,
                 items: [
-                  bottomBarItem(I18n.of(context).home, 'home'),
+                  bottomBarItem(I18n.of(context).wallet, 'receive'),
                   bottomBarItem(I18n.of(context).your_home, 'home'),
-                  bottomBarItem(I18n.of(context).buy, 'rent'),
+                  bottomBarItem(I18n.of(context).pay_rent, 'rent'),
                   // bottomBarItem(I18n.of(context).receive, 'receive'),
                 ],
               ));

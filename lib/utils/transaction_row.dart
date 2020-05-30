@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:roost/models/business.dart';
 import 'package:roost/models/transactions/transfer.dart';
 import 'package:roost/models/views/cash_wallet.dart';
-// import 'package:roost/utils/forks.dart';
 import 'package:roost/utils/format.dart';
 import 'package:roost/utils/phone.dart';
 
@@ -31,6 +30,9 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
     if (contacts == null) return null;
     for (Contact contact in contacts) {
       for (Item contactPhoneNumber in contact.phones.toList()) {
+        if (clearNotNumbersAndPlusSymbol(contactPhoneNumber.value) == phoneNumber) {
+          return contact;
+        }
         if (formatPhoneNumber(contactPhoneNumber.value, countryCode) ==
             phoneNumber) {
           return contact;
@@ -110,11 +112,7 @@ String getCoverPhotoUrl(business, communityAddress) {
   if (business.metadata.coverPhoto == null ||
       business.metadata.coverPhoto == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  }
-  //  else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
-  //   return business.metadata.coverPhoto;
-  // }
-  else {
+  } else {
     return getIPFSImageUrl(business.metadata.coverPhoto);
   }
 }
@@ -122,11 +120,7 @@ String getCoverPhotoUrl(business, communityAddress) {
 String getImageUrl(business, communityAddress) {
   if (business.metadata.image == null || business.metadata.image == '') {
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  }
-  // else if (isPaywise(communityAddress) || isPeso(communityAddress)) {
-  //   return business.metadata.image;
-  // }
-  else {
+  } else {
     return getIPFSImageUrl(business.metadata.image);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roost/models/plugins/fee_base.dart';
 import 'package:roost/models/pro/token.dart';
 import 'package:roost/models/token.dart' as token;
 
@@ -22,6 +23,7 @@ class SendAmountArguments {
   bool isProMode = false;
   Token erc20Token;
   token.Token tokenToSend;
+  FeePlugin feePlugin;
 
   SendAmountArguments(
       {this.sendToCashMode = false,
@@ -32,5 +34,6 @@ class SendAmountArguments {
       this.erc20Token,
       this.accountAddress,
       this.amount,
+      this.feePlugin,
       this.avatar});
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/community.dart';
+// import 'package:roost/models/views/send_amount.dart';
 import 'package:roost/screens/send/send_amount_arguments.dart';
 import 'package:roost/screens/send/send_review.dart';
 import 'package:roost/utils/format.dart';
@@ -126,7 +127,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             if (args.sendToCashMode) {
               try {
                 double amount = double.parse(amountText);
-                BigInt currentBalance = toBigInt(amount, args.erc20Token.decimals);
+                BigInt currentBalance =
+                    toBigInt(amount, args.erc20Token.decimals);
                 if (amount > 0 && args.erc20Token.amount >= currentBalance) {
                   controller.forward();
                 } else {
@@ -138,7 +140,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             } else {
               try {
                 double amount = double.parse(amountText);
-                BigInt currentBalance = toBigInt(amount, args.erc20Token.decimals);
+                BigInt currentBalance =
+                    toBigInt(amount, args.erc20Token.decimals);
                 if (amount > 0 && args.erc20Token.amount >= currentBalance) {
                   controller.forward();
                 } else {

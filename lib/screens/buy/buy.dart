@@ -8,6 +8,7 @@ import 'package:roost/models/business.dart';
 import 'package:roost/models/views/buy_page.dart';
 import 'package:roost/screens/buy/business.dart';
 import 'package:roost/screens/cash_home/webview_page.dart';
+import 'package:roost/screens/misc/about.dart';
 import 'package:roost/screens/routes.gr.dart';
 import 'package:roost/screens/send/send_amount.dart';
 import 'package:roost/screens/send/send_amount_arguments.dart';
@@ -45,8 +46,8 @@ class BuyScreen extends StatelessWidget {
               //   ),
               // ],
               automaticallyImplyLeading: false,
-              title: I18n.of(context).buy,
-              children: <Widget>[BusinessesListView()]);
+              title: I18n.of(context).pay_rent,
+              children: <Widget>[RoostPaymentHelpView(), BusinessesListView()]);
         });
   }
 }
@@ -181,6 +182,9 @@ class BusinessesListView extends StatelessWidget {
     return new StoreConnector<AppState, BuyViewModel>(
         distinct: true,
         converter: BuyViewModel.fromStore,
+        onInitialBuild: (vm) {
+          vm.loadBusinesses();
+        },
         builder: (_, vm) {
           return vm.businesses.isEmpty
               ? Container(
@@ -197,5 +201,38 @@ class BusinessesListView extends StatelessWidget {
                   ),
                 );
         });
+  }
+}
+
+class RoostPaymentHelpView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 40, right: 40, left: 40),
+      child: new Column(
+        children: [
+          Text(
+            'Not yet renting through Roost?',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text('Contact', textAlign: TextAlign.center),
+              InkWell(
+                onTap: () {
+                  launchUrl('mailto:leon@roostnow.co.uk');
+                },
+                child: Text(
+                  ' leon@roostnow.co.uk',
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

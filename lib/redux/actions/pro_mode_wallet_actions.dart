@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:roost/models/community.dart';
 import 'package:roost/models/pro/pro_wallet_state.dart';
 import 'package:roost/models/pro/token.dart';
 import 'package:roost/models/transactions/transfer.dart';
@@ -61,20 +62,22 @@ class StartFetchTokensBalances {
   StartFetchTokensBalances();
 }
 
-ThunkAction initWeb3ProMode({
-  String privateKey,
-  String communityManagerAddress,
-  String transferManagerAddress,
-  String dAIPointsManagerAddress
-}) {
+ThunkAction initWeb3ProMode(
+    {String privateKey,
+    String communityManagerAddress,
+    String transferManagerAddress,
+    String dAIPointsManagerAddress}) {
   return (Store store) async {
     UserState userState = store.state.userState;
     String privateKey = userState.privateKey;
     wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
         networkId: int.parse(DotEnv().env['FOREIGN_NETWORK_ID']),
-        transferManagerAddress: transferManagerAddress ?? userState.transferManagerAddress,
-        daiPointsManagerAddress: dAIPointsManagerAddress ?? userState.daiPointsManagerAddress,
-        communityManagerAddress: communityManagerAddress ?? userState.communityManagerAddress,
+        transferManagerAddress:
+            transferManagerAddress ?? userState.transferManagerAddress,
+        daiPointsManagerAddress:
+            dAIPointsManagerAddress ?? userState.daiPointsManagerAddress,
+        communityManagerAddress:
+            communityManagerAddress ?? userState.communityManagerAddress,
         url: DotEnv().env['FOREIGN_PROVIDER_URL']);
     await web3.setCredentials(privateKey);
     store.dispatch(new InitWeb3ProModeSuccess(web3: web3));
@@ -108,7 +111,10 @@ ThunkAction fetchTokensBalances() {
         for (Token token in proWalletState.erc20Tokens.values) {
           void Function(BigInt) onDone = (BigInt balance) {
             logger.info('${token.name} balance updated');
-            store.dispatch(UpdateToken(tokenToUpdate: store.state.proWalletState.erc20Tokens[token.address].copyWith(amount: balance)));
+            Token tokenToUpdate = store.state.proWalletState.erc20Tokens[token.address];
+            store.dispatch(UpdateToken(
+              tokenToUpdate: tokenToUpdate.copyWith(amount: balance,
+              timestamp: DateTime.now().millisecondsSinceEpoch)));
           };
           void Function(Object error, StackTrace stackTrace) onError = (Object error, StackTrace stackTrace) {
             logger.severe('Error in fetchTokenBalance for - ${token.name}');
@@ -193,16 +199,20 @@ ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
       dynamic response = await tokenAPI.getTokenTransferEventsByAccountAddress(
           tokenAddress, walletAddress,
           startblock: token.transactions?.blockNumber ?? 0);
-      logger.info('Transfer Events of account $walletAddress and tokenAddress $tokenAddress');
+      logger.info(
+          'Transfer Events of account $walletAddress and tokenAddress $tokenAddress');
       List<dynamic> tokensTransferEvents = List<dynamic>.from(response);
       if (tokensTransferEvents.isNotEmpty) {
-        int combiner (int max, dynamic transferEvent) => (int.parse(transferEvent['blockNumber'].toString()) > max
-            ? int.parse(transferEvent['blockNumber'].toString())
-            : max) + 1;
+        int combiner(int max, dynamic transferEvent) =>
+            (int.parse(transferEvent['blockNumber'].toString()) > max
+                ? int.parse(transferEvent['blockNumber'].toString())
+                : max) +
+            1;
         int maxBlockNumber = tokensTransferEvents.fold<int>(0, combiner);
         List<Transfer> tokenTransfersList = tokensTransferEvents
             .map((transferEvent) => Transfer(
-                  blockNumber: int.parse(transferEvent['blockNumber'].toString()),
+                  blockNumber:
+                      int.parse(transferEvent['blockNumber'].toString()),
                   txHash: transferEvent['hash'],
                   to: transferEvent['to'],
                   from: transferEvent["from"],
@@ -219,20 +229,25 @@ ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
         Token tokenToUpdate = token.copyWith(
             transactions: token.transactions.copyWith(
                 blockNumber: maxBlockNumber,
-                list: token.transactions.list
-                  ..addAll(tokenTransfersList)));
+                list: token.transactions.list..addAll(tokenTransfersList)));
         store.dispatch(UpdateToken(tokenToUpdate: tokenToUpdate));
       }
     } catch (e) {
-      logger.severe('ERROR in getTokenTransferEventsByAccountAddress ${e.toString()}');
+      logger.severe(
+          'ERROR in getTokenTransferEventsByAccountAddress ${e.toString()}');
       store.dispatch(new ErrorAction(e.toString()));
     }
   };
 }
 
-ThunkAction sendErc20TokenCall(Token token, String receiverAddress, num tokensAmount,
-    VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
-    {String receiverName, String transferNote}) {
+ThunkAction sendErc20TokenCall(
+    Token token,
+    String receiverAddress,
+    num tokensAmount,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+    {String receiverName,
+    String transferNote}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -242,8 +257,20 @@ ThunkAction sendErc20TokenCall(Token token, String receiverAddress, num tokensAm
       if (web3 == null) {
         throw "Web3 is empty";
       }
+      Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
       logger.info('Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
-      dynamic approveTrasfer = await api.approveTokenTransfer(web3, walletAddress, token.address, tokensAmount, network: foreignNetwork);
+      Map<String, dynamic> approveTokenData = await web3.approveTokenOffChain(
+        walletAddress, token.address, tokensAmount, network: foreignNetwork);
+      Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
+        walletAddress, token.address, receiverAddress, tokensAmount, network: foreignNetwork);
+      num feeAmount = community.plugins.foreignTransfers.calcFee(tokensAmount);
+      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+        walletAddress,
+        token.address,
+        community.plugins.foreignTransfers.receiverAddress,
+        feeAmount,
+        network: foreignNetwork);
+      dynamic approveTrasfer = await api.multiRelay([approveTokenData, transferTokenData, feeTrasnferData]);
       sendSuccessCallback();
       dynamic approveJobId = approveTrasfer['job']['_id'];
       logger.info('Job $approveJobId for sending token sent to the relay service');
@@ -264,7 +291,8 @@ ThunkAction sendErc20TokenCall(Token token, String receiverAddress, num tokensAm
   };
 }
 
-ThunkAction sendDaiToDaiPointsCall(num tokensAmount, VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
+ThunkAction sendDaiToDaiPointsCall(num tokensAmount,
+    VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
     {String transferNote, Transfer inviteTransfer}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
@@ -274,13 +302,22 @@ ThunkAction sendDaiToDaiPointsCall(num tokensAmount, VoidCallback sendSuccessCal
         String walletAddress = userState.walletAddress;
         Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress];
         wallet_core.Web3 web3 = store.state.proWalletState.web3;
-        logger.info('Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $walletAddress on fuse');
-        dynamic response = await api.trasferDaiToDaiPointsOffChain(web3, walletAddress, tokensAmount, token.decimals, network: foreignNetwork);
+        Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
+        logger.info(
+            'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $walletAddress on fuse');
+        Map<String, dynamic> data = await web3.trasferDaiToDAIpOffChain(walletAddress, tokensAmount, token.decimals, network: foreignNetwork);
+        Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+          walletAddress,
+          token.address,
+          community.plugins.bridgeToForeign.receiverAddress,
+          community.plugins.bridgeToForeign.calcFee(tokensAmount),
+          network: foreignNetwork);
+        dynamic response = await api.multiRelay([data, feeTrasnferData]);
         dynamic jobId = response['job']['_id'];
         logger.info('Job $jobId for sending token sent to the relay service');
         sendSuccessCallback();
       } else {
-        sendFailureCallback();  
+        sendFailureCallback();
       }
     } catch (e) {
       logger.severe('ERROR - sendDaiToDaiPointsCall $e');
@@ -323,6 +360,7 @@ ThunkAction processingTokenJobsCall(Timer timer) {
             }
             return true;
           }
+
           try {
             await job.perform(store, isJobProcessValid);
           } catch (e) {
@@ -331,6 +369,5 @@ ThunkAction processingTokenJobsCall(Timer timer) {
         }
       }
     }
-    
   };
 }

@@ -3,8 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/community.dart';
-import 'package:roost/models/plugins.dart';
-import 'package:roost/screens/cash_home/deposit_webview.dart';
+import 'package:roost/models/plugins/plugins.dart';
+import 'package:roost/screens/cash_home/webview_page.dart';
 import 'package:roost/screens/pro_routes.gr.dart';
 import 'package:roost/screens/routes.gr.dart';
 import 'package:roost/utils/addresses.dart';
@@ -104,14 +104,14 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                 onTap: () {
                                   if (viewModel.isProMode) {
                                     ProRouter.navigator.pushNamed(
-                                      ProRouter.proModeHomeScreen,
-                                      arguments: ProModeScaffoldArguments(
-                                          tabIndex: 3));
+                                        ProRouter.proModeHomeScreen,
+                                        arguments: ProModeScaffoldArguments(
+                                            tabIndex: 3));
                                   } else {
                                     Router.navigator.pushNamed(
-                                      Router.cashHomeScreen,
-                                      arguments: CashModeScaffoldArguments(
-                                          tabIndex: 3));
+                                        Router.cashHomeScreen,
+                                        arguments: CashModeScaffoldArguments(
+                                            tabIndex: 3));
                                   }
                                 },
                               ),
@@ -141,11 +141,13 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
+                                  dynamic url = depositPlugins[0].generateUrl();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => DepositWebView(
-                                            depositPlugin: depositPlugins[0]),
+                                        builder: (context) => WebViewPage(
+                                            pageArgs: WebViewPageArguments(
+                                                url: url, title: 'Top up')),
                                         fullscreenDialog: true),
                                   );
                                   Segment.track(

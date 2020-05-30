@@ -248,6 +248,8 @@ class I18n implements WidgetsLocalizations {
   String get sendToCashMode => "Send to cash mode";
   /// "Your Home"
   String get your_home => "Your Home";
+  /// "Pay Rent"
+  String get pay_rent => "Pay Rent";
 }
 
 class _I18n_en_US extends I18n {
@@ -500,9 +502,9 @@ class _I18n_he_IL extends I18n {
   /// "בחר את הכינוי שלך"
   @override
   String get pickup_display_name => "בחר את הכינוי שלך";
-  /// "This name will be shown to contacts that send you money to identify your account"
+  /// "שם זה יוצג לאנשי קשר ששולחים לך כסף לזיהוי חשבונך"
   @override
-  String get pickup_display_name_text => "This name will be shown to contacts that send you money to identify your account";
+  String get pickup_display_name_text => "שם זה יוצג לאנשי קשר ששולחים לך כסף לזיהוי חשבונך";
   /// "שלב שוב"
   @override
   String get resend_code => "שלב שוב";
@@ -512,9 +514,9 @@ class _I18n_he_IL extends I18n {
   /// "הרגע שלנו לך הודעה \n"
   @override
   String get we_just_sent => "הרגע שלנו לך הודעה \n";
-  /// "אנא הכנס את הקוק בין ה-6 ספרות שנשלח אלך"
+  /// "אנא הכנס את הקוד בין ה-6 ספרות שנשלח אלייך"
   @override
-  String get enter_verification_code => "אנא הכנס את הקוק בין ה-6 ספרות שנשלח אלך";
+  String get enter_verification_code => "אנא הכנס את הקוד בין ה-6 ספרות שנשלח אלייך";
   /// "הגן על חשבונך"
   @override
   String get protect_wallet => "הגן על חשבונך";

@@ -8,7 +8,7 @@ import 'package:roost/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:roost/models/views/drawer.dart';
 import 'package:roost/screens/backup/show_mnemonic.dart';
-import 'package:roost/screens/cash_home/deposit_webview.dart';
+import 'package:roost/screens/cash_home/webview_page.dart';
 import 'package:roost/screens/misc/settings.dart';
 import 'package:roost/utils/forks.dart';
 import 'package:roost/utils/format.dart';
@@ -88,11 +88,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
         ),
         onTap: () {
+          dynamic url = depositPlugins[0].generateUrl();
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    DepositWebView(depositPlugin: depositPlugins[0]),
+                builder: (context) => WebViewPage(
+                    pageArgs: WebViewPageArguments(url: url, title: 'Top up')),
                 fullscreenDialog: true),
           );
           Segment.track(eventName: 'User clicked on top up');
@@ -165,8 +166,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           viewModel.walletAddress != null
                               ? Row(
                                   children: <Widget>[
-                                    Text(
-                                      formatAddress(viewModel.walletAddress),
+                                    Text(formatAddress(viewModel.walletAddress),
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
@@ -174,12 +174,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                     ),
                                     SizedBox(
                                       width: 10,
-                                    ),
-                                    // SvgPicture.asset(
-                                    //   'assets/images/header_arrow.svg',
-                                    //   width: 20,
-                                    //   height: 20,
-                                    // )
+                                    )
                                   ],
                                 )
                               : SizedBox.shrink()
