@@ -45,8 +45,11 @@ class BuyScreen extends StatelessWidget {
               //   ),
               // ],
               automaticallyImplyLeading: false,
-              title: I18n.of(context).buy,
-              children: <Widget>[BusinessesListView()]);
+              title: I18n.of(context).pay_rent,
+              children: <Widget>[
+                RoostPaymentHelpView(),
+                BusinessesListView()
+              ]);
         });
   }
 }
@@ -197,5 +200,27 @@ class BusinessesListView extends StatelessWidget {
                   ),
                 );
         });
+  }
+}
+
+class RoostPaymentHelpView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 40, right: 40, left: 40),
+      child: new Column(
+        children: <Text>[
+          Text(
+            'Not yet renting through Roost?',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'Contact leon@roostnow.co.uk',
+            textAlign: TextAlign.center
+          ),
+        ],
+      ),
+    );
   }
 }
