@@ -47,7 +47,10 @@ class BuyScreen extends StatelessWidget {
               // ],
               automaticallyImplyLeading: false,
               title: I18n.of(context).pay_rent,
-              children: <Widget>[RoostPaymentHelpView(), BusinessesListView()]);
+              children: <Widget>[
+                RoostPaymentHelpView(),
+                BusinessesListView()
+              ]);
         });
   }
 }
