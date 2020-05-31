@@ -85,7 +85,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
       ProModeHomeScreen(),
       !hasContactsInStore
           ? SendToContactScreen()
-          : ContactsList(contacts: contacts),
+          : ContactsList(),
       Container(),
       ReceiveScreen()
     ];

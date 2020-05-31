@@ -35,6 +35,7 @@ UserState _setIsoCode(UserState state, SetIsoCode action) {
 
 UserState _getWalletAddressesSuccess(UserState state, GetWalletAddressesSuccess action) {
   return state.copyWith(
+    backup: action.backup,
     networks: action.networks,
     walletAddress: action.walletAddress,
     transferManagerAddress: action.transferManagerAddress,

@@ -36,8 +36,6 @@ class PrimaryButton extends StatelessWidget {
         child: InkWell(
             onTap: onPressed,
             borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-            //hoverColor: Colors.red,
-            //focusColor: Colors.red,
             highlightColor:
                 Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
             splashColor:

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:digitalrand/models/community.dart';
-import 'package:digitalrand/models/plugins.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -123,7 +122,6 @@ class CashWalletState {
       bool isBranchDataReceived,
       bool isJobProcessingStarted,
       Map<String, num> sendToInvites,
-      Plugins plugins,
       Map<String, Community> communities}) {
     return CashWalletState(
         web3: web3 ?? this.web3,

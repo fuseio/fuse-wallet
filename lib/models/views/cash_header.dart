@@ -1,6 +1,6 @@
+import 'package:digitalrand/models/plugins/plugins.dart';
 import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/community.dart';
-import 'package:digitalrand/models/plugins.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
 
@@ -14,7 +14,9 @@ class CashHeaderViewModel extends Equatable {
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community = store.state.cashWalletState.communities[communityAddres] ?? new Community.initial();
+    Community community =
+        store.state.cashWalletState.communities[communityAddres] ??
+            new Community.initial();
     return CashHeaderViewModel(
       community: community,
       plugins: community?.plugins,

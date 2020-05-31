@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/screens/cash_home/prize.dart';
 import 'package:digitalrand/screens/cash_home/webview_page.dart';
 import 'package:digitalrand/screens/send/send_amount.dart';
@@ -264,13 +265,21 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                         onTap: () {
                           if (vm.isProModeActivate) {
                             Navigator.push(
-                                    context,
+                                context,
                                 new MaterialPageRoute(
                                     builder: (context) => SendAmountScreen(
                                         pageArgs: SendAmountArguments(
-                                            sendType: SendType.FUSE_ADDRESS,
+                                            avatar: AssetImage(
+                                              'assets/images/ethereume_icon.png',
+                                            ),
+                                            name: 'Send to ethereum',
+                                            feePlugin: vm.feePlugin,
+                                            sendType: SendType.ETHEREUM_ADDRESS,
                                             accountAddress: vm
                                                 .daiPointsHomeBridgeAddress))));
+                            Segment.track(
+                                eventName:
+                                    'Wallet: Choose amount to transfer - activate pro mode');
                           } else {
                             showDialog(
                                 context: context,
@@ -316,12 +325,14 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
               InkWell(
                 onTap: () {
                   Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => WebViewPage(
-                              pageArgs: WebViewPageArguments(
-                                  url: 'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points', title: 'What is dai points?'),
-                            )));
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => WebViewPage(
+                                pageArgs: WebViewPageArguments(
+                                    url:
+                                        'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
+                                    title: 'What is dai points?'),
+                              )));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -355,13 +366,18 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
 class _DaiPointsViewModel {
   final bool isProModeActivate;
   final String daiPointsHomeBridgeAddress;
-  _DaiPointsViewModel(
-      {this.isProModeActivate, this.daiPointsHomeBridgeAddress});
+  final FeePlugin feePlugin;
+  _DaiPointsViewModel({
+    this.isProModeActivate,
+    this.daiPointsHomeBridgeAddress,
+    this.feePlugin,
+  });
 
   static _DaiPointsViewModel fromStore(Store<AppState> store) {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return _DaiPointsViewModel(
+      feePlugin: community.plugins.bridgeToForeign,
       daiPointsHomeBridgeAddress: community.homeBridgeAddress,
       isProModeActivate: store.state.userState.isProModeActivated,
     );

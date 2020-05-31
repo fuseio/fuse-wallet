@@ -22,7 +22,8 @@ class RecentContacts extends StatelessWidget {
       builder: (_, viewModel) {
         List<Widget> listItems = List();
         Map<String, Transaction> uniqueValues = {};
-        final List<Transaction> sorted = new List<Transaction>.from(viewModel.transactions.list.toSet().toList())
+        final List<Transaction> sorted = new List<Transaction>.from(
+                viewModel.transactions.list.toSet().toList())
             .where((t) => t.type == 'SEND' && t.isConfirmed())
             .toList();
 
@@ -36,9 +37,8 @@ class RecentContacts extends StatelessWidget {
           uniqueValues[a] = item;
         }
         List test = uniqueValues.values.toList().reversed.toList();
-        List uniqueList = test.length > numToShow
-            ? test.sublist(0, numToShow)
-            : test;
+        List uniqueList =
+            test.length > numToShow ? test.sublist(0, numToShow) : test;
 
         for (int i = 0; i < uniqueList.length; i++) {
           final Transfer transfer = uniqueList[i];
@@ -74,19 +74,40 @@ class RecentContacts extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                   ),
                   onTap: () {
+                    if (transfer.to.toLowerCase() ==
+                        viewModel.community.homeBridgeAddress.toLowerCase()) {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => SendAmountScreen(
+                                  pageArgs: SendAmountArguments(
+                                      avatar: AssetImage(
+                                        'assets/images/ethereume_icon.png',
+                                      ),
+                                      name: 'Send to ethereum',
+                                      feePlugin: viewModel
+                                          .community.plugins.bridgeToForeign,
+                                      sendType: viewModel.isProMode
+                                          ? SendType.ETHEREUM_ADDRESS
+                                          : SendType.FUSE_ADDRESS,
+                                      accountAddress: transfer.to))));
+                      return;
+                    }
                     if (contact == null) {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
                               builder: (context) => SendAmountScreen(
                                   pageArgs: SendAmountArguments(
-                                      sendType: SendType.FUSE_ADDRESS,
+                                      sendType: viewModel.isProMode
+                                          ? SendType.ETHEREUM_ADDRESS
+                                          : SendType.FUSE_ADDRESS,
                                       accountAddress: transfer.to,
                                       name: displatName,
-                                      avatar: new AssetImage(
-                                          'assets/images/anom.png')))));
+                                      avatar: image))));
                     } else {
-                      sendToContact(context, viewModel, displatName, '',avatar: image, address: transfer.to);
+                      sendToContact(context, viewModel, displatName, '',
+                          avatar: image, address: transfer.to);
                     }
                   },
                 ),
