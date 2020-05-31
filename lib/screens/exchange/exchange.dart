@@ -1,6 +1,9 @@
 import 'dart:core';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:fusecash/models/pro/views/pro_wallet.dart';
 import 'package:fusecash/screens/exchange/review_exchange.dart';
+import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constans/exchangable_tokens.dart';
@@ -46,13 +49,23 @@ class _ExchangeState extends State<Exchange> {
 
   @override
   void initState() {
+    Segment.screen(screenName: '/trade-screen');
     super.initState();
-    tokenToPayWith = _tokens[0];
-    tokenToReceive = _tokens[1];
   }
 
-  void getQuateForPayWith(
-      String value, String walletAddress, Token token) async {
+  onPayWithDropDownChanged(Token token) {
+    setState(() {
+      tokenToPayWith = token;
+    });
+  }
+
+  onReceiveDropDownChanged(Token token) {
+    setState(() {
+      tokenToReceive = token;
+    });
+  }
+
+  void getQuateForPayWith(String value, String walletAddress) async {
     try {
       if (this.mounted) {
         setState(() {
@@ -71,8 +84,8 @@ class _ExchangeState extends State<Exchange> {
         return;
       }
       dynamic response = await fetchSwap(
-          walletAddress, token.address, tokenToReceive.address,
-          sourceAmount: toBigInt(value, token.decimals).toString());
+          walletAddress, tokenToPayWith.address, tokenToReceive.address,
+          sourceAmount: toBigInt(value, tokenToPayWith.decimals).toString());
       swapResponse = Map.from(response['response']['summary'][0]);
       swapResponse['tx'] =
           Map.from(response['response']['transactions'][1]['tx']);
@@ -99,8 +112,7 @@ class _ExchangeState extends State<Exchange> {
     }
   }
 
-  void getQuateForReceive(
-      String value, String walletAddress, Token token) async {
+  void getQuateForReceive(String value, String walletAddress) async {
     try {
       if (this.mounted) {
         setState(() {
@@ -119,7 +131,7 @@ class _ExchangeState extends State<Exchange> {
         return;
       }
       dynamic response = await fetchSwap(
-          walletAddress, tokenToReceive.address, token.address,
+          walletAddress, tokenToReceive.address, tokenToPayWith.address,
           sourceAmount: toBigInt(value, tokenToReceive.decimals).toString());
       swapResponse = Map.from(response['response']['summary'][0]);
       swapResponse['tx'] =
@@ -127,7 +139,8 @@ class _ExchangeState extends State<Exchange> {
       swapResponse['amount'] = num.parse(value);
       dynamic summary = response['response']['summary'][0];
       String fromTokenAmount = formatValue(
-          BigInt.from(num.parse(summary['destinationAmount'])), token.decimals);
+          BigInt.from(num.parse(summary['destinationAmount'])),
+          tokenToPayWith.decimals);
       if (this.mounted) {
         setState(() {
           payWithController.text = fromTokenAmount;
@@ -144,6 +157,35 @@ class _ExchangeState extends State<Exchange> {
         });
       }
     }
+  }
+
+  List<DropdownMenuItem<Token>> _buildItems(List tokens) {
+    return tokens.map((token) {
+      return DropdownMenuItem<Token>(
+        value: token,
+        child: Row(
+          children: <Widget>[
+            CachedNetworkImage(
+              width: 33,
+              height: 33,
+              imageUrl: getTokenUrl(checksumEthereumAddress(token.address)),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(
+                Icons.error,
+                size: 18,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              token.symbol,
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      );
+    }).toList();
   }
 
   void swap() {
@@ -168,19 +210,8 @@ class _ExchangeState extends State<Exchange> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ProWalletViewModel>(
         distinct: true,
-        onInit: (store) {
-          Segment.screen(screenName: '/exchange-screen');
-        },
         converter: ProWalletViewModel.fromStore,
         builder: (_, viewModel) {
-          final List<Token> tokens = viewModel.tokens
-              .where((Token token) =>
-                  num.parse(formatValue(token.amount, token.decimals)) > 0)
-              .toList()
-              .reversed
-              .toList();
-          tokens.sort((a, b) => b.amount.compareTo(a.amount));
-          final Token token = tokens[0];
           return MainScaffold(
             automaticallyImplyLeading: false,
             withPadding: true,
@@ -195,18 +226,28 @@ class _ExchangeState extends State<Exchange> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Text(
-                            'Use max',
-                            style: TextStyle(fontSize: 16),
-                          )
+                          InkWell(
+                              onTap: () {
+                                setState(() {
+                                  payWithController.text = formatValue(
+                                      (tokenToPayWith ?? viewModel.tokens[0])
+                                          .amount,
+                                      (tokenToPayWith ?? viewModel.tokens[0])
+                                          .decimals);
+                                });
+                              },
+                              child: Text(
+                                'Use max',
+                                style: TextStyle(fontSize: 16),
+                              ))
                         ],
                       ),
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: Color(0xFFF4FCFF),
+                        color: Color(0xFFF5F5F5),
                         border: Border.all(
-                          color: Color(0xFFCCE0E8),
+                          color: Color(0xFFDBDBDB),
                           width: 2,
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(9.0)),
@@ -214,15 +255,17 @@ class _ExchangeState extends State<Exchange> {
                       child: Column(
                         children: <Widget>[
                           ExchangeCard(
+                            onDropDownChanged: onPayWithDropDownChanged,
+                            items: _buildItems(viewModel.tokens),
                             onChanged: (value) {
                               _payWithDebouncer.run(() => getQuateForPayWith(
-                                  value, viewModel.walletAddress, token));
+                                  value, viewModel.walletAddress));
                             },
                             walletAddress: viewModel.walletAddress,
                             textEditingController: payWithController,
                             isFetching: isFetchingReceive,
-                            tokenToReceive: tokenToReceive,
-                            token: token,
+                            tokenToReceive: tokenToReceive ?? _tokens[0],
+                            token: tokenToPayWith ?? viewModel.tokens[0],
                             title: 'Pay with',
                           ),
                           Stack(
@@ -233,7 +276,7 @@ class _ExchangeState extends State<Exchange> {
                                 child: SizedBox(
                                   child: Divider(
                                     thickness: 1.0,
-                                    color: Color(0xFFD0E3EA),
+                                    color: Color(0xFFDBDBDB),
                                   ),
                                 ),
                               ),
@@ -250,15 +293,18 @@ class _ExchangeState extends State<Exchange> {
                             ],
                           ),
                           ExchangeCard(
+                            onDropDownChanged: onReceiveDropDownChanged,
+                            items: _buildItems(_tokens),
                             onChanged: (value) {
                               _receiveDebouncer.run(() => getQuateForReceive(
-                                  value, viewModel.walletAddress, token));
+                                  value, viewModel.walletAddress));
                             },
                             walletAddress: viewModel.walletAddress,
                             textEditingController: receiveController,
                             isFetching: isFetchingPayWith,
-                            tokenToReceive: token,
-                            token: tokenToReceive,
+                            tokenToReceive:
+                                tokenToPayWith ?? viewModel.tokens[0],
+                            token: tokenToReceive ?? _tokens[0],
                             title: 'Receive',
                           ),
                         ],
@@ -271,7 +317,7 @@ class _ExchangeState extends State<Exchange> {
             footer: Center(
               child: PrimaryButton(
                 labelFontWeight: FontWeight.normal,
-                label: I18n.of(context).exchnage,
+                label: I18n.of(context).trade,
                 fontSize: 15,
                 onPressed: () async {
                   if (swapResponse != null && swapResponse['tx'] != null) {

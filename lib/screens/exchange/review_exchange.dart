@@ -27,9 +27,9 @@ class ReviewExchange extends StatelessWidget {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFFF4FCFF),
+                    color: Color(0xFFF5F5F5),
                     border: Border.all(
-                      color: Color(0xFFCCE0E8),
+                      color: Color(0xFFDEDEDE),
                       width: 2,
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(9.0)),

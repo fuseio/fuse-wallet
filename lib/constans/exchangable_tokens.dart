@@ -24,8 +24,40 @@ final _usdcToken = Token(
     imageUrl: getTokenUrl('0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'),
     address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48");
 
+final _tetherToken = Token(
+    symbol: "USDT",
+    name: "Tether USD",
+    decimals: 6,
+    imageUrl: getTokenUrl('0xdac17f958d2ee523a2206206994597c13d831ec7'),
+    address: "0xdac17f958d2ee523a2206206994597c13d831ec7");
+
+final _trueUSDToken = Token(
+    symbol: "TUSD",
+    name: "TrueUSD",
+    decimals: 18,
+    imageUrl: getTokenUrl('0x0000000000085d4780B73119b644AE5ecd22b376'),
+    address: "0x0000000000085d4780B73119b644AE5ecd22b376");
+
+final _eursToken = Token(
+    symbol: "EURS",
+    name: "STASIS EURS Token",
+    decimals: 2,
+    imageUrl: getTokenUrl('0xdb25f211ab05b1c97d595516f45794528a807ad8'),
+    address: "0xdb25f211ab05b1c97d595516f45794528a807ad8");
+
+final _rupiahToken = Token(
+    symbol: "IDRT",
+    name: "Rupiah Token",
+    decimals: 2,
+    imageUrl: getTokenUrl('0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A'),
+    address: "0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A");
+
 final Map<String, Token> exchangableTokens = new Map<String, Token>.from({
-  _daiToken.address: _daiToken,
   _usdcToken.address: _usdcToken,
-  _dzarToken.address: _dzarToken
+  _dzarToken.address: _dzarToken,
+  _tetherToken.address: _tetherToken,
+  _daiToken.address: _daiToken,
+  _trueUSDToken.address: _trueUSDToken,
+  _eursToken.address: _eursToken,
+  _rupiahToken.address: _rupiahToken,
 });

@@ -3,6 +3,7 @@ import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/utils/addresses.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 
@@ -11,30 +12,33 @@ class ProWalletViewModel extends Equatable {
   final List<Token> tokens;
   final bool hasTrasnferdToForeign;
 
-  ProWalletViewModel({
-    this.walletAddress,
-    this.hasTrasnferdToForeign,
-    this.tokens
-  });
+  ProWalletViewModel(
+      {this.walletAddress, this.hasTrasnferdToForeign, this.tokens});
 
   static ProWalletViewModel fromStore(Store<AppState> store) {
-    List<Token> tokens = List<Token>.from(store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty());
-    Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
+    List<Token> tokens = List<Token>.from(
+            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals)) > 0)
+        .toList()
+        .reversed
+        .toList();
+    Community community =
+        store.state.cashWalletState.communities[defaultCommunityAddress];
     bool hasTrasnferdToForeign = community.transactions.list.any((item) {
-        Transfer transfer = item as Transfer;
-        return (transfer?.to?.toLowerCase() == community?.homeBridgeAddress?.toLowerCase()) ?? false;
-      }) && !store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress);
+          Transfer transfer = item as Transfer;
+          return (transfer?.to?.toLowerCase() ==
+                  community?.homeBridgeAddress?.toLowerCase()) ??
+              false;
+        }) &&
+        !store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress);
     return ProWalletViewModel(
       hasTrasnferdToForeign: hasTrasnferdToForeign,
       walletAddress: store.state.userState.walletAddress,
-      tokens: tokens,
+      tokens: tokens..sort((a, b) => b.amount.compareTo(a.amount)),
     );
   }
 
   @override
-  List<Object> get props => [
-    walletAddress,
-    tokens,
-    hasTrasnferdToForeign
-  ];
+  List<Object> get props => [walletAddress, tokens, hasTrasnferdToForeign];
 }

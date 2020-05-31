@@ -72,7 +72,6 @@ class Token extends ERC20Token {
         onDone(balance);
       }
     } catch (e, s) {
-      print(e);
       onError(e, s);
     }
   }

@@ -13,6 +13,7 @@ import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/constans.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
@@ -107,9 +108,12 @@ ThunkAction fetchTokensBalances() {
     bool isFetchTokensBalances = store.state.proWalletState?.isFetchTokensBalances ?? false;
     if (!isFetchTokensBalances) {
       UserState userState = store.state.userState;
-      new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds * 2), (Timer timer) async {
         ProWalletState proWalletState = store.state.proWalletState;
-        for (Token token in proWalletState.erc20Tokens.values) {
+        final List<Token> tokens = proWalletState.erc20Tokens.values
+            .where((Token token) => num.parse(formatValue(token.amount, token.decimals)) > 0)
+            .toList();
+        for (Token token in tokens) {
           void Function(BigInt) onDone = (BigInt balance) {
             logger.info('${token.name} balance updated');
             Token tokenToUpdate = store.state.proWalletState.erc20Tokens[token.address];
@@ -118,8 +122,7 @@ ThunkAction fetchTokensBalances() {
               timestamp: DateTime.now().millisecondsSinceEpoch)));
           };
           void Function(Object error, StackTrace stackTrace) onError = (Object error, StackTrace stackTrace) {
-            logger.severe('Error in fetchTokenBalance for - ${token.name}');
-            logger.severe(error);
+            logger.severe('Error in fetchTokenBalance for - ${token.name} $error');
           };
           await token.fetchTokenBalance(userState.walletAddress, onDone: onDone, onError: onError);
         }
