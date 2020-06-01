@@ -1,5 +1,5 @@
 name: fusecash
-version: 1.1.35+175
+version: 1.1.35+176
 description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -10,7 +10,7 @@ dependencies:
   cached_network_image: ^2.0.0
   rate_my_app: ^0.6.0+2
   auto_route: ^0.3.1
-  # flushbar: ^1.10.0
+  flushbar: ^1.10.0
   url_launcher: ^5.4.2
   http: ^0.12.0+4
   google_maps_flutter: ^0.5.25+3

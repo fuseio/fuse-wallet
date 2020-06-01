@@ -13,7 +13,6 @@ import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/constans.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
@@ -110,21 +109,21 @@ ThunkAction fetchTokensBalances() {
       UserState userState = store.state.userState;
       new Timer.periodic(Duration(seconds: intervalSeconds * 2), (Timer timer) async {
         ProWalletState proWalletState = store.state.proWalletState;
-        final List<Token> tokens = proWalletState.erc20Tokens.values
-            .where((Token token) => num.parse(formatValue(token.amount, token.decimals)) > 0)
-            .toList();
-        for (Token token in tokens) {
-          void Function(BigInt) onDone = (BigInt balance) {
-            logger.info('${token.name} balance updated');
-            Token tokenToUpdate = store.state.proWalletState.erc20Tokens[token.address];
-            store.dispatch(UpdateToken(
-              tokenToUpdate: tokenToUpdate.copyWith(amount: balance,
-              timestamp: DateTime.now().millisecondsSinceEpoch)));
+        for (Token token in proWalletState.erc20Tokens.values) {
+          Function fetchTokenBalance = () async {
+            void Function(BigInt) onDone = (BigInt balance) {
+              logger.info('${token.name} balance updated');
+              Token tokenToUpdate = store.state.proWalletState.erc20Tokens[token.address];
+              store.dispatch(UpdateToken(
+                tokenToUpdate: tokenToUpdate.copyWith(amount: balance,
+                timestamp: DateTime.now().millisecondsSinceEpoch)));
+            };
+            void Function(Object error, StackTrace stackTrace) onError = (Object error, StackTrace stackTrace) {
+              logger.severe('Error in fetchTokenBalance for - ${token.name} $error');
+            };
+            await token.fetchTokenBalance(userState.walletAddress, onDone: onDone, onError: onError);
           };
-          void Function(Object error, StackTrace stackTrace) onError = (Object error, StackTrace stackTrace) {
-            logger.severe('Error in fetchTokenBalance for - ${token.name} $error');
-          };
-          await token.fetchTokenBalance(userState.walletAddress, onDone: onDone, onError: onError);
+          await Future.delayed(Duration(seconds: 1), fetchTokenBalance);
         }
       });
       store.dispatch(StartFetchTokensBalances());
@@ -140,7 +139,6 @@ ThunkAction getAddressBalances() {
       dynamic response = await tokenAPI.getAddressBalances(walletAddress);
       List tokensList = List.from(response['tokens']);
       if (tokensList.isNotEmpty) {
-        // logger.info('found ${tokensList.length} tokens');
         ProWalletState proWalletState = store.state.proWalletState;
         List filterNewToken = tokensList.where((token) {
           String tokenAddress = (token['address'] as String).toLowerCase();
@@ -149,7 +147,6 @@ ThunkAction getAddressBalances() {
           }
           return true;
         }).toList();
-        // logger.info('new token ${filterNewToken.length} tokens');
         Iterable<MapEntry<String, Token>> entries = filterNewToken.map((token) {
           String tokenAddress = token['address'].toLowerCase();
           Token newToken = proWalletState.erc20Tokens[tokenAddress] ?? new Token.initial();
@@ -186,7 +183,7 @@ ThunkAction startFetchTransferEventsCall() {
         ProWalletState proWalletState = store.state.proWalletState;
         List<String> tokenAddresses = List<String>.from(proWalletState.erc20Tokens.keys);
         for (String tokenAddress in tokenAddresses) {
-          store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
+          await Future.delayed(Duration(seconds: 1), store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress)));
         }
       });
       store.dispatch(StartFetchTransferEvents());

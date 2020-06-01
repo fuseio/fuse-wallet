@@ -29,37 +29,33 @@ class AssetsList extends StatelessWidget {
     return new StoreConnector<AppState, ProWalletViewModel>(
         distinct: true,
         converter: ProWalletViewModel.fromStore,
-        builder: (_, viewModel) {
-          final List<Token> tokens = viewModel.tokens.where((Token token) => num.parse(formatValue(token.amount, token.decimals)) > 0).toList().reversed.toList();
-          tokens.sort((a, b) => b.amount.compareTo(a.amount));
-          return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Container(
-                    padding: EdgeInsets.only(left: 15, top: 27, bottom: 8),
-                    child: Text(I18n.of(context).assets_and_contracts,
-                        style: TextStyle(
-                            color: Color(0xFF979797),
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.normal))),
-                ListView(
-                    shrinkWrap: true,
-                    primary: false,
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    children: [
-                      viewModel.hasTrasnferdToForeign
-                          ? _TokenPendingRow(
-                              token: daiToken,
-                            )
-                          : SizedBox.shrink(),
-                      ...tokens
-                          .map((Token token) => _TokenRow(
-                                token: token,
-                              ))
-                          .toList()
-                    ])
-              ]);
-        });
+        builder: (_, viewModel) => Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                      padding: EdgeInsets.only(left: 15, top: 27, bottom: 8),
+                      child: Text(I18n.of(context).assets_and_contracts,
+                          style: TextStyle(
+                              color: Color(0xFF979797),
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.normal))),
+                  ListView(
+                      shrinkWrap: true,
+                      primary: false,
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      children: [
+                        viewModel.hasTrasnferdToForeign
+                            ? _TokenPendingRow(
+                                token: daiToken,
+                              )
+                            : SizedBox.shrink(),
+                        ...viewModel.tokens
+                            .map((Token token) => _TokenRow(
+                                  token: token,
+                                ))
+                            .toList()
+                      ])
+                ]));
   }
 }
 
@@ -228,10 +224,13 @@ class _TokenPendingRow extends StatelessWidget {
                               child: CircleAvatar(
                                 backgroundColor: Color(0xFFE0E0E0),
                                 radius: 27,
-                                backgroundImage: NetworkImage(
-                                  getTokenUrl(
-                                      checksumEthereumAddress(token.address)),
-                                ),
+                                backgroundImage: token.imageUrl != null &&
+                                        token.imageUrl.isNotEmpty
+                                    ? NetworkImage(token.imageUrl)
+                                    : NetworkImage(
+                                        getTokenUrl(checksumEthereumAddress(
+                                            token.address)),
+                                      ),
                               ),
                               tag: token.name,
                             ),

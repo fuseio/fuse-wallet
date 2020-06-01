@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
@@ -8,6 +10,7 @@ class ExchangeCard extends StatelessWidget {
   final Token token;
   final String walletAddress;
   final bool isFetching;
+  final bool hasBalance;
   final String title;
   final Token tokenToReceive;
   final List<DropdownMenuItem<Token>> items;
@@ -18,6 +21,7 @@ class ExchangeCard extends StatelessWidget {
       {Key key,
       this.title,
       this.items,
+      this.hasBalance = true,
       this.walletAddress,
       this.onDropDownChanged,
       this.onChanged,
@@ -69,9 +73,7 @@ class ExchangeCard extends StatelessWidget {
                             height: 0,
                             color: Colors.white,
                           ),
-                          onChanged: (token) {
-                            onDropDownChanged(token);
-                          },
+                          onChanged: onDropDownChanged,
                           items: items,
                         )
                       ],
@@ -96,6 +98,7 @@ class ExchangeCard extends StatelessWidget {
                       children: <Widget>[
                         Stack(
                           alignment: Alignment.centerRight,
+                          overflow: Overflow.visible,
                           children: <Widget>[
                             TextFormField(
                               onChanged: onChanged,
@@ -132,6 +135,17 @@ class ExchangeCard extends StatelessWidget {
                                       height: 10,
                                     ),
                                   )
+                                : SizedBox.shrink(),
+                            !hasBalance
+                                ? Positioned(
+                                    bottom: -26,
+                                    left: 0,
+                                    child: Text(
+                                      I18n.of(context).no_funds_available,
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 10),
+                                    ),
+                                  )
                                 : SizedBox.shrink()
                           ],
                         )
@@ -152,31 +166,33 @@ class ExchangeCard extends StatelessWidget {
                       toBigInt(num.parse('1'), token.decimals).toString()),
               builder:
                   (BuildContext _context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return Container(
-                    child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                            Color(0xFF8E8E8E))),
-                    width: 10,
-                    height: 10,
-                  );
-                }
                 if (snapshot.hasError) {
                   return Text(
                     'Error....',
                     style: TextStyle(color: Colors.red, fontSize: 10),
                   );
                 }
-                String fromTokenAmount = formatValue(
-                    BigInt.from(num.parse(snapshot.data['sourceAmount'])),
-                    token.decimals);
-                String toTokenAmount = formatValue(
-                    BigInt.from(num.parse(snapshot.data['destinationAmount'])),
-                    tokenToReceive.decimals);
-                return Text(
-                  '$fromTokenAmount ${token.symbol} = $toTokenAmount ${tokenToReceive.symbol}',
-                  style: TextStyle(color: Color(0xFF8E8E8E), fontSize: 10),
+                if (snapshot.hasData) {
+                  String fromTokenAmount = formatValue(
+                      BigInt.from(num.parse(snapshot.data['sourceAmount'])),
+                      token.decimals);
+                  String toTokenAmount = formatValue(
+                      BigInt.from(
+                          num.parse(snapshot.data['destinationAmount'])),
+                      tokenToReceive.decimals);
+                  return Text(
+                    '$fromTokenAmount ${token.symbol} = $toTokenAmount ${tokenToReceive.symbol}',
+                    style: TextStyle(color: Color(0xFF8E8E8E), fontSize: 10),
+                  );
+                }
+
+                return Container(
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(Color(0xFF8E8E8E))),
+                  width: 10,
+                  height: 10,
                 );
               }),
         ],
@@ -194,27 +210,36 @@ Future<dynamic> fetchSwap(
 }) async {
   final logger = await AppFactory().getLogger('action');
   try {
-    Map apiOptions = Map.from({
-      'swap': {
-        'sourceAsset': fromTokenAddress,
-        'destinationAsset': toTokenAddress,
-      },
-      'config': {'transactions': true, 'skipBalanceChecks': true}
-    });
-    if (sourceAmount != null && sourceAmount.isNotEmpty) {
-      apiOptions['swap']['sourceAmount'] = sourceAmount;
-    }
-    if (destinationAmount != null && destinationAmount.isNotEmpty) {
-      apiOptions['swap']['destinationAmount'] = destinationAmount;
-    }
-    Map<String, dynamic> response =
-        await exchangeApi.swap(walletAddress, options: apiOptions);
+    if (fromTokenAddress != null &&
+        fromTokenAddress.isNotEmpty &&
+        toTokenAddress != null &&
+        toTokenAddress.isNotEmpty) {
+      Map apiOptions = Map.from({
+        'apiKey': DotEnv().env['TOTLE_API_KEY'],
+        'swap': {
+          'sourceAsset': fromTokenAddress,
+          'destinationAsset': toTokenAddress,
+        },
+        'config': {'transactions': true, 'skipBalanceChecks': true}
+      });
+      if (sourceAmount != null && sourceAmount.isNotEmpty) {
+        apiOptions['swap']['sourceAmount'] = sourceAmount;
+      }
+      if (destinationAmount != null && destinationAmount.isNotEmpty) {
+        apiOptions['swap']['destinationAmount'] = destinationAmount;
+      }
+      Map<String, dynamic> response =
+          await exchangeApi.swap(walletAddress, options: apiOptions);
 
-    if (response.containsKey('success')) {
-      return response['response']['summary'][0];
+      if (response.containsKey('success')) {
+        return Map.from({
+          ...response['response']['summary'][0],
+          'tx': response['response']['transactions'][1]['tx']
+        });
+      }
+      throw response;
     }
-    logger.severe('ERROR in fetchSwap - ${response['message']}');
-    throw response;
+    throw 'Error fromTokenAddress and toTokenAddress are empty';
   } catch (error) {
     logger.severe('ERROR in fetchSwap - $error');
     throw error;

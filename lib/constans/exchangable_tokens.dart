@@ -28,8 +28,8 @@ final _tetherToken = Token(
     symbol: "USDT",
     name: "Tether USD",
     decimals: 6,
-    imageUrl: getTokenUrl('0xdac17f958d2ee523a2206206994597c13d831ec7'),
-    address: "0xdac17f958d2ee523a2206206994597c13d831ec7");
+    imageUrl: getTokenUrl('0xdAC17F958D2ee523a2206206994597C13D831ec7'),
+    address: "0xdAC17F958D2ee523a2206206994597C13D831ec7");
 
 final _trueUSDToken = Token(
     symbol: "TUSD",
@@ -42,8 +42,8 @@ final _eursToken = Token(
     symbol: "EURS",
     name: "STASIS EURS Token",
     decimals: 2,
-    imageUrl: getTokenUrl('0xdb25f211ab05b1c97d595516f45794528a807ad8'),
-    address: "0xdb25f211ab05b1c97d595516f45794528a807ad8");
+    imageUrl: getTokenUrl('0xdB25f211AB05b1c97D595516F45794528a807ad8'),
+    address: "0xdB25f211AB05b1c97D595516F45794528a807ad8");
 
 final _rupiahToken = Token(
     symbol: "IDRT",
@@ -52,7 +52,16 @@ final _rupiahToken = Token(
     imageUrl: getTokenUrl('0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A'),
     address: "0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A");
 
+final _etherToken = Token(
+    symbol: "ETH",
+    name: "Ether",
+    decimals: 18,
+    imageUrl:
+        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
+    address: "0x0000000000000000000000000000000000000000");
+
 final Map<String, Token> exchangableTokens = new Map<String, Token>.from({
+  _etherToken.address: _etherToken,
   _usdcToken.address: _usdcToken,
   _dzarToken.address: _dzarToken,
   _tetherToken.address: _tetherToken,

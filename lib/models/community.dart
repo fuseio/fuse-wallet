@@ -84,7 +84,7 @@ class Community {
   }) {
     return Community(
       isClosed: isClosed ?? this.isClosed,
-      webUrl: webUrl ?? this.webUrl,
+      webUrl: webUrl,
       metadata: metadata ?? this.metadata,
       tokenBalance: tokenBalance ?? this.tokenBalance,
       address: address ?? this.address,

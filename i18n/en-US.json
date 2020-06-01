@@ -105,5 +105,6 @@
     "addDai": "Add DAI",
     "withdrawDAI": "Withdraw DAI",
     "sendToCashMode": "Send to cash mode",
-    "exchnage": "Exchange"
+    "exchnage": "Exchange",
+    "no_funds_available": "No funds available"
 }
