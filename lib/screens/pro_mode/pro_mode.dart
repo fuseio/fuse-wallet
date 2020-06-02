@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -86,32 +85,18 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     return [
       ProModeHomeScreen(),
       !hasContactsInStore ? SendToContactScreen() : ContactsList(),
-      Exchange(),
+      ExchangeScreen(),
       ReceiveScreen()
     ];
   }
 
-  void _onTap(int itemIndex, BottomBarViewModel vm) {
-    if (itemIndex == 2 && vm.tokens.isEmpty) {
-      Flushbar(
-        margin: EdgeInsets.only(bottom: 80),
-        flushbarPosition: FlushbarPosition.BOTTOM,
-        duration: Duration(seconds: 2),
-        messageText: new Text(
-          "You dont have tokens to trade with",
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white),
-        ),
-      )..show(context);
-      return;
-    } else {
-      setState(() {
-        _currentIndex = itemIndex;
-      });
-    }
+  void _onTap(int itemIndex) {
+    setState(() {
+      _currentIndex = itemIndex;
+    });
   }
 
-  BottomNavigationBar _bottomNavigationBar(BottomBarViewModel vm) =>
+  BottomNavigationBar _bottomNavigationBar() =>
       BottomNavigationBar(
         selectedFontSize: 13,
         unselectedFontSize: 13,
@@ -125,9 +110,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
           bottomBarItem(I18n.of(context).trade, 'trade'),
           bottomBarItem(I18n.of(context).receive, 'receive'),
         ],
-        onTap: (tabIndex) {
-          _onTap(tabIndex, vm);
-        },
+        onTap: _onTap,
       );
 
   onInit(Store<AppState> store) {
@@ -170,7 +153,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
               drawerEdgeDragWidth: 0,
               pages: pages,
               currentIndex: _currentIndex,
-              bottomNavigationBar: _bottomNavigationBar(vm));
+              bottomNavigationBar: _bottomNavigationBar());
         });
   }
 }

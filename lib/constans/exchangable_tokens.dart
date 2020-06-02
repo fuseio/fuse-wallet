@@ -3,11 +3,12 @@ import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 
-final Token _daiToken = Token(
+final Token daiToken = Token(
     address: daiTokenAddress,
     decimals: 18,
     imageUrl: getTokenUrl(checksumEthereumAddress(daiTokenAddress)),
     name: "Dai Stablecoin",
+    amount: BigInt.from(0),
     symbol: "DAI");
 
 final _dzarToken = Token(
@@ -56,16 +57,15 @@ final _etherToken = Token(
     symbol: "ETH",
     name: "Ether",
     decimals: 18,
-    imageUrl:
-        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png",
-    address: "0x0000000000000000000000000000000000000000");
+    imageUrl: getTokenUrl(zeroAddress),
+    address: zeroAddress);
 
 final Map<String, Token> exchangableTokens = new Map<String, Token>.from({
   _etherToken.address: _etherToken,
   _usdcToken.address: _usdcToken,
   _dzarToken.address: _dzarToken,
   _tetherToken.address: _tetherToken,
-  _daiToken.address: _daiToken,
+  daiToken.address: daiToken,
   _trueUSDToken.address: _trueUSDToken,
   _eursToken.address: _eursToken,
   _rupiahToken.address: _rupiahToken,

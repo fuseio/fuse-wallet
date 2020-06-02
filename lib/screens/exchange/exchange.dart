@@ -1,6 +1,8 @@
 import 'dart:core';
+import 'package:redux/redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fusecash/models/pro/views/pro_wallet.dart';
+import 'package:equatable/equatable.dart';
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:fusecash/screens/exchange/review_exchange.dart';
 import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/utils/debouncer.dart';
@@ -19,14 +21,14 @@ import 'package:flutter_segment/flutter_segment.dart';
 
 final _tokens = List<Token>.from(exchangableTokens.values);
 
-class Exchange extends StatefulWidget {
-  const Exchange({Key key}) : super(key: key);
+class ExchangeScreen extends StatefulWidget {
+  const ExchangeScreen({Key key}) : super(key: key);
 
   @override
   _ExchangeState createState() => _ExchangeState();
 }
 
-class _ExchangeState extends State<Exchange> {
+class _ExchangeState extends State<ExchangeScreen> {
   TextEditingController receiveController = TextEditingController();
   TextEditingController payWithController = TextEditingController();
   Token tokenToPayWith;
@@ -161,9 +163,7 @@ class _ExchangeState extends State<Exchange> {
             CachedNetworkImage(
               width: 33,
               height: 33,
-              imageUrl: token.imageUrl != null && token.imageUrl.isNotEmpty
-                  ? token.imageUrl
-                  : getTokenUrl(token.address),
+              imageUrl: getTokenUrl(checksumEthereumAddress(token.address)),
               placeholder: (context, url) => CircularProgressIndicator(),
               errorWidget: (context, url, error) => const Icon(
                 Icons.error,
@@ -203,9 +203,8 @@ class _ExchangeState extends State<Exchange> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, ProWalletViewModel>(
-        converter: ProWalletViewModel.fromStore,
-        rebuildOnChange: true,
+    return new StoreConnector<AppState, _ExchangeViewModel>(
+        converter: _ExchangeViewModel.fromStore,
         onInitialBuild: (viewModel) {
           setState(() {
             tokenToPayWith = viewModel.tokens[0];
@@ -356,4 +355,29 @@ class _ExchangeState extends State<Exchange> {
           );
         });
   }
+}
+
+class _ExchangeViewModel extends Equatable {
+  final String walletAddress;
+  final List<Token> tokens;
+
+  _ExchangeViewModel({this.walletAddress, this.tokens});
+
+  static _ExchangeViewModel fromStore(Store<AppState> store) {
+    List<Token> tokens = List<Token>.from(
+            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals)) > 0)
+        .toList()
+        .reversed
+        .toList();
+    return _ExchangeViewModel(
+      walletAddress: store.state.userState.walletAddress,
+      tokens: tokens.isEmpty ? List.from([daiToken]) : tokens
+        ..sort((a, b) => b.amount.compareTo(a.amount)),
+    );
+  }
+
+  @override
+  List<Object> get props => [walletAddress, tokens];
 }

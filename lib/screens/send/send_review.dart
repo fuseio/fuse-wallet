@@ -97,7 +97,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
           feeAmount = args.feePlugin.calcFee(args.amount);
           num tokenBalance = num.parse(formatValue(
               balance, args.erc20Token?.decimals ?? viewModel.token.decimals));
-          hasFund = (args.amount + feeAmount).compareTo(tokenBalance) == -1;
+          hasFund = (args.amount + feeAmount).compareTo(tokenBalance) <= 0;
         }
         return MainScaffold(
             withPadding: true,

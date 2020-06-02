@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/utils/format.dart';
@@ -29,7 +30,7 @@ class BottomBarViewModel extends Equatable {
         store.state.cashWalletState.communities[communityAddress] ??
             new Community.initial();
     List<Token> tokens = List<Token>.from(
-            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+            store.state.proWalletState.erc20Tokens?.values ?? [daiToken])
         .where((Token token) =>
             num.parse(formatValue(token.amount, token.decimals)) > 0)
         .toList()

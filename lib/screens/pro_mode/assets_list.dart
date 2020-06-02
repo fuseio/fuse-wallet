@@ -3,6 +3,7 @@ import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/pro/token.dart';
@@ -12,16 +13,10 @@ import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/format.dart';
 
 String getTokenUrl(tokenAddress) {
-  return "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/$tokenAddress/logo.png";
+  return tokenAddress == zeroAddress
+      ? 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png'
+      : "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/$tokenAddress/logo.png";
 }
-
-final Token daiToken = Token(
-    address: daiTokenAddress,
-    decimals: 18,
-    imageUrl:
-        "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
-    name: "Dai Stablecoin",
-    symbol: "DAI");
 
 class AssetsList extends StatelessWidget {
   @override

@@ -129,7 +129,9 @@ class _ContactsListState extends State<ContactsList> {
           .toList();
       for (Item phone in phones) {
         listItems.add(ContactTile(
-            avatar: user.avatar,
+            image: user.avatar != null && user.avatar.isNotEmpty
+                ? MemoryImage(user.avatar)
+                : null,
             displayName: user.displayName,
             phoneNumber: phone.value,
             onTap: () {

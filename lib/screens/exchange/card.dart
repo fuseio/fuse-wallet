@@ -118,7 +118,7 @@ class ExchangeCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              tokenToReceive.symbol,
+                              token.symbol,
                               style: TextStyle(
                                   color: Color(0xFFC4C4C4), fontSize: 14),
                             ),
@@ -228,10 +228,13 @@ Future<dynamic> fetchSwap(
       if (destinationAmount != null && destinationAmount.isNotEmpty) {
         apiOptions['swap']['destinationAmount'] = destinationAmount;
       }
+      logger.info('apiOptions apiOptions apiOptions apiOptions');
+      logger.info(apiOptions.toString());
       Map<String, dynamic> response =
           await exchangeApi.swap(walletAddress, options: apiOptions);
-
-      if (response.containsKey('success')) {
+      logger.info('fetchSwap success - ${response['success']}');
+      bool success = response['success'] ?? false;
+      if (success) {
         return Map.from({
           ...response['response']['summary'][0],
           'tx': response['response']['transactions'][1]['tx']
@@ -241,7 +244,7 @@ Future<dynamic> fetchSwap(
     }
     throw 'Error fromTokenAddress and toTokenAddress are empty';
   } catch (error) {
-    logger.severe('ERROR in fetchSwap - $error');
+    logger.severe('ERROR in fetchSwap - ${error.toString()}');
     throw error;
   }
 }
