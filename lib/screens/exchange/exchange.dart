@@ -40,6 +40,12 @@ class _ExchangeState extends State<ExchangeScreen> {
   Map transactionsResponse;
   bool isFetchingReceive = false;
   bool isSwap = false;
+  bool isFetchingPricePay = true;
+  bool isFetchingPriceReceive = true;
+  String fromTokenAmountPay;
+  String fromTokenAmountReceive;
+  String toTokenAmountPay;
+  String toTokenAmountReceive;
 
   @override
   void dispose() {
@@ -54,13 +60,15 @@ class _ExchangeState extends State<ExchangeScreen> {
     super.initState();
   }
 
-  onPayWithDropDownChanged(Token token) {
+  onPayWithDropDownChanged(Token token, walletAddress) async {
+    fetchPrices(walletAddress, token, tokenToReceive);
     setState(() {
       tokenToPayWith = token;
     });
   }
 
-  onReceiveDropDownChanged(Token token) {
+  onReceiveDropDownChanged(Token token, walletAddress) async {
+    fetchPrices(walletAddress, token, tokenToPayWith);
     setState(() {
       tokenToReceive = token;
     });
@@ -86,7 +94,8 @@ class _ExchangeState extends State<ExchangeScreen> {
       }
       dynamic response = await fetchSwap(
           walletAddress, tokenToPayWith.address, tokenToReceive.address,
-          sourceAmount: toBigInt(value, tokenToPayWith.decimals).toString());
+          sourceAmount: toBigInt(value, tokenToPayWith.decimals).toString(),
+          transactions: true);
       swapResponse = response;
       swapResponse['amount'] = num.parse(value);
       String toTokenAmount = formatValue(
@@ -102,8 +111,6 @@ class _ExchangeState extends State<ExchangeScreen> {
       if (this.mounted) {
         setState(() {
           swapResponse = null;
-          payWithController.text = '';
-          receiveController.text = '';
           isFetchingPayWith = false;
         });
       }
@@ -130,7 +137,8 @@ class _ExchangeState extends State<ExchangeScreen> {
       }
       dynamic response = await fetchSwap(
           walletAddress, tokenToReceive.address, tokenToPayWith.address,
-          sourceAmount: toBigInt(value, tokenToReceive.decimals).toString());
+          sourceAmount: toBigInt(value, tokenToReceive.decimals).toString(),
+          transactions: true);
       swapResponse = response;
       swapResponse['amount'] = num.parse(value);
       String fromTokenAmount = formatValue(
@@ -146,8 +154,6 @@ class _ExchangeState extends State<ExchangeScreen> {
       if (this.mounted) {
         setState(() {
           swapResponse = null;
-          payWithController.text = '';
-          receiveController.text = '';
           isFetchingReceive = false;
         });
       }
@@ -184,21 +190,71 @@ class _ExchangeState extends State<ExchangeScreen> {
   }
 
   void swap() {
-    // if (this.mounted) {
-    //   if (isSwap) {
-    //     setState(() {
-    //       isSwap = !isSwap;
-    //       tokenToPayWith = _tokens[0];
-    //       tokenToReceive = _tokens[1];
-    //     });
-    //   } else {
-    //     setState(() {
-    //       isSwap = !isSwap;
-    //       tokenToPayWith = _tokens[1];
-    //       tokenToReceive = _tokens[0];
-    //     });
-    //   }
-    // }
+    if (this.mounted) {
+      Token tokenPayWith = tokenToPayWith;
+      Token tokenReceive = tokenToReceive;
+      setState(() {
+        tokenToPayWith = tokenReceive;
+        tokenToReceive = tokenPayWith;
+      });
+    }
+  }
+
+  fetchPrices(
+      String walletAddress, Token tokenToPayWith, Token tokenToReceive) async {
+    if (this.mounted) {
+      setState(() {
+        fromTokenAmountPay = null;
+        toTokenAmountPay = null;
+        isFetchingPricePay = true;
+        fromTokenAmountReceive = null;
+        toTokenAmountReceive = null;
+        isFetchingPriceReceive = true;
+      });
+    }
+    try {
+      Map paywithResponse = await fetchSwap(
+          walletAddress, tokenToPayWith.address, tokenToReceive.address,
+          sourceAmount:
+              toBigInt(num.parse('1'), tokenToPayWith.decimals).toString());
+      dynamic receiceResponse = await fetchSwap(
+          walletAddress, tokenToReceive.address, tokenToPayWith.address,
+          sourceAmount:
+              toBigInt(num.parse('1'), tokenToReceive.decimals).toString());
+      String fromTokenPay = formatValue(
+          BigInt.from(num.parse(paywithResponse['sourceAmount'])),
+          tokenToPayWith.decimals);
+      String toTokenPay = formatValue(
+          BigInt.from(num.parse(paywithResponse['destinationAmount'])),
+          tokenToReceive.decimals);
+      String fromTokenReceive = formatValue(
+          BigInt.from(num.parse(receiceResponse['sourceAmount'])),
+          tokenToReceive.decimals);
+      String toTokenReceive = formatValue(
+          BigInt.from(num.parse(receiceResponse['destinationAmount'])),
+          tokenToPayWith.decimals);
+      if (this.mounted) {
+        setState(() {
+          fromTokenAmountPay = fromTokenPay;
+          toTokenAmountPay = toTokenPay;
+          isFetchingPricePay = false;
+          fromTokenAmountReceive = fromTokenReceive;
+          toTokenAmountReceive = toTokenReceive;
+          isFetchingPriceReceive = false;
+        });
+      }
+    } catch (e) {
+      if (this.mounted) {
+        setState(() {
+          fromTokenAmountPay = null;
+          toTokenAmountPay = null;
+          isFetchingPricePay = false;
+          fromTokenAmountReceive = null;
+          toTokenAmountReceive = null;
+          isFetchingPriceReceive = false;
+        });
+      }
+    }
   }
 
   @override
@@ -206,6 +262,7 @@ class _ExchangeState extends State<ExchangeScreen> {
     return new StoreConnector<AppState, _ExchangeViewModel>(
         converter: _ExchangeViewModel.fromStore,
         onInitialBuild: (viewModel) {
+          fetchPrices(viewModel.walletAddress, viewModel.tokens[0], _tokens[0]);
           setState(() {
             tokenToPayWith = viewModel.tokens[0];
             tokenToReceive = _tokens[0];
@@ -273,8 +330,14 @@ class _ExchangeState extends State<ExchangeScreen> {
                       child: Column(
                         children: <Widget>[
                           ExchangeCard(
+                            fromTokenAmount: fromTokenAmountPay,
+                            toTokenAmount: toTokenAmountPay,
+                            isFetchingPrice: isFetchingPricePay,
                             hasBalance: payWithHasBalance,
-                            onDropDownChanged: onPayWithDropDownChanged,
+                            onDropDownChanged: (token) {
+                              onPayWithDropDownChanged(
+                                  token, viewModel.walletAddress);
+                            },
                             items: _buildItems(viewModel.tokens),
                             onChanged: (value) {
                               _payWithDebouncer.run(() => getQuateForPayWith(
@@ -300,9 +363,7 @@ class _ExchangeState extends State<ExchangeScreen> {
                                 ),
                               ),
                               InkWell(
-                                  onTap: () {
-                                    // swap();
-                                  },
+                                  onTap: swap,
                                   child: SvgPicture.asset(
                                     'assets/images/swap_icon.svg',
                                     fit: BoxFit.fill,
@@ -312,8 +373,14 @@ class _ExchangeState extends State<ExchangeScreen> {
                             ],
                           ),
                           ExchangeCard(
+                            fromTokenAmount: fromTokenAmountReceive,
+                            toTokenAmount: toTokenAmountReceive,
+                            isFetchingPrice: isFetchingPriceReceive,
                             hasBalance: receiveHasBalance,
-                            onDropDownChanged: onReceiveDropDownChanged,
+                            onDropDownChanged: (token) {
+                              onReceiveDropDownChanged(
+                                  token, viewModel.walletAddress);
+                            },
                             items: _buildItems(_tokens),
                             onChanged: (value) {
                               _receiveDebouncer.run(() => getQuateForReceive(
@@ -364,17 +431,20 @@ class _ExchangeViewModel extends Equatable {
   _ExchangeViewModel({this.walletAddress, this.tokens});
 
   static _ExchangeViewModel fromStore(Store<AppState> store) {
-    List<Token> tokens = List<Token>.from(
-            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals)) > 0)
-        .toList()
-        .reversed
-        .toList();
+    // List<Token> tokens = List<Token>.from(
+    //         store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+    //     .where((Token token) =>
+    //         num.parse(formatValue(token.amount, token.decimals)) > 0)
+    //     .toList()
+    //     .reversed
+    //     .toList();
     return _ExchangeViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: tokens.isEmpty ? List.from([daiToken]) : tokens
-        ..sort((a, b) => b.amount.compareTo(a.amount)),
+      tokens: [daiToken, ...exchangableTokens.values].toSet().toList(),
+      // tokens: tokens.isEmpty
+      //     ? List.from([daiToken, ...exchangableTokens.values].toSet().toList())
+      //     : tokens
+      //   ..sort((a, b) => b.amount.compareTo(a.amount)),
     );
   }
 

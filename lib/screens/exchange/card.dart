@@ -3,7 +3,6 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:flutter/material.dart';
 
 class ExchangeCard extends StatelessWidget {
@@ -12,6 +11,9 @@ class ExchangeCard extends StatelessWidget {
   final bool isFetching;
   final bool hasBalance;
   final String title;
+  final bool isFetchingPrice;
+  final String fromTokenAmount;
+  final String toTokenAmount;
   final Token tokenToReceive;
   final List<DropdownMenuItem<Token>> items;
   final void Function(String) onChanged;
@@ -21,6 +23,9 @@ class ExchangeCard extends StatelessWidget {
       {Key key,
       this.title,
       this.items,
+      this.isFetchingPrice,
+      this.fromTokenAmount,
+      this.toTokenAmount,
       this.hasBalance = true,
       this.walletAddress,
       this.onDropDownChanged,
@@ -159,42 +164,22 @@ class ExchangeCard extends StatelessWidget {
           SizedBox(
             height: 2,
           ),
-          new FutureBuilder<dynamic>(
-              future: fetchSwap(
-                  walletAddress, token.address, tokenToReceive.address,
-                  sourceAmount:
-                      toBigInt(num.parse('1'), token.decimals).toString()),
-              builder:
-                  (BuildContext _context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.hasError) {
-                  return Text(
-                    'Error....',
-                    style: TextStyle(color: Colors.red, fontSize: 10),
-                  );
-                }
-                if (snapshot.hasData) {
-                  String fromTokenAmount = formatValue(
-                      BigInt.from(num.parse(snapshot.data['sourceAmount'])),
-                      token.decimals);
-                  String toTokenAmount = formatValue(
-                      BigInt.from(
-                          num.parse(snapshot.data['destinationAmount'])),
-                      tokenToReceive.decimals);
-                  return Text(
-                    '$fromTokenAmount ${token.symbol} = $toTokenAmount ${tokenToReceive.symbol}',
-                    style: TextStyle(color: Color(0xFF8E8E8E), fontSize: 10),
-                  );
-                }
-
-                return Container(
+          fromTokenAmount != null && toTokenAmount != null
+              ? Text(
+                  '$fromTokenAmount ${token.symbol} = $toTokenAmount ${tokenToReceive.symbol}',
+                  style: TextStyle(color: Color(0xFF8E8E8E), fontSize: 10),
+                )
+              : SizedBox.shrink(),
+          isFetchingPrice
+              ? Container(
                   child: CircularProgressIndicator(
                       strokeWidth: 2,
                       valueColor:
                           new AlwaysStoppedAnimation<Color>(Color(0xFF8E8E8E))),
                   width: 10,
                   height: 10,
-                );
-              }),
+                )
+              : SizedBox.shrink()
         ],
       ),
     );
@@ -207,6 +192,7 @@ Future<dynamic> fetchSwap(
   String toTokenAddress, {
   String sourceAmount,
   String destinationAmount,
+  bool transactions = false,
 }) async {
   final logger = await AppFactory().getLogger('action');
   try {
@@ -220,7 +206,7 @@ Future<dynamic> fetchSwap(
           'sourceAsset': fromTokenAddress,
           'destinationAsset': toTokenAddress,
         },
-        'config': {'transactions': true, 'skipBalanceChecks': true}
+        'config': {'transactions': transactions, 'skipBalanceChecks': true}
       });
       if (sourceAmount != null && sourceAmount.isNotEmpty) {
         apiOptions['swap']['sourceAmount'] = sourceAmount;
@@ -228,17 +214,18 @@ Future<dynamic> fetchSwap(
       if (destinationAmount != null && destinationAmount.isNotEmpty) {
         apiOptions['swap']['destinationAmount'] = destinationAmount;
       }
-      logger.info('apiOptions apiOptions apiOptions apiOptions');
-      logger.info(apiOptions.toString());
       Map<String, dynamic> response =
           await exchangeApi.swap(walletAddress, options: apiOptions);
-      logger.info('fetchSwap success - ${response['success']}');
       bool success = response['success'] ?? false;
       if (success) {
-        return Map.from({
-          ...response['response']['summary'][0],
-          'tx': response['response']['transactions'][1]['tx']
-        });
+        if (response['response'].containsKey('transactions')) {
+          return Map.from({
+            ...response['response']['summary'][0],
+            'tx': response['response']['transactions'][1]['tx']
+          });
+        } else {
+          return Map.from({...response['response']['summary'][0]});
+        }
       }
       throw response;
     }
