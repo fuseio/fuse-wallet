@@ -6,6 +6,17 @@ import 'package:digitalrand/screens/send/send_amount_arguments.dart';
 import 'package:digitalrand/services.dart';
 import 'package:digitalrand/utils/format.dart';
 import 'package:digitalrand/utils/phone.dart';
+import 'package:digitalrand/widgets/preloader.dart';
+
+void _openLoadingDialog(BuildContext context) {
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return Preloader();
+    },
+  );
+}
 
 void navigateToSendAmountScreen(
     BuildContext context,
@@ -39,11 +50,14 @@ void sendToContact(BuildContext context, ContactsViewModel viewModel,
   if (address != null && address.isNotEmpty) {
     navigateToSendAmountScreen(context, viewModel, address, displayName, null,
         avatar: avatar);
+    return;
   }
   try {
+    _openLoadingDialog(context);
     Map<String, dynamic> response = await phoneNumberUtil.parse(phone);
     String phoneNumber = response['e164'];
     Map wallet = await api.getWalletByPhoneNumber(response['e164']);
+    Navigator.pop(context);
     String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
     navigateToSendAmountScreen(
         context, viewModel, accountAddress, displayName, phoneNumber,
@@ -54,6 +68,7 @@ void sendToContact(BuildContext context, ContactsViewModel viewModel,
     if (isValid) {
       Map wallet = await api.getWalletByPhoneNumber(formatted);
       String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
+      Navigator.pop(context);
       navigateToSendAmountScreen(
           context, viewModel, accountAddress, displayName, formatted,
           avatar: avatar);
