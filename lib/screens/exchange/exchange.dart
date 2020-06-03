@@ -95,7 +95,8 @@ class _ExchangeState extends State<ExchangeScreen> {
       dynamic response = await fetchSwap(
           walletAddress, tokenToPayWith.address, tokenToReceive.address,
           sourceAmount: toBigInt(value, tokenToPayWith.decimals).toString(),
-          transactions: true);
+          transactions: true,
+          skipBalanceChecks: false);
       swapResponse = response;
       swapResponse['amount'] = num.parse(value);
       String toTokenAmount = formatValue(
@@ -138,7 +139,8 @@ class _ExchangeState extends State<ExchangeScreen> {
       dynamic response = await fetchSwap(
           walletAddress, tokenToReceive.address, tokenToPayWith.address,
           sourceAmount: toBigInt(value, tokenToReceive.decimals).toString(),
-          transactions: true);
+          transactions: true,
+          skipBalanceChecks: false);
       swapResponse = response;
       swapResponse['amount'] = num.parse(value);
       String fromTokenAmount = formatValue(

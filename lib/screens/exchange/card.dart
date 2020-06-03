@@ -194,6 +194,7 @@ Future<dynamic> fetchSwap(
   String sourceAmount,
   String destinationAmount,
   bool transactions = false,
+  bool skipBalanceChecks = true
 }) async {
   final logger = await AppFactory().getLogger('action');
   try {
@@ -207,7 +208,7 @@ Future<dynamic> fetchSwap(
           'sourceAsset': fromTokenAddress,
           'destinationAsset': toTokenAddress,
         },
-        'config': {'transactions': transactions, 'skipBalanceChecks': true}
+        'config': {'transactions': transactions, 'skipBalanceChecks': skipBalanceChecks}
       });
       if (sourceAmount != null && sourceAmount.isNotEmpty) {
         apiOptions['swap']['sourceAmount'] = sourceAmount;
