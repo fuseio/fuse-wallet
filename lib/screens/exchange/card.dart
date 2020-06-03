@@ -15,6 +15,7 @@ class ExchangeCard extends StatelessWidget {
   final String fromTokenAmount;
   final String toTokenAmount;
   final Token tokenToReceive;
+  final Widget useMaxWidget;
   final List<DropdownMenuItem<Token>> items;
   final void Function(String) onChanged;
   final void Function(Token) onDropDownChanged;
@@ -23,6 +24,7 @@ class ExchangeCard extends StatelessWidget {
       {Key key,
       this.title,
       this.items,
+      this.useMaxWidget,
       this.isFetchingPrice,
       this.fromTokenAmount,
       this.toTokenAmount,
@@ -48,9 +50,15 @@ class ExchangeCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(color: Color(0xFF888888), fontSize: 13),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                title,
+                style: TextStyle(color: Color(0xFF888888), fontSize: 13),
+              ),
+              useMaxWidget != null ? useMaxWidget : SizedBox.shrink(),
+            ],
           ),
           SizedBox(
             height: 5,
@@ -109,7 +117,7 @@ class ExchangeCard extends StatelessWidget {
                               onChanged: onChanged,
                               controller: textEditingController,
                               textInputAction: TextInputAction.done,
-                              keyboardType:  TextInputType.numberWithOptions(
+                              keyboardType: TextInputType.numberWithOptions(
                                   decimal: true),
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),
@@ -188,14 +196,11 @@ class ExchangeCard extends StatelessWidget {
 }
 
 Future<dynamic> fetchSwap(
-  String walletAddress,
-  String fromTokenAddress,
-  String toTokenAddress, {
-  String sourceAmount,
-  String destinationAmount,
-  bool transactions = false,
-  bool skipBalanceChecks = true
-}) async {
+    String walletAddress, String fromTokenAddress, String toTokenAddress,
+    {String sourceAmount,
+    String destinationAmount,
+    bool transactions = false,
+    bool skipBalanceChecks = true}) async {
   final logger = await AppFactory().getLogger('action');
   try {
     if (fromTokenAddress != null &&
@@ -208,7 +213,10 @@ Future<dynamic> fetchSwap(
           'sourceAsset': fromTokenAddress,
           'destinationAsset': toTokenAddress,
         },
-        'config': {'transactions': transactions, 'skipBalanceChecks': skipBalanceChecks}
+        'config': {
+          'transactions': transactions,
+          'skipBalanceChecks': skipBalanceChecks
+        }
       });
       if (sourceAmount != null && sourceAmount.isNotEmpty) {
         apiOptions['swap']['sourceAmount'] = sourceAmount;
@@ -221,10 +229,14 @@ Future<dynamic> fetchSwap(
       bool success = response['success'] ?? false;
       if (success) {
         if (response['response'].containsKey('transactions')) {
-          return Map.from({
-            ...response['response']['summary'][0],
-            'tx': response['response']['transactions'][1]['tx']
-          });
+          dynamic swapData = List.from(response['response']['transactions'])
+              .firstWhere((element) => element['type'] == 'swap', orElse: null);
+          if (swapData != null) {
+            return Map.from(
+                {...response['response']['summary'][0], 'tx': swapData['tx']});
+          } else {
+            return Map.from({...response['response']['summary'][0]});
+          }
         } else {
           return Map.from({...response['response']['summary'][0]});
         }

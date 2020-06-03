@@ -19,7 +19,7 @@ class ReviewExchange extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainScaffold(
         withPadding: true,
-        title: I18n.of(context).exchnage,
+        title: I18n.of(context).trade,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),

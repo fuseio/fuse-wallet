@@ -274,64 +274,70 @@ class _ExchangeState extends State<ExchangeScreen> {
           bool payWithHasBalance = payWithController.text != null &&
                   payWithController.text.isNotEmpty
               ? num.tryParse((formatValue(
-                              (tokenToPayWith ?? viewModel.tokens[0]).amount,
+                              ((tokenToPayWith ?? viewModel.tokens[0])
+                                      .amount) ??
+                                  BigInt.from(0),
                               (tokenToPayWith ?? viewModel.tokens[0])
                                   .decimals) ??
                           0))
-                      .compareTo((num.tryParse(payWithController.text) ?? 0)) >=
+                      .compareTo(
+                          num.tryParse(payWithController.text ?? 0) ?? 0) >=
                   0
               : true;
-          bool receiveHasBalance = receiveController.text != null &&
-                  receiveController.text.isNotEmpty
-              ? num.tryParse((formatValue((tokenToReceive ?? _tokens[0]).amount,
-                              (tokenToReceive ?? _tokens[0]).decimals) ??
-                          0))
-                      .compareTo((num.tryParse(receiveController.text) ?? 0)) >=
-                  0
-              : true;
+          // bool receiveHasBalance = receiveController.text != null &&
+          //         receiveController.text.isNotEmpty
+          //     ? num.tryParse((formatValue(
+          //                     ((tokenToReceive ?? _tokens[0]).amount) ??
+          //                         BigInt.from(0),
+          //                     (tokenToReceive ?? _tokens[0]).decimals) ??
+          //                 0))
+          //             .compareTo(
+          //                 num.tryParse(receiveController.text ?? 0) ?? 0) >=
+          //         0
+          //     : true;
           return MainScaffold(
+            expandedHeight: MediaQuery.of(context).size.height / 12,
             automaticallyImplyLeading: false,
             withPadding: true,
-            title: I18n.of(context).exchnage,
+            padding: EdgeInsets.only(top: 0.0, bottom: 20),
+            title: I18n.of(context).trade,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                 child: Column(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          InkWell(
-                              onTap: () {
-                                String max = formatValue(tokenToPayWith.amount,
-                                    tokenToPayWith.decimals);
-                                setState(() {
-                                  payWithController.text = max;
-                                });
-                                _payWithDebouncer.run(() => getQuateForPayWith(
-                                    max, viewModel.walletAddress));
-                              },
-                              child: Text(
-                                'Use max',
-                                style: TextStyle(fontSize: 16),
-                              ))
-                        ],
-                      ),
-                    ),
                     Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF5F5F5),
-                        border: Border.all(
-                          color: Color(0xFFDBDBDB),
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                      ),
                       child: Column(
                         children: <Widget>[
                           ExchangeCard(
+                            useMaxWidget: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 3, horizontal: 15),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFF5F5F5),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                              child: InkWell(
+                                  onTap: () {
+                                    String max = formatValue(
+                                        tokenToPayWith.amount,
+                                        tokenToPayWith.decimals);
+                                    setState(() {
+                                      payWithController.text = max;
+                                    });
+                                    _payWithDebouncer.run(() =>
+                                        getQuateForPayWith(
+                                            max, viewModel.walletAddress));
+                                  },
+                                  child: Text(
+                                    'Use max',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400),
+                                  )),
+                            ),
                             fromTokenAmount: fromTokenAmountPay,
                             toTokenAmount: toTokenAmountPay,
                             isFetchingPrice: isFetchingPricePay,
@@ -378,7 +384,7 @@ class _ExchangeState extends State<ExchangeScreen> {
                             fromTokenAmount: fromTokenAmountReceive,
                             toTokenAmount: toTokenAmountReceive,
                             isFetchingPrice: isFetchingPriceReceive,
-                            hasBalance: receiveHasBalance,
+                            // hasBalance: receiveHasBalance,
                             onDropDownChanged: (token) {
                               onReceiveDropDownChanged(
                                   token, viewModel.walletAddress);

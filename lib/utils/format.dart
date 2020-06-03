@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 
-String formatValue(BigInt value, int decimals) {
+String formatValue(BigInt value, int decimals, {int fractionDigits = 2}) {
   if (value == null || decimals == null) return '';
   double s = value / BigInt.from(pow(10, decimals));
   String formatedValue;
@@ -14,7 +14,7 @@ String formatValue(BigInt value, int decimals) {
 
   List a = formatedValue.split('.');
   if (a.length > 1) {
-    return s.toStringAsFixed(2);
+    return s.toStringAsFixed(fractionDigits);
   } else {
     return formatedValue;
   }
