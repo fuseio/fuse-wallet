@@ -108,7 +108,8 @@ class ExchangeCard extends StatelessWidget {
                             TextFormField(
                               onChanged: onChanged,
                               controller: textEditingController,
-                              keyboardType: TextInputType.numberWithOptions(
+                              textInputAction: TextInputAction.done,
+                              keyboardType:  TextInputType.numberWithOptions(
                                   decimal: true),
                               style:
                                   TextStyle(fontSize: 16, color: Colors.black),

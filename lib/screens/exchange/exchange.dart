@@ -431,20 +431,27 @@ class _ExchangeViewModel extends Equatable {
   _ExchangeViewModel({this.walletAddress, this.tokens});
 
   static _ExchangeViewModel fromStore(Store<AppState> store) {
-    // List<Token> tokens = List<Token>.from(
-    //         store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-    //     .where((Token token) =>
-    //         num.parse(formatValue(token.amount, token.decimals)) > 0)
-    //     .toList()
-    //     .reversed
-    //     .toList();
+    List<Token> tokens = List<Token>.from(
+            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals)) > 0)
+        .toList()
+        .reversed
+        .toList();
+    List<Token> exchangable = exchangableTokens.values.toList()
+      ..removeWhere((Token token) {
+        dynamic foundToken = tokens.firstWhere(
+            (element) =>
+                element.address.toLowerCase() == token.address.toLowerCase(),
+            orElse: () => null);
+        if (foundToken != null) {
+          return true;
+        } else
+          return false;
+      });
     return _ExchangeViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: [daiToken, ...exchangableTokens.values].toSet().toList(),
-      // tokens: tokens.isEmpty
-      //     ? List.from([daiToken, ...exchangableTokens.values].toSet().toList())
-      //     : tokens
-      //   ..sort((a, b) => b.amount.compareTo(a.amount)),
+      tokens: [...tokens, ...exchangable].toSet().toList(),
     );
   }
 
