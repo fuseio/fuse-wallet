@@ -1,11 +1,10 @@
 import 'package:BIM/models/business.dart';
 import 'package:BIM/models/community_metadata.dart';
 import 'package:BIM/models/jobs/base.dart';
+import 'package:BIM/models/plugins/plugins.dart';
 import 'package:BIM/models/token.dart';
 import 'package:BIM/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import './plugins.dart';
 
 part 'community.g.dart';
 
@@ -84,20 +83,21 @@ class Community {
     String webUrl,
   }) {
     return Community(
-        isClosed: isClosed ?? this.isClosed,
-        webUrl: webUrl ?? this.webUrl,
-        metadata: metadata ?? this.metadata,
-        tokenBalance: tokenBalance ?? this.tokenBalance,
-        address: address ?? this.address,
-        name: name ?? this.name,
-        plugins: plugins ?? this.plugins,
-        token: token ?? this.token,
-        businesses: businesses ?? this.businesses,
-        isMember: isMember ?? this.isMember,
-        jobs: jobs ?? this.jobs,
-        transactions: transactions ?? this.transactions,
-        homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
-        foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,);
+      isClosed: isClosed ?? this.isClosed,
+      webUrl: webUrl ?? this.webUrl,
+      metadata: metadata ?? this.metadata,
+      tokenBalance: tokenBalance ?? this.tokenBalance,
+      address: address ?? this.address,
+      name: name ?? this.name,
+      plugins: plugins ?? this.plugins,
+      token: token ?? this.token,
+      businesses: businesses ?? this.businesses,
+      isMember: isMember ?? this.isMember,
+      jobs: jobs ?? this.jobs,
+      transactions: transactions ?? this.transactions,
+      homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
+      foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,
+    );
   }
 
   factory Community.fromJson(Map<String, dynamic> json) =>

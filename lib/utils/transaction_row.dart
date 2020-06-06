@@ -1,10 +1,10 @@
+import 'package:BIM/utils/forks.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:BIM/models/business.dart';
 import 'package:BIM/models/transactions/transfer.dart';
 import 'package:BIM/models/views/cash_wallet.dart';
-import 'package:BIM/utils/forks.dart';
 import 'package:BIM/utils/format.dart';
 import 'package:BIM/utils/phone.dart';
 
@@ -31,6 +31,9 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
     if (contacts == null) return null;
     for (Contact contact in contacts) {
       for (Item contactPhoneNumber in contact.phones.toList()) {
+        if (clearNotNumbersAndPlusSymbol(contactPhoneNumber.value) == phoneNumber) {
+          return contact;
+        }
         if (formatPhoneNumber(contactPhoneNumber.value, countryCode) ==
             phoneNumber) {
           return contact;

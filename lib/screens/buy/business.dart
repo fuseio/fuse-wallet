@@ -389,7 +389,7 @@ class _BusinessPageState extends State<BusinessPage> {
                       ),
                     ),
                   ]),
-            ),
+            )
           ],
         ),
       ),

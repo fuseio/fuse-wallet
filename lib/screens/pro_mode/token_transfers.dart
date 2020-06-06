@@ -1,7 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:equatable/equatable.dart';
 import 'package:ethereum_address/ethereum_address.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:BIM/models/app_state.dart';
+import 'package:BIM/models/community.dart';
+import 'package:BIM/models/plugins/fee_base.dart';
 import 'package:BIM/screens/pro_mode/assets_list.dart';
 import 'package:BIM/screens/pro_mode/pro_token_header.dart';
 import 'package:BIM/screens/send/send_amount.dart';
@@ -25,7 +31,7 @@ class TokenTransfersScreen extends StatelessWidget {
     return Scaffold(
         key: key,
         appBar: MyAppBar(
-            height: MediaQuery.of(context).size.height * .1789,
+            height: MediaQuery.of(context).size.height * .21,
             child: ProTokenHeader(token: token),
             backgroundColor: Colors.red),
         drawerEdgeDragWidth: 0,
@@ -82,42 +88,50 @@ class TransfersList extends StatelessWidget {
                       SizedBox(
                         width: 20,
                       ),
-                      InkWell(
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          width: MediaQuery.of(context).size.width * .4,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                new BorderRadius.all(new Radius.circular(5.0)),
-                            color: Theme.of(context).backgroundColor,
-                            shape: BoxShape.rectangle,
-                          ),
-                          child: Center(
-                            child: Text(
-                              I18n.of(context).sendToCashMode,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Theme.of(context).primaryColor),
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => SendAmountScreen(
-                                          pageArgs: SendAmountArguments(
-                                        sendType: SendType.ETHEREUM_ADDRESS,
-                                        sendToCashMode: true,
-                                        avatar: NetworkImage(
-                                          getTokenUrl(checksumEthereumAddress(
-                                              token.address)),
-                                        ),
-                                        name: 'Cash mode',
-                                        erc20Token: token,
-                                      ))));
-                        },
-                      ),
+                      new StoreConnector<AppState, _SendToCashModeViewModel>(
+                          distinct: true,
+                          converter: _SendToCashModeViewModel.fromStore,
+                          builder: (_, vm) {
+                            return InkWell(
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                width: MediaQuery.of(context).size.width * .4,
+                                decoration: BoxDecoration(
+                                  borderRadius: new BorderRadius.all(
+                                      new Radius.circular(5.0)),
+                                  color: Theme.of(context).backgroundColor,
+                                  shape: BoxShape.rectangle,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    I18n.of(context).sendToCashMode,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (context) => SendAmountScreen(
+                                                pageArgs: SendAmountArguments(
+                                              sendType:
+                                                  SendType.ETHEREUM_ADDRESS,
+                                              sendToCashMode: true,
+                                              feePlugin: vm.feePlugin,
+                                              avatar: NetworkImage(
+                                                getTokenUrl(
+                                                    checksumEthereumAddress(
+                                                        token.address)),
+                                              ),
+                                              name: 'Cash mode',
+                                              erc20Token: token,
+                                            ))));
+                              },
+                            );
+                          }),
                     ],
                   ),
                 )
@@ -252,6 +266,24 @@ class _TransferRow extends StatelessWidget {
                       ]))
             ],
           )),
+    );
+  }
+}
+
+class _SendToCashModeViewModel extends Equatable {
+  final FeePlugin feePlugin;
+  _SendToCashModeViewModel({
+    this.feePlugin,
+  });
+
+  @override
+  List get props => [feePlugin];
+
+  static _SendToCashModeViewModel fromStore(Store<AppState> store) {
+    Community community =
+        store.state.cashWalletState.communities[defaultCommunityAddress];
+    return _SendToCashModeViewModel(
+      feePlugin: community.plugins.foreignTransfers,
     );
   }
 }

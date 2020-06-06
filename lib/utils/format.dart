@@ -50,13 +50,3 @@ BigInt toBigInt(dynamic value, int decimals) {
   Decimal decimalsPow = Decimal.parse(pow(10, decimals).toString());
   return BigInt.parse((tokensAmountDecimal * decimalsPow).toString());
 }
-
-int fromBigInt(dynamic value, int decimals) {
-if (value == null || decimals == null) return 0;
-  double s = value / BigInt.from(pow(10, decimals));
-  return s.round();
-  // if (s.roundToDouble() == s) {
-  // } else {
-  //   formatedValue = s.toString();
-  // }
-}

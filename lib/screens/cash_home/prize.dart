@@ -9,7 +9,6 @@ import 'package:BIM/models/app_state.dart';
 import 'package:BIM/models/draw_info.dart';
 import 'package:BIM/models/views/prize.dart';
 import 'package:BIM/redux/state/store.dart';
-import 'package:BIM/screens/cash_home/deposit_webview.dart';
 import 'package:BIM/screens/cash_home/webview_page.dart';
 import 'package:BIM/utils/format.dart';
 import 'package:BIM/widgets/main_scaffold.dart';
@@ -361,13 +360,20 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                       ),
                                       InkWell(
                                         onTap: () {
+                                          dynamic depositPlugin =
+                                              depositPlugins[0];
+                                          dynamic url =
+                                              depositPlugin.generateUrl();
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    DepositWebView(
-                                                        depositPlugin:
-                                                            depositPlugins[0]),
+                                                    WebViewPage(
+                                                        pageArgs:
+                                                            WebViewPageArguments(
+                                                                url: url,
+                                                                title:
+                                                                    'Top up')),
                                                 fullscreenDialog: true),
                                           );
                                           Segment.track(
