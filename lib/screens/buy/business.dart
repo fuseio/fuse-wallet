@@ -328,7 +328,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                             .business.metadata.latLng[0],
                                         businessArgs
                                             .business.metadata.latLng[1]),
-                                    zoom: 13.0,
+                                    zoom: 17.0,
                                   ),
                                 )
                               : SizedBox.shrink(),
