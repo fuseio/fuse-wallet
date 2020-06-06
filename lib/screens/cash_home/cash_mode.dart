@@ -89,7 +89,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           return TabsScaffold(
               header: MyAppBar(
                 height: 230.0,
-                backgroundColor: Colors.white,
+                backgroundColor: Colors.red,
                 child: CashHeader(),
               ),
               drawerEdgeDragWidth: 0,
