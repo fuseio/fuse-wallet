@@ -7,7 +7,6 @@ import 'package:farmlyledger/models/app_state.dart';
 import 'package:farmlyledger/models/views/drawer.dart';
 import 'package:farmlyledger/screens/misc/about.dart';
 import 'package:farmlyledger/screens/splash/splash.dart';
-import 'package:farmlyledger/utils/forks.dart';
 import 'package:farmlyledger/widgets/language_selector.dart';
 import 'package:farmlyledger/widgets/main_scaffold.dart';
 

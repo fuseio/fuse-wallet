@@ -9,7 +9,6 @@ import 'package:farmlyledger/models/app_state.dart';
 import 'package:farmlyledger/models/draw_info.dart';
 import 'package:farmlyledger/models/views/prize.dart';
 import 'package:farmlyledger/redux/state/store.dart';
-import 'package:farmlyledger/screens/cash_home/deposit_webview.dart';
 import 'package:farmlyledger/screens/cash_home/webview_page.dart';
 import 'package:farmlyledger/utils/format.dart';
 import 'package:farmlyledger/widgets/main_scaffold.dart';
@@ -361,13 +360,20 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                       ),
                                       InkWell(
                                         onTap: () {
+                                          dynamic depositPlugin =
+                                              depositPlugins[0];
+                                          dynamic url =
+                                              depositPlugin.generateUrl();
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    DepositWebView(
-                                                        depositPlugin:
-                                                            depositPlugins[0]),
+                                                    WebViewPage(
+                                                        pageArgs:
+                                                            WebViewPageArguments(
+                                                                url: url,
+                                                                title:
+                                                                    'Top up')),
                                                 fullscreenDialog: true),
                                           );
                                           Segment.track(

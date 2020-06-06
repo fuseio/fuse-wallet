@@ -1,9 +1,8 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:farmlyledger/models/app_state.dart';
+import 'package:farmlyledger/models/plugins/plugins.dart';
 import 'package:redux/redux.dart';
 import 'package:farmlyledger/models/community.dart';
-import 'package:farmlyledger/models/plugins.dart';
 import 'package:farmlyledger/redux/actions/user_actions.dart';
 
 class DrawerViewModel extends Equatable {
@@ -28,7 +27,9 @@ class DrawerViewModel extends Equatable {
 
   static DrawerViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community = store.state.cashWalletState.communities[communityAddress] ?? new Community.initial();
+    Community community =
+        store.state.cashWalletState.communities[communityAddress] ??
+            new Community.initial();
     return DrawerViewModel(
         isProModeActivate: store.state.userState.isProModeActivated ?? false,
         communityAddress: communityAddress,
@@ -48,5 +49,6 @@ class DrawerViewModel extends Equatable {
   }
 
   @override
-  List get props => [walletStatus, walletAddress, communityAddress, isProModeActivate];
+  List get props =>
+      [walletStatus, walletAddress, communityAddress, isProModeActivate];
 }

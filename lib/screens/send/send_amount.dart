@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:farmlyledger/generated/i18n.dart';
-import 'package:farmlyledger/models/community.dart';
+import 'package:farmlyledger/models/views/send_amount.dart';
 import 'package:farmlyledger/screens/send/send_amount_arguments.dart';
 import 'package:farmlyledger/screens/send/send_review.dart';
 import 'package:farmlyledger/utils/format.dart';
@@ -9,9 +9,7 @@ import 'package:farmlyledger/widgets/main_scaffold.dart';
 import 'package:farmlyledger/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
 import 'package:farmlyledger/models/app_state.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:farmlyledger/models/token.dart';
 
 class SendAmountScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;
@@ -81,7 +79,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             if (args.sendToCashMode) {
               try {
                 double amount = double.parse(amountText);
-                BigInt currentBalance = toBigInt(amount, args.erc20Token.decimals);
+                BigInt currentBalance =
+                    toBigInt(amount, args.erc20Token.decimals);
                 if (amount > 0 && args.erc20Token.amount >= currentBalance) {
                   controller.forward();
                 } else {
@@ -93,7 +92,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             } else {
               try {
                 double amount = double.parse(amountText);
-                BigInt currentBalance = toBigInt(amount, args.erc20Token.decimals);
+                BigInt currentBalance =
+                    toBigInt(amount, args.erc20Token.decimals);
                 if (amount > 0 && args.erc20Token.amount >= currentBalance) {
                   controller.forward();
                 } else {
@@ -119,6 +119,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
           }
         }
 
+        String symbol = args.erc20Token != null
+            ? args.erc20Token.symbol
+            : viewModel.token.symbol;
         return MainScaffold(
             withPadding: true,
             title: title,
@@ -151,10 +154,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                           color: Theme.of(context).primaryColor,
                                           fontSize: 50,
                                           fontWeight: FontWeight.w900)),
-                                  Text(
-                                      args.erc20Token != null
-                                          ? args.erc20Token.symbol
-                                          : viewModel.token.symbol,
+                                  Text(symbol,
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
                                           fontSize: 30,
@@ -179,8 +179,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
               position: offset,
               child: PrimaryButton(
                 labelFontWeight: FontWeight.normal,
-                label: I18n.of(context).continue_with +
-                    ' $amountText ${viewModel.token.symbol}',
+                label: I18n.of(context).continue_with + ' $amountText $symbol',
                 onPressed: () {
                   args.amount = num.parse(amountText);
                   Navigator.push(
@@ -196,24 +195,5 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             )));
       },
     );
-  }
-}
-
-class SendAmountViewModel {
-  final BigInt balance;
-  final Token token;
-  final bool isProMode;
-
-  SendAmountViewModel({this.balance, this.token, this.isProMode});
-
-  static SendAmountViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
-            new Community.initial();
-    return SendAmountViewModel(
-        isProMode: store.state.userState.isProMode ?? false,
-        token: community.token,
-        balance: community.tokenBalance);
   }
 }

@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:farmlyledger/models/community.dart';
+import 'package:farmlyledger/models/plugins/fee_base.dart';
 import 'package:farmlyledger/redux/actions/user_actions.dart';
 import 'package:farmlyledger/utils/addresses.dart';
 import 'package:redux/redux.dart';
@@ -66,7 +68,7 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Text(
-                              "In order to witdraw DAI to Ethereum we first need to transfer it from Fuse to Ethereum mainnet.",
+                              "In order to withdraw DAI to Ethereum we first need to transfer it from Fuse to Ethereum mainnet.",
                               style: TextStyle(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 14,
@@ -122,17 +124,24 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
   }
 }
 
-class ActivateProModeViewModel {
+class ActivateProModeViewModel extends Equatable {
   final Function activateProMode;
   final String daiPointsHomeBridgeAddress;
-  ActivateProModeViewModel({this.activateProMode, this.daiPointsHomeBridgeAddress});
+  final FeePlugin feePlugin;
+  ActivateProModeViewModel(
+      {this.feePlugin, this.activateProMode, this.daiPointsHomeBridgeAddress});
+
+  @override
+  List<Object> get props => [feePlugin, daiPointsHomeBridgeAddress];
 
   static ActivateProModeViewModel fromStore(Store<AppState> store) {
-    Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
+    Community community =
+        store.state.cashWalletState.communities[defaultCommunityAddress];
     return ActivateProModeViewModel(
-      daiPointsHomeBridgeAddress: community.homeBridgeAddress,
-      activateProMode: () async {
-        store.dispatch(activateProModeCall());
-    });
+        feePlugin: community.plugins.bridgeToForeign,
+        daiPointsHomeBridgeAddress: community.homeBridgeAddress,
+        activateProMode: () async {
+          store.dispatch(activateProModeCall());
+        });
   }
 }
