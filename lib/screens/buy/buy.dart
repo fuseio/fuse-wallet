@@ -183,6 +183,9 @@ class BusinessesListView extends StatelessWidget {
     return new StoreConnector<AppState, BuyViewModel>(
         distinct: true,
         converter: BuyViewModel.fromStore,
+        onInitialBuild: (vm) {
+          vm.loadBusinesses();
+        },
         builder: (_, vm) {
           return vm.businesses.isEmpty
               ? Container(

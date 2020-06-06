@@ -37,9 +37,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     if (webUrl != null && webUrl.isNotEmpty) {
       return [
         CashHomeScreen(),
-        !hasContactsInStore
-            ? SendToContactScreen()
-            : ContactsList(contacts: contacts),
+        !hasContactsInStore ? SendToContactScreen() : ContactsList(),
         WebViewPage(
           pageArgs: WebViewPageArguments(
               url: webUrl, withBack: false, title: 'Community webpage'),
@@ -49,9 +47,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     } else {
       return [
         CashHomeScreen(),
-        !hasContactsInStore
-            ? SendToContactScreen()
-            : ContactsList(contacts: contacts),
+        !hasContactsInStore ? SendToContactScreen() : ContactsList(),
         BuyScreen(),
         ReceiveScreen()
       ];
@@ -89,8 +85,8 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           final List<Widget> pages = _pages(vm.contacts, vm.community?.webUrl);
           return TabsScaffold(
               header: MyAppBar(
-                height: MediaQuery.of(context).size.height * .25,
-                backgroundColor: Colors.black,
+                backgroundColor: Colors.red,
+                height: 230.0,
                 child: CashHeader(),
               ),
               drawerEdgeDragWidth: 0,

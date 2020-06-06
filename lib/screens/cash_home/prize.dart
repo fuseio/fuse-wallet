@@ -9,7 +9,6 @@ import 'package:bit2c/models/app_state.dart';
 import 'package:bit2c/models/draw_info.dart';
 import 'package:bit2c/models/views/prize.dart';
 import 'package:bit2c/redux/state/store.dart';
-import 'package:bit2c/screens/cash_home/deposit_webview.dart';
 import 'package:bit2c/screens/cash_home/webview_page.dart';
 import 'package:bit2c/utils/format.dart';
 import 'package:bit2c/widgets/main_scaffold.dart';
@@ -361,13 +360,20 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                       ),
                                       InkWell(
                                         onTap: () {
+                                          dynamic depositPlugin =
+                                              depositPlugins[0];
+                                          dynamic url =
+                                              depositPlugin.generateUrl();
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    DepositWebView(
-                                                        depositPlugin:
-                                                            depositPlugins[0]),
+                                                    WebViewPage(
+                                                        pageArgs:
+                                                            WebViewPageArguments(
+                                                                url: url,
+                                                                title:
+                                                                    'Top up')),
                                                 fullscreenDialog: true),
                                           );
                                           Segment.track(

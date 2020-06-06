@@ -1,4 +1,3 @@
-import 'package:bit2c/utils/jwt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -6,7 +5,7 @@ import 'package:bit2c/redux/middlewares/auth_middleware.dart';
 import 'package:bit2c/models/app_state.dart';
 import 'package:bit2c/redux/reducers/app_reducer.dart';
 import 'package:bit2c/redux/state/state_secure_storage.dart';
-import 'package:bit2c/utils/phone.dart';
+import 'package:bit2c/utils/jwt.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
@@ -46,7 +45,6 @@ class AppFactory {
   Store<AppState> _store;
   SentryClient _sentry;
 
-
   AppFactory._();
 
   factory AppFactory() {
@@ -74,10 +72,9 @@ class AppFactory {
       FlutterSecureStorage storage = new FlutterSecureStorage();
 
       final persistor = Persistor<AppState>(
-        storage: SecureStorage(storage = storage),
-        serializer: JsonSerializer<AppState>(AppState.fromJson),
-        debug: isInDebugMode
-      );
+          storage: SecureStorage(storage = storage),
+          serializer: JsonSerializer<AppState>(AppState.fromJson),
+          debug: isInDebugMode);
 
       AppState initialState;
       try {
@@ -85,7 +82,8 @@ class AppFactory {
         if (initialState?.userState?.jwtToken != '') {
           String jwtToken = initialState.userState.jwtToken;
           Map<String, dynamic> tokenData = parseJwt(jwtToken);
-          DateTime exp = new DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
+          DateTime exp =
+              new DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
           DateTime now = DateTime.now();
           Duration diff = exp.difference(now);
           logger.info('diff', diff);
@@ -94,14 +92,17 @@ class AppFactory {
             logger.info('relogin');
             final FirebaseUser currentUser = await firebaseAuth.currentUser();
             IdTokenResult token = await currentUser.getIdToken();
-            jwtToken = await api.login(token.token, initialState.userState.accountAddress, initialState.userState.identifier, appName: 'Bit2C');
+            jwtToken = await api.login(
+                token.token,
+                initialState.userState.accountAddress,
+                initialState.userState.identifier,
+                appName: 'Bit2C');
           }
 
           logger.info('jwt: $jwtToken');
-          logger.info(
-              'accountAddress: ${initialState.userState.accountAddress}');
+          logger
+              .info('accountAddress: ${initialState.userState.accountAddress}');
           api.setJwtToken(jwtToken);
-
         } else {
           logger.info('no JWT');
         }
@@ -113,7 +114,10 @@ class AppFactory {
       final List<Middleware<AppState>> wms = [];
 
       if (isInDebugMode) {
-        wms.add(LoggingMiddleware<AppState>(logger:logger, level: Level.ALL, formatter: LoggingMiddleware.multiLineFormatter));
+        wms.add(LoggingMiddleware<AppState>(
+            logger: logger,
+            level: Level.ALL,
+            formatter: LoggingMiddleware.multiLineFormatter));
       }
       wms.addAll([
         thunkMiddleware,
@@ -138,27 +142,25 @@ class AppFactory {
       ConsoleOutput output = new ConsoleOutput(file);
 
       logger_package.Logger logger = logger_package.Logger(
-          printer: logger_package.PrettyPrinter(),
-          output: output
-      );
+          printer: logger_package.PrettyPrinter(), output: output);
 
       final mylogger = Logger(name);
       mylogger.onRecord
           .where((LogRecord record) => record.loggerName == mylogger.name)
           .listen((LogRecord record) {
-            if (record.level.name == 'INFO') {
-              logger.wtf(record);
-            } else if (record.level.name == 'DEBUG') {
-              logger.d(record);
-            } else if (record.level.name == 'ERROR') {
-              logger.e(record);
-            } else if (record.level.name == 'WARNING') {
-              logger.w(record);
-            } else if (record.level.name == 'FINE') {
-              logger.i(record);
-            } else if (record.level.name == 'SEVERE') {
-              logger.e(record);
-            }
+        if (record.level.name == 'INFO') {
+          logger.wtf(record);
+        } else if (record.level.name == 'DEBUG') {
+          logger.d(record);
+        } else if (record.level.name == 'ERROR') {
+          logger.e(record);
+        } else if (record.level.name == 'WARNING') {
+          logger.w(record);
+        } else if (record.level.name == 'FINE') {
+          logger.i(record);
+        } else if (record.level.name == 'SEVERE') {
+          logger.e(record);
+        }
       });
       _loggers[name] = mylogger;
     }
@@ -196,7 +198,6 @@ class AppFactory {
         version: androidInfo.version.release,
         build: androidInfo.version.incremental,
       );
-
     } else {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
 
@@ -220,7 +221,7 @@ class AppFactory {
     }
 
     dynamic store = await getStore();
-    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode) ?? '';
+    String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';
     String username = store.state.userState.displayName ?? '';
     User user = new User(id: fullPhoneNumber, username: username);
 
@@ -232,11 +233,9 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
-                operatingSystem: operatingSystem
-            ),
-            userContext: user
-        )
-    );
+                app: App(name: 'Fuse Wallet'),
+                operatingSystem: operatingSystem),
+            userContext: user));
 
     return sentry;
   }
