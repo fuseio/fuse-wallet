@@ -18,8 +18,9 @@ class Token extends ERC20Token {
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);
 
-  static List<Job> _jobsFromJson(Map<String, dynamic> json) =>
-      json == null ? List<Job>() : List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
+  static List<Job> _jobsFromJson(Map<String, dynamic> json) => json == null
+      ? List<Job>()
+      : List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
 
   static Map<String, dynamic> _jobsToJson(List<dynamic> jobs) =>
       new Map.from({"jobs": jobs.map((job) => job.toJson()).toList()});
@@ -33,8 +34,8 @@ class Token extends ERC20Token {
       this.imageUrl,
       this.timestamp,
       this.transactions,
-      this.jobs}) :
-          super(
+      this.jobs})
+      : super(
             address: address,
             name: name,
             symbol: symbol,
@@ -52,22 +53,23 @@ class Token extends ERC20Token {
       Transactions transactions,
       List<Job> jobs}) {
     return Token(
-      address: address ?? this.address,
-      name: name ?? this.name,
-      symbol: symbol ?? this.symbol,
-      imageUrl: imageUrl ?? this.imageUrl,
-      decimals: decimals ?? this.decimals,
-      amount: amount ?? this.amount,
-      timestamp: timestamp ?? this.timestamp,
-      transactions: transactions ?? this.transactions,
-      jobs: jobs ?? this.jobs
-    );
+        address: address ?? this.address,
+        name: name ?? this.name,
+        symbol: symbol ?? this.symbol,
+        imageUrl: imageUrl ?? this.imageUrl,
+        decimals: decimals ?? this.decimals,
+        amount: amount ?? this.amount,
+        timestamp: timestamp ?? this.timestamp,
+        transactions: transactions ?? this.transactions,
+        jobs: jobs ?? this.jobs);
   }
 
   @override
-  Future<dynamic> fetchTokenBalance(String accountAddress, {void Function(BigInt) onDone, Function onError}) async {
+  Future<dynamic> fetchTokenBalance(String accountAddress,
+      {void Function(BigInt) onDone, Function onError}) async {
     try {
-      final BigInt balance = await tokenAPI.getTokenBalanceByAccountAddress(this.address, accountAddress);
+      final BigInt balance = await tokenAPI.getTokenBalanceByAccountAddress(
+          this.address, accountAddress);
       if (this.amount.compareTo(balance) != 0) {
         onDone(balance);
       }
@@ -81,7 +83,7 @@ class Token extends ERC20Token {
         address: '',
         imageUrl: null,
         name: '',
-        amount: BigInt.from(0),
+        amount: BigInt.zero,
         decimals: 0,
         symbol: '',
         timestamp: 0,

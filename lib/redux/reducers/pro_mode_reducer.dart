@@ -16,11 +16,22 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, GetTokenListSuccess>(_getTokenListSuccess),
   TypedReducer<ProWalletState, AddProJob>(_addProJob),
   TypedReducer<ProWalletState, StartFetchTokensBalances>(_startFetchTokensBalances),
+  TypedReducer<ProWalletState, UpdateEtherBalabnce>(_updateEtherBalabnce),
+  TypedReducer<ProWalletState, UpdateSwapActions>(_updateSwapActions),
+  TypedReducer<ProWalletState, StartProcessingSwapActions>(_startProcessingSwapActions),
 ]);
+
+ProWalletState _updateSwapActions(ProWalletState state, UpdateSwapActions action) {
+  return state.copyWith(swapActions: action.swapActions);
+}
+
+ProWalletState _updateEtherBalabnce(ProWalletState state, UpdateEtherBalabnce action) {
+  return state.copyWith(etherBalance: action.balance);
+}
 
 ProWalletState _addProJob(ProWalletState state, AddProJob action) {
   Token currentToken = state.erc20Tokens[action.tokenAddress];
-  Token newToken = currentToken.copyWith(jobs: List<Job>.from(currentToken.jobs)..add(action.job));
+  Token newToken = currentToken.copyWith(jobs: List<Job>.from(currentToken?.jobs ?? [])..add(action.job));
   Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
   newOne[action.tokenAddress] = newToken;
   return state.copyWith(erc20Tokens: newOne);
@@ -32,6 +43,10 @@ ProWalletState _createNewWalletSuccess(ProWalletState state, CreateLocalAccountS
 
 ProWalletState _startProcessingTokensJobs(ProWalletState state, StartProcessingTokensJobs action) {
   return state.copyWith(isProcessingTokensJobs: true);
+}
+
+ProWalletState _startProcessingSwapActions(ProWalletState state, StartProcessingSwapActions action) {
+  return state.copyWith(isProcessingSwapActions: true);
 }
 
 ProWalletState _startFetchTransferEvents(ProWalletState state, StartFetchTransferEvents action) {

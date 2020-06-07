@@ -8,12 +8,13 @@ final Token daiToken = Token(
     decimals: 18,
     imageUrl: getTokenUrl(checksumEthereumAddress(daiTokenAddress)),
     name: "Dai Stablecoin",
-    amount: BigInt.from(0),
+    amount: BigInt.zero,
     symbol: "DAI");
 
 final _dzarToken = Token(
     symbol: "DZAR",
     name: "Digital Rand",
+    amount: BigInt.zero,
     decimals: 6,
     imageUrl: getTokenUrl('0x9Cb2f26A23b8d89973F08c957C4d7cdf75CD341c'),
     address: "0x9Cb2f26A23b8d89973F08c957C4d7cdf75CD341c");
@@ -28,6 +29,7 @@ final _usdcToken = Token(
 final _tetherToken = Token(
     symbol: "USDT",
     name: "Tether USD",
+    amount: BigInt.zero,
     decimals: 6,
     imageUrl: getTokenUrl('0xdAC17F958D2ee523a2206206994597C13D831ec7'),
     address: "0xdAC17F958D2ee523a2206206994597C13D831ec7");
@@ -35,6 +37,7 @@ final _tetherToken = Token(
 final _trueUSDToken = Token(
     symbol: "TUSD",
     name: "TrueUSD",
+    amount: BigInt.zero,
     decimals: 18,
     imageUrl: getTokenUrl('0x0000000000085d4780B73119b644AE5ecd22b376'),
     address: "0x0000000000085d4780B73119b644AE5ecd22b376");
@@ -42,6 +45,7 @@ final _trueUSDToken = Token(
 final _eursToken = Token(
     symbol: "EURS",
     name: "STASIS EURS Token",
+    amount: BigInt.zero,
     decimals: 2,
     imageUrl: getTokenUrl('0xdB25f211AB05b1c97D595516F45794528a807ad8'),
     address: "0xdB25f211AB05b1c97D595516F45794528a807ad8");
@@ -49,12 +53,14 @@ final _eursToken = Token(
 final _rupiahToken = Token(
     symbol: "IDRT",
     name: "Rupiah Token",
+    amount: BigInt.zero,
     decimals: 2,
     imageUrl: getTokenUrl('0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A'),
     address: "0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A");
 
 final _etherToken = Token(
     symbol: "ETH",
+    amount: BigInt.zero,
     name: "Ether",
     decimals: 18,
     imageUrl: getTokenUrl(zeroAddress),
@@ -62,11 +68,11 @@ final _etherToken = Token(
 
 final Map<String, Token> exchangableTokens = new Map<String, Token>.from({
   _etherToken.address: _etherToken,
-  _usdcToken.address: _usdcToken,
-  _dzarToken.address: _dzarToken,
-  _tetherToken.address: _tetherToken,
   daiToken.address: daiToken,
+  _usdcToken.address: _usdcToken,
+  _tetherToken.address: _tetherToken,
   _trueUSDToken.address: _trueUSDToken,
   _eursToken.address: _eursToken,
+  _dzarToken.address: _dzarToken,
   _rupiahToken.address: _rupiahToken,
 });

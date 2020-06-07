@@ -5,7 +5,7 @@ import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:flutter/material.dart';
 
-class ExchangeCard extends StatelessWidget {
+class TradeCard extends StatelessWidget {
   final Token token;
   final String walletAddress;
   final bool isFetching;
@@ -20,7 +20,7 @@ class ExchangeCard extends StatelessWidget {
   final void Function(String) onChanged;
   final void Function(Token) onDropDownChanged;
   final TextEditingController textEditingController;
-  const ExchangeCard(
+  const TradeCard(
       {Key key,
       this.title,
       this.items,
@@ -43,7 +43,7 @@ class ExchangeCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20),
       constraints: BoxConstraints(
-          minHeight: 165,
+          minHeight: 160,
           minWidth: MediaQuery.of(context).size.width,
           maxWidth: MediaQuery.of(context).size.width),
       child: Column(
@@ -64,7 +64,7 @@ class ExchangeCard extends StatelessWidget {
             height: 5,
           ),
           Container(
-            height: 80,
+            height: 65,
             decoration: BoxDecoration(
                 color: Theme.of(context).splashColor,
                 borderRadius: BorderRadius.all(Radius.circular(11.0)),
@@ -74,8 +74,27 @@ class ExchangeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Flexible(
-                  flex: 2,
+                // Flexible(
+                //   flex: 2,
+                //   child: Padding(
+                //     padding: EdgeInsets.only(left: 10.0),
+                //     child: Row(
+                //       children: <Widget>[
+                //         DropdownButton<Token>(
+                //           value: token,
+                //           underline: Container(
+                //             height: 0,
+                //             color: Colors.white,
+                //           ),
+                //           onChanged: onDropDownChanged,
+                //           items: items,
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .33,
                   child: Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: Row(
@@ -101,8 +120,7 @@ class ExchangeCard extends StatelessWidget {
                     thickness: 3,
                   ),
                 ),
-                Flexible(
-                  flex: 2,
+                Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(right: 10),
                     child: Column(
@@ -119,8 +137,8 @@ class ExchangeCard extends StatelessWidget {
                               textInputAction: TextInputAction.done,
                               keyboardType: TextInputType.numberWithOptions(
                                   decimal: true),
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
+                              style: TextStyle(
+                                  fontSize: 16, color: Color(0xFF888888)),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Amount',
@@ -144,7 +162,7 @@ class ExchangeCard extends StatelessWidget {
                                           strokeWidth: 2,
                                           valueColor:
                                               new AlwaysStoppedAnimation<Color>(
-                                                  Color(0xFF8E8E8E))),
+                                                  Color(0xFFC4C4C4))),
                                       width: 10,
                                       height: 10,
                                     ),
@@ -167,6 +185,10 @@ class ExchangeCard extends StatelessWidget {
                     ),
                   ),
                 )
+                // Flexible(
+                //   flex: 2,
+                //   child: ,
+                // )
               ],
             ),
           ),
@@ -174,20 +196,26 @@ class ExchangeCard extends StatelessWidget {
             height: 2,
           ),
           fromTokenAmount != null && toTokenAmount != null
-              ? Text(
-                  '$fromTokenAmount ${token.symbol} = $toTokenAmount ${tokenToReceive.symbol}',
-                  style: TextStyle(color: Color(0xFF8E8E8E), fontSize: 10),
-                )
+              ? Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text(
+                    '$fromTokenAmount ${token.symbol} = $toTokenAmount ${tokenToReceive.symbol}',
+                    style: TextStyle(color: Color(0xFF8E8E8E), fontSize: 10),
+                  ),
+              )
               : SizedBox.shrink(),
           isFetchingPrice
-              ? Container(
-                  child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor:
-                          new AlwaysStoppedAnimation<Color>(Color(0xFF8E8E8E))),
-                  width: 10,
-                  height: 10,
-                )
+              ? Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Container(
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor:
+                            new AlwaysStoppedAnimation<Color>(Color(0xFFC4C4C4))),
+                    width: 10,
+                    height: 10,
+                  ),
+              )
               : SizedBox.shrink()
         ],
       ),

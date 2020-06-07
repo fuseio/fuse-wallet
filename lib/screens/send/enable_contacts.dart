@@ -132,6 +132,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                     child: PrimaryButton(
                                   fontSize: 15,
                                   preload: isPreloading,
+                                  disabled: isPreloading,
                                   labelFontWeight: FontWeight.normal,
                                   label:
                                       I18n.of(context).enable_contacts_access,

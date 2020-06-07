@@ -429,7 +429,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   CashWalletState _addJob(CashWalletState state, AddJob action) {
     Community current = state.communities[state.communityAddress];
     Community newCommunity =
-        current.copyWith(jobs: List<Job>.from(current.jobs)..add(action.job));
+        current.copyWith(jobs: List<Job>.from(current.jobs ?? [])..add(action.job));
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);
     newOne[state.communityAddress] = newCommunity;
@@ -439,7 +439,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   CashWalletState _jobDone(CashWalletState state, JobDone action) {
     Community current = state.communities[state.communityAddress];
     Community newCommunity =
-        current.copyWith(jobs: List<Job>.from(current.jobs)..remove(action.job));
+        current.copyWith(jobs: List<Job>.from(current.jobs ?? [])..remove(action.job));
     Map<String, Community> newOne =
         Map<String, Community>.from(state.communities);
     newOne[state.communityAddress] = newCommunity;

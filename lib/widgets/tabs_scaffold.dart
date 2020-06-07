@@ -25,8 +25,30 @@ class _TabsScaffoldState extends State<TabsScaffold> {
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-      onWillPop: () {
-        return new Future(() => false);
+      onWillPop: () async {
+        final value = await showDialog<bool>(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: Text('Are you sure you want to exit?'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('No'),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text('Yes'),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                ],
+              );
+            });
+
+        return value == true;
       },
       child: Scaffold(
           key: widget.key,

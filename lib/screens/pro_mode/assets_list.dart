@@ -1,16 +1,15 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/jobs/swap_token_job.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/pro/views/pro_wallet.dart';
-import 'package:fusecash/screens/pro_mode/token_transfers.dart';
+import 'package:fusecash/screens/pro_mode/swap_tile.dart';
+import 'package:fusecash/screens/pro_mode/token_tile.dart';
 import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/format.dart';
 
 String getTokenUrl(tokenAddress) {
   return tokenAddress == zeroAddress
@@ -44,150 +43,18 @@ class AssetsList extends StatelessWidget {
                                 token: daiToken,
                               )
                             : SizedBox.shrink(),
+                        ...viewModel.swapActions
+                            .map((SwapTokenJob swapToken) => SwapTokenTile(
+                                  swapToken: swapToken,
+                                ))
+                            .toList(),
                         ...viewModel.tokens
-                            .map((Token token) => _TokenRow(
+                            .map((Token token) => TokenTile(
                                   token: token,
                                 ))
                             .toList()
                       ])
                 ]));
-  }
-}
-
-class _TokenRow extends StatelessWidget {
-  _TokenRow({this.token});
-  final Token token;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: new BoxDecoration(
-          border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-      child: ListTile(
-          onTap: () {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => TokenTransfersScreen(token: token)));
-          },
-          contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
-          title: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                  flex: 12,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Flexible(
-                        flex: 4,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            Hero(
-                              child: CachedNetworkImage(
-                                width: 54,
-                                height: 54,
-                                imageUrl: getTokenUrl(
-                                    checksumEthereumAddress(token.address)),
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(
-                                  Icons.error,
-                                  size: 54,
-                                ),
-                              ),
-                              tag: token.name,
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 10.0),
-                      Flexible(
-                        flex: 10,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          verticalDirection: VerticalDirection.down,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: <Widget>[
-                            Text(token.name,
-                                style: TextStyle(
-                                    color: Color(0xFF333333), fontSize: 15)),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            SvgPicture.asset(
-                              'assets/images/go_to_pro.svg',
-                              width: 10,
-                              height: 10,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  )),
-              Flexible(
-                  flex: 4,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Stack(
-                              overflow: Overflow.visible,
-                              alignment: AlignmentDirectional.bottomEnd,
-                              children: <Widget>[
-                                new RichText(
-                                    text: new TextSpan(children: <TextSpan>[
-                                  token.address.contains(daiTokenAddress)
-                                      ? new TextSpan(
-                                          text: '\$' +
-                                              formatValue(
-                                                  token.amount, token.decimals),
-                                          style: new TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary))
-                                      : new TextSpan(
-                                          text: formatValue(token.amount,
-                                                  token.decimals) +
-                                              ' ' +
-                                              token.symbol,
-                                          style: new TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary)),
-                                ])),
-                                token.address.contains(daiTokenAddress)
-                                    ? Positioned(
-                                        bottom: -20,
-                                        child: Padding(
-                                            child: Text(
-                                                formatValue(token.amount,
-                                                        token.decimals) +
-                                                    ' ' +
-                                                    token.symbol,
-                                                style: TextStyle(
-                                                    color: Color(0xFF8D8D8D),
-                                                    fontSize: 10)),
-                                            padding: EdgeInsets.only(top: 10)))
-                                    : SizedBox.shrink()
-                              ],
-                            )
-                          ],
-                        )
-                      ]))
-            ],
-          )),
-    );
   }
 }
 

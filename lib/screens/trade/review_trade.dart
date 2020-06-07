@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/screens/pro_routes.gr.dart';
 import 'package:fusecash/utils/format.dart';
@@ -12,14 +13,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 
-class ReviewExchange extends StatelessWidget {
+class ReviewTradeScreen extends StatefulWidget {
+  final Token fromToken;
+  final Token toToken;
   final Map exchangeSummry;
-  const ReviewExchange({Key key, this.exchangeSummry}) : super(key: key);
+  const ReviewTradeScreen(
+      {Key key, this.exchangeSummry, this.fromToken, this.toToken})
+      : super(key: key);
+
+  @override
+  _ReviewTradeScreenState createState() => _ReviewTradeScreenState();
+}
+
+class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
+  bool isPreloading = false;
+  @override
+  void initState() {
+    super.initState();
+    Segment.screen(screenName: '/exchange-screen');
+  }
+
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
         withPadding: true,
-        title: I18n.of(context).trade,
+        title: I18n.of(context).review_trade,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
@@ -27,7 +45,6 @@ class ReviewExchange extends StatelessWidget {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFFF5F5F5),
                     border: Border.all(
                       color: Color(0xFFDEDEDE),
                       width: 2,
@@ -64,17 +81,19 @@ class ReviewExchange extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                   formatValue(
-                                      BigInt.from(num.parse(
-                                          exchangeSummry['sourceAmount'])),
-                                      int.parse(exchangeSummry['sourceAsset']
-                                          ['decimals'])),
+                                      BigInt.from(num.parse(widget
+                                          .exchangeSummry['sourceAmount'])),
+                                      int.parse(
+                                          widget.exchangeSummry['sourceAsset']
+                                              ['decimals'])),
                                   style: TextStyle(fontSize: 40),
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  exchangeSummry['sourceAsset']['symbol'],
+                                  widget.exchangeSummry['sourceAsset']
+                                      ['symbol'],
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
@@ -109,17 +128,18 @@ class ReviewExchange extends StatelessWidget {
                                 Text(
                                   formatValue(
                                       BigInt.from(num.parse(
-                                          exchangeSummry['destinationAmount'])),
-                                      int.parse(
-                                          exchangeSummry['destinationAsset']
-                                              ['decimals'])),
+                                          widget.exchangeSummry[
+                                              'destinationAmount'])),
+                                      int.parse(widget.exchangeSummry[
+                                          'destinationAsset']['decimals'])),
                                   style: TextStyle(fontSize: 40),
                                 ),
                                 SizedBox(
                                   width: 10,
                                 ),
                                 Text(
-                                  exchangeSummry['destinationAsset']['symbol'],
+                                  widget.exchangeSummry['destinationAsset']
+                                      ['symbol'],
                                   style: TextStyle(fontSize: 20),
                                 ),
                               ],
@@ -134,47 +154,75 @@ class ReviewExchange extends StatelessWidget {
             ),
           )
         ],
-        footer: new StoreConnector<AppState, ReviewExchangeViewModel>(
+        footer: new StoreConnector<AppState, ReviewTradeScreenViewModel>(
             distinct: true,
-            onInit: (store) {
-              Segment.screen(screenName: '/exchange-screen');
-            },
-            converter: ReviewExchangeViewModel.fromStore,
-            builder: (_, viewModel) {
-              return Center(
-                child: PrimaryButton(
-                  labelFontWeight: FontWeight.normal,
-                  label: I18n.of(context).exchnage,
-                  fontSize: 15,
-                  onPressed: () {
-                    viewModel.swap(
-                        exchangeSummry['sourceAsset']['address'],
-                        exchangeSummry['amount'],
-                        exchangeSummry['tx']['to'],
-                        exchangeSummry['tx']['data']);
-                    ProRouter.navigator.pushNamed(ProRouter.proModeHomeScreen,
-                        arguments: ProModeScaffoldArguments(tabIndex: 0));
-                  },
-                ),
-              );
-            }));
+            converter: ReviewTradeScreenViewModel.fromStore,
+            builder: (_, viewModel) => Center(
+                  child: PrimaryButton(
+                    labelFontWeight: FontWeight.normal,
+                    label: I18n.of(context).exchnage,
+                    fontSize: 15,
+                    disabled: isPreloading,
+                    preload: isPreloading,
+                    onPressed: () {
+                      setState(() {
+                        isPreloading = true;
+                      });
+                      viewModel.swap(
+                          widget.fromToken,
+                          widget.toToken,
+                          widget.exchangeSummry['sourceAsset']['address'],
+                          widget.exchangeSummry['amount'],
+                          widget.exchangeSummry['tx']['to'],
+                          widget.exchangeSummry['tx']['data'], () {
+                        ProRouter.navigator.pushNamed(
+                            ProRouter.proModeHomeScreen,
+                            arguments: ProModeScaffoldArguments(tabIndex: 0));
+                      }, () {
+                        setState(() {
+                          isPreloading = false;
+                        });
+                      });
+                    },
+                  ),
+                )));
   }
 }
 
-class ReviewExchangeViewModel extends Equatable {
+class ReviewTradeScreenViewModel extends Equatable {
   final String walletAddress;
-  final Function(String tokenAddress, num tokensAmoun,
-      String swapContractAddress, String swapData) swap;
+  final Function(
+      Token fromToken,
+      Token toToken,
+      String tokenAddress,
+      num tokensAmoun,
+      String swapContractAddress,
+      String swapData,
+      VoidCallback sendSuccessCallback,
+      VoidCallback sendFailureCallback) swap;
 
-  ReviewExchangeViewModel({this.walletAddress, this.swap});
+  ReviewTradeScreenViewModel({this.walletAddress, this.swap});
 
-  static ReviewExchangeViewModel fromStore(Store<AppState> store) {
-    return ReviewExchangeViewModel(
+  static ReviewTradeScreenViewModel fromStore(Store<AppState> store) {
+    return ReviewTradeScreenViewModel(
         walletAddress: store.state.userState.walletAddress,
-        swap: (String tokenAddress, num tokensAmount,
-            String swapContractAddress, String swapData) {
-          store.dispatch(totleSwap(
-              tokenAddress, tokensAmount, swapContractAddress, swapData));
+        swap: (Token fromToken,
+            Token toToken,
+            String tokenAddress,
+            num tokensAmount,
+            String swapContractAddress,
+            String swapData,
+            VoidCallback sendSuccessCallback,
+            VoidCallback sendFailureCallback) {
+          store.dispatch(swapHandler(
+              fromToken,
+              toToken,
+              tokenAddress,
+              tokensAmount,
+              swapContractAddress,
+              swapData,
+              sendSuccessCallback,
+              sendFailureCallback));
         });
   }
 

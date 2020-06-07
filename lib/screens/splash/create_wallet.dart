@@ -37,6 +37,7 @@ class _CreateWalletState extends State<CreateWallet> {
                 PrimaryButton(
                   fontSize: 16,
                   labelFontWeight: FontWeight.normal,
+                  disabled: isPrimaryPreloading,
                   label: viewModel.isLoggedOut
                       ? I18n.of(context).login
                       : I18n.of(context).create_new_wallet,

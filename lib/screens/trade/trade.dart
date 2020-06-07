@@ -3,7 +3,7 @@ import 'package:redux/redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ethereum_address/ethereum_address.dart';
-import 'package:fusecash/screens/exchange/review_exchange.dart';
+import 'package:fusecash/screens/trade/review_trade.dart';
 import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,24 +11,25 @@ import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/screens/exchange/card.dart';
+import 'package:fusecash/screens/trade/card.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:wallet_core/wallet_core.dart' show EtherAmount, EtherUnit;
 
 final _tokens = List<Token>.from(exchangableTokens.values);
 
-class ExchangeScreen extends StatefulWidget {
-  const ExchangeScreen({Key key}) : super(key: key);
+class TradeScreen extends StatefulWidget {
+  const TradeScreen({Key key}) : super(key: key);
 
   @override
   _ExchangeState createState() => _ExchangeState();
 }
 
-class _ExchangeState extends State<ExchangeScreen> {
+class _ExchangeState extends State<TradeScreen> {
   TextEditingController receiveController = TextEditingController();
   TextEditingController payWithController = TextEditingController();
   Token tokenToPayWith;
@@ -60,18 +61,18 @@ class _ExchangeState extends State<ExchangeScreen> {
     super.initState();
   }
 
-  onPayWithDropDownChanged(Token token, walletAddress) async {
-    fetchPrices(walletAddress, token, tokenToReceive);
+  onPayWithDropDownChanged(Token token, walletAddress) {
     setState(() {
       tokenToPayWith = token;
     });
+    fetchPrices(walletAddress, token, tokenToReceive);
   }
 
-  onReceiveDropDownChanged(Token token, walletAddress) async {
-    fetchPrices(walletAddress, token, tokenToPayWith);
+  onReceiveDropDownChanged(Token token, walletAddress) {
     setState(() {
       tokenToReceive = token;
     });
+    fetchPrices(walletAddress, token, tokenToPayWith);
   }
 
   void getQuateForPayWith(String value, String walletAddress) async {
@@ -171,7 +172,9 @@ class _ExchangeState extends State<ExchangeScreen> {
             CachedNetworkImage(
               width: 33,
               height: 33,
-              imageUrl: getTokenUrl(checksumEthereumAddress(token.address)),
+              imageUrl: token.imageUrl != null && token.imageUrl.isNotEmpty
+                  ? token.imageUrl
+                  : getTokenUrl(checksumEthereumAddress(token.address)),
               placeholder: (context, url) => CircularProgressIndicator(),
               errorWidget: (context, url, error) => const Icon(
                 Icons.error,
@@ -196,6 +199,7 @@ class _ExchangeState extends State<ExchangeScreen> {
       Token tokenPayWith = tokenToPayWith;
       Token tokenReceive = tokenToReceive;
       setState(() {
+        isSwap = !isSwap;
         tokenToPayWith = tokenReceive;
         tokenToReceive = tokenPayWith;
       });
@@ -271,24 +275,19 @@ class _ExchangeState extends State<ExchangeScreen> {
           });
         },
         builder: (_, viewModel) {
+          num value = num.parse(formatValue(
+              ((tokenToPayWith ?? viewModel.tokens[0]).amount) ?? BigInt.zero,
+              (tokenToPayWith ?? viewModel.tokens[0]).decimals));
           bool payWithHasBalance = payWithController.text != null &&
                   payWithController.text.isNotEmpty
-              ? num.tryParse((formatValue(
-                              ((tokenToPayWith ?? viewModel.tokens[0])
-                                      .amount) ??
-                                  BigInt.from(0),
-                              (tokenToPayWith ?? viewModel.tokens[0])
-                                  .decimals) ??
-                          0))
-                      .compareTo(
-                          num.tryParse(payWithController.text ?? 0) ?? 0) >=
-                  0
+              ? value.compareTo(num.parse(payWithController.text ?? 0) ?? 0) !=
+                  -1
               : true;
           // bool receiveHasBalance = receiveController.text != null &&
           //         receiveController.text.isNotEmpty
           //     ? num.tryParse((formatValue(
           //                     ((tokenToReceive ?? _tokens[0]).amount) ??
-          //                         BigInt.from(0),
+          //                         BigInt.zero,
           //                     (tokenToReceive ?? _tokens[0]).decimals) ??
           //                 0))
           //             .compareTo(
@@ -310,7 +309,7 @@ class _ExchangeState extends State<ExchangeScreen> {
                     Container(
                       child: Column(
                         children: <Widget>[
-                          ExchangeCard(
+                          TradeCard(
                             useMaxWidget: Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 15),
@@ -338,8 +337,12 @@ class _ExchangeState extends State<ExchangeScreen> {
                                         fontWeight: FontWeight.w400),
                                   )),
                             ),
-                            fromTokenAmount: fromTokenAmountPay,
-                            toTokenAmount: toTokenAmountPay,
+                            fromTokenAmount: isSwap
+                                ? fromTokenAmountPay
+                                : fromTokenAmountReceive,
+                            toTokenAmount: isSwap
+                                ? toTokenAmountPay
+                                : toTokenAmountReceive,
                             isFetchingPrice: isFetchingPricePay,
                             hasBalance: payWithHasBalance,
                             onDropDownChanged: (token) {
@@ -380,16 +383,20 @@ class _ExchangeState extends State<ExchangeScreen> {
                                   ))
                             ],
                           ),
-                          ExchangeCard(
-                            fromTokenAmount: fromTokenAmountReceive,
-                            toTokenAmount: toTokenAmountReceive,
+                          TradeCard(
+                            fromTokenAmount: isSwap
+                                ? fromTokenAmountReceive
+                                : fromTokenAmountPay,
+                            toTokenAmount: isSwap
+                                ? toTokenAmountReceive
+                                : toTokenAmountPay,
                             isFetchingPrice: isFetchingPriceReceive,
                             // hasBalance: receiveHasBalance,
                             onDropDownChanged: (token) {
                               onReceiveDropDownChanged(
                                   token, viewModel.walletAddress);
                             },
-                            items: _buildItems(_tokens),
+                            items: _buildItems(viewModel.tokens),
                             onChanged: (value) {
                               _receiveDebouncer.run(() => getQuateForReceive(
                                   value, viewModel.walletAddress));
@@ -420,7 +427,9 @@ class _ExchangeState extends State<ExchangeScreen> {
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => ReviewExchange(
+                            builder: (context) => ReviewTradeScreen(
+                                  fromToken: tokenToPayWith.copyWith(),
+                                  toToken: tokenToReceive.copyWith(),
                                   exchangeSummry: swapResponse,
                                 )));
                   }
@@ -442,7 +451,7 @@ class _ExchangeViewModel extends Equatable {
     List<Token> tokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals)) > 0)
+            EtherAmount.inWei(token.amount).getValueInUnit(EtherUnit.ether) > 0)
         .toList()
         .reversed
         .toList();

@@ -106,5 +106,6 @@
     "withdrawDAI": "Withdraw DAI",
     "sendToCashMode": "Send to cash mode",
     "exchnage": "Exchange",
-    "no_funds_available": "No funds available"
+    "no_funds_available": "No funds available",
+    "review_trade": "Review trade"
 }

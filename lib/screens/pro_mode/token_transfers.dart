@@ -187,8 +187,11 @@ class _TransferRow extends StatelessWidget {
                             CachedNetworkImage(
                               width: 54,
                               height: 54,
-                              imageUrl: getTokenUrl(
-                                  checksumEthereumAddress(token.address)),
+                              imageUrl: token.imageUrl != null &&
+                                      token.imageUrl.isNotEmpty
+                                  ? token.imageUrl
+                                  : getTokenUrl(
+                                      checksumEthereumAddress(token.address)),
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) => const Icon(

@@ -9,6 +9,7 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:wallet_core/wallet_core.dart' show EtherAmount, EtherUnit;
 
 class SendReviewScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;
@@ -94,9 +95,12 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         num feeAmount = 0;
         bool hasFund = true;
         if (args.feePlugin != null) {
+          int decimals = args.erc20Token != null
+              ? args.erc20Token.decimals
+              : viewModel.token.decimals;
           feeAmount = args.feePlugin.calcFee(args.amount);
-          num tokenBalance = num.parse(formatValue(
-              balance, args.erc20Token?.decimals ?? viewModel.token.decimals));
+          EtherAmount amount = EtherAmount.inWei(toBigInt(balance, decimals));
+          num tokenBalance = amount.getValueInUnit(EtherUnit.ether);
           hasFund = (args.amount + feeAmount).compareTo(tokenBalance) <= 0;
         }
         return MainScaffold(
@@ -220,7 +224,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                             I18n.of(context).address +
                                                 ": ${formatAddress(args.accountAddress)}",
                                             style: TextStyle(
-                                                fontSize: 16,
+                                                fontSize: 13,
                                                 color: Color(0xFF777777)),
                                           )
                                   ]
@@ -229,7 +233,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                       I18n.of(context).address +
                                           ": ${formatAddress(args.accountAddress)}",
                                       style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 13,
                                           color: Color(0xFF777777)),
                                     )
                                   ],
@@ -340,6 +344,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         isPreloading = true;
                       });
                     },
+                    disabled: isPreloading,
                     preload: isPreloading,
                     width: 180)));
       },

@@ -46,7 +46,7 @@ class PrimaryButton extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-              onTap: onPressed,
+              onTap: disabled ? () {} : onPressed,
               borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
               highlightColor:
                   Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),

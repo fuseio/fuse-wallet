@@ -190,6 +190,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               )));
                 },
                 preload: isPreloading,
+                disabled: isPreloading,
                 width: 300,
               ),
             )));

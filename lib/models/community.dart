@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/business.dart';
 import 'package:fusecash/models/community_metadata.dart';
 import 'package:fusecash/models/jobs/base.dart';
@@ -9,7 +10,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'community.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Community {
+class Community extends Equatable {
   final String name;
   final String address;
   final String homeBridgeAddress;
@@ -26,6 +27,23 @@ class Community {
 
   @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
   final List<Job> jobs;
+
+  @override
+  List<Object> get props => [
+        name,
+        address,
+        homeBridgeAddress,
+        foreignBridgeAddress,
+        tokenBalance,
+        isMember,
+        businesses,
+        transactions,
+        token,
+        plugins,
+        metadata,
+        isClosed,
+        webUrl
+      ];
 
   Community(
       {this.name,
@@ -59,7 +77,7 @@ class Community {
         homeBridgeAddress: null,
         token: null,
         isMember: false,
-        tokenBalance: BigInt.from(0),
+        tokenBalance: BigInt.zero,
         businesses: new List<Business>(),
         transactions: Transactions.initial(),
         plugins: new Plugins(),

@@ -4,7 +4,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/bottom_bar.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/exchange/exchange.dart';
+import 'package:fusecash/screens/trade/trade.dart';
 import 'package:fusecash/screens/pro_mode/pro_drawer.dart';
 import 'package:fusecash/screens/pro_mode/pro_header.dart';
 import 'package:fusecash/screens/pro_mode/pro_home.dart';
@@ -85,7 +85,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     return [
       ProModeHomeScreen(),
       !hasContactsInStore ? SendToContactScreen() : ContactsList(),
-      ExchangeScreen(),
+      TradeScreen(),
       ReceiveScreen()
     ];
   }
@@ -96,8 +96,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     });
   }
 
-  BottomNavigationBar _bottomNavigationBar() =>
-      BottomNavigationBar(
+  BottomNavigationBar _bottomNavigationBar() => BottomNavigationBar(
         selectedFontSize: 13,
         unselectedFontSize: 13,
         type: BottomNavigationBarType.fixed,
@@ -114,26 +113,11 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
       );
 
   onInit(Store<AppState> store) {
-    bool isListenToTransferEvents =
-        store.state.proWalletState?.isListenToTransferEvents ?? false;
-    bool isFetchTransferEvents =
-        store.state.proWalletState?.isFetchTransferEvents ?? false;
-    bool isProcessingTokensJobs =
-        store.state.proWalletState?.isProcessingTokensJobs ?? false;
-    bool isFetchTokensBalances =
-        store.state.proWalletState?.isFetchTokensBalances ?? false;
-    if (!isFetchTokensBalances) {
-      store.dispatch(fetchTokensBalances());
-    }
-    if (!isListenToTransferEvents) {
-      store.dispatch(startListenToTransferEvents());
-    }
-    if (!isFetchTransferEvents) {
-      store.dispatch(startFetchTransferEventsCall());
-    }
-    if (!isProcessingTokensJobs) {
-      store.dispatch(startProcessingTokensJobsCall());
-    }
+    store.dispatch(startListenToTransferEvents());
+    store.dispatch(startFetchTransferEventsCall());
+    store.dispatch(fetchTokensBalances());
+    store.dispatch(startProcessingTokensJobsCall());
+    store.dispatch(fetchSwapActions());
   }
 
   @override
