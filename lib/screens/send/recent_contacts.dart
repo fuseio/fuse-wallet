@@ -1,7 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
+import 'package:farmlyledger/screens/send/contact_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:farmlyledger/generated/i18n.dart';
 import 'package:farmlyledger/models/app_state.dart';
 import 'package:farmlyledger/models/transactions/transaction.dart';
@@ -47,73 +47,60 @@ class RecentContacts extends StatelessWidget {
               viewModel.reverseContacts,
               viewModel.contacts,
               viewModel.countryCode);
-          final String displatName = contact != null
+          final String displayName = contact != null
               ? contact.displayName
               : deducePhoneNumber(transfer, viewModel.reverseContacts,
                   businesses: viewModel.businesses);
           dynamic image =
               getContactImage(transfer, contact, viewModel.businesses);
-          listItems.add(
-            Slidable(
-              actionPane: SlidableDrawerActionPane(),
-              actionExtentRatio: 0.25,
-              child: Container(
-                decoration: new BoxDecoration(
-                    border: Border(
-                        bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-                child: ListTile(
-                  contentPadding:
-                      EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
-                  leading: CircleAvatar(
-                    backgroundColor: Color(0xFFE0E0E0),
-                    radius: 25,
-                    backgroundImage: image,
-                  ),
-                  title: Text(
-                    displatName,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  onTap: () {
-                    if (transfer.to.toLowerCase() ==
-                        viewModel.community.homeBridgeAddress.toLowerCase()) {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => SendAmountScreen(
-                                  pageArgs: SendAmountArguments(
-                                      avatar: AssetImage(
-                                        'assets/images/ethereume_icon.png',
-                                      ),
-                                      name: 'Send to ethereum',
-                                      feePlugin: viewModel
-                                          .community.plugins.bridgeToForeign,
-                                      sendType: viewModel.isProMode
-                                          ? SendType.ETHEREUM_ADDRESS
-                                          : SendType.FUSE_ADDRESS,
-                                      accountAddress: transfer.to))));
-                      return;
-                    }
-                    if (contact == null) {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => SendAmountScreen(
-                                  pageArgs: SendAmountArguments(
-                                      sendType: viewModel.isProMode
-                                          ? SendType.ETHEREUM_ADDRESS
-                                          : SendType.FUSE_ADDRESS,
-                                      accountAddress: transfer.to,
-                                      name: displatName,
-                                      avatar: image))));
-                    } else {
-                      sendToContact(context, viewModel, displatName, '',
-                          avatar: image, address: transfer.to);
-                    }
-                  },
-                ),
+          String phoneNumber =
+              viewModel.reverseContacts[transfer.to.toLowerCase()] ?? '';
+          listItems.add(ContactTile(
+              image: image,
+              displayName: displayName,
+              phoneNumber: phoneNumber,
+              trailing: Text(
+                phoneNumber,
+                style: TextStyle(
+                    fontSize: 13, color: Theme.of(context).primaryColor),
               ),
-            ),
-          );
+              onTap: () {
+                if (transfer.to.toLowerCase() ==
+                    viewModel.community.homeBridgeAddress.toLowerCase()) {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => SendAmountScreen(
+                              pageArgs: SendAmountArguments(
+                                  avatar: AssetImage(
+                                    'assets/images/ethereume_icon.png',
+                                  ),
+                                  name: 'Send to ethereum',
+                                  feePlugin: viewModel
+                                      .community.plugins.bridgeToForeign,
+                                  sendType: viewModel.isProMode
+                                      ? SendType.ETHEREUM_ADDRESS
+                                      : SendType.FUSE_ADDRESS,
+                                  accountAddress: transfer.to))));
+                  return;
+                }
+                if (contact == null) {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => SendAmountScreen(
+                              pageArgs: SendAmountArguments(
+                                  sendType: viewModel.isProMode
+                                      ? SendType.ETHEREUM_ADDRESS
+                                      : SendType.FUSE_ADDRESS,
+                                  accountAddress: transfer.to,
+                                  name: displayName,
+                                  avatar: image))));
+                } else {
+                  sendToContact(context, viewModel, displayName, '',
+                      avatar: image, address: transfer.to);
+                }
+              }));
         }
 
         if (listItems.isNotEmpty) {
