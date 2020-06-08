@@ -14,6 +14,8 @@ class Token extends ERC20Token {
   final Transactions transactions;
   @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
   final List<Job> jobs;
+  @JsonKey(ignore: true)
+  final String subtitle;
 
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);
@@ -32,6 +34,7 @@ class Token extends ERC20Token {
       int decimals,
       BigInt amount,
       this.imageUrl,
+      this.subtitle,
       this.timestamp,
       this.transactions,
       this.jobs})

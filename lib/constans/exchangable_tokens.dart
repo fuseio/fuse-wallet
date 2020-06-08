@@ -4,10 +4,11 @@ import 'package:fusecash/utils/addresses.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 
 final Token daiToken = Token(
-    address: daiTokenAddress,
+    address: checksumEthereumAddress(daiTokenAddress),
     decimals: 18,
     imageUrl: getTokenUrl(checksumEthereumAddress(daiTokenAddress)),
     name: "Dai Stablecoin",
+    subtitle: 'US dollar',
     amount: BigInt.zero,
     symbol: "DAI");
 
@@ -16,6 +17,7 @@ final _dzarToken = Token(
     name: "Digital Rand",
     amount: BigInt.zero,
     decimals: 6,
+    subtitle: 'South Africa',
     imageUrl: getTokenUrl('0x9Cb2f26A23b8d89973F08c957C4d7cdf75CD341c'),
     address: "0x9Cb2f26A23b8d89973F08c957C4d7cdf75CD341c");
 
@@ -23,6 +25,7 @@ final _usdcToken = Token(
     symbol: "USDC",
     name: "USD Coin",
     decimals: 6,
+    subtitle: 'US dollar',
     imageUrl: getTokenUrl('0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'),
     address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48");
 
@@ -31,6 +34,7 @@ final _tetherToken = Token(
     name: "Tether USD",
     amount: BigInt.zero,
     decimals: 6,
+    subtitle: 'US dollar',
     imageUrl: getTokenUrl('0xdAC17F958D2ee523a2206206994597C13D831ec7'),
     address: "0xdAC17F958D2ee523a2206206994597C13D831ec7");
 
@@ -39,6 +43,7 @@ final _trueUSDToken = Token(
     name: "TrueUSD",
     amount: BigInt.zero,
     decimals: 18,
+    subtitle: 'US dollar',
     imageUrl: getTokenUrl('0x0000000000085d4780B73119b644AE5ecd22b376'),
     address: "0x0000000000085d4780B73119b644AE5ecd22b376");
 
@@ -47,6 +52,7 @@ final _eursToken = Token(
     name: "STASIS EURS Token",
     amount: BigInt.zero,
     decimals: 2,
+    subtitle: 'Europe',
     imageUrl: getTokenUrl('0xdB25f211AB05b1c97D595516F45794528a807ad8'),
     address: "0xdB25f211AB05b1c97D595516F45794528a807ad8");
 
@@ -55,6 +61,7 @@ final _rupiahToken = Token(
     name: "Rupiah Token",
     amount: BigInt.zero,
     decimals: 2,
+    subtitle: 'Indonesia',
     imageUrl: getTokenUrl('0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A'),
     address: "0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A");
 

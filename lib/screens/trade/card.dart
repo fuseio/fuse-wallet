@@ -74,25 +74,6 @@ class TradeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                // Flexible(
-                //   flex: 2,
-                //   child: Padding(
-                //     padding: EdgeInsets.only(left: 10.0),
-                //     child: Row(
-                //       children: <Widget>[
-                //         DropdownButton<Token>(
-                //           value: token,
-                //           underline: Container(
-                //             height: 0,
-                //             color: Colors.white,
-                //           ),
-                //           onChanged: onDropDownChanged,
-                //           items: items,
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * .33,
                   child: Padding(
@@ -185,10 +166,6 @@ class TradeCard extends StatelessWidget {
                     ),
                   ),
                 )
-                // Flexible(
-                //   flex: 2,
-                //   child: ,
-                // )
               ],
             ),
           ),
@@ -197,25 +174,25 @@ class TradeCard extends StatelessWidget {
           ),
           fromTokenAmount != null && toTokenAmount != null
               ? Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: Text(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Text(
                     '$fromTokenAmount ${token.symbol} = $toTokenAmount ${tokenToReceive.symbol}',
                     style: TextStyle(color: Color(0xFF8E8E8E), fontSize: 10),
                   ),
-              )
+                )
               : SizedBox.shrink(),
           isFetchingPrice
               ? Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: Container(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Container(
                     child: CircularProgressIndicator(
                         strokeWidth: 2,
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(Color(0xFFC4C4C4))),
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Color(0xFFC4C4C4))),
                     width: 10,
                     height: 10,
                   ),
-              )
+                )
               : SizedBox.shrink()
         ],
       ),

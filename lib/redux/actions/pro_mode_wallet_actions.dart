@@ -218,6 +218,9 @@ ThunkAction getAddressBalances() {
         List filterNewToken = tokensList.where((token) {
           String tokenAddress = (token['address'] as String).toLowerCase();
           if (proWalletState.erc20Tokens.containsKey(tokenAddress)) {
+            if (proWalletState.erc20Tokens[tokenAddress].timestamp == null) {
+              return true;
+            }
             return token['timestamp'] >
                 proWalletState.erc20Tokens[tokenAddress].timestamp;
           }
@@ -263,10 +266,9 @@ ThunkAction startFetchTransferEventsCall() {
         List<String> tokenAddresses =
             List<String>.from(proWalletState.erc20Tokens.keys);
         for (String tokenAddress in tokenAddresses) {
-          await Future.delayed(
-              Duration(seconds: 1),
-              store.dispatch(
-                  getTokenTransferEventsByAccountAddress(tokenAddress)));
+          await Future.delayed(Duration(seconds: 1), () {
+            store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
+          });
         }
       });
       store.dispatch(StartFetchTransferEvents());
@@ -312,7 +314,7 @@ ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
           Token tokenToUpdate = token.copyWith(
               transactions: token.transactions.copyWith(
                   blockNumber: maxBlockNumber,
-                  list: token.transactions.list..addAll(tokenTransfersList)));
+                  list: (token.transactions.list ?? const [])..addAll(tokenTransfersList)));
           store.dispatch(UpdateToken(tokenToUpdate: tokenToUpdate));
         }
       }

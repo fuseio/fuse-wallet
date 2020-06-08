@@ -198,7 +198,7 @@ class _ProHeaderViewModel extends Equatable {
             : new Token.initial();
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
-    BigInt etherBalance = store.state.proWalletState.etherBalance;
+    BigInt etherBalance = store.state.proWalletState?.etherBalance ?? BigInt.zero;
     String format = EtherAmount.inWei(etherBalance)
         .getValueInUnit(EtherUnit.ether)
         .toString();

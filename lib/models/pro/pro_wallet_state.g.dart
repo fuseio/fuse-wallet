@@ -9,9 +9,8 @@ part of 'pro_wallet_state.dart';
 ProWalletState _$ProWalletStateFromJson(Map<String, dynamic> json) {
   return ProWalletState(
     blockNumber: json['blockNumber'] as num,
-    etherBalance: json['etherBalance'] == null
-        ? null
-        : BigInt.parse(json['etherBalance'] as String),
+    etherBalance:
+        ProWalletState._etherBalanceFromJson(json['etherBalance'] as String),
     erc20Tokens: ProWalletState._erc20TokensFromJson(
         json['erc20Tokens'] as Map<String, dynamic>),
   );

@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
     I18n.onLocaleChanged = onLocaleChange;
   }
 
-  onWillChange(prevVM, nextVM) {
+  onWillChange(MainViewModel prevVM, MainViewModel nextVM) {
     if (prevVM.isProMode != nextVM.isProMode) {
       setState(() {
         isProMode = nextVM.isProMode;
@@ -109,39 +109,38 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreProvider<AppState>(
+    return StoreProvider<AppState>(
       store: widget.store,
-      child: new StoreConnector<AppState, SplashViewModel>(
-          converter: SplashViewModel.fromStore,
+      child: StoreConnector<AppState, MainViewModel>(
+          converter: MainViewModel.fromStore,
           onWillChange: onWillChange,
           onInit: onInit,
-          builder: (_, vm) {
-            return new Column(children: <Widget>[
-              Expanded(
-                  child: MaterialApp(
-                title: 'Fuse Cash',
-                initialRoute: isProMode
-                    ? ProRouter.proModeHomeScreen
-                    : widget.initialRoute,
-                navigatorKey:
-                    isProMode ? ProRouter.navigator.key : Router.navigator.key,
-                onGenerateRoute: isProMode
-                    ? ProRouter.onGenerateRoute
-                    : Router.onGenerateRoute,
-                theme: CustomTheme.of(context),
-                localizationsDelegates: [
-                  i18n,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: i18n.supportedLocales,
-                localeResolutionCallback:
-                    i18n.resolution(fallback: new Locale("en", "US")),
-                navigatorObservers: [SegmentObserver()],
-              ))
-            ]);
-          }),
+          builder: (_, vm) => Column(children: <Widget>[
+                Expanded(
+                    child: MaterialApp(
+                  title: 'Fuse Cash',
+                  initialRoute: isProMode
+                      ? ProRouter.proModeHomeScreen
+                      : widget.initialRoute,
+                  navigatorKey: isProMode
+                      ? ProRouter.navigator.key
+                      : Router.navigator.key,
+                  onGenerateRoute: isProMode
+                      ? ProRouter.onGenerateRoute
+                      : Router.onGenerateRoute,
+                  theme: CustomTheme.of(context),
+                  localizationsDelegates: [
+                    i18n,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: i18n.supportedLocales,
+                  localeResolutionCallback:
+                      i18n.resolution(fallback: new Locale("en", "US")),
+                  navigatorObservers: [SegmentObserver()],
+                ))
+              ])),
     );
   }
 }

@@ -102,7 +102,7 @@ class SwapTokenJob extends Job {
     store.dispatch(segmentTrackCall('Wallet: job succeeded',
       properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
     store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20Tokens));
-    Future.delayed(Duration(seconds: 5) , () {
+    Future.delayed(Duration(seconds: 10) , () {
       store.dispatch(new UpdateSwapActions(
           swapActions: proWalletState.swapActions
             ..removeWhere((String id, SwapTokenJob value) => id == this.id)));

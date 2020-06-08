@@ -9,6 +9,7 @@ part 'pro_wallet_state.g.dart';
 @immutable
 @JsonSerializable(explicitToJson: true)
 class ProWalletState {
+  @JsonKey(fromJson: _etherBalanceFromJson)
   final BigInt etherBalance;
   final num blockNumber;
   @JsonKey(fromJson: _erc20TokensFromJson)
@@ -16,6 +17,9 @@ class ProWalletState {
 
   @JsonKey(ignore: true)
   final Map<String, SwapTokenJob> swapActions;
+
+  static BigInt _etherBalanceFromJson(String etherBalance) =>
+      etherBalance == null ? BigInt.zero : BigInt.parse(etherBalance);
 
   static Map<String, Token> _erc20TokensFromJson(Map<String, dynamic> json) =>
       json == null

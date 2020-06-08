@@ -188,6 +188,29 @@ class _ExchangeState extends State<TradeScreen> {
               token.symbol,
               style: TextStyle(fontSize: 16),
             ),
+            // RichText(
+            //     text: new TextSpan(
+            //         style: TextStyle(
+            //             color: Theme.of(context).primaryColor, fontSize: 16),
+            //         children: <InlineSpan>[
+            //       TextSpan(
+            //         text: '${token.symbol} ',
+            //         style: TextStyle(fontSize: 16),
+            //       ),
+            //       // token.subtitle != null && token.subtitle.isNotEmpty
+            //       exchangableTokens[checksumEthereumAddress(token.address)] != null &&
+            //               exchangableTokens[checksumEthereumAddress(token.address)].subtitle != null
+            //           ? TextSpan(
+            //               text: '(${exchangableTokens[checksumEthereumAddress(token.address)].subtitle})',
+            //               style: TextStyle(
+            //                   fontSize: 14,
+            //                   color: Color(0xFF888888)))
+            //           : TextSpan(
+            //               text: '',
+            //               style: TextStyle(
+            //                   fontSize: 14,
+            //                   color: Color(0xFF888888)))
+            //     ]))
           ],
         ),
       );
@@ -271,29 +294,29 @@ class _ExchangeState extends State<TradeScreen> {
           fetchPrices(viewModel.walletAddress, viewModel.tokens[0], _tokens[0]);
           setState(() {
             tokenToPayWith = viewModel.tokens[0];
-            tokenToReceive = _tokens[0];
+            tokenToReceive = viewModel.tokens
+                .firstWhere((element) => element.symbol == 'ETH');
           });
         },
         builder: (_, viewModel) {
-          num value = num.parse(formatValue(
-              ((tokenToPayWith ?? viewModel.tokens[0]).amount) ?? BigInt.zero,
-              (tokenToPayWith ?? viewModel.tokens[0]).decimals));
+          final Token payWithToken = tokenToPayWith ?? viewModel.tokens[0];
+          final Token receiveToken = tokenToReceive ??
+              viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
+          num value = num.parse(
+              formatValue(payWithToken.amount, payWithToken.decimals));
           bool payWithHasBalance = payWithController.text != null &&
                   payWithController.text.isNotEmpty
               ? value.compareTo(num.parse(payWithController.text ?? 0) ?? 0) !=
                   -1
               : true;
-          // bool receiveHasBalance = receiveController.text != null &&
-          //         receiveController.text.isNotEmpty
-          //     ? num.tryParse((formatValue(
-          //                     ((tokenToReceive ?? _tokens[0]).amount) ??
-          //                         BigInt.zero,
-          //                     (tokenToReceive ?? _tokens[0]).decimals) ??
-          //                 0))
-          //             .compareTo(
-          //                 num.tryParse(receiveController.text ?? 0) ?? 0) >=
-          //         0
-          //     : true;
+          num receiveValue = num.parse(
+              formatValue(receiveToken.amount, receiveToken.decimals));
+          bool receiveHasBalance = receiveController.text != null &&
+                  receiveController.text.isNotEmpty
+              ? receiveValue.compareTo(
+                      num.tryParse(receiveController.text ?? 0) ?? 0) >=
+                  0
+              : true;
           return MainScaffold(
             expandedHeight: MediaQuery.of(context).size.height / 12,
             automaticallyImplyLeading: false,
@@ -345,6 +368,11 @@ class _ExchangeState extends State<TradeScreen> {
                                 : toTokenAmountReceive,
                             isFetchingPrice: isFetchingPricePay,
                             hasBalance: payWithHasBalance,
+                            // hasBalance: value == 0
+                            //     ? false
+                            //     : (isSwap
+                            //         ? payWithHasBalance
+                            //         : receiveHasBalance),
                             onDropDownChanged: (token) {
                               onPayWithDropDownChanged(
                                   token, viewModel.walletAddress);
@@ -357,8 +385,8 @@ class _ExchangeState extends State<TradeScreen> {
                             walletAddress: viewModel.walletAddress,
                             textEditingController: payWithController,
                             isFetching: isFetchingReceive,
-                            tokenToReceive: tokenToReceive ?? _tokens[0],
-                            token: tokenToPayWith ?? viewModel.tokens[0],
+                            tokenToReceive: receiveToken,
+                            token: payWithToken,
                             title: 'Pay with',
                           ),
                           Stack(
@@ -391,7 +419,11 @@ class _ExchangeState extends State<TradeScreen> {
                                 ? toTokenAmountReceive
                                 : toTokenAmountPay,
                             isFetchingPrice: isFetchingPriceReceive,
-                            // hasBalance: receiveHasBalance,
+                            // hasBalance: receiveValue == 0
+                            //     ? false
+                            //     : (isSwap
+                            //         ? receiveHasBalance
+                            //         : payWithHasBalance),
                             onDropDownChanged: (token) {
                               onReceiveDropDownChanged(
                                   token, viewModel.walletAddress);
@@ -404,9 +436,8 @@ class _ExchangeState extends State<TradeScreen> {
                             walletAddress: viewModel.walletAddress,
                             textEditingController: receiveController,
                             isFetching: isFetchingPayWith,
-                            tokenToReceive:
-                                tokenToPayWith ?? viewModel.tokens[0],
-                            token: tokenToReceive ?? _tokens[0],
+                            tokenToReceive: payWithToken,
+                            token: receiveToken,
                             title: 'Receive',
                           ),
                         ],
