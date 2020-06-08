@@ -117,7 +117,7 @@ class TradeCard extends StatelessWidget {
                               controller: textEditingController,
                               textInputAction: TextInputAction.done,
                               keyboardType: TextInputType.numberWithOptions(
-                                  decimal: true),
+                                  signed: true, decimal: true),
                               style: TextStyle(
                                   fontSize: 16, color: Color(0xFF888888)),
                               decoration: InputDecoration(
