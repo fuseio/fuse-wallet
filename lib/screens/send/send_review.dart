@@ -99,8 +99,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
               ? args.erc20Token.decimals
               : viewModel.token.decimals;
           feeAmount = args.feePlugin.calcFee(args.amount);
-          EtherAmount amount = EtherAmount.inWei(toBigInt(balance, decimals));
-          num tokenBalance = amount.getValueInUnit(EtherUnit.ether);
+          num tokenBalance = num.parse(formatValue(balance, decimals));
           hasFund = (args.amount + feeAmount).compareTo(tokenBalance) <= 0;
         }
         return MainScaffold(
