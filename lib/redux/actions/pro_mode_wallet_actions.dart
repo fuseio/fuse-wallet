@@ -224,12 +224,9 @@ ThunkAction getAddressBalances() {
           double formatedValue = token['amount'] / BigInt.from(pow(10, token['decimals']));
           if (proWalletState.erc20Tokens.containsKey(tokenAddress)) {
             double stateFormatedValue = proWalletState.erc20Tokens[tokenAddress].amount / BigInt.from(pow(10, token['decimals']));
-            if (proWalletState.erc20Tokens[tokenAddress].timestamp == 0) {
-              return false;
-            }
-            if (token['price'] != null) {
-              return true;
-            }
+            // Token with timestamp 0 added after success swap and abset token
+            if (proWalletState.erc20Tokens[tokenAddress].timestamp == 0) return true;
+            if (token['price'] != null) return true;
             if (token['timestamp'] > proWalletState.erc20Tokens[tokenAddress].timestamp) {
               return true;
             }
@@ -246,7 +243,7 @@ ThunkAction getAddressBalances() {
         // logger.info('found filterNewToken ${filterNewToken.length} tokens');
         Iterable<MapEntry<String, Token>> entries = filterNewToken.map((token) {
           String tokenAddress = token['address'].toLowerCase();
-          Price priceInfo = Price.fromJson(token['price']);
+          Price priceInfo = token['price'] != null ? Price.fromJson(token['price']) : null;
           Token newToken =
               proWalletState.erc20Tokens[tokenAddress] ?? new Token.initial();
           return new MapEntry(
@@ -274,7 +271,7 @@ ThunkAction getAddressBalances() {
         store.dispatch(startProcessingTokensJobsCall());
       }
     } catch (error) {
-      logger.severe('Error in Get Address Balances');
+      logger.severe('Error in Get Address Balances ${error.toString()}');
     }
   };
 }
