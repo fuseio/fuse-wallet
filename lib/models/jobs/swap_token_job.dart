@@ -1,3 +1,4 @@
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
@@ -86,16 +87,15 @@ class SwapTokenJob extends Job {
     }
     this.status = 'DONE';
     ProWalletState proWalletState = store.state.proWalletState;
-    String tokenAddress = arguments['toToken'].address;
+    String tokenAddress = arguments['toToken'].address.toLowerCase();
     Token newToken =
-        proWalletState.erc20Tokens[tokenAddress] ?? exchangableTokens[tokenAddress];
+        proWalletState.erc20Tokens[tokenAddress] ?? exchangableTokens[checksumEthereumAddress(tokenAddress)];
     Map<String, Token> erc20Tokens = proWalletState.erc20Tokens
       ..putIfAbsent(
-          tokenAddress.toLowerCase(),
+          tokenAddress,
           () => arguments['toToken'].copyWith(
-                address: newToken?.address,
+                address: newToken?.address?.toLowerCase(),
                 name: newToken?.name,
-                amount: BigInt.zero,
                 decimals: newToken?.decimals,
                 symbol: newToken?.symbol,
               ));

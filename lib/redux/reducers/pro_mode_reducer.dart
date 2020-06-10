@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/pro/token.dart';
@@ -66,11 +68,15 @@ ProWalletState _startListenToTransferEventsSuccess(ProWalletState state, StartLi
 }
 
 ProWalletState _getTokenListSuccess(ProWalletState state, GetTokenListSuccess action) {
-  List<Token> currentErc20TokensList = List<Token>.from(action.erc20Tokens.values);
-  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+  List<Token> currentErc20TokensList = List<Token>.from(action.erc20Tokens.values ?? Iterable<Token>.empty());
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens..removeWhere((key, token) {
+    if (token.timestamp == 0) return false;
+    double formatedValue = token.amount / BigInt.from(pow(10, token.decimals));
+    return formatedValue.compareTo(0) != 1;
+  }));
   for (Token token in currentErc20TokensList) {
     if (newOne.containsKey(token.address)) {
-      newOne[token.address] = newOne[token.address].copyWith(amount: token.amount, timestamp: token.timestamp);
+      newOne[token.address] = newOne[token.address].copyWith(amount: token.amount, timestamp: token.timestamp, priceInfo: token.priceInfo);
     } else if (!newOne.containsKey(token.address)) {
       newOne[token.address] = token;
     }

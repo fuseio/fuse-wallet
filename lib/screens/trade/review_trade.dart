@@ -175,9 +175,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           widget.exchangeSummry['amount'],
                           widget.exchangeSummry['tx']['to'],
                           widget.exchangeSummry['tx']['data'], () {
-                        ProRouter.navigator.pushNamed(
-                            ProRouter.proModeHomeScreen,
-                            arguments: ProModeScaffoldArguments(tabIndex: 0));
+                        ProRouter.navigator.pushNamedAndRemoveUntil(ProRouter.proModeHomeScreen, (route) => false);
                       }, () {
                         setState(() {
                           isPreloading = false;

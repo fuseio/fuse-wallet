@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 
-String formatValue(BigInt value, int decimals,
-    {int fractionDigits = 2, bool showFull = true}) {
+String formatValue(BigInt value, int decimals, {int fractionDigits = 2}) {
   if (value == null || decimals == null) return '';
   double formatedValue = value / BigInt.from(pow(10, decimals));
   Decimal decimalValue = Decimal.parse(formatedValue.toString());
@@ -14,20 +13,11 @@ String formatValue(BigInt value, int decimals,
 
 String calcValueInDollar(BigInt value, int decimals) {
   if (value == null || decimals == null) return '';
-  double s = (value / BigInt.from(pow(10, decimals)) / 100);
-  String formatedValue;
-  if (s.roundToDouble() == s) {
-    formatedValue = s.round().toString();
-  } else {
-    formatedValue = s.toString();
-  }
-
-  List a = formatedValue.split('.');
-  if (a.length > 1) {
-    return s.toStringAsFixed(2);
-  } else {
-    return formatedValue;
-  }
+  double formatedValue1 = (value / BigInt.from(pow(10, decimals)) / 100);
+  Decimal decimalValue = Decimal.parse(formatedValue1.toString());
+  return decimalValue.scale > 5
+      ? decimalValue.toStringAsPrecision(3)
+      : decimalValue.toString();
 }
 
 String formatAddress(String address) {

@@ -1,4 +1,5 @@
 import 'package:fusecash/models/jobs/base.dart';
+import 'package:fusecash/models/pro/price.dart';
 import 'package:fusecash/models/tokens/base.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/services.dart';
@@ -10,6 +11,7 @@ part 'token.g.dart';
 class Token extends ERC20Token {
   final String imageUrl;
   final int timestamp;
+  final Price priceInfo;
   @JsonKey(fromJson: _transactionsFromJson)
   final Transactions transactions;
   @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
@@ -33,9 +35,10 @@ class Token extends ERC20Token {
       String symbol,
       int decimals,
       BigInt amount,
+      this.priceInfo,
       this.imageUrl,
       this.subtitle,
-      this.timestamp,
+      this.timestamp = 0,
       this.transactions,
       this.jobs})
       : super(
@@ -52,10 +55,14 @@ class Token extends ERC20Token {
       String imageUrl,
       int decimals,
       BigInt amount,
+      String subtitle,
       int timestamp,
+      Price priceInfo,
       Transactions transactions,
       List<Job> jobs}) {
     return Token(
+        priceInfo: priceInfo ?? this.priceInfo,
+        subtitle: subtitle,
         address: address ?? this.address,
         name: name ?? this.name,
         symbol: symbol ?? this.symbol,

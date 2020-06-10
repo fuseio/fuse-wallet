@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/jobs/swap_token_job.dart';
+import 'package:fusecash/models/pro/price.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/pro/token.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/jobs/base.dart';
@@ -191,7 +194,7 @@ ThunkAction fetchTokensBalances() {
             await token.fetchTokenBalance(userState.walletAddress,
                 onDone: onDone, onError: onError);
           };
-          await Future.delayed(Duration(seconds: 1), fetchTokenBalance);
+          await Future.delayed(Duration(milliseconds: 500), fetchTokenBalance);
         }
       });
       store.dispatch(StartFetchTokensBalances());
@@ -214,20 +217,36 @@ ThunkAction getAddressBalances() {
         }
       }
       if (tokensList.isNotEmpty) {
+        // logger.info('found ${tokensList.length} tokens');
         ProWalletState proWalletState = store.state.proWalletState;
         List filterNewToken = tokensList.where((token) {
-          String tokenAddress = (token['address'] as String).toLowerCase();
+          String tokenAddress = token['address'].toLowerCase();
+          double formatedValue = token['amount'] / BigInt.from(pow(10, token['decimals']));
           if (proWalletState.erc20Tokens.containsKey(tokenAddress)) {
-            if (proWalletState.erc20Tokens[tokenAddress].timestamp == null) {
+            double stateFormatedValue = proWalletState.erc20Tokens[tokenAddress].amount / BigInt.from(pow(10, token['decimals']));
+            if (proWalletState.erc20Tokens[tokenAddress].timestamp == 0) {
+              return false;
+            }
+            if (token['price'] != null) {
               return true;
             }
-            return token['timestamp'] >
-                proWalletState.erc20Tokens[tokenAddress].timestamp;
+            if (token['timestamp'] > proWalletState.erc20Tokens[tokenAddress].timestamp) {
+              return true;
+            }
+            if (formatedValue.compareTo(0) == 1 && stateFormatedValue.compareTo(formatedValue) != 0 && proWalletState.erc20Tokens[tokenAddress].timestamp != 0) {
+              return true;
+            }
+            return false;
+          } else if (formatedValue.compareTo(0) == 1) {
+            return true;
+          } else {
+            return false;
           }
-          return true;
         }).toList();
+        // logger.info('found filterNewToken ${filterNewToken.length} tokens');
         Iterable<MapEntry<String, Token>> entries = filterNewToken.map((token) {
           String tokenAddress = token['address'].toLowerCase();
+          Price priceInfo = Price.fromJson(token['price']);
           Token newToken =
               proWalletState.erc20Tokens[tokenAddress] ?? new Token.initial();
           return new MapEntry(
@@ -239,12 +258,17 @@ ThunkAction getAddressBalances() {
                 decimals: token['decimals'],
                 symbol: token['symbol'],
                 timestamp: token['timestamp'],
+                priceInfo: priceInfo,
               ));
         });
         if (entries.isNotEmpty) {
           Map<String, Token> erc20RTokens = new Map<String, Token>();
           erc20RTokens.addEntries(entries);
+          // logger.info('found ${filterNewToken.length} new tokens');
           store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20RTokens));
+        } else {
+          // logger.info('found 0 new tokens');
+          store.dispatch(new GetTokenListSuccess(erc20Tokens: Map<String, Token>()));
         }
         store.dispatch(startFetchTransferEventsCall());
         store.dispatch(startProcessingTokensJobsCall());
@@ -314,7 +338,7 @@ ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
           Token tokenToUpdate = token.copyWith(
               transactions: token.transactions.copyWith(
                   blockNumber: maxBlockNumber,
-                  list: (token.transactions.list ?? const [])..addAll(tokenTransfersList)));
+                  list: (token.transactions.list ?? List<Transaction>())..addAll(tokenTransfersList)));
           store.dispatch(UpdateToken(tokenToUpdate: tokenToUpdate));
         }
       }

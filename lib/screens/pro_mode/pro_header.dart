@@ -193,8 +193,8 @@ class _ProHeaderViewModel extends Equatable {
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
     Token token =
-        store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)
-            ? store.state.proWalletState.erc20Tokens[daiTokenAddress]
+        store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
+            ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
             : new Token.initial();
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];

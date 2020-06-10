@@ -9,7 +9,6 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wallet_core/wallet_core.dart' show EtherAmount, EtherUnit;
 
 class SendReviewScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

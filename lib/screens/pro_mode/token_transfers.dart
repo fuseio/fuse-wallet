@@ -49,7 +49,7 @@ class TransfersList extends StatelessWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          token.address.contains(daiTokenAddress)
+          token.address.contains(daiTokenAddress.toLowerCase())
               ? Container(
                   padding: EdgeInsets.only(left: 10, right: 10, top: 20),
                   color: Theme.of(context).splashColor,
@@ -175,7 +175,7 @@ class _TransferRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Flexible(
-                  flex: 12,
+                  flex: 8,
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
@@ -212,7 +212,7 @@ class _TransferRow extends StatelessWidget {
                     ],
                   )),
               Flexible(
-                  flex: 3,
+                  flex: 4,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

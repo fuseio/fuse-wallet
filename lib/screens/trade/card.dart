@@ -41,11 +41,7 @@ class TradeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
-      constraints: BoxConstraints(
-          minHeight: 160,
-          minWidth: MediaQuery.of(context).size.width,
-          maxWidth: MediaQuery.of(context).size.width),
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -68,7 +64,7 @@ class TradeCard extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Theme.of(context).splashColor,
                 borderRadius: BorderRadius.all(Radius.circular(11.0)),
-                border: Border.all(color: Color(0xFFE5E5E5), width: 3)),
+                border: Border.all(color: Color(0xFFE5E5E5), width: 2)),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,

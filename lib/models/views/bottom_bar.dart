@@ -6,7 +6,6 @@ import 'package:fusecash/models/pro/token.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/utils/addresses.dart' as util;
-import 'package:wallet_core/wallet_core.dart' show EtherAmount, EtherUnit;
 
 class BottomBarViewModel extends Equatable {
   final String communityAddress;
@@ -31,8 +30,8 @@ class BottomBarViewModel extends Equatable {
             new Community.initial();
     List<Token> tokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? [daiToken])
-        .where((Token token) => EtherAmount.inWei(token.amount).getValueInUnit(EtherUnit.ether) > 0)
-        .toList()
+        // .where((Token token) => EtherAmount.inWei(token.amount).getValueInUnit(EtherUnit.ether) > 0)
+        // .toList()
         .reversed
         .toList();
     return BottomBarViewModel(

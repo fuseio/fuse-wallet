@@ -6,7 +6,6 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:wallet_core/wallet_core.dart' show EtherAmount, EtherUnit;
 
 class ProWalletViewModel extends Equatable {
   final String walletAddress;
@@ -23,8 +22,8 @@ class ProWalletViewModel extends Equatable {
   static ProWalletViewModel fromStore(Store<AppState> store) {
     List<Token> tokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) => EtherAmount.inWei(token.amount).getValueInUnit(EtherUnit.ether) > 0)
-        .toList()
+        // .where((Token token) => EtherAmount.inWei(token.amount).getValueInUnit(EtherUnit.ether) > 0)
+        // .toList()
         .reversed
         .toList();
     Community community =
@@ -35,7 +34,7 @@ class ProWalletViewModel extends Equatable {
                   community?.homeBridgeAddress?.toLowerCase()) ??
               false;
         }) &&
-        !store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress);
+        !store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase());
 
     List<SwapTokenJob> swaps = List<SwapTokenJob>.from(
         store.state.proWalletState.swapActions?.values ?? Iterable.empty());

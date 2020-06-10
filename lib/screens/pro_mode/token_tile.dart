@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:decimal/decimal.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/screens/pro_mode/token_transfers.dart';
@@ -12,6 +14,17 @@ class TokenTile extends StatelessWidget {
   final Token token;
   @override
   Widget build(BuildContext context) {
+    String price;
+    bool isDollarPegged = dollarPeggedToken.contains(token.address);
+    if (token?.priceInfo != null) {
+      Decimal decimalValue = Decimal.parse(token?.priceInfo?.total);
+      price = decimalValue.scale > 5
+          ? decimalValue.toStringAsPrecision(1)
+          : decimalValue.toString();
+    }
+    if (isDollarPegged && price == null) {
+      price = calcValueInDollar(token.amount, token.decimals);
+    }
     return Container(
       decoration: new BoxDecoration(
           border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
@@ -99,18 +112,37 @@ class TokenTile extends StatelessWidget {
                               children: <Widget>[
                                 new RichText(
                                     text: new TextSpan(children: <TextSpan>[
-                                  new TextSpan(
-                                      text: formatValue(
-                                              token.amount, token.decimals) +
-                                          ' ' +
-                                          token.symbol,
-                                      style: new TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary)),
-                                ]))
+                                  isDollarPegged
+                                      ? new TextSpan(
+                                          text: '\$' + price,
+                                          style: new TextStyle(
+                                              fontSize: 15.0,
+                                              color: Theme.of(context)
+                                                  .primaryColor))
+                                      : new TextSpan(
+                                          text: formatValue(token.amount,
+                                                  token.decimals) +
+                                              ' ' +
+                                              token.symbol,
+                                          style: new TextStyle(
+                                              fontSize: 15.0,
+                                              color: Theme.of(context)
+                                                  .primaryColor)),
+                                ])),
+                                isDollarPegged
+                                    ? Positioned(
+                                        bottom: -20,
+                                        child: Padding(
+                                            child: Text(
+                                                formatValue(token.amount,
+                                                        token.decimals) +
+                                                    ' ' +
+                                                    token.symbol,
+                                                style: TextStyle(
+                                                    color: Color(0xFF8D8D8D),
+                                                    fontSize: 10)),
+                                            padding: EdgeInsets.only(top: 10)))
+                                    : SizedBox.shrink()
                               ],
                             )
                           ],

@@ -18,7 +18,6 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:wallet_core/wallet_core.dart' show EtherAmount, EtherUnit;
 
 final _tokens = List<Token>.from(exchangableTokens.values);
 
@@ -309,14 +308,14 @@ class _ExchangeState extends State<TradeScreen> {
               ? value.compareTo(num.parse(payWithController.text ?? 0) ?? 0) !=
                   -1
               : true;
-          num receiveValue = num.parse(
-              formatValue(receiveToken.amount, receiveToken.decimals));
-          bool receiveHasBalance = receiveController.text != null &&
-                  receiveController.text.isNotEmpty
-              ? receiveValue.compareTo(
-                      num.tryParse(receiveController.text ?? 0) ?? 0) >=
-                  0
-              : true;
+          // num receiveValue = num.parse(
+          //     formatValue(receiveToken.amount, receiveToken.decimals));
+          // bool receiveHasBalance = receiveController.text != null &&
+          //         receiveController.text.isNotEmpty
+          //     ? receiveValue.compareTo(
+          //             num.tryParse(receiveController.text ?? 0) ?? 0) >=
+          //         0
+          //     : true;
           return MainScaffold(
             expandedHeight: MediaQuery.of(context).size.height / 12,
             automaticallyImplyLeading: false,
@@ -393,7 +392,7 @@ class _ExchangeState extends State<TradeScreen> {
                             alignment: Alignment.center,
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.only(left: 20, right: 20),
+                                padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
                                 child: SizedBox(
                                   child: Divider(
                                     thickness: 1.0,
@@ -481,9 +480,9 @@ class _ExchangeViewModel extends Equatable {
   static _ExchangeViewModel fromStore(Store<AppState> store) {
     List<Token> tokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) =>
-            EtherAmount.inWei(token.amount).getValueInUnit(EtherUnit.ether) > 0)
-        .toList()
+        // .where((Token token) =>
+        //     EtherAmount.inWei(token.amount).getValueInUnit(EtherUnit.ether) > 0)
+        // .toList()
         .reversed
         .toList();
     List<Token> exchangable = exchangableTokens.values.toList()
