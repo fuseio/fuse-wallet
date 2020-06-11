@@ -72,6 +72,10 @@ class GetTokenListSuccess {
   GetTokenListSuccess({this.erc20Tokens});
 }
 
+class StartFetchTokensLastestPrices {
+  StartFetchTokensLastestPrices();
+}
+
 class InitWeb3ProModeSuccess {
   final wallet_core.Web3 web3;
   InitWeb3ProModeSuccess({this.web3});
@@ -182,9 +186,7 @@ ThunkAction fetchTokensBalances() {
               Token tokenToUpdate =
                   store.state.proWalletState.erc20Tokens[token.address];
               store.dispatch(UpdateToken(
-                  tokenToUpdate: tokenToUpdate.copyWith(
-                      amount: balance,
-                      timestamp: DateTime.now().millisecondsSinceEpoch)));
+                  tokenToUpdate: tokenToUpdate.copyWith(amount: balance)));
             };
             void Function(Object error, StackTrace stackTrace) onError =
                 (Object error, StackTrace stackTrace) {
@@ -198,6 +200,39 @@ ThunkAction fetchTokensBalances() {
         }
       });
       store.dispatch(StartFetchTokensBalances());
+    }
+  };
+}
+
+ThunkAction fetchTokensLatestPrice() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    bool isFetchTokensLastestPrice =
+        store.state.proWalletState?.isFetchTokensLastestPrice ?? false;
+    if (!isFetchTokensLastestPrice) {
+      new Timer.periodic(Duration(seconds: intervalSeconds * 4),
+          (Timer timer) async {
+        ProWalletState proWalletState = store.state.proWalletState;
+        for (Token token in proWalletState.erc20Tokens.values) {
+          Function fetchTokenLastestPrice = () async {
+            void Function(Price) onDone = (Price priceInfo) {
+              logger.info('${token.name} price updated');
+              Token tokenToUpdate =
+                  store.state.proWalletState.erc20Tokens[token.address];
+              store.dispatch(UpdateToken(
+                  tokenToUpdate: tokenToUpdate.copyWith(priceInfo: priceInfo)));
+            };
+            void Function(Object error, StackTrace stackTrace) onError =
+                (Object error, StackTrace stackTrace) {
+              logger.severe(
+                  'Error in fetchTokenLastestPrice for - ${token.name} $error');
+            };
+            await token.fetchTokenLastestPrice(onDone: onDone, onError: onError);
+          };
+          await Future.delayed(Duration(milliseconds: 500), fetchTokenLastestPrice);
+        }
+      });
+      store.dispatch(StartFetchTokensLastestPrices());
     }
   };
 }
@@ -221,20 +256,10 @@ ThunkAction getAddressBalances() {
         ProWalletState proWalletState = store.state.proWalletState;
         List filterNewToken = tokensList.where((token) {
           String tokenAddress = token['address'].toLowerCase();
-          double formatedValue = token['amount'] / BigInt.from(pow(10, token['decimals']));
+          double formatedValue = (token['amount'] / BigInt.from(pow(10, token['decimals'])));
           if (proWalletState.erc20Tokens.containsKey(tokenAddress)) {
-            double stateFormatedValue = proWalletState.erc20Tokens[tokenAddress].amount / BigInt.from(pow(10, token['decimals']));
-            // Token with timestamp 0 added after success swap and abset token
-            if (proWalletState.erc20Tokens[tokenAddress].timestamp == 0) return true;
-            if (token['price'] != null) return true;
-            if (token['timestamp'] > proWalletState.erc20Tokens[tokenAddress].timestamp) {
-              return true;
-            }
-            if (formatedValue.compareTo(0) == 1 && stateFormatedValue.compareTo(formatedValue) != 0 && proWalletState.erc20Tokens[tokenAddress].timestamp != 0) {
-              return true;
-            }
             return false;
-          } else if (formatedValue.compareTo(0) == 1) {
+          } else if (num.parse(formatedValue.toString()).compareTo(0) == 1) {
             return true;
           } else {
             return false;

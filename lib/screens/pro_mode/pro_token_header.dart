@@ -26,7 +26,7 @@ class ProTokenHeader extends StatelessWidget {
     }
     bool isDollarPegged = dollarPeggedToken.contains(token.address);
     if (isDollarPegged && price == null) {
-      price = calcValueInDollar(token.amount, token.decimals);
+      price = formatValue(token.amount, token.decimals);
     }
     return new StoreConnector<AppState, _ProTokenHeaderViewModel>(
         converter: _ProTokenHeaderViewModel.fromStore,

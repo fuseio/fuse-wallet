@@ -39,19 +39,21 @@ class ProWalletState {
   final bool isFetchTokensBalances;
   @JsonKey(ignore: true, defaultValue: false)
   final bool isProcessingSwapActions;
+  @JsonKey(ignore: true, defaultValue: false)
+  final bool isFetchTokensLastestPrice;
 
-  ProWalletState({
-    this.web3,
-    this.blockNumber,
-    this.etherBalance,
-    this.erc20Tokens,
-    this.swapActions,
-    this.isFetchTransferEvents,
-    this.isListenToTransferEvents,
-    this.isProcessingTokensJobs,
-    this.isFetchTokensBalances,
-    this.isProcessingSwapActions,
-  });
+  ProWalletState(
+      {this.web3,
+      this.blockNumber,
+      this.etherBalance,
+      this.erc20Tokens,
+      this.swapActions,
+      this.isFetchTransferEvents,
+      this.isListenToTransferEvents,
+      this.isProcessingTokensJobs,
+      this.isFetchTokensBalances,
+      this.isProcessingSwapActions,
+      this.isFetchTokensLastestPrice});
 
   factory ProWalletState.initial() {
     return new ProWalletState(
@@ -64,7 +66,8 @@ class ProWalletState {
         isProcessingTokensJobs: false,
         isListenToTransferEvents: false,
         isFetchTokensBalances: false,
-        isProcessingSwapActions: false);
+        isProcessingSwapActions: false,
+        isFetchTokensLastestPrice: false);
   }
 
   ProWalletState copyWith({
@@ -80,8 +83,11 @@ class ProWalletState {
     bool isFetchTransferEvents,
     bool isFetchTokensBalances,
     BigInt etherBalance,
+    bool isFetchTokensLastestPrice,
   }) {
     return ProWalletState(
+      isFetchTokensLastestPrice:
+          isFetchTokensLastestPrice ?? this.isFetchTokensLastestPrice,
       isProcessingSwapActions:
           isProcessingSwapActions ?? this.isProcessingSwapActions,
       swapActions: swapActions ?? this.swapActions,

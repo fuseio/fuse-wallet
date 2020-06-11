@@ -3,6 +3,7 @@ import 'package:fusecash/models/pro/price.dart';
 import 'package:fusecash/models/tokens/base.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';
@@ -82,6 +83,23 @@ class Token extends ERC20Token {
           this.address, accountAddress);
       if (this.amount.compareTo(balance) != 0) {
         onDone(balance);
+      }
+    } catch (e, s) {
+      onError(e, s);
+    }
+  }
+
+  Future<dynamic> fetchTokenLastestPrice({void Function(Price) onDone, Function onError}) async {
+    try {
+      final String quote = await tokenAPI.getTokenLastestPrice(this.address);
+      if (this.priceInfo == null) {
+        String total = formatValue(this.amount, this.decimals);
+        Price priceInfo = Price(currency: 'usd', quote: quote, total: (num.parse(total) / num.parse(quote)).toString());
+        onDone(priceInfo);
+      } else if (num.parse(this.priceInfo.quote).compareTo(num.parse(quote)) != 0) {
+        String total = formatValue(this.amount, this.decimals);
+        Price priceInfo = this.priceInfo.copyWith(quote: quote, total: (num.parse(total) / num.parse(quote)).toString()); // Price(currency: 'usd', quote: quote, total: (num.parse(total) / num.parse(quote)).toString());
+        onDone(priceInfo);
       }
     } catch (e, s) {
       onError(e, s);

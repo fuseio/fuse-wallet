@@ -118,6 +118,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     store.dispatch(fetchTokensBalances());
     store.dispatch(startProcessingTokensJobsCall());
     store.dispatch(fetchSwapActions());
+    store.dispatch(fetchTokensLatestPrice());
   }
 
   @override

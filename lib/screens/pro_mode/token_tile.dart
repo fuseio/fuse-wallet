@@ -23,7 +23,7 @@ class TokenTile extends StatelessWidget {
           : decimalValue.toString();
     }
     if (isDollarPegged && price == null) {
-      price = calcValueInDollar(token.amount, token.decimals);
+      price = formatValue(token.amount, token.decimals);
     }
     return Container(
       decoration: new BoxDecoration(

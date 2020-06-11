@@ -21,6 +21,7 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, UpdateEtherBalabnce>(_updateEtherBalabnce),
   TypedReducer<ProWalletState, UpdateSwapActions>(_updateSwapActions),
   TypedReducer<ProWalletState, StartProcessingSwapActions>(_startProcessingSwapActions),
+  TypedReducer<ProWalletState, StartFetchTokensLastestPrices>(_startFetchTokensLastestPrices),
 ]);
 
 ProWalletState _updateSwapActions(ProWalletState state, UpdateSwapActions action) {
@@ -45,6 +46,10 @@ ProWalletState _createNewWalletSuccess(ProWalletState state, CreateLocalAccountS
 
 ProWalletState _startProcessingTokensJobs(ProWalletState state, StartProcessingTokensJobs action) {
   return state.copyWith(isProcessingTokensJobs: true);
+}
+
+ProWalletState _startFetchTokensLastestPrices(ProWalletState state, StartFetchTokensLastestPrices action) {
+  return state.copyWith(isFetchTokensLastestPrice: true);
 }
 
 ProWalletState _startProcessingSwapActions(ProWalletState state, StartProcessingSwapActions action) {
@@ -72,7 +77,7 @@ ProWalletState _getTokenListSuccess(ProWalletState state, GetTokenListSuccess ac
   Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens..removeWhere((key, token) {
     if (token.timestamp == 0) return false;
     double formatedValue = token.amount / BigInt.from(pow(10, token.decimals));
-    return formatedValue.compareTo(0) != 1;
+    return num.parse(formatedValue.toString()).compareTo(0) != 1;
   }));
   for (Token token in currentErc20TokensList) {
     if (newOne.containsKey(token.address)) {

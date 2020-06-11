@@ -7,6 +7,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'swap_token_job.g.dart';
@@ -72,7 +73,8 @@ class SwapTokenJob extends Job {
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       ProWalletState proWalletState = store.state.proWalletState;
-      Map<String, SwapTokenJob> newOne = Map<String, SwapTokenJob>.from(proWalletState.swapActions);
+      Map<String, SwapTokenJob> newOne =
+          Map<String, SwapTokenJob>.from(proWalletState.swapActions);
       newOne[this.id] = this;
       store.dispatch(new UpdateSwapActions(swapActions: newOne));
       store.dispatch(segmentTrackCall('Wallet: job failed',
@@ -88,25 +90,27 @@ class SwapTokenJob extends Job {
     this.status = 'DONE';
     ProWalletState proWalletState = store.state.proWalletState;
     String tokenAddress = arguments['toToken'].address.toLowerCase();
-    Token newToken =
-        proWalletState.erc20Tokens[tokenAddress] ?? exchangableTokens[checksumEthereumAddress(tokenAddress)];
-    Map<String, Token> erc20Tokens = proWalletState.erc20Tokens
-      ..putIfAbsent(
-          tokenAddress,
-          () => arguments['toToken'].copyWith(
-                address: newToken?.address?.toLowerCase(),
-                name: newToken?.name,
-                decimals: newToken?.decimals,
-                symbol: newToken?.symbol,
-              ));
-    store.dispatch(segmentTrackCall('Wallet: job succeeded',
-      properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
-    store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20Tokens));
-    Future.delayed(Duration(seconds: 10) , () {
+    if (tokenAddress != zeroAddress.toLowerCase()) {
+      Token newToken = proWalletState.erc20Tokens[tokenAddress] ??
+          exchangableTokens[checksumEthereumAddress(tokenAddress)];
+      Map<String, Token> erc20Tokens = proWalletState.erc20Tokens
+        ..putIfAbsent(
+            tokenAddress,
+            () => arguments['toToken'].copyWith(
+                  address: newToken?.address?.toLowerCase(),
+                  name: newToken?.name,
+                  decimals: newToken?.decimals,
+                  symbol: newToken?.symbol,
+                ));
+      store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20Tokens));
+    }
+    Future.delayed(Duration(seconds: 10), () {
       store.dispatch(new UpdateSwapActions(
           swapActions: proWalletState.swapActions
             ..removeWhere((String id, SwapTokenJob value) => id == this.id)));
     });
+    store.dispatch(segmentTrackCall('Wallet: job succeeded',
+        properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
   }
 
   @override

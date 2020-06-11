@@ -1,12 +1,15 @@
 import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins/fee_base.dart';
+import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/barcode.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -26,6 +29,11 @@ class ProHeader extends StatelessWidget {
               "Ether balance": Decimal.parse(
                       amount.getValueInUnit(EtherUnit.ether).toString())
                   .toStringAsPrecision(1),
+            }));
+          }
+          if (prevVm.balance != nextVm.balance) {
+            nextVm.idenyifyCall(Map<String, dynamic>.from({
+              "Usd dollar balance": nextVm.balance,
             }));
           }
         },
@@ -118,14 +126,15 @@ class ProHeader extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: 6.0),
                             ),
                             Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
                                 children: <Widget>[
                                   RichText(
                                     text: new TextSpan(
                                       children: <TextSpan>[
                                         new TextSpan(
-                                            text: '${viewModel.balance} ETH',
+                                            text: '\$' + viewModel.balance,
                                             style: new TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
@@ -134,6 +143,16 @@ class ProHeader extends StatelessWidget {
                                       ],
                                     ),
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Text(
+                                      '${viewModel.ethBalance} ETH',
+                                      style: new TextStyle(
+                                        fontSize: 18,
+                                        color: Theme.of(context).splashColor,
+                                      ),
+                                    ),
+                                  )
                                 ])
                           ],
                         ),
@@ -179,6 +198,7 @@ class _ProHeaderViewModel extends Equatable {
   final Function() firstName;
   final Token daiToken;
   final String balance;
+  final String ethBalance;
   final BigInt etherBalance;
   final Function(Map<String, dynamic> traits) idenyifyCall;
   final FeePlugin feePlugin;
@@ -189,25 +209,42 @@ class _ProHeaderViewModel extends Equatable {
       this.etherBalance,
       this.idenyifyCall,
       this.feePlugin,
+      this.ethBalance,
       this.balance});
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
-    Token token =
-        store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
-            ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
-            : new Token.initial();
+    ProWalletState proState = store.state.proWalletState;
+    Token token = store.state.proWalletState.erc20Tokens
+            .containsKey(daiTokenAddress.toLowerCase())
+        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
+        : new Token.initial();
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
-    BigInt etherBalance = store.state.proWalletState?.etherBalance ?? BigInt.zero;
+    BigInt etherBalance =
+        store.state.proWalletState?.etherBalance ?? BigInt.zero;
+
     String format = EtherAmount.inWei(etherBalance)
         .getValueInUnit(EtherUnit.ether)
         .toString();
-    String balance =
-        EtherAmount.inWei(etherBalance).getValueInUnit(EtherUnit.ether) == 0
-            ? '0'
-            : Decimal.parse(format).toStringAsPrecision(2);
+    num ethBalance = num.parse(Decimal.parse(format).toStringAsPrecision(2));
+
+    num combiner(num previousValue, Token temp) {
+      if (dollarPeggedToken.contains(temp.address.toLowerCase())) {
+        return temp?.priceInfo != null
+            ? previousValue +
+                num.parse(Decimal.parse(temp?.priceInfo?.total).toString())
+            : previousValue +
+                num.parse(formatValue(temp.amount, temp.decimals));
+      }
+      return previousValue + 0;
+    }
+
+    num usdValue = proState.erc20Tokens.values.fold<num>(0, combiner);
     return _ProHeaderViewModel(
-        balance: balance,
+        ethBalance: ethBalance == 0
+            ? '0'
+            : ethBalance.compareTo(0.01) != 1 ? 'Less then 0.01' : ethBalance,
+        balance: Decimal.parse(usdValue.toString()).toStringAsPrecision(2),
         etherBalance: etherBalance,
         feePlugin: community.plugins.foreignTransfers,
         daiToken: token,
@@ -221,5 +258,5 @@ class _ProHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [daiToken, feePlugin, balance, etherBalance];
+  List<Object> get props => [daiToken, feePlugin, ethBalance, balance, etherBalance];
 }

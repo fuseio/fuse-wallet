@@ -7,7 +7,7 @@ String formatValue(BigInt value, int decimals, {int fractionDigits = 2}) {
   double formatedValue = value / BigInt.from(pow(10, decimals));
   Decimal decimalValue = Decimal.parse(formatedValue.toString());
   return decimalValue.scale > 5
-      ? decimalValue.toStringAsPrecision(3)
+      ? decimalValue.toStringAsPrecision(2)
       : decimalValue.toString();
 }
 
