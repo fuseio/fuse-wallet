@@ -11,7 +11,7 @@ class MainScaffold extends StatelessWidget {
       bool automaticallyImplyLeading,
       Widget footer,
       bool withPadding,
-      EdgeInsetsGeometry padding,
+      double padding,
       this.key,
       this.backgroundColor,
       this.expandedHeight})
@@ -20,7 +20,7 @@ class MainScaffold extends StatelessWidget {
         titleFontSize = titleFontSize ?? 15,
         automaticallyImplyLeading = automaticallyImplyLeading ?? true,
         footer = footer ?? Container(),
-        padding = padding ?? EdgeInsets.only(top: 0.0, bottom: 40),
+        padding = padding ?? 40.0,
         withPadding = withPadding ?? false,
         actions = actions ?? new List<Widget>();
 
@@ -29,7 +29,7 @@ class MainScaffold extends StatelessWidget {
   final List<Widget> sliverList;
   final Widget footer;
   final bool withPadding;
-  final EdgeInsetsGeometry padding;
+  final double padding;
   final Key key;
   final Color backgroundColor;
   final double expandedHeight;
@@ -79,14 +79,27 @@ class MainScaffold extends StatelessWidget {
     return Scaffold(
       key: key,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(child: scrollView(context)),
-          Padding(
-              padding: withPadding ? padding : EdgeInsets.all(0), child: footer)
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(child: scrollView(context)),
+              ],
+            ),
+            Positioned(
+              bottom: withPadding ? padding : 0,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.center,
+                child: footer,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

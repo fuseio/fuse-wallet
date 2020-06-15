@@ -320,7 +320,7 @@ class _ExchangeState extends State<TradeScreen> {
             expandedHeight: MediaQuery.of(context).size.height / 12,
             automaticallyImplyLeading: false,
             withPadding: true,
-            padding: EdgeInsets.only(top: 0.0, bottom: 20),
+            padding: 20.0,
             title: I18n.of(context).trade,
             children: <Widget>[
               Padding(

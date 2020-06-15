@@ -160,7 +160,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
             builder: (_, viewModel) => Center(
                   child: PrimaryButton(
                     labelFontWeight: FontWeight.normal,
-                    label: I18n.of(context).exchnage,
+                    label: I18n.of(context).trade,
                     fontSize: 15,
                     disabled: isPreloading,
                     preload: isPreloading,

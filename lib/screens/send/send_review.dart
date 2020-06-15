@@ -275,10 +275,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                       color: Colors.red,
                                       size: 16,
                                     ),
-                                    Text('Not enough balance in your account',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 14, color: Colors.red)),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 7),
+                                      child: Text('Not enough balance in your account',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 14, color: Colors.red)),
+                                    ),
                                   ],
                                 )
                               : SizedBox.shrink(),
