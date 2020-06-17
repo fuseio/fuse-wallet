@@ -113,7 +113,7 @@ class SwapTokenJob extends Job {
       this.status = 'DONE';
       String txHash = nextRealyJobResponse['data']['txHash'];
       store.dispatch(sendErc20TokenSuccessCall(
-          txHash, arguments['fromToken'].address, arguments['fromToken']));
+          txHash, arguments['fromToken'].address, arguments['transfer']));
       ProWalletState proWalletState = store.state.proWalletState;
       String tokenAddress = arguments['toToken'].address.toLowerCase();
       if (tokenAddress != zeroAddress.toLowerCase()) {
