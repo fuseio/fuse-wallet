@@ -127,7 +127,9 @@ class SwapTokenJob extends Job {
                     name: newToken?.name,
                     decimals: newToken?.decimals,
                     symbol: newToken?.symbol,
-                    transactions: newToken.transactions.copyWith(list: newToken.transactions.list..add(arguments['transferIn'])),
+                    transactions: newToken.transactions.copyWith(
+                        list: newToken.transactions.list..add(
+                          arguments['transferIn'].copyWith(status: 'CONFIRMED', txHash: txHash))),
                   ));
         store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20Tokens));
       }
@@ -151,7 +153,6 @@ class SwapTokenJob extends Job {
     if (arguments == null) {
       return arguments;
     }
-    print('arguments arguments arguments arguments arguments arguments $arguments');
     if (arguments.containsKey('fromToken')) {
       if (arguments['fromToken'] is Map && arguments['toToken'] is Map) {
         Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
