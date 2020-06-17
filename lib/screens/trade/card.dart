@@ -1,8 +1,5 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/pro/token.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
 import 'package:flutter/material.dart';
 
 class TradeCard extends StatelessWidget {
@@ -94,7 +91,7 @@ class TradeCard extends StatelessWidget {
                   width: 20,
                   child: VerticalDivider(
                     color: Color(0xFFE5E5E5),
-                    thickness: 3,
+                    thickness: 2,
                   ),
                 ),
                 Expanded(
@@ -193,60 +190,5 @@ class TradeCard extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-Future<dynamic> fetchSwap(
-    String walletAddress, String fromTokenAddress, String toTokenAddress,
-    {String sourceAmount,
-    String destinationAmount,
-    bool transactions = false,
-    bool skipBalanceChecks = true}) async {
-  final logger = await AppFactory().getLogger('action');
-  try {
-    if (fromTokenAddress != null &&
-        fromTokenAddress.isNotEmpty &&
-        toTokenAddress != null &&
-        toTokenAddress.isNotEmpty) {
-      Map apiOptions = Map.from({
-        'apiKey': DotEnv().env['TOTLE_API_KEY'],
-        'swap': {
-          'sourceAsset': fromTokenAddress,
-          'destinationAsset': toTokenAddress,
-        },
-        'config': {
-          'transactions': transactions,
-          'skipBalanceChecks': skipBalanceChecks
-        }
-      });
-      if (sourceAmount != null && sourceAmount.isNotEmpty) {
-        apiOptions['swap']['sourceAmount'] = sourceAmount;
-      }
-      if (destinationAmount != null && destinationAmount.isNotEmpty) {
-        apiOptions['swap']['destinationAmount'] = destinationAmount;
-      }
-      Map<String, dynamic> response =
-          await exchangeApi.swap(walletAddress, options: apiOptions);
-      bool success = response['success'] ?? false;
-      if (success) {
-        if (response['response'].containsKey('transactions')) {
-          dynamic swapData = List.from(response['response']['transactions'])
-              .firstWhere((element) => element['type'] == 'swap', orElse: null);
-          if (swapData != null) {
-            return Map.from(
-                {...response['response']['summary'][0], 'tx': swapData['tx']});
-          } else {
-            return Map.from({...response['response']['summary'][0]});
-          }
-        } else {
-          return Map.from({...response['response']['summary'][0]});
-        }
-      }
-      throw response;
-    }
-    throw 'Error fromTokenAddress and toTokenAddress are empty';
-  } catch (error) {
-    logger.severe('ERROR in fetchSwap - ${error.toString()}');
-    throw error;
   }
 }

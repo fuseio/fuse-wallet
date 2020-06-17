@@ -3,6 +3,7 @@ import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/pro/token.dart';
+import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
@@ -70,53 +71,79 @@ class SwapTokenJob extends Job {
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('SwapTokenJob FAILED');
-      this.status = 'FAILED';
-      String failReason = fetchedData['failReason'];
-      ProWalletState proWalletState = store.state.proWalletState;
-      Map<String, SwapTokenJob> newOne =
-          Map<String, SwapTokenJob>.from(proWalletState.swapActions);
-      newOne[this.id] = this;
-      store.dispatch(new UpdateSwapActions(swapActions: newOne));
-      store.dispatch(segmentTrackCall('Wallet: job failed',
-          properties: new Map<String, dynamic>.from(
-              {'id': id, 'failReason': failReason, 'name': name})));
-      return;
+        this.status = 'FAILED';
+        String failReason = fetchedData['failReason'];
+        this.status = 'FAILED';
+        store.dispatch(proTransactionFailed(
+            arguments['tokenAddress'], arguments['transfer']));
+        store.dispatch(segmentTrackCall('Wallet: job failed',
+            properties: new Map<String, dynamic>.from(
+                {'id': id, 'failReason': failReason, 'name': name})));
+        return;
     }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
       logger.info('SwapTokenJob not done');
       return;
     }
-    this.status = 'DONE';
-    ProWalletState proWalletState = store.state.proWalletState;
-    String tokenAddress = arguments['toToken'].address.toLowerCase();
-    if (tokenAddress != zeroAddress.toLowerCase()) {
-      Token newToken = proWalletState.erc20Tokens[tokenAddress] ??
-          exchangableTokens[checksumEthereumAddress(tokenAddress)];
-      Map<String, Token> erc20Tokens = proWalletState.erc20Tokens
-        ..putIfAbsent(
-            tokenAddress,
-            () => arguments['toToken'].copyWith(
-                  address: newToken?.address?.toLowerCase(),
-                  name: newToken?.name,
-                  decimals: newToken?.decimals,
-                  symbol: newToken?.symbol,
-                ));
-      store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20Tokens));
+
+    if (fetchedData['data']['nextRealyJobId'] != null) {
+      String nextRealyJobId = fetchedData['data']['nextRealyJobId'];
+      logger.info('SwapTokenJob - nextRealyJobId - $nextRealyJobId');
+      dynamic nextRealyJobResponse = await api.getJob(nextRealyJobId);
+
+      if (nextRealyJobResponse['failReason'] != null && nextRealyJobResponse['failedAt'] != null) {
+        logger.info('SwapTokenJob FAILED');
+        this.status = 'FAILED';
+        String failReason = nextRealyJobResponse['failReason'];
+        this.status = 'FAILED';
+        store.dispatch(proTransactionFailed(
+            arguments['tokenAddress'], arguments['transfer']));
+        store.dispatch(segmentTrackCall('Wallet: job failed',
+            properties: new Map<String, dynamic>.from(
+                {'id': id, 'failReason': failReason, 'name': name})));
+        return;
+      }
+
+      if (nextRealyJobResponse['lastFinishedAt'] == null || nextRealyJobResponse['lastFinishedAt'].isEmpty) {
+        logger.info('SwapTokenJob not done');
+        return;
+      }
+
+      this.status = 'DONE';
+      String txHash = nextRealyJobResponse['data']['txHash'];
+      store.dispatch(sendErc20TokenSuccessCall(
+          txHash, arguments['fromToken'].address, arguments['fromToken']));
+      ProWalletState proWalletState = store.state.proWalletState;
+      String tokenAddress = arguments['toToken'].address.toLowerCase();
+      if (tokenAddress != zeroAddress.toLowerCase()) {
+        Token newToken = proWalletState.erc20Tokens[tokenAddress] ??
+            exchangableTokens[checksumEthereumAddress(tokenAddress)];
+        Map<String, Token> erc20Tokens = proWalletState.erc20Tokens
+          ..putIfAbsent(
+              tokenAddress,
+              () => arguments['toToken'].copyWith(
+                    address: newToken?.address?.toLowerCase(),
+                    name: newToken?.name,
+                    decimals: newToken?.decimals,
+                    symbol: newToken?.symbol,
+                    transactions: newToken.transactions.copyWith(list: newToken.transactions.list..add(arguments['transferIn'])),
+                  ));
+        store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20Tokens));
+      }
+      store.dispatch(ProJobDone(job: this, tokenAddress: arguments['fromToken'].address));
+      store.dispatch(segmentTrackCall('Wallet: job succeeded',
+          properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
+      return;
     }
-    Future.delayed(Duration(seconds: 10), () {
-      store.dispatch(new UpdateSwapActions(
-          swapActions: proWalletState.swapActions
-            ..removeWhere((String id, SwapTokenJob value) => id == this.id)));
-    });
-    store.dispatch(segmentTrackCall('Wallet: job succeeded',
-        properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
   }
 
   @override
   dynamic argumentsToJson() => {
         'fromToken': arguments['fromToken'].toJson(),
-        'toToken': arguments['toToken'].toJson()
+        'toToken': arguments['toToken'].toJson(),
+        'transfer': arguments['transfer'].toJson(),
+        'transferIn': arguments['transferIn'].toJson()
       };
 
   @override
@@ -124,13 +151,14 @@ class SwapTokenJob extends Job {
     if (arguments == null) {
       return arguments;
     }
-    if (arguments.containsKey('fromToken') &&
-        arguments.containsKey('toToken')) {
+    print('arguments arguments arguments arguments arguments arguments $arguments');
+    if (arguments.containsKey('fromToken')) {
       if (arguments['fromToken'] is Map && arguments['toToken'] is Map) {
         Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
-        nArgs['toToken'] = SwapTokenJobFactory.fromJson(arguments['toToken']);
-        nArgs['fromToken'] =
-            SwapTokenJobFactory.fromJson(arguments['fromToken']);
+        nArgs['toToken'] = Token.fromJson(arguments['toToken']);
+        nArgs['fromToken'] = Token.fromJson(arguments['fromToken']);
+        nArgs['transfer'] = Transfer.fromJson(arguments['transfer']);
+        nArgs['transferIn'] = Transfer.fromJson(arguments['transferIn']);
         return nArgs;
       }
     }
@@ -139,8 +167,4 @@ class SwapTokenJob extends Job {
 
   factory SwapTokenJob.fromJson(Map<String, dynamic> json) =>
       _$SwapTokenJobFromJson(json);
-}
-
-class SwapTokenJobFactory {
-  static fromJson(Map<String, dynamic> json) => SwapTokenJob.fromJson(json);
 }

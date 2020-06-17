@@ -185,8 +185,8 @@ class _TransferRow extends StatelessWidget {
                           alignment: Alignment.center,
                           children: <Widget>[
                             CachedNetworkImage(
-                              width: 54,
-                              height: 54,
+                              width: 55,
+                              height: 55,
                               imageUrl: token.imageUrl != null &&
                                       token.imageUrl.isNotEmpty
                                   ? token.imageUrl
@@ -198,7 +198,20 @@ class _TransferRow extends StatelessWidget {
                                 Icons.error,
                                 size: 54,
                               ),
-                            )
+                            ),
+                            transfer.isPending()
+                                ? Container(
+                                    width: 55,
+                                    height: 55,
+                                    child: CircularProgressIndicator(
+                                      backgroundColor:
+                                          Color(0xFF49D88D).withOpacity(0),
+                                      strokeWidth: 3,
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Color(0xFF49D88D).withOpacity(1)),
+                                    ))
+                                : SizedBox.shrink(),
                           ],
                         ),
                       ),

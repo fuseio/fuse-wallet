@@ -177,7 +177,7 @@ class _ContactsListState extends State<ContactsList> {
   List<Widget> _buildPageList(context, ContactsViewModel viewModel) {
     List<Widget> listItems = List();
 
-    listItems.add(searchPanel());
+    listItems.add(searchPanel(viewModel));
 
     if (searchController.text.isEmpty && !viewModel.isProMode) {
       listItems.add(RecentContacts());
@@ -206,7 +206,7 @@ class _ContactsListState extends State<ContactsList> {
     return listItems;
   }
 
-  searchPanel() {
+  searchPanel(ContactsViewModel viewModel) {
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverAppBarDelegate(
@@ -257,7 +257,10 @@ class _ContactsListState extends State<ContactsList> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     onPressed: () {
-                      bracodeScannerHandler(context);
+                      bracodeScannerHandler(context,
+                          isProMode: viewModel.isProMode,
+                          daiToken: viewModel.daiToken,
+                          feePlugin: viewModel.feePlugin);
                     }),
                 width: 50.0,
                 height: 50.0,

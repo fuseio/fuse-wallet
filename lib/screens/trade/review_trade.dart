@@ -173,6 +173,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           widget.toToken,
                           widget.exchangeSummry['sourceAsset']['address'],
                           widget.exchangeSummry['amount'],
+                          widget.exchangeSummry['amountIn'],
                           widget.exchangeSummry['tx']['to'],
                           widget.exchangeSummry['tx']['data'], () {
                         ProRouter.navigator.pushNamedAndRemoveUntil(ProRouter.proModeHomeScreen, (route) => false);
@@ -193,7 +194,8 @@ class ReviewTradeScreenViewModel extends Equatable {
       Token fromToken,
       Token toToken,
       String tokenAddress,
-      num tokensAmoun,
+      num tokensAmount,
+      num tokensAmountIn,
       String swapContractAddress,
       String swapData,
       VoidCallback sendSuccessCallback,
@@ -208,6 +210,7 @@ class ReviewTradeScreenViewModel extends Equatable {
             Token toToken,
             String tokenAddress,
             num tokensAmount,
+            num tokensAmountIn,
             String swapContractAddress,
             String swapData,
             VoidCallback sendSuccessCallback,
@@ -217,6 +220,7 @@ class ReviewTradeScreenViewModel extends Equatable {
               toToken,
               tokenAddress,
               tokensAmount,
+              tokensAmountIn,
               swapContractAddress,
               swapData,
               sendSuccessCallback,

@@ -1,29 +1,27 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/jobs/swap_token_job.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/utils/addresses.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 
 class ProWalletViewModel extends Equatable {
   final String walletAddress;
   final List<Token> tokens;
-  final List<SwapTokenJob> swapActions;
   final bool hasTrasnferdToForeign;
 
   ProWalletViewModel(
       {this.walletAddress,
       this.hasTrasnferdToForeign,
-      this.tokens,
-      this.swapActions});
+      this.tokens,});
 
   static ProWalletViewModel fromStore(Store<AppState> store) {
     List<Token> tokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        // .where((Token token) => EtherAmount.inWei(token.amount).getValueInUnit(EtherUnit.ether) > 0)
-        // .toList()
+        .where((Token token) => num.parse(formatValue(token.amount, token.decimals, withPrecision: false)).compareTo(0) == 1)
+        .toList()
         .reversed
         .toList();
     Community community =
@@ -36,16 +34,13 @@ class ProWalletViewModel extends Equatable {
         }) &&
         !store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase());
 
-    List<SwapTokenJob> swaps = List<SwapTokenJob>.from(
-        store.state.proWalletState.swapActions?.values ?? Iterable.empty());
     return ProWalletViewModel(
         hasTrasnferdToForeign: hasTrasnferdToForeign,
         walletAddress: store.state.userState.walletAddress,
-        tokens: tokens..sort((tokenA, tokenB) => tokenB.amount.compareTo(tokenA.amount)),
-        swapActions: swaps);
+        tokens: tokens..sort((tokenA, tokenB) => tokenB.amount.compareTo(tokenA.amount)),);
   }
 
   @override
   List<Object> get props =>
-      [walletAddress, tokens, hasTrasnferdToForeign, swapActions];
+      [walletAddress, tokens, hasTrasnferdToForeign];
 }

@@ -4,10 +4,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/jobs/swap_token_job.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/pro/views/pro_wallet.dart';
-import 'package:fusecash/screens/pro_mode/swap_tile.dart';
 import 'package:fusecash/screens/pro_mode/token_tile.dart';
 import 'package:fusecash/utils/addresses.dart';
 
@@ -43,11 +41,6 @@ class AssetsList extends StatelessWidget {
                                 token: daiToken,
                               )
                             : SizedBox.shrink(),
-                        ...viewModel.swapActions
-                            .map((SwapTokenJob swapToken) => SwapTokenTile(
-                                  swapToken: swapToken,
-                                ))
-                            .toList(),
                         ...viewModel.tokens
                             .map((Token token) => TokenTile(
                                   token: token,

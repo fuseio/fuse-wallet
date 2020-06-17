@@ -50,25 +50,34 @@ class TokenTile extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: <Widget>[
-                            Hero(
-                              child: CachedNetworkImage(
-                                width: 54,
-                                height: 54,
-                                imageUrl: token.imageUrl != null &&
-                                        token.imageUrl.isNotEmpty
-                                    ? token.imageUrl
-                                    : getTokenUrl(
-                                        checksumEthereumAddress(token.address)),
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(
-                                  Icons.error,
-                                  size: 54,
-                                ),
+                            CachedNetworkImage(
+                              width: 54,
+                              height: 54,
+                              imageUrl: token.imageUrl != null &&
+                                      token.imageUrl.isNotEmpty
+                                  ? token.imageUrl
+                                  : getTokenUrl(
+                                      checksumEthereumAddress(token.address)),
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              errorWidget: (context, url, error) => const Icon(
+                                Icons.error,
+                                size: 54,
                               ),
-                              tag: token.name,
-                            )
+                            ),
+                            token.transactions.list.any((transfer) => transfer.isPending())
+                                ? Container(
+                                    width: 55,
+                                    height: 55,
+                                    child: CircularProgressIndicator(
+                                      backgroundColor:
+                                          Color(0xFF49D88D).withOpacity(0),
+                                      strokeWidth: 3,
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Color(0xFF49D88D).withOpacity(1)),
+                                    ))
+                                : SizedBox.shrink(),
                           ],
                         ),
                       ),

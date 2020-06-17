@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/jobs/swap_token_job.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
@@ -14,9 +13,6 @@ class ProWalletState {
   final num blockNumber;
   @JsonKey(fromJson: _erc20TokensFromJson)
   final Map<String, Token> erc20Tokens;
-
-  @JsonKey(ignore: true)
-  final Map<String, SwapTokenJob> swapActions;
 
   static BigInt _etherBalanceFromJson(String etherBalance) =>
       etherBalance == null ? BigInt.zero : BigInt.parse(etherBalance);
@@ -47,7 +43,6 @@ class ProWalletState {
       this.blockNumber,
       this.etherBalance,
       this.erc20Tokens,
-      this.swapActions,
       this.isFetchTransferEvents,
       this.isListenToTransferEvents,
       this.isProcessingTokensJobs,
@@ -60,7 +55,6 @@ class ProWalletState {
         web3: null,
         blockNumber: 0,
         erc20Tokens: new Map<String, Token>(),
-        swapActions: new Map<String, SwapTokenJob>(),
         isFetchTransferEvents: false,
         etherBalance: BigInt.zero,
         isProcessingTokensJobs: false,
@@ -78,7 +72,6 @@ class ProWalletState {
     String walletAddress,
     num blockNumber,
     Map<String, Token> erc20Tokens,
-    Map<String, SwapTokenJob> swapActions,
     bool isProcessingTokensJobs,
     bool isFetchTransferEvents,
     bool isFetchTokensBalances,
@@ -90,7 +83,6 @@ class ProWalletState {
           isFetchTokensLastestPrice ?? this.isFetchTokensLastestPrice,
       isProcessingSwapActions:
           isProcessingSwapActions ?? this.isProcessingSwapActions,
-      swapActions: swapActions ?? this.swapActions,
       etherBalance: etherBalance ?? this.etherBalance,
       isProcessingTokensJobs:
           isProcessingTokensJobs ?? this.isProcessingTokensJobs,

@@ -1,4 +1,7 @@
 import 'dart:core';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/redux/state/store.dart';
+import 'package:fusecash/services.dart';
 import 'package:redux/redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
@@ -18,8 +21,6 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-
-final _tokens = List<Token>.from(exchangableTokens.values);
 
 class TradeScreen extends StatefulWidget {
   const TradeScreen({Key key}) : super(key: key);
@@ -60,14 +61,14 @@ class _ExchangeState extends State<TradeScreen> {
     super.initState();
   }
 
-  onPayWithDropDownChanged(Token token, walletAddress) {
+  void onPayWithDropDownChanged(Token token, walletAddress) {
     setState(() {
       tokenToPayWith = token;
     });
     fetchPrices(walletAddress, token, tokenToReceive);
   }
 
-  onReceiveDropDownChanged(Token token, walletAddress) {
+  void onReceiveDropDownChanged(Token token, walletAddress) {
     setState(() {
       tokenToReceive = token;
     });
@@ -99,6 +100,9 @@ class _ExchangeState extends State<TradeScreen> {
           skipBalanceChecks: false);
       swapResponse = response;
       swapResponse['amount'] = num.parse(value);
+      swapResponse['amountIn'] = num.parse(formatValue(
+          BigInt.from(num.parse(response['destinationAmount'])),
+          tokenToReceive.decimals, withPrecision: false));
       String toTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals);
@@ -143,6 +147,9 @@ class _ExchangeState extends State<TradeScreen> {
           skipBalanceChecks: false);
       swapResponse = response;
       swapResponse['amount'] = num.parse(value);
+      swapResponse['amountIn'] = num.parse(formatValue(
+          BigInt.from(num.parse(response['destinationAmount'])),
+          tokenToReceive.decimals, withPrecision: false));
       String fromTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToPayWith.decimals);
@@ -228,39 +235,42 @@ class _ExchangeState extends State<TradeScreen> {
     }
   }
 
-  fetchPrices(
-      String walletAddress, Token tokenToPayWith, Token tokenToReceive) async {
-    if (this.mounted) {
-      setState(() {
-        fromTokenAmountPay = null;
-        toTokenAmountPay = null;
-        isFetchingPricePay = true;
-        fromTokenAmountReceive = null;
-        toTokenAmountReceive = null;
-        isFetchingPriceReceive = true;
-      });
-    }
+  void fetchPrices(
+      String walletAddress, Token soureToken, Token destinationToken) async {
     try {
+      if (this.mounted) {
+        setState(() {
+          swapResponse = null;
+          payWithController.text = '';
+          receiveController.text = '';
+          fromTokenAmountPay = null;
+          toTokenAmountPay = null;
+          isFetchingPricePay = true;
+          fromTokenAmountReceive = null;
+          toTokenAmountReceive = null;
+          isFetchingPriceReceive = true;
+        });
+      }
       Map paywithResponse = await fetchSwap(
-          walletAddress, tokenToPayWith.address, tokenToReceive.address,
+          walletAddress, soureToken.address, destinationToken.address,
           sourceAmount:
-              toBigInt(num.parse('1'), tokenToPayWith.decimals).toString());
-      dynamic receiceResponse = await fetchSwap(
-          walletAddress, tokenToReceive.address, tokenToPayWith.address,
+              toBigInt(num.parse('1'), soureToken.decimals).toString());
+      Map receiceResponse = await fetchSwap(
+          walletAddress, destinationToken.address, soureToken.address,
           sourceAmount:
-              toBigInt(num.parse('1'), tokenToReceive.decimals).toString());
+              toBigInt(num.parse('1'), destinationToken.decimals).toString());
       String fromTokenPay = formatValue(
           BigInt.from(num.parse(paywithResponse['sourceAmount'])),
-          tokenToPayWith.decimals);
+          soureToken.decimals);
       String toTokenPay = formatValue(
           BigInt.from(num.parse(paywithResponse['destinationAmount'])),
-          tokenToReceive.decimals);
+          destinationToken.decimals);
       String fromTokenReceive = formatValue(
           BigInt.from(num.parse(receiceResponse['sourceAmount'])),
-          tokenToReceive.decimals);
+          destinationToken.decimals);
       String toTokenReceive = formatValue(
           BigInt.from(num.parse(receiceResponse['destinationAmount'])),
-          tokenToPayWith.decimals);
+          soureToken.decimals);
       if (this.mounted) {
         setState(() {
           fromTokenAmountPay = fromTokenPay;
@@ -274,6 +284,7 @@ class _ExchangeState extends State<TradeScreen> {
     } catch (e) {
       if (this.mounted) {
         setState(() {
+          swapResponse = null;
           fromTokenAmountPay = null;
           toTokenAmountPay = null;
           isFetchingPricePay = false;
@@ -290,11 +301,12 @@ class _ExchangeState extends State<TradeScreen> {
     return new StoreConnector<AppState, _ExchangeViewModel>(
         converter: _ExchangeViewModel.fromStore,
         onInitialBuild: (viewModel) {
-          fetchPrices(viewModel.walletAddress, viewModel.tokens[0], _tokens[0]);
+          final Token ethToken = viewModel.tokens
+                .firstWhere((element) => element.symbol == 'ETH');
+          fetchPrices(viewModel.walletAddress, viewModel.tokens[0], ethToken);
           setState(() {
             tokenToPayWith = viewModel.tokens[0];
-            tokenToReceive = viewModel.tokens
-                .firstWhere((element) => element.symbol == 'ETH');
+            tokenToReceive = ethToken;
           });
         },
         builder: (_, viewModel) {
@@ -302,14 +314,14 @@ class _ExchangeState extends State<TradeScreen> {
           final Token receiveToken = tokenToReceive ??
               viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
           num value = num.parse(
-              formatValue(payWithToken.amount, payWithToken.decimals));
+              formatValue(payWithToken.amount, payWithToken.decimals, withPrecision: false));
           bool payWithHasBalance = payWithController.text != null &&
                   payWithController.text.isNotEmpty
               ? value.compareTo(num.parse(payWithController.text ?? 0) ?? 0) !=
                   -1
               : true;
           // num receiveValue = num.parse(
-          //     formatValue(receiveToken.amount, receiveToken.decimals));
+          //     formatValue(receiveToken.amount, receiveToken.decimals, withPrecision: false));
           // bool receiveHasBalance = receiveController.text != null &&
           //         receiveController.text.isNotEmpty
           //     ? receiveValue.compareTo(
@@ -344,7 +356,7 @@ class _ExchangeState extends State<TradeScreen> {
                                   onTap: () {
                                     String max = formatValue(
                                         tokenToPayWith.amount,
-                                        tokenToPayWith.decimals);
+                                        tokenToPayWith.decimals, withPrecision: false);
                                     setState(() {
                                       payWithController.text = max;
                                     });
@@ -480,9 +492,9 @@ class _ExchangeViewModel extends Equatable {
   static _ExchangeViewModel fromStore(Store<AppState> store) {
     List<Token> tokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        // .where((Token token) =>
-        //     EtherAmount.inWei(token.amount).getValueInUnit(EtherUnit.ether) > 0)
-        // .toList()
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals, withPrecision: false)).compareTo(0) == 1)
+        .toList()
         .reversed
         .toList();
     List<Token> exchangable = exchangableTokens.values.toList()
@@ -504,4 +516,61 @@ class _ExchangeViewModel extends Equatable {
 
   @override
   List<Object> get props => [walletAddress, tokens];
+}
+
+
+Future<dynamic> fetchSwap(
+    String walletAddress, String fromTokenAddress, String toTokenAddress,
+    {String sourceAmount,
+    String destinationAmount,
+    bool transactions = false,
+    bool skipBalanceChecks = true}) async {
+  final logger = await AppFactory().getLogger('action');
+  try {
+    if (fromTokenAddress != null &&
+        fromTokenAddress.isNotEmpty &&
+        toTokenAddress != null &&
+        toTokenAddress.isNotEmpty) {
+      Map apiOptions = Map.from({
+        'apiKey': DotEnv().env['TOTLE_API_KEY'],
+        'swap': {
+          'sourceAsset': fromTokenAddress,
+          'destinationAsset': toTokenAddress,
+        },
+        'config': {
+          'transactions': transactions,
+          'skipBalanceChecks': skipBalanceChecks
+        }
+      });
+      if (sourceAmount != null && sourceAmount.isNotEmpty) {
+        apiOptions['swap']['sourceAmount'] = sourceAmount;
+      }
+      if (destinationAmount != null && destinationAmount.isNotEmpty) {
+        apiOptions['swap']['destinationAmount'] = destinationAmount;
+      }
+      logger.info(apiOptions.toString());
+      Map<String, dynamic> response =
+          await exchangeApi.swap(walletAddress, options: apiOptions);
+      bool success = response['success'] ?? false;
+      if (success) {
+        if (response['response'].containsKey('transactions')) {
+          dynamic swapData = List.from(response['response']['transactions'])
+              .firstWhere((element) => element['type'] == 'swap', orElse: null);
+          if (swapData != null) {
+            return Map.from(
+                {...response['response']['summary'][0], 'tx': swapData['tx']});
+          } else {
+            return Map.from({...response['response']['summary'][0]});
+          }
+        } else {
+          return Map.from({...response['response']['summary'][0]});
+        }
+      }
+      throw response;
+    }
+    throw 'Error fromTokenAddress and toTokenAddress are empty';
+  } catch (error) {
+    logger.severe('ERROR in fetchSwap - ${error.toString()}');
+    throw error;
+  }
 }
