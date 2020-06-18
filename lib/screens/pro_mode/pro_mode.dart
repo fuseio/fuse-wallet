@@ -114,6 +114,7 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
 
   onInit(Store<AppState> store) {
     store.dispatch(startListenToTransferEvents());
+    store.dispatch(getBalancesOnForeign());
     store.dispatch(startFetchTransferEventsCall());
     store.dispatch(fetchTokensBalances());
     store.dispatch(startProcessingTokensJobsCall());

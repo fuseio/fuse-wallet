@@ -133,6 +133,8 @@ class SwapTokenJob extends Job {
                   ));
         store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20Tokens));
       }
+      store.dispatch(getTokenTransferEventsByAccountAddress(arguments['fromToken'].address));
+      store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
       store.dispatch(ProJobDone(job: this, tokenAddress: arguments['fromToken'].address));
       store.dispatch(segmentTrackCall('Wallet: job succeeded',
           properties: new Map<String, dynamic>.from({'id': id, 'name': name})));

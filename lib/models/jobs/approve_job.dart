@@ -81,6 +81,7 @@ class ApproveJob extends Job {
       this.status = 'DONE';
       String txHash = data['txHash'];
       store.dispatch(sendErc20TokenSuccessCall(txHash, arguments['tokenAddress'], arguments['transfer']));
+      store.dispatch(getTokenTransferEventsByAccountAddress(arguments['tokenAddress']));
       store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       store.dispatch(ProJobDone(job: this, tokenAddress: arguments['tokenAddress']));
     }
