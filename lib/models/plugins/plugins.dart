@@ -4,6 +4,7 @@ import 'package:fusecash/models/plugins/foreign_transfers_fee.dart';
 import 'package:fusecash/models/plugins/invite_bonus.dart';
 import 'package:fusecash/models/plugins/join_bonus.dart';
 import 'package:fusecash/models/plugins/moonpay.dart';
+import 'package:fusecash/models/plugins/rampInstant.dart';
 import 'package:fusecash/models/plugins/transak.dart';
 import 'package:fusecash/models/plugins/wallet_banner.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -24,6 +25,12 @@ class Plugins {
       toJson: _bridgeToForeignToJson,
       includeIfNull: false)
   BridgeToForeignFeePlugin bridgeToForeign;
+  @JsonKey(
+      name: 'rampInstant',
+      fromJson: _rampInstantFromJson,
+      toJson: _rampInstantToJson,
+      includeIfNull: false)
+  RampInstantPlugin rampInstant;
   @JsonKey(
       name: 'moonpay',
       fromJson: _moonpayFromJson,
@@ -64,6 +71,7 @@ class Plugins {
   Plugins(
       {this.moonpay,
       this.transak,
+      this.rampInstant,
       this.joinBonus,
       this.walletBanner,
       this.backupBonus,
@@ -112,6 +120,7 @@ class Plugins {
       dynamic fees = Plugins.getFeesMap(json);
       return Plugins(
         moonpay: MoonpayPlugin.fromJson(services["moonpay"]),
+        rampInstant: RampInstantPlugin.fromJson(services["rampInstant"]),
         transak: TransakPlugin.fromJson(services["transak"]),
         bridgeToForeign:
             BridgeToForeignFeePlugin.fromJson(fees["bridgeToForeign"]),
@@ -173,17 +182,26 @@ class Plugins {
   static MoonpayPlugin _moonpayFromJson(Map<String, dynamic> json) =>
       json == null ? null : MoonpayPlugin.fromJson(json);
 
+  static RampInstantPlugin _rampInstantFromJson(Map<String, dynamic> json) =>
+      json == null ? null : RampInstantPlugin.fromJson(json);
+
   static TransakPlugin _transakFromJson(Map<String, dynamic> json) =>
       json == null ? null : TransakPlugin.fromJson(json);
 
   static Map<String, dynamic> _moonpayToJson(MoonpayPlugin moonpay) =>
       moonpay != null ? moonpay.toJson() : null;
 
+  static Map<String, dynamic> _rampInstantToJson(RampInstantPlugin rampInstant) =>
+      rampInstant != null ? rampInstant.toJson() : null;
+
   static Map<String, dynamic> _transakToJson(TransakPlugin transak) =>
       transak != null ? transak.toJson() : null;
 
   List getDepositPlugins() {
     List depositPlugins = [];
+    if (this.rampInstant != null && this.rampInstant.isActive) {
+      depositPlugins.add(this.rampInstant);
+    }
     if (this.transak != null && this.transak.isActive) {
       depositPlugins.add(this.transak);
     }

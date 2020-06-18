@@ -244,7 +244,7 @@ class _ProHeaderViewModel extends Equatable {
         ethBalance: ethBalance == 0
             ? '0'
             : ethBalance.compareTo(0.01) != 1 ? 'Less then 0.01' : ethBalance,
-        balance: Decimal.parse(usdValue.toString()).toStringAsPrecision(2),
+        balance: Decimal.parse(usdValue.toString()).toStringAsPrecision(1),
         etherBalance: etherBalance,
         feePlugin: community.plugins.foreignTransfers,
         daiToken: token,
