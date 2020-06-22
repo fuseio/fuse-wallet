@@ -84,6 +84,7 @@ void sendToPastedAddress(
           builder: (context) => SendAmountScreen(
               pageArgs: SendAmountArguments(
                   erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
+                  feePlugin: viewModel.isProMode ? viewModel.feePlugin : null,
                   sendType: viewModel.isProMode
                       ? SendType.ETHEREUM_ADDRESS
                       : SendType.PASTED_ADDRESS,

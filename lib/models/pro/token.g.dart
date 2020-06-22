@@ -14,6 +14,9 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
     decimals: json['decimals'] as int,
     amount:
         json['amount'] == null ? null : BigInt.parse(json['amount'] as String),
+    priceInfo: json['priceInfo'] == null
+        ? null
+        : Price.fromJson(json['priceInfo'] as Map<String, dynamic>),
     imageUrl: json['imageUrl'] as String,
     timestamp: json['timestamp'] as int,
     transactions: Token._transactionsFromJson(
@@ -30,6 +33,7 @@ Map<String, dynamic> _$TokenToJson(Token instance) => <String, dynamic>{
       'amount': instance.amount?.toString(),
       'imageUrl': instance.imageUrl,
       'timestamp': instance.timestamp,
+      'priceInfo': instance.priceInfo?.toJson(),
       'transactions': instance.transactions?.toJson(),
       'jobs': Token._jobsToJson(instance.jobs),
     };

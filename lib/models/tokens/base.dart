@@ -1,4 +1,6 @@
-abstract class ERC20Token {
+import 'package:equatable/equatable.dart';
+
+abstract class ERC20Token extends Equatable {
   final String address;
   final String name;
   final String symbol;

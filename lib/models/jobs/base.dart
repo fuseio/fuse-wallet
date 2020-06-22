@@ -7,6 +7,7 @@ import 'package:digitalrand/models/jobs/invite_bonus_job.dart';
 import 'package:digitalrand/models/jobs/invite_job.dart';
 import 'package:digitalrand/models/jobs/join_bonus_job.dart';
 import 'package:digitalrand/models/jobs/join_community_job.dart';
+import 'package:digitalrand/models/jobs/swap_token_job.dart';
 import 'package:digitalrand/models/jobs/transfer_job.dart';
 
 abstract class Job {
@@ -180,6 +181,15 @@ class JobFactory {
             arguments: json['arguments']);
       case 'approveToken':
         return new ApproveJob(
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
+      case 'swapToken':
+        return new SwapTokenJob(
             id: id,
             jobType: jobType,
             name: json['name'],

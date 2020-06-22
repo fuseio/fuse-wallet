@@ -10,7 +10,8 @@ import 'package:redux/redux.dart';
 class ProModeHomeScreen extends StatelessWidget {
   onInit(Store<AppState> store) async {
     Segment.screen(screenName: '/pro-home-screen');
-    store.dispatch(getAddressBalances());
+    store.dispatch(getEtherBalabnce());
+    store.dispatch(getBalancesOnForeign());
   }
 
   @override

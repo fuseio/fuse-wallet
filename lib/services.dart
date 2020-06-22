@@ -4,6 +4,8 @@ import 'package:http/http.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:wallet_core/wallet_core.dart';
 
+final Exchange exchangeApi = new Exchange();
+
 final Client client = new Client();
 
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;

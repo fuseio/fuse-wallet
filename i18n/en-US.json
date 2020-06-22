@@ -104,5 +104,8 @@
     "received_from_ethereum": "Received from Ethereum",
     "addDai": "Add DAI",
     "withdrawDAI": "Withdraw DAI",
-    "sendToCashMode": "Send to cash mode"
+    "sendToCashMode": "Send to cash mode",
+    "exchnage": "Exchange",
+    "no_funds_available": "No funds available",
+    "review_trade": "Review trade"
 }

@@ -22,8 +22,10 @@ bracodeScannerHandler(BuildContext context,
               builder: (context) => SendAmountScreen(
                   pageArgs: SendAmountArguments(
                       feePlugin: feePlugin,
-                      avatar: NetworkImage(getTokenUrl(
-                          checksumEthereumAddress(daiToken.address))),
+                      avatar: isProMode
+                          ? NetworkImage(getTokenUrl(
+                              checksumEthereumAddress(daiToken.address)))
+                          : null,
                       erc20Token: isProMode ? daiToken : null,
                       sendType: isProMode
                           ? SendType.ETHEREUM_ADDRESS

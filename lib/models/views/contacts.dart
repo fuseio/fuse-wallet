@@ -51,8 +51,8 @@ class ContactsViewModel extends Equatable {
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
-    erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)
-        ? store.state.proWalletState.erc20Tokens[daiTokenAddress]
+    erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
+        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
         : new erc20Token.Token.initial();
     bool isProMode = store.state.userState.isProMode ?? false;
     return ContactsViewModel(

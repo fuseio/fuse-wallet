@@ -109,7 +109,7 @@ class CashWalletViewModel extends Equatable {
       isListeningToBranch: store.state.cashWalletState.isListeningToBranch ?? false,
       isBranchDataReceived: store.state.cashWalletState.isBranchDataReceived ?? false,
       displayName: store.state.userState.displayName,
-      tokenBalance: community?.tokenBalance ?? BigInt.from(0),
+      tokenBalance: community?.tokenBalance ?? BigInt.zero,
       token: community?.token,
       transactions: community?.transactions ?? new Transactions(list: new List<Transaction>()),
       contacts: store.state.userState.contacts,

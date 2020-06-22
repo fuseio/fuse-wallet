@@ -2,46 +2,27 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 
-String formatValue(BigInt value, int decimals) {
+String formatValue(BigInt value, int decimals, {int fractionDigits = 2, bool withPrecision = true}) {
   if (value == null || decimals == null) return '';
-  double s = value / BigInt.from(pow(10, decimals));
-  String formatedValue;
-  if (s.roundToDouble() == s) {
-    formatedValue = s.round().toString();
-  } else {
-    formatedValue = s.toString();
-  }
-
-  List a = formatedValue.split('.');
-  if (a.length > 1) {
-    return s.toStringAsFixed(2);
-  } else {
-    return formatedValue;
-  }
+  double formatedValue = value / BigInt.from(pow(10, decimals));
+  if (!withPrecision) return formatedValue.toString();
+  Decimal decimalValue = Decimal.parse(formatedValue.toString());
+  return decimalValue.scale > 5
+      ? decimalValue.toStringAsPrecision(2)
+      : decimalValue.toString();
 }
 
 String calcValueInDollar(BigInt value, int decimals) {
   if (value == null || decimals == null) return '';
-  double s = (value / BigInt.from(pow(10, decimals)) / 100);
-  String formatedValue;
-  if (s.roundToDouble() == s) {
-    formatedValue = s.round().toString();
-  } else {
-    formatedValue = s.toString();
-  }
-
-  List a = formatedValue.split('.');
-  if (a.length > 1) {
-    return s.toStringAsFixed(2);
-  } else {
-    return formatedValue;
-  }
+  double formatedValue1 = (value / BigInt.from(pow(10, decimals)) / 100);
+  Decimal decimalValue = Decimal.parse(formatedValue1.toString());
+  return decimalValue.scale > 5
+      ? decimalValue.toStringAsPrecision(3)
+      : decimalValue.toString();
 }
 
 String formatAddress(String address) {
-  if (address == null || address == '') {
-    return null;
-  }
+  if (address == null || address.isEmpty) return null;
   return '${address.substring(0, 6)}...${address.substring(address.length - 4, address.length)}';
 }
 

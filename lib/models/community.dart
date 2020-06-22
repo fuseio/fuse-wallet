@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/business.dart';
 import 'package:digitalrand/models/community_metadata.dart';
 import 'package:digitalrand/models/jobs/base.dart';
@@ -9,7 +10,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'community.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Community {
+class Community extends Equatable {
   final String name;
   final String address;
   final String homeBridgeAddress;
@@ -26,6 +27,23 @@ class Community {
 
   @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
   final List<Job> jobs;
+
+  @override
+  List<Object> get props => [
+        name,
+        address,
+        homeBridgeAddress,
+        foreignBridgeAddress,
+        tokenBalance,
+        isMember,
+        businesses,
+        transactions,
+        token,
+        plugins,
+        metadata,
+        isClosed,
+        webUrl
+      ];
 
   Community(
       {this.name,
@@ -59,7 +77,7 @@ class Community {
         homeBridgeAddress: null,
         token: null,
         isMember: false,
-        tokenBalance: BigInt.from(0),
+        tokenBalance: BigInt.zero,
         businesses: new List<Business>(),
         transactions: Transactions.initial(),
         plugins: new Plugins(),
@@ -84,7 +102,7 @@ class Community {
   }) {
     return Community(
       isClosed: isClosed ?? this.isClosed,
-      webUrl: webUrl ?? this.webUrl,
+      webUrl: webUrl,
       metadata: metadata ?? this.metadata,
       tokenBalance: tokenBalance ?? this.tokenBalance,
       address: address ?? this.address,

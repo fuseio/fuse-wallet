@@ -40,10 +40,26 @@ class SplashViewModel extends Equatable {
           store.dispatch(reLoginCall());
           store.dispatch(getWalletAddressessCall());
           store.dispatch(identifyCall());
-          Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
+          Router.navigator.pushNamedAndRemoveUntil(
+              Router.cashHomeScreen, (Route<dynamic> route) => false);
         });
   }
 
   @override
   List<Object> get props => [privateKey, jwtToken, isLoggedOut, isProMode];
+}
+
+class MainViewModel extends Equatable {
+  final bool isProMode;
+
+  MainViewModel({this.isProMode});
+
+  static MainViewModel fromStore(Store<AppState> store) {
+    return MainViewModel(
+      isProMode: store.state.userState.isProMode ?? false,
+    );
+  }
+
+  @override
+  List<Object> get props => [isProMode];
 }

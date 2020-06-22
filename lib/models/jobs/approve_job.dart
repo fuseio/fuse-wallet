@@ -1,5 +1,7 @@
 import 'package:digitalrand/models/jobs/base.dart';
+import 'package:digitalrand/models/transactions/transfer.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/services.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -56,12 +58,39 @@ class ApproveJob extends Job {
       logger.info('ApproveJob not done');
       return;
     }
-    store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+
+    if (fetchedData['data']['nextRealyJobId'] != null) {
+      String nextRealyJobId = fetchedData['data']['nextRealyJobId'];
+      dynamic response = await api.getJob(nextRealyJobId);
+      dynamic data = response['data'];
+
+      if (response['failReason'] != null && response['failedAt'] != null) {
+        logger.info('ApproveJob FAILED');
+        this.status = 'FAILED';
+        String failReason = response['failReason'];
+        store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+        store.dispatch(proTransactionFailed(arguments['tokenAddress'], arguments['transfer']));
+        return;
+      }
+
+      if (response['lastFinishedAt'] == null || response['lastFinishedAt'].isEmpty) {
+        logger.info('ApproveJob not done');
+        return;
+      }
+
+      this.status = 'DONE';
+      String txHash = data['txHash'];
+      store.dispatch(sendErc20TokenSuccessCall(txHash, arguments['tokenAddress'], arguments['transfer']));
+      store.dispatch(getTokenTransferEventsByAccountAddress(arguments['tokenAddress']));
+      store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+      store.dispatch(ProJobDone(job: this, tokenAddress: arguments['tokenAddress']));
+    }
   }
 
   @override
   dynamic argumentsToJson() => {
       'jobType': arguments['jobType'],
+      'transfer': arguments['transfer'].toJson(),
       'network': arguments['network'],
       'tokensAmount': arguments['tokensAmount'].toString(),
       'receiverAddress': arguments['receiverAddress'],
@@ -74,9 +103,10 @@ class ApproveJob extends Job {
       return arguments;
     }
     if (arguments.containsKey('tokensAmount')) {
-      if (arguments['tokensAmount'] is String) {
+      if (arguments['tokensAmount'] is String && arguments['transfer'] is Map) {
         Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
         nArgs['tokensAmount'] = num.parse(arguments['tokensAmount']);
+        nArgs['transfer'] = Transfer.fromJson(arguments['transfer']);
         return nArgs;
       }
     }

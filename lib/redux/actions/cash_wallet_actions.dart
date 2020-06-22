@@ -40,11 +40,6 @@ class InitWeb3Success {
   InitWeb3Success(this.web3);
 }
 
-class OnboardUserSuccess {
-  final String accountAddress;
-  OnboardUserSuccess(this.accountAddress);
-}
-
 class GetWalletAddressesSuccess {
   final List<String> networks;
   final String walletAddress;
@@ -76,19 +71,6 @@ class GetTokenBalanceSuccess {
   GetTokenBalanceSuccess(this.tokenBalance);
 }
 
-class SendTokenSuccess {
-  final String txHash;
-  SendTokenSuccess(this.txHash);
-}
-
-class JoinCommunitySuccess {
-  final String txHash;
-  final String communityAddress;
-  final String communityName;
-  final Token token;
-  JoinCommunitySuccess(
-      this.txHash, this.communityAddress, this.communityName, this.token);
-}
 
 class AlreadyJoinedCommunity {
   final String communityAddress;
@@ -151,16 +133,6 @@ class GetBusinessListSuccess {
   GetBusinessListSuccess(this.businessList);
 }
 
-class TransferJobSuccess {
-  Job job;
-  TransferJobSuccess(this.job);
-}
-
-class TransferInviteJobSuccess {
-  Job job;
-  TransferInviteJobSuccess(this.job);
-}
-
 class GetTokenTransfersListSuccess {
   List<Transfer> tokenTransfers;
   GetTokenTransfersListSuccess(this.tokenTransfers);
@@ -175,11 +147,6 @@ class StartTransfersFetchingSuccess {
   StartTransfersFetchingSuccess();
 }
 
-class TransferSendSuccess {
-  Transfer transfer;
-  TransferSendSuccess(this.transfer);
-}
-
 class BranchCommunityUpdate {
   BranchCommunityUpdate();
 }
@@ -189,16 +156,6 @@ class BranchCommunityToUpdate {
   BranchCommunityToUpdate(this.communityAddress);
 }
 
-class AddSendToInvites {
-  final String jobId;
-  final num amount;
-  AddSendToInvites(this.jobId, this.amount);
-}
-
-class RemoveSendToInvites {
-  final String jobId;
-  RemoveSendToInvites(this.jobId);
-}
 
 class BranchListening {}
 
@@ -479,7 +436,6 @@ ThunkAction createAccountWalletCall(String accountAddress) {
     try {
       logger.info('createAccountWalletCall');
       logger.info('accountAddress: $accountAddress');
-      String communityAddress = store.state.cashWalletState.communityAddress;
       Map<String, dynamic> response = await api.createWallet();
       if (!response.containsKey('job')) {
         logger.info('Wallet already exists');
@@ -487,7 +443,8 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
         return;
       }
-      List<Job> jobs = store.state.cashWalletState.communities[communityAddress]?.jobs ?? [];
+      List<Job> jobs = store.state.cashWalletState
+          .communities[store.state.cashWalletState.communityAddress]?.jobs ?? [];
       bool hasCreateWallet = jobs.any((job) => job.jobType == 'createWallet');
       if (hasCreateWallet) {
         store.dispatch(new CreateAccountWalletRequest(accountAddress));

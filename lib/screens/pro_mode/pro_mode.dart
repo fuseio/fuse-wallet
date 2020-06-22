@@ -4,6 +4,7 @@ import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/views/bottom_bar.dart';
 import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:digitalrand/screens/trade/trade.dart';
 import 'package:digitalrand/screens/pro_mode/pro_drawer.dart';
 import 'package:digitalrand/screens/pro_mode/pro_header.dart';
 import 'package:digitalrand/screens/pro_mode/pro_home.dart';
@@ -11,7 +12,6 @@ import 'package:digitalrand/screens/send/contacts_list.dart';
 import 'package:digitalrand/screens/send/receive.dart';
 import 'package:digitalrand/screens/send/send_contact.dart';
 import 'package:digitalrand/widgets/bottom_bar_item.dart';
-import 'package:digitalrand/widgets/coming_soon.dart';
 import 'package:digitalrand/widgets/my_app_bar.dart';
 import 'package:digitalrand/widgets/tabs_scaffold.dart';
 import 'package:rate_my_app/rate_my_app.dart';
@@ -45,7 +45,8 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
           rateMyApp.showStarRateDialog(
             context,
             title: 'Rate this app',
-            message: 'You like this app ? Then take a little bit of your time to leave a rating :',
+            message:
+                'You like this app ? Then take a little bit of your time to leave a rating :',
             actionsBuilder: (_, stars) {
               return [
                 FlatButton(
@@ -83,23 +84,16 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
     bool hasContactsInStore = contacts.isNotEmpty;
     return [
       ProModeHomeScreen(),
-      !hasContactsInStore
-          ? SendToContactScreen()
-          : ContactsList(),
-      Container(),
+      !hasContactsInStore ? SendToContactScreen() : ContactsList(),
+      TradeScreen(),
       ReceiveScreen()
     ];
   }
 
   void _onTap(int itemIndex) {
-    if (itemIndex == 2) {
-      comingSoon(context);
-      return;
-    } else {
-      setState(() {
-        _currentIndex = itemIndex;
-      });
-    }
+    setState(() {
+      _currentIndex = itemIndex;
+    });
   }
 
   BottomNavigationBar _bottomNavigationBar() => BottomNavigationBar(
@@ -119,22 +113,12 @@ class _ProModeScaffoldState extends State<ProModeScaffold> {
       );
 
   onInit(Store<AppState> store) {
-    bool isListenToTransferEvents = store.state.proWalletState?.isListenToTransferEvents ?? false;
-    bool isFetchTransferEvents = store.state.proWalletState?.isFetchTransferEvents ?? false;
-    bool isProcessingTokensJobs = store.state.proWalletState?.isProcessingTokensJobs ?? false;
-    bool isFetchTokensBalances = store.state.proWalletState?.isFetchTokensBalances ?? false;
-    if (!isFetchTokensBalances) {
-      store.dispatch(fetchTokensBalances());
-    }
-    if (!isListenToTransferEvents) {
-      store.dispatch(startListenToTransferEvents());
-    }
-    if (!isFetchTransferEvents) {
-      store.dispatch(startFetchTransferEventsCall());
-    }
-    if (!isProcessingTokensJobs) {
-      store.dispatch(startProcessingTokensJobsCall());
-    }
+    store.dispatch(startListenToTransferEvents());
+    store.dispatch(getBalancesOnForeign());
+    store.dispatch(startFetchTransferEventsCall());
+    store.dispatch(fetchTokensBalances());
+    store.dispatch(startProcessingTokensJobsCall());
+    store.dispatch(startFetchTokensLastestPrices());
   }
 
   @override

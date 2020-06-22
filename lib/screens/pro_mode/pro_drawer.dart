@@ -13,8 +13,6 @@ import 'package:digitalrand/screens/misc/settings.dart';
 import 'package:digitalrand/utils/forks.dart';
 import 'package:digitalrand/utils/format.dart';
 
-String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
-
 class DrawerWidget extends StatefulWidget {
   @override
   _DrawerWidgetState createState() => _DrawerWidgetState();

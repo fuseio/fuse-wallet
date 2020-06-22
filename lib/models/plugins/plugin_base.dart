@@ -1,6 +1,6 @@
 abstract class Plugin {
-  String name;
-  bool isActive;
+  final String name;
+  final bool isActive;
 
   Plugin({
     this.name,

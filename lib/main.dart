@@ -21,7 +21,7 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv().load('.env_prod');
+  await DotEnv().load('.env');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runZonedGuarded<Future<void>>(() async => runApp(await customThemeApp()),
       (Object error, StackTrace stackTrace) async {
@@ -55,7 +55,8 @@ bool checkIsLoggedIn(Store<AppState> store) {
 Future<CustomTheme> customThemeApp() async {
   Store<AppState> store = await AppFactory().getStore();
 
-  String initialRoute = checkIsLoggedIn(store) ? Router.cashHomeScreen : Router.splashScreen;
+  String initialRoute =
+      checkIsLoggedIn(store) ? Router.cashHomeScreen : Router.splashScreen;
 
   return CustomTheme(
     initialThemeKey: MyThemeKeys.DEFAULT,
@@ -88,7 +89,7 @@ class _MyAppState extends State<MyApp> {
     I18n.onLocaleChanged = onLocaleChange;
   }
 
-  onWillChange(prevVM, nextVM) {
+  onWillChange(MainViewModel prevVM, MainViewModel nextVM) {
     if (prevVM.isProMode != nextVM.isProMode) {
       setState(() {
         isProMode = nextVM.isProMode;
@@ -109,39 +110,38 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreProvider<AppState>(
+    return StoreProvider<AppState>(
       store: widget.store,
-      child: new StoreConnector<AppState, SplashViewModel>(
-          converter: SplashViewModel.fromStore,
+      child: StoreConnector<AppState, MainViewModel>(
+          converter: MainViewModel.fromStore,
           onWillChange: onWillChange,
           onInit: onInit,
-          builder: (_, vm) {
-            return new Column(children: <Widget>[
-              Expanded(
-                  child: MaterialApp(
-                title: 'Digital Rand',
-                initialRoute: isProMode
-                    ? ProRouter.proModeHomeScreen
-                    : widget.initialRoute,
-                navigatorKey:
-                    isProMode ? ProRouter.navigator.key : Router.navigator.key,
-                onGenerateRoute: isProMode
-                    ? ProRouter.onGenerateRoute
-                    : Router.onGenerateRoute,
-                theme: CustomTheme.of(context),
-                localizationsDelegates: [
-                  i18n,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: i18n.supportedLocales,
-                localeResolutionCallback:
-                    i18n.resolution(fallback: new Locale("en", "US")),
-                navigatorObservers: [SegmentObserver()],
-              ))
-            ]);
-          }),
+          builder: (_, vm) => Column(children: <Widget>[
+                Expanded(
+                    child: MaterialApp(
+                  title: 'Digital Rand',
+                  initialRoute: isProMode
+                      ? ProRouter.proModeHomeScreen
+                      : widget.initialRoute,
+                  navigatorKey: isProMode
+                      ? ProRouter.navigator.key
+                      : Router.navigator.key,
+                  onGenerateRoute: isProMode
+                      ? ProRouter.onGenerateRoute
+                      : Router.onGenerateRoute,
+                  theme: CustomTheme.of(context),
+                  localizationsDelegates: [
+                    i18n,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: i18n.supportedLocales,
+                  localeResolutionCallback:
+                      i18n.resolution(fallback: new Locale("en", "US")),
+                  navigatorObservers: [SegmentObserver()],
+                ))
+              ])),
     );
   }
 }

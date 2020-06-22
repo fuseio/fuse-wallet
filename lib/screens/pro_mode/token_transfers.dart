@@ -49,7 +49,7 @@ class TransfersList extends StatelessWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          token.address.contains(daiTokenAddress)
+          token.address.contains(daiTokenAddress.toLowerCase())
               ? Container(
                   padding: EdgeInsets.only(left: 10, right: 10, top: 20),
                   color: Theme.of(context).splashColor,
@@ -175,7 +175,7 @@ class _TransferRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Flexible(
-                  flex: 12,
+                  flex: 8,
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: <Widget>[
@@ -185,17 +185,33 @@ class _TransferRow extends StatelessWidget {
                           alignment: Alignment.center,
                           children: <Widget>[
                             CachedNetworkImage(
-                              width: 54,
-                              height: 54,
-                              imageUrl: getTokenUrl(
-                                  checksumEthereumAddress(token.address)),
+                              width: 55,
+                              height: 55,
+                              imageUrl: token.imageUrl != null &&
+                                      token.imageUrl.isNotEmpty
+                                  ? token.imageUrl
+                                  : getTokenUrl(
+                                      checksumEthereumAddress(token.address)),
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) => const Icon(
                                 Icons.error,
                                 size: 54,
                               ),
-                            )
+                            ),
+                            transfer.isPending()
+                                ? Container(
+                                    width: 55,
+                                    height: 55,
+                                    child: CircularProgressIndicator(
+                                      backgroundColor:
+                                          Color(0xFF49D88D).withOpacity(0),
+                                      strokeWidth: 3,
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Color(0xFF49D88D).withOpacity(1)),
+                                    ))
+                                : SizedBox.shrink(),
                           ],
                         ),
                       ),
@@ -209,7 +225,7 @@ class _TransferRow extends StatelessWidget {
                     ],
                   )),
               Flexible(
-                  flex: 3,
+                  flex: 4,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

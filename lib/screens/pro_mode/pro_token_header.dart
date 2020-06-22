@@ -1,6 +1,8 @@
+import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/pro/token.dart';
 import 'package:digitalrand/utils/addresses.dart';
@@ -15,6 +17,17 @@ class ProTokenHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String price;
+    if (token?.priceInfo != null) {
+      Decimal decimalValue = Decimal.parse(token?.priceInfo?.total);
+      price = decimalValue.scale > 5
+          ? decimalValue.toStringAsPrecision(1)
+          : decimalValue.toString();
+    }
+    bool isDollarPegged = dollarPeggedToken.contains(token.address);
+    if (isDollarPegged && price == null) {
+      price = formatValue(token.amount, token.decimals);
+    }
     return new StoreConnector<AppState, _ProTokenHeaderViewModel>(
         converter: _ProTokenHeaderViewModel.fromStore,
         builder: (_, viewModel) {
@@ -82,8 +95,8 @@ class ProTokenHeader extends StatelessWidget {
                       children: <Widget>[
                         RichText(
                             text: new TextSpan(
-                                text: token.address.contains(daiTokenAddress)
-                                    ? "\$${formatValue(token.amount, token.decimals)}"
+                                text: isDollarPegged
+                                    ? '\$$price'
                                     : "${formatValue(token.amount, token.decimals)}",
                                 style: new TextStyle(
                                     fontSize: 32,
@@ -98,7 +111,7 @@ class ProTokenHeader extends StatelessWidget {
                                     color: Color(0xFFBEBEBE), fontSize: 18),
                                 children: [
                               new TextSpan(
-                                  text: token.address.contains(daiTokenAddress)
+                                  text: isDollarPegged
                                       ? formatValue(
                                           token.amount, token.decimals)
                                       : ''),
@@ -122,8 +135,9 @@ class _ProTokenHeaderViewModel extends Equatable {
   _ProTokenHeaderViewModel({this.firstName, this.daiToken});
 
   static _ProTokenHeaderViewModel fromStore(Store<AppState> store) {
-    Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)
-        ? store.state.proWalletState.erc20Tokens[daiTokenAddress]
+    Token token = store.state.proWalletState.erc20Tokens
+            .containsKey(daiTokenAddress.toLowerCase())
+        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
         : new Token.initial();
     return _ProTokenHeaderViewModel(
         daiToken: token,

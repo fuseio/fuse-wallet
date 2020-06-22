@@ -1,17 +1,21 @@
+import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:digitalrand/models/community.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
+import 'package:digitalrand/models/pro/pro_wallet_state.dart';
 import 'package:digitalrand/models/pro/token.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/utils/addresses.dart';
-import 'package:digitalrand/utils/format.dart';
 import 'package:digitalrand/utils/barcode.dart';
+import 'package:digitalrand/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/widgets/raised_gradient_button.dart';
+import 'package:wallet_core/wallet_core.dart' show EtherAmount, EtherUnit;
 
 class ProHeader extends StatelessWidget {
   @override
@@ -19,11 +23,17 @@ class ProHeader extends StatelessWidget {
     return new StoreConnector<AppState, _ProHeaderViewModel>(
         converter: _ProHeaderViewModel.fromStore,
         onWillChange: (prevVm, nextVm) {
-          if (nextVm.daiToken.address != null &&
-              nextVm.daiToken.address != '') {
-            String name = nextVm.daiToken.name;
+          if (prevVm.etherBalance != nextVm.etherBalance) {
+            EtherAmount amount = EtherAmount.inWei(nextVm.etherBalance);
             nextVm.idenyifyCall(Map<String, dynamic>.from({
-              "ERC20 Token: $name balance": formatValue(nextVm.daiToken.amount, nextVm.daiToken.decimals),
+              "Ether balance": Decimal.parse(
+                      amount.getValueInUnit(EtherUnit.ether).toString())
+                  .toStringAsPrecision(1),
+            }));
+          }
+          if (prevVm.balance != nextVm.balance) {
+            nextVm.idenyifyCall(Map<String, dynamic>.from({
+              "Usd dollar balance": nextVm.balance,
             }));
           }
         },
@@ -116,14 +126,15 @@ class ProHeader extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: 6.0),
                             ),
                             Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
                                 children: <Widget>[
                                   RichText(
                                     text: new TextSpan(
                                       children: <TextSpan>[
                                         new TextSpan(
-                                            text: '\$' + formatValue(viewModel.daiToken?.amount, viewModel.daiToken?.decimals),
+                                            text: '\$' + viewModel.balance,
                                             style: new TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
@@ -132,6 +143,16 @@ class ProHeader extends StatelessWidget {
                                       ],
                                     ),
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Text(
+                                      '${viewModel.ethBalance} ETH',
+                                      style: new TextStyle(
+                                        fontSize: 18,
+                                        color: Theme.of(context).splashColor,
+                                      ),
+                                    ),
+                                  )
                                 ])
                           ],
                         ),
@@ -149,7 +170,10 @@ class ProHeader extends StatelessWidget {
                                 ],
                               ),
                               onPressed: () {
-                                bracodeScannerHandler(context, isProMode: true, daiToken: viewModel.daiToken, feePlugin: viewModel.feePlugin);
+                                bracodeScannerHandler(context,
+                                    isProMode: true,
+                                    daiToken: viewModel.daiToken,
+                                    feePlugin: viewModel.feePlugin);
                               },
                               child: Image.asset(
                                 'assets/images/scan.png',
@@ -173,17 +197,55 @@ class ProHeader extends StatelessWidget {
 class _ProHeaderViewModel extends Equatable {
   final Function() firstName;
   final Token daiToken;
+  final String balance;
+  final String ethBalance;
+  final BigInt etherBalance;
   final Function(Map<String, dynamic> traits) idenyifyCall;
   final FeePlugin feePlugin;
 
-  _ProHeaderViewModel({this.firstName, this.daiToken, this.idenyifyCall, this.feePlugin,});
+  _ProHeaderViewModel(
+      {this.firstName,
+      this.daiToken,
+      this.etherBalance,
+      this.idenyifyCall,
+      this.feePlugin,
+      this.ethBalance,
+      this.balance});
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
-    Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)
-        ? store.state.proWalletState.erc20Tokens[daiTokenAddress]
+    ProWalletState proState = store.state.proWalletState;
+    Token token = store.state.proWalletState.erc20Tokens
+            .containsKey(daiTokenAddress.toLowerCase())
+        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
         : new Token.initial();
-    Community community = store.state.cashWalletState.communities[defaultCommunityAddress];
+    Community community =
+        store.state.cashWalletState.communities[defaultCommunityAddress];
+    BigInt etherBalance =
+        store.state.proWalletState?.etherBalance ?? BigInt.zero;
+
+    String format = EtherAmount.inWei(etherBalance)
+        .getValueInUnit(EtherUnit.ether)
+        .toString();
+    num ethBalance = num.parse(Decimal.parse(format).toStringAsPrecision(2));
+
+    num combiner(num previousValue, Token temp) {
+      if (dollarPeggedToken.contains(temp.address.toLowerCase())) {
+        return temp?.priceInfo != null
+            ? previousValue +
+                num.parse(Decimal.parse(temp?.priceInfo?.total).toString())
+            : previousValue +
+                num.parse(formatValue(temp.amount, temp.decimals));
+      }
+      return previousValue + 0;
+    }
+
+    num usdValue = proState.erc20Tokens.values.fold<num>(0, combiner);
     return _ProHeaderViewModel(
+        ethBalance: ethBalance == 0
+            ? '0'
+            : ethBalance.compareTo(0.01) != 1 ? 'Less then 0.01' : ethBalance,
+        balance: Decimal.parse(usdValue.toString()).toStringAsPrecision(1),
+        etherBalance: etherBalance,
         feePlugin: community.plugins.foreignTransfers,
         daiToken: token,
         firstName: () {
@@ -196,5 +258,5 @@ class _ProHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [daiToken, feePlugin];
+  List<Object> get props => [daiToken, feePlugin, ethBalance, balance, etherBalance];
 }
