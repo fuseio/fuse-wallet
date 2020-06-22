@@ -163,10 +163,9 @@ ThunkAction startListenToTransferEvents() {
           List transfersEvents = await graph.getTransferEvents(foreignNetwork: foreignNetwork, to: walletAddress);
           ProWalletState proWalletState = store.state.proWalletState;
           if (transfersEvents.isNotEmpty && proWalletState.erc20Tokens.isEmpty) {
-            // List<String> addressesFromTransfersEvents = [...transfersEvents.map((transferEvent) => transferEvent['tokenAddress'].toLowerCase())..toSet()..toList()];
-            // addressesFromTransfersEvents..removeWhere((address) => proWalletState.erc20Tokens.containsKey(address));
-            // addressesFromTransfersEvents: addressesFromTransfersEvents
-            store.dispatch(getBalancesOnForeign());
+            List<String> addressesFromTransfersEvents = [...transfersEvents.map((transferEvent) => transferEvent['tokenAddress'].toLowerCase())..toSet()..toList()];
+            addressesFromTransfersEvents..removeWhere((address) => proWalletState.erc20Tokens.containsKey(address));
+            store.dispatch(getBalancesOnForeign(addressesFromTransfersEvents: addressesFromTransfersEvents));
             timer.cancel();
           }
         } catch (error) {
@@ -266,9 +265,9 @@ ThunkAction getBalancesOnForeign({List<String> addressesFromTransfersEvents}) {
       Map walletData = await api.getWallet();
       ProWalletState proWalletState = store.state.proWalletState;
       List<String> tokenAddresses = [];
-      // if (addressesFromTransfersEvents != null) {
-      //   tokenAddresses..addAll(addressesFromTransfersEvents);
-      // }
+      if (addressesFromTransfersEvents != null) {
+        tokenAddresses..addAll(addressesFromTransfersEvents);
+      }
       if (walletData['balancesOnForeign'] != null) {
         Map<String, dynamic> balancesOnForeign = Map.from(walletData['balancesOnForeign']);
         balancesOnForeign..removeWhere((key, value) => proWalletState.erc20Tokens.containsKey(key.toLowerCase()));
