@@ -162,6 +162,7 @@ ProWalletState _getTokenListSuccess(
     if (newOne.containsKey(token.address)) {
       newOne[token.address] = newOne[token.address].copyWith(
           amount: token.amount,
+          timestamp: token.timestamp,
           priceInfo: token.priceInfo);
     } else if (!newOne.containsKey(token.address)) {
       newOne[token.address] = token;

@@ -548,7 +548,6 @@ Future<dynamic> fetchSwap(
       if (destinationAmount != null && destinationAmount.isNotEmpty) {
         apiOptions['swap']['destinationAmount'] = destinationAmount;
       }
-      logger.info(apiOptions.toString());
       Map<String, dynamic> response =
           await exchangeApi.swap(walletAddress, options: apiOptions);
       bool success = response['success'] ?? false;

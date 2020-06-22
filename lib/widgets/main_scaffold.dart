@@ -76,29 +76,31 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: key,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Expanded(child: scrollView(context)),
-              ],
-            ),
-            Positioned(
-              bottom: withPadding ? padding : 0,
-              left: 0,
-              right: 0,
-              child: Align(
-                alignment: Alignment.center,
-                child: footer,
+    return Container(
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: Scaffold(
+          body: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(child: scrollView(context)),
+                ],
               ),
-            )
-          ],
+              Positioned(
+                bottom: withPadding ? padding : 0,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: footer,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
