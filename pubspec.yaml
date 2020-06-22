@@ -70,7 +70,7 @@ flutter_icons:
   ios: true
 flutter:
   assets:
-    - .env_prod
+    - .env
     - .env_qa
     - assets/
     - assets/images/
