@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/pro/token.dart';
-import 'package:digitalrand/utils/addresses.dart';
 import 'package:digitalrand/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
@@ -135,12 +134,7 @@ class _ProTokenHeaderViewModel extends Equatable {
   _ProTokenHeaderViewModel({this.firstName, this.daiToken});
 
   static _ProTokenHeaderViewModel fromStore(Store<AppState> store) {
-    Token token = store.state.proWalletState.erc20Tokens
-            .containsKey(daiTokenAddress.toLowerCase())
-        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
-        : new Token.initial();
     return _ProTokenHeaderViewModel(
-        daiToken: token,
         firstName: () {
           String fullName = store.state.userState.displayName ?? '';
           return fullName.split(' ')[0];

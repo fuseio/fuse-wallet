@@ -57,9 +57,9 @@ class ProHeader extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF000C26),
-                    Color(0xFF00226A),
-                    Color(0xFF04112D),
+                    Colors.black,
+                    Color(0xFF414141),
+                    Colors.black,
                   ],
                 ),
                 borderRadius: BorderRadius.only(
@@ -206,10 +206,6 @@ class _ProHeaderViewModel extends Equatable {
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
     ProWalletState proState = store.state.proWalletState;
-    Token token = store.state.proWalletState.erc20Tokens
-            .containsKey(daiTokenAddress.toLowerCase())
-        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
-        : new Token.initial();
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     BigInt etherBalance =
@@ -239,7 +235,6 @@ class _ProHeaderViewModel extends Equatable {
         balance: Decimal.parse(usdValue.toString()).toStringAsPrecision(1),
         etherBalance: etherBalance,
         feePlugin: community.plugins.foreignTransfers,
-        daiToken: token,
         firstName: () {
           String fullName = store.state.userState.displayName ?? '';
           return fullName.split(' ')[0];

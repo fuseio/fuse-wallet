@@ -1,5 +1,11 @@
 import 'dart:core';
+import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/plugins/bridge_to_foreign_fee.dart';
+import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
+import 'package:digitalrand/screens/send/send_amount.dart';
+import 'package:digitalrand/screens/send/send_amount_arguments.dart';
+import 'package:digitalrand/utils/addresses.dart';
 import 'package:digitalrand/widgets/activate_pro_mode.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:digitalrand/redux/state/store.dart';
@@ -495,19 +501,34 @@ class _ExchangeState extends State<TradeScreen> {
                     return;
                   } else if (!viewModel.isProMode &&
                       viewModel.isProModeActivated) {
-                    viewModel.replaceNavigator(true);
-                    return;
-                  }
-
-                  if (swapResponse != null && swapResponse['tx'] != null) {
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => ReviewTradeScreen(
-                                  fromToken: tokenToPayWith.copyWith(),
-                                  toToken: tokenToReceive.copyWith(),
-                                  exchangeSummry: swapResponse,
-                                )));
+                            builder: (context) => SendAmountScreen(
+                                pageArgs: SendAmountArguments(
+                                    avatar: AssetImage(
+                                      'assets/images/ethereume_icon.png',
+                                    ),
+                                    name: 'ethereum',
+                                    feePlugin: viewModel.feePlugin,
+                                    sendType: SendType.ETHEREUM_ADDRESS,
+                                    accountAddress:
+                                        viewModel.homeBridgeAddress))));
+                    Segment.track(
+                        eventName:
+                            'Wallet: Choose amount to transfer - activate pro mode');
+                    return;
+                  } else {
+                    if (swapResponse != null && swapResponse['tx'] != null) {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => ReviewTradeScreen(
+                                    fromToken: tokenToPayWith.copyWith(),
+                                    toToken: tokenToReceive.copyWith(),
+                                    exchangeSummry: swapResponse,
+                                  )));
+                    }
                   }
                 },
               ),
@@ -523,13 +544,17 @@ class _ExchangeViewModel extends Equatable {
   final bool isProMode;
   final bool isProModeActivated;
   final Function(bool isProMode) replaceNavigator;
+  final FeePlugin feePlugin;
+  final String homeBridgeAddress;
 
   _ExchangeViewModel({
     this.walletAddress,
+    this.feePlugin,
     this.tokens,
     this.isProMode,
     this.isProModeActivated,
     this.replaceNavigator,
+    this.homeBridgeAddress,
   });
 
   static _ExchangeViewModel fromStore(Store<AppState> store) {
@@ -554,7 +579,17 @@ class _ExchangeViewModel extends Equatable {
         } else
           return false;
       });
+    Community community =
+        store.state.cashWalletState.communities[defaultCommunityAddress];
     return _ExchangeViewModel(
+        homeBridgeAddress: community.homeBridgeAddress,
+        feePlugin: community.plugins.bridgeToForeign ??
+            BridgeToForeignFeePlugin(
+                name: 'bridgeToForeign',
+                receiverAddress: '0x77D886e98133D99130179bdb41CE052a43d32c2F',
+                isActive: true,
+                type: 'fixed',
+                amount: '0'),
         isProMode: store.state.userState.isProMode ?? false,
         walletAddress: store.state.userState.walletAddress,
         tokens: [...tokens, ...exchangable].toSet().toList(),

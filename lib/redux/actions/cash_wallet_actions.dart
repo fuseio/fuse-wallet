@@ -807,17 +807,17 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       dynamic response;
       if (receiverAddress.toLowerCase() ==
           community.homeBridgeAddress.toLowerCase()) {
-        num feeAmount = community.plugins.bridgeToForeign.calcFee(tokensAmount);
+        num feeAmount = 0;// community.plugins.bridgeToForeign.calcFee(tokensAmount);
         value = toBigInt(tokensAmount + feeAmount, token.decimals);
-        String feeReceiverAddress =
-            community.plugins.bridgeToForeign.receiverAddress;
+        // String feeReceiverAddress =
+        //     community.plugins.bridgeToForeign.receiverAddress;
         logger.info(
             'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
         Map<String, dynamic> trasnferData = await web3.transferTokenOffChain(
             walletAddress, tokenAddress, receiverAddress, tokensAmount);
-        Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-            walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
-        response = await api.multiRelay([trasnferData, feeTrasnferData]);
+        // Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+        //     walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+        response = await api.multiRelay([trasnferData]); //, feeTrasnferData
       } else {
         value = toBigInt(tokensAmount, token.decimals);
         logger.info(

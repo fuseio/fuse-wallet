@@ -1,3 +1,4 @@
+import 'package:digitalrand/widgets/activate_pro_mode2.dart';
 import 'package:digitalrand/widgets/primary_button.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +89,12 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
                             onPressed: () async {
                               viewModel.activateProMode();
                               Navigator.of(context).pop();
-                              viewModel.replaceNavigator(true);
+                              // viewModel.replaceNavigator(true);
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return ActivateProMode2Dialog();
+                                  });
                             },
                           ))
                         ],
@@ -103,24 +109,24 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
 
 class ActivateProModeViewModel extends Equatable {
   final Function activateProMode;
-  final String daiPointsHomeBridgeAddress;
+  final String homeBridgeAddress;
   final FeePlugin feePlugin;
   final Function(bool isProMode) replaceNavigator;
   ActivateProModeViewModel(
       {this.feePlugin,
       this.activateProMode,
-      this.daiPointsHomeBridgeAddress,
+      this.homeBridgeAddress,
       this.replaceNavigator});
 
   @override
-  List<Object> get props => [feePlugin, daiPointsHomeBridgeAddress];
+  List<Object> get props => [feePlugin, homeBridgeAddress];
 
   static ActivateProModeViewModel fromStore(Store<AppState> store) {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return ActivateProModeViewModel(
         feePlugin: community.plugins.bridgeToForeign,
-        daiPointsHomeBridgeAddress: community.homeBridgeAddress,
+        homeBridgeAddress: community.homeBridgeAddress,
         activateProMode: () async {
           store.dispatch(activateProModeCall());
         },

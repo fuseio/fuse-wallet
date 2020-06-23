@@ -49,93 +49,93 @@ class TransfersList extends StatelessWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          token.address.contains(daiTokenAddress.toLowerCase())
-              ? Container(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                  color: Theme.of(context).splashColor,
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    verticalDirection: VerticalDirection.up,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      InkWell(
-                        child: Container(
-                          padding: EdgeInsets.all(10),
-                          width: MediaQuery.of(context).size.width * .3,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                new BorderRadius.all(new Radius.circular(5.0)),
-                            color: Theme.of(context).backgroundColor,
-                            shape: BoxShape.rectangle,
-                          ),
-                          child: Center(
-                            child: Text(
-                              I18n.of(context).addDai,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Theme.of(context).primaryColor),
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return DepositDaiDialog();
-                              });
-                        },
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      new StoreConnector<AppState, _SendToCashModeViewModel>(
-                          distinct: true,
-                          converter: _SendToCashModeViewModel.fromStore,
-                          builder: (_, vm) {
-                            return InkWell(
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                width: MediaQuery.of(context).size.width * .4,
-                                decoration: BoxDecoration(
-                                  borderRadius: new BorderRadius.all(
-                                      new Radius.circular(5.0)),
-                                  color: Theme.of(context).backgroundColor,
-                                  shape: BoxShape.rectangle,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    I18n.of(context).sendToCashMode,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    new MaterialPageRoute(
-                                        builder: (context) => SendAmountScreen(
-                                                pageArgs: SendAmountArguments(
-                                              sendType:
-                                                  SendType.ETHEREUM_ADDRESS,
-                                              sendToCashMode: true,
-                                              feePlugin: vm.feePlugin,
-                                              avatar: NetworkImage(
-                                                getTokenUrl(
-                                                    checksumEthereumAddress(
-                                                        token.address)),
-                                              ),
-                                              name: 'Cash mode',
-                                              erc20Token: token,
-                                            ))));
-                              },
-                            );
-                          }),
-                    ],
-                  ),
-                )
-              : SizedBox.shrink(),
+          // token.address.contains(daiTokenAddress.toLowerCase())
+          //     ? Container(
+          //         padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+          //         color: Theme.of(context).splashColor,
+          //         child: new Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           verticalDirection: VerticalDirection.up,
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: <Widget>[
+          //             InkWell(
+          //               child: Container(
+          //                 padding: EdgeInsets.all(10),
+          //                 width: MediaQuery.of(context).size.width * .3,
+          //                 decoration: BoxDecoration(
+          //                   borderRadius:
+          //                       new BorderRadius.all(new Radius.circular(5.0)),
+          //                   color: Theme.of(context).backgroundColor,
+          //                   shape: BoxShape.rectangle,
+          //                 ),
+          //                 child: Center(
+          //                   child: Text(
+          //                     I18n.of(context).addDai,
+          //                     style: TextStyle(
+          //                         fontSize: 15,
+          //                         color: Theme.of(context).primaryColor),
+          //                   ),
+          //                 ),
+          //               ),
+          //               onTap: () {
+          //                 showDialog(
+          //                     context: context,
+          //                     builder: (BuildContext context) {
+          //                       return DepositDaiDialog();
+          //                     });
+          //               },
+          //             ),
+          //             SizedBox(
+          //               width: 20,
+          //             ),
+          //             new StoreConnector<AppState, _SendToCashModeViewModel>(
+          //                 distinct: true,
+          //                 converter: _SendToCashModeViewModel.fromStore,
+          //                 builder: (_, vm) {
+          //                   return InkWell(
+          //                     child: Container(
+          //                       padding: EdgeInsets.all(10),
+          //                       width: MediaQuery.of(context).size.width * .4,
+          //                       decoration: BoxDecoration(
+          //                         borderRadius: new BorderRadius.all(
+          //                             new Radius.circular(5.0)),
+          //                         color: Theme.of(context).backgroundColor,
+          //                         shape: BoxShape.rectangle,
+          //                       ),
+          //                       child: Center(
+          //                         child: Text(
+          //                           I18n.of(context).sendToCashMode,
+          //                           style: TextStyle(
+          //                               fontSize: 15,
+          //                               color: Theme.of(context).primaryColor),
+          //                         ),
+          //                       ),
+          //                     ),
+          //                     onTap: () {
+          //                       Navigator.push(
+          //                           context,
+          //                           new MaterialPageRoute(
+          //                               builder: (context) => SendAmountScreen(
+          //                                       pageArgs: SendAmountArguments(
+          //                                     sendType:
+          //                                         SendType.ETHEREUM_ADDRESS,
+          //                                     sendToCashMode: true,
+          //                                     feePlugin: vm.feePlugin,
+          //                                     avatar: NetworkImage(
+          //                                       getTokenUrl(
+          //                                           checksumEthereumAddress(
+          //                                               token.address)),
+          //                                     ),
+          //                                     name: 'Cash mode',
+          //                                     erc20Token: token,
+          //                                   ))));
+          //                     },
+          //                   );
+          //                 }),
+          //           ],
+          //         ),
+          //       )
+          //     : SizedBox.shrink(),
           Container(
               padding: EdgeInsets.only(left: 15, top: 20, bottom: 8),
               child: Text(I18n.of(context).transactions,
@@ -286,20 +286,20 @@ class _TransferRow extends StatelessWidget {
   }
 }
 
-class _SendToCashModeViewModel extends Equatable {
-  final FeePlugin feePlugin;
-  _SendToCashModeViewModel({
-    this.feePlugin,
-  });
+// class _SendToCashModeViewModel extends Equatable {
+//   final FeePlugin feePlugin;
+//   _SendToCashModeViewModel({
+//     this.feePlugin,
+//   });
 
-  @override
-  List get props => [feePlugin];
+//   @override
+//   List get props => [feePlugin];
 
-  static _SendToCashModeViewModel fromStore(Store<AppState> store) {
-    Community community =
-        store.state.cashWalletState.communities[defaultCommunityAddress];
-    return _SendToCashModeViewModel(
-      feePlugin: community.plugins.foreignTransfers,
-    );
-  }
-}
+//   static _SendToCashModeViewModel fromStore(Store<AppState> store) {
+//     Community community =
+//         store.state.cashWalletState.communities[defaultCommunityAddress];
+//     return _SendToCashModeViewModel(
+//       feePlugin: community.plugins.foreignTransfers,
+//     );
+//   }
+// }

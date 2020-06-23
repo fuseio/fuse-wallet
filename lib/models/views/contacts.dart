@@ -1,4 +1,5 @@
 import 'package:contacts_service/contacts_service.dart';
+import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/business.dart';
@@ -9,7 +10,6 @@ import 'package:digitalrand/models/pro/token.dart' as erc20Token;
 import 'package:digitalrand/models/transactions/transactions.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
-import 'package:digitalrand/utils/addresses.dart';
 import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {
@@ -51,8 +51,8 @@ class ContactsViewModel extends Equatable {
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
-    erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
-        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
+    erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(dzarToken.address.toLowerCase())
+        ? store.state.proWalletState.erc20Tokens[dzarToken.address.toLowerCase()]
         : new erc20Token.Token.initial();
     bool isProMode = store.state.userState.isProMode ?? false;
     return ContactsViewModel(

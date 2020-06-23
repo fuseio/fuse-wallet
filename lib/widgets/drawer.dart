@@ -206,15 +206,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         height: 50.0,
         decoration: BoxDecoration(
             color: Colors.black,
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF000C26),
-                Color(0xFF00226A),
-                Color(0xFF04112D),
-              ],
-            ),
             borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
             border: Border.all(
                 color: Theme.of(context).primaryColor.withAlpha(14))),

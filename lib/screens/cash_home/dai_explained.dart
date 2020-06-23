@@ -272,11 +272,11 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                             avatar: AssetImage(
                                               'assets/images/ethereume_icon.png',
                                             ),
-                                            name: 'Send to ethereum',
+                                            name: 'ethereum',
                                             feePlugin: vm.feePlugin,
                                             sendType: SendType.ETHEREUM_ADDRESS,
                                             accountAddress: vm
-                                                .daiPointsHomeBridgeAddress))));
+                                                .homeBridgeAddress))));
                             Segment.track(
                                 eventName:
                                     'Wallet: Choose amount to transfer - activate pro mode');
@@ -365,11 +365,11 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
 
 class _DaiPointsViewModel {
   final bool isProModeActivate;
-  final String daiPointsHomeBridgeAddress;
+  final String homeBridgeAddress;
   final FeePlugin feePlugin;
   _DaiPointsViewModel({
     this.isProModeActivate,
-    this.daiPointsHomeBridgeAddress,
+    this.homeBridgeAddress,
     this.feePlugin,
   });
 
@@ -378,7 +378,7 @@ class _DaiPointsViewModel {
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return _DaiPointsViewModel(
       feePlugin: community.plugins.bridgeToForeign,
-      daiPointsHomeBridgeAddress: community.homeBridgeAddress,
+      homeBridgeAddress: community.homeBridgeAddress,
       isProModeActivate: store.state.userState.isProModeActivated,
     );
   }

@@ -74,7 +74,7 @@ class RecentContacts extends StatelessWidget {
                                   avatar: AssetImage(
                                     'assets/images/ethereume_icon.png',
                                   ),
-                                  name: 'Send to ethereum',
+                                  name: 'ethereum',
                                   feePlugin: viewModel
                                       .community.plugins.bridgeToForeign,
                                   sendType: viewModel.isProMode

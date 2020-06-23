@@ -38,7 +38,7 @@ class AssetsList extends StatelessWidget {
                       children: [
                         viewModel.hasTrasnferdToForeign
                             ? _TokenPendingRow(
-                                token: daiToken,
+                                token: dzarToken,
                               )
                             : SizedBox.shrink(),
                         ...viewModel.tokens

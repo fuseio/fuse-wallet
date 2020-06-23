@@ -1,3 +1,4 @@
+import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/community.dart';
 import 'package:digitalrand/models/pro/token.dart';
@@ -32,7 +33,7 @@ class ProWalletViewModel extends Equatable {
                   community?.homeBridgeAddress?.toLowerCase()) ??
               false;
         }) &&
-        !store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase());
+        !store.state.proWalletState.erc20Tokens.containsKey(dzarToken.address.toLowerCase());
 
     return ProWalletViewModel(
         hasTrasnferdToForeign: hasTrasnferdToForeign,
