@@ -1,6 +1,5 @@
 import 'package:libphonenumber/libphonenumber.dart';
 import 'package:flutter/services.dart';
-
 class PhoneService {
   static Future<bool> isValid(String number, String iso) async {
     try {
@@ -26,8 +25,8 @@ String formatPhoneNumber(String phoneNumber, String myCountryCode) {
   phoneNumber = removeUnicodes(phoneNumber);
   myCountryCode = removeUnicodes(myCountryCode);
   String countryCodeNumeric = myCountryCode.replaceFirst('+', '');
-  phoneNumber = phoneNumber.replaceFirst(myCountryCode, '');
   phoneNumber = phoneNumber.startsWith(countryCodeNumeric) ? phoneNumber.replaceFirst(countryCodeNumeric, '') : phoneNumber;
+  phoneNumber = phoneNumber.startsWith(myCountryCode) ? phoneNumber.replaceFirst(myCountryCode, '') : phoneNumber;
   phoneNumber = phoneNumber.replaceAll(new RegExp('(-| |\\(0\\)|\\(0|\\(|\\))'), '');
   phoneNumber = phoneNumber.replaceFirst(new RegExp('^0+'), '');
   if (!phoneNumber.startsWith('+')) {

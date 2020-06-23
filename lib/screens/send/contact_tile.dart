@@ -1,17 +1,15 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ContactTile extends StatelessWidget {
-  final Uint8List avatar;
+  final ImageProvider<dynamic> image;
   final String displayName;
   final String phoneNumber;
   final Function onTap;
   final Widget trailing;
   const ContactTile(
       {Key key,
-      this.avatar,
+      this.image,
       this.displayName,
       this.phoneNumber,
       this.onTap,
@@ -32,9 +30,7 @@ class ContactTile extends StatelessWidget {
           leading: CircleAvatar(
             backgroundColor: Color(0xFFE0E0E0),
             radius: 25,
-            backgroundImage: avatar != null && avatar.isNotEmpty
-                ? MemoryImage(avatar)
-                : new AssetImage('assets/images/anom.png'),
+            backgroundImage: image ?? AssetImage('assets/images/anom.png'),
           ),
           title: Text(
             displayName,
