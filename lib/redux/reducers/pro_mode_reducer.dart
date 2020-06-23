@@ -81,9 +81,6 @@ ProWalletState _addProTransaction(
     transactions = current.transactions
         .copyWith(list: current.transactions.list..add(action.transaction));
   } else {
-    if (action.transaction.isPending()) {
-      return state;
-    }
     int index = current.transactions.list.indexOf(saved);
     transactions = current.transactions.copyWith();
     transactions.list[index] = action.transaction;

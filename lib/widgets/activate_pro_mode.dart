@@ -1,3 +1,4 @@
+import 'package:digitalrand/widgets/primary_button.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,7 +8,6 @@ import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
-import 'package:digitalrand/widgets/activate_pro_mode2.dart';
 import 'dart:core';
 
 class ActivateProModeDialog extends StatefulWidget {
@@ -79,39 +79,18 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal)),
                           const SizedBox(height: 20.0),
-                          Container(
-                              width: 260.0,
-                              height: 50.0,
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: new BorderRadius.all(
-                                      new Radius.circular(30.0)),
-                                  border: Border.all(
-                                      color: Theme.of(context)
-                                          .primaryColor
-                                          .withAlpha(14))),
-                              child: InkWell(
-                                onTap: () {
-                                  viewModel.activateProMode();
-                                  Navigator.of(context).pop();
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ActivateProMode2Dialog();
-                                      });
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text('Activate pro mode',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500))
-                                  ],
-                                ),
-                              ))
+                          Center(
+                              child: PrimaryButton(
+                            fontSize: 16,
+                            width: 260.0,
+                            label: 'Activate pro mode',
+                            labelFontWeight: FontWeight.normal,
+                            onPressed: () async {
+                              viewModel.activateProMode();
+                              Navigator.of(context).pop();
+                              viewModel.replaceNavigator(true);
+                            },
+                          ))
                         ],
                       ),
                     );
@@ -126,8 +105,12 @@ class ActivateProModeViewModel extends Equatable {
   final Function activateProMode;
   final String daiPointsHomeBridgeAddress;
   final FeePlugin feePlugin;
+  final Function(bool isProMode) replaceNavigator;
   ActivateProModeViewModel(
-      {this.feePlugin, this.activateProMode, this.daiPointsHomeBridgeAddress});
+      {this.feePlugin,
+      this.activateProMode,
+      this.daiPointsHomeBridgeAddress,
+      this.replaceNavigator});
 
   @override
   List<Object> get props => [feePlugin, daiPointsHomeBridgeAddress];
@@ -140,6 +123,9 @@ class ActivateProModeViewModel extends Equatable {
         daiPointsHomeBridgeAddress: community.homeBridgeAddress,
         activateProMode: () async {
           store.dispatch(activateProModeCall());
+        },
+        replaceNavigator: (isProMode) {
+          store.dispatch(SwitchWalletMode(isProMode: isProMode));
         });
   }
 }

@@ -50,6 +50,7 @@ class ApproveJob extends Job {
       logger.info('ApproveJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
+      store.dispatch(proTransactionFailed(arguments['tokenAddress'], arguments['transfer']));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }

@@ -14,7 +14,6 @@ import 'package:redux/redux.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:digitalrand/widgets/raised_gradient_button.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount, EtherUnit;
 
 class ProHeader extends StatelessWidget {
@@ -58,9 +57,9 @@ class ProHeader extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Colors.black,
-                    Color(0xFF414141),
-                    Colors.black,
+                    Color(0xFF000C26),
+                    Color(0xFF00226A),
+                    Color(0xFF04112D),
                   ],
                 ),
                 borderRadius: BorderRadius.only(
@@ -143,44 +142,37 @@ class ProHeader extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: Text(
-                                      '${viewModel.ethBalance} ETH',
-                                      style: new TextStyle(
-                                        fontSize: 18,
-                                        color: Theme.of(context).splashColor,
-                                      ),
-                                    ),
-                                  )
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(left: 10.0),
+                                  //   child: Text(
+                                  //     '${viewModel.ethBalance} ETH',
+                                  //     style: new TextStyle(
+                                  //       fontSize: 18,
+                                  //       color: Theme.of(context).splashColor,
+                                  //     ),
+                                  //   ),
+                                  // )
                                 ])
                           ],
                         ),
                         new Container(
                           child: Row(children: [
-                            RaisedGradientButton(
-                              width: 50,
-                              height: 50,
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Theme.of(context).primaryColorDark,
-                                  Theme.of(context).primaryColorLight,
-                                ],
-                              ),
-                              onPressed: () {
-                                bracodeScannerHandler(context,
-                                    isProMode: true,
-                                    daiToken: viewModel.daiToken,
-                                    feePlugin: viewModel.feePlugin);
-                              },
-                              child: Image.asset(
-                                'assets/images/scan.png',
-                                width: 25.0,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            )
+                            new FloatingActionButton(
+                                heroTag: 'cash_scanner',
+                                backgroundColor: Color(0xFF00339F),
+                                elevation: 0,
+                                child: Image.asset(
+                                  'assets/images/scan.png',
+                                  width: 25.0,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                onPressed: () {
+                                  bracodeScannerHandler(context,
+                                      isProMode: true,
+                                      daiToken: viewModel.daiToken,
+                                      feePlugin: viewModel.feePlugin);
+                                })
                           ]),
                         )
                       ],
@@ -258,5 +250,6 @@ class _ProHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [daiToken, feePlugin, ethBalance, balance, etherBalance];
+  List<Object> get props =>
+      [daiToken, feePlugin, ethBalance, balance, etherBalance];
 }

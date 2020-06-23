@@ -164,7 +164,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           viewModel.walletAddress != null
                               ? Row(
                                   children: <Widget>[
-                                    Text(formatAddress(viewModel.walletAddress),
+                                    Text(
+                                      formatAddress(viewModel.walletAddress),
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
@@ -203,7 +204,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 Theme.of(context).primaryColorDark,
               ],
             ),
-            color: Colors.black,
+            color: Theme.of(context).splashColor,
             borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
             border: Border.all(
                 color: Theme.of(context).primaryColor.withAlpha(14))),
@@ -220,7 +221,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   padding: const EdgeInsets.only(left: 15),
                   child: Text('Cash mode',
                       style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).splashColor,
                           fontSize: 16,
                           fontWeight: FontWeight.w500)),
                 ),
@@ -232,7 +233,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     child: SvgPicture.asset(
                       'assets/images/pro_mode_icon.svg',
                       width: 20.0,
-                      color: Colors.black,
+                      color: Theme.of(context).splashColor,
                     ),
                     onPressed: () {
                       viewModel.replaceNavigator(false);

@@ -101,6 +101,10 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           ],
                         ),
                       ),
+                      Image.asset(
+                        'assets/images/stroke.png',
+                        fit: BoxFit.cover,
+                      ),
                       Container(
                         padding: EdgeInsets.all(20),
                         constraints: BoxConstraints(

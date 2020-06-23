@@ -1,10 +1,10 @@
 import 'package:contacts_service/contacts_service.dart';
+import 'package:digitalrand/screens/trade/trade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/views/bottom_bar.dart';
-import 'package:digitalrand/screens/buy/buy.dart';
 import 'package:digitalrand/screens/cash_home/cash_header.dart';
 import 'package:digitalrand/screens/cash_home/cash_home.dart';
 import 'package:digitalrand/screens/cash_home/webview_page.dart';
@@ -48,7 +48,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       return [
         CashHomeScreen(),
         !hasContactsInStore ? SendToContactScreen() : ContactsList(),
-        BuyScreen(),
+        TradeScreen(),
         ReceiveScreen()
       ];
     }
@@ -71,7 +71,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
         items: [
           bottomBarItem(I18n.of(context).home, 'home'),
           bottomBarItem(I18n.of(context).send_button, 'send'),
-          bottomBarItem(I18n.of(context).buy, 'buy'),
+          bottomBarItem(I18n.of(context).trade, 'trade'),
           bottomBarItem(I18n.of(context).receive, 'receive'),
         ],
         onTap: _onTap,

@@ -1,4 +1,6 @@
 import 'dart:core';
+import 'package:digitalrand/redux/actions/user_actions.dart';
+import 'package:digitalrand/widgets/activate_pro_mode.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/services.dart';
@@ -102,7 +104,8 @@ class _ExchangeState extends State<TradeScreen> {
       swapResponse['amount'] = num.parse(value);
       swapResponse['amountIn'] = num.parse(formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToReceive.decimals, withPrecision: false));
+          tokenToReceive.decimals,
+          withPrecision: false));
       String toTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals);
@@ -149,7 +152,8 @@ class _ExchangeState extends State<TradeScreen> {
       swapResponse['amount'] = num.parse(value);
       swapResponse['amountIn'] = num.parse(formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToReceive.decimals, withPrecision: false));
+          tokenToReceive.decimals,
+          withPrecision: false));
       String fromTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToPayWith.decimals);
@@ -301,20 +305,35 @@ class _ExchangeState extends State<TradeScreen> {
     return new StoreConnector<AppState, _ExchangeViewModel>(
         converter: _ExchangeViewModel.fromStore,
         onInitialBuild: (viewModel) {
-          final Token ethToken = viewModel.tokens
-                .firstWhere((element) => element.symbol == 'ETH');
-          fetchPrices(viewModel.walletAddress, viewModel.tokens[0], ethToken);
+          final Token ethToken =
+              viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
+          final Token dzarToken = viewModel.tokens
+              .firstWhere((element) => element.symbol == 'DZAR');
+          final Token daiToken =
+              viewModel.tokens.firstWhere((element) => element.symbol == 'DAI');
+          final Token payWithToken =
+              ethToken == viewModel.tokens[0] ? dzarToken : viewModel.tokens[0];
+          fetchPrices(viewModel.walletAddress, payWithToken, daiToken);
           setState(() {
-            tokenToPayWith = viewModel.tokens[0];
-            tokenToReceive = ethToken;
+            tokenToPayWith = payWithToken;
+            tokenToReceive = daiToken;
           });
         },
         builder: (_, viewModel) {
-          final Token payWithToken = tokenToPayWith ?? viewModel.tokens[0];
-          final Token receiveToken = tokenToReceive ??
+          final Token ethToken =
               viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
-          num value = num.parse(
-              formatValue(payWithToken.amount, payWithToken.decimals, withPrecision: false));
+          final Token dzarToken = viewModel.tokens
+              .firstWhere((element) => element.symbol == 'DZAR');
+          final Token daiToken =
+              viewModel.tokens.firstWhere((element) => element.symbol == 'DAI');
+          final Token payWithToken = tokenToPayWith ??
+              (ethToken == viewModel.tokens[0]
+                  ? dzarToken
+                  : viewModel.tokens[0]);
+          final Token receiveToken = tokenToReceive ?? daiToken;
+          num value = num.parse(formatValue(
+              payWithToken.amount, payWithToken.decimals,
+              withPrecision: false));
           bool payWithHasBalance = payWithController.text != null &&
                   payWithController.text.isNotEmpty
               ? value.compareTo(num.parse(payWithController.text ?? 0) ?? 0) !=
@@ -356,7 +375,8 @@ class _ExchangeState extends State<TradeScreen> {
                                   onTap: () {
                                     String max = formatValue(
                                         tokenToPayWith.amount,
-                                        tokenToPayWith.decimals, withPrecision: false);
+                                        tokenToPayWith.decimals,
+                                        withPrecision: false);
                                     setState(() {
                                       payWithController.text = max;
                                     });
@@ -404,7 +424,8 @@ class _ExchangeState extends State<TradeScreen> {
                             alignment: Alignment.center,
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+                                padding: EdgeInsets.only(
+                                    left: 20, right: 20, top: 0, bottom: 0),
                                 child: SizedBox(
                                   child: Divider(
                                     thickness: 1.0,
@@ -465,6 +486,19 @@ class _ExchangeState extends State<TradeScreen> {
                 fontSize: 15,
                 disabled: swapResponse == null,
                 onPressed: () async {
+                  if (!viewModel.isProMode && !viewModel.isProModeActivated) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ActivateProModeDialog();
+                        });
+                    return;
+                  } else if (!viewModel.isProMode &&
+                      viewModel.isProModeActivated) {
+                    viewModel.replaceNavigator(true);
+                    return;
+                  }
+
                   if (swapResponse != null && swapResponse['tx'] != null) {
                     Navigator.push(
                         context,
@@ -486,18 +520,30 @@ class _ExchangeState extends State<TradeScreen> {
 class _ExchangeViewModel extends Equatable {
   final String walletAddress;
   final List<Token> tokens;
+  final bool isProMode;
+  final bool isProModeActivated;
+  final Function(bool isProMode) replaceNavigator;
 
-  _ExchangeViewModel({this.walletAddress, this.tokens});
+  _ExchangeViewModel({
+    this.walletAddress,
+    this.tokens,
+    this.isProMode,
+    this.isProModeActivated,
+    this.replaceNavigator,
+  });
 
   static _ExchangeViewModel fromStore(Store<AppState> store) {
-    List<Token> tokens = List<Token>.from(
+    final List<Token> tokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals, withPrecision: false)).compareTo(0) == 1)
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: false))
+                .compareTo(0) ==
+            1)
         .toList()
         .reversed
         .toList();
-    List<Token> exchangable = exchangableTokens.values.toList()
+    final List<Token> exchangable = exchangableTokens.values.toList()
       ..removeWhere((Token token) {
         dynamic foundToken = tokens.firstWhere(
             (element) =>
@@ -509,15 +555,18 @@ class _ExchangeViewModel extends Equatable {
           return false;
       });
     return _ExchangeViewModel(
-      walletAddress: store.state.userState.walletAddress,
-      tokens: [...tokens, ...exchangable].toSet().toList(),
-    );
+        isProMode: store.state.userState.isProMode ?? false,
+        walletAddress: store.state.userState.walletAddress,
+        tokens: [...tokens, ...exchangable].toSet().toList(),
+        isProModeActivated: store.state.userState.isProModeActivated,
+        replaceNavigator: (isProMode) {
+          store.dispatch(SwitchWalletMode(isProMode: isProMode));
+        });
   }
 
   @override
   List<Object> get props => [walletAddress, tokens];
 }
-
 
 Future<dynamic> fetchSwap(
     String walletAddress, String fromTokenAddress, String toTokenAddress,
