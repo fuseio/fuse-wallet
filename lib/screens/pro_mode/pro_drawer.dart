@@ -164,7 +164,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           viewModel.walletAddress != null
                               ? Row(
                                   children: <Widget>[
-                                    Text(formatAddress(viewModel.walletAddress),
+                                    Text(
+                                      formatAddress(viewModel.walletAddress),
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
@@ -199,11 +200,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorDark,
+                Color(0xFF000C26),
+                Color(0xFF00226A),
+                Color(0xFF04112D),
               ],
             ),
-            color: Colors.black,
+            color: Colors.white,
             borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
             border: Border.all(
                 color: Theme.of(context).primaryColor.withAlpha(14))),

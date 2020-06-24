@@ -100,7 +100,7 @@ class ActivateProMode2DialogState extends State<ActivateProMode2Dialog>
                                                 avatar: AssetImage(
                                                   'assets/images/ethereume_icon.png',
                                                 ),
-                                                name: 'Send to ethereum',
+                                                name: 'ethereum',
                                                 feePlugin: viewModel.feePlugin,
                                                 sendType:
                                                     SendType.ETHEREUM_ADDRESS,

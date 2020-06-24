@@ -272,7 +272,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                             avatar: AssetImage(
                                               'assets/images/ethereume_icon.png',
                                             ),
-                                            name: 'Send to ethereum',
+                                            name: 'ethereum',
                                             feePlugin: vm.feePlugin,
                                             sendType: SendType.ETHEREUM_ADDRESS,
                                             accountAddress: vm
