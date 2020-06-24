@@ -1,3 +1,4 @@
+import 'package:farmlyledger/screens/send/contact_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -10,8 +11,6 @@ import 'package:farmlyledger/models/views/contacts.dart';
 import 'package:farmlyledger/screens/send/recent_contacts.dart';
 import 'package:farmlyledger/utils/barcode.dart';
 import 'package:farmlyledger/screens/send/enable_contacts.dart';
-import 'package:farmlyledger/screens/send/send_amount.dart';
-import 'package:farmlyledger/screens/send/send_amount_arguments.dart';
 import 'package:farmlyledger/utils/contacts.dart';
 import 'package:farmlyledger/utils/format.dart';
 import 'package:farmlyledger/utils/send.dart';
@@ -150,8 +149,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               onTap: () {
                 sendToContact(context, viewModel, user.displayName, phone.value,
                     avatar: user.avatar != null && user.avatar.isNotEmpty
-                      ? MemoryImage(user.avatar)
-                      : new AssetImage('assets/images/anom.png'));
+                        ? MemoryImage(user.avatar)
+                        : new AssetImage('assets/images/anom.png'));
               },
             ),
           ),
@@ -164,66 +163,21 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  Widget sendToAcccountAddress(String accountAddress, viewModel) {
-    Widget component = Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
-      child: Container(
-        decoration: new BoxDecoration(
-            border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-        child: ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
-          leading: CircleAvatar(
-            backgroundColor: Color(0xFFE0E0E0),
-            radius: 25,
-            backgroundImage: new AssetImage('assets/images/anom.png'),
-          ),
-          title: Text(
-            formatAddress(accountAddress),
-            style: TextStyle(fontSize: 16),
-          ),
-          trailing: InkWell(
-            child: Text(
-              I18n.of(context).next_button,
-              style: TextStyle(color: Color(0xFF0377FF)),
-            ),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => SendAmountScreen(
-                          pageArgs: SendAmountArguments(
-                              erc20Token: viewModel.isProMode
-                                  ? viewModel.daiToken
-                                  : null,
-                              sendType: viewModel.isProMode
-                                  ? SendType.ETHEREUM_ADDRESS
-                                  : SendType.PASTED_ADDRESS,
-                              accountAddress: accountAddress,
-                              name: formatAddress(accountAddress),
-                              avatar:
-                                  new AssetImage('assets/images/anom.png')))));
-            },
-          ),
-          onTap: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => SendAmountScreen(
-                          pageArgs: SendAmountArguments(
-                              erc20Token: viewModel.isProMode
-                                  ? viewModel.daiToken
-                                  : null,
-                              sendType: viewModel.isProMode
-                                  ? SendType.ETHEREUM_ADDRESS
-                                  : SendType.PASTED_ADDRESS,
-                              accountAddress: accountAddress,
-                              name: formatAddress(accountAddress),
-                              avatar:
-                                  new AssetImage('assets/images/anom.png')))));
-            },
+  Widget sendToAcccountAddress(BuildContext context,
+      ContactsViewModel viewModel, String accountAddress) {
+    Widget component = ContactTile(
+      displayName: formatAddress(accountAddress),
+      onTap: () {
+        sendToPastedAddress(context, viewModel, accountAddress);
+      },
+      trailing: InkWell(
+        child: Text(
+          I18n.of(context).next_button,
+          style: TextStyle(color: Color(0xFF0377FF)),
         ),
+        onTap: () {
+          sendToPastedAddress(context, viewModel, accountAddress);
+        },
       ),
     );
     return SliverList(
@@ -234,14 +188,15 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
   List<Widget> _buildPageList(viewModel) {
     List<Widget> listItems = List();
 
-    listItems.add(searchPanel());
+    listItems.add(searchPanel(viewModel));
 
     if (searchController.text.isEmpty) {
       if (hasSynced) {
         listItems.add(RecentContacts());
       }
     } else if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(searchController.text, viewModel));
+      listItems.add(
+          sendToAcccountAddress(context, viewModel, searchController.text));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
@@ -264,7 +219,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     return listItems;
   }
 
-  searchPanel() {
+  searchPanel(ContactsViewModel viewModel) {
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverAppBarDelegate(
@@ -319,7 +274,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     onPressed: () {
-                      bracodeScannerHandler(context);
+                      bracodeScannerHandler(context,
+                          isProMode: viewModel.isProMode,
+                          daiToken: viewModel.daiToken,
+                          feePlugin: viewModel.feePlugin);
                     }),
                 width: 50.0,
                 height: 50.0,
@@ -333,7 +291,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
 
   onInit(Store<AppState> store) {
     Segment.screen(screenName: '/send-to-contact-screen');
-    loadContacts(store.state.userState?.contacts ?? [], store.state.userState.isContactsSynced);
+    loadContacts(store.state.userState?.contacts ?? [],
+        store.state.userState.isContactsSynced);
   }
 
   @override
