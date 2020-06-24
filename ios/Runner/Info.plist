@@ -18,8 +18,6 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -35,14 +33,20 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>989676454711-08bmmfjm0fhqgpvr2e7kon8ug73garn9.apps.googleusercontent.com</string>
+				<string>com.googleusercontent.apps.989676454711-9103ubhiomdt56hs5i30vn5rl96kjcts</string>
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<string>NO</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>itms</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
@@ -84,15 +88,11 @@
 	<string>fuseio.app.link</string>
 	<key>branch_key</key>
 	<string>key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr</string>
-	<key>com.claimsforce.segment.WRITE_KEY</key>
-	<string>n2yoAnpD1bpDmAXBhUloLYpS1U5f7W09</string>
 	<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>
 	<false/>
+	<key>com.claimsforce.segment.WRITE_KEY</key>
+	<string>n2yoAnpD1bpDmAXBhUloLYpS1U5f7W09</string>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>itms</string>
-	</array>
 </dict>
 </plist>
