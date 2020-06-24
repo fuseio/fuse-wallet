@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/screens/pro_routes.gr.dart';
@@ -101,6 +102,11 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           ],
                         ),
                       ),
+                      SvgPicture.asset(
+                        'assets/images/stroke.svg',
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                      ),
                       Container(
                         padding: EdgeInsets.all(20),
                         constraints: BoxConstraints(
@@ -176,7 +182,8 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           widget.exchangeSummry['amountIn'],
                           widget.exchangeSummry['tx']['to'],
                           widget.exchangeSummry['tx']['data'], () {
-                        ProRouter.navigator.pushNamedAndRemoveUntil(ProRouter.proModeHomeScreen, (route) => false);
+                        ProRouter.navigator.pushNamedAndRemoveUntil(
+                            ProRouter.proModeHomeScreen, (route) => false);
                       }, () {
                         setState(() {
                           isPreloading = false;
