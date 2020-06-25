@@ -3,6 +3,7 @@ import 'package:digitalrand/models/pro/token.dart';
 import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:digitalrand/screens/pro_routes.gr.dart';
 import 'package:digitalrand/utils/format.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:digitalrand/generated/i18n.dart';
@@ -101,9 +102,10 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           ],
                         ),
                       ),
-                      Image.asset(
-                        'assets/images/stroke.png',
+                      SvgPicture.asset(
+                        'assets/images/stroke.svg',
                         fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
                       ),
                       Container(
                         padding: EdgeInsets.all(20),

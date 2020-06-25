@@ -30,6 +30,12 @@ class SettingsScreen extends StatelessWidget {
           Navigator.push(context,
               new MaterialPageRoute(builder: (context) => AboutScreen()));
         }),
+        new Divider(),
+        getListTile(context, I18n.of(context).logout, () {
+          viewModel.logout();
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => SplashScreen()));
+        })
       ];
     } else {
       return [

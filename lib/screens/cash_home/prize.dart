@@ -110,10 +110,8 @@ class _PrizeScreenState extends State<PrizeScreen> {
       Map<String, dynamic> drawInfoResponse = responseHandler(response);
       final data = drawInfoResponse['data'];
       return data;
-    } catch (error, stackTrace) {
+    } catch (error) {
       logger.severe('_fetchDaiPointsInfo');
-      await AppFactory().reportError(error, stackTrace);
-      throw 'Error while fetching prize info';
     }
   }
 

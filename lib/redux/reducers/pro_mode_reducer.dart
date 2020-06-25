@@ -33,6 +33,8 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, AddProTransaction>(_addProTransaction),
   TypedReducer<ProWalletState, ReplaceProTransaction>(_replaceProTransaction),
   TypedReducer<ProWalletState, ProJobDone>(_proJobDone),
+  // TypedReducer<ProWalletState, GetTokenTransfersEventsListSuccess>(
+  //     _getTokenTransfersEventsListSuccess),
 ]);
 
 ProWalletState _proJobDone(ProWalletState state, ProJobDone action) {
@@ -68,6 +70,38 @@ ProWalletState _replaceProTransaction(
   newOne[action.tokenAddress] = newToken;
   return state.copyWith(erc20Tokens: newOne);
 }
+
+// ProWalletState _getTokenTransfersEventsListSuccess(
+//     ProWalletState state, GetTokenTransfersEventsListSuccess action) {
+//   print('Found ${action.tokenTransfers.length} token transfers');
+//   if (action.tokenTransfers.isNotEmpty) {
+//     Token current = state.erc20Tokens[action.tokenAddress];
+//     List<Transfer> tokenTransfers = action.tokenTransfers
+//       ..removeWhere((t) =>
+//           t.txHash ==
+//           current.transactions.list
+//               .firstWhere((element) => element.txHash == t.txHash)
+//               ?.txHash);
+//     for (Transfer tx in tokenTransfers.reversed) {
+//       Transfer saved = current.transactions.list
+//           .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+//       if (saved != null) {
+//         if (saved.isPending()) {
+//           saved.status = 'CONFIRMED';
+//         }
+//       } else {
+//         current.transactions.list.add(tx);
+//       }
+//     }
+//     Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+//     newOne[action.tokenAddress] = current.copyWith(
+//         transactions:
+//             current.transactions.copyWith(list: current.transactions.list));
+//     return state.copyWith(erc20Tokens: newOne);
+//   } else {
+//     return state;
+//   }
+// }
 
 ProWalletState _addProTransaction(
     ProWalletState state, AddProTransaction action) {

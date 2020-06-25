@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:digitalrand/models/community.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/models/pro/pro_wallet_state.dart';
@@ -216,16 +215,15 @@ class _ProHeaderViewModel extends Equatable {
         .toString();
     num ethBalance = num.parse(Decimal.parse(format).toStringAsPrecision(2));
 
-    num combiner(num previousValue, Token temp) {
-      if (dollarPeggedToken.contains(temp.address.toLowerCase())) {
-        return temp?.priceInfo != null
-            ? previousValue +
-                num.parse(Decimal.parse(temp?.priceInfo?.total).toString())
-            : previousValue +
-                num.parse(formatValue(temp.amount, temp.decimals));
-      }
-      return previousValue + 0;
-    }
+    num combiner(num previousValue, Token token) =>
+        prices.containsKey(token.symbol)
+            ? token?.priceInfo != null
+                ? previousValue +
+                    num.parse(Decimal.parse(token?.priceInfo?.total).toString())
+                : previousValue +
+                    num.parse(getDollarValue(
+                        token.amount, token.decimals, prices[token.symbol]))
+            : previousValue + 0;
 
     num usdValue = proState.erc20Tokens.values.fold<num>(0, combiner);
     return _ProHeaderViewModel(
