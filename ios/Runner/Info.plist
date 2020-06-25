@@ -92,7 +92,7 @@
 	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-    <string>itms</string>
+		<string>itms</string>
 	</array>
 </dict>
 </plist>
