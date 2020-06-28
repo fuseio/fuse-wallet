@@ -21,18 +21,11 @@ String formatValue(BigInt value, int decimals,
   return decimalValue.toStringAsFixed(1);
 }
 
-String calcValueInDollar(BigInt value, int decimals) {
-  if (value == null || decimals == null) return '';
-  double formatedValue1 = (value / BigInt.from(pow(10, decimals)) / 100);
-  Decimal decimalValue = Decimal.parse(formatedValue1.toString());
-  return decimalValue.toStringAsFixed(1);
-}
-
 String getDollarValue(BigInt value, int decimals, double price) {
   if (value == null || decimals == null) return '';
   double formatedValue1 = (value / BigInt.from(pow(10, decimals)));
   Decimal decimalValue = Decimal.parse((formatedValue1 * price).toString());
-  return decimalValue.toStringAsFixed(2);
+  return decimalValue.toStringAsFixed(1);
 }
 
 String formatAddress(String address) {

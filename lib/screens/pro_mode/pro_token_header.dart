@@ -80,7 +80,7 @@ class ProTokenHeader extends StatelessWidget {
                       text: new TextSpan(
                           text: prices.containsKey(token.symbol)
                               ? '\$$price'
-                              : "${formatValue(token.amount, token.decimals)}",
+                              : "${token.getTokenBalance()}",
                           style: new TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
@@ -95,7 +95,7 @@ class ProTokenHeader extends StatelessWidget {
                           children: [
                         new TextSpan(
                             text: prices.containsKey(token.symbol)
-                                ? formatValue(token.amount, token.decimals)
+                                ? token.getTokenBalance()
                                 : ''),
                         new TextSpan(text: " ${token.symbol}")
                       ])),

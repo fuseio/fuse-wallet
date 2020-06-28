@@ -122,8 +122,7 @@ class TokenTile extends StatelessWidget {
                                               color: Theme.of(context)
                                                   .primaryColor))
                                       : TextSpan(
-                                          text: formatValue(token.amount,
-                                                  token.decimals) +
+                                          text: token.getTokenBalance() +
                                               ' ' +
                                               token.symbol,
                                           style: new TextStyle(
@@ -136,8 +135,7 @@ class TokenTile extends StatelessWidget {
                                         bottom: -20,
                                         child: Padding(
                                             child: Text(
-                                                formatValue(token.amount,
-                                                        token.decimals) +
+                                                token.getTokenBalance() +
                                                     ' ' +
                                                     token.symbol,
                                                 style: TextStyle(

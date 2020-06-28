@@ -208,8 +208,6 @@ class I18n implements WidgetsLocalizations {
   String get protect_wallet => "Protect your wallet";
   /// "Backup"
   String get backup_wallet => "Backup";
-  /// "Top-up your account"
-  String get top_up => "Top-up your account";
   /// "Buy"
   String get buy => "Buy";
   /// "DAI points"
@@ -226,6 +224,8 @@ class I18n implements WidgetsLocalizations {
   String get smart => "Smart";
   /// "Settings"
   String get settings => "Settings";
+  /// "Deposit"
+  String get deposit => "Deposit";
   /// "Home"
   String get home => "Home";
   /// "Trade"
@@ -523,9 +523,6 @@ class _I18n_he_IL extends I18n {
   /// "גבה את חשבונך"
   @override
   String get backup_wallet => "גבה את חשבונך";
-  /// "Top up"
-  @override
-  String get top_up => "Top up";
   /// "רכוש"
   @override
   String get buy => "רכוש";
@@ -849,9 +846,6 @@ class _I18n_es_ES extends I18n {
   /// "Respalda tu monedero"
   @override
   String get backup_wallet => "Respalda tu monedero";
-  /// "Cargar dinero"
-  @override
-  String get top_up => "Cargar dinero";
   /// "Comprar"
   @override
   String get buy => "Comprar";
@@ -1130,9 +1124,6 @@ class _I18n_br_BR extends I18n {
   /// "criar copia de seguranca da carteira"
   @override
   String get backup_wallet => "criar copia de seguranca da carteira";
-  /// "completar"
-  @override
-  String get top_up => "completar";
   /// "comprar"
   @override
   String get buy => "comprar";
@@ -1396,9 +1387,6 @@ class _I18n_it_IT extends I18n {
   /// "di riserva"
   @override
   String get backup_wallet => "di riserva";
-  /// "Ricarica il tuo account"
-  @override
-  String get top_up => "Ricarica il tuo account";
   /// "Acquistare"
   @override
   String get buy => "Acquistare";
@@ -1692,9 +1680,6 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Backup"
   @override
   String get backup_wallet => "Backup";
-  /// "i-Top-up ang iyong account"
-  @override
-  String get top_up => "i-Top-up ang iyong account";
   /// "Bumili"
   @override
   String get buy => "Bumili";
@@ -1988,9 +1973,6 @@ class _I18n_id_ID extends I18n {
   /// "Perlindungan"
   @override
   String get backup_wallet => "Perlindungan";
-  /// "Isi ulang akun anda"
-  @override
-  String get top_up => "Isi ulang akun anda";
   /// "Beli"
   @override
   String get buy => "Beli";
@@ -2296,9 +2278,6 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "Respalda tu monedero"
   @override
   String get backup_wallet => "Respalda tu monedero";
-  /// "Cargar dinero"
-  @override
-  String get top_up => "Cargar dinero";
   /// "Comprar"
   @override
   String get buy => "Comprar";

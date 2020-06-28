@@ -56,48 +56,46 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   List<Widget> pluginsItems(DrawerViewModel viewModel) {
     List<Widget> plugins = [];
-    List depositPlugins = viewModel?.plugins?.getDepositPlugins();
-    if (depositPlugins.isNotEmpty) {
-      plugins.add(new Divider(
-        color: Color(0xFFCBCBCB),
-      ));
-      plugins.add(ListTile(
-        contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
-        title: Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: Row(
-            children: <Widget>[
-              SvgPicture.asset(
-                'assets/images/top_up.svg',
-                width: 20,
-                height: 20,
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Text(
-                I18n.of(context).top_up,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Theme.of(context).primaryColor),
-              ),
-            ],
-          ),
+    plugins.add(new Divider(
+      color: Color(0xFFCBCBCB),
+    ));
+    plugins.add(ListTile(
+      contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
+      title: Padding(
+        padding: EdgeInsets.only(left: 10),
+        child: Row(
+          children: <Widget>[
+            SvgPicture.asset(
+              'assets/images/top_up.svg',
+              width: 20,
+              height: 20,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              I18n.of(context).deposit,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Theme.of(context).primaryColor),
+            ),
+          ],
         ),
-        onTap: () {
-          dynamic url = depositPlugins[0].generateUrl();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => WebViewPage(
-                    pageArgs: WebViewPageArguments(url: url, title: 'Top up')),
-                fullscreenDialog: true),
-          );
-          Segment.track(eventName: 'User clicked on top up');
-        },
-      ));
-    }
+      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => WebViewPage(
+                  pageArgs: WebViewPageArguments(
+                      url: 'https://digitalrand.co.za/deposit.html',
+                      title: I18n.of(context).deposit)),
+              fullscreenDialog: true),
+        );
+        Segment.track(eventName: 'User clicked on deposit');
+      },
+    ));
 
     return plugins;
   }
@@ -259,6 +257,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   children: <Widget>[
                     drawerHeader(viewModel),
                     ...menuItem(viewModel),
+                    ...pluginsItems(viewModel),
                   ],
                 ),
               ),
