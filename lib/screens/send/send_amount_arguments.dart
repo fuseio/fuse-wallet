@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paywise/models/plugins/fee_base.dart';
 import 'package:paywise/models/pro/token.dart';
 
 enum SendType {
@@ -20,6 +21,7 @@ class SendAmountArguments {
   bool sendToCashMode = false;
   bool isProMode = false;
   Token erc20Token;
+  FeePlugin feePlugin;
 
   SendAmountArguments(
       {this.sendToCashMode = false,
@@ -30,5 +32,6 @@ class SendAmountArguments {
       this.erc20Token,
       this.accountAddress,
       this.amount,
+      this.feePlugin,
       this.avatar});
 }

@@ -41,6 +41,7 @@ class BusinessPage extends StatefulWidget {
 class _BusinessPageState extends State<BusinessPage> {
   GlobalKey<ScaffoldState> scaffoldState;
   Completer<GoogleMapController> _controller = Completer();
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -49,13 +50,37 @@ class _BusinessPageState extends State<BusinessPage> {
   @override
   void initState() {
     super.initState();
+    bool showMap = this.widget.pageArg.business.metadata.latLng != null &&
+        this.widget.pageArg.business.metadata.latLng.isNotEmpty;
+    if (showMap) {
+      _add();
+    }
+  }
+
+  void _add() {
+    final String markerIdVal = this.widget.pageArg.business.name;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    final BusinessArguments businessArgs = this.widget.pageArg;
+    final Marker marker = Marker(
+        markerId: markerId,
+        position: LatLng(businessArgs.business.metadata.latLng[0],
+            businessArgs.business.metadata.latLng[1]),
+        infoWindow: InfoWindow(
+          title: this.widget.pageArg.business.metadata.address,
+        ));
+
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final BusinessArguments businessArgs = this.widget.pageArg;
-    final String coverPhotoUrl = getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
-    final String imageUrl = getImageUrl(businessArgs.business, businessArgs.communityAddress);
+    final String coverPhotoUrl =
+        getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
+    final String imageUrl =
+        getImageUrl(businessArgs.business, businessArgs.communityAddress);
     return new Scaffold(
       key: scaffoldState,
       body: Container(
@@ -152,7 +177,9 @@ class _BusinessPageState extends State<BusinessPage> {
                               Text(
                                 businessArgs.business.name,
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).primaryColor),
                               ),
                               Container(
                                 constraints: new BoxConstraints(
@@ -163,8 +190,8 @@ class _BusinessPageState extends State<BusinessPage> {
                                   businessArgs.business.metadata.address,
                                   softWrap: true,
                                   style: TextStyle(
-                                    fontSize: 13,
-                                  ),
+                                      fontSize: 13,
+                                      color: Theme.of(context).primaryColor),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -174,8 +201,8 @@ class _BusinessPageState extends State<BusinessPage> {
                                         businessArgs.business.metadata.type),
                                 overflow: TextOverflow.fade,
                                 style: TextStyle(
-                                  fontSize: 12,
-                                ),
+                                    fontSize: 12,
+                                    color: Theme.of(context).primaryColor),
                               )
                             ],
                           ),
@@ -214,8 +241,13 @@ class _BusinessPageState extends State<BusinessPage> {
                                                 _launchUrl(businessArgs
                                                     .business.metadata.website);
                                               },
-                                              child: Text(businessArgs
-                                                  .business.metadata.website),
+                                              child: Text(
+                                                businessArgs
+                                                    .business.metadata.website,
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -237,8 +269,13 @@ class _BusinessPageState extends State<BusinessPage> {
                                               ),
                                             ),
                                             InkWell(
-                                              child: Text(businessArgs.business
-                                                  .metadata.phoneNumber),
+                                              child: Text(
+                                                businessArgs.business.metadata
+                                                    .phoneNumber,
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor),
+                                              ),
                                               onTap: () {
                                                 _launchUrl(
                                                     'tel:${businessArgs.business.metadata.phoneNumber}');
@@ -276,13 +313,18 @@ class _BusinessPageState extends State<BusinessPage> {
                                                   padding:
                                                       const EdgeInsets.only(
                                                           bottom: 5),
-                                                  child: Text(businessArgs
-                                                              .business
-                                                              .metadata
-                                                              .description !=
-                                                          ''
-                                                      ? 'More details'
-                                                      : ''),
+                                                  child: Text(
+                                                    businessArgs
+                                                                .business
+                                                                .metadata
+                                                                .description !=
+                                                            ''
+                                                        ? 'More details'
+                                                        : '',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor),
+                                                  ),
                                                 ),
                                                 Padding(
                                                   padding:
@@ -320,13 +362,14 @@ class _BusinessPageState extends State<BusinessPage> {
                                       .business.metadata.latLng.isNotEmpty
                               ? GoogleMap(
                                   onMapCreated: _onMapCreated,
+                                  markers: Set<Marker>.from(markers.values),
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(
                                         businessArgs
                                             .business.metadata.latLng[0],
                                         businessArgs
                                             .business.metadata.latLng[1]),
-                                    zoom: 13.0,
+                                    zoom: 17.0,
                                   ),
                                 )
                               : SizedBox.shrink(),
@@ -346,8 +389,8 @@ class _BusinessPageState extends State<BusinessPage> {
                                         .textTheme
                                         .button
                                         .color,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
                               ),
                               onPressed: () {
                                 Navigator.push(
@@ -370,11 +413,7 @@ class _BusinessPageState extends State<BusinessPage> {
                       ),
                     ),
                   ]),
-            ),
-            // Expanded(
-            //   flex: 1,
-            //   child: bottomBar(context),
-            // )
+            )
           ],
         ),
       ),

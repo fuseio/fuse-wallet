@@ -3,7 +3,6 @@ import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import 'package:paywise/redux/state/store.dart';
 import 'package:paywise/services.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:wallet_core/wallet_core.dart' as wallet_core;
 
 part 'approve_job.g.dart';
 
@@ -57,14 +56,7 @@ class ApproveJob extends Job {
       logger.info('ApproveJob not done');
       return;
     }
-    wallet_core.Web3 web3 = store.state.proWalletState.web3;
-    if (web3 != null) {
-      this.status = 'DONE';
-      logger.info('start tokenTransfer job');
-      String walletAddress = store.state.userState.walletAddress;
-      await api.tokenTransfer(web3, walletAddress, arguments['tokenAddress'], arguments['receiverAddress'], arguments['tokensAmount'], network: arguments['network']);
-      store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
-    }
+    store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 
   @override

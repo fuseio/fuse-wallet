@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paywise/models/community.dart';
-import 'package:paywise/models/plugins.dart';
+import 'package:paywise/models/plugins/plugins.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 

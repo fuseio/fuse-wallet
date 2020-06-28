@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/views/cash_header.dart';
 import 'package:paywise/models/app_state.dart';
-import 'package:paywise/screens/send/send_amount.dart';
-import 'package:paywise/screens/send/send_amount_arguments.dart';
+import 'package:paywise/utils/barcode.dart';
 import 'package:paywise/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:share/share.dart';
 
 class CashHeader extends StatelessWidget {
@@ -56,7 +54,7 @@ class CashHeader extends StatelessWidget {
                             padding:
                                 EdgeInsets.only(top: 35, bottom: 35, right: 35),
                             child: Image.asset(
-                              'assets/images/menu.png',
+                              'assets/images/menu_white.png',
                               width: 20,
                             ))),
                     Expanded(
@@ -71,13 +69,13 @@ class CashHeader extends StatelessWidget {
                                   text: I18n.of(context).hi,
                                   style: TextStyle(
                                       fontSize: 33,
-                                      color: Theme.of(context).primaryColor,
+                                      color: Theme.of(context).splashColor,
                                       fontWeight: FontWeight.normal)),
                               new TextSpan(
                                   text: ' ' + viewModel.firstName(),
                                   style: TextStyle(
                                       fontSize: 33,
-                                      color: Theme.of(context).primaryColor,
+                                      color: Theme.of(context).splashColor,
                                       fontWeight: FontWeight.normal)),
                             ],
                           ),
@@ -100,7 +98,7 @@ class CashHeader extends StatelessWidget {
                                   child: Text(I18n.of(context).balance,
                                       style: TextStyle(
                                           color: Theme.of(context)
-                                              .primaryColor
+                                              .splashColor
                                               .withAlpha(150),
                                           fontSize: 12.0)),
                                   padding: EdgeInsets.only(bottom: 6.0),
@@ -118,7 +116,7 @@ class CashHeader extends StatelessWidget {
                                                 style: new TextStyle(
                                                     fontSize: 30,
                                                     color: Theme.of(context)
-                                                        .primaryColor,
+                                                        .splashColor,
                                                     fontWeight:
                                                         FontWeight.bold))
                                           ]
@@ -132,7 +130,7 @@ class CashHeader extends StatelessWidget {
                                                 style: new TextStyle(
                                                     fontSize: 32,
                                                     color: Theme.of(context)
-                                                        .primaryColor,
+                                                        .splashColor,
                                                     fontWeight:
                                                         FontWeight.bold)),
                                             new TextSpan(
@@ -143,7 +141,7 @@ class CashHeader extends StatelessWidget {
                                                 style: new TextStyle(
                                                     fontSize: 18,
                                                     color: Theme.of(context)
-                                                        .primaryColor,
+                                                        .splashColor,
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     height: 0.0)),
@@ -177,26 +175,7 @@ class CashHeader extends StatelessWidget {
                                         .scaffoldBackgroundColor,
                                   ),
                                   onPressed: () async {
-                                    try {
-                                      String accountAddress =
-                                          await BarcodeScanner.scan();
-                                      List<String> parts =
-                                          accountAddress.split(':');
-                                      if (parts.length == 2 &&
-                                          parts[0] == 'fuse') {
-                                            Navigator.push(
-                                            context,
-                                            new MaterialPageRoute(
-                                                builder: (context) => SendAmountScreen(
-                                                    pageArgs: SendAmountArguments(
-                                                        sendType: SendType.QR_ADDRESS,
-                                                        accountAddress: parts[1]))));
-                                      } else {
-                                        print('Account address is not on Fuse');
-                                      }
-                                    } catch (e) {
-                                      print('BarcodeScanner $e');
-                                    }
+                                    bracodeScannerHandler(context);
                                   }),
                               width: 50.0,
                               height: 50.0,

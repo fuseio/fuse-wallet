@@ -1,9 +1,8 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:paywise/models/app_state.dart';
+import 'package:paywise/models/plugins/plugins.dart';
 import 'package:redux/redux.dart';
 import 'package:paywise/models/community.dart';
-import 'package:paywise/models/plugins.dart';
 import 'package:paywise/redux/actions/user_actions.dart';
 
 class DrawerViewModel extends Equatable {
@@ -28,7 +27,9 @@ class DrawerViewModel extends Equatable {
 
   static DrawerViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community = store.state.cashWalletState.communities[communityAddress] ?? new Community.initial();
+    Community community =
+        store.state.cashWalletState.communities[communityAddress] ??
+            new Community.initial();
     return DrawerViewModel(
         isProModeActivate: store.state.userState.isProModeActivated ?? false,
         communityAddress: communityAddress,
@@ -48,5 +49,6 @@ class DrawerViewModel extends Equatable {
   }
 
   @override
-  List get props => [walletStatus, walletAddress, communityAddress, isProModeActivate];
+  List get props =>
+      [walletStatus, walletAddress, communityAddress, isProModeActivate];
 }

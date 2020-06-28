@@ -18,8 +18,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, CreateAccountWalletSuccess>(_createAccountWalletSuccess),
   TypedReducer<CashWalletState, GetTokenBalanceSuccess>(
       _getTokenBalanceSuccess),
-  TypedReducer<CashWalletState, SendTokenSuccess>(_sendTokenSuccess),
-  TypedReducer<CashWalletState, JoinCommunitySuccess>(_joinCommunitySuccess),
   TypedReducer<CashWalletState, FetchCommunityMetadataSuccess>(_fetchCommunityMetadataSuccess),
   TypedReducer<CashWalletState, AlreadyJoinedCommunity>(
       _alreadyJoinedCommunity),
@@ -43,11 +41,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _startBalanceFetchingSuccess),
   TypedReducer<CashWalletState, StartTransfersFetchingSuccess>(
       _startTransfersFetchingSuccess),
-  TypedReducer<CashWalletState, TransferSendSuccess>(_transferSendSuccess),
   TypedReducer<CashWalletState, InviteSendSuccess>(_inviteSendSuccess),
-  TypedReducer<CashWalletState, TransferJobSuccess>(_transferJobSuccess),
-  TypedReducer<CashWalletState, AddSendToInvites>(_addSendToInvites),
-  TypedReducer<CashWalletState, RemoveSendToInvites>(_removeSendToInvites),
   TypedReducer<CashWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
   TypedReducer<CashWalletState, ReplaceTransaction>(_replaceTransfer),
@@ -119,24 +113,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     } else {
       return state;
     }
-  }
-  
-  CashWalletState _sendTokenSuccess(
-      CashWalletState state, SendTokenSuccess action) {
-    print('send token - ${action.txHash} sent');
-    return state;
-  }
-  
-  CashWalletState _joinCommunitySuccess(
-      CashWalletState state, JoinCommunitySuccess action) {
-    String communityAddress = action.communityAddress.toLowerCase();
-    print('join community ${action.communityAddress} - ${action.txHash} sent');
-    Community current = state.communities[communityAddress];
-    Community newCommunity = current.copyWith(isMember: true);
-    Map<String, Community> newOne =
-        Map<String, Community>.from(state.communities);
-    newOne[communityAddress] = newCommunity;
-    return state.copyWith(communities: newOne);
   }
   
   CashWalletState _alreadyJoinedCommunity(
@@ -299,19 +275,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       CashWalletState state, StartTransfersFetchingSuccess action) {
     return state.copyWith(isTransfersFetchingStarted: true);
   }
-  
-  CashWalletState _transferSendSuccess(
-      CashWalletState state, TransferSendSuccess action) {
-    Community current = state.communities[state.communityAddress];
-    Community newCommunity = current.copyWith(
-        transactions: current.transactions
-            .copyWith(list: current.transactions.list..add(action.transfer)));
-    Map<String, Community> newOne =
-        Map<String, Community>.from(state.communities);
-    newOne[state.communityAddress] = newCommunity;
-    return state.copyWith(communities: newOne);
-  }
-  
+
   CashWalletState _addTransaction(CashWalletState state, AddTransaction action) {
     Community current = state.communities[state.communityAddress];
 
@@ -350,52 +314,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
     newOne[state.communityAddress] = newCommunity;
     return state.copyWith(communities: newOne);
   }
-  
-  CashWalletState _transferJobSuccess(
-      CashWalletState state, TransferJobSuccess action) {
-    Community current = state.communities[state.communityAddress];
-    Transfer transfer = current.transactions.list
-        .firstWhere((transfer) => transfer.jobId == action.job.id);
-    if (transfer.txHash == action.job.data["txHash"]) {
-      print('txhash already exists $transfer.txHash');
-      return state;
-    }
-  
-    dynamic json = transfer.toJson();
-    json['txHash'] = action.job.data["txHash"];
-    print('txHash to delete ${transfer.jobId}');
-    Transfer newTransfer = Transfer.fromJson(json);
-  
-    List<Transaction> nList = List.from(current.transactions.list);
-  
-    // remove Transfer with txHash if it was received before the job
-    nList.removeWhere((transfer) => transfer.txHash == action.job.data["txHash"]);
-  
-    nList
-      ..add(newTransfer)
-      ..remove(transfer);
-    Community newCommunity = current.copyWith(
-        transactions: current.transactions.copyWith(list: nList));
-    Map<String, Community> newOne =
-        Map<String, Community>.from(state.communities);
-    newOne[state.communityAddress] = newCommunity;
-    return state.copyWith(communities: newOne);
-  }
-  
-  CashWalletState _addSendToInvites(
-      CashWalletState state, AddSendToInvites action) {
-    Map<String, num> sendToInvites = state.sendToInvites;
-    sendToInvites[action.jobId] = action.amount;
-    return state.copyWith(sendToInvites: sendToInvites);
-  }
-  
-  CashWalletState _removeSendToInvites(
-      CashWalletState state, RemoveSendToInvites action) {
-    Map<String, num> sendToInvites = state.sendToInvites;
-    sendToInvites.remove(action.jobId);
-    return state.copyWith(sendToInvites: sendToInvites);
-  }
-  
   CashWalletState _createNewWalletSuccess(
       CashWalletState state, CreateLocalAccountSuccess action) {
     return CashWalletState.initial().copyWith(isBranchDataReceived: state.isBranchDataReceived);

@@ -25,7 +25,7 @@ class Router {
   static const verifyScreen = '/verify-screen';
   static const userNameScreen = '/user-name-screen';
   static const pincodeScreen = '/pincode-screen';
-  static const cashHomeScreen = '/cash-home-screen';
+  static const cashHomeScreen = '/';
   static const transactionDetailsScreen = '/transaction-details-screen';
   static const businessPage = '/business-page';
   static const recoveryPage = '/recovery-page';
@@ -46,8 +46,12 @@ class Router {
           settings: settings,
         );
       case Router.verifyScreen:
+        if (hasInvalidArgs<VerifyScreenArguments>(args)) {
+          return misTypedArgsRoute<VerifyScreenArguments>(args);
+        }
+        final typedArgs = args as VerifyScreenArguments;
         return MaterialPageRoute<dynamic>(
-          builder: (_) => VerifyScreen(),
+          builder: (_) => VerifyScreen(pageArgs: typedArgs),
           settings: settings,
         );
       case Router.userNameScreen:

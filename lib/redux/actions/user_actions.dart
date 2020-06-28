@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,8 @@ import 'package:paywise/services.dart';
 import 'package:paywise/redux/state/store.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:paywise/utils/phone.dart';
-// import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 
 class ActivateProMode {
@@ -62,24 +63,30 @@ class ReLogin {
   ReLogin();
 }
 
-// class LoginRequest {
-//   final String countryCode;
-//   final String phoneNumber;
-//   final PhoneCodeSent codeSent;
-//   final PhoneVerificationCompleted verificationCompleted;
-//   final PhoneVerificationFailed verificationFailed;
-//   final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout;
+class LoginRequest {
+  final CountryCode countryCode;
+  final String phoneNumber;
+  final PhoneCodeSent codeSent;
+  final PhoneVerificationCompleted verificationCompleted;
+  final PhoneVerificationFailed verificationFailed;
+  final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout;
 
-//   LoginRequest({@required this.countryCode, @required this.phoneNumber, @required this.codeSent, @required this.verificationCompleted, @required this.verificationFailed, @required this.codeAutoRetrievalTimeout });
-// }
+  LoginRequest({@required this.countryCode, @required this.phoneNumber, @required this.codeSent, @required this.verificationCompleted, @required this.verificationFailed, @required this.codeAutoRetrievalTimeout });
+}
 
 class LoginRequestSuccess {
-  final String countryCode;
+  final CountryCode countryCode;
   final String phoneNumber;
   final String displayName;
   final String email;
-  LoginRequestSuccess(
-      this.countryCode, this.phoneNumber, this.displayName, this.email);
+  final String normalizedPhoneNumber;
+  LoginRequestSuccess({this.countryCode, this.phoneNumber, this.displayName, this.email, this.normalizedPhoneNumber});
+}
+
+class SetIsoCode {
+  final CountryCode countryCode;
+  final String normalizedPhoneNumber;
+  SetIsoCode({this.countryCode, this.normalizedPhoneNumber});
 }
 
 class LogoutRequestSuccess {
@@ -125,8 +132,8 @@ class BackupSuccess {
 }
 
 class SetCredentials {
-  // PhoneAuthCredential credentials;
-  // SetCredentials(this.credentials);
+  PhoneAuthCredential credentials;
+  SetCredentials(this.credentials);
 }
 
 class SetVerificationId {
@@ -157,6 +164,14 @@ class SetIsVerifyRequest {
 class DeviceIdSuccess {
   final String identifier;
   DeviceIdSuccess(this.identifier);
+}
+
+ThunkAction setCountryCode(CountryCode countryCode) {
+  return (Store store) async {
+    String phone = '${countryCode.dialCode}${store.state.userState.phoneNumber}';
+    String normalizedPhoneNumber = await PhoneService.getNormalizedPhoneNumber(phone, countryCode.code);
+    SetIsoCode(countryCode: countryCode, normalizedPhoneNumber: normalizedPhoneNumber);
+  };
 }
 
 ThunkAction backupWalletCall(VoidCallback successCb) {
@@ -239,11 +254,11 @@ ThunkAction setDeviceId(bool reLogin) {
     logger.info("device identifier: $identifier");
     store.dispatch(new DeviceIdSuccess(identifier));
     if (reLogin) {
-      // final FirebaseUser currentUser = await firebaseAuth.currentUser();
-      // final String accountAddress = store.state.userState.accountAddress;
-      // IdTokenResult token = await currentUser.getIdToken();
-      // String jwtToken = await api.login(token.token, accountAddress, identifier);
-      // store.dispatch(new LoginVerifySuccess(jwtToken));
+      final FirebaseUser currentUser = await firebaseAuth.currentUser();
+      final String accountAddress = store.state.userState.accountAddress;
+      IdTokenResult token = await currentUser.getIdToken();
+      String jwtToken = await api.login(token.token, accountAddress, identifier, appName: 'Paywise');
+      store.dispatch(new LoginVerifySuccess(jwtToken));
     }
   };
 }
@@ -272,57 +287,6 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
   };
 }
 
-ThunkAction loginRequestCall(String countryCode, String phoneNumber,
-    VoidCallback successCallback, VoidCallback failCallback) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    String phone = formatPhoneNumber(phoneNumber, countryCode);
-    try {
-      bool result = await api.loginRequest(phone);
-      if (result) {
-        store.dispatch(new LoginRequestSuccess(countryCode, phoneNumber, "", ""));
-        successCallback();
-        store.dispatch(segmentTrackCall("Wallet: user insert his phone number"));
-      } else {
-        store.dispatch(new ErrorAction('Could not login'));
-        failCallback();
-      }
-    } catch (e, s) {
-      logger.severe('ERROR - loginRequestCall $e');
-      await AppFactory().reportError(e, s);
-      store.dispatch(new ErrorAction('Could not login'));
-      store.dispatch(segmentTrackCall("ERROR in loginRequestCall"));
-      failCallback();
-    }
-  };
-}
-
-ThunkAction loginVerifyCall(
-    String countryCode,
-    String phoneNumber,
-    String verificationCode,
-    String accountAddress,
-    VoidCallback successCallback,
-    VoidCallback failCallback) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      String phone = formatPhoneNumber(phoneNumber, countryCode);
-
-      String jwtToken = await api.loginVerify(phone, verificationCode, accountAddress);
-      store.dispatch(new LoginVerifySuccess(jwtToken));
-      store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-      successCallback();
-    } catch (e, s) {
-      logger.severe('ERROR - loginVerifyCall $e');
-      await AppFactory().reportError(e, s);
-      store.dispatch(new ErrorAction('Could not verify login'));
-      store.dispatch(segmentTrackCall("ERROR in loginVerifyCall"));
-      failCallback();
-    }
-  };
-}
-
 ThunkAction logoutCall() {
   return (Store store) async {
     store.dispatch(new LogoutRequestSuccess());
@@ -343,13 +307,27 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       store.dispatch(new SaveContacts(contacts));
       List<String> syncedContacts = store.state.userState.syncedContacts;
       List<String> newPhones = new List<String>();
+      String countryCode = store.state.userState.countryCode;
+      String isoCode = store.state.userState.isoCode;
       for (Contact contact in contacts) {
-        List<String> uniquePhone = contact.phones
-            .map((Item phone) => formatPhoneNumber(
-                phone.value, store.state.userState.countryCode))
-            .toSet()
-            .toList();
-        for (String phone in uniquePhone) {
+        Future<List<String>> phones = Future.wait(contact.phones.map((Item phone) async {
+          String value = clearNotNumbersAndPlusSymbol(phone.value);
+          try {
+            Map<String, dynamic> response = await phoneNumberUtil.parse(value);
+            return response['e164'];
+          } catch (e) {
+            String formatted = formatPhoneNumber(value, countryCode);
+            bool isValid = await PhoneService.isValid(formatted, isoCode);
+            if (isValid) {
+              String phoneNum = await PhoneService.getNormalizedPhoneNumber(formatted, isoCode);
+              return  phoneNum;
+            }
+            return '';
+          }
+        }));
+        List<String> result = await phones;
+        result = result.toSet().toList()..removeWhere((element) => element == '');
+        for (String phone in result) {
           if (!syncedContacts.contains(phone)) {
             newPhones.add(phone);
           }
@@ -373,15 +351,15 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
           partial = newPhones.take(limit).toList();
         }
       }
-    } catch (e, s) {
-      logger.severe('ERROR - syncContactsCall', e, s);
+    } catch (e) {
+      logger.severe('ERROR - syncContactsCall $e');
     }
   };
 }
 
 ThunkAction identifyFirstTimeCall() {
   return (Store store) async {
-    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
+    String fullPhoneNumber = store.state.userState.normalizedPhoneNumber ?? '';
     store.dispatch(enablePushNotifications());
     store.dispatch(segmentAliasCall(fullPhoneNumber));
     store.dispatch(segmentIdentifyCall(
@@ -398,10 +376,9 @@ ThunkAction identifyFirstTimeCall() {
 
 ThunkAction identifyCall() {
   return (Store store) async {
-    String fullPhoneNumber = formatPhoneNumber(store.state.userState.phoneNumber, store.state.userState.countryCode);
     store.dispatch(segmentIdentifyCall(
         new Map<String, dynamic>.from({
-          "Phone Number": fullPhoneNumber,
+          "Phone Number": store.state.userState.normalizedPhoneNumber ?? '',
           "Wallet Address": store.state.cashWalletState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
           "Display Name": store.state.userState.displayName,
@@ -465,20 +442,15 @@ ThunkAction activateProModeCall() {
         dynamic response =  await api.createWalletOnForeign();
         String jobId = response['job']['_id'];
         logger.info('createWalletOnForeign jobId $jobId');
-        // store.dispatch(startFetchingJobCall(jobId, (job) {
-        //   store.dispatch(getWalletAddressessCall());
-        // }));
         store.dispatch(segmentTrackCall('Activate pro mode clicked'));
         store.dispatch(startListenToTransferEvents());
-        store.dispatch(fetchTokensBalances());
         store.dispatch(segmentIdentifyCall(
         new Map<String, dynamic>.from({
           "Pro mode active": true,
         })));
       }
-    } catch (error, stackTrace) {
+    } catch (error) {
       logger.severe('Error createWalletOnForeign', error);
-      await AppFactory().reportError(error, stackTrace);
     }
   };
 }

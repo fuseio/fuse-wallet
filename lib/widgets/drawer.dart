@@ -8,7 +8,7 @@ import 'package:paywise/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:paywise/models/views/drawer.dart';
 import 'package:paywise/screens/backup/show_mnemonic.dart';
-import 'package:paywise/screens/cash_home/deposit_webview.dart';
+import 'package:paywise/screens/cash_home/webview_page.dart';
 import 'package:paywise/screens/cash_home/switch_commmunity.dart';
 import 'package:paywise/screens/misc/settings.dart';
 import 'package:paywise/utils/forks.dart';
@@ -89,11 +89,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
         ),
         onTap: () {
+          dynamic url = depositPlugins[0].generateUrl();
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    DepositWebView(depositPlugin: depositPlugins[0]),
+                builder: (context) => WebViewPage(
+                    pageArgs: WebViewPageArguments(url: url, title: 'Top up')),
                 fullscreenDialog: true),
           );
           Segment.track(eventName: 'User clicked on top up');

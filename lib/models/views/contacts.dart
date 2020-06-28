@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/business.dart';
 import 'package:paywise/models/community.dart';
+import 'package:paywise/models/plugins/fee_base.dart';
 import 'package:paywise/models/token.dart';
 import 'package:paywise/models/pro/token.dart' as erc20Token;
 import 'package:paywise/models/transactions/transactions.dart';
@@ -20,11 +21,14 @@ class ContactsViewModel extends Equatable {
   final Transactions transactions;
   final Map<String, String> reverseContacts;
   final String countryCode;
+  final String isoCode;
   final Function() syncContactsRejected;
   final List<Business> businesses;
   final Function(String eventName) trackCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
   final erc20Token.Token daiToken;
+  final Community community;
+  final FeePlugin feePlugin;
 
   ContactsViewModel(
       {this.contacts,
@@ -32,10 +36,13 @@ class ContactsViewModel extends Equatable {
       this.syncContacts,
       this.isContactsSynced,
       this.isProMode,
+      this.feePlugin,
       this.daiToken,
       this.transactions,
       this.reverseContacts,
       this.countryCode,
+      this.community,
+      this.isoCode,
       this.businesses,
       this.syncContactsRejected,
       this.trackCall,
@@ -47,13 +54,17 @@ class ContactsViewModel extends Equatable {
     erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)
         ? store.state.proWalletState.erc20Tokens[daiTokenAddress]
         : new erc20Token.Token.initial();
+    bool isProMode = store.state.userState.isProMode ?? false;
     return ContactsViewModel(
         daiToken: token,
-        isProMode: store.state.userState.isProMode ?? false,
+        feePlugin: isProMode ? community.plugins.foreignTransfers : null,
+        isoCode: store.state.userState.isoCode,
+        isProMode: isProMode,
         businesses: community?.businesses ?? [],
         isContactsSynced: store.state.userState.isContactsSynced,
         contacts: store.state.userState?.contacts ?? [],
         token: community?.token,
+        community: community,
         transactions: community?.transactions,
         reverseContacts: store.state.userState.reverseContacts,
         countryCode: store.state.userState.countryCode,
@@ -79,6 +90,8 @@ class ContactsViewModel extends Equatable {
     transactions,
     reverseContacts,
     countryCode,
-    businesses
+    businesses,
+    isoCode,
+    community
   ];
 }
