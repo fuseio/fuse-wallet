@@ -122,7 +122,7 @@ class _MyAppState extends State<MyApp> {
             return new Column(children: <Widget>[
               Expanded(
                   child: MaterialApp(
-                title: 'Paywise cash',
+                title: 'Paywise',
                 initialRoute: isProMode
                     ? ProRouter.proModeHomeScreen
                     : widget.initialRoute,
