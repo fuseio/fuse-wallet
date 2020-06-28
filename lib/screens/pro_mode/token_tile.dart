@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:decimal/decimal.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/screens/pro_mode/token_transfers.dart';
@@ -15,15 +13,9 @@ class TokenTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String price;
-    bool isDollarPegged = dollarPeggedToken.contains(token.address);
-    if (token?.priceInfo != null) {
-      Decimal decimalValue = Decimal.parse(token?.priceInfo?.total);
-      price = decimalValue.scale > 5
-          ? decimalValue.toStringAsPrecision(1)
-          : decimalValue.toString();
-    }
-    if (isDollarPegged && price == null) {
-      price = formatValue(token.amount, token.decimals);
+    if (prices.containsKey(token.symbol)) {
+      price =
+          getDollarValue(token.amount, token.decimals, prices[token.symbol]);
     }
     return Container(
       decoration: new BoxDecoration(
@@ -65,7 +57,8 @@ class TokenTile extends StatelessWidget {
                                 size: 54,
                               ),
                             ),
-                            token.transactions.list.any((transfer) => transfer.isPending())
+                            token.transactions.list
+                                    .any((transfer) => transfer.isPending())
                                 ? Container(
                                     width: 55,
                                     height: 55,
@@ -121,7 +114,7 @@ class TokenTile extends StatelessWidget {
                               children: <Widget>[
                                 new RichText(
                                     text: new TextSpan(children: <TextSpan>[
-                                  isDollarPegged
+                                  prices.containsKey(token.symbol)
                                       ? new TextSpan(
                                           text: '\$' + price,
                                           style: new TextStyle(
@@ -129,8 +122,7 @@ class TokenTile extends StatelessWidget {
                                               color: Theme.of(context)
                                                   .primaryColor))
                                       : new TextSpan(
-                                          text: formatValue(token.amount,
-                                                  token.decimals) +
+                                          text: token.getTokenBalance() +
                                               ' ' +
                                               token.symbol,
                                           style: new TextStyle(
@@ -138,13 +130,12 @@ class TokenTile extends StatelessWidget {
                                               color: Theme.of(context)
                                                   .primaryColor)),
                                 ])),
-                                isDollarPegged
+                                prices.containsKey(token.symbol)
                                     ? Positioned(
                                         bottom: -20,
                                         child: Padding(
                                             child: Text(
-                                                formatValue(token.amount,
-                                                        token.decimals) +
+                                                token.getTokenBalance() +
                                                     ' ' +
                                                     token.symbol,
                                                 style: TextStyle(

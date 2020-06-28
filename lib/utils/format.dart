@@ -2,23 +2,37 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 
-String formatValue(BigInt value, int decimals, {int fractionDigits = 2, bool withPrecision = true}) {
+final Map prices = {
+  "DZAR": 0.0533,
+  "DAI": 0.9955,
+  "USDT": 0.9999,
+  "USDC": 1.0009,
+  "IDRT": 0.0132146,
+  "EURS": 1.0995,
+  "TUSD": 1.0021,
+};
+
+String formatValue(BigInt value, int decimals,
+    {int fractionDigits = 2, bool withPrecision = true}) {
   if (value == null || decimals == null) return '';
   double formatedValue = value / BigInt.from(pow(10, decimals));
   if (!withPrecision) return formatedValue.toString();
   Decimal decimalValue = Decimal.parse(formatedValue.toString());
-  return decimalValue.scale > 5
-      ? decimalValue.toStringAsPrecision(2)
-      : decimalValue.toString();
+  return decimalValue.toStringAsFixed(1);
 }
 
 String calcValueInDollar(BigInt value, int decimals) {
   if (value == null || decimals == null) return '';
   double formatedValue1 = (value / BigInt.from(pow(10, decimals)) / 100);
   Decimal decimalValue = Decimal.parse(formatedValue1.toString());
-  return decimalValue.scale > 5
-      ? decimalValue.toStringAsPrecision(3)
-      : decimalValue.toString();
+  return decimalValue.toStringAsFixed(1);
+}
+
+String getDollarValue(BigInt value, int decimals, double price) {
+  if (value == null || decimals == null) return '';
+  double formatedValue1 = (value / BigInt.from(pow(10, decimals)));
+  Decimal decimalValue = Decimal.parse((formatedValue1 * price).toString());
+return decimalValue.toStringAsFixed(1);
 }
 
 String formatAddress(String address) {

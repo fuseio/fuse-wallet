@@ -334,7 +334,6 @@ ThunkAction listenToBranchCall() {
     }, onError: (error, s) async {
       logger.severe('ERROR - FlutterBranchSdk initSession $error');
       store.dispatch(BranchListeningStopped());
-      await AppFactory().reportError(error, s);
     }, cancelOnError: true);
   };
 }

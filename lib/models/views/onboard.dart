@@ -3,9 +3,11 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/signup/verify.dart';
+import 'package:fusecash/services.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -44,8 +46,17 @@ class OnboardViewModel extends Equatable {
   static OnboardViewModel fromStore(Store<AppState> store) {
     final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
       print('Got credentials: $credentials');
-      store.dispatch(new SetCredentials(credentials));
-      Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: ''));
+      final FirebaseUser user = (await firebaseAuth.signInWithCredential(credentials)).user;
+      final FirebaseUser currentUser = await firebaseAuth.currentUser();
+      assert(user.uid == currentUser.uid);
+      final String accountAddress = store.state.userState.accountAddress;
+      final String identifier = store.state.userState.identifier;
+      IdTokenResult token = await user.getIdToken();
+      String jwtToken = await api.login(token.token, accountAddress, identifier, appName: 'Paywise');
+      store.dispatch(new LoginVerifySuccess(jwtToken));
+      store.dispatch(SetIsVerifyRequest(isLoading: false));
+      store.dispatch(segmentTrackCall("Wallet: verified phone number"));
+      Router.navigator.pushReplacementNamed(Router.userNameScreen);
     };
 
     final PhoneVerificationFailed verificationFailed = (AuthException authException) {

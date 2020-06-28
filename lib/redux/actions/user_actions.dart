@@ -442,20 +442,15 @@ ThunkAction activateProModeCall() {
         dynamic response =  await api.createWalletOnForeign();
         String jobId = response['job']['_id'];
         logger.info('createWalletOnForeign jobId $jobId');
-        // store.dispatch(startFetchingJobCall(jobId, (job) {
-        //   store.dispatch(getWalletAddressessCall());
-        // }));
         store.dispatch(segmentTrackCall('Activate pro mode clicked'));
         store.dispatch(startListenToTransferEvents());
-        store.dispatch(fetchTokensBalances());
         store.dispatch(segmentIdentifyCall(
         new Map<String, dynamic>.from({
           "Pro mode active": true,
         })));
       }
-    } catch (error, stackTrace) {
+    } catch (error) {
       logger.severe('Error createWalletOnForeign', error);
-      await AppFactory().reportError(error, stackTrace);
     }
   };
 }

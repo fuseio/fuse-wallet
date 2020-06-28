@@ -200,9 +200,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color(0xFF000C26),
-                Color(0xFF00226A),
-                Color(0xFF04112D),
+                Theme.of(context).primaryColorLight,
+                Theme.of(context).primaryColorDark,
               ],
             ),
             color: Colors.white,

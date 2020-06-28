@@ -53,6 +53,12 @@ class ProJobDone {
   ProJobDone({this.tokenAddress, this.job});
 }
 
+class GetTokenTransfersEventsListSuccess {
+  List<Transfer> tokenTransfers;
+  String tokenAddress;
+  GetTokenTransfersEventsListSuccess({this.tokenTransfers, this.tokenAddress});
+}
+
 class AddProTransaction {
   final String tokenAddress;
   final Transaction transaction;
@@ -300,6 +306,7 @@ ThunkAction getBalancesOnForeign({List<String> addressesFromTransfersEvents}) {
           erc20RTokens..addEntries(result);
           erc20RTokens..removeWhere((key, value) => key == '');
           store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20RTokens));
+          store.dispatch(fetchTokensBalances());
         }
       }
     } catch (error) {

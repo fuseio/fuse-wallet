@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/models/community.dart';
 import 'package:fusecash/models/plugins/fee_base.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
@@ -228,23 +227,26 @@ class _ProHeaderViewModel extends Equatable {
         .toString();
     num ethBalance = num.parse(Decimal.parse(format).toStringAsPrecision(2));
 
-    num combiner(num previousValue, Token temp) {
-      if (dollarPeggedToken.contains(temp.address.toLowerCase())) {
-        return temp?.priceInfo != null
-            ? previousValue +
-                num.parse(Decimal.parse(temp?.priceInfo?.total).toString())
-            : previousValue +
-                num.parse(formatValue(temp.amount, temp.decimals));
-      }
-      return previousValue + 0;
-    }
+    num combiner(
+            num previousValue, Token token) =>
+        prices.containsKey(token.symbol)
+            ? token?.priceInfo != null
+                ? previousValue +
+                    num.parse(Decimal.parse(token?.priceInfo?.total).toString())
+                : previousValue +
+                    num.parse(getDollarValue(
+                        token.amount, token.decimals, prices[token.symbol]))
+            : previousValue + 0;
 
     num usdValue = proState.erc20Tokens.values.fold<num>(0, combiner);
+    Decimal decimalValue = Decimal.parse(usdValue.toString());
     return _ProHeaderViewModel(
         ethBalance: ethBalance == 0
             ? '0'
             : ethBalance.compareTo(0.01) != 1 ? 'Less then 0.01' : ethBalance,
-        balance: Decimal.parse(usdValue.toString()).toStringAsPrecision(1),
+        balance: decimalValue.isInteger
+            ? decimalValue.toString()
+            : decimalValue.toStringAsFixed(2),
         etherBalance: etherBalance,
         feePlugin: community.plugins.foreignTransfers,
         daiToken: token,
@@ -258,5 +260,6 @@ class _ProHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [daiToken, feePlugin, ethBalance, balance, etherBalance];
+  List<Object> get props =>
+      [daiToken, feePlugin, ethBalance, balance, etherBalance];
 }

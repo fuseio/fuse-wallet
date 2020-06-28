@@ -5,6 +5,7 @@ import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/pro/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
+import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
@@ -33,7 +34,39 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, AddProTransaction>(_addProTransaction),
   TypedReducer<ProWalletState, ReplaceProTransaction>(_replaceProTransaction),
   TypedReducer<ProWalletState, ProJobDone>(_proJobDone),
+  // TypedReducer<ProWalletState, GetTokenTransfersEventsListSuccess>(
+  //     _getTokenTransfersEventsListSuccess),
 ]);
+
+// ProWalletState _getTokenTransfersEventsListSuccess(
+//     ProWalletState state, GetTokenTransfersEventsListSuccess action) {
+//   if (action.tokenTransfers.isNotEmpty) {
+//     Token current = state.erc20Tokens[action.tokenAddress];
+//     // List<Transfer> tokenTransfers = action.tokenTransfers
+//     //   ..removeWhere((t) => (t.txHash ==
+//     //       current.transactions.list
+//     //           .firstWhere((element) => element.txHash == t.txHash)
+//     //           ?.txHash));
+//     for (Transfer tx in action.tokenTransfers.reversed) {
+//       Transfer saved = current.transactions.list
+//           .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+//       if (saved != null) {
+//         if (saved.isPending()) {
+//           saved.status = 'CONFIRMED';
+//         }
+//       } else {
+//         current.transactions.list.add(tx);
+//       }
+//     }
+//     Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+//     newOne[action.tokenAddress] = current.copyWith(
+//         transactions:
+//             current.transactions.copyWith(list: current.transactions.list));
+//     return state.copyWith(erc20Tokens: newOne);
+//   } else {
+//     return state;
+//   }
+// }
 
 ProWalletState _proJobDone(ProWalletState state, ProJobDone action) {
   Token current = state.erc20Tokens[action.tokenAddress];

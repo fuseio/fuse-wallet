@@ -105,7 +105,8 @@ class _ExchangeState extends State<TradeScreen> {
           tokenToReceive.decimals, withPrecision: false));
       String toTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToReceive.decimals);
+          tokenToReceive.decimals,
+          withPrecision: false);
       if (this.mounted) {
         setState(() {
           receiveController.text = toTokenAmount;
@@ -152,7 +153,8 @@ class _ExchangeState extends State<TradeScreen> {
           tokenToReceive.decimals, withPrecision: false));
       String fromTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToPayWith.decimals);
+          tokenToPayWith.decimals,
+          withPrecision: false);
       if (this.mounted) {
         setState(() {
           payWithController.text = fromTokenAmount;
