@@ -1,49 +1,25 @@
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
-import 'package:paywise/models/business.dart';
-import 'package:paywise/models/transaction.dart';
-import 'package:paywise/models/transfer.dart';
 import 'package:paywise/models/views/contacts.dart';
-import 'package:paywise/screens/routes.gr.dart';
+import 'package:paywise/screens/send/contact_tile.dart';
+import 'package:paywise/screens/send/recent_contacts.dart';
+import 'package:paywise/utils/barcode.dart';
 import 'package:paywise/screens/send/enable_contacts.dart';
-import 'package:paywise/screens/send/send_amount_arguments.dart';
-import 'package:paywise/services.dart';
 import 'package:paywise/utils/contacts.dart';
 import 'package:paywise/utils/format.dart';
-import 'package:paywise/utils/phone.dart';
-import 'package:paywise/utils/transaction_row.dart';
-import 'package:paywise/widgets/bottombar.dart';
+import 'package:paywise/utils/send.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
-import 'dart:math' as math;
-
-dynamic getImage(Transfer transfer, Contact contact, businesses) {
-  if (contact?.avatar != null && contact.avatar.isNotEmpty) {
-    return new MemoryImage(contact.avatar);
-  } else {
-    String accountAddress =
-        transfer.type == 'SEND' ? transfer.to : transfer.from;
-    Business business = businesses.firstWhere(
-        (business) => business.account == accountAddress,
-        orElse: () => null);
-    if (business != null) {
-      return NetworkImage(getImageUrl(business, ''));
-    }
-  }
-  return new AssetImage('assets/images/anom.png');
-}
-
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
+import 'package:paywise/widgets/silver_app_bar.dart';
+import 'package:redux/redux.dart';
 
 class SendToContactScreen extends StatefulWidget {
-  SendToContactScreen();
-
   @override
   _SendToContactScreenState createState() => _SendToContactScreenState();
 }
@@ -70,23 +46,22 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         hasSynced = isPermitted;
       });
     }
-    if (isPermitted && contacts.isEmpty) {
-      contacts = await ContactController.getContacts();
-    }
-    for (var contact in contacts) {
-      userList.add(contact);
-    }
-    userList.sort((a, b) =>
-        a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
-    filterList();
-    searchController.addListener(() {
+    if (contacts != null) {
+      for (var contact in contacts) {
+        userList.add(contact);
+      }
+      userList.sort((a, b) =>
+          a.displayName.toLowerCase().compareTo(b.displayName.toLowerCase()));
       filterList();
-    });
-
-    if (this.mounted) {
-      setState(() {
-        isPreloading = false;
+      searchController.addListener(() {
+        filterList();
       });
+
+      if (this.mounted) {
+        setState(() {
+          isPreloading = false;
+        });
+      }
     }
   }
 
@@ -123,7 +98,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     return SliverPersistentHeader(
       pinned: true,
       floating: true,
-      delegate: _SliverAppBarDelegate(
+      delegate: SliverAppBarDelegate(
         minHeight: 40.0,
         maxHeight: 40.0,
         child: Container(
@@ -138,187 +113,14 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
-  listBody(viewModel, List<Contact> group) {
+  listBody(ContactsViewModel viewModel, List<Contact> group) {
     List<Widget> listItems = List();
 
     for (Contact user in group) {
-      dynamic component = Slidable(
-        actionPane: SlidableDrawerActionPane(),
-        actionExtentRatio: 0.25,
-        // secondaryActions: <Widget>[
-        //   IconSlideAction(
-        //     iconWidget: Icon(Icons.star),
-        //     onTap: () {},
-        //   ),
-        //   IconSlideAction(
-        //     iconWidget: Icon(Icons.more_horiz),
-        //     onTap: () {},
-        //   ),
-        // ],
-        child: Container(
-          decoration: new BoxDecoration(
-              border:
-                  Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-          child: ListTile(
-            contentPadding:
-                EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
-            leading: CircleAvatar(
-              backgroundColor: Color(0xFFE0E0E0),
-              radius: 25,
-              backgroundImage: user.avatar != null && user.avatar.isNotEmpty
-                  ? MemoryImage(user.avatar)
-                  : new AssetImage('assets/images/anom.png'),
-            ),
-            title: Text(
-              user.displayName,
-              style: TextStyle(
-                  fontSize: 15, color: Theme.of(context).primaryColor),
-            ),
-            onTap: () async {
-              String phoneNumber = formatPhoneNumber(user.phones.first.value, viewModel.countryCode);
-              dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
-              String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
-              Router.navigator.pushNamed(Router.sendAmountScreen,
-                  arguments: SendAmountArguments(
-                      sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
-                      name: user.displayName,
-                      accountAddress: accountAddress,
-                      avatar: user.avatar != null && user.avatar.isNotEmpty
-                          ? MemoryImage(user.avatar)
-                          : new AssetImage('assets/images/anom.png'),
-                      phoneNumber: phoneNumber));
-            },
-          ),
-        ),
-      );
-
-      listItems.add(component);
-    }
-    return SliverList(
-      delegate: SliverChildListDelegate(listItems),
-    );
-  }
-
-  Widget sendToAcccountAddress(String accountAddress) {
-    Widget component = Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      actionExtentRatio: 0.25,
-      // secondaryActions: <Widget>[
-      //   IconSlideAction(
-      //     iconWidget: Icon(Icons.star),
-      //     onTap: () {},
-      //   ),
-      //   IconSlideAction(
-      //     iconWidget: Icon(Icons.more_horiz),
-      //     onTap: () {},
-      //   ),
-      // ],
-      child: Container(
-        decoration: new BoxDecoration(
-            border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-        child: ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
-          leading: CircleAvatar(
-            backgroundColor: Color(0xFFE0E0E0),
-            radius: 25,
-            backgroundImage: new AssetImage('assets/images/anom.png'),
-          ),
-          title: Text(
-            formatAddress(accountAddress),
-            style: TextStyle(fontSize: 16, color: Colors.black),
-          ),
-          trailing: InkWell(
-            child: Text(
-              I18n.of(context).next_button,
-              style: TextStyle(color: Color(0xFF0377FF)),
-            ),
-            onTap: () {
-              Router.navigator.pushNamed(Router.sendAmountScreen,
-                  arguments: SendAmountArguments(
-                      sendType: SendType.PASTED_ADDRESS,
-                      accountAddress: accountAddress,
-                      name: formatAddress(accountAddress),
-                      avatar: new AssetImage('assets/images/anom.png')));
-            },
-          ),
-          //subtitle: Text("user.company" ?? ""),
-          onTap: () {
-            Router.navigator.pushNamed(Router.sendAmountScreen,
-                arguments: SendAmountArguments(
-                    sendType: SendType.PASTED_ADDRESS,
-                    accountAddress: accountAddress,
-                    name: formatAddress(accountAddress),
-                    avatar: new AssetImage('assets/images/anom.png')));
-          },
-        ),
-      ),
-    );
-    return SliverList(
-      delegate: SliverChildListDelegate([component]),
-    );
-  }
-
-  Widget recentContacts(numToShow, ContactsViewModel viewModel) {
-    List<Widget> listItems = List();
-    final sorted =
-        new List<Transaction>.from(viewModel.transactions.list.toSet().toList())
-            .where((t) {
-      return t.type == 'SEND' && t.isConfirmed();
-    }).toList()
-              ..sort((a, b) {
-                if (a.blockNumber != null && b.blockNumber != null) {
-                  return b.blockNumber?.compareTo(a.blockNumber);
-                } else {
-                  return b.status.compareTo(a.status);
-                }
-              });
-
-    Map<String, Transaction> uniqueValues = {};
-    for (var item in sorted) {
-      final Contact contact = getContact(item, viewModel.reverseContacts,
-          viewModel.contacts, viewModel.countryCode);
-      var a = contact != null
-          ? contact.displayName
-          : deducePhoneNumber(item, viewModel.reverseContacts,
-              businesses: viewModel.businesses);
-      uniqueValues[a] = item;
-    }
-
-    dynamic uniqueList = uniqueValues.values.toList().length > numToShow
-        ? uniqueValues.values.toList().sublist(0, numToShow)
-        : uniqueValues.values.toList();
-    for (int i = 0; i < uniqueList.length; i++) {
-      if (i == 0) {
-        listItems.add(Container(
-            padding: EdgeInsets.only(left: 15, top: 15, bottom: 8),
-            child: Text(I18n.of(context).recent,
-                style: TextStyle(
-                    color: Color(0xFF979797),
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.normal))));
-      }
-      final Transfer transfer = uniqueList[i];
-      final Contact contact = getContact(transfer, viewModel.reverseContacts,
-          viewModel.contacts, viewModel.countryCode);
-      final String displatName = contact != null
-          ? contact.displayName
-          : deducePhoneNumber(transfer, viewModel.reverseContacts,
-              businesses: viewModel.businesses);
-      listItems.add(
-        Slidable(
+      for (Item phone in user.phones.toList()) {
+        dynamic component = Slidable(
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
-          // secondaryActions: <Widget>[
-          //   IconSlideAction(
-          //     iconWidget: Icon(Icons.star),
-          //     onTap: () {},
-          //   ),
-          //   IconSlideAction(
-          //     iconWidget: Icon(Icons.more_horiz),
-          //     onTap: () {},
-          //   ),
-          // ],
           child: Container(
             decoration: new BoxDecoration(
                 border:
@@ -329,52 +131,72 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               leading: CircleAvatar(
                 backgroundColor: Color(0xFFE0E0E0),
                 radius: 25,
-                backgroundImage:
-                    getImage(transfer, contact, viewModel.businesses),
+                backgroundImage: user.avatar != null && user.avatar.isNotEmpty
+                    ? MemoryImage(user.avatar)
+                    : new AssetImage('assets/images/anom.png'),
               ),
               title: Text(
-                displatName,
-                style: TextStyle(fontSize: 16, color: Colors.black),
+                user.displayName,
+                style: TextStyle(
+                    fontSize: 15, color: Theme.of(context).primaryColor),
               ),
-              onTap: () async {
-                String phoneNumber = formatPhoneNumber(contact.phones.first.value, viewModel.countryCode);
-                dynamic data = await api.getWalletByPhoneNumber(phoneNumber);
-                String accountAddress = data['walletAddress'] != null ? data['walletAddress'] : null;
-                Router.navigator.pushNamed(Router.sendAmountScreen,
-                    arguments: SendAmountArguments(
-                        sendType: accountAddress != null ? SendType.FUSE_ADDRESS : SendType.CONTACT,
-                        accountAddress: accountAddress,
-                        name: displatName,
-                        avatar: contact?.avatar != null && contact.avatar.isNotEmpty
-                            ? MemoryImage(contact.avatar)
-                            : new AssetImage('assets/images/anom.png'),
-                        phoneNumber: phoneNumber));
+              subtitle: Text(
+                phone.value,
+                style: TextStyle(
+                    fontSize: 13,
+                    color: Theme.of(context).colorScheme.secondary),
+              ),
+              onTap: () {
+                sendToContact(context, viewModel, user.displayName, phone.value,
+                    avatar: user.avatar != null && user.avatar.isNotEmpty
+                        ? MemoryImage(user.avatar)
+                        : new AssetImage('assets/images/anom.png'));
               },
             ),
           ),
-        ),
-      );
+        );
+        listItems.add(component);
+      }
     }
     return SliverList(
       delegate: SliverChildListDelegate(listItems),
     );
   }
 
+  Widget sendToAcccountAddress(BuildContext context,
+      ContactsViewModel viewModel, String accountAddress) {
+    Widget component = ContactTile(
+      displayName: formatAddress(accountAddress),
+      onTap: () {
+        sendToPastedAddress(context, viewModel, accountAddress);
+      },
+      trailing: InkWell(
+        child: Text(
+          I18n.of(context).next_button,
+          style: TextStyle(color: Color(0xFF0377FF)),
+        ),
+        onTap: () {
+          sendToPastedAddress(context, viewModel, accountAddress);
+        },
+      ),
+    );
+    return SliverList(
+      delegate: SliverChildListDelegate([component]),
+    );
+  }
+
   List<Widget> _buildPageList(viewModel) {
     List<Widget> listItems = List();
 
-    // if (isPreloading) {
-    //   return listItems;
-    // }
-
-    listItems.add(searchPanel());
+    listItems.add(searchPanel(viewModel));
 
     if (searchController.text.isEmpty) {
       if (hasSynced) {
-        listItems.add(recentContacts(3, viewModel));
+        listItems.add(RecentContacts());
       }
     } else if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(searchController.text));
+      listItems.add(
+          sendToAcccountAddress(context, viewModel, searchController.text));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
@@ -397,10 +219,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     return listItems;
   }
 
-  searchPanel() {
+  searchPanel(ContactsViewModel viewModel) {
     return SliverPersistentHeader(
       pinned: true,
-      delegate: _SliverAppBarDelegate(
+      delegate: SliverAppBarDelegate(
         minHeight: 80.0,
         maxHeight: 100.0,
         child: Container(
@@ -421,7 +243,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     onFocusChange: (showFooter) => _onFocusChange(showFooter),
                     child: TextFormField(
                       controller: searchController,
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: TextStyle(fontSize: 18, color: Colors.black),
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(0.0),
                         border: OutlineInputBorder(
@@ -443,6 +265,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               Container(
                 child: new FloatingActionButton(
+                    heroTag: 'cash_scanner',
                     backgroundColor: const Color(0xFF292929),
                     elevation: 0,
                     child: Image.asset(
@@ -450,19 +273,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       width: 25.0,
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
-                    onPressed: () async {
-                      try {
-                        String accountAddress = await BarcodeScanner.scan();
-                        List<String> parts = accountAddress.split(':');
-                        if (parts.length == 2 && parts[0] == 'fuse') {
-                          Router.navigator.pushNamed(Router.sendAmountScreen,
-                              arguments: SendAmountArguments(
-                                  sendType: SendType.QR_ADDRESS,
-                                  accountAddress: parts[1]));
-                        } else {
-                          print('Account address is not on Fuse');
-                        }
-                      } catch (e) {}
+                    onPressed: () {
+                      bracodeScannerHandler(context,
+                          isProMode: viewModel.isProMode,
+                          daiToken: viewModel.daiToken,
+                          feePlugin: viewModel.feePlugin);
                     }),
                 width: 50.0,
                 height: 50.0,
@@ -474,29 +289,29 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
     );
   }
 
+  onInit(Store<AppState> store) {
+    Segment.screen(screenName: '/send-to-contact-screen');
+    loadContacts(store.state.userState?.contacts ?? [],
+        store.state.userState.isContactsSynced);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
         converter: ContactsViewModel.fromStore,
-        onInit: (store) {
-          loadContacts(store.state.userState.contacts, store.state.userState.isContactsSynced);
-        },
+        onInit: onInit,
         builder: (_, viewModel) {
           if (hasSynced) {
             return MainScaffold(
-                withPadding: false,
+                automaticallyImplyLeading: false,
                 title: I18n.of(context).send_to,
-                titleFontSize: 15,
-                footer: showFooter ? bottomBar(context) : null,
                 sliverList: _buildPageList(viewModel),
                 children: <Widget>[]);
           } else {
             return MainScaffold(
-                withPadding: false,
+                automaticallyImplyLeading: false,
                 title: I18n.of(context).send_to,
-                titleFontSize: 15,
-                footer: showFooter ? bottomBar(context) : null,
                 sliverList: _buildPageList(viewModel),
                 children: <Widget>[
                   Column(
@@ -556,15 +371,20 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                                   List<Contact> contacts =
                                       await ContactController.getContacts();
                                   viewModel.syncContacts(contacts);
-                                  loadContacts(contacts, viewModel.isContactsSynced);
-                                  viewModel.trackCall("Wallet: Contacts Permission Granted");
-                                  viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
+                                  loadContacts(
+                                      contacts, viewModel.isContactsSynced);
+                                  viewModel.trackCall(
+                                      "Wallet: Contacts Permission Granted");
+                                  viewModel.idenyifyCall(Map.from(
+                                      {"Contacts Permission Granted": false}));
                                   setState(() {
                                     hasSynced = true;
                                   });
                                 } else {
-                                  viewModel.trackCall("Wallet: Contacts Permission Rejected");
-                                  viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
+                                  viewModel.trackCall(
+                                      "Wallet: Contacts Permission Rejected");
+                                  viewModel.idenyifyCall(Map.from(
+                                      {"Contacts Permission Granted": false}));
                                 }
                               })
                         ],
@@ -574,32 +394,5 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 ]);
           }
         });
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
-  });
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-  @override
-  double get minExtent => minHeight;
-  @override
-  double get maxExtent => math.max(maxHeight, minHeight);
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new SizedBox.expand(child: child);
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
   }
 }

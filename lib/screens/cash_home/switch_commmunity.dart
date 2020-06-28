@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:paywise/generated/i18n.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:paywise/models/community.dart';
 import 'package:paywise/models/views/switch_community.dart';
 import 'package:paywise/screens/routes.gr.dart';
-import 'package:paywise/widgets/bottombar.dart';
 import 'package:paywise/widgets/community_card.dart';
 import 'dart:core';
 import 'package:paywise/widgets/main_scaffold.dart';
@@ -123,6 +123,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: new FloatingActionButton(
+                      heroTag: 'switch_scanner',
                       mini: true,
                       backgroundColor: const Color(0xFF292929),
                       elevation: 0,
@@ -140,13 +141,14 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, SwitchCommunityViewModel>(
+        distinct: true,
+        onInit: (store) {
+          Segment.screen(screenName: '/switch-community-screen');
+        },
         converter: SwitchCommunityViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).switch_community,
-            titleFontSize: 15,
-            footer: bottomBar(context),
-            withPadding: false,
             children: <Widget>[
               Container(
                 padding: EdgeInsets.all(20),

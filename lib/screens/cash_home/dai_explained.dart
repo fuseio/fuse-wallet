@@ -1,13 +1,21 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paywise/generated/i18n.dart';
+import 'package:paywise/models/app_state.dart';
+import 'package:paywise/models/community.dart';
+import 'package:paywise/models/plugins/fee_base.dart';
+import 'package:paywise/screens/cash_home/prize.dart';
 import 'package:paywise/screens/cash_home/webview_page.dart';
-import 'package:paywise/screens/routes.gr.dart';
-import 'package:paywise/widgets/bottombar.dart';
+import 'package:paywise/screens/send/send_amount.dart';
+import 'package:paywise/screens/send/send_amount_arguments.dart';
+import 'package:paywise/utils/addresses.dart';
+import 'package:paywise/widgets/activate_pro_mode.dart';
+import 'package:paywise/widgets/deposit_dai_popup.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:redux/redux.dart';
 
 class DaiExplainedScreen extends StatefulWidget {
   @override
@@ -18,10 +26,8 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+        automaticallyImplyLeading: false,
         title: I18n.of(context).dai_points,
-        titleFontSize: 15,
-        footer: bottomBar(context),
-        withPadding: false,
         children: <Widget>[
           Column(
             children: <Widget>[
@@ -86,10 +92,7 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                   'Win up to 100 points!',
                                   style: TextStyle(
                                       fontSize: 13,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .headline
-                                          .color),
+                                      color: Theme.of(context).primaryColor),
                                 ),
                               ),
                               Row(
@@ -162,9 +165,13 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                               .primaryColor
                                               .withAlpha(14))),
                                   child: InkWell(
-                                    onTap: () async {
-                                      Router.navigator.pushNamed(Router.prizeScreen);
-                                      await Segment.track(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PrizeScreen()));
+                                      Segment.track(
                                           eventName: "User open prize page");
                                     },
                                     child: Row(
@@ -200,98 +207,132 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
               SizedBox(
                 height: 30,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            Flushbar(
-                              flushbarPosition: FlushbarPosition.BOTTOM,
-                              duration: Duration(seconds: 2),
-                              messageText: new Text(
-                                "Coming soon",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: Colors.white),
+              new StoreConnector<AppState, _DaiPointsViewModel>(
+                distinct: true,
+                onInit: (store) {
+                  Segment.screen(screenName: '/dai-explained-screen');
+                },
+                converter: _DaiPointsViewModel.fromStore,
+                builder: (_, vm) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            InkWell(
+                              onTap: () {
+                                if (vm.isProModeActivate) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return DepositDaiDialog();
+                                      });
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ActivateProModeDialog();
+                                      });
+                                  Segment.track(
+                                      eventName: "Wallet: ADD DAI clicked");
+                                }
+                              },
+                              child: Text(
+                                I18n.of(context).addDai,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            )..show(context);
-                          },
-                          child: Text(
-                            'Add DAI',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color:
-                                    Theme.of(context).textTheme.headline.color,
-                                fontWeight: FontWeight.bold),
-                          ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Image.asset(
+                              'assets/images/arrow_black.png',
+                              width: 15,
+                              height: 12,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Image.asset(
-                          'assets/images/arrow_black.png',
-                          width: 15,
-                          height: 12,
-                        ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Flushbar(
-                        flushbarPosition: FlushbarPosition.BOTTOM,
-                        duration: Duration(seconds: 2),
-                        messageText: new Text(
-                          "Coming soon",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )..show(context);
-                    },
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'Withdraw DAI',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color:
-                                    Theme.of(context).textTheme.headline.color,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Image.asset(
-                            'assets/images/arrow_black.png',
-                            width: 15,
-                            height: 12,
-                          ),
-                        ],
                       ),
-                    ),
-                  )
-                ],
+                      InkWell(
+                        onTap: () {
+                          if (vm.isProModeActivate) {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => SendAmountScreen(
+                                        pageArgs: SendAmountArguments(
+                                            avatar: AssetImage(
+                                              'assets/images/ethereume_icon.png',
+                                            ),
+                                            name: 'Send to ethereum',
+                                            feePlugin: vm.feePlugin,
+                                            sendType: SendType.ETHEREUM_ADDRESS,
+                                            accountAddress: vm
+                                                .daiPointsHomeBridgeAddress))));
+                            Segment.track(
+                                eventName:
+                                    'Wallet: Choose amount to transfer - activate pro mode');
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ActivateProModeDialog();
+                                });
+                            Segment.track(
+                                eventName: "Wallet: Withdraw DAI clicked");
+                          }
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                I18n.of(context).withdrawDAI,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Image.asset(
+                                'assets/images/arrow_black.png',
+                                width: 15,
+                                height: 12,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                },
               ),
               SizedBox(
                 height: 30,
               ),
               InkWell(
                 onTap: () {
-                  Router.navigator.pushNamed(Router.webViewPage,
-                      arguments: WebViewPageArguments(
-                          url:
-                              'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
-                          title: 'What is dai points?'));
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => WebViewPage(
+                                pageArgs: WebViewPageArguments(
+                                    url:
+                                        'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
+                                    title: 'What is dai points?'),
+                              )));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -319,5 +360,26 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
             ],
           )
         ]);
+  }
+}
+
+class _DaiPointsViewModel {
+  final bool isProModeActivate;
+  final String daiPointsHomeBridgeAddress;
+  final FeePlugin feePlugin;
+  _DaiPointsViewModel({
+    this.isProModeActivate,
+    this.daiPointsHomeBridgeAddress,
+    this.feePlugin,
+  });
+
+  static _DaiPointsViewModel fromStore(Store<AppState> store) {
+    Community community =
+        store.state.cashWalletState.communities[defaultCommunityAddress];
+    return _DaiPointsViewModel(
+      feePlugin: community.plugins.bridgeToForeign,
+      daiPointsHomeBridgeAddress: community.homeBridgeAddress,
+      isProModeActivate: store.state.userState.isProModeActivated,
+    );
   }
 }

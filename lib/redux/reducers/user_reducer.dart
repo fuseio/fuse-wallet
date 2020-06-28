@@ -1,8 +1,12 @@
+import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import 'package:paywise/redux/actions/user_actions.dart';
 import 'package:paywise/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([
+  TypedReducer<UserState, GetWalletAddressesSuccess>(_getWalletAddressesSuccess),
+  TypedReducer<UserState, ActivateProMode>(_activateProMode),
+  TypedReducer<UserState, SwitchWalletMode>(_switchWalletMode),
   TypedReducer<UserState, RestoreWalletSuccess>(_restoreWalletSuccess),
   TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
@@ -15,9 +19,38 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetDisplayName>(_setDisplayName),
   TypedReducer<UserState, ReLogin>(_reLoginUser),
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
+  TypedReducer<UserState, SetCredentials>(_setCredentials),
+  TypedReducer<UserState, SetVerificationId>(_setVerificationId),
   TypedReducer<UserState, UpdateDisplayBalance>(_updateDisplayBalance),
   TypedReducer<UserState, JustInstalled>(_justInstalled),
+  TypedReducer<UserState, SetIsLoginRequest>(_setIsLoginRequest),
+  TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
+  TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
+  TypedReducer<UserState, SetIsoCode>(_setIsoCode),
 ]);
+
+UserState _setIsoCode(UserState state, SetIsoCode action) {
+  return state.copyWith(normalizedPhoneNumber: action.normalizedPhoneNumber, isoCode: action.countryCode.code, countryCode: action.countryCode.dialCode);
+}
+
+UserState _getWalletAddressesSuccess(UserState state, GetWalletAddressesSuccess action) {
+  return state.copyWith(
+    backup: action.backup,
+    networks: action.networks,
+    walletAddress: action.walletAddress,
+    transferManagerAddress: action.transferManagerAddress,
+    communityManagerAddress: action.communityManagerAddress,
+    daiPointsManagerAddress: action.daiPointsManagerAddress,
+    walletStatus: 'created');
+}
+
+UserState _activateProMode(UserState state, ActivateProMode action) {
+  return state.copyWith(isProModeActivated: true);
+}
+
+UserState _switchWalletMode(UserState state, SwitchWalletMode action) {
+  return state.copyWith(isProMode: action.isProMode);
+}
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
   return state.copyWith(backup: true);
@@ -44,9 +77,15 @@ UserState _createNewWalletSuccess(
 
 UserState _loginSuccess(UserState state, LoginRequestSuccess action) {
   return state.copyWith(
-      countryCode: action.countryCode,
+      countryCode: action.countryCode.dialCode,
+      isoCode: action.countryCode.code,
+      normalizedPhoneNumber: action.normalizedPhoneNumber,
       phoneNumber: action.phoneNumber,
       loginRequestSuccess: true);
+}
+
+UserState _setVerificationId(UserState state, SetVerificationId action) {
+  return state.copyWith(verificationId: action.verificationId);
 }
 
 UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
@@ -54,7 +93,7 @@ UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
 }
 
 UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
-  return state.copyWith(isLoggedOut: true);
+  return state.copyWith(isLoggedOut: true, isProMode: false);
   // return UserState.initial();
 }
 
@@ -92,6 +131,10 @@ UserState _setPincode(UserState state, SetPincodeSuccess action) {
   return state.copyWith(pincode: action.pincode);
 }
 
+UserState _setCredentials(UserState state, SetCredentials action) {
+  return state.copyWith(credentials: action.credentials);
+}
+
 UserState _updateDisplayBalance(UserState state, UpdateDisplayBalance action) {
   return state.copyWith(displayBalance: action.displayBalance);
 }
@@ -99,3 +142,16 @@ UserState _updateDisplayBalance(UserState state, UpdateDisplayBalance action) {
 UserState _justInstalled(UserState state, JustInstalled action) {
   return state.copyWith(installedAt: action.installedAt);
 }
+
+UserState _setIsLoginRequest(UserState state, SetIsLoginRequest action) {
+  return state.copyWith(isLoginRequest: action.isLoading);
+}
+
+UserState _setIsVerifyRequest(UserState state, SetIsVerifyRequest action) {
+  return state.copyWith(isVerifyRequest: action.isLoading);
+}
+
+UserState _deviceIdSuccess(UserState state, DeviceIdSuccess action) {
+  return state.copyWith(identifier: action.identifier);
+}
+

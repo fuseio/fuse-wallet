@@ -6,16 +6,22 @@ import 'package:paywise/widgets/main_scaffold.dart';
 import 'package:paywise/widgets/primary_button.dart';
 import 'package:paywise/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
-import 'package:paywise/screens/routes.gr.dart';
+
+class VerifyScreenArguments {
+  final String verificationId;
+
+  VerifyScreenArguments({this.verificationId});
+}
 
 class VerifyScreen extends StatefulWidget {
+  final VerifyScreenArguments pageArgs;
+  VerifyScreen({this.pageArgs});
   @override
   _VerifyScreenState createState() => _VerifyScreenState();
 }
 
 class _VerifyScreenState extends State<VerifyScreen> {
-  final verificationCodeController = TextEditingController(text: "");
-  bool isPreloading = false;
+  String autoCode = "";
 
   @override
   void initState() {
@@ -24,14 +30,23 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final VerifyScreenArguments args = this.widget.pageArgs;
+    final _scaffoldKey = GlobalKey<ScaffoldState>();
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
+        onInitialBuild: (viewModel) {
+          if (viewModel.credentials != null) {
+            autoCode = viewModel.credentials.smsCode ?? "";
+            viewModel.verify(autoCode, args.verificationId, _scaffoldKey);
+          }
+        },
         builder: (_, viewModel) {
+          final verificationCodeController =
+              TextEditingController(text: autoCode);
           return MainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
-              titleFontSize: 15,
               title: I18n.of(context).sign_up,
               children: <Widget>[
                 Padding(
@@ -84,25 +99,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     label: I18n.of(context).next_button,
                     labelFontWeight: FontWeight.normal,
                     fontSize: 16,
-                    preload: isPreloading,
+                    preload: viewModel.isVerifyRequest,
                     onPressed: () {
-                      setState(() {
-                        isPreloading = true;
-                      });
-                      viewModel.verify(
-                          viewModel.countryCode,
-                          viewModel.phoneNumber,
-                          verificationCodeController.text,
-                          viewModel.accountAddress, () async {
-                            Router.navigator.popAndPushNamed(Router.userNameScreen);
-                        setState(() {
-                          isPreloading = false;
-                        });
-                      }, () {
-                        setState(() {
-                          isPreloading = false;
-                        });
-                      });
+                      viewModel.verify(verificationCodeController.text, args.verificationId, _scaffoldKey);
                     },
                   ),
                 ),
@@ -112,25 +111,12 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   children: <Widget>[
                     Text(
                       I18n.of(context).didnt_get_message,
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 12, color: Theme.of(context).primaryColor),
                     ),
                     FlatButton(
                       padding: EdgeInsets.only(right: 10),
                       onPressed: () {
-                        viewModel.verify(
-                            viewModel.countryCode,
-                            viewModel.phoneNumber,
-                            verificationCodeController.text,
-                            viewModel.accountAddress, () async {
-                          Router.navigator.popAndPushNamed(Router.userNameScreen);
-                          setState(() {
-                            isPreloading = false;
-                          });
-                        }, () {
-                          setState(() {
-                            isPreloading = false;
-                          });
-                        });
+                        Navigator.of(context).pop();
                       },
                       child: Text(
                         I18n.of(context).resend_code,

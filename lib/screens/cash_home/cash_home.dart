@@ -1,17 +1,17 @@
-import 'package:contacts_service/contacts_service.dart';
+import 'package:country_code_picker/country_code.dart';
+import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:paywise/redux/actions/cash_wallet_actions.dart';
-import 'package:paywise/redux/actions/user_actions.dart';
-import 'package:paywise/utils/contacts.dart';
-import 'package:paywise/widgets/main_scaffold2.dart';
 import 'package:paywise/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'cash_header.dart';
+import 'package:redux/redux.dart';
 import 'cash_transactions.dart';
 import 'package:paywise/models/views/cash_wallet.dart';
 
 class CashHomeScreen extends StatelessWidget {
-  onInit(store) async {
+  onInit(Store<AppState> store) async {
+    Segment.screen(screenName: '/cash-home-screen');
     String walletStatus = store.state.cashWalletState.walletStatus;
     String accountAddress = store.state.userState.accountAddress;
     if (walletStatus != 'deploying' &&
@@ -19,14 +19,14 @@ class CashHomeScreen extends StatelessWidget {
         accountAddress != '') {
       store.dispatch(createAccountWalletCall(accountAddress));
     }
-    bool isPermitted = await Contacts.checkPermissions();
-    if (isPermitted) {
-      List<Contact> contacts = await ContactController.getContacts();
-      store.dispatch(syncContactsCall(contacts));
-    }
   }
 
-  onChange(CashWalletViewModel viewModel) async {
+  void onChange(CashWalletViewModel viewModel, BuildContext context) async {
+    if (viewModel.isoCode == null) {
+      Locale myLocale = Localizations.localeOf(context);
+      Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
+      viewModel.setCountyCode(CountryCode(dialCode: localeData['dial_code'], code: localeData['code']));
+    }
     if (!viewModel.isJobProcessingStarted) {
       viewModel.startProcessingJobs();
     }
@@ -50,6 +50,9 @@ class CashHomeScreen extends StatelessWidget {
         viewModel.startTransfersFetching();
       }
     }
+    if (viewModel.identifier == null) {
+      viewModel.setIdentifier();
+    }
   }
 
   @override
@@ -58,16 +61,21 @@ class CashHomeScreen extends StatelessWidget {
         distinct: true,
         converter: CashWalletViewModel.fromStore,
         onInit: onInit,
-        onInitialBuild: onChange,
+        onInitialBuild: (viewModel) async {
+          onChange(viewModel, context);
+        },
         onWillChange: (prevViewModel, nextViewModel) async {
-          onChange(nextViewModel);
+          onChange(nextViewModel, context);
         },
         builder: (_, viewModel) {
-          bool isWalletCreated = 'created' == viewModel.walletStatus;
-          return MainScaffold(
-              showFooter: isWalletCreated,
-              header: CashHeader(),
-              children: <Widget>[CashTransactios(viewModel: viewModel)]);
+          return Scaffold(
+              key: key,
+              body: Column(children: <Widget>[
+                Expanded(
+                    child: ListView(children: <Widget>[
+                  CashTransactios(viewModel: viewModel)
+                ])),
+              ]));
         });
   }
 }

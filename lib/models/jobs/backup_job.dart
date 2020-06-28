@@ -1,5 +1,5 @@
 import 'package:paywise/models/jobs/base.dart';
-import 'package:paywise/models/transaction.dart';
+import 'package:paywise/models/transactions/transfer.dart';
 import 'package:paywise/redux/actions/cash_wallet_actions.dart';
 import 'package:paywise/redux/actions/user_actions.dart';
 import 'package:paywise/redux/state/store.dart';

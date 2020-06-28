@@ -2,14 +2,10 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:paywise/generated/i18n.dart';
-import 'package:paywise/models/transfer.dart';
-import 'package:paywise/models/views/send_amount.dart';
+import 'package:paywise/models/transactions/transfer.dart';
+import 'package:paywise/utils/format.dart';
 import 'package:paywise/utils/transaction_row.dart';
 import 'package:paywise/widgets/main_scaffold.dart';
-import 'package:paywise/models/app_state.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-
-typedef OnSignUpCallback = Function(String countryCode, String phoneNumber);
 
 class TransactionDetailArguments {
   List<Widget> amount;
@@ -49,22 +45,19 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
   @override
   Widget build(BuildContext context) {
     final TransactionDetailArguments args = this.widget.pageArgs;
-    return new StoreConnector<AppState, SendAmountViewModel>(
-      converter: SendAmountViewModel.fromStore,
-      builder: (_, viewModel) {
-        return MainScaffold(
-          withPadding: true,
-          titleFontSize: 15,
-          title: I18n.of(context).transaction_details,
-          children: <Widget>[
-            Container(
-                child: Column(children: <Widget>[
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 80, bottom: 30),
-                      child: Row(
+    return MainScaffold(
+      withPadding: true,
+      title: I18n.of(context).transaction_details,
+      children: <Widget>[
+        Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: <Widget>[
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -97,136 +90,170 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                                   fontWeight: FontWeight.normal))
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding:
-                    EdgeInsets.only(top: 25.0, bottom: 25, left: 50, right: 50),
-                color: Theme.of(context).backgroundColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.only(
+                        top: 25.0, bottom: 25, left: 25, right: 25),
+                    color: Theme.of(context).backgroundColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
-                        SizedBox(
-                          width: 130,
-                          child: Text(args.transfer.type == 'SEND'
-                              ? I18n.of(context).to
-                              : I18n.of(context).from),
-                        ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
-                            CircleAvatar(
-                              backgroundColor: Color(0xFFE0E0E0),
-                              radius: 25,
-                              backgroundImage: args.image,
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * .3,
+                              child: Text(args.transfer.type == 'SEND'
+                                  ? I18n.of(context).to
+                                  : I18n.of(context).from),
                             ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(args.from))
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * .3,
+                              child: Row(
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    backgroundColor: Color(0xFFE0E0E0),
+                                    radius: 22,
+                                    backgroundImage: args.image,
+                                  ),
+                                  Expanded(
+                                      child: Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      args.from,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )),
+                                ],
+                              ),
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 25, bottom: 25),
-                      child: Divider(
-                        color: const Color(0xFFDCDCDC),
-                        height: 1,
-                      ),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        SizedBox(
-                          width: 130,
-                          child: Text(I18n.of(context).amount),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 25, bottom: 25),
+                          child: Divider(
+                            color: const Color(0xFFDCDCDC),
+                            height: 1,
+                          ),
                         ),
                         Row(
-                          children: args?.amount,
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 25, bottom: 25),
-                      child: Divider(
-                        color: const Color(0xFFDCDCDC),
-                        height: 1,
-                      ),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        SizedBox(
-                          width: 130,
-                          child: Text(I18n.of(context).address),
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * .3,
+                              child: Text(I18n.of(context).amount),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * .3,
+                              child: Row(
+                                children: args?.amount,
+                              ),
+                            )
+                          ],
                         ),
-                        Text(deducePhoneNumber(
-                            args.transfer, args.reverseContacts))
+                        Padding(
+                          padding: EdgeInsets.only(top: 25, bottom: 25),
+                          child: Divider(
+                            color: const Color(0xFFDCDCDC),
+                            height: 1,
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * .3,
+                              child: Text(I18n.of(context).address),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * .3,
+                              child: Text(deducePhoneNumber(
+                                  args.transfer, args.reverseContacts,
+                                  getReverseContact: false)),
+                            )
+                          ],
+                        ),
+                        args.transfer.txHash == null ||
+                                args.transfer.txHash.isEmpty
+                            ? SizedBox.shrink()
+                            : Padding(
+                                padding: EdgeInsets.only(top: 25, bottom: 25),
+                                child: Divider(
+                                  color: const Color(0xFFDCDCDC),
+                                  height: 1,
+                                ),
+                              ),
+                        args.transfer.txHash == null ||
+                                args.transfer.txHash.isEmpty
+                            ? SizedBox.shrink()
+                            : Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * .3,
+                                    child: Text('Txn'),
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * .3,
+                                    child: Text(
+                                        formatAddress(args?.transfer?.txHash)),
+                                  )
+                                ],
+                              ),
+                        args.transfer.timestamp == null
+                            ? SizedBox.shrink()
+                            : Padding(
+                                padding: EdgeInsets.only(top: 25, bottom: 25),
+                                child: Divider(
+                                  color: const Color(0xFFDCDCDC),
+                                  height: 1,
+                                ),
+                              ),
+                        args.transfer.timestamp == null
+                            ? SizedBox.shrink()
+                            : Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * .3,
+                                    child: Text('Date'),
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * .3,
+                                    child: Text(
+                                        new DateTime.fromMillisecondsSinceEpoch(
+                                                args.transfer.timestamp * 1000)
+                                            .toString()),
+                                  )
+                                ],
+                              )
                       ],
                     ),
-                    args.transfer.txHash == null || args.transfer.txHash.isEmpty
-                        ? SizedBox.shrink()
-                        : Padding(
-                            padding: EdgeInsets.only(top: 25, bottom: 25),
-                            child: Divider(
-                              color: const Color(0xFFDCDCDC),
-                              height: 1,
-                            ),
-                          ),
-                    args.transfer.txHash == null || args.transfer.txHash.isEmpty
-                        ? SizedBox.shrink()
-                        : Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              SizedBox(
-                                width: 130,
-                                child: Text('Txn'),
-                              ),
-                              Text(
-                                  '${args?.transfer?.txHash?.substring(0, 7)}...${args?.transfer?.txHash?.substring(args.transfer.txHash.length - 7)}')
-                            ],
-                          ),
-                    args.transfer.timestamp == null
-                        ? SizedBox.shrink()
-                        : Padding(
-                            padding: EdgeInsets.only(top: 25, bottom: 25),
-                            child: Divider(
-                              color: const Color(0xFFDCDCDC),
-                              height: 1,
-                            ),
-                          ),
-                    args.transfer.timestamp == null
-                        ? SizedBox.shrink()
-                        : Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              SizedBox(
-                                width: 130,
-                                child: Text('Date'),
-                              ),
-                              Text(new DateTime.fromMillisecondsSinceEpoch(
-                                      args.transfer.timestamp * 1000)
-                                  .toString())
-                            ],
-                          )
-                  ],
-                ),
-              )
-            ]))
-          ],
-        );
-      },
+                  )
+                ]))
+      ],
     );
   }
 }
