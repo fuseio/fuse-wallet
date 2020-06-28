@@ -7,7 +7,7 @@ class Transaction {
   final String txHash;
   final int timestamp;
   final String type;
-  String status;
+  final String status;
   final String text;
   final int blockNumber;
   final String jobId;

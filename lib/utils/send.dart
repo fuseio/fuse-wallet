@@ -32,7 +32,7 @@ void navigateToSendAmountScreen(
           builder: (context) => SendAmountScreen(
               pageArgs: SendAmountArguments(
                   feePlugin: viewModel.feePlugin,
-                  erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
+                  erc20Token: viewModel.isProMode ? viewModel.tokenDAI : null,
                   sendType: viewModel.isProMode
                       ? SendType.ETHEREUM_ADDRESS
                       : accountAddress != null
@@ -83,7 +83,7 @@ void sendToPastedAddress(
       new MaterialPageRoute(
           builder: (context) => SendAmountScreen(
               pageArgs: SendAmountArguments(
-                  erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
+                  erc20Token: viewModel.isProMode ? viewModel.tokenDAI : null,
                   feePlugin: viewModel.isProMode ? viewModel.feePlugin : null,
                   sendType: viewModel.isProMode
                       ? SendType.ETHEREUM_ADDRESS

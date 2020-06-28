@@ -203,7 +203,7 @@ CashWalletState _getTokenTransfersListSuccess(
           .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
         if (saved.isPending()) {
-          saved.status = 'CONFIRMED';
+          saved = saved.copyWith(status: 'CONFIRMED');
         }
       } else {
         current.transactions.list.add(tx);

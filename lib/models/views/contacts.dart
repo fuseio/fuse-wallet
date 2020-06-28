@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:digitalrand/constans/exchangable_tokens.dart';
+import 'package:digitalrand/utils/addresses.dart';
 import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/business.dart';
@@ -26,7 +27,7 @@ class ContactsViewModel extends Equatable {
   final List<Business> businesses;
   final Function(String eventName) trackCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
-  final erc20Token.Token daiToken;
+  final erc20Token.Token tokenDAI;
   final Community community;
   final FeePlugin feePlugin;
 
@@ -37,7 +38,7 @@ class ContactsViewModel extends Equatable {
       this.isContactsSynced,
       this.isProMode,
       this.feePlugin,
-      this.daiToken,
+      this.tokenDAI,
       this.transactions,
       this.reverseContacts,
       this.countryCode,
@@ -51,12 +52,12 @@ class ContactsViewModel extends Equatable {
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
-    erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(dzarToken.address.toLowerCase())
-        ? store.state.proWalletState.erc20Tokens[dzarToken.address.toLowerCase()]
-        : new erc20Token.Token.initial();
+    erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
+        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
+        : daiToken;
     bool isProMode = store.state.userState.isProMode ?? false;
     return ContactsViewModel(
-        daiToken: token,
+        tokenDAI: token,
         feePlugin: isProMode ? community.plugins.foreignTransfers : null,
         isoCode: store.state.userState.isoCode,
         isProMode: isProMode,
@@ -92,6 +93,7 @@ class ContactsViewModel extends Equatable {
     countryCode,
     businesses,
     isoCode,
-    community
+    community,
+    tokenDAI
   ];
 }

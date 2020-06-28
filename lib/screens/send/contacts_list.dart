@@ -258,7 +258,7 @@ class _ContactsListState extends State<ContactsList> {
                     onPressed: () {
                       bracodeScannerHandler(context,
                           isProMode: viewModel.isProMode,
-                          daiToken: viewModel.daiToken,
+                          daiToken: viewModel.tokenDAI,
                           feePlugin: viewModel.feePlugin);
                     }),
                 width: 50.0,

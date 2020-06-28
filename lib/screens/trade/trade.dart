@@ -3,10 +3,10 @@ import 'package:digitalrand/models/community.dart';
 import 'package:digitalrand/models/plugins/bridge_to_foreign_fee.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
-import 'package:digitalrand/screens/send/send_amount.dart';
-import 'package:digitalrand/screens/send/send_amount_arguments.dart';
+// import 'package:digitalrand/screens/send/send_amount.dart';
+// import 'package:digitalrand/screens/send/send_amount_arguments.dart';
 import 'package:digitalrand/utils/addresses.dart';
-import 'package:digitalrand/widgets/activate_pro_mode.dart';
+// import 'package:digitalrand/widgets/activate_pro_mode.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/services.dart';
@@ -492,33 +492,12 @@ class _ExchangeState extends State<TradeScreen> {
                 labelFontWeight: FontWeight.normal,
                 label: I18n.of(context).trade,
                 fontSize: 15,
-                disabled: swapResponse == null,
+                disabled: viewModel.isProMode && swapResponse == null,
                 onPressed: () async {
-                  if (!viewModel.isProMode && !viewModel.isProModeActivated) {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ActivateProModeDialog();
-                        });
-                    return;
-                  } else if (!viewModel.isProMode &&
-                      viewModel.isProModeActivated) {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => SendAmountScreen(
-                                pageArgs: SendAmountArguments(
-                                    avatar: AssetImage(
-                                      'assets/images/ethereume_icon.png',
-                                    ),
-                                    name: 'ethereum',
-                                    feePlugin: viewModel.feePlugin,
-                                    sendType: SendType.ETHEREUM_ADDRESS,
-                                    accountAddress:
-                                        viewModel.homeBridgeAddress))));
-                    Segment.track(
-                        eventName:
-                            'Wallet: Choose amount to transfer - activate pro mode');
+                  if (!viewModel.isProMode &&
+                      viewModel.isProModeActivated &&
+                      swapResponse == null) {
+                    viewModel.replaceNavigator(true);
                     return;
                   } else {
                     if (swapResponse != null && swapResponse['tx'] != null) {
@@ -532,6 +511,44 @@ class _ExchangeState extends State<TradeScreen> {
                                   )));
                     }
                   }
+                  // if (!viewModel.isProMode && !viewModel.isProModeActivated) {
+                  //   showDialog(
+                  //       context: context,
+                  //       builder: (BuildContext context) {
+                  //         return ActivateProModeDialog();
+                  //       });
+                  //   return;
+                  // } else if (!viewModel.isProMode &&
+                  //     viewModel.isProModeActivated) {
+                  //   Navigator.push(
+                  //       context,
+                  //       new MaterialPageRoute(
+                  //           builder: (context) => SendAmountScreen(
+                  //               pageArgs: SendAmountArguments(
+                  //                   avatar: AssetImage(
+                  //                     'assets/images/ethereume_icon.png',
+                  //                   ),
+                  //                   name: 'ethereum',
+                  //                   feePlugin: viewModel.feePlugin,
+                  //                   sendType: SendType.ETHEREUM_ADDRESS,
+                  //                   accountAddress:
+                  //                       viewModel.homeBridgeAddress))));
+                  //   Segment.track(
+                  //       eventName:
+                  //           'Wallet: Choose amount to transfer - activate pro mode');
+                  //   return;
+                  // } else {
+                  //   if (swapResponse != null && swapResponse['tx'] != null) {
+                  //     Navigator.push(
+                  //         context,
+                  //         new MaterialPageRoute(
+                  //             builder: (context) => ReviewTradeScreen(
+                  //                   fromToken: tokenToPayWith.copyWith(),
+                  //                   toToken: tokenToReceive.copyWith(),
+                  //                   exchangeSummry: swapResponse,
+                  //                 )));
+                  //   }
+                  // }
                 },
               ),
             ),

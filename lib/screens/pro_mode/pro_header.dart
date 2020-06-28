@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:digitalrand/models/community.dart';
@@ -169,7 +170,7 @@ class ProHeader extends StatelessWidget {
                                 onPressed: () {
                                   bracodeScannerHandler(context,
                                       isProMode: true,
-                                      daiToken: viewModel.daiToken,
+                                      daiToken: viewModel.tokenDAI,
                                       feePlugin: viewModel.feePlugin);
                                 })
                           ]),
@@ -187,7 +188,7 @@ class ProHeader extends StatelessWidget {
 
 class _ProHeaderViewModel extends Equatable {
   final Function() firstName;
-  final Token daiToken;
+  final Token tokenDAI;
   final String balance;
   final String ethBalance;
   final BigInt etherBalance;
@@ -196,7 +197,7 @@ class _ProHeaderViewModel extends Equatable {
 
   _ProHeaderViewModel(
       {this.firstName,
-      this.daiToken,
+      this.tokenDAI,
       this.etherBalance,
       this.idenyifyCall,
       this.feePlugin,
@@ -205,6 +206,10 @@ class _ProHeaderViewModel extends Equatable {
 
   static _ProHeaderViewModel fromStore(Store<AppState> store) {
     ProWalletState proState = store.state.proWalletState;
+    Token token = store.state.proWalletState.erc20Tokens
+            .containsKey(daiTokenAddress.toLowerCase())
+        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
+        : daiToken;
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     BigInt etherBalance =
@@ -215,7 +220,8 @@ class _ProHeaderViewModel extends Equatable {
         .toString();
     num ethBalance = num.parse(Decimal.parse(format).toStringAsPrecision(2));
 
-    num combiner(num previousValue, Token token) =>
+    num combiner(
+            num previousValue, Token token) =>
         prices.containsKey(token.symbol)
             ? token?.priceInfo != null
                 ? previousValue +
@@ -226,13 +232,17 @@ class _ProHeaderViewModel extends Equatable {
             : previousValue + 0;
 
     num usdValue = proState.erc20Tokens.values.fold<num>(0, combiner);
+    Decimal decimalValue = Decimal.parse(usdValue.toString());
     return _ProHeaderViewModel(
         ethBalance: ethBalance == 0
             ? '0'
             : ethBalance.compareTo(0.01) != 1 ? 'Less then 0.01' : ethBalance,
-        balance: Decimal.parse(usdValue.toString()).toStringAsPrecision(1),
+        balance: decimalValue.isInteger
+            ? decimalValue.toString()
+            : decimalValue.toStringAsFixed(2),
         etherBalance: etherBalance,
         feePlugin: community.plugins.foreignTransfers,
+        tokenDAI: token,
         firstName: () {
           String fullName = store.state.userState.displayName ?? '';
           return fullName.split(' ')[0];
@@ -244,5 +254,5 @@ class _ProHeaderViewModel extends Equatable {
 
   @override
   List<Object> get props =>
-      [daiToken, feePlugin, ethBalance, balance, etherBalance];
+      [tokenDAI, feePlugin, ethBalance, balance, etherBalance];
 }
