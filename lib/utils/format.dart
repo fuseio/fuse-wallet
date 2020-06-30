@@ -15,7 +15,7 @@ String formatValue(BigInt value, int decimals,
 
 String calcValueInDollar(BigInt value, int decimals) {
   if (value == null || decimals == null) return '';
-  double formatedValue1 = (value / BigInt.from(pow(10, decimals)) / 100);
+  double formatedValue1 = (value / BigInt.from(pow(10, decimals)) * 0.5);
   Decimal decimalValue = Decimal.parse(formatedValue1.toString());
   return decimalValue.isInteger
       ? decimalValue.toString()
