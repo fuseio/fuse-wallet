@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/pro/token.dart' as erc20Token;
-import 'package:fusecash/models/token.dart';
+import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
@@ -24,7 +23,7 @@ class SendAmountViewModel extends Equatable {
   final Function(num tokensAmount, VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) sendToCashMode;
   final Function(
-    erc20Token.Token token,
+    Token token,
     String recieverAddress,
     num amount,
     VoidCallback,
@@ -60,7 +59,7 @@ class SendAmountViewModel extends Equatable {
         isProMode: store.state.userState.isProMode ?? false,
         token: community.token,
         community: community,
-        balance: community.tokenBalance,
+        balance: community?.token?.amount,
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
           String name,
@@ -100,7 +99,7 @@ class SendAmountViewModel extends Equatable {
               tokensAmount, sendSuccessCallback, sendFailureCallback));
         },
         sendToErc20Token: (
-          erc20Token.Token token,
+          Token token,
           String recieverAddress,
           num amount,
           VoidCallback sendSuccessCallback,

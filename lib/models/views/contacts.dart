@@ -1,11 +1,10 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/community/business.dart';
+import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/plugins/fee_base.dart';
-import 'package:fusecash/models/token.dart';
-import 'package:fusecash/models/pro/token.dart' as erc20Token;
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -26,7 +25,7 @@ class ContactsViewModel extends Equatable {
   final List<Business> businesses;
   final Function(String eventName) trackCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
-  final erc20Token.Token daiToken;
+  final Token daiToken;
   final Community community;
   final FeePlugin feePlugin;
 
@@ -51,9 +50,9 @@ class ContactsViewModel extends Equatable {
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community = store.state.cashWalletState.communities[communityAddres];
-    erc20Token.Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
+    Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
         ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
-        : new erc20Token.Token.initial();
+        : new Token.initial();
     bool isProMode = store.state.userState.isProMode ?? false;
     return ContactsViewModel(
         daiToken: token,
@@ -65,7 +64,7 @@ class ContactsViewModel extends Equatable {
         contacts: store.state.userState?.contacts ?? [],
         token: community?.token,
         community: community,
-        transactions: community?.transactions,
+        transactions: community?.token?.transactions,
         reverseContacts: store.state.userState.reverseContacts,
         countryCode: store.state.userState.countryCode,
         syncContacts: (List<Contact> contacts) {

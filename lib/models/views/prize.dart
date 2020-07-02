@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/community/community.dart';
 
 class PrizeViewModel extends Equatable {
   final Plugins plugins;

@@ -216,8 +216,10 @@ class I18n implements WidgetsLocalizations {
   String get dai_points => "DAI points";
   /// "Map"
   String get map => "Map";
-  /// "APPROVED"
-  String get approved => "APPROVED";
+  /// "Approved"
+  String get approved => "Approved";
+  /// "Network"
+  String get network => "Network";
   /// "Simple"
   String get simple => "Simple";
   /// "Useful"

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/pro/token.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
 
 class ProTokenHeader extends StatelessWidget {
@@ -35,9 +35,8 @@ class ProTokenHeader extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.black,
-              Color(0xFF414141),
-              Colors.black,
+              Theme.of(context).primaryColorLight,
+              Theme.of(context).primaryColorDark,
             ],
           ),
           borderRadius: BorderRadius.only(
@@ -51,10 +50,11 @@ class ProTokenHeader extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 35, right: 35),
+                  padding: EdgeInsets.only(top: 20, bottom: 35, right: 35),
                   child: SvgPicture.asset(
                     'assets/images/arrow_white.svg',
                     fit: BoxFit.fill,
+                    color: Theme.of(context).primaryColor,
                     width: 18,
                     height: 18,
                     alignment: Alignment.topLeft,
@@ -67,7 +67,7 @@ class ProTokenHeader extends StatelessWidget {
               new Container(
                 child: Text('${token.symbol} ${I18n.of(context).balance}',
                     style: TextStyle(
-                        color: Theme.of(context).splashColor, fontSize: 12.0)),
+                        color: Theme.of(context).primaryColor, fontSize: 12.0)),
                 padding: EdgeInsets.only(bottom: 6.0),
               ),
               Row(
@@ -79,22 +79,23 @@ class ProTokenHeader extends StatelessWidget {
                       text: new TextSpan(
                           text: prices.containsKey(token.symbol)
                               ? '\$$price'
-                              : "${token.getTokenBalance()}",
+                              : "${token.getBalance()}",
                           style: new TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).splashColor))),
+                              color: Theme.of(context).primaryColor))),
                   SizedBox(
                     width: 10,
                   ),
                   RichText(
                       text: new TextSpan(
-                          style:
-                              TextStyle(color: Color(0xFFBEBEBE), fontSize: 18),
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 18),
                           children: [
                         new TextSpan(
                             text: prices.containsKey(token.symbol)
-                                ? token.getTokenBalance()
+                                ? token.getBalance()
                                 : ''),
                         new TextSpan(text: " ${token.symbol}")
                       ])),

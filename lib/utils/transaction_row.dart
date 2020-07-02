@@ -1,9 +1,11 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/models/business.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:fusecash/models/community/business.dart';
+import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/views/cash_wallet.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 
@@ -11,11 +13,45 @@ String getIPFSImageUrl(String image) {
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;
 }
 
-String deduceSign(Transfer transfer) {
+Widget deduceTransferIcon(Transfer transfer) {
+  if (transfer.isFailed()) {
+    return SvgPicture.asset(
+      'assets/images/failed_icon.svg',
+      width: 14,
+      height: 14,
+    );
+  }
   if (transfer.type == 'SEND') {
-    return '-';
+    return SvgPicture.asset(
+      'assets/images/send_icon.svg',
+      width: 14,
+      height: 14,
+    );
+  } else if (transfer.type == 'RECEIVE') {
+    return SvgPicture.asset(
+      'assets/images/receive_icon.svg',
+      width: 14,
+      height: 14,
+    );
   } else {
-    return '+';
+    return SvgPicture.asset(
+      'assets/images/receive_icon.svg',
+      width: 14,
+      height: 14,
+    );
+  }
+}
+
+Token getToken(String tokenAddress, Map<String, Community> communities,
+    Map<String, Token> erc20Tokens) {
+  if (erc20Tokens.containsKey(tokenAddress)) {
+    return erc20Tokens[tokenAddress];
+  } else {
+    return communities.values
+        .toList()
+        .firstWhere(
+            (community) => community.token.address.contains(tokenAddress))
+        .token;
   }
 }
 
@@ -30,7 +66,8 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
     if (contacts == null) return null;
     for (Contact contact in contacts) {
       for (Item contactPhoneNumber in contact.phones.toList()) {
-        if (clearNotNumbersAndPlusSymbol(contactPhoneNumber.value) == phoneNumber) {
+        if (clearNotNumbersAndPlusSymbol(contactPhoneNumber.value) ==
+            phoneNumber) {
           return contact;
         }
         if (formatPhoneNumber(contactPhoneNumber.value, countryCode) ==
@@ -43,20 +80,10 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
   return null;
 }
 
-Color deduceColor(Transfer transfer) {
-  if (transfer.isFailed()) {
-    return Color(0xFFBEBEBE);
-  } else {
-    if (transfer.type == 'SEND') {
-      return Color(0xFFFF0000);
-    } else {
-      return Color(0xFF00BE66);
-    }
-  }
-}
-
 String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true, List<Business> businesses, bool getReverseContact = true}) {
+    {bool format = true,
+    List<Business> businesses,
+    bool getReverseContact = true}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (businesses != null && businesses.isNotEmpty) {
     Business business = businesses.firstWhere(
@@ -77,11 +104,11 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
 }
 
 dynamic getTransferImage(
-    Transfer transfer, Contact contact, CashWalletViewModel vm) {
+    Transfer transfer, Contact contact, Community community) {
   if (transfer.isJoinCommunity() &&
-      vm.community.metadata.image != null &&
-      vm.community.metadata.image != '') {
-    return new NetworkImage(getIPFSImageUrl(vm.community.metadata.image));
+      community.metadata.image != null &&
+      community.metadata.image != '') {
+    return new NetworkImage(getIPFSImageUrl(community.metadata.image));
   } else if (transfer.isGenerateWallet()) {
     return new AssetImage(
       'assets/images/generate_wallet.png',
@@ -92,18 +119,22 @@ dynamic getTransferImage(
     );
   } else if (contact?.avatar != null && contact.avatar.isNotEmpty) {
     return new MemoryImage(contact.avatar);
-  } else if (vm.community != null && vm.community.homeBridgeAddress != null && transfer.to != null && transfer.to?.toLowerCase() == vm.community.homeBridgeAddress?.toLowerCase()) {
+  } else if (community != null &&
+      community.homeBridgeAddress != null &&
+      transfer.to != null &&
+      transfer.to?.toLowerCase() ==
+          community.homeBridgeAddress?.toLowerCase()) {
     return new AssetImage(
       'assets/images/ethereume_icon.png',
     );
   }
 
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  Business business = vm.businesses.firstWhere(
+  Business business = community.businesses.firstWhere(
       (business) => business.account == accountAddress,
       orElse: () => null);
   if (business != null) {
-    return NetworkImage(getImageUrl(business, vm.communityAddress));
+    return NetworkImage(getImageUrl(business, community.address));
   }
   return new AssetImage('assets/images/anom.png');
 }

@@ -3,13 +3,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
-import 'package:fusecash/models/community_metadata.dart';
+import 'package:fusecash/models/community/business.dart';
+import 'package:fusecash/models/cash_wallet_state.dart';
+import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/models/community/community_metadata.dart';
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
@@ -26,7 +27,6 @@ import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:fusecash/services.dart';
-import 'package:fusecash/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -71,7 +71,6 @@ class GetTokenBalanceSuccess {
   GetTokenBalanceSuccess(this.tokenBalance);
 }
 
-
 class AlreadyJoinedCommunity {
   final String communityAddress;
   AlreadyJoinedCommunity(this.communityAddress);
@@ -92,7 +91,6 @@ class SwitchCommunitySuccess {
   final Token token;
   final String communityAddress;
   final String communityName;
-  final Transactions transactions;
   final Plugins plugins;
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
@@ -101,7 +99,6 @@ class SwitchCommunitySuccess {
       {this.communityAddress,
       this.communityName,
       this.token,
-      this.transactions,
       this.plugins,
       this.isClosed,
       this.homeBridgeAddress,
@@ -155,7 +152,6 @@ class BranchCommunityToUpdate {
   final String communityAddress;
   BranchCommunityToUpdate(this.communityAddress);
 }
-
 
 class BranchListening {}
 
@@ -348,6 +344,7 @@ ThunkAction initWeb3Call(
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('initWeb3. privateKey: $privateKey');
+      logger.info('mnemonic : ${store.state.userState.mnemonic.toString()}');
       wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
           defaultCommunityAddress:
               DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
@@ -403,29 +400,37 @@ ThunkAction startBalanceFetchingCall() {
 ThunkAction startTransfersFetchingCall() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    logger.info('Start Transfers Fetching Call');
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddres];
-    String tokenAddress = community.token?.address;
-    if (tokenAddress != null) {
-      store.dispatch(getTokenTransfersListCall(tokenAddress));
-      store.dispatch(getTokenBalanceCall(tokenAddress));
+    bool isTransfersFetchingStarted = store.state.cashWalletState.isTransfersFetchingStarted ?? false;
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading ?? false;
+    Community community = store.state.cashWalletState.communities[communityAddress];
+    if (!isTransfersFetchingStarted && community.token != null && !isCommunityLoading) {
+      try {
+        Community community =
+            store.state.cashWalletState.communities[communityAddress];
+        String tokenAddress = community.token?.address;
+        if (tokenAddress != null) {
+          store.dispatch(getTokenTransfersListCall(tokenAddress));
+          store.dispatch(getTokenBalanceCall(tokenAddress));
+        }
+        new Timer.periodic(Duration(seconds: intervalSeconds), (Timer t) async {
+          if (store.state.cashWalletState.walletAddress == '') {
+            t.cancel();
+            return;
+          }
+          String communityAddres = store.state.cashWalletState.communityAddress;
+          Community community =
+              store.state.cashWalletState.communities[communityAddres];
+          String tokenAddress = community.token?.address;
+          if (tokenAddress != null) {
+            store.dispatch(getReceivedTokenTransfersListCall(tokenAddress));
+          }
+        });
+        store.dispatch(new StartTransfersFetchingSuccess());
+      } catch (e) {
+        logger.severe('error in startTransfersFetchingCall $e');
+      }
     }
-    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer t) async {
-      if (store.state.cashWalletState.walletAddress == '') {
-        t.cancel();
-        return;
-      }
-      String communityAddres = store.state.cashWalletState.communityAddress;
-      Community community =
-          store.state.cashWalletState.communities[communityAddres];
-      String tokenAddress = community.token?.address;
-      if (tokenAddress != null) {
-        store.dispatch(getReceivedTokenTransfersListCall(tokenAddress));
-      }
-    });
-    store.dispatch(new StartTransfersFetchingSuccess());
   };
 }
 
@@ -442,8 +447,12 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
         return;
       }
-      List<Job> jobs = store.state.cashWalletState
-          .communities[store.state.cashWalletState.communityAddress]?.jobs ?? [];
+      List<Job> jobs = store
+              .state
+              .cashWalletState
+              .communities[store.state.cashWalletState.communityAddress]
+              ?.jobs ??
+          [];
       bool hasCreateWallet = jobs.any((job) => job.jobType == 'createWallet');
       if (hasCreateWallet) {
         store.dispatch(new CreateAccountWalletRequest(accountAddress));
@@ -548,17 +557,22 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
       bool isLoading = store.state.cashWalletState.isCommunityLoading ?? false;
       if (isLoading) return;
       String walletAddress = store.state.cashWalletState.walletAddress;
-      BigInt tokenBalance =
-          (await graph.getTokenBalance(walletAddress, tokenAddress));
+      CashWalletState cashState = store.state.cashWalletState;
       String communityAddress = store.state.cashWalletState.communityAddress;
-      Community community =
-          store.state.cashWalletState.communities[communityAddress];
-      String balance = formatValue(tokenBalance, community.token.decimals);
-
-      store.dispatch(new GetTokenBalanceSuccess(tokenBalance));
-      store.dispatch(new UpdateDisplayBalance(int.tryParse(balance)));
-      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from(
+      Community community = cashState.communities[communityAddress];
+      void Function(BigInt) onDone = (BigInt balance) {
+        logger.info('${community.token.name} balance updated');
+        store.dispatch(new GetTokenBalanceSuccess(balance));
+        store.dispatch(new UpdateDisplayBalance(int.tryParse(formatValue(balance, community.token.decimals))));
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from(
           {'${community.name} Balance': balance, "DisplayBalance": balance})));
+      };
+      void Function(Object error, StackTrace stackTrace) onError =
+          (Object error, StackTrace stackTrace) {
+        logger.severe(
+            'Error in fetchTokenBalance for - ${community.token.name} $error');
+      };
+      await community.token.fetchTokenBalance(walletAddress, onDone: onDone, onError: onError);
     } catch (e) {
       logger.severe('ERROR - getTokenBalanceCall $e');
       store.dispatch(new ErrorAction('Could not get token balance'));
@@ -615,7 +629,7 @@ ThunkAction processingJobsCall(Timer timer) {
     String walletAddress = store.state.cashWalletState.walletAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddress];
-    List<Job> jobs = community?.jobs ?? [];
+    List<Job> jobs = community?.token?.jobs ?? [];
     for (Job job in jobs) {
       String currentCommunityAddress =
           store.state.cashWalletState.communityAddress;
@@ -751,6 +765,7 @@ ThunkAction inviteBonusCall(dynamic data) {
     Transfer inviteBonus = new Transfer(
         from: DotEnv().env['FUNDER_ADDRESS'],
         to: walletAddress,
+        tokenAddress: community.token.address,
         text: 'You got a invite bonus!',
         type: 'RECEIVE',
         value: value,
@@ -886,7 +901,8 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
           walletAddress, community["entitiesList"]["address"]);
       String communityAddress = community['address'];
       if (isMember) {
-        return store.dispatch(new AlreadyJoinedCommunity(communityAddress));
+        store.dispatch(new AlreadyJoinedCommunity(communityAddress));
+        return;
       }
 
       dynamic response =
@@ -934,6 +950,7 @@ ThunkAction joinCommunitySuccessCall(
           from: DotEnv().env['FUNDER_ADDRESS'],
           type: 'RECEIVE',
           value: value,
+          tokenAddress: communityData.token.address,
           text: 'You got a join bonus!',
           status: 'PENDING',
           jobId: joinBonusJobId ?? joinCommunityJobId);
@@ -1018,13 +1035,12 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress: communityAddress,
           communityName: community["name"],
-          token: new Token(
+          token: Token.initial().copyWith(
               originNetwork: token['originNetwork'],
               address: token["address"],
               name: token["name"],
               symbol: token["symbol"],
               decimals: token["decimals"]),
-          transactions: new Transactions(),
           plugins: communityPlugins,
           isClosed: communityData['isClosed'],
           homeBridgeAddress: homeBridgeAddress,
@@ -1070,7 +1086,6 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           communityAddress: communityAddress,
           communityName: current.name,
           token: current.token,
-          transactions: current.transactions,
           plugins: communityPlugins,
           isClosed: current.isClosed,
           homeBridgeAddress: homeBridgeAddress,
@@ -1166,7 +1181,7 @@ ThunkAction getTokenTransfersListCall(String tokenAddress) {
       String communityAddres = store.state.cashWalletState.communityAddress;
       Community community =
           store.state.cashWalletState.communities[communityAddres];
-      num lastBlockNumber = community.transactions.blockNumber;
+      num lastBlockNumber = community?.token?.transactions?.blockNumber;
       num currentBlockNumber = await web3.getBlockNumber();
       Map<String, dynamic> response = await graph.getTransfers(
           walletAddress, tokenAddress,
@@ -1189,9 +1204,12 @@ ThunkAction getReceivedTokenTransfersListCall(String tokenAddress) {
       Community community =
           store.state.cashWalletState.communities[communityAddres];
       String walletAddress = store.state.cashWalletState.walletAddress;
-      num lastBlockNumber = community.transactions.blockNumber;
-      num currentBlockNumber =
-          await store.state.cashWalletState.web3.getBlockNumber();
+      num lastBlockNumber = community?.token?.transactions?.blockNumber;
+      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
+      if (web3 == null) {
+        throw "Web3 is empty";
+      }
+      num currentBlockNumber = await web3.getBlockNumber();
       Map<String, dynamic> response = await graph.getReceivedTransfers(
           walletAddress, tokenAddress,
           fromBlockNumber: lastBlockNumber, toBlockNumber: currentBlockNumber);

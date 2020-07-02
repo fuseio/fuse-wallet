@@ -52,7 +52,7 @@ class OnboardViewModel extends Equatable {
       final String accountAddress = store.state.userState.accountAddress;
       final String identifier = store.state.userState.identifier;
       IdTokenResult token = await user.getIdToken();
-      String jwtToken = await api.login(token.token, accountAddress, identifier, appName: 'Paywise');
+      String jwtToken = await api.login(token.token, accountAddress, identifier);
       store.dispatch(new LoginVerifySuccess(jwtToken));
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       store.dispatch(segmentTrackCall("Wallet: verified phone number"));

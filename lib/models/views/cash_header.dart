@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:redux/redux.dart';

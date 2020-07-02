@@ -114,7 +114,7 @@ class CashHeader extends StatelessWidget {
                                           color:
                                               Theme.of(context).primaryColor),
                                       children: (viewModel
-                                                      .community.tokenBalance ==
+                                                      .community.token.amount ==
                                                   null ||
                                               viewModel.community.token == null)
                                           ? <TextSpan>[
@@ -131,7 +131,7 @@ class CashHeader extends StatelessWidget {
                                               new TextSpan(
                                                   text: formatValue(
                                                       viewModel.community
-                                                          .tokenBalance,
+                                                          .token.amount,
                                                       viewModel.community.token
                                                           .decimals),
                                                   style: new TextStyle(
@@ -158,7 +158,7 @@ class CashHeader extends StatelessWidget {
                                                           calcValueInDollar(
                                                               viewModel
                                                                   .community
-                                                                  .tokenBalance,
+                                                                  .token.amount,
                                                               viewModel
                                                                   .community
                                                                   .token
@@ -206,7 +206,7 @@ class CashHeader extends StatelessWidget {
                                   )
                                 : SizedBox.shrink(),
                             new FloatingActionButton(
-                                heroTag: 'cash_scanner',
+                                heroTag: 'cash_header',
                                 backgroundColor: const Color(0xFF292929),
                                 elevation: 0,
                                 child: Image.asset(

@@ -200,50 +200,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  Widget switchToProMode(DrawerViewModel viewModel) {
-    return Container(
-        width: MediaQuery.of(context).size.width / 2,
-        height: 50.0,
-        decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-            border: Border.all(
-                color: Theme.of(context).primaryColor.withAlpha(14))),
-        child: InkWell(
-          onTap: () {
-            viewModel.replaceNavigator(true);
-          },
-          child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text('Pro mode',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Theme.of(context).splashColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500)),
-                ),
-                new FloatingActionButton(
-                    heroTag: 'header_scanner',
-                    mini: true,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    child: SvgPicture.asset(
-                      'assets/images/cash_mode_icon.svg',
-                      width: 20.0,
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
-                    onPressed: () {
-                      viewModel.replaceNavigator(true);
-                    })
-              ]),
-        ));
-  }
-
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, DrawerViewModel>(
@@ -264,15 +220,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       ...pluginsItems(viewModel),
                     ],
                   ),
-                ),
-                viewModel.isProModeActivate
-                    ? Flexible(
-                        flex: 1,
-                        child: Padding(
-                          child: switchToProMode(viewModel),
-                          padding: EdgeInsets.all(20),
-                        ))
-                    : SizedBox.shrink(),
+                )
               ],
             )),
           );

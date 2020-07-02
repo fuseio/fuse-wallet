@@ -5,7 +5,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/plugins/fee_base.dart';
 import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';

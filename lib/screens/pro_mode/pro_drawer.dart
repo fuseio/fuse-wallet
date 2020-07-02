@@ -191,57 +191,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  Widget switchToCashMode(viewModel) {
-    return Container(
-        width: MediaQuery.of(context).size.width / 2,
-        height: 50.0,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorDark,
-              ],
-            ),
-            color: Colors.white,
-            borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-            border: Border.all(
-                color: Theme.of(context).primaryColor.withAlpha(14))),
-        child: InkWell(
-          onTap: () {
-            viewModel.replaceNavigator(false);
-          },
-          child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text('Cash mode',
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500)),
-                ),
-                new FloatingActionButton(
-                    heroTag: 'pro_scanner',
-                    mini: true,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    child: SvgPicture.asset(
-                      'assets/images/pro_mode_icon.svg',
-                      width: 20.0,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      viewModel.replaceNavigator(false);
-                    })
-              ]),
-        ));
-  }
-
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, DrawerViewModel>(
@@ -261,13 +210,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ...menuItem(viewModel),
                   ],
                 ),
-              ),
-              Flexible(
-                  flex: 1,
-                  child: Padding(
-                    child: switchToCashMode(viewModel),
-                    padding: EdgeInsets.all(20),
-                  )),
+              )
             ],
           )),
         );

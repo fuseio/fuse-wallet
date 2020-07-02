@@ -23,9 +23,7 @@ class ReceiveScreen extends StatelessWidget {
         },
         converter: _ReceiveModel.fromStore,
         builder: (_, viewModel) {
-          final String barcodeData = viewModel.isProMode
-              ? 'ethereum:${viewModel.walletAddress}'
-              : 'fuse:${viewModel.walletAddress}';
+          final String barcodeData = 'ethereum:${viewModel.walletAddress}';
           return MainScaffold(
             title: I18n.of(context).receive,
             automaticallyImplyLeading: false,
@@ -103,13 +101,11 @@ class ReceiveScreen extends StatelessWidget {
 
 class _ReceiveModel extends Equatable {
   final String walletAddress;
-  final bool isProMode;
-  _ReceiveModel({this.walletAddress, this.isProMode});
+  _ReceiveModel({this.walletAddress});
 
   static _ReceiveModel fromStore(Store<AppState> store) {
     return _ReceiveModel(
       walletAddress: store.state.cashWalletState.walletAddress,
-      isProMode: store.state.userState.isProMode ?? false,
     );
   }
 

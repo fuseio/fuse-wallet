@@ -1,4 +1,4 @@
-import 'package:fusecash/models/pro/token.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/utils/addresses.dart';
 

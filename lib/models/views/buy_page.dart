@@ -1,7 +1,7 @@
-import 'package:fusecash/models/business.dart';
-import 'package:fusecash/models/community.dart';
+import 'package:fusecash/models/community/business.dart';
+import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/plugins/wallet_banner.dart';
-import 'package:fusecash/models/token.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';

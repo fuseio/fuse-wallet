@@ -1,6 +1,6 @@
 import 'dart:core';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/models/pro/token.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/screens/pro_routes.gr.dart';
 import 'package:fusecash/utils/format.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/plugins/fee_base.dart';
-import 'package:fusecash/models/pro/token.dart';
+import 'package:fusecash/models/tokens/token.dart';
 
 enum SendType {
   CONTACT,
