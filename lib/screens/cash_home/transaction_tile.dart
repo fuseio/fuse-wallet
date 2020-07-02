@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/models/tokens/token.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/community/community.dart';
@@ -101,13 +100,6 @@ class TransactionTile extends StatelessWidget {
                               deduceTransferIcon(transfer),
                             ],
                           ),
-                          transfer.isFailed()
-                              ? Positioned(
-                                  left: -25,
-                                  child: SvgPicture.asset(
-                                      'assets/images/failed_icon.svg'),
-                                )
-                              : SizedBox.shrink(),
                           Positioned(
                               bottom: -20,
                               child: (transfer.isPending() &&
@@ -153,6 +145,16 @@ class TransactionTile extends StatelessWidget {
                                     radius: 27,
                                     backgroundImage: image,
                                   ),
+                                  // Positioned(
+                                  //   bottom: 0,
+                                  //   right: 0,
+                                  //   child: SvgPicture.asset(
+                                  //     'assets/images/${isFuseTxs ? 'fuse' : 'ethereum'}_network.svg',
+                                  //     fit: BoxFit.contain,
+                                  //     width: 20,
+                                  //     height: 20,
+                                  //   ),
+                                  // ),
                                   // Hero(
                                   //   child: CircleAvatar(
                                   //     backgroundColor: Color(0xFFE0E0E0),

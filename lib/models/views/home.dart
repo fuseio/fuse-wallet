@@ -73,7 +73,7 @@ class HomeViewModel extends Equatable {
     bool isCommunityLoading =
         store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
-    String identifier = store.state.userState.identifier;
+    String identifier = store.state.userState.identifier ?? null;
     bool isJobProcessingStarted =
         store.state.cashWalletState.isJobProcessingStarted ?? false;
     bool isListeningToBranch =
@@ -92,7 +92,14 @@ class HomeViewModel extends Equatable {
             store.state.cashWalletState.isBalanceFetchingStarted ?? false,
         isBranchDataReceived:
             store.state.cashWalletState.isBranchDataReceived ?? false,
-        feedList: [...communityTxs, ...erc20TokensTxs],
+        feedList: [...communityTxs, ...erc20TokensTxs]..sort((a, b) {
+            if (a.timestamp != null && b.timestamp != null) {
+              return a.timestamp.compareTo(b.timestamp);
+            } else if (a.blockNumber != null && b.blockNumber != null) {
+              return a.blockNumber.compareTo(b.blockNumber);
+            }
+            return (a?.blockNumber ?? 1).compareTo((b?.blockNumber ?? 0));
+          }),
         switchCommunity: (String communityAddress) {
           store.dispatch(switchCommunityCall(communityAddress));
         },

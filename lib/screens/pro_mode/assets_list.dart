@@ -1,3 +1,4 @@
+import 'package:digitalrand/utils/transaction_row.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -68,8 +69,10 @@ class _AssetsListViewModel extends Equatable {
             1)
         .toList();
 
-    List<Token> homeTokens =
-        communities.map((Community community) => community.token).toList();
+    List<Token> homeTokens = communities
+        .map((Community community) => community.token
+            .copyWith(imageUrl: getIPFSImageUrl(community.metadata.image)))
+        .toList();
     return _AssetsListViewModel(
       walletAddress: store.state.userState.walletAddress,
       tokens: [...homeTokens, ...foreignTokens]

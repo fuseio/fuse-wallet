@@ -7,14 +7,15 @@ import 'package:redux/redux.dart';
 
 class BackupViewModel extends Equatable {
   final UserState user;
-  final bool isProMode;
   final Function(VoidCallback successCb) backupWallet;
 
-  BackupViewModel({this.user, this.backupWallet, this.isProMode});
+  BackupViewModel({
+    this.user,
+    this.backupWallet,
+  });
 
   static BackupViewModel fromStore(Store<AppState> store) {
     return BackupViewModel(
-        isProMode: store.state.userState.isProMode ?? false,
         user: store.state.userState,
         backupWallet: (successCb) {
           store.dispatch(backupWalletCall(successCb));
@@ -22,5 +23,5 @@ class BackupViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [user, isProMode];
+  List<Object> get props => [user];
 }

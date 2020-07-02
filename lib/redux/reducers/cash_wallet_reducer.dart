@@ -190,7 +190,6 @@ CashWalletState _fetchingBusinessListFailed(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-  print('Found ${action.tokenTransfers.length} token transfers');
   bool isLoading = state.isCommunityLoading ?? false;
   if (isLoading) return state;
   if (state.walletAddress != '' && action.tokenTransfers.length > 0) {

@@ -17,6 +17,7 @@ class TokenTile extends StatelessWidget {
       price =
           getDollarValue(token.amount, token.decimals, prices[token.symbol]);
     }
+    bool isFuseTxs = token.originNetwork != null;
     return Container(
       decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
@@ -42,19 +43,33 @@ class TokenTile extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: <Widget>[
-                            CachedNetworkImage(
-                              width: 54,
-                              height: 54,
-                              imageUrl: token.imageUrl != null &&
-                                      token.imageUrl.isNotEmpty
-                                  ? token.imageUrl
-                                  : getTokenUrl(
-                                      checksumEthereumAddress(token.address)),
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => const Icon(
-                                Icons.error,
-                                size: 54,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: CachedNetworkImage(
+                                width: 54,
+                                height: 54,
+                                imageUrl: token.imageUrl != null &&
+                                        token.imageUrl.isNotEmpty
+                                    ? token.imageUrl
+                                    : getTokenUrl(
+                                        checksumEthereumAddress(token.address)),
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(
+                                  Icons.error,
+                                  size: 54,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: SvgPicture.asset(
+                                'assets/images/${isFuseTxs ? 'fuse' : 'ethereum'}_network.svg',
+                                fit: BoxFit.contain,
+                                width: 20,
+                                height: 20,
                               ),
                             ),
                             token.transactions.list

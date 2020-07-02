@@ -218,7 +218,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                               width: MediaQuery.of(context).size.width * .3,
                               child: Text(args.token.originNetwork != null
                                   ? 'Fuse'
-                                  : 'Ethereum $foreignNetwork'),
+                                  : 'Ethereum'),
                             )
                           ],
                         ),

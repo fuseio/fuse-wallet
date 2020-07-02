@@ -3,20 +3,17 @@ import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/tokens/token.dart';
-import 'package:digitalrand/models/transactions/transaction.dart';
 import 'package:digitalrand/models/transactions/transfer.dart';
 import 'package:digitalrand/screens/pro_mode/assets_list.dart';
 import 'package:digitalrand/utils/format.dart';
 import 'package:digitalrand/utils/transaction_row.dart';
 
 class TransferTIle extends StatelessWidget {
-  TransferTIle({this.transaction, this.token});
+  TransferTIle({this.transfer, this.token});
   final Token token;
-  final Transaction transaction;
+  final Transfer transfer;
   @override
   Widget build(BuildContext context) {
-    Transfer transfer = transaction as Transfer;
-
     return Container(
       decoration: new BoxDecoration(
           border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),

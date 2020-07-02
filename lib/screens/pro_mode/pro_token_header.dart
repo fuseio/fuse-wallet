@@ -35,9 +35,8 @@ class ProTokenHeader extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.black,
-              Color(0xFF414141),
-              Colors.black,
+              Theme.of(context).primaryColorLight,
+              Theme.of(context).primaryColorDark,
             ],
           ),
           borderRadius: BorderRadius.only(
@@ -83,14 +82,15 @@ class ProTokenHeader extends StatelessWidget {
                           style: new TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor))),
+                              color: Theme.of(context).splashColor))),
                   SizedBox(
                     width: 10,
                   ),
                   RichText(
                       text: new TextSpan(
-                          style:
-                              TextStyle(color: Color(0xFFBEBEBE), fontSize: 18),
+                          style: TextStyle(
+                              color: Theme.of(context).splashColor,
+                              fontSize: 18),
                           children: [
                         new TextSpan(
                             text: prices.containsKey(token.symbol)

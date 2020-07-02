@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:decimal/decimal.dart';
 import 'package:digitalrand/models/jobs/base.dart';
 import 'package:digitalrand/models/pro/price.dart';
 import 'package:digitalrand/models/tokens/base.dart';
@@ -129,15 +126,6 @@ class Token extends ERC20Token {
     } catch (e, s) {
       onError(e, s);
     }
-  }
-
-  String getTokenBalance ({bool withPrecision = true}) {
-    double formatedValue = this.amount / BigInt.from(pow(10, decimals));
-    if (!withPrecision) return formatedValue.toString();
-    Decimal decimalValue = Decimal.parse(formatedValue.toString());
-    return decimalValue.isInteger
-      ? decimalValue.toString()
-      : decimalValue.toStringAsFixed(2);
   }
 
   factory Token.initial() {

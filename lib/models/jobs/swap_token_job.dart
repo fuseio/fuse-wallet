@@ -71,15 +71,15 @@ class SwapTokenJob extends Job {
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('SwapTokenJob FAILED');
-        this.status = 'FAILED';
-        String failReason = fetchedData['failReason'];
-        this.status = 'FAILED';
-        store.dispatch(proTransactionFailed(
-            arguments['tokenAddress'], arguments['transfer']));
-        store.dispatch(segmentTrackCall('Wallet: job failed',
-            properties: new Map<String, dynamic>.from(
-                {'id': id, 'failReason': failReason, 'name': name})));
-        return;
+      String failReason = fetchedData['failReason'];
+      store.dispatch(proTransactionFailed(
+          arguments['fromToken'].address, arguments['transfer']));
+      store.dispatch(segmentTrackCall('Wallet: job failed',
+          properties: new Map<String, dynamic>.from(
+              {'id': id, 'failReason': failReason, 'name': name})));
+      store.dispatch(
+          ProJobDone(job: this, tokenAddress: arguments['fromToken'].address));
+      return;
     }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
@@ -92,20 +92,22 @@ class SwapTokenJob extends Job {
       logger.info('SwapTokenJob - nextRealyJobId - $nextRealyJobId');
       dynamic nextRealyJobResponse = await api.getJob(nextRealyJobId);
 
-      if (nextRealyJobResponse['failReason'] != null && nextRealyJobResponse['failedAt'] != null) {
+      if (nextRealyJobResponse['failReason'] != null &&
+          nextRealyJobResponse['failedAt'] != null) {
         logger.info('SwapTokenJob FAILED');
-        this.status = 'FAILED';
         String failReason = nextRealyJobResponse['failReason'];
-        this.status = 'FAILED';
         store.dispatch(proTransactionFailed(
-            arguments['tokenAddress'], arguments['transfer']));
+            arguments['fromToken'].address, arguments['transfer']));
+        store.dispatch(ProJobDone(
+            job: this, tokenAddress: arguments['fromToken'].address));
         store.dispatch(segmentTrackCall('Wallet: job failed',
             properties: new Map<String, dynamic>.from(
                 {'id': id, 'failReason': failReason, 'name': name})));
         return;
       }
 
-      if (nextRealyJobResponse['lastFinishedAt'] == null || nextRealyJobResponse['lastFinishedAt'].isEmpty) {
+      if (nextRealyJobResponse['lastFinishedAt'] == null ||
+          nextRealyJobResponse['lastFinishedAt'].isEmpty) {
         logger.info('SwapTokenJob not done');
         return;
       }
@@ -128,12 +130,14 @@ class SwapTokenJob extends Job {
                     decimals: newToken?.decimals,
                     symbol: newToken?.symbol,
                     transactions: newToken.transactions.copyWith(
-                        list: newToken.transactions.list..add(
-                          arguments['transferIn'].copyWith(status: 'CONFIRMED', txHash: txHash))),
+                        list: newToken.transactions.list
+                          ..add(arguments['transferIn']
+                              .copyWith(status: 'CONFIRMED', txHash: txHash))),
                   ));
         store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20Tokens));
       }
-      store.dispatch(ProJobDone(job: this, tokenAddress: arguments['fromToken'].address));
+      store.dispatch(
+          ProJobDone(job: this, tokenAddress: arguments['fromToken'].address));
       store.dispatch(segmentTrackCall('Wallet: job succeeded',
           properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
       return;

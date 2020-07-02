@@ -19,7 +19,7 @@ import 'package:wallet_core/wallet_core.dart' show EtherAmount, EtherUnit;
 class ProHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, _ProHeaderViewModel>(
+    return StoreConnector<AppState, _ProHeaderViewModel>(
         converter: _ProHeaderViewModel.fromStore,
         onWillChange: (prevVm, nextVm) {
           if (prevVm.etherBalance != nextVm.etherBalance) {
@@ -57,9 +57,8 @@ class ProHeader extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Colors.black,
-                    Color(0xFF414141),
-                    Colors.black,
+                    Theme.of(context).primaryColorLight,
+                    Theme.of(context).primaryColorDark,
                   ],
                 ),
                 borderRadius: BorderRadius.only(
@@ -84,17 +83,17 @@ class ProHeader extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 0.0),
-                    child: new RichText(
-                      text: new TextSpan(
-                        style: TextStyle(color: Theme.of(context).primaryColor),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(color: Theme.of(context).splashColor),
                         children: <TextSpan>[
-                          new TextSpan(
+                          TextSpan(
                               text: I18n.of(context).hi,
                               style: TextStyle(
                                   fontSize: 33,
                                   color: Theme.of(context).splashColor,
                                   fontWeight: FontWeight.normal)),
-                          new TextSpan(
+                          TextSpan(
                               text: ' ' + (viewModel?.firstName() ?? ''),
                               style: TextStyle(
                                   fontSize: 33,
@@ -109,7 +108,7 @@ class ProHeader extends StatelessWidget {
                   alignment: Alignment.bottomLeft,
                   child: Container(
                     padding: EdgeInsets.only(bottom: 0.0),
-                    child: new Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       verticalDirection: VerticalDirection.up,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +116,7 @@ class ProHeader extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            new Container(
+                            Container(
                               child: Text(I18n.of(context).balance,
                                   style: TextStyle(
                                       color: Theme.of(context).splashColor,
@@ -130,11 +129,11 @@ class ProHeader extends StatelessWidget {
                                 textBaseline: TextBaseline.alphabetic,
                                 children: <Widget>[
                                   RichText(
-                                    text: new TextSpan(
+                                    text: TextSpan(
                                       children: <TextSpan>[
-                                        new TextSpan(
+                                        TextSpan(
                                             text: '\$' + viewModel.balance,
-                                            style: new TextStyle(
+                                            style: TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
                                                     .splashColor,
@@ -146,7 +145,7 @@ class ProHeader extends StatelessWidget {
                                   //   padding: const EdgeInsets.only(left: 10.0),
                                   //   child: Text(
                                   //     '${viewModel.ethBalance} ETH',
-                                  //     style: new TextStyle(
+                                  //     style: TextStyle(
                                   //       fontSize: 18,
                                   //       color: Theme.of(context).splashColor,
                                   //     ),
@@ -155,9 +154,9 @@ class ProHeader extends StatelessWidget {
                                 ])
                           ],
                         ),
-                        new Container(
+                        Container(
                           child: Row(children: [
-                            new FloatingActionButton(
+                            FloatingActionButton(
                                 heroTag: 'cash_scanner',
                                 backgroundColor: Color(0xFF00339F),
                                 elevation: 0,

@@ -5,7 +5,6 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/plugins/plugins.dart';
-import 'package:digitalrand/screens/pro_routes.gr.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/utils/addresses.dart';
 import 'package:redux/redux.dart';
@@ -102,17 +101,10 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  if (viewModel.isProMode) {
-                                    ProRouter.navigator.pushNamed(
-                                        ProRouter.proModeHomeScreen,
-                                        arguments: ProModeScaffoldArguments(
-                                            tabIndex: 3));
-                                  } else {
-                                    Router.navigator.pushNamed(
-                                        Router.cashHomeScreen,
-                                        arguments: CashModeScaffoldArguments(
-                                            tabIndex: 3));
-                                  }
+                                  Router.navigator.pushNamed(
+                                      Router.cashHomeScreen,
+                                      arguments: CashModeScaffoldArguments(
+                                          tabIndex: 3));
                                 },
                               ),
                               Padding(
