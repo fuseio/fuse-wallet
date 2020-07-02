@@ -1,5 +1,5 @@
-import 'package:roost/models/transactions/transaction.dart';
-import 'package:roost/models/transactions/transfer.dart';
+import 'package:peepl/models/transactions/transaction.dart';
+import 'package:peepl/models/transactions/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 

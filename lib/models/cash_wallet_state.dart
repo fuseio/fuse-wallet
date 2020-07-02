@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:roost/models/community.dart';
-import 'package:roost/models/plugins/plugins.dart';
+import 'package:peepl/models/community.dart';
+import 'package:peepl/models/plugins/plugins.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 

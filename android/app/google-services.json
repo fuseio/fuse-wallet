@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:629222004995:android:a4fbd56515df6654be3136",
         "android_client_info": {
-          "package_name": "com.roostnow.Roost"
+          "package_name": "com.itsaboutpeepl.peepl"
         }
       },
       "oauth_client": [
@@ -35,7 +35,7 @@
               "client_id": "629222004995-kumjfdfbirkn3r2fgm3gp6iqaoo3d3eu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.roostnow.Roost"
+                "bundle_id": "com.itsaboutpeepl.peepl"
               }
             }
           ]
@@ -135,7 +135,7 @@
               "client_id": "629222004995-kumjfdfbirkn3r2fgm3gp6iqaoo3d3eu.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.roostnow.Roost"
+                "bundle_id": "com.itsaboutpeepl.peepl"
               }
             }
           ]

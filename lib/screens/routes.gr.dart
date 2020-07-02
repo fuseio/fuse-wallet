@@ -7,18 +7,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:roost/screens/splash/splash.dart';
-import 'package:roost/screens/signup/signup.dart';
-import 'package:roost/screens/signup/verify.dart';
-import 'package:roost/screens/signup/username.dart';
-import 'package:roost/screens/misc/pincode.dart';
-import 'package:roost/screens/cash_home/cash_mode.dart';
-import 'package:roost/screens/cash_home/transaction_details.dart';
-import 'package:roost/screens/buy/business.dart';
-import 'package:roost/screens/signup/recovery.dart';
-import 'package:roost/screens/buy/map.dart';
-import 'package:roost/screens/cash_home/prize.dart';
-import 'package:roost/screens/cash_home/webview_page.dart';
+import 'package:peepl/screens/splash/splash.dart';
+import 'package:peepl/screens/signup/signup.dart';
+import 'package:peepl/screens/signup/verify.dart';
+import 'package:peepl/screens/signup/username.dart';
+import 'package:peepl/screens/misc/pincode.dart';
+import 'package:peepl/screens/cash_home/cash_mode.dart';
+import 'package:peepl/screens/cash_home/transaction_details.dart';
+import 'package:peepl/screens/buy/business.dart';
+import 'package:peepl/screens/signup/recovery.dart';
+import 'package:peepl/screens/buy/map.dart';
+import 'package:peepl/screens/cash_home/prize.dart';
+import 'package:peepl/screens/cash_home/webview_page.dart';
 
 class Router {
   static const splashScreen = '/splash-screen';

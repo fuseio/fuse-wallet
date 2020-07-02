@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/recovery.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/widgets/main_scaffold.dart';
-import 'package:roost/widgets/primary_button.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/recovery.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/widgets/main_scaffold.dart';
+import 'package:peepl/widgets/primary_button.dart';
 
 class RecoveryPage extends StatefulWidget {
   @override

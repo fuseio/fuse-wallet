@@ -1,7 +1,7 @@
-import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/tokens/base.dart';
-import 'package:roost/models/transactions/transactions.dart';
-import 'package:roost/services.dart';
+import 'package:peepl/models/jobs/base.dart';
+import 'package:peepl/models/tokens/base.dart';
+import 'package:peepl/models/transactions/transactions.dart';
+import 'package:peepl/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';

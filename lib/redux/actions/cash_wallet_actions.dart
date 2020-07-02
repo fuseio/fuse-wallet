@@ -3,29 +3,29 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/models/business.dart';
-import 'package:roost/models/community.dart';
-import 'package:roost/models/community_metadata.dart';
-import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/plugins/plugins.dart';
-import 'package:roost/models/transactions/transaction.dart';
-import 'package:roost/models/transactions/transactions.dart';
-import 'package:roost/models/transactions/transfer.dart';
-import 'package:roost/models/user_state.dart';
-import 'package:roost/redux/actions/error_actions.dart';
+import 'package:peepl/models/business.dart';
+import 'package:peepl/models/community.dart';
+import 'package:peepl/models/community_metadata.dart';
+import 'package:peepl/models/jobs/base.dart';
+import 'package:peepl/models/plugins/plugins.dart';
+import 'package:peepl/models/transactions/transaction.dart';
+import 'package:peepl/models/transactions/transactions.dart';
+import 'package:peepl/models/transactions/transfer.dart';
+import 'package:peepl/models/user_state.dart';
+import 'package:peepl/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:roost/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:roost/redux/actions/user_actions.dart';
-import 'package:roost/utils/addresses.dart';
-import 'package:roost/redux/state/store.dart';
-import 'package:roost/utils/constans.dart';
-import 'package:roost/utils/format.dart';
+import 'package:peepl/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:peepl/redux/actions/user_actions.dart';
+import 'package:peepl/utils/addresses.dart';
+import 'package:peepl/redux/state/store.dart';
+import 'package:peepl/utils/constans.dart';
+import 'package:peepl/utils/format.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:roost/services.dart';
-import 'package:roost/models/token.dart';
+import 'package:peepl/services.dart';
+import 'package:peepl/models/token.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -538,7 +538,7 @@ ThunkAction generateWalletSuccessCall(
           networks: networks));
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
-        "App name": 'Roost',
+        "App name": 'Peepl',
         "Phone Number": store.state.userState.normalizedPhoneNumber,
         "Wallet Address": store.state.cashWalletState.walletAddress,
         "Account Address": store.state.userState.accountAddress,

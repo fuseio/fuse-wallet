@@ -4,14 +4,14 @@ import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/community.dart';
-import 'package:roost/models/views/switch_community.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/widgets/community_card.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/community.dart';
+import 'package:peepl/models/views/switch_community.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/widgets/community_card.dart';
 import 'dart:core';
-import 'package:roost/widgets/main_scaffold.dart';
+import 'package:peepl/widgets/main_scaffold.dart';
 
 class SwitchCommunityScreen extends StatefulWidget {
   @override

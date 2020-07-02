@@ -1,11 +1,11 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:roost/models/business.dart';
-import 'package:roost/models/transactions/transfer.dart';
-import 'package:roost/models/views/cash_wallet.dart';
-import 'package:roost/utils/format.dart';
-import 'package:roost/utils/phone.dart';
+import 'package:peepl/models/business.dart';
+import 'package:peepl/models/transactions/transfer.dart';
+import 'package:peepl/models/views/cash_wallet.dart';
+import 'package:peepl/utils/format.dart';
+import 'package:peepl/utils/phone.dart';
 
 String getIPFSImageUrl(String image) {
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;

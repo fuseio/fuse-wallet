@@ -1,8 +1,8 @@
-import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/pro/pro_wallet_state.dart';
-import 'package:roost/models/pro/token.dart';
-import 'package:roost/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:roost/redux/actions/user_actions.dart';
+import 'package:peepl/models/jobs/base.dart';
+import 'package:peepl/models/pro/pro_wallet_state.dart';
+import 'package:peepl/models/pro/token.dart';
+import 'package:peepl/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:peepl/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 final proWalletReducers = combineReducers<ProWalletState>([

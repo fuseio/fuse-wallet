@@ -1,4 +1,4 @@
-name: roost
+name: peepl
 version: 1.1.16+138
 description: A new Flutter project.
 environment:
@@ -75,7 +75,7 @@ flutter_icons:
 flutter:
   assets:
     - .env_prod
-    - .env_roost
+    - .env_peepl
     - .env_qa
     - assets/
     - assets/images/

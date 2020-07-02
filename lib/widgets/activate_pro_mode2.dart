@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/screens/send/send_amount.dart';
-import 'package:roost/screens/send/send_amount_arguments.dart';
-import 'package:roost/widgets/activate_pro_mode.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/screens/send/send_amount.dart';
+import 'package:peepl/screens/send/send_amount_arguments.dart';
+import 'package:peepl/widgets/activate_pro_mode.dart';
 import 'dart:core';
 
-import 'package:roost/widgets/primary_button.dart';
+import 'package:peepl/widgets/primary_button.dart';
 
 class ActivateProMode2Dialog extends StatefulWidget {
   @override

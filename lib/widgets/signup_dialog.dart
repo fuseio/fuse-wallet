@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 
-import 'package:roost/widgets/primary_button.dart';
+import 'package:peepl/widgets/primary_button.dart';
 
 class SignupDialog extends StatefulWidget {
   SignupDialog();
@@ -66,14 +66,14 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0),
                     Text(
-                        "The roost wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
+                        "The Peepl wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
                     Text(
-                        "Roost will never share this information with 3rd party.",
+                        "Peepl will never share this information with 3rd party.",
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 14,

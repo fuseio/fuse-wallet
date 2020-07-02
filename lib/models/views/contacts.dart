@@ -1,15 +1,15 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/business.dart';
-import 'package:roost/models/community.dart';
-import 'package:roost/models/plugins/fee_base.dart';
-import 'package:roost/models/token.dart';
-import 'package:roost/models/pro/token.dart' as erc20Token;
-import 'package:roost/models/transactions/transactions.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/redux/actions/user_actions.dart';
-import 'package:roost/utils/addresses.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/business.dart';
+import 'package:peepl/models/community.dart';
+import 'package:peepl/models/plugins/fee_base.dart';
+import 'package:peepl/models/token.dart';
+import 'package:peepl/models/pro/token.dart' as erc20Token;
+import 'package:peepl/models/transactions/transactions.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/redux/actions/user_actions.dart';
+import 'package:peepl/utils/addresses.dart';
 import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {

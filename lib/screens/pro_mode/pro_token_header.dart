@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/pro/token.dart';
-import 'package:roost/utils/addresses.dart';
-import 'package:roost/utils/format.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/pro/token.dart';
+import 'package:peepl/utils/addresses.dart';
+import 'package:peepl/utils/format.dart';
 import 'package:redux/redux.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class ProTokenHeader extends StatelessWidget {
