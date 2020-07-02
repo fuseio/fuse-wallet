@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/plugins/bridge_to_foreign_fee.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';

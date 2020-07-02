@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/screens/pro_mode/assets_list.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/models/transactions/transaction.dart';
+import 'package:digitalrand/models/transactions/transfer.dart';
+import 'package:digitalrand/screens/pro_mode/assets_list.dart';
+import 'package:digitalrand/utils/format.dart';
+import 'package:digitalrand/utils/transaction_row.dart';
 
 class TransferTIle extends StatelessWidget {
   TransferTIle({this.transaction, this.token});

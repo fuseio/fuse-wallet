@@ -1,12 +1,12 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
+import 'package:digitalrand/models/community/community.dart';
+import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/models/transactions/transaction.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 class HomeViewModel extends Equatable {

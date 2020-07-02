@@ -1,12 +1,12 @@
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/transactions/transfer.dart';
+import 'package:digitalrand/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/views/home.dart';
-import 'package:fusecash/screens/cash_home/transaction_tile.dart';
+import 'package:digitalrand/models/views/home.dart';
+import 'package:digitalrand/screens/cash_home/transaction_tile.dart';
 
 class Feed extends StatefulWidget {
   @override
