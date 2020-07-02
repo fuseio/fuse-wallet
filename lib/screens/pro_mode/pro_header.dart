@@ -2,10 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/models/pro/pro_wallet_state.dart';
-import 'package:digitalrand/models/pro/token.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/utils/addresses.dart';
 import 'package:digitalrand/utils/barcode.dart';
@@ -254,5 +254,5 @@ class _ProHeaderViewModel extends Equatable {
 
   @override
   List<Object> get props =>
-      [tokenDAI, feePlugin, ethBalance, balance, etherBalance];
+      [daiToken, feePlugin, ethBalance, balance, etherBalance];
 }

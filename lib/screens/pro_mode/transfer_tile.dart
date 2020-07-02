@@ -1,32 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:digitalrand/models/tokens/token.dart';
-import 'package:digitalrand/screens/pro_mode/assets_list.dart';
-import 'package:digitalrand/screens/pro_mode/token_transfers.dart';
-import 'package:digitalrand/utils/format.dart';
+import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/models/tokens/token.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
+import 'package:fusecash/models/transactions/transfer.dart';
+import 'package:fusecash/screens/pro_mode/assets_list.dart';
+import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/transaction_row.dart';
 
-class TokenTile extends StatelessWidget {
-  TokenTile({this.token});
+class TransferTIle extends StatelessWidget {
+  TransferTIle({this.transaction, this.token});
   final Token token;
+  final Transaction transaction;
   @override
   Widget build(BuildContext context) {
-    String price;
-    if (prices.containsKey(token.symbol)) {
-      price =
-          getDollarValue(token.amount, token.decimals, prices[token.symbol]);
-    }
+    Transfer transfer = transaction as Transfer;
+
     return Container(
-      decoration: BoxDecoration(
+      decoration: new BoxDecoration(
           border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
       child: ListTile(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => TokenTransfersScreen(token: token)));
-          },
           contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
           title: Row(
             mainAxisSize: MainAxisSize.max,
@@ -43,8 +37,8 @@ class TokenTile extends StatelessWidget {
                           alignment: Alignment.center,
                           children: <Widget>[
                             CachedNetworkImage(
-                              width: 54,
-                              height: 54,
+                              width: 55,
+                              height: 55,
                               imageUrl: token.imageUrl != null &&
                                       token.imageUrl.isNotEmpty
                                   ? token.imageUrl
@@ -57,8 +51,7 @@ class TokenTile extends StatelessWidget {
                                 size: 54,
                               ),
                             ),
-                            token.transactions.list
-                                    .any((transfer) => transfer.isPending())
+                            transfer.isPending()
                                 ? Container(
                                     width: 55,
                                     height: 55,
@@ -66,8 +59,9 @@ class TokenTile extends StatelessWidget {
                                       backgroundColor:
                                           Color(0xFF49D88D).withOpacity(0),
                                       strokeWidth: 3,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Color(0xFF49D88D).withOpacity(1)),
+                                      valueColor:
+                                          new AlwaysStoppedAnimation<Color>(
+                                              Color(0xFF49D88D).withOpacity(1)),
                                     ))
                                 : SizedBox.shrink(),
                           ],
@@ -76,24 +70,9 @@ class TokenTile extends StatelessWidget {
                       SizedBox(width: 10.0),
                       Flexible(
                         flex: 10,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          verticalDirection: VerticalDirection.down,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: <Widget>[
-                            Text(token.name,
-                                style: TextStyle(
-                                    color: Color(0xFF333333), fontSize: 15)),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            SvgPicture.asset(
-                              'assets/images/go_to_pro.svg',
-                              width: 10,
-                              height: 10,
-                            )
-                          ],
-                        ),
+                        child: Text(token.name,
+                            style: TextStyle(
+                                color: Color(0xFF333333), fontSize: 15)),
                       ),
                     ],
                   )),
@@ -109,39 +88,45 @@ class TokenTile extends StatelessWidget {
                           children: <Widget>[
                             Stack(
                               overflow: Overflow.visible,
-                              alignment: AlignmentDirectional.bottomEnd,
+                              alignment: AlignmentDirectional.center,
                               children: <Widget>[
-                                RichText(
-                                    text: TextSpan(children: <TextSpan>[
-                                  prices.containsKey(token.symbol)
-                                      ? TextSpan(
-                                          text: '\$' + price,
+                                Row(
+                                  children: <Widget>[
+                                    RichText(
+                                        text: TextSpan(children: <TextSpan>[
+                                      TextSpan(
+                                          text: formatValue(
+                                              transfer.value, token.decimals),
                                           style: TextStyle(
+                                              color: Color(0xFF696969),
                                               fontSize: 15.0,
-                                              color: Theme.of(context)
-                                                  .primaryColor))
-                                      : TextSpan(
-                                          text: token.getBalance() +
-                                              ' ' +
-                                              token.symbol,
+                                              fontWeight: FontWeight.bold)),
+                                      TextSpan(
+                                          text: " ${token.symbol}",
                                           style: TextStyle(
-                                              fontSize: 15.0,
-                                              color: Theme.of(context)
-                                                  .primaryColor)),
-                                ])),
-                                prices.containsKey(token.symbol)
-                                    ? Positioned(
-                                        bottom: -20,
-                                        child: Padding(
+                                              color: Color(0xFF696969),
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.normal)),
+                                    ])),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    deduceTransferIcon(transfer),
+                                  ],
+                                ),
+                                Positioned(
+                                    bottom: -20,
+                                    child: (transfer.isPending() &&
+                                            !transfer.isGenerateWallet() &&
+                                            !transfer.isJoinCommunity())
+                                        ? Padding(
                                             child: Text(
-                                                token.getBalance() +
-                                                    ' ' +
-                                                    token.symbol,
+                                                I18n.of(context).pending,
                                                 style: TextStyle(
                                                     color: Color(0xFF8D8D8D),
                                                     fontSize: 10)),
-                                            padding: EdgeInsets.only(top: 10)))
-                                    : SizedBox.shrink()
+                                            padding: EdgeInsets.only(top: 10))
+                                        : SizedBox.shrink())
                               ],
                             )
                           ],

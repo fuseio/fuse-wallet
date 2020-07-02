@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:digitalrand/generated/i18n.dart';
-import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/plugins/plugins.dart';
 import 'package:digitalrand/screens/pro_routes.gr.dart';
 import 'package:digitalrand/screens/routes.gr.dart';

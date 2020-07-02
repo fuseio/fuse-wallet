@@ -86,10 +86,8 @@ class AppFactory {
               new DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
           DateTime now = DateTime.now();
           Duration diff = exp.difference(now);
-          logger.info('diff', diff);
 
           if (diff.inDays <= 1) {
-            logger.info('relogin');
             final FirebaseUser currentUser = await firebaseAuth.currentUser();
             IdTokenResult token = await currentUser.getIdToken();
             jwtToken = await api.login(
@@ -99,9 +97,7 @@ class AppFactory {
                 appName: 'DigitalRand');
           }
 
-          logger.info('jwt: $jwtToken');
-          logger
-              .info('accountAddress: ${initialState.userState.accountAddress}');
+          logger.info('JWT: $jwtToken');
           api.setJwtToken(jwtToken);
         } else {
           logger.info('no JWT');

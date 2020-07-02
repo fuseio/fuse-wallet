@@ -5,9 +5,11 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/redux/actions/error_actions.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/screens/signup/verify.dart';
+import 'package:digitalrand/services.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
@@ -46,7 +48,6 @@ class OnboardViewModel extends Equatable {
   static OnboardViewModel fromStore(Store<AppState> store) {
     final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
       print('Got credentials: $credentials');
-      store.dispatch(new SetCredentials(credentials));
       final FirebaseUser user = (await firebaseAuth.signInWithCredential(credentials)).user;
       final FirebaseUser currentUser = await firebaseAuth.currentUser();
       assert(user.uid == currentUser.uid);

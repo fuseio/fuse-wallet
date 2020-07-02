@@ -1,6 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
-import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
 

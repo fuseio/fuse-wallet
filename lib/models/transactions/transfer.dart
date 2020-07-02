@@ -1,4 +1,3 @@
-
 import 'package:digitalrand/models/transactions/transaction.dart';
 import 'package:digitalrand/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -14,21 +13,21 @@ class Transfer extends Transaction {
   final String receiverName;
   final String note;
 
-  Transfer({
-    String txHash,
-    String type,
-    String status,
-    String text,
-    String jobId,
-    int blockNumber,
-    int timestamp,
-    this.to,
-    this.from,
-    this.value,
-    this.tokenAddress,
-    this.receiverName,
-    this.note
-  }) : super(
+  Transfer(
+      {String txHash,
+      String type,
+      String status,
+      String text,
+      String jobId,
+      int blockNumber,
+      int timestamp,
+      this.to,
+      this.from,
+      this.value,
+      this.tokenAddress,
+      this.receiverName,
+      this.note})
+      : super(
             timestamp: timestamp,
             txHash: txHash,
             type: type,
@@ -37,12 +36,13 @@ class Transfer extends Transaction {
             jobId: jobId,
             blockNumber: blockNumber);
 
-  bool isJoinBonus() => this.from != null && funderAddresses.containsValue(this.from);
-  bool isGenerateWallet() => this.jobId != null && this.jobId == 'generateWallet';
+  bool isJoinBonus() =>
+      this.from != null && funderAddresses.containsValue(this.from);
+  bool isGenerateWallet() =>
+      this.jobId != null && this.jobId == 'generateWallet';
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');
 
-  Transfer copyWith({
-    String status, String txHash, String text}) {
+  Transfer copyWith({String status, String txHash, String text}) {
     return Transfer(
         note: note ?? this.note,
         receiverName: receiverName ?? this.receiverName,
@@ -64,7 +64,6 @@ class Transfer extends Transaction {
 
   Map<String, dynamic> toJson() => _$TransferToJson(this);
 }
-
 
 class TransactionFactory {
   static fromJson(Map<String, dynamic> json) {

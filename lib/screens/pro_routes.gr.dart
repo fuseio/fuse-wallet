@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:digitalrand/screens/pro_mode/pro_mode.dart';
 import 'package:digitalrand/screens/pro_mode/token_transfers.dart';
-import 'package:digitalrand/models/pro/token.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 
 class ProRouter {
   static const proModeHomeScreen = '/';

@@ -3,7 +3,7 @@ import 'package:digitalrand/widgets/primary_button.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/utils/addresses.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:digitalrand/generated/i18n.dart';
-import 'package:digitalrand/models/pro/token.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/utils/format.dart';
 
 class ProTokenHeader extends StatelessWidget {
@@ -15,7 +15,6 @@ class ProTokenHeader extends StatelessWidget {
       price =
           getDollarValue(token.amount, token.decimals, prices[token.symbol]);
     }
-
     return Container(
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.bottomLeft,
@@ -80,11 +79,11 @@ class ProTokenHeader extends StatelessWidget {
                       text: new TextSpan(
                           text: prices.containsKey(token.symbol)
                               ? '\$$price'
-                              : "${token.getTokenBalance()}",
+                              : "${token.getBalance()}",
                           style: new TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).splashColor))),
+                              color: Theme.of(context).primaryColor))),
                   SizedBox(
                     width: 10,
                   ),
@@ -95,7 +94,7 @@ class ProTokenHeader extends StatelessWidget {
                           children: [
                         new TextSpan(
                             text: prices.containsKey(token.symbol)
-                                ? token.getTokenBalance()
+                                ? token.getBalance()
                                 : ''),
                         new TextSpan(text: " ${token.symbol}")
                       ])),

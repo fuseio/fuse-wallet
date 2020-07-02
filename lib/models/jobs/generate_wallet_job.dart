@@ -3,6 +3,7 @@ import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/services.dart';
+import 'package:digitalrand/utils/constans.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generate_wallet_job.g.dart';
@@ -66,7 +67,9 @@ class GenerateWalletJob extends Job {
       this.status = 'DONE';
       store.dispatch(new CreateAccountWalletSuccess(arguments['accountAddress']));
       store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
-      store.dispatch(activateProModeCall());
+      if (createWalletOnForeign) {
+        store.dispatch(activateProModeCall());
+      }
     }
   }
 

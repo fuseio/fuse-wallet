@@ -5,7 +5,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
-import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/screens/cash_home/prize.dart';
 import 'package:digitalrand/screens/cash_home/webview_page.dart';

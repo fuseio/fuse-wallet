@@ -94,7 +94,7 @@ class SwapTokenTile extends StatelessWidget {
                                     ? Positioned(
                                         left: -25,
                                         child: SvgPicture.asset(
-                                            'assets/images/failed.svg'),
+                                            'assets/images/failed_icon.svg'),
                                       )
                                     : SizedBox.shrink(),
                               ],

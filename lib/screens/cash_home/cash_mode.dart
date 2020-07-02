@@ -1,12 +1,18 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:digitalrand/screens/trade/trade.dart';
 import 'package:flutter/material.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/user_actions.dart';
+import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/views/bottom_bar.dart';
+import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:digitalrand/screens/buy/buy.dart';
 import 'package:digitalrand/screens/cash_home/cash_header.dart';
 import 'package:digitalrand/screens/cash_home/cash_home.dart';
+import 'package:digitalrand/screens/cash_home/dai_explained.dart';
 import 'package:digitalrand/screens/cash_home/webview_page.dart';
 import 'package:digitalrand/screens/send/contacts_list.dart';
 import 'package:digitalrand/screens/send/receive.dart';
@@ -77,10 +83,34 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
         onTap: _onTap,
       );
 
+  onInit(Store<AppState> store) {
+    String walletStatus = store.state.cashWalletState.walletStatus;
+    String accountAddress = store.state.userState.accountAddress;
+    if (walletStatus != 'deploying' &&
+        walletStatus != 'created' &&
+        accountAddress != '') {
+      store.dispatch(createAccountWalletCall(accountAddress));
+    }
+    String privateKey = store.state.userState.privateKey;
+    String jwtToken = store.state.userState.jwtToken;
+    bool isLoggedOut = store.state.userState.isLoggedOut;
+    if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+      store.dispatch(getWalletAddressessCall());
+      store.dispatch(identifyCall());
+      store.dispatch(loadContacts());
+      store.dispatch(startListenToTransferEvents());
+      store.dispatch(getBalancesOnForeign());
+      store.dispatch(startFetchTransferEventsCall());
+      store.dispatch(fetchTokensBalances());
+      store.dispatch(startProcessingTokensJobsCall());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
+        onInit: onInit,
         builder: (_, vm) {
           final List<Widget> pages = _pages(vm.contacts, vm.community?.webUrl);
           return TabsScaffold(

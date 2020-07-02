@@ -1,4 +1,4 @@
-import 'package:digitalrand/models/pro/token.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/screens/pro_mode/assets_list.dart';
 import 'package:digitalrand/utils/addresses.dart';
 

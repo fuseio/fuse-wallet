@@ -247,7 +247,7 @@ class _ContactsListState extends State<ContactsList> {
               )),
               Container(
                 child: new FloatingActionButton(
-                    heroTag: 'cash_scanner',
+                    heroTag: 'contacts_list',
                     backgroundColor: const Color(0xFF292929),
                     elevation: 0,
                     child: Image.asset(

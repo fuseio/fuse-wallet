@@ -2,7 +2,7 @@ import 'package:ethereum_address/ethereum_address.dart';
 import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:digitalrand/models/jobs/base.dart';
 import 'package:digitalrand/models/pro/pro_wallet_state.dart';
-import 'package:digitalrand/models/pro/token.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/models/transactions/transfer.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';

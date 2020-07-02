@@ -1,10 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:digitalrand/models/business.dart';
-import 'package:digitalrand/models/community_metadata.dart';
-import 'package:digitalrand/models/jobs/base.dart';
+import 'package:digitalrand/models/community/business.dart';
+import 'package:digitalrand/models/community/community_metadata.dart';
 import 'package:digitalrand/models/plugins/plugins.dart';
-import 'package:digitalrand/models/token.dart';
-import 'package:digitalrand/models/transactions/transactions.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';
@@ -15,18 +13,13 @@ class Community extends Equatable {
   final String address;
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
-  final BigInt tokenBalance;
   final bool isMember;
   final List<Business> businesses;
-  final Transactions transactions;
   final Token token;
   final Plugins plugins;
   final CommunityMetadata metadata;
   final bool isClosed;
   final String webUrl;
-
-  @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
-  final List<Job> jobs;
 
   @override
   List<Object> get props => [
@@ -34,10 +27,8 @@ class Community extends Equatable {
         address,
         homeBridgeAddress,
         foreignBridgeAddress,
-        tokenBalance,
         isMember,
         businesses,
-        transactions,
         token,
         plugins,
         metadata,
@@ -51,37 +42,26 @@ class Community extends Equatable {
       this.isMember,
       this.address,
       this.plugins,
-      this.transactions,
       this.token,
-      this.tokenBalance,
       this.businesses,
-      this.jobs,
       this.metadata,
       this.homeBridgeAddress,
       this.webUrl,
       this.foreignBridgeAddress});
 
-  static List<Job> _jobsFromJson(Map<String, dynamic> json) =>
-      List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
-
-  static Map<String, dynamic> _jobsToJson(List<dynamic> jobs) =>
-      new Map.from({"jobs": jobs.map((job) => job.toJson()).toList()});
-
   factory Community.initial() {
     return new Community(
-        name: null,
-        isClosed: false,
-        metadata: CommunityMetadata.initial(),
-        address: null,
-        foreignBridgeAddress: null,
-        homeBridgeAddress: null,
-        token: null,
-        isMember: false,
-        tokenBalance: BigInt.zero,
-        businesses: new List<Business>(),
-        transactions: Transactions.initial(),
-        plugins: new Plugins(),
-        jobs: new List<Job>());
+      name: null,
+      isClosed: false,
+      metadata: CommunityMetadata.initial(),
+      address: null,
+      foreignBridgeAddress: null,
+      homeBridgeAddress: null,
+      token: Token.initial(),
+      isMember: false,
+      businesses: new List<Business>(),
+      plugins: new Plugins(),
+    );
   }
 
   Community copyWith({
@@ -91,10 +71,7 @@ class Community extends Equatable {
     String homeBridgeAddress,
     Plugins plugins,
     Token token,
-    Transactions transactions,
-    BigInt tokenBalance,
     List<Business> businesses,
-    List<Job> jobs,
     bool isMember,
     CommunityMetadata metadata,
     bool isClosed,
@@ -104,15 +81,12 @@ class Community extends Equatable {
       isClosed: isClosed ?? this.isClosed,
       webUrl: webUrl,
       metadata: metadata ?? this.metadata,
-      tokenBalance: tokenBalance ?? this.tokenBalance,
       address: address ?? this.address,
       name: name ?? this.name,
       plugins: plugins ?? this.plugins,
       token: token ?? this.token,
       businesses: businesses ?? this.businesses,
       isMember: isMember ?? this.isMember,
-      jobs: jobs ?? this.jobs,
-      transactions: transactions ?? this.transactions,
       homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
       foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,
     );

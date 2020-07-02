@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/plugins/plugins.dart';
 import 'package:redux/redux.dart';
-import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
 
 class DrawerViewModel extends Equatable {
@@ -10,10 +10,8 @@ class DrawerViewModel extends Equatable {
   final String walletStatus;
   final String walletAddress;
   final String communityAddress;
-  final bool isProModeActivate;
   final Plugins plugins;
   final Function() firstName;
-  final Function(bool isProMode) replaceNavigator;
 
   DrawerViewModel(
       {this.logout,
@@ -21,9 +19,7 @@ class DrawerViewModel extends Equatable {
       this.plugins,
       this.walletAddress,
       this.firstName,
-      this.communityAddress,
-      this.replaceNavigator,
-      this.isProModeActivate});
+      this.communityAddress});
 
   static DrawerViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
@@ -31,7 +27,6 @@ class DrawerViewModel extends Equatable {
         store.state.cashWalletState.communities[communityAddress] ??
             new Community.initial();
     return DrawerViewModel(
-        isProModeActivate: store.state.userState.isProModeActivated ?? false,
         communityAddress: communityAddress,
         walletAddress: store.state.cashWalletState.walletAddress,
         plugins: community?.plugins,
@@ -42,13 +37,10 @@ class DrawerViewModel extends Equatable {
         firstName: () {
           String fullName = store.state.userState.displayName ?? '';
           return fullName.split(' ')[0];
-        },
-        replaceNavigator: (isProMode) {
-          store.dispatch(SwitchWalletMode(isProMode: isProMode));
         });
   }
 
   @override
   List get props =>
-      [walletStatus, walletAddress, communityAddress, isProModeActivate];
+      [walletStatus, walletAddress, communityAddress];
 }

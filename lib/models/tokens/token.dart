@@ -14,6 +14,7 @@ part 'token.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Token extends ERC20Token {
   final String imageUrl;
+  final String originNetwork;
   final int timestamp;
   final Price priceInfo;
   @JsonKey(fromJson: _transactionsFromJson)
@@ -22,9 +23,6 @@ class Token extends ERC20Token {
   final List<Job> jobs;
   @JsonKey(ignore: true)
   final String subtitle;
-
-  @override
-  List<Object> get props => [amount, name, symbol];
 
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);
@@ -47,7 +45,8 @@ class Token extends ERC20Token {
       this.subtitle,
       this.timestamp = 0,
       this.transactions,
-      this.jobs})
+      this.jobs,
+      this.originNetwork})
       : super(
             address: address,
             name: name,
@@ -65,6 +64,7 @@ class Token extends ERC20Token {
       String subtitle,
       int timestamp,
       Price priceInfo,
+      String originNetwork,
       Transactions transactions,
       List<Job> jobs}) {
     return Token(
@@ -72,6 +72,7 @@ class Token extends ERC20Token {
         subtitle: subtitle,
         address: address ?? this.address,
         name: name ?? this.name,
+        originNetwork: originNetwork ?? this.originNetwork,
         symbol: symbol ?? this.symbol,
         imageUrl: imageUrl ?? this.imageUrl,
         decimals: decimals ?? this.decimals,
@@ -84,26 +85,45 @@ class Token extends ERC20Token {
   @override
   Future<dynamic> fetchTokenBalance(String accountAddress,
       {void Function(BigInt) onDone, Function onError}) async {
-    try {
-      final BigInt balance = await tokenAPI.getTokenBalanceByAccountAddress(
-          this.address, accountAddress);
-      if (this.amount.compareTo(balance) != 0) {
-        onDone(balance);
+    if (originNetwork == null) {
+      try {
+        final BigInt balance = await tokenAPI.getTokenBalanceByAccountAddress(
+            this.address, accountAddress);
+        if (this.amount.compareTo(balance) != 0) {
+          onDone(balance);
+        }
+      } catch (e, s) {
+        onError(e, s);
       }
-    } catch (e, s) {
-      onError(e, s);
+    } else {
+      try {
+        final BigInt balance =
+            await graph.getTokenBalance(accountAddress, this.address);
+        if (this.amount.compareTo(balance) != 0) {
+          onDone(balance);
+        }
+      } catch (e, s) {
+        onError(e, s);
+      }
     }
   }
 
-  Future<dynamic> fetchTokenLastestPrice({void Function(Price) onDone, Function onError}) async {
+  Future<dynamic> fetchTokenLastestPrice(
+      {void Function(Price) onDone, Function onError}) async {
     try {
       final String quote = await tokenAPI.getTokenLastestPrice(this.address);
-      String total = formatValue(this.amount, this.decimals, withPrecision: false);
+      String total =
+          formatValue(this.amount, this.decimals, withPrecision: false);
       if (this.priceInfo == null) {
-        Price priceInfo = Price(currency: 'usd', quote: quote, total: (num.parse(total) / num.parse(quote)).toString());
+        Price priceInfo = Price(
+            currency: 'usd',
+            quote: quote,
+            total: (num.parse(total) / num.parse(quote)).toString());
         onDone(priceInfo);
       } else {
-        Price priceInfo = this.priceInfo.copyWith(quote: quote, total: (num.parse(total) / num.parse(quote)).toString());
+        Price priceInfo = this.priceInfo.copyWith(
+            quote: quote,
+            total: (num.parse(total) / num.parse(quote)).toString());
         onDone(priceInfo);
       }
     } catch (e, s) {

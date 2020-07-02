@@ -13,20 +13,13 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
     isMember: json['isMember'] as bool,
     address: json['address'] as String,
     plugins: json['plugins'] == null ? null : Plugins.fromJson(json['plugins']),
-    transactions: json['transactions'] == null
-        ? null
-        : Transactions.fromJson(json['transactions'] as Map<String, dynamic>),
     token: json['token'] == null
         ? null
         : Token.fromJson(json['token'] as Map<String, dynamic>),
-    tokenBalance: json['tokenBalance'] == null
-        ? null
-        : BigInt.parse(json['tokenBalance'] as String),
     businesses: (json['businesses'] as List)
         ?.map((e) =>
             e == null ? null : Business.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    jobs: Community._jobsFromJson(json['jobs'] as Map<String, dynamic>),
     metadata: json['metadata'] == null
         ? null
         : CommunityMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
@@ -41,14 +34,11 @@ Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'address': instance.address,
       'homeBridgeAddress': instance.homeBridgeAddress,
       'foreignBridgeAddress': instance.foreignBridgeAddress,
-      'tokenBalance': instance.tokenBalance?.toString(),
       'isMember': instance.isMember,
       'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
-      'transactions': instance.transactions?.toJson(),
       'token': instance.token?.toJson(),
       'plugins': instance.plugins?.toJson(),
       'metadata': instance.metadata?.toJson(),
       'isClosed': instance.isClosed,
       'webUrl': instance.webUrl,
-      'jobs': Community._jobsToJson(instance.jobs),
     };

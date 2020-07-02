@@ -109,11 +109,9 @@ class CashHeader extends StatelessWidget {
                                     children: <Widget>[
                                       RichText(
                                         text: new TextSpan(
-                                          children: (viewModel.community
-                                                          .tokenBalance ==
-                                                      null ||
-                                                  viewModel.community.token ==
-                                                      null)
+                                          children: (viewModel
+                                                      .community.token ==
+                                                  null)
                                               ? <TextSpan>[
                                                   new TextSpan(
                                                       text: '0',
@@ -129,7 +127,7 @@ class CashHeader extends StatelessWidget {
                                                   new TextSpan(
                                                       text: formatValue(
                                                           viewModel.community
-                                                              .tokenBalance,
+                                                              .token.amount,
                                                           viewModel.community
                                                               .token.decimals),
                                                       style: new TextStyle(

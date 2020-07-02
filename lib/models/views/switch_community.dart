@@ -1,6 +1,6 @@
 import 'dart:core';
 import 'package:equatable/equatable.dart';
-import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';

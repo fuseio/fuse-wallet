@@ -23,9 +23,7 @@ class ReceiveScreen extends StatelessWidget {
         },
         converter: _ReceiveModel.fromStore,
         builder: (_, viewModel) {
-          final String barcodeData = viewModel.isProMode
-              ? 'ethereum:${viewModel.walletAddress}'
-              : 'fuse:${viewModel.walletAddress}';
+          final String barcodeData = 'ethereum:${viewModel.walletAddress}';
           return MainScaffold(
             title: I18n.of(context).receive,
             automaticallyImplyLeading: false,

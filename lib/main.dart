@@ -1,16 +1,13 @@
 import 'dart:async';
-import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:digitalrand/models/app_state.dart';
-import 'package:digitalrand/models/views/splash.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/redux/state/store.dart';
-import 'package:digitalrand/screens/pro_routes.gr.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/themes/app_theme.dart';
 import 'package:digitalrand/themes/custom_theme.dart';
@@ -75,7 +72,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final i18n = I18n.delegate;
-  bool isProMode = false;
 
   void onLocaleChange(Locale locale) {
     setState(() {
@@ -87,14 +83,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     I18n.onLocaleChanged = onLocaleChange;
-  }
-
-  onWillChange(MainViewModel prevVM, MainViewModel nextVM) {
-    if (prevVM.isProMode != nextVM.isProMode) {
-      setState(() {
-        isProMode = nextVM.isProMode;
-      });
-    }
   }
 
   onInit(Store<AppState> store) {
@@ -112,36 +100,56 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
       store: widget.store,
-      child: StoreConnector<AppState, MainViewModel>(
-          converter: MainViewModel.fromStore,
-          onWillChange: onWillChange,
-          onInit: onInit,
-          builder: (_, vm) => Column(children: <Widget>[
-                Expanded(
-                    child: MaterialApp(
-                  title: 'Digital Rand',
-                  initialRoute: isProMode
-                      ? ProRouter.proModeHomeScreen
-                      : widget.initialRoute,
-                  navigatorKey: isProMode
-                      ? ProRouter.navigator.key
-                      : Router.navigator.key,
-                  onGenerateRoute: isProMode
-                      ? ProRouter.onGenerateRoute
-                      : Router.onGenerateRoute,
-                  theme: CustomTheme.of(context),
-                  localizationsDelegates: [
-                    i18n,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  supportedLocales: i18n.supportedLocales,
-                  localeResolutionCallback:
-                      i18n.resolution(fallback: new Locale("en", "US")),
-                  navigatorObservers: [SegmentObserver()],
-                ))
-              ])),
+      child: MaterialApp(
+        title: 'Digital Rand',
+        initialRoute: widget.initialRoute,
+        navigatorKey: Router.navigator.key,
+        onGenerateRoute: Router.onGenerateRoute,
+        theme: CustomTheme.of(context),
+        localizationsDelegates: [
+          i18n,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: i18n.supportedLocales,
+        localeResolutionCallback:
+            i18n.resolution(fallback: new Locale("en", "US")),
+        navigatorObservers: [SegmentObserver()],
+      ),
+      // child: StoreConnector<AppState, MainViewModel>(
+      //     converter: MainViewModel.fromStore,
+      //     // onWillChange: onWillChange,
+      //     onInit: onInit,
+      //     builder: (_, vm) => Column(children: <Widget>[
+      //           Expanded(
+      //               child: MaterialApp(
+      //             title: 'Fuse Cash',
+      //             initialRoute: widget.initialRoute,
+      //             navigatorKey: Router.navigator.key,
+      //             onGenerateRoute: Router.onGenerateRoute,
+      //             // initialRoute: isProMode
+      //             //     ? ProRouter.proModeHomeScreen
+      //             //     : widget.initialRoute,
+      //             // navigatorKey: isProMode
+      //             //     ? ProRouter.navigator.key
+      //             //     : Router.navigator.key,
+      //             // onGenerateRoute: isProMode
+      //             //     ? ProRouter.onGenerateRoute
+      //             //     : Router.onGenerateRoute,
+      //             theme: CustomTheme.of(context),
+      //             localizationsDelegates: [
+      //               i18n,
+      //               GlobalMaterialLocalizations.delegate,
+      //               GlobalWidgetsLocalizations.delegate,
+      //               GlobalCupertinoLocalizations.delegate,
+      //             ],
+      //             supportedLocales: i18n.supportedLocales,
+      //             localeResolutionCallback:
+      //                 i18n.resolution(fallback: new Locale("en", "US")),
+      //             navigatorObservers: [SegmentObserver()],
+      //           ))
+      //         ])),
     );
   }
 }

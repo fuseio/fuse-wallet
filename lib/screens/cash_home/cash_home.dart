@@ -1,81 +1,68 @@
-import 'package:country_code_picker/country_code.dart';
-import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
-import 'package:digitalrand/models/app_state.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-import 'cash_transactions.dart';
-import 'package:digitalrand/models/views/cash_wallet.dart';
+import 'package:digitalrand/screens/cash_home/feed.dart';
+import 'package:digitalrand/screens/pro_mode/assets_list.dart';
+import 'package:digitalrand/widgets/my_app_bar.dart';
 
-class CashHomeScreen extends StatelessWidget {
-  onInit(Store<AppState> store) async {
-    Segment.screen(screenName: '/cash-home-screen');
-    String walletStatus = store.state.cashWalletState.walletStatus;
-    String accountAddress = store.state.userState.accountAddress;
-    if (walletStatus != 'deploying' &&
-        walletStatus != 'created' &&
-        accountAddress != '') {
-      store.dispatch(createAccountWalletCall(accountAddress));
-    }
-  }
+final List<String> tabsTitles = ['Feed', 'Wallet'];
 
-  void onChange(CashWalletViewModel viewModel, BuildContext context) async {
-    if (viewModel.isoCode == null) {
-      Locale myLocale = Localizations.localeOf(context);
-      Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
-      viewModel.setCountyCode(CountryCode(dialCode: localeData['dial_code'], code: localeData['code']));
-    }
-    if (!viewModel.isJobProcessingStarted) {
-      viewModel.startProcessingJobs();
-    }
-    if (!viewModel.isListeningToBranch) {
-      viewModel.listenToBranch();
-    }
-    if (!viewModel.isCommunityLoading &&
-        viewModel.branchAddress != null &&
-        viewModel.branchAddress != "" &&
-        viewModel.walletAddress != '') {
-      viewModel.branchCommunityUpdate();
-    }
-    if (!viewModel.isCommunityLoading &&
-        !viewModel.isCommunityFetched &&
-        viewModel.isBranchDataReceived &&
-        viewModel.walletAddress != '') {
-      viewModel.switchCommunity(viewModel.communityAddress);
-    }
-    if (viewModel.token != null) {
-      if (!viewModel.isTransfersFetchingStarted) {
-        viewModel.startTransfersFetching();
-      }
-    }
-    if (viewModel.identifier == null) {
-      viewModel.setIdentifier();
-    }
+class CashHomeScreen extends StatefulWidget {
+  CashHomeScreen({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _CashHomeScreenState createState() => _CashHomeScreenState();
+}
+
+class _CashHomeScreenState extends State<CashHomeScreen> {
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, CashWalletViewModel>(
-        distinct: true,
-        converter: CashWalletViewModel.fromStore,
-        onInit: onInit,
-        onInitialBuild: (viewModel) async {
-          onChange(viewModel, context);
-        },
-        onWillChange: (prevViewModel, nextViewModel) async {
-          onChange(nextViewModel, context);
-        },
-        builder: (_, viewModel) {
-          return Scaffold(
-              key: key,
-              body: Column(children: <Widget>[
-                Expanded(
-                    child: ListView(children: <Widget>[
-                  CashTransactios(viewModel: viewModel)
-                ])),
-              ]));
-        });
+    Segment.screen(screenName: '/home-screen');
+    return DefaultTabController(
+        length: 2,
+        initialIndex: 0,
+        child: Container(
+            child: Builder(
+                builder: (BuildContext context) => Scaffold(
+                      appBar: MyAppBar(
+                        backgroundColor: Theme.of(context).splashColor,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
+                          child: TabBar(
+                            indicator: BoxDecoration(color: Colors.white),
+                            onTap: (int index) {
+                              setState(() {});
+                            },
+                            unselectedLabelStyle: TextStyle(
+                                backgroundColor: Theme.of(context).splashColor),
+                            tabs: tabsTitles.asMap().entries.map((title) {
+                              bool isSeleceted;
+                              if (DefaultTabController.of(context).index !=
+                                  null) {
+                                isSeleceted = title.key ==
+                                    DefaultTabController.of(context).index;
+                              }
+                              return Chip(
+                                labelPadding: EdgeInsets.only(
+                                    top: 2, bottom: 2, right: 40, left: 40),
+                                label: Text(title.value),
+                                backgroundColor: isSeleceted
+                                    ? Color(0xFFF2F2F2)
+                                    : Theme.of(context).splashColor,
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      body: TabBarView(
+                        children: [Feed(), AssetsList()],
+                      ),
+                    ))));
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
-import 'package:digitalrand/models/business.dart';
+import 'package:digitalrand/models/community/business.dart';
 import 'package:digitalrand/models/views/buy_page.dart';
 import 'package:digitalrand/screens/buy/business.dart';
 import 'package:digitalrand/screens/cash_home/webview_page.dart';

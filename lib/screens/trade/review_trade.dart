@@ -1,9 +1,9 @@
 import 'dart:core';
-import 'package:digitalrand/models/pro/token.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:digitalrand/screens/pro_routes.gr.dart';
 import 'package:digitalrand/utils/format.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:digitalrand/generated/i18n.dart';
@@ -182,7 +182,8 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           widget.exchangeSummry['amountIn'],
                           widget.exchangeSummry['tx']['to'],
                           widget.exchangeSummry['tx']['data'], () {
-                        ProRouter.navigator.pushNamedAndRemoveUntil(ProRouter.proModeHomeScreen, (route) => false);
+                        ProRouter.navigator.pushNamedAndRemoveUntil(
+                            ProRouter.proModeHomeScreen, (route) => false);
                       }, () {
                         setState(() {
                           isPreloading = false;

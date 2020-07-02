@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:digitalrand/models/jobs/base.dart';
 import 'package:digitalrand/models/pro/pro_wallet_state.dart';
-import 'package:digitalrand/models/pro/token.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/models/transactions/transaction.dart';
 import 'package:digitalrand/models/transactions/transactions.dart';
 import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
@@ -36,6 +36,36 @@ final proWalletReducers = combineReducers<ProWalletState>([
   // TypedReducer<ProWalletState, GetTokenTransfersEventsListSuccess>(
   //     _getTokenTransfersEventsListSuccess),
 ]);
+
+// ProWalletState _getTokenTransfersEventsListSuccess(
+//     ProWalletState state, GetTokenTransfersEventsListSuccess action) {
+//   if (action.tokenTransfers.isNotEmpty) {
+//     Token current = state.erc20Tokens[action.tokenAddress];
+//     // List<Transfer> tokenTransfers = action.tokenTransfers
+//     //   ..removeWhere((t) => (t.txHash ==
+//     //       current.transactions.list
+//     //           .firstWhere((element) => element.txHash == t.txHash)
+//     //           ?.txHash));
+//     for (Transfer tx in action.tokenTransfers.reversed) {
+//       Transfer saved = current.transactions.list
+//           .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+//       if (saved != null) {
+//         if (saved.isPending()) {
+//           saved.status = 'CONFIRMED';
+//         }
+//       } else {
+//         current.transactions.list.add(tx);
+//       }
+//     }
+//     Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+//     newOne[action.tokenAddress] = current.copyWith(
+//         transactions:
+//             current.transactions.copyWith(list: current.transactions.list));
+//     return state.copyWith(erc20Tokens: newOne);
+//   } else {
+//     return state;
+//   }
+// }
 
 ProWalletState _proJobDone(ProWalletState state, ProJobDone action) {
   Token current = state.erc20Tokens[action.tokenAddress];

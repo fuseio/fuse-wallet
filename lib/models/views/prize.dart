@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/plugins/plugins.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
-import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community/community.dart';
 
 class PrizeViewModel extends Equatable {
   final Plugins plugins;

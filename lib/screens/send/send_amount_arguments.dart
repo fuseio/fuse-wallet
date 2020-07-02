@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
-import 'package:digitalrand/models/pro/token.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 
 enum SendType {
   CONTACT,

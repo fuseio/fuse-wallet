@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:digitalrand/models/community.dart';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/jobs/base.dart';
 import 'package:digitalrand/models/transactions/transfer.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
@@ -189,6 +189,7 @@ ThunkAction backupWalletCall(VoidCallback successCb) {
         dynamic jobId = response['job']['_id'];
         logger.info('Job $jobId - sending backup bonus');
         Transfer backupBonus = new Transfer(
+            tokenAddress: community.token.address,
             from: DotEnv().env['FUNDER_ADDRESS'],
             to: walletAddress,
             text: 'You got a backup bonus!',

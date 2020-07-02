@@ -265,7 +265,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
               ),
               Container(
                 child: new FloatingActionButton(
-                    heroTag: 'cash_scanner',
+                    heroTag: 'send_contact',
                     backgroundColor: const Color(0xFF292929),
                     elevation: 0,
                     child: Image.asset(
