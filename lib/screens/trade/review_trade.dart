@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/screens/pro_routes.gr.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
@@ -182,8 +183,8 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           widget.exchangeSummry['amountIn'],
                           widget.exchangeSummry['tx']['to'],
                           widget.exchangeSummry['tx']['data'], () {
-                        ProRouter.navigator.pushNamedAndRemoveUntil(
-                            ProRouter.proModeHomeScreen, (route) => false);
+                        Router.navigator.pushNamedAndRemoveUntil(
+                            Router.cashHomeScreen, (route) => false);
                       }, () {
                         setState(() {
                           isPreloading = false;

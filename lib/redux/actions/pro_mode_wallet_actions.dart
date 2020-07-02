@@ -110,9 +110,11 @@ class StartFetchTokensBalances {
   StartFetchTokensBalances();
 }
 
-ThunkAction proTransactionFailed(String tokenAddrees, transfer) {
+ThunkAction proTransactionFailed(String tokenAddrees, Transfer transfer) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
     Transfer failedTx = transfer.copyWith(status: 'FAILED');
+    logger.severe('proTransactionFailed $tokenAddrees ${failedTx.jobId}');
     store.dispatch(new ReplaceProTransaction(
         tokenAddress: tokenAddrees,
         transactionToReplace: failedTx,
@@ -120,7 +122,7 @@ ThunkAction proTransactionFailed(String tokenAddrees, transfer) {
   };
 }
 
-ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddrees, transfer) {
+ThunkAction sendErc20TokenSuccessCall(String txHash, String tokenAddrees, Transfer transfer) {
   return (Store store) async {
     // final logger = await AppFactory().getLogger('action');
     Transfer confirmedTx =
@@ -670,6 +672,7 @@ ThunkAction swapHandler(
 
       response['job']['arguments'] = {
         'name': 'swapToken',
+        'tokenAddress': fromToken.address,
         'transfer': transfer.copyWith(),
         'fromToken': fromToken.copyWith(),
         'toToken': toToken.copyWith(),

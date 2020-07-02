@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:redux/redux.dart';
@@ -102,7 +103,8 @@ class _ExchangeState extends State<TradeScreen> {
       swapResponse['amount'] = num.parse(value);
       swapResponse['amountIn'] = num.parse(formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToReceive.decimals, withPrecision: false));
+          tokenToReceive.decimals,
+          withPrecision: false));
       String toTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals,
@@ -150,7 +152,8 @@ class _ExchangeState extends State<TradeScreen> {
       swapResponse['amount'] = num.parse(value);
       swapResponse['amountIn'] = num.parse(formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToReceive.decimals, withPrecision: false));
+          tokenToReceive.decimals,
+          withPrecision: false));
       String fromTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToPayWith.decimals,
@@ -303,8 +306,8 @@ class _ExchangeState extends State<TradeScreen> {
     return new StoreConnector<AppState, _ExchangeViewModel>(
         converter: _ExchangeViewModel.fromStore,
         onInitialBuild: (viewModel) {
-          final Token ethToken = viewModel.tokens
-                .firstWhere((element) => element.symbol == 'ETH');
+          final Token ethToken =
+              viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
           fetchPrices(viewModel.walletAddress, viewModel.tokens[0], ethToken);
           setState(() {
             tokenToPayWith = viewModel.tokens[0];
@@ -315,8 +318,9 @@ class _ExchangeState extends State<TradeScreen> {
           final Token payWithToken = tokenToPayWith ?? viewModel.tokens[0];
           final Token receiveToken = tokenToReceive ??
               viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
-          num value = num.parse(
-              formatValue(payWithToken.amount, payWithToken.decimals, withPrecision: false));
+          num value = num.parse(formatValue(
+              payWithToken.amount, payWithToken.decimals,
+              withPrecision: false));
           bool payWithHasBalance = payWithController.text != null &&
                   payWithController.text.isNotEmpty
               ? value.compareTo(num.parse(payWithController.text ?? 0) ?? 0) !=
@@ -358,7 +362,8 @@ class _ExchangeState extends State<TradeScreen> {
                                   onTap: () {
                                     String max = formatValue(
                                         tokenToPayWith.amount,
-                                        tokenToPayWith.decimals, withPrecision: false);
+                                        tokenToPayWith.decimals,
+                                        withPrecision: false);
                                     setState(() {
                                       payWithController.text = max;
                                     });
@@ -406,7 +411,8 @@ class _ExchangeState extends State<TradeScreen> {
                             alignment: Alignment.center,
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
+                                padding: EdgeInsets.only(
+                                    left: 20, right: 20, top: 0, bottom: 0),
                                 child: SizedBox(
                                   child: Divider(
                                     thickness: 1.0,
@@ -489,17 +495,23 @@ class _ExchangeViewModel extends Equatable {
   final String walletAddress;
   final List<Token> tokens;
 
-  _ExchangeViewModel({this.walletAddress, this.tokens});
+  _ExchangeViewModel({
+    this.walletAddress,
+    this.tokens,
+  });
 
   static _ExchangeViewModel fromStore(Store<AppState> store) {
-    List<Token> tokens = List<Token>.from(
+    final List<Token> tokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals, withPrecision: false)).compareTo(0) == 1)
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: false))
+                .compareTo(0) ==
+            1)
         .toList()
         .reversed
         .toList();
-    List<Token> exchangable = exchangableTokens.values.toList()
+    final List<Token> exchangable = exchangableTokens.values.toList()
       ..removeWhere((Token token) {
         dynamic foundToken = tokens.firstWhere(
             (element) =>
@@ -519,7 +531,6 @@ class _ExchangeViewModel extends Equatable {
   @override
   List<Object> get props => [walletAddress, tokens];
 }
-
 
 Future<dynamic> fetchSwap(
     String walletAddress, String fromTokenAddress, String toTokenAddress,

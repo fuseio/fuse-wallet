@@ -102,17 +102,10 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  if (viewModel.isProMode) {
-                                    ProRouter.navigator.pushNamed(
-                                        ProRouter.proModeHomeScreen,
-                                        arguments: ProModeScaffoldArguments(
-                                            tabIndex: 3));
-                                  } else {
-                                    Router.navigator.pushNamed(
-                                        Router.cashHomeScreen,
-                                        arguments: CashModeScaffoldArguments(
-                                            tabIndex: 3));
-                                  }
+                                  Router.navigator.pushNamed(
+                                      Router.cashHomeScreen,
+                                      arguments: CashModeScaffoldArguments(
+                                          tabIndex: 3));
                                 },
                               ),
                               Padding(

@@ -101,13 +101,6 @@ class TransactionTile extends StatelessWidget {
                               deduceTransferIcon(transfer),
                             ],
                           ),
-                          transfer.isFailed()
-                              ? Positioned(
-                                  left: -25,
-                                  child: SvgPicture.asset(
-                                      'assets/images/failed_icon.svg'),
-                                )
-                              : SizedBox.shrink(),
                           Positioned(
                               bottom: -20,
                               child: (transfer.isPending() &&

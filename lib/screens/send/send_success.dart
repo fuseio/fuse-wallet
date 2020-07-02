@@ -23,11 +23,8 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     Segment.screen(screenName: '/send-success-screen');
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      if (this.widget.pageArgs.isProMode) {
-        ProRouter.navigator.pushNamedAndRemoveUntil(ProRouter.proModeHomeScreen, (Route<dynamic> route) => false);
-      } else {
-        Router.navigator.pushNamedAndRemoveUntil(Router.cashHomeScreen, (Route<dynamic> route) => false);
-      }
+      Router.navigator.pushNamedAndRemoveUntil(
+          Router.cashHomeScreen, (Route<dynamic> route) => false);
     });
   }
 

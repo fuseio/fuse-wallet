@@ -1,4 +1,4 @@
-import 'package:fusecash/screens/pro_mode/transfer_tile.dart';
+import 'package:fusecash/screens/cash_home/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/screens/pro_mode/pro_token_header.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
@@ -47,7 +47,7 @@ class TransfersList extends StatelessWidget {
               children: [
                 ...token.transactions.list.reversed
                     .map((Transaction transaction) =>
-                        TransferTIle(transaction: transaction, token: token))
+                        TransactionTile(transfer: transaction))
                     .toList()
               ])
         ]);
