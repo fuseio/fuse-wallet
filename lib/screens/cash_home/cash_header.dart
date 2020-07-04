@@ -110,73 +110,86 @@ class CashHeader extends StatelessWidget {
                                 children: <Widget>[
                                   RichText(
                                     text: new TextSpan(
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                      children: (viewModel
-                                                      .community.token.amount ==
-                                                  null ||
-                                              viewModel.community.token == null)
-                                          ? <TextSpan>[
-                                              new TextSpan(
-                                                  text: '0',
-                                                  style: new TextStyle(
-                                                      fontSize: 30,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.bold))
-                                            ]
-                                          : <TextSpan>[
-                                              new TextSpan(
-                                                  text: formatValue(
-                                                      viewModel.community
-                                                          .token.amount,
-                                                      viewModel.community.token
-                                                          .decimals),
-                                                  style: new TextStyle(
-                                                      fontSize: 32,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              new TextSpan(
-                                                  text: ' ' +
-                                                      viewModel.community.token
-                                                          ?.symbol
-                                                          .toString(),
-                                                  style: new TextStyle(
-                                                      fontSize: 18,
-                                                      color: Theme.of(context)
-                                                          .primaryColor,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      height: 0.0)),
-                                              viewModel.isCommunityMember
-                                                  ? new TextSpan(
-                                                      text: ' (\$' +
-                                                          calcValueInDollar(
-                                                              viewModel
-                                                                  .community
-                                                                  .token.amount,
-                                                              viewModel
-                                                                  .community
-                                                                  .token
-                                                                  .decimals) +
-                                                          ')',
-                                                      style: new TextStyle(
-                                                          fontSize: 15,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .secondary,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          height: 0.0))
-                                                  : new TextSpan(),
-                                            ],
+                                      children: <TextSpan>[
+                                        new TextSpan(
+                                            text: '\$${viewModel.usdValue}',
+                                            style: new TextStyle(
+                                                fontSize: 32,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                                fontWeight: FontWeight.bold)),
+                                      ],
                                     ),
                                   ),
+                                  // RichText(
+                                  //   text: new TextSpan(
+                                  //     style: TextStyle(
+                                  //         color:
+                                  //             Theme.of(context).primaryColor),
+                                  //     children: (viewModel
+                                  //                     .community.token.amount ==
+                                  //                 null ||
+                                  //             viewModel.community.token == null)
+                                  //         ? <TextSpan>[
+                                  //             new TextSpan(
+                                  //                 text: '0',
+                                  //                 style: new TextStyle(
+                                  //                     fontSize: 30,
+                                  //                     color: Theme.of(context)
+                                  //                         .primaryColor,
+                                  //                     fontWeight:
+                                  //                         FontWeight.bold))
+                                  //           ]
+                                  //         : <TextSpan>[
+                                  //             new TextSpan(
+                                  //                 text: formatValue(
+                                  //                     viewModel.community
+                                  //                         .token.amount,
+                                  //                     viewModel.community.token
+                                  //                         .decimals),
+                                  //                 style: new TextStyle(
+                                  //                     fontSize: 32,
+                                  //                     color: Theme.of(context)
+                                  //                         .primaryColor,
+                                  //                     fontWeight:
+                                  //                         FontWeight.bold)),
+                                  //             new TextSpan(
+                                  //                 text: ' ' +
+                                  //                     viewModel.community.token
+                                  //                         ?.symbol
+                                  //                         .toString(),
+                                  //                 style: new TextStyle(
+                                  //                     fontSize: 18,
+                                  //                     color: Theme.of(context)
+                                  //                         .primaryColor,
+                                  //                     fontWeight:
+                                  //                         FontWeight.normal,
+                                  //                     height: 0.0)),
+                                  //             viewModel.isCommunityMember
+                                  //                 ? new TextSpan(
+                                  //                     text: ' (\$' +
+                                  //                         calcValueInDollar(
+                                  //                             viewModel
+                                  //                                 .community
+                                  //                                 .token.amount,
+                                  //                             viewModel
+                                  //                                 .community
+                                  //                                 .token
+                                  //                                 .decimals) +
+                                  //                         ')',
+                                  //                     style: new TextStyle(
+                                  //                         fontSize: 15,
+                                  //                         color:
+                                  //                             Theme.of(context)
+                                  //                                 .colorScheme
+                                  //                                 .secondary,
+                                  //                         fontWeight:
+                                  //                             FontWeight.normal,
+                                  //                         height: 0.0))
+                                  //                 : new TextSpan(),
+                                  //           ],
+                                  //   ),
+                                  // ),
                                 ])
                           ],
                         ),

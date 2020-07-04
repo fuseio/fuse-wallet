@@ -99,20 +99,20 @@ class _ExchangeState extends State<TradeScreen> {
           sourceAmount: toBigInt(value, tokenToPayWith.decimals).toString(),
           transactions: true,
           skipBalanceChecks: false);
-      swapResponse = response;
-      swapResponse['amount'] = num.parse(value);
-      swapResponse['amountIn'] = num.parse(formatValue(
-          BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToReceive.decimals,
-          withPrecision: false));
       String toTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals,
           withPrecision: false);
       if (this.mounted) {
+        response['amount'] = num.parse(value);
+        response['amountIn'] = num.parse(formatValue(
+            BigInt.from(num.parse(response['destinationAmount'])),
+            tokenToReceive.decimals,
+            withPrecision: false));
         setState(() {
           receiveController.text = toTokenAmount;
           isFetchingPayWith = false;
+          swapResponse = response;
         });
       }
     } catch (error) {
@@ -148,9 +148,8 @@ class _ExchangeState extends State<TradeScreen> {
           sourceAmount: toBigInt(value, tokenToReceive.decimals).toString(),
           transactions: true,
           skipBalanceChecks: false);
-      swapResponse = response;
-      swapResponse['amount'] = num.parse(value);
-      swapResponse['amountIn'] = num.parse(formatValue(
+      response['amount'] = num.parse(value);
+      response['amountIn'] = num.parse(formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals,
           withPrecision: false));
@@ -160,6 +159,7 @@ class _ExchangeState extends State<TradeScreen> {
           withPrecision: false);
       if (this.mounted) {
         setState(() {
+          swapResponse = response;
           payWithController.text = fromTokenAmount;
           isFetchingReceive = false;
         });
