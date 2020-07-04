@@ -24,9 +24,11 @@ abstract class ERC20Token extends Equatable {
   String getBalance() {
     double formatedValue = this.amount / BigInt.from(pow(10, decimals));
     Decimal decimalValue = Decimal.parse(formatedValue.toString());
-    return decimalValue.isInteger
-        ? decimalValue.toString()
-        : decimalValue.toStringAsFixed(2);
+    return num.parse(decimalValue.toString()).compareTo(num.parse('0.01')) != 1
+        ? decimalValue.toStringAsFixed(1)
+        : decimalValue.isInteger
+            ? decimalValue.toString()
+            : decimalValue.toStringAsPrecision(2);
   }
 
   Future<dynamic> fetchTokenBalance(String walletAddress,

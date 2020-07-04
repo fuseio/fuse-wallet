@@ -27,7 +27,7 @@ class ProHeader extends StatelessWidget {
             nextVm.idenyifyCall(Map<String, dynamic>.from({
               "Ether balance": Decimal.parse(
                       amount.getValueInUnit(EtherUnit.ether).toString())
-                  .toStringAsPrecision(1),
+                  .toStringAsPrecision(2),
             }));
           }
           if (prevVm.balance != nextVm.balance) {
@@ -236,9 +236,11 @@ class _ProHeaderViewModel extends Equatable {
         ethBalance: ethBalance == 0
             ? '0'
             : ethBalance.compareTo(0.01) != 1 ? 'Less then 0.01' : ethBalance,
-        balance: decimalValue.isInteger
-            ? decimalValue.toString()
-            : decimalValue.toStringAsFixed(2),
+        balance: decimalValue.compareTo(Decimal.parse('0.01')) != 1
+            ? decimalValue.toStringAsFixed(1)
+            : decimalValue.isInteger
+                ? decimalValue.toString()
+                : decimalValue.toStringAsPrecision(2),
         etherBalance: etherBalance,
         feePlugin: community.plugins.foreignTransfers,
         tokenDAI: token,

@@ -18,14 +18,24 @@ String formatValue(BigInt value, int decimals,
   double formatedValue = value / BigInt.from(pow(10, decimals));
   if (!withPrecision) return formatedValue.toString();
   Decimal decimalValue = Decimal.parse(formatedValue.toString());
-  return decimalValue.toStringAsFixed(1);
+  return num.parse(decimalValue.toString()).compareTo(num.parse('0.01')) != 1
+      ? decimalValue.toStringAsFixed(1)
+      : decimalValue.isInteger
+          ? decimalValue.toString()
+          : decimalValue.toStringAsPrecision(2);
 }
 
-String getDollarValue(BigInt value, int decimals, double price) {
+String getDollarValue(BigInt value, int decimals, double price,
+    {bool withPrecision = false}) {
   if (value == null || decimals == null) return '';
-  double formatedValue1 = (value / BigInt.from(pow(10, decimals)));
-  Decimal decimalValue = Decimal.parse((formatedValue1 * price).toString());
-  return decimalValue.toStringAsFixed(1);
+  double formatedValue = (value / BigInt.from(pow(10, decimals)));
+  Decimal decimalValue = Decimal.parse((formatedValue * price).toString());
+  if (withPrecision) return decimalValue.toString();
+  return num.parse(decimalValue.toString()).compareTo(num.parse('0.01')) != 1
+      ? decimalValue.toStringAsFixed(1)
+      : decimalValue.isInteger
+          ? decimalValue.toString()
+          : decimalValue.toStringAsPrecision(2);
 }
 
 String formatAddress(String address) {

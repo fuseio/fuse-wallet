@@ -3,7 +3,6 @@ import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/views/cash_header.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/utils/barcode.dart';
-import 'package:digitalrand/utils/format.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class CashHeader extends StatelessWidget {
@@ -109,48 +108,28 @@ class CashHeader extends StatelessWidget {
                                     children: <Widget>[
                                       RichText(
                                         text: new TextSpan(
-                                          children: (viewModel
-                                                      .community.token ==
-                                                  null)
-                                              ? <TextSpan>[
-                                                  new TextSpan(
-                                                      text: '0',
-                                                      style: new TextStyle(
-                                                          fontSize: 32,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .splashColor,
-                                                          fontWeight:
-                                                              FontWeight.bold))
-                                                ]
-                                              : <TextSpan>[
-                                                  new TextSpan(
-                                                      text: formatValue(
-                                                          viewModel.community
-                                                              .token.amount,
-                                                          viewModel.community
-                                                              .token.decimals),
-                                                      style: new TextStyle(
-                                                          fontSize: 32,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .splashColor,
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  new TextSpan(
-                                                      text: ' ' +
-                                                          viewModel.community
-                                                              .token?.symbol
-                                                              .toString(),
-                                                      style: new TextStyle(
-                                                          fontSize: 18,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .splashColor,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          height: 0.0)),
-                                                ],
+                                          children: <TextSpan>[
+                                            new TextSpan(
+                                                text: '\$${viewModel.usdValue}',
+                                                style: new TextStyle(
+                                                    fontSize: 32,
+                                                    color: Theme.of(context)
+                                                        .splashColor,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            // new TextSpan(
+                                            //     text: ' ' +
+                                            //         viewModel
+                                            //             .community.token?.symbol
+                                            //             .toString(),
+                                            //     style: new TextStyle(
+                                            //         fontSize: 18,
+                                            //         color: Theme.of(context)
+                                            //             .splashColor,
+                                            //         fontWeight:
+                                            //             FontWeight.normal,
+                                            //         height: 0.0)),
+                                          ],
                                         ),
                                       ),
                                     ])

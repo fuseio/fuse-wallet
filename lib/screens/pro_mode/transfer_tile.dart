@@ -85,7 +85,7 @@ class TransferTIle extends StatelessWidget {
                           children: <Widget>[
                             Stack(
                               overflow: Overflow.visible,
-                              alignment: AlignmentDirectional.center,
+                              alignment: Alignment.center,
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[

@@ -86,7 +86,8 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                                           .exchangeSummry['sourceAmount'])),
                                       int.parse(
                                           widget.exchangeSummry['sourceAsset']
-                                              ['decimals'])),
+                                              ['decimals']),
+                                      withPrecision: false),
                                   style: TextStyle(fontSize: 40),
                                 ),
                                 SizedBox(
@@ -137,7 +138,8 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                                           widget.exchangeSummry[
                                               'destinationAmount'])),
                                       int.parse(widget.exchangeSummry[
-                                          'destinationAsset']['decimals'])),
+                                          'destinationAsset']['decimals']),
+                                      withPrecision: false),
                                   style: TextStyle(fontSize: 40),
                                 ),
                                 SizedBox(
