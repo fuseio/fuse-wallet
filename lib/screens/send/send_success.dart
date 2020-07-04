@@ -3,7 +3,6 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:digitalrand/generated/i18n.dart';
-import 'package:digitalrand/screens/pro_routes.gr.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/screens/send/send_amount_arguments.dart';
 import 'package:digitalrand/widgets/main_scaffold.dart';

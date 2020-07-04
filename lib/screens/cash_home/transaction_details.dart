@@ -1,6 +1,5 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:digitalrand/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:equatable/equatable.dart';
