@@ -137,7 +137,7 @@ class TransactionTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Flexible(
-                        flex: 12,
+                        flex: 11,
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[

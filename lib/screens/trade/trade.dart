@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:redux/redux.dart';

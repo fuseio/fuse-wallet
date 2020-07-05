@@ -10,7 +10,6 @@ import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 
 class CashHeaderViewModel extends Equatable {
-  final Community community;
   final Function() firstName;
   final Plugins plugins;
   final String walletStatus;
@@ -19,7 +18,6 @@ class CashHeaderViewModel extends Equatable {
 
   CashHeaderViewModel(
       {this.usdValue,
-      this.community,
       this.firstName,
       this.plugins,
       this.walletStatus,
@@ -65,7 +63,6 @@ class CashHeaderViewModel extends Equatable {
             : decimalValue.isInteger
                 ? decimalValue.toString()
                 : decimalValue.toStringAsPrecision(2),
-        community: community,
         plugins: community?.plugins,
         walletStatus: store.state.cashWalletState.walletStatus,
         isCommunityMember:
@@ -78,5 +75,5 @@ class CashHeaderViewModel extends Equatable {
 
   @override
   List<Object> get props =>
-      [community, plugins, isCommunityMember, walletStatus, usdValue];
+      [plugins, isCommunityMember, walletStatus, usdValue];
 }

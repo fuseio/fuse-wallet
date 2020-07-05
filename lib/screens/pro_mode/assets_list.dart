@@ -75,8 +75,12 @@ class _AssetsListViewModel extends Equatable {
         .toList();
     return _AssetsListViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: [...homeTokens, ...foreignTokens]
-        ..sort((tokenA, tokenB) => tokenB.amount.compareTo(tokenA.amount)),
+      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) {
+          if (tokenB.amount != null && tokenA?.amount != null) {
+            return tokenB?.amount?.compareTo(tokenA?.amount);
+          }
+          return tokenA.hashCode.compareTo(tokenB.hashCode);
+        }),
     );
   }
 

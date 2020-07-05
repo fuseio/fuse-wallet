@@ -190,7 +190,6 @@ CashWalletState _fetchingBusinessListFailed(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-  print('Found ${action.tokenTransfers.length} token transfers');
   bool isLoading = state.isCommunityLoading ?? false;
   if (isLoading) return state;
   if (state.walletAddress != '' && action.tokenTransfers.length > 0) {
@@ -203,7 +202,7 @@ CashWalletState _getTokenTransfersListSuccess(
           .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
         if (saved.isPending()) {
-          saved.status = 'CONFIRMED';
+          saved = saved.copyWith(status: 'CONFIRMED');
         }
       } else {
         current.token.transactions.list.add(tx);

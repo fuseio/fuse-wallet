@@ -447,10 +447,10 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
         return;
       }
-      List<Job> jobs = store
-              .state
-              .cashWalletState
+      CashWalletState cashWalletState = store.state.cashWalletState;
+      List<Job> jobs = cashWalletState
               .communities[store.state.cashWalletState.communityAddress]
+              ?.token
               ?.jobs ??
           [];
       bool hasCreateWallet = jobs.any((job) => job.jobType == 'createWallet');

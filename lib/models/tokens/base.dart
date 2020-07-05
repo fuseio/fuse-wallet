@@ -22,6 +22,7 @@ abstract class ERC20Token extends Equatable {
   });
 
   String getBalance() {
+    if (this.amount == null || decimals == null) return '0';
     double formatedValue = this.amount / BigInt.from(pow(10, decimals));
     Decimal decimalValue = Decimal.parse(formatedValue.toString());
     return num.parse(decimalValue.toString()).compareTo(num.parse('0.01')) != 1

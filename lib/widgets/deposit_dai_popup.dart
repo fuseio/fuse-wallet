@@ -5,7 +5,6 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/pro_routes.gr.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:redux/redux.dart';
