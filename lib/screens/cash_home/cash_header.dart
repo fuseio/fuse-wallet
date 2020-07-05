@@ -110,7 +110,8 @@ class CashHeader extends StatelessWidget {
                                         text: new TextSpan(
                                           children: <TextSpan>[
                                             new TextSpan(
-                                                text: '\$${viewModel.usdValue}',
+                                                text:
+                                                    '\$${viewModel?.usdValue ?? '0'}',
                                                 style: new TextStyle(
                                                     fontSize: 32,
                                                     color: Theme.of(context)

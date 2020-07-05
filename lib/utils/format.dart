@@ -14,7 +14,7 @@ final Map prices = {
 
 String formatValue(BigInt value, int decimals,
     {int fractionDigits = 2, bool withPrecision = true}) {
-  if (value == null || decimals == null) return '';
+  if (value == null || decimals == null) return '0';
   double formatedValue = value / BigInt.from(pow(10, decimals));
   if (!withPrecision) return formatedValue.toString();
   Decimal decimalValue = Decimal.parse(formatedValue.toString());
@@ -27,7 +27,7 @@ String formatValue(BigInt value, int decimals,
 
 String getDollarValue(BigInt value, int decimals, double price,
     {bool withPrecision = false}) {
-  if (value == null || decimals == null) return '';
+  if (value == null || decimals == null) return '0';
   double formatedValue = (value / BigInt.from(pow(10, decimals)));
   Decimal decimalValue = Decimal.parse((formatedValue * price).toString());
   if (withPrecision) return decimalValue.toString();

@@ -9,18 +9,13 @@ import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
 
 class CashHeaderViewModel extends Equatable {
-  final Community community;
   final Function() firstName;
   final Plugins plugins;
   final String walletStatus;
   final String usdValue;
 
   CashHeaderViewModel(
-      {this.usdValue,
-      this.community,
-      this.firstName,
-      this.plugins,
-      this.walletStatus});
+      {this.usdValue, this.firstName, this.plugins, this.walletStatus});
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     ProWalletState proWalletState = store.state.proWalletState;
@@ -63,7 +58,6 @@ class CashHeaderViewModel extends Equatable {
             : decimalValue.isInteger
                 ? decimalValue.toString()
                 : decimalValue.toStringAsPrecision(2),
-        community: community,
         plugins: community?.plugins,
         walletStatus: store.state.cashWalletState.walletStatus,
         firstName: () {
@@ -73,5 +67,5 @@ class CashHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [community, plugins, walletStatus, usdValue];
+  List<Object> get props => [plugins, walletStatus, usdValue];
 }
