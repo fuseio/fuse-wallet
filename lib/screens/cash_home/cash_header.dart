@@ -116,7 +116,7 @@ class CashHeader extends StatelessWidget {
                                             style: new TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
-                                                    .splashColor,
+                                                    .primaryColor,
                                                 fontWeight: FontWeight.bold)),
                                       ],
                                     ),

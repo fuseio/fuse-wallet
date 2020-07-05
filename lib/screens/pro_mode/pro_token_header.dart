@@ -83,14 +83,14 @@ class ProTokenHeader extends StatelessWidget {
                           style: new TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context).splashColor))),
+                              color: Theme.of(context).primaryColor))),
                   SizedBox(
                     width: 10,
                   ),
                   RichText(
                       text: new TextSpan(
                           style: TextStyle(
-                              color: Theme.of(context).splashColor,
+                              color: Theme.of(context).primaryColor,
                               fontSize: 18),
                           children: [
                         new TextSpan(

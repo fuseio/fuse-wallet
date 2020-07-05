@@ -98,7 +98,13 @@ class TransactionTile extends StatelessWidget {
                               SizedBox(
                                 width: 5,
                               ),
-                              deduceTransferIcon(transfer),
+                              isZeroAddress || isSendingToForeign
+                                  ? SvgPicture.asset(
+                                      'assets/images/bridge_icon.svg',
+                                      width: 8,
+                                      height: 8,
+                                    )
+                                  : deduceTransferIcon(transfer),
                             ],
                           ),
                           Positioned(
@@ -146,6 +152,16 @@ class TransactionTile extends StatelessWidget {
                                     radius: 27,
                                     backgroundImage: image,
                                   ),
+                                  // Positioned(
+                                  //   bottom: 0,
+                                  //   right: 0,
+                                  //   child: SvgPicture.asset(
+                                  //     'assets/images/${isFuseTxs ? 'fuse' : 'ethereum'}_network.svg',
+                                  //     fit: BoxFit.contain,
+                                  //     width: 20,
+                                  //     height: 20,
+                                  //   ),
+                                  // ),
                                   // Hero(
                                   //   child: CircleAvatar(
                                   //     backgroundColor: Color(0xFFE0E0E0),
@@ -258,6 +274,7 @@ class TransactionTile extends StatelessWidget {
                             ),
                           ],
                         )),
+                    // rightColumn widget
                     Flexible(
                         flex: 3,
                         child: Container(

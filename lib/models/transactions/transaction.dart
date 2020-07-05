@@ -7,14 +7,16 @@ class Transaction {
   final String txHash;
   final int timestamp;
   final String type;
-  String status;
+  final String status;
   final String text;
   final int blockNumber;
   final String jobId;
+  final bool isSwap;
 
   Transaction(
       {this.txHash,
       this.type,
+      this.isSwap = false,
       this.status,
       this.text,
       this.blockNumber,
@@ -23,6 +25,7 @@ class Transaction {
 
   Transaction copyWith({String status}) {
     return Transaction(
+        isSwap: this.isSwap,
         txHash: this.txHash,
         type: this.type,
         timestamp: this.timestamp,

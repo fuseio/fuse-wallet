@@ -137,7 +137,7 @@ class ProHeader extends StatelessWidget {
                                             style: new TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
-                                                    .splashColor,
+                                                    .primaryColor,
                                                 fontWeight: FontWeight.bold)),
                                       ],
                                     ),
@@ -148,7 +148,7 @@ class ProHeader extends StatelessWidget {
                                       '${viewModel.ethBalance} ETH',
                                       style: new TextStyle(
                                         fontSize: 18,
-                                        color: Theme.of(context).splashColor,
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
                                   )

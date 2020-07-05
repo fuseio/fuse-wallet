@@ -21,6 +21,7 @@ class Transfer extends Transaction {
       String jobId,
       int blockNumber,
       int timestamp,
+      bool isSwap,
       this.to,
       this.from,
       this.value,
@@ -34,7 +35,8 @@ class Transfer extends Transaction {
             status: status,
             text: text,
             jobId: jobId,
-            blockNumber: blockNumber);
+            blockNumber: blockNumber,
+            isSwap: isSwap ?? false);
 
   bool isJoinBonus() =>
       this.from != null && funderAddresses.containsValue(this.from);
@@ -44,6 +46,7 @@ class Transfer extends Transaction {
 
   Transfer copyWith({String status, String txHash, String text}) {
     return Transfer(
+        isSwap: this.isSwap,
         note: note ?? this.note,
         receiverName: receiverName ?? this.receiverName,
         txHash: txHash ?? this.txHash,

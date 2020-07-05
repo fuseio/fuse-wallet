@@ -17,27 +17,34 @@ Widget deduceTransferIcon(Transfer transfer) {
   if (transfer.isFailed()) {
     return SvgPicture.asset(
       'assets/images/failed_icon.svg',
-      width: 14,
-      height: 14,
+      width: 10,
+      height: 10,
+    );
+  }
+  if (transfer.isSwap != null && transfer.isSwap) {
+    return SvgPicture.asset(
+      'assets/images/trade_icon.svg',
+      width: 10,
+      height: 10,
     );
   }
   if (transfer.type == 'SEND') {
     return SvgPicture.asset(
       'assets/images/send_icon.svg',
-      width: 14,
-      height: 14,
+      width: 10,
+      height: 10,
     );
   } else if (transfer.type == 'RECEIVE') {
     return SvgPicture.asset(
       'assets/images/receive_icon.svg',
-      width: 14,
-      height: 14,
+      width: 10,
+      height: 10,
     );
   } else {
     return SvgPicture.asset(
       'assets/images/receive_icon.svg',
-      width: 14,
-      height: 14,
+      width: 10,
+      height: 10,
     );
   }
 }

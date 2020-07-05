@@ -17,7 +17,7 @@ class TokenTransfersScreen extends StatelessWidget {
         appBar: MyAppBar(
             height: MediaQuery.of(context).size.height * .21,
             child: ProTokenHeader(token: token),
-            backgroundColor: Colors.red),
+            backgroundColor: Colors.white),
         drawerEdgeDragWidth: 0,
         body: Column(children: <Widget>[
           Expanded(child: ListView(children: [TransfersList(token: token)])),
