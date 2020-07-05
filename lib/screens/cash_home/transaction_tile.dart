@@ -2,6 +2,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/models/tokens/token.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:digitalrand/generated/i18n.dart';
@@ -97,7 +98,13 @@ class TransactionTile extends StatelessWidget {
                               SizedBox(
                                 width: 5,
                               ),
-                              deduceTransferIcon(transfer),
+                              isZeroAddress || isSendingToForeign
+                                  ? SvgPicture.asset(
+                                      'assets/images/bridge_icon.svg',
+                                      width: 8,
+                                      height: 8,
+                                    )
+                                  : deduceTransferIcon(transfer),
                             ],
                           ),
                           Positioned(
@@ -267,6 +274,7 @@ class TransactionTile extends StatelessWidget {
                             ),
                           ],
                         )),
+                    // rightColumn widget
                     Flexible(
                         flex: 3,
                         child: Container(
