@@ -220,9 +220,9 @@ ThunkAction enablePushNotifications() {
 
       void switchOnPush(message) {
         String communityAddress = communityAddressFromNotification(message);
-          if (communityAddress != null && communityAddress.isNotEmpty) {
-            // store.dispatch(switchCommunityCall(communityAddress));
-          }
+        if (communityAddress != null && communityAddress.isNotEmpty) {
+          // store.dispatch(switchCommunityCall(communityAddress));
+        }
       }
 
       firebaseMessaging.configure(
@@ -344,7 +344,8 @@ ThunkAction initWeb3Call(
     final logger = await AppFactory().getLogger('action');
     try {
       logger.info('initWeb3. privateKey: $privateKey');
-      String defaultAddress = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
+      String defaultAddress =
+          DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
       wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
           defaultCommunityAddress:
               DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
@@ -399,11 +400,16 @@ ThunkAction startBalanceFetchingCall() {
 ThunkAction startTransfersFetchingCall() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    bool isTransfersFetchingStarted = store.state.cashWalletState.isTransfersFetchingStarted ?? false;
+    bool isTransfersFetchingStarted =
+        store.state.cashWalletState.isTransfersFetchingStarted ?? false;
     String communityAddress = store.state.cashWalletState.communityAddress;
-    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading ?? false;
-    Community community = store.state.cashWalletState.communities[communityAddress];
-    if (!isTransfersFetchingStarted && community.token != null && !isCommunityLoading) {
+    bool isCommunityLoading =
+        store.state.cashWalletState.isCommunityLoading ?? false;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress];
+    if (!isTransfersFetchingStarted &&
+        community.token != null &&
+        !isCommunityLoading) {
       try {
         Community community =
             store.state.cashWalletState.communities[communityAddress];
@@ -446,10 +452,10 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
         return;
       }
-      List<Job> jobs = store
-              .state
-              .cashWalletState
+      CashWalletState cashWalletState = store.state.cashWalletState;
+      List<Job> jobs = cashWalletState
               .communities[store.state.cashWalletState.communityAddress]
+              ?.token
               ?.jobs ??
           [];
       bool hasCreateWallet = jobs.any((job) => job.jobType == 'createWallet');
@@ -562,16 +568,20 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
       void Function(BigInt) onDone = (BigInt balance) {
         logger.info('${community.token.name} balance updated');
         store.dispatch(new GetTokenBalanceSuccess(balance));
-        store.dispatch(new UpdateDisplayBalance(int.tryParse(formatValue(balance, community.token.decimals))));
-        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from(
-          {'${community.name} Balance': balance, "DisplayBalance": balance})));
+        store.dispatch(new UpdateDisplayBalance(
+            int.tryParse(formatValue(balance, community.token.decimals))));
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          '${community.name} Balance': balance,
+          "DisplayBalance": balance
+        })));
       };
       void Function(Object error, StackTrace stackTrace) onError =
           (Object error, StackTrace stackTrace) {
         logger.severe(
             'Error in fetchTokenBalance for - ${community.token.name} $error');
       };
-      await community.token.fetchTokenBalance(walletAddress, onDone: onDone, onError: onError);
+      await community.token
+          .fetchTokenBalance(walletAddress, onDone: onDone, onError: onError);
     } catch (e) {
       logger.severe('ERROR - getTokenBalanceCall $e');
       store.dispatch(new ErrorAction('Could not get token balance'));
@@ -995,10 +1005,10 @@ ThunkAction fetchCommunityMetadataCall(String communityURI) {
       String uri = communityURI.split('://')[1];
       dynamic metadata = await api.fetchMetadata(uri);
       CommunityMetadata communityMetadata = new CommunityMetadata(
-        image: metadata['image'],
-        coverPhoto: metadata['coverPhoto'],
-        isDefaultImage: metadata['isDefault'] != null ? metadata['isDefault'] : false
-      );
+          image: metadata['image'],
+          coverPhoto: metadata['coverPhoto'],
+          isDefaultImage:
+              metadata['isDefault'] != null ? metadata['isDefault'] : false);
       store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
     } catch (e) {
       logger.info('ERROR - fetchCommunityMetadataCall $e');
