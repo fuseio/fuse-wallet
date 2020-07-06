@@ -59,9 +59,9 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                       width: 85,
                       height: 85,
                     ),
-                    const SizedBox(height: 30.0),
+                    SizedBox(height: 30.0),
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                           top: 0, bottom: 10, left: 10, right: 10),
                       child: Container(
                         child: Column(
@@ -69,14 +69,22 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              '''This page shows your assets on the ${widget.network == 'fuse' ? capitalize(widget.network) : 'Ethereum'} network \n It’s possible to move assets between Ethereum and Fuse network.
-''',
+                              '''This page shows your assets on the ${widget.network == 'fuse' ? capitalize(widget.network) : 'Ethereum'} network''',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 15,
                                   color:
                                       Theme.of(context).colorScheme.secondary),
                             ),
+                            Text(
+                              '''It’s possible to move assets between Ethereum and Fuse network.''',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
+                            ),
+                            SizedBox(height: 15.0),
                             Column(
                               children: <Widget>[
                                 Text(
@@ -99,7 +107,7 @@ On Fuse you can send assets for free to anybody and on Ethereum you can trade th
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 30.0),
+                            SizedBox(height: 30.0),
                             Center(
                                 child: PrimaryButton(
                               fontSize: 15,
