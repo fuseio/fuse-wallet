@@ -57,8 +57,8 @@ class ProHeader extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Theme.of(context).primaryColorLight,
                     Theme.of(context).primaryColorDark,
+                    Theme.of(context).primaryColorLight,
                   ],
                 ),
                 borderRadius: BorderRadius.only(
@@ -155,24 +155,24 @@ class ProHeader extends StatelessWidget {
                           ],
                         ),
                         Container(
-                          child: Row(children: [
-                            FloatingActionButton(
-                                heroTag: 'cash_scanner',
-                                backgroundColor: Color(0xFF00339F),
-                                elevation: 0,
-                                child: Image.asset(
-                                  'assets/images/scan.png',
-                                  width: 25.0,
-                                  color:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                ),
-                                onPressed: () {
-                                  bracodeScannerHandler(context,
-                                      isProMode: true,
-                                      daiToken: viewModel.tokenDAI,
-                                      feePlugin: viewModel.feePlugin);
-                                })
-                          ]),
+                          width: 45,
+                          height: 45,
+                          child: FloatingActionButton(
+                              heroTag: 'cash_scanner',
+                              backgroundColor: Color(0xFF00339F),
+                              elevation: 0,
+                              child: Image.asset(
+                                'assets/images/scan.png',
+                                width: 25.0,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                              ),
+                              onPressed: () {
+                                bracodeScannerHandler(context,
+                                    isProMode: true,
+                                    daiToken: viewModel.tokenDAI,
+                                    feePlugin: viewModel.feePlugin);
+                              }),
                         )
                       ],
                     ),

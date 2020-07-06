@@ -4,11 +4,12 @@ import 'package:digitalrand/models/views/cash_header.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/utils/barcode.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CashHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, CashHeaderViewModel>(
+    return StoreConnector<AppState, CashHeaderViewModel>(
         distinct: true,
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
@@ -32,8 +33,8 @@ class CashHeader extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Theme.of(context).primaryColorLight,
                     Theme.of(context).primaryColorDark,
+                    Theme.of(context).primaryColorLight,
                   ],
                 ),
                 borderRadius: BorderRadius.only(
@@ -60,18 +61,18 @@ class CashHeader extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 0.0),
-                        child: new RichText(
-                          text: new TextSpan(
+                        child: RichText(
+                          text: TextSpan(
                             style:
                                 TextStyle(color: Theme.of(context).splashColor),
                             children: <TextSpan>[
-                              new TextSpan(
+                              TextSpan(
                                   text: I18n.of(context).hi,
                                   style: TextStyle(
                                       fontSize: 33,
                                       color: Theme.of(context).splashColor,
                                       fontWeight: FontWeight.normal)),
-                              new TextSpan(
+                              TextSpan(
                                   text: ' ' + (viewModel?.firstName() ?? ''),
                                   style: TextStyle(
                                       fontSize: 33,
@@ -86,7 +87,7 @@ class CashHeader extends StatelessWidget {
                       alignment: Alignment.bottomLeft,
                       child: Container(
                         padding: EdgeInsets.only(bottom: 0.0),
-                        child: new Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           verticalDirection: VerticalDirection.up,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +95,7 @@ class CashHeader extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                new Container(
+                                Container(
                                   child: Text(I18n.of(context).balance,
                                       style: TextStyle(
                                           color: Theme.of(context).splashColor,
@@ -107,51 +108,39 @@ class CashHeader extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       RichText(
-                                        text: new TextSpan(
+                                        text: TextSpan(
                                           children: <TextSpan>[
-                                            new TextSpan(
+                                            TextSpan(
                                                 text:
                                                     '\$${viewModel?.usdValue ?? '0'}',
-                                                style: new TextStyle(
+                                                style: TextStyle(
                                                     fontSize: 32,
                                                     color: Theme.of(context)
                                                         .splashColor,
                                                     fontWeight:
                                                         FontWeight.bold)),
-                                            // new TextSpan(
-                                            //     text: ' ' +
-                                            //         viewModel
-                                            //             .community.token?.symbol
-                                            //             .toString(),
-                                            //     style: new TextStyle(
-                                            //         fontSize: 18,
-                                            //         color: Theme.of(context)
-                                            //             .splashColor,
-                                            //         fontWeight:
-                                            //             FontWeight.normal,
-                                            //         height: 0.0)),
                                           ],
                                         ),
                                       ),
                                     ])
                               ],
                             ),
-                            new Container(
-                              child: Row(children: [
-                                new FloatingActionButton(
-                                    heroTag: 'cash_scanner',
-                                    backgroundColor: const Color(0xFF292929),
-                                    elevation: 0,
-                                    child: Image.asset(
-                                      'assets/images/scan.png',
-                                      width: 25.0,
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                    ),
-                                    onPressed: () {
-                                      bracodeScannerHandler(context);
-                                    })
-                              ]),
+                            Container(
+                              width: 45,
+                              height: 45,
+                              child: FloatingActionButton(
+                                  heroTag: 'cash_scanner',
+                                  backgroundColor: Color(0xFF002669),
+                                  elevation: 0,
+                                  child: Image.asset(
+                                    'assets/images/scan.png',
+                                    width: 25.0,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                  onPressed: () {
+                                    bracodeScannerHandler(context);
+                                  }),
                             )
                           ],
                         ),
@@ -168,26 +157,9 @@ class CashHeader extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        // RichText(
-                        //     textAlign: TextAlign.center,
-                        //     text: new TextSpan(children: <InlineSpan>[
-                        //       TextSpan(
-                        //         text: 'Wiki',
-                        //         style: TextStyle(
-                        //             fontFamily: 'Eras',
-                        //             fontWeight: FontWeight.bold,
-                        //             color: Theme.of(context).primaryColorDark,
-                        //             fontSize: 16),
-                        //       ),
-                        //       TextSpan(
-                        //           text: 'Bank',
-                        //           style: TextStyle(
-                        //               fontSize: 16,
-                        //               fontFamily: 'Eras',
-                        //               fontWeight: FontWeight.bold,
-                        //               color:
-                        //                   Theme.of(context).primaryColorLight))
-                        //     ]))
+                        SvgPicture.asset(
+                          'assets/images/digital_rand_title.svg',
+                        ),
                       ],
                     ),
                   ),
@@ -198,3 +170,9 @@ class CashHeader extends StatelessWidget {
         });
   }
 }
+
+//  SvgPicture.asset(
+//                               "assets/images/${widget.network}_network.svg",
+//                               width: 150,
+//                               height: 150,
+//                             )

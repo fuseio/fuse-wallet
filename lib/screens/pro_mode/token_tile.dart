@@ -46,8 +46,8 @@ class TokenTile extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(50),
                               child: CachedNetworkImage(
-                                width: 54,
-                                height: 54,
+                                width: 60,
+                                height: 60,
                                 imageUrl: token.imageUrl != null &&
                                         token.imageUrl.isNotEmpty
                                     ? token.imageUrl

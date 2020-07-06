@@ -149,7 +149,7 @@ class TransactionTile extends StatelessWidget {
                                 children: <Widget>[
                                   CircleAvatar(
                                     backgroundColor: Color(0xFFE0E0E0),
-                                    radius: 27,
+                                    radius: 30,
                                     backgroundImage: image,
                                   ),
                                   // Positioned(

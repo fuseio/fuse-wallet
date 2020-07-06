@@ -261,8 +261,8 @@ class _ContactsListState extends State<ContactsList> {
                           daiToken: viewModel.tokenDAI,
                           feePlugin: viewModel.feePlugin);
                     }),
-                width: 50.0,
-                height: 50.0,
+                width: 45,
+                height: 45,
               )
             ],
           ),

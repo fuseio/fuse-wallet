@@ -57,9 +57,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         viewModel.sendToCashMode(
             args.amount, sendSuccessCallback, sendFailureCallback);
       } else {
-        viewModel.sendToErc20Token(args.erc20Token, args.accountAddress, args.amount, sendSuccessCallback, sendFailureCallback);
+        viewModel.sendToErc20Token(args.erc20Token, args.accountAddress,
+            args.amount, sendSuccessCallback, sendFailureCallback);
       }
-    }else {
+    } else {
       if (args.accountAddress == null ||
           args.accountAddress == '' && args.phoneNumber != null) {
         viewModel.sendToContact(
@@ -276,7 +277,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 7),
-                                      child: Text('Not enough balance in your account',
+                                      child: Text(
+                                          'Not enough balance in your account',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14, color: Colors.red)),

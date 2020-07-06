@@ -264,6 +264,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 ),
               ),
               Container(
+                width: 45,
+                height: 45,
                 child: new FloatingActionButton(
                     heroTag: 'send_contact',
                     backgroundColor: const Color(0xFF292929),
@@ -279,8 +281,6 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                           daiToken: viewModel.tokenDAI,
                           feePlugin: viewModel.feePlugin);
                     }),
-                width: 50.0,
-                height: 50.0,
               )
             ],
           ),
