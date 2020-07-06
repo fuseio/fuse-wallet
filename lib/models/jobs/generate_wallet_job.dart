@@ -67,9 +67,7 @@ class GenerateWalletJob extends Job {
       this.status = 'DONE';
       store.dispatch(new CreateAccountWalletSuccess(arguments['accountAddress']));
       store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
-      if (createWalletOnForeign) {
-        store.dispatch(activateProModeCall());
-      }
+      store.dispatch(activateProModeCall());
     }
   }
 
