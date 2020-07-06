@@ -124,16 +124,13 @@ class ProTokenHeader extends StatelessWidget {
                             final bool canMoveToFuse = token.symbol ==
                                 viewModel.community.token.symbol;
                             return Row(
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              verticalDirection: VerticalDirection.down,
-                              textBaseline: TextBaseline.alphabetic,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 !isFuseToken
                                     ? Container(
                                         width: 45,
                                         height: 45,
-                                        padding: EdgeInsets.only(
-                                            right: canMoveToFuse ? 15 : 0),
                                         child: FloatingActionButton(
                                             heroTag: 'goto_trade',
                                             elevation: 0,
@@ -141,6 +138,7 @@ class ProTokenHeader extends StatelessWidget {
                                                 const Color(0xFF002669),
                                             child: SvgPicture.asset(
                                               'assets/images/goto_trade.svg',
+                                              fit: BoxFit.cover,
                                             ),
                                             onPressed: () {
                                               Router.navigator.pushNamed(
@@ -149,6 +147,11 @@ class ProTokenHeader extends StatelessWidget {
                                                       CashModeScaffoldArguments(
                                                           tabIndex: 2));
                                             }),
+                                      )
+                                    : SizedBox.shrink(),
+                                !isFuseToken
+                                    ? SizedBox(
+                                        width: 10,
                                       )
                                     : SizedBox.shrink(),
                                 canMoveToFuse
@@ -162,6 +165,7 @@ class ProTokenHeader extends StatelessWidget {
                                                 const Color(0xFF002669),
                                             child: SvgPicture.asset(
                                               'assets/images/move_from_fuse.svg',
+                                              fit: BoxFit.cover,
                                             ),
                                             onPressed: () {
                                               showDialog(
