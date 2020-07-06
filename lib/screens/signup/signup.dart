@@ -24,7 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isPreloading = false;
   bool isvalidPhone = true;
-  CountryCode countryCode = new CountryCode(dialCode: '‎‎+868', code: 'TT');
+  CountryCode countryCode = CountryCode(dialCode: '‎‎+868', code: 'TT');
 
   @override
   void initState() {
@@ -74,8 +74,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: 35.0,
                   decoration: BoxDecoration(
                     color: Color(0xFFeaeaea),
-                    borderRadius:
-                        new BorderRadius.all(new Radius.circular(30.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
                   ),
                   child: Material(
                     color: Colors.transparent,
@@ -115,7 +114,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 Center(
                   child: Container(
                     width: 280,
-                    decoration: new BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
                               color: isvalidPhone
@@ -133,28 +132,28 @@ class _SignupScreenState extends State<SignupScreen> {
                               countryCode = _countryCode;
                               Segment.track(
                                   eventName: 'Wallet: country code selected',
-                                  properties: new Map.from({
+                                  properties: Map.from({
                                     'Dial code': _countryCode.dialCode,
                                     'County code': _countryCode.code,
                                   }));
                             },
                             initialSelection: countryCode.code,
-                            favorite: [],
                             showCountryOnly: false,
                             showFlag: false,
+                            dialogTextStyle: TextStyle(color: Colors.black),
                             searchStyle: TextStyle(color: Colors.black),
-                            textStyle: const TextStyle(fontSize: 16),
+                            textStyle:
+                                TextStyle(fontSize: 16, color: Colors.black),
                             alignLeft: false,
                           ),
                           width: 50,
                         ),
                         Icon(Icons.arrow_drop_down),
-                        new Container(
+                        Container(
                           height: 35,
                           width: 1,
-                          color: const Color(0xFFc1c1c1),
-                          margin:
-                              const EdgeInsets.only(left: 10.0, right: 10.0),
+                          color: Color(0xFFc1c1c1),
+                          margin: EdgeInsets.only(left: 10.0, right: 10.0),
                         ),
                         Expanded(
                           child: TextFormField(
@@ -180,8 +179,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 40.0),
-                new StoreConnector<AppState, OnboardViewModel>(
+                SizedBox(height: 40.0),
+                StoreConnector<AppState, OnboardViewModel>(
                     distinct: true,
                     converter: OnboardViewModel.fromStore,
                     builder: (_, viewModel) {

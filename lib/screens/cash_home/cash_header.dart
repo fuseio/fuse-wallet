@@ -187,7 +187,7 @@ class CashHeader extends StatelessWidget {
                   ],
                 ),
                 Positioned(
-                  right: 10,
+                  right: 0,
                   top: 35,
                   child: Align(
                     alignment: Alignment.bottomRight,
