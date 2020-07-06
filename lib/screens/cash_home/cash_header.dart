@@ -44,6 +44,7 @@ class CashHeader extends StatelessWidget {
               children: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     InkWell(
                         onTap: () {
@@ -56,95 +57,69 @@ class CashHeader extends StatelessWidget {
                               'assets/images/menu_white.png',
                               width: 20,
                             ))),
-                    Expanded(
-                        child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 10.0),
-                        child: RichText(
-                          text: TextSpan(
-                            style:
-                                TextStyle(color: Theme.of(context).splashColor),
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: I18n.of(context).hi,
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      color: Theme.of(context).splashColor,
-                                      fontWeight: FontWeight.normal)),
-                              TextSpan(
-                                  text: ' ' + (viewModel?.firstName() ?? ''),
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      color: Theme.of(context).splashColor,
-                                      fontWeight: FontWeight.normal)),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        padding: EdgeInsets.only(bottom: 0.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          verticalDirection: VerticalDirection.up,
+                    Text(
+                        '${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
+                        style: TextStyle(
+                          color: Theme.of(context).splashColor,
+                          fontSize: 25,
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      verticalDirection: VerticalDirection.up,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(I18n.of(context).balance,
-                                      style: TextStyle(
-                                          color: Theme.of(context).splashColor,
-                                          fontSize: 12.0)),
-                                  padding: EdgeInsets.only(bottom: 6.0),
-                                ),
-                                Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      RichText(
-                                        text: TextSpan(
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                                text:
-                                                    '\$${viewModel?.usdValue ?? '0'}',
-                                                style: TextStyle(
-                                                    fontSize: 30,
-                                                    color: Theme.of(context)
-                                                        .splashColor,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ],
-                                        ),
-                                      ),
-                                    ])
-                              ],
-                            ),
                             Container(
-                              width: 45,
-                              height: 45,
-                              child: FloatingActionButton(
-                                  heroTag: 'cash_scanner',
-                                  backgroundColor: Color(0xFF002669),
-                                  elevation: 0,
-                                  child: Image.asset(
-                                    'assets/images/scan.png',
-                                    width: 25.0,
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                              child: Text(I18n.of(context).balance,
+                                  style: TextStyle(
+                                      color: Theme.of(context).splashColor,
+                                      fontSize: 12.0)),
+                              padding: EdgeInsets.only(bottom: 3.0),
+                            ),
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  RichText(
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text:
+                                                '\$${viewModel?.usdValue ?? '0'}',
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                                fontWeight: FontWeight.bold)),
+                                      ],
+                                    ),
                                   ),
-                                  onPressed: () {
-                                    bracodeScannerHandler(context);
-                                  }),
-                            )
+                                ])
                           ],
                         ),
-                      ),
+                        Container(
+                          width: 45,
+                          height: 45,
+                          child: FloatingActionButton(
+                              heroTag: 'cash_scanner',
+                              backgroundColor: Color(0xFF002669),
+                              elevation: 0,
+                              child: Image.asset(
+                                'assets/images/scan.png',
+                                width: 25.0,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
+                              ),
+                              onPressed: () {
+                                bracodeScannerHandler(context);
+                              }),
+                        )
+                      ],
                     ),
                   ],
                 ),
