@@ -62,39 +62,42 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                     const SizedBox(height: 30.0),
                     Padding(
                       padding: const EdgeInsets.only(
-                          top: 0, bottom: 10, left: 15, right: 15),
+                          top: 0, bottom: 10, left: 10, right: 10),
                       child: Container(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Text(
-                                'This page shows your assets on the ${widget.network == 'fuse' ? capitalize(widget.network) : 'Ethereum'} network',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black),
-                              ),
+                            Text(
+                              '''This page shows your assets on the ${widget.network == 'fuse' ? capitalize(widget.network) : 'Ethereum'} network \n It’s possible to move assets between Ethereum and Fuse network.
+''',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    '''It’s possible to move assets between Ethereum and Fuse network.
-What is the difference between Ethereum and Fuse?
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  'What is the difference between Ethereum and Fuse?',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                                Text(
+                                  '''
 On Fuse you can send assets for free to anybody and on Ethereum you can trade them''',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ],
-                              ),
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 30.0),
                             Center(

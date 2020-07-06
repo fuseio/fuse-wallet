@@ -113,7 +113,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           final List<Widget> pages = _pages(vm.contacts, vm.community?.webUrl);
           return TabsScaffold(
               header: MyAppBar(
-                height: 190.0,
+                height: 195.0,
                 backgroundColor: Colors.red,
                 child: CashHeader(),
               ),

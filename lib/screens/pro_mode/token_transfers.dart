@@ -15,7 +15,7 @@ class TokenTransfersScreen extends StatelessWidget {
     return Scaffold(
         key: key,
         appBar: MyAppBar(
-            height: 155.0,
+            height: 165.0,
             child: ProTokenHeader(token: token),
             backgroundColor: Colors.red),
         drawerEdgeDragWidth: 0,
