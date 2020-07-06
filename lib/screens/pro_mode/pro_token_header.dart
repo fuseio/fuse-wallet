@@ -98,7 +98,7 @@ class ProTokenHeader extends StatelessWidget {
                                       ? '\$$price'
                                       : "${token.getBalance()}",
                                   style: TextStyle(
-                                      fontSize: 32,
+                                      fontSize: 30,
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context).splashColor))),
                           SizedBox(
@@ -188,8 +188,8 @@ class ProTokenHeader extends StatelessWidget {
             ],
           ),
           Positioned(
-            right: 10,
-            top: 35,
+            right: 0,
+            top: 25,
             child: Align(
               alignment: Alignment.bottomRight,
               child: Row(

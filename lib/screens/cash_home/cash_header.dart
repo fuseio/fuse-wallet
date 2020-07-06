@@ -60,7 +60,7 @@ class CashHeader extends StatelessWidget {
                         child: Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(bottom: 0.0),
+                        padding: EdgeInsets.only(bottom: 10.0),
                         child: RichText(
                           text: TextSpan(
                             style:
@@ -69,13 +69,13 @@ class CashHeader extends StatelessWidget {
                               TextSpan(
                                   text: I18n.of(context).hi,
                                   style: TextStyle(
-                                      fontSize: 33,
+                                      fontSize: 25,
                                       color: Theme.of(context).splashColor,
                                       fontWeight: FontWeight.normal)),
                               TextSpan(
                                   text: ' ' + (viewModel?.firstName() ?? ''),
                                   style: TextStyle(
-                                      fontSize: 33,
+                                      fontSize: 25,
                                       color: Theme.of(context).splashColor,
                                       fontWeight: FontWeight.normal)),
                             ],
@@ -114,7 +114,7 @@ class CashHeader extends StatelessWidget {
                                                 text:
                                                     '\$${viewModel?.usdValue ?? '0'}',
                                                 style: TextStyle(
-                                                    fontSize: 32,
+                                                    fontSize: 30,
                                                     color: Theme.of(context)
                                                         .splashColor,
                                                     fontWeight:

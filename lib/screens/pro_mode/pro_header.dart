@@ -134,7 +134,7 @@ class ProHeader extends StatelessWidget {
                                         TextSpan(
                                             text: '\$' + viewModel.balance,
                                             style: TextStyle(
-                                                fontSize: 32,
+                                                fontSize: 30,
                                                 color: Theme.of(context)
                                                     .splashColor,
                                                 fontWeight: FontWeight.bold)),
