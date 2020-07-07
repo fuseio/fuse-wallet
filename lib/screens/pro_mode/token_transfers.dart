@@ -1,6 +1,6 @@
 import 'package:digitalrand/screens/cash_home/transaction_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:digitalrand/screens/pro_mode/pro_token_header.dart';
+import 'package:digitalrand/screens/pro_mode/token_header.dart';
 import 'package:digitalrand/widgets/my_app_bar.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/tokens/token.dart';
@@ -16,7 +16,7 @@ class TokenTransfersScreen extends StatelessWidget {
         key: key,
         appBar: MyAppBar(
             height: 165.0,
-            child: ProTokenHeader(token: token),
+            child: TokenHeader(token: token),
             backgroundColor: Colors.red),
         drawerEdgeDragWidth: 0,
         body: Column(children: <Widget>[

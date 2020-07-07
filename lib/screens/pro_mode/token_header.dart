@@ -12,8 +12,8 @@ import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/utils/format.dart';
 
-class ProTokenHeader extends StatelessWidget {
-  ProTokenHeader({this.token});
+class TokenHeader extends StatelessWidget {
+  TokenHeader({this.token});
   final Token token;
 
   @override
@@ -141,11 +141,15 @@ class ProTokenHeader extends StatelessWidget {
                                               fit: BoxFit.cover,
                                             ),
                                             onPressed: () {
-                                              Router.navigator.pushNamed(
-                                                  Router.cashHomeScreen,
-                                                  arguments:
-                                                      CashModeScaffoldArguments(
-                                                          tabIndex: 2));
+                                              Router.navigator
+                                                  .pushNamedAndRemoveUntil(
+                                                      Router.cashHomeScreen,
+                                                      (Route route) => false);
+                                              // Router.navigator.pushNamed(
+                                              //     Router.cashHomeScreen,
+                                              //     arguments:
+                                              //         CashModeScaffoldArguments(
+                                              //             tabIndex: 2));
                                             }),
                                       )
                                     : SizedBox.shrink(),

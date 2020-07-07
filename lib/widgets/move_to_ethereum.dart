@@ -117,8 +117,6 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                                               'assets/images/ethereume_icon.png',
                                                             ),
                                                             name: 'ethereum',
-                                                            sendToCashMode:
-                                                                true,
                                                             feePlugin:
                                                                 vm.feePlugin,
                                                             sendType: SendType
@@ -192,13 +190,11 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
 
 class TokenActionsDialogViewModel extends Equatable {
   final Plugins plugins;
-  final bool isProMode;
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
   final FeePlugin feePlugin;
   TokenActionsDialogViewModel({
     this.plugins,
-    this.isProMode,
     this.homeBridgeAddress,
     this.foreignBridgeAddress,
     this.feePlugin,
@@ -208,9 +204,8 @@ class TokenActionsDialogViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return TokenActionsDialogViewModel(
-      isProMode: store.state.userState.isProMode ?? false,
       plugins: community?.plugins,
-      feePlugin: community.plugins.bridgeToForeign,
+      // feePlugin: community.plugins.bridgeToForeign,
       homeBridgeAddress: community.homeBridgeAddress,
       foreignBridgeAddress: community.foreignBridgeAddress,
     );

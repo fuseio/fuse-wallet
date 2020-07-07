@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -499,7 +500,8 @@ ThunkAction sendErc20TokenCall(
     VoidCallback sendSuccessCallback,
     VoidCallback sendFailureCallback,
     {String receiverName,
-    String transferNote}) {
+    String transferNote,
+    Transfer inviteTransfer}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -509,8 +511,8 @@ ThunkAction sendErc20TokenCall(
       if (web3 == null) {
         throw "Web3 is empty";
       }
-      Community community =
-          store.state.cashWalletState.communities[defaultCommunityAddress];
+      // Community community =
+      //     store.state.cashWalletState.communities[defaultCommunityAddress];
       logger.info(
           'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
       Map<String, dynamic> approveTokenData = await web3.approveTokenOffChain(
@@ -519,15 +521,14 @@ ThunkAction sendErc20TokenCall(
       Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
           walletAddress, token.address, receiverAddress, tokensAmount,
           network: foreignNetwork);
-      num feeAmount = community.plugins.foreignTransfers.calcFee(tokensAmount);
-      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress,
-          token.address,
-          community.plugins.foreignTransfers.receiverAddress,
-          feeAmount,
-          network: foreignNetwork);
-      dynamic approveTrasfer = await api
-          .multiRelay([approveTokenData, transferTokenData, feeTrasnferData]);
+      // num feeAmount = community.plugins.foreignTransfers.calcFee(tokensAmount);
+      // Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+      //     walletAddress,
+      //     token.address,
+      //     community.plugins.foreignTransfers.receiverAddress,
+      //     feeAmount,
+      //     network: foreignNetwork);
+      dynamic approveTrasfer = await api.multiRelay([approveTokenData, transferTokenData]); //, feeTrasnferData
       sendSuccessCallback();
       dynamic approveJobId = approveTrasfer['job']['_id'];
       logger.info(
@@ -537,14 +538,22 @@ ThunkAction sendErc20TokenCall(
           from: walletAddress,
           to: receiverAddress,
           tokenAddress: token.address,
-          value: toBigInt(feeAmount + tokensAmount, token.decimals),
+          value: toBigInt(tokensAmount, token.decimals), //feeAmount +
           type: 'SEND',
           note: transferNote,
           receiverName: receiverName,
           status: 'PENDING',
           jobId: approveJobId);
-      store.dispatch(new AddProTransaction(
-          transaction: transfer, tokenAddress: token.address));
+
+      if (inviteTransfer != null) {
+        store.dispatch(new ReplaceProTransaction(
+            tokenAddress: token.address,
+            transaction: inviteTransfer,
+            transactionToReplace: transfer));
+      } else {
+        store.dispatch(new AddProTransaction(
+            transaction: transfer, tokenAddress: token.address));
+      }
       approveTrasfer['job']['arguments'] = {
         'receiverAddress': receiverAddress,
         'tokensAmount': tokensAmount,
@@ -560,6 +569,123 @@ ThunkAction sendErc20TokenCall(
       logger.severe('ERROR - sendErc20TokenCall $e');
       store.dispatch(new ErrorAction(e.toString()));
       sendFailureCallback();
+    }
+  };
+}
+
+ThunkAction inviteAndSendCall(
+    Token token,
+    String name,
+    String contactPhoneNumber,
+    num tokensAmount,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+    {String receiverName = ''}) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      String senderName = store.state.userState.displayName;
+      dynamic response = await api.invite(
+          contactPhoneNumber, store.state.cashWalletState.communityAddress,
+          name: senderName,
+          amount: tokensAmount.toString(),
+          symbol: token.symbol);
+      sendSuccessCallback();
+
+      BigInt value = toBigInt(tokensAmount, token.decimals);
+      String walletAddress = store.state.userState.walletAddress;
+
+      Transfer inviteTransfer = new Transfer(
+          from: walletAddress,
+          to: '',
+          tokenAddress: token?.address,
+          value: value,
+          type: 'SEND',
+          receiverName: receiverName,
+          status: 'PENDING',
+          jobId: response['job']['_id']);
+      store.dispatch(AddProTransaction(
+          transaction: inviteTransfer, tokenAddress: token.address));
+
+      response['job']['arguments'] = {
+        'tokensAmount': tokensAmount,
+        'tokenAddress': token.address,
+        'receiverName': receiverName,
+        'sendSuccessCallback': () => {},
+        'sendFailureCallback': sendFailureCallback,
+        'inviteTransfer': inviteTransfer
+      };
+
+      Job job = JobFactory.create(response['job']);
+      store.dispatch(AddProJob(job: job, tokenAddress: token.address));
+    } catch (e) {
+      logger.severe('ERROR - inviteAndSendCall $e');
+    }
+  };
+}
+
+ThunkAction inviteProAndSendSuccessCall(
+    Job job,
+    dynamic data,
+    num tokensAmount,
+    String receiverName,
+    Transfer inviteTransfer,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback) {
+  return (Store store) async {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddres];
+    VoidCallback successCallBack = () {
+      sendSuccessCallback();
+      // if (community.plugins.inviteBonus != null &&
+      //     community.plugins.inviteBonus.isActive &&
+      //     data['bonusInfo'] != null) {
+      //   store.dispatch(inviteBonusCall(data));
+      // }
+      store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
+        "Invite ${community.name}": true,
+      })));
+    };
+    ProWalletState proWalletState = store.state.proWalletState;
+    Token token = proWalletState.erc20Tokens[inviteTransfer.tokenAddress];
+    String receiverAddress = job.data["walletAddress"];
+    store.dispatch(sendErc20TokenCall(token, receiverAddress, tokensAmount,
+        successCallBack, sendFailureCallback,
+        receiverName: receiverName, inviteTransfer: inviteTransfer));
+  };
+}
+
+ThunkAction sendErc20TokenToContactCall(
+    Token token,
+    String name,
+    String contactPhoneNumber,
+    num tokensAmount,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+    {String receiverName,
+    String transferNote}) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      logger.info('Trying to send $tokensAmount to phone $contactPhoneNumber');
+      Map wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
+      logger.info("wallet $wallet");
+      String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
+      if (walletAddress == null || walletAddress.isEmpty) {
+        logger.info("inviting contact $contactPhoneNumber");
+        store.dispatch(inviteAndSendCall(token, name, contactPhoneNumber,
+            tokensAmount, sendSuccessCallback, sendFailureCallback,
+            receiverName: receiverName));
+        return;
+      }
+      logger.info("sending to contact walletAddress $walletAddress");
+      store.dispatch(sendErc20TokenCall(token, walletAddress, tokensAmount,
+          sendSuccessCallback, sendFailureCallback,
+          receiverName: receiverName, transferNote: transferNote));
+    } catch (e) {
+      logger.severe('ERROR - sendTokenToContactCall $e');
+      store.dispatch(new ErrorAction('Could not send token to contact'));
     }
   };
 }

@@ -2,7 +2,6 @@ import 'dart:core';
 import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/plugins/bridge_to_foreign_fee.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
-import 'package:digitalrand/utils/addresses.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/services.dart';
@@ -389,7 +388,7 @@ class _ExchangeState extends State<TradeScreen> {
                                             max, viewModel.walletAddress));
                                   },
                                   child: Text(
-                                    'Use max',
+                                    I18n.of(context).use_max,
                                     style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400),
@@ -543,8 +542,7 @@ class _ExchangeViewModel extends Equatable {
         } else
           return false;
       });
-    Community community =
-        store.state.cashWalletState.communities[defaultCommunityAddress];
+    Community community = store.state.cashWalletState.communities.values.first;
     return _ExchangeViewModel(
       homeBridgeAddress: community.homeBridgeAddress,
       feePlugin: community.plugins.bridgeToForeign ??

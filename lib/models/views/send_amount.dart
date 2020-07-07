@@ -1,3 +1,5 @@
+import 'package:digitalrand/utils/format.dart';
+import 'package:digitalrand/utils/transaction_row.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:digitalrand/models/app_state.dart';
@@ -8,20 +10,33 @@ import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {
-  final BigInt balance;
-  final Token token;
-  final bool isProMode;
   final String myCountryCode;
   final Community community;
-  final Function(String name, String phoneNumber, num, String receiverName,
-      String transferNote, VoidCallback, VoidCallback) sendToContact;
-  final Function(String, num, String receiverName, String transferNote,
-      VoidCallback, VoidCallback) sendToAccountAddress;
+  final List<Token> tokens;
+  final Function(
+      Token token,
+      String name,
+      String phoneNumber,
+      num,
+      String receiverName,
+      String transferNote,
+      VoidCallback,
+      VoidCallback) sendToContact;
+  final Function(
+      Token token,
+      String name,
+      String phoneNumber,
+      num,
+      String receiverName,
+      String transferNote,
+      VoidCallback,
+      VoidCallback) sendERC20ToContact;
+  final Function(Token token, String, num, String receiverName,
+      String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
   final Function(String eventName, {Map<String, dynamic> properties})
       trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
-  final Function(num tokensAmount, VoidCallback sendSuccessCallback,
-      VoidCallback sendFailureCallback) sendToCashMode;
+
   final Function(
     Token token,
     String recieverAddress,
@@ -33,21 +48,18 @@ class SendAmountViewModel extends Equatable {
   }) sendToErc20Token;
 
   @override
-  List<Object> get props =>
-      [token, balance, isProMode, myCountryCode, community];
+  List<Object> get props => [tokens, myCountryCode, community];
 
   SendAmountViewModel({
-    this.token,
-    this.balance,
+    this.tokens,
     this.myCountryCode,
     this.sendToContact,
     this.sendToAccountAddress,
     this.trackTransferCall,
     this.idenyifyCall,
-    this.isProMode,
     this.community,
-    this.sendToCashMode,
     this.sendToErc20Token,
+    this.sendERC20ToContact,
   });
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
@@ -55,13 +67,33 @@ class SendAmountViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[communityAddres] ??
             new Community.initial();
+    List<Community> communities =
+        store.state.cashWalletState.communities.values.toList();
+    List<Token> foreignTokens = List<Token>.from(
+            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: false))
+                .compareTo(0) ==
+            1)
+        .toList();
+
+    List<Token> homeTokens = communities
+        .where((Community community) =>
+            num.parse(formatValue(
+                    community.token.amount, community.token.decimals,
+                    withPrecision: false))
+                .compareTo(0) ==
+            1)
+        .map((Community community) => community.token
+            .copyWith(imageUrl: getIPFSImageUrl(community.metadata.image)))
+        .toList();
     return SendAmountViewModel(
-        isProMode: store.state.userState.isProMode ?? false,
-        token: community.token,
         community: community,
-        balance: community?.token?.amount,
+        tokens: [...homeTokens, ...foreignTokens],
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
+          Token token,
           String name,
           String phoneNumber,
           num amount,
@@ -70,11 +102,26 @@ class SendAmountViewModel extends Equatable {
           VoidCallback sendSuccessCallback,
           VoidCallback sendFailureCallback,
         ) {
-          store.dispatch(sendTokenToContactCall(name, phoneNumber, amount,
-              sendSuccessCallback, sendFailureCallback,
+          store.dispatch(sendTokenToContactCall(token, name, phoneNumber,
+              amount, sendSuccessCallback, sendFailureCallback,
+              receiverName: receiverName));
+        },
+        sendERC20ToContact: (
+          Token token,
+          String name,
+          String phoneNumber,
+          num amount,
+          String receiverName,
+          String transferNote,
+          VoidCallback sendSuccessCallback,
+          VoidCallback sendFailureCallback,
+        ) {
+          store.dispatch(sendErc20TokenToContactCall(token, name, phoneNumber,
+              amount, sendSuccessCallback, sendFailureCallback,
               receiverName: receiverName));
         },
         sendToAccountAddress: (
+          Token token,
           String recieverAddress,
           num amount,
           String receiverName,
@@ -83,20 +130,13 @@ class SendAmountViewModel extends Equatable {
           VoidCallback sendFailureCallback,
         ) {
           store.dispatch(sendTokenCall(
+            token,
             recieverAddress,
             amount,
             sendSuccessCallback,
             sendFailureCallback,
             receiverName: receiverName,
           ));
-        },
-        sendToCashMode: (
-          num tokensAmount,
-          VoidCallback sendSuccessCallback,
-          VoidCallback sendFailureCallback,
-        ) {
-          store.dispatch(sendDaiToDaiPointsCall(
-              tokensAmount, sendSuccessCallback, sendFailureCallback));
         },
         sendToErc20Token: (
           Token token,

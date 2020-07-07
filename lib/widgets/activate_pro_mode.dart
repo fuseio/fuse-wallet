@@ -111,12 +111,10 @@ class ActivateProModeViewModel extends Equatable {
   final Function activateProMode;
   final String homeBridgeAddress;
   final FeePlugin feePlugin;
-  final Function(bool isProMode) replaceNavigator;
   ActivateProModeViewModel(
       {this.feePlugin,
       this.activateProMode,
-      this.homeBridgeAddress,
-      this.replaceNavigator});
+      this.homeBridgeAddress});
 
   @override
   List<Object> get props => [feePlugin, homeBridgeAddress];
@@ -129,9 +127,6 @@ class ActivateProModeViewModel extends Equatable {
         homeBridgeAddress: community.homeBridgeAddress,
         activateProMode: () async {
           store.dispatch(activateProModeCall());
-        },
-        replaceNavigator: (isProMode) {
-          store.dispatch(SwitchWalletMode(isProMode: isProMode));
         });
   }
 }

@@ -683,6 +683,7 @@ ThunkAction startProcessingJobsCall() {
 }
 
 ThunkAction inviteAndSendCall(
+    Token token,
     String name,
     String contactPhoneNumber,
     num tokensAmount,
@@ -692,11 +693,7 @@ ThunkAction inviteAndSendCall(
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      String communityAddres = store.state.cashWalletState.communityAddress;
       String senderName = store.state.userState.displayName;
-      Community community =
-          store.state.cashWalletState.communities[communityAddres];
-      Token token = community?.token;
       dynamic response = await api.invite(
           contactPhoneNumber, store.state.cashWalletState.communityAddress,
           name: senderName,
@@ -704,15 +701,13 @@ ThunkAction inviteAndSendCall(
           symbol: token.symbol);
       sendSuccessCallback();
 
-      String tokenAddress = token?.address;
-
       BigInt value = toBigInt(tokensAmount, token.decimals);
       String walletAddress = store.state.cashWalletState.walletAddress;
 
       Transfer inviteTransfer = new Transfer(
           from: walletAddress,
           to: '',
-          tokenAddress: tokenAddress,
+          tokenAddress: token?.address,
           value: value,
           type: 'SEND',
           receiverName: receiverName,
@@ -736,8 +731,14 @@ ThunkAction inviteAndSendCall(
   };
 }
 
-ThunkAction inviteAndSendSuccessCall(Job job, dynamic data, tokensAmount,
-    receiverName, inviteTransfer, sendSuccessCallback, sendFailureCallback) {
+ThunkAction inviteAndSendSuccessCall(
+    Job job,
+    dynamic data,
+    num tokensAmount,
+    String receiverName,
+    Transfer inviteTransfer,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback) {
   return (Store store) async {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
@@ -753,10 +754,9 @@ ThunkAction inviteAndSendSuccessCall(Job job, dynamic data, tokensAmount,
         "Invite ${community.name}": true,
       })));
     };
-
     String receiverAddress = job.data["walletAddress"];
-    store.dispatch(sendTokenCall(
-        receiverAddress, tokensAmount, successCallBack, sendFailureCallback,
+    store.dispatch(sendTokenCall(community.token, receiverAddress, tokensAmount,
+        successCallBack, sendFailureCallback,
         receiverName: receiverName, inviteTransfer: inviteTransfer));
     store.dispatch(syncContactsCall(store.state.userState.contacts));
   };
@@ -809,7 +809,7 @@ ThunkAction sendToHomeBridgeAddressCall() {
   return (Store store) async {};
 }
 
-ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
+ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
     {String receiverName, String transferNote, Transfer inviteTransfer}) {
   return (Store store) async {
@@ -823,24 +823,23 @@ ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
       String communityAddres = store.state.cashWalletState.communityAddress;
       Community community =
           store.state.cashWalletState.communities[communityAddres];
-      Token token = community?.token;
       String tokenAddress = token?.address;
 
       BigInt value;
       dynamic response;
       if (receiverAddress.toLowerCase() ==
           community.homeBridgeAddress.toLowerCase()) {
-        num feeAmount = community.plugins.bridgeToForeign.calcFee(tokensAmount);
-        value = toBigInt(tokensAmount + feeAmount, token.decimals);
-        String feeReceiverAddress =
-            community.plugins.bridgeToForeign.receiverAddress;
+        // num feeAmount = community.plugins.bridgeToForeign.calcFee(tokensAmount);
+        value = toBigInt(tokensAmount, token.decimals); //  + feeAmount
+        // String feeReceiverAddress =
+        //     community.plugins.bridgeToForeign.receiverAddress;
         logger.info(
-            'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
+            'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress'); //  with fee $feeAmount
         Map<String, dynamic> trasnferData = await web3.transferTokenOffChain(
             walletAddress, tokenAddress, receiverAddress, tokensAmount);
-        Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-            walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
-        response = await api.multiRelay([trasnferData, feeTrasnferData]);
+        // Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+        //     walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+        response = await api.multiRelay([trasnferData]); // , feeTrasnferData
       } else {
         value = toBigInt(tokensAmount, token.decimals);
         logger.info(
@@ -1235,6 +1234,7 @@ ThunkAction getReceivedTokenTransfersListCall(String tokenAddress) {
 }
 
 ThunkAction sendTokenToContactCall(
+    Token token,
     String name,
     String contactPhoneNumber,
     num tokensAmount,
@@ -1251,13 +1251,13 @@ ThunkAction sendTokenToContactCall(
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       logger.info("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
-        store.dispatch(inviteAndSendCall(name, contactPhoneNumber, tokensAmount,
-            sendSuccessCallback, sendFailureCallback,
+        store.dispatch(inviteAndSendCall(token, name, contactPhoneNumber,
+            tokensAmount, sendSuccessCallback, sendFailureCallback,
             receiverName: receiverName));
         return;
       }
-      store.dispatch(sendTokenCall(
-          walletAddress, tokensAmount, sendSuccessCallback, sendFailureCallback,
+      store.dispatch(sendTokenCall(token, walletAddress, tokensAmount,
+          sendSuccessCallback, sendFailureCallback,
           receiverName: receiverName, transferNote: transferNote));
     } catch (e) {
       logger.severe('ERROR - sendTokenToContactCall $e');

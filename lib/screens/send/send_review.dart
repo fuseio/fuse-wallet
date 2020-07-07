@@ -52,18 +52,11 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       String transferNote,
       VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) {
-    if (viewModel.isProMode) {
-      if (args.sendToCashMode) {
-        viewModel.sendToCashMode(
-            args.amount, sendSuccessCallback, sendFailureCallback);
-      } else {
-        viewModel.sendToErc20Token(args.erc20Token, args.accountAddress,
-            args.amount, sendSuccessCallback, sendFailureCallback);
-      }
-    } else {
+    if (args.tokenToSend.originNetwork == null) {
       if (args.accountAddress == null ||
           args.accountAddress == '' && args.phoneNumber != null) {
-        viewModel.sendToContact(
+        viewModel.sendERC20ToContact(
+          args.tokenToSend,
           args.name,
           args.phoneNumber,
           args.amount,
@@ -73,8 +66,31 @@ class _SendReviewScreenState extends State<SendReviewScreen>
           sendFailureCallback,
         );
       } else {
-        viewModel.sendToAccountAddress(args.accountAddress, args.amount,
-            args.name, transferNote, sendSuccessCallback, sendFailureCallback);
+        viewModel.sendToErc20Token(args.tokenToSend, args.accountAddress,
+            args.amount, sendSuccessCallback, sendFailureCallback);
+      }
+    } else {
+      if (args.accountAddress == null ||
+          args.accountAddress == '' && args.phoneNumber != null) {
+        viewModel.sendToContact(
+          args.tokenToSend,
+          args.name,
+          args.phoneNumber,
+          args.amount,
+          args.name,
+          transferNote,
+          sendSuccessCallback,
+          sendFailureCallback,
+        );
+      } else {
+        viewModel.sendToAccountAddress(
+            args.tokenToSend,
+            args.accountAddress,
+            args.amount,
+            args.name,
+            transferNote,
+            sendSuccessCallback,
+            sendFailureCallback);
       }
     }
   }
@@ -85,18 +101,12 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
-        String symbol = args.erc20Token != null
-            ? args.erc20Token.symbol
-            : viewModel.token.symbol;
-        BigInt balance = args.erc20Token == null
-            ? viewModel.balance
-            : args.erc20Token.amount;
+        String symbol = args.tokenToSend.symbol;
+        BigInt balance = args.tokenToSend.amount;
         num feeAmount = 0;
         bool hasFund = true;
         if (args.feePlugin != null) {
-          int decimals = args.erc20Token != null
-              ? args.erc20Token.decimals
-              : viewModel.token.decimals;
+          int decimals = args.tokenToSend.decimals;
           feeAmount = args.feePlugin.calcFee(args.amount);
           num tokenBalance = num.parse(formatValue(balance, decimals));
           hasFund = (args.amount + feeAmount).compareTo(tokenBalance) <= 0;
@@ -289,7 +299,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         ],
                       )
                     : SizedBox.shrink(),
-                viewModel.isProMode
+                args.tokenToSend.originNetwork == null
                     ? SizedBox.shrink()
                     : (args.accountAddress == null ||
                             args.accountAddress.isEmpty)
@@ -315,7 +325,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                       if (args.feePlugin != null && !hasFund) {
                         return;
                       }
-                      args.isProMode = viewModel.isProMode;
                       send(viewModel, args, transferNoteController.text, () {
                         Navigator.push(
                             context,
@@ -323,23 +332,24 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                 builder: (context) => SendSuccessScreen(
                                       pageArgs: args,
                                     )));
+                        // String transferType = args.sendType
+                        //         .toString()
+                        //         .split('.')[1]
+                        //         .toLowerCase() ??
+                        //     '';
+                        // viewModel.idenyifyCall(Map.from(
+                        //     {"Transferred ${viewModel.community.name}": true}));
+                        // viewModel.trackTransferCall("Wallet: User Transfer",
+                        //     properties: Map.from({
+                        //       'transfer type': transferType,
+                        //       'network': args.tokenToSend.originNetwork == null
+                        //           ? 'Ethereum'
+                        //           : 'Fuse'
+                        //     }));
+                      }, () {
                         setState(() {
                           isPreloading = false;
                         });
-                        String transferType = args.sendType
-                                .toString()
-                                .split('.')[1]
-                                .toLowerCase() ??
-                            '';
-                        viewModel.idenyifyCall(Map.from(
-                            {"Transferred ${viewModel.community.name}": true}));
-                        viewModel.trackTransferCall("Wallet: User Transfer",
-                            properties: Map.from({
-                              'transfer type': transferType,
-                              'network':
-                                  viewModel.isProMode ? 'Ethereum' : 'Fuse'
-                            }));
-                      }, () {
                         // print('error');
                       });
                       setState(() {

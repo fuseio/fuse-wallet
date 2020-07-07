@@ -26,12 +26,6 @@ import 'package:flutter_udid/flutter_udid.dart';
 class ActivateProMode {
   ActivateProMode();
 }
-
-class SwitchWalletMode {
-  final bool isProMode;
-  SwitchWalletMode({this.isProMode});
-}
-
 class VerifyRequest {
   final String verificationId;
   final String verificationCode;
@@ -384,7 +378,7 @@ ThunkAction identifyCall() {
           "Account Address": store.state.userState.accountAddress,
           "Display Name": store.state.userState.displayName,
           "Identifier": store.state.userState.identifier,
-          "Pro mode active": store.state.userState.isProMode,
+          // "Pro mode active": store.state.userState.isProMode,
           "Joined Communities": store.state.cashWalletState.communities.keys.toList(),
         })));
   };

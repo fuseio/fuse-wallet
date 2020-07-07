@@ -64,11 +64,11 @@ class HomeViewModel extends Equatable {
         store.state.proWalletState.erc20Tokens?.values?.fold(
             [],
             (List<Transaction> previousValue, Token token) =>
-                previousValue..addAll(token.transactions.list));
+                previousValue..addAll(token.transactions?.list ?? []));
     List<Transaction> communityTxs = communities?.fold(
         [],
         (List<Transaction> previousValue, Community community) =>
-            previousValue..addAll(community.token.transactions.list));
+            previousValue..addAll(community.token.transactions?.list ?? []));
     String communityAddress = store.state.cashWalletState.communityAddress;
     bool isCommunityLoading =
         store.state.cashWalletState.isCommunityLoading ?? false;

@@ -44,6 +44,7 @@ String formatAddress(String address) {
 }
 
 BigInt toBigInt(dynamic value, int decimals) {
+  if (value == null || decimals == null) return BigInt.zero;
   Decimal tokensAmountDecimal = Decimal.parse(value.toString());
   Decimal decimalsPow = Decimal.parse(pow(10, decimals).toString());
   return BigInt.parse((tokensAmountDecimal * decimalsPow).toString());

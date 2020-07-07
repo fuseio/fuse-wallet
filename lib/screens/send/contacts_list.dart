@@ -179,7 +179,7 @@ class _ContactsListState extends State<ContactsList> {
 
     listItems.add(searchPanel(viewModel));
 
-    if (searchController.text.isEmpty && !viewModel.isProMode) {
+    if (searchController.text.isEmpty) {
       listItems.add(RecentContacts());
     } else if (isValidEthereumAddress(searchController.text)) {
       listItems.add(
@@ -257,7 +257,7 @@ class _ContactsListState extends State<ContactsList> {
                     ),
                     onPressed: () {
                       bracodeScannerHandler(context,
-                          isProMode: viewModel.isProMode,
+                          // isProMode: viewModel.isProMode,
                           daiToken: viewModel.tokenDAI,
                           feePlugin: viewModel.feePlugin);
                     }),

@@ -1,6 +1,7 @@
 import 'package:digitalrand/models/jobs/base.dart';
 import 'package:digitalrand/models/transactions/transfer.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/services.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -61,19 +62,31 @@ class InviteJob extends Job {
       return;
     }
     this.status = 'DONE';
-    store.dispatch(inviteAndSendSuccessCall(
-        job,
-        fetchedData['data'],
-        arguments['tokensAmount'],
-        arguments['receiverName'],
-        arguments['inviteTransfer'],
-        arguments['sendSuccessCallback'],
-        arguments['sendFailureCallback']));
+    if (arguments['tokenAddress'] != null) {
+      store.dispatch(inviteProAndSendSuccessCall(
+          job,
+          fetchedData['data'],
+          arguments['tokensAmount'],
+          arguments['receiverName'],
+          arguments['inviteTransfer'],
+          arguments['sendSuccessCallback'],
+          arguments['sendFailureCallback']));
+    } else {
+      store.dispatch(inviteAndSendSuccessCall(
+          job,
+          fetchedData['data'],
+          arguments['tokensAmount'],
+          arguments['receiverName'],
+          arguments['inviteTransfer'],
+          arguments['sendSuccessCallback'],
+          arguments['sendFailureCallback']));
+    }
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 
   @override
   dynamic argumentsToJson() => {
+      'tokenAddress': arguments['tokenAddress'],
       'tokensAmount': arguments['tokensAmount'],
       'receiverName': arguments['receiverName'],
       'inviteTransfer': arguments['inviteTransfer'].toJson()

@@ -12,7 +12,6 @@ import 'package:digitalrand/screens/cash_home/webview_page.dart';
 import 'package:digitalrand/screens/send/send_amount.dart';
 import 'package:digitalrand/screens/send/send_amount_arguments.dart';
 import 'package:digitalrand/utils/addresses.dart';
-import 'package:digitalrand/widgets/activate_pro_mode.dart';
 import 'package:digitalrand/widgets/deposit_dai_popup.dart';
 import 'package:digitalrand/widgets/main_scaffold.dart';
 import 'package:redux/redux.dart';
@@ -226,21 +225,11 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                           children: <Widget>[
                             InkWell(
                               onTap: () {
-                                if (vm.isProModeActivate) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return DepositDaiDialog();
-                                      });
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ActivateProModeDialog();
-                                      });
-                                  Segment.track(
-                                      eventName: "Wallet: ADD DAI clicked");
-                                }
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DepositDaiDialog();
+                                    });
                               },
                               child: Text(
                                 I18n.of(context).addDai,
@@ -263,32 +252,22 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          if (vm.isProModeActivate) {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) => SendAmountScreen(
-                                        pageArgs: SendAmountArguments(
-                                            avatar: AssetImage(
-                                              'assets/images/ethereume_icon.png',
-                                            ),
-                                            name: 'ethereum',
-                                            feePlugin: vm.feePlugin,
-                                            sendType: SendType.ETHEREUM_ADDRESS,
-                                            accountAddress: vm
-                                                .homeBridgeAddress))));
-                            Segment.track(
-                                eventName:
-                                    'Wallet: Choose amount to transfer - activate pro mode');
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ActivateProModeDialog();
-                                });
-                            Segment.track(
-                                eventName: "Wallet: Withdraw DAI clicked");
-                          }
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => SendAmountScreen(
+                                      pageArgs: SendAmountArguments(
+                                          avatar: AssetImage(
+                                            'assets/images/ethereume_icon.png',
+                                          ),
+                                          name: 'ethereum',
+                                          feePlugin: vm.feePlugin,
+                                          sendType: SendType.ETHEREUM_ADDRESS,
+                                          accountAddress:
+                                              vm.homeBridgeAddress))));
+                          Segment.track(
+                              eventName:
+                                  'Wallet: Choose amount to transfer - activate pro mode');
                         },
                         child: Align(
                           alignment: Alignment.centerLeft,
@@ -364,11 +343,9 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
 }
 
 class _DaiPointsViewModel {
-  final bool isProModeActivate;
   final String homeBridgeAddress;
   final FeePlugin feePlugin;
   _DaiPointsViewModel({
-    this.isProModeActivate,
     this.homeBridgeAddress,
     this.feePlugin,
   });
@@ -379,7 +356,6 @@ class _DaiPointsViewModel {
     return _DaiPointsViewModel(
       feePlugin: community.plugins.bridgeToForeign,
       homeBridgeAddress: community.homeBridgeAddress,
-      isProModeActivate: store.state.userState.isProModeActivated,
     );
   }
 }

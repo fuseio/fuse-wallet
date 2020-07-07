@@ -160,14 +160,12 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
 
 class DepositDaiDialogViewModel {
   final Plugins plugins;
-  final bool isProMode;
-  DepositDaiDialogViewModel({this.plugins, this.isProMode});
+  DepositDaiDialogViewModel({this.plugins});
 
   static DepositDaiDialogViewModel fromStore(Store<AppState> store) {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return DepositDaiDialogViewModel(
-      isProMode: store.state.userState.isProMode ?? false,
       plugins: community?.plugins,
     );
   }

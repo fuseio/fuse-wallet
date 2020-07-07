@@ -252,6 +252,8 @@ class I18n implements WidgetsLocalizations {
   String get no_funds_available => "No funds available";
   /// "Review trade"
   String get review_trade => "Review trade";
+  /// "Use max"
+  String get use_max => "Use max";
 }
 
 class _I18n_en_US extends I18n {

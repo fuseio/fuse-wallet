@@ -277,7 +277,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     ),
                     onPressed: () {
                       bracodeScannerHandler(context,
-                          isProMode: viewModel.isProMode,
+                          // isProMode: viewModel.isProMode,
                           daiToken: viewModel.tokenDAI,
                           feePlugin: viewModel.feePlugin);
                     }),

@@ -36,10 +36,7 @@ class UserState {
   final bool backup;
   final int displayBalance;
   final DateTime installedAt;
-  final bool isProModeActivated;
 
-  @JsonKey(ignore: true, defaultValue: false)
-  final bool isProMode;
   @JsonKey(ignore: true)
   final bool isLoginRequest;
   @JsonKey(ignore: true)
@@ -81,46 +78,43 @@ class UserState {
       this.displayBalance,
       this.installedAt,
       this.isLoginRequest,
-      this.isVerifyRequest,
-      this.isProMode,
-      this.isProModeActivated});
+      this.isVerifyRequest});
 
   factory UserState.initial() {
     return new UserState(
-        walletAddress: "",
-        transferManagerAddress: "",
-        communityManagerAddress: "",
-        daiPointsManagerAddress: "",
-        walletStatus: null,
-        networks: [],
-        mnemonic: [],
-        privateKey: "",
-        pincode: null,
-        accountAddress: "",
-        countryCode: "",
-        isoCode: "",
-        phoneNumber: "",
-        normalizedPhoneNumber: "",
-        contacts: [],
-        syncedContacts: [],
-        reverseContacts: new Map<String, String>(),
-        jwtToken: "",
-        displayName: "Anom",
-        email: "",
-        verificationId: "",
-        identifier: "",
-        loginRequestSuccess: false,
-        loginVerifySuccess: false,
-        isLoggedOut: false,
-        isContactsSynced: null,
-        backup: false,
-        credentials: null,
-        displayBalance: 0,
-        installedAt: DateTime.now().toUtc(),
-        isLoginRequest: false,
-        isVerifyRequest: false,
-        isProMode: false,
-        isProModeActivated: false);
+      walletAddress: "",
+      transferManagerAddress: "",
+      communityManagerAddress: "",
+      daiPointsManagerAddress: "",
+      walletStatus: null,
+      networks: [],
+      mnemonic: [],
+      privateKey: "",
+      pincode: null,
+      accountAddress: "",
+      countryCode: "",
+      isoCode: "",
+      phoneNumber: "",
+      normalizedPhoneNumber: "",
+      contacts: [],
+      syncedContacts: [],
+      reverseContacts: new Map<String, String>(),
+      jwtToken: "",
+      displayName: "Anom",
+      email: "",
+      verificationId: "",
+      identifier: "",
+      loginRequestSuccess: false,
+      loginVerifySuccess: false,
+      isLoggedOut: false,
+      isContactsSynced: null,
+      backup: false,
+      credentials: null,
+      displayBalance: 0,
+      installedAt: DateTime.now().toUtc(),
+      isLoginRequest: false,
+      isVerifyRequest: false,
+    );
   }
 
   UserState copyWith(
@@ -155,13 +149,13 @@ class UserState {
       int displayBalance,
       DateTime installedAt,
       bool isLoginRequest,
-      bool isVerifyRequest,
-      bool isProMode,
-      bool isProModeActivated}) {
+      bool isVerifyRequest,}) {
     return UserState(
         walletAddress: walletAddress ?? this.walletAddress,
-        communityManagerAddress: communityManagerAddress ?? this.communityManagerAddress,
-        transferManagerAddress: transferManagerAddress ?? this.transferManagerAddress,
+        communityManagerAddress:
+            communityManagerAddress ?? this.communityManagerAddress,
+        transferManagerAddress:
+            transferManagerAddress ?? this.transferManagerAddress,
         walletStatus: walletStatus ?? this.walletStatus,
         networks: networks ?? this.networks,
         mnemonic: mnemonic ?? this.mnemonic,
@@ -171,7 +165,8 @@ class UserState {
         countryCode: countryCode ?? this.countryCode,
         isoCode: isoCode ?? this.isoCode,
         phoneNumber: phoneNumber ?? this.phoneNumber,
-        normalizedPhoneNumber: normalizedPhoneNumber ?? this.normalizedPhoneNumber,
+        normalizedPhoneNumber:
+            normalizedPhoneNumber ?? this.normalizedPhoneNumber,
         contacts: contacts ?? this.contacts,
         syncedContacts: syncedContacts ?? this.syncedContacts,
         reverseContacts: reverseContacts ?? this.reverseContacts,
@@ -189,9 +184,7 @@ class UserState {
         displayBalance: displayBalance ?? this.displayBalance,
         installedAt: installedAt ?? this.installedAt,
         isLoginRequest: isLoginRequest ?? this.isLoginRequest,
-        isVerifyRequest: isVerifyRequest ?? this.isVerifyRequest,
-        isProMode: isProMode ?? this.isProMode,
-        isProModeActivated: isProModeActivated ?? this.isProModeActivated);
+        isVerifyRequest: isVerifyRequest ?? this.isVerifyRequest,);
   }
 
   dynamic toJson() => _$UserStateToJson(this);

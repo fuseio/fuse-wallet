@@ -16,7 +16,6 @@ class ContactsViewModel extends Equatable {
   final List<Contact> contacts;
   final Token token;
   final bool isContactsSynced;
-  final bool isProMode;
   final Function(List<Contact>) syncContacts;
   final Transactions transactions;
   final Map<String, String> reverseContacts;
@@ -35,7 +34,6 @@ class ContactsViewModel extends Equatable {
       this.token,
       this.syncContacts,
       this.isContactsSynced,
-      this.isProMode,
       this.feePlugin,
       this.tokenDAI,
       this.transactions,
@@ -54,12 +52,11 @@ class ContactsViewModel extends Equatable {
     Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
         ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
         : daiToken;
-    bool isProMode = store.state.userState.isProMode ?? false;
+    // bool isProMode = store.state.userState.isProMode ?? false;
     return ContactsViewModel(
         tokenDAI: token,
-        feePlugin: isProMode ? community.plugins.foreignTransfers : null,
+        // feePlugin: community.plugins.foreignTransfers : null,
         isoCode: store.state.userState.isoCode,
-        isProMode: isProMode,
         businesses: community?.businesses ?? [],
         isContactsSynced: store.state.userState.isContactsSynced,
         contacts: store.state.userState?.contacts ?? [],

@@ -5,8 +5,6 @@ import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, GetWalletAddressesSuccess>(_getWalletAddressesSuccess),
-  TypedReducer<UserState, ActivateProMode>(_activateProMode),
-  TypedReducer<UserState, SwitchWalletMode>(_switchWalletMode),
   TypedReducer<UserState, RestoreWalletSuccess>(_restoreWalletSuccess),
   TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
@@ -42,14 +40,6 @@ UserState _getWalletAddressesSuccess(UserState state, GetWalletAddressesSuccess 
     communityManagerAddress: action.communityManagerAddress,
     daiPointsManagerAddress: action.daiPointsManagerAddress,
     walletStatus: 'created');
-}
-
-UserState _activateProMode(UserState state, ActivateProMode action) {
-  return state.copyWith(isProModeActivated: true);
-}
-
-UserState _switchWalletMode(UserState state, SwitchWalletMode action) {
-  return state.copyWith(isProMode: action.isProMode);
 }
 
 UserState _backupSuccess(UserState state, BackupSuccess action) {
@@ -93,7 +83,7 @@ UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
 }
 
 UserState _logoutSuccess(UserState state, LogoutRequestSuccess action) {
-  return state.copyWith(isLoggedOut: true, isProMode: false);
+  return state.copyWith(isLoggedOut: true);
   // return UserState.initial();
 }
 
