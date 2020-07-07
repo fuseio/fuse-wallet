@@ -64,7 +64,7 @@ class _AssetsListViewModel extends Equatable {
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
             num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: false))
+                    withPrecision: true))
                 .compareTo(0) ==
             1)
         .toList();

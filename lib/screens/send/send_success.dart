@@ -29,7 +29,6 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
 
   @override
   Widget build(BuildContext context) {
-    final SendAmountArguments args = this.widget.pageArgs;
     return MainScaffold(
       withPadding: true,
       title: I18n.of(context).success,
@@ -41,7 +40,8 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
               child: CircleAvatar(
                 backgroundColor: Color(0xFFE0E0E0),
                 radius: 100,
-                backgroundImage: args.avatar,
+                backgroundImage: this.widget.pageArgs?.avatar ??
+                    AssetImage('assets/images/anom.png'),
                 child: Transform.scale(
                   scale: 6,
                   origin: Offset(-9, 7),

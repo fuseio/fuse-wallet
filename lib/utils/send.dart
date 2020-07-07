@@ -32,12 +32,12 @@ void navigateToSendAmountScreen(
           builder: (context) => SendAmountScreen(
               pageArgs: SendAmountArguments(
                   feePlugin: viewModel.feePlugin,
-                  erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
-                  sendType: viewModel.isProMode
-                      ? SendType.ETHEREUM_ADDRESS
-                      : accountAddress != null
-                          ? SendType.FUSE_ADDRESS
-                          : SendType.CONTACT,
+                  // erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
+                  // sendType: viewModel.isProMode
+                  //     ? SendType.ETHEREUM_ADDRESS
+                  //     : accountAddress != null
+                  //         ? SendType.FUSE_ADDRESS
+                  //         : SendType.CONTACT,
                   name: displayName,
                   accountAddress: accountAddress,
                   avatar: avatar,
@@ -83,11 +83,11 @@ void sendToPastedAddress(
       new MaterialPageRoute(
           builder: (context) => SendAmountScreen(
               pageArgs: SendAmountArguments(
-                  erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
-                  feePlugin: viewModel.isProMode ? viewModel.feePlugin : null,
-                  sendType: viewModel.isProMode
-                      ? SendType.ETHEREUM_ADDRESS
-                      : SendType.PASTED_ADDRESS,
+                  // erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
+                  // feePlugin: viewModel.isProMode ? viewModel.feePlugin : null,
+                  // sendType: viewModel.isProMode
+                  //     ? SendType.ETHEREUM_ADDRESS
+                  //     : SendType.PASTED_ADDRESS,
                   accountAddress: accountAddress,
                   name: formatAddress(accountAddress),
                   avatar: new AssetImage('assets/images/anom.png')))));

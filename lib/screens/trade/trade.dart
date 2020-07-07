@@ -23,7 +23,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 
 class TradeScreen extends StatefulWidget {
-  const TradeScreen({Key key}) : super(key: key);
+  final Token primaryToken;
+  const TradeScreen({Key key, this.primaryToken}) : super(key: key);
 
   @override
   _ExchangeState createState() => _ExchangeState();
@@ -101,13 +102,13 @@ class _ExchangeState extends State<TradeScreen> {
       String toTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals,
-          withPrecision: false);
+          withPrecision: true);
       if (this.mounted) {
         response['amount'] = num.parse(value);
         response['amountIn'] = num.parse(formatValue(
             BigInt.from(num.parse(response['destinationAmount'])),
             tokenToReceive.decimals,
-            withPrecision: false));
+            withPrecision: true));
         setState(() {
           receiveController.text = toTokenAmount;
           isFetchingPayWith = false;
@@ -151,11 +152,11 @@ class _ExchangeState extends State<TradeScreen> {
       response['amountIn'] = num.parse(formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals,
-          withPrecision: false));
+          withPrecision: true));
       String fromTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToPayWith.decimals,
-          withPrecision: false);
+          withPrecision: true);
       if (this.mounted) {
         setState(() {
           swapResponse = response;
@@ -307,9 +308,10 @@ class _ExchangeState extends State<TradeScreen> {
         onInitialBuild: (viewModel) {
           final Token ethToken =
               viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
-          fetchPrices(viewModel.walletAddress, viewModel.tokens[0], ethToken);
+          final Token payWithToken = widget.primaryToken ?? viewModel.tokens[0];
+          fetchPrices(viewModel.walletAddress, payWithToken, ethToken);
           setState(() {
-            tokenToPayWith = viewModel.tokens[0];
+            tokenToPayWith = payWithToken;
             tokenToReceive = ethToken;
           });
         },
@@ -319,7 +321,7 @@ class _ExchangeState extends State<TradeScreen> {
               viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
           num value = num.parse(formatValue(
               payWithToken.amount, payWithToken.decimals,
-              withPrecision: false));
+              withPrecision: true));
           bool payWithHasBalance = payWithController.text != null &&
                   payWithController.text.isNotEmpty
               ? value.compareTo(num.parse(payWithController.text ?? 0) ?? 0) !=
@@ -362,7 +364,7 @@ class _ExchangeState extends State<TradeScreen> {
                                     String max = formatValue(
                                         tokenToPayWith.amount,
                                         tokenToPayWith.decimals,
-                                        withPrecision: false);
+                                        withPrecision: true);
                                     setState(() {
                                       payWithController.text = max;
                                     });
@@ -371,7 +373,7 @@ class _ExchangeState extends State<TradeScreen> {
                                             max, viewModel.walletAddress));
                                   },
                                   child: Text(
-                                    'Use max',
+                                    I18n.of(context).use_max,
                                     style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400),
@@ -504,7 +506,7 @@ class _ExchangeViewModel extends Equatable {
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
             num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: false))
+                    withPrecision: true))
                 .compareTo(0) ==
             1)
         .toList()

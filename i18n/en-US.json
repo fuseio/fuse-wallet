@@ -108,5 +108,7 @@
     "sendToCashMode": "Send to cash mode",
     "exchnage": "Exchange",
     "no_funds_available": "No funds available",
-    "review_trade": "Review trade"
+    "review_trade": "Review trade",
+    "use_max": "Use max",
+    "send_to_address": "Send to an address"
 }

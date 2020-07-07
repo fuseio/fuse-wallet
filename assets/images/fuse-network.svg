@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="18" viewBox="0 0 50 18">
+  <g id="Group_3754" data-name="Group 3754" transform="translate(-308 -45)">
+    <g id="Group_3752" data-name="Group 3752" transform="translate(-1279 -1031)">
+      <g id="Group_3741" data-name="Group 3741" transform="translate(1279 1053)">
+        <g id="Group_3740" data-name="Group 3740" transform="translate(5 -157)">
+          <rect id="Rectangle_1878" data-name="Rectangle 1878" width="50" height="18" rx="9" transform="translate(303 180)" fill="#b2eaac"/>
+          <text id="Fuse" transform="translate(324 184)" fill="#606060" font-size="11" font-family="Europa-Regular"><tspan x="0" y="9">Fuse</tspan></text>
+          <g id="Group_3709" data-name="Group 3709" transform="translate(309.888 184.269)">
+            <path id="Path_3853" data-name="Path 3853" d="M1189.424,798.36a.9.9,0,0,0-.535-.834l-.989-.451.99-.447a.915.915,0,0,0,0-1.666l-2.88-1.313a3.9,3.9,0,0,0-3.225-.005l-2.885,1.3a.915.915,0,0,0,0,1.666l.989.451-.99.448a.914.914,0,0,0,0,1.666l.989.451-.99.448a.915.915,0,0,0,0,1.666l2.881,1.313a3.9,3.9,0,0,0,3.225.005l2.885-1.3a.914.914,0,0,0,0-1.666l-.989-.451.99-.448a.9.9,0,0,0,.538-.832m-7.416,1.78.768.35a3.9,3.9,0,0,0,3.226.005l.448-.2-1.147-.523-.039.012a2.974,2.974,0,0,1-2.1-.137l-2.851-1.3,1.7-.769.769.351a3.9,3.9,0,0,0,3.224.005l.448-.2-1.147-.523-.039.012a2.971,2.971,0,0,1-2.1-.137l-2.852-1.3,2.856-1.291a2.972,2.972,0,0,1,2.457,0l2.852,1.3-2.824,1.277,2.82,1.287-2.823,1.276,2.819,1.288-2.856,1.291a2.972,2.972,0,0,1-2.458,0l-2.852-1.3Z" transform="translate(-1179.357 -793.298)" fill="#656565"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

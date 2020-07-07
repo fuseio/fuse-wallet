@@ -10,14 +10,13 @@ class BottomBarViewModel extends Equatable {
   final Community community;
   final bool isDefaultCommunity;
   final List<Contact> contacts;
-  final bool isProModeActivate;
 
-  BottomBarViewModel(
-      {this.communityAddress,
-      this.isDefaultCommunity,
-      this.community,
-      this.contacts,
-      this.isProModeActivate});
+  BottomBarViewModel({
+    this.communityAddress,
+    this.isDefaultCommunity,
+    this.community,
+    this.contacts,
+  });
 
   static BottomBarViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
@@ -26,7 +25,6 @@ class BottomBarViewModel extends Equatable {
             new Community.initial();
     return BottomBarViewModel(
       contacts: store.state.userState.contacts ?? [],
-      isProModeActivate: store.state.userState.isProModeActivated,
       communityAddress: communityAddress,
       community: community,
       isDefaultCommunity: util.isDefaultCommunity(communityAddress),
@@ -34,10 +32,5 @@ class BottomBarViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [
-        communityAddress,
-        isProModeActivate,
-        contacts,
-        isDefaultCommunity
-      ];
+  List<Object> get props => [communityAddress, contacts, isDefaultCommunity];
 }

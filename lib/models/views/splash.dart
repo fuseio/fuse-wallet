@@ -7,7 +7,6 @@ import 'package:fusecash/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
 
 class SplashViewModel extends Equatable {
-  final bool isProMode;
   final String privateKey;
   final String jwtToken;
   final bool isLoggedOut;
@@ -21,12 +20,10 @@ class SplashViewModel extends Equatable {
       this.isLoggedOut,
       this.createLocalAccount,
       this.loginAgain,
-      this.setDeviceIdCall,
-      this.isProMode});
+      this.setDeviceIdCall});
 
   static SplashViewModel fromStore(Store<AppState> store) {
     return SplashViewModel(
-        isProMode: store.state.userState.isProMode ?? false,
         privateKey: store.state.userState.privateKey,
         jwtToken: store.state.userState.jwtToken,
         isLoggedOut: store.state.userState.isLoggedOut ?? false,
@@ -46,20 +43,5 @@ class SplashViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [privateKey, jwtToken, isLoggedOut, isProMode];
-}
-
-class MainViewModel extends Equatable {
-  final bool isProMode;
-
-  MainViewModel({this.isProMode});
-
-  static MainViewModel fromStore(Store<AppState> store) {
-    return MainViewModel(
-      isProMode: store.state.userState.isProMode ?? false,
-    );
-  }
-
-  @override
-  List<Object> get props => [isProMode];
+  List<Object> get props => [privateKey, jwtToken, isLoggedOut];
 }

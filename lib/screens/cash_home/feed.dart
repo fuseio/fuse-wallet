@@ -80,18 +80,11 @@ class FeedState extends State<Feed> {
           return Column(
             children: <Widget>[
               Expanded(
-                  child: ListView(children: <Widget>[
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      ListView(
-                          shrinkWrap: true,
-                          primary: false,
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          children: _buildList(viewModel))
-                    ])
-                // CashTransactios(viewModel: viewModel)
-              ]))
+                  child: ListView(
+                      shrinkWrap: true,
+                      primary: false,
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      children: _buildList(viewModel)))
             ],
           );
         });

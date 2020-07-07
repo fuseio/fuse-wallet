@@ -486,7 +486,6 @@ ThunkAction generateWalletSuccessCall(
           dAIPointsManagerAddress: dAIPointsManager));
       bool deployedToForeign = networks?.contains(foreignNetwork) ?? false;
       if (deployedToForeign) {
-        store.dispatch(ActivateProMode());
         store.dispatch(initWeb3ProMode(
             privateKey: privateKey,
             communityManagerAddress: communityManager,
@@ -674,6 +673,7 @@ ThunkAction startProcessingJobsCall() {
 }
 
 ThunkAction inviteAndSendCall(
+    Token token,
     String name,
     String contactPhoneNumber,
     num tokensAmount,
@@ -683,11 +683,11 @@ ThunkAction inviteAndSendCall(
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      String communityAddres = store.state.cashWalletState.communityAddress;
+      // String communityAddres = store.state.cashWalletState.communityAddress;
       String senderName = store.state.userState.displayName;
-      Community community =
-          store.state.cashWalletState.communities[communityAddres];
-      Token token = community?.token;
+      // Community community =
+      //     store.state.cashWalletState.communities[communityAddres];
+      // Token token = community?.token;
       dynamic response = await api.invite(
           contactPhoneNumber, store.state.cashWalletState.communityAddress,
           name: senderName,
@@ -727,8 +727,14 @@ ThunkAction inviteAndSendCall(
   };
 }
 
-ThunkAction inviteAndSendSuccessCall(Job job, dynamic data, tokensAmount,
-    receiverName, inviteTransfer, sendSuccessCallback, sendFailureCallback) {
+ThunkAction inviteAndSendSuccessCall(
+    Job job,
+    dynamic data,
+    num tokensAmount,
+    String receiverName,
+    Transfer inviteTransfer,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback) {
   return (Store store) async {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
@@ -746,8 +752,8 @@ ThunkAction inviteAndSendSuccessCall(Job job, dynamic data, tokensAmount,
     };
 
     String receiverAddress = job.data["walletAddress"];
-    store.dispatch(sendTokenCall(
-        receiverAddress, tokensAmount, successCallBack, sendFailureCallback,
+    store.dispatch(sendTokenCall(community.token, receiverAddress, tokensAmount,
+        successCallBack, sendFailureCallback,
         receiverName: receiverName, inviteTransfer: inviteTransfer));
     store.dispatch(syncContactsCall(store.state.userState.contacts));
   };
@@ -800,7 +806,7 @@ ThunkAction sendToHomeBridgeAddressCall() {
   return (Store store) async {};
 }
 
-ThunkAction sendTokenCall(String receiverAddress, num tokensAmount,
+ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
     {String receiverName, String transferNote, Transfer inviteTransfer}) {
   return (Store store) async {
@@ -1227,6 +1233,7 @@ ThunkAction getReceivedTokenTransfersListCall(String tokenAddress) {
 }
 
 ThunkAction sendTokenToContactCall(
+    Token token,
     String name,
     String contactPhoneNumber,
     num tokensAmount,
@@ -1243,12 +1250,12 @@ ThunkAction sendTokenToContactCall(
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       logger.info("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
-        store.dispatch(inviteAndSendCall(name, contactPhoneNumber, tokensAmount,
-            sendSuccessCallback, sendFailureCallback,
+        store.dispatch(inviteAndSendCall(token, name, contactPhoneNumber,
+            tokensAmount, sendSuccessCallback, sendFailureCallback,
             receiverName: receiverName));
         return;
       }
-      store.dispatch(sendTokenCall(
+      store.dispatch(sendTokenCall(token,
           walletAddress, tokensAmount, sendSuccessCallback, sendFailureCallback,
           receiverName: receiverName, transferNote: transferNote));
     } catch (e) {

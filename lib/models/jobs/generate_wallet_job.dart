@@ -3,7 +3,6 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/constans.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generate_wallet_job.g.dart';
@@ -67,9 +66,7 @@ class GenerateWalletJob extends Job {
       this.status = 'DONE';
       store.dispatch(new CreateAccountWalletSuccess(arguments['accountAddress']));
       store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
-      if (createWalletOnForeign) {
-        store.dispatch(activateProModeCall());
-      }
+      store.dispatch(activateProModeCall());
     }
   }
 

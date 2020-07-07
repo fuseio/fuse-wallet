@@ -22,7 +22,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
             : SystemUiOverlayStyle.dark;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: _overlayStyle,
-      child: child,
+      sized: false,
+      child: Container(
+        color: Theme.of(context).splashColor,
+        child: child,
+      ),
     );
   }
 

@@ -13,6 +13,7 @@ import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/screens/signup/username.dart';
 import 'package:fusecash/screens/misc/pincode.dart';
 import 'package:fusecash/screens/cash_home/cash_mode.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/signup/recovery.dart';
@@ -72,7 +73,9 @@ class Router {
             args as CashModeScaffoldArguments ?? CashModeScaffoldArguments();
         return MaterialPageRoute<dynamic>(
           builder: (_) => CashModeScaffold(
-              key: typedArgs.key, tabIndex: typedArgs.tabIndex),
+              key: typedArgs.key,
+              tabIndex: typedArgs.tabIndex,
+              primaryToken: typedArgs.primaryToken),
           settings: settings,
         );
       case Router.transactionDetailsScreen:
@@ -122,5 +125,6 @@ class Router {
 class CashModeScaffoldArguments {
   final Key key;
   final int tabIndex;
-  CashModeScaffoldArguments({this.key, this.tabIndex = 0});
+  final Token primaryToken;
+  CashModeScaffoldArguments({this.key, this.tabIndex = 0, this.primaryToken});
 }

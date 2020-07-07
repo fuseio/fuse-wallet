@@ -46,8 +46,8 @@ class TokenTile extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(50),
                               child: CachedNetworkImage(
-                                width: 54,
-                                height: 54,
+                                width: 60,
+                                height: 60,
                                 imageUrl: token.imageUrl != null &&
                                         token.imageUrl.isNotEmpty
                                     ? token.imageUrl
@@ -55,8 +55,7 @@ class TokenTile extends StatelessWidget {
                                         checksumEthereumAddress(token.address)),
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(
+                                errorWidget: (context, url, error) => Icon(
                                   Icons.error,
                                   size: 54,
                                 ),
@@ -75,8 +74,8 @@ class TokenTile extends StatelessWidget {
                             token.transactions.list
                                     .any((transfer) => transfer.isPending())
                                 ? Container(
-                                    width: 55,
-                                    height: 55,
+                                    width: 60,
+                                    height: 60,
                                     child: CircularProgressIndicator(
                                       backgroundColor:
                                           Color(0xFF49D88D).withOpacity(0),

@@ -77,9 +77,9 @@ class RecentContacts extends StatelessWidget {
                                   name: 'ethereum',
                                   feePlugin: viewModel
                                       .community.plugins.bridgeToForeign,
-                                  sendType: viewModel.isProMode
-                                      ? SendType.ETHEREUM_ADDRESS
-                                      : SendType.FUSE_ADDRESS,
+                                  // sendType: viewModel.isProMode
+                                  //     ? SendType.ETHEREUM_ADDRESS
+                                  //     : SendType.FUSE_ADDRESS,
                                   accountAddress: transfer.to))));
                   return;
                 }
@@ -89,9 +89,9 @@ class RecentContacts extends StatelessWidget {
                       new MaterialPageRoute(
                           builder: (context) => SendAmountScreen(
                               pageArgs: SendAmountArguments(
-                                  sendType: viewModel.isProMode
-                                      ? SendType.ETHEREUM_ADDRESS
-                                      : SendType.FUSE_ADDRESS,
+                                  // sendType: viewModel.isProMode
+                                  //     ? SendType.ETHEREUM_ADDRESS
+                                  //     : SendType.FUSE_ADDRESS,
                                   accountAddress: transfer.to,
                                   name: displayName,
                                   avatar: image))));

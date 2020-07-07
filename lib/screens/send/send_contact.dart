@@ -39,7 +39,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         Future.delayed(
             Duration.zero,
             () => showDialog(
-                child: new ContactsConfirmationScreen(), context: context));
+                child: ContactsConfirmationScreen(), context: context));
       }
       setState(() {
         isPreloading = true;
@@ -122,9 +122,8 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
           child: Container(
-            decoration: new BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
+            decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Color(0xFFDCDCDC)))),
             child: ListTile(
               contentPadding:
                   EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
@@ -133,7 +132,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 radius: 25,
                 backgroundImage: user.avatar != null && user.avatar.isNotEmpty
                     ? MemoryImage(user.avatar)
-                    : new AssetImage('assets/images/anom.png'),
+                    : AssetImage('assets/images/anom.png'),
               ),
               title: Text(
                 user.displayName,
@@ -150,7 +149,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 sendToContact(context, viewModel, user.displayName, phone.value,
                     avatar: user.avatar != null && user.avatar.isNotEmpty
                         ? MemoryImage(user.avatar)
-                        : new AssetImage('assets/images/anom.png'));
+                        : AssetImage('assets/images/anom.png'));
               },
             ),
           ),
@@ -199,11 +198,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
           sendToAcccountAddress(context, viewModel, searchController.text));
     }
 
-    Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
+    Map<String, List<Contact>> groups = Map<String, List<Contact>>();
     for (Contact c in filteredUsers) {
       String groupName = c.displayName[0];
       if (!groups.containsKey(groupName)) {
-        groups[groupName] = new List<Contact>();
+        groups[groupName] = List<Contact>();
       }
       groups[groupName].add(c);
     }
@@ -226,11 +225,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
         minHeight: 80.0,
         maxHeight: 100.0,
         child: Container(
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              border:
-                  Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
-          padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+              border: Border(bottom: BorderSide(color: Color(0xFFDCDCDC)))),
+          padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -250,8 +248,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                             borderSide:
                                 BorderSide(color: Color(0xFFE0E0E0), width: 3)),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: const Color(0xFF292929)),
+                          borderSide: BorderSide(color: Color(0xFF292929)),
                         ),
                         suffixIcon: Icon(
                           Icons.search,
@@ -264,9 +261,11 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                 ),
               ),
               Container(
-                child: new FloatingActionButton(
+                width: 45,
+                height: 45,
+                child: FloatingActionButton(
                     heroTag: 'send_contact',
-                    backgroundColor: const Color(0xFF292929),
+                    backgroundColor: Color(0xFF292929),
                     elevation: 0,
                     child: Image.asset(
                       'assets/images/scan.png',
@@ -275,12 +274,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                     ),
                     onPressed: () {
                       bracodeScannerHandler(context,
-                          isProMode: viewModel.isProMode,
+                          // isProMode: viewModel.isProMode,
                           daiToken: viewModel.daiToken,
                           feePlugin: viewModel.feePlugin);
                     }),
-                width: 50.0,
-                height: 50.0,
               )
             ],
           ),
@@ -297,7 +294,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, ContactsViewModel>(
+    return StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
         converter: ContactsViewModel.fromStore,
         onInit: onInit,
@@ -330,7 +327,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                       SizedBox(
                         height: 40,
                       ),
-                      new Text(I18n.of(context).sync_your_contacts),
+                      Text(I18n.of(context).sync_your_contacts),
                       SizedBox(
                         height: 40,
                       ),
@@ -339,10 +336,10 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           InkWell(
-                            child: new Text(I18n.of(context).learn_more),
+                            child: Text(I18n.of(context).learn_more),
                             onTap: () {
                               showDialog(
-                                  child: new ContactsConfirmationScreen(),
+                                  child: ContactsConfirmationScreen(),
                                   context: context);
                             },
                           ),
@@ -353,7 +350,7 @@ class _SendToContactScreenState extends State<SendToContactScreen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  new Text(
+                                  Text(
                                     I18n.of(context).activate,
                                     style: TextStyle(color: Color(0xFF0377FF)),
                                   ),

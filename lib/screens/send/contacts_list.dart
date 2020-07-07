@@ -179,7 +179,7 @@ class _ContactsListState extends State<ContactsList> {
 
     listItems.add(searchPanel(viewModel));
 
-    if (searchController.text.isEmpty && !viewModel.isProMode) {
+    if (searchController.text.isEmpty) {
       listItems.add(RecentContacts());
     } else if (isValidEthereumAddress(searchController.text)) {
       listItems.add(
@@ -247,6 +247,8 @@ class _ContactsListState extends State<ContactsList> {
                 ),
               ),
               Container(
+                width: 45,
+                height: 45,
                 child: new FloatingActionButton(
                     heroTag: 'contacts_list',
                     backgroundColor: const Color(0xFF292929),
@@ -258,12 +260,10 @@ class _ContactsListState extends State<ContactsList> {
                     ),
                     onPressed: () {
                       bracodeScannerHandler(context,
-                          isProMode: viewModel.isProMode,
+                          // isProMode: viewModel.isProMode,
                           daiToken: viewModel.daiToken,
                           feePlugin: viewModel.feePlugin);
                     }),
-                width: 50.0,
-                height: 50.0,
               )
             ],
           ),

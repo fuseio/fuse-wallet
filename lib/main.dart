@@ -99,57 +99,23 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
-      store: widget.store,
-      child: MaterialApp(
-        title: 'Fuse Cash',
-        initialRoute: widget.initialRoute,
-        navigatorKey: Router.navigator.key,
-        onGenerateRoute: Router.onGenerateRoute,
-        theme: CustomTheme.of(context),
-        localizationsDelegates: [
-          i18n,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: i18n.supportedLocales,
-        localeResolutionCallback:
-            i18n.resolution(fallback: new Locale("en", "US")),
-        navigatorObservers: [SegmentObserver()],
-      ),
-      // child: StoreConnector<AppState, MainViewModel>(
-      //     converter: MainViewModel.fromStore,
-      //     // onWillChange: onWillChange,
-      //     onInit: onInit,
-      //     builder: (_, vm) => Column(children: <Widget>[
-      //           Expanded(
-      //               child: MaterialApp(
-      //             title: 'Fuse Cash',
-      //             initialRoute: widget.initialRoute,
-      //             navigatorKey: Router.navigator.key,
-      //             onGenerateRoute: Router.onGenerateRoute,
-      //             // initialRoute: isProMode
-      //             //     ? ProRouter.proModeHomeScreen
-      //             //     : widget.initialRoute,
-      //             // navigatorKey: isProMode
-      //             //     ? ProRouter.navigator.key
-      //             //     : Router.navigator.key,
-      //             // onGenerateRoute: isProMode
-      //             //     ? ProRouter.onGenerateRoute
-      //             //     : Router.onGenerateRoute,
-      //             theme: CustomTheme.of(context),
-      //             localizationsDelegates: [
-      //               i18n,
-      //               GlobalMaterialLocalizations.delegate,
-      //               GlobalWidgetsLocalizations.delegate,
-      //               GlobalCupertinoLocalizations.delegate,
-      //             ],
-      //             supportedLocales: i18n.supportedLocales,
-      //             localeResolutionCallback:
-      //                 i18n.resolution(fallback: new Locale("en", "US")),
-      //             navigatorObservers: [SegmentObserver()],
-      //           ))
-      //         ])),
-    );
+        store: widget.store,
+        child: MaterialApp(
+          title: 'Fuse Cash',
+          initialRoute: widget.initialRoute,
+          navigatorKey: Router.navigator.key,
+          onGenerateRoute: Router.onGenerateRoute,
+          theme: CustomTheme.of(context),
+          localizationsDelegates: [
+            i18n,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: i18n.supportedLocales,
+          localeResolutionCallback:
+              i18n.resolution(fallback: new Locale("en", "US")),
+          navigatorObservers: [SegmentObserver()],
+        ));
   }
 }

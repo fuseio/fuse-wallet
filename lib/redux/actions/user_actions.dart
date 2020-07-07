@@ -23,15 +23,6 @@ import 'package:firebase_auth_platform_interface/firebase_auth_platform_interfac
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 
-class ActivateProMode {
-  ActivateProMode();
-}
-
-class SwitchWalletMode {
-  final bool isProMode;
-  SwitchWalletMode({this.isProMode});
-}
-
 class VerifyRequest {
   final String verificationId;
   final String verificationCode;
@@ -384,7 +375,6 @@ ThunkAction identifyCall() {
           "Account Address": store.state.userState.accountAddress,
           "Display Name": store.state.userState.displayName,
           "Identifier": store.state.userState.identifier,
-          "Pro mode active": store.state.userState.isProMode,
           "Joined Communities": store.state.cashWalletState.communities.keys.toList(),
         })));
   };
@@ -435,7 +425,6 @@ ThunkAction create3boxAccountCall(accountAddress) {
 ThunkAction activateProModeCall() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    store.dispatch(ActivateProMode());
     store.dispatch(initWeb3ProMode());
     try {
       bool deployForeignToken = store.state.userState.networks.contains(foreignNetwork);

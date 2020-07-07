@@ -1,6 +1,7 @@
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -61,14 +62,25 @@ class InviteJob extends Job {
       return;
     }
     this.status = 'DONE';
-    store.dispatch(inviteAndSendSuccessCall(
-        job,
-        fetchedData['data'],
-        arguments['tokensAmount'],
-        arguments['receiverName'],
-        arguments['inviteTransfer'],
-        arguments['sendSuccessCallback'],
-        arguments['sendFailureCallback']));
+    if (arguments['tokenAddress'] != null) {
+      store.dispatch(inviteProAndSendSuccessCall(
+          job,
+          fetchedData['data'],
+          arguments['tokensAmount'],
+          arguments['receiverName'],
+          arguments['inviteTransfer'],
+          arguments['sendSuccessCallback'],
+          arguments['sendFailureCallback']));
+    } else {
+      store.dispatch(inviteAndSendSuccessCall(
+          job,
+          fetchedData['data'],
+          arguments['tokensAmount'],
+          arguments['receiverName'],
+          arguments['inviteTransfer'],
+          arguments['sendSuccessCallback'],
+          arguments['sendFailureCallback']));
+    }
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 

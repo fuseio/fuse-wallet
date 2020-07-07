@@ -64,11 +64,11 @@ class HomeViewModel extends Equatable {
         store.state.proWalletState.erc20Tokens?.values?.fold(
             [],
             (List<Transaction> previousValue, Token token) =>
-                previousValue..addAll(token.transactions.list));
+                previousValue..addAll(token.transactions?.list ?? []));
     List<Transaction> communityTxs = communities?.fold(
         [],
         (List<Transaction> previousValue, Community community) =>
-            previousValue..addAll(community.token.transactions.list));
+            previousValue..addAll(community.token.transactions?.list ?? []));
     String communityAddress = store.state.cashWalletState.communityAddress;
     bool isCommunityLoading =
         store.state.cashWalletState.isCommunityLoading ?? false;
@@ -92,7 +92,14 @@ class HomeViewModel extends Equatable {
             store.state.cashWalletState.isBalanceFetchingStarted ?? false,
         isBranchDataReceived:
             store.state.cashWalletState.isBranchDataReceived ?? false,
-        feedList: [...communityTxs, ...erc20TokensTxs],
+        feedList: [...communityTxs, ...erc20TokensTxs]..sort((a, b) {
+            if (a.timestamp != null && b.timestamp != null) {
+              return a.timestamp.compareTo(b.timestamp);
+            } else if (a.blockNumber != null && b.blockNumber != null) {
+              return a.blockNumber.compareTo(b.blockNumber);
+            }
+            return (a?.blockNumber ?? 1).compareTo((b?.blockNumber ?? 0));
+          }),
         switchCommunity: (String communityAddress) {
           store.dispatch(switchCommunityCall(communityAddress));
         },

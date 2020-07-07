@@ -110,7 +110,7 @@ class Token extends ERC20Token {
     try {
       final String quote = await tokenAPI.getTokenLastestPrice(this.address);
       String total =
-          formatValue(this.amount, this.decimals, withPrecision: false);
+          formatValue(this.amount, this.decimals, withPrecision: true);
       if (this.priceInfo == null) {
         Price priceInfo = Price(
             currency: 'usd',

@@ -18,18 +18,14 @@ class SendAmountArguments {
   num amount;
   ImageProvider avatar;
   SendType sendType;
-  bool sendToCashMode = false;
-  bool isProMode = false;
-  Token erc20Token;
+  Token tokenToSend;
   FeePlugin feePlugin;
 
   SendAmountArguments(
-      {this.sendToCashMode = false,
-      this.sendType,
-      this.isProMode = false,
+      {this.sendType,
+      this.tokenToSend,
       this.name,
       this.phoneNumber,
-      this.erc20Token,
       this.accountAddress,
       this.amount,
       this.feePlugin,

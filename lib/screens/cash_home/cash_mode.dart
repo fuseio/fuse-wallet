@@ -1,5 +1,6 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
@@ -23,7 +24,9 @@ import 'package:fusecash/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;
-  CashModeScaffold({Key key, this.tabIndex = 0}) : super(key: key);
+  final Token primaryToken;
+  CashModeScaffold({Key key, this.tabIndex = 0, this.primaryToken})
+      : super(key: key);
   @override
   _CashModeScaffoldState createState() => _CashModeScaffoldState();
 }
@@ -125,7 +128,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
               _pages(vm.contacts, vm.isDefaultCommunity, vm.community?.webUrl);
           return TabsScaffold(
               header: MyAppBar(
-                height: 230.0,
+                height: 200.0,
                 backgroundColor: Colors.white,
                 child: CashHeader(),
               ),

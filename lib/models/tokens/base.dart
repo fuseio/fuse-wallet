@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
+import 'package:fusecash/utils/format.dart';
 
 abstract class ERC20Token extends Equatable {
   final String address;
@@ -21,16 +22,7 @@ abstract class ERC20Token extends Equatable {
     this.amount,
   });
 
-  String getBalance() {
-    if (this.amount == null || decimals == null) return '0';
-    double formatedValue = this.amount / BigInt.from(pow(10, decimals));
-    Decimal decimalValue = Decimal.parse(formatedValue.toString());
-    return num.parse(decimalValue.toString()).compareTo(num.parse('0.01')) != 1
-        ? decimalValue.toStringAsFixed(1)
-        : decimalValue.isInteger
-            ? decimalValue.toString()
-            : decimalValue.toStringAsPrecision(2);
-  }
+  String getBalance() => formatValue(this.amount, this.decimals);
 
   Future<dynamic> fetchTokenBalance(String walletAddress,
       {void Function(BigInt) onDone,

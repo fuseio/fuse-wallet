@@ -1,6 +1,6 @@
 import 'package:fusecash/screens/cash_home/transaction_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/pro_mode/pro_token_header.dart';
+import 'package:fusecash/screens/pro_mode/token_header.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -15,8 +15,8 @@ class TokenTransfersScreen extends StatelessWidget {
     return Scaffold(
         key: key,
         appBar: MyAppBar(
-            height: MediaQuery.of(context).size.height * .21,
-            child: ProTokenHeader(token: token),
+            height: 165.0,
+            child: TokenHeader(token: token),
             backgroundColor: Colors.white),
         drawerEdgeDragWidth: 0,
         body: Column(children: <Widget>[
