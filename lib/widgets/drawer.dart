@@ -77,7 +77,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               width: 20,
             ),
             Text(
-              I18n.of(context).deposit,
+              I18n.of(context).add_funds,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -93,7 +93,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               builder: (context) => WebViewPage(
                   pageArgs: WebViewPageArguments(
                       url: 'https://digitalrand.co.za/deposit.html',
-                      title: I18n.of(context).deposit)),
+                      title: I18n.of(context).add_funds)),
               fullscreenDialog: true),
         );
         Segment.track(eventName: 'User clicked on deposit');

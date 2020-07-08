@@ -13,9 +13,14 @@ class CashHeaderViewModel extends Equatable {
   final Plugins plugins;
   final String walletStatus;
   final String usdValue;
+  final String dzarValue;
 
   CashHeaderViewModel(
-      {this.usdValue, this.firstName, this.plugins, this.walletStatus});
+      {this.usdValue,
+      this.dzarValue,
+      this.firstName,
+      this.plugins,
+      this.walletStatus});
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     ProWalletState proWalletState = store.state.proWalletState;
@@ -37,7 +42,7 @@ class CashHeaderViewModel extends Equatable {
         List<Token>.from(proWalletState.erc20Tokens?.values ?? Iterable.empty())
             .where((Token token) =>
                 num.parse(formatValue(token.amount, token.decimals,
-                        withPrecision: false))
+                        withPrecision: true))
                     .compareTo(0) ==
                 1)
             .toList();
@@ -47,17 +52,18 @@ class CashHeaderViewModel extends Equatable {
     ];
 
     num usdValue = allTokens.fold<num>(0, combiner);
-    Decimal decimalValue = Decimal.parse(usdValue.toString());
+    num dzarValue = (usdValue * 17.0920);
+    Decimal decimalValue = Decimal.parse(dzarValue.toString());
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddres] ??
             new Community.initial();
     return CashHeaderViewModel(
-        usdValue: usdValue.compareTo(num.parse('0.01')) != 1
+        dzarValue: dzarValue.compareTo(num.parse('0.001')) != 1
             ? decimalValue.toStringAsFixed(1)
             : decimalValue.isInteger
                 ? decimalValue.toString()
-                : decimalValue.toStringAsPrecision(2),
+                : decimalValue.toStringAsPrecision(1),
         plugins: community?.plugins,
         walletStatus: store.state.cashWalletState.walletStatus,
         firstName: () {
@@ -67,5 +73,5 @@ class CashHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [plugins, walletStatus, usdValue];
+  List<Object> get props => [plugins, walletStatus, usdValue, dzarValue];
 }

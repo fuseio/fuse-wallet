@@ -21,20 +21,20 @@ Widget deduceTransferIcon(Transfer transfer) {
       height: 10,
     );
   }
-  if (transfer.isSwap != null && transfer.isSwap) {
+  if (transfer.isSwapTX()) {
     return SvgPicture.asset(
       'assets/images/trade_icon.svg',
       width: 10,
       height: 10,
     );
   }
-  if (transfer.type == 'SEND') {
+  if (transfer.isSendTX()) {
     return SvgPicture.asset(
       'assets/images/send_icon.svg',
       width: 10,
       height: 10,
     );
-  } else if (transfer.type == 'RECEIVE') {
+  } else if (transfer.isReceiveTX()) {
     return SvgPicture.asset(
       'assets/images/receive_icon.svg',
       width: 10,

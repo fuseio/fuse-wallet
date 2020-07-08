@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:digitalrand/models/tokens/token.dart';
@@ -36,130 +37,221 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    num feeAmount = 0;
+    bool hasFund = true;
+    num amount = widget.exchangeSummry['amount'];
+    final String sourceAssetSymbol =
+        widget.exchangeSummry['sourceAsset']['symbol'];
+    final bool withFee = fees.containsKey(sourceAssetSymbol);
+    final amountToSwap = formatValue(
+        BigInt.from(num.parse(widget.exchangeSummry['sourceAmount'])),
+        int.parse(widget.exchangeSummry['sourceAsset']['decimals']),
+        withPrecision: true);
+    if (withFee) {
+      int decimals =
+          int.parse(widget.exchangeSummry['sourceAsset']['decimals']);
+      feeAmount = fees[sourceAssetSymbol];
+      num tokenBalance = num.parse(formatValue(
+          BigInt.from(num.parse(widget.exchangeSummry['sourceAmount'])),
+          decimals));
+      hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
+      print('hasFund hasFund $hasFund');
+    }
     return MainScaffold(
         withPadding: true,
         title: I18n.of(context).review_trade,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xFFDEDEDE),
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(20),
-                        constraints: BoxConstraints(
-                            minHeight: 165,
-                            minWidth: MediaQuery.of(context).size.width,
-                            maxWidth: MediaQuery.of(context).size.width),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Pay with',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
+          Column(
+            children: <Widget>[
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color(0xFFDEDEDE),
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(9.0)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(20),
+                            constraints: BoxConstraints(
+                                minHeight: 165,
+                                minWidth: MediaQuery.of(context).size.width,
+                                maxWidth: MediaQuery.of(context).size.width),
+                            child: Column(
                               mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              verticalDirection: VerticalDirection.down,
-                              textBaseline: TextBaseline.alphabetic,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  formatValue(
-                                      BigInt.from(num.parse(widget
-                                          .exchangeSummry['sourceAmount'])),
-                                      int.parse(
-                                          widget.exchangeSummry['sourceAsset']
-                                              ['decimals']),
-                                      withPrecision: false),
-                                  style: TextStyle(fontSize: 40),
+                                  'Pay with',
+                                  style: TextStyle(fontSize: 16),
                                 ),
                                 SizedBox(
-                                  width: 10,
+                                  height: 20,
                                 ),
-                                Text(
-                                  widget.exchangeSummry['sourceAsset']
-                                      ['symbol'],
-                                  style: TextStyle(fontSize: 20),
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  verticalDirection: VerticalDirection.down,
+                                  textBaseline: TextBaseline.alphabetic,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: AutoSizeText(
+                                        amountToSwap,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 40.0,
+                                        ),
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        widget.exchangeSummry['sourceAsset']
+                                            ['symbol'],
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
                                 ),
                               ],
-                            )
-                          ],
-                        ),
-                      ),
-                      SvgPicture.asset(
-                        'assets/images/stroke.svg',
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(20),
-                        constraints: BoxConstraints(
-                            minHeight: 165,
-                            minWidth: MediaQuery.of(context).size.width,
-                            maxWidth: MediaQuery.of(context).size.width),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Receive',
-                              style: TextStyle(fontSize: 16),
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
+                          ),
+                          SvgPicture.asset(
+                            'assets/images/stroke.svg',
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(20),
+                            constraints: BoxConstraints(
+                                minHeight: 165,
+                                minWidth: MediaQuery.of(context).size.width,
+                                maxWidth: MediaQuery.of(context).size.width),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              verticalDirection: VerticalDirection.down,
-                              textBaseline: TextBaseline.alphabetic,
                               children: <Widget>[
                                 Text(
-                                  formatValue(
-                                      BigInt.from(num.parse(
-                                          widget.exchangeSummry[
-                                              'destinationAmount'])),
-                                      int.parse(widget.exchangeSummry[
-                                          'destinationAsset']['decimals']),
-                                      withPrecision: false),
-                                  style: TextStyle(fontSize: 40),
+                                  'Receive',
+                                  style: TextStyle(fontSize: 16),
                                 ),
                                 SizedBox(
-                                  width: 10,
+                                  height: 20,
                                 ),
-                                Text(
-                                  widget.exchangeSummry['destinationAsset']
-                                      ['symbol'],
-                                  style: TextStyle(fontSize: 20),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  verticalDirection: VerticalDirection.down,
+                                  textBaseline: TextBaseline.alphabetic,
+                                  children: <Widget>[
+                                    Flexible(
+                                      child: AutoSizeText(
+                                        formatValue(
+                                            BigInt.from(num.parse(
+                                                widget.exchangeSummry[
+                                                    'destinationAmount'])),
+                                            int.parse(widget.exchangeSummry[
+                                                    'destinationAsset']
+                                                ['decimals']),
+                                            withPrecision: true),
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          fontSize: 40.0,
+                                        ),
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        widget.exchangeSummry[
+                                            'destinationAsset']['symbol'],
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
                                 ),
                               ],
-                            )
-                          ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              withFee
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 10,
                         ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+                        Text('Fee amount: $feeAmount $sourceAssetSymbol',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 12, color: Color(0xFF777777))),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                            'Total amount: ${(num.parse(amountToSwap) + feeAmount)} $sourceAssetSymbol',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 14)),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        !hasFund
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                    size: 16,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 7),
+                                    child: Text(
+                                        'Not enough balance in your account',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.red)),
+                                  ),
+                                ],
+                              )
+                            : SizedBox.shrink(),
+                      ],
+                    )
+                  : SizedBox.shrink(),
+            ],
           )
         ],
         footer: new StoreConnector<AppState, ReviewTradeScreenViewModel>(
@@ -170,7 +262,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                     labelFontWeight: FontWeight.normal,
                     label: I18n.of(context).trade,
                     fontSize: 15,
-                    disabled: isPreloading,
+                    disabled: isPreloading || !hasFund,
                     preload: isPreloading,
                     onPressed: () {
                       setState(() {

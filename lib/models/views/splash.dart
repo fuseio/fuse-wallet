@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
-import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
@@ -35,7 +34,6 @@ class SplashViewModel extends Equatable {
         },
         loginAgain: () {
           store.dispatch(reLoginCall());
-          store.dispatch(getWalletAddressessCall());
           store.dispatch(identifyCall());
           Router.navigator.pushNamedAndRemoveUntil(
               Router.cashHomeScreen, (Route<dynamic> route) => false);

@@ -1,4 +1,5 @@
 import 'package:contacts_service/contacts_service.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/screens/trade/trade.dart';
 import 'package:flutter/material.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
@@ -22,7 +23,9 @@ import 'package:digitalrand/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;
-  CashModeScaffold({Key key, this.tabIndex = 0}) : super(key: key);
+  final Token primaryToken;
+  CashModeScaffold({Key key, this.tabIndex = 0, this.primaryToken})
+      : super(key: key);
   @override
   _CashModeScaffoldState createState() => _CashModeScaffoldState();
 }
@@ -52,7 +55,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       return [
         CashHomeScreen(),
         !hasContactsInStore ? SendToContactScreen() : ContactsList(),
-        TradeScreen(),
+        TradeScreen(primaryToken: widget.primaryToken),
         ReceiveScreen()
       ];
     }

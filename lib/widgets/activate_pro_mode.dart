@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
-import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
@@ -87,9 +86,7 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
                             label: 'Activate pro mode',
                             labelFontWeight: FontWeight.normal,
                             onPressed: () async {
-                              viewModel.activateProMode();
                               Navigator.of(context).pop();
-                              // viewModel.replaceNavigator(true);
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -108,13 +105,9 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
 }
 
 class ActivateProModeViewModel extends Equatable {
-  final Function activateProMode;
   final String homeBridgeAddress;
   final FeePlugin feePlugin;
-  ActivateProModeViewModel(
-      {this.feePlugin,
-      this.activateProMode,
-      this.homeBridgeAddress});
+  ActivateProModeViewModel({this.feePlugin, this.homeBridgeAddress});
 
   @override
   List<Object> get props => [feePlugin, homeBridgeAddress];
@@ -123,10 +116,8 @@ class ActivateProModeViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return ActivateProModeViewModel(
-        feePlugin: community.plugins.bridgeToForeign,
-        homeBridgeAddress: community.homeBridgeAddress,
-        activateProMode: () async {
-          store.dispatch(activateProModeCall());
-        });
+      feePlugin: community.plugins.bridgeToForeign,
+      homeBridgeAddress: community.homeBridgeAddress,
+    );
   }
 }

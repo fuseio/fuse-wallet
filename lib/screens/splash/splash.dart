@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/views/splash.dart';
-import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
-import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/widgets/on_boarding_pages.dart';
 import 'package:redux/redux.dart';
@@ -24,8 +22,6 @@ class _SplashScreenState extends State<SplashScreen> {
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
     if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-      store.dispatch(getWalletAddressessCall());
-      store.dispatch(identifyCall());
       Router.navigator.pushNamedAndRemoveUntil(
           Router.cashHomeScreen, (Route<dynamic> route) => false);
     }

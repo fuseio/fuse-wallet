@@ -12,17 +12,27 @@ final Map prices = {
   "TUSD": 1.0021,
 };
 
+final Map<String, num> fees = {
+  "DZAR": 17,
+  "DAI": 1,
+  "USDT": 1,
+  "USDC": 1,
+  "IDRT": 14442.61,
+  "EURS": 1,
+  "TUSD": 1,
+};
+
 String formatValue(BigInt value, int decimals,
-    {int fractionDigits = 2, bool withPrecision = true}) {
+    {int fractionDigits = 2, bool withPrecision = false}) {
   if (value == null || decimals == null) return '0';
   double formatedValue = value / BigInt.from(pow(10, decimals));
-  if (!withPrecision) return formatedValue.toString();
+  if (withPrecision) return formatedValue.toString();
   Decimal decimalValue = Decimal.parse(formatedValue.toString());
-  return num.parse(decimalValue.toString()).compareTo(num.parse('0.01')) != 1
+  return num.parse(decimalValue.toString()).compareTo(num.parse('0.001')) != 1
       ? decimalValue.toStringAsFixed(1)
       : decimalValue.isInteger
           ? decimalValue.toString()
-          : decimalValue.toStringAsPrecision(2);
+          : decimalValue.toStringAsPrecision(1);
 }
 
 String getDollarValue(BigInt value, int decimals, double price,
@@ -31,11 +41,11 @@ String getDollarValue(BigInt value, int decimals, double price,
   double formatedValue = (value / BigInt.from(pow(10, decimals)));
   Decimal decimalValue = Decimal.parse((formatedValue * price).toString());
   if (withPrecision) return decimalValue.toString();
-  return num.parse(decimalValue.toString()).compareTo(num.parse('0.01')) != 1
+  return num.parse(decimalValue.toString()).compareTo(num.parse('0.001')) != 1
       ? decimalValue.toStringAsFixed(1)
       : decimalValue.isInteger
           ? decimalValue.toString()
-          : decimalValue.toStringAsPrecision(2);
+          : decimalValue.toStringAsPrecision(1);
 }
 
 String formatAddress(String address) {

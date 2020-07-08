@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'package:digitalrand/models/community/community.dart';
-import 'package:digitalrand/models/plugins/bridge_to_foreign_fee.dart';
 import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:digitalrand/redux/state/store.dart';
@@ -26,7 +25,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 
 class TradeScreen extends StatefulWidget {
-  const TradeScreen({Key key}) : super(key: key);
+  final Token primaryToken;
+  const TradeScreen({Key key, this.primaryToken}) : super(key: key);
 
   @override
   _ExchangeState createState() => _ExchangeState();
@@ -44,8 +44,7 @@ class _ExchangeState extends State<TradeScreen> {
   Map transactionsResponse;
   bool isFetchingReceive = false;
   bool isSwap = false;
-  bool isFetchingPricePay = true;
-  bool isFetchingPriceReceive = true;
+  bool isFetchingPrice = true;
   String fromTokenAmountPay;
   String fromTokenAmountReceive;
   String toTokenAmountPay;
@@ -104,13 +103,13 @@ class _ExchangeState extends State<TradeScreen> {
       String toTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals,
-          withPrecision: false);
+          withPrecision: true);
       if (this.mounted) {
         response['amount'] = num.parse(value);
         response['amountIn'] = num.parse(formatValue(
             BigInt.from(num.parse(response['destinationAmount'])),
             tokenToReceive.decimals,
-            withPrecision: false));
+            withPrecision: true));
         setState(() {
           receiveController.text = toTokenAmount;
           isFetchingPayWith = false;
@@ -154,11 +153,11 @@ class _ExchangeState extends State<TradeScreen> {
       response['amountIn'] = num.parse(formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals,
-          withPrecision: false));
+          withPrecision: true));
       String fromTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToPayWith.decimals,
-          withPrecision: false);
+          withPrecision: true);
       if (this.mounted) {
         setState(() {
           swapResponse = response;
@@ -252,20 +251,33 @@ class _ExchangeState extends State<TradeScreen> {
           receiveController.text = '';
           fromTokenAmountPay = null;
           toTokenAmountPay = null;
-          isFetchingPricePay = true;
+          // isFetchingPricePay = true;
           fromTokenAmountReceive = null;
           toTokenAmountReceive = null;
-          isFetchingPriceReceive = true;
+          // isFetchingPriceReceive = true;
+          isFetchingPrice = true;
         });
       }
-      Map paywithResponse = await fetchSwap(
+      List<Future> futures = <Future>[];
+      futures.add(fetchSwap(
           walletAddress, soureToken.address, destinationToken.address,
           sourceAmount:
-              toBigInt(num.parse('1'), soureToken.decimals).toString());
-      Map receiceResponse = await fetchSwap(
+              toBigInt(num.parse('1'), soureToken.decimals).toString()));
+      futures.add(fetchSwap(
           walletAddress, destinationToken.address, soureToken.address,
           sourceAmount:
-              toBigInt(num.parse('1'), destinationToken.decimals).toString());
+              toBigInt(num.parse('1'), destinationToken.decimals).toString()));
+      List res = await Future.wait(futures);
+      Map paywithResponse = res[0];
+      Map receiceResponse = res[1];
+      // Map paywithResponse = await fetchSwap(
+      //     walletAddress, soureToken.address, destinationToken.address,
+      //     sourceAmount:
+      //         toBigInt(num.parse('1'), soureToken.decimals).toString());
+      // Map receiceResponse = await fetchSwap(
+      //     walletAddress, destinationToken.address, soureToken.address,
+      //     sourceAmount:
+      //         toBigInt(num.parse('1'), destinationToken.decimals).toString());
       String fromTokenPay = formatValue(
           BigInt.from(num.parse(paywithResponse['sourceAmount'])),
           soureToken.decimals);
@@ -282,10 +294,11 @@ class _ExchangeState extends State<TradeScreen> {
         setState(() {
           fromTokenAmountPay = fromTokenPay;
           toTokenAmountPay = toTokenPay;
-          isFetchingPricePay = false;
+          isFetchingPrice = false;
+          // isFetchingPricePay = false;
           fromTokenAmountReceive = fromTokenReceive;
           toTokenAmountReceive = toTokenReceive;
-          isFetchingPriceReceive = false;
+          // isFetchingPriceReceive = false;
         });
       }
     } catch (e) {
@@ -294,10 +307,11 @@ class _ExchangeState extends State<TradeScreen> {
           swapResponse = null;
           fromTokenAmountPay = null;
           toTokenAmountPay = null;
-          isFetchingPricePay = false;
+          isFetchingPrice = false;
+          // isFetchingPricePay = false;
           fromTokenAmountReceive = null;
           toTokenAmountReceive = null;
-          isFetchingPriceReceive = false;
+          // isFetchingPriceReceive = false;
         });
       }
     }
@@ -306,16 +320,13 @@ class _ExchangeState extends State<TradeScreen> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _ExchangeViewModel>(
+        distinct: true,
         converter: _ExchangeViewModel.fromStore,
         onInitialBuild: (viewModel) {
-          final Token ethToken =
-              viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
-          final Token dzarToken = viewModel.tokens
-              .firstWhere((element) => element.symbol == 'DZAR');
-          final Token daiToken =
-              viewModel.tokens.firstWhere((element) => element.symbol == 'DAI');
-          final Token payWithToken =
-              ethToken == viewModel.tokens[0] ? dzarToken : viewModel.tokens[0];
+          final Token payWithToken = widget?.primaryToken ??
+              (etherToken == viewModel.tokens[0]
+                  ? dzarToken
+                  : viewModel.tokens[0]);
           fetchPrices(viewModel.walletAddress, payWithToken, daiToken);
           setState(() {
             tokenToPayWith = payWithToken;
@@ -323,20 +334,14 @@ class _ExchangeState extends State<TradeScreen> {
           });
         },
         builder: (_, viewModel) {
-          final Token ethToken =
-              viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
-          final Token dzarToken = viewModel.tokens
-              .firstWhere((element) => element.symbol == 'DZAR');
-          final Token daiToken =
-              viewModel.tokens.firstWhere((element) => element.symbol == 'DAI');
           final Token payWithToken = tokenToPayWith ??
-              (ethToken == viewModel.tokens[0]
+              (etherToken == viewModel.tokens[0]
                   ? dzarToken
                   : viewModel.tokens[0]);
           final Token receiveToken = tokenToReceive ?? daiToken;
           num value = num.parse(formatValue(
               payWithToken.amount, payWithToken.decimals,
-              withPrecision: false));
+              withPrecision: true));
           bool payWithHasBalance = payWithController.text != null &&
                   payWithController.text.isNotEmpty
               ? value.compareTo(num.parse(payWithController.text ?? 0) ?? 0) !=
@@ -379,7 +384,7 @@ class _ExchangeState extends State<TradeScreen> {
                                     String max = formatValue(
                                         tokenToPayWith.amount,
                                         tokenToPayWith.decimals,
-                                        withPrecision: false);
+                                        withPrecision: true);
                                     setState(() {
                                       payWithController.text = max;
                                     });
@@ -400,7 +405,7 @@ class _ExchangeState extends State<TradeScreen> {
                             toTokenAmount: isSwap
                                 ? toTokenAmountPay
                                 : toTokenAmountReceive,
-                            isFetchingPrice: isFetchingPricePay,
+                            isFetchingPrice: isFetchingPrice,
                             hasBalance: payWithHasBalance,
                             // hasBalance: value == 0
                             //     ? false
@@ -453,7 +458,7 @@ class _ExchangeState extends State<TradeScreen> {
                             toTokenAmount: isSwap
                                 ? toTokenAmountReceive
                                 : toTokenAmountPay,
-                            isFetchingPrice: isFetchingPriceReceive,
+                            isFetchingPrice: isFetchingPrice,
                             // hasBalance: receiveValue == 0
                             //     ? false
                             //     : (isSwap
@@ -525,7 +530,7 @@ class _ExchangeViewModel extends Equatable {
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
             num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: false))
+                    withPrecision: true))
                 .compareTo(0) ==
             1)
         .toList()
@@ -545,13 +550,13 @@ class _ExchangeViewModel extends Equatable {
     Community community = store.state.cashWalletState.communities.values.first;
     return _ExchangeViewModel(
       homeBridgeAddress: community.homeBridgeAddress,
-      feePlugin: community.plugins.bridgeToForeign ??
-          BridgeToForeignFeePlugin(
-              name: 'bridgeToForeign',
-              receiverAddress: '0x77D886e98133D99130179bdb41CE052a43d32c2F',
-              isActive: true,
-              type: 'fixed',
-              amount: '0'),
+      // feePlugin: community.plugins.bridgeToForeign ??
+      //     BridgeToForeignFeePlugin(
+      //         name: 'bridgeToForeign',
+      //         receiverAddress: '0x77D886e98133D99130179bdb41CE052a43d32c2F',
+      //         isActive: true,
+      //         type: 'fixed',
+      //         amount: '0'),
       walletAddress: store.state.userState.walletAddress,
       tokens: [...tokens, ...exchangable].toSet().toList(),
     );

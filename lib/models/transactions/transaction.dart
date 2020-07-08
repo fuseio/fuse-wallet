@@ -35,6 +35,10 @@ class Transaction {
         jobId: this.jobId);
   }
 
+  bool isSendTX() => this.type == 'SEND';
+  bool isReceiveTX() => this.type == 'RECEIVE';
+  bool isSwapTX() => this.isSwap != null && this.isSwap;
+
   bool isPending() => this.status == 'PENDING';
   bool isFailed() => this.status == 'FAILED';
   bool isConfirmed() => this.status == 'CONFIRMED';

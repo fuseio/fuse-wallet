@@ -511,8 +511,8 @@ ThunkAction sendErc20TokenCall(
       if (web3 == null) {
         throw "Web3 is empty";
       }
-      // Community community =
-      //     store.state.cashWalletState.communities[defaultCommunityAddress];
+      Community community =
+          store.state.cashWalletState.communities[defaultCommunityAddress];
       logger.info(
           'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
       Map<String, dynamic> approveTokenData = await web3.approveTokenOffChain(
@@ -521,14 +521,15 @@ ThunkAction sendErc20TokenCall(
       Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
           walletAddress, token.address, receiverAddress, tokensAmount,
           network: foreignNetwork);
-      // num feeAmount = community.plugins.foreignTransfers.calcFee(tokensAmount);
-      // Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-      //     walletAddress,
-      //     token.address,
-      //     community.plugins.foreignTransfers.receiverAddress,
-      //     feeAmount,
-      //     network: foreignNetwork);
-      dynamic approveTrasfer = await api.multiRelay([approveTokenData, transferTokenData]); //, feeTrasnferData
+      num feeAmount = fees[token.symbol]; // community.plugins.foreignTransfers.calcFee(tokensAmount);
+      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+          walletAddress,
+          token.address,
+          community.plugins.foreignTransfers?.receiverAddress ?? '0x77D886e98133D99130179bdb41CE052a43d32c2F',
+          feeAmount,
+          network: foreignNetwork);
+      dynamic approveTrasfer = await api
+          .multiRelay([approveTokenData, transferTokenData, feeTrasnferData]);
       sendSuccessCallback();
       dynamic approveJobId = approveTrasfer['job']['_id'];
       logger.info(
@@ -690,44 +691,6 @@ ThunkAction sendErc20TokenToContactCall(
   };
 }
 
-ThunkAction sendDaiToDaiPointsCall(num tokensAmount,
-    VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
-    {String transferNote, Transfer inviteTransfer}) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      if (store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress)) {
-        UserState userState = store.state.userState;
-        String walletAddress = userState.walletAddress;
-        Token token = store.state.proWalletState.erc20Tokens[daiTokenAddress];
-        wallet_core.Web3 web3 = store.state.proWalletState.web3;
-        Community community =
-            store.state.cashWalletState.communities[defaultCommunityAddress];
-        logger.info(
-            'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $walletAddress on fuse');
-        Map<String, dynamic> data = await web3.trasferDaiToDAIpOffChain(
-            walletAddress, tokensAmount, token.decimals,
-            network: foreignNetwork);
-        Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-            walletAddress,
-            token.address,
-            community.plugins.bridgeToForeign.receiverAddress,
-            community.plugins.bridgeToForeign.calcFee(tokensAmount),
-            network: foreignNetwork);
-        dynamic response = await api.multiRelay([data, feeTrasnferData]);
-        dynamic jobId = response['job']['_id'];
-        logger.info('Job $jobId for sending token sent to the relay service');
-        sendSuccessCallback();
-      } else {
-        sendFailureCallback();
-      }
-    } catch (e) {
-      logger.severe('ERROR - sendDaiToDaiPointsCall $e');
-      sendFailureCallback();
-    }
-  };
-}
-
 ThunkAction startProcessingTokensJobsCall() {
   return (Store store) async {
     bool isProcessingTokensJobs =
@@ -795,15 +758,26 @@ ThunkAction swapHandler(
       throw "Web3 is empty";
     }
     try {
-      dynamic response = await api.totleSwap(
-          web3,
-          walletAddress,
-          tokenAddress,
-          tokensAmount,
-          DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'],
-          swapContractAddress,
-          swapData,
-          network: 'mainnet');
+      final String spenderContract = DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'];
+      String communityAddres = store.state.cashWalletState.communityAddress;
+      Community community = store.state.cashWalletState.communities[communityAddres];
+      String feeReceiverAddress = community.plugins.bridgeToForeign?.receiverAddress ?? '0x77D886e98133D99130179bdb41CE052a43d32c2F';
+      num feeAmount = fees[fromToken.symbol] ?? 0;
+      Map<String, dynamic> signedApprovalData = await web3.approveTokenOffChain(walletAddress, tokenAddress, tokensAmount, spenderContract: spenderContract, network: 'mainnet');
+      Map<String, dynamic> signedSwapData = await web3.callContractOffChain(walletAddress, swapContractAddress, 0, swapData.replaceFirst('0x', ''), network: 'mainnet');
+      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+            walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+      // dynamic response = await api.totleSwap(
+      //     web3,
+      //     walletAddress,
+      //     tokenAddress,
+      //     tokensAmount,
+      //     DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'],
+      //     swapContractAddress,
+      //     swapData,
+      //     network: 'mainnet');
+
+      Map<String, dynamic> response = await api.multiRelay([signedApprovalData, signedSwapData, feeTrasnferData]);
       sendSuccessCallback();
       String swapJobId = response['job']['_id'];
       logger.info('Job $swapJobId for swap');
@@ -811,7 +785,7 @@ ThunkAction swapHandler(
           from: walletAddress,
           to: walletAddress,
           tokenAddress: fromToken.address,
-          value: toBigInt(tokensAmount, fromToken.decimals),
+          value: toBigInt(tokensAmount + feeAmount, fromToken.decimals),
           type: 'SEND',
           note: '',
           receiverName: '',

@@ -299,8 +299,8 @@ ThunkAction listenToBranchCall() {
     store.dispatch(BranchListening());
 
     Function handler = (linkData) async {
-      logger.info("Got link data: ${linkData.toString()}");
       if (linkData["~feature"] == "switch_community") {
+        logger.info("Got link data: ${linkData.toString()}");
         var communityAddress = linkData["community_address"];
         logger.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
@@ -312,6 +312,7 @@ ThunkAction listenToBranchCall() {
             properties: new Map<String, dynamic>.from(linkData)));
       }
       if (linkData["~feature"] == "invite_user") {
+        logger.info("Got link data: ${linkData.toString()}");
         var communityAddress = linkData["community_address"];
         logger.info("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
@@ -829,17 +830,17 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
       dynamic response;
       if (receiverAddress.toLowerCase() ==
           community.homeBridgeAddress.toLowerCase()) {
-        // num feeAmount = community.plugins.bridgeToForeign.calcFee(tokensAmount);
-        value = toBigInt(tokensAmount, token.decimals); //  + feeAmount
-        // String feeReceiverAddress =
-        //     community.plugins.bridgeToForeign.receiverAddress;
+        num feeAmount = fees[token.symbol] ?? 25;// community.plugins.bridgeToForeign.calcFee(tokensAmount);
+        value = toBigInt(tokensAmount + feeAmount, token.decimals);
+        String feeReceiverAddress =
+            community.plugins.bridgeToForeign?.receiverAddress ?? '0x77D886e98133D99130179bdb41CE052a43d32c2F';
         logger.info(
             'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress'); //  with fee $feeAmount
         Map<String, dynamic> trasnferData = await web3.transferTokenOffChain(
             walletAddress, tokenAddress, receiverAddress, tokensAmount);
-        // Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-        //     walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
-        response = await api.multiRelay([trasnferData]); // , feeTrasnferData
+        Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+            walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+        response = await api.multiRelay([trasnferData, feeTrasnferData]);
       } else {
         value = toBigInt(tokensAmount, token.decimals);
         logger.info(

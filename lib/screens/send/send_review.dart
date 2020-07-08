@@ -105,9 +105,11 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         BigInt balance = args.tokenToSend.amount;
         num feeAmount = 0;
         bool hasFund = true;
-        if (args.feePlugin != null) {
+        final bool withFee =
+            fees.containsKey(symbol) && args.tokenToSend.originNetwork == null;
+        if (withFee) {
           int decimals = args.tokenToSend.decimals;
-          feeAmount = args.feePlugin.calcFee(args.amount);
+          feeAmount = fees[symbol];
           num tokenBalance = num.parse(formatValue(balance, decimals));
           hasFund = (args.amount + feeAmount).compareTo(tokenBalance) <= 0;
         }
@@ -251,7 +253,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     ],
                   ),
                 ),
-                args.feePlugin != null
+                withFee
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -322,7 +324,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     label: I18n.of(context).send_button,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
-                      if (args.feePlugin != null && !hasFund) {
+                      if (withFee && !hasFund) {
                         return;
                       }
                       send(viewModel, args, transferNoteController.text, () {
@@ -356,7 +358,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         isPreloading = true;
                       });
                     },
-                    disabled: isPreloading,
+                    disabled: !hasFund || isPreloading,
                     preload: isPreloading,
                     width: 180)));
       },

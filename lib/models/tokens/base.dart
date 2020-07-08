@@ -1,6 +1,4 @@
-import 'dart:math';
-
-import 'package:decimal/decimal.dart';
+import 'package:digitalrand/utils/format.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class ERC20Token extends Equatable {
@@ -11,7 +9,7 @@ abstract class ERC20Token extends Equatable {
   final BigInt amount;
 
   @override
-  List<Object> get props => [amount, name, symbol];
+  List<Object> get props => [amount, name, address, symbol];
 
   ERC20Token({
     this.address,
@@ -21,16 +19,7 @@ abstract class ERC20Token extends Equatable {
     this.amount,
   });
 
-  String getBalance() {
-    if (this.amount == null || decimals == null) return '0';
-    double formatedValue = this.amount / BigInt.from(pow(10, decimals));
-    Decimal decimalValue = Decimal.parse(formatedValue.toString());
-    return num.parse(decimalValue.toString()).compareTo(num.parse('0.01')) != 1
-        ? decimalValue.toStringAsFixed(1)
-        : decimalValue.isInteger
-            ? decimalValue.toString()
-            : decimalValue.toStringAsPrecision(2);
-  }
+  String getBalance() => formatValue(this.amount, this.decimals);
 
   Future<dynamic> fetchTokenBalance(String walletAddress,
       {void Function(BigInt) onDone,

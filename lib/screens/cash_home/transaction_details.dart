@@ -49,9 +49,12 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
   @override
   Widget build(BuildContext context) {
     final TransactionDetailArguments args = this.widget.pageArgs;
+    final String title = args.transfer.isSwapTX()
+        ? 'Trade'
+        : args.transfer.isSendTX() ? 'SEND' : 'RECEIVE';
     return MainScaffold(
       withPadding: true,
-      title: args.transfer.type.toUpperCase(),
+      title: title,
       children: <Widget>[
         Container(
             height: MediaQuery.of(context).size.height * 0.8,

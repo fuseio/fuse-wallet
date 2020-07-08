@@ -95,7 +95,7 @@ class TokenHeader extends StatelessWidget {
                           RichText(
                               text: TextSpan(
                                   text: prices.containsKey(token.symbol)
-                                      ? '\$$price'
+                                      ? 'DZAR $price'
                                       : "${token.getBalance()}",
                                   style: TextStyle(
                                       fontSize: 30,
@@ -121,7 +121,7 @@ class TokenHeader extends StatelessWidget {
                       StoreConnector<AppState, _ProTokenHeaderViewModel>(
                           converter: _ProTokenHeaderViewModel.fromStore,
                           builder: (_, viewModel) {
-                            final bool canMoveToFuse = token.symbol ==
+                            final bool canMoveToOtherChain = token.symbol ==
                                 viewModel.community.token.symbol;
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -144,44 +144,39 @@ class TokenHeader extends StatelessWidget {
                                               Router.navigator
                                                   .pushNamedAndRemoveUntil(
                                                       Router.cashHomeScreen,
-                                                      (Route route) => false);
-                                              // Router.navigator.pushNamed(
-                                              //     Router.cashHomeScreen,
-                                              //     arguments:
-                                              //         CashModeScaffoldArguments(
-                                              //             tabIndex: 2));
+                                                      (Route<dynamic> route) =>
+                                                          false,
+                                                      arguments:
+                                                          CashModeScaffoldArguments(
+                                                              tabIndex: 2));
                                             }),
                                       )
                                     : SizedBox.shrink(),
-                                !isFuseToken
-                                    ? SizedBox(
-                                        width: 10,
-                                      )
-                                    : SizedBox.shrink(),
-                                canMoveToFuse
-                                    ? Container(
-                                        width: 45,
-                                        height: 45,
-                                        child: FloatingActionButton(
-                                            heroTag: 'move_from_scanner',
-                                            elevation: 0,
-                                            backgroundColor:
-                                                const Color(0xFF002669),
-                                            child: SvgPicture.asset(
-                                              'assets/images/move_from_fuse.svg',
-                                              fit: BoxFit.cover,
-                                            ),
-                                            onPressed: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return TokenActionsDialog(
-                                                        token: token);
-                                                  });
-                                            }),
-                                      )
-                                    : SizedBox.shrink()
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  width: 45,
+                                  height: 45,
+                                  child: FloatingActionButton(
+                                      heroTag: 'move_from_scanner',
+                                      elevation: 0,
+                                      backgroundColor: const Color(0xFF002669),
+                                      child: SvgPicture.asset(
+                                        'assets/images/move_from_fuse.svg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return TokenActionsDialog(
+                                                  token: token,
+                                                  canMoveToOtherChain:
+                                                      canMoveToOtherChain);
+                                            });
+                                      }),
+                                )
                               ],
                             );
                           })

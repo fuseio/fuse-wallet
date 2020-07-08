@@ -180,7 +180,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                         String max = formatValue(
                                             selectedToken.amount,
                                             selectedToken.decimals,
-                                            withPrecision: false);
+                                            withPrecision: true);
                                         _onKeyPress(VirtualKeyboardKey(
                                             text: max,
                                             keyType:

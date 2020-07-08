@@ -73,7 +73,7 @@ class SendAmountViewModel extends Equatable {
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
             num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: false))
+                    withPrecision: true))
                 .compareTo(0) ==
             1)
         .toList();
@@ -82,7 +82,7 @@ class SendAmountViewModel extends Equatable {
         .where((Community community) =>
             num.parse(formatValue(
                     community.token.amount, community.token.decimals,
-                    withPrecision: false))
+                    withPrecision: true))
                 .compareTo(0) ==
             1)
         .map((Community community) => community.token

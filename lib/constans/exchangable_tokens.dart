@@ -64,7 +64,7 @@ final _rupiahToken = Token.initial().copyWith(
     imageUrl: getTokenUrl('0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A'),
     address: "0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A");
 
-final _etherToken = Token.initial().copyWith(
+final etherToken = Token.initial().copyWith(
     symbol: "ETH",
     amount: BigInt.zero,
     name: "Ether",
@@ -73,7 +73,7 @@ final _etherToken = Token.initial().copyWith(
     address: zeroAddress);
 
 final Map<String, Token> exchangableTokens = new Map<String, Token>.from({
-  _etherToken.address: _etherToken,
+  etherToken.address: etherToken,
   daiToken.address: daiToken,
   _usdcToken.address: _usdcToken,
   _tetherToken.address: _tetherToken,

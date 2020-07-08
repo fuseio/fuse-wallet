@@ -5,8 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:digitalrand/models/app_state.dart';
-import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
-import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/themes/app_theme.dart';
@@ -83,17 +81,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     I18n.onLocaleChanged = onLocaleChange;
-  }
-
-  onInit(Store<AppState> store) {
-    String privateKey = store.state.userState.privateKey;
-    String jwtToken = store.state.userState.jwtToken;
-    bool isLoggedOut = store.state.userState.isLoggedOut;
-    if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-      store.dispatch(getWalletAddressessCall());
-      store.dispatch(identifyCall());
-      store.dispatch(loadContacts());
-    }
   }
 
   @override

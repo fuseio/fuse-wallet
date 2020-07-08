@@ -1,5 +1,6 @@
 import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/screens/send/send_amount.dart';
 import 'package:digitalrand/screens/send/send_amount_arguments.dart';
 import 'package:equatable/equatable.dart';
@@ -7,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/community/community.dart';
-import 'package:digitalrand/models/plugins/plugins.dart';
-import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/utils/addresses.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:redux/redux.dart';
@@ -16,10 +15,11 @@ import 'package:digitalrand/models/app_state.dart';
 import 'dart:core';
 
 class TokenActionsDialog extends StatefulWidget {
-  TokenActionsDialog({this.token});
+  TokenActionsDialog({this.token, this.canMoveToOtherChain});
+  final bool canMoveToOtherChain;
   final Token token;
   @override
-  createState() => new TokenActionsDialogState();
+  createState() => TokenActionsDialogState();
 }
 
 class TokenActionsDialogState extends State<TokenActionsDialog>
@@ -78,100 +78,104 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                               'assets/images/move_from_fuse.svg',
                             ),
                           ),
-                          const SizedBox(height: 20.0),
+                          SizedBox(height: 20.0),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              InkWell(
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  width:
-                                      MediaQuery.of(context).size.width * .55,
-                                  decoration: BoxDecoration(
-                                    borderRadius: new BorderRadius.all(
-                                        new Radius.circular(5.0)),
-                                    color: Theme.of(context).backgroundColor,
-                                    shape: BoxShape.rectangle,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      isFuseToken
-                                          ? ' Move to Ethereum account'
-                                          : 'Move to Fuse',
-                                      style: TextStyle(fontSize: 14),
+                              !widget.canMoveToOtherChain
+                                  ? SizedBox.shrink()
+                                  : InkWell(
+                                      child: Container(
+                                        padding: EdgeInsets.all(10),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .55,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                          color:
+                                              Theme.of(context).backgroundColor,
+                                          shape: BoxShape.rectangle,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            isFuseToken
+                                                ? ' Move to Ethereum account'
+                                                : 'Move to Fuse',
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        if (isFuseToken) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SendAmountScreen(
+                                                          pageArgs:
+                                                              SendAmountArguments(
+                                                                  avatar:
+                                                                      AssetImage(
+                                                                    'assets/images/ethereume_icon.png',
+                                                                  ),
+                                                                  name:
+                                                                      'ethereum',
+                                                                  accountAddress:
+                                                                      vm.homeBridgeAddress))));
+                                        } else {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SendAmountScreen(
+                                                          pageArgs:
+                                                              SendAmountArguments(
+                                                                  avatar:
+                                                                      AssetImage(
+                                                                    'assets/images/ethereume_icon.png',
+                                                                  ),
+                                                                  name: 'fuse',
+                                                                  accountAddress:
+                                                                      vm.foreignBridgeAddress))));
+                                        }
+                                      },
                                     ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  if (isFuseToken) {
-                                    Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                            builder: (context) =>
-                                                SendAmountScreen(
-                                                    pageArgs:
-                                                        SendAmountArguments(
-                                                            avatar: AssetImage(
-                                                              'assets/images/ethereume_icon.png',
-                                                            ),
-                                                            name: 'ethereum',
-                                                            feePlugin:
-                                                                vm.feePlugin,
-                                                            sendType: SendType
-                                                                .ETHEREUM_ADDRESS,
-                                                            accountAddress: vm
-                                                                .homeBridgeAddress))));
-                                  } else {
-                                    Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                            builder: (context) =>
-                                                SendAmountScreen(
-                                                    pageArgs:
-                                                        SendAmountArguments(
-                                                            avatar: AssetImage(
-                                                              'assets/images/ethereume_icon.png',
-                                                            ),
-                                                            name: 'fuse',
-                                                            feePlugin:
-                                                                vm.feePlugin,
-                                                            sendType: SendType
-                                                                .ETHEREUM_ADDRESS,
-                                                            accountAddress: vm
-                                                                .foreignBridgeAddress))));
-                                  }
-                                },
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  I18n.of(context).or,
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                ),
-                              ),
+                              !widget.canMoveToOtherChain
+                                  ? SizedBox.shrink()
+                                  : Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        I18n.of(context).or,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                        ),
+                                      ),
+                                    ),
                               InkWell(
                                 child: Container(
                                   padding: EdgeInsets.all(10),
                                   width:
                                       MediaQuery.of(context).size.width * .55,
                                   decoration: BoxDecoration(
-                                      borderRadius: new BorderRadius.all(
-                                          new Radius.circular(5.0)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5.0)),
                                       color: Theme.of(context).backgroundColor,
                                       shape: BoxShape.rectangle),
                                   child: Center(
-                                    child: Text('Send to an address',
+                                    child: Text(
+                                        I18n.of(context).send_to_address,
                                         style: TextStyle(fontSize: 14)),
                                   ),
                                 ),
                                 onTap: () {
-                                  Router.navigator.pushNamed(
+                                  Router.navigator.pushNamedAndRemoveUntil(
                                       Router.cashHomeScreen,
+                                      (Route<dynamic> route) => false,
                                       arguments: CashModeScaffoldArguments(
                                           tabIndex: 1));
                                 },
@@ -189,12 +193,10 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
 }
 
 class TokenActionsDialogViewModel extends Equatable {
-  final Plugins plugins;
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
   final FeePlugin feePlugin;
   TokenActionsDialogViewModel({
-    this.plugins,
     this.homeBridgeAddress,
     this.foreignBridgeAddress,
     this.feePlugin,
@@ -204,8 +206,6 @@ class TokenActionsDialogViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return TokenActionsDialogViewModel(
-      plugins: community?.plugins,
-      // feePlugin: community.plugins.bridgeToForeign,
       homeBridgeAddress: community.homeBridgeAddress,
       foreignBridgeAddress: community.foreignBridgeAddress,
     );
@@ -213,5 +213,5 @@ class TokenActionsDialogViewModel extends Equatable {
 
   @override
   List<Object> get props =>
-      [homeBridgeAddress, foreignBridgeAddress, feePlugin, plugins];
+      [homeBridgeAddress, foreignBridgeAddress, feePlugin];
 }

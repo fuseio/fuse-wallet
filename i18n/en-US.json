@@ -96,7 +96,7 @@
     "useful": "Useful",
     "smart": "Smart",
     "settings": "Settings",
-    "deposit": "Deposit",
+    "add_funds": "Add funds",
     "home": "Home",
     "trade": "Trade",
     "assets_and_contracts": "Assets and contracts",
@@ -109,5 +109,6 @@
     "exchnage": "Exchange",
     "no_funds_available": "No funds available",
     "review_trade": "Review trade",
-    "use_max": "Use max"
+    "use_max": "Use max",
+    "send_to_address": "Send to an address"
 }
