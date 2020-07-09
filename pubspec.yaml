@@ -1,5 +1,5 @@
 name: digitalrand
-version: 1.1.32+192
+version: 1.1.32+193
 description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"

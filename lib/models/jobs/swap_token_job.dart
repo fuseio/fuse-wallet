@@ -121,20 +121,18 @@ class SwapTokenJob extends Job {
       if (tokenAddress != zeroAddress.toLowerCase()) {
         Token newToken = proWalletState.erc20Tokens[tokenAddress] ??
             exchangableTokens[checksumEthereumAddress(tokenAddress)];
-        Map<String, Token> erc20Tokens = proWalletState.erc20Tokens
-          ..putIfAbsent(
-              tokenAddress,
-              () => arguments['toToken'].copyWith(
-                    address: newToken?.address?.toLowerCase(),
-                    name: newToken?.name,
-                    decimals: newToken?.decimals,
-                    symbol: newToken?.symbol,
-                    transactions: newToken.transactions.copyWith(
-                        list: newToken.transactions.list
-                          ..add(arguments['transferIn']
-                              .copyWith(status: 'CONFIRMED', txHash: txHash))),
-                  ));
-        store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20Tokens));
+        store.dispatch(AddNewToken(
+            token: arguments['toToken'].copyWith(
+          address: newToken?.address?.toLowerCase(),
+          name: newToken?.name,
+          decimals: newToken?.decimals,
+          symbol: newToken?.symbol,
+          timestamp: 0,
+          transactions: newToken.transactions.copyWith(
+              list: newToken.transactions.list
+                ..add(arguments['transferIn']
+                    .copyWith(status: 'CONFIRMED', txHash: txHash))),
+        )));
       }
       store.dispatch(
           ProJobDone(job: this, tokenAddress: arguments['fromToken'].address));

@@ -21,7 +21,6 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, InitWeb3ProModeSuccess>(_initWeb3ProModeSuccess),
   TypedReducer<ProWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
-  TypedReducer<ProWalletState, GetTokenListSuccess>(_getTokenListSuccess),
   TypedReducer<ProWalletState, AddProJob>(_addProJob),
   TypedReducer<ProWalletState, StartFetchTokensBalances>(
       _startFetchTokensBalances),
@@ -33,6 +32,10 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, AddProTransaction>(_addProTransaction),
   TypedReducer<ProWalletState, ReplaceProTransaction>(_replaceProTransaction),
   TypedReducer<ProWalletState, ProJobDone>(_proJobDone),
+  TypedReducer<ProWalletState, AddNewToken>(_addNewToken),
+  TypedReducer<ProWalletState, StartFetchNewTokens>(_startFetchNewTokens),
+  TypedReducer<ProWalletState, ClearTokenList>(_clearTokenList),
+
   // TypedReducer<ProWalletState, GetTokenTransfersEventsListSuccess>(
   //     _getTokenTransfersEventsListSuccess),
 ]);
@@ -183,6 +186,11 @@ ProWalletState _startFetchTokensLastestPrices(
   return state.copyWith(isFetchTokensLastestPrice: true);
 }
 
+ProWalletState _startFetchNewTokens(
+    ProWalletState state, StartFetchNewTokens action) {
+  return state.copyWith(isFetchNewTokens: true);
+}
+
 ProWalletState _startProcessingSwapActions(
     ProWalletState state, StartProcessingSwapActions action) {
   return state.copyWith(isProcessingSwapActions: true);
@@ -208,10 +216,7 @@ ProWalletState _startListenToTransferEventsSuccess(
   return state.copyWith(isListenToTransferEvents: true);
 }
 
-ProWalletState _getTokenListSuccess(
-    ProWalletState state, GetTokenListSuccess action) {
-  List<Token> currentErc20TokensList =
-      List<Token>.from(action.erc20Tokens.values ?? Iterable<Token>.empty());
+ProWalletState _clearTokenList(ProWalletState state, ClearTokenList action) {
   Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens
     ..removeWhere((key, token) {
       if (token.timestamp == 0) return false;
@@ -219,15 +224,25 @@ ProWalletState _getTokenListSuccess(
           token.amount / BigInt.from(pow(10, token.decimals));
       return num.parse(formatedValue.toString()).compareTo(0) != 1;
     }));
-  for (Token token in currentErc20TokensList) {
-    if (newOne.containsKey(token.address)) {
-      newOne[token.address] = newOne[token.address].copyWith(
-          amount: token.amount,
-          timestamp: token.timestamp,
-          priceInfo: token.priceInfo);
-    } else if (!newOne.containsKey(token.address)) {
-      newOne[token.address] = token;
-    }
+  return state.copyWith(erc20Tokens: newOne);
+}
+
+ProWalletState _addNewToken(ProWalletState state, AddNewToken action) {
+  Token token = action.token;
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens
+    ..removeWhere((key, token) {
+      if (token.timestamp == 0) return false;
+      double formatedValue =
+          token.amount / BigInt.from(pow(10, token.decimals));
+      return num.parse(formatedValue.toString()).compareTo(0) != 1;
+    }));
+  if (newOne.containsKey(token.address)) {
+    newOne[token.address] = newOne[token.address].copyWith(
+        amount: token.amount,
+        timestamp: token.timestamp,
+        priceInfo: token.priceInfo);
+  } else if (!newOne.containsKey(token.address)) {
+    newOne[token.address] = token;
   }
   return state.copyWith(erc20Tokens: newOne);
 }

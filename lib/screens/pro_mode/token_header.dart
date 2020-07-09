@@ -28,8 +28,7 @@ class TokenHeader extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height,
       alignment: Alignment.bottomLeft,
-      padding:
-          EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0, bottom: 20.0),
+      padding: EdgeInsets.all(20.0),
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -63,7 +62,7 @@ class TokenHeader extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   child: Padding(
-                      padding: EdgeInsets.only(top: 20),
+                      padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
                       child: SvgPicture.asset(
                         'assets/images/arrow_white.svg',
                         fit: BoxFit.fill,

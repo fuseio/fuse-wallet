@@ -9,7 +9,6 @@ import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/screens/pro_mode/token_tile.dart';
 import 'package:digitalrand/utils/addresses.dart';
 import 'package:digitalrand/models/community/community.dart';
-import 'package:digitalrand/utils/format.dart';
 
 String getTokenUrl(tokenAddress) {
   return tokenAddress == zeroAddress
@@ -62,11 +61,6 @@ class _AssetsListViewModel extends Equatable {
         store.state.cashWalletState.communities.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
         .toList();
 
     List<Token> homeTokens = communities
@@ -75,12 +69,9 @@ class _AssetsListViewModel extends Equatable {
         .toList();
     return _AssetsListViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) {
-          if (tokenB.amount != null && tokenA?.amount != null) {
-            return tokenB?.amount?.compareTo(tokenA?.amount);
-          }
-          return tokenA.hashCode.compareTo(tokenB.hashCode);
-        }),
+      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
+          (tokenB?.amount ?? BigInt.one)
+              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
     );
   }
 

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:ui';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:ethereum_address/ethereum_address.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:digitalrand/constans/exchangable_tokens.dart';
 import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/jobs/swap_token_job.dart';
-import 'package:digitalrand/models/pro/price.dart';
 import 'package:digitalrand/models/pro/pro_wallet_state.dart';
 import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/models/transactions/transaction.dart';
@@ -77,6 +75,11 @@ class UpdateToken {
   UpdateToken({this.tokenToUpdate});
 }
 
+class AddNewToken {
+  Token token;
+  AddNewToken({this.token});
+}
+
 class StartListenToTransferEventsSuccess {
   StartListenToTransferEventsSuccess();
 }
@@ -93,13 +96,16 @@ class StartFetchTransferEvents {
   StartFetchTransferEvents();
 }
 
-class GetTokenListSuccess {
-  Map<String, Token> erc20Tokens;
-  GetTokenListSuccess({this.erc20Tokens});
+class ClearTokenList {
+  ClearTokenList();
 }
 
 class StartFetchTokensLastestPrices {
   StartFetchTokensLastestPrices();
+}
+
+class StartFetchNewTokens {
+  StartFetchNewTokens();
 }
 
 class InitWeb3ProModeSuccess {
@@ -161,14 +167,13 @@ ThunkAction startListenToTransferEvents() {
         store.state.proWalletState?.isListenToTransferEvents ?? false;
     final logger = await AppFactory().getLogger('action');
     if (!isListenToTransferEvents) {
-      new Timer.periodic(Duration(seconds: 1), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: 2), (Timer timer) async {
         try {
           String walletAddress = store.state.userState.walletAddress;
           List transfersEvents = await graph.getTransferEvents(
               foreignNetwork: foreignNetwork, to: walletAddress);
           ProWalletState proWalletState = store.state.proWalletState;
-          if (transfersEvents.isNotEmpty &&
-              proWalletState.erc20Tokens.isEmpty) {
+          if (transfersEvents.isNotEmpty) {
             List<String> addressesFromTransfersEvents = [
               ...transfersEvents.map((transferEvent) =>
                   transferEvent['tokenAddress'].toLowerCase())
@@ -178,8 +183,10 @@ ThunkAction startListenToTransferEvents() {
             addressesFromTransfersEvents
               ..removeWhere(
                   (address) => proWalletState.erc20Tokens.containsKey(address));
-            store.dispatch(getBalancesOnForeign(
-                addressesFromTransfersEvents: addressesFromTransfersEvents));
+            if (addressesFromTransfersEvents.isNotEmpty) {
+              store.dispatch(getBalancesOnForeign(
+                  addressesFromTransfersEvents: addressesFromTransfersEvents));
+            }
             timer.cancel();
           }
         } catch (error) {
@@ -198,8 +205,7 @@ ThunkAction fetchTokensBalances() {
     bool isFetchTokensBalances =
         store.state.proWalletState?.isFetchTokensBalances ?? false;
     if (!isFetchTokensBalances) {
-      new Timer.periodic(Duration(seconds: intervalSeconds * 2),
-          (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
         ProWalletState proWalletState = store.state.proWalletState;
         String walletAddress = store.state.userState.walletAddress;
         for (Token token in proWalletState.erc20Tokens.values) {
@@ -226,21 +232,6 @@ ThunkAction fetchTokensBalances() {
     }
   };
 }
-
-ThunkAction startFetchTokensLastestPrices() {
-  return (Store store) async {
-    bool isFetchTokensLastestPrice =
-        store.state.proWalletState?.isFetchTokensLastestPrice ?? false;
-    if (!isFetchTokensLastestPrice) {
-      new Timer.periodic(Duration(minutes: 60), (Timer timer) async {
-        // store.dispatch(fetchTokensLatestPrice());
-      });
-      store.dispatch(StartFetchTokensLastestPrices());
-    }
-    // store.dispatch(fetchTokensLatestPrice());
-  };
-}
-
 // ThunkAction fetchTokensLatestPrice() {
 //   return (Store store) async {
 //     final logger = await AppFactory().getLogger('action');
@@ -266,76 +257,29 @@ ThunkAction startFetchTokensLastestPrices() {
 //   };
 // }
 
-ThunkAction getAddressBalances() {
+ThunkAction startFetchBalancesOnForeign() {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      String walletAddress = store.state.userState.walletAddress;
-      BigInt etherBalance =
-          store.state.proWalletState.etherBalance ?? BigInt.zero;
-      dynamic response = await tokenAPI.getAddressBalances(walletAddress);
-      if (response['balance'] != null) {
-        if (etherBalance.compareTo(response['balance']) != 0) {
-          store.dispatch(UpdateEtherBalabnce(balance: response['balance']));
-        }
-      }
-      List tokensList = List.from(response['tokens']);
-      if (tokensList.isNotEmpty) {
-        ProWalletState proWalletState = store.state.proWalletState;
-        List filterNewToken = tokensList.where((token) {
-          String tokenAddress = token['address'].toLowerCase();
-          double formatedValue =
-              (token['amount'] / BigInt.from(pow(10, token['decimals'])));
-          if (proWalletState.erc20Tokens.containsKey(tokenAddress)) {
-            return false;
-          } else if (num.parse(formatedValue.toString()).compareTo(0) == 1) {
-            return true;
-          }
-          return false;
-        }).toList();
-        Iterable<MapEntry<String, Token>> entries = filterNewToken.map((token) {
-          String tokenAddress = token['address'].toLowerCase();
-          Price priceInfo =
-              token['price'] != null ? Price.fromJson(token['price']) : null;
-          Token newToken =
-              proWalletState.erc20Tokens[tokenAddress] ?? new Token.initial();
-          return new MapEntry(
-              tokenAddress,
-              newToken.copyWith(
-                address: tokenAddress,
-                name: token['name'],
-                amount: token['amount'],
-                decimals: token['decimals'],
-                symbol: token['symbol'],
-                timestamp: token['timestamp'],
-                priceInfo: priceInfo,
-              ));
-        });
-        if (entries.isNotEmpty) {
-          Map<String, Token> erc20RTokens = new Map<String, Token>();
-          erc20RTokens.addEntries(entries);
-          store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20RTokens));
-        } else {
-          store.dispatch(
-              new GetTokenListSuccess(erc20Tokens: Map<String, Token>()));
-        }
-        store.dispatch(startFetchTransferEventsCall());
-        store.dispatch(startProcessingTokensJobsCall());
-      }
-    } catch (error) {
-      logger.severe('Error in Get Address Balances ${error.toString()}');
+    bool isFetchNewTokens =
+        store.state.proWalletState?.isFetchNewTokens ?? false;
+    if (!isFetchNewTokens) {
+      new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+        store.dispatch(getBalancesOnForeign());
+        store.dispatch(ClearTokenList());
+      });
+      store.dispatch(StartFetchNewTokens());
     }
   };
 }
 
-ThunkAction getBalancesOnForeign({List<String> addressesFromTransfersEvents}) {
+ThunkAction getBalancesOnForeign(
+    {List<String> addressesFromTransfersEvents = const []}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
       Map walletData = await api.getWallet();
       ProWalletState proWalletState = store.state.proWalletState;
       List<String> tokenAddresses = [];
-      if (addressesFromTransfersEvents != null) {
+      if (addressesFromTransfersEvents.isNotEmpty) {
         tokenAddresses..addAll(addressesFromTransfersEvents);
       }
       if (walletData['balancesOnForeign'] != null) {
@@ -351,42 +295,49 @@ ThunkAction getBalancesOnForeign({List<String> addressesFromTransfersEvents}) {
         if (web3 == null) {
           throw "Web3 is empty";
         }
-        Future<Iterable<MapEntry<String, Token>>> entries =
-            Future.wait(tokenAddresses.map((tokenAddress) async {
-          if (exchangableTokens
-              .containsKey(checksumEthereumAddress(tokenAddress))) {
-            Token newToken =
-                exchangableTokens[checksumEthereumAddress(tokenAddress)];
-            return new MapEntry(tokenAddress.toLowerCase(),
-                newToken.copyWith(address: tokenAddress.toLowerCase()));
-          } else {
-            try {
-              dynamic tokenDetails = await web3.getTokenDetails(tokenAddress);
-              return new MapEntry(
-                  tokenAddress.toLowerCase(),
-                  Token.initial().copyWith(
-                    address: tokenAddress.toLowerCase(),
-                    name: tokenDetails['name'],
-                    decimals: tokenDetails['decimals'],
-                    symbol: tokenDetails['symbol'],
-                    timestamp: 0,
-                  ));
-            } catch (e) {
-              return MapEntry<String, Token>('', Token.initial());
-            }
-          }
-        }));
-        Iterable<MapEntry<String, Token>> result = await entries;
-        if (result.isNotEmpty) {
-          Map<String, Token> erc20RTokens = new Map<String, Token>();
-          erc20RTokens..addEntries(result);
-          erc20RTokens..removeWhere((key, value) => key == '');
-          store.dispatch(new GetTokenListSuccess(erc20Tokens: erc20RTokens));
-          store.dispatch(fetchTokensBalances());
+        for (String address in tokenAddresses) {
+          store.dispatch(fetchTokenByAddress(address));
         }
       }
     } catch (error) {
       logger.severe('Error in getBalancesOnForeign ${error.toString()}');
+    }
+  };
+}
+
+ThunkAction fetchTokenByAddress(String tokenAddress) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    logger.info('new token to add $tokenAddress');
+    ProWalletState proWalletState = store.state.proWalletState;
+    wallet_core.Web3 web3 = proWalletState.web3;
+    if (web3 == null) {
+      throw "Web3 is empty";
+    }
+    if (exchangableTokens.containsKey(checksumEthereumAddress(tokenAddress))) {
+      Token newToken = exchangableTokens[checksumEthereumAddress(tokenAddress)];
+      logger.info('ADDED - new token $tokenAddress');
+      store.dispatch(AddNewToken(
+          token: newToken.copyWith(
+        address: tokenAddress.toLowerCase(),
+        timestamp: 0,
+      )));
+    } else {
+      try {
+        dynamic tokenDetails = await web3.getTokenDetails(tokenAddress);
+        Token newToken = Token.initial().copyWith(
+          address: tokenAddress.toLowerCase(),
+          name: tokenDetails['name'],
+          decimals: tokenDetails['decimals'],
+          symbol: tokenDetails['symbol'],
+          timestamp: 0,
+        );
+        logger.info('ADDED - new token $tokenAddress');
+        store.dispatch(AddNewToken(
+            token: newToken.copyWith(address: tokenAddress.toLowerCase())));
+      } catch (e) {
+        logger.severe('Error while get Token Details for $tokenAddress');
+      }
     }
   };
 }
@@ -521,11 +472,13 @@ ThunkAction sendErc20TokenCall(
       Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
           walletAddress, token.address, receiverAddress, tokensAmount,
           network: foreignNetwork);
-      num feeAmount = fees[token.symbol]; // community.plugins.foreignTransfers.calcFee(tokensAmount);
+      num feeAmount = fees[token
+          .symbol]; // community.plugins.foreignTransfers.calcFee(tokensAmount);
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
           walletAddress,
           token.address,
-          community.plugins.foreignTransfers?.receiverAddress ?? '0x77D886e98133D99130179bdb41CE052a43d32c2F',
+          community.plugins.foreignTransfers?.receiverAddress ??
+              '0x77D886e98133D99130179bdb41CE052a43d32c2F',
           feeAmount,
           network: foreignNetwork);
       dynamic approveTrasfer = await api
@@ -758,15 +711,26 @@ ThunkAction swapHandler(
       throw "Web3 is empty";
     }
     try {
-      final String spenderContract = DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'];
+      final String spenderContract =
+          DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'];
       String communityAddres = store.state.cashWalletState.communityAddress;
-      Community community = store.state.cashWalletState.communities[communityAddres];
-      String feeReceiverAddress = community.plugins.bridgeToForeign?.receiverAddress ?? '0x77D886e98133D99130179bdb41CE052a43d32c2F';
+      Community community =
+          store.state.cashWalletState.communities[communityAddres];
+      String feeReceiverAddress =
+          community.plugins.bridgeToForeign?.receiverAddress ??
+              '0x77D886e98133D99130179bdb41CE052a43d32c2F';
       num feeAmount = fees[fromToken.symbol] ?? 0;
-      Map<String, dynamic> signedApprovalData = await web3.approveTokenOffChain(walletAddress, tokenAddress, tokensAmount, spenderContract: spenderContract, network: 'mainnet');
-      Map<String, dynamic> signedSwapData = await web3.callContractOffChain(walletAddress, swapContractAddress, 0, swapData.replaceFirst('0x', ''), network: 'mainnet');
+      Map<String, dynamic> signedApprovalData = await web3.approveTokenOffChain(
+          walletAddress, tokenAddress, tokensAmount,
+          spenderContract: spenderContract, network: 'mainnet');
+      Map<String, dynamic> signedSwapData = await web3.callContractOffChain(
+          walletAddress,
+          swapContractAddress,
+          0,
+          swapData.replaceFirst('0x', ''),
+          network: 'mainnet');
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-            walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
       // dynamic response = await api.totleSwap(
       //     web3,
       //     walletAddress,
@@ -777,7 +741,8 @@ ThunkAction swapHandler(
       //     swapData,
       //     network: 'mainnet');
 
-      Map<String, dynamic> response = await api.multiRelay([signedApprovalData, signedSwapData, feeTrasnferData]);
+      Map<String, dynamic> response = await api
+          .multiRelay([signedApprovalData, signedSwapData, feeTrasnferData]);
       sendSuccessCallback();
       String swapJobId = response['job']['_id'];
       logger.info('Job $swapJobId for swap');
