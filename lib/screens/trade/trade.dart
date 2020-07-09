@@ -323,22 +323,36 @@ class _ExchangeState extends State<TradeScreen> {
         distinct: true,
         converter: _ExchangeViewModel.fromStore,
         onInitialBuild: (viewModel) {
+          final Token ethToken = viewModel.tokens
+              ?.firstWhere((element) => element.symbol == 'ETH');
+          final Token dzarToken = viewModel.tokens
+              ?.firstWhere((element) => element.symbol == 'DZAR');
+          final Token dai = viewModel.tokens
+              ?.firstWhere((element) => element.symbol == 'DAI');
           final Token payWithToken = widget?.primaryToken ??
-              (etherToken == viewModel.tokens[0]
+              (ethToken == viewModel.tokens[0]
                   ? dzarToken
                   : viewModel.tokens[0]);
-          fetchPrices(viewModel.walletAddress, payWithToken, daiToken);
+          fetchPrices(viewModel.walletAddress, payWithToken, dai);
           setState(() {
             tokenToPayWith = payWithToken;
-            tokenToReceive = daiToken;
+            tokenToReceive = dai;
           });
         },
         builder: (_, viewModel) {
+          final List<DropdownMenuItem<Token>> options =
+              _buildItems(viewModel.tokens);
+          final Token ethToken =
+              viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
+          final Token dzarToken = viewModel.tokens
+              .firstWhere((element) => element.symbol == 'DZAR');
+          final Token dai =
+              viewModel.tokens.firstWhere((element) => element.symbol == 'DAI');
           final Token payWithToken = tokenToPayWith ??
-              (etherToken == viewModel.tokens[0]
+              (ethToken == viewModel.tokens[0]
                   ? dzarToken
                   : viewModel.tokens[0]);
-          final Token receiveToken = tokenToReceive ?? daiToken;
+          final Token receiveToken = tokenToReceive ?? dai;
           num value = num.parse(formatValue(
               payWithToken.amount, payWithToken.decimals,
               withPrecision: true));
@@ -416,7 +430,7 @@ class _ExchangeState extends State<TradeScreen> {
                               onPayWithDropDownChanged(
                                   token, viewModel.walletAddress);
                             },
-                            items: _buildItems(viewModel.tokens),
+                            items: options,
                             onChanged: (value) {
                               _payWithDebouncer.run(() => getQuateForPayWith(
                                   value, viewModel.walletAddress));
@@ -468,7 +482,7 @@ class _ExchangeState extends State<TradeScreen> {
                               onReceiveDropDownChanged(
                                   token, viewModel.walletAddress);
                             },
-                            items: _buildItems(viewModel.tokens),
+                            items: options,
                             onChanged: (value) {
                               _receiveDebouncer.run(() => getQuateForReceive(
                                   value, viewModel.walletAddress));
@@ -492,7 +506,8 @@ class _ExchangeState extends State<TradeScreen> {
                 labelFontWeight: FontWeight.normal,
                 label: I18n.of(context).trade,
                 fontSize: 15,
-                disabled: swapResponse == null,
+                disabled: swapResponse == null ||
+                    (swapResponse != null && swapResponse['tx'] == null),
                 onPressed: () async {
                   if (swapResponse != null && swapResponse['tx'] != null) {
                     Navigator.push(

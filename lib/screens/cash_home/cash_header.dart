@@ -90,7 +90,7 @@ class CashHeader extends StatelessWidget {
                                       children: <TextSpan>[
                                         TextSpan(
                                             text:
-                                                'DZAR ${viewModel?.dzarValue ?? '0'}',
+                                                '${viewModel?.dzarValue ?? '0'} DZAR',
                                             style: TextStyle(
                                                 fontSize: 30,
                                                 color: Theme.of(context)

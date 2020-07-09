@@ -95,10 +95,10 @@ class TokenHeader extends StatelessWidget {
                           RichText(
                               text: TextSpan(
                                   text: prices.containsKey(token.symbol)
-                                      ? 'DZAR $price'
+                                      ? '$price DZAR'
                                       : "${token.getBalance()}",
                                   style: TextStyle(
-                                      fontSize: 30,
+                                      fontSize: 27,
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context).splashColor))),
                           SizedBox(

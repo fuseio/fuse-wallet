@@ -302,11 +302,9 @@ class OptionTile extends StatelessWidget {
   final Function() onTap;
   @override
   Widget build(BuildContext context) {
-    String price;
-    if (prices.containsKey(token.symbol)) {
-      price =
-          getDollarValue(token.amount, token.decimals, prices[token.symbol]);
-    }
+    String price = prices.containsKey(token.symbol)
+        ? getDollarValue(token.amount, token.decimals, prices[token.symbol])
+        : '0';
     bool isFuseTxs = token.originNetwork != null;
     return Container(
       child: ListTile(
@@ -400,7 +398,9 @@ class OptionTile extends StatelessWidget {
                                     text: TextSpan(children: <TextSpan>[
                                   prices.containsKey(token.symbol)
                                       ? TextSpan(
-                                          text: '\$' + price,
+                                          text: token.getBalance() +
+                                              ' ' +
+                                              token.symbol,
                                           style: TextStyle(
                                               fontSize: 15.0,
                                               color: Theme.of(context)
@@ -418,10 +418,7 @@ class OptionTile extends StatelessWidget {
                                     ? Positioned(
                                         bottom: -20,
                                         child: Padding(
-                                            child: Text(
-                                                token.getBalance() +
-                                                    ' ' +
-                                                    token.symbol,
+                                            child: Text('\$' + price,
                                                 style: TextStyle(
                                                     color: Color(0xFF8D8D8D),
                                                     fontSize: 10)),
