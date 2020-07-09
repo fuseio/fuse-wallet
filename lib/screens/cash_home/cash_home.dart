@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/screens/cash_home/cash_header.dart';
 import 'package:fusecash/screens/cash_home/feed.dart';
 import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';

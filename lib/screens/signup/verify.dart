@@ -7,15 +7,15 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
-class VerifyScreenArguments {
-  final String verificationId;
+// class VerifyScreenArguments {
+//   final String verificationId;
 
-  VerifyScreenArguments({this.verificationId});
-}
+//   VerifyScreenArguments({this.verificationId});
+// }
 
 class VerifyScreen extends StatefulWidget {
-  final VerifyScreenArguments pageArgs;
-  VerifyScreen({this.pageArgs});
+  final String verificationId;
+  VerifyScreen({this.verificationId});
   @override
   _VerifyScreenState createState() => _VerifyScreenState();
 }
@@ -30,7 +30,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final VerifyScreenArguments args = this.widget.pageArgs;
+    // final VerifyScreenArguments widget = this.widget.pagewidget;
     final _scaffoldKey = GlobalKey<ScaffoldState>();
     return new StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
@@ -38,7 +38,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
         onInitialBuild: (viewModel) {
           if (viewModel.credentials != null) {
             autoCode = viewModel.credentials.smsCode ?? "";
-            viewModel.verify(autoCode, args.verificationId, _scaffoldKey);
+            viewModel.verify(autoCode, widget.verificationId, _scaffoldKey);
           }
         },
         builder: (_, viewModel) {
@@ -101,7 +101,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     fontSize: 16,
                     preload: viewModel.isVerifyRequest,
                     onPressed: () {
-                      viewModel.verify(verificationCodeController.text, args.verificationId, _scaffoldKey);
+                      viewModel.verify(verificationCodeController.text, widget.verificationId, _scaffoldKey);
                     },
                   ),
                 ),

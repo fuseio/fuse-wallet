@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -31,8 +32,11 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
     return InkWell(
         onTap: () {
           widget.switchCommunity(widget.community.address);
-          Router.navigator.pushNamedAndRemoveUntil(
-              Router.cashHomeScreen, (Route<dynamic> route) => false);
+          ExtendedNavigator.byName("main").pushNamedAndRemoveUntil(
+              MainNavigatorRoutes.cashModeScaffold,
+              (Route<dynamic> route) => false);
+          // Router.navigator.pushNamedAndRemoveUntil(
+          //     Router.cashHomeScreen, (Route<dynamic> route) => false);
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),

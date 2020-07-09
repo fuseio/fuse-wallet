@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
@@ -102,7 +103,9 @@ class _RecoveryPageState extends State<RecoveryPage> {
                   });
                   viewModel.generateWalletFromBackup(
                       wordsController.text.toLowerCase(), () {
-                    Router.navigator.pushNamed(Router.signupScreen);
+                    ExtendedNavigator.root.pushNamed(Routes.signupScreen);
+
+                    // Router.navigator.pushNamed(Router.signupScreen);
                     setState(() {
                       isPreloading = false;
                     });

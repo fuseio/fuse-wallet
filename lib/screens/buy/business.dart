@@ -21,17 +21,20 @@ _launchUrl(String urlToLaunch) async {
   }
 }
 
-class BusinessPageArguments {
+// class BusinessPageArguments {
+//   final Business business;
+//   final Token token;
+//   final String communityAddress;
+
+//   BusinessPageArguments({this.token, this.business, this.communityAddress});
+// }
+
+class BusinessPage extends StatefulWidget {
+  // final BusinessPageArguments pageArgs;
   final Business business;
   final Token token;
   final String communityAddress;
-
-  BusinessPageArguments({this.token, this.business, this.communityAddress});
-}
-
-class BusinessPage extends StatefulWidget {
-  final BusinessPageArguments pageArgs;
-  BusinessPage({this.pageArgs});
+  BusinessPage({this.business, this.token, this.communityAddress});
 
   @override
   _BusinessPageState createState() => _BusinessPageState();
@@ -52,11 +55,10 @@ class _BusinessPageState extends State<BusinessPage> {
 
   @override
   Widget build(BuildContext context) {
-    final BusinessPageArguments businessArgs = this.widget.pageArgs;
+    // final BusinessPageArguments widget = this.widget.pageArgs;
     String coverPhotoUrl =
-        getCoverPhotoUrl(businessArgs.business, businessArgs.communityAddress);
-    String imageUrl =
-        getImageUrl(businessArgs.business, businessArgs.communityAddress);
+        getCoverPhotoUrl(widget.business, widget.communityAddress);
+    String imageUrl = getImageUrl(widget.business, widget.communityAddress);
 
     return new Scaffold(
       key: scaffoldState,
@@ -75,12 +77,9 @@ class _BusinessPageState extends State<BusinessPage> {
                         children: <Widget>[
                           Padding(
                               padding: const EdgeInsets.only(bottom: 20),
-                              child: businessArgs
-                                              .business.metadata.coverPhoto ==
+                              child: widget.business.metadata.coverPhoto ==
                                           null ||
-                                      businessArgs
-                                              .business.metadata.coverPhoto ==
-                                          ''
+                                      widget.business.metadata.coverPhoto == ''
                                   ? SizedBox.expand(
                                       child: CachedNetworkImage(
                                       imageUrl: coverPhotoUrl,
@@ -152,7 +151,7 @@ class _BusinessPageState extends State<BusinessPage> {
                             direction: Axis.vertical,
                             children: <Widget>[
                               Text(
-                                businessArgs.business.name,
+                                widget.business.name,
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -162,7 +161,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         MediaQuery.of(context).size.width -
                                             120),
                                 child: Text(
-                                  businessArgs.business.metadata.address,
+                                  widget.business.metadata.address,
                                   softWrap: true,
                                   style: TextStyle(
                                     fontSize: 13,
@@ -171,9 +170,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                 ),
                               ),
                               Text(
-                                '#' +
-                                    capitalize(
-                                        businessArgs.business.metadata.type),
+                                '#' + capitalize(widget.business.metadata.type),
                                 overflow: TextOverflow.fade,
                                 style: TextStyle(
                                   fontSize: 12,
@@ -198,7 +195,7 @@ class _BusinessPageState extends State<BusinessPage> {
                             ),
                             Column(
                               children: <Widget>[
-                                businessArgs.business.metadata.website != ''
+                                widget.business.metadata.website != ''
                                     ? Container(
                                         child: Row(
                                           children: <Widget>[
@@ -213,17 +210,17 @@ class _BusinessPageState extends State<BusinessPage> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                _launchUrl(businessArgs
+                                                _launchUrl(widget
                                                     .business.metadata.website);
                                               },
-                                              child: Text(businessArgs
+                                              child: Text(widget
                                                   .business.metadata.website),
                                             ),
                                           ],
                                         ),
                                       )
                                     : SizedBox.shrink(),
-                                businessArgs.business.metadata.phoneNumber != ''
+                                widget.business.metadata.phoneNumber != ''
                                     ? Container(
                                         padding: EdgeInsets.only(
                                             top: 10, bottom: 10),
@@ -239,18 +236,18 @@ class _BusinessPageState extends State<BusinessPage> {
                                               ),
                                             ),
                                             InkWell(
-                                              child: Text(businessArgs.business
+                                              child: Text(widget.business
                                                   .metadata.phoneNumber),
                                               onTap: () {
                                                 _launchUrl(
-                                                    'tel:${businessArgs.business.metadata.phoneNumber}');
+                                                    'tel:${widget.business.metadata.phoneNumber}');
                                               },
                                             )
                                           ],
                                         ),
                                       )
                                     : SizedBox.shrink(),
-                                businessArgs.business.metadata.description != ''
+                                widget.business.metadata.description != ''
                                     ? Container(
                                         padding: EdgeInsets.only(
                                             top: 10, bottom: 10),
@@ -278,7 +275,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                                   padding:
                                                       const EdgeInsets.only(
                                                           bottom: 5),
-                                                  child: Text(businessArgs
+                                                  child: Text(widget
                                                               .business
                                                               .metadata
                                                               .description !=
@@ -291,8 +288,8 @@ class _BusinessPageState extends State<BusinessPage> {
                                                       const EdgeInsets.only(
                                                           bottom: 5),
                                                   child: Text(
-                                                    businessArgs.business
-                                                        .metadata.description,
+                                                    widget.business.metadata
+                                                        .description,
                                                     style: TextStyle(
                                                         color: Theme.of(context)
                                                             .colorScheme
@@ -317,17 +314,14 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Stack(
                         alignment: AlignmentDirectional.bottomCenter,
                         children: <Widget>[
-                          businessArgs.business.metadata.latLng != null &&
-                                  businessArgs
-                                      .business.metadata.latLng.isNotEmpty
+                          widget.business.metadata.latLng != null &&
+                                  widget.business.metadata.latLng.isNotEmpty
                               ? GoogleMap(
                                   onMapCreated: _onMapCreated,
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(
-                                        businessArgs
-                                            .business.metadata.latLng[0],
-                                        businessArgs
-                                            .business.metadata.latLng[1]),
+                                        widget.business.metadata.latLng[0],
+                                        widget.business.metadata.latLng[1]),
                                     zoom: 13.0,
                                   ),
                                 )
@@ -359,11 +353,9 @@ class _BusinessPageState extends State<BusinessPage> {
                                                 pageArgs: SendAmountArguments(
                                               sendType: SendType.BUSINESS,
                                               accountAddress:
-                                                  businessArgs.business.account,
+                                                  widget.business.account,
                                               avatar: NetworkImage(imageUrl),
-                                              name:
-                                                  businessArgs.business.name ??
-                                                      '',
+                                              name: widget.business.name ?? '',
                                             ))));
                               },
                             ),

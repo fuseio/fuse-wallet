@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -66,8 +67,9 @@ class _SplashScreenState extends State<SplashScreen> {
     if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
       store.dispatch(getWalletAddressessCall());
       store.dispatch(identifyCall());
-      Router.navigator.pushNamedAndRemoveUntil(
-          Router.cashHomeScreen, (Route<dynamic> route) => false);
+      ExtendedNavigator.byName("main").pushNamedAndRemoveUntil(
+          MainNavigatorRoutes.cashModeScaffold,
+          (Route<dynamic> route) => false);
     }
   }
 
@@ -81,59 +83,58 @@ class _SplashScreenState extends State<SplashScreen> {
         builder: (_, viewModel) {
           List pages = getPages(context);
           return new WillPopScope(
-              onWillPop: () {
-                return new Future(() => false);
+              onWillPop: () async {
+                ExtendedNavigator.root.pop<bool>(false);
+                return false;
               },
               child: Scaffold(
-                  drawer: drawer,
                   body: Container(
                       child: Column(
-                    children: <Widget>[
-                      Expanded(
-                          flex: 20,
-                          child: Container(
-                            child: new Stack(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 100, left: 20, right: 20),
-                                  child: FlareActor(
-                                    "assets/images/animation.flr",
-                                    alignment: Alignment.center,
-                                    fit: BoxFit.contain,
-                                    controller: _slideController,
-                                  ),
-                                ),
-                                new PageView.builder(
-                                  physics: new AlwaysScrollableScrollPhysics(),
-                                  controller: _pageController,
-                                  itemCount: pages.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) =>
-                                          pages[index % 4],
-                                ),
-                                new Positioned(
-                                  bottom: 15.0,
-                                  left: 0.0,
-                                  right: 0.0,
-                                  child: new Container(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: new Center(
-                                      child: new DotsIndicator(
-                                        controller: _pageController,
-                                        itemCount: 4,
-                                        onPageSelected: (int page) {
-                                          gotoPage(page);
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                children: <Widget>[
+                  Expanded(
+                      flex: 20,
+                      child: Container(
+                        child: new Stack(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 100, left: 20, right: 20),
+                              child: FlareActor(
+                                "assets/images/animation.flr",
+                                alignment: Alignment.center,
+                                fit: BoxFit.contain,
+                                controller: _slideController,
+                              ),
                             ),
-                          )),
-                    ],
-                  ))));
+                            new PageView.builder(
+                              physics: new AlwaysScrollableScrollPhysics(),
+                              controller: _pageController,
+                              itemCount: pages.length,
+                              itemBuilder: (BuildContext context, int index) =>
+                                  pages[index % 4],
+                            ),
+                            new Positioned(
+                              bottom: 15.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: new Container(
+                                padding: const EdgeInsets.all(20.0),
+                                child: new Center(
+                                  child: new DotsIndicator(
+                                    controller: _pageController,
+                                    itemCount: 4,
+                                    onPageSelected: (int page) {
+                                      gotoPage(page);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                ],
+              ))));
         });
   }
 }

@@ -75,8 +75,8 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                 });
                             } else if (pin.length == 6 && this.isRetype) {
                                 if (pin == this.lastPincode) {
-                                  Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
-                                  Router.navigator.popAndPushNamed(Router.cashHomeScreen);
+                                  // Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
+                                  // Router.navigator.popAndPushNamed(Router.cashHomeScreen);
                                 }
                             }
                           }
@@ -88,8 +88,8 @@ class _PincodeScreenState extends State<PincodeScreen> {
                   child: PrimaryButton(
                     label: I18n.of(context).skip_button,
                     onPressed: () async {
-                      Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
-                      Router.navigator.popAndPushNamed(Router.cashHomeScreen);
+                      // Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
+                      // Router.navigator.popAndPushNamed(Router.cashHomeScreen);
                     },
                   ),
                 ),

@@ -51,8 +51,8 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
               var json = await BarcodeScanner.scan();
               Map jsonMap = jsonDecode(json);
               switchCommunity(jsonMap['communityAddress']);
-              Router.navigator
-                  .popUntil(ModalRoute.withName(Router.cashHomeScreen));
+              // Router.navigator
+              //     .popUntil(ModalRoute.withName(Router.cashHomeScreen));
             } catch (e) {
               print('BarcodeScanner scan error');
             }

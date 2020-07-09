@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/screens/pro_mode/token_transfers.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/format.dart';
 
 class TokenTile extends StatelessWidget {
@@ -23,10 +25,13 @@ class TokenTile extends StatelessWidget {
           border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
       child: ListTile(
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => TokenTransfersScreen(token: token)));
+            ExtendedNavigator.byName('main').pushNamed(
+                MainNavigatorRoutes.tokenTransfersScreen,
+                arguments: TokenTransfersScreenArguments(token: token));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => TokenTransfersScreen(token: token)));
           },
           contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
           title: Row(

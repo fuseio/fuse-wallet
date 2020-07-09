@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -37,8 +38,11 @@ class SplashViewModel extends Equatable {
           store.dispatch(reLoginCall());
           store.dispatch(getWalletAddressessCall());
           store.dispatch(identifyCall());
-          Router.navigator.pushNamedAndRemoveUntil(
-              Router.cashHomeScreen, (Route<dynamic> route) => false);
+          ExtendedNavigator.root.popUntilRoot();
+          ExtendedNavigator.root.pushNamed(Routes.splashScreen);
+
+          // Router.navigator.pushNamedAndRemoveUntil(
+          //     Router.cashHomeScreen, (Route<dynamic> route) => false);
         });
   }
 

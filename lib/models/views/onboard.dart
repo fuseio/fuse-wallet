@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,6 +47,7 @@ class OnboardViewModel extends Equatable {
   static OnboardViewModel fromStore(Store<AppState> store) {
     final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
       print('Got credentials: $credentials');
+      store.dispatch(new SetCredentials(credentials));
       final FirebaseUser user = (await firebaseAuth.signInWithCredential(credentials)).user;
       final FirebaseUser currentUser = await firebaseAuth.currentUser();
       assert(user.uid == currentUser.uid);
@@ -56,7 +58,8 @@ class OnboardViewModel extends Equatable {
       store.dispatch(new LoginVerifySuccess(jwtToken));
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-      Router.navigator.pushReplacementNamed(Router.userNameScreen);
+      // Router.navigator.pushReplacementNamed(Router.userNameScreen);
+      ExtendedNavigator.root.pushReplacementNamed(Routes.userNameScreen);
     };
 
     final PhoneVerificationFailed verificationFailed = (AuthException authException) {
@@ -68,7 +71,8 @@ class OnboardViewModel extends Equatable {
       print("PhoneCodeSent " + verificationId);
       store.dispatch(new SetCredentials(null));
       store.dispatch(SetIsLoginRequest(isLoading: false));
-      Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
+      ExtendedNavigator.root.pushNamed(Routes.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
+      // Router.navigator.pushNamed(Router.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
     };
 
     final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {

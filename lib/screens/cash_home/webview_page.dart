@@ -3,18 +3,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 
-class WebViewPageArguments {
+// class WebViewPageArguments {
+//   final String url;
+//   final String title;
+//   final bool withBack;
+
+//   WebViewPageArguments({this.title, this.url, this.withBack = true});
+// }
+
+class WebViewPage extends StatefulWidget {
+  // final WebViewPageArguments pageArgs;
   final String url;
   final String title;
   final bool withBack;
 
-  WebViewPageArguments({this.title, this.url, this.withBack = true});
-}
-
-class WebViewPage extends StatefulWidget {
-  final WebViewPageArguments pageArgs;
-
-  WebViewPage({this.pageArgs});
+  WebViewPage({this.url, this.title, this.withBack});
 
   @override
   _WebViewPageState createState() => _WebViewPageState();
@@ -23,11 +26,11 @@ class WebViewPage extends StatefulWidget {
 class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
-    final WebViewPageArguments webPageArgs = this.widget.pageArgs;
+    // final WebViewPageArguments widget = this.widget.pageArgs;
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         return WebviewScaffold(
-            url: webPageArgs.url,
+            url: widget.url,
             appBar: MyAppBar(
               child: Container(
                 height: 120,
@@ -55,13 +58,13 @@ class _WebViewPageState extends State<WebViewPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(webPageArgs.title,
+                            Text(widget.title,
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800))
                           ]),
-                      webPageArgs.withBack
+                      widget.withBack
                           ? Positioned(
                               top: 60,
                               left: 20,

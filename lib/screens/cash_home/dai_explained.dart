@@ -307,10 +307,9 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                       context,
                       new MaterialPageRoute(
                           builder: (context) => WebViewPage(
-                                pageArgs: WebViewPageArguments(
-                                    url:
-                                        'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
-                                    title: 'What is dai points?'),
+                                url:
+                                    'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
+                                title: 'What is dai points?',
                               )));
                 },
                 child: Row(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,6 +9,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
+import 'package:fusecash/screens/route_guards.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/themes/custom_theme.dart';
@@ -51,20 +53,16 @@ bool checkIsLoggedIn(Store<AppState> store) {
 
 Future<CustomTheme> customThemeApp() async {
   Store<AppState> store = await AppFactory().getStore();
-
-  String initialRoute =
-      checkIsLoggedIn(store) ? Router.cashHomeScreen : Router.splashScreen;
-
   return CustomTheme(
     initialThemeKey: MyThemeKeys.DEFAULT,
-    child: new MyApp(store: store, initialRoute: initialRoute),
+    child: new MyApp(store: store, isLoggedIn: checkIsLoggedIn(store)),
   );
 }
 
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
-  final String initialRoute;
-  MyApp({Key key, this.store, this.initialRoute}) : super(key: key);
+  final bool isLoggedIn;
+  MyApp({Key key, this.store, this.isLoggedIn}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -102,9 +100,12 @@ class _MyAppState extends State<MyApp> {
         store: widget.store,
         child: MaterialApp(
           title: 'Fuse Cash',
-          initialRoute: widget.initialRoute,
-          navigatorKey: Router.navigator.key,
-          onGenerateRoute: Router.onGenerateRoute,
+          onGenerateRoute: Router(),
+          builder: (ctx, nav) => ExtendedNavigator(
+            name: 'root',
+            router: Router(),
+            guards: [AuthGuard(isLoggedIn: widget.isLoggedIn)],
+          ),
           theme: CustomTheme.of(context),
           localizationsDelegates: [
             i18n,
@@ -117,5 +118,24 @@ class _MyAppState extends State<MyApp> {
               i18n.resolution(fallback: new Locale("en", "US")),
           navigatorObservers: [SegmentObserver()],
         ));
+    // return StoreProvider<AppState>(
+    //     store: widget.store,
+    //     child: MaterialApp(
+    //       title: 'Fuse Cash',
+    //       initialRoute: widget.initialRoute,
+    //       navigatorKey: Router.navigator.key,
+    //       onGenerateRoute: Router.onGenerateRoute,
+    //       theme: CustomTheme.of(context),
+    //       localizationsDelegates: [
+    //         i18n,
+    //         GlobalMaterialLocalizations.delegate,
+    //         GlobalWidgetsLocalizations.delegate,
+    //         GlobalCupertinoLocalizations.delegate,
+    //       ],
+    //       supportedLocales: i18n.supportedLocales,
+    //       localeResolutionCallback:
+    //           i18n.resolution(fallback: new Locale("en", "US")),
+    //       navigatorObservers: [SegmentObserver()],
+    //     ));
   }
 }

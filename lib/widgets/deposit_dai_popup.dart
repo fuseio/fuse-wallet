@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -101,10 +102,14 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  Router.navigator.pushNamed(
-                                      Router.cashHomeScreen,
-                                      arguments: CashModeScaffoldArguments(
-                                          tabIndex: 3));
+                                  ExtendedNavigator.byName("main")
+                                      .pushNamedAndRemoveUntil(
+                                          MainNavigatorRoutes.cashModeScaffold,
+                                          (Route<dynamic> route) => false);
+                                  // Router.navigator.pushNamed(
+                                  //     Router.cashHomeScreen,
+                                  //     arguments: CashModeScaffoldArguments(
+                                  //         tabIndex: 3));
                                 },
                               ),
                               Padding(
@@ -138,8 +143,7 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => WebViewPage(
-                                            pageArgs: WebViewPageArguments(
-                                                url: url, title: 'Top up')),
+                                            url: url, title: 'Top up'),
                                         fullscreenDialog: true),
                                   );
                                   Segment.track(

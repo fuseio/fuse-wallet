@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -21,6 +22,7 @@ import 'package:fusecash/widgets/bottom_bar_item.dart';
 import 'package:fusecash/widgets/drawer.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/widgets/tabs_scaffold.dart';
+import 'package:auto_route/auto_route.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;
@@ -33,6 +35,7 @@ class CashModeScaffold extends StatefulWidget {
 
 class _CashModeScaffoldState extends State<CashModeScaffold> {
   int _currentIndex = 0;
+  Map pages = {};
 
   @override
   void initState() {
@@ -47,10 +50,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       return [
         CashHomeScreen(),
         !hasContactsInStore ? SendToContactScreen() : ContactsList(),
-        WebViewPage(
-          pageArgs: WebViewPageArguments(
-              url: webUrl, withBack: false, title: 'Community webpage'),
-        ),
+        WebViewPage(url: webUrl, withBack: false, title: 'Community webpage'),
         ReceiveScreen()
       ];
     } else if (isDefualtCommunity) {
@@ -121,22 +121,36 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, BottomBarViewModel>(
+        distinct: true,
         converter: BottomBarViewModel.fromStore,
         onInit: onInit,
         builder: (_, vm) {
           final List<Widget> pages =
               _pages(vm.contacts, vm.isDefaultCommunity, vm.community?.webUrl);
-          return TabsScaffold(
-              header: MyAppBar(
-                height: 200.0,
-                backgroundColor: Colors.white,
-                child: CashHeader(),
-              ),
+          return Scaffold(
+              appBar: _currentIndex != 0
+                  ? null
+                  : MyAppBar(
+                      height: 210.0,
+                      backgroundColor: Colors.white,
+                      child: CashHeader(),
+                    ),
               drawerEdgeDragWidth: 0,
-              pages: pages,
-              currentIndex: _currentIndex,
-              drawer: DrawerWidget(),
+              drawer: _currentIndex != 0 ? null : DrawerWidget(),
+              body: pages[_currentIndex],
               bottomNavigationBar: _bottomNavigationBar(vm));
         });
+  }
+}
+
+class MainNavigator extends StatelessWidget {
+  const MainNavigator({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: NestedNavigator(
+      name: 'main',
+    ));
   }
 }

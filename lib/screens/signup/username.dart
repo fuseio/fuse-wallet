@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -76,9 +77,11 @@ class UserNameScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.setDisplayName(
                               capitalize(displayNameController.text ?? 'Anom'));
-                          Router.navigator.pushNamedAndRemoveUntil(
-                              Router.cashHomeScreen,
-                              (Route<dynamic> route) => false);
+                          ExtendedNavigator.root.popUntilRoot();
+
+                          // Router.navigator.pushNamedAndRemoveUntil(
+                          //     Router.cashHomeScreen,
+                          //     (Route<dynamic> route) => false);
                         },
                       ),
                     ),

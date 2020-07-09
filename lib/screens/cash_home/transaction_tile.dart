@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -306,30 +307,80 @@ class TransactionTile extends StatelessWidget {
                 onTap: () {
                   if (!transfer.isGenerateWallet() &&
                       !transfer.isJoinCommunity()) {
-                    Router.navigator.pushNamed(Router.transactionDetailsScreen,
-                        arguments: TransactionDetailArguments(
-                          transfer: transfer,
-                          contact: contact,
-                          from: displayName,
-                          image: image,
-                          token: token,
-                          amount: [
-                            Text(
-                              amount,
-                              style: TextStyle(
-                                  color: Color(0xFF696969),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              " ${token.symbol}",
-                              style: TextStyle(
-                                  color: Color(0xFF696969),
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.normal),
-                            )
-                          ],
-                        ));
+                    ExtendedNavigator.of(context)
+                        .pushNamed(MainNavigatorRoutes.transactionDetailsScreen,
+                            arguments: TransactionDetailsScreenArguments(
+                              transfer: transfer,
+                              contact: contact,
+                              from: displayName,
+                              image: image,
+                              token: token,
+                              amount: [
+                                Text(
+                                  amount,
+                                  style: TextStyle(
+                                      color: Color(0xFF696969),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  " ${token.symbol}",
+                                  style: TextStyle(
+                                      color: Color(0xFF696969),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.normal),
+                                )
+                              ],
+                            ));
+                    // ExtendedNavigator.byName('main').pushNamed(
+                    //     MainNavigatorRoutes.transactionDetailsScreen,
+                    //     arguments: TransactionDetailsScreenArguments(
+                    //       transfer: transfer,
+                    //       contact: contact,
+                    //       from: displayName,
+                    //       image: image,
+                    //       token: token,
+                    //       amount: [
+                    //         Text(
+                    //           amount,
+                    //           style: TextStyle(
+                    //               color: Color(0xFF696969),
+                    //               fontSize: 16.0,
+                    //               fontWeight: FontWeight.bold),
+                    //         ),
+                    //         Text(
+                    //           " ${token.symbol}",
+                    //           style: TextStyle(
+                    //               color: Color(0xFF696969),
+                    //               fontSize: 16.0,
+                    //               fontWeight: FontWeight.normal),
+                    //         )
+                    //       ],
+                    //     ));
+                    // Router.navigator.pushNamed(Router.transactionDetailsScreen,
+                    //     arguments: TransactionDetailArguments(
+                    //       transfer: transfer,
+                    //       contact: contact,
+                    //       from: displayName,
+                    //       image: image,
+                    //       token: token,
+                    //       amount: [
+                    //         Text(
+                    //           amount,
+                    //           style: TextStyle(
+                    //               color: Color(0xFF696969),
+                    //               fontSize: 16.0,
+                    //               fontWeight: FontWeight.bold),
+                    //         ),
+                    //         Text(
+                    //           " ${token.symbol}",
+                    //           style: TextStyle(
+                    //               color: Color(0xFF696969),
+                    //               fontSize: 16.0,
+                    //               fontWeight: FontWeight.normal),
+                    //         )
+                    //       ],
+                    //     ));
                   }
                 },
               ));

@@ -367,11 +367,8 @@ class _PrizeScreenState extends State<PrizeScreen> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     WebViewPage(
-                                                        pageArgs:
-                                                            WebViewPageArguments(
-                                                                url: url,
-                                                                title:
-                                                                    'Top up')),
+                                                        url: url,
+                                                        title: 'Top up'),
                                                 fullscreenDialog: true),
                                           );
                                           Segment.track(
@@ -428,10 +425,9 @@ class _PrizeScreenState extends State<PrizeScreen> {
                               context,
                               new MaterialPageRoute(
                                   builder: (context) => WebViewPage(
-                                        pageArgs: WebViewPageArguments(
-                                            url:
-                                                'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
-                                            title: 'What is dai points?'),
+                                        url:
+                                            'https://docs.fuse.io/the-mobile-wallet/what-is-dai-points',
+                                        title: 'What is dai points?',
                                       )));
                         }),
                   ],

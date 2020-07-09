@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -22,8 +23,12 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     Segment.screen(screenName: '/send-success-screen');
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      Router.navigator.pushNamedAndRemoveUntil(
-          Router.cashHomeScreen, (Route<dynamic> route) => false);
+      ExtendedNavigator.byName("main").pushNamedAndRemoveUntil(
+          MainNavigatorRoutes.cashModeScaffold,
+          (Route<dynamic> route) => false);
+
+      // Router.navigator.pushNamedAndRemoveUntil(
+      //     Router.cashHomeScreen, (Route<dynamic> route) => false);
     });
   }
 

@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -68,8 +69,11 @@ class DoneBackup extends StatelessWidget {
                 fontSize: 15,
                 onPressed: () async {
                   VoidCallback successCb = () {
-                    Router.navigator
-                        .popUntil(ModalRoute.withName(Router.cashHomeScreen));
+                    ExtendedNavigator.byName("main").pushNamedAndRemoveUntil(
+                        MainNavigatorRoutes.cashModeScaffold,
+                        (Route<dynamic> route) => false);
+                    // Router.navigator
+                    //     .popUntil(ModalRoute.withName(Router.cashHomeScreen));
                   };
                   viewModal.backupWallet(successCb);
                 },

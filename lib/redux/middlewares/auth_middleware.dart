@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -82,7 +83,9 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-        Router.navigator.pushReplacementNamed(Router.userNameScreen);
+        // Router.navigator.pushReplacementNamed(Router.userNameScreen);
+        ExtendedNavigator.root.pushNamed(Routes.userNameScreen);
+
       }
       catch (e, s) {
         store.dispatch(SetIsVerifyRequest(isLoading: false));

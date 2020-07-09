@@ -13,6 +13,16 @@ import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:auto_route/auto_route.dart';
+
+class BuyNavigator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: NestedNavigator(name: 'buyRouter'),
+    );
+  }
+}
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -63,10 +73,8 @@ class BusinessesListView extends StatelessWidget {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => WebViewPage(
-                              pageArgs: WebViewPageArguments(
-                                  url: vm.walletBanner.link, title: ''),
-                            )));
+                        builder: (context) =>
+                            WebViewPage(url: vm.walletBanner.link, title: '')));
               },
               child: CachedNetworkImage(
                 imageUrl: getIPFSImageUrl(vm.walletBanner.walletBannerHash),
@@ -139,11 +147,13 @@ class BusinessesListView extends StatelessWidget {
             fontWeight: FontWeight.normal),
       ),
       onTap: () {
-        Router.navigator.pushNamed(Router.businessPage,
-            arguments: BusinessPageArguments(
-                communityAddress: communityAddres,
-                token: token,
-                business: business));
+        // ExtendedNavigator.byName("buyRouter").pushNamed(Routs);
+
+        // Router.navigator.pushNamed(Router.businessPage,
+        //     arguments: BusinessPageArguments(
+        //         communityAddress: communityAddres,
+        //         token: token,
+        //         business: business));
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
