@@ -36,13 +36,15 @@ class _PincodeScreenState extends State<PincodeScreen> {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
-                      left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
+                      left: 40.0, right: 20.0, bottom: 20.0, top: 0.0),
                   child: Text(
-                      this.isRetype ? I18n.of(context).re_type_passcode : I18n.of(context).create_passcode,
+                      this.isRetype
+                          ? I18n.of(context).re_type_passcode
+                          : I18n.of(context).create_passcode,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.normal,
                       )),
                 )
@@ -55,32 +57,34 @@ class _PincodeScreenState extends State<PincodeScreen> {
                   child: Container(
                     width: 280,
                     child: new Theme(
-                        data: new ThemeData(hintColor: Theme.of(context).scaffoldBackgroundColor),
+                        data: new ThemeData(
+                            hintColor:
+                                Theme.of(context).scaffoldBackgroundColor),
                         child: PinInputTextField(
-                          pinLength: 6,
-                          decoration: UnderlineDecoration(
-                            color: Color(0xFFDDDDDD),
-                            enteredColor: Color(0xFF575757),
-                            obscureStyle: ObscureStyle(isTextObscure: true, obscureText: '●')
-                          ),
-                          controller: pincodeController,
-                          autoFocus: true,
-                          textInputAction: TextInputAction.go,
-                          onChanged: (String pin) {
-                            if (pin.length == 6 && !this.isRetype) {
-                              pincodeController.text = '';
-                              setState(() {
-                                isRetype = true; 
-                                lastPincode = pin;
+                            pinLength: 6,
+                            decoration: UnderlineDecoration(
+                                color: Color(0xFFDDDDDD),
+                                enteredColor: Color(0xFF575757),
+                                obscureStyle: ObscureStyle(
+                                    isTextObscure: true, obscureText: '●')),
+                            controller: pincodeController,
+                            autoFocus: true,
+                            textInputAction: TextInputAction.go,
+                            onChanged: (String pin) {
+                              if (pin.length == 6 && !this.isRetype) {
+                                pincodeController.text = '';
+                                setState(() {
+                                  isRetype = true;
+                                  lastPincode = pin;
                                 });
-                            } else if (pin.length == 6 && this.isRetype) {
+                              } else if (pin.length == 6 && this.isRetype) {
                                 if (pin == this.lastPincode) {
-                                  Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
-                                  Router.navigator.popAndPushNamed(Router.cashHomeScreen);
+                                  Router.navigator.pushNamedAndRemoveUntil(
+                                      Router.cashHomeScreen,
+                                      (Route<dynamic> route) => false);
                                 }
-                            }
-                          }
-                        )),
+                              }
+                            })),
                   ),
                 ),
                 const SizedBox(height: 40.0),
@@ -88,8 +92,10 @@ class _PincodeScreenState extends State<PincodeScreen> {
                   child: PrimaryButton(
                     label: I18n.of(context).skip_button,
                     onPressed: () async {
-                      Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
-                      Router.navigator.popAndPushNamed(Router.cashHomeScreen);
+                      viewModel.setPincode(this.lastPincode);
+                      Router.navigator.pushNamedAndRemoveUntil(
+                          Router.cashHomeScreen,
+                          (Route<dynamic> route) => false);
                     },
                   ),
                 ),
