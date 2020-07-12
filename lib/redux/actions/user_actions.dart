@@ -433,7 +433,7 @@ ThunkAction activateProModeCall() {
       if (!deployForeignToken) {
         dynamic response =  await api.createWalletOnForeign();
         String jobId = response['job']['_id'];
-        logger.info('createWalletOnForeign jobId $jobId');
+        logger.info('Create wallet on foreign jobId - $jobId');
         store.dispatch(segmentTrackCall('Activate pro mode clicked'));
         store.dispatch(startListenToTransferEvents());
         store.dispatch(segmentIdentifyCall(

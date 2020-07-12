@@ -337,7 +337,6 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
       store.dispatch(AddNewToken(
           token: newToken.copyWith(
         address: tokenAddress.toLowerCase(),
-        timestamp: 0,
       )));
     } else {
       try {
@@ -347,7 +346,6 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
           name: tokenDetails['name'],
           decimals: tokenDetails['decimals'],
           symbol: tokenDetails['symbol'],
-          timestamp: 0,
         );
         logger.info('ADDED - new token $tokenAddress');
         store.dispatch(AddNewToken(

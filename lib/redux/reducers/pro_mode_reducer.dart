@@ -9,6 +9,12 @@ import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
+bool Function(String, Token) clearTokensWithZero = (key, token) {
+  if (token.timestamp == 0) return false;
+  double formatedValue = token.amount / BigInt.from(pow(10, token.decimals));
+  return num.parse(formatedValue.toString()).compareTo(0) != 1;
+};
+
 final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, StartListenToTransferEventsSuccess>(
       _startListenToTransferEventsSuccess),
@@ -217,25 +223,15 @@ ProWalletState _startListenToTransferEventsSuccess(
 }
 
 ProWalletState _clearTokenList(ProWalletState state, ClearTokenList action) {
-  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens
-    ..removeWhere((key, token) {
-      if (token.timestamp == 0) return false;
-      double formatedValue =
-          token.amount / BigInt.from(pow(10, token.decimals));
-      return num.parse(formatedValue.toString()).compareTo(0) != 1;
-    }));
+  Map<String, Token> newOne = Map<String, Token>.from(
+      state.erc20Tokens..removeWhere(clearTokensWithZero));
   return state.copyWith(erc20Tokens: newOne);
 }
 
 ProWalletState _addNewToken(ProWalletState state, AddNewToken action) {
   Token token = action.token;
-  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens
-    ..removeWhere((key, token) {
-      if (token.timestamp == 0) return false;
-      double formatedValue =
-          token.amount / BigInt.from(pow(10, token.decimals));
-      return num.parse(formatedValue.toString()).compareTo(0) != 1;
-    }));
+  Map<String, Token> newOne = Map<String, Token>.from(
+      state.erc20Tokens..removeWhere(clearTokensWithZero));
   if (newOne.containsKey(token.address)) {
     newOne[token.address] = newOne[token.address].copyWith(
         amount: token.amount,

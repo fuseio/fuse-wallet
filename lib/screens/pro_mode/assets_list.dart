@@ -20,31 +20,25 @@ String getTokenUrl(tokenAddress) {
 class AssetsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: key,
-        body: Column(children: <Widget>[
-          Expanded(
-              child: ListView(children: [
-            StoreConnector<AppState, _AssetsListViewModel>(
-                distinct: true,
-                converter: _AssetsListViewModel.fromStore,
-                builder: (_, viewModel) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          ListView(
-                              shrinkWrap: true,
-                              primary: false,
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              children: [
-                                ...viewModel.tokens
-                                    .map((Token token) => TokenTile(
-                                          token: token,
-                                        ))
-                                    .toList()
-                              ])
-                        ]))
-          ])),
-        ]));
+    return StoreConnector<AppState, _AssetsListViewModel>(
+      distinct: true,
+      converter: _AssetsListViewModel.fromStore,
+      builder: (_, viewModel) {
+        return Scaffold(
+            key: key,
+            body: Column(children: <Widget>[
+              Expanded(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      itemCount: viewModel.tokens?.length,
+                      itemBuilder: (BuildContext ctxt, int index) {
+                        return TokenTile(token: viewModel.tokens[index]);
+                      })),
+            ]));
+      },
+    );
   }
 }
 
