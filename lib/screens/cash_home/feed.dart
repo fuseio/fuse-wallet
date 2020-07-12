@@ -1,3 +1,4 @@
+import 'package:digitalrand/models/transactions/transaction.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/transactions/transfer.dart';
@@ -48,24 +49,6 @@ class FeedState extends State<Feed> {
     }
   }
 
-  List<TransactionTile> _buildList(HomeViewModel viewModel) {
-    bool isWalletCreated = 'created' == viewModel.walletStatus;
-    Transfer generateWallet = new Transfer(
-        type: 'RECEIVE',
-        text: !isWalletCreated
-            ? I18n.of(context).generating_wallet
-            : I18n.of(context).generated_wallet,
-        status: !isWalletCreated ? 'PENDING' : 'CONFIRMED',
-        jobId: 'generateWallet');
-    List<TransactionTile> transfers = [
-      ...viewModel.feedList
-          .map((transfer) => TransactionTile(transfer: transfer))
-          .toList(),
-      TransactionTile(transfer: generateWallet),
-    ];
-    return transfers;
-  }
-
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, HomeViewModel>(
@@ -77,14 +60,30 @@ class FeedState extends State<Feed> {
           onChange(nextViewModel, context);
         },
         builder: (_, viewModel) {
+          final bool isWalletCreated = 'created' == viewModel.walletStatus;
+          final Transfer generateWallet = new Transfer(
+              type: 'RECEIVE',
+              text: !isWalletCreated
+                  ? I18n.of(context).generating_wallet
+                  : I18n.of(context).generated_wallet,
+              status: !isWalletCreated ? 'PENDING' : 'CONFIRMED',
+              jobId: 'generateWallet');
+          final List<Transaction> feedList = [
+            ...viewModel.feedList,
+            generateWallet,
+          ];
           return Column(
             children: <Widget>[
               Expanded(
-                  child: ListView(
-                      shrinkWrap: true,
-                      primary: false,
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      children: _buildList(viewModel)))
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    itemCount: feedList?.length,
+                    itemBuilder: (BuildContext ctxt, int index) {
+                      return TransactionTile(transfer: feedList[index]);
+                    }),
+              )
             ],
           );
         });

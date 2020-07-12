@@ -127,11 +127,14 @@ ThunkAction proTransactionFailed(String tokenAddrees, transfer) {
   };
 }
 
-ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddrees, transfer) {
+ThunkAction sendErc20TokenSuccessCall(
+    txHash, String tokenAddrees, Transfer transfer) {
   return (Store store) async {
     // final logger = await AppFactory().getLogger('action');
-    Transfer confirmedTx =
-        transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
+    Transfer confirmedTx = transfer.copyWith(
+        status: 'CONFIRMED',
+        txHash: txHash,
+        timestamp: DateTime.now().millisecondsSinceEpoch);
     store.dispatch(new ReplaceProTransaction(
         tokenAddress: tokenAddrees,
         transaction: transfer,
@@ -168,6 +171,10 @@ ThunkAction startListenToTransferEvents() {
     final logger = await AppFactory().getLogger('action');
     if (!isListenToTransferEvents) {
       new Timer.periodic(Duration(seconds: 2), (Timer timer) async {
+        if (store.state.cashWalletState.walletAddress == '') {
+          timer.cancel();
+          return;
+        }
         try {
           String walletAddress = store.state.userState.walletAddress;
           List transfersEvents = await graph.getTransferEvents(
@@ -205,7 +212,12 @@ ThunkAction fetchTokensBalances() {
     bool isFetchTokensBalances =
         store.state.proWalletState?.isFetchTokensBalances ?? false;
     if (!isFetchTokensBalances) {
-      new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds),
+          (Timer timer) async {
+        if (store.state.cashWalletState.walletAddress == '') {
+          timer.cancel();
+          return;
+        }
         ProWalletState proWalletState = store.state.proWalletState;
         String walletAddress = store.state.userState.walletAddress;
         for (Token token in proWalletState.erc20Tokens.values) {
@@ -215,7 +227,9 @@ ThunkAction fetchTokensBalances() {
               Token tokenToUpdate =
                   store.state.proWalletState.erc20Tokens[token.address];
               store.dispatch(UpdateToken(
-                  tokenToUpdate: tokenToUpdate.copyWith(amount: balance)));
+                  tokenToUpdate: tokenToUpdate.copyWith(
+                      amount: balance,
+                      timestamp: DateTime.now().millisecondsSinceEpoch)));
             };
             void Function(Object error, StackTrace stackTrace) onError =
                 (Object error, StackTrace stackTrace) {
@@ -263,6 +277,10 @@ ThunkAction startFetchBalancesOnForeign() {
         store.state.proWalletState?.isFetchNewTokens ?? false;
     if (!isFetchNewTokens) {
       new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+        if (store.state.cashWalletState.walletAddress == '') {
+          timer.cancel();
+          return;
+        }
         store.dispatch(getBalancesOnForeign());
         store.dispatch(ClearTokenList());
       });
@@ -320,7 +338,6 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
       store.dispatch(AddNewToken(
           token: newToken.copyWith(
         address: tokenAddress.toLowerCase(),
-        timestamp: 0,
       )));
     } else {
       try {
@@ -330,7 +347,6 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
           name: tokenDetails['name'],
           decimals: tokenDetails['decimals'],
           symbol: tokenDetails['symbol'],
-          timestamp: 0,
         );
         logger.info('ADDED - new token $tokenAddress');
         store.dispatch(AddNewToken(
@@ -369,6 +385,10 @@ ThunkAction startFetchTransferEventsCall() {
     if (!isFetchTransferEvents) {
       new Timer.periodic(Duration(seconds: intervalSeconds),
           (Timer timer) async {
+        if (store.state.cashWalletState.walletAddress == '') {
+          timer.cancel();
+          return;
+        }
         ProWalletState proWalletState = store.state.proWalletState;
         List<String> tokenAddresses =
             List<String>.from(proWalletState.erc20Tokens.keys);
@@ -494,6 +514,7 @@ ThunkAction sendErc20TokenCall(
           tokenAddress: token.address,
           value: toBigInt(tokensAmount, token.decimals), //feeAmount +
           type: 'SEND',
+          timestamp: DateTime.now().millisecondsSinceEpoch,
           note: transferNote,
           receiverName: receiverName,
           status: 'PENDING',
@@ -553,6 +574,7 @@ ThunkAction inviteAndSendCall(
           from: walletAddress,
           to: '',
           tokenAddress: token?.address,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
           value: value,
           type: 'SEND',
           receiverName: receiverName,
@@ -754,6 +776,7 @@ ThunkAction swapHandler(
           type: 'SEND',
           note: '',
           receiverName: '',
+          timestamp: DateTime.now().millisecondsSinceEpoch,
           status: 'PENDING',
           jobId: swapJobId);
 
@@ -762,6 +785,7 @@ ThunkAction swapHandler(
           to: walletAddress,
           tokenAddress: toToken.address,
           value: toBigInt(tokensAmountIn, toToken.decimals),
+          timestamp: DateTime.now().millisecondsSinceEpoch,
           type: 'RECEIVE',
           status: 'PENDING',
           jobId: swapJobId);

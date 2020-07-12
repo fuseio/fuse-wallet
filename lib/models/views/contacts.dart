@@ -52,7 +52,6 @@ class ContactsViewModel extends Equatable {
     Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
         ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
         : daiToken;
-    // bool isProMode = store.state.userState.isProMode ?? false;
     return ContactsViewModel(
         tokenDAI: token,
         // feePlugin: community.plugins.foreignTransfers : null,

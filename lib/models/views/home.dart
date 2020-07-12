@@ -79,7 +79,7 @@ class HomeViewModel extends Equatable {
     bool isListeningToBranch =
         store.state.cashWalletState.isListeningToBranch ?? false;
     List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
-      ..sort((a, b) => (a?.timestamp ?? 1).compareTo((b?.timestamp ?? 0)));
+      ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return HomeViewModel(
         isoCode: store.state.userState.isoCode,
         accountAddress: store.state.userState.accountAddress,
