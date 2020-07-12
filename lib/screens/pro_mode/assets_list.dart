@@ -1,3 +1,4 @@
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
@@ -9,7 +10,6 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/screens/pro_mode/token_tile.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/utils/format.dart';
 
 String getTokenUrl(tokenAddress) {
   return tokenAddress == zeroAddress
@@ -75,12 +75,9 @@ class _AssetsListViewModel extends Equatable {
         .toList();
     return _AssetsListViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) {
-          if (tokenB.amount != null && tokenA?.amount != null) {
-            return tokenB?.amount?.compareTo(tokenA?.amount);
-          }
-          return tokenA.hashCode.compareTo(tokenB.hashCode);
-        }),
+      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
+          (tokenB?.amount ?? BigInt.one)
+              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
     );
   }
 

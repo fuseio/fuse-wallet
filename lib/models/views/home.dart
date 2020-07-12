@@ -78,6 +78,8 @@ class HomeViewModel extends Equatable {
         store.state.cashWalletState.isJobProcessingStarted ?? false;
     bool isListeningToBranch =
         store.state.cashWalletState.isListeningToBranch ?? false;
+    List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
+      ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return HomeViewModel(
         isoCode: store.state.userState.isoCode,
         accountAddress: store.state.userState.accountAddress,
@@ -92,14 +94,7 @@ class HomeViewModel extends Equatable {
             store.state.cashWalletState.isBalanceFetchingStarted ?? false,
         isBranchDataReceived:
             store.state.cashWalletState.isBranchDataReceived ?? false,
-        feedList: [...communityTxs, ...erc20TokensTxs]..sort((a, b) {
-            if (a.timestamp != null && b.timestamp != null) {
-              return a.timestamp.compareTo(b.timestamp);
-            } else if (a.blockNumber != null && b.blockNumber != null) {
-              return a.blockNumber.compareTo(b.blockNumber);
-            }
-            return (a?.blockNumber ?? 1).compareTo((b?.blockNumber ?? 0));
-          }),
+        feedList: feedList,
         switchCommunity: (String communityAddress) {
           store.dispatch(switchCommunityCall(communityAddress));
         },

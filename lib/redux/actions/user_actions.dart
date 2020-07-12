@@ -181,6 +181,7 @@ ThunkAction backupWalletCall(VoidCallback successCb) {
         logger.info('Job $jobId - sending backup bonus');
         Transfer backupBonus = new Transfer(
             tokenAddress: community.token.address,
+            timestamp: DateTime.now().millisecondsSinceEpoch,
             from: DotEnv().env['FUNDER_ADDRESS'],
             to: walletAddress,
             text: 'You got a backup bonus!',
@@ -206,7 +207,8 @@ ThunkAction backupWalletCall(VoidCallback successCb) {
 
 ThunkAction backupSuccessCall(String txHash, transfer) {
   return (Store store) async {
-    Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
+    Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED', txHash: txHash,
+        timestamp: DateTime.now().millisecondsSinceEpoch);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
     store.dispatch(BackupSuccess());
     store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({ 'Wallet backed up success': true })));

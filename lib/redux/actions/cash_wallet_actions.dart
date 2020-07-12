@@ -400,11 +400,16 @@ ThunkAction startBalanceFetchingCall() {
 ThunkAction startTransfersFetchingCall() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    bool isTransfersFetchingStarted = store.state.cashWalletState.isTransfersFetchingStarted ?? false;
+    bool isTransfersFetchingStarted =
+        store.state.cashWalletState.isTransfersFetchingStarted ?? false;
     String communityAddress = store.state.cashWalletState.communityAddress;
-    bool isCommunityLoading = store.state.cashWalletState.isCommunityLoading ?? false;
-    Community community = store.state.cashWalletState.communities[communityAddress];
-    if (!isTransfersFetchingStarted && community.token != null && !isCommunityLoading) {
+    bool isCommunityLoading =
+        store.state.cashWalletState.isCommunityLoading ?? false;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress];
+    if (!isTransfersFetchingStarted &&
+        community.token != null &&
+        !isCommunityLoading) {
       try {
         Community community =
             store.state.cashWalletState.communities[communityAddress];
@@ -562,16 +567,20 @@ ThunkAction getTokenBalanceCall(String tokenAddress) {
       void Function(BigInt) onDone = (BigInt balance) {
         logger.info('${community.token.name} balance updated');
         store.dispatch(new GetTokenBalanceSuccess(balance));
-        store.dispatch(new UpdateDisplayBalance(int.tryParse(formatValue(balance, community.token.decimals))));
-        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from(
-          {'${community.name} Balance': balance, "DisplayBalance": balance})));
+        store.dispatch(new UpdateDisplayBalance(
+            int.tryParse(formatValue(balance, community.token.decimals))));
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          '${community.name} Balance': balance,
+          "DisplayBalance": balance
+        })));
       };
       void Function(Object error, StackTrace stackTrace) onError =
           (Object error, StackTrace stackTrace) {
         logger.severe(
             'Error in fetchTokenBalance for - ${community.token.name} $error');
       };
-      await community.token.fetchTokenBalance(walletAddress, onDone: onDone, onError: onError);
+      await community.token
+          .fetchTokenBalance(walletAddress, onDone: onDone, onError: onError);
     } catch (e) {
       logger.severe('ERROR - getTokenBalanceCall $e');
       store.dispatch(new ErrorAction('Could not get token balance'));
@@ -666,6 +675,10 @@ ThunkAction processingJobsCall(Timer timer) {
 ThunkAction startProcessingJobsCall() {
   return (Store store) async {
     new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
+      if (store.state.cashWalletState.walletAddress == '') {
+        timer.cancel();
+        return;
+      }
       store.dispatch(processingJobsCall(timer));
     });
     store.dispatch(JobProcessingStarted());
@@ -701,6 +714,7 @@ ThunkAction inviteAndSendCall(
       String walletAddress = store.state.cashWalletState.walletAddress;
 
       Transfer inviteTransfer = new Transfer(
+          timestamp: DateTime.now().millisecondsSinceEpoch,
           from: walletAddress,
           to: '',
           tokenAddress: tokenAddress,
@@ -795,8 +809,11 @@ ThunkAction inviteBonusCall(dynamic data) {
 
 ThunkAction inviteBonusSuccessCall(String txHash, transfer) {
   return (Store store) async {
-    Transfer confirmedTx =
-        transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
+    Transfer confirmedTx = transfer.copyWith(
+      status: 'CONFIRMED',
+      txHash: txHash,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+    );
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
     store.dispatch(segmentTrackCall('Wallet: invite bonus success'));
   };
@@ -855,6 +872,7 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
           to: receiverAddress,
           tokenAddress: tokenAddress,
           value: value,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
           type: 'SEND',
           note: transferNote,
           receiverName: receiverName,
@@ -881,8 +899,11 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
 
 ThunkAction sendTokenSuccessCall(job, transfer) {
   return (Store store) async {
-    Transfer confirmedTx =
-        transfer.copyWith(status: 'CONFIRMED', txHash: job.data['txHash']);
+    Transfer confirmedTx = transfer.copyWith(
+      status: 'CONFIRMED',
+      txHash: job.data['txHash'],
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+    );
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
   };
 }
@@ -917,6 +938,7 @@ ThunkAction joinCommunityCall({dynamic community, dynamic token}) {
       dynamic jobId = response['job']['_id'];
       Transfer transfer = new Transfer(
           type: 'RECEIVE',
+          timestamp: DateTime.now().millisecondsSinceEpoch,
           text: 'Joining ' + community["name"] + ' community',
           status: 'PENDING',
           jobId: jobId);
@@ -939,6 +961,7 @@ ThunkAction joinCommunitySuccessCall(
   return (Store store) async {
     Transfer confirmedTx = transfer.copyWith(
         status: 'CONFIRMED',
+        timestamp: DateTime.now().millisecondsSinceEpoch,
         text: 'Joined ' + (community["name"]) + ' community',
         txHash: job.data['txHash']);
     store.dispatch(new AlreadyJoinedCommunity(community['address']));
@@ -956,6 +979,7 @@ ThunkAction joinCommunitySuccessCall(
           from: DotEnv().env['FUNDER_ADDRESS'],
           type: 'RECEIVE',
           value: value,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
           tokenAddress: communityData.token.address,
           text: 'You got a join bonus!',
           status: 'PENDING',
@@ -980,8 +1004,11 @@ ThunkAction joinBonusSuccessCall(txHash, transfer) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community communityData =
         store.state.cashWalletState.communities[communityAddres];
-    Transfer confirmedTx =
-        transfer.copyWith(status: 'CONFIRMED', txHash: txHash);
+    Transfer confirmedTx = transfer.copyWith(
+      status: 'CONFIRMED',
+      txHash: txHash,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+    );
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
     store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
       "Join Bonus ${communityData.name} Received": true,
@@ -1255,8 +1282,8 @@ ThunkAction sendTokenToContactCall(
             receiverName: receiverName));
         return;
       }
-      store.dispatch(sendTokenCall(token,
-          walletAddress, tokensAmount, sendSuccessCallback, sendFailureCallback,
+      store.dispatch(sendTokenCall(token, walletAddress, tokensAmount,
+          sendSuccessCallback, sendFailureCallback,
           receiverName: receiverName, transferNote: transferNote));
     } catch (e) {
       logger.severe('ERROR - sendTokenToContactCall $e');

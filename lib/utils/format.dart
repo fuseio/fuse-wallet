@@ -12,6 +12,16 @@ final Map prices = {
   "TUSD": 1.0021,
 };
 
+final Map<String, num> fees = {
+  "DZAR": 17,
+  "DAI": 1,
+  "USDT": 1,
+  "USDC": 1,
+  "IDRT": 14442.61,
+  "EURS": 1,
+  "TUSD": 1,
+};
+
 String formatValue(BigInt value, int decimals,
     {int fractionDigits = 2, bool withPrecision = false}) {
   if (value == null || decimals == null) return '0';

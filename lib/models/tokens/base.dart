@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/utils/format.dart';
 
