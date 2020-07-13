@@ -673,6 +673,10 @@ ThunkAction startProcessingTokensJobsCall() {
     if (!isProcessingTokensJobs) {
       new Timer.periodic(Duration(seconds: intervalSeconds),
           (Timer timer) async {
+        if (store.state.cashWalletState.walletAddress == '') {
+          timer.cancel();
+          return;
+        }
         store.dispatch(processingTokenJobsCall(timer));
       });
       store.dispatch(new StartProcessingTokensJobs());
@@ -753,15 +757,6 @@ ThunkAction swapHandler(
           network: 'mainnet');
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
           walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
-      // dynamic response = await api.totleSwap(
-      //     web3,
-      //     walletAddress,
-      //     tokenAddress,
-      //     tokensAmount,
-      //     DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'],
-      //     swapContractAddress,
-      //     swapData,
-      //     network: 'mainnet');
 
       Map<String, dynamic> response = await api
           .multiRelay([signedApprovalData, signedSwapData, feeTrasnferData]);

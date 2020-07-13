@@ -256,10 +256,7 @@ class _ContactsListState extends State<ContactsList> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     onPressed: () {
-                      bracodeScannerHandler(context,
-                          // isProMode: viewModel.isProMode,
-                          daiToken: viewModel.tokenDAI,
-                          feePlugin: viewModel.feePlugin);
+                      bracodeScannerHandler(context);
                     }),
                 width: 45,
                 height: 45,

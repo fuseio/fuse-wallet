@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:digitalrand/screens/misc/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -7,7 +8,6 @@ import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/views/drawer.dart';
 import 'package:digitalrand/screens/misc/about.dart';
 import 'package:digitalrand/screens/splash/splash.dart';
-import 'package:digitalrand/utils/forks.dart';
 import 'package:digitalrand/widgets/language_selector.dart';
 import 'package:digitalrand/widgets/main_scaffold.dart';
 
@@ -24,37 +24,25 @@ class SettingsScreen extends StatelessWidget {
   }
 
   List<Widget> menuItem(context, DrawerViewModel viewModel) {
-    if (isFork()) {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => AboutScreen()));
-        }),
-        new Divider(),
-        getListTile(context, I18n.of(context).logout, () {
-          viewModel.logout();
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => SplashScreen()));
-        })
-      ];
-    } else {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => AboutScreen()));
-        }),
-        new Divider(),
-        // getListTile(context, I18n.of(context).protect_wallet, () {}),
-        // new Divider(),
-        new LanguageSelector(),
-        new Divider(),
-        getListTile(context, I18n.of(context).logout, () {
-          viewModel.logout();
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => SplashScreen()));
-        })
-      ];
-    }
+    return [
+      getListTile(context, I18n.of(context).about, () {
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => AboutScreen()));
+      }),
+      new Divider(),
+      getListTile(context, I18n.of(context).protect_wallet, () {
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => SecurityScreen()));
+      }),
+      new Divider(),
+      new LanguageSelector(),
+      new Divider(),
+      getListTile(context, I18n.of(context).logout, () {
+        viewModel.logout();
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => SplashScreen()));
+      })
+    ];
   }
 
   Widget build(BuildContext context) {

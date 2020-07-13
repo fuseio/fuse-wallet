@@ -52,7 +52,6 @@ class SwapTokenJob extends Job {
     final logger = await AppFactory().getLogger('Job');
     logger.info('perform SwapTokenJob - $id');
     if (isReported == true) {
-      this.status = 'FAILED';
       logger.info('SwapTokenJob FAILED');
       store.dispatch(segmentTrackCall('Wallet: SwapTokenJob FAILED'));
       return;

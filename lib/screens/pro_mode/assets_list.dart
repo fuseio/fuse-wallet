@@ -4,7 +4,6 @@ import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/screens/pro_mode/token_tile.dart';

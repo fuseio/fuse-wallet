@@ -88,7 +88,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 16.0),
+                                SizedBox(height: 16.0),
                                 TextFormField(
                                   autofocus: false,
                                   decoration: InputDecoration(
@@ -104,7 +104,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 16.0),
+                                SizedBox(height: 16.0),
                                 TextFormField(
                                   autofocus: false,
                                   decoration: InputDecoration(
@@ -126,7 +126,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
                 Padding(
                   padding: EdgeInsets.only(top: 40),
                   child: Center(
@@ -145,7 +145,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     },
                   )),
                 ),
-                const SizedBox(height: 30.0),
+                SizedBox(height: 30.0),
               ]);
         });
   }

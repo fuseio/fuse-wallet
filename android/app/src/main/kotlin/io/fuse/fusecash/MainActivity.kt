@@ -2,14 +2,14 @@ package io.fuse.digitalrand
 
 import android.os.Bundle
 
-import io.flutter.app.FlutterActivity
+import io.flutter.app.FlutterFragmentActivity
 import io.flutter.plugins.GeneratedPluginRegistrant
 
 import android.os.Build
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 
-class MainActivity: FlutterActivity() {
+class MainActivity: FlutterFragmentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 

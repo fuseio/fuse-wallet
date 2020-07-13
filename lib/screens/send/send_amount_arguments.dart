@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/models/tokens/token.dart';
 
 enum SendType {
@@ -19,7 +18,6 @@ class SendAmountArguments {
   ImageProvider avatar;
   SendType sendType;
   Token tokenToSend;
-  FeePlugin feePlugin;
 
   SendAmountArguments(
       {this.sendType,
@@ -28,6 +26,5 @@ class SendAmountArguments {
       this.phoneNumber,
       this.accountAddress,
       this.amount,
-      this.feePlugin,
       this.avatar});
 }

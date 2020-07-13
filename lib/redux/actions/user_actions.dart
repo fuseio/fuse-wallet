@@ -10,6 +10,7 @@ import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/redux/actions/error_actions.dart';
 import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:digitalrand/utils/addresses.dart';
+import 'package:digitalrand/utils/biometric_local_auth.dart';
 import 'package:digitalrand/utils/contacts.dart';
 import 'package:digitalrand/utils/format.dart';
 import 'package:redux/redux.dart';
@@ -22,6 +23,11 @@ import 'package:digitalrand/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
+
+class SetSecurityType {
+  BiometricAuth biometricAuth;
+  SetSecurityType({this.biometricAuth});
+}
 
 class VerifyRequest {
   final String verificationId;
@@ -393,26 +399,15 @@ ThunkAction identifyFirstTimeCall() {
 
 ThunkAction identifyCall() {
   return (Store store) async {
-    store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
-      "Phone Number": store.state.userState.normalizedPhoneNumber ?? '',
-      "Wallet Address": store.state.cashWalletState.walletAddress,
-      "Account Address": store.state.userState.accountAddress,
-      "Display Name": store.state.userState.displayName,
-      "Identifier": store.state.userState.identifier,
-      "Joined Communities":
-          store.state.cashWalletState.communities.keys.toList(),
-    })));
-  };
-}
-
-ThunkAction setPincodeCall(String pincode) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      store.dispatch(SetPincodeSuccess(pincode));
-    } catch (e) {
-      logger.severe('ERROR - setPincodeCall $e');
-    }
+    store.dispatch(segmentIdentifyCall(
+        new Map<String, dynamic>.from({
+          "Phone Number": store.state.userState.normalizedPhoneNumber ?? '',
+          "Wallet Address": store.state.cashWalletState.walletAddress,
+          "Account Address": store.state.userState.accountAddress,
+          "Display Name": store.state.userState.displayName,
+          "Identifier": store.state.userState.identifier,
+          "Joined Communities": store.state.cashWalletState.communities.keys.toList(),
+        })));
   };
 }
 

@@ -1,4 +1,3 @@
-import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/screens/send/send_amount.dart';
@@ -195,11 +194,9 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
 class TokenActionsDialogViewModel extends Equatable {
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
-  final FeePlugin feePlugin;
   TokenActionsDialogViewModel({
     this.homeBridgeAddress,
     this.foreignBridgeAddress,
-    this.feePlugin,
   });
 
   static TokenActionsDialogViewModel fromStore(Store<AppState> store) {
@@ -212,6 +209,5 @@ class TokenActionsDialogViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [homeBridgeAddress, foreignBridgeAddress, feePlugin];
+  List<Object> get props => [homeBridgeAddress, foreignBridgeAddress];
 }

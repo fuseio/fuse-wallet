@@ -1,10 +1,10 @@
 import 'package:decimal/decimal.dart';
+import 'package:equatable/equatable.dart';
+import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/plugins/plugins.dart';
 import 'package:digitalrand/models/pro/pro_wallet_state.dart';
 import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/utils/format.dart';
-import 'package:equatable/equatable.dart';
-import 'package:digitalrand/models/community/community.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
 

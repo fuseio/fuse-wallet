@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/models/community/community.dart';
-import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:digitalrand/models/app_state.dart';
@@ -106,17 +105,15 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
 
 class ActivateProModeViewModel extends Equatable {
   final String homeBridgeAddress;
-  final FeePlugin feePlugin;
-  ActivateProModeViewModel({this.feePlugin, this.homeBridgeAddress});
+  ActivateProModeViewModel({this.homeBridgeAddress});
 
   @override
-  List<Object> get props => [feePlugin, homeBridgeAddress];
+  List<Object> get props => [homeBridgeAddress];
 
   static ActivateProModeViewModel fromStore(Store<AppState> store) {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return ActivateProModeViewModel(
-      feePlugin: community.plugins.bridgeToForeign,
       homeBridgeAddress: community.homeBridgeAddress,
     );
   }

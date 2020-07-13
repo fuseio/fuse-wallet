@@ -1,6 +1,5 @@
 import 'dart:core';
 import 'package:digitalrand/models/community/community.dart';
-import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/services.dart';
@@ -493,12 +492,10 @@ class _ExchangeState extends State<TradeScreen> {
 class _ExchangeViewModel extends Equatable {
   final String walletAddress;
   final List<Token> tokens;
-  final FeePlugin feePlugin;
   final String homeBridgeAddress;
 
   _ExchangeViewModel({
     this.walletAddress,
-    this.feePlugin,
     this.tokens,
     this.homeBridgeAddress,
   });
@@ -528,13 +525,6 @@ class _ExchangeViewModel extends Equatable {
     Community community = store.state.cashWalletState.communities.values.first;
     return _ExchangeViewModel(
       homeBridgeAddress: community.homeBridgeAddress,
-      // feePlugin: community.plugins.bridgeToForeign ??
-      //     BridgeToForeignFeePlugin(
-      //         name: 'bridgeToForeign',
-      //         receiverAddress: '0x77D886e98133D99130179bdb41CE052a43d32c2F',
-      //         isActive: true,
-      //         type: 'fixed',
-      //         amount: '0'),
       walletAddress: store.state.userState.walletAddress,
       tokens: [...tokens, ...exchangable].toSet().toList(),
     );

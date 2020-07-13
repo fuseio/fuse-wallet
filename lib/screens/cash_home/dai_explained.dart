@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/community/community.dart';
-import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/screens/cash_home/prize.dart';
 import 'package:digitalrand/screens/cash_home/webview_page.dart';
 import 'package:digitalrand/screens/send/send_amount.dart';
@@ -261,7 +260,6 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                             'assets/images/ethereume_icon.png',
                                           ),
                                           name: 'ethereum',
-                                          feePlugin: vm.feePlugin,
                                           sendType: SendType.ETHEREUM_ADDRESS,
                                           accountAddress:
                                               vm.homeBridgeAddress))));
@@ -344,17 +342,14 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
 
 class _DaiPointsViewModel {
   final String homeBridgeAddress;
-  final FeePlugin feePlugin;
   _DaiPointsViewModel({
     this.homeBridgeAddress,
-    this.feePlugin,
   });
 
   static _DaiPointsViewModel fromStore(Store<AppState> store) {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return _DaiPointsViewModel(
-      feePlugin: community.plugins.bridgeToForeign,
       homeBridgeAddress: community.homeBridgeAddress,
     );
   }

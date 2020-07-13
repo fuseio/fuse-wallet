@@ -1,11 +1,8 @@
 import 'package:contacts_service/contacts_service.dart';
-import 'package:digitalrand/constans/exchangable_tokens.dart';
-import 'package:digitalrand/utils/addresses.dart';
 import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/community/business.dart';
 import 'package:digitalrand/models/community/community.dart';
-import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/models/transactions/transactions.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
@@ -25,17 +22,13 @@ class ContactsViewModel extends Equatable {
   final List<Business> businesses;
   final Function(String eventName) trackCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
-  final Token tokenDAI;
   final Community community;
-  final FeePlugin feePlugin;
 
   ContactsViewModel(
       {this.contacts,
       this.token,
       this.syncContacts,
       this.isContactsSynced,
-      this.feePlugin,
-      this.tokenDAI,
       this.transactions,
       this.reverseContacts,
       this.countryCode,
@@ -48,13 +41,9 @@ class ContactsViewModel extends Equatable {
 
   static ContactsViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community = store.state.cashWalletState.communities[communityAddres];
-    Token token = store.state.proWalletState.erc20Tokens.containsKey(daiTokenAddress.toLowerCase())
-        ? store.state.proWalletState.erc20Tokens[daiTokenAddress.toLowerCase()]
-        : daiToken;
+    Community community =
+        store.state.cashWalletState.communities[communityAddres];
     return ContactsViewModel(
-        tokenDAI: token,
-        // feePlugin: community.plugins.foreignTransfers : null,
         isoCode: store.state.userState.isoCode,
         businesses: community?.businesses ?? [],
         isContactsSynced: store.state.userState.isContactsSynced,
@@ -80,15 +69,14 @@ class ContactsViewModel extends Equatable {
 
   @override
   List<Object> get props => [
-    contacts,
-    token,
-    isContactsSynced,
-    transactions,
-    reverseContacts,
-    countryCode,
-    businesses,
-    isoCode,
-    community,
-    tokenDAI
-  ];
+        contacts,
+        token,
+        isContactsSynced,
+        transactions,
+        reverseContacts,
+        countryCode,
+        businesses,
+        isoCode,
+        community,
+      ];
 }

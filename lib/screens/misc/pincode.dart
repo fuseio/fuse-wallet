@@ -1,10 +1,10 @@
+import 'package:digitalrand/utils/biometric_local_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
 import 'package:digitalrand/widgets/main_scaffold.dart';
-import 'package:digitalrand/widgets/primary_button.dart';
 import 'package:digitalrand/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
@@ -26,28 +26,31 @@ class _PincodeScreenState extends State<PincodeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, OnboardViewModel>(
-        distinct: true,
-        converter: OnboardViewModel.fromStore,
-        builder: (_, viewModel) {
-          return MainScaffold(
-              withPadding: true,
-              title: I18n.of(context).pincode,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
-                  child: Text(
-                      this.isRetype ? I18n.of(context).re_type_passcode : I18n.of(context).create_passcode,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                      )),
-                )
-              ],
-              footer: Container(
+    return MainScaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        withPadding: true,
+        title: I18n.of(context).protect_wallet,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+                left: 40.0, right: 20.0, bottom: 20.0, top: 0.0),
+            child: Text(
+                this.isRetype
+                    ? I18n.of(context).re_type_passcode
+                    : I18n.of(context).create_passcode,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                )),
+          )
+        ],
+        footer: new StoreConnector<AppState, OnboardViewModel>(
+            distinct: true,
+            converter: OnboardViewModel.fromStore,
+            builder: (_, viewModel) {
+              return Container(
                   child: Column(children: <Widget>[
                 Padding(
                   padding:
@@ -55,45 +58,51 @@ class _PincodeScreenState extends State<PincodeScreen> {
                   child: Container(
                     width: 280,
                     child: new Theme(
-                        data: new ThemeData(hintColor: Theme.of(context).scaffoldBackgroundColor),
+                        data: new ThemeData(
+                            hintColor:
+                                Theme.of(context).scaffoldBackgroundColor),
                         child: PinInputTextField(
-                          pinLength: 6,
-                          decoration: UnderlineDecoration(
-                            color: Color(0xFFDDDDDD),
-                            enteredColor: Color(0xFF575757),
-                            obscureStyle: ObscureStyle(isTextObscure: true, obscureText: '●')
-                          ),
-                          controller: pincodeController,
-                          autoFocus: true,
-                          textInputAction: TextInputAction.go,
-                          onChanged: (String pin) {
-                            if (pin.length == 6 && !this.isRetype) {
-                              pincodeController.text = '';
-                              setState(() {
-                                isRetype = true; 
-                                lastPincode = pin;
+                            pinLength: 6,
+                            decoration: UnderlineDecoration(
+                                color: Color(0xFFDDDDDD),
+                                enteredColor: Color(0xFF575757),
+                                obscureStyle: ObscureStyle(
+                                    isTextObscure: true, obscureText: '●')),
+                            controller: pincodeController,
+                            autoFocus: true,
+                            textInputAction: TextInputAction.go,
+                            onChanged: (String pin) {
+                              if (pin.length == 6 && !this.isRetype) {
+                                pincodeController.text = '';
+                                setState(() {
+                                  isRetype = true;
+                                  lastPincode = pin;
                                 });
-                            } else if (pin.length == 6 && this.isRetype) {
+                              } else if (pin.length == 6 && this.isRetype) {
                                 if (pin == this.lastPincode) {
-                                  Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
-                                  Router.navigator.popAndPushNamed(Router.cashHomeScreen);
+                                  viewModel
+                                      .setSecurityType(BiometricAuth.pincode);
+                                  viewModel.setPincode(this.lastPincode);
+                                  Router.navigator.pushNamedAndRemoveUntil(
+                                      Router.cashHomeScreen,
+                                      (Route<dynamic> route) => false);
                                 }
-                            }
-                          }
-                        )),
+                              }
+                            })),
                   ),
                 ),
-                const SizedBox(height: 40.0),
-                Center(
-                  child: PrimaryButton(
-                    label: I18n.of(context).skip_button,
-                    onPressed: () async {
-                      Router.navigator.popUntil(ModalRoute.withName(Router.splashScreen));
-                      Router.navigator.popAndPushNamed(Router.cashHomeScreen);
-                    },
-                  ),
-                ),
-              ])));
-        });
+                // const SizedBox(height: 40.0),
+                // Center(
+                //   child: PrimaryButton(
+                //     label: I18n.of(context).skip_button,
+                //     onPressed: () async {
+                //       Router.navigator.pushNamedAndRemoveUntil(
+                //           Router.cashHomeScreen,
+                //           (Route<dynamic> route) => false);
+                //     },
+                //   ),
+                // )
+              ]));
+            }));
   }
 }

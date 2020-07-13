@@ -25,3 +25,18 @@ class BackupViewModel extends Equatable {
   @override
   List<Object> get props => [user];
 }
+
+class LockScreenViewModel extends Equatable {
+  final String pincode;
+
+  LockScreenViewModel({this.pincode});
+
+  static LockScreenViewModel fromStore(Store<AppState> store) {
+    return LockScreenViewModel(
+      pincode: store.state.userState.pincode,
+    );
+  }
+
+  @override
+  List<Object> get props => [pincode];
+}

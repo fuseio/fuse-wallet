@@ -697,7 +697,11 @@ ThunkAction inviteAndSendCall(
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
+      // String communityAddres = store.state.cashWalletState.communityAddress;
       String senderName = store.state.userState.displayName;
+      // Community community =
+      //     store.state.cashWalletState.communities[communityAddres];
+      // Token token = community?.token;
       dynamic response = await api.invite(
           contactPhoneNumber, store.state.cashWalletState.communityAddress,
           name: senderName,
@@ -709,9 +713,9 @@ ThunkAction inviteAndSendCall(
       String walletAddress = store.state.cashWalletState.walletAddress;
 
       Transfer inviteTransfer = new Transfer(
+          timestamp: DateTime.now().millisecondsSinceEpoch,
           from: walletAddress,
           to: '',
-          timestamp: DateTime.now().millisecondsSinceEpoch,
           tokenAddress: token?.address,
           value: value,
           type: 'SEND',
@@ -805,9 +809,10 @@ ThunkAction inviteBonusCall(dynamic data) {
 ThunkAction inviteBonusSuccessCall(String txHash, transfer) {
   return (Store store) async {
     Transfer confirmedTx = transfer.copyWith(
-        status: 'CONFIRMED',
-        txHash: txHash,
-        timestamp: DateTime.now().millisecondsSinceEpoch);
+      status: 'CONFIRMED',
+      txHash: txHash,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+    );
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
     store.dispatch(segmentTrackCall('Wallet: invite bonus success'));
   };
@@ -895,9 +900,10 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
 ThunkAction sendTokenSuccessCall(job, transfer) {
   return (Store store) async {
     Transfer confirmedTx = transfer.copyWith(
-        status: 'CONFIRMED',
-        txHash: job.data['txHash'],
-        timestamp: DateTime.now().millisecondsSinceEpoch);
+      status: 'CONFIRMED',
+      txHash: job.data['txHash'],
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+    );
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
   };
 }

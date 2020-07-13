@@ -18,8 +18,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DotEnv().load('.env');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runZonedGuarded<Future<void>>(() async => runApp(await customThemeApp()),
-      (Object error, StackTrace stackTrace) async {
+  Store<AppState> store = await AppFactory().getStore();
+  String initialRoute =
+      checkIsLoggedIn(store) ? Router.lockScreen : Router.splashScreen;
+  runZonedGuarded<Future<void>>(
+      () async => runApp(CustomTheme(
+            initialThemeKey: MyThemeKeys.DEFAULT,
+            child: new MyApp(store: store, initialRoute: initialRoute),
+          )), (Object error, StackTrace stackTrace) async {
     try {
       await AppFactory().reportError(error, stackTrace);
     } catch (e) {
@@ -45,18 +51,6 @@ bool checkIsLoggedIn(Store<AppState> store) {
     return true;
   }
   return false;
-}
-
-Future<CustomTheme> customThemeApp() async {
-  Store<AppState> store = await AppFactory().getStore();
-
-  String initialRoute =
-      checkIsLoggedIn(store) ? Router.cashHomeScreen : Router.splashScreen;
-
-  return CustomTheme(
-    initialThemeKey: MyThemeKeys.DEFAULT,
-    child: new MyApp(store: store, initialRoute: initialRoute),
-  );
 }
 
 class MyApp extends StatefulWidget {

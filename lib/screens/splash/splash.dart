@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     Drawer drawer = Drawer();
-    return new StoreConnector<AppState, SplashViewModel>(
+    return StoreConnector<AppState, SplashViewModel>(
         distinct: true,
         onInit: onInit,
         converter: SplashViewModel.fromStore,
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
           List<Widget> pages = getPages();
           return new WillPopScope(
               onWillPop: () {
-                return new Future(() => false);
+                return Future(() => false);
               },
               child: Scaffold(
                   drawer: drawer,

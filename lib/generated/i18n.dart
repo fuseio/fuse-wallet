@@ -124,6 +124,8 @@ class I18n implements WidgetsLocalizations {
   String get legal => "Legal";
   /// "Pincode"
   String get pincode => "Pincode";
+  /// "Enter your Pincode:"
+  String get enter_pincode => "Enter your Pincode:";
   /// "Re-type your passcode"
   String get re_type_passcode => "Re-type your passcode";
   /// "Create your passcode"
@@ -258,6 +260,8 @@ class I18n implements WidgetsLocalizations {
   String get send_to_address => "Send to an address";
   /// "Not enough balance in your account"
   String get not_enough_balance => "Not enough balance in your account";
+  /// "Please choose how your prefer to protect your wallet be selecting the following methods"
+  String get choose_lock_method => "Please choose how your prefer to protect your wallet be selecting the following methods";
 }
 
 class _I18n_en_US extends I18n {

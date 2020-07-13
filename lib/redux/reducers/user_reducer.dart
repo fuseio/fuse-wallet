@@ -25,7 +25,12 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
   TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
   TypedReducer<UserState, SetIsoCode>(_setIsoCode),
+  TypedReducer<UserState, SetSecurityType>(_setSecurityType),
 ]);
+
+UserState _setSecurityType(UserState state, SetSecurityType action) {
+  return state.copyWith(authType: action.biometricAuth);
+}
 
 UserState _setIsoCode(UserState state, SetIsoCode action) {
   return state.copyWith(normalizedPhoneNumber: action.normalizedPhoneNumber, isoCode: action.countryCode.code, countryCode: action.countryCode.dialCode);

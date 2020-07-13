@@ -1,9 +1,9 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/screens/trade/trade.dart';
 import 'package:flutter/material.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
-import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/generated/i18n.dart';
@@ -116,7 +116,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           final List<Widget> pages = _pages(vm.contacts, vm.community?.webUrl);
           return TabsScaffold(
               header: MyAppBar(
-                height: 195.0,
+                height: 200.0,
                 backgroundColor: Colors.red,
                 child: CashHeader(),
               ),

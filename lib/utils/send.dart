@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:digitalrand/models/plugins/fee_base.dart';
 import 'package:digitalrand/models/views/contacts.dart';
 import 'package:digitalrand/screens/send/send_amount.dart';
 import 'package:digitalrand/screens/send/send_amount_arguments.dart';
@@ -19,24 +18,18 @@ void _openLoadingDialog(BuildContext context) {
 }
 
 void navigateToSendAmountScreen(
-    BuildContext context,
-    ContactsViewModel viewModel,
-    String accountAddress,
-    String displayName,
-    String phoneNumber,
-    {ImageProvider<dynamic> avatar,
-    FeePlugin feePlugin}) {
+  BuildContext context,
+  ContactsViewModel viewModel,
+  String accountAddress,
+  String displayName,
+  String phoneNumber, {
+  ImageProvider<dynamic> avatar,
+}) {
   Navigator.push(
       context,
       new MaterialPageRoute(
           builder: (context) => SendAmountScreen(
               pageArgs: SendAmountArguments(
-                  feePlugin: viewModel.feePlugin,
-                  // sendType: viewModel.isProMode
-                  //     ? SendType.ETHEREUM_ADDRESS
-                  //     : accountAddress != null
-                  //         ? SendType.FUSE_ADDRESS
-                  //         : SendType.CONTACT,
                   name: displayName,
                   accountAddress: accountAddress,
                   avatar: avatar,
@@ -82,10 +75,6 @@ void sendToPastedAddress(
       new MaterialPageRoute(
           builder: (context) => SendAmountScreen(
               pageArgs: SendAmountArguments(
-                  // feePlugin: viewModel.isProMode ? viewModel.feePlugin : null,
-                  // sendType: viewModel.isProMode
-                  //     ? SendType.ETHEREUM_ADDRESS
-                  //     : SendType.PASTED_ADDRESS,
                   accountAddress: accountAddress,
                   name: formatAddress(accountAddress),
                   avatar: new AssetImage('assets/images/anom.png')))));
