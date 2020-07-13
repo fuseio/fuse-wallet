@@ -101,8 +101,9 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  Router.navigator.pushNamed(
+                                  Router.navigator.pushNamedAndRemoveUntil(
                                       Router.cashHomeScreen,
+                                      (Route<dynamic> route) => false,
                                       arguments: CashModeScaffoldArguments(
                                           tabIndex: 3));
                                 },

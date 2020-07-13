@@ -37,7 +37,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, OnboardViewModel>(
+    return StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
         builder: (_, viewModel) {
@@ -49,8 +49,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       left: 40.0, right: 20.0, bottom: 20.0, top: 0.0),
-                  child: Text(
-                      'Please choose how your prefer to protect your wallet be selecting the following methods',
+                  child: Text(I18n.of(context).choose_lock_method,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
@@ -59,7 +58,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                       )),
                 )
               ],
-              footer: new StoreConnector<AppState, _SecurityViewModel>(
+              footer: StoreConnector<AppState, _SecurityViewModel>(
                   distinct: true,
                   converter: _SecurityViewModel.fromStore,
                   builder: (_, viewModel) {
@@ -70,7 +69,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          const SizedBox(height: 20.0),
+                          SizedBox(height: 20.0),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,8 +85,8 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           color: Color(0xFFDEDEDE), width: 1),
-                                      borderRadius: new BorderRadius.all(
-                                          new Radius.circular(30.0)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30.0)),
                                       color: Theme.of(context).splashColor,
                                       shape: BoxShape.rectangle,
                                     ),
@@ -141,8 +140,8 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Color(0xFFDEDEDE), width: 1),
-                                    borderRadius: new BorderRadius.all(
-                                        new Radius.circular(30.0)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(30.0)),
                                     color: Theme.of(context).splashColor,
                                     shape: BoxShape.rectangle,
                                   ),
@@ -161,7 +160,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                 onTap: () {
                                   Navigator.push(
                                       context,
-                                      new MaterialPageRoute(
+                                      MaterialPageRoute(
                                           builder: (context) =>
                                               PincodeScreen()));
                                 },

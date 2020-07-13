@@ -1,5 +1,5 @@
-import 'package:fusecash/models/plugins/fee_base.dart';
 import 'package:fusecash/models/tokens/token.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:equatable/equatable.dart';
@@ -172,14 +172,11 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              SendAmountScreen(
-                                                  pageArgs: SendAmountArguments(
-                                                      tokenToSend:
-                                                          widget.token))));
+                                  Router.navigator.pushNamedAndRemoveUntil(
+                                      Router.cashHomeScreen,
+                                      (Route<dynamic> route) => false,
+                                      arguments: CashModeScaffoldArguments(
+                                          tabIndex: 1));
                                 },
                               )
                             ],
@@ -197,11 +194,9 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
 class TokenActionsDialogViewModel extends Equatable {
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
-  final FeePlugin feePlugin;
   TokenActionsDialogViewModel({
     this.homeBridgeAddress,
     this.foreignBridgeAddress,
-    this.feePlugin,
   });
 
   static TokenActionsDialogViewModel fromStore(Store<AppState> store) {
@@ -214,6 +209,5 @@ class TokenActionsDialogViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [homeBridgeAddress, foreignBridgeAddress, feePlugin];
+  List<Object> get props => [homeBridgeAddress, foreignBridgeAddress];
 }

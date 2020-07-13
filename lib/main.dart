@@ -72,50 +72,11 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  // Future<void> _checkBiometricable() async {
-  //   _biometricType = await BiometricUtils.getAvailableBiometrics();
-  //   if (_biometricType != BiometricAuth.none) {
-  //     setState(() {
-  //       _biometricType = _biometricType;
-  //       // _showLocalAuthPopup(BiometricUtils.getBiometricString(_biometricType));
-  //     });
-  //   }
-  // }
-
-  // Future<void> _showLocalAuthPopup(String biometric) async {
-  //   await BiometricUtils.showDefaultPopupCheckBiometricAuth(
-  //     message: 'Please use $biometric to unlock!',
-  //     callback: (bool result) {
-  //       setState(
-  //         () {
-  //           if (result) {
-  //             Router.navigator.pushNamedAndRemoveUntil(
-  //                 Router.cashHomeScreen, (Route<dynamic> route) => false);
-  //           }
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
-
   @override
   void initState() {
     super.initState();
-    // _checkBiometricable();
-    // _handleLocalAuh();
     I18n.onLocaleChanged = onLocaleChange;
   }
-
-  // _handleLocalAuh() async {
-  //   UserState userState = widget.store.state.userState;
-  //   if (BiometricAuth.faceID == userState.authType ||
-  //       BiometricAuth.touchID == userState.authType) {
-  //     await _showLocalAuthPopup(
-  //       BiometricUtils.getBiometricString(_biometricType),
-  //     );
-  //     return;
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

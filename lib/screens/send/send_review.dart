@@ -101,16 +101,16 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
-        String symbol = args.tokenToSend.symbol;
-        BigInt balance = args.tokenToSend.amount;
-        num feeAmount = 0;
-        bool hasFund = true;
-        if (args.feePlugin != null) {
-          int decimals = args.tokenToSend.decimals;
-          feeAmount = args.feePlugin.calcFee(args.amount);
-          num tokenBalance = num.parse(formatValue(balance, decimals));
-          hasFund = (args.amount + feeAmount).compareTo(tokenBalance) <= 0;
-        }
+        final String symbol = args.tokenToSend.symbol;
+        final BigInt balance = args.tokenToSend.amount;
+        final int decimals = args.tokenToSend.decimals;
+        final bool withFee =
+            fees.containsKey(symbol) && args.tokenToSend.originNetwork == null;
+        final num feeAmount = withFee ? fees[symbol] : 0;
+        final num currentTokenBalance =
+            num.parse(formatValue(balance, decimals));
+        final bool hasFund =
+            (args.amount + feeAmount).compareTo(currentTokenBalance) <= 0;
         return MainScaffold(
             withPadding: true,
             title: I18n.of(context).review_transfer,
@@ -251,7 +251,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     ],
                   ),
                 ),
-                args.feePlugin != null
+                withFee
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -288,7 +288,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     Padding(
                                       padding: const EdgeInsets.only(left: 7),
                                       child: Text(
-                                          'Not enough balance in your account',
+                                          I18n.of(context).not_enough_balance,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14, color: Colors.red)),
@@ -299,22 +299,22 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         ],
                       )
                     : SizedBox.shrink(),
-                // viewModel.isProMode
-                //     ? SizedBox.shrink()
-                //     : (args.accountAddress == null ||
-                //             args.accountAddress.isEmpty)
-                //         ? Padding(
-                //             padding:
-                //                 EdgeInsets.only(top: 20.0, left: 30, right: 30),
-                //             child: Text(
-                //                 '''Sending money to ${args.name != null ? args.name : 'friend'} will automatically invite them to Fuse and let them redeem the funds you sent''',
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(
-                //                     color:
-                //                         Theme.of(context).colorScheme.secondary,
-                //                     fontSize: 14)),
-                //           )
-                //         : SizedBox.shrink()
+                args.tokenToSend.originNetwork == null
+                    ? SizedBox.shrink()
+                    : (args.accountAddress == null ||
+                            args.accountAddress.isEmpty)
+                        ? Padding(
+                            padding:
+                                EdgeInsets.only(top: 20.0, left: 30, right: 30),
+                            child: Text(
+                                '''Sending money to ${args.name != null ? args.name : 'friend'} will automatically invite them to Fuse and let them redeem the funds you sent''',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    fontSize: 14)),
+                          )
+                        : SizedBox.shrink()
               ])
             ],
             footer: Center(
@@ -322,9 +322,9 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     label: I18n.of(context).send_button,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
-                      if (args.feePlugin != null && !hasFund) {
-                        return;
-                      }
+                      // if (args.feePlugin != null && !hasFund) {
+                      //   return;
+                      // }
                       send(viewModel, args, transferNoteController.text, () {
                         Navigator.push(
                             context,

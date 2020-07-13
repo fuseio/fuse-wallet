@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/plugins/fee_base.dart';
 import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
@@ -261,7 +260,6 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
                                             'assets/images/ethereume_icon.png',
                                           ),
                                           name: 'ethereum',
-                                          feePlugin: vm.feePlugin,
                                           sendType: SendType.ETHEREUM_ADDRESS,
                                           accountAddress:
                                               vm.daiPointsHomeBridgeAddress))));
@@ -343,22 +341,16 @@ class _DaiExplainedScreenState extends State<DaiExplainedScreen> {
 }
 
 class _DaiPointsViewModel {
-  // final bool isProModeActivate;
   final String daiPointsHomeBridgeAddress;
-  final FeePlugin feePlugin;
   _DaiPointsViewModel({
-    // this.isProModeActivate,
     this.daiPointsHomeBridgeAddress,
-    this.feePlugin,
   });
 
   static _DaiPointsViewModel fromStore(Store<AppState> store) {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return _DaiPointsViewModel(
-      feePlugin: community.plugins.bridgeToForeign,
       daiPointsHomeBridgeAddress: community.homeBridgeAddress,
-      // isProModeActivate: store.state.userState.isProModeActivated,
     );
   }
 }

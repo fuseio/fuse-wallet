@@ -53,7 +53,8 @@ class RecentContacts extends StatelessWidget {
                   businesses: viewModel.businesses);
           dynamic image =
               getContactImage(transfer, contact, viewModel.businesses);
-          String phoneNumber = viewModel.reverseContacts[transfer.to.toLowerCase()] ?? '';
+          String phoneNumber =
+              viewModel.reverseContacts[transfer.to.toLowerCase()] ?? '';
           listItems.add(ContactTile(
               image: image,
               displayName: displayName,
@@ -75,11 +76,6 @@ class RecentContacts extends StatelessWidget {
                                     'assets/images/ethereume_icon.png',
                                   ),
                                   name: 'ethereum',
-                                  feePlugin: viewModel
-                                      .community.plugins.bridgeToForeign,
-                                  // sendType: viewModel.isProMode
-                                  //     ? SendType.ETHEREUM_ADDRESS
-                                  //     : SendType.FUSE_ADDRESS,
                                   accountAddress: transfer.to))));
                   return;
                 }

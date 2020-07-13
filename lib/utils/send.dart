@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/plugins/fee_base.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
@@ -19,25 +18,18 @@ void _openLoadingDialog(BuildContext context) {
 }
 
 void navigateToSendAmountScreen(
-    BuildContext context,
-    ContactsViewModel viewModel,
-    String accountAddress,
-    String displayName,
-    String phoneNumber,
-    {ImageProvider<dynamic> avatar,
-    FeePlugin feePlugin}) {
+  BuildContext context,
+  ContactsViewModel viewModel,
+  String accountAddress,
+  String displayName,
+  String phoneNumber, {
+  ImageProvider<dynamic> avatar,
+}) {
   Navigator.push(
       context,
       new MaterialPageRoute(
           builder: (context) => SendAmountScreen(
               pageArgs: SendAmountArguments(
-                  feePlugin: viewModel.feePlugin,
-                  // erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
-                  // sendType: viewModel.isProMode
-                  //     ? SendType.ETHEREUM_ADDRESS
-                  //     : accountAddress != null
-                  //         ? SendType.FUSE_ADDRESS
-                  //         : SendType.CONTACT,
                   name: displayName,
                   accountAddress: accountAddress,
                   avatar: avatar,

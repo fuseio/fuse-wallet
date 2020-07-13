@@ -41,7 +41,7 @@ dependencies:
   logger_flutter: ^0.7.1
   path_provider: ^1.6.5
   json_annotation: ^3.0.1
-  pin_input_text_field: ^3.0.1
+  pin_input_text_field: ^3.0.4
   flare_flutter: ^2.0.1
   decimal: ^0.3.5
   flutter_segment: ^2.0.2

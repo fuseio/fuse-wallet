@@ -101,7 +101,6 @@ class ActivateProMode2DialogState extends State<ActivateProMode2Dialog>
                                                   'assets/images/ethereume_icon.png',
                                                 ),
                                                 name: 'ethereum',
-                                                feePlugin: viewModel.feePlugin,
                                                 sendType:
                                                     SendType.ETHEREUM_ADDRESS,
                                                 accountAddress: viewModel

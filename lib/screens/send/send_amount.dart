@@ -302,11 +302,9 @@ class OptionTile extends StatelessWidget {
   final Function() onTap;
   @override
   Widget build(BuildContext context) {
-    String price;
-    if (prices.containsKey(token.symbol)) {
-      price =
-          getDollarValue(token.amount, token.decimals, prices[token.symbol]);
-    }
+    final String price = prices.containsKey(token.symbol)
+        ? getDollarValue(token.amount, token.decimals, prices[token.symbol])
+        : '0';
     bool isFuseTxs = token.originNetwork != null;
     return Container(
       child: ListTile(

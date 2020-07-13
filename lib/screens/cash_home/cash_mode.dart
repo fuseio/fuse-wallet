@@ -2,6 +2,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -106,6 +107,9 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
     if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+      store.dispatch(getWalletAddressessCall());
+      store.dispatch(identifyCall());
+      store.dispatch(loadContacts());
       store.dispatch(startListenToTransferEvents());
       store.dispatch(startFetchBalancesOnForeign());
       store.dispatch(startFetchTransferEventsCall());

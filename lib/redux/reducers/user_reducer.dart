@@ -1,4 +1,3 @@
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/user_state.dart';
@@ -30,7 +29,6 @@ final userReducers = combineReducers<UserState>([
 ]);
 
 UserState _setSecurityType(UserState state, SetSecurityType action) {
-  print('_setSecurityType _setSecurityType _setSecurityType ${EnumToString.parse(action.biometricAuth)}');
   return state.copyWith(authType: action.biometricAuth);
 }
 

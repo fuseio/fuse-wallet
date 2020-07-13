@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/backup.dart';
 import 'package:fusecash/screens/routes.gr.dart';
@@ -43,6 +44,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height * .5,
+                width: MediaQuery.of(context).size.height * .5,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,47 +54,57 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           SvgPicture.asset('assets/images/fuse_logo.svg',
-                              width: 65, height: 65, color: Color(0xFF656565)),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Text(
-                            'Enter your Pin code',
-                            style: TextStyle(fontSize: 20),
-                          ),
+                              width: 78, height: 25, color: Color(0xFF656565)),
                         ],
                       ),
                     ),
                     SizedBox(
                       height: 100,
                     ),
-                    Container(
-                      width: 280,
-                      child: Theme(
-                          data: ThemeData(
-                              hintColor:
-                                  Theme.of(context).scaffoldBackgroundColor),
-                          child: StoreConnector<AppState, LockScreenViewModel>(
-                              converter: LockScreenViewModel.fromStore,
-                              builder: (_, viewModel) => PinInputTextField(
-                                  pinLength: 6,
-                                  decoration: UnderlineDecoration(
-                                      color: Color(0xFF575757),
-                                      enteredColor: Color(0xFF575757),
-                                      obscureStyle: ObscureStyle(
-                                          isTextObscure: true,
-                                          obscureText: '●')),
-                                  controller: pincodeController,
-                                  autoFocus: true,
-                                  textInputAction: TextInputAction.go,
-                                  onChanged: (value) {
-                                    if (value == viewModel.pincode) {
-                                      Router.navigator.pushNamedAndRemoveUntil(
-                                          Router.cashHomeScreen,
-                                          (Route<dynamic> route) => false);
-                                    }
-                                  }))),
-                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          I18n.of(context).enter_pincode,
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Theme(
+                            data: ThemeData(
+                                hintColor:
+                                    Theme.of(context).scaffoldBackgroundColor),
+                            child: StoreConnector<AppState,
+                                    LockScreenViewModel>(
+                                converter: LockScreenViewModel.fromStore,
+                                builder: (_, viewModel) => Container(
+                                      width: 250,
+                                      child: PinInputTextField(
+                                          pinLength: 6,
+                                          decoration: UnderlineDecoration(
+                                              hintTextStyle: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                              color: Color(0xFF575757),
+                                              enteredColor: Color(0xFF575757),
+                                              obscureStyle: ObscureStyle(
+                                                  isTextObscure: true,
+                                                  obscureText: '●')),
+                                          controller: pincodeController,
+                                          autoFocus: true,
+                                          textInputAction: TextInputAction.go,
+                                          onChanged: (value) {
+                                            if (value == viewModel.pincode) {
+                                              Router.navigator
+                                                  .pushNamedAndRemoveUntil(
+                                                      Router.cashHomeScreen,
+                                                      (Route<dynamic> route) =>
+                                                          false);
+                                            }
+                                          }),
+                                    )))
+                      ],
+                    )
                   ],
                 ),
               )
