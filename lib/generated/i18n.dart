@@ -262,6 +262,14 @@ class I18n implements WidgetsLocalizations {
   String get not_enough_balance => "Not enough balance in your account";
   /// "Please choose how your prefer to protect your wallet be selecting the following methods"
   String get choose_lock_method => "Please choose how your prefer to protect your wallet be selecting the following methods";
+  /// "Yes"
+  String get yes => "Yes";
+  /// "No"
+  String get no => "No";
+  /// "Fuse points"
+  String get fuse_points => "Fuse points";
+  /// "Back up now"
+  String get back_up_now => "Back up now";
 }
 
 class _I18n_en_US extends I18n {

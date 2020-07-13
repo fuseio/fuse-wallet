@@ -46,7 +46,7 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
         child: AlertDialog(
             contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             content: Container(
               child: Column(

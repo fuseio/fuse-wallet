@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:fusecash/screens/backup/show_mnemonic.dart';
 import 'package:fusecash/screens/buy/business.dart';
 import 'package:fusecash/screens/cash_home/cash_mode.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
@@ -15,6 +16,7 @@ import 'package:fusecash/screens/splash/splash.dart';
 class $Router {
   @initial
   LockScreen lockScreen;
+  ShowMnemonic backupScreen;
   SecurityScreen securityScreen;
   ColorsPincodeScreen pincode;
   SplashScreen splashScreen;

@@ -10,6 +10,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/screens/misc/lock_screen.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/screens/backup/show_mnemonic.dart';
 import 'package:fusecash/screens/misc/security.dart';
 import 'package:fusecash/screens/misc/pincode_colored.dart';
 import 'package:fusecash/screens/splash/splash.dart';
@@ -24,6 +25,7 @@ import 'package:fusecash/screens/signup/recovery.dart';
 
 class Router {
   static const lockScreen = '/';
+  static const backupScreen = '/backup-screen';
   static const securityScreen = '/security-screen';
   static const pincode = '/pincode';
   static const splashScreen = '/splash-screen';
@@ -45,6 +47,11 @@ class Router {
         final typedArgs = args as Store<AppState>;
         return MaterialPageRoute<dynamic>(
           builder: (_) => LockScreen(store: typedArgs),
+          settings: settings,
+        );
+      case Router.backupScreen:
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => ShowMnemonic(),
           settings: settings,
         );
       case Router.securityScreen:

@@ -54,8 +54,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         context: context,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.0),
-                topRight: Radius.circular(12.0))),
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0))),
         builder: (BuildContext context) => Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(

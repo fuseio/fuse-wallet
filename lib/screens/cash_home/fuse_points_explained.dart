@@ -1,0 +1,165 @@
+import 'dart:core';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/screens/misc/about.dart';
+import 'package:fusecash/widgets/main_scaffold.dart';
+
+class FusePointsExplainedScreen extends StatefulWidget {
+  @override
+  _FusePointsExplainedScreenState createState() =>
+      _FusePointsExplainedScreenState();
+}
+
+class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return MainScaffold(
+        automaticallyImplyLeading: false,
+        title: I18n.of(context).fuse_points,
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                width: MediaQuery.of(context).size.width * 0.9,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                decoration: BoxDecoration(
+                    color: Color(0xFFF7FFF8),
+                    borderRadius:
+                        new BorderRadius.all(new Radius.circular(15.0)),
+                    border: Border.all(color: Color(0xFFECF7EF))),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SvgPicture.asset(
+                          "assets/images/fuse-logo.svg",
+                          width: 75,
+                          height: 75,
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          '''Fuse point is the default community on
+Fuse wallet. Get some points to start
+exploring it’s features:''',
+                          style: TextStyle(
+                              fontSize: 17,
+                              color: Theme.of(context).colorScheme.secondary),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Win up to 30 points!',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  SvgPicture.asset('assets/images/v_sign.svg'),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text('10 points for installing the app',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary)),
+                                ],
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SvgPicture.asset('assets/images/v_sign.svg'),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                      '10 points after sending money to a friend',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary)),
+                                ],
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  SvgPicture.asset('assets/images/v_sign.svg'),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text('10 points for backing-up your wallet',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFFB1FDC0),
+                      Color(0xFFFEFD86),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15.0),
+                  ),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    launchUrl('https://studio.fuse.io');
+                  },
+                  child: Container(
+                    child:
+                        SvgPicture.asset('assets/images/lanuch_community.svg'),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ]);
+  }
+}

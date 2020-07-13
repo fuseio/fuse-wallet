@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/screens/cash_home/fuse_points_explained.dart';
+import 'package:fusecash/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -12,7 +14,6 @@ import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/screens/buy/buy.dart';
 import 'package:fusecash/screens/cash_home/cash_header.dart';
 import 'package:fusecash/screens/cash_home/cash_home.dart';
-import 'package:fusecash/screens/cash_home/dai_explained.dart';
 import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/send/contacts_list.dart';
 import 'package:fusecash/screens/send/receive.dart';
@@ -57,7 +58,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       return [
         CashHomeScreen(),
         !hasContactsInStore ? SendToContactScreen() : ContactsList(),
-        DaiExplainedScreen(),
+        FusePointsExplainedScreen(),
         ReceiveScreen()
       ];
     } else {
@@ -88,7 +89,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           bottomBarItem(I18n.of(context).home, 'home'),
           bottomBarItem(I18n.of(context).send_button, 'send'),
           vm.isDefaultCommunity
-              ? bottomBarItem(I18n.of(context).dai_points, 'daipoints')
+              ? bottomBarItem(I18n.of(context).fuse_points, 'fuse_points_tab')
               : bottomBarItem(I18n.of(context).buy, 'buy'),
           bottomBarItem(I18n.of(context).receive, 'receive'),
         ],
@@ -98,6 +99,18 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
   onInit(Store<AppState> store) {
     String walletStatus = store.state.cashWalletState.walletStatus;
     String accountAddress = store.state.userState.accountAddress;
+    bool isBackup = store.state.userState.backup ?? false;
+
+    if (!isBackup) {
+      Future.delayed(const Duration(milliseconds: 2500), () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return BackUpDialog();
+            });
+      });
+    }
+
     if (walletStatus != 'deploying' &&
         walletStatus != 'created' &&
         accountAddress != '') {

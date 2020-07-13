@@ -6,20 +6,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
+import 'package:fusecash/screens/misc/about.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/drawer.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-_launchUrl(String urlToLaunch) async {
-  if (await canLaunch(urlToLaunch)) {
-    await launch(urlToLaunch, forceSafariVC: false);
-  } else {
-    throw 'Could not launch $urlToLaunch';
-  }
-}
 
 class BusinessPageArguments {
   final Business business;
@@ -58,7 +50,7 @@ class _BusinessPageState extends State<BusinessPage> {
     String imageUrl =
         getImageUrl(businessArgs.business, businessArgs.communityAddress);
 
-    return new Scaffold(
+    return Scaffold(
       key: scaffoldState,
       body: Container(
         child: Column(
@@ -74,7 +66,7 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Stack(
                         children: <Widget>[
                           Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
+                              padding: EdgeInsets.only(bottom: 20),
                               child: businessArgs
                                               .business.metadata.coverPhoto ==
                                           null ||
@@ -87,7 +79,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
+                                          Icon(Icons.error),
                                       imageBuilder: (context, imageProvider) =>
                                           Image(
                                         image: imageProvider,
@@ -100,7 +92,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
+                                          Icon(Icons.error),
                                       imageBuilder: (context, imageProvider) =>
                                           Image(
                                         image: imageProvider,
@@ -110,7 +102,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         height: 200,
                                       ),
                                     ))),
-                          new Positioned(
+                          Positioned(
                               top: 50.0,
                               left: 18.0,
                               child: InkWell(
@@ -132,14 +124,14 @@ class _BusinessPageState extends State<BusinessPage> {
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 10),
+                            padding: EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
                                 child: CachedNetworkImage(
                               imageUrl: imageUrl,
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
+                                  Icon(Icons.error),
                               imageBuilder: (context, imageProvider) => Image(
                                 image: imageProvider,
                                 fit: BoxFit.cover,
@@ -157,7 +149,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                               Container(
-                                constraints: new BoxConstraints(
+                                constraints: BoxConstraints(
                                     maxWidth:
                                         MediaQuery.of(context).size.width -
                                             120),
@@ -188,7 +180,7 @@ class _BusinessPageState extends State<BusinessPage> {
                       flex: 3,
                       fit: FlexFit.tight,
                       child: Padding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                             top: 10, bottom: 0, left: 20.0, right: 20.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -203,8 +195,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         child: Row(
                                           children: <Widget>[
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.all(8.0),
                                               child: SvgPicture.asset(
                                                 'assets/images/geography.svg',
                                                 width: 19,
@@ -213,7 +204,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                _launchUrl(businessArgs
+                                                launchUrl(businessArgs
                                                     .business.metadata.website);
                                               },
                                               child: Text(businessArgs
@@ -230,8 +221,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                         child: Row(
                                           children: <Widget>[
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.all(8.0),
                                               child: SvgPicture.asset(
                                                 'assets/images/phone.svg',
                                                 width: 19,
@@ -242,7 +232,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                               child: Text(businessArgs.business
                                                   .metadata.phoneNumber),
                                               onTap: () {
-                                                _launchUrl(
+                                                launchUrl(
                                                     'tel:${businessArgs.business.metadata.phoneNumber}');
                                               },
                                             )
@@ -261,8 +251,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                               MainAxisAlignment.start,
                                           children: <Widget>[
                                             Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                                padding: EdgeInsets.all(8.0),
                                                 child: SvgPicture.asset(
                                                   'assets/images/info.svg',
                                                   width: 19,
@@ -275,9 +264,8 @@ class _BusinessPageState extends State<BusinessPage> {
                                                   MainAxisAlignment.end,
                                               children: <Widget>[
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 5),
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 5),
                                                   child: Text(businessArgs
                                                               .business
                                                               .metadata
@@ -287,9 +275,8 @@ class _BusinessPageState extends State<BusinessPage> {
                                                       : ''),
                                                 ),
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 5),
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 5),
                                                   child: Text(
                                                     businessArgs.business
                                                         .metadata.description,
@@ -333,11 +320,10 @@ class _BusinessPageState extends State<BusinessPage> {
                                 )
                               : SizedBox.shrink(),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 20.0),
+                            padding: EdgeInsets.only(bottom: 20.0),
                             child: RaisedButton(
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(30.0)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
                               color: Theme.of(context).buttonColor,
                               padding: EdgeInsets.only(
                                   left: 100, right: 100, top: 15, bottom: 15),
@@ -354,7 +340,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               onPressed: () {
                                 Navigator.push(
                                     context,
-                                    new MaterialPageRoute(
+                                    MaterialPageRoute(
                                         builder: (context) => SendAmountScreen(
                                                 pageArgs: SendAmountArguments(
                                               sendType: SendType.BUSINESS,

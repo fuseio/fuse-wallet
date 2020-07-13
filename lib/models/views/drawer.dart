@@ -10,6 +10,7 @@ class DrawerViewModel extends Equatable {
   final String walletStatus;
   final String walletAddress;
   final String communityAddress;
+  final bool isBackup;
   final Plugins plugins;
   final Function() firstName;
 
@@ -17,6 +18,7 @@ class DrawerViewModel extends Equatable {
       {this.logout,
       this.walletStatus,
       this.plugins,
+      this.isBackup,
       this.walletAddress,
       this.firstName,
       this.communityAddress});
@@ -27,6 +29,7 @@ class DrawerViewModel extends Equatable {
         store.state.cashWalletState.communities[communityAddress] ??
             new Community.initial();
     return DrawerViewModel(
+        isBackup: store.state.userState.backup ?? false,
         communityAddress: communityAddress,
         walletAddress: store.state.cashWalletState.walletAddress,
         plugins: community?.plugins,
