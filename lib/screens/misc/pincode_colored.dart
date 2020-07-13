@@ -85,7 +85,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                   controller: pincodeController,
                                   autoFocus: true,
                                   textInputAction: TextInputAction.go,
-                                  onSubmit: (value) {
+                                  onChanged: (value) {
                                     if (value == viewModel.pincode) {
                                       Router.navigator.pushNamedAndRemoveUntil(
                                           Router.cashHomeScreen,
