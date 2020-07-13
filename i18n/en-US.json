@@ -110,5 +110,6 @@
     "no_funds_available": "No funds available",
     "review_trade": "Review trade",
     "use_max": "Use max",
-    "send_to_address": "Send to an address"
+    "send_to_address": "Send to an address",
+    "not_enough_balance": "Not enough balance in your account"
 }

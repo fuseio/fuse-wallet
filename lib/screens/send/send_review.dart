@@ -101,18 +101,14 @@ class _SendReviewScreenState extends State<SendReviewScreen>
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       builder: (_, viewModel) {
-        String symbol = args.tokenToSend.symbol;
-        BigInt balance = args.tokenToSend.amount;
-        num feeAmount = 0;
-        bool hasFund = true;
+        final String symbol = args.tokenToSend.symbol;
+        final BigInt balance = args.tokenToSend.amount;
+        final int decimals = args.tokenToSend.decimals;
         final bool withFee =
             fees.containsKey(symbol) && args.tokenToSend.originNetwork == null;
-        if (withFee) {
-          int decimals = args.tokenToSend.decimals;
-          feeAmount = fees[symbol];
-          num tokenBalance = num.parse(formatValue(balance, decimals));
-          hasFund = (args.amount + feeAmount).compareTo(tokenBalance) <= 0;
-        }
+        final num feeAmount = withFee ? fees[symbol] : 0;
+        final num currentTokenBalance = num.parse(formatValue(balance, decimals));
+        final bool hasFund = (args.amount + feeAmount).compareTo(currentTokenBalance) <= 0;
         return MainScaffold(
             withPadding: true,
             title: I18n.of(context).review_transfer,
@@ -290,7 +286,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     Padding(
                                       padding: const EdgeInsets.only(left: 7),
                                       child: Text(
-                                          'Not enough balance in your account',
+                                          I18n.of(context).not_enough_balance,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontSize: 14, color: Colors.red)),

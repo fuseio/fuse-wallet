@@ -256,6 +256,8 @@ class I18n implements WidgetsLocalizations {
   String get use_max => "Use max";
   /// "Send to an address"
   String get send_to_address => "Send to an address";
+  /// "Not enough balance in your account"
+  String get not_enough_balance => "Not enough balance in your account";
 }
 
 class _I18n_en_US extends I18n {

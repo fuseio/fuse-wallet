@@ -199,30 +199,7 @@ class _ExchangeState extends State<TradeScreen> {
             Text(
               token.symbol,
               style: TextStyle(fontSize: 16),
-            ),
-            // RichText(
-            //     text: new TextSpan(
-            //         style: TextStyle(
-            //             color: Theme.of(context).primaryColor, fontSize: 16),
-            //         children: <InlineSpan>[
-            //       TextSpan(
-            //         text: '${token.symbol} ',
-            //         style: TextStyle(fontSize: 16),
-            //       ),
-            //       // token.subtitle != null && token.subtitle.isNotEmpty
-            //       exchangableTokens[checksumEthereumAddress(token.address)] != null &&
-            //               exchangableTokens[checksumEthereumAddress(token.address)].subtitle != null
-            //           ? TextSpan(
-            //               text: '(${exchangableTokens[checksumEthereumAddress(token.address)].subtitle})',
-            //               style: TextStyle(
-            //                   fontSize: 14,
-            //                   color: Color(0xFF888888)))
-            //           : TextSpan(
-            //               text: '',
-            //               style: TextStyle(
-            //                   fontSize: 14,
-            //                   color: Color(0xFF888888)))
-            //     ]))
+            )
           ],
         ),
       );
@@ -251,10 +228,8 @@ class _ExchangeState extends State<TradeScreen> {
           receiveController.text = '';
           fromTokenAmountPay = null;
           toTokenAmountPay = null;
-          // isFetchingPricePay = true;
           fromTokenAmountReceive = null;
           toTokenAmountReceive = null;
-          // isFetchingPriceReceive = true;
           isFetchingPrice = true;
         });
       }
@@ -270,14 +245,6 @@ class _ExchangeState extends State<TradeScreen> {
       List res = await Future.wait(futures);
       Map paywithResponse = res[0];
       Map receiceResponse = res[1];
-      // Map paywithResponse = await fetchSwap(
-      //     walletAddress, soureToken.address, destinationToken.address,
-      //     sourceAmount:
-      //         toBigInt(num.parse('1'), soureToken.decimals).toString());
-      // Map receiceResponse = await fetchSwap(
-      //     walletAddress, destinationToken.address, soureToken.address,
-      //     sourceAmount:
-      //         toBigInt(num.parse('1'), destinationToken.decimals).toString());
       String fromTokenPay = formatValue(
           BigInt.from(num.parse(paywithResponse['sourceAmount'])),
           soureToken.decimals);
@@ -295,10 +262,8 @@ class _ExchangeState extends State<TradeScreen> {
           fromTokenAmountPay = fromTokenPay;
           toTokenAmountPay = toTokenPay;
           isFetchingPrice = false;
-          // isFetchingPricePay = false;
           fromTokenAmountReceive = fromTokenReceive;
           toTokenAmountReceive = toTokenReceive;
-          // isFetchingPriceReceive = false;
         });
       }
     } catch (e) {
@@ -308,10 +273,8 @@ class _ExchangeState extends State<TradeScreen> {
           fromTokenAmountPay = null;
           toTokenAmountPay = null;
           isFetchingPrice = false;
-          // isFetchingPricePay = false;
           fromTokenAmountReceive = null;
           toTokenAmountReceive = null;
-          // isFetchingPriceReceive = false;
         });
       }
     }

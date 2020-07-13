@@ -37,26 +37,16 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    num feeAmount = 0;
-    bool hasFund = true;
-    num amount = widget.exchangeSummry['amount'];
-    final String sourceAssetSymbol =
-        widget.exchangeSummry['sourceAsset']['symbol'];
-    final bool withFee = fees.containsKey(sourceAssetSymbol);
+    final num amount = widget.exchangeSummry['amount'];
+    final bool withFee = fees.containsKey(widget.fromToken.symbol);
+    final num feeAmount = withFee ? fees[widget.fromToken.symbol] : 0;
     final amountToSwap = formatValue(
         BigInt.from(num.parse(widget.exchangeSummry['sourceAmount'])),
         int.parse(widget.exchangeSummry['sourceAsset']['decimals']),
         withPrecision: true);
-    if (withFee) {
-      int decimals =
-          int.parse(widget.exchangeSummry['sourceAsset']['decimals']);
-      feeAmount = fees[sourceAssetSymbol];
-      num tokenBalance = num.parse(formatValue(
-          BigInt.from(num.parse(widget.exchangeSummry['sourceAmount'])),
-          decimals));
-      hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
-      print('hasFund hasFund $hasFund');
-    }
+    final num tokenBalance = num.parse(
+        formatValue(widget.fromToken.amount, widget.fromToken.decimals));
+    final bool hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
     return MainScaffold(
         withPadding: true,
         title: I18n.of(context).review_trade,
@@ -212,7 +202,8 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Fee amount: $feeAmount $sourceAssetSymbol',
+                        Text(
+                            'Fee amount: $feeAmount ${widget.fromToken.symbol}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 12, color: Color(0xFF777777))),
@@ -220,7 +211,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           height: 10,
                         ),
                         Text(
-                            'Total amount: ${(num.parse(amountToSwap) + feeAmount)} $sourceAssetSymbol',
+                            'Total amount: ${(num.parse(amountToSwap) + feeAmount)} ${widget.fromToken.symbol}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14)),
@@ -240,7 +231,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 7),
                                     child: Text(
-                                        'Not enough balance in your account',
+                                        I18n.of(context).not_enough_balance,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 14, color: Colors.red)),
