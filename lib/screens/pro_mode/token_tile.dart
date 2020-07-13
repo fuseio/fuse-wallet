@@ -13,7 +13,10 @@ import 'package:fusecash/screens/pro_mode/token_transfers.dart';
 import 'package:fusecash/utils/format.dart';
 
 class TokenTile extends StatelessWidget {
-  TokenTile({this.token});
+  TokenTile({Key key, this.token, this.onTap, this.symbolHeight = 60.0, this.symbolWidth = 60.0}) : super(key: key);
+  final Function() onTap;
+  final double symbolWidth;
+  final double symbolHeight;
   final Token token;
   @override
   Widget build(BuildContext context) {
@@ -22,15 +25,16 @@ class TokenTile extends StatelessWidget {
         : '0';
     bool isFuseTxs = token.originNetwork != null;
     return Container(
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
       child: ListTile(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => TokenTransfersScreen(token: token)));
-          },
+          onTap: onTap != null
+              ? onTap
+              : () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              TokenTransfersScreen(token: token)));
+                },
           contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
           title: Row(
             mainAxisSize: MainAxisSize.max,

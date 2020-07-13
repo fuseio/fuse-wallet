@@ -28,14 +28,18 @@ class AssetsList extends StatelessWidget {
             key: key,
             body: Column(children: <Widget>[
               Expanded(
-                  child: ListView.builder(
+                  child: ListView.separated(
                       shrinkWrap: true,
                       primary: false,
                       padding: EdgeInsets.only(left: 15, right: 15),
                       itemCount: viewModel.tokens?.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return TokenTile(token: viewModel.tokens[index]);
-                      })),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(
+                            color: Color(0xFFDCDCDC),
+                            thickness: 1,
+                          ),
+                      itemBuilder: (context, index) =>
+                          TokenTile(token: viewModel.tokens[index]))),
             ]));
       },
     );
