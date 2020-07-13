@@ -2,7 +2,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/models/views/backup.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/user_state.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
