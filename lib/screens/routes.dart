@@ -4,6 +4,8 @@ import 'package:fusecash/screens/buy/map.dart';
 import 'package:fusecash/screens/cash_home/cash_mode.dart';
 import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
+import 'package:fusecash/screens/misc/lock_screen.dart';
+import 'package:fusecash/screens/misc/pincode_colored.dart';
 import 'package:fusecash/screens/signup/recovery.dart';
 import 'package:fusecash/screens/signup/username.dart';
 import 'package:fusecash/screens/signup/signup.dart';
@@ -18,7 +20,9 @@ class $Router {
   VerifyScreen verifyScreen;
   UserNameScreen userNameScreen;
   PincodeScreen pincodeScreen;
+  ColorsPincodeScreen pincode;
   @initial
+  LockScreen lockScreen;
   CashModeScaffold cashHomeScreen;
   TransactionDetailsScreen transactionDetailsScreen;
   BusinessPage businessPage;

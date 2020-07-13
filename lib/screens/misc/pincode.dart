@@ -3,8 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
@@ -26,30 +26,31 @@ class _PincodeScreenState extends State<PincodeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, OnboardViewModel>(
-        distinct: true,
-        converter: OnboardViewModel.fromStore,
-        builder: (_, viewModel) {
-          return MainScaffold(
-              withPadding: true,
-              title: I18n.of(context).pincode,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: 40.0, right: 20.0, bottom: 20.0, top: 0.0),
-                  child: Text(
-                      this.isRetype
-                          ? I18n.of(context).re_type_passcode
-                          : I18n.of(context).create_passcode,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                      )),
-                )
-              ],
-              footer: Container(
+    return MainScaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        withPadding: true,
+        title: I18n.of(context).protect_wallet,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+                left: 40.0, right: 20.0, bottom: 20.0, top: 0.0),
+            child: Text(
+                this.isRetype
+                    ? I18n.of(context).re_type_passcode
+                    : I18n.of(context).create_passcode,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                )),
+          )
+        ],
+        footer: new StoreConnector<AppState, OnboardViewModel>(
+            distinct: true,
+            converter: OnboardViewModel.fromStore,
+            builder: (_, viewModel) {
+              return Container(
                   child: Column(children: <Widget>[
                 Padding(
                   padding:
@@ -79,6 +80,9 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                 });
                               } else if (pin.length == 6 && this.isRetype) {
                                 if (pin == this.lastPincode) {
+                                  viewModel
+                                      .setSecurityType(BiometricAuth.pincode);
+                                  viewModel.setPincode(this.lastPincode);
                                   Router.navigator.pushNamedAndRemoveUntil(
                                       Router.cashHomeScreen,
                                       (Route<dynamic> route) => false);
@@ -87,19 +91,18 @@ class _PincodeScreenState extends State<PincodeScreen> {
                             })),
                   ),
                 ),
-                const SizedBox(height: 40.0),
-                Center(
-                  child: PrimaryButton(
-                    label: I18n.of(context).skip_button,
-                    onPressed: () async {
-                      viewModel.setPincode(this.lastPincode);
-                      Router.navigator.pushNamedAndRemoveUntil(
-                          Router.cashHomeScreen,
-                          (Route<dynamic> route) => false);
-                    },
-                  ),
-                ),
-              ])));
-        });
+                // const SizedBox(height: 40.0),
+                // Center(
+                //   child: PrimaryButton(
+                //     label: I18n.of(context).skip_button,
+                //     onPressed: () async {
+                //       Router.navigator.pushNamedAndRemoveUntil(
+                //           Router.cashHomeScreen,
+                //           (Route<dynamic> route) => false);
+                //     },
+                //   ),
+                // )
+              ]));
+            }));
   }
 }

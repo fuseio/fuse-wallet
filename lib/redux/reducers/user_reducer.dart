@@ -1,3 +1,4 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/user_state.dart';
@@ -25,7 +26,13 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
   TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
   TypedReducer<UserState, SetIsoCode>(_setIsoCode),
+  TypedReducer<UserState, SetSecurityType>(_setSecurityType),
 ]);
+
+UserState _setSecurityType(UserState state, SetSecurityType action) {
+  print('_setSecurityType _setSecurityType _setSecurityType ${EnumToString.parse(action.biometricAuth)}');
+  return state.copyWith(authType: action.biometricAuth);
+}
 
 UserState _setIsoCode(UserState state, SetIsoCode action) {
   return state.copyWith(normalizedPhoneNumber: action.normalizedPhoneNumber, isoCode: action.countryCode.code, countryCode: action.countryCode.dialCode);

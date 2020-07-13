@@ -143,6 +143,8 @@ PODS:
     - Flutter
     - libPhoneNumber-iOS
   - libPhoneNumber-iOS (0.9.15)
+  - local_auth (0.0.1):
+    - Flutter
   - MTBBarcodeScanner (5.0.11)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
@@ -205,6 +207,7 @@ DEPENDENCIES:
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - libphonenumber (from `.symlinks/plugins/libphonenumber/ios`)
+  - local_auth (from `.symlinks/plugins/local_auth/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
@@ -286,6 +289,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   libphonenumber:
     :path: ".symlinks/plugins/libphonenumber/ios"
+  local_auth:
+    :path: ".symlinks/plugins/local_auth/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider:
@@ -356,6 +361,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
+  local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   package_info: 48b108e75b8802c2d5e126f208ef540561c98aef

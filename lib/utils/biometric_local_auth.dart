@@ -1,7 +1,7 @@
 import 'package:local_auth/local_auth.dart';
 
 //local auth
-enum BiometricAuth { faceID, touchID, none }
+enum BiometricAuth { faceID, touchID, pincode, none }
 
 class BiometricUtils {
   //local authentication
@@ -18,10 +18,12 @@ class BiometricUtils {
   }
 
   static Future<void> showDefaultPopupCheckBiometricAuth(
-      {String message = '', Function(bool) callback}) async {
+      {String message = '',
+      Function(bool) callback,
+      bool stickyAuth = false}) async {
     final localAuth = LocalAuthentication();
-    final bool result =
-        await localAuth.authenticateWithBiometrics(localizedReason: message);
+    final bool result = await localAuth.authenticateWithBiometrics(
+        localizedReason: message, stickyAuth: stickyAuth);
     callback?.call(result);
   }
 

@@ -12,6 +12,10 @@ import 'package:fusecash/screens/signup/signup.dart';
 import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/screens/signup/username.dart';
 import 'package:fusecash/screens/misc/pincode.dart';
+import 'package:fusecash/screens/misc/pincode_colored.dart';
+import 'package:fusecash/screens/misc/lock_screen.dart';
+import 'package:redux/redux.dart';
+import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/screens/cash_home/cash_mode.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/screens/cash_home/transaction_details.dart';
@@ -26,7 +30,9 @@ class Router {
   static const verifyScreen = '/verify-screen';
   static const userNameScreen = '/user-name-screen';
   static const pincodeScreen = '/pincode-screen';
-  static const cashHomeScreen = '/';
+  static const pincode = '/pincode';
+  static const lockScreen = '/';
+  static const cashHomeScreen = '/cash-home-screen';
   static const transactionDetailsScreen = '/transaction-details-screen';
   static const businessPage = '/business-page';
   static const recoveryPage = '/recovery-page';
@@ -63,6 +69,20 @@ class Router {
       case Router.pincodeScreen:
         return MaterialPageRoute<dynamic>(
           builder: (_) => PincodeScreen(),
+          settings: settings,
+        );
+      case Router.pincode:
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => ColorsPincodeScreen(),
+          settings: settings,
+        );
+      case Router.lockScreen:
+        if (hasInvalidArgs<Store<AppState>>(args)) {
+          return misTypedArgsRoute<Store<AppState>>(args);
+        }
+        final typedArgs = args as Store<AppState>;
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => LockScreen(store: typedArgs),
           settings: settings,
         );
       case Router.cashHomeScreen:

@@ -4,6 +4,7 @@ description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"
 dependencies:
+  enum_to_string: ^1.0.9
   local_auth: ^0.6.2+3
   auto_size_text: ^2.1.0
   flutter_webview_plugin: ^0.3.11

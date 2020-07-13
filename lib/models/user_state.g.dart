@@ -15,6 +15,7 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     daiPointsManagerAddress: json['daiPointsManagerAddress'] as String,
     networks: (json['networks'] as List)?.map((e) => e as String)?.toList(),
     mnemonic: (json['mnemonic'] as List)?.map((e) => e as String)?.toList(),
+    authType: UserState._authTypeFromJson(json['authType'] as String),
     privateKey: json['privateKey'] as String,
     pincode: json['pincode'] as String,
     accountAddress: json['accountAddress'] as String,
@@ -75,4 +76,5 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'displayBalance': instance.displayBalance,
       'installedAt': instance.installedAt?.toIso8601String(),
       'isProModeActivated': instance.isProModeActivated,
+      'authType': EnumToString.parse(instance.authType),
     };

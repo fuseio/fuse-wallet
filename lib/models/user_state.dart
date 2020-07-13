@@ -1,6 +1,8 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_state.g.dart';
@@ -37,6 +39,8 @@ class UserState {
   final int displayBalance;
   final DateTime installedAt;
   final bool isProModeActivated;
+  @JsonKey(fromJson: _authTypeFromJson, toJson: EnumToString.parse)
+  final BiometricAuth authType;
 
   @JsonKey(ignore: true, defaultValue: false)
   final bool isProMode;
@@ -57,6 +61,7 @@ class UserState {
       this.daiPointsManagerAddress,
       this.networks,
       this.mnemonic,
+      this.authType,
       this.privateKey,
       this.pincode,
       this.accountAddress,
@@ -114,6 +119,7 @@ class UserState {
         isLoggedOut: false,
         isContactsSynced: null,
         backup: false,
+        authType: BiometricAuth.none,
         credentials: null,
         displayBalance: 0,
         installedAt: DateTime.now().toUtc(),
@@ -157,11 +163,15 @@ class UserState {
       bool isLoginRequest,
       bool isVerifyRequest,
       bool isProMode,
+      BiometricAuth authType,
       bool isProModeActivated}) {
     return UserState(
+        authType: authType ?? this.authType,
         walletAddress: walletAddress ?? this.walletAddress,
-        communityManagerAddress: communityManagerAddress ?? this.communityManagerAddress,
-        transferManagerAddress: transferManagerAddress ?? this.transferManagerAddress,
+        communityManagerAddress:
+            communityManagerAddress ?? this.communityManagerAddress,
+        transferManagerAddress:
+            transferManagerAddress ?? this.transferManagerAddress,
         walletStatus: walletStatus ?? this.walletStatus,
         networks: networks ?? this.networks,
         mnemonic: mnemonic ?? this.mnemonic,
@@ -171,7 +181,8 @@ class UserState {
         countryCode: countryCode ?? this.countryCode,
         isoCode: isoCode ?? this.isoCode,
         phoneNumber: phoneNumber ?? this.phoneNumber,
-        normalizedPhoneNumber: normalizedPhoneNumber ?? this.normalizedPhoneNumber,
+        normalizedPhoneNumber:
+            normalizedPhoneNumber ?? this.normalizedPhoneNumber,
         contacts: contacts ?? this.contacts,
         syncedContacts: syncedContacts ?? this.syncedContacts,
         reverseContacts: reverseContacts ?? this.reverseContacts,
@@ -193,6 +204,10 @@ class UserState {
         isProMode: isProMode ?? this.isProMode,
         isProModeActivated: isProModeActivated ?? this.isProModeActivated);
   }
+
+  static BiometricAuth _authTypeFromJson(String auth) => auth == null
+      ? BiometricAuth.none
+      : EnumToString.fromString(BiometricAuth.values, auth);
 
   dynamic toJson() => _$UserStateToJson(this);
 

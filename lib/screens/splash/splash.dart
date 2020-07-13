@@ -20,7 +20,6 @@ class _SplashScreenState extends State<SplashScreen> {
   PageController _pageController;
   static const _kDuration = const Duration(milliseconds: 2000);
   static const _kCurve = Curves.ease;
-  bool isOpen = false;
   HouseController _slideController;
   ValueNotifier<double> notifier;
   int _previousPage;
@@ -74,15 +73,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     Drawer drawer = Drawer();
-    return new StoreConnector<AppState, SplashViewModel>(
+    return StoreConnector<AppState, SplashViewModel>(
         distinct: true,
         onInit: onInit,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
           List pages = getPages(context);
-          return new WillPopScope(
+          return WillPopScope(
               onWillPop: () {
-                return new Future(() => false);
+                return Future(() => false);
               },
               child: Scaffold(
                   drawer: drawer,
@@ -92,10 +91,10 @@ class _SplashScreenState extends State<SplashScreen> {
                       Expanded(
                           flex: 20,
                           child: Container(
-                            child: new Stack(
+                            child: Stack(
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.only(
+                                  padding: EdgeInsets.only(
                                       bottom: 100, left: 20, right: 20),
                                   child: FlareActor(
                                     "assets/images/animation.flr",
@@ -104,22 +103,22 @@ class _SplashScreenState extends State<SplashScreen> {
                                     controller: _slideController,
                                   ),
                                 ),
-                                new PageView.builder(
-                                  physics: new AlwaysScrollableScrollPhysics(),
+                                PageView.builder(
+                                  physics: AlwaysScrollableScrollPhysics(),
                                   controller: _pageController,
                                   itemCount: pages.length,
                                   itemBuilder:
                                       (BuildContext context, int index) =>
                                           pages[index % 4],
                                 ),
-                                new Positioned(
+                                Positioned(
                                   bottom: 15.0,
                                   left: 0.0,
                                   right: 0.0,
-                                  child: new Container(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: new Center(
-                                      child: new DotsIndicator(
+                                  child: Container(
+                                    padding: EdgeInsets.all(20.0),
+                                    child: Center(
+                                      child: DotsIndicator(
                                         controller: _pageController,
                                         itemCount: 4,
                                         onPageSelected: (int page) {

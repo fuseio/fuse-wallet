@@ -10,6 +10,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
+import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
@@ -22,6 +23,11 @@ import 'package:fusecash/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
+
+class SetSecurityType {
+  BiometricAuth biometricAuth;
+  SetSecurityType({this.biometricAuth});
+}
 
 class VerifyRequest {
   final String verificationId;
@@ -379,18 +385,6 @@ ThunkAction identifyCall() {
           "Identifier": store.state.userState.identifier,
           "Joined Communities": store.state.cashWalletState.communities.keys.toList(),
         })));
-  };
-}
-
-ThunkAction setPincodeCall(String pincode) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      store.dispatch(SetPincodeSuccess(pincode));
-    } catch (e) {
-      logger.severe('ERROR - setPincodeCall $e');
-      store.dispatch(new ErrorAction('Could not send token to contact'));
-    }
   };
 }
 

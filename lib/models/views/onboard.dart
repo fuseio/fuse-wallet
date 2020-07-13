@@ -8,6 +8,7 @@ import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -26,8 +27,10 @@ class OnboardViewModel extends Equatable {
   final Function(String, String, GlobalKey) verify;
   final Function(String) setPincode;
   final Function(String) setDisplayName;
+  final Function(BiometricAuth) setSecurityType;
 
   OnboardViewModel({
+    this.setSecurityType,
     this.countryCode,
     this.phoneNumber,
     this.accountAddress,
@@ -101,11 +104,14 @@ class OnboardViewModel extends Equatable {
         ));
       },
       setPincode: (pincode) {
-        store.dispatch(setPincodeCall(pincode));
+        store.dispatch(SetPincodeSuccess(pincode));
       },
       setDisplayName: (displayName) {
         store.dispatch(setDisplayNameCall(displayName));
-      }
+      },
+      setSecurityType: (biometricAuth) {
+      store.dispatch(SetSecurityType(biometricAuth: biometricAuth));
+    }
     );
   }
 
