@@ -27,8 +27,10 @@ class ShowMnemonic extends StatelessWidget {
                   padding: EdgeInsets.only(top: 20),
                   child: RichText(
                       textAlign: TextAlign.center,
-                      text: new TextSpan(
-                          style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16),
+                      text: TextSpan(
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 16),
                           children: <InlineSpan>[
                             TextSpan(
                               text: I18n.of(context).important + ' ',
@@ -45,7 +47,7 @@ class ShowMnemonic extends StatelessWidget {
               ],
             ),
           ),
-          new StoreConnector<AppState, BackupViewModel>(
+          StoreConnector<AppState, BackupViewModel>(
               distinct: true,
               onInit: (store) {
                 Segment.screen(screenName: '/show-mnemonic');
@@ -146,7 +148,7 @@ class ShowMnemonic extends StatelessWidget {
                             onPressed: () async {
                               Navigator.push(
                                   context,
-                                  new MaterialPageRoute(
+                                  MaterialPageRoute(
                                       builder: (context) => VerifyMnemonic()));
                             },
                           )),

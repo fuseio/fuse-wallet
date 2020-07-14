@@ -24,6 +24,14 @@ import 'package:firebase_auth_platform_interface/firebase_auth_platform_interfac
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 
+class HomeBackupDialogShowed {
+  HomeBackupDialogShowed();
+}
+
+class ReceiveBackupDialogShowed {
+  ReceiveBackupDialogShowed();
+}
+
 class SetSecurityType {
   BiometricAuth biometricAuth;
   SetSecurityType({this.biometricAuth});

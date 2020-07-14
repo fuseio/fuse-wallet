@@ -85,9 +85,6 @@ class RecentContacts extends StatelessWidget {
                       new MaterialPageRoute(
                           builder: (context) => SendAmountScreen(
                               pageArgs: SendAmountArguments(
-                                  // sendType: viewModel.isProMode
-                                  //     ? SendType.ETHEREUM_ADDRESS
-                                  //     : SendType.FUSE_ADDRESS,
                                   accountAddress: transfer.to,
                                   name: displayName,
                                   avatar: image))));

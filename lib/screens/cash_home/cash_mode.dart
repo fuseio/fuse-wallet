@@ -100,9 +100,11 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     String walletStatus = store.state.cashWalletState.walletStatus;
     String accountAddress = store.state.userState.accountAddress;
     bool isBackup = store.state.userState.backup ?? false;
-
-    if (!isBackup) {
+    bool homeBackupDialogShowed =
+        store.state.userState?.homeBackupDialogShowed ?? false;
+    if (!isBackup && !homeBackupDialogShowed) {
       Future.delayed(const Duration(milliseconds: 2500), () {
+        store.dispatch(HomeBackupDialogShowed());
         showDialog(
             context: context,
             builder: (BuildContext context) {

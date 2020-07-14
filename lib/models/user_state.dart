@@ -38,12 +38,11 @@ class UserState {
   final bool backup;
   final int displayBalance;
   final DateTime installedAt;
-  final bool isProModeActivated;
   @JsonKey(fromJson: _authTypeFromJson, toJson: EnumToString.parse)
   final BiometricAuth authType;
+  final bool homeBackupDialogShowed;
+  final bool receiveBackupDialogShowed;
 
-  @JsonKey(ignore: true, defaultValue: false)
-  final bool isProMode;
   @JsonKey(ignore: true)
   final bool isLoginRequest;
   @JsonKey(ignore: true)
@@ -87,8 +86,8 @@ class UserState {
       this.installedAt,
       this.isLoginRequest,
       this.isVerifyRequest,
-      this.isProMode,
-      this.isProModeActivated});
+      this.homeBackupDialogShowed,
+      this.receiveBackupDialogShowed});
 
   factory UserState.initial() {
     return new UserState(
@@ -125,8 +124,8 @@ class UserState {
         installedAt: DateTime.now().toUtc(),
         isLoginRequest: false,
         isVerifyRequest: false,
-        isProMode: false,
-        isProModeActivated: false);
+        receiveBackupDialogShowed: false,
+        homeBackupDialogShowed: false);
   }
 
   UserState copyWith(
@@ -162,9 +161,9 @@ class UserState {
       DateTime installedAt,
       bool isLoginRequest,
       bool isVerifyRequest,
-      bool isProMode,
       BiometricAuth authType,
-      bool isProModeActivated}) {
+      bool receiveBackupDialogShowed,
+      bool homeBackupDialogShowed}) {
     return UserState(
         authType: authType ?? this.authType,
         walletAddress: walletAddress ?? this.walletAddress,
@@ -201,8 +200,10 @@ class UserState {
         installedAt: installedAt ?? this.installedAt,
         isLoginRequest: isLoginRequest ?? this.isLoginRequest,
         isVerifyRequest: isVerifyRequest ?? this.isVerifyRequest,
-        isProMode: isProMode ?? this.isProMode,
-        isProModeActivated: isProModeActivated ?? this.isProModeActivated);
+        homeBackupDialogShowed:
+            homeBackupDialogShowed ?? this.homeBackupDialogShowed,
+        receiveBackupDialogShowed:
+            receiveBackupDialogShowed ?? this.receiveBackupDialogShowed);
   }
 
   static BiometricAuth _authTypeFromJson(String auth) => auth == null

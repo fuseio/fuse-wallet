@@ -26,8 +26,16 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
   TypedReducer<UserState, SetIsoCode>(_setIsoCode),
   TypedReducer<UserState, SetSecurityType>(_setSecurityType),
+  TypedReducer<UserState, ReceiveBackupDialogShowed>(_receiveBackupDialogShowed),
+  TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
 ]);
 
+UserState _receiveBackupDialogShowed(UserState state, ReceiveBackupDialogShowed action) {
+  return state.copyWith(receiveBackupDialogShowed: true);
+}
+UserState _homeBackupDialogShowed(UserState state, HomeBackupDialogShowed action) {
+  return state.copyWith(homeBackupDialogShowed: true);
+}
 UserState _setSecurityType(UserState state, SetSecurityType action) {
   return state.copyWith(authType: action.biometricAuth);
 }

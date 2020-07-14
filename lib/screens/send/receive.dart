@@ -3,7 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/widgets/back_up_dialog.dart';
 import 'package:fusecash/widgets/copy.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -19,6 +21,19 @@ class ReceiveScreen extends StatelessWidget {
     return new StoreConnector<AppState, _ReceiveModel>(
         distinct: true,
         onInit: (store) {
+          bool isBackup = store.state.userState.backup ?? false;
+          bool receiveBackupDialogShowed =
+              store.state.userState?.receiveBackupDialogShowed ?? false;
+          if (!isBackup && !receiveBackupDialogShowed) {
+            Future.delayed(const Duration(milliseconds: 2500), () {
+              store.dispatch(ReceiveBackupDialogShowed());
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return BackUpDialog();
+                  });
+            });
+          }
           Segment.screen(screenName: '/receive-screen');
         },
         converter: _ReceiveModel.fromStore,

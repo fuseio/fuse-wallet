@@ -64,7 +64,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final i18n = I18n.delegate;
-  // BiometricAuth _biometricType;
 
   void onLocaleChange(Locale locale) {
     setState(() {

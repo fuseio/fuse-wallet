@@ -75,11 +75,6 @@ void sendToPastedAddress(
       new MaterialPageRoute(
           builder: (context) => SendAmountScreen(
               pageArgs: SendAmountArguments(
-                  // erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
-                  // feePlugin: viewModel.isProMode ? viewModel.feePlugin : null,
-                  // sendType: viewModel.isProMode
-                  //     ? SendType.ETHEREUM_ADDRESS
-                  //     : SendType.PASTED_ADDRESS,
                   accountAddress: accountAddress,
                   name: formatAddress(accountAddress),
                   avatar: new AssetImage('assets/images/anom.png')))));
