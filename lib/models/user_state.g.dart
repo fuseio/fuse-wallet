@@ -42,6 +42,10 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     installedAt: json['installedAt'] == null
         ? null
         : DateTime.parse(json['installedAt'] as String),
+    homeBackupDialogShowed: json['homeBackupDialogShowed'] as bool,
+    receiveBackupDialogShowed: json['receiveBackupDialogShowed'] as bool,
+    currency: UserState._currencyJson(json['currency'] as String),
+    totalBalance: json['totalBalance'] as num,
   );
 }
 
@@ -75,4 +79,8 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'displayBalance': instance.displayBalance,
       'installedAt': instance.installedAt?.toIso8601String(),
       'authType': EnumToString.parse(instance.authType),
+      'homeBackupDialogShowed': instance.homeBackupDialogShowed,
+      'receiveBackupDialogShowed': instance.receiveBackupDialogShowed,
+      'currency': instance.currency,
+      'totalBalance': instance.totalBalance,
     };

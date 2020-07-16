@@ -13,12 +13,16 @@ class ColorsPincodeScreen extends StatefulWidget {
 
 class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
   final pincodeController = TextEditingController(text: "");
-  String lastPincode;
-  bool isRetype = false;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    pincodeController?.dispose();
+    super.dispose();
   }
 
   @override

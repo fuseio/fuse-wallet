@@ -58,7 +58,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
         scale: scaleAnimatoin,
         child: AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
           content: Stack(
             children: <Widget>[
               StoreConnector<AppState, TokenActionsDialogViewModel>(

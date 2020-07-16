@@ -113,5 +113,10 @@
     "use_max": "Use max",
     "send_to_address": "Send to an address",
     "not_enough_balance": "Not enough balance in your account",
-    "choose_lock_method": "Please choose how your prefer to protect your wallet be selecting the following methods"
+    "choose_lock_method": "Please choose how your prefer to \n protect your wallet be selecting the \n following methods",
+    "yes": "Yes",
+    "no": "No",
+    "back_up_now": "Back up now",
+    "recommended": "Recommended",
+    "insufficient_fund": "Insufficient fund"
 }

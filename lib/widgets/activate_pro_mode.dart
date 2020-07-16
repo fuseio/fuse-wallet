@@ -50,7 +50,7 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
         scale: scaleAnimatoin,
         child: AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
           content: Stack(
             children: <Widget>[
               new StoreConnector<AppState, ActivateProModeViewModel>(

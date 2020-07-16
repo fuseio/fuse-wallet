@@ -52,7 +52,7 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
         scale: scaleAnimatoin,
         child: AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
           content: Stack(
             children: <Widget>[
               new StoreConnector<AppState, DepositDaiDialogViewModel>(

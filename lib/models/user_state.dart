@@ -40,6 +40,11 @@ class UserState {
   final DateTime installedAt;
   @JsonKey(fromJson: _authTypeFromJson, toJson: EnumToString.parse)
   final BiometricAuth authType;
+  final bool homeBackupDialogShowed;
+  final bool receiveBackupDialogShowed;
+  @JsonKey(fromJson: _currencyJson)
+  final String currency;
+  final num totalBalance;
 
   @JsonKey(ignore: true)
   final bool isLoginRequest;
@@ -83,43 +88,52 @@ class UserState {
       this.displayBalance,
       this.installedAt,
       this.isLoginRequest,
-      this.isVerifyRequest});
+      this.isVerifyRequest,
+      this.homeBackupDialogShowed,
+      this.receiveBackupDialogShowed,
+      this.currency,
+      this.totalBalance});
 
   factory UserState.initial() {
     return new UserState(
-        walletAddress: "",
-        transferManagerAddress: "",
-        communityManagerAddress: "",
-        daiPointsManagerAddress: "",
-        walletStatus: null,
-        networks: [],
-        mnemonic: [],
-        privateKey: "",
-        pincode: null,
-        accountAddress: "",
-        countryCode: "",
-        isoCode: "",
-        phoneNumber: "",
-        normalizedPhoneNumber: "",
-        contacts: [],
-        syncedContacts: [],
-        reverseContacts: new Map<String, String>(),
-        jwtToken: "",
-        displayName: "Anom",
-        email: "",
-        verificationId: "",
-        identifier: "",
-        loginRequestSuccess: false,
-        loginVerifySuccess: false,
-        isLoggedOut: false,
-        isContactsSynced: null,
-        backup: false,
-        authType: BiometricAuth.none,
-        credentials: null,
-        displayBalance: 0,
-        installedAt: DateTime.now().toUtc(),
-        isLoginRequest: false,
-        isVerifyRequest: false);
+      walletAddress: "",
+      transferManagerAddress: "",
+      communityManagerAddress: "",
+      daiPointsManagerAddress: "",
+      walletStatus: null,
+      networks: [],
+      mnemonic: [],
+      privateKey: "",
+      pincode: null,
+      accountAddress: "",
+      countryCode: "",
+      isoCode: "",
+      phoneNumber: "",
+      normalizedPhoneNumber: "",
+      contacts: [],
+      syncedContacts: [],
+      reverseContacts: new Map<String, String>(),
+      jwtToken: "",
+      displayName: "Anom",
+      email: "",
+      verificationId: "",
+      identifier: "",
+      loginRequestSuccess: false,
+      loginVerifySuccess: false,
+      isLoggedOut: false,
+      isContactsSynced: null,
+      backup: false,
+      authType: BiometricAuth.none,
+      credentials: null,
+      displayBalance: 0,
+      installedAt: DateTime.now().toUtc(),
+      isLoginRequest: false,
+      isVerifyRequest: false,
+      receiveBackupDialogShowed: false,
+      homeBackupDialogShowed: false,
+      currency: 'usd',
+      totalBalance: 0,
+    );
   }
 
   UserState copyWith(
@@ -156,45 +170,56 @@ class UserState {
       bool isLoginRequest,
       bool isVerifyRequest,
       BiometricAuth authType,
-      bool isProModeActivated}) {
+      bool receiveBackupDialogShowed,
+      bool homeBackupDialogShowed,
+      String currency,
+      num totalBalance}) {
     return UserState(
-      authType: authType ?? this.authType,
-      walletAddress: walletAddress ?? this.walletAddress,
-      communityManagerAddress:
-          communityManagerAddress ?? this.communityManagerAddress,
-      transferManagerAddress:
-          transferManagerAddress ?? this.transferManagerAddress,
-      walletStatus: walletStatus ?? this.walletStatus,
-      networks: networks ?? this.networks,
-      mnemonic: mnemonic ?? this.mnemonic,
-      privateKey: privateKey ?? this.privateKey,
-      pincode: pincode ?? this.pincode,
-      accountAddress: accountAddress ?? this.accountAddress,
-      countryCode: countryCode ?? this.countryCode,
-      isoCode: isoCode ?? this.isoCode,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      normalizedPhoneNumber:
-          normalizedPhoneNumber ?? this.normalizedPhoneNumber,
-      contacts: contacts ?? this.contacts,
-      syncedContacts: syncedContacts ?? this.syncedContacts,
-      reverseContacts: reverseContacts ?? this.reverseContacts,
-      jwtToken: jwtToken ?? this.jwtToken,
-      displayName: displayName ?? this.displayName,
-      email: email ?? this.email,
-      verificationId: verificationId ?? this.verificationId,
-      identifier: identifier ?? this.identifier,
-      loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
-      loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
-      isLoggedOut: isLoggedOut ?? this.isLoggedOut,
-      isContactsSynced: isContactsSynced ?? this.isContactsSynced,
-      backup: backup ?? this.backup,
-      credentials: credentials ?? this.credentials,
-      displayBalance: displayBalance ?? this.displayBalance,
-      installedAt: installedAt ?? this.installedAt,
-      isLoginRequest: isLoginRequest ?? this.isLoginRequest,
-      isVerifyRequest: isVerifyRequest ?? this.isVerifyRequest,
-    );
+        authType: authType ?? this.authType,
+        walletAddress: walletAddress ?? this.walletAddress,
+        communityManagerAddress:
+            communityManagerAddress ?? this.communityManagerAddress,
+        transferManagerAddress:
+            transferManagerAddress ?? this.transferManagerAddress,
+        walletStatus: walletStatus ?? this.walletStatus,
+        networks: networks ?? this.networks,
+        mnemonic: mnemonic ?? this.mnemonic,
+        privateKey: privateKey ?? this.privateKey,
+        pincode: pincode ?? this.pincode,
+        accountAddress: accountAddress ?? this.accountAddress,
+        countryCode: countryCode ?? this.countryCode,
+        isoCode: isoCode ?? this.isoCode,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        normalizedPhoneNumber:
+            normalizedPhoneNumber ?? this.normalizedPhoneNumber,
+        contacts: contacts ?? this.contacts,
+        syncedContacts: syncedContacts ?? this.syncedContacts,
+        reverseContacts: reverseContacts ?? this.reverseContacts,
+        jwtToken: jwtToken ?? this.jwtToken,
+        displayName: displayName ?? this.displayName,
+        email: email ?? this.email,
+        verificationId: verificationId ?? this.verificationId,
+        identifier: identifier ?? this.identifier,
+        loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
+        loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
+        isLoggedOut: isLoggedOut ?? this.isLoggedOut,
+        isContactsSynced: isContactsSynced ?? this.isContactsSynced,
+        backup: backup ?? this.backup,
+        credentials: credentials ?? this.credentials,
+        displayBalance: displayBalance ?? this.displayBalance,
+        installedAt: installedAt ?? this.installedAt,
+        isLoginRequest: isLoginRequest ?? this.isLoginRequest,
+        isVerifyRequest: isVerifyRequest ?? this.isVerifyRequest,
+        homeBackupDialogShowed:
+            homeBackupDialogShowed ?? this.homeBackupDialogShowed,
+        receiveBackupDialogShowed:
+            receiveBackupDialogShowed ?? this.receiveBackupDialogShowed,
+        currency: currency ?? this.currency,
+        totalBalance: totalBalance ?? this.totalBalance);
   }
+
+  static String _currencyJson(String currency) =>
+      currency == null ? 'usd' : currency;
 
   static BiometricAuth _authTypeFromJson(String auth) => auth == null
       ? BiometricAuth.none

@@ -32,18 +32,26 @@ class _LockScreenState extends State<LockScreen> {
   }
 
   _handleLocalAuh(store) async {
-    UserState userState = store.state.userState;
-    if (BiometricAuth.faceID == userState.authType ||
-        BiometricAuth.touchID == userState.authType) {
-      await _showLocalAuthPopup(
-        BiometricUtils.getBiometricString(_biometricType),
-      );
-    } else if (userState.authType == BiometricAuth.pincode) {
+    String privateKey = store.state.userState.privateKey;
+    String jwtToken = store.state.userState.jwtToken;
+    bool isLoggedOut = store.state.userState.isLoggedOut;
+    if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
       Router.navigator.pushNamedAndRemoveUntil(
-          Router.pincode, (Route<dynamic> route) => false);
+          Router.splashScreen, (Route<dynamic> route) => false);
     } else {
-      Router.navigator.pushNamedAndRemoveUntil(
-          Router.cashHomeScreen, (Route<dynamic> route) => false);
+      UserState userState = store.state.userState;
+      if (BiometricAuth.faceID == userState.authType ||
+          BiometricAuth.touchID == userState.authType) {
+        await _showLocalAuthPopup(
+          BiometricUtils.getBiometricString(_biometricType),
+        );
+      } else if (userState.authType == BiometricAuth.pincode) {
+        Router.navigator.pushNamedAndRemoveUntil(
+            Router.pincode, (Route<dynamic> route) => false);
+      } else {
+        Router.navigator.pushNamedAndRemoveUntil(
+            Router.cashHomeScreen, (Route<dynamic> route) => false);
+      }
     }
   }
 

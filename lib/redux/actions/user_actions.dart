@@ -1,4 +1,8 @@
 import 'package:country_code_picker/country_code.dart';
+import 'package:decimal/decimal.dart';
+import 'package:digitalrand/constans/exchangable_tokens.dart';
+import 'package:digitalrand/models/pro/pro_wallet_state.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +27,34 @@ import 'package:digitalrand/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
+
+class CreateAccountWalletRequest {
+  final String accountAddress;
+  CreateAccountWalletRequest(this.accountAddress);
+}
+
+class CreateAccountWalletSuccess {
+  final String accountAddress;
+  CreateAccountWalletSuccess(this.accountAddress);
+}
+
+class UpdateCurrency {
+  final String currency;
+  UpdateCurrency({this.currency});
+}
+
+class UpdateTotalBalance {
+  final num totalBalance;
+  UpdateTotalBalance({this.totalBalance});
+}
+
+class HomeBackupDialogShowed {
+  HomeBackupDialogShowed();
+}
+
+class ReceiveBackupDialogShowed {
+  ReceiveBackupDialogShowed();
+}
 
 class SetSecurityType {
   BiometricAuth biometricAuth;
@@ -179,9 +211,13 @@ class DeviceIdSuccess {
 
 ThunkAction setCountryCode(CountryCode countryCode) {
   return (Store store) async {
-    String phone = '${countryCode.dialCode}${store.state.userState.phoneNumber}';
-    String normalizedPhoneNumber = await PhoneService.getNormalizedPhoneNumber(phone, countryCode.code);
-    SetIsoCode(countryCode: countryCode, normalizedPhoneNumber: normalizedPhoneNumber);
+    String phone =
+        '${countryCode.dialCode}${store.state.userState.phoneNumber}';
+    String normalizedPhoneNumber =
+        await PhoneService.getNormalizedPhoneNumber(phone, countryCode.code);
+    store.dispatch(SetIsoCode(
+        countryCode: countryCode,
+        normalizedPhoneNumber: normalizedPhoneNumber));
   };
 }
 
@@ -199,7 +235,7 @@ ThunkAction backupWalletCall(VoidCallback successCb) {
           community.plugins.backupBonus.isActive) {
         BigInt value = toBigInt(
             community.plugins.backupBonus.amount, community.token.decimals);
-        String walletAddress = store.state.cashWalletState.walletAddress;
+        String walletAddress = store.state.userState.walletAddress;
         dynamic jobId = response['job']['_id'];
         logger.info('Job $jobId - sending backup bonus');
         Transfer backupBonus = new Transfer(
@@ -230,8 +266,9 @@ ThunkAction backupWalletCall(VoidCallback successCb) {
 
 ThunkAction backupSuccessCall(String txHash, transfer) {
   return (Store store) async {
-    Transfer confirmedTx =
-        transfer.copyWith(status: 'CONFIRMED', txHash: txHash,
+    Transfer confirmedTx = transfer.copyWith(
+        status: 'CONFIRMED',
+        txHash: txHash,
         timestamp: DateTime.now().millisecondsSinceEpoch);
     store.dispatch(new ReplaceTransaction(transfer, confirmedTx));
     store.dispatch(BackupSuccess());
@@ -389,7 +426,7 @@ ThunkAction identifyFirstTimeCall() {
     store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
       "Wallet Generated": true,
       "Phone Number": fullPhoneNumber,
-      "Wallet Address": store.state.cashWalletState.walletAddress,
+      "Wallet Address": store.state.userState.walletAddress,
       "Account Address": store.state.userState.accountAddress,
       "Display Name": store.state.userState.displayName,
       "Identifier": store.state.userState.identifier
@@ -399,15 +436,15 @@ ThunkAction identifyFirstTimeCall() {
 
 ThunkAction identifyCall() {
   return (Store store) async {
-    store.dispatch(segmentIdentifyCall(
-        new Map<String, dynamic>.from({
-          "Phone Number": store.state.userState.normalizedPhoneNumber ?? '',
-          "Wallet Address": store.state.cashWalletState.walletAddress,
-          "Account Address": store.state.userState.accountAddress,
-          "Display Name": store.state.userState.displayName,
-          "Identifier": store.state.userState.identifier,
-          "Joined Communities": store.state.cashWalletState.communities.keys.toList(),
-        })));
+    store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
+      "Phone Number": store.state.userState.normalizedPhoneNumber ?? '',
+      "Wallet Address": store.state.userState.walletAddress,
+      "Account Address": store.state.userState.accountAddress,
+      "Display Name": store.state.userState.displayName,
+      "Identifier": store.state.userState.identifier,
+      "Joined Communities":
+          store.state.cashWalletState.communities.keys.toList(),
+    })));
   };
 }
 
@@ -444,12 +481,12 @@ ThunkAction create3boxAccountCall(accountAddress) {
 ThunkAction activateProModeCall() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    store.dispatch(initWeb3ProMode());
     try {
       bool deployForeignToken =
           store.state.userState.networks.contains(foreignNetwork);
       if (!deployForeignToken) {
         dynamic response = await api.createWalletOnForeign();
+        store.dispatch(initWeb3ProMode());
         String jobId = response['job']['_id'];
         logger.info('Create wallet on foreign jobId - $jobId');
         store.dispatch(segmentTrackCall('Activate pro mode clicked'));
@@ -477,6 +514,39 @@ ThunkAction loadContacts() {
       }
     } catch (error) {
       logger.severe('ERROR - load contacts $error');
+    }
+  };
+}
+
+ThunkAction updateTotalBalance() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      ProWalletState proWalletState = store.state.proWalletState;
+      num combiner(num previousValue, Token token) => token?.priceInfo != null
+          ? previousValue +
+              num.parse(Decimal.parse(token?.priceInfo?.total).toString())
+          : previousValue + 0;
+      List<Token> foreignTokens = List<Token>.from(
+              proWalletState.erc20Tokens?.values ?? Iterable.empty())
+          .where((Token token) =>
+              num.parse(formatValue(token.amount, token.decimals,
+                      withPrecision: true))
+                  .compareTo(0) ==
+              1)
+          .toList();
+      List<Token> allTokens = [...foreignTokens];
+      final String currency = store.state.userState.currency;
+      num dzarValue = allTokens.fold<num>(0, combiner);
+      final Map<String, dynamic> coinInfo =
+          await marketApi.getCoinInfoByAddress(dzarToken.address);
+      final String coinId = coinInfo['id'];
+      final Map<String, dynamic> response =
+          await marketApi.getCurrentPriceOfToken(coinId, currency);
+      num price = response[coinId][currency];
+      store.dispatch(UpdateTotalBalance(totalBalance: dzarValue / price));
+    } catch (error) {
+      logger.severe('ERROR while update total balance $error');
     }
   };
 }

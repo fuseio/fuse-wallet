@@ -61,12 +61,14 @@ class GenerateWalletJob extends Job {
       this.isReported = true;
     }
 
+    logger.info('GenerateWalletJob not done');
     String walletAddress = fetchedData["walletAddress"];
+    String accountAddress = fetchedData["accountAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
-      this.status = 'DONE';
-      store.dispatch(new CreateAccountWalletSuccess(arguments['accountAddress']));
-      store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
+      store.dispatch(CreateAccountWalletSuccess(arguments['accountAddress']));
+      store.dispatch(generateWalletSuccessCall(fetchedData, accountAddress));
       store.dispatch(activateProModeCall());
+      this.status = 'DONE';
     }
   }
 

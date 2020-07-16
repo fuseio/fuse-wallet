@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
 import 'dart:core';
-
 import 'package:digitalrand/widgets/primary_button.dart';
 
-class SignupDialog extends StatefulWidget {
-  SignupDialog();
+class BackUpDialog extends StatefulWidget {
+  BackUpDialog();
 
   @override
-  createState() => new SignupDialogState();
+  createState() => new BackUpDialogState();
 }
 
-class SignupDialogState extends State<SignupDialog>
+class BackUpDialogState extends State<BackUpDialog>
     with SingleTickerProviderStateMixin {
-  SignupDialogState();
+  BackUpDialogState();
 
   AnimationController controller;
   Animation<double> opacityAnimation;
@@ -49,58 +51,48 @@ class SignupDialogState extends State<SignupDialog>
         child: AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          title: Center(
+            child: SvgPicture.asset(
+              'assets/images/back_up_icon.svg',
+              width: 35,
+              height: 35,
+            ),
+          ),
           content: Stack(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.all(20),
-                width: 300,
+                padding: EdgeInsets.all(10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text("Why do we need this?",
+                    Text(I18n.of(context).protect_wallet,
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
-                            fontSize: 15,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0),
-                    Text(
-                        "The digital rand wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
+                    Text("We notice you haven’t backup your wallet yet.",
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 14,
+                            color: Color(0xFF696969),
+                            fontSize: 16,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
                     Text(
-                        "Digital Rand will never share this information with 3rd party.",
+                        "To protect your money and wallet go now to the settings and back up your wallet in few easy steps",
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 14,
+                            color: Color(0xFF696969),
+                            fontSize: 16,
                             fontWeight: FontWeight.normal)),
-                    const SizedBox(height: 20.0),
-                    Text("For more information: ",
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal)),
-                    InkWell(
-                        onTap: () {
-                          // TODO - link to privacy policy
-                        },
-                        child: Text("DigitalRand.io/privacy",
-                            style: TextStyle(
-                                color: Color(0xFF0076FF),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal))),
                     const SizedBox(height: 20.0),
                     PrimaryButton(
-                      label: "OK Thanks",
-                      fontSize: 14,
-                      width: 140,
+                      label: I18n.of(context).back_up_now,
+                      fontSize: 16,
+                      width: 170,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () async {
-                        Navigator.of(context).pop();
+                        Router.navigator.pushNamed(Router.backupScreen);
                       },
                     )
                   ],

@@ -7,7 +7,8 @@ import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/models/transactions/transaction.dart';
 
 class TokenTransfersScreen extends StatelessWidget {
-  TokenTransfersScreen({Key key, this.token}) : super(key: key);
+  TokenTransfersScreen({Key key, this.token, this.tokenPrice}) : super(key: key);
+  final String tokenPrice;
   final Token token;
 
   @override
@@ -16,7 +17,7 @@ class TokenTransfersScreen extends StatelessWidget {
         key: key,
         appBar: MyAppBar(
             height: 165.0,
-            child: TokenHeader(token: token),
+            child: TokenHeader(token: token, tokenPrice: tokenPrice),
             backgroundColor: Colors.red),
         drawerEdgeDragWidth: 0,
         body: Column(children: <Widget>[

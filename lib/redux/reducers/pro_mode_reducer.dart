@@ -16,30 +16,28 @@ bool Function(String, Token) clearTokensWithZero = (key, token) {
 };
 
 final proWalletReducers = combineReducers<ProWalletState>([
-  TypedReducer<ProWalletState, StartListenToTransferEventsSuccess>(
+  TypedReducer<ProWalletState, SetIsListenToTransferEvents>(
       _startListenToTransferEventsSuccess),
   TypedReducer<ProWalletState, UpdateToken>(_updateToken),
   TypedReducer<ProWalletState, UpadteBlockNumber>(_updateBlockNumber),
-  TypedReducer<ProWalletState, StartProcessingTokensJobs>(
+  TypedReducer<ProWalletState, SetIsProcessingTokensJobs>(
       _startProcessingTokensJobs),
-  TypedReducer<ProWalletState, StartFetchTransferEvents>(
+  TypedReducer<ProWalletState, SetIsFetchTransferEvents>(
       _startFetchTransferEvents),
   TypedReducer<ProWalletState, InitWeb3ProModeSuccess>(_initWeb3ProModeSuccess),
   TypedReducer<ProWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
   TypedReducer<ProWalletState, AddProJob>(_addProJob),
-  TypedReducer<ProWalletState, StartFetchTokensBalances>(
+  TypedReducer<ProWalletState, SetIsFetchTokensBalances>(
       _startFetchTokensBalances),
   TypedReducer<ProWalletState, UpdateEtherBalabnce>(_updateEtherBalabnce),
-  TypedReducer<ProWalletState, StartProcessingSwapActions>(
-      _startProcessingSwapActions),
-  TypedReducer<ProWalletState, StartFetchTokensLastestPrices>(
+  TypedReducer<ProWalletState, SetIsFetchTokensLastestPrices>(
       _startFetchTokensLastestPrices),
   TypedReducer<ProWalletState, AddProTransaction>(_addProTransaction),
   TypedReducer<ProWalletState, ReplaceProTransaction>(_replaceProTransaction),
   TypedReducer<ProWalletState, ProJobDone>(_proJobDone),
   TypedReducer<ProWalletState, AddNewToken>(_addNewToken),
-  TypedReducer<ProWalletState, StartFetchNewTokens>(_startFetchNewTokens),
+  TypedReducer<ProWalletState, SetIsFetchNewTokens>(_startFetchNewTokens),
   TypedReducer<ProWalletState, ClearTokenList>(_clearTokenList),
 
   // TypedReducer<ProWalletState, GetTokenTransfersEventsListSuccess>(
@@ -183,28 +181,23 @@ ProWalletState _createNewWalletSuccess(
 }
 
 ProWalletState _startProcessingTokensJobs(
-    ProWalletState state, StartProcessingTokensJobs action) {
-  return state.copyWith(isProcessingTokensJobs: true);
+    ProWalletState state, SetIsProcessingTokensJobs action) {
+  return state.copyWith(isProcessingTokensJobs: action.isFetching);
 }
 
 ProWalletState _startFetchTokensLastestPrices(
-    ProWalletState state, StartFetchTokensLastestPrices action) {
-  return state.copyWith(isFetchTokensLastestPrice: true);
+    ProWalletState state, SetIsFetchTokensLastestPrices action) {
+  return state.copyWith(isFetchTokensLastestPrice: action.isFetching);
 }
 
 ProWalletState _startFetchNewTokens(
-    ProWalletState state, StartFetchNewTokens action) {
-  return state.copyWith(isFetchNewTokens: true);
-}
-
-ProWalletState _startProcessingSwapActions(
-    ProWalletState state, StartProcessingSwapActions action) {
-  return state.copyWith(isProcessingSwapActions: true);
+    ProWalletState state, SetIsFetchNewTokens action) {
+  return state.copyWith(isFetchNewTokens: action.isFetching);
 }
 
 ProWalletState _startFetchTransferEvents(
-    ProWalletState state, StartFetchTransferEvents action) {
-  return state.copyWith(isFetchTransferEvents: true);
+    ProWalletState state, SetIsFetchTransferEvents action) {
+  return state.copyWith(isFetchTransferEvents: action.isFetching);
 }
 
 ProWalletState _initWeb3ProModeSuccess(
@@ -218,8 +211,8 @@ ProWalletState _updateBlockNumber(
 }
 
 ProWalletState _startListenToTransferEventsSuccess(
-    ProWalletState state, StartListenToTransferEventsSuccess action) {
-  return state.copyWith(isListenToTransferEvents: true);
+    ProWalletState state, SetIsListenToTransferEvents action) {
+  return state.copyWith(isListenToTransferEvents: action.isFetching);
 }
 
 ProWalletState _clearTokenList(ProWalletState state, ClearTokenList action) {
@@ -233,10 +226,8 @@ ProWalletState _addNewToken(ProWalletState state, AddNewToken action) {
   Map<String, Token> newOne = Map<String, Token>.from(
       state.erc20Tokens..removeWhere(clearTokensWithZero));
   if (newOne.containsKey(token.address)) {
-    newOne[token.address] = newOne[token.address].copyWith(
-        amount: token.amount,
-        timestamp: token.timestamp,
-        priceInfo: token.priceInfo);
+    newOne[token.address] = newOne[token.address]
+        .copyWith(amount: token.amount, timestamp: token.timestamp);
   } else if (!newOne.containsKey(token.address)) {
     newOne[token.address] = token;
   }
@@ -250,6 +241,6 @@ ProWalletState _updateToken(ProWalletState state, UpdateToken action) {
 }
 
 ProWalletState _startFetchTokensBalances(
-    ProWalletState state, StartFetchTokensBalances action) {
-  return state.copyWith(isFetchTokensBalances: true);
+    ProWalletState state, SetIsFetchTokensBalances action) {
+  return state.copyWith(isFetchTokensBalances: action.isFetching);
 }

@@ -260,8 +260,18 @@ class I18n implements WidgetsLocalizations {
   String get send_to_address => "Send to an address";
   /// "Not enough balance in your account"
   String get not_enough_balance => "Not enough balance in your account";
-  /// "Please choose how your prefer to protect your wallet be selecting the following methods"
-  String get choose_lock_method => "Please choose how your prefer to protect your wallet be selecting the following methods";
+  /// "Please choose how your prefer to \n protect your wallet be selecting the \n following methods"
+  String get choose_lock_method => "Please choose how your prefer to \n protect your wallet be selecting the \n following methods";
+  /// "Yes"
+  String get yes => "Yes";
+  /// "No"
+  String get no => "No";
+  /// "Back up now"
+  String get back_up_now => "Back up now";
+  /// "Recommended"
+  String get recommended => "Recommended";
+  /// "Insufficient fund"
+  String get insufficient_fund => "Insufficient fund";
 }
 
 class _I18n_en_US extends I18n {

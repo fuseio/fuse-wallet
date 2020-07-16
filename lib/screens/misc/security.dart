@@ -46,16 +46,14 @@ class _SecurityScreenState extends State<SecurityScreen> {
               title: I18n.of(context).protect_wallet,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(
-                      left: 40.0, right: 20.0, bottom: 20.0, top: 0.0),
-                  child: Text(I18n.of(context).choose_lock_method,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                      )),
-                )
+                    padding: EdgeInsets.only(top: 150),
+                    child: Text(I18n.of(context).choose_lock_method,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF888888),
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal,
+                        )))
               ],
               footer: StoreConnector<AppState, _SecurityViewModel>(
                   distinct: true,
@@ -76,32 +74,56 @@ class _SecurityScreenState extends State<SecurityScreen> {
                             children: <Widget>[
                               InkWell(
                                 child: Container(
-                                    height: 45,
+                                    height: 60,
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 10),
                                     width:
                                         MediaQuery.of(context).size.width * .8,
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: Color(0xFFDEDEDE), width: 1),
+                                          color: Color(0xFFDEDEDE), width: 2),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(30.0)),
                                       color: Theme.of(context).splashColor,
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        SvgPicture.asset(
-                                            'assets/images/${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg'),
-                                        SizedBox(
-                                          width: 10,
+                                        Row(
+                                          children: <Widget>[
+                                            SvgPicture.asset(
+                                                'assets/images/${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg'),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              BiometricUtils.getBiometricString(
+                                                  _biometricType),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.black),
+                                            )
+                                          ],
                                         ),
-                                        Text(
-                                          BiometricUtils.getBiometricString(
-                                              _biometricType),
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            SvgPicture.asset(
+                                              'assets/images/info_gray.svg',
+                                            ),
+                                            SizedBox(
+                                              width: 3,
+                                            ),
+                                            Text(
+                                              I18n.of(context).recommended,
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.black),
+                                            ),
+                                          ],
                                         )
                                       ],
                                     )),
@@ -109,7 +131,6 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                   final String biometric =
                                       BiometricUtils.getBiometricString(
                                           _biometricType);
-
                                   await BiometricUtils
                                       .showDefaultPopupCheckBiometricAuth(
                                     message: 'Please use $biometric to unlock!',
@@ -132,13 +153,13 @@ class _SecurityScreenState extends State<SecurityScreen> {
                               ),
                               InkWell(
                                 child: Container(
-                                  height: 45,
+                                  height: 60,
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 10),
                                   width: MediaQuery.of(context).size.width * .8,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: Color(0xFFDEDEDE), width: 1),
+                                        color: Color(0xFFDEDEDE), width: 2),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(30.0)),
                                     color: Theme.of(context).splashColor,

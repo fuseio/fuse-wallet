@@ -85,7 +85,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       );
 
   onInit(Store<AppState> store) {
-    String walletStatus = store.state.cashWalletState.walletStatus;
+    String walletStatus = store.state.userState.walletStatus;
     String accountAddress = store.state.userState.accountAddress;
     if (walletStatus != 'deploying' &&
         walletStatus != 'created' &&

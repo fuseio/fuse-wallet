@@ -89,8 +89,7 @@ class CashHeader extends StatelessWidget {
                                     text: TextSpan(
                                       children: <TextSpan>[
                                         TextSpan(
-                                            text:
-                                                '${viewModel?.dzarValue ?? '0'} DZAR',
+                                            text: '${viewModel.dzarValue} DZAR',
                                             style: TextStyle(
                                                 fontSize: 30,
                                                 color: Theme.of(context)
@@ -145,9 +144,3 @@ class CashHeader extends StatelessWidget {
         });
   }
 }
-
-//  SvgPicture.asset(
-//                               "assets/images/${widget.network}_network.svg",
-//                               width: 150,
-//                               height: 150,
-//                             )

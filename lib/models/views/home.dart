@@ -1,4 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:digitalrand/utils/format.dart';
+import 'package:digitalrand/utils/transaction_row.dart';
 import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/tokens/token.dart';
@@ -10,6 +12,7 @@ import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 class HomeViewModel extends Equatable {
+  final List<Token> tokens;
   final List<Transaction> feedList;
   final String accountAddress;
   final String walletAddress;
@@ -54,11 +57,29 @@ class HomeViewModel extends Equatable {
     this.setIdentifier,
     this.setCountyCode,
     this.feedList,
+    this.tokens,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
     List<Community> communities =
         store.state.cashWalletState.communities.values.toList();
+
+    List<Token> erc20Tokens = List<Token>.from(
+            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .toList();
+    List<Token> homeTokens = communities
+        .map((Community community) => community.token
+            .copyWith(imageUrl: getIPFSImageUrl(community.metadata.image)))
+        .toList();
+    List<Token> tokens = [...homeTokens, ...erc20Tokens]
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: true))
+                .compareTo(0) ==
+            1)
+        .toList()
+          ..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.one)
+              ?.compareTo(tokenA?.amount ?? BigInt.zero));
 
     List<Transaction> erc20TokensTxs =
         store.state.proWalletState.erc20Tokens?.values?.fold(
@@ -73,18 +94,17 @@ class HomeViewModel extends Equatable {
     bool isCommunityLoading =
         store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
-    String identifier = store.state.userState.identifier ?? null;
-    bool isJobProcessingStarted =
-        store.state.cashWalletState.isJobProcessingStarted ?? false;
+    String identifier = store.state.userState.identifier;
     bool isListeningToBranch =
         store.state.cashWalletState.isListeningToBranch ?? false;
     List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
       ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return HomeViewModel(
+        tokens: tokens,
         isoCode: store.state.userState.isoCode,
         accountAddress: store.state.userState.accountAddress,
-        walletAddress: store.state.cashWalletState.walletAddress,
-        walletStatus: store.state.cashWalletState.walletStatus,
+        walletAddress: store.state.userState.walletAddress,
+        walletStatus: store.state.userState.walletStatus,
         communityAddress: communityAddress,
         branchAddress: branchAddress,
         isCommunityLoading: isCommunityLoading,
@@ -119,9 +139,7 @@ class HomeViewModel extends Equatable {
           store.dispatch(getBusinessListCall());
         },
         startProcessingJobs: () {
-          if (!isJobProcessingStarted) {
-            store.dispatch(startProcessingJobsCall());
-          }
+          store.dispatch(startProcessingJobsCall());
         },
         setIdentifier: () {
           if (identifier == null) {
@@ -143,6 +161,7 @@ class HomeViewModel extends Equatable {
         isCommunityLoading,
         isBranchDataReceived,
         isoCode,
-        feedList
+        feedList,
+        isCommunityFetched
       ];
 }

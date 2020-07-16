@@ -1,3 +1,5 @@
+import 'package:digitalrand/redux/actions/user_actions.dart';
+import 'package:digitalrand/widgets/back_up_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -19,6 +21,19 @@ class ReceiveScreen extends StatelessWidget {
     return new StoreConnector<AppState, _ReceiveModel>(
         distinct: true,
         onInit: (store) {
+          bool isBackup = store.state.userState.backup ?? false;
+          bool receiveBackupDialogShowed =
+              store.state.userState?.receiveBackupDialogShowed ?? false;
+          if (!isBackup && !receiveBackupDialogShowed) {
+            Future.delayed(const Duration(milliseconds: 2500), () {
+              store.dispatch(ReceiveBackupDialogShowed());
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return BackUpDialog();
+                  });
+            });
+          }
           Segment.screen(screenName: '/receive-screen');
         },
         converter: _ReceiveModel.fromStore,
@@ -105,7 +120,7 @@ class _ReceiveModel extends Equatable {
 
   static _ReceiveModel fromStore(Store<AppState> store) {
     return _ReceiveModel(
-      walletAddress: store.state.cashWalletState.walletAddress,
+      walletAddress: store.state.userState.walletAddress,
     );
   }
 

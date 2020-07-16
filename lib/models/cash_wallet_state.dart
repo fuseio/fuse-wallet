@@ -8,10 +8,6 @@ part 'cash_wallet_state.g.dart';
 @immutable
 @JsonSerializable(explicitToJson: true)
 class CashWalletState {
-  final String walletStatus;
-  final String walletAddress;
-  final String communityManagerAddress;
-  final String transferManagerAddress;
   final String communityAddress;
   @JsonKey(
       name: 'communities',
@@ -67,10 +63,6 @@ class CashWalletState {
 
   CashWalletState(
       {this.web3,
-      this.walletAddress,
-      this.communityManagerAddress,
-      this.transferManagerAddress,
-      this.walletStatus,
       this.communityAddress,
       this.branchAddress,
       this.sendToInvites,
@@ -87,10 +79,6 @@ class CashWalletState {
   factory CashWalletState.initial() {
     return new CashWalletState(
         web3: null,
-        walletAddress: "",
-        transferManagerAddress: "",
-        communityManagerAddress: "",
-        walletStatus: null,
         communityAddress: null,
         branchAddress: "",
         isCommunityLoading: false,
@@ -107,10 +95,6 @@ class CashWalletState {
 
   CashWalletState copyWith(
       {wallet_core.Web3 web3,
-      String walletAddress,
-      String communityManagerAddress,
-      String transferManagerAddress,
-      String walletStatus,
       String communityAddress,
       String branchAddress,
       bool isCommunityLoading,
@@ -125,10 +109,6 @@ class CashWalletState {
       Map<String, Community> communities}) {
     return CashWalletState(
         web3: web3 ?? this.web3,
-        walletAddress: walletAddress ?? this.walletAddress,
-        communityManagerAddress: communityManagerAddress ?? this.communityManagerAddress,
-        transferManagerAddress: transferManagerAddress ?? this.transferManagerAddress,
-        walletStatus: walletStatus ?? this.walletStatus,
         communityAddress: communityAddress ?? this.communityAddress,
         branchAddress: branchAddress ?? this.branchAddress,
         isCommunityLoading: isCommunityLoading ?? this.isCommunityLoading,

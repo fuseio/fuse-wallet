@@ -106,21 +106,26 @@ class Token extends ERC20Token {
   }
 
   Future<dynamic> fetchTokenLastestPrice(
-      {void Function(Price) onDone, Function onError}) async {
+      {String currency = 'usd',
+      void Function(Price) onDone,
+      Function onError}) async {
     try {
-      final String quote = await tokenAPI.getTokenLastestPrice(this.address);
+      final Map<String, dynamic> coinInfoResponse =
+          await marketApi.getCoinInfoByAddress(this.address);
+      final String coinId = coinInfoResponse['id'];
+      final Map<String, dynamic> response =
+          await marketApi.getCurrentPriceOfToken(coinId, currency);
+      double price = response[coinId][currency];
+      String quote = price.toString();
       String total =
-          formatValue(this.amount, this.decimals, withPrecision: true);
+          getFiatValue(this.amount, this.decimals, price, withPrecision: true);
       if (this.priceInfo == null) {
-        Price priceInfo = Price(
-            currency: 'usd',
-            quote: quote,
-            total: (num.parse(total) / num.parse(quote)).toString());
+        Price priceInfo = Price(currency: currency, quote: quote, total: total);
         onDone(priceInfo);
       } else {
-        Price priceInfo = this.priceInfo.copyWith(
-            quote: quote,
-            total: (num.parse(total) / num.parse(quote)).toString());
+        Price priceInfo = this
+            .priceInfo
+            .copyWith(quote: quote, currency: currency, total: total);
         onDone(priceInfo);
       }
     } catch (e, s) {

@@ -10,19 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/tokens/token.dart';
-import 'package:digitalrand/utils/format.dart';
 
 class TokenHeader extends StatelessWidget {
-  TokenHeader({this.token});
+  TokenHeader({this.token, this.tokenPrice});
+  final String tokenPrice;
   final Token token;
 
   @override
   Widget build(BuildContext context) {
-    String price;
-    if (prices.containsKey(token.symbol)) {
-      price =
-          getDollarValue(token.amount, token.decimals, prices[token.symbol]);
-    }
     final bool isFuseToken = token.originNetwork != null;
     final String logo = isFuseToken ? 'fuse-network.svg' : 'ether-network.svg';
     return Container(
@@ -93,28 +88,28 @@ class TokenHeader extends StatelessWidget {
                         children: <Widget>[
                           RichText(
                               text: TextSpan(
-                                  text: prices.containsKey(token.symbol)
-                                      ? '$price DZAR'
-                                      : "${token.getBalance()}",
                                   style: TextStyle(
                                       fontSize: 27,
                                       fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).splashColor))),
+                                      color: Theme.of(context).splashColor),
+                                  children: [
+                                TextSpan(
+                                    text: tokenPrice != null
+                                        ? token.getBalance()
+                                        : ''),
+                                TextSpan(text: " ${token.symbol}")
+                              ])),
                           SizedBox(
                             width: 10,
                           ),
                           RichText(
                               text: TextSpan(
+                                  text: tokenPrice != null
+                                      ? '$tokenPrice DZAR'
+                                      : "${token.getBalance()}",
                                   style: TextStyle(
                                       color: Theme.of(context).splashColor,
-                                      fontSize: 18),
-                                  children: [
-                                TextSpan(
-                                    text: prices.containsKey(token.symbol)
-                                        ? token.getBalance()
-                                        : ''),
-                                TextSpan(text: " ${token.symbol}")
-                              ])),
+                                      fontSize: 18))),
                         ],
                       ),
                       StoreConnector<AppState, _ProTokenHeaderViewModel>(
