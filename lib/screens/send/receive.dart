@@ -120,7 +120,7 @@ class _ReceiveModel extends Equatable {
 
   static _ReceiveModel fromStore(Store<AppState> store) {
     return _ReceiveModel(
-      walletAddress: store.state.cashWalletState.walletAddress,
+      walletAddress: store.state.userState.walletAddress,
     );
   }
 

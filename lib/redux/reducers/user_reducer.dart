@@ -30,12 +30,32 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
 ]);
 
+UserState _createAccountWalletRequest(
+    UserState state, CreateAccountWalletRequest action) {
+  return state.copyWith(walletStatus: 'requested');
+}
+
+UserState _createAccountWalletSuccess(
+    UserState state, CreateAccountWalletSuccess action) {
+  return state.copyWith(walletStatus: 'deploying');
+}
+
+UserState _updateCurrency(UserState state, UpdateCurrency action) {
+  return state.copyWith(currency: action.currency);
+}
+
+UserState _updateTotalBalance(UserState state, UpdateTotalBalance action) {
+  return state.copyWith(totalBalance: action.totalBalance);
+}
+
 UserState _receiveBackupDialogShowed(UserState state, ReceiveBackupDialogShowed action) {
   return state.copyWith(receiveBackupDialogShowed: true);
 }
+
 UserState _homeBackupDialogShowed(UserState state, HomeBackupDialogShowed action) {
   return state.copyWith(homeBackupDialogShowed: true);
 }
+
 UserState _setSecurityType(UserState state, SetSecurityType action) {
   return state.copyWith(authType: action.biometricAuth);
 }

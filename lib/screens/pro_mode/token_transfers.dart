@@ -7,7 +7,9 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 
 class TokenTransfersScreen extends StatelessWidget {
-  TokenTransfersScreen({Key key, this.token}) : super(key: key);
+  TokenTransfersScreen({Key key, this.token, this.tokenPrice})
+      : super(key: key);
+  final String tokenPrice;
   final Token token;
 
   @override
@@ -16,7 +18,7 @@ class TokenTransfersScreen extends StatelessWidget {
         key: key,
         appBar: MyAppBar(
             height: 165.0,
-            child: TokenHeader(token: token),
+            child: TokenHeader(token: token, tokenPrice: tokenPrice),
             backgroundColor: Colors.white),
         drawerEdgeDragWidth: 0,
         body: Column(children: <Widget>[
@@ -30,6 +32,7 @@ class TransfersList extends StatelessWidget {
   final Token token;
   @override
   Widget build(BuildContext context) {
+    token.transactions.list..reversed;
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -40,16 +43,13 @@ class TransfersList extends StatelessWidget {
                       color: Color(0xFF979797),
                       fontSize: 12.0,
                       fontWeight: FontWeight.normal))),
-          ListView(
+          ListView.builder(
               shrinkWrap: true,
               primary: false,
               padding: EdgeInsets.only(left: 15, right: 15),
-              children: [
-                ...token.transactions.list.reversed
-                    .map((Transaction transaction) =>
-                        TransactionTile(transfer: transaction))
-                    .toList()
-              ])
+              itemCount: token.transactions.list?.length,
+              itemBuilder: (BuildContext ctxt, int index) =>
+                  TransactionTile(transfer: token.transactions.list[index]))
         ]);
   }
 }

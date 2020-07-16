@@ -23,6 +23,12 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
   }
 
   @override
+  void dispose() {
+    pincodeController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () {

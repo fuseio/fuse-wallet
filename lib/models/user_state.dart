@@ -42,6 +42,9 @@ class UserState {
   final BiometricAuth authType;
   final bool homeBackupDialogShowed;
   final bool receiveBackupDialogShowed;
+  @JsonKey(fromJson: _currencyJson)
+  final String currency;
+  final num totalBalance;
 
   @JsonKey(ignore: true)
   final bool isLoginRequest;
@@ -87,7 +90,9 @@ class UserState {
       this.isLoginRequest,
       this.isVerifyRequest,
       this.homeBackupDialogShowed,
-      this.receiveBackupDialogShowed});
+      this.receiveBackupDialogShowed,
+      this.currency,
+      this.totalBalance});
 
   factory UserState.initial() {
     return new UserState(
@@ -125,7 +130,9 @@ class UserState {
         isLoginRequest: false,
         isVerifyRequest: false,
         receiveBackupDialogShowed: false,
-        homeBackupDialogShowed: false);
+        homeBackupDialogShowed: false,
+        currency: 'usd',
+        totalBalance: 0);
   }
 
   UserState copyWith(
@@ -163,7 +170,9 @@ class UserState {
       bool isVerifyRequest,
       BiometricAuth authType,
       bool receiveBackupDialogShowed,
-      bool homeBackupDialogShowed}) {
+      bool homeBackupDialogShowed,
+      String currency,
+      num totalBalance}) {
     return UserState(
         authType: authType ?? this.authType,
         walletAddress: walletAddress ?? this.walletAddress,
@@ -203,8 +212,13 @@ class UserState {
         homeBackupDialogShowed:
             homeBackupDialogShowed ?? this.homeBackupDialogShowed,
         receiveBackupDialogShowed:
-            receiveBackupDialogShowed ?? this.receiveBackupDialogShowed);
+            receiveBackupDialogShowed ?? this.receiveBackupDialogShowed,
+        currency: currency ?? this.currency,
+        totalBalance: totalBalance ?? this.totalBalance);
   }
+
+  static String _currencyJson(String currency) =>
+      currency == null ? 'usd' : currency;
 
   static BiometricAuth _authTypeFromJson(String auth) => auth == null
       ? BiometricAuth.none

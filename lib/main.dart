@@ -19,12 +19,10 @@ void main() async {
   await DotEnv().load('.env');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
-  String initialRoute =
-      checkIsLoggedIn(store) ? Router.lockScreen : Router.splashScreen;
   runZonedGuarded<Future<void>>(
       () async => runApp(CustomTheme(
             initialThemeKey: MyThemeKeys.DEFAULT,
-            child: new MyApp(store: store, initialRoute: initialRoute),
+            child: new MyApp(store: store),
           )), (Object error, StackTrace stackTrace) async {
     try {
       await AppFactory().reportError(error, stackTrace);
@@ -43,20 +41,9 @@ void main() async {
   };
 }
 
-bool checkIsLoggedIn(Store<AppState> store) {
-  String privateKey = store.state.userState.privateKey;
-  String jwtToken = store.state.userState.jwtToken;
-  bool isLoggedOut = store.state.userState.isLoggedOut;
-  if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-    return true;
-  }
-  return false;
-}
-
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
-  final String initialRoute;
-  MyApp({Key key, this.store, this.initialRoute}) : super(key: key);
+  MyApp({Key key, this.store}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -83,7 +70,6 @@ class _MyAppState extends State<MyApp> {
         store: widget.store,
         child: MaterialApp(
           title: 'Fuse Cash',
-          initialRoute: widget.initialRoute,
           navigatorKey: Router.navigator.key,
           onGenerateRoute: Router.onGenerateRoute,
           theme: CustomTheme.of(context),

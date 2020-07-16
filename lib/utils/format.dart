@@ -2,16 +2,6 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 
-final Map prices = {
-  "DZAR": 0.0533,
-  "DAI": 0.9955,
-  "USDT": 0.9999,
-  "USDC": 1.0009,
-  "IDRT": 0.0132146,
-  "EURS": 1.0995,
-  "TUSD": 1.0021,
-};
-
 final Map<String, num> fees = {
   "DZAR": 17,
   "DAI": 1,
@@ -22,17 +12,24 @@ final Map<String, num> fees = {
   "TUSD": 1,
 };
 
-String formatValue(BigInt value, int decimals,
-    {int fractionDigits = 2, bool withPrecision = false}) {
-  if (value == null || decimals == null) return '0';
-  double formatedValue = value / BigInt.from(pow(10, decimals));
-  if (withPrecision) return formatedValue.toString();
+String reduce(dynamic formatedValue) {
+  if (formatedValue == null) return '0';
   Decimal decimalValue = Decimal.parse(formatedValue.toString());
   return num.parse(decimalValue.toString()).compareTo(num.parse('0.001')) != 1
       ? decimalValue.toStringAsFixed(1)
       : decimalValue.isInteger
           ? decimalValue.toString()
-          : decimalValue.toStringAsPrecision(1);
+          : decimalValue.precision > 9
+              ? decimalValue.toStringAsFixed(2)
+              : decimalValue.toString();
+}
+
+String formatValue(BigInt value, int decimals,
+    {int fractionDigits = 2, bool withPrecision = false}) {
+  if (value == null || decimals == null) return '0';
+  double formatedValue = value / BigInt.from(pow(10, decimals));
+  if (withPrecision) return formatedValue.toString();
+  return reduce(formatedValue);
 }
 
 String calcValueInDollar(BigInt value, int decimals) {
@@ -42,17 +39,12 @@ String calcValueInDollar(BigInt value, int decimals) {
   return decimalValue.toStringAsFixed(1);
 }
 
-String getDollarValue(BigInt value, int decimals, double price,
+String getFiatValue(BigInt value, int decimals, double price,
     {bool withPrecision = false}) {
   if (value == null || decimals == null) return '0';
-  double formatedValue = (value / BigInt.from(pow(10, decimals)));
-  Decimal decimalValue = Decimal.parse((formatedValue * price).toString());
-  if (withPrecision) return decimalValue.toString();
-  return num.parse(decimalValue.toString()).compareTo(num.parse('0.001')) != 1
-      ? decimalValue.toStringAsFixed(1)
-      : decimalValue.isInteger
-          ? decimalValue.toString()
-          : decimalValue.toStringAsPrecision(1);
+  double formatedValue = (value / BigInt.from(pow(10, decimals))) * price;
+  if (withPrecision) return formatedValue.toString();
+  return reduce(formatedValue);
 }
 
 String formatAddress(String address) {

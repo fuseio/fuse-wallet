@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/constans/exchangable_tokens.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/jobs/swap_token_job.dart';
+import 'package:fusecash/models/pro/price.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
@@ -14,6 +15,7 @@ import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/addresses.dart';
@@ -80,32 +82,33 @@ class AddNewToken {
   AddNewToken({this.token});
 }
 
-class StartListenToTransferEventsSuccess {
-  StartListenToTransferEventsSuccess();
+class SetIsListenToTransferEvents {
+  final bool isFetching;
+  SetIsListenToTransferEvents({this.isFetching});
 }
 
-class StartProcessingTokensJobs {
-  StartProcessingTokensJobs();
+class SetIsProcessingTokensJobs {
+  final bool isFetching;
+  SetIsProcessingTokensJobs({this.isFetching});
 }
 
-class StartProcessingSwapActions {
-  StartProcessingSwapActions();
-}
-
-class StartFetchTransferEvents {
-  StartFetchTransferEvents();
+class SetIsFetchTransferEvents {
+  final bool isFetching;
+  SetIsFetchTransferEvents({this.isFetching});
 }
 
 class ClearTokenList {
   ClearTokenList();
 }
 
-class StartFetchTokensLastestPrices {
-  StartFetchTokensLastestPrices();
+class SetIsFetchTokensLastestPrices {
+  final bool isFetching;
+  SetIsFetchTokensLastestPrices({this.isFetching});
 }
 
-class StartFetchNewTokens {
-  StartFetchNewTokens();
+class SetIsFetchNewTokens {
+  final bool isFetching;
+  SetIsFetchNewTokens({this.isFetching});
 }
 
 class InitWeb3ProModeSuccess {
@@ -113,8 +116,9 @@ class InitWeb3ProModeSuccess {
   InitWeb3ProModeSuccess({this.web3});
 }
 
-class StartFetchTokensBalances {
-  StartFetchTokensBalances();
+class SetIsFetchTokensBalances {
+  final bool isFetching;
+  SetIsFetchTokensBalances({this.isFetching});
 }
 
 ThunkAction proTransactionFailed(String tokenAddrees, transfer) {
@@ -169,8 +173,10 @@ ThunkAction startListenToTransferEvents() {
         store.state.proWalletState?.isListenToTransferEvents ?? false;
     final logger = await AppFactory().getLogger('action');
     if (!isListenToTransferEvents) {
+      logger.info('Timer start - startListenToTransferEvents');
       new Timer.periodic(Duration(seconds: 2), (Timer timer) async {
-        if (store.state.cashWalletState.walletAddress == '') {
+        if (store.state.userState.walletAddress == '') {
+          logger.severe('Timer stopped - startListenToTransferEvents');
           timer.cancel();
           return;
         }
@@ -179,6 +185,8 @@ ThunkAction startListenToTransferEvents() {
           List transfersEvents = await graph.getTransferEvents(
               foreignNetwork: foreignNetwork, to: walletAddress);
           ProWalletState proWalletState = store.state.proWalletState;
+          logger.info(
+              'startListenToTransferEvents startListenToTransferEvents ${transfersEvents.length}');
           if (transfersEvents.isNotEmpty) {
             List<String> addressesFromTransfersEvents = [
               ...transfersEvents.map((transferEvent) =>
@@ -189,9 +197,12 @@ ThunkAction startListenToTransferEvents() {
             addressesFromTransfersEvents
               ..removeWhere(
                   (address) => proWalletState.erc20Tokens.containsKey(address));
+            logger.info(
+                'addressesFromTransfersEvents addressesFromTransfersEvents ${addressesFromTransfersEvents.length}');
             if (addressesFromTransfersEvents.isNotEmpty) {
               store.dispatch(getBalancesOnForeign(
                   addressesFromTransfersEvents: addressesFromTransfersEvents));
+              store.dispatch(startFetchBalancesOnForeign());
             }
             timer.cancel();
           }
@@ -200,7 +211,7 @@ ThunkAction startListenToTransferEvents() {
               'Error in startListenToTransferEvents ${error.toString()}');
         }
       });
-      store.dispatch(new StartListenToTransferEventsSuccess());
+      store.dispatch(new SetIsListenToTransferEvents(isFetching: true));
     }
   };
 }
@@ -211,10 +222,13 @@ ThunkAction fetchTokensBalances() {
     bool isFetchTokensBalances =
         store.state.proWalletState?.isFetchTokensBalances ?? false;
     if (!isFetchTokensBalances) {
+      logger.info('Timer start - fetchTokensBalances');
       new Timer.periodic(Duration(seconds: intervalSeconds),
           (Timer timer) async {
-        if (store.state.cashWalletState.walletAddress == '') {
+        if (store.state.userState.walletAddress == '') {
           timer.cancel();
+          logger.severe('Timer stopped - fetchTokensBalances');
+          store.dispatch(SetIsFetchTokensBalances(isFetching: false));
           return;
         }
         ProWalletState proWalletState = store.state.proWalletState;
@@ -229,6 +243,8 @@ ThunkAction fetchTokensBalances() {
                   tokenToUpdate: tokenToUpdate.copyWith(
                       amount: balance,
                       timestamp: DateTime.now().millisecondsSinceEpoch)));
+              store.dispatch(updateTotalBalance());
+              store.dispatch(ClearTokenList());
             };
             void Function(Object error, StackTrace stackTrace) onError =
                 (Object error, StackTrace stackTrace) {
@@ -241,49 +257,80 @@ ThunkAction fetchTokensBalances() {
           await Future.delayed(Duration(milliseconds: 500), fetchTokenBalance);
         }
       });
-      store.dispatch(StartFetchTokensBalances());
+      store.dispatch(SetIsFetchTokensBalances(isFetching: true));
     }
   };
 }
-// ThunkAction fetchTokensLatestPrice() {
-//   return (Store store) async {
-//     final logger = await AppFactory().getLogger('action');
-//     ProWalletState proWalletState = store.state.proWalletState;
-//     for (Token token in proWalletState.erc20Tokens.values) {
-//       Function fetchTokenLastestPrice = () async {
-//         void Function(Price) onDone = (Price priceInfo) {
-//           logger.info('${token.name} price updated');
-//           Token tokenToUpdate =
-//               store.state.proWalletState.erc20Tokens[token.address];
-//           store.dispatch(UpdateToken(
-//               tokenToUpdate: tokenToUpdate.copyWith(priceInfo: priceInfo)));
-//         };
-//         void Function(Object error, StackTrace stackTrace) onError =
-//             (Object error, StackTrace stackTrace) {
-//           logger.severe(
-//               'Error in fetchTokenLastestPrice for - ${token.name} $error');
-//         };
-//         await token.fetchTokenLastestPrice(onDone: onDone, onError: onError);
-//       };
-//       await Future.delayed(Duration(milliseconds: 500), fetchTokenLastestPrice);
-//     }
-//   };
-// }
 
-ThunkAction startFetchBalancesOnForeign() {
+ThunkAction startFetchTokensLastestPrices() {
   return (Store store) async {
-    bool isFetchNewTokens =
-        store.state.proWalletState?.isFetchNewTokens ?? false;
-    if (!isFetchNewTokens) {
-      new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
-        if (store.state.cashWalletState.walletAddress == '') {
+    bool isFetchTokensLastestPrice =
+        store.state.proWalletState?.isFetchTokensLastestPrice ?? false;
+    final logger = await AppFactory().getLogger('action');
+    logger.info('Timer start - startFetchTokensLastestPrices');
+    if (!isFetchTokensLastestPrice) {
+      new Timer.periodic(Duration(minutes: 10), (Timer timer) async {
+        if (store.state.userState.walletAddress == '') {
+          store.dispatch(SetIsFetchTokensLastestPrices(isFetching: false));
+          logger.severe('Timer stopped - startFetchTokensLastestPrices');
           timer.cancel();
           return;
         }
-        store.dispatch(getBalancesOnForeign());
-        store.dispatch(ClearTokenList());
+        store.dispatch(fetchTokensLatestPrice());
       });
-      store.dispatch(StartFetchNewTokens());
+      store.dispatch(SetIsFetchTokensLastestPrices(isFetching: true));
+    }
+    store.dispatch(fetchTokensLatestPrice());
+  };
+}
+
+ThunkAction fetchTokensLatestPrice() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    ProWalletState proWalletState = store.state.proWalletState;
+    for (Token token in proWalletState.erc20Tokens.values) {
+      Function fetchTokenLastestPrice = () async {
+        void Function(Price) onDone = (Price priceInfo) {
+          logger.info('${token.name} price updated');
+          Token tokenToUpdate =
+              store.state.proWalletState.erc20Tokens[token.address];
+          store.dispatch(UpdateToken(
+              tokenToUpdate: tokenToUpdate.copyWith(priceInfo: priceInfo)));
+          store.dispatch(updateTotalBalance());
+          store.dispatch(ClearTokenList());
+        };
+        void Function(Object error, StackTrace stackTrace) onError =
+            (Object error, StackTrace stackTrace) {
+          logger.severe(
+              'Error in fetchTokenLastestPrice for - ${token.name} $error');
+        };
+        logger.info('fetching price of token ${token.name} ${token.address}');
+        await token.fetchTokenLastestPrice(onDone: onDone, onError: onError);
+      };
+      await Future.delayed(Duration(milliseconds: 500), fetchTokenLastestPrice);
+    }
+  };
+}
+
+ThunkAction startFetchBalancesOnForeign(
+    {List<String> addressesFromTransfersEvents = const []}) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    bool isFetchNewTokens =
+        store.state.proWalletState?.isFetchNewTokens ?? false;
+    if (!isFetchNewTokens) {
+      logger.info('Timer start - startFetchBalancesOnForeign');
+      new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+        if (store.state.userState.walletAddress == '') {
+          store.dispatch(SetIsFetchNewTokens(isFetching: false));
+          logger.severe('Timer stopped - startFetchBalancesOnForeign');
+          timer.cancel();
+          return;
+        }
+        store.dispatch(getBalancesOnForeign(
+            addressesFromTransfersEvents: addressesFromTransfersEvents));
+      });
+      store.dispatch(SetIsFetchNewTokens(isFetching: true));
     }
   };
 }
@@ -315,6 +362,9 @@ ThunkAction getBalancesOnForeign(
         for (String address in tokenAddresses) {
           store.dispatch(fetchTokenByAddress(address));
         }
+        store.dispatch(startFetchTransferEventsCall());
+        store.dispatch(fetchTokensBalances());
+        store.dispatch(startFetchTokensLastestPrices());
       }
     } catch (error) {
       logger.severe('Error in getBalancesOnForeign ${error.toString()}');
@@ -381,10 +431,14 @@ ThunkAction startFetchTransferEventsCall() {
   return (Store store) async {
     bool isFetchTransferEvents =
         store.state.proWalletState?.isFetchTransferEvents ?? false;
+    final logger = await AppFactory().getLogger('action');
     if (!isFetchTransferEvents) {
+      logger.info('Timer start - startFetchTransferEventsCall');
       new Timer.periodic(Duration(seconds: intervalSeconds),
           (Timer timer) async {
-        if (store.state.cashWalletState.walletAddress == '') {
+        if (store.state.userState.walletAddress == '') {
+          store.dispatch(SetIsFetchTransferEvents(isFetching: false));
+          logger.severe('Timer stopped - startFetchTransferEventsCall');
           timer.cancel();
           return;
         }
@@ -395,7 +449,7 @@ ThunkAction startFetchTransferEventsCall() {
           store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
         }
       });
-      store.dispatch(StartFetchTransferEvents());
+      store.dispatch(SetIsFetchTransferEvents(isFetching: true));
     }
   };
 }
@@ -539,6 +593,7 @@ ThunkAction sendErc20TokenCall(
 
       Job job = JobFactory.create(approveTrasfer['job']);
       store.dispatch(AddProJob(job: job, tokenAddress: token.address));
+      store.dispatch(startProcessingTokensJobsCall());
     } catch (e) {
       logger.severe('ERROR - sendErc20TokenCall $e');
       store.dispatch(new ErrorAction(e.toString()));
@@ -593,6 +648,7 @@ ThunkAction inviteAndSendCall(
 
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddProJob(job: job, tokenAddress: token.address));
+      store.dispatch(startProcessingTokensJobsCall());
     } catch (e) {
       logger.severe('ERROR - inviteAndSendCall $e');
     }
@@ -669,16 +725,20 @@ ThunkAction startProcessingTokensJobsCall() {
   return (Store store) async {
     bool isProcessingTokensJobs =
         store.state.proWalletState?.isProcessingTokensJobs ?? false;
+    final logger = await AppFactory().getLogger('action');
     if (!isProcessingTokensJobs) {
+      logger.info('Timer start - startProcessingTokensJobsCall');
       new Timer.periodic(Duration(seconds: intervalSeconds),
           (Timer timer) async {
-        if (store.state.cashWalletState.walletAddress == '') {
+        if (store.state.userState.walletAddress == '') {
+          store.dispatch(SetIsProcessingTokensJobs(isFetching: false));
+          logger.severe('Timer stopped - startProcessingTokensJobsCall');
           timer.cancel();
           return;
         }
         store.dispatch(processingTokenJobsCall(timer));
       });
-      store.dispatch(new StartProcessingTokensJobs());
+      store.dispatch(SetIsProcessingTokensJobs(isFetching: true));
     }
   };
 }
@@ -697,6 +757,7 @@ ThunkAction processingTokenJobsCall(Timer timer) {
           String currentWalletAddress = store.state.userState.walletAddress;
           bool isJobProcessValid() {
             if (currentWalletAddress != walletAddress) {
+              logger.severe('Timer stopped - startProcessingTokensJobsCall');
               timer.cancel();
               return false;
             }

@@ -122,7 +122,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         getListTile(I18n.of(context).backup_wallet, () {
           Navigator.push(context,
               new MaterialPageRoute(builder: (context) => ShowMnemonic()));
-        }, icon: 'backup_icon.svg'),
+        },
+            icon: 'backup_icon.svg',
+            temp: !viewModel.isBackup
+                ? SvgPicture.asset(
+                    'assets/images/back_up_icon.svg',
+                    width: 17,
+                    height: 17,
+                  )
+                : null),
         getListTile(I18n.of(context).settings, () {
           Navigator.push(context,
               new MaterialPageRoute(builder: (context) => SettingsScreen()));

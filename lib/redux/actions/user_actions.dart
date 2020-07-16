@@ -1,10 +1,13 @@
 import 'package:country_code_picker/country_code.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/jobs/base.dart';
+import 'package:fusecash/models/pro/pro_wallet_state.dart';
+import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
@@ -23,6 +26,26 @@ import 'package:fusecash/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
+
+class CreateAccountWalletRequest {
+  final String accountAddress;
+  CreateAccountWalletRequest(this.accountAddress);
+}
+
+class CreateAccountWalletSuccess {
+  final String accountAddress;
+  CreateAccountWalletSuccess(this.accountAddress);
+}
+
+class UpdateCurrency {
+  final String currency;
+  UpdateCurrency({this.currency});
+}
+
+class UpdateTotalBalance {
+  final num totalBalance;
+  UpdateTotalBalance({this.totalBalance});
+}
 
 class HomeBackupDialogShowed {
   HomeBackupDialogShowed();
@@ -175,7 +198,7 @@ ThunkAction setCountryCode(CountryCode countryCode) {
   return (Store store) async {
     String phone = '${countryCode.dialCode}${store.state.userState.phoneNumber}';
     String normalizedPhoneNumber = await PhoneService.getNormalizedPhoneNumber(phone, countryCode.code);
-    SetIsoCode(countryCode: countryCode, normalizedPhoneNumber: normalizedPhoneNumber);
+    store.dispatch(SetIsoCode(countryCode: countryCode, normalizedPhoneNumber: normalizedPhoneNumber));
   };
 }
 
@@ -190,7 +213,7 @@ ThunkAction backupWalletCall(VoidCallback successCb) {
       Community community = store.state.cashWalletState.communities[communityAddres];
       if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive) {
         BigInt value = toBigInt(community.plugins.backupBonus.amount, community.token.decimals);
-        String walletAddress = store.state.cashWalletState.walletAddress;
+        String walletAddress = store.state.userState.walletAddress;
         dynamic jobId = response['job']['_id'];
         logger.info('Job $jobId - sending backup bonus');
         Transfer backupBonus = new Transfer(
@@ -374,7 +397,7 @@ ThunkAction identifyFirstTimeCall() {
         new Map<String, dynamic>.from({
           "Wallet Generated": true,
           "Phone Number": fullPhoneNumber,
-          "Wallet Address": store.state.cashWalletState.walletAddress,
+          "Wallet Address": store.state.userState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
           "Display Name": store.state.userState.displayName,
           "Identifier": store.state.userState.identifier
@@ -387,7 +410,7 @@ ThunkAction identifyCall() {
     store.dispatch(segmentIdentifyCall(
         new Map<String, dynamic>.from({
           "Phone Number": store.state.userState.normalizedPhoneNumber ?? '',
-          "Wallet Address": store.state.cashWalletState.walletAddress,
+          "Wallet Address": store.state.userState.walletAddress,
           "Account Address": store.state.userState.accountAddress,
           "Display Name": store.state.userState.displayName,
           "Identifier": store.state.userState.identifier,
@@ -462,6 +485,32 @@ ThunkAction loadContacts() {
       }
     } catch (error) {
       logger.severe('ERROR - load contacts $error');
+    }
+  };
+}
+
+ThunkAction updateTotalBalance() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      ProWalletState proWalletState = store.state.proWalletState;
+      num combiner(num previousValue, Token token) => token?.priceInfo != null
+          ? previousValue +
+              num.parse(Decimal.parse(token?.priceInfo?.total).toString())
+          : previousValue + 0;
+      List<Token> foreignTokens = List<Token>.from(
+              proWalletState.erc20Tokens?.values ?? Iterable.empty())
+          .where((Token token) =>
+              num.parse(formatValue(token.amount, token.decimals,
+                      withPrecision: true))
+                  .compareTo(0) ==
+              1)
+          .toList();
+      List<Token> allTokens = [...foreignTokens];
+      num value = allTokens.fold<num>(0, combiner);
+      store.dispatch(UpdateTotalBalance(totalBalance: value));
+    } catch (error) {
+      logger.severe('ERROR while update total balance $error');
     }
   };
 }

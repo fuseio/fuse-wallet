@@ -31,9 +31,9 @@ class DrawerViewModel extends Equatable {
     return DrawerViewModel(
         isBackup: store.state.userState.backup ?? false,
         communityAddress: communityAddress,
-        walletAddress: store.state.cashWalletState.walletAddress,
+        walletAddress: store.state.userState.walletAddress,
         plugins: community?.plugins,
-        walletStatus: store.state.cashWalletState.walletStatus,
+        walletStatus: store.state.userState.walletStatus,
         logout: () {
           store.dispatch(logoutCall());
         },

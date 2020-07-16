@@ -11,12 +11,6 @@ import 'package:redux/redux.dart';
 final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
-  TypedReducer<CashWalletState, GetWalletAddressesSuccess>(
-      _getWalletAddressesSuccess),
-  TypedReducer<CashWalletState, CreateAccountWalletRequest>(
-      _createAccountWalletRequest),
-  TypedReducer<CashWalletState, CreateAccountWalletSuccess>(
-      _createAccountWalletSuccess),
   TypedReducer<CashWalletState, GetTokenBalanceSuccess>(
       _getTokenBalanceSuccess),
   TypedReducer<CashWalletState, FetchCommunityMetadataSuccess>(
@@ -40,10 +34,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, BranchCommunityUpdate>(_branchCommunityUpdate),
   TypedReducer<CashWalletState, BranchCommunityToUpdate>(
       _branchCommunityToUpdate),
-  TypedReducer<CashWalletState, StartBalanceFetchingSuccess>(
-      _startBalanceFetchingSuccess),
-  TypedReducer<CashWalletState, StartTransfersFetchingSuccess>(
-      _startTransfersFetchingSuccess),
+  TypedReducer<CashWalletState, SetIsTransfersFetching>(
+      _setIsTransfersFetching),
   TypedReducer<CashWalletState, InviteSendSuccess>(_inviteSendSuccess),
   TypedReducer<CashWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
@@ -57,7 +49,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _fetchingBusinessListFailed),
   TypedReducer<CashWalletState, AddJob>(_addJob),
   TypedReducer<CashWalletState, JobDone>(_jobDone),
-  TypedReducer<CashWalletState, JobProcessingStarted>(_jobProcessingStarted)
+  TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
 ]);
 
 CashWalletState _fetchCommunityMetadataSuccess(
@@ -87,28 +79,9 @@ CashWalletState _initWeb3Success(
   return state.copyWith(web3: action.web3);
 }
 
-CashWalletState _getWalletAddressesSuccess(
-    CashWalletState state, GetWalletAddressesSuccess action) {
-  return state.copyWith(
-      walletAddress: action.walletAddress,
-      transferManagerAddress: action.transferManagerAddress,
-      communityManagerAddress: action.communityManagerAddress,
-      walletStatus: 'created');
-}
-
-CashWalletState _createAccountWalletRequest(
-    CashWalletState state, CreateAccountWalletRequest action) {
-  return state.copyWith(walletStatus: 'requested');
-}
-
-CashWalletState _createAccountWalletSuccess(
-    CashWalletState state, CreateAccountWalletSuccess action) {
-  return state.copyWith(walletStatus: 'deploying');
-}
-
 CashWalletState _getTokenBalanceSuccess(
     CashWalletState state, GetTokenBalanceSuccess action) {
-  if (state.walletAddress != '') {
+  if (state.isCommunityFetched) {
     Community current = state.communities[state.communityAddress];
     Community newCommunity =
         current.copyWith(token: current.token.copyWith(amount: action.tokenBalance));
@@ -192,7 +165,7 @@ CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
   bool isLoading = state.isCommunityLoading ?? false;
   if (isLoading) return state;
-  if (state.walletAddress != '' && action.tokenTransfers.length > 0) {
+  if (action.tokenTransfers.length > 0) {
     dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
             0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
         1;
@@ -272,14 +245,9 @@ CashWalletState _branchDataReceived(
   return state.copyWith(isBranchDataReceived: true);
 }
 
-CashWalletState _startBalanceFetchingSuccess(
-    CashWalletState state, StartBalanceFetchingSuccess action) {
-  return state.copyWith(isBalanceFetchingStarted: true);
-}
-
-CashWalletState _startTransfersFetchingSuccess(
-    CashWalletState state, StartTransfersFetchingSuccess action) {
-  return state.copyWith(isTransfersFetchingStarted: true);
+CashWalletState _setIsTransfersFetching(
+    CashWalletState state, SetIsTransfersFetching action) {
+  return state.copyWith(isTransfersFetchingStarted: action.isFetching);
 }
 
 CashWalletState _addTransaction(CashWalletState state, AddTransaction action) {
@@ -375,6 +343,6 @@ CashWalletState _jobDone(CashWalletState state, JobDone action) {
 }
 
 CashWalletState _jobProcessingStarted(
-    CashWalletState state, JobProcessingStarted action) {
-  return state.copyWith(isJobProcessingStarted: true);
+    CashWalletState state, SetIsJobProcessing action) {
+  return state.copyWith(isJobProcessingStarted: action.isFetching);
 }

@@ -2,6 +2,7 @@ import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/pro/price.dart';
 import 'package:fusecash/models/tokens/base.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
+import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -106,21 +107,26 @@ class Token extends ERC20Token {
   }
 
   Future<dynamic> fetchTokenLastestPrice(
-      {void Function(Price) onDone, Function onError}) async {
+      {String currency = 'usd',
+      void Function(Price) onDone,
+      Function onError}) async {
+    final logger = await AppFactory().getLogger('action');
     try {
-      final String quote = await tokenAPI.getTokenLastestPrice(this.address);
+      final Map<String, dynamic> response =
+          await marketApi.getCurrentPriceOfTokens(this.address, currency);
+      double price = response[this.address.toLowerCase()][currency];
+      String quote = response[this.address.toLowerCase()][currency].toString();
+      logger.info(
+          'price response $quote ${response[this.address.toLowerCase()]}');
       String total =
-          formatValue(this.amount, this.decimals, withPrecision: true);
+          getFiatValue(this.amount, this.decimals, price, withPrecision: true);
       if (this.priceInfo == null) {
-        Price priceInfo = Price(
-            currency: 'usd',
-            quote: quote,
-            total: (num.parse(total) / num.parse(quote)).toString());
+        Price priceInfo = Price(currency: currency, quote: quote, total: total);
         onDone(priceInfo);
       } else {
-        Price priceInfo = this.priceInfo.copyWith(
-            quote: quote,
-            total: (num.parse(total) / num.parse(quote)).toString());
+        Price priceInfo = this
+            .priceInfo
+            .copyWith(quote: quote, currency: currency, total: total);
         onDone(priceInfo);
       }
     } catch (e, s) {

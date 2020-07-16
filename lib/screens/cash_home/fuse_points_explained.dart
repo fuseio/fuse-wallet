@@ -24,7 +24,6 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
                 height: 20,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width * 0.9,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 decoration: BoxDecoration(
@@ -131,7 +130,7 @@ exploring it’s features:''',
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: 20,
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,

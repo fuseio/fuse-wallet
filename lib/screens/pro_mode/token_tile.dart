@@ -13,17 +13,29 @@ import 'package:fusecash/screens/pro_mode/token_transfers.dart';
 import 'package:fusecash/utils/format.dart';
 
 class TokenTile extends StatelessWidget {
-  TokenTile({Key key, this.token, this.onTap, this.symbolHeight = 60.0, this.symbolWidth = 60.0}) : super(key: key);
+  TokenTile(
+      {Key key,
+      this.token,
+      this.onTap,
+      this.quate,
+      this.symbolHeight = 60.0,
+      this.symbolWidth = 60.0})
+      : super(key: key);
   final Function() onTap;
+  final double quate;
   final double symbolWidth;
   final double symbolHeight;
   final Token token;
   @override
   Widget build(BuildContext context) {
-    final String price = prices.containsKey(token.symbol)
-        ? getDollarValue(token.amount, token.decimals, prices[token.symbol])
-        : '0';
-    bool isFuseTxs = token.originNetwork != null;
+    final bool hasPriceInfo = token.priceInfo != null &&
+        token.priceInfo.total.isNotEmpty &&
+        quate != null;
+    final String price =
+        hasPriceInfo ? reduce(double.parse(token?.priceInfo?.total)) : '0';
+    final String value =
+        hasPriceInfo ? reduce(num.parse(price) / quate) : token.getBalance();
+    final bool isFuseTxs = token.originNetwork != null;
     return Container(
       child: ListTile(
           onTap: onTap != null
@@ -32,8 +44,10 @@ class TokenTile extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              TokenTransfersScreen(token: token)));
+                          builder: (context) => TokenTransfersScreen(
+                                token: token,
+                                tokenPrice: value,
+                              )));
                 },
           contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
           title: Row(
@@ -166,7 +180,8 @@ class TokenTile extends StatelessWidget {
                               children: <Widget>[
                                 RichText(
                                     text: TextSpan(children: <TextSpan>[
-                                  prices.containsKey(token.symbol)
+                                  // prices.containsKey(token.symbol)
+                                  token.priceInfo != null
                                       ? TextSpan(
                                           text: '\$' + price,
                                           style: TextStyle(
@@ -182,7 +197,8 @@ class TokenTile extends StatelessWidget {
                                               color: Theme.of(context)
                                                   .primaryColor)),
                                 ])),
-                                prices.containsKey(token.symbol)
+                                // prices.containsKey(token.symbol)
+                                token.priceInfo != null
                                     ? Positioned(
                                         bottom: -20,
                                         child: Padding(

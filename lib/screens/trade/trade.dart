@@ -584,6 +584,5 @@ Future<dynamic> fetchSwap(
     throw 'Error fromTokenAddress and toTokenAddress are empty';
   } catch (error) {
     logger.severe('ERROR in fetchSwap - ${error.toString()}');
-    throw error;
   }
 }

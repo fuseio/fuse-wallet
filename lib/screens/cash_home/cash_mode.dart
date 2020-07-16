@@ -4,7 +4,6 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/screens/cash_home/fuse_points_explained.dart';
-import 'package:fusecash/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -97,21 +96,8 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       );
 
   onInit(Store<AppState> store) {
-    String walletStatus = store.state.cashWalletState.walletStatus;
+    String walletStatus = store.state.userState.walletStatus;
     String accountAddress = store.state.userState.accountAddress;
-    bool isBackup = store.state.userState.backup ?? false;
-    bool homeBackupDialogShowed =
-        store.state.userState?.homeBackupDialogShowed ?? false;
-    if (!isBackup && !homeBackupDialogShowed) {
-      Future.delayed(const Duration(milliseconds: 2500), () {
-        store.dispatch(HomeBackupDialogShowed());
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return BackUpDialog();
-            });
-      });
-    }
 
     if (walletStatus != 'deploying' &&
         walletStatus != 'created' &&
@@ -127,9 +113,6 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       store.dispatch(loadContacts());
       store.dispatch(startListenToTransferEvents());
       store.dispatch(startFetchBalancesOnForeign());
-      store.dispatch(startFetchTransferEventsCall());
-      store.dispatch(fetchTokensBalances());
-      store.dispatch(startProcessingTokensJobsCall());
     }
   }
 

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/cash_home/prize.dart';
 import 'package:fusecash/utils/barcode.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/utils/format.dart';
 
 class CashHeader extends StatelessWidget {
   @override
@@ -81,68 +79,83 @@ class CashHeader extends StatelessWidget {
                                   fontSize: 12.0)),
                           padding: EdgeInsets.only(bottom: 6.0),
                         ),
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              RichText(
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                        text: '\$${viewModel?.usdValue ?? '0'}',
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
+                        viewModel.hasErc20Tokens
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                    RichText(
+                                      text: TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text:
+                                                  '\$${viewModel?.usdValue ?? '0'}',
+                                              style: TextStyle(
+                                                  fontSize: 30,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.bold)),
+                                        ],
+                                      ),
+                                    ),
+                                  ])
+                            : RichText(
+                                text: new TextSpan(
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                  children: viewModel.community.token == null
+                                      ? <TextSpan>[
+                                          new TextSpan(
+                                              text: '0',
+                                              style: new TextStyle(
+                                                  fontSize: 30,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.bold))
+                                        ]
+                                      : <TextSpan>[
+                                          new TextSpan(
+                                              text: formatValue(
+                                                  viewModel
+                                                      .community.token.amount,
+                                                  viewModel.community.token
+                                                      .decimals),
+                                              style: new TextStyle(
+                                                  fontSize: 32,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.bold)),
+                                          new TextSpan(
+                                              text: ' ' +
+                                                  viewModel
+                                                      .community.token?.symbol
+                                                      .toString(),
+                                              style: new TextStyle(
+                                                  fontSize: 18,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.normal,
+                                                  height: 0.0))
+                                        ],
                                 ),
                               ),
-                            ])
                       ],
                     ),
                     Container(
-                      child: Row(children: [
-                        viewModel.isCommunityMember
-                            ? InkWell(
-                                child: SvgPicture.asset(
-                                  'assets/images/winPoints.svg',
-                                  width: 45,
-                                  height: 45,
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => PrizeScreen()));
-                                  Segment.track(
-                                      eventName: "User open prize page");
-                                },
-                              )
-                            : SizedBox.shrink(),
-                        viewModel.isCommunityMember
-                            ? SizedBox(
-                                width: 10,
-                              )
-                            : SizedBox.shrink(),
-                        Container(
-                          width: 45,
-                          height: 45,
-                          child: FloatingActionButton(
-                              heroTag: 'cash_header',
-                              backgroundColor: Color(0xFF292929),
-                              elevation: 0,
-                              child: Image.asset(
-                                'assets/images/scan.png',
-                                width: 25.0,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                              ),
-                              onPressed: () {
-                                bracodeScannerHandler(context);
-                              }),
-                        )
-                      ]),
+                      width: 45,
+                      height: 45,
+                      child: FloatingActionButton(
+                          heroTag: 'cash_header',
+                          backgroundColor: Color(0xFF292929),
+                          elevation: 0,
+                          child: Image.asset(
+                            'assets/images/scan.png',
+                            width: 25.0,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                          onPressed: () {
+                            bracodeScannerHandler(context);
+                          }),
                     )
                   ],
                 ),

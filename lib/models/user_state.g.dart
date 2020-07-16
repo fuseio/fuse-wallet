@@ -44,6 +44,8 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
         : DateTime.parse(json['installedAt'] as String),
     homeBackupDialogShowed: json['homeBackupDialogShowed'] as bool,
     receiveBackupDialogShowed: json['receiveBackupDialogShowed'] as bool,
+    currency: UserState._currencyJson(json['currency'] as String),
+    totalBalance: json['totalBalance'] as num,
   );
 }
 
@@ -79,4 +81,6 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'authType': EnumToString.parse(instance.authType),
       'homeBackupDialogShowed': instance.homeBackupDialogShowed,
       'receiveBackupDialogShowed': instance.receiveBackupDialogShowed,
+      'currency': instance.currency,
+      'totalBalance': instance.totalBalance,
     };

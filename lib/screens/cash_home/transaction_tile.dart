@@ -363,7 +363,7 @@ class _TransactionTileViewModel extends Equatable {
     return _TransactionTileViewModel(
         reverseContacts: store.state.userState.reverseContacts,
         contacts: store.state.userState.contacts,
-        walletStatus: store.state.cashWalletState.walletStatus,
+        walletStatus: store.state.userState.walletStatus,
         countryCode: store.state.userState.countryCode,
         erc20Tokens: store.state.proWalletState.erc20Tokens,
         communities: store.state.cashWalletState.communities,
