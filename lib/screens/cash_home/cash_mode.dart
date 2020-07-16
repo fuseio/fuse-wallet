@@ -88,7 +88,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
           bottomBarItem(I18n.of(context).home, 'home'),
           bottomBarItem(I18n.of(context).send_button, 'send'),
           vm.isDefaultCommunity
-              ? bottomBarItem(I18n.of(context).fuse_points, 'fuse_points_tab')
+              ? bottomBarItem(I18n.of(context).fuse_volts, 'fuse_points_tab')
               : bottomBarItem(I18n.of(context).buy, 'buy'),
           bottomBarItem(I18n.of(context).receive, 'receive'),
         ],
@@ -113,6 +113,9 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       store.dispatch(loadContacts());
       store.dispatch(startListenToTransferEvents());
       store.dispatch(startFetchBalancesOnForeign());
+      store.dispatch(startFetchTransferEventsCall());
+      store.dispatch(fetchTokensBalances());
+      store.dispatch(startProcessingTokensJobsCall());
     }
   }
 

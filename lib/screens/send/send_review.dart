@@ -322,7 +322,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     label: I18n.of(context).send_button,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
-                      if (!hasFund) return;
+                      if (withFee && !hasFund) return;
                       send(viewModel, args, transferNoteController.text, () {
                         Navigator.push(
                             context,

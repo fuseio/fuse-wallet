@@ -461,7 +461,6 @@ ThunkAction generateWalletSuccessCall(
             communityManagerAddress: communityManager,
             transferManagerAddress: transferManager,
             dAIPointsManagerAddress: dAIPointsManager));
-
       }
       store.dispatch(new GetWalletAddressesSuccess(
           walletAddress: walletAddress,
@@ -615,6 +614,7 @@ ThunkAction processingJobsCall(Timer timer) {
           if ((currentCommunityAddress != communityAddress) ||
               (currentWalletAddress != walletAddress)) {
             logger.info('Timer stopeed - processingJobsCall');
+            store.dispatch(SetIsJobProcessing(isFetching: false));
             timer.cancel();
             return false;
           }
@@ -645,11 +645,16 @@ ThunkAction processingJobsCall(Timer timer) {
 ThunkAction startProcessingJobsCall() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    logger.info('Timer start - processingJobsCall');
-    new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
-      store.dispatch(processingJobsCall(timer));
-    });
-    store.dispatch(SetIsJobProcessing(isFetching: true));
+    final bool isJobProcessingStarted =
+        store.state.cashWalletState.isJobProcessingStarted ?? false;
+    if (!isJobProcessingStarted) {
+      logger.info('Start Processing Jobs Call');
+      new Timer.periodic(Duration(seconds: intervalSeconds),
+          (Timer timer) async {
+        store.dispatch(processingJobsCall(timer));
+      });
+      store.dispatch(SetIsJobProcessing(isFetching: true));
+    }
   };
 }
 

@@ -116,7 +116,7 @@
     "choose_lock_method": "Please choose how your prefer to protect your wallet be selecting the following methods",
     "yes": "Yes",
     "no": "No",
-    "fuse_points": "Fuse points",
+    "fuse_volts": "Fuse Volts",
     "back_up_now": "Back up now",
     "recommended": "Recommended",
     "insufficient_fund": "Insufficient fund"

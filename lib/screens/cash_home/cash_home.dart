@@ -102,8 +102,7 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
                               appBar: MyAppBar(
                                 backgroundColor: Theme.of(context).splashColor,
                                 child: Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 20, bottom: 10),
+                                    padding: EdgeInsets.only(top: 20),
                                     child: Container(
                                       color: Theme.of(context).splashColor,
                                       child: TabBar(

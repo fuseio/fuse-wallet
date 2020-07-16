@@ -16,7 +16,7 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
   Widget build(BuildContext context) {
     return MainScaffold(
         automaticallyImplyLeading: false,
-        title: I18n.of(context).fuse_points,
+        title: I18n.of(context).fuse_volts,
         children: <Widget>[
           Column(
             children: <Widget>[
@@ -48,9 +48,7 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
                           height: 30,
                         ),
                         Text(
-                          '''Fuse point is the default community on
-Fuse wallet. Get some points to start
-exploring it’s features:''',
+                          '''Fuse Volts are a demo community created by the Studio. Get some points for exploring the wallet features:''',
                           style: TextStyle(
                               fontSize: 17,
                               color: Theme.of(context).colorScheme.secondary),

@@ -95,8 +95,6 @@ class HomeViewModel extends Equatable {
         store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
     String identifier = store.state.userState.identifier;
-    bool isJobProcessingStarted =
-        store.state.cashWalletState.isJobProcessingStarted ?? false;
     bool isListeningToBranch =
         store.state.cashWalletState.isListeningToBranch ?? false;
     List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
@@ -141,9 +139,7 @@ class HomeViewModel extends Equatable {
           store.dispatch(getBusinessListCall());
         },
         startProcessingJobs: () {
-          if (!isJobProcessingStarted) {
-            store.dispatch(startProcessingJobsCall());
-          }
+          store.dispatch(startProcessingJobsCall());
         },
         setIdentifier: () {
           if (identifier == null) {
