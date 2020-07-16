@@ -146,6 +146,17 @@ class _SendAmountScreenState extends State<SendAmountScreen>
           }
         }
 
+        final BigInt balance = selectedToken?.amount;
+        final int decimals = selectedToken?.decimals;
+        final num currentTokenBalance =
+            num.parse(formatValue(balance, decimals, withPrecision: true));
+        final bool hasFund =
+            (num.parse(amountText ?? 0)).compareTo(currentTokenBalance) <= 0;
+
+        if (!hasFund) {
+          controller.forward();
+        }
+
         return MainScaffold(
             withPadding: true,
             title: title,
@@ -273,9 +284,18 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 child: SlideTransition(
               position: offset,
               child: PrimaryButton(
+                opacity: 1,
+                colors: !hasFund
+                    ? [
+                        Theme.of(context).bottomAppBarColor,
+                        Theme.of(context).bottomAppBarColor,
+                      ]
+                    : null,
                 labelFontWeight: FontWeight.normal,
-                label: I18n.of(context).continue_with +
-                    ' $amountText ${selectedToken?.symbol}',
+                label: hasFund
+                    ? I18n.of(context).continue_with +
+                        ' $amountText ${selectedToken?.symbol}'
+                    : I18n.of(context).insufficient_fund,
                 onPressed: () {
                   args.tokenToSend = selectedToken;
                   args.amount = num.parse(amountText);
@@ -287,7 +307,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               )));
                 },
                 preload: isPreloading,
-                disabled: isPreloading,
+                disabled: isPreloading || !hasFund,
                 width: 300,
               ),
             )));

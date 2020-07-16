@@ -322,9 +322,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     label: I18n.of(context).send_button,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () {
-                      // if (args.feePlugin != null && !hasFund) {
-                      //   return;
-                      // }
+                      if (!hasFund) return;
                       send(viewModel, args, transferNoteController.text, () {
                         Navigator.push(
                             context,
@@ -332,16 +330,14 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                 builder: (context) => SendSuccessScreen(
                                       pageArgs: args,
                                     )));
-                        // String transferType = args.sendType
-                        //         .toString()
-                        //         .split('.')[1]
-                        //         .toLowerCase() ??
+                        // String transferType = args?.sendType
+                        //         ?.toString()
+                        //         ?.split('.')[1]
+                        //         ?.toLowerCase() ??
                         //     '';
-                        // viewModel.idenyifyCall(Map.from(
-                        //     {"Transferred ${viewModel.community.name}": true}));
                         // viewModel.trackTransferCall("Wallet: User Transfer",
                         //     properties: Map.from({
-                        //       'transfer type': transferType,
+                        //       // 'transfer type': transferType,
                         //       'network': args.tokenToSend.originNetwork == null
                         //           ? 'Ethereum'
                         //           : 'Fuse'
@@ -356,7 +352,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         isPreloading = true;
                       });
                     },
-                    disabled: isPreloading,
+                    disabled: isPreloading || !hasFund,
                     preload: isPreloading,
                     width: 180)));
       },

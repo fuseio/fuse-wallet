@@ -79,12 +79,6 @@ class SendAmountViewModel extends Equatable {
         .toList();
 
     List<Token> homeTokens = communities
-        .where((Community community) =>
-            num.parse(formatValue(
-                    community.token.amount, community.token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
         .map((Community community) => community.token
             .copyWith(imageUrl: getIPFSImageUrl(community.metadata.image)))
         .toList();

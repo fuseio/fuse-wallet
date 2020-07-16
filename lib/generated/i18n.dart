@@ -270,6 +270,10 @@ class I18n implements WidgetsLocalizations {
   String get fuse_points => "Fuse points";
   /// "Back up now"
   String get back_up_now => "Back up now";
+  /// "Recommended"
+  String get recommended => "Recommended";
+  /// "Insufficient fund"
+  String get insufficient_fund => "Insufficient fund";
 }
 
 class _I18n_en_US extends I18n {

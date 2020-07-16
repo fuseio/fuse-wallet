@@ -27,10 +27,10 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
                 width: MediaQuery.of(context).size.width * 0.9,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 decoration: BoxDecoration(
-                    color: Color(0xFFF7FFF8),
+                    color: Color(0xFFECF0F5),
                     borderRadius:
                         new BorderRadius.all(new Radius.circular(15.0)),
-                    border: Border.all(color: Color(0xFFECF7EF))),
+                    border: Border.all(color: Color(0xFFE4E9F0))),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,

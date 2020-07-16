@@ -46,15 +46,27 @@ class _SecurityScreenState extends State<SecurityScreen> {
               withPadding: true,
               title: I18n.of(context).protect_wallet,
               children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(top: 150),
-                    child: Text(I18n.of(context).choose_lock_method,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF888888),
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                        )))
+                Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SvgPicture.asset('assets/images/lock.svg'),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * .9,
+                      child: Text(I18n.of(context).choose_lock_method,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF888888),
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                          )),
+                    )
+                  ],
+                ),
               ],
               footer: StoreConnector<AppState, _SecurityViewModel>(
                   distinct: true,
@@ -89,18 +101,42 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        SvgPicture.asset(
-                                            'assets/images/${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg'),
-                                        SizedBox(
-                                          width: 10,
+                                        Row(
+                                          children: <Widget>[
+                                            SvgPicture.asset(
+                                                'assets/images/${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg'),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              BiometricUtils.getBiometricString(
+                                                  _biometricType),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.black),
+                                            )
+                                          ],
                                         ),
-                                        Text(
-                                          BiometricUtils.getBiometricString(
-                                              _biometricType),
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            SvgPicture.asset(
+                                              'assets/images/info_gray.svg',
+                                            ),
+                                            SizedBox(
+                                              width: 3,
+                                            ),
+                                            Text(
+                                              I18n.of(context).recommended,
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.black),
+                                            ),
+                                          ],
                                         )
                                       ],
                                     )),

@@ -46,14 +46,6 @@ class _PincodeScreenState extends State<PincodeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    // Expanded(
-                    //   child: Column(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: <Widget>[
-
-                    //     ],
-                    //   ),
-                    // ),
                     SizedBox(
                       height: 150,
                     ),

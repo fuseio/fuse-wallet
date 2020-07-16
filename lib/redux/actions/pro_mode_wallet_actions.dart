@@ -185,8 +185,6 @@ ThunkAction startListenToTransferEvents() {
           List transfersEvents = await graph.getTransferEvents(
               foreignNetwork: foreignNetwork, to: walletAddress);
           ProWalletState proWalletState = store.state.proWalletState;
-          logger.info(
-              'startListenToTransferEvents startListenToTransferEvents ${transfersEvents.length}');
           if (transfersEvents.isNotEmpty) {
             List<String> addressesFromTransfersEvents = [
               ...transfersEvents.map((transferEvent) =>

@@ -117,5 +117,7 @@
     "yes": "Yes",
     "no": "No",
     "fuse_points": "Fuse points",
-    "back_up_now": "Back up now"
+    "back_up_now": "Back up now",
+    "recommended": "Recommended",
+    "insufficient_fund": "Insufficient fund"
 }

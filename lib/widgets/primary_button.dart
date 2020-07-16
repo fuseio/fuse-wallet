@@ -10,8 +10,10 @@ class PrimaryButton extends StatelessWidget {
       this.height,
       this.preload,
       this.colors,
+      this.opacity = 0.4,
       this.disabled = false,
       this.labalColor});
+  final double opacity;
   final GestureTapCallback onPressed;
   final String label;
   final FontWeight labelFontWeight;
@@ -26,7 +28,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: disabled ? 0.4 : 1,
+      opacity: disabled ? opacity : 1,
       child: Container(
         width: width ?? 255.0,
         height: height ?? 50.0,
