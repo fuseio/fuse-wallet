@@ -3,8 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/home.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/screens/cash_home/feed.dart';
 import 'package:fusecash/screens/pro_mode/assets_list.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 
 final List<String> tabsTitles = ['Feed', 'Wallet'];
@@ -80,6 +82,14 @@ class _CashHomeScreenState extends State<CashHomeScreen> {
     Segment.screen(screenName: '/home-screen');
     return new StoreConnector<AppState, HomeViewModel>(
         converter: HomeViewModel.fromStore,
+        onInit: (store) {
+          final communities = store.state.cashWalletState.communities;
+          String walletStatus = store.state.userState.walletStatus;
+          if (walletStatus == 'created' &&
+              !communities.containsKey(defaultCommunityAddress)) {
+            store.dispatch(switchCommunityCall(defaultCommunityAddress));
+          }
+        },
         builder: (_, viewModel) {
           if (viewModel.tokens
               .any((element) => element.originNetwork == null)) {
