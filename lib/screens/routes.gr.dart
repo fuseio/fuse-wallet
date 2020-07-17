@@ -7,34 +7,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:fusecash/screens/misc/lock_screen.dart';
+import 'package:redux/redux.dart';
+import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/screens/backup/show_mnemonic.dart';
+import 'package:fusecash/screens/misc/security.dart';
+import 'package:fusecash/screens/misc/pincode_colored.dart';
 import 'package:fusecash/screens/signup/recovery.dart';
 import 'package:fusecash/screens/splash/splash.dart';
 import 'package:fusecash/screens/signup/signup.dart';
 import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/screens/signup/username.dart';
-import 'package:fusecash/screens/cash_home/cash_mode.dart';
-import 'package:fusecash/screens/route_guards.dart';
+import 'package:fusecash/screens/misc/webview_page.dart';
+import 'package:fusecash/screens/home/home_page.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/cash_home/transaction_details.dart';
-import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/screens/pro_mode/token_transfers.dart';
-import 'package:fusecash/screens/trade/trade.dart';
+import 'package:fusecash/screens/route_guards.dart';
 
 class Routes {
-  static const String recoveryPage = '/recovery';
-  static const String splashScreen = '/splash';
-  static const String signupScreen = '/signup';
-  static const String verifyScreen = '/verify';
-  static const String userNameScreen = '/username';
-  static const String mainNavigator = '/';
+  static const String lockScreen = '/';
+  static const String backupScreen = '/show-mnemonic';
+  static const String securityScreen = '/security-screen';
+  static const String pincode = '/colors-pincode-screen';
+  static const String recoveryPage = '/recovery-page';
+  static const String splashScreen = '/splash-screen';
+  static const String signupScreen = '/signup-screen';
+  static const String verifyScreen = '/verify-screen';
+  static const String userNameScreen = '/user-name-screen';
+  static const String webview = '/web-view-page';
+  static const String homePage = '/home-page';
   static const all = <String>{
+    lockScreen,
+    backupScreen,
+    securityScreen,
+    pincode,
     recoveryPage,
     splashScreen,
     signupScreen,
     verifyScreen,
     userNameScreen,
-    mainNavigator,
+    webview,
+    homePage,
   };
 }
 
@@ -42,21 +54,47 @@ class Router extends RouterBase {
   @override
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
+    RouteDef(Routes.lockScreen, page: LockScreen),
+    RouteDef(Routes.backupScreen, page: ShowMnemonic),
+    RouteDef(Routes.securityScreen, page: SecurityScreen),
+    RouteDef(Routes.pincode, page: ColorsPincodeScreen),
     RouteDef(Routes.recoveryPage, page: RecoveryPage),
     RouteDef(Routes.splashScreen, page: SplashScreen),
     RouteDef(Routes.signupScreen, page: SignupScreen),
     RouteDef(Routes.verifyScreen, page: VerifyScreen),
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
-    RouteDef(
-      Routes.mainNavigator,
-      page: MainNavigator,
-      guards: [AuthGuard],
-      innerRouter: () => MainNavigatorRouter(),
-    ),
+    RouteDef(Routes.webview, page: WebViewPage),
+    RouteDef(Routes.homePage, page: HomePage, guards: [AuthGuard]),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
+    LockScreen: (RouteData data) {
+      var args = data.getArgs<LockScreenArguments>(
+          orElse: () => LockScreenArguments());
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => LockScreen(store: args.store),
+        settings: data,
+      );
+    },
+    ShowMnemonic: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ShowMnemonic(),
+        settings: data,
+      );
+    },
+    SecurityScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SecurityScreen(),
+        settings: data,
+      );
+    },
+    ColorsPincodeScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ColorsPincodeScreen(),
+        settings: data,
+      );
+    },
     RecoveryPage: (RouteData data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => RecoveryPage(),
@@ -89,87 +127,27 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    MainNavigator: (RouteData data) {
-      var args = data.getArgs<MainNavigatorArguments>(
-          orElse: () => MainNavigatorArguments());
+    WebViewPage: (RouteData data) {
+      var args = data.getArgs<WebViewPageArguments>(
+          orElse: () => WebViewPageArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => MainNavigator(key: args.key),
+        builder: (context) => WebViewPage(
+          url: args.url,
+          title: args.title,
+          withBack: args.withBack,
+        ),
         settings: data,
       );
     },
-  };
-}
-
-class MainNavigatorRoutes {
-  static const String cashModeScaffold = '/';
-  static const String transactionDetailsScreen = '/transaction_details';
-  static const String tokenTransfersScreen = '/asset_screen';
-  static const String tradeScreen = '/trade';
-  static const all = <String>{
-    cashModeScaffold,
-    transactionDetailsScreen,
-    tokenTransfersScreen,
-    tradeScreen,
-  };
-}
-
-class MainNavigatorRouter extends RouterBase {
-  @override
-  List<RouteDef> get routes => _routes;
-  final _routes = <RouteDef>[
-    RouteDef(MainNavigatorRoutes.cashModeScaffold, page: CashModeScaffold),
-    RouteDef(MainNavigatorRoutes.transactionDetailsScreen,
-        page: TransactionDetailsScreen),
-    RouteDef(MainNavigatorRoutes.tokenTransfersScreen,
-        page: TokenTransfersScreen),
-    RouteDef(MainNavigatorRoutes.tradeScreen, page: TradeScreen),
-  ];
-  @override
-  Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
-  final _pagesMap = <Type, AutoRouteFactory>{
-    CashModeScaffold: (RouteData data) {
-      var args = data.getArgs<CashModeScaffoldArguments>(
-          orElse: () => CashModeScaffoldArguments());
+    HomePage: (RouteData data) {
+      var args =
+          data.getArgs<HomePageArguments>(orElse: () => HomePageArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => CashModeScaffold(
+        builder: (context) => HomePage(
           key: args.key,
           tabIndex: args.tabIndex,
           primaryToken: args.primaryToken,
         ),
-        settings: data,
-      );
-    },
-    TransactionDetailsScreen: (RouteData data) {
-      var args = data.getArgs<TransactionDetailsScreenArguments>(
-          orElse: () => TransactionDetailsScreenArguments());
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => TransactionDetailsScreen(
-          image: args.image,
-          from: args.from,
-          status: args.status,
-          token: args.token,
-          contact: args.contact,
-          amount: args.amount,
-          transfer: args.transfer,
-        ),
-        settings: data,
-      );
-    },
-    TokenTransfersScreen: (RouteData data) {
-      var args = data.getArgs<TokenTransfersScreenArguments>(
-          orElse: () => TokenTransfersScreenArguments());
-      return MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            TokenTransfersScreen(key: args.key, token: args.token),
-        settings: data,
-      );
-    },
-    TradeScreen: (RouteData data) {
-      var args = data.getArgs<TradeScreenArguments>(
-          orElse: () => TradeScreenArguments());
-      return MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            TradeScreen(key: args.key, primaryToken: args.primaryToken),
         settings: data,
       );
     },
@@ -180,55 +158,30 @@ class MainNavigatorRouter extends RouterBase {
 // Arguments holder classes
 // **************************************************************************
 
+//LockScreen arguments holder class
+class LockScreenArguments {
+  final Store<AppState> store;
+  LockScreenArguments({this.store});
+}
+
 //VerifyScreen arguments holder class
 class VerifyScreenArguments {
   final String verificationId;
   VerifyScreenArguments({this.verificationId});
 }
 
-//MainNavigator arguments holder class
-class MainNavigatorArguments {
-  final Key key;
-  MainNavigatorArguments({this.key});
+//WebViewPage arguments holder class
+class WebViewPageArguments {
+  final String url;
+  final String title;
+  final bool withBack;
+  WebViewPageArguments({this.url, this.title, this.withBack});
 }
 
-//CashModeScaffold arguments holder class
-class CashModeScaffoldArguments {
+//HomePage arguments holder class
+class HomePageArguments {
   final Key key;
   final int tabIndex;
   final Token primaryToken;
-  CashModeScaffoldArguments({this.key, this.tabIndex = 0, this.primaryToken});
-}
-
-//TransactionDetailsScreen arguments holder class
-class TransactionDetailsScreenArguments {
-  final ImageProvider<dynamic> image;
-  final String from;
-  final String status;
-  final Token token;
-  final Contact contact;
-  final List<Widget> amount;
-  final Transfer transfer;
-  TransactionDetailsScreenArguments(
-      {this.image,
-      this.from,
-      this.status,
-      this.token,
-      this.contact,
-      this.amount,
-      this.transfer});
-}
-
-//TokenTransfersScreen arguments holder class
-class TokenTransfersScreenArguments {
-  final Key key;
-  final Token token;
-  TokenTransfersScreenArguments({this.key, this.token});
-}
-
-//TradeScreen arguments holder class
-class TradeScreenArguments {
-  final Key key;
-  final Token primaryToken;
-  TradeScreenArguments({this.key, this.primaryToken});
+  HomePageArguments({this.key, this.tabIndex = 0, this.primaryToken});
 }

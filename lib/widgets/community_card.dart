@@ -3,9 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'dart:core';
-
 import 'package:fusecash/screens/routes.gr.dart';
+import 'dart:core';
 import 'package:fusecash/utils/transaction_row.dart';
 
 class CommunityCardScreen extends StatefulWidget {
@@ -32,11 +31,8 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
     return InkWell(
         onTap: () {
           widget.switchCommunity(widget.community.address);
-          ExtendedNavigator.byName("main").pushNamedAndRemoveUntil(
-              MainNavigatorRoutes.cashModeScaffold,
-              (Route<dynamic> route) => false);
-          // Router.navigator.pushNamedAndRemoveUntil(
-          //     Router.cashHomeScreen, (Route<dynamic> route) => false);
+          ExtendedNavigator.root
+              .pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -55,7 +51,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
           ),
           child: Card(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,

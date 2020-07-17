@@ -15,6 +15,7 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     daiPointsManagerAddress: json['daiPointsManagerAddress'] as String,
     networks: (json['networks'] as List)?.map((e) => e as String)?.toList(),
     mnemonic: (json['mnemonic'] as List)?.map((e) => e as String)?.toList(),
+    authType: UserState._authTypeFromJson(json['authType'] as String),
     privateKey: json['privateKey'] as String,
     pincode: json['pincode'] as String,
     accountAddress: json['accountAddress'] as String,
@@ -41,7 +42,10 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     installedAt: json['installedAt'] == null
         ? null
         : DateTime.parse(json['installedAt'] as String),
-    isProModeActivated: json['isProModeActivated'] as bool,
+    homeBackupDialogShowed: json['homeBackupDialogShowed'] as bool,
+    receiveBackupDialogShowed: json['receiveBackupDialogShowed'] as bool,
+    currency: UserState._currencyJson(json['currency'] as String),
+    totalBalance: json['totalBalance'] as num,
   );
 }
 
@@ -74,5 +78,9 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'backup': instance.backup,
       'displayBalance': instance.displayBalance,
       'installedAt': instance.installedAt?.toIso8601String(),
-      'isProModeActivated': instance.isProModeActivated,
+      'authType': EnumToString.parse(instance.authType),
+      'homeBackupDialogShowed': instance.homeBackupDialogShowed,
+      'receiveBackupDialogShowed': instance.receiveBackupDialogShowed,
+      'currency': instance.currency,
+      'totalBalance': instance.totalBalance,
     };

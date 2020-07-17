@@ -1,13 +1,13 @@
 import 'dart:core';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/redux/state/store.dart';
+import 'package:fusecash/screens/home/widgets/assets_list.dart';
 import 'package:fusecash/services.dart';
 import 'package:redux/redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:fusecash/screens/trade/review_trade.dart';
-import 'package:fusecash/screens/pro_mode/assets_list.dart';
 import 'package:fusecash/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constans/exchangable_tokens.dart';
@@ -584,6 +584,5 @@ Future<dynamic> fetchSwap(
     throw 'Error fromTokenAddress and toTokenAddress are empty';
   } catch (error) {
     logger.severe('ERROR in fetchSwap - ${error.toString()}');
-    throw error;
   }
 }

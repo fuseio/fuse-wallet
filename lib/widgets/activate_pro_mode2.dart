@@ -55,7 +55,7 @@ class ActivateProMode2DialogState extends State<ActivateProMode2Dialog>
               scale: scaleAnimatoin,
               child: AlertDialog(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   content: Stack(
                     children: <Widget>[
                       Container(
@@ -101,7 +101,6 @@ class ActivateProMode2DialogState extends State<ActivateProMode2Dialog>
                                                   'assets/images/ethereume_icon.png',
                                                 ),
                                                 name: 'ethereum',
-                                                feePlugin: viewModel.feePlugin,
                                                 sendType:
                                                     SendType.ETHEREUM_ADDRESS,
                                                 accountAddress: viewModel

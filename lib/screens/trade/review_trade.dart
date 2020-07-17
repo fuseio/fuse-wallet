@@ -185,13 +185,8 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           widget.exchangeSummry['amountIn'],
                           widget.exchangeSummry['tx']['to'],
                           widget.exchangeSummry['tx']['data'], () {
-                        ExtendedNavigator.byName("main")
-                            .pushNamedAndRemoveUntil(
-                                MainNavigatorRoutes.cashModeScaffold,
-                                (Route<dynamic> route) => false);
-
-                        // Router.navigator.pushNamedAndRemoveUntil(
-                        //     Router.cashHomeScreen, (route) => false);
+                        ExtendedNavigator.root
+                            .pushReplacementNamed(Routes.homePage);
                       }, () {
                         setState(() {
                           isPreloading = false;

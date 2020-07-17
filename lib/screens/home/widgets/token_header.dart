@@ -1,10 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/widgets/network_explained.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/move_to_ethereum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -14,22 +12,21 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
 
 class TokenHeader extends StatelessWidget {
-  TokenHeader({this.token});
+  TokenHeader({this.token, this.tokenPrice});
+  final String tokenPrice;
   final Token token;
 
   @override
   Widget build(BuildContext context) {
-    String price;
-    if (prices.containsKey(token.symbol)) {
-      price =
-          getDollarValue(token.amount, token.decimals, prices[token.symbol]);
-    }
+    final String price = token.priceInfo != null
+        ? reduce(double.parse(token?.priceInfo?.total))
+        : '0';
     final bool isFuseToken = token.originNetwork != null;
     final String logo = isFuseToken ? 'fuse-network.svg' : 'ether-network.svg';
     return Container(
         height: MediaQuery.of(context).size.height,
         alignment: Alignment.bottomLeft,
-        padding: EdgeInsets.all(30.0),
+        padding: EdgeInsets.all(20.0),
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -62,7 +59,7 @@ class TokenHeader extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                   child: Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 35, right: 35),
+                      padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
                       child: SvgPicture.asset(
                         'assets/images/arrow_white.svg',
                         fit: BoxFit.fill,
@@ -94,29 +91,28 @@ class TokenHeader extends StatelessWidget {
                           children: <Widget>[
                             RichText(
                                 text: TextSpan(
-                                    text: prices.containsKey(token.symbol)
-                                        ? '\$$price'
-                                        : "${token.getBalance()}",
                                     style: TextStyle(
-                                        fontSize: 30,
+                                        fontSize: 27,
                                         fontWeight: FontWeight.bold,
-                                        color:
-                                            Theme.of(context).primaryColor))),
+                                        color: Theme.of(context).primaryColor),
+                                    children: [
+                                  TextSpan(
+                                      text: tokenPrice != null
+                                          ? token.getBalance()
+                                          : ''),
+                                  TextSpan(text: " ${token.symbol}")
+                                ])),
                             SizedBox(
                               width: 10,
                             ),
                             RichText(
                                 text: TextSpan(
+                                    text: tokenPrice != null
+                                        ? '\$$price'
+                                        : "${token.getBalance()}",
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor,
-                                        fontSize: 18),
-                                    children: [
-                                  TextSpan(
-                                      text: prices.containsKey(token.symbol)
-                                          ? token.getBalance()
-                                          : ''),
-                                  TextSpan(text: " ${token.symbol}")
-                                ])),
+                                        fontSize: 18))),
                           ],
                         ),
                         StoreConnector<AppState, _ProTokenHeaderViewModel>(
@@ -143,14 +139,8 @@ class TokenHeader extends StatelessWidget {
                                                 fit: BoxFit.cover,
                                               ),
                                               onPressed: () {
-                                                ExtendedNavigator.byName('main').pushNamed(MainNavigatorRoutes.tradeScreen);
-                                                // Router.navigator.pushNamed(
-                                                //     Router.cashHomeScreen,
-                                                //     arguments:
-                                                //         CashModeScaffoldArguments(
-                                                //             tabIndex: 2,
-                                                //             primaryToken:
-                                                //                 token));
+                                                
+                                                // ExtendedNavigator.byName('main').pushNamed(HomeRoutes.tradeScreen);
                                               }),
                                         )
                                       : SizedBox.shrink(),

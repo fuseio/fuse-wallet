@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/plugins/fee_base.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -50,7 +49,7 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
         scale: scaleAnimatoin,
         child: AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
           content: Stack(
             children: <Widget>[
               new StoreConnector<AppState, ActivateProModeViewModel>(
@@ -122,18 +121,15 @@ class ActivateProModeDialogState extends State<ActivateProModeDialog>
 
 class ActivateProModeViewModel extends Equatable {
   final String daiPointsHomeBridgeAddress;
-  final FeePlugin feePlugin;
-  ActivateProModeViewModel(
-      {this.feePlugin, this.daiPointsHomeBridgeAddress});
+  ActivateProModeViewModel({this.daiPointsHomeBridgeAddress});
 
   @override
-  List<Object> get props => [feePlugin, daiPointsHomeBridgeAddress];
+  List<Object> get props => [daiPointsHomeBridgeAddress];
 
   static ActivateProModeViewModel fromStore(Store<AppState> store) {
     Community community =
         store.state.cashWalletState.communities[defaultCommunityAddress];
     return ActivateProModeViewModel(
-        feePlugin: community.plugins.bridgeToForeign,
         daiPointsHomeBridgeAddress: community.homeBridgeAddress);
   }
 }

@@ -5,7 +5,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
+import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:redux/redux.dart';
@@ -53,7 +53,7 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
         scale: scaleAnimatoin,
         child: AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
           content: Stack(
             children: <Widget>[
               new StoreConnector<AppState, DepositDaiDialogViewModel>(
@@ -102,14 +102,10 @@ class DepositDaiDialogState extends State<DepositDaiDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  ExtendedNavigator.byName("main")
-                                      .pushNamedAndRemoveUntil(
-                                          MainNavigatorRoutes.cashModeScaffold,
-                                          (Route<dynamic> route) => false);
-                                  // Router.navigator.pushNamed(
-                                  //     Router.cashHomeScreen,
-                                  //     arguments: CashModeScaffoldArguments(
-                                  //         tabIndex: 3));
+                                  ExtendedNavigator.root.pushNamed(
+                                      Routes.homePage,
+                                      arguments:
+                                          HomePageArguments(tabIndex: 3));
                                 },
                               ),
                               Padding(

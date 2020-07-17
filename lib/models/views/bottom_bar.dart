@@ -6,13 +6,11 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/utils/addresses.dart' as util;
 
 class BottomBarViewModel extends Equatable {
-  final String communityAddress;
   final Community community;
   final bool isDefaultCommunity;
   final List<Contact> contacts;
 
   BottomBarViewModel({
-    this.communityAddress,
     this.isDefaultCommunity,
     this.community,
     this.contacts,
@@ -25,12 +23,11 @@ class BottomBarViewModel extends Equatable {
             new Community.initial();
     return BottomBarViewModel(
       contacts: store.state.userState.contacts ?? [],
-      communityAddress: communityAddress,
       community: community,
       isDefaultCommunity: util.isDefaultCommunity(communityAddress),
     );
   }
 
   @override
-  List<Object> get props => [communityAddress, contacts, isDefaultCommunity];
+  List<Object> get props => [contacts, isDefaultCommunity, community];
 }

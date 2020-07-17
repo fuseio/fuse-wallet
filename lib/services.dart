@@ -15,13 +15,12 @@ final API api = new API(
     funderBase: DotEnv().env['FUNDER_BASE_URL']);
 
 final Graph graph = new Graph(
-    url: DotEnv().env['GRAPH_BASE_URL'],
-    subGraph: DotEnv().env['SUB_GRAPH']);
+    url: DotEnv().env['GRAPH_BASE_URL'], subGraph: DotEnv().env['SUB_GRAPH']);
 
 final TokensApi tokenAPI = new TokensApi(
     etherscanBase: DotEnv().env['ETHERSCAN_BASE_URL'],
-    etherscanApiKey: DotEnv().env['ETHERSCAN_API_KEY'],
-    amberdataApiKey: DotEnv().env['AMBERDATA_API_KEY'],
-    amberdataBaseUri: DotEnv().env['AMBERDATA_BASE_URL']);
+    etherscanApiKey: DotEnv().env['ETHERSCAN_API_KEY']);
+
+final MarketApi marketApi = new MarketApi();
 
 final PhoneNumber phoneNumberUtil = new PhoneNumber();

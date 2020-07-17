@@ -1,13 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/pro_mode/assets_list.dart';
+import 'package:fusecash/screens/home/widgets/token_tile.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/screens/send/send_review.dart';
 import 'package:fusecash/utils/format.dart';
@@ -54,8 +52,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         context: context,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.0),
-                topRight: Radius.circular(12.0))),
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0))),
         builder: (BuildContext context) => Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -73,8 +71,10 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                     separatorBuilder: (BuildContext context, int index) =>
                         Divider(),
                     itemCount: viewModel.tokens?.length ?? 0,
-                    itemBuilder: (context, index) => OptionTile(
+                    itemBuilder: (context, index) => TokenTile(
                         token: viewModel.tokens[index],
+                        symbolWidth: 45,
+                        symbolHeight: 45,
                         onTap: () {
                           Navigator.of(context).pop();
                           setState(() {
@@ -144,6 +144,17 @@ class _SendAmountScreenState extends State<SendAmountScreen>
           } catch (e) {
             controller.reverse();
           }
+        }
+
+        final BigInt balance = selectedToken?.amount;
+        final int decimals = selectedToken?.decimals;
+        final num currentTokenBalance =
+            num.parse(formatValue(balance, decimals, withPrecision: true));
+        final bool hasFund =
+            (num.parse(amountText ?? 0)).compareTo(currentTokenBalance) <= 0;
+
+        if (!hasFund) {
+          controller.forward();
         }
 
         return MainScaffold(
@@ -273,9 +284,18 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 child: SlideTransition(
               position: offset,
               child: PrimaryButton(
+                opacity: 1,
+                colors: !hasFund
+                    ? [
+                        Theme.of(context).bottomAppBarColor,
+                        Theme.of(context).bottomAppBarColor,
+                      ]
+                    : null,
                 labelFontWeight: FontWeight.normal,
-                label: I18n.of(context).continue_with +
-                    ' $amountText ${selectedToken?.symbol}',
+                label: hasFund
+                    ? I18n.of(context).continue_with +
+                        ' $amountText ${selectedToken?.symbol}'
+                    : I18n.of(context).insufficient_fund,
                 onPressed: () {
                   args.tokenToSend = selectedToken;
                   args.amount = num.parse(amountText);
@@ -287,153 +307,11 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               )));
                 },
                 preload: isPreloading,
-                disabled: isPreloading,
+                disabled: isPreloading || !hasFund,
                 width: 300,
               ),
             )));
       },
-    );
-  }
-}
-
-class OptionTile extends StatelessWidget {
-  const OptionTile({Key key, this.token, this.onTap}) : super(key: key);
-  final Token token;
-  final Function() onTap;
-  @override
-  Widget build(BuildContext context) {
-    String price;
-    if (prices.containsKey(token.symbol)) {
-      price =
-          getDollarValue(token.amount, token.decimals, prices[token.symbol]);
-    }
-    bool isFuseTxs = token.originNetwork != null;
-    return Container(
-      child: ListTile(
-          onTap: onTap,
-          contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
-          title: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                  flex: 8,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Flexible(
-                        flex: 4,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: CachedNetworkImage(
-                                width: 45,
-                                height: 45,
-                                imageUrl: token.imageUrl != null &&
-                                        token.imageUrl.isNotEmpty
-                                    ? token.imageUrl
-                                    : getTokenUrl(
-                                        checksumEthereumAddress(token.address)),
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(
-                                  Icons.error,
-                                  size: 54,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 10.0),
-                      Flexible(
-                        flex: 10,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          verticalDirection: VerticalDirection.down,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: RichText(
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                        text: token.name,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color(0xFF333333))),
-                                    TextSpan(
-                                        text: isFuseTxs
-                                            ? ' - Fuse'
-                                            : ' - Ethereum',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xFF808080))),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  )),
-              Flexible(
-                  flex: 4,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Stack(
-                              overflow: Overflow.visible,
-                              alignment: AlignmentDirectional.bottomEnd,
-                              children: <Widget>[
-                                RichText(
-                                    text: TextSpan(children: <TextSpan>[
-                                  prices.containsKey(token.symbol)
-                                      ? TextSpan(
-                                          text: '\$' + price,
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              color: Theme.of(context)
-                                                  .primaryColor))
-                                      : TextSpan(
-                                          text: token.getBalance() +
-                                              ' ' +
-                                              token.symbol,
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              color: Theme.of(context)
-                                                  .primaryColor)),
-                                ])),
-                                prices.containsKey(token.symbol)
-                                    ? Positioned(
-                                        bottom: -20,
-                                        child: Padding(
-                                            child: Text(
-                                                token.getBalance() +
-                                                    ' ' +
-                                                    token.symbol,
-                                                style: TextStyle(
-                                                    color: Color(0xFF8D8D8D),
-                                                    fontSize: 10)),
-                                            padding: EdgeInsets.only(top: 10)))
-                                    : SizedBox.shrink()
-                              ],
-                            )
-                          ],
-                        )
-                      ]))
-            ],
-          )),
     );
   }
 }

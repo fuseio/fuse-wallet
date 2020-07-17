@@ -44,7 +44,8 @@ class Transfer extends Transaction {
       this.jobId != null && this.jobId == 'generateWallet';
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');
 
-  Transfer copyWith({String status, String txHash, String text}) {
+  Transfer copyWith(
+      {String status, String txHash, String text, int timestamp}) {
     return Transfer(
         isSwap: this.isSwap,
         note: note ?? this.note,
@@ -55,7 +56,7 @@ class Transfer extends Transaction {
         text: text ?? this.text,
         jobId: this.jobId,
         blockNumber: this.blockNumber,
-        timestamp: this.timestamp,
+        timestamp: timestamp ?? this.timestamp,
         to: this.to,
         from: this.from,
         value: this.value,

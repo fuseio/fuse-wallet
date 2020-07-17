@@ -8,9 +8,9 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/views/drawer.dart';
 import 'package:fusecash/screens/backup/show_mnemonic.dart';
-import 'package:fusecash/screens/cash_home/switch_commmunity.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
 import 'package:fusecash/screens/misc/settings.dart';
+import 'package:fusecash/screens/misc/switch_commmunity.dart';
+import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
 
@@ -30,29 +30,40 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     super.initState();
   }
 
-  Widget getListTile(label, onTap, {String icon}) {
+  Widget getListTile(String label, void Function() onTap,
+      {String icon, Widget temp}) {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
       title: Padding(
-        padding: EdgeInsets.only(left: 10),
-        child: Row(
-          children: <Widget>[
-            SvgPicture.asset(
-              'assets/images/' '$icon',
-              width: 20,
-              height: 20,
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Text(
-              label,
-              style: TextStyle(
-                  fontSize: 16, color: Theme.of(context).primaryColor),
-            ),
-          ],
-        ),
-      ),
+          padding: EdgeInsets.only(left: 10),
+          child: Stack(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  SvgPicture.asset(
+                    'assets/images/' '$icon',
+                    width: 20,
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    label,
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).primaryColor),
+                  ),
+                ],
+              ),
+              temp != null
+                  ? Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: temp,
+                    )
+                  : SizedBox.shrink()
+            ],
+          )),
       onTap: onTap,
     );
   }
@@ -110,7 +121,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         getListTile(I18n.of(context).backup_wallet, () {
           Navigator.push(context,
               new MaterialPageRoute(builder: (context) => ShowMnemonic()));
-        }, icon: 'backup_icon.svg'),
+        },
+            icon: 'backup_icon.svg',
+            temp: !viewModel.isBackup
+                ? SvgPicture.asset(
+                    'assets/images/back_up_icon.svg',
+                    width: 17,
+                    height: 17,
+                  )
+                : null),
         getListTile(I18n.of(context).settings, () {
           Navigator.push(context,
               new MaterialPageRoute(builder: (context) => SettingsScreen()));
@@ -127,7 +146,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         getListTile(I18n.of(context).backup_wallet, () {
           Navigator.push(context,
               new MaterialPageRoute(builder: (context) => ShowMnemonic()));
-        }, icon: 'backup_icon.svg'),
+        },
+            icon: 'backup_icon.svg',
+            temp: !viewModel.isBackup
+                ? SvgPicture.asset(
+                    'assets/images/back_up_icon.svg',
+                    width: 17,
+                    height: 17,
+                  )
+                : null),
         getListTile(I18n.of(context).settings, () {
           Navigator.push(context,
               new MaterialPageRoute(builder: (context) => SettingsScreen()));

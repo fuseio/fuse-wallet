@@ -3,16 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 
-// class WebViewPageArguments {
-//   final String url;
-//   final String title;
-//   final bool withBack;
-
-//   WebViewPageArguments({this.title, this.url, this.withBack = true});
-// }
-
 class WebViewPage extends StatefulWidget {
-  // final WebViewPageArguments pageArgs;
   final String url;
   final String title;
   final bool withBack;

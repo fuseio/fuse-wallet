@@ -1,6 +1,8 @@
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_state.g.dart';
@@ -36,10 +38,14 @@ class UserState {
   final bool backup;
   final int displayBalance;
   final DateTime installedAt;
-  final bool isProModeActivated;
+  @JsonKey(fromJson: _authTypeFromJson, toJson: EnumToString.parse)
+  final BiometricAuth authType;
+  final bool homeBackupDialogShowed;
+  final bool receiveBackupDialogShowed;
+  @JsonKey(fromJson: _currencyJson)
+  final String currency;
+  final num totalBalance;
 
-  @JsonKey(ignore: true, defaultValue: false)
-  final bool isProMode;
   @JsonKey(ignore: true)
   final bool isLoginRequest;
   @JsonKey(ignore: true)
@@ -57,6 +63,7 @@ class UserState {
       this.daiPointsManagerAddress,
       this.networks,
       this.mnemonic,
+      this.authType,
       this.privateKey,
       this.pincode,
       this.accountAddress,
@@ -82,8 +89,10 @@ class UserState {
       this.installedAt,
       this.isLoginRequest,
       this.isVerifyRequest,
-      this.isProMode,
-      this.isProModeActivated});
+      this.homeBackupDialogShowed,
+      this.receiveBackupDialogShowed,
+      this.currency,
+      this.totalBalance});
 
   factory UserState.initial() {
     return new UserState(
@@ -114,13 +123,16 @@ class UserState {
         isLoggedOut: false,
         isContactsSynced: null,
         backup: false,
+        authType: BiometricAuth.none,
         credentials: null,
         displayBalance: 0,
         installedAt: DateTime.now().toUtc(),
         isLoginRequest: false,
         isVerifyRequest: false,
-        isProMode: false,
-        isProModeActivated: false);
+        receiveBackupDialogShowed: false,
+        homeBackupDialogShowed: false,
+        currency: 'usd',
+        totalBalance: 0);
   }
 
   UserState copyWith(
@@ -156,12 +168,18 @@ class UserState {
       DateTime installedAt,
       bool isLoginRequest,
       bool isVerifyRequest,
-      bool isProMode,
-      bool isProModeActivated}) {
+      BiometricAuth authType,
+      bool receiveBackupDialogShowed,
+      bool homeBackupDialogShowed,
+      String currency,
+      num totalBalance}) {
     return UserState(
+        authType: authType ?? this.authType,
         walletAddress: walletAddress ?? this.walletAddress,
-        communityManagerAddress: communityManagerAddress ?? this.communityManagerAddress,
-        transferManagerAddress: transferManagerAddress ?? this.transferManagerAddress,
+        communityManagerAddress:
+            communityManagerAddress ?? this.communityManagerAddress,
+        transferManagerAddress:
+            transferManagerAddress ?? this.transferManagerAddress,
         walletStatus: walletStatus ?? this.walletStatus,
         networks: networks ?? this.networks,
         mnemonic: mnemonic ?? this.mnemonic,
@@ -171,7 +189,8 @@ class UserState {
         countryCode: countryCode ?? this.countryCode,
         isoCode: isoCode ?? this.isoCode,
         phoneNumber: phoneNumber ?? this.phoneNumber,
-        normalizedPhoneNumber: normalizedPhoneNumber ?? this.normalizedPhoneNumber,
+        normalizedPhoneNumber:
+            normalizedPhoneNumber ?? this.normalizedPhoneNumber,
         contacts: contacts ?? this.contacts,
         syncedContacts: syncedContacts ?? this.syncedContacts,
         reverseContacts: reverseContacts ?? this.reverseContacts,
@@ -190,9 +209,20 @@ class UserState {
         installedAt: installedAt ?? this.installedAt,
         isLoginRequest: isLoginRequest ?? this.isLoginRequest,
         isVerifyRequest: isVerifyRequest ?? this.isVerifyRequest,
-        isProMode: isProMode ?? this.isProMode,
-        isProModeActivated: isProModeActivated ?? this.isProModeActivated);
+        homeBackupDialogShowed:
+            homeBackupDialogShowed ?? this.homeBackupDialogShowed,
+        receiveBackupDialogShowed:
+            receiveBackupDialogShowed ?? this.receiveBackupDialogShowed,
+        currency: currency ?? this.currency,
+        totalBalance: totalBalance ?? this.totalBalance);
   }
+
+  static String _currencyJson(String currency) =>
+      currency == null ? 'usd' : currency;
+
+  static BiometricAuth _authTypeFromJson(String auth) => auth == null
+      ? BiometricAuth.none
+      : EnumToString.fromString(BiometricAuth.values, auth);
 
   dynamic toJson() => _$UserStateToJson(this);
 

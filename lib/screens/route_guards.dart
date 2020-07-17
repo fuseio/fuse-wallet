@@ -1,19 +1,16 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/models/app_state.dart';
+import 'package:redux/redux.dart';
+import 'package:fusecash/redux/state/store.dart';
 
 class AuthGuard extends RouteGuard {
-  final bool isLoggedIn;
-  AuthGuard({this.isLoggedIn});
+  @override
   Future<bool> canNavigate(
     ExtendedNavigatorState navigator,
     String routeName,
     Object arguments,
   ) async {
-    if (isLoggedIn) {
-      return true;
-    } else {
-      navigator..pushNamed(Routes.splashScreen);
-      return isLoggedIn;
-    }
+    Store<AppState> store = await AppFactory().getStore();
+    return !store.state.userState.isLoggedOut;
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -6,10 +7,10 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/drawer.dart';
 import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/screens/splash/splash.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/language_selector.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 
 class SettingsScreen extends StatelessWidget {
   Widget getListTile(context, label, onTap) {
@@ -38,14 +39,18 @@ class SettingsScreen extends StatelessWidget {
               new MaterialPageRoute(builder: (context) => AboutScreen()));
         }),
         new Divider(),
-        // getListTile(context, I18n.of(context).protect_wallet, () {}),
-        // new Divider(),
+        getListTile(context, I18n.of(context).protect_wallet, () {
+          // ExtendedNavigator.root.pushReplacementNamed(Routes.splashScreen);
+
+          // Navigator.push(context,
+          //     new MaterialPageRoute(builder: (context) => SecurityScreen()));
+        }),
+        new Divider(),
         new LanguageSelector(),
         new Divider(),
         getListTile(context, I18n.of(context).logout, () {
           viewModel.logout();
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => SplashScreen()));
+          ExtendedNavigator.root.pushReplacementNamed(Routes.splashScreen);
         })
       ];
     }

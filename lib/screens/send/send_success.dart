@@ -23,12 +23,7 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     Segment.screen(screenName: '/send-success-screen');
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      ExtendedNavigator.byName("main").pushNamedAndRemoveUntil(
-          MainNavigatorRoutes.cashModeScaffold,
-          (Route<dynamic> route) => false);
-
-      // Router.navigator.pushNamedAndRemoveUntil(
-      //     Router.cashHomeScreen, (Route<dynamic> route) => false);
+      ExtendedNavigator.root.pushNamed(Routes.homePage);
     });
   }
 

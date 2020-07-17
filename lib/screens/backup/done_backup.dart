@@ -69,11 +69,7 @@ class DoneBackup extends StatelessWidget {
                 fontSize: 15,
                 onPressed: () async {
                   VoidCallback successCb = () {
-                    ExtendedNavigator.byName("main").pushNamedAndRemoveUntil(
-                        MainNavigatorRoutes.cashModeScaffold,
-                        (Route<dynamic> route) => false);
-                    // Router.navigator
-                    //     .popUntil(ModalRoute.withName(Router.cashHomeScreen));
+                    ExtendedNavigator.root.pushReplacementNamed(Routes.homePage);
                   };
                   viewModal.backupWallet(successCb);
                 },

@@ -3,6 +3,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/tokens/token.dart';
+import 'package:fusecash/screens/home/router/home_router.gr.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,10 +11,8 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/transaction_row.dart';
-import 'package:fusecash/screens/cash_home/transaction_details.dart';
 import 'package:fusecash/utils/format.dart';
 
 class TransactionTile extends StatelessWidget {
@@ -308,7 +307,7 @@ class TransactionTile extends StatelessWidget {
                   if (!transfer.isGenerateWallet() &&
                       !transfer.isJoinCommunity()) {
                     ExtendedNavigator.of(context)
-                        .pushNamed(MainNavigatorRoutes.transactionDetailsScreen,
+                        .pushNamed(HomeRoutes.transactionDetailsScreen,
                             arguments: TransactionDetailsScreenArguments(
                               transfer: transfer,
                               contact: contact,
@@ -332,55 +331,6 @@ class TransactionTile extends StatelessWidget {
                                 )
                               ],
                             ));
-                    // ExtendedNavigator.byName('main').pushNamed(
-                    //     MainNavigatorRoutes.transactionDetailsScreen,
-                    //     arguments: TransactionDetailsScreenArguments(
-                    //       transfer: transfer,
-                    //       contact: contact,
-                    //       from: displayName,
-                    //       image: image,
-                    //       token: token,
-                    //       amount: [
-                    //         Text(
-                    //           amount,
-                    //           style: TextStyle(
-                    //               color: Color(0xFF696969),
-                    //               fontSize: 16.0,
-                    //               fontWeight: FontWeight.bold),
-                    //         ),
-                    //         Text(
-                    //           " ${token.symbol}",
-                    //           style: TextStyle(
-                    //               color: Color(0xFF696969),
-                    //               fontSize: 16.0,
-                    //               fontWeight: FontWeight.normal),
-                    //         )
-                    //       ],
-                    //     ));
-                    // Router.navigator.pushNamed(Router.transactionDetailsScreen,
-                    //     arguments: TransactionDetailArguments(
-                    //       transfer: transfer,
-                    //       contact: contact,
-                    //       from: displayName,
-                    //       image: image,
-                    //       token: token,
-                    //       amount: [
-                    //         Text(
-                    //           amount,
-                    //           style: TextStyle(
-                    //               color: Color(0xFF696969),
-                    //               fontSize: 16.0,
-                    //               fontWeight: FontWeight.bold),
-                    //         ),
-                    //         Text(
-                    //           " ${token.symbol}",
-                    //           style: TextStyle(
-                    //               color: Color(0xFF696969),
-                    //               fontSize: 16.0,
-                    //               fontWeight: FontWeight.normal),
-                    //         )
-                    //       ],
-                    //     ));
                   }
                 },
               ));
@@ -414,7 +364,7 @@ class _TransactionTileViewModel extends Equatable {
     return _TransactionTileViewModel(
         reverseContacts: store.state.userState.reverseContacts,
         contacts: store.state.userState.contacts,
-        walletStatus: store.state.cashWalletState.walletStatus,
+        walletStatus: store.state.userState.walletStatus,
         countryCode: store.state.userState.countryCode,
         erc20Tokens: store.state.proWalletState.erc20Tokens,
         communities: store.state.cashWalletState.communities,

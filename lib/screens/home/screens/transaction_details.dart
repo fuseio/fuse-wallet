@@ -76,7 +76,15 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                                           width: 25,
                                           height: 25),
                                     )
-                                  : SizedBox.shrink(),
+                                  : widget.transfer.isPending()
+                                      ? Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: SvgPicture.asset(
+                                              'assets/images/pending.svg',
+                                              width: 25,
+                                              height: 25),
+                                        )
+                                      : SizedBox.shrink(),
                           Text(
                               widget.transfer.isConfirmed()
                                   ? I18n.of(context).approved

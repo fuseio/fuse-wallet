@@ -1,3 +1,5 @@
+import 'package:fusecash/screens/home/widgets/token_tile.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
@@ -6,10 +8,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/pro_mode/token_tile.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/utils/format.dart';
 
 String getTokenUrl(tokenAddress) {
   return tokenAddress == zeroAddress
@@ -20,31 +20,29 @@ String getTokenUrl(tokenAddress) {
 class AssetsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: key,
-        body: Column(children: <Widget>[
-          Expanded(
-              child: ListView(children: [
-            StoreConnector<AppState, _AssetsListViewModel>(
-                distinct: true,
-                converter: _AssetsListViewModel.fromStore,
-                builder: (_, viewModel) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          ListView(
-                              shrinkWrap: true,
-                              primary: false,
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              children: [
-                                ...viewModel.tokens
-                                    .map((Token token) => TokenTile(
-                                          token: token,
-                                        ))
-                                    .toList()
-                              ])
-                        ]))
-          ])),
-        ]));
+    return StoreConnector<AppState, _AssetsListViewModel>(
+      distinct: true,
+      converter: _AssetsListViewModel.fromStore,
+      builder: (_, viewModel) {
+        return Scaffold(
+            key: key,
+            body: Column(children: <Widget>[
+              Expanded(
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      primary: false,
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      itemCount: viewModel.tokens?.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(
+                            color: Color(0xFFDCDCDC),
+                            thickness: 1,
+                          ),
+                      itemBuilder: (context, index) =>
+                          TokenTile(token: viewModel.tokens[index]))),
+            ]));
+      },
+    );
   }
 }
 
@@ -75,12 +73,9 @@ class _AssetsListViewModel extends Equatable {
         .toList();
     return _AssetsListViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) {
-          if (tokenB.amount != null && tokenA?.amount != null) {
-            return tokenB?.amount?.compareTo(tokenA?.amount);
-          }
-          return tokenA.hashCode.compareTo(tokenB.hashCode);
-        }),
+      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
+          (tokenB?.amount ?? BigInt.one)
+              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
     );
   }
 

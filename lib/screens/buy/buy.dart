@@ -6,9 +6,8 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/cash_home/webview_page.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
+import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/screens/send/send_amount.dart';
 import 'package:fusecash/screens/send/send_amount_arguments.dart';
 import 'package:fusecash/utils/transaction_row.dart';
@@ -91,7 +90,7 @@ class BusinessesListView extends StatelessWidget {
         : Container();
   }
 
-  Widget businessList(BuyViewModel vm) {
+  Widget businessList(context, BuyViewModel vm) {
     return new Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -147,13 +146,11 @@ class BusinessesListView extends StatelessWidget {
             fontWeight: FontWeight.normal),
       ),
       onTap: () {
-        // ExtendedNavigator.byName("buyRouter").pushNamed(Routs);
-
-        // Router.navigator.pushNamed(Router.businessPage,
-        //     arguments: BusinessPageArguments(
-        //         communityAddress: communityAddres,
-        //         token: token,
-        //         business: business));
+        ExtendedNavigator.of(context).pushNamed(BusinessesRoutes.businessPage,
+            arguments: BusinessPageArguments(
+                business: business,
+                token: token,
+                communityAddress: communityAddres));
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -197,20 +194,16 @@ class BusinessesListView extends StatelessWidget {
           vm.loadBusinesses();
         },
         builder: (_, vm) {
-          return vm.businesses.isEmpty
-              ? Container(
-                  padding: const EdgeInsets.all(40.0),
-                  child: Center(
-                    child: Text(I18n.of(context).no_businesses),
-                  ),
-                )
-              : new Container(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[banner(context, vm), businessList(vm)],
-                  ),
-                );
+          return new Container(
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                banner(context, vm),
+                businessList(context, vm)
+              ],
+            ),
+          );
         });
   }
 }
