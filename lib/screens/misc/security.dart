@@ -56,7 +56,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                       height: 30,
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width * .9,
+                      width: MediaQuery.of(context).size.width * .86,
                       child: Text(I18n.of(context).choose_lock_method,
                           textAlign: TextAlign.center,
                           style: TextStyle(

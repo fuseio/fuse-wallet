@@ -77,8 +77,8 @@ class _LockScreenState extends State<LockScreen> {
         },
         child: new StoreConnector<AppState, LockScreenViewModel>(
             distinct: true,
-            onInit: (store) async {
-              await _handleLocalAuh(store);
+            onInit: (store) {
+              _handleLocalAuh(store);
             },
             converter: LockScreenViewModel.fromStore,
             builder: (_, viewModel) {

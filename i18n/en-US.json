@@ -119,5 +119,8 @@
     "fuse_volts": "Fuse Volts",
     "back_up_now": "Back up now",
     "recommended": "Recommended",
-    "insufficient_fund": "Insufficient fund"
+    "insufficient_fund": "Insufficient fund",
+    "cancel": "Cancel",
+    "flash_on": "Flash on",
+    "flash_off": "Flash off"
 }

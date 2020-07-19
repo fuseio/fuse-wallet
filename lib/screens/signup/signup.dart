@@ -139,7 +139,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                   }));
                             },
                             initialSelection: countryCode.code,
-                            favorite: [],
                             showCountryOnly: false,
                             showFlag: false,
                             textStyle: TextStyle(fontSize: 16),
