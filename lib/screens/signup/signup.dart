@@ -138,20 +138,20 @@ class _SignupScreenState extends State<SignupScreen> {
                                     'County code': _countryCode.code,
                                   }));
                             },
+                            searchStyle: TextStyle(fontSize: 18),
+                            showFlag: true,
                             initialSelection: countryCode.code,
                             showCountryOnly: false,
-                            showFlag: false,
-                            textStyle: TextStyle(fontSize: 16),
+                            textStyle: TextStyle(fontSize: 18),
                             alignLeft: false,
                           ),
-                          width: 50,
                         ),
                         Icon(Icons.arrow_drop_down),
                         Container(
                           height: 35,
                           width: 1,
                           color: Color(0xFFc1c1c1),
-                          margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                          margin: EdgeInsets.only(left: 5.0, right: 5.0),
                         ),
                         Expanded(
                           child: TextFormField(
@@ -161,7 +161,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             validator: (String value) => value.isEmpty
                                 ? "Please enter mobile number"
                                 : null,
-                            style: TextStyle(fontSize: 16, color: Colors.black),
+                            style: TextStyle(fontSize: 18, color: Colors.black),
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 20, horizontal: 10),

@@ -6,7 +6,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/drawer.dart';
 import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/screens/misc/security.dart';
+import 'package:fusecash/screens/misc/protect_your_wallet.dart';
 import 'package:fusecash/screens/splash/splash.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/language_selector.dart';
@@ -41,7 +41,7 @@ class SettingsScreen extends StatelessWidget {
         new Divider(),
         getListTile(context, I18n.of(context).protect_wallet, () {
           Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => SecurityScreen()));
+              new MaterialPageRoute(builder: (context) => ProtectYourWallet()));
         }),
         new Divider(),
         new LanguageSelector(),

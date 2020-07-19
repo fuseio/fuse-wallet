@@ -1085,6 +1085,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           walletAddress: walletAddress);
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
       store.dispatch(getBusinessListCall());
+      store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String webUrl = communityData['webUrl'];

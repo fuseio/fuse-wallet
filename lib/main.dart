@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:country_code_picker/country_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -75,6 +76,7 @@ class _MyAppState extends State<MyApp> {
           theme: CustomTheme.of(context),
           localizationsDelegates: [
             i18n,
+            CountryLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
