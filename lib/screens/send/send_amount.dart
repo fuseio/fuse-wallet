@@ -107,12 +107,16 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        _onKeyPress(VirtualKeyboardKey key) {
+        _onKeyPress(VirtualKeyboardKey key, {bool max = false}) {
           if (key.keyType == VirtualKeyboardKeyType.String) {
             if (amountText == "0") {
               amountText = "";
             }
-            amountText = amountText + key.text;
+            if (max) {
+              amountText = key.text;
+            } else {
+              amountText = amountText + key.text;
+            }
           } else if (key.keyType == VirtualKeyboardKeyType.Action) {
             switch (key.action) {
               case VirtualKeyboardKeyAction.Backspace:
@@ -192,10 +196,17 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                             selectedToken.amount,
                                             selectedToken.decimals,
                                             withPrecision: true);
-                                        _onKeyPress(VirtualKeyboardKey(
-                                            text: max,
-                                            keyType:
-                                                VirtualKeyboardKeyType.String));
+                                        if (num.parse(max).compareTo(
+                                                num.parse(amountText)) !=
+                                            0) {
+                                          _onKeyPress(
+                                              VirtualKeyboardKey(
+                                                  text: max,
+                                                  keyType:
+                                                      VirtualKeyboardKeyType
+                                                          .String),
+                                              max: true);
+                                        }
                                       },
                                       child: Text(
                                         I18n.of(context).use_max,
