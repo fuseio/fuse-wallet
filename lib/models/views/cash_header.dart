@@ -1,7 +1,5 @@
-import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
@@ -24,13 +22,6 @@ class CashHeaderViewModel extends Equatable {
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     ProWalletState proWalletState = store.state.proWalletState;
-    // num combiner(num previousValue, Token token) => token?.priceInfo != null
-    //     ? previousValue +
-    //         num.parse(Decimal.parse(token?.priceInfo?.total).toString())
-    //     : previousValue + 0;
-
-    // List<Community> communities =
-    //     store.state.cashWalletState.communities.values.toList();
     List<Token> erc20Tokens =
         List<Token>.from(proWalletState.erc20Tokens?.values ?? Iterable.empty())
             .where((Token token) =>
@@ -39,12 +30,6 @@ class CashHeaderViewModel extends Equatable {
                     .compareTo(0) ==
                 1)
             .toList();
-    // List<Token> allTokens = [
-    //   ...communities.map((Community community) => community.token).toList(),
-    //   ...foreignTokens
-    // ];
-
-    // num usdValue = allTokens.fold<num>(0, combiner);
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddres] ??

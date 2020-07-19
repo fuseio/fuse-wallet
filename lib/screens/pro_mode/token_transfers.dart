@@ -4,7 +4,6 @@ import 'package:fusecash/screens/pro_mode/token_header.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
 
 class TokenTransfersScreen extends StatelessWidget {
   TokenTransfersScreen({Key key, this.token, this.tokenPrice})
