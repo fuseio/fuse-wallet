@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -10,6 +8,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/utils/send.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'dart:core';
@@ -110,36 +109,21 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                       ),
                                       onTap: () {
                                         if (isFuseToken) {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SendAmountScreen(
-                                                          pageArgs:
-                                                              SendAmountArguments(
-                                                                  avatar:
-                                                                      AssetImage(
-                                                                    'assets/images/ethereume_icon.png',
-                                                                  ),
-                                                                  name:
-                                                                      'ethereum',
-                                                                  accountAddress:
-                                                                      vm.homeBridgeAddress))));
+                                          navigateToSendAmountScreen(
+                                              vm.homeBridgeAddress,
+                                              'ethereum',
+                                              null,
+                                              avatar: AssetImage(
+                                                'assets/images/ethereume_icon.png',
+                                              ));
                                         } else {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SendAmountScreen(
-                                                          pageArgs:
-                                                              SendAmountArguments(
-                                                                  avatar:
-                                                                      AssetImage(
-                                                                    'assets/images/ethereume_icon.png',
-                                                                  ),
-                                                                  name: 'fuse',
-                                                                  accountAddress:
-                                                                      vm.foreignBridgeAddress))));
+                                          navigateToSendAmountScreen(
+                                              vm.foreignBridgeAddress,
+                                              'fuse',
+                                              null,
+                                              avatar: AssetImage(
+                                                'assets/images/ethereume_icon.png',
+                                              ));
                                         }
                                       },
                                     ),
@@ -173,10 +157,8 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  ExtendedNavigator.root.pushNamed(
-                                      Routes.homePage,
-                                      arguments:
-                                          HomePageArguments(tabIndex: 1));
+                                  ExtendedNavigator.byName('contactsRouter')
+                                      .pushNamed(ContactsRoutes.contactsList);
                                 },
                               )
                             ],

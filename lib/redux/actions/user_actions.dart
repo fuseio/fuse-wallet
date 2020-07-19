@@ -1,6 +1,5 @@
 import 'package:country_code_picker/country_code.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

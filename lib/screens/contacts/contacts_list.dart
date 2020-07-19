@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -7,9 +8,9 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/send/contact_tile.dart';
-import 'package:fusecash/screens/send/recent_contacts.dart';
-import 'package:fusecash/utils/barcode.dart';
+import 'package:fusecash/screens/contacts/contact_tile.dart';
+import 'package:fusecash/screens/contacts/recent_contacts.dart';
+import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -36,8 +37,13 @@ class _ContactsListState extends State<ContactsList> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
-        onInit: (store) {
-          Segment.screen(screenName: '/send-to-contact-screen');
+        onInit: (store) async {
+          bool isPermitted = await Contacts.checkPermissions();
+          if (!isPermitted) {
+            ExtendedNavigator.of(context)
+                .pushReplacementNamed(ContactsRoutes.emptyContacts);
+          }
+          Segment.screen(screenName: '/contacts_list');
         },
         converter: ContactsViewModel.fromStore,
         builder: (_, viewModel) {
@@ -135,7 +141,9 @@ class _ContactsListState extends State<ContactsList> {
             displayName: user.displayName,
             phoneNumber: phone.value,
             onTap: () {
-              sendToContact(context, viewModel, user.displayName, phone.value,
+              sendToContact(context, user.displayName, phone.value,
+                  isoCode: viewModel.isoCode,
+                  countryCode: viewModel.countryCode,
                   avatar: user.avatar != null && user.avatar.isNotEmpty
                       ? MemoryImage(user.avatar)
                       : new AssetImage('assets/images/anom.png'));
@@ -152,12 +160,11 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  Widget sendToAcccountAddress(BuildContext context,
-      ContactsViewModel viewModel, String accountAddress) {
+  Widget sendToAcccountAddress(BuildContext context, String accountAddress) {
     Widget component = ContactTile(
       displayName: formatAddress(accountAddress),
       onTap: () {
-        sendToPastedAddress(context, viewModel, accountAddress);
+        sendToPastedAddress(accountAddress);
       },
       trailing: InkWell(
         child: Text(
@@ -165,7 +172,7 @@ class _ContactsListState extends State<ContactsList> {
           style: TextStyle(color: Color(0xFF0377FF)),
         ),
         onTap: () {
-          sendToPastedAddress(context, viewModel, accountAddress);
+          sendToPastedAddress(accountAddress);
         },
       ),
     );
@@ -182,8 +189,7 @@ class _ContactsListState extends State<ContactsList> {
     if (searchController.text.isEmpty) {
       listItems.add(RecentContacts());
     } else if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(
-          sendToAcccountAddress(context, viewModel, searchController.text));
+      listItems.add(sendToAcccountAddress(context, searchController.text));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
@@ -259,7 +265,7 @@ class _ContactsListState extends State<ContactsList> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     onPressed: () {
-                      bracodeScannerHandler(context);
+                      bracodeScannerHandler();
                     }),
               )
             ],

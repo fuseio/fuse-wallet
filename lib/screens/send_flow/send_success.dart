@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {

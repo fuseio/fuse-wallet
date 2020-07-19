@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/views/backup.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -10,8 +9,6 @@ import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
 
 class LockScreen extends StatefulWidget {
-  final Store<AppState> store;
-  LockScreen({this.store});
   @override
   _LockScreenState createState() => _LockScreenState();
 }
@@ -68,11 +65,12 @@ class _LockScreenState extends State<LockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
-        onWillPop: () {
-          return new Future(() => false);
+    return WillPopScope(
+        onWillPop: () async {
+          ExtendedNavigator.root.pop<bool>(false);
+          return false;
         },
-        child: new StoreConnector<AppState, LockScreenViewModel>(
+        child: StoreConnector<AppState, LockScreenViewModel>(
             distinct: true,
             onInit: (store) {
               _handleLocalAuh(store);

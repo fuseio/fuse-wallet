@@ -14,17 +14,41 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/screens/home/widgets/token_transfers.dart';
 import 'package:fusecash/screens/trade/trade.dart';
+import 'package:fusecash/screens/trade/review_trade.dart';
+import 'package:fusecash/screens/misc/about.dart';
+import 'package:fusecash/screens/backup/show_mnemonic.dart';
+import 'package:fusecash/screens/backup/verify_mnemonic.dart';
+import 'package:fusecash/screens/backup/done_backup.dart';
+import 'package:fusecash/screens/misc/settings.dart';
+import 'package:fusecash/screens/misc/switch_commmunity.dart';
+import 'package:fusecash/screens/misc/protect_your_wallet.dart';
 
 class HomeRoutes {
   static const String mainHomeScreen = '/';
   static const String transactionDetailsScreen = '/transaction-details-screen';
   static const String tokenTransfersScreen = '/token-transfers-screen';
   static const String tradeScreen = '/trade-screen';
+  static const String reviewTradeScreen = '/review-trade-screen';
+  static const String aboutScreen = '/about-screen';
+  static const String showMnemonic = '/show-mnemonic';
+  static const String verifyMnemonic = '/verify-mnemonic';
+  static const String doneBackup = '/done-backup';
+  static const String settingsScreen = '/settings-screen';
+  static const String switchCommunityScreen = '/switch-community-screen';
+  static const String protectYourWallet = '/protect-your-wallet';
   static const all = <String>{
     mainHomeScreen,
     transactionDetailsScreen,
     tokenTransfersScreen,
     tradeScreen,
+    reviewTradeScreen,
+    aboutScreen,
+    showMnemonic,
+    verifyMnemonic,
+    doneBackup,
+    settingsScreen,
+    switchCommunityScreen,
+    protectYourWallet,
   };
 }
 
@@ -37,6 +61,14 @@ class HomeRouter extends RouterBase {
         page: TransactionDetailsScreen),
     RouteDef(HomeRoutes.tokenTransfersScreen, page: TokenTransfersScreen),
     RouteDef(HomeRoutes.tradeScreen, page: TradeScreen),
+    RouteDef(HomeRoutes.reviewTradeScreen, page: ReviewTradeScreen),
+    RouteDef(HomeRoutes.aboutScreen, page: AboutScreen),
+    RouteDef(HomeRoutes.showMnemonic, page: ShowMnemonic),
+    RouteDef(HomeRoutes.verifyMnemonic, page: VerifyMnemonic),
+    RouteDef(HomeRoutes.doneBackup, page: DoneBackup),
+    RouteDef(HomeRoutes.settingsScreen, page: SettingsScreen),
+    RouteDef(HomeRoutes.switchCommunityScreen, page: SwitchCommunityScreen),
+    RouteDef(HomeRoutes.protectYourWallet, page: ProtectYourWallet),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -86,6 +118,61 @@ class HomeRouter extends RouterBase {
         settings: data,
       );
     },
+    ReviewTradeScreen: (RouteData data) {
+      var args = data.getArgs<ReviewTradeScreenArguments>(
+          orElse: () => ReviewTradeScreenArguments());
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ReviewTradeScreen(
+          key: args.key,
+          exchangeSummry: args.exchangeSummry,
+          fromToken: args.fromToken,
+          toToken: args.toToken,
+        ),
+        settings: data,
+      );
+    },
+    AboutScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AboutScreen(),
+        settings: data,
+      );
+    },
+    ShowMnemonic: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ShowMnemonic(),
+        settings: data,
+      );
+    },
+    VerifyMnemonic: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => VerifyMnemonic(),
+        settings: data,
+      );
+    },
+    DoneBackup: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => DoneBackup(),
+        settings: data,
+      );
+    },
+    SettingsScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SettingsScreen(),
+        settings: data,
+      );
+    },
+    SwitchCommunityScreen: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SwitchCommunityScreen(),
+        settings: data,
+      );
+    },
+    ProtectYourWallet: (RouteData data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ProtectYourWallet(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -131,4 +218,14 @@ class TradeScreenArguments {
   final Key key;
   final Token primaryToken;
   TradeScreenArguments({this.key, this.primaryToken});
+}
+
+//ReviewTradeScreen arguments holder class
+class ReviewTradeScreenArguments {
+  final Key key;
+  final Map<dynamic, dynamic> exchangeSummry;
+  final Token fromToken;
+  final Token toToken;
+  ReviewTradeScreenArguments(
+      {this.key, this.exchangeSummry, this.fromToken, this.toToken});
 }

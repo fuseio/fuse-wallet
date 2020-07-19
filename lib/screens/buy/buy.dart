@@ -7,9 +7,8 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/views/buy_page.dart';
 import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/utils/send.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
@@ -69,11 +68,9 @@ class BusinessesListView extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) =>
-                            WebViewPage(url: vm.walletBanner.link, title: '')));
+                ExtendedNavigator.root.pushReplacementNamed(Routes.webview,
+                    arguments: WebViewPageArguments(
+                        url: vm.walletBanner.link, title: ''));
               },
               child: CachedNetworkImage(
                 imageUrl: getIPFSImageUrl(vm.walletBanner.walletBannerHash),
@@ -169,15 +166,9 @@ class BusinessesListView extends StatelessWidget {
                   fontWeight: FontWeight.normal),
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => SendAmountScreen(
-                          pageArgs: SendAmountArguments(
-                              sendType: SendType.BUSINESS,
-                              avatar: NetworkImage(image),
-                              name: business.name ?? '',
-                              accountAddress: business.account))));
+              navigateToSendAmountScreen(
+                  business.account, business.name ?? '', null,
+                  avatar: NetworkImage(image));
             },
           ),
         ],

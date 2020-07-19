@@ -37,6 +37,7 @@ class AssetsList extends StatelessWidget {
                           Divider(
                             color: Color(0xFFDCDCDC),
                             thickness: 1,
+                            height: 0,
                           ),
                       itemBuilder: (context, index) =>
                           TokenTile(token: viewModel.tokens[index]))),

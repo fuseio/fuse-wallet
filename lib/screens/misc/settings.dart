@@ -6,7 +6,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/drawer.dart';
-import 'package:fusecash/screens/misc/about.dart';
+import 'package:fusecash/screens/home/router/home_router.gr.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/widgets/language_selector.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
@@ -28,26 +28,24 @@ class SettingsScreen extends StatelessWidget {
     if (isFork()) {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => AboutScreen()));
+          ExtendedNavigator.byName('homeRouter')
+              .pushNamed(HomeRoutes.aboutScreen);
         }),
       ];
     } else {
       return [
         getListTile(context, I18n.of(context).about, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => AboutScreen()));
+          ExtendedNavigator.byName('homeRouter')
+              .pushNamed(HomeRoutes.aboutScreen);
         }),
-        new Divider(),
+        Divider(),
         getListTile(context, I18n.of(context).protect_wallet, () {
-          // ExtendedNavigator.root.pushReplacementNamed(Routes.splashScreen);
-
-          // Navigator.push(context,
-          //     new MaterialPageRoute(builder: (context) => SecurityScreen()));
+          ExtendedNavigator.byName('homeRouter')
+              .pushNamed(HomeRoutes.protectYourWallet);
         }),
-        new Divider(),
-        new LanguageSelector(),
-        new Divider(),
+        Divider(),
+        LanguageSelector(),
+        Divider(),
         getListTile(context, I18n.of(context).logout, () {
           viewModel.logout();
           ExtendedNavigator.root.pushReplacementNamed(Routes.splashScreen);
@@ -57,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, DrawerViewModel>(
+    return StoreConnector<AppState, DrawerViewModel>(
         distinct: true,
         onInit: (store) {
           Segment.screen(screenName: '/settings-screen');

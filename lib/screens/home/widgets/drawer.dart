@@ -1,5 +1,5 @@
 import 'dart:core';
-import 'package:flutter/cupertino.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,10 +7,8 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/views/drawer.dart';
-import 'package:fusecash/screens/backup/show_mnemonic.dart';
-import 'package:fusecash/screens/misc/settings.dart';
-import 'package:fusecash/screens/misc/switch_commmunity.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
+import 'package:fusecash/screens/home/router/home_router.gr.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
 
@@ -101,12 +99,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ),
         onTap: () {
           dynamic url = depositPlugins[0].generateUrl();
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => WebViewPage(url: url, title: 'Top up'),
-                fullscreenDialog: true),
-          );
+          ExtendedNavigator.root.pushNamed(Routes.webview,
+              arguments: WebViewPageArguments(url: url, title: 'Top up'));
           Segment.track(eventName: 'User clicked on top up');
         },
       ));
@@ -119,8 +113,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     if (isFork()) {
       return [
         getListTile(I18n.of(context).backup_wallet, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => ShowMnemonic()));
+          ExtendedNavigator.byName('homeRouter')
+              .pushNamed(HomeRoutes.showMnemonic);
         },
             icon: 'backup_icon.svg',
             temp: !viewModel.isBackup
@@ -131,21 +125,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   )
                 : null),
         getListTile(I18n.of(context).settings, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => SettingsScreen()));
+          ExtendedNavigator.byName('homeRouter')
+              .pushNamed(HomeRoutes.settingsScreen);
         }, icon: 'settings_icon.svg'),
       ];
     } else {
       return [
         getListTile(I18n.of(context).switch_community, () {
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (context) => SwitchCommunityScreen()));
+          ExtendedNavigator.byName('homeRouter')
+              .pushNamed(HomeRoutes.switchCommunityScreen);
         }, icon: 'switch_icon.svg'),
         getListTile(I18n.of(context).backup_wallet, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => ShowMnemonic()));
+          ExtendedNavigator.byName('homeRouter')
+              .pushNamed(HomeRoutes.showMnemonic);
         },
             icon: 'backup_icon.svg',
             temp: !viewModel.isBackup
@@ -156,8 +148,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   )
                 : null),
         getListTile(I18n.of(context).settings, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => SettingsScreen()));
+          ExtendedNavigator.byName('homeRouter')
+              .pushNamed(HomeRoutes.settingsScreen);
         }, icon: 'settings_icon.svg'),
       ];
     }

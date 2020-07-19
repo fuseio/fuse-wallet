@@ -1,9 +1,10 @@
 import 'dart:core';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/backup/verify_mnemonic.dart';
+import 'package:fusecash/screens/home/router/home_router.gr.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -146,10 +147,8 @@ class ShowMnemonic extends StatelessWidget {
                             label: I18n.of(context).next_button,
                             labelFontWeight: FontWeight.normal,
                             onPressed: () async {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => VerifyMnemonic()));
+                              ExtendedNavigator.of(context)
+                                  .pushNamed(HomeRoutes.verifyMnemonic);
                             },
                           )),
                         ],

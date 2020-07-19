@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/screens/home/router/home_router.gr.dart';
 import 'package:fusecash/widgets/network_explained.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -139,8 +141,14 @@ class TokenHeader extends StatelessWidget {
                                                 fit: BoxFit.cover,
                                               ),
                                               onPressed: () {
-                                                
-                                                // ExtendedNavigator.byName('main').pushNamed(HomeRoutes.tradeScreen);
+                                                ExtendedNavigator.byName(
+                                                        'homeRouter')
+                                                    .pushNamed(
+                                                        HomeRoutes.tradeScreen,
+                                                        arguments:
+                                                            TradeScreenArguments(
+                                                                primaryToken:
+                                                                    token));
                                               }),
                                         )
                                       : SizedBox.shrink(),

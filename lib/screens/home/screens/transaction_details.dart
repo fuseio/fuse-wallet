@@ -48,7 +48,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
       title: widget.transfer.type.toUpperCase(),
       children: <Widget>[
         Container(
-            height: MediaQuery.of(context).size.height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.75,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,

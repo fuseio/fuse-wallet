@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -6,8 +7,8 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/views/send_amount.dart';
 import 'package:fusecash/screens/home/widgets/token_tile.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
-import 'package:fusecash/screens/send/send_review.dart';
+import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
@@ -69,7 +70,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                     padding: EdgeInsets.only(
                         left: 15, right: 15, top: 20, bottom: 20),
                     separatorBuilder: (BuildContext context, int index) =>
-                        Divider(),
+                        Divider(
+                      height: 0,
+                    ),
                     itemCount: viewModel.tokens?.length ?? 0,
                     itemBuilder: (context, index) => TokenTile(
                         token: viewModel.tokens[index],
@@ -299,12 +302,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 onPressed: () {
                   args.tokenToSend = selectedToken;
                   args.amount = num.parse(amountText);
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => SendReviewScreen(
-                                pageArgs: args,
-                              )));
+                  ExtendedNavigator.root.pushNamed(Routes.sendReviewScreen,
+                      arguments: SendReviewScreenArguments(pageArgs: args));
                 },
                 preload: isPreloading,
                 disabled: isPreloading || !hasFund,

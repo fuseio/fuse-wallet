@@ -8,9 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/screens/misc/lock_screen.dart';
-import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/backup/show_mnemonic.dart';
 import 'package:fusecash/screens/misc/security.dart';
 import 'package:fusecash/screens/misc/pincode_colored.dart';
 import 'package:fusecash/screens/signup/recovery.dart';
@@ -20,12 +17,14 @@ import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/screens/signup/username.dart';
 import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/screens/home/home_page.dart';
-import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/screens/route_guards.dart';
+import 'package:fusecash/screens/send_flow/send_amount.dart';
+import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
+import 'package:fusecash/screens/send_flow/send_review.dart';
+import 'package:fusecash/screens/send_flow/send_success.dart';
 
 class Routes {
   static const String lockScreen = '/';
-  static const String backupScreen = '/show-mnemonic';
   static const String securityScreen = '/security-screen';
   static const String pincode = '/colors-pincode-screen';
   static const String recoveryPage = '/recovery-page';
@@ -35,9 +34,11 @@ class Routes {
   static const String userNameScreen = '/user-name-screen';
   static const String webview = '/web-view-page';
   static const String homePage = '/home-page';
+  static const String sendAmountScreen = '/send-amount-screen';
+  static const String sendReviewScreen = '/send-review-screen';
+  static const String sendSuccessScreen = '/send-success-screen';
   static const all = <String>{
     lockScreen,
-    backupScreen,
     securityScreen,
     pincode,
     recoveryPage,
@@ -47,6 +48,9 @@ class Routes {
     userNameScreen,
     webview,
     homePage,
+    sendAmountScreen,
+    sendReviewScreen,
+    sendSuccessScreen,
   };
 }
 
@@ -55,7 +59,6 @@ class Router extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(Routes.lockScreen, page: LockScreen),
-    RouteDef(Routes.backupScreen, page: ShowMnemonic),
     RouteDef(Routes.securityScreen, page: SecurityScreen),
     RouteDef(Routes.pincode, page: ColorsPincodeScreen),
     RouteDef(Routes.recoveryPage, page: RecoveryPage),
@@ -65,21 +68,19 @@ class Router extends RouterBase {
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
     RouteDef(Routes.webview, page: WebViewPage),
     RouteDef(Routes.homePage, page: HomePage, guards: [AuthGuard]),
+    RouteDef(Routes.sendAmountScreen,
+        page: SendAmountScreen, guards: [AuthGuard]),
+    RouteDef(Routes.sendReviewScreen,
+        page: SendReviewScreen, guards: [AuthGuard]),
+    RouteDef(Routes.sendSuccessScreen,
+        page: SendSuccessScreen, guards: [AuthGuard]),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
     LockScreen: (RouteData data) {
-      var args = data.getArgs<LockScreenArguments>(
-          orElse: () => LockScreenArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => LockScreen(store: args.store),
-        settings: data,
-      );
-    },
-    ShowMnemonic: (RouteData data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => ShowMnemonic(),
+        builder: (context) => LockScreen(),
         settings: data,
       );
     },
@@ -137,17 +138,38 @@ class Router extends RouterBase {
           withBack: args.withBack,
         ),
         settings: data,
+        fullscreenDialog: true,
       );
     },
     HomePage: (RouteData data) {
       var args =
           data.getArgs<HomePageArguments>(orElse: () => HomePageArguments());
       return MaterialPageRoute<dynamic>(
-        builder: (context) => HomePage(
-          key: args.key,
-          tabIndex: args.tabIndex,
-          primaryToken: args.primaryToken,
-        ),
+        builder: (context) => HomePage(key: args.key),
+        settings: data,
+      );
+    },
+    SendAmountScreen: (RouteData data) {
+      var args = data.getArgs<SendAmountScreenArguments>(
+          orElse: () => SendAmountScreenArguments());
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SendAmountScreen(pageArgs: args.pageArgs),
+        settings: data,
+      );
+    },
+    SendReviewScreen: (RouteData data) {
+      var args = data.getArgs<SendReviewScreenArguments>(
+          orElse: () => SendReviewScreenArguments());
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SendReviewScreen(pageArgs: args.pageArgs),
+        settings: data,
+      );
+    },
+    SendSuccessScreen: (RouteData data) {
+      var args = data.getArgs<SendSuccessScreenArguments>(
+          orElse: () => SendSuccessScreenArguments());
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SendSuccessScreen(pageArgs: args.pageArgs),
         settings: data,
       );
     },
@@ -157,12 +179,6 @@ class Router extends RouterBase {
 // *************************************************************************
 // Arguments holder classes
 // **************************************************************************
-
-//LockScreen arguments holder class
-class LockScreenArguments {
-  final Store<AppState> store;
-  LockScreenArguments({this.store});
-}
 
 //VerifyScreen arguments holder class
 class VerifyScreenArguments {
@@ -181,7 +197,23 @@ class WebViewPageArguments {
 //HomePage arguments holder class
 class HomePageArguments {
   final Key key;
-  final int tabIndex;
-  final Token primaryToken;
-  HomePageArguments({this.key, this.tabIndex = 0, this.primaryToken});
+  HomePageArguments({this.key});
+}
+
+//SendAmountScreen arguments holder class
+class SendAmountScreenArguments {
+  final SendAmountArguments pageArgs;
+  SendAmountScreenArguments({this.pageArgs});
+}
+
+//SendReviewScreen arguments holder class
+class SendReviewScreenArguments {
+  final SendAmountArguments pageArgs;
+  SendReviewScreenArguments({this.pageArgs});
+}
+
+//SendSuccessScreen arguments holder class
+class SendSuccessScreenArguments {
+  final SendAmountArguments pageArgs;
+  SendSuccessScreenArguments({this.pageArgs});
 }

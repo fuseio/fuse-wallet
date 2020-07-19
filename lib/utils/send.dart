@@ -1,7 +1,8 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -11,37 +12,32 @@ void _openLoadingDialog(BuildContext context) {
   showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (BuildContext context) {
-      return Preloader();
-    },
+    builder: (BuildContext context) => Preloader(),
   );
 }
 
 void navigateToSendAmountScreen(
-  BuildContext context,
-  ContactsViewModel viewModel,
   String accountAddress,
   String displayName,
   String phoneNumber, {
   ImageProvider<dynamic> avatar,
 }) {
-  Navigator.push(
-      context,
-      new MaterialPageRoute(
-          builder: (context) => SendAmountScreen(
-              pageArgs: SendAmountArguments(
-                  name: displayName,
-                  accountAddress: accountAddress,
-                  avatar: avatar,
-                  phoneNumber: phoneNumber))));
+  ExtendedNavigator.root.pushReplacementNamed(Routes.sendAmountScreen,
+      arguments: SendAmountScreenArguments(
+          pageArgs: SendAmountArguments(
+              name: displayName,
+              accountAddress: accountAddress,
+              avatar: avatar,
+              phoneNumber: phoneNumber)));
 }
 
-void sendToContact(BuildContext context, ContactsViewModel viewModel,
-    String displayName, String phone,
-    {ImageProvider avatar, String address}) async {
+void sendToContact(BuildContext context, String displayName, String phone,
+    {ImageProvider avatar,
+    String address,
+    String countryCode,
+    String isoCode}) async {
   if (address != null && address.isNotEmpty) {
-    navigateToSendAmountScreen(context, viewModel, address, displayName, null,
-        avatar: avatar);
+    navigateToSendAmountScreen(address, displayName, null, avatar: avatar);
     return;
   }
   try {
@@ -49,33 +45,41 @@ void sendToContact(BuildContext context, ContactsViewModel viewModel,
     Map<String, dynamic> response = await phoneNumberUtil.parse(phone);
     String phoneNumber = response['e164'];
     Map wallet = await api.getWalletByPhoneNumber(response['e164']);
-    Navigator.pop(context);
     String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
-    navigateToSendAmountScreen(
-        context, viewModel, accountAddress, displayName, phoneNumber,
+    navigateToSendAmountScreen(accountAddress, displayName, phoneNumber,
         avatar: avatar);
   } catch (e) {
-    String formatted = formatPhoneNumber(phone, viewModel.countryCode);
-    bool isValid = await PhoneService.isValid(formatted, viewModel.isoCode);
+    String formatted = formatPhoneNumber(phone, countryCode);
+    bool isValid = await PhoneService.isValid(formatted, isoCode);
     if (isValid) {
       Map wallet = await api.getWalletByPhoneNumber(formatted);
       String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
-      Navigator.pop(context);
-      navigateToSendAmountScreen(
-          context, viewModel, accountAddress, displayName, formatted,
+      navigateToSendAmountScreen(accountAddress, displayName, formatted,
           avatar: avatar);
     }
   }
 }
 
-void sendToPastedAddress(
-    BuildContext context, ContactsViewModel viewModel, accountAddress) {
-  Navigator.push(
-      context,
-      new MaterialPageRoute(
-          builder: (context) => SendAmountScreen(
-              pageArgs: SendAmountArguments(
-                  accountAddress: accountAddress,
-                  name: formatAddress(accountAddress),
-                  avatar: new AssetImage('assets/images/anom.png')))));
+void sendToPastedAddress(accountAddress) {
+  ExtendedNavigator.root.pushReplacementNamed(Routes.sendAmountScreen,
+      arguments: SendAmountScreenArguments(
+          pageArgs: SendAmountArguments(
+              accountAddress: accountAddress,
+              name: formatAddress(accountAddress),
+              avatar: new AssetImage('assets/images/anom.png'))));
+}
+
+bracodeScannerHandler() async {
+  try {
+    String accountAddress = await BarcodeScanner.scan();
+    List<String> parts = accountAddress.split(':');
+    bool expression = parts.length == 2 && parts[0] == 'ethereum';
+    if (expression) {
+      sendToPastedAddress(accountAddress);
+    } else {
+      print('Account address is not on Fuse');
+    }
+  } catch (e) {
+    print('ERROR - BarcodeScanner');
+  }
 }

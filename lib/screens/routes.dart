@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/screens/backup/show_mnemonic.dart';
 import 'package:fusecash/screens/home/home_page.dart';
 import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/screens/route_guards.dart';
@@ -11,10 +10,12 @@ import 'package:fusecash/screens/signup/username.dart';
 import 'package:fusecash/screens/signup/signup.dart';
 import 'package:fusecash/screens/signup/verify.dart';
 import 'package:fusecash/screens/splash/splash.dart';
+import 'package:fusecash/screens/send_flow/send_amount.dart';
+import 'package:fusecash/screens/send_flow/send_review.dart';
+import 'package:fusecash/screens/send_flow/send_success.dart';
 
 @MaterialAutoRouter(routes: [
   MaterialRoute(page: LockScreen, name: 'lockScreen', initial: true),
-  MaterialRoute(page: ShowMnemonic, name: 'backupScreen'),
   MaterialRoute(page: SecurityScreen, name: 'securityScreen'),
   MaterialRoute(page: ColorsPincodeScreen, name: 'pincode'),
   MaterialRoute(page: RecoveryPage),
@@ -22,7 +23,10 @@ import 'package:fusecash/screens/splash/splash.dart';
   MaterialRoute(page: SignupScreen),
   MaterialRoute(page: VerifyScreen),
   MaterialRoute(page: UserNameScreen),
-  MaterialRoute(page: WebViewPage, name: 'webview'),
+  MaterialRoute(page: WebViewPage, name: 'webview', fullscreenDialog: true),
   MaterialRoute(guards: [AuthGuard], page: HomePage),
+  MaterialRoute(guards: [AuthGuard], page: SendAmountScreen),
+  MaterialRoute(guards: [AuthGuard], page: SendReviewScreen),
+  MaterialRoute(guards: [AuthGuard], page: SendSuccessScreen),
 ])
 class $Router {}

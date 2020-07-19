@@ -1,5 +1,5 @@
 import 'dart:core';
-import 'package:fusecash/widgets/drawer.dart';
+import 'package:fusecash/screens/home/widgets/drawer.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

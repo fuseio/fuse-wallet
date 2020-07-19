@@ -6,9 +6,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/send/contact_tile.dart';
-import 'package:fusecash/screens/send/send_amount.dart';
-import 'package:fusecash/screens/send/send_amount_arguments.dart';
+import 'package:fusecash/screens/contacts/contact_tile.dart';
 import 'package:fusecash/utils/send.dart';
 import 'package:fusecash/utils/transaction_row.dart';
 
@@ -67,29 +65,17 @@ class RecentContacts extends StatelessWidget {
               onTap: () {
                 if (transfer.to.toLowerCase() ==
                     viewModel.community.homeBridgeAddress.toLowerCase()) {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => SendAmountScreen(
-                              pageArgs: SendAmountArguments(
-                                  avatar: AssetImage(
-                                    'assets/images/ethereume_icon.png',
-                                  ),
-                                  name: 'ethereum',
-                                  accountAddress: transfer.to))));
+                  navigateToSendAmountScreen(transfer.to, 'ethereum', null,
+                      avatar: AssetImage(
+                        'assets/images/ethereume_icon.png',
+                      ));
                   return;
                 }
                 if (contact == null) {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => SendAmountScreen(
-                              pageArgs: SendAmountArguments(
-                                  accountAddress: transfer.to,
-                                  name: displayName,
-                                  avatar: image))));
+                  navigateToSendAmountScreen(transfer.to, displayName, null,
+                      avatar: image);
                 } else {
-                  sendToContact(context, viewModel, displayName, '',
+                  sendToContact(context, displayName, '',
                       avatar: image, address: transfer.to);
                 }
               }));

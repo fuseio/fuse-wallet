@@ -1,13 +1,14 @@
 import 'dart:core';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/redux/state/store.dart';
+import 'package:fusecash/screens/home/router/home_router.gr.dart';
 import 'package:fusecash/screens/home/widgets/assets_list.dart';
 import 'package:fusecash/services.dart';
 import 'package:redux/redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ethereum_address/ethereum_address.dart';
-import 'package:fusecash/screens/trade/review_trade.dart';
 import 'package:fusecash/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constans/exchangable_tokens.dart';
@@ -337,7 +338,6 @@ class _ExchangeState extends State<TradeScreen> {
           //     : true;
           return MainScaffold(
             expandedHeight: MediaQuery.of(context).size.height / 12,
-            automaticallyImplyLeading: false,
             withPadding: true,
             padding: 20.0,
             title: I18n.of(context).trade,
@@ -475,14 +475,21 @@ class _ExchangeState extends State<TradeScreen> {
                 disabled: swapResponse == null,
                 onPressed: () async {
                   if (swapResponse != null && swapResponse['tx'] != null) {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => ReviewTradeScreen(
-                                  fromToken: tokenToPayWith.copyWith(),
-                                  toToken: tokenToReceive.copyWith(),
-                                  exchangeSummry: swapResponse,
-                                )));
+                    ExtendedNavigator.byName('homeRouter')
+                        .pushNamed(HomeRoutes.reviewTradeScreen,
+                            arguments: ReviewTradeScreenArguments(
+                              fromToken: tokenToPayWith.copyWith(),
+                              toToken: tokenToReceive.copyWith(),
+                              exchangeSummry: swapResponse,
+                            ));
+                    // Navigator.push(
+                    //     context,
+                    //     new MaterialPageRoute(
+                    //         builder: (context) => ReviewTradeScreen(
+                    //               fromToken: tokenToPayWith.copyWith(),
+                    //               toToken: tokenToReceive.copyWith(),
+                    //               exchangeSummry: swapResponse,
+                    //             )));
                   }
                 },
               ),

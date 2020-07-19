@@ -32,8 +32,9 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () {
-          return Future(() => false);
+        onWillPop: () async {
+          ExtendedNavigator.root.pop<bool>(false);
+          return false;
         },
         child: Scaffold(
             body: Container(
@@ -105,14 +106,8 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                               ExtendedNavigator.root
                                                   .popUntilRoot();
                                               ExtendedNavigator.root
-                                                  .pushNamed(Routes.homePage);
-
-                                              // ExtendedNavigator.byName("main")
-                                              //     .pushNamedAndRemoveUntil(
-                                              //         HomeRoutes
-                                              //             .cashModeScaffold,
-                                              //         (Route<dynamic> route) =>
-                                              //             false);
+                                                  .pushReplacementNamed(
+                                                      Routes.homePage);
                                             }
                                           }),
                                     )))
