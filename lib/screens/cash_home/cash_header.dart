@@ -17,7 +17,7 @@ class CashHeader extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomLeft,
             padding: EdgeInsets.only(
-                top: 20.0, left: 20.0, right: 20.0, bottom: 10.0),
+                top: 20.0, left: 20.0, right: 20.0, bottom: 15.0),
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -43,6 +43,7 @@ class CashHeader extends StatelessWidget {
                     bottomRight: Radius.circular(30.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 InkWell(
                     onTap: () {

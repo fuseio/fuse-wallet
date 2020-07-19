@@ -10,6 +10,8 @@ import 'package:fusecash/models/views/home.dart';
 import 'package:fusecash/screens/cash_home/transaction_tile.dart';
 
 class Feed extends StatefulWidget {
+  Feed({this.withTitle = true});
+  final bool withTitle;
   @override
   createState() => new FeedState();
 }
@@ -73,7 +75,18 @@ class FeedState extends State<Feed> {
             generateWallet,
           ];
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              widget.withTitle
+                  ? Container(
+                      padding: EdgeInsets.only(left: 15, top: 20),
+                      child: Text(I18n.of(context).transactions,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              color: Color(0xFF979797),
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.normal)))
+                  : SizedBox.shrink(),
               Expanded(
                 child: ListView.builder(
                     shrinkWrap: true,
