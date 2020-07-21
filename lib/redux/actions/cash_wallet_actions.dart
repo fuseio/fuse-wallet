@@ -91,6 +91,7 @@ class SwitchCommunitySuccess {
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
   final String webUrl;
+  final CommunityMetadata metadata;
   SwitchCommunitySuccess(
       {this.communityAddress,
       this.communityName,
@@ -99,6 +100,7 @@ class SwitchCommunitySuccess {
       this.isClosed,
       this.homeBridgeAddress,
       this.foreignBridgeAddress,
+      this.metadata,
       this.webUrl});
 }
 
@@ -1075,6 +1077,15 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isRopsten: isRopsten,
           walletAddress: walletAddress);
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
+      CommunityMetadata communityMetadata;
+      if (communityData['communityURI'] != null) {
+        String uri = communityData['communityURI'].split('://')[1];
+        dynamic metadata = await api.fetchMetadata(uri);
+        communityMetadata = new CommunityMetadata(
+            image: metadata['image'],
+            coverPhoto: metadata['coverPhoto'],
+            isDefaultImage: metadata['isDefault'] ?? false);
+      }
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String webUrl = communityData['webUrl'];
@@ -1090,12 +1101,11 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
               symbol: token["symbol"],
               decimals: token["decimals"]),
           plugins: communityPlugins,
+          metadata: communityMetadata,
           isClosed: communityData['isClosed'],
           homeBridgeAddress: homeBridgeAddress,
           foreignBridgeAddress: foreignBridgeAddress,
           webUrl: webUrl));
-      store.dispatch(fetchCommunityMetadataCall(
-          communityAddress, communityData['communityURI']));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
           properties: new Map<String, dynamic>.from({
             "Community Name": community["name"],
@@ -1129,11 +1139,19 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           isRopsten: isRopsten,
           walletAddress: walletAddress);
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
-      store.dispatch(fetchCommunityMetadataCall(
-          communityAddress, communityData['communityURI']));
+      store.dispatch(getBusinessListCall(communityAddress: communityAddress));
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String webUrl = communityData['webUrl'];
+      CommunityMetadata communityMetadata;
+      if (communityData['communityURI'] != null) {
+        String uri = communityData['communityURI'].split('://')[1];
+        dynamic metadata = await api.fetchMetadata(uri);
+        communityMetadata = new CommunityMetadata(
+            image: metadata['image'],
+            coverPhoto: metadata['coverPhoto'],
+            isDefaultImage: metadata['isDefault'] ?? false);
+      }
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress: communityAddress,
           communityName: current.name,
@@ -1142,8 +1160,8 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           isClosed: current.isClosed,
           homeBridgeAddress: homeBridgeAddress,
           foreignBridgeAddress: foreignBridgeAddress,
+          metadata: communityMetadata,
           webUrl: webUrl));
-      store.dispatch(getBusinessListCall(communityAddress: communityAddress));
     } catch (e, s) {
       logger.severe('ERROR - switchToExisitingCommunityCall $e');
       await AppFactory().reportError(e, s);
