@@ -1075,10 +1075,11 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isRopsten: isRopsten,
           walletAddress: walletAddress);
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
-      store.dispatch(getBusinessListCall(communityAddress: communityAddress));
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String webUrl = communityData['webUrl'];
+      store.dispatch(joinCommunityCall(
+          community: community, tokenAddress: token["address"]));
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress: communityAddress,
           communityName: community["name"],
@@ -1093,8 +1094,6 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           homeBridgeAddress: homeBridgeAddress,
           foreignBridgeAddress: foreignBridgeAddress,
           webUrl: webUrl));
-      store.dispatch(joinCommunityCall(
-          community: community, tokenAddress: token["address"]));
       store.dispatch(fetchCommunityMetadataCall(
           communityAddress, communityData['communityURI']));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
@@ -1105,6 +1104,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
             "Token Symbol": token["symbol"],
             "Origin Network": token['originNetwork']
           })));
+      store.dispatch(getBusinessListCall(communityAddress: communityAddress));
     } catch (e, s) {
       logger.severe('ERROR - switchToNewCommunityCall $e');
       await AppFactory().reportError(e, s);
@@ -1129,7 +1129,6 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           isRopsten: isRopsten,
           walletAddress: walletAddress);
       Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
-      store.dispatch(getBusinessListCall());
       store.dispatch(fetchCommunityMetadataCall(
           communityAddress, communityData['communityURI']));
       String homeBridgeAddress = communityData['homeBridgeAddress'];
@@ -1144,6 +1143,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           homeBridgeAddress: homeBridgeAddress,
           foreignBridgeAddress: foreignBridgeAddress,
           webUrl: webUrl));
+      store.dispatch(getBusinessListCall(communityAddress: communityAddress));
     } catch (e, s) {
       logger.severe('ERROR - switchToExisitingCommunityCall $e');
       await AppFactory().reportError(e, s);
