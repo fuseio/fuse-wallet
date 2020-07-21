@@ -985,7 +985,7 @@ ThunkAction joinCommunitySuccessCall(
           type: 'RECEIVE',
           value: value,
           timestamp: DateTime.now().millisecondsSinceEpoch,
-          tokenAddress: communityData.token.address,
+          tokenAddress: transfer?.tokenAddress,
           text: 'You got a join bonus!',
           status: 'PENDING',
           jobId: joinBonusJobId ?? joinCommunityJobId);
@@ -998,12 +998,12 @@ ThunkAction joinCommunitySuccessCall(
           'jobType': 'joinBonus',
           'arguments': {
             'joinBonus': joinBonus,
-            'communityAddress': community.address
+            'communityAddress': community['address']
           }
         }
       });
       Job job = JobFactory.create(response['job']);
-      store.dispatch(AddJob(job: job, communityAddress: community.address));
+      store.dispatch(AddJob(job: job, communityAddress: community['address']));
     }
   };
 }
