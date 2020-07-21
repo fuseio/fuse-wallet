@@ -62,7 +62,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.normal,
                           )),
                       Padding(

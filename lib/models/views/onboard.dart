@@ -60,7 +60,7 @@ class OnboardViewModel extends Equatable {
       store.dispatch(new LoginVerifySuccess(jwtToken));
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-      ExtendedNavigator.root.pushReplacementNamed(Routes.userNameScreen);
+      ExtendedNavigator.root.replace(Routes.userNameScreen);
     };
 
     final PhoneVerificationFailed verificationFailed = (AuthException authException) {
@@ -72,7 +72,7 @@ class OnboardViewModel extends Equatable {
       print("PhoneCodeSent " + verificationId);
       store.dispatch(new SetCredentials(null));
       store.dispatch(SetIsLoginRequest(isLoading: false));
-      ExtendedNavigator.root.pushReplacementNamed(Routes.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
+      ExtendedNavigator.root.replace(Routes.verifyScreen, arguments: VerifyScreenArguments(verificationId: verificationId));
     };
 
     final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout = (String verificationId) {

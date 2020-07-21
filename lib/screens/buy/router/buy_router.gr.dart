@@ -4,14 +4,16 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: public_member_api_docs
+
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/buy/buy.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/buy/map.dart';
+import 'package:flutter/material.dart';
+
+import '../../../models/community/business.dart';
+import '../../../models/tokens/token.dart';
+import '../business.dart';
+import '../buy.dart';
+import '../map.dart';
 
 class BusinessesRoutes {
   static const String buyScreen = '/';
@@ -35,15 +37,16 @@ class BuyRouter extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    BuyScreen: (RouteData data) {
+    BuyScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => BuyScreen(),
         settings: data,
       );
     },
-    BusinessPage: (RouteData data) {
+    BusinessPage: (data) {
       var args = data.getArgs<BusinessPageArguments>(
-          orElse: () => BusinessPageArguments());
+        orElse: () => BusinessPageArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => BusinessPage(
           business: args.business,
@@ -53,7 +56,7 @@ class BuyRouter extends RouterBase {
         settings: data,
       );
     },
-    MapScreen: (RouteData data) {
+    MapScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => MapScreen(),
         settings: data,
@@ -62,11 +65,11 @@ class BuyRouter extends RouterBase {
   };
 }
 
-// *************************************************************************
-// Arguments holder classes
-// **************************************************************************
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
 
-//BusinessPage arguments holder class
+/// BusinessPage arguments holder class
 class BusinessPageArguments {
   final Business business;
   final Token token;

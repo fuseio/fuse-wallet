@@ -106,7 +106,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                               ExtendedNavigator.root
                                                   .popUntilRoot();
                                               ExtendedNavigator.root
-                                                  .pushReplacementNamed(
+                                                  .replace(
                                                       Routes.homePage);
                                             }
                                           }),

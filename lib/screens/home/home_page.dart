@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/constans/keys.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -9,33 +10,42 @@ import 'package:fusecash/screens/home/screens/receive.dart';
 import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/screens/home/widgets/drawer.dart';
+import 'package:fusecash/utils/contacts.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/bottom_bar.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/home/widgets/bottom_bar_item.dart';
+import 'package:fusecash/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
   @override
   _HomePageState createState() => _HomePageState();
+
+  static _HomePageState of(BuildContext context) {
+    return context.findAncestorStateOfType<_HomePageState>();
+  }
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
+  int currentIndex = 0;
   Map pages = {};
+  bool contactsGranted = false;
 
   @override
   void initState() {
     super.initState();
+    Contacts.checkPermissions().then((isPermitted) {
+      contactsGranted = isPermitted;
+    });
   }
 
   void _onTap(int itemIndex) {
     if (!mounted) return;
     setState(() {
-      _currentIndex = itemIndex;
+      currentIndex = itemIndex;
     });
   }
 
@@ -71,15 +81,16 @@ class _HomePageState extends State<HomePage> {
         onInit: onInit,
         builder: (_, vm) {
           return Scaffold(
+              key: AppKeys.homePageKey,
               drawer: DrawerWidget(),
               drawerEdgeDragWidth: 0,
               drawerEnableOpenDragGesture: false,
-              body: IndexedStack(index: _currentIndex, children: <Widget>[
+              body: IndexedStack(index: currentIndex, children: <Widget>[
                 ExtendedNavigator(router: HomeRouter(), name: 'homeRouter'),
                 ExtendedNavigator(
                   router: ContactsRouter(),
                   name: 'contactsRouter',
-                  initialRoute: vm.contacts.isEmpty
+                  initialRoute: !contactsGranted
                       ? ContactsRoutes.emptyContacts
                       : ContactsRoutes.contactsList,
                 ),
@@ -95,7 +106,7 @@ class _HomePageState extends State<HomePage> {
               ]),
               bottomNavigationBar: BottomBar(
                 onTap: _onTap,
-                tabIndex: _currentIndex,
+                tabIndex: currentIndex,
               ));
         });
   }

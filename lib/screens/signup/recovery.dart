@@ -103,7 +103,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
                   });
                   viewModel.generateWalletFromBackup(
                       wordsController.text.toLowerCase(), () {
-                    ExtendedNavigator.root.pushNamed(Routes.signupScreen);
+                    ExtendedNavigator.root.push(Routes.signupScreen);
                   });
                 }
               },

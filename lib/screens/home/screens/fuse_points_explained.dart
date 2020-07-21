@@ -48,14 +48,14 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
                           height: 30,
                         ),
                         Text(
-                          '''Fuse Volts are a demo community created by the Studio. Get some points for exploring the wallet features:''',
+                          '''Fuse Volts was created by the studio as a featured community. Get some Volts for exploring the wallet features:''',
                           style: TextStyle(
                               fontSize: 17,
                               color: Theme.of(context).colorScheme.secondary),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 10),
@@ -68,7 +68,7 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
                                 child: Text(
                                   'Win up to 30 points!',
                                   style: TextStyle(
-                                      fontSize: 13,
+                                      fontSize: 16,
                                       color: Theme.of(context).primaryColor),
                                 ),
                               ),
@@ -82,7 +82,7 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
                                   ),
                                   Text('10 points for installing the app',
                                       style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 16,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .secondary)),
@@ -98,7 +98,7 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
                                   Text(
                                       '10 points after sending money to a friend',
                                       style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 16,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .secondary)),
@@ -113,7 +113,7 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
                                   ),
                                   Text('10 points for backing-up your wallet',
                                       style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 16,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .secondary)),

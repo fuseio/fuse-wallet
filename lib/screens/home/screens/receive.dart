@@ -4,6 +4,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/screens/home/home_page.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/back_up_dialog.dart';
 import 'package:fusecash/widgets/copy.dart';
@@ -18,15 +19,14 @@ import 'package:redux/redux.dart';
 class ReceiveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, _ReceiveModel>(
-        distinct: true,
-        onInit: (store) {
-          bool isBackup = store.state.userState.backup ?? false;
-          bool receiveBackupDialogShowed =
-              store.state.userState?.receiveBackupDialogShowed ?? false;
-          if (!isBackup && !receiveBackupDialogShowed) {
-            Future.delayed(const Duration(milliseconds: 2500), () {
-              store.dispatch(ReceiveBackupDialogShowed());
+    return StoreConnector<AppState, _ReceiveModel>(
+        rebuildOnChange: true,
+        onInitialBuild: (viewModel) {
+          if (!viewModel.backup &&
+              !viewModel.isBackupDialogShowed &&
+              HomePage.of(context).currentIndex == 3) {
+            Future.delayed(Duration.zero, () {
+              viewModel.setShowDialog();
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -64,15 +64,14 @@ class ReceiveScreen extends StatelessWidget {
                         Center(
                           child: Container(
                               width: 200,
-                              child: new QrImage(
+                              child: QrImage(
                                 data: barcodeData,
                               )),
                         ),
-                        const SizedBox(height: 10.0),
+                        SizedBox(height: 10.0),
                         Container(
                           width: 220,
-                          child: new Text(
-                              formatAddress(viewModel.walletAddress),
+                          child: Text(formatAddress(viewModel.walletAddress),
                               softWrap: true,
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -80,7 +79,7 @@ class ReceiveScreen extends StatelessWidget {
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal)),
                         ),
-                        const SizedBox(height: 30.0),
+                        SizedBox(height: 30.0),
                         Container(
                           width: 250,
                           child: Opacity(
@@ -101,7 +100,7 @@ class ReceiveScreen extends StatelessWidget {
                       labelFontWeight: FontWeight.normal,
                       width: 160,
                       label: I18n.of(context).share_button,
-                      onPressed: () async {
+                      onPressed: () {
                         Share.share(viewModel.walletAddress);
                       },
                     ))
@@ -116,14 +115,25 @@ class ReceiveScreen extends StatelessWidget {
 
 class _ReceiveModel extends Equatable {
   final String walletAddress;
-  _ReceiveModel({this.walletAddress});
+  final bool backup;
+  final bool isBackupDialogShowed;
+  final Function setShowDialog;
+  _ReceiveModel(
+      {this.walletAddress,
+      this.backup,
+      this.isBackupDialogShowed,
+      this.setShowDialog});
 
   static _ReceiveModel fromStore(Store<AppState> store) {
     return _ReceiveModel(
-      walletAddress: store.state.userState.walletAddress,
-    );
+        walletAddress: store.state.userState.walletAddress,
+        backup: store.state.userState.backup,
+        isBackupDialogShowed: store.state.userState.receiveBackupDialogShowed,
+        setShowDialog: () {
+          store.dispatch(ReceiveBackupDialogShowed());
+        });
   }
 
   @override
-  List<Object> get props => [walletAddress];
+  List<Object> get props => [walletAddress, backup, isBackupDialogShowed];
 }

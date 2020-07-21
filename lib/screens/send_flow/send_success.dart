@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/constans/keys.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
@@ -23,7 +24,11 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     Segment.screen(screenName: '/send-success-screen');
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      ExtendedNavigator.root.pushNamed(Routes.homePage);
+      final BottomNavigationBar navigationBar =
+          AppKeys.bottomBarKey.currentWidget;
+      Navigator.of(context).pop();
+      navigationBar.onTap(0);
+      ExtendedNavigator.root.popUntilPath(Routes.homePage);
     });
   }
 

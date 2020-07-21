@@ -1,15 +1,15 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class PincodeScreen extends StatefulWidget {
+  final Function onSuccess;
+  PincodeScreen({this.onSuccess});
   @override
   _PincodeScreenState createState() => _PincodeScreenState();
 }
@@ -108,9 +108,7 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                                     BiometricAuth.pincode);
                                                 viewModel.setPincode(
                                                     this.lastPincode);
-                                                ExtendedNavigator.root
-                                                    .pushReplacementNamed(
-                                                        Routes.homePage);
+                                                widget.onSuccess();
                                               }
                                             }
                                           }),

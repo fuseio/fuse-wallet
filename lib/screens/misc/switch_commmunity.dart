@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,12 +6,13 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/views/switch_community.dart';
 import 'package:fusecash/widgets/community_card.dart';
-import 'dart:core';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:fusecash/screens/routes.gr.dart';
+import 'package:equatable/equatable.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:redux/redux.dart';
 
 class SwitchCommunityScreen extends StatefulWidget {
   @override
@@ -49,10 +49,10 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
         child: InkWell(
           onTap: () async {
             try {
-              var json = await BarcodeScanner.scan();
+              String json = await BarcodeScanner.scan();
               Map jsonMap = jsonDecode(json);
               switchCommunity(jsonMap['communityAddress']);
-              ExtendedNavigator.root.pushReplacementNamed(Routes.homePage);
+              ExtendedNavigator.root.replace(Routes.homePage);
             } catch (e) {
               print('BarcodeScanner scan error');
             }
@@ -86,12 +86,12 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, SwitchCommunityViewModel>(
+    return new StoreConnector<AppState, _SwitchCommunityViewModel>(
         distinct: true,
         onInit: (store) {
           Segment.screen(screenName: '/switch-community-screen');
         },
-        converter: SwitchCommunityViewModel.fromStore,
+        converter: _SwitchCommunityViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
             title: I18n.of(context).switch_community,
@@ -130,4 +130,30 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
           );
         });
   }
+}
+
+class _SwitchCommunityViewModel extends Equatable {
+  final Map<String, Community> communities;
+  final Community currentCommunity;
+  final Function(String) switchCommunity;
+
+  _SwitchCommunityViewModel(
+      {this.communities, this.switchCommunity, this.currentCommunity});
+
+  static _SwitchCommunityViewModel fromStore(Store<AppState> store) {
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddres] ??
+            new Community.initial();
+    return _SwitchCommunityViewModel(
+      currentCommunity: community,
+      communities: store.state.cashWalletState.communities,
+      switchCommunity: (String communityAddress) {
+        store.dispatch(switchCommunityCall(communityAddress));
+      },
+    );
+  }
+
+  @override
+  List<Object> get props => [communities, currentCommunity];
 }

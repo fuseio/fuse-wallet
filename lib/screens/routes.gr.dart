@@ -4,24 +4,26 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: public_member_api_docs
+
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/misc/lock_screen.dart';
-import 'package:fusecash/screens/misc/security.dart';
-import 'package:fusecash/screens/misc/pincode_colored.dart';
-import 'package:fusecash/screens/signup/recovery.dart';
-import 'package:fusecash/screens/splash/splash.dart';
-import 'package:fusecash/screens/signup/signup.dart';
-import 'package:fusecash/screens/signup/verify.dart';
-import 'package:fusecash/screens/signup/username.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
-import 'package:fusecash/screens/home/home_page.dart';
-import 'package:fusecash/screens/route_guards.dart';
-import 'package:fusecash/screens/send_flow/send_amount.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/send_flow/send_review.dart';
-import 'package:fusecash/screens/send_flow/send_success.dart';
+import 'package:flutter/material.dart';
+
+import 'contacts/send_amount_arguments.dart';
+import 'home/home_page.dart';
+import 'misc/lock_screen.dart';
+import 'misc/pincode_colored.dart';
+import 'misc/security.dart';
+import 'misc/webview_page.dart';
+import 'route_guards.dart';
+import 'send_flow/send_amount.dart';
+import 'send_flow/send_review.dart';
+import 'send_flow/send_success.dart';
+import 'signup/recovery.dart';
+import 'signup/signup.dart';
+import 'signup/username.dart';
+import 'signup/verify.dart';
+import 'splash/splash.dart';
 
 class Routes {
   static const String lockScreen = '/';
@@ -78,59 +80,61 @@ class Router extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    LockScreen: (RouteData data) {
+    LockScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => LockScreen(),
         settings: data,
       );
     },
-    SecurityScreen: (RouteData data) {
+    SecurityScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SecurityScreen(),
         settings: data,
       );
     },
-    ColorsPincodeScreen: (RouteData data) {
+    ColorsPincodeScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ColorsPincodeScreen(),
         settings: data,
       );
     },
-    RecoveryPage: (RouteData data) {
+    RecoveryPage: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => RecoveryPage(),
         settings: data,
       );
     },
-    SplashScreen: (RouteData data) {
+    SplashScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SplashScreen(),
         settings: data,
       );
     },
-    SignupScreen: (RouteData data) {
+    SignupScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SignupScreen(),
         settings: data,
       );
     },
-    VerifyScreen: (RouteData data) {
+    VerifyScreen: (data) {
       var args = data.getArgs<VerifyScreenArguments>(
-          orElse: () => VerifyScreenArguments());
+        orElse: () => VerifyScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => VerifyScreen(verificationId: args.verificationId),
         settings: data,
       );
     },
-    UserNameScreen: (RouteData data) {
+    UserNameScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => UserNameScreen(),
         settings: data,
       );
     },
-    WebViewPage: (RouteData data) {
+    WebViewPage: (data) {
       var args = data.getArgs<WebViewPageArguments>(
-          orElse: () => WebViewPageArguments());
+        orElse: () => WebViewPageArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => WebViewPage(
           url: args.url,
@@ -141,33 +145,37 @@ class Router extends RouterBase {
         fullscreenDialog: true,
       );
     },
-    HomePage: (RouteData data) {
-      var args =
-          data.getArgs<HomePageArguments>(orElse: () => HomePageArguments());
+    HomePage: (data) {
+      var args = data.getArgs<HomePageArguments>(
+        orElse: () => HomePageArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => HomePage(key: args.key),
         settings: data,
       );
     },
-    SendAmountScreen: (RouteData data) {
+    SendAmountScreen: (data) {
       var args = data.getArgs<SendAmountScreenArguments>(
-          orElse: () => SendAmountScreenArguments());
+        orElse: () => SendAmountScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => SendAmountScreen(pageArgs: args.pageArgs),
         settings: data,
       );
     },
-    SendReviewScreen: (RouteData data) {
+    SendReviewScreen: (data) {
       var args = data.getArgs<SendReviewScreenArguments>(
-          orElse: () => SendReviewScreenArguments());
+        orElse: () => SendReviewScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => SendReviewScreen(pageArgs: args.pageArgs),
         settings: data,
       );
     },
-    SendSuccessScreen: (RouteData data) {
+    SendSuccessScreen: (data) {
       var args = data.getArgs<SendSuccessScreenArguments>(
-          orElse: () => SendSuccessScreenArguments());
+        orElse: () => SendSuccessScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => SendSuccessScreen(pageArgs: args.pageArgs),
         settings: data,
@@ -176,17 +184,17 @@ class Router extends RouterBase {
   };
 }
 
-// *************************************************************************
-// Arguments holder classes
-// **************************************************************************
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
 
-//VerifyScreen arguments holder class
+/// VerifyScreen arguments holder class
 class VerifyScreenArguments {
   final String verificationId;
   VerifyScreenArguments({this.verificationId});
 }
 
-//WebViewPage arguments holder class
+/// WebViewPage arguments holder class
 class WebViewPageArguments {
   final String url;
   final String title;
@@ -194,25 +202,25 @@ class WebViewPageArguments {
   WebViewPageArguments({this.url, this.title, this.withBack});
 }
 
-//HomePage arguments holder class
+/// HomePage arguments holder class
 class HomePageArguments {
   final Key key;
   HomePageArguments({this.key});
 }
 
-//SendAmountScreen arguments holder class
+/// SendAmountScreen arguments holder class
 class SendAmountScreenArguments {
   final SendAmountArguments pageArgs;
   SendAmountScreenArguments({this.pageArgs});
 }
 
-//SendReviewScreen arguments holder class
+/// SendReviewScreen arguments holder class
 class SendReviewScreenArguments {
   final SendAmountArguments pageArgs;
   SendReviewScreenArguments({this.pageArgs});
 }
 
-//SendSuccessScreen arguments holder class
+/// SendSuccessScreen arguments holder class
 class SendSuccessScreenArguments {
   final SendAmountArguments pageArgs;
   SendSuccessScreenArguments({this.pageArgs});

@@ -10,6 +10,9 @@ import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 
 String getIPFSImageUrl(String image) {
+  if (image == null) {
+    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+  }
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;
 }
 
@@ -55,11 +58,18 @@ Token getToken(String tokenAddress, Map<String, Community> communities,
     return erc20Tokens[tokenAddress];
   } else {
     return communities.values
-        .toList()
-        .firstWhere(
-            (community) => community.token.address.contains(tokenAddress))
+        .firstWhere((community) =>
+            community.token.address.toLowerCase() == tokenAddress.toLowerCase())
         .token;
   }
+}
+
+Community getTCommunity(
+    String tokenAddress, Map<String, Community> communities) {
+  return communities.values.toList().firstWhere(
+      (community) =>
+          community.token.address.toLowerCase() == tokenAddress?.toLowerCase(),
+      orElse: () => communities.values.first);
 }
 
 Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
@@ -163,10 +173,11 @@ String getImageUrl(business, communityAddress) {
   }
 }
 
-dynamic getContactImage(Transfer transfer, Contact contact, businesses) {
+dynamic getContactImage(Transfer transfer, Contact contact,
+    {List<Business> businesses = const []}) {
   if (contact?.avatar != null && contact.avatar.isNotEmpty) {
     return new MemoryImage(contact.avatar);
-  } else {
+  } else if (businesses.isNotEmpty) {
     String accountAddress =
         transfer.type == 'SEND' ? transfer.to : transfer.from;
     Business business = businesses.firstWhere(

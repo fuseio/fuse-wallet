@@ -25,14 +25,10 @@ class Community extends Equatable {
   List<Object> get props => [
         name,
         address,
-        homeBridgeAddress,
-        foreignBridgeAddress,
         isMember,
-        businesses,
         token,
         plugins,
         metadata,
-        isClosed,
         webUrl
       ];
 

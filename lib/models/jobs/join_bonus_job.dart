@@ -36,7 +36,7 @@ class JoinBonusJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('joinBonus FAILED');
-      store.dispatch(transactionFailed(arguments['joinBonus']));
+      store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: joinBonus failed'));
       return;
     }
@@ -62,7 +62,7 @@ class JoinBonusJob extends Job {
       } else if (responseStatus == 'FAILED') {
         this.status = 'FAILED';
         logger.info('JoinBonusJob FAILED');
-        store.dispatch(transactionFailed(arguments['joinBonus']));
+        store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
       }
     }
 
@@ -77,14 +77,15 @@ class JoinBonusJob extends Job {
     } else if (responseStatus == 'FAILED') {
       this.status = 'FAILED';
       logger.info('JoinBonusJob FAILED');
-      store.dispatch(transactionFailed(arguments['joinBonus']));
+      store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
     }
   }
 
   @override
   dynamic argumentsToJson() => {
       'joinBonus': arguments['joinBonus'].toJson(),
-      'jobType': arguments['jobType']
+      'jobType': arguments['jobType'],
+      'communityAddress': arguments['communityAddress']
     };
 
   @override

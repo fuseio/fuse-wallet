@@ -1,6 +1,6 @@
 import 'package:fusecash/screens/home/widgets/token_tile.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:fusecash/utils/transaction_util.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +75,7 @@ class _AssetsListViewModel extends Equatable {
     return _AssetsListViewModel(
       walletAddress: store.state.userState.walletAddress,
       tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
-          (tokenB?.amount ?? BigInt.one)
+          (tokenB?.amount ?? BigInt.zero)
               ?.compareTo(tokenA?.amount ?? BigInt.zero)),
     );
   }

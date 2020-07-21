@@ -4,7 +4,7 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:fusecash/utils/transaction_util.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -14,6 +14,7 @@ import 'package:contacts_service/contacts_service.dart';
 class HomeViewModel extends Equatable {
   final List<Token> tokens;
   final List<Transaction> feedList;
+  final Map<String, Community> communities;
   final String accountAddress;
   final String walletAddress;
   final String communityAddress;
@@ -29,7 +30,6 @@ class HomeViewModel extends Equatable {
   final Function() listenToBranch;
   final Function(List<Contact>) syncContacts;
   final Function() branchCommunityUpdate;
-  final Function() loadBusinesses;
   final Function() syncContactsRejected;
   final Function() startProcessingJobs;
   final Function() setIdentifier;
@@ -51,13 +51,13 @@ class HomeViewModel extends Equatable {
     this.listenToBranch,
     this.syncContacts,
     this.branchCommunityUpdate,
-    this.loadBusinesses,
     this.syncContactsRejected,
     this.startProcessingJobs,
     this.setIdentifier,
     this.setCountyCode,
     this.feedList,
     this.tokens,
+    this.communities,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
@@ -100,6 +100,7 @@ class HomeViewModel extends Equatable {
     List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
       ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return HomeViewModel(
+        communities: store.state.cashWalletState.communities,
         tokens: tokens,
         isoCode: store.state.userState.isoCode,
         accountAddress: store.state.userState.accountAddress,
@@ -134,9 +135,6 @@ class HomeViewModel extends Equatable {
         },
         branchCommunityUpdate: () {
           store.dispatch(switchCommunityCall(branchAddress));
-        },
-        loadBusinesses: () {
-          store.dispatch(getBusinessListCall());
         },
         startProcessingJobs: () {
           store.dispatch(startProcessingJobsCall());

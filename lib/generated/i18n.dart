@@ -276,6 +276,12 @@ class I18n implements WidgetsLocalizations {
   String get insufficient_fund => "Insufficient fund";
   /// "Community webpage"
   String get community_webpage => "Community webpage";
+  /// "Cancel"
+  String get cancel => "Cancel";
+  /// "Flash on"
+  String get flash_on => "Flash on";
+  /// "Flash off"
+  String get flash_off => "Flash off";
 }
 
 class _I18n_en_US extends I18n {

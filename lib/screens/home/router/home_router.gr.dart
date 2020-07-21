@@ -4,24 +4,26 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: public_member_api_docs
+
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/home/screens/home.dart';
-import 'package:fusecash/screens/home/screens/transaction_details.dart';
-import 'package:fusecash/models/tokens/token.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/screens/home/widgets/token_transfers.dart';
-import 'package:fusecash/screens/trade/trade.dart';
-import 'package:fusecash/screens/trade/review_trade.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/screens/backup/show_mnemonic.dart';
-import 'package:fusecash/screens/backup/verify_mnemonic.dart';
-import 'package:fusecash/screens/backup/done_backup.dart';
-import 'package:fusecash/screens/misc/settings.dart';
-import 'package:fusecash/screens/misc/switch_commmunity.dart';
-import 'package:fusecash/screens/misc/protect_your_wallet.dart';
+import 'package:flutter/material.dart';
+
+import '../../../models/tokens/token.dart';
+import '../../../models/transactions/transfer.dart';
+import '../../backup/done_backup.dart';
+import '../../backup/show_mnemonic.dart';
+import '../../backup/verify_mnemonic.dart';
+import '../../misc/about.dart';
+import '../../misc/protect_your_wallet.dart';
+import '../../misc/settings.dart';
+import '../../misc/switch_commmunity.dart';
+import '../../trade/review_trade.dart';
+import '../../trade/trade.dart';
+import '../screens/home.dart';
+import '../screens/transaction_details.dart';
+import '../widgets/token_transfers.dart';
 
 class HomeRoutes {
   static const String mainHomeScreen = '/';
@@ -73,17 +75,19 @@ class HomeRouter extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    MainHomeScreen: (RouteData data) {
+    MainHomeScreen: (data) {
       var args = data.getArgs<MainHomeScreenArguments>(
-          orElse: () => MainHomeScreenArguments());
+        orElse: () => MainHomeScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => MainHomeScreen(key: args.key),
         settings: data,
       );
     },
-    TransactionDetailsScreen: (RouteData data) {
+    TransactionDetailsScreen: (data) {
       var args = data.getArgs<TransactionDetailsScreenArguments>(
-          orElse: () => TransactionDetailsScreenArguments());
+        orElse: () => TransactionDetailsScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => TransactionDetailsScreen(
           image: args.image,
@@ -97,9 +101,10 @@ class HomeRouter extends RouterBase {
         settings: data,
       );
     },
-    TokenTransfersScreen: (RouteData data) {
+    TokenTransfersScreen: (data) {
       var args = data.getArgs<TokenTransfersScreenArguments>(
-          orElse: () => TokenTransfersScreenArguments());
+        orElse: () => TokenTransfersScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => TokenTransfersScreen(
           key: args.key,
@@ -109,18 +114,22 @@ class HomeRouter extends RouterBase {
         settings: data,
       );
     },
-    TradeScreen: (RouteData data) {
+    TradeScreen: (data) {
       var args = data.getArgs<TradeScreenArguments>(
-          orElse: () => TradeScreenArguments());
+        orElse: () => TradeScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) =>
-            TradeScreen(key: args.key, primaryToken: args.primaryToken),
+        builder: (context) => TradeScreen(
+          key: args.key,
+          primaryToken: args.primaryToken,
+        ),
         settings: data,
       );
     },
-    ReviewTradeScreen: (RouteData data) {
+    ReviewTradeScreen: (data) {
       var args = data.getArgs<ReviewTradeScreenArguments>(
-          orElse: () => ReviewTradeScreenArguments());
+        orElse: () => ReviewTradeScreenArguments(),
+      );
       return MaterialPageRoute<dynamic>(
         builder: (context) => ReviewTradeScreen(
           key: args.key,
@@ -131,43 +140,43 @@ class HomeRouter extends RouterBase {
         settings: data,
       );
     },
-    AboutScreen: (RouteData data) {
+    AboutScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => AboutScreen(),
         settings: data,
       );
     },
-    ShowMnemonic: (RouteData data) {
+    ShowMnemonic: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ShowMnemonic(),
         settings: data,
       );
     },
-    VerifyMnemonic: (RouteData data) {
+    VerifyMnemonic: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => VerifyMnemonic(),
         settings: data,
       );
     },
-    DoneBackup: (RouteData data) {
+    DoneBackup: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => DoneBackup(),
         settings: data,
       );
     },
-    SettingsScreen: (RouteData data) {
+    SettingsScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SettingsScreen(),
         settings: data,
       );
     },
-    SwitchCommunityScreen: (RouteData data) {
+    SwitchCommunityScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SwitchCommunityScreen(),
         settings: data,
       );
     },
-    ProtectYourWallet: (RouteData data) {
+    ProtectYourWallet: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ProtectYourWallet(),
         settings: data,
@@ -176,17 +185,17 @@ class HomeRouter extends RouterBase {
   };
 }
 
-// *************************************************************************
-// Arguments holder classes
-// **************************************************************************
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
 
-//MainHomeScreen arguments holder class
+/// MainHomeScreen arguments holder class
 class MainHomeScreenArguments {
   final Key key;
   MainHomeScreenArguments({this.key});
 }
 
-//TransactionDetailsScreen arguments holder class
+/// TransactionDetailsScreen arguments holder class
 class TransactionDetailsScreenArguments {
   final ImageProvider<dynamic> image;
   final String from;
@@ -205,7 +214,7 @@ class TransactionDetailsScreenArguments {
       this.transfer});
 }
 
-//TokenTransfersScreen arguments holder class
+/// TokenTransfersScreen arguments holder class
 class TokenTransfersScreenArguments {
   final Key key;
   final Token token;
@@ -213,14 +222,14 @@ class TokenTransfersScreenArguments {
   TokenTransfersScreenArguments({this.key, this.token, this.tokenPrice});
 }
 
-//TradeScreen arguments holder class
+/// TradeScreen arguments holder class
 class TradeScreenArguments {
   final Key key;
   final Token primaryToken;
   TradeScreenArguments({this.key, this.primaryToken});
 }
 
-//ReviewTradeScreen arguments holder class
+/// ReviewTradeScreen arguments holder class
 class ReviewTradeScreenArguments {
   final Key key;
   final Map<dynamic, dynamic> exchangeSummry;

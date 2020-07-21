@@ -12,7 +12,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:fusecash/utils/transaction_util.dart';
 import 'package:fusecash/utils/format.dart';
 
 class TransactionTile extends StatelessWidget {
@@ -33,20 +33,22 @@ class TransactionTile extends StatelessWidget {
               viewModel.reverseContacts,
               viewModel.contacts,
               viewModel.countryCode);
+          Community community =
+              getTCommunity(transfer?.tokenAddress, viewModel.communities);
           Token token;
-
           if (transfer.tokenAddress == null) {
-            token = viewModel.community.token;
+            token = community.token;
           } else {
             token = getToken(transfer.tokenAddress.toLowerCase(),
                 viewModel.communities, viewModel.erc20Tokens);
           }
+          // Community community = getTCommunity(
+          //     token.address ?? transfer.tokenAddress, viewModel.communities);
 
-          bool isSendingToForeign = (viewModel.community.homeBridgeAddress !=
-                      null &&
+          bool isSendingToForeign = (community.homeBridgeAddress != null &&
                   transfer.to != null &&
                   transfer.to?.toLowerCase() ==
-                      viewModel.community.homeBridgeAddress?.toLowerCase()) ??
+                      community.homeBridgeAddress?.toLowerCase()) ??
               false;
           bool isWalletCreated = 'created' == viewModel.walletStatus;
           bool isZeroAddress = transfer.from == zeroAddress;
@@ -54,7 +56,7 @@ class TransactionTile extends StatelessWidget {
               ? AssetImage(
                   'assets/images/ethereume_icon.png',
                 )
-              : getTransferImage(transfer, contact, viewModel.community);
+              : getTransferImage(transfer, contact, community);
           String displayName = transfer.isJoinBonus()
               ? (transfer.text ?? I18n.of(context).join_bonus)
               : (transfer.receiverName != null && transfer.receiverName != '')
@@ -65,7 +67,7 @@ class TransactionTile extends StatelessWidget {
                           ? contact.displayName
                           : deducePhoneNumber(
                               transfer, viewModel.reverseContacts,
-                              businesses: viewModel.community.businesses);
+                              businesses: community.businesses);
           String amount = formatValue(transfer.value, token.decimals);
           List<Widget> rightColumn = <Widget>[
             transfer.isGenerateWallet() || transfer.isJoinCommunity()
@@ -191,11 +193,8 @@ class TransactionTile extends StatelessWidget {
                                                         .withOpacity(1)),
                                           ))
                                       : SizedBox.shrink(),
-                                  viewModel.community.metadata
-                                                  .isDefaultImage !=
-                                              null &&
-                                          viewModel.community.metadata
-                                              .isDefaultImage &&
+                                  community.metadata.isDefaultImage != null &&
+                                          community.metadata.isDefaultImage &&
                                           transfer.isJoinCommunity()
                                       ? Text(
                                           token.symbol,
@@ -231,7 +230,7 @@ class TransactionTile extends StatelessWidget {
                                                       color: Colors.black)),
                                               TextSpan(
                                                   text:
-                                                      ' \‘${viewModel.community.name}\’ ',
+                                                      ' \‘${community?.name ?? ''}\’ ',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -307,7 +306,7 @@ class TransactionTile extends StatelessWidget {
                   if (!transfer.isGenerateWallet() &&
                       !transfer.isJoinCommunity()) {
                     ExtendedNavigator.of(context)
-                        .pushNamed(HomeRoutes.transactionDetailsScreen,
+                        .push(HomeRoutes.transactionDetailsScreen,
                             arguments: TransactionDetailsScreenArguments(
                               transfer: transfer,
                               contact: contact,
@@ -340,7 +339,6 @@ class TransactionTile extends StatelessWidget {
 
 class _TransactionTileViewModel extends Equatable {
   final Map<String, String> reverseContacts;
-  final Community community;
   final String walletStatus;
   final List<Contact> contacts;
   final String countryCode;
@@ -349,7 +347,6 @@ class _TransactionTileViewModel extends Equatable {
 
   _TransactionTileViewModel(
       {this.reverseContacts,
-      this.community,
       this.walletStatus,
       this.countryCode,
       this.communities,
@@ -357,20 +354,23 @@ class _TransactionTileViewModel extends Equatable {
       this.contacts});
 
   static _TransactionTileViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddress] ??
-            new Community.initial();
     return _TransactionTileViewModel(
-        reverseContacts: store.state.userState.reverseContacts,
-        contacts: store.state.userState.contacts,
-        walletStatus: store.state.userState.walletStatus,
-        countryCode: store.state.userState.countryCode,
-        erc20Tokens: store.state.proWalletState.erc20Tokens,
-        communities: store.state.cashWalletState.communities,
-        community: community);
+      reverseContacts: store.state.userState.reverseContacts,
+      contacts: store.state.userState.contacts,
+      walletStatus: store.state.userState.walletStatus,
+      countryCode: store.state.userState.countryCode,
+      erc20Tokens: store.state.proWalletState.erc20Tokens,
+      communities: store.state.cashWalletState.communities,
+    );
   }
 
   @override
-  List<Object> get props => [reverseContacts, walletStatus, community];
+  List<Object> get props => [
+        reverseContacts,
+        walletStatus,
+        communities,
+        countryCode,
+        contacts,
+        erc20Tokens
+      ];
 }

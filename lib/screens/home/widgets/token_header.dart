@@ -141,9 +141,9 @@ class TokenHeader extends StatelessWidget {
                                                 fit: BoxFit.cover,
                                               ),
                                               onPressed: () {
-                                                ExtendedNavigator.byName(
+                                                ExtendedNavigator.named(
                                                         'homeRouter')
-                                                    .pushNamed(
+                                                    .push(
                                                         HomeRoutes.tradeScreen,
                                                         arguments:
                                                             TradeScreenArguments(

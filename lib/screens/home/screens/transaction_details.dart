@@ -10,7 +10,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:fusecash/utils/transaction_util.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
 class TransactionDetailsScreen extends StatefulWidget {

@@ -1,11 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'dart:core';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:fusecash/utils/transaction_util.dart';
 
 class CommunityCardScreen extends StatefulWidget {
   CommunityCardScreen(
@@ -31,8 +28,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
     return InkWell(
         onTap: () {
           widget.switchCommunity(widget.community.address);
-          ExtendedNavigator.root
-              .pushNamedAndRemoveUntil(Routes.homePage, (route) => false);
+          Navigator.of(context).pop();
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),

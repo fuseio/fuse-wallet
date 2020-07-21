@@ -1,5 +1,5 @@
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:fusecash/utils/transaction_util.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -11,7 +11,6 @@ import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {
   final String myCountryCode;
-  final Community community;
   final List<Token> tokens;
   final Function(
       Token token,
@@ -48,7 +47,7 @@ class SendAmountViewModel extends Equatable {
   }) sendToErc20Token;
 
   @override
-  List<Object> get props => [tokens, myCountryCode, community];
+  List<Object> get props => [tokens, myCountryCode];
 
   SendAmountViewModel({
     this.tokens,
@@ -57,16 +56,11 @@ class SendAmountViewModel extends Equatable {
     this.sendToAccountAddress,
     this.trackTransferCall,
     this.idenyifyCall,
-    this.community,
     this.sendToErc20Token,
     this.sendERC20ToContact,
   });
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
-            new Community.initial();
     List<Community> communities =
         store.state.cashWalletState.communities.values.toList();
     List<Token> foreignTokens = List<Token>.from(
@@ -83,8 +77,9 @@ class SendAmountViewModel extends Equatable {
             .copyWith(imageUrl: getIPFSImageUrl(community.metadata.image)))
         .toList();
     return SendAmountViewModel(
-        community: community,
-        tokens: [...homeTokens, ...foreignTokens],
+        tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
+            (tokenB?.amount ?? BigInt.zero)
+                ?.compareTo(tokenA?.amount ?? BigInt.zero)),
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
           Token token,

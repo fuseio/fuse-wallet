@@ -38,7 +38,7 @@ class UserNameScreen extends StatelessWidget {
                       Text(
                         I18n.of(context).pickup_display_name,
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 18,
                             color: Theme.of(context).colorScheme.secondary),
                       ),
                       const SizedBox(height: 10.0),
@@ -78,7 +78,7 @@ class UserNameScreen extends StatelessWidget {
                           viewModel.setDisplayName(
                               capitalize(displayNameController.text ?? 'Anom'));
                           ExtendedNavigator.root
-                              .pushNamed(Routes.securityScreen);
+                              .push(Routes.securityScreen);
                         },
                       ),
                     ),

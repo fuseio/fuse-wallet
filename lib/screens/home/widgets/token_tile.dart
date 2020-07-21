@@ -42,7 +42,7 @@ class TokenTile extends StatelessWidget {
           onTap: onTap != null
               ? onTap
               : () {
-                  ExtendedNavigator.of(context).pushNamed(
+                  ExtendedNavigator.of(context).push(
                       HomeRoutes.tokenTransfersScreen,
                       arguments: TokenTransfersScreenArguments(token: token));
                 },

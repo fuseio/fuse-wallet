@@ -147,8 +147,8 @@ class ShowMnemonic extends StatelessWidget {
                             label: I18n.of(context).next_button,
                             labelFontWeight: FontWeight.normal,
                             onPressed: () async {
-                              ExtendedNavigator.of(context)
-                                  .pushNamed(HomeRoutes.verifyMnemonic);
+                              ExtendedNavigator.named('homeRouter')
+                                  .replace(HomeRoutes.verifyMnemonic);
                             },
                           )),
                         ],

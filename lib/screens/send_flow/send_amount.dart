@@ -56,39 +56,46 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 topLeft: Radius.circular(20.0),
                 topRight: Radius.circular(20.0))),
         builder: (BuildContext context) => Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      topRight: Radius.circular(30.0)),
-                  color: Theme.of(context).splashColor),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListView.separated(
-                    shrinkWrap: true,
-                    primary: false,
-                    padding: EdgeInsets.only(
-                        left: 15, right: 15, top: 20, bottom: 20),
-                    separatorBuilder: (BuildContext context, int index) =>
-                        Divider(
-                      height: 0,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0)),
+                color: Theme.of(context).splashColor),
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListView.separated(
+                          shrinkWrap: true,
+                          primary: false,
+                          padding: EdgeInsets.only(
+                              left: 15, right: 15, top: 20, bottom: 20),
+                          separatorBuilder: (BuildContext context, int index) =>
+                              Divider(
+                            height: 0,
+                          ),
+                          itemCount: viewModel.tokens?.length ?? 0,
+                          itemBuilder: (context, index) => TokenTile(
+                              token: viewModel.tokens[index],
+                              symbolWidth: 45,
+                              symbolHeight: 45,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  amountText = "0";
+                                  selectedToken = viewModel.tokens[index];
+                                });
+                              }),
+                        ),
+                      ],
                     ),
-                    itemCount: viewModel.tokens?.length ?? 0,
-                    itemBuilder: (context, index) => TokenTile(
-                        token: viewModel.tokens[index],
-                        symbolWidth: 45,
-                        symbolHeight: 45,
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          setState(() {
-                            amountText = "0";
-                            selectedToken = viewModel.tokens[index];
-                          });
-                        }),
-                  ),
-                ],
-              ),
-            ));
+                  ]),
+                ),
+              ],
+            )));
   }
 
   @override
@@ -110,12 +117,16 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        _onKeyPress(VirtualKeyboardKey key) {
+        _onKeyPress(VirtualKeyboardKey key, {bool max = false}) {
           if (key.keyType == VirtualKeyboardKeyType.String) {
             if (amountText == "0") {
               amountText = "";
             }
-            amountText = amountText + key.text;
+            if (max) {
+              amountText = key.text;
+            } else {
+              amountText = amountText + key.text;
+            }
           } else if (key.keyType == VirtualKeyboardKeyType.Action) {
             switch (key.action) {
               case VirtualKeyboardKeyAction.Backspace:
@@ -195,10 +206,17 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                             selectedToken.amount,
                                             selectedToken.decimals,
                                             withPrecision: true);
-                                        _onKeyPress(VirtualKeyboardKey(
-                                            text: max,
-                                            keyType:
-                                                VirtualKeyboardKeyType.String));
+                                        if (num.parse(max).compareTo(
+                                                num.parse(amountText)) !=
+                                            0) {
+                                          _onKeyPress(
+                                              VirtualKeyboardKey(
+                                                  text: max,
+                                                  keyType:
+                                                      VirtualKeyboardKeyType
+                                                          .String),
+                                              max: true);
+                                        }
                                       },
                                       child: Text(
                                         I18n.of(context).use_max,
@@ -232,7 +250,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                   },
                                   child: Container(
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 5),
+                                          horizontal: 15, vertical: 5),
                                       decoration: BoxDecoration(
                                           shape: BoxShape.rectangle,
                                           color:
@@ -254,8 +272,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                           ),
                                           SvgPicture.asset(
                                             'assets/images/dropdown_icon.svg',
-                                            width: 15,
-                                            height: 15,
+                                            width: 9,
+                                            height: 9,
                                           )
                                         ],
                                       )),
@@ -302,7 +320,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 onPressed: () {
                   args.tokenToSend = selectedToken;
                   args.amount = num.parse(amountText);
-                  ExtendedNavigator.root.pushNamed(Routes.sendReviewScreen,
+                  ExtendedNavigator.root.replace(Routes.sendReviewScreen,
                       arguments: SendReviewScreenArguments(pageArgs: args));
                 },
                 preload: isPreloading,

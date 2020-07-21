@@ -37,7 +37,7 @@ class InviteBonusJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('InviteBonusJob FAILED');
-      store.dispatch(transactionFailed(arguments['inviteBonus']));
+      store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['']));
       store.dispatch(segmentTrackCall('Wallet: InviteBonusJob FAILED'));
       return;
     }
@@ -53,7 +53,7 @@ class InviteBonusJob extends Job {
       logger.info('InviteBonusJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['inviteBonus']));
+      store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -65,7 +65,7 @@ class InviteBonusJob extends Job {
       String responseStatus = data['status'];
       if (responseStatus == 'SUCCEEDED') {
         this.status = 'DONE';
-        store.dispatch(inviteBonusSuccessCall(data['txHash'], arguments['inviteBonus']));
+        store.dispatch(inviteBonusSuccessCall(data['txHash'], arguments['inviteBonus'], arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         logger.info('InviteBonusJob SUCCEEDED');
         return;
@@ -79,7 +79,8 @@ class InviteBonusJob extends Job {
   @override
   dynamic argumentsToJson() => {
       'inviteBonus': arguments['inviteBonus'].toJson(),
-      'jobType': arguments['jobType']
+      'jobType': arguments['jobType'],
+      'communityAddress': arguments['communityAddress']
     };
 
   @override

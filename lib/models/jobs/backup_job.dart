@@ -34,7 +34,7 @@ class BackupJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('BackupJob FAILED');
-      store.dispatch(transactionFailed(arguments['backupBonus']));
+      store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: BackupJob FAILED'));
       return;
     }
@@ -50,7 +50,7 @@ class BackupJob extends Job {
       logger.info('BackupJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['backupBonus']));
+      store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -61,7 +61,7 @@ class BackupJob extends Job {
       dynamic data = response['data'];
       if (data['status'] == 'SUCCEEDED') {
         this.status = 'DONE';
-        store.dispatch(backupSuccessCall(data['txHash'], arguments['backupBonus']));
+        store.dispatch(backupSuccessCall(data['txHash'], arguments['backupBonus'], arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         return;
       } else if (status == 'FAILED') {
@@ -76,7 +76,8 @@ class BackupJob extends Job {
   @override
   dynamic argumentsToJson() => {
       'backupBonus': arguments['backupBonus'],
-      'jobType': arguments['jobType']
+      'jobType': arguments['jobType'],
+      'communityAddress': arguments['communityAddress']
     };
 
   @override

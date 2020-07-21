@@ -8,7 +8,7 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/contacts/contact_tile.dart';
 import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:fusecash/utils/transaction_util.dart';
 
 class RecentContacts extends StatelessWidget {
   final int numToShow;
@@ -49,8 +49,8 @@ class RecentContacts extends StatelessWidget {
               ? contact.displayName
               : deducePhoneNumber(transfer, viewModel.reverseContacts,
                   businesses: viewModel.businesses);
-          dynamic image =
-              getContactImage(transfer, contact, viewModel.businesses);
+          dynamic image = getContactImage(transfer, contact,
+              businesses: viewModel.businesses);
           String phoneNumber =
               viewModel.reverseContacts[transfer.to.toLowerCase()] ?? '';
           listItems.add(ContactTile(

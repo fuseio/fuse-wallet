@@ -34,7 +34,7 @@ class InviteJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('InviteJob FAILED');
-      store.dispatch(transactionFailed(arguments['inviteTransfer']));
+      store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: InviteJob FAILED'));
       return;
     }
@@ -50,7 +50,7 @@ class InviteJob extends Job {
       logger.info('InviteJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['inviteTransfer']));
+      store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -79,7 +79,8 @@ class InviteJob extends Job {
           arguments['receiverName'],
           arguments['inviteTransfer'],
           arguments['sendSuccessCallback'],
-          arguments['sendFailureCallback']));
+          arguments['sendFailureCallback'],
+          arguments['communityAddress']));
     }
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
@@ -88,7 +89,9 @@ class InviteJob extends Job {
   dynamic argumentsToJson() => {
       'tokensAmount': arguments['tokensAmount'],
       'receiverName': arguments['receiverName'],
-      'inviteTransfer': arguments['inviteTransfer'].toJson()
+      'inviteTransfer': arguments['inviteTransfer'].toJson(),
+      'communityAddress': arguments['communityAddress'],
+      'tokenAddress': arguments['tokenAddress']
     };
 
   @override

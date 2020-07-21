@@ -94,8 +94,8 @@ class BackUpDialogState extends State<BackUpDialog>
                       width: 170,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () async {
-                        ExtendedNavigator.byName('homeRouter')
-                            .pushNamed(HomeRoutes.showMnemonic);
+                        ExtendedNavigator.named('homeRouter')
+                            .push(HomeRoutes.showMnemonic);
                       },
                     )
                   ],

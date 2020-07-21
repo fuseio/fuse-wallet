@@ -325,7 +325,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     onPressed: () {
                       if (withFee && !hasFund) return;
                       send(viewModel, args, transferNoteController.text, () {
-                        ExtendedNavigator.root.pushNamed(
+                        ExtendedNavigator.root.replace(
                             Routes.sendSuccessScreen,
                             arguments:
                                 SendSuccessScreenArguments(pageArgs: args));

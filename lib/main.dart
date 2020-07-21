@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:auto_route/auto_route.dart';
+import 'package:country_code_picker/country_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -72,13 +73,15 @@ class _MyAppState extends State<MyApp> {
         store: widget.store,
         child: MaterialApp(
           title: 'Fuse Cash',
-          builder: (ctx, nav) => ExtendedNavigator(
+          builder: ExtendedNavigator.builder(
             router: Router(),
             guards: [AuthGuard()],
+            builder: (_, extendedNav) => extendedNav,
           ),
           theme: CustomTheme.of(context),
           localizationsDelegates: [
             i18n,
+            CountryLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,

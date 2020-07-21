@@ -13,7 +13,6 @@ import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
@@ -612,8 +611,8 @@ ThunkAction inviteAndSendCall(
     final logger = await AppFactory().getLogger('action');
     try {
       String senderName = store.state.userState.displayName;
-      dynamic response = await api.invite(
-          contactPhoneNumber, store.state.cashWalletState.communityAddress,
+      dynamic response = await api.invite(contactPhoneNumber,
+          communityAddress: store.state.cashWalletState.communityAddress,
           name: senderName,
           amount: tokensAmount.toString(),
           symbol: token.symbol);
@@ -662,25 +661,11 @@ ThunkAction inviteProAndSendSuccessCall(
     VoidCallback sendSuccessCallback,
     VoidCallback sendFailureCallback) {
   return (Store store) async {
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddres];
-    VoidCallback successCallBack = () {
-      sendSuccessCallback();
-      // if (community.plugins.inviteBonus != null &&
-      //     community.plugins.inviteBonus.isActive &&
-      //     data['bonusInfo'] != null) {
-      //   store.dispatch(inviteBonusCall(data));
-      // }
-      store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
-        "Invite ${community.name}": true,
-      })));
-    };
     ProWalletState proWalletState = store.state.proWalletState;
     Token token = proWalletState.erc20Tokens[inviteTransfer.tokenAddress];
     String receiverAddress = job.data["walletAddress"];
     store.dispatch(sendErc20TokenCall(token, receiverAddress, tokensAmount,
-        successCallBack, sendFailureCallback,
+        sendSuccessCallback, sendFailureCallback,
         receiverName: receiverName, inviteTransfer: inviteTransfer));
   };
 }
@@ -797,12 +782,12 @@ ThunkAction swapHandler(
     try {
       final String spenderContract =
           DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'];
-      String communityAddres = store.state.cashWalletState.communityAddress;
-      Community community =
-          store.state.cashWalletState.communities[communityAddres];
-      String feeReceiverAddress =
-          community.plugins.bridgeToForeign?.receiverAddress ??
-              '0x77D886e98133D99130179bdb41CE052a43d32c2F';
+      // String communityAddres = store.state.cashWalletState.communityAddress;
+      // Community community =
+      //     store.state.cashWalletState.communities[communityAddres];
+      // String feeReceiverAddress =
+      //     community.plugins.bridgeToForeign?.receiverAddress ??
+      //         '0x77D886e98133D99130179bdb41CE052a43d32c2F';
       num feeAmount = fees[fromToken.symbol] ?? 0;
       Map<String, dynamic> signedApprovalData = await web3.approveTokenOffChain(
           walletAddress, tokenAddress, tokensAmount,
@@ -813,11 +798,13 @@ ThunkAction swapHandler(
           0,
           swapData.replaceFirst('0x', ''),
           network: 'mainnet');
-      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+      // Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+      //     walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
 
-      Map<String, dynamic> response = await api
-          .multiRelay([signedApprovalData, signedSwapData, feeTrasnferData]);
+      Map<String, dynamic> response = await api.multiRelay([
+        signedApprovalData,
+        signedSwapData,
+      ]); // feeTrasnferData
       sendSuccessCallback();
       String swapJobId = response['job']['_id'];
       logger.info('Job $swapJobId for swap');

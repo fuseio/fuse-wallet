@@ -6,7 +6,6 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 
@@ -68,10 +67,8 @@ class DoneBackup extends StatelessWidget {
                 label: I18n.of(context).ok,
                 fontSize: 15,
                 onPressed: () async {
-                  VoidCallback successCb = () {
-                    ExtendedNavigator.root.pushReplacementNamed(Routes.homePage);
-                  };
-                  viewModal.backupWallet(successCb);
+                  viewModal.backupWallet();
+                  ExtendedNavigator.named('homeRouter').popUntilRoot();
                 },
               ))
             ],

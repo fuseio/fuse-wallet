@@ -70,7 +70,7 @@ abstract class Job {
     return jsonEncode(arguments);
   }
 
-  dynamic argumentsFromJson(arguments) {
+  Map<String, dynamic> argumentsFromJson(arguments) {
     return arguments;
   }
 }

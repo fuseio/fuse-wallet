@@ -114,13 +114,14 @@ class _CreateWalletState extends State<CreateWallet> {
                   onPressed: () async {
                     if (viewModel.isLoggedOut) {
                       viewModel.loginAgain();
+                      ExtendedNavigator.root.replace(Routes.homePage);
                     } else {
                       viewModel.setDeviceIdCall();
                       viewModel.createLocalAccount(() {
                         setState(() {
                           isPrimaryPreloading = false;
                         });
-                        ExtendedNavigator.root.pushNamed(Routes.signupScreen);
+                        ExtendedNavigator.root.push(Routes.signupScreen);
                       });
                       setState(() {
                         isPrimaryPreloading = true;
@@ -141,7 +142,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                   label: I18n.of(context).restore_backup,
                                   onPressed: () async {
                                     ExtendedNavigator.root
-                                        .pushNamed(Routes.recoveryPage);
+                                        .push(Routes.recoveryPage);
                                   }),
                               Text(
                                 I18n.of(context).or,
@@ -164,7 +165,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                           isTransparentPreloading = false;
                                         });
                                         ExtendedNavigator.root
-                                            .pushNamed(Routes.signupScreen);
+                                            .push(Routes.signupScreen);
                                       });
                                       setState(() {
                                         isTransparentPreloading = true;
@@ -179,7 +180,7 @@ class _CreateWalletState extends State<CreateWallet> {
                             label: I18n.of(context).restore_from_backup,
                             onPressed: () async {
                               ExtendedNavigator.root
-                                  .pushNamed(Routes.recoveryPage);
+                                  .push(Routes.recoveryPage);
                             }))
               ],
             ),

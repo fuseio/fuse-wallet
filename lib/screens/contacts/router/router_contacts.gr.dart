@@ -4,11 +4,13 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: public_member_api_docs
+
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/contacts/contacts_list.dart';
-import 'package:fusecash/screens/contacts/send_contact.dart';
+import 'package:flutter/material.dart';
+
+import '../contacts_list.dart';
+import '../empty_contacts.dart';
 
 class ContactsRoutes {
   static const String contactsList = '/contacts-list';
@@ -29,13 +31,13 @@ class ContactsRouter extends RouterBase {
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
-    ContactsList: (RouteData data) {
+    ContactsList: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ContactsList(),
         settings: data,
       );
     },
-    EmptyContacts: (RouteData data) {
+    EmptyContacts: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => EmptyContacts(),
         settings: data,

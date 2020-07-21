@@ -1,8 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/screens/misc/pincode.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +22,6 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
     if (_biometricType != BiometricAuth.none) {
       setState(() {
         _biometricType = _biometricType;
-        // _showLocalAuthPopup(BiometricUtils.getBiometricString(_biometricType));
       });
     }
   }
@@ -112,8 +109,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                                 callback: (bool result) {
                                   if (result) {
                                     viewModel.setSecurityType(_biometricType);
-                                    ExtendedNavigator.root
-                                        .pushReplacementNamed(Routes.homePage);
+                                    Navigator.of(context).pop();
                                   }
                                 },
                               );
@@ -162,7 +158,12 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => PincodeScreen()));
+                                      builder: (context) => PincodeScreen(
+                                            onSuccess: () {
+                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pop();
+                                            },
+                                          )));
                             },
                           )
                         ],

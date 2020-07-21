@@ -1,9 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
 
 class SplashViewModel extends Equatable {
@@ -35,7 +33,6 @@ class SplashViewModel extends Equatable {
         },
         loginAgain: () {
           store.dispatch(reLoginCall());
-          ExtendedNavigator.root.pushReplacementNamed(Routes.homePage);
         });
   }
 

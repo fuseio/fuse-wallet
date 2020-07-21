@@ -138,8 +138,8 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     width: 160,
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        ExtendedNavigator.of(context)
-                            .pushNamed(HomeRoutes.doneBackup);
+                        ExtendedNavigator.named('homeRouter')
+                            .replace(HomeRoutes.doneBackup);
                       }
                     },
                   )),

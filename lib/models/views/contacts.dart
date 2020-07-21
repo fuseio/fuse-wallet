@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
@@ -11,7 +10,6 @@ import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {
   final List<Contact> contacts;
-  final Token token;
   final bool isContactsSynced;
   final Function(List<Contact>) syncContacts;
   final Transactions transactions;
@@ -26,7 +24,6 @@ class ContactsViewModel extends Equatable {
 
   ContactsViewModel(
       {this.contacts,
-      this.token,
       this.syncContacts,
       this.isContactsSynced,
       this.transactions,
@@ -48,7 +45,6 @@ class ContactsViewModel extends Equatable {
         businesses: community?.businesses ?? [],
         isContactsSynced: store.state.userState.isContactsSynced,
         contacts: store.state.userState?.contacts ?? [],
-        token: community?.token,
         community: community,
         transactions: community?.token?.transactions,
         reverseContacts: store.state.userState.reverseContacts,
@@ -70,7 +66,6 @@ class ContactsViewModel extends Equatable {
   @override
   List<Object> get props => [
         contacts,
-        token,
         isContactsSynced,
         transactions,
         reverseContacts,

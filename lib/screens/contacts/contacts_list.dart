@@ -9,7 +9,6 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/contacts/contact_tile.dart';
-import 'package:fusecash/screens/contacts/recent_contacts.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
@@ -40,8 +39,7 @@ class _ContactsListState extends State<ContactsList> {
         onInit: (store) async {
           bool isPermitted = await Contacts.checkPermissions();
           if (!isPermitted) {
-            ExtendedNavigator.of(context)
-                .pushReplacementNamed(ContactsRoutes.emptyContacts);
+            ExtendedNavigator.of(context).replace(ContactsRoutes.emptyContacts);
           }
           Segment.screen(screenName: '/contacts_list');
         },
@@ -187,7 +185,7 @@ class _ContactsListState extends State<ContactsList> {
     listItems.add(searchPanel(viewModel));
 
     if (searchController.text.isEmpty) {
-      listItems.add(RecentContacts());
+      // listItems.add(RecentContacts());
     } else if (isValidEthereumAddress(searchController.text)) {
       listItems.add(sendToAcccountAddress(context, searchController.text));
     }
@@ -264,9 +262,7 @@ class _ContactsListState extends State<ContactsList> {
                       width: 25.0,
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
-                    onPressed: () {
-                      bracodeScannerHandler();
-                    }),
+                    onPressed: bracodeScannerHandler),
               )
             ],
           ),

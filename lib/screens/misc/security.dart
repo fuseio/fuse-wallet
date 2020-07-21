@@ -143,8 +143,9 @@ class _SecurityScreenState extends State<SecurityScreen> {
                               callback: (bool result) {
                                 if (result) {
                                   viewModel.setSecurityType(_biometricType);
+                                  ExtendedNavigator.root.popUntilRoot();
                                   ExtendedNavigator.root
-                                      .pushReplacementNamed(Routes.homePage);
+                                      .replace(Routes.homePage);
                                 }
                               },
                             );
@@ -182,7 +183,14 @@ class _SecurityScreenState extends State<SecurityScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => PincodeScreen()));
+                                    builder: (context) => PincodeScreen(
+                                          onSuccess: () {
+                                            ExtendedNavigator.root
+                                                .popUntilRoot();
+                                            ExtendedNavigator.root
+                                                .replace(Routes.homePage);
+                                          },
+                                        )));
                           },
                         )
                       ],

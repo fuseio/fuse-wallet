@@ -36,7 +36,7 @@ class TransferJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('TransferJob FAILED');
-      store.dispatch(transactionFailed(arguments['transfer']));
+      store.dispatch(transactionFailed(arguments['transfer'], arguments['']));
       store.dispatch(segmentTrackCall('Wallet: TransferJob FAILED'));
       return;
     }
@@ -53,7 +53,7 @@ class TransferJob extends Job {
       logger.info('TransferJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['transfer']));
+      store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -63,13 +63,14 @@ class TransferJob extends Job {
       return;
     }
     this.status = 'DONE';
-    store.dispatch(sendTokenSuccessCall(job, arguments['transfer']));
+    store.dispatch(sendTokenSuccessCall(job, arguments['transfer'], arguments['communityAddress']));
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 
   @override
   dynamic argumentsToJson() => {
-    'transfer': arguments['transfer'].toJson()
+    'transfer': arguments['transfer'].toJson(),
+    'communityAddress': arguments['communityAddress']
   };
 
   @override

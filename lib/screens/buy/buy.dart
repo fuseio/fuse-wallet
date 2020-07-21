@@ -6,21 +6,13 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/views/buy_page.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/utils/transaction_row.dart';
+import 'package:fusecash/utils/transaction_util.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
-
-class BuyNavigator extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedNavigator(name: 'buyRouter'),
-    );
-  }
-}
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -28,8 +20,8 @@ class BuyScreen extends StatelessWidget {
     return new StoreConnector<AppState, BuyViewModel>(
         distinct: true,
         converter: BuyViewModel.fromStore,
-        onInitialBuild: (viewModel) {
-          viewModel.loadBusinesses();
+        onInit: (store) {
+          store.dispatch(getBusinessListCall());
         },
         builder: (_, viewModel) {
           return MainScaffold(
@@ -65,10 +57,11 @@ class BusinessesListView extends StatelessWidget {
             vm.walletBanner.walletBannerHash != null &&
             vm.walletBanner.walletBannerHash.isNotEmpty
         ? new Container(
+            constraints: BoxConstraints(maxHeight: 140),
             padding: EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
-                ExtendedNavigator.root.pushReplacementNamed(Routes.webview,
+                ExtendedNavigator.root.push(Routes.webview,
                     arguments: WebViewPageArguments(
                         url: vm.walletBanner.link, title: ''));
               },
@@ -84,27 +77,37 @@ class BusinessesListView extends StatelessWidget {
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ))
-        : Container();
+        : SizedBox.shrink();
   }
 
   Widget businessList(context, BuyViewModel vm) {
-    return new Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          new Expanded(
-              child: new Padding(
-                  padding: new EdgeInsets.only(left: 10, bottom: 5.0),
-                  child: ListView.separated(
-                    separatorBuilder: (BuildContext context, int index) =>
-                        new Divider(),
-                    shrinkWrap: true,
-                    physics: ScrollPhysics(),
-                    itemCount: vm.businesses?.length ?? 0,
-                    itemBuilder: (context, index) => businessTile(context,
-                        vm.businesses[index], vm.communityAddres, vm.token),
-                  )))
-        ]);
+    return vm.businesses.isEmpty
+        ? Container(
+            padding: const EdgeInsets.all(40.0),
+            child: Center(
+              child: Text(I18n.of(context).no_businesses),
+            ),
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+                new Expanded(
+                    child: new Padding(
+                        padding: new EdgeInsets.only(left: 10, bottom: 5.0),
+                        child: ListView.separated(
+                          separatorBuilder: (BuildContext context, int index) =>
+                              new Divider(),
+                          shrinkWrap: true,
+                          physics: ScrollPhysics(),
+                          itemCount: vm.businesses?.length ?? 0,
+                          itemBuilder: (context, index) => businessTile(
+                              context,
+                              vm.businesses[index],
+                              vm.communityAddres,
+                              vm.token),
+                        )))
+              ]);
   }
 
   ListTile businessTile(
@@ -143,7 +146,7 @@ class BusinessesListView extends StatelessWidget {
             fontWeight: FontWeight.normal),
       ),
       onTap: () {
-        ExtendedNavigator.of(context).pushNamed(BusinessesRoutes.businessPage,
+        ExtendedNavigator.of(context).push(BusinessesRoutes.businessPage,
             arguments: BusinessPageArguments(
                 business: business,
                 token: token,

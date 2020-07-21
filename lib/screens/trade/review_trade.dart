@@ -186,7 +186,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           widget.exchangeSummry['tx']['to'],
                           widget.exchangeSummry['tx']['data'], () {
                         ExtendedNavigator.root
-                            .pushReplacementNamed(Routes.homePage);
+                            .replace(Routes.homePage);
                       }, () {
                         setState(() {
                           isPreloading = false;

@@ -22,7 +22,7 @@ void navigateToSendAmountScreen(
   String phoneNumber, {
   ImageProvider<dynamic> avatar,
 }) {
-  ExtendedNavigator.root.pushReplacementNamed(Routes.sendAmountScreen,
+  ExtendedNavigator.root.replace(Routes.sendAmountScreen,
       arguments: SendAmountScreenArguments(
           pageArgs: SendAmountArguments(
               name: displayName,
@@ -61,7 +61,7 @@ void sendToContact(BuildContext context, String displayName, String phone,
 }
 
 void sendToPastedAddress(accountAddress) {
-  ExtendedNavigator.root.pushReplacementNamed(Routes.sendAmountScreen,
+  ExtendedNavigator.root.push(Routes.sendAmountScreen,
       arguments: SendAmountScreenArguments(
           pageArgs: SendAmountArguments(
               accountAddress: accountAddress,
@@ -71,10 +71,11 @@ void sendToPastedAddress(accountAddress) {
 
 bracodeScannerHandler() async {
   try {
-    String accountAddress = await BarcodeScanner.scan();
-    List<String> parts = accountAddress.split(':');
+    String rawContent = await BarcodeScanner.scan();
+    List<String> parts = rawContent.split(':');
     bool expression = parts.length == 2 && parts[0] == 'ethereum';
     if (expression) {
+      final String accountAddress = parts[1];
       sendToPastedAddress(accountAddress);
     } else {
       print('Account address is not on Fuse');

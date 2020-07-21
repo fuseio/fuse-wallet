@@ -35,7 +35,7 @@ class _LockScreenState extends State<LockScreen> {
     String jwtToken = store.state.userState.jwtToken;
     bool isLoggedOut = store.state.userState.isLoggedOut;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
-      ExtendedNavigator.root.pushReplacementNamed(Routes.splashScreen);
+      ExtendedNavigator.root.replace(Routes.splashScreen);
     } else {
       UserState userState = store.state.userState;
       if (BiometricAuth.faceID == userState.authType ||
@@ -44,9 +44,9 @@ class _LockScreenState extends State<LockScreen> {
           BiometricUtils.getBiometricString(_biometricType),
         );
       } else if (userState.authType == BiometricAuth.pincode) {
-        ExtendedNavigator.root.pushReplacementNamed(Routes.pincode);
+        ExtendedNavigator.root.replace(Routes.pincode);
       } else {
-        ExtendedNavigator.root.pushReplacementNamed(Routes.homePage);
+        ExtendedNavigator.root.replace(Routes.homePage);
       }
     }
   }
@@ -57,7 +57,7 @@ class _LockScreenState extends State<LockScreen> {
       stickyAuth: true,
       callback: (bool result) {
         if (result) {
-          ExtendedNavigator.root.pushReplacementNamed(Routes.homePage);
+          ExtendedNavigator.root.replace(Routes.homePage);
         }
       },
     );

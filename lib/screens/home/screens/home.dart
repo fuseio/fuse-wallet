@@ -8,7 +8,6 @@ import 'package:fusecash/screens/home/widgets/assets_list.dart';
 import 'package:fusecash/screens/home/widgets/cash_header.dart';
 import 'package:fusecash/screens/home/widgets/feed.dart';
 import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 
 final List<String> tabsTitles = ['Feed', 'Wallet'];
@@ -43,7 +42,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
         },
         builder: (_, viewModel) {
           final body = viewModel.tokens
-                  .any((element) => element.originNetwork == null)
+                      .any((element) => element.originNetwork == null) ||
+                  viewModel.communities.length > 1
               ? DefaultTabController(
                   length: 2,
                   initialIndex: 0,
@@ -96,12 +96,15 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                                       )),
                                 ),
                                 body: TabBarView(
-                                  children: [Feed(), AssetsList()],
+                                  children: [
+                                    Feed(
+                                      withTitle: false,
+                                    ),
+                                    AssetsList()
+                                  ],
                                 ),
                               ))))
-              : Scaffold(
-                  body: Feed(),
-                );
+              : Feed();
 
           return Scaffold(
             appBar: MyAppBar(
@@ -109,9 +112,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
               backgroundColor: Colors.white,
               child: CashHeader(),
             ),
-            drawer: DrawerWidget(),
-            drawerEdgeDragWidth: 0,
-            drawerEnableOpenDragGesture: false,
             body: body,
           );
         });

@@ -475,21 +475,13 @@ class _ExchangeState extends State<TradeScreen> {
                 disabled: swapResponse == null,
                 onPressed: () async {
                   if (swapResponse != null && swapResponse['tx'] != null) {
-                    ExtendedNavigator.byName('homeRouter')
-                        .pushNamed(HomeRoutes.reviewTradeScreen,
+                    ExtendedNavigator.named('homeRouter')
+                        .push(HomeRoutes.reviewTradeScreen,
                             arguments: ReviewTradeScreenArguments(
                               fromToken: tokenToPayWith.copyWith(),
                               toToken: tokenToReceive.copyWith(),
                               exchangeSummry: swapResponse,
                             ));
-                    // Navigator.push(
-                    //     context,
-                    //     new MaterialPageRoute(
-                    //         builder: (context) => ReviewTradeScreen(
-                    //               fromToken: tokenToPayWith.copyWith(),
-                    //               toToken: tokenToReceive.copyWith(),
-                    //               exchangeSummry: swapResponse,
-                    //             )));
                   }
                 },
               ),
