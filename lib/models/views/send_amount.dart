@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/community.dart';
-import 'package:roost/models/pro/token.dart' as erc20Token;
-import 'package:roost/models/token.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/community.dart';
+import 'package:peepl/models/pro/token.dart' as erc20Token;
+import 'package:peepl/models/token.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {

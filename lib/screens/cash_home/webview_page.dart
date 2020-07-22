@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:roost/widgets/my_app_bar.dart';
+import 'package:peepl/widgets/my_app_bar.dart';
 
 class WebViewPageArguments {
   final String url;

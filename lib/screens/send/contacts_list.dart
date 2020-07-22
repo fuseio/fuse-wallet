@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/contacts.dart';
-import 'package:roost/screens/send/contact_tile.dart';
-import 'package:roost/screens/send/recent_contacts.dart';
-import 'package:roost/utils/barcode.dart';
-import 'package:roost/utils/contacts.dart';
-import 'package:roost/utils/format.dart';
-import 'package:roost/utils/phone.dart';
-import 'package:roost/utils/send.dart';
-import 'package:roost/widgets/main_scaffold.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/contacts.dart';
+import 'package:peepl/screens/send/contact_tile.dart';
+import 'package:peepl/screens/send/recent_contacts.dart';
+import 'package:peepl/utils/barcode.dart';
+import 'package:peepl/utils/contacts.dart';
+import 'package:peepl/utils/format.dart';
+import 'package:peepl/utils/phone.dart';
+import 'package:peepl/utils/send.dart';
+import 'package:peepl/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
-import 'package:roost/widgets/preloader.dart';
-import 'package:roost/widgets/silver_app_bar.dart';
+import 'package:peepl/widgets/preloader.dart';
+import 'package:peepl/widgets/silver_app_bar.dart';
 
 class ContactsList extends StatefulWidget {
   @override

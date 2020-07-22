@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/bottom_bar.dart';
-import 'package:roost/screens/buy/buy.dart';
-import 'package:roost/screens/cash_home/cash_header.dart';
-import 'package:roost/screens/cash_home/cash_home.dart';
-import 'package:roost/widgets/bottom_bar_item.dart';
-import 'package:roost/widgets/drawer.dart';
-import 'package:roost/widgets/my_app_bar.dart';
-import 'package:roost/widgets/tabs_scaffold.dart';
-import 'package:roost/screens/cash_home/webview_page.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/bottom_bar.dart';
+import 'package:peepl/screens/buy/buy.dart';
+import 'package:peepl/screens/cash_home/cash_header.dart';
+import 'package:peepl/screens/cash_home/cash_home.dart';
+import 'package:peepl/widgets/bottom_bar_item.dart';
+import 'package:peepl/widgets/drawer.dart';
+import 'package:peepl/widgets/my_app_bar.dart';
+import 'package:peepl/widgets/tabs_scaffold.dart';
+import 'package:peepl/screens/cash_home/webview_page.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;

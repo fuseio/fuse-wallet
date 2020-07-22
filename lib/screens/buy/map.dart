@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/buy_page.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/buy_page.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatefulWidget {

@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/redux/actions/error_actions.dart';
-import 'package:roost/redux/actions/user_actions.dart';
-import 'package:roost/redux/state/store.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/services.dart';
-import 'package:roost/utils/phone.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/redux/actions/error_actions.dart';
+import 'package:peepl/redux/actions/user_actions.dart';
+import 'package:peepl/redux/state/store.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/services.dart';
+import 'package:peepl/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 
@@ -78,7 +78,7 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         final String accountAddress = store.state.userState.accountAddress;
         final String identifier = store.state.userState.identifier;
         IdTokenResult token = await user.getIdToken();
-        String jwtToken = await api.login(token.token, accountAddress, identifier, appName: "Roost");
+        String jwtToken = await api.login(token.token, accountAddress, identifier, appName: "Peepl");
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));

@@ -2,18 +2,18 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/business.dart';
-import 'package:roost/models/views/buy_page.dart';
-import 'package:roost/screens/buy/business.dart';
-import 'package:roost/screens/cash_home/webview_page.dart';
-import 'package:roost/screens/misc/about.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/screens/send/send_amount.dart';
-import 'package:roost/screens/send/send_amount_arguments.dart';
-import 'package:roost/utils/transaction_row.dart';
-import 'package:roost/widgets/main_scaffold.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/business.dart';
+import 'package:peepl/models/views/buy_page.dart';
+import 'package:peepl/screens/buy/business.dart';
+import 'package:peepl/screens/cash_home/webview_page.dart';
+import 'package:peepl/screens/misc/about.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/screens/send/send_amount.dart';
+import 'package:peepl/screens/send/send_amount_arguments.dart';
+import 'package:peepl/utils/transaction_row.dart';
+import 'package:peepl/widgets/main_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -48,7 +48,6 @@ class BuyScreen extends StatelessWidget {
               automaticallyImplyLeading: false,
               title: I18n.of(context).pay_rent,
               children: <Widget>[
-                RoostPaymentHelpView(),
                 BusinessesListView()
               ]);
         });
@@ -204,38 +203,5 @@ class BusinessesListView extends StatelessWidget {
                   ),
                 );
         });
-  }
-}
-
-class RoostPaymentHelpView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 40, right: 40, left: 40),
-      child: new Column(
-        children: [
-          Text(
-            'Not yet renting through Roost?',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text('Contact', textAlign: TextAlign.center),
-              InkWell(
-                onTap: () {
-                  launchUrl('mailto:leon@roostnow.co.uk');
-                },
-                child: Text(
-                  ' leon@roostnow.co.uk',
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
   }
 }

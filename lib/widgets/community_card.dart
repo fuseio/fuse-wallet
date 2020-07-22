@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:roost/models/community.dart';
+import 'package:peepl/models/community.dart';
 import 'dart:core';
 
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/utils/transaction_row.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/utils/transaction_row.dart';
 
 class CommunityCardScreen extends StatefulWidget {
   CommunityCardScreen(

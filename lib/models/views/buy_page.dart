@@ -1,10 +1,10 @@
-import 'package:roost/models/business.dart';
-import 'package:roost/models/community.dart';
-import 'package:roost/models/plugins/wallet_banner.dart';
-import 'package:roost/models/token.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/models/business.dart';
+import 'package:peepl/models/community.dart';
+import 'package:peepl/models/plugins/wallet_banner.dart';
+import 'package:peepl/models/token.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 
 class BuyViewModel extends Equatable {

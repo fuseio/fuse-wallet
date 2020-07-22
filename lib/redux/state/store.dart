@@ -1,16 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:roost/redux/middlewares/auth_middleware.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/redux/reducers/app_reducer.dart';
-import 'package:roost/redux/state/state_secure_storage.dart';
-import 'package:roost/utils/jwt.dart';
+import 'package:peepl/redux/middlewares/auth_middleware.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/redux/reducers/app_reducer.dart';
+import 'package:peepl/redux/state/state_secure_storage.dart';
+import 'package:peepl/utils/jwt.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
-import 'package:roost/services.dart';
+import 'package:peepl/services.dart';
 import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
@@ -92,7 +92,7 @@ class AppFactory {
             logger.info('relogin');
             final FirebaseUser currentUser = await firebaseAuth.currentUser();
             IdTokenResult token = await currentUser.getIdToken();
-            jwtToken = await api.login(token.token, initialState.userState.accountAddress, initialState.userState.identifier, appName: "Roost");
+            jwtToken = await api.login(token.token, initialState.userState.accountAddress, initialState.userState.identifier, appName: "Peepl");
           }
 
           logger.info('jwt: $jwtToken');

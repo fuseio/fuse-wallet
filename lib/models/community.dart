@@ -1,9 +1,9 @@
-import 'package:roost/models/business.dart';
-import 'package:roost/models/community_metadata.dart';
-import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/plugins/plugins.dart';
-import 'package:roost/models/token.dart';
-import 'package:roost/models/transactions/transactions.dart';
+import 'package:peepl/models/business.dart';
+import 'package:peepl/models/community_metadata.dart';
+import 'package:peepl/models/jobs/base.dart';
+import 'package:peepl/models/plugins/plugins.dart';
+import 'package:peepl/models/token.dart';
+import 'package:peepl/models/transactions/transactions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';
