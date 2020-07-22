@@ -33,7 +33,7 @@ class _CreateWalletState extends State<CreateWallet> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'assets/images/roots_logo.jpg',
+                'assets/images/create-wallet-logo.png',
                 width: 350,
                 height: 550,
               ),
