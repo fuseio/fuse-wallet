@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/widgets/main_scaffold.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/widgets/main_scaffold.dart';
 import 'dart:core';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';

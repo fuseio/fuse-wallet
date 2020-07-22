@@ -1,6 +1,6 @@
-import 'package:roost/models/user_state.dart';
-import 'package:roost/models/cash_wallet_state.dart';
-import 'package:roost/models/pro/pro_wallet_state.dart';
+import 'package:peepl/models/user_state.dart';
+import 'package:peepl/models/cash_wallet_state.dart';
+import 'package:peepl/models/pro/pro_wallet_state.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'app_state.g.dart';

@@ -5,23 +5,23 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/splash.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/redux/actions/user_actions.dart';
-import 'package:roost/redux/state/store.dart';
-import 'package:roost/screens/pro_routes.gr.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/themes/app_theme.dart';
-import 'package:roost/themes/custom_theme.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/splash.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/redux/actions/user_actions.dart';
+import 'package:peepl/redux/state/store.dart';
+import 'package:peepl/screens/pro_routes.gr.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/themes/app_theme.dart';
+import 'package:peepl/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:roost/generated/i18n.dart';
+import 'package:peepl/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv().load('.env_roost');
+  await DotEnv().load('.env_prod');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runZonedGuarded<Future<void>>(() async => runApp(await customThemeApp()),
       (Object error, StackTrace stackTrace) async {
@@ -119,7 +119,7 @@ class _MyAppState extends State<MyApp> {
             return new Column(children: <Widget>[
               Expanded(
                   child: MaterialApp(
-                title: 'Roost wallet',
+                title: 'Peepl',
                 initialRoute: isProMode
                     ? ProRouter.proModeHomeScreen
                     : widget.initialRoute,

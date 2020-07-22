@@ -1,16 +1,19 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/bottom_bar.dart';
-import 'package:roost/screens/buy/buy.dart';
-import 'package:roost/screens/cash_home/cash_header.dart';
-import 'package:roost/screens/cash_home/cash_home.dart';
-import 'package:roost/widgets/bottom_bar_item.dart';
-import 'package:roost/widgets/drawer.dart';
-import 'package:roost/widgets/my_app_bar.dart';
-import 'package:roost/widgets/tabs_scaffold.dart';
-import 'package:roost/screens/cash_home/webview_page.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/bottom_bar.dart';
+import 'package:peepl/screens/buy/buy.dart';
+import 'package:peepl/screens/cash_home/cash_header.dart';
+import 'package:peepl/screens/cash_home/cash_home.dart';
+import 'package:peepl/screens/send/contacts_list.dart';
+import 'package:peepl/screens/send/receive.dart';
+import 'package:peepl/screens/send/send_contact.dart';
+import 'package:peepl/widgets/bottom_bar_item.dart';
+import 'package:peepl/widgets/drawer.dart';
+import 'package:peepl/widgets/my_app_bar.dart';
+import 'package:peepl/widgets/tabs_scaffold.dart';
 
 class CashModeScaffold extends StatefulWidget {
   final int tabIndex;
@@ -28,15 +31,13 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     _currentIndex = widget.tabIndex;
   }
 
-  List<Widget> _pages(String walletAddress) {
+  List<Widget> _pages(List<Contact> contacts) {
+    bool hasContactsInStore = contacts.isNotEmpty;
     return [
       CashHomeScreen(),
-      WebViewPage(
-          pageArgs: WebViewPageArguments(
-              withBack: false,
-              url: 'https://app.roostnow.co.uk/home?wallet=$walletAddress',
-              title: 'Your Home')),
+      !hasContactsInStore ? SendToContactScreen() : ContactsList(),
       BuyScreen(),
+      ReceiveScreen()
     ];
   }
 
@@ -51,7 +52,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
     return new StoreConnector<AppState, BottomBarViewModel>(
         converter: BottomBarViewModel.fromStore,
         builder: (_, vm) {
-          final List<Widget> pages = _pages(vm.walletAddress);
+          final List<Widget> pages = _pages(vm.contacts);
           return TabsScaffold(
               header: MyAppBar(
                 height: 230.0,
@@ -71,10 +72,10 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
                 backgroundColor: Theme.of(context).bottomAppBarColor,
                 showUnselectedLabels: true,
                 items: [
-                  bottomBarItem(I18n.of(context).wallet, 'receive'),
-                  bottomBarItem(I18n.of(context).your_home, 'home'),
-                  bottomBarItem(I18n.of(context).pay_rent, 'rent'),
-                  // bottomBarItem(I18n.of(context).receive, 'receive'),
+                  bottomBarItem(I18n.of(context).home, 'home'),
+                  bottomBarItem(I18n.of(context).send_button, 'send'),
+                  bottomBarItem(I18n.of(context).buy, 'buy'),
+                  bottomBarItem(I18n.of(context).receive, 'receive'),
                 ],
               ));
         });

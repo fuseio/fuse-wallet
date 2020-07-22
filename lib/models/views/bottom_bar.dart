@@ -1,8 +1,8 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:redux/redux.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/utils/addresses.dart' as util;
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/utils/addresses.dart' as util;
 
 class BottomBarViewModel extends Equatable {
   final String communityAddres;

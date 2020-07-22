@@ -1,5 +1,5 @@
 import 'package:redux/redux.dart';
-import 'package:roost/redux/actions/error_actions.dart';
+import 'package:peepl/redux/actions/error_actions.dart';
 
 final errorReducers = combineReducers<dynamic>([
   TypedReducer<dynamic, ErrorAction>(_handleError)

@@ -2,11 +2,11 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/contacts.dart';
-import 'package:roost/utils/contacts.dart';
-import 'package:roost/widgets/primary_button.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/contacts.dart';
+import 'package:peepl/utils/contacts.dart';
+import 'package:peepl/widgets/primary_button.dart';
 import 'dart:core';
 
 class ContactsConfirmationScreen extends StatefulWidget {

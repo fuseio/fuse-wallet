@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:roost/models/community.dart';
-import 'package:roost/models/plugins/fee_base.dart';
-import 'package:roost/models/pro/token.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/utils/addresses.dart';
-import 'package:roost/utils/format.dart';
-import 'package:roost/utils/barcode.dart';
+import 'package:peepl/models/community.dart';
+import 'package:peepl/models/plugins/fee_base.dart';
+import 'package:peepl/models/pro/token.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/utils/addresses.dart';
+import 'package:peepl/utils/format.dart';
+import 'package:peepl/utils/barcode.dart';
 import 'package:redux/redux.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/widgets/raised_gradient_button.dart';
+import 'package:peepl/widgets/raised_gradient_button.dart';
 
 class ProHeader extends StatelessWidget {
   @override

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/community.dart';
-import 'package:roost/models/plugins/plugins.dart';
-import 'package:roost/screens/cash_home/webview_page.dart';
-import 'package:roost/screens/pro_routes.gr.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/utils/addresses.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/community.dart';
+import 'package:peepl/models/plugins/plugins.dart';
+import 'package:peepl/screens/cash_home/webview_page.dart';
+import 'package:peepl/screens/pro_routes.gr.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/models/app_state.dart';
 import 'dart:core';
 
 class DepositDaiDialog extends StatefulWidget {

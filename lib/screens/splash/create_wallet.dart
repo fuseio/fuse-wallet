@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/splash.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/widgets/primary_button.dart';
-import 'package:roost/widgets/transparent_button.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/splash.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/widgets/primary_button.dart';
+import 'package:peepl/widgets/transparent_button.dart';
 
 class CreateWallet extends StatefulWidget {
   @override

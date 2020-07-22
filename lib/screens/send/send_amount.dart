@@ -1,19 +1,19 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/community.dart';
-// import 'package:roost/models/views/send_amount.dart';
-import 'package:roost/screens/send/send_amount_arguments.dart';
-import 'package:roost/screens/send/send_review.dart';
-import 'package:roost/utils/format.dart';
-import 'package:roost/widgets/main_scaffold.dart';
-import 'package:roost/widgets/primary_button.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/community.dart';
+// import 'package:peepl/models/views/send_amount.dart';
+import 'package:peepl/screens/send/send_amount_arguments.dart';
+import 'package:peepl/screens/send/send_review.dart';
+import 'package:peepl/utils/format.dart';
+import 'package:peepl/widgets/main_scaffold.dart';
+import 'package:peepl/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/models/app_state.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/token.dart';
+import 'package:peepl/models/token.dart';
 
 class SendAmountScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

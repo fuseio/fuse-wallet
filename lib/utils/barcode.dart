@@ -1,11 +1,11 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:roost/models/plugins/fee_base.dart';
-import 'package:roost/models/pro/token.dart';
-import 'package:roost/screens/pro_mode/assets_list.dart';
-import 'package:roost/screens/send/send_amount.dart';
-import 'package:roost/screens/send/send_amount_arguments.dart';
+import 'package:peepl/models/plugins/fee_base.dart';
+import 'package:peepl/models/pro/token.dart';
+import 'package:peepl/screens/pro_mode/assets_list.dart';
+import 'package:peepl/screens/send/send_amount.dart';
+import 'package:peepl/screens/send/send_amount_arguments.dart';
 
 bracodeScannerHandler(BuildContext context,
     {bool isProMode = false, Token daiToken, FeePlugin feePlugin}) async {

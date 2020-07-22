@@ -3,16 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/views/drawer.dart';
-import 'package:roost/screens/backup/show_mnemonic.dart';
-import 'package:roost/screens/cash_home/webview_page.dart';
-import 'package:roost/screens/cash_home/switch_commmunity.dart';
-import 'package:roost/screens/misc/settings.dart';
-import 'package:roost/utils/forks.dart';
-import 'package:roost/utils/format.dart';
+import 'package:peepl/models/views/drawer.dart';
+import 'package:peepl/screens/backup/show_mnemonic.dart';
+import 'package:peepl/screens/cash_home/webview_page.dart';
+import 'package:peepl/screens/cash_home/switch_commmunity.dart';
+import 'package:peepl/screens/misc/settings.dart';
+import 'package:peepl/utils/forks.dart';
+import 'package:peepl/utils/format.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 

@@ -1,16 +1,16 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/transactions/transaction.dart';
-import 'package:roost/models/transactions/transfer.dart';
-import 'package:roost/models/views/contacts.dart';
-import 'package:roost/screens/send/contact_tile.dart';
-import 'package:roost/screens/send/send_amount.dart';
-import 'package:roost/screens/send/send_amount_arguments.dart';
-import 'package:roost/utils/send.dart';
-import 'package:roost/utils/transaction_row.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/transactions/transaction.dart';
+import 'package:peepl/models/transactions/transfer.dart';
+import 'package:peepl/models/views/contacts.dart';
+import 'package:peepl/screens/send/contact_tile.dart';
+import 'package:peepl/screens/send/send_amount.dart';
+import 'package:peepl/screens/send/send_amount_arguments.dart';
+import 'package:peepl/utils/send.dart';
+import 'package:peepl/utils/transaction_row.dart';
 
 class RecentContacts extends StatelessWidget {
   final int numToShow;

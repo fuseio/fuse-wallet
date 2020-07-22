@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>629222004995-kumjfdfbirkn3r2fgm3gp6iqaoo3d3eu.apps.googleusercontent.com</string>
+	<string>629222004995-d9beogo7m7ojbmtidnsqn0vi358bmuju.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.629222004995-kumjfdfbirkn3r2fgm3gp6iqaoo3d3eu</string>
+	<string>com.googleusercontent.apps.629222004995-d9beogo7m7ojbmtidnsqn0vi358bmuju</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>629222004995-25990m7kb0gna0jf7d5bn46r3ivc8ejp.apps.googleusercontent.com</string>
+	<string>629222004995-fcj9uk0ma0od2bimjtggq3hint2drnmt.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAoWtl4KOuR_F45q4wIfnRuKtxsmgzmY4I</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.roostnow.Roost</string>
+	<string>com.itsaboutpeepl.peepl</string>
 	<key>PROJECT_ID</key>
 	<string>roost-60f71</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:629222004995:ios:df462d12cfa1277cbe3136</string>
+	<string>1:629222004995:ios:9d3826a77000cbe7be3136</string>
 	<key>DATABASE_URL</key>
 	<string>https://roost-60f71.firebaseio.com</string>
 </dict>

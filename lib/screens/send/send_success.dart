@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/screens/pro_routes.gr.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/screens/send/send_amount_arguments.dart';
-import 'package:roost/widgets/main_scaffold.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/screens/pro_routes.gr.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/screens/send/send_amount_arguments.dart';
+import 'package:peepl/widgets/main_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

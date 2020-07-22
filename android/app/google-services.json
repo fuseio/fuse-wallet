@@ -8,12 +8,120 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:629222004995:android:20efad9be3131fc5be3136",
+        "android_client_info": {
+          "package_name": "com.itsaboutpeepl.peepl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlZZHB3SD_-hgUuQ9G6xHUdrlXMCj6JbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "629222004995-kumjfdfbirkn3r2fgm3gp6iqaoo3d3eu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.roostnow.Roost"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:629222004995:android:a4fbd56515df6654be3136",
         "android_client_info": {
           "package_name": "com.roostnow.Roost"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "629222004995-fcj9uk0ma0od2bimjtggq3hint2drnmt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "65ebe54df2b42c5ff5d5c3384dd443cbc5b1d76f"
+          }
+        },
+        {
+          "client_id": "629222004995-hb4d9qsfle0860o49nd75usjlho79emp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
+          "client_id": "629222004995-25990m7kb0gna0jf7d5bn46r3ivc8ejp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
+          }
+        },
+        {
+          "client_id": "629222004995-ecki81ackgemfcai3iv93c0jk4ompbp3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "6ef39bd8ccb23c9a98a00f615c21c0732cc8097b"
+          }
+        },
+        {
+          "client_id": "629222004995-65547lhfttca6gm0rfujduqcqmjui68b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "ff0350a69bf0ce5bd0840044ecc754e7d3680e74"
+          }
+        },
+        {
+          "client_id": "629222004995-5hlfe6piq7vlpkod900u5t5e6n34s18p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "45ceff1f5f49fdecae14ccc13974544f97fa83bf"
+          }
+        },
+        {
+          "client_id": "629222004995-e3m9vnt4atbgft7lvaevluu9rf7fepc6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "e69185290b29a29589349975b5cdebc080f0d7d5"
+          }
+        },
+        {
+          "client_id": "629222004995-ivqlu45v731af5isqkussbvkt8mmbv9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "6ca2aa88d7f3894dacc644063e3b1049ec5b5a53"
+          }
+        },
+        {
+          "client_id": "629222004995-qomdnlb455rfndtf3745vee8tbt53pgk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "64a998c9100ef3d9cfd6b33f942e3a7e13fa78df"
+          }
+        },
         {
           "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
           "client_type": 3
