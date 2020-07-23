@@ -506,6 +506,8 @@ ThunkAction getWalletAddressessCall() {
             communityManagerAddress: communityManagerAddress,
             transferManagerAddress: transferManagerAddress,
             dAIPointsManagerAddress: dAIPointsManagerAddress));
+      } else {
+        store.dispatch(activateProModeCall());
       }
       store.dispatch(initWeb3Call(privateKey,
           communityManagerAddress: communityManagerAddress,
