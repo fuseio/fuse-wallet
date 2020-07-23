@@ -248,8 +248,6 @@ class I18n implements WidgetsLocalizations {
   String get sendToCashMode => "Send to cash mode";
   /// "Your Home"
   String get your_home => "Your Home";
-  /// "Pay Rent"
-  String get pay_rent => "Pay Rent";
 }
 
 class _I18n_en_US extends I18n {
