@@ -678,8 +678,8 @@ ThunkAction inviteAndSendCall(
     final logger = await AppFactory().getLogger('action');
     try {
       String senderName = store.state.userState.displayName;
-      dynamic response = await api.invite(
-          contactPhoneNumber, store.state.cashWalletState.communityAddress,
+      dynamic response = await api.invite(contactPhoneNumber,
+          communityAddress: store.state.cashWalletState.communityAddress,
           name: senderName,
           amount: tokensAmount.toString(),
           symbol: token.symbol);
@@ -1001,11 +1001,22 @@ ThunkAction fetchCommunityMetadataCall(String communityURI) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      String uri = communityURI.split('://')[1];
-      dynamic metadata = await api.fetchMetadata(uri);
+      // String tempUri =
+      //     "https://studio.fuse.io/api/v1/metadata/5f19a547c956c30019dc12d3";
+      dynamic metadata;
+      if (communityURI.startsWith('ipfs://')) {
+        String uri = communityURI.split('://').last;
+        metadata = await api.fetchMetadata(uri);
+      } else {
+        String uri = communityURI.split('/').last;
+        logger.info('fetchCommunityMetadataCall $uri');
+        metadata = await api.fetchMetadata(uri);
+      }
       CommunityMetadata communityMetadata = new CommunityMetadata(
-          image: metadata['image'],
-          coverPhoto: metadata['coverPhoto'],
+          image: metadata['image'] ?? null,
+          coverPhoto: metadata['coverPhoto'] ?? null,
+          imageUri: metadata['imageUri'] ?? null,
+          coverPhotoUri: metadata['coverPhotoUri'] ?? null,
           isDefaultImage:
               metadata['isDefault'] != null ? metadata['isDefault'] : false);
       store.dispatch(FetchCommunityMetadataSuccess(communityMetadata));
@@ -1089,6 +1100,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String webUrl = communityData['webUrl'];
+      store.dispatch(fetchCommunityMetadataCall(communityData['communityURI']));
       store.dispatch(new SwitchCommunitySuccess(
           communityAddress: communityAddress,
           communityName: current.name,

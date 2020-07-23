@@ -1,6 +1,5 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:digitalrand/utils/format.dart';
-import 'package:digitalrand/utils/transaction_row.dart';
 import 'package:equatable/equatable.dart';
 import 'package:digitalrand/models/community/community.dart';
 import 'package:digitalrand/models/tokens/token.dart';
@@ -69,7 +68,7 @@ class HomeViewModel extends Equatable {
         .toList();
     List<Token> homeTokens = communities
         .map((Community community) => community.token
-            .copyWith(imageUrl: getIPFSImageUrl(community.metadata.image)))
+            .copyWith(imageUrl: community.metadata.getImageUri()))
         .toList();
     List<Token> tokens = [...homeTokens, ...erc20Tokens]
         .where((Token token) =>

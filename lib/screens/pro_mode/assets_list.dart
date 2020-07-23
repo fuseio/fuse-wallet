@@ -91,7 +91,7 @@ class _AssetsListViewModel extends Equatable {
 
     List<Token> homeTokens = communities
         .map((Community community) => community.token
-            .copyWith(imageUrl: getIPFSImageUrl(community.metadata.image)))
+            .copyWith(imageUrl: community.metadata.getImageUri()))
         .toList();
     return _AssetsListViewModel(
       walletAddress: store.state.userState.walletAddress,

@@ -191,12 +191,11 @@ ThunkAction startListenToTransferEvents() {
             addressesFromTransfersEvents
               ..removeWhere(
                   (address) => proWalletState.erc20Tokens.containsKey(address));
-            logger.info(
-                'addressesFromTransfersEvents addressesFromTransfersEvents ${addressesFromTransfersEvents.length}');
             if (addressesFromTransfersEvents.isNotEmpty) {
               store.dispatch(getBalancesOnForeign(
                   addressesFromTransfersEvents: addressesFromTransfersEvents));
               store.dispatch(startFetchBalancesOnForeign());
+              store.dispatch(startFetchTokensLastestPrices());
             }
             timer.cancel();
           }
@@ -287,7 +286,6 @@ ThunkAction fetchTokensLatestPrice() {
               store.state.proWalletState.erc20Tokens[token.address];
           store.dispatch(UpdateToken(
               tokenToUpdate: tokenToUpdate.copyWith(priceInfo: priceInfo)));
-          store.dispatch(updateTotalBalance());
           store.dispatch(updateTotalBalance());
           store.dispatch(ClearTokenList());
         };
@@ -603,8 +601,8 @@ ThunkAction inviteAndSendCall(
     final logger = await AppFactory().getLogger('action');
     try {
       String senderName = store.state.userState.displayName;
-      dynamic response = await api.invite(
-          contactPhoneNumber, store.state.cashWalletState.communityAddress,
+      dynamic response = await api.invite(contactPhoneNumber,
+          communityAddress: store.state.cashWalletState.communityAddress,
           name: senderName,
           amount: tokensAmount.toString(),
           symbol: token.symbol);

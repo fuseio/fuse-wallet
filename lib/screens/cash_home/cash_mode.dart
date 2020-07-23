@@ -103,6 +103,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       store.dispatch(startFetchBalancesOnForeign());
       store.dispatch(startFetchTransferEventsCall());
       store.dispatch(fetchTokensBalances());
+      store.dispatch(startFetchTokensLastestPrices());
       store.dispatch(startProcessingTokensJobsCall());
     }
   }

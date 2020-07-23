@@ -19,7 +19,9 @@ String reduce(dynamic formatedValue) {
       ? decimalValue.toStringAsFixed(1)
       : decimalValue.isInteger
           ? decimalValue.toString()
-          : decimalValue.toStringAsPrecision(1);
+          : decimalValue.precision > 9
+              ? decimalValue.toStringAsFixed(2)
+              : decimalValue.toString();
 }
 
 String formatValue(BigInt value, int decimals,
