@@ -34,8 +34,13 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
       WebViewPage(
           pageArgs: WebViewPageArguments(
               withBack: false,
-              url: 'https://app.roostnow.co.uk/home?wallet=$walletAddress',
-              title: 'Your Home')),
+              url: 'https://app.itsaboutpeepl.com/today?wallet=$walletAddress',
+              title: 'Today')),
+      WebViewPage(
+          pageArgs: WebViewPageArguments(
+              withBack: false,
+              url: 'https://app.itsaboutpeepl.com/topup?wallet=$walletAddress',
+              title: 'Top Up')),
       BuyScreen(),
     ];
   }
@@ -71,8 +76,9 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
                 backgroundColor: Theme.of(context).bottomAppBarColor,
                 showUnselectedLabels: true,
                 items: [
-                  bottomBarItem(I18n.of(context).wallet, 'receive'),
-                  bottomBarItem(I18n.of(context).your_home, 'home'),
+                  bottomBarItem(I18n.of(context).wallet, 'home'),
+                  bottomBarItem(I18n.of(context).today_screen, 'today'),
+                  bottomBarItem(I18n.of(context).topup_screen, 'receive'),
                   bottomBarItem(I18n.of(context).buy, 'buy'),
                   // bottomBarItem(I18n.of(context).receive, 'receive'),
                 ],
