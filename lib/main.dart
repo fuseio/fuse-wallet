@@ -2,11 +2,12 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/screens/route_guards.dart';
 import 'package:fusecash/screens/routes.gr.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final i18n = I18n.delegate;
+  StreamSubscription<Map> streamSubscription;
 
   void onLocaleChange(Locale locale) {
     setState(() {
@@ -61,9 +63,55 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void listenDynamicLinks(Store<AppState> store) async {
+    final logger = await AppFactory().getLogger('action');
+    logger.info("branch listening.");
+    store.dispatch(BranchListening());
+    streamSubscription =
+        FlutterBranchSdk.initSession().listen((linkData) async {
+      logger.info("Got link data: ${linkData.toString()}");
+      if (linkData["~feature"] == "switch_community") {
+        var communityAddress = linkData["community_address"];
+        logger.info("communityAddress $communityAddress");
+        store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          'Referral': linkData["~feature"],
+          'Referral link': linkData['~referring_link']
+        })));
+        store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite",
+            properties: new Map<String, dynamic>.from(linkData)));
+      }
+      if (linkData["~feature"] == "invite_user") {
+        var communityAddress = linkData["community_address"];
+        logger.info("community_address $communityAddress");
+        store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          'Referral': linkData["~feature"],
+          'Referral link': linkData['~referring_link']
+        })));
+        store.dispatch(segmentTrackCall("Wallet: Branch: User Invite",
+            properties: new Map<String, dynamic>.from(linkData)));
+      }
+      store.dispatch(BranchDataReceived());
+    }, onError: (error) {
+      PlatformException platformException = error as PlatformException;
+      print(
+          'InitSession error: ${platformException.code} - ${platformException.message}');
+      logger.severe('ERROR - FlutterBranchSdk initSession $error');
+      store.dispatch(BranchListeningStopped());
+    }, cancelOnError: true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    streamSubscription.cancel();
+  }
+
   @override
   void initState() {
     super.initState();
+    listenDynamicLinks(widget.store);
     I18n.onLocaleChanged = onLocaleChange;
   }
 
@@ -75,10 +123,13 @@ class _MyAppState extends State<MyApp> {
           title: 'Fuse Cash',
           builder: ExtendedNavigator.builder(
             router: Router(),
+            initialRoute: "/",
             guards: [AuthGuard()],
-            builder: (_, extendedNav) => extendedNav,
+            builder: (_, extendedNav) => Theme(
+              data: CustomTheme.of(context),
+              child: extendedNav,
+            ),
           ),
-          theme: CustomTheme.of(context),
           localizationsDelegates: [
             i18n,
             CountryLocalizations.delegate,
@@ -89,7 +140,6 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: i18n.supportedLocales,
           localeResolutionCallback:
               i18n.resolution(fallback: new Locale("en", "US")),
-          navigatorObservers: [SegmentObserver()],
         ));
   }
 }

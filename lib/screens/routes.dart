@@ -13,8 +13,9 @@ import 'package:fusecash/screens/splash/splash.dart';
 import 'package:fusecash/screens/send_flow/send_amount.dart';
 import 'package:fusecash/screens/send_flow/send_review.dart';
 import 'package:fusecash/screens/send_flow/send_success.dart';
+import 'package:fusecash/screens/unknown_route.dart';
 
-@MaterialAutoRouter(routes: [
+@MaterialAutoRouter(generateNavigationHelperExtension: true, routes: [
   MaterialRoute(page: LockScreen, name: 'lockScreen', initial: true),
   MaterialRoute(page: SecurityScreen, name: 'securityScreen'),
   MaterialRoute(page: ColorsPincodeScreen, name: 'pincode'),
@@ -28,5 +29,6 @@ import 'package:fusecash/screens/send_flow/send_success.dart';
   MaterialRoute(guards: [AuthGuard], page: SendAmountScreen),
   MaterialRoute(guards: [AuthGuard], page: SendReviewScreen),
   MaterialRoute(guards: [AuthGuard], page: SendSuccessScreen),
+  AdaptiveRoute(path: '*', page: UnknownRouteScreen)
 ])
 class $Router {}

@@ -6,7 +6,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/contact_tile.dart';
+import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/utils/send.dart';
 import 'package:fusecash/utils/transaction_util.dart';
 

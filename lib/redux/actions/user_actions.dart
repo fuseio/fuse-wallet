@@ -59,9 +59,8 @@ class SetSecurityType {
 class VerifyRequest {
   final String verificationId;
   final String verificationCode;
-  final GlobalKey<ScaffoldState> key;
 
-  VerifyRequest({@required this.verificationId, @required this.verificationCode, @required this.key});
+  VerifyRequest({@required this.verificationId, @required this.verificationCode});
 
   @override
   String toString() {
@@ -459,6 +458,11 @@ ThunkAction activateProModeCall() {
         logger.info('Create wallet on foreign jobId - $jobId');
         store.dispatch(segmentTrackCall('Activate pro mode clicked'));
         store.dispatch(startListenToTransferEvents());
+        store.dispatch(startFetchBalancesOnForeign());
+        store.dispatch(fetchTokensBalances());
+        store.dispatch(startFetchTransferEventsCall());
+        store.dispatch(startFetchTokensLastestPrices());
+        store.dispatch(startProcessingTokensJobsCall());
         store.dispatch(segmentIdentifyCall(
         Map<String, dynamic>.from({
           "Pro mode active": true,

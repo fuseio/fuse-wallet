@@ -104,8 +104,6 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                           onChanged: (value) {
                                             if (value == viewModel.pincode) {
                                               ExtendedNavigator.root
-                                                  .popUntilRoot();
-                                              ExtendedNavigator.root
                                                   .replace(
                                                       Routes.homePage);
                                             }

@@ -24,6 +24,7 @@ import 'signup/signup.dart';
 import 'signup/username.dart';
 import 'signup/verify.dart';
 import 'splash/splash.dart';
+import 'unknown_route.dart';
 
 class Routes {
   static const String lockScreen = '/';
@@ -39,6 +40,7 @@ class Routes {
   static const String sendAmountScreen = '/send-amount-screen';
   static const String sendReviewScreen = '/send-review-screen';
   static const String sendSuccessScreen = '/send-success-screen';
+  static const String unknownRouteScreen = '*';
   static const all = <String>{
     lockScreen,
     securityScreen,
@@ -53,6 +55,7 @@ class Routes {
     sendAmountScreen,
     sendReviewScreen,
     sendSuccessScreen,
+    unknownRouteScreen,
   };
 }
 
@@ -76,6 +79,7 @@ class Router extends RouterBase {
         page: SendReviewScreen, guards: [AuthGuard]),
     RouteDef(Routes.sendSuccessScreen,
         page: SendSuccessScreen, guards: [AuthGuard]),
+    RouteDef(Routes.unknownRouteScreen, page: UnknownRouteScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -181,7 +185,86 @@ class Router extends RouterBase {
         settings: data,
       );
     },
+    UnknownRouteScreen: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => UnknownRouteScreen(),
+        settings: data,
+      );
+    },
   };
+}
+
+/// ************************************************************************
+/// Navigation helper methods extension
+/// *************************************************************************
+
+extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
+  Future<dynamic> pushLockScreen() => push<dynamic>(Routes.lockScreen);
+
+  Future<dynamic> pushSecurityScreen() => push<dynamic>(Routes.securityScreen);
+
+  Future<dynamic> pushPincode() => push<dynamic>(Routes.pincode);
+
+  Future<dynamic> pushRecoveryPage() => push<dynamic>(Routes.recoveryPage);
+
+  Future<dynamic> pushSplashScreen() => push<dynamic>(Routes.splashScreen);
+
+  Future<dynamic> pushSignupScreen() => push<dynamic>(Routes.signupScreen);
+
+  Future<dynamic> pushVerifyScreen({
+    String verificationId,
+  }) =>
+      push<dynamic>(
+        Routes.verifyScreen,
+        arguments: VerifyScreenArguments(verificationId: verificationId),
+      );
+
+  Future<dynamic> pushUserNameScreen() => push<dynamic>(Routes.userNameScreen);
+
+  Future<dynamic> pushWebview({
+    String url,
+    String title,
+    bool withBack,
+  }) =>
+      push<dynamic>(
+        Routes.webview,
+        arguments:
+            WebViewPageArguments(url: url, title: title, withBack: withBack),
+      );
+
+  Future<dynamic> pushHomePage({Key key, OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.homePage,
+        arguments: HomePageArguments(key: key),
+        onReject: onReject,
+      );
+
+  Future<dynamic> pushSendAmountScreen(
+          {SendAmountArguments pageArgs, OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.sendAmountScreen,
+        arguments: SendAmountScreenArguments(pageArgs: pageArgs),
+        onReject: onReject,
+      );
+
+  Future<dynamic> pushSendReviewScreen(
+          {SendAmountArguments pageArgs, OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.sendReviewScreen,
+        arguments: SendReviewScreenArguments(pageArgs: pageArgs),
+        onReject: onReject,
+      );
+
+  Future<dynamic> pushSendSuccessScreen(
+          {SendAmountArguments pageArgs, OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.sendSuccessScreen,
+        arguments: SendSuccessScreenArguments(pageArgs: pageArgs),
+        onReject: onReject,
+      );
+
+  Future<dynamic> pushUnknownRouteScreen() =>
+      push<dynamic>(Routes.unknownRouteScreen);
 }
 
 /// ************************************************************************

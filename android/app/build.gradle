@@ -42,6 +42,7 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        checkReleaseBuilds false
     }
 
     defaultConfig {
@@ -67,7 +68,6 @@ android {
             signingConfig signingConfigs.release
 
             minifyEnabled true
-            useProguard true
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

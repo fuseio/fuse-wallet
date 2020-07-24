@@ -4,7 +4,7 @@ final String foreignNetwork = DotEnv().env['MODE'] == 'production' ? 'mainnet' :
 
 final String zeroAddress = "0x0000000000000000000000000000000000000000";
 
-final String defaultCommunityAddress = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase();
+final String defaultCommunityAddress = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'];
 
 final String daiTokenAddress = DotEnv().env['DAI_TOKEN'];
 
@@ -14,5 +14,5 @@ final Map<String, String> funderAddresses = {
 };
 
 bool isDefaultCommunity(String communityAddress) {
-  return (communityAddress != null && defaultCommunityAddress != null) && defaultCommunityAddress == communityAddress.toLowerCase();
+  return (communityAddress != null && defaultCommunityAddress != null) && defaultCommunityAddress.toLowerCase() == communityAddress.toLowerCase();
 }

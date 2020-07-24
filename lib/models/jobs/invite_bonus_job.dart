@@ -35,7 +35,6 @@ class InviteBonusJob extends Job {
   onDone(store, dynamic fetchedData) async {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
-      this.status = 'FAILED';
       logger.info('InviteBonusJob FAILED');
       store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['']));
       store.dispatch(segmentTrackCall('Wallet: InviteBonusJob FAILED'));
@@ -51,7 +50,6 @@ class InviteBonusJob extends Job {
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('InviteBonusJob FAILED');
-      this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
@@ -64,14 +62,17 @@ class InviteBonusJob extends Job {
       dynamic data = response['data'];
       String responseStatus = data['status'];
       if (responseStatus == 'SUCCEEDED') {
-        this.status = 'DONE';
+        logger.info('InviteBonusJob SUCCEEDED');
         store.dispatch(inviteBonusSuccessCall(data['txHash'], arguments['inviteBonus'], arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
-        logger.info('InviteBonusJob SUCCEEDED');
+        store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
         return;
       } else if (responseStatus == 'FAILED') {
-        this.status = 'FAILED';
         logger.info('InviteBonusJob FAILED');
+        String failReason = fetchedData['failReason'];
+        store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['communityAddress']));
+        store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+        store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
       }
     }
   }

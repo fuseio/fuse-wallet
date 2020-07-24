@@ -60,15 +60,12 @@ class BackupJob extends Job {
       dynamic response = await api.getFunderJob(funderJobId);
       dynamic data = response['data'];
       if (data['status'] == 'SUCCEEDED') {
-        this.status = 'DONE';
         store.dispatch(backupSuccessCall(data['txHash'], arguments['backupBonus'], arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         return;
       } else if (status == 'FAILED') {
-        this.status = 'FAILED';
-        store.dispatch(segmentTrackCall('Wallet: FAILED job $id $name'));
-      } else if (status == 'STARTED') {
-        logger.info('BackupJob job not done');
+        store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress']));
+        store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id })));
       }
     }
   }

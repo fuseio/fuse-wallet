@@ -104,10 +104,8 @@ class JobFactory {
 
   static Job create(Map json) {
     String jobType = JobFactory.getJobType(json);
-    print('jobType jobType jobType $jobType');
     String id = json.containsKey('_id') ? json['_id'] : json['id'];
     String status = json.containsKey('status') ? json['status'] : 'PENDING';
-    print('status status status $status');
     switch (jobType) {
       case 'setWalletOwner':
         return new GenerateWalletJob(

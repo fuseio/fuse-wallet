@@ -4,12 +4,10 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/transaction_util.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:contacts_service/contacts_service.dart';
 
 class HomeViewModel extends Equatable {
   final List<Token> tokens;
@@ -27,10 +25,7 @@ class HomeViewModel extends Equatable {
   final String walletStatus;
   final Function(String) switchCommunity;
   final Function() startTransfersFetching;
-  final Function() listenToBranch;
-  final Function(List<Contact>) syncContacts;
   final Function() branchCommunityUpdate;
-  final Function() syncContactsRejected;
   final Function() startProcessingJobs;
   final Function() setIdentifier;
   final Function(CountryCode countryCode) setCountyCode;
@@ -48,10 +43,7 @@ class HomeViewModel extends Equatable {
     this.isBranchDataReceived,
     this.switchCommunity,
     this.startTransfersFetching,
-    this.listenToBranch,
-    this.syncContacts,
     this.branchCommunityUpdate,
-    this.syncContactsRejected,
     this.startProcessingJobs,
     this.setIdentifier,
     this.setCountyCode,
@@ -69,7 +61,7 @@ class HomeViewModel extends Equatable {
         .toList();
     List<Token> homeTokens = communities
         .map((Community community) => community.token
-            .copyWith(imageUrl: getIPFSImageUrl(community.metadata.image)))
+            .copyWith(imageUrl: community.metadata.getImageUri()))
         .toList();
     List<Token> tokens = [...homeTokens, ...erc20Tokens]
         .where((Token token) =>
@@ -95,8 +87,6 @@ class HomeViewModel extends Equatable {
         store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
     String identifier = store.state.userState.identifier;
-    bool isListeningToBranch =
-        store.state.cashWalletState.isListeningToBranch ?? false;
     List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
       ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return HomeViewModel(
@@ -121,17 +111,6 @@ class HomeViewModel extends Equatable {
         },
         startTransfersFetching: () {
           store.dispatch(startTransfersFetchingCall());
-        },
-        listenToBranch: () {
-          if (!isListeningToBranch) {
-            store.dispatch(listenToBranchCall());
-          }
-        },
-        syncContacts: (List<Contact> contacts) {
-          store.dispatch(syncContactsCall(contacts));
-        },
-        syncContactsRejected: () {
-          store.dispatch(new SyncContactsRejected());
         },
         branchCommunityUpdate: () {
           store.dispatch(switchCommunityCall(branchAddress));

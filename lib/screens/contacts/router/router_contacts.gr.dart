@@ -9,8 +9,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../contacts_list.dart';
-import '../empty_contacts.dart';
+import '../screens/contacts_list.dart';
+import '../screens/empty_contacts.dart';
 
 class ContactsRoutes {
   static const String contactsList = '/contacts-list';

@@ -71,8 +71,8 @@ void sendToPastedAddress(accountAddress) {
 
 bracodeScannerHandler() async {
   try {
-    String rawContent = await BarcodeScanner.scan();
-    List<String> parts = rawContent.split(':');
+    ScanResult scanResult = await BarcodeScanner.scan();
+    List<String> parts = scanResult.rawContent.split(':');
     bool expression = parts.length == 2 && parts[0] == 'ethereum';
     if (expression) {
       final String accountAddress = parts[1];

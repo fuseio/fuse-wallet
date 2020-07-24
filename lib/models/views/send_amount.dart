@@ -1,5 +1,4 @@
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/transaction_util.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -74,7 +73,7 @@ class SendAmountViewModel extends Equatable {
 
     List<Token> homeTokens = communities
         .map((Community community) => community.token
-            .copyWith(imageUrl: getIPFSImageUrl(community.metadata.image)))
+            .copyWith(imageUrl: community.metadata.getImageUri()))
         .toList();
     return SendAmountViewModel(
         tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>

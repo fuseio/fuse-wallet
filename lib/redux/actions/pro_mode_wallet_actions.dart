@@ -132,7 +132,6 @@ ThunkAction proTransactionFailed(String tokenAddrees, transfer) {
 
 ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddrees, transfer) {
   return (Store store) async {
-    // final logger = await AppFactory().getLogger('action');
     Transfer confirmedTx = transfer.copyWith(
         status: 'CONFIRMED',
         txHash: txHash,
@@ -317,7 +316,7 @@ ThunkAction startFetchBalancesOnForeign(
         store.state.proWalletState?.isFetchNewTokens ?? false;
     if (!isFetchNewTokens) {
       logger.info('Timer start - startFetchBalancesOnForeign');
-      new Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           store.dispatch(SetIsFetchNewTokens(isFetching: false));
           logger.severe('Timer stopped - startFetchBalancesOnForeign');
@@ -359,9 +358,6 @@ ThunkAction getBalancesOnForeign(
         for (String address in tokenAddresses) {
           store.dispatch(fetchTokenByAddress(address));
         }
-        store.dispatch(startFetchTransferEventsCall());
-        store.dispatch(fetchTokensBalances());
-        store.dispatch(startFetchTokensLastestPrices());
       }
     } catch (error) {
       logger.severe('Error in getBalancesOnForeign ${error.toString()}');

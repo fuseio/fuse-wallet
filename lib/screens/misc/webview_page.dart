@@ -17,7 +17,6 @@ class WebViewPage extends StatefulWidget {
 class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
-    // final WebViewPageArguments widget = this.widget.pageArgs;
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         return WebviewScaffold(

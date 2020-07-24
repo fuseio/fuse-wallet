@@ -181,35 +181,33 @@ class _SignupScreenState extends State<SignupScreen> {
                 StoreConnector<AppState, OnboardViewModel>(
                     distinct: true,
                     converter: OnboardViewModel.fromStore,
-                    builder: (_, viewModel) {
-                      return Center(
-                        child: PrimaryButton(
-                          label: I18n.of(context).next_button,
-                          fontSize: 16,
-                          labelFontWeight: FontWeight.normal,
-                          onPressed: () async {
-                            try {
-                              bool isValid = await PhoneService.isValid(
-                                  phoneController.text, countryCode.code);
-                              if (isValid) {
-                                viewModel.signUp(
-                                    countryCode, phoneController.text);
-                              } else {
+                    builder: (_, viewModel) => Center(
+                          child: PrimaryButton(
+                            label: I18n.of(context).next_button,
+                            fontSize: 16,
+                            labelFontWeight: FontWeight.normal,
+                            onPressed: () async {
+                              try {
+                                bool isValid = await PhoneService.isValid(
+                                    phoneController.text, countryCode.code);
+                                if (isValid) {
+                                  viewModel.signUp(
+                                      countryCode, phoneController.text);
+                                } else {
+                                  setState(() {
+                                    isvalidPhone = false;
+                                  });
+                                }
+                              } on PlatformException catch (e) {
+                                print(e);
                                 setState(() {
                                   isvalidPhone = false;
                                 });
                               }
-                            } on PlatformException catch (e) {
-                              print(e);
-                              setState(() {
-                                isvalidPhone = false;
-                              });
-                            }
-                          },
-                          preload: viewModel.isLoginRequest,
-                        ),
-                      );
-                    })
+                            },
+                            preload: viewModel.isLoginRequest,
+                          ),
+                        ))
               ],
             ),
           ),

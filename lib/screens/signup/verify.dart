@@ -7,12 +7,6 @@ import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
-// class VerifyScreenArguments {
-//   final String verificationId;
-
-//   VerifyScreenArguments({this.verificationId});
-// }
-
 class VerifyScreen extends StatefulWidget {
   final String verificationId;
   VerifyScreen({this.verificationId});
@@ -30,15 +24,13 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final VerifyScreenArguments widget = this.widget.pagewidget;
-    final _scaffoldKey = GlobalKey<ScaffoldState>();
-    return new StoreConnector<AppState, OnboardViewModel>(
+    return StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
         onInitialBuild: (viewModel) {
           if (viewModel.credentials != null) {
             autoCode = viewModel.credentials.smsCode ?? "";
-            viewModel.verify(autoCode, widget.verificationId, _scaffoldKey);
+            viewModel.verify(autoCode, widget.verificationId);
           }
         },
         builder: (_, viewModel) {
@@ -66,12 +58,12 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             fontWeight: FontWeight.normal,
                           )),
                       Padding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                             left: 0.0, top: 10.0, right: 0.0),
                         child: Container(
                           width: 280,
-                          child: new Theme(
-                              data: new ThemeData(
+                          child: Theme(
+                              data: ThemeData(
                                   hintColor: Theme.of(context)
                                       .scaffoldBackgroundColor),
                               child: PinInputTextField(
@@ -93,7 +85,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
               ],
               footer: Container(
                   child: Column(children: <Widget>[
-                const SizedBox(height: 10.0),
+                SizedBox(height: 10.0),
                 Center(
                   child: PrimaryButton(
                     label: I18n.of(context).next_button,
@@ -101,7 +93,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     fontSize: 16,
                     preload: viewModel.isVerifyRequest,
                     onPressed: () {
-                      viewModel.verify(verificationCodeController.text, widget.verificationId, _scaffoldKey);
+                      viewModel.verify(verificationCodeController.text, widget.verificationId);
                     },
                   ),
                 ),

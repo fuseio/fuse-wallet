@@ -3,7 +3,6 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
-import 'package:flutter/material.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/screens/routes.gr.dart';
@@ -24,7 +23,7 @@ class OnboardViewModel extends Equatable {
   final bool isLoginRequest;
   final bool isVerifyRequest;
   final Function(CountryCode, String) signUp;
-  final Function(String, String, GlobalKey) verify;
+  final Function(String, String) verify;
   final Function(String) setPincode;
   final Function(String) setDisplayName;
   final Function(BiometricAuth) setSecurityType;
@@ -97,11 +96,10 @@ class OnboardViewModel extends Equatable {
           verificationFailed: verificationFailed
         ));
       },
-      verify: (verificationCode, verificationId, key) {
+      verify: (verificationCode, verificationId) {
         store.dispatch(VerifyRequest(
           verificationCode: verificationCode,
           verificationId: verificationId,
-          key: key
         ));
       },
       setPincode: (pincode) {

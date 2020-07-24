@@ -49,8 +49,8 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
         child: InkWell(
           onTap: () async {
             try {
-              String json = await BarcodeScanner.scan();
-              Map jsonMap = jsonDecode(json);
+              ScanResult scanResult = await BarcodeScanner.scan();
+              Map jsonMap = jsonDecode(scanResult.rawContent);
               switchCommunity(jsonMap['communityAddress']);
               ExtendedNavigator.root.replace(Routes.homePage);
             } catch (e) {

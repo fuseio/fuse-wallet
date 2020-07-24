@@ -32,7 +32,6 @@ class InviteJob extends Job {
   onDone(store, dynamic fetchedData) async {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
-      this.status = 'FAILED';
       logger.info('InviteJob FAILED');
       store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: InviteJob FAILED'));
@@ -48,7 +47,6 @@ class InviteJob extends Job {
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('InviteJob FAILED');
-      this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
@@ -61,7 +59,6 @@ class InviteJob extends Job {
       logger.info('InviteJob job not done');
       return;
     }
-    this.status = 'DONE';
     if (arguments['tokenAddress'] != null) {
       store.dispatch(inviteProAndSendSuccessCall(
           job,
@@ -71,6 +68,7 @@ class InviteJob extends Job {
           arguments['inviteTransfer'],
           arguments['sendSuccessCallback'],
           arguments['sendFailureCallback']));
+      store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
     } else {
       store.dispatch(inviteAndSendSuccessCall(
           job,
@@ -81,6 +79,7 @@ class InviteJob extends Job {
           arguments['sendSuccessCallback'],
           arguments['sendFailureCallback'],
           arguments['communityAddress']));
+      store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
     }
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }

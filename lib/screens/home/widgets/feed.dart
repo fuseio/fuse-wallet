@@ -28,7 +28,6 @@ class FeedState extends State<Feed> {
     viewModel.setIdentifier();
     viewModel.startProcessingJobs();
     viewModel.startTransfersFetching();
-    viewModel.listenToBranch();
     if (viewModel.isoCode == null) {
       Locale myLocale = Localizations.localeOf(context);
       Map localeData = codes.firstWhere(

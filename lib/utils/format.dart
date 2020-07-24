@@ -48,7 +48,7 @@ String getFiatValue(BigInt value, int decimals, double price,
 }
 
 String formatAddress(String address) {
-  if (address == null || address.isEmpty) return null;
+  if (address == null || address.isEmpty) return '';
   return '${address.substring(0, 6)}...${address.substring(address.length - 4, address.length)}';
 }
 

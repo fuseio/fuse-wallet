@@ -6,8 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/contact_tile.dart';
-import 'package:fusecash/screens/contacts/enable_contacts.dart';
+import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
+import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/screens/home/home_page.dart';
 import 'package:fusecash/utils/contacts.dart';
@@ -128,20 +128,17 @@ class _EmptyContactsState extends State<EmptyContacts> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ContactsViewModel>(
-        rebuildOnChange: true,
+        distinct: true,
         converter: ContactsViewModel.fromStore,
-        onInitialBuild: (viewModel) async {
+        onWillChange: (previousViewModel, newViewModel) async {
           bool isPermitted = await Contacts.checkPermissions();
-          final bool isFirstTime = viewModel.isContactsSynced == null;
+          final bool isFirstTime = newViewModel.isContactsSynced == null;
           final bool inSendTab = HomePage.of(context).currentIndex == 1;
           if (!isPermitted && isFirstTime && inSendTab) {
             Future.delayed(
                 Duration.zero,
                 () => showDialog(
                     context: context, child: ContactsConfirmationScreen()));
-          } else {
-            ExtendedNavigator.named('contactsRouter')
-                .replace(ContactsRoutes.contactsList);
           }
           setState(() {
             hasSynced = isPermitted;

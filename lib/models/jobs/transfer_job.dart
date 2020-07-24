@@ -36,7 +36,7 @@ class TransferJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('TransferJob FAILED');
-      store.dispatch(transactionFailed(arguments['transfer'], arguments['']));
+      store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: TransferJob FAILED'));
       return;
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constans/keys.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -11,13 +12,16 @@ import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/screens/home/widgets/drawer.dart';
 import 'package:fusecash/utils/contacts.dart';
+import 'package:fusecash/widgets/preloader.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/bottom_bar.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:equatable/equatable.dart';
+import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/utils/addresses.dart' as util;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -31,16 +35,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
-  Map pages = {};
-  bool contactsGranted = false;
-
-  @override
-  void initState() {
-    super.initState();
-    Contacts.checkPermissions().then((isPermitted) {
-      contactsGranted = isPermitted;
-    });
-  }
 
   void _onTap(int itemIndex) {
     if (!mounted) return;
@@ -57,27 +51,29 @@ class _HomePageState extends State<HomePage> {
         walletStatus != 'created' &&
         accountAddress != '') {
       store.dispatch(createAccountWalletCall(accountAddress));
-    }
-    String privateKey = store.state.userState.privateKey;
-    String jwtToken = store.state.userState.jwtToken;
-    bool isLoggedOut = store.state.userState.isLoggedOut;
-    if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-      store.dispatch(getWalletAddressessCall());
-      store.dispatch(identifyCall());
-      store.dispatch(loadContacts());
-      store.dispatch(startListenToTransferEvents());
-      store.dispatch(startFetchBalancesOnForeign());
-      store.dispatch(startFetchTransferEventsCall());
-      store.dispatch(fetchTokensBalances());
-      store.dispatch(startProcessingTokensJobsCall());
+    } else {
+      String privateKey = store.state.userState.privateKey;
+      String jwtToken = store.state.userState.jwtToken;
+      bool isLoggedOut = store.state.userState.isLoggedOut;
+      if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+        store.dispatch(getWalletAddressessCall());
+        store.dispatch(identifyCall());
+        store.dispatch(loadContacts());
+        store.dispatch(startListenToTransferEvents());
+        store.dispatch(startFetchBalancesOnForeign());
+        store.dispatch(startFetchTransferEventsCall());
+        store.dispatch(fetchTokensBalances());
+        store.dispatch(startFetchTokensLastestPrices());
+        store.dispatch(startProcessingTokensJobsCall());
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, BottomBarViewModel>(
+    return new StoreConnector<AppState, _HomePageViewModel>(
         distinct: true,
-        converter: BottomBarViewModel.fromStore,
+        converter: _HomePageViewModel.fromStore,
         onInit: onInit,
         builder: (_, vm) {
           return Scaffold(
@@ -86,13 +82,21 @@ class _HomePageState extends State<HomePage> {
               drawerEdgeDragWidth: 0,
               drawerEnableOpenDragGesture: false,
               body: IndexedStack(index: currentIndex, children: <Widget>[
-                ExtendedNavigator(router: HomeRouter(), name: 'homeRouter'),
                 ExtendedNavigator(
-                  router: ContactsRouter(),
-                  name: 'contactsRouter',
-                  initialRoute: !contactsGranted
-                      ? ContactsRoutes.emptyContacts
-                      : ContactsRoutes.contactsList,
+                  router: HomeRouter(),
+                  name: 'homeRouter',
+                  observers: [SegmentObserver()],
+                ),
+                FutureBuilder(
+                  future: Contacts.checkPermissions(),
+                  builder: (context, snapshot) => ExtendedNavigator(
+                    observers: [SegmentObserver()],
+                    router: ContactsRouter(),
+                    name: 'contactsRouter',
+                    initialRoute: snapshot.data != null && snapshot.data == true
+                        ? ContactsRoutes.contactsList
+                        : ContactsRoutes.emptyContacts,
+                  ),
                 ),
                 !['', null].contains(vm.community.webUrl)
                     ? WebViewPage(
@@ -101,7 +105,10 @@ class _HomePageState extends State<HomePage> {
                         title: I18n.of(context).community_webpage)
                     : vm.isDefaultCommunity
                         ? FusePointsExplainedScreen()
-                        : ExtendedNavigator(router: BuyRouter()),
+                        : ExtendedNavigator(
+                            router: BuyRouter(),
+                            observers: [SegmentObserver()],
+                          ),
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(
@@ -110,4 +117,28 @@ class _HomePageState extends State<HomePage> {
               ));
         });
   }
+}
+
+class _HomePageViewModel extends Equatable {
+  final Community community;
+  final bool isDefaultCommunity;
+
+  _HomePageViewModel({
+    this.isDefaultCommunity,
+    this.community,
+  });
+
+  static _HomePageViewModel fromStore(Store<AppState> store) {
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress] ??
+            new Community.initial();
+    return _HomePageViewModel(
+      community: community,
+      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+    );
+  }
+
+  @override
+  List<Object> get props => [isDefaultCommunity, community];
 }

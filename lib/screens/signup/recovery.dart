@@ -73,21 +73,19 @@ class _RecoveryPageState extends State<RecoveryPage> {
                           maxLines: 5,
                           autofocus: false,
                           style: TextStyle(color: Colors.black),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               border: null, fillColor: Colors.transparent),
-                          validator: (String value) {
-                            if (value.split(" ").length != 12) {
-                              return 'Please enter 12 words';
-                            }
-                            return null;
-                          },
+                          validator: (String value) =>
+                              value.split(" ").length != 12
+                                  ? 'Please enter 12 words'
+                                  : null,
                         ),
                       )
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 30.0),
+              SizedBox(height: 30.0),
             ],
             footer: Center(
                 child: PrimaryButton(

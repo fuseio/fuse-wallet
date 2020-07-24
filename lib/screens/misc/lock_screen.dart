@@ -43,10 +43,8 @@ class _LockScreenState extends State<LockScreen> {
         await _showLocalAuthPopup(
           BiometricUtils.getBiometricString(_biometricType),
         );
-      } else if (userState.authType == BiometricAuth.pincode) {
-        ExtendedNavigator.root.replace(Routes.pincode);
       } else {
-        ExtendedNavigator.root.replace(Routes.homePage);
+        ExtendedNavigator.root.replace(Routes.pincode);
       }
     }
   }

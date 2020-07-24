@@ -1,15 +1,12 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/contact_tile.dart';
-import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
+import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -36,13 +33,6 @@ class _ContactsListState extends State<ContactsList> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
-        onInit: (store) async {
-          bool isPermitted = await Contacts.checkPermissions();
-          if (!isPermitted) {
-            ExtendedNavigator.of(context).replace(ContactsRoutes.emptyContacts);
-          }
-          Segment.screen(screenName: '/contacts_list');
-        },
         converter: ContactsViewModel.fromStore,
         builder: (_, viewModel) {
           return _contacts != null
@@ -102,7 +92,7 @@ class _ContactsListState extends State<ContactsList> {
     }
   }
 
-  listHeader(String title) {
+  SliverPersistentHeader listHeader(String title) {
     return SliverPersistentHeader(
       pinned: true,
       floating: true,
@@ -121,7 +111,7 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  listBody(
+  SliverList listBody(
       BuildContext context, ContactsViewModel viewModel, List<Contact> group) {
     List<Widget> listItems = List();
 
@@ -210,7 +200,7 @@ class _ContactsListState extends State<ContactsList> {
     return listItems;
   }
 
-  searchPanel(ContactsViewModel viewModel) {
+  SliverPersistentHeader searchPanel(ContactsViewModel viewModel) {
     return SliverPersistentHeader(
       pinned: true,
       delegate: SliverAppBarDelegate(

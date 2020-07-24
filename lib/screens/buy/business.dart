@@ -37,7 +37,6 @@ class _BusinessPageState extends State<BusinessPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final BusinessPageArguments widget = this.widget.pageArgs;
     String coverPhotoUrl =
         getCoverPhotoUrl(widget.business, widget.communityAddress);
     String imageUrl = getImageUrl(widget.business, widget.communityAddress);

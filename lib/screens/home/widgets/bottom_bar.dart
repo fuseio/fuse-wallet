@@ -4,7 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constans/keys.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/bottom_bar.dart';
+import 'package:equatable/equatable.dart';
+import 'package:redux/redux.dart';
+import 'package:fusecash/utils/addresses.dart' as util;
 
 class BottomBar extends StatelessWidget {
   final int tabIndex;
@@ -30,9 +32,9 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, BottomBarViewModel>(
+    return StoreConnector<AppState, _BottomBarViewModel>(
         distinct: true,
-        converter: BottomBarViewModel.fromStore,
+        converter: _BottomBarViewModel.fromStore,
         builder: (_, vm) {
           return BottomNavigationBar(
             key: AppKeys.bottomBarKey,
@@ -55,4 +57,22 @@ class BottomBar extends StatelessWidget {
           );
         });
   }
+}
+
+class _BottomBarViewModel extends Equatable {
+  final bool isDefaultCommunity;
+
+  _BottomBarViewModel({
+    this.isDefaultCommunity,
+  });
+
+  static _BottomBarViewModel fromStore(Store<AppState> store) {
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    return _BottomBarViewModel(
+      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+    );
+  }
+
+  @override
+  List<Object> get props => [isDefaultCommunity];
 }

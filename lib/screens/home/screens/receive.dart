@@ -71,7 +71,7 @@ class ReceiveScreen extends StatelessWidget {
                         SizedBox(height: 10.0),
                         Container(
                           width: 220,
-                          child: Text(formatAddress(viewModel.walletAddress),
+                          child: Text(formatAddress(viewModel?.walletAddress),
                               softWrap: true,
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -87,7 +87,7 @@ class ReceiveScreen extends StatelessWidget {
                             child: Center(
                               child: CopyToClipboard(
                                 textColor: Color(0xFF0091ff),
-                                content: viewModel.walletAddress,
+                                content: viewModel?.walletAddress,
                               ),
                             ),
                           ),
@@ -101,7 +101,7 @@ class ReceiveScreen extends StatelessWidget {
                       width: 160,
                       label: I18n.of(context).share_button,
                       onPressed: () {
-                        Share.share(viewModel.walletAddress);
+                        Share.share(viewModel?.walletAddress);
                       },
                     ))
                   ],
@@ -126,7 +126,7 @@ class _ReceiveModel extends Equatable {
 
   static _ReceiveModel fromStore(Store<AppState> store) {
     return _ReceiveModel(
-        walletAddress: store.state.userState.walletAddress,
+        walletAddress: store.state.userState?.walletAddress ?? '',
         backup: store.state.userState.backup,
         isBackupDialogShowed: store.state.userState.receiveBackupDialogShowed,
         setShowDialog: () {

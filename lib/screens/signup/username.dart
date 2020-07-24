@@ -15,7 +15,7 @@ class UserNameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, OnboardViewModel>(
+    return StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
         builder: (_, viewModel) {
@@ -34,24 +34,23 @@ class UserNameScreen extends StatelessWidget {
                         width: 95,
                         height: 80,
                       ),
-                      const SizedBox(height: 20.0),
+                      SizedBox(height: 20.0),
                       Text(
                         I18n.of(context).pickup_display_name,
                         style: TextStyle(
                             fontSize: 18,
                             color: Theme.of(context).colorScheme.secondary),
                       ),
-                      const SizedBox(height: 10.0),
+                      SizedBox(height: 10.0),
                       Text(I18n.of(context).pickup_display_name_text,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 15,
                               color: Theme.of(context).colorScheme.secondary)),
-                      const SizedBox(height: 10.0),
+                      SizedBox(height: 10.0),
                       TextFormField(
                         textAlign: TextAlign.center,
-                        style:
-                            const TextStyle(fontSize: 20, color: Colors.black),
+                        style: TextStyle(fontSize: 20, color: Colors.black),
                         controller: displayNameController,
                         keyboardType: TextInputType.text,
                         autofocus: true,
@@ -77,8 +76,7 @@ class UserNameScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.setDisplayName(
                               capitalize(displayNameController.text ?? 'Anom'));
-                          ExtendedNavigator.root
-                              .push(Routes.securityScreen);
+                          ExtendedNavigator.root.replace(Routes.securityScreen);
                         },
                       ),
                     ),
