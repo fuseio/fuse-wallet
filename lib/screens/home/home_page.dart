@@ -12,7 +12,6 @@ import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/screens/home/widgets/drawer.dart';
 import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/widgets/preloader.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
