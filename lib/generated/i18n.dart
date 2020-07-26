@@ -246,10 +246,10 @@ class I18n implements WidgetsLocalizations {
   String get withdrawDAI => "Withdraw DAI";
   /// "Send to cash mode"
   String get sendToCashMode => "Send to cash mode";
-  /// "Your Home"
-  String get your_home => "Your Home";
-  /// "Pay Rent"
-  String get pay_rent => "Pay Rent";
+  /// "Today"
+  String get today_screen => "Today";
+  /// "Top Up"
+  String get topup_screen => "Top Up";
 }
 
 class _I18n_en_US extends I18n {
