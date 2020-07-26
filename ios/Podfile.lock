@@ -4,9 +4,9 @@ PODS:
     - Flutter
     - MTBBarcodeScanner
     - SwiftProtobuf
-  - Branch (0.32.0):
-    - Branch/Core (= 0.32.0)
-  - Branch/Core (0.32.0)
+  - Branch (0.31.4):
+    - Branch/Core (= 0.31.4)
+  - Branch/Core (0.31.4)
   - contacts_service (0.2.2):
     - Flutter
   - device_info (0.0.1):
@@ -79,8 +79,8 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 6.7)
     - Protobuf (>= 3.9.2, ~> 3.9)
   - Flutter (1.0.0)
-  - flutter_branch_sdk (1.0.0):
-    - Branch (~> 0.32.0)
+  - flutter_branch_sdk (0.0.1):
+    - Branch (~> 0.31.3)
     - Flutter
   - flutter_plugin_android_lifecycle (0.0.1):
     - Flutter
@@ -109,10 +109,10 @@ PODS:
     - nanopb (~> 1.30905.0)
   - GoogleDataTransport (7.0.0):
     - nanopb (~> 1.30905.0)
-  - GoogleMaps (3.9.0):
-    - GoogleMaps/Maps (= 3.9.0)
-  - GoogleMaps/Base (3.9.0)
-  - GoogleMaps/Maps (3.9.0):
+  - GoogleMaps (2.7.0):
+    - GoogleMaps/Maps (= 2.7.0)
+  - GoogleMaps/Base (2.7.0)
+  - GoogleMaps/Maps (2.7.0):
     - GoogleMaps/Base
   - GoogleUtilities/AppDelegateSwizzler (6.7.1):
     - GoogleUtilities/Environment
@@ -165,9 +165,9 @@ PODS:
   - rate_my_app (0.1):
     - Flutter
   - SAMKeychain (1.5.3)
-  - Segment-Branch (0.1.17):
+  - Segment-Branch (0.1.20):
     - Analytics
-    - Branch
+    - Branch (~> 0.31.0)
   - sensors (0.0.1):
     - Flutter
   - share (0.0.1):
@@ -337,7 +337,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Analytics: ebdc0c3ed93684d10c898f57886e0ce7fbecc240
   barcode_scan: a5c27959edfafaa0c771905bad0b29d6d39e4479
-  Branch: 770a23c04d3f5410cf9231db099a444dd3060784
+  Branch: 5180bca89b8942dd0fe8175d7ecb8a8a451cf5b0
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: ed042590caa0029392257529a8003c25ee82bc18
@@ -354,7 +354,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: 358d5cb393d2750a745569ede06827c35aea530b
   FirebaseMessaging: bdd4d573eab37ebee29bad4e7c4b0ef18fa1a952
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_branch_sdk: 54a5ceba2072fd835eca6bd859bee65ad59bbb41
+  flutter_branch_sdk: 401d22e28b8669590a73a48619b81c6e066b503e
   flutter_plugin_android_lifecycle: 47de533a02850f070f5696a623995e93eddcdb9b
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_segment: 0357d36d6b066d5d255cda46d2f217b55110af95
@@ -364,7 +364,7 @@ SPEC CHECKSUMS:
   google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
   GoogleAppMeasurement: 8cd1f289d60e629cf16ab03363b9e89c776b9651
   GoogleDataTransport: 8a40cb194ad242b6f6dfe72c14fe40fc67c4dcd7
-  GoogleMaps: 4b5346bddfe6911bb89155d43c903020170523ac
+  GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   GoogleUtilities: e121a3867449ce16b0e35ddf1797ea7a389ffdf2
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   libphonenumber: bd14d5abfc5939ab0b0767234e2d8e2593af258e
@@ -383,7 +383,7 @@ SPEC CHECKSUMS:
   Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
   rate_my_app: 45513a2f4d9a55b7b46d19b64fc13882fd101157
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
-  Segment-Branch: d3a25da643431ec461e51ce8a2b91c2ae1bfafaa
+  Segment-Branch: d45ac631db5bce74e59e41ffa8428b55598d63be
   sensors: 4bd31219c4bf9d7d4401b392a1701ee3adc1a296
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
