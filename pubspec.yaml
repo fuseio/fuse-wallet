@@ -1,5 +1,5 @@
 name: peepl
-version: 1.0.0+1
+version: 1.0.1+1
 description: A new Flutter project.
 environment:
   sdk: ">=2.2.2 <3.0.0"
