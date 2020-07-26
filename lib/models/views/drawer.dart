@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:redux/redux.dart';
+import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 
 class DrawerViewModel extends Equatable {
@@ -8,21 +10,26 @@ class DrawerViewModel extends Equatable {
   final String walletStatus;
   final String walletAddress;
   final bool isBackup;
+  final Plugins plugins;
   final Function() firstName;
 
-  DrawerViewModel({
-    this.logout,
-    this.walletStatus,
-    this.isBackup,
-    this.walletAddress,
-    this.firstName,
-  });
+  DrawerViewModel(
+      {this.logout,
+      this.walletStatus,
+      this.plugins,
+      this.isBackup,
+      this.walletAddress,
+      this.firstName});
 
   static DrawerViewModel fromStore(Store<AppState> store) {
-
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress] ??
+            new Community.initial();
     return DrawerViewModel(
         isBackup: store.state.userState.backup ?? false,
         walletAddress: store.state.userState.walletAddress,
+        plugins: community?.plugins,
         walletStatus: store.state.userState.walletStatus,
         logout: () {
           store.dispatch(logoutCall());
@@ -34,5 +41,5 @@ class DrawerViewModel extends Equatable {
   }
 
   @override
-  List get props => [walletStatus, walletAddress];
+  List get props => [walletStatus, walletAddress, plugins];
 }

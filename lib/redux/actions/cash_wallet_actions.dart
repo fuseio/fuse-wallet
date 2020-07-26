@@ -1084,7 +1084,10 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
         String hash = communityData['communityURI'].startsWith('ipfs://')
             ? communityData['communityURI'].split('://').last
             : communityData['communityURI'].split('/').last;
-        dynamic metadata = await api.fetchMetadata(hash);
+        dynamic metadata = await api.fetchMetadata(
+          hash,
+          isRopsten: isRopsten,
+        );
         communityMetadata = new CommunityMetadata(
             image: metadata['image'],
             coverPhoto: metadata['coverPhoto'],
@@ -1154,7 +1157,10 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
         String hash = communityData['communityURI'].startsWith('ipfs://')
             ? communityData['communityURI'].split('://').last
             : communityData['communityURI'].split('/').last;
-        dynamic metadata = await api.fetchMetadata(hash);
+        dynamic metadata = await api.fetchMetadata(
+          hash,
+          isRopsten: isRopsten,
+        );
         communityMetadata = new CommunityMetadata(
             image: metadata['image'],
             coverPhoto: metadata['coverPhoto'],

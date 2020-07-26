@@ -62,8 +62,8 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                             topLeft: Radius.circular(12.0),
                             topRight: Radius.circular(12.0)),
                         child: CachedNetworkImage(
-                          imageUrl: getIPFSImageUrl(
-                              widget.community.metadata.coverPhoto),
+                          imageUrl:
+                              widget.community.metadata.getCoverPhotoUri(),
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
                           errorWidget: (context, url, error) => const Icon(
@@ -95,12 +95,12 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: CachedNetworkImage(
-                                      imageUrl: getIPFSImageUrl(
-                                          widget.community.metadata.image),
+                                      imageUrl: widget.community.metadata
+                                          .getImageUri(),
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
+                                          Icon(Icons.error),
                                       imageBuilder: (context, imageProvider) =>
                                           Image(
                                         image: imageProvider,

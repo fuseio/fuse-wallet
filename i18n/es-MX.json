@@ -89,7 +89,6 @@
   "backup_wallet": "Respalda tu monedero",
   "top_up": "Cargar dinero",
   "buy": "Comprar",
-  "dai_points": "DAI points",
   "map": "Mapa",
   "approved": "APROBADO",
   "simple": "Sencillo",
@@ -102,9 +101,5 @@
   "sending_to_ethereum": "Sent to your Ethereum wallet",
   "sent_to_ethereum": "Sent to Ethereum",
   "received_from_ethereum": "Received from Ethereum",
-  "addDai": "Add DAI",
-  "withdrawDAI": "Withdraw DAI",
-  "sendToCashMode": "Send to cash mode",
-  "joined_community": "Ingresaste a la Coumunidad",
-  "send_friends": "Enviar dinero"
+  "joined_community": "Ingresaste a la Coumunidad"
 }

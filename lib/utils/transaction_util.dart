@@ -125,7 +125,7 @@ dynamic getTransferImage(
   if (transfer.isJoinCommunity() &&
       community.metadata.image != null &&
       community.metadata.image != '') {
-    return new NetworkImage(getIPFSImageUrl(community.metadata.image));
+    return new NetworkImage(community.metadata.getImageUri());
   } else if (transfer.isGenerateWallet()) {
     return new AssetImage(
       'assets/images/generate_wallet.png',

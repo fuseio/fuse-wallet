@@ -1,12 +1,14 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/views/drawer.dart';
 import 'package:fusecash/screens/home/router/home_router.gr.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/forks.dart';
 import 'package:fusecash/utils/format.dart';
 
@@ -67,48 +69,49 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     );
   }
 
-  // List<Widget> pluginsItems(DrawerViewModel viewModel) {
-  //   List<Widget> plugins = [];
-  //   List depositPlugins = viewModel?.plugins?.getDepositPlugins();
-  //   if (depositPlugins.isNotEmpty) {
-  //     plugins.add(new Divider(
-  //       color: Color(0xFFCBCBCB),
-  //     ));
-  //     plugins.add(ListTile(
-  //       contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
-  //       title: Padding(
-  //         padding: EdgeInsets.only(left: 10),
-  //         child: Row(
-  //           children: <Widget>[
-  //             SvgPicture.asset(
-  //               'assets/images/top_up.svg',
-  //               width: 20,
-  //               height: 20,
-  //             ),
-  //             SizedBox(
-  //               width: 20,
-  //             ),
-  //             Text(
-  //               I18n.of(context).top_up,
-  //               style: TextStyle(
-  //                   fontWeight: FontWeight.bold,
-  //                   fontSize: 16,
-  //                   color: Theme.of(context).primaryColor),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       onTap: () {
-  //         dynamic url = depositPlugins[0].generateUrl();
-  //         ExtendedNavigator.root.push(Routes.webview,
-  //             arguments: WebViewPageArguments(url: url, title: 'Top up'));
-  //         Segment.track(eventName: 'User clicked on top up');
-  //       },
-  //     ));
-  //   }
+  List<Widget> pluginsItems(DrawerViewModel viewModel) {
+    List<Widget> plugins = [];
+    List depositPlugins = viewModel?.plugins?.getDepositPlugins();
+    if (depositPlugins.isNotEmpty) {
+      plugins.add(new Divider(
+        color: Color(0xFFCBCBCB),
+      ));
+      plugins.add(ListTile(
+        contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
+        title: Padding(
+          padding: EdgeInsets.only(left: 10),
+          child: Row(
+            children: <Widget>[
+              SvgPicture.asset(
+                'assets/images/top_up.svg',
+                width: 20,
+                height: 20,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                I18n.of(context).top_up,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Theme.of(context).primaryColor),
+              ),
+            ],
+          ),
+        ),
+        onTap: () {
+          dynamic url = depositPlugins[0].generateUrl();
+          ExtendedNavigator.root.push(Routes.webview,
+              arguments: WebViewPageArguments(
+                  url: url, title: I18n.of(context).top_up));
+          Segment.track(eventName: 'User clicked on top up');
+        },
+      ));
+    }
 
-  //   return plugins;
-  // }
+    return plugins;
+  }
 
   List<Widget> menuItem(DrawerViewModel viewModel) {
     if (isFork()) {
@@ -218,6 +221,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, DrawerViewModel>(
+        distinct: true,
         converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
           return SizedBox(
@@ -232,7 +236,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     children: <Widget>[
                       drawerHeader(viewModel),
                       ...menuItem(viewModel),
-                      // ...pluginsItems(viewModel),
+                      ...pluginsItems(viewModel),
                     ],
                   ),
                 )

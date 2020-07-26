@@ -9,7 +9,6 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/widgets/community_card.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
@@ -52,7 +51,8 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
               ScanResult scanResult = await BarcodeScanner.scan();
               Map jsonMap = jsonDecode(scanResult.rawContent);
               switchCommunity(jsonMap['communityAddress']);
-              ExtendedNavigator.root.replace(Routes.homePage);
+              // ExtendedNavigator.root.replace(Routes.homePage);
+              ExtendedNavigator.root.pop();
             } catch (e) {
               print('BarcodeScanner scan error');
             }

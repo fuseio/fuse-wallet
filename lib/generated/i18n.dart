@@ -214,8 +214,6 @@ class I18n implements WidgetsLocalizations {
   String get top_up => "Top-up your account";
   /// "Buy"
   String get buy => "Buy";
-  /// "DAI points"
-  String get dai_points => "DAI points";
   /// "Map"
   String get map => "Map";
   /// "Approved"
@@ -242,14 +240,6 @@ class I18n implements WidgetsLocalizations {
   String get sent_to_ethereum => "Sent to Ethereum";
   /// "Received from Ethereum"
   String get received_from_ethereum => "Received from Ethereum";
-  /// "Add DAI"
-  String get addDai => "Add DAI";
-  /// "Withdraw DAI"
-  String get withdrawDAI => "Withdraw DAI";
-  /// "Send to cash mode"
-  String get sendToCashMode => "Send to cash mode";
-  /// "Exchange"
-  String get exchnage => "Exchange";
   /// "No funds available"
   String get no_funds_available => "No funds available";
   /// "Review trade"
@@ -330,6 +320,9 @@ class _I18n_he_IL extends I18n {
   /// "חשוב!"
   @override
   String get important => "חשוב!";
+  /// "מספר נייד"
+  @override
+  String get phoneNumber => "מספר נייד";
   /// "אוקיי"
   @override
   String get ok => "אוקיי";
@@ -429,6 +422,9 @@ class _I18n_he_IL extends I18n {
   /// "קוד סודי"
   @override
   String get pincode => "קוד סודי";
+  /// "הזן את PIN קוד שלך:"
+  @override
+  String get enter_pincode => "הזן את PIN קוד שלך:";
   /// "הקלד מחדש את קוד הסיסמה שלך"
   @override
   String get re_type_passcode => "הקלד מחדש את קוד הסיסמה שלך";
@@ -510,9 +506,9 @@ class _I18n_he_IL extends I18n {
   /// "שלח"
   @override
   String get send_button => "שלח";
-  /// "הלצחנו"
+  /// "הצלחה"
   @override
-  String get success => "הלצחנו";
+  String get success => "הצלחה";
   /// "שחזר מגיבוי"
   @override
   String get restore_from_backup => "שחזר מגיבוי";
@@ -561,15 +557,15 @@ class _I18n_he_IL extends I18n {
   /// "רכוש"
   @override
   String get buy => "רכוש";
-  /// "DAI points"
-  @override
-  String get dai_points => "DAI points";
   /// "Map"
   @override
   String get map => "Map";
   /// "אושר"
   @override
   String get approved => "אושר";
+  /// "רשת"
+  @override
+  String get network => "רשת";
   /// "פשוט"
   @override
   String get simple => "פשוט";
@@ -585,12 +581,12 @@ class _I18n_he_IL extends I18n {
   /// "בית"
   @override
   String get home => "בית";
-  /// "Trade"
+  /// "מסחר"
   @override
-  String get trade => "Trade";
-  /// "Assets and contracts"
+  String get trade => "מסחר";
+  /// "נכסים"
   @override
-  String get assets_and_contracts => "Assets and contracts";
+  String get assets_and_contracts => "נכסים";
   /// "שלח לכתובת איתריום שלך"
   @override
   String get sending_to_ethereum => "שלח לכתובת איתריום שלך";
@@ -600,15 +596,54 @@ class _I18n_he_IL extends I18n {
   /// "התקבל מתאתריום"
   @override
   String get received_from_ethereum => "התקבל מתאתריום";
-  /// "הוסף DAI"
+  /// "אין יתרה מספקת"
   @override
-  String get addDai => "הוסף DAI";
-  /// "משוך DAI"
+  String get no_funds_available => "אין יתרה מספקת";
+  /// "Review trade"
   @override
-  String get withdrawDAI => "משוך DAI";
-  /// "Send to cash mode"
+  String get review_trade => "Review trade";
+  /// "Use max"
   @override
-  String get sendToCashMode => "Send to cash mode";
+  String get use_max => "Use max";
+  /// "שלח לכתובת"
+  @override
+  String get send_to_address => "שלח לכתובת";
+  /// "אין מספיק יתרה בחשבונך"
+  @override
+  String get not_enough_balance => "אין מספיק יתרה בחשבונך";
+  /// "בחר את צורת ההגנה על הארנק שלך על ידי בחירה מבין האפשרויות הבאות"
+  @override
+  String get choose_lock_method => "בחר את צורת ההגנה על הארנק שלך על ידי בחירה מבין האפשרויות הבאות";
+  /// "כן"
+  @override
+  String get yes => "כן";
+  /// "לא"
+  @override
+  String get no => "לא";
+  /// "Fuse Volts"
+  @override
+  String get fuse_volts => "Fuse Volts";
+  /// "בצע גיבוי"
+  @override
+  String get back_up_now => "בצע גיבוי";
+  /// "מומלץ"
+  @override
+  String get recommended => "מומלץ";
+  /// "Insufficient fund"
+  @override
+  String get insufficient_fund => "Insufficient fund";
+  /// "עמוד הקהילה"
+  @override
+  String get community_webpage => "עמוד הקהילה";
+  /// "בטל"
+  @override
+  String get cancel => "בטל";
+  /// "הדלק פנס"
+  @override
+  String get flash_on => "הדלק פנס";
+  /// "כבה פנס"
+  @override
+  String get flash_off => "כבה פנס";
 
   @override
   TextDirection get textDirection => TextDirection.rtl;
@@ -887,9 +922,6 @@ class _I18n_es_ES extends I18n {
   /// "Comprar"
   @override
   String get buy => "Comprar";
-  /// "DAI points"
-  @override
-  String get dai_points => "DAI points";
   /// "Mapa"
   @override
   String get map => "Mapa";
@@ -926,15 +958,6 @@ class _I18n_es_ES extends I18n {
   /// "Received from Ethereum"
   @override
   String get received_from_ethereum => "Received from Ethereum";
-  /// "Add DAI"
-  @override
-  String get addDai => "Add DAI";
-  /// "Withdraw DAI"
-  @override
-  String get withdrawDAI => "Withdraw DAI";
-  /// "Send to cash mode"
-  @override
-  String get sendToCashMode => "Send to cash mode";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
@@ -1434,9 +1457,6 @@ class _I18n_it_IT extends I18n {
   /// "Acquistare"
   @override
   String get buy => "Acquistare";
-  /// "DAI points"
-  @override
-  String get dai_points => "DAI points";
   /// "Carta geografica"
   @override
   String get map => "Carta geografica";
@@ -1730,9 +1750,6 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Bumili"
   @override
   String get buy => "Bumili";
-  /// "DAI points"
-  @override
-  String get dai_points => "DAI points";
   /// "Mapa"
   @override
   String get map => "Mapa";
@@ -2026,9 +2043,6 @@ class _I18n_id_ID extends I18n {
   /// "Beli"
   @override
   String get buy => "Beli";
-  /// "DAI points"
-  @override
-  String get dai_points => "DAI points";
   /// "Peta"
   @override
   String get map => "Peta";
@@ -2334,9 +2348,6 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "Comprar"
   @override
   String get buy => "Comprar";
-  /// "DAI points"
-  @override
-  String get dai_points => "DAI points";
   /// "Mapa"
   @override
   String get map => "Mapa";
@@ -2373,15 +2384,6 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "Received from Ethereum"
   @override
   String get received_from_ethereum => "Received from Ethereum";
-  /// "Add DAI"
-  @override
-  String get addDai => "Add DAI";
-  /// "Withdraw DAI"
-  @override
-  String get withdrawDAI => "Withdraw DAI";
-  /// "Send to cash mode"
-  @override
-  String get sendToCashMode => "Send to cash mode";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
