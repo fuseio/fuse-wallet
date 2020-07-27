@@ -34,7 +34,7 @@ class AssetsList extends StatelessWidget {
                       itemCount: viewModel.tokens?.length,
                       separatorBuilder: (BuildContext context, int index) =>
                           Divider(
-                            color: Color(0xFFDCDCDC),
+                            color: Color(0xFFE8E8E8),
                             thickness: 1,
                             height: 0,
                           ),
@@ -56,8 +56,12 @@ class _AssetsListViewModel extends Equatable {
   });
 
   static _AssetsListViewModel fromStore(Store<AppState> store) {
-    List<Community> communities =
-        store.state.cashWalletState.communities.values.toList();
+    Map communitiesR = store.state.cashWalletState.communities
+      ..removeWhere((key, Community community) =>
+          [null, ''].contains(community?.token) ||
+          [null, ''].contains(community?.name) ||
+          [null, ''].contains(community?.address));
+    List<Community> communities = communitiesR.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
@@ -68,8 +72,8 @@ class _AssetsListViewModel extends Equatable {
         .toList();
 
     List<Token> homeTokens = communities
-        .map((Community community) => community.token
-            .copyWith(imageUrl: community.metadata.getImageUri()))
+        .map((Community community) => community?.token
+            ?.copyWith(imageUrl: community?.metadata?.getImageUri()))
         .toList();
     return _AssetsListViewModel(
       walletAddress: store.state.userState.walletAddress,

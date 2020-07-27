@@ -42,9 +42,8 @@ class TokenTile extends StatelessWidget {
           onTap: onTap != null
               ? onTap
               : () {
-                  ExtendedNavigator.of(context).push(
-                      HomeRoutes.tokenTransfersScreen,
-                      arguments: TokenTransfersScreenArguments(token: token));
+                  ExtendedNavigator.of(context).push(HomeRoutes.tokenScreen,
+                      arguments: TokenScreenArguments(token: token));
                 },
           contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
           title: Row(
@@ -177,7 +176,6 @@ class TokenTile extends StatelessWidget {
                               children: <Widget>[
                                 RichText(
                                     text: TextSpan(children: <TextSpan>[
-                                  // prices.containsKey(token.symbol)
                                   token.priceInfo != null
                                       ? TextSpan(
                                           text: '\$' + price,
@@ -194,7 +192,6 @@ class TokenTile extends StatelessWidget {
                                               color: Theme.of(context)
                                                   .primaryColor)),
                                 ])),
-                                // prices.containsKey(token.symbol)
                                 token.priceInfo != null
                                     ? Positioned(
                                         bottom: -20,

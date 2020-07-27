@@ -64,7 +64,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                                 decoration: BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
-                                            color: const Color(0xFFDCDCDC)))),
+                                            color: Color(0xFFE8E8E8)))),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -124,7 +124,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                               decoration: BoxDecoration(
                                   border: Border(
                                       bottom: BorderSide(
-                                          color: const Color(0xFFDCDCDC)))),
+                                          color: Color(0xFFE8E8E8)))),
                               child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,

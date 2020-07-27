@@ -2,7 +2,6 @@ import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/backup.dart';
@@ -14,9 +13,6 @@ class DoneBackup extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BackupViewModel>(
       converter: BackupViewModel.fromStore,
-      onInit: (store) {
-        Segment.screen(screenName: '/done-backup');
-      },
       builder: (_, viewModal) =>
           MainScaffold(title: I18n.of(context).back_up, children: <Widget>[
         Container(

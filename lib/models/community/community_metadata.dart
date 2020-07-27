@@ -18,19 +18,32 @@ class CommunityMetadata {
       this.coverPhotoUri = '',
       this.imageUri = ''});
 
+  CommunityMetadata copyWith(
+          {bool isDefaultImage,
+          String coverPhoto,
+          String image,
+          String coverPhotoUri,
+          String imageUri}) =>
+      CommunityMetadata(
+          image: image,
+          imageUri: imageUri,
+          coverPhoto: coverPhoto,
+          coverPhotoUri: coverPhotoUri,
+          isDefaultImage: isDefaultImage);
+
   String getImageUri() {
-    if (imageUri != null && imageUri.isNotEmpty) {
+    if (![null, ''].contains(imageUri)) {
       return imageUri;
-    } else if (image != null && image.isNotEmpty) {
+    } else if (![null, ''].contains(image)) {
       return getIPFSImageUrl(image);
     }
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
   }
 
   String getCoverPhotoUri() {
-    if (coverPhotoUri != null && coverPhotoUri.isNotEmpty) {
+    if (![null, ''].contains(coverPhotoUri)) {
       return coverPhotoUri;
-    } else if (coverPhoto != null && coverPhoto.isNotEmpty) {
+    } else if (![null, ''].contains(coverPhoto)) {
       return getIPFSImageUrl(coverPhoto);
     }
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';

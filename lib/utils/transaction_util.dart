@@ -58,17 +58,21 @@ Token getToken(String tokenAddress, Map<String, Community> communities,
     return erc20Tokens[tokenAddress];
   } else {
     return communities.values
-        .firstWhere((community) =>
-            community.token.address.toLowerCase() == tokenAddress.toLowerCase())
+        .firstWhere(
+            (community) =>
+                community?.token?.address?.toLowerCase() ==
+                tokenAddress?.toLowerCase(),
+            orElse: () => communities.values.first)
         .token;
   }
 }
 
-Community getTCommunity(
+Community getCommunity(
     String tokenAddress, Map<String, Community> communities) {
   return communities.values.toList().firstWhere(
       (community) =>
-          community.token.address.toLowerCase() == tokenAddress?.toLowerCase(),
+          community?.token?.address?.toLowerCase() ==
+          tokenAddress?.toLowerCase(),
       orElse: () => communities.values.first);
 }
 
@@ -110,8 +114,9 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
       return business.name;
     }
   }
-  if (reverseContacts.containsKey(accountAddress) && getReverseContact) {
-    return reverseContacts[accountAddress];
+  if (reverseContacts.containsKey(accountAddress.toLowerCase()) &&
+      getReverseContact) {
+    return reverseContacts[accountAddress.toLowerCase()];
   }
   if (format) {
     return formatAddress(accountAddress);
@@ -123,8 +128,7 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
 dynamic getTransferImage(
     Transfer transfer, Contact contact, Community community) {
   if (transfer.isJoinCommunity() &&
-      community.metadata.image != null &&
-      community.metadata.image != '') {
+      ![null, ''].contains(community.metadata.image)) {
     return new NetworkImage(community.metadata.getImageUri());
   } else if (transfer.isGenerateWallet()) {
     return new AssetImage(
@@ -137,21 +141,21 @@ dynamic getTransferImage(
   } else if (contact?.avatar != null && contact.avatar.isNotEmpty) {
     return new MemoryImage(contact.avatar);
   } else if (community != null &&
-      community.homeBridgeAddress != null &&
-      transfer.to != null &&
-      transfer.to?.toLowerCase() ==
-          community.homeBridgeAddress?.toLowerCase()) {
+      community?.homeBridgeAddress != null &&
+      transfer?.to != null &&
+      transfer?.to?.toLowerCase() ==
+          community?.homeBridgeAddress?.toLowerCase()) {
     return new AssetImage(
       'assets/images/ethereume_icon.png',
     );
   }
 
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
-  Business business = community.businesses.firstWhere(
+  Business business = community?.businesses?.firstWhere(
       (business) => business.account == accountAddress,
       orElse: () => null);
   if (business != null) {
-    return NetworkImage(getImageUrl(business, community.address));
+    return NetworkImage(getImageUrl(business, community?.address));
   }
   return new AssetImage('assets/images/anom.png');
 }

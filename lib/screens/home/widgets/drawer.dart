@@ -62,10 +62,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   : SizedBox.shrink()
             ],
           )),
-      onTap: () {
-        ExtendedNavigator.root.pop();
-        onTap();
-      },
+      onTap: onTap,
     );
   }
 
@@ -101,6 +98,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
         ),
         onTap: () {
+          ExtendedNavigator.root.pop();
           dynamic url = depositPlugins[0].generateUrl();
           ExtendedNavigator.root.push(Routes.webview,
               arguments: WebViewPageArguments(
@@ -117,6 +115,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     if (isFork()) {
       return [
         getListTile(I18n.of(context).backup_wallet, () {
+          ExtendedNavigator.root.pop();
           ExtendedNavigator.named('homeRouter').push(HomeRoutes.showMnemonic);
         },
             icon: 'backup_icon.svg',
@@ -134,10 +133,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     } else {
       return [
         getListTile(I18n.of(context).switch_community, () {
+          ExtendedNavigator.root.pop();
           ExtendedNavigator.named('homeRouter')
               .push(HomeRoutes.switchCommunityScreen);
         }, icon: 'switch_icon.svg'),
         getListTile(I18n.of(context).backup_wallet, () {
+          ExtendedNavigator.root.pop();
           ExtendedNavigator.named('homeRouter').push(HomeRoutes.showMnemonic);
         },
             icon: 'backup_icon.svg',
@@ -149,6 +150,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   )
                 : null),
         getListTile(I18n.of(context).settings, () {
+          ExtendedNavigator.root.pop();
           ExtendedNavigator.named('homeRouter').push(HomeRoutes.settingsScreen);
         }, icon: 'settings_icon.svg'),
       ];

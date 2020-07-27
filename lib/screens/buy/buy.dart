@@ -97,7 +97,7 @@ class BusinessesListView extends StatelessWidget {
                         padding: new EdgeInsets.only(left: 10, bottom: 5.0),
                         child: ListView.separated(
                           separatorBuilder: (BuildContext context, int index) =>
-                              new Divider(),
+                              new Divider(color: Color(0xFFE8E8E8),),
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
                           itemCount: vm.businesses?.length ?? 0,

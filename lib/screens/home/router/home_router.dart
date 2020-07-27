@@ -4,7 +4,7 @@ import 'package:fusecash/screens/backup/show_mnemonic.dart';
 import 'package:fusecash/screens/backup/verify_mnemonic.dart';
 import 'package:fusecash/screens/home/screens/home.dart';
 import 'package:fusecash/screens/home/screens/transaction_details.dart';
-import 'package:fusecash/screens/home/widgets/token_transfers.dart';
+import 'package:fusecash/screens/home/screens/token_screen.dart';
 import 'package:fusecash/screens/misc/about.dart';
 import 'package:fusecash/screens/misc/protect_your_wallet.dart';
 import 'package:fusecash/screens/misc/settings.dart';
@@ -18,7 +18,7 @@ import 'package:fusecash/screens/trade/trade.dart';
     page: MainHomeScreen,
   ),
   MaterialRoute(page: TransactionDetailsScreen),
-  MaterialRoute(page: TokenTransfersScreen),
+  MaterialRoute(page: TokenScreen),
   MaterialRoute(page: TradeScreen),
   MaterialRoute(page: ReviewTradeScreen),
   MaterialRoute(page: AboutScreen),

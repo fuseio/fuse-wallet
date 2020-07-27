@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/home.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
@@ -29,7 +28,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Segment.screen(screenName: '/home-screen');
     return new StoreConnector<AppState, HomeViewModel>(
         converter: HomeViewModel.fromStore,
         onInit: (store) {

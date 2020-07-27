@@ -6,9 +6,8 @@ import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 
-class TokenTransfersScreen extends StatelessWidget {
-  TokenTransfersScreen({Key key, this.token, this.tokenPrice})
-      : super(key: key);
+class TokenScreen extends StatelessWidget {
+  TokenScreen({Key key, this.token, this.tokenPrice}) : super(key: key);
   final String tokenPrice;
   final Token token;
 
@@ -43,7 +42,7 @@ class TransfersList extends StatelessWidget {
               child: Text(I18n.of(context).transactions,
                   style: TextStyle(
                       color: Color(0xFF979797),
-                      fontSize: 12.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.normal))),
           ListView.builder(
               shrinkWrap: true,

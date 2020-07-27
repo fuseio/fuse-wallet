@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/utils/transaction_util.dart';
 
 class CommunityCardScreen extends StatefulWidget {
   CommunityCardScreen(
@@ -27,7 +26,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          widget.switchCommunity(widget.community.address);
+          widget.switchCommunity(widget?.community?.address);
           Navigator.of(context).pop();
         },
         child: Container(
@@ -63,7 +62,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                             topRight: Radius.circular(12.0)),
                         child: CachedNetworkImage(
                           imageUrl:
-                              widget.community.metadata.getCoverPhotoUri(),
+                              widget?.community?.metadata?.getCoverPhotoUri(),
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
                           errorWidget: (context, url, error) => const Icon(
@@ -95,8 +94,8 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: CachedNetworkImage(
-                                      imageUrl: widget.community.metadata
-                                          .getImageUri(),
+                                      imageUrl: widget?.community?.metadata
+                                          ?.getImageUri(),
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
@@ -115,7 +114,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                                           widget
                                               .community.metadata.isDefaultImage
                                       ? Text(
-                                          widget.community.token.symbol,
+                                          widget.community?.token?.symbol ?? '',
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,
@@ -136,7 +135,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text(widget.community.name,
+                      Text(widget?.community?.name ?? '',
                           style: TextStyle(
                             fontSize: 15,
                             color: Theme.of(context).primaryColor,
@@ -146,7 +145,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                                (widget.community.isClosed != null &&
+                                (widget?.community?.isClosed != null &&
                                             widget.community.isClosed
                                         ? 'Closed'
                                         : 'Open') +

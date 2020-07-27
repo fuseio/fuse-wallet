@@ -6,6 +6,9 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:redux/redux.dart';
 import 'package:fusecash/models/views/home.dart';
 import 'package:fusecash/screens/home/widgets/transaction_tile.dart';
 
@@ -24,42 +27,61 @@ class FeedState extends State<Feed> {
     super.initState();
   }
 
-  void onChange(HomeViewModel viewModel, BuildContext context) async {
-    viewModel.setIdentifier();
-    viewModel.startProcessingJobs();
-    viewModel.startTransfersFetching();
-    if (viewModel.isoCode == null) {
+  void onInit(Store<AppState> store) {
+    final bool isCommunityFetched =
+        store.state.cashWalletState.isCommunityFetched ?? false;
+    final bool isBranchDataReceived =
+        store.state.cashWalletState.isBranchDataReceived ?? false;
+    final bool isCommunityLoading =
+        store.state.cashWalletState.isCommunityLoading ?? false;
+    final String walletAddress = store.state.userState.walletAddress ?? false;
+    final String communityAddress =
+        store.state.cashWalletState?.communityAddress;
+    final branchAddress = store.state.cashWalletState.branchAddress;
+    final String isoCode = store.state.userState.isoCode;
+    final String identifier = store.state.userState.identifier;
+
+    if ([null, ''].contains(identifier)) {
+      store.dispatch(setDeviceId(true));
+    }
+    if ([null, ''].contains(isoCode)) {
       Locale myLocale = Localizations.localeOf(context);
       Map localeData = codes.firstWhere(
           (Map code) => code['code'] == myLocale.countryCode,
           orElse: () => null);
-      viewModel.setCountyCode(CountryCode(
-          dialCode: localeData['dial_code'], code: localeData['code']));
+      store.dispatch(setCountryCode(CountryCode(
+          dialCode: localeData['dial_code'], code: localeData['code'])));
     }
-    if (!viewModel.isCommunityLoading &&
-        viewModel.branchAddress != null &&
-        viewModel.branchAddress != "" &&
-        viewModel.walletAddress != '') {
-      viewModel.branchCommunityUpdate();
+
+    if (!isCommunityLoading &&
+        !isBranchDataReceived &&
+        !isCommunityFetched &&
+        walletAddress != null &&
+        walletAddress != '') {
+      store.dispatch(switchCommunityCall(communityAddress));
     }
-    if (!viewModel.isCommunityLoading &&
-        !viewModel.isCommunityFetched &&
-        viewModel.isBranchDataReceived &&
-        viewModel.walletAddress != '') {
-      viewModel.switchCommunity(viewModel.communityAddress);
+
+    if (!isCommunityLoading &&
+        !isBranchDataReceived &&
+        !isCommunityFetched &&
+        ![null, ''].contains(branchAddress) &&
+        ![null, ''].contains(walletAddress)) {
+      store.dispatch(switchCommunityCall(branchAddress));
     }
   }
 
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, HomeViewModel>(
-        distinct: true,
         converter: HomeViewModel.fromStore,
+        onInit: onInit,
         onInitialBuild: (viewModel) {
-          onChange(viewModel, context);
+          viewModel.startProcessingJobs();
+          viewModel.startTransfersFetching();
         },
         onWillChange: (prevViewModel, nextViewModel) {
-          onChange(nextViewModel, context);
+          nextViewModel.startProcessingJobs();
+          nextViewModel.startTransfersFetching();
         },
         builder: (_, viewModel) {
           final bool isWalletCreated = 'created' == viewModel.walletStatus;
@@ -84,7 +106,7 @@ class FeedState extends State<Feed> {
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               color: Color(0xFF979797),
-                              fontSize: 12.0,
+                              fontSize: 13.0,
                               fontWeight: FontWeight.normal)))
                   : SizedBox.shrink(),
               Expanded(

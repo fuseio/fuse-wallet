@@ -747,6 +747,7 @@ ThunkAction processingTokenJobsCall(Timer timer) {
           }
 
           try {
+            logger.info('pro mode performing ${job.name} isJobProcessValid ${isJobProcessValid()}');
             await job.perform(store, isJobProcessValid);
           } catch (e) {
             logger.severe('failed perform ${job.name}');

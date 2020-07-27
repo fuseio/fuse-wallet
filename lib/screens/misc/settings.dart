@@ -13,7 +13,8 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 
 class SettingsScreen extends StatelessWidget {
-  Widget getListTile(context, label, onTap) {
+  Widget getListTile(
+      BuildContext context, String label, void Function() onTap) {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, right: 30, left: 30),
       title: Text(
@@ -24,7 +25,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> menuItem(context, DrawerViewModel viewModel) {
+  List<Widget> menuItem(BuildContext context, DrawerViewModel viewModel) {
     if (isFork()) {
       return [
         getListTile(context, I18n.of(context).about, () {
@@ -55,9 +56,6 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DrawerViewModel>(
         distinct: true,
-        onInit: (store) {
-          Segment.screen(screenName: '/settings-screen');
-        },
         converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(

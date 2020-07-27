@@ -59,7 +59,6 @@ class _ExchangeState extends State<TradeScreen> {
 
   @override
   void initState() {
-    Segment.screen(screenName: '/trade-screen');
     super.initState();
   }
 

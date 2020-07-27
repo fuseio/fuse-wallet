@@ -34,21 +34,18 @@ class TransactionTile extends StatelessWidget {
               viewModel.contacts,
               viewModel.countryCode);
           Community community =
-              getTCommunity(transfer?.tokenAddress, viewModel.communities);
+              getCommunity(transfer?.tokenAddress, viewModel.communities);
           Token token;
           if (transfer.tokenAddress == null) {
-            token = community.token;
+            token = community?.token;
           } else {
-            token = getToken(transfer.tokenAddress.toLowerCase(),
-                viewModel.communities, viewModel.erc20Tokens);
+            token = getToken(transfer?.tokenAddress?.toLowerCase(),
+                viewModel?.communities, viewModel?.erc20Tokens);
           }
-          // Community community = getTCommunity(
-          //     token.address ?? transfer.tokenAddress, viewModel.communities);
-
-          bool isSendingToForeign = (community.homeBridgeAddress != null &&
+          bool isSendingToForeign = (community?.homeBridgeAddress != null &&
                   transfer.to != null &&
                   transfer.to?.toLowerCase() ==
-                      community.homeBridgeAddress?.toLowerCase()) ??
+                      community?.homeBridgeAddress?.toLowerCase()) ??
               false;
           bool isWalletCreated = 'created' == viewModel.walletStatus;
           bool isZeroAddress = transfer.from == zeroAddress;
@@ -59,16 +56,16 @@ class TransactionTile extends StatelessWidget {
               : getTransferImage(transfer, contact, community);
           String displayName = transfer.isJoinBonus()
               ? (transfer.text ?? I18n.of(context).join_bonus)
-              : (transfer.receiverName != null && transfer.receiverName != '')
+              : ![null, ''].contains(transfer.receiverName)
                   ? transfer.receiverName
-                  : transfer.text != null
+                  : ![null, ''].contains(transfer.text)
                       ? transfer.text
                       : contact != null
                           ? contact.displayName
                           : deducePhoneNumber(
                               transfer, viewModel.reverseContacts,
-                              businesses: community.businesses);
-          String amount = formatValue(transfer.value, token.decimals);
+                              businesses: community?.businesses);
+          String amount = formatValue(transfer?.value, token?.decimals);
           List<Widget> rightColumn = <Widget>[
             transfer.isGenerateWallet() || transfer.isJoinCommunity()
                 ? SizedBox.shrink()
@@ -130,7 +127,7 @@ class TransactionTile extends StatelessWidget {
           return Container(
               decoration: BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
+                      bottom: BorderSide(color: const Color(0xFFDCDCDC)))), //
               child: ListTile(
                 contentPadding:
                     EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
@@ -193,7 +190,7 @@ class TransactionTile extends StatelessWidget {
                                                         .withOpacity(1)),
                                           ))
                                       : SizedBox.shrink(),
-                                  community.metadata.isDefaultImage != null &&
+                                  community?.metadata?.isDefaultImage != null &&
                                           community.metadata.isDefaultImage &&
                                           transfer.isJoinCommunity()
                                       ? Text(

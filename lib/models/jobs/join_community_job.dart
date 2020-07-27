@@ -49,7 +49,7 @@ class JoinCommunityJob extends Job {
       logger.info('JoinCommunityJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['transfer'], arguments['community']['address']));
+      store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -59,14 +59,15 @@ class JoinCommunityJob extends Job {
       return;
     }
     this.status = 'DONE';
-    store.dispatch(joinCommunitySuccessCall(job, fetchedData, arguments['transfer'], arguments['community']));
+    store.dispatch(joinCommunitySuccessCall(job, fetchedData, arguments['transfer'], arguments['communityAddress'], arguments['communityName']));
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 
   @override
   dynamic argumentsToJson() => {
       'transfer': arguments['transfer'].toJson(),
-      'community': arguments['community']
+      'communityAddress': arguments['communityAddress'],
+      'communityName': arguments['communityName']
     };
 
   @override

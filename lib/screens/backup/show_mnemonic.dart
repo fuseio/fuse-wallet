@@ -50,9 +50,6 @@ class ShowMnemonic extends StatelessWidget {
           ),
           StoreConnector<AppState, BackupViewModel>(
               distinct: true,
-              onInit: (store) {
-                Segment.screen(screenName: '/show-mnemonic');
-              },
               converter: BackupViewModel.fromStore,
               builder: (_, viewModel) {
                 return (viewModel.user != null &&

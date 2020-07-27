@@ -210,7 +210,7 @@ class _ContactsListState extends State<ContactsList> {
           decoration: new BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
               border:
-                  Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
+                  Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,

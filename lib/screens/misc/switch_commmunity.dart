@@ -51,8 +51,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
               ScanResult scanResult = await BarcodeScanner.scan();
               Map jsonMap = jsonDecode(scanResult.rawContent);
               switchCommunity(jsonMap['communityAddress']);
-              // ExtendedNavigator.root.replace(Routes.homePage);
-              ExtendedNavigator.root.pop();
+              ExtendedNavigator.named('homeRouter').popUntilRoot();
             } catch (e) {
               print('BarcodeScanner scan error');
             }
@@ -87,10 +86,6 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _SwitchCommunityViewModel>(
-        distinct: true,
-        onInit: (store) {
-          Segment.screen(screenName: '/switch-community-screen');
-        },
         converter: _SwitchCommunityViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
@@ -102,7 +97,8 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    viewModel.currentCommunity.token != null
+                    viewModel.currentCommunity?.token != null &&
+                            viewModel.currentCommunity?.token?.address != null
                         ? CommunityCardScreen(
                             community: viewModel.currentCommunity,
                             switchCommunity: viewModel.switchCommunity,
@@ -142,12 +138,17 @@ class _SwitchCommunityViewModel extends Equatable {
 
   static _SwitchCommunityViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
-            new Community.initial();
     return _SwitchCommunityViewModel(
-      currentCommunity: community,
-      communities: store.state.cashWalletState.communities,
+      currentCommunity:
+          store.state.cashWalletState.communities.containsKey(communityAddres)
+              ? store.state.cashWalletState.communities[communityAddres]
+              : Community.initial(),
+      communities: store.state.cashWalletState.communities
+        ..removeWhere((key, community) =>
+            [null, ''].contains(community.address) ||
+            [null, ''].contains(community.name) ||
+            ([null, ''].contains(community.token) ||
+                [null, ''].contains(community.token.name))),
       switchCommunity: (String communityAddress) {
         store.dispatch(switchCommunityCall(communityAddress));
       },

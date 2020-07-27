@@ -37,9 +37,6 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BackupViewModel>(
         converter: BackupViewModel.fromStore,
-        onInit: (store) {
-          Segment.screen(screenName: '/verify-mnemonic');
-        },
         builder: (_, viewModel) {
           return MainScaffold(
               withPadding: true,

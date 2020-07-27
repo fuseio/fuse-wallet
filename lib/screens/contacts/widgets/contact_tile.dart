@@ -22,8 +22,8 @@ class ContactTile extends StatelessWidget {
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
       child: Container(
-        decoration: new BoxDecoration(
-            border: Border(bottom: BorderSide(color: const Color(0xFFDCDCDC)))),
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
         child: ListTile(
           contentPadding:
               EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),

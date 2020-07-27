@@ -22,13 +22,13 @@ import '../../misc/switch_commmunity.dart';
 import '../../trade/review_trade.dart';
 import '../../trade/trade.dart';
 import '../screens/home.dart';
+import '../screens/token_screen.dart';
 import '../screens/transaction_details.dart';
-import '../widgets/token_transfers.dart';
 
 class HomeRoutes {
   static const String mainHomeScreen = '/';
   static const String transactionDetailsScreen = '/transaction-details-screen';
-  static const String tokenTransfersScreen = '/token-transfers-screen';
+  static const String tokenScreen = '/token-screen';
   static const String tradeScreen = '/trade-screen';
   static const String reviewTradeScreen = '/review-trade-screen';
   static const String aboutScreen = '/about-screen';
@@ -41,7 +41,7 @@ class HomeRoutes {
   static const all = <String>{
     mainHomeScreen,
     transactionDetailsScreen,
-    tokenTransfersScreen,
+    tokenScreen,
     tradeScreen,
     reviewTradeScreen,
     aboutScreen,
@@ -61,7 +61,7 @@ class HomeRouter extends RouterBase {
     RouteDef(HomeRoutes.mainHomeScreen, page: MainHomeScreen),
     RouteDef(HomeRoutes.transactionDetailsScreen,
         page: TransactionDetailsScreen),
-    RouteDef(HomeRoutes.tokenTransfersScreen, page: TokenTransfersScreen),
+    RouteDef(HomeRoutes.tokenScreen, page: TokenScreen),
     RouteDef(HomeRoutes.tradeScreen, page: TradeScreen),
     RouteDef(HomeRoutes.reviewTradeScreen, page: ReviewTradeScreen),
     RouteDef(HomeRoutes.aboutScreen, page: AboutScreen),
@@ -101,12 +101,12 @@ class HomeRouter extends RouterBase {
         settings: data,
       );
     },
-    TokenTransfersScreen: (data) {
-      var args = data.getArgs<TokenTransfersScreenArguments>(
-        orElse: () => TokenTransfersScreenArguments(),
+    TokenScreen: (data) {
+      var args = data.getArgs<TokenScreenArguments>(
+        orElse: () => TokenScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => TokenTransfersScreen(
+        builder: (context) => TokenScreen(
           key: args.key,
           token: args.token,
           tokenPrice: args.tokenPrice,
@@ -214,12 +214,12 @@ class TransactionDetailsScreenArguments {
       this.transfer});
 }
 
-/// TokenTransfersScreen arguments holder class
-class TokenTransfersScreenArguments {
+/// TokenScreen arguments holder class
+class TokenScreenArguments {
   final Key key;
   final Token token;
   final String tokenPrice;
-  TokenTransfersScreenArguments({this.key, this.token, this.tokenPrice});
+  TokenScreenArguments({this.key, this.token, this.tokenPrice});
 }
 
 /// TradeScreen arguments holder class

@@ -1,4 +1,3 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -7,7 +6,6 @@ import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 
 class HomeViewModel extends Equatable {
   final List<Token> tokens;
@@ -23,12 +21,8 @@ class HomeViewModel extends Equatable {
   final bool isBalanceFetchingStarted;
   final bool isBranchDataReceived;
   final String walletStatus;
-  final Function(String) switchCommunity;
   final Function() startTransfersFetching;
-  final Function() branchCommunityUpdate;
   final Function() startProcessingJobs;
-  final Function() setIdentifier;
-  final Function(CountryCode countryCode) setCountyCode;
 
   HomeViewModel({
     this.accountAddress,
@@ -41,12 +35,8 @@ class HomeViewModel extends Equatable {
     this.isCommunityFetched,
     this.isBalanceFetchingStarted,
     this.isBranchDataReceived,
-    this.switchCommunity,
     this.startTransfersFetching,
-    this.branchCommunityUpdate,
     this.startProcessingJobs,
-    this.setIdentifier,
-    this.setCountyCode,
     this.feedList,
     this.tokens,
     this.communities,
@@ -57,15 +47,15 @@ class HomeViewModel extends Equatable {
         store.state.cashWalletState.communities.values.toList();
 
     List<Token> erc20Tokens = List<Token>.from(
-            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+            store.state.proWalletState?.erc20Tokens?.values ?? Iterable.empty())
         .toList();
     List<Token> homeTokens = communities
-        .map((Community community) => community.token
-            .copyWith(imageUrl: community.metadata.getImageUri()))
+        .map((Community community) => community?.token
+            ?.copyWith(imageUrl: community.metadata.getImageUri()))
         .toList();
     List<Token> tokens = [...homeTokens, ...erc20Tokens]
         .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
+            num.parse(formatValue(token?.amount, token?.decimals,
                     withPrecision: true))
                 .compareTo(0) ==
             1)
@@ -77,55 +67,41 @@ class HomeViewModel extends Equatable {
         store.state.proWalletState.erc20Tokens?.values?.fold(
             [],
             (List<Transaction> previousValue, Token token) =>
-                previousValue..addAll(token.transactions?.list ?? []));
+                previousValue..addAll(token?.transactions?.list ?? []));
     List<Transaction> communityTxs = communities?.fold(
         [],
         (List<Transaction> previousValue, Community community) =>
-            previousValue..addAll(community.token.transactions?.list ?? []));
+            previousValue..addAll(community?.token?.transactions?.list ?? []));
     String communityAddress = store.state.cashWalletState.communityAddress;
     bool isCommunityLoading =
         store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
-    String identifier = store.state.userState.identifier;
     List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
       ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return HomeViewModel(
-        communities: store.state.cashWalletState.communities,
-        tokens: tokens,
-        isoCode: store.state.userState.isoCode,
-        accountAddress: store.state.userState.accountAddress,
-        walletAddress: store.state.userState.walletAddress,
-        walletStatus: store.state.userState.walletStatus,
-        communityAddress: communityAddress,
-        branchAddress: branchAddress,
-        isCommunityLoading: isCommunityLoading,
-        isCommunityFetched:
-            store.state.cashWalletState.isCommunityFetched ?? false,
-        isBalanceFetchingStarted:
-            store.state.cashWalletState.isBalanceFetchingStarted ?? false,
-        isBranchDataReceived:
-            store.state.cashWalletState.isBranchDataReceived ?? false,
-        feedList: feedList,
-        switchCommunity: (String communityAddress) {
-          store.dispatch(switchCommunityCall(communityAddress));
-        },
-        startTransfersFetching: () {
-          store.dispatch(startTransfersFetchingCall());
-        },
-        branchCommunityUpdate: () {
-          store.dispatch(switchCommunityCall(branchAddress));
-        },
-        startProcessingJobs: () {
-          store.dispatch(startProcessingJobsCall());
-        },
-        setIdentifier: () {
-          if (identifier == null) {
-            store.dispatch(setDeviceId(true));
-          }
-        },
-        setCountyCode: (CountryCode countryCode) {
-          store.dispatch(setCountryCode(countryCode));
-        });
+      communities: store.state.cashWalletState.communities,
+      tokens: tokens,
+      isoCode: store.state.userState.isoCode,
+      accountAddress: store.state.userState.accountAddress,
+      walletAddress: store.state.userState.walletAddress,
+      walletStatus: store.state.userState.walletStatus,
+      communityAddress: communityAddress,
+      branchAddress: branchAddress,
+      isCommunityLoading: isCommunityLoading,
+      isCommunityFetched:
+          store.state.cashWalletState.isCommunityFetched ?? false,
+      isBalanceFetchingStarted:
+          store.state.cashWalletState.isBalanceFetchingStarted ?? false,
+      isBranchDataReceived:
+          store.state.cashWalletState.isBranchDataReceived ?? false,
+      feedList: feedList,
+      startTransfersFetching: () {
+        store.dispatch(startTransfersFetchingCall());
+      },
+      startProcessingJobs: () {
+        store.dispatch(startProcessingJobsCall());
+      },
+    );
   }
 
   @override

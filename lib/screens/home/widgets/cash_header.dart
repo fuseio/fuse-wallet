@@ -24,7 +24,7 @@ class CashHeader extends StatelessWidget {
                   BoxShadow(
                     color: Theme.of(context).primaryColor.withAlpha(20),
                     blurRadius: 30.0,
-                    spreadRadius: 0.0,
+                    spreadRadius: 10.0,
                     offset: Offset(
                       0.0,
                       3.0,
