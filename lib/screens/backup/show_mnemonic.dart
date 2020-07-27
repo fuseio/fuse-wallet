@@ -1,7 +1,6 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/backup.dart';
 import 'package:fusecash/screens/home/router/home_router.gr.dart';
