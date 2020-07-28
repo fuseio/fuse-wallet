@@ -19,7 +19,6 @@ class CommunityMetadata {
       this.imageUri});
 
   String getImageUri() {
-    print('imageUri imageUri $imageUri');
     if (imageUri != null && imageUri.isNotEmpty) {
       return imageUri;
     } else if (image != null && image.isNotEmpty) {

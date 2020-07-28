@@ -375,10 +375,10 @@ class _ExchangeState extends State<TradeScreen> {
                                         fontWeight: FontWeight.w400),
                                   )),
                             ),
-                            fromTokenAmount: isSwap
+                            fromTokenAmount: !isSwap
                                 ? fromTokenAmountPay
                                 : fromTokenAmountReceive,
-                            toTokenAmount: isSwap
+                            toTokenAmount: !isSwap
                                 ? toTokenAmountPay
                                 : toTokenAmountReceive,
                             isFetchingPrice: isFetchingPrice,
@@ -428,10 +428,10 @@ class _ExchangeState extends State<TradeScreen> {
                             ],
                           ),
                           TradeCard(
-                            fromTokenAmount: isSwap
+                            fromTokenAmount: !isSwap
                                 ? fromTokenAmountReceive
                                 : fromTokenAmountPay,
-                            toTokenAmount: isSwap
+                            toTokenAmount: !isSwap
                                 ? toTokenAmountReceive
                                 : toTokenAmountPay,
                             isFetchingPrice: isFetchingPrice,

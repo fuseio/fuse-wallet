@@ -62,7 +62,8 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: InkWell(
                         onTap: () {
-                          // TODO - link to privacy policy
+                          launchUrl(
+                              'https://digitalrand.co.za/legal/terms.html');
                         },
                         child: Text(
                           I18n.of(context).legal,
