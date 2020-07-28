@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/screens/contacts/screens/contacts_list.dart';
-import 'package:fusecash/screens/contacts/screens/empty_contacts.dart';
+import 'package:seedbed/screens/contacts/screens/contacts_list.dart';
+import 'package:seedbed/screens/contacts/screens/empty_contacts.dart';
 
 @MaterialAutoRouter(routesClassName: "ContactsRoutes", routes: <AutoRoute>[
   MaterialRoute(

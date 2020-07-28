@@ -1,41 +1,89 @@
 {
   "project_info": {
-    "project_number": "863692183597",
-    "firebase_url": "https://fuse-2-0.firebaseio.com",
-    "project_id": "fuse-2-0",
-    "storage_bucket": "fuse-2-0.appspot.com"
+    "project_number": "1061346702666",
+    "firebase_url": "https://seedbed-1f2fc.firebaseio.com",
+    "project_id": "seedbed-1f2fc",
+    "storage_bucket": "seedbed-1f2fc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:863692183597:android:0591105e8b1bb60b9b80a4",
+        "mobilesdk_app_id": "1:1061346702666:android:451a1682e7dc65f3f5fdb3",
         "android_client_info": {
-          "package_name": "io.fuse.fusecash"
+          "package_name": "io.fuse.seedbed"
         }
       },
       "oauth_client": [
         {
-          "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+          "client_id": "1061346702666-8n176p67ik89u399sjq2in32j52a8u1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.seedbed",
+            "certificate_hash": "e69185290b29a29589349975b5cdebc080f0d7d5"
+          }
+        },
+        {
+          "client_id": "1061346702666-8l2907eqodscokh9d7vb07j6vgojtrtp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.seedbed",
+            "certificate_hash": "45ceff1f5f49fdecae14ccc13974544f97fa83bf"
+          }
+        },
+        {
+          "client_id": "1061346702666-e0nj1mkvve1e50g0jcgd24h7h3pp5adg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.seedbed",
+            "certificate_hash": "ff0350a69bf0ce5bd0840044ecc754e7d3680e74"
+          }
+        },
+        {
+          "client_id": "1061346702666-mv4fm4oj30ksf7fd7fvid4vbpjdhmq7v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.seedbed",
+            "certificate_hash": "6ef39bd8ccb23c9a98a00f615c21c0732cc8097b"
+          }
+        },
+        {
+          "client_id": "1061346702666-qcqf1e14a2inub22te0rb3mkl6gl1ubr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.seedbed",
+            "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
+          }
+        },
+        {
+          "client_id": "1061346702666-up47a7bauq90o54lnre2ms8qmmrfetm9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.seedbed",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
+          "client_id": "1061346702666-caotbohu17gelohebim1g4fu5cgv1fpd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvx56Wp3R5M4d0I1lwYc6fhgJy6dTFNPM"
+          "current_key": "AIzaSyA43SeYmN_gQ65m84mlOzQApU7l1sDFmkU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+              "client_id": "1061346702666-caotbohu17gelohebim1g4fu5cgv1fpd.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com",
+              "client_id": "1061346702666-hl1l5geu2qpal19srsadk7cvvts43f3v.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "io.fuse.fusecash"
+                "bundle_id": "io.fuse.seedbed"
               }
             }
           ]

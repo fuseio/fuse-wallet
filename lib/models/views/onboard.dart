@@ -3,14 +3,14 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
+import 'package:seedbed/redux/actions/error_actions.dart';
+import 'package:seedbed/screens/routes.gr.dart';
+import 'package:seedbed/services.dart';
+import 'package:seedbed/utils/biometric_local_auth.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:seedbed/models/app_state.dart';
+import 'package:seedbed/redux/actions/user_actions.dart';
 
 class OnboardViewModel extends Equatable {
   final String countryCode;

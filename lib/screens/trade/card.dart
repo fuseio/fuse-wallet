@@ -1,5 +1,5 @@
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:seedbed/generated/i18n.dart';
+import 'package:seedbed/models/tokens/token.dart';
 import 'package:flutter/material.dart';
 
 class TradeCard extends StatelessWidget {

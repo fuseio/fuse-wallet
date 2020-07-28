@@ -1,14 +1,14 @@
 import 'package:ethereum_address/ethereum_address.dart';
-import 'package:fusecash/constans/exchangable_tokens.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:seedbed/constans/exchangable_tokens.dart';
+import 'package:seedbed/models/jobs/base.dart';
+import 'package:seedbed/models/pro/pro_wallet_state.dart';
+import 'package:seedbed/models/tokens/token.dart';
+import 'package:seedbed/models/transactions/transfer.dart';
+import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
+import 'package:seedbed/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:seedbed/redux/state/store.dart';
+import 'package:seedbed/services.dart';
+import 'package:seedbed/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'swap_token_job.g.dart';

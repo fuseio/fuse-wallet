@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:seedbed/models/community/business.dart';
+import 'package:seedbed/models/community/community_metadata.dart';
+import 'package:seedbed/models/plugins/plugins.dart';
+import 'package:seedbed/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';
@@ -13,9 +13,11 @@ class Community extends Equatable {
   final String address;
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
+  final String secondaryTokenAddress;
   final bool isMember;
   final List<Business> businesses;
   final Token token;
+  final Token secondaryToken;
   final Plugins plugins;
   final CommunityMetadata metadata;
   final bool isClosed;
@@ -28,6 +30,7 @@ class Community extends Equatable {
         isMember,
         token,
         plugins,
+        secondaryToken,
         metadata,
         webUrl
       ];
@@ -42,6 +45,8 @@ class Community extends Equatable {
       this.businesses,
       this.metadata,
       this.homeBridgeAddress,
+      this.secondaryToken,
+      this.secondaryTokenAddress,
       this.webUrl,
       this.foreignBridgeAddress});
 
@@ -65,13 +70,15 @@ class Community extends Equatable {
     String address,
     String foreignBridgeAddress,
     String homeBridgeAddress,
+    String secondaryTokenAddress,
     Plugins plugins,
     Token token,
+    Token secondaryToken,
     List<Business> businesses,
     bool isMember,
     CommunityMetadata metadata,
     bool isClosed,
-    String webUrl,
+    String webUrl
   }) {
     return Community(
       isClosed: isClosed ?? this.isClosed,
@@ -81,10 +88,12 @@ class Community extends Equatable {
       name: name ?? this.name,
       plugins: plugins ?? this.plugins,
       token: token ?? this.token,
+      secondaryToken: secondaryToken ?? this.secondaryToken,
       businesses: businesses ?? this.businesses,
       isMember: isMember ?? this.isMember,
       homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
       foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,
+      secondaryTokenAddress: secondaryTokenAddress ?? this.secondaryTokenAddress,
     );
   }
 

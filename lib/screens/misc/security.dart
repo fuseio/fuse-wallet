@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:seedbed/screens/routes.gr.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/misc/pincode.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:seedbed/redux/actions/user_actions.dart';
+import 'package:seedbed/screens/misc/pincode.dart';
+import 'package:seedbed/utils/biometric_local_auth.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:seedbed/generated/i18n.dart';
+import 'package:seedbed/models/app_state.dart';
+import 'package:seedbed/widgets/main_scaffold.dart';
 
 class SecurityScreen extends StatefulWidget {
   @override

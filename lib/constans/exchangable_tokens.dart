@@ -1,6 +1,6 @@
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:seedbed/models/tokens/token.dart';
+import 'package:seedbed/screens/home/widgets/assets_list.dart';
+import 'package:seedbed/utils/addresses.dart';
 
 final Token daiToken = Token.initial().copyWith(
     address: daiTokenAddress,

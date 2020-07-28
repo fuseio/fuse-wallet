@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:seedbed/generated/i18n.dart';
+import 'package:seedbed/models/app_state.dart';
+import 'package:seedbed/models/views/backup.dart';
+import 'package:seedbed/screens/routes.gr.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class ColorsPincodeScreen extends StatefulWidget {

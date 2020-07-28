@@ -6,16 +6,16 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/route_guards.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
+import 'package:seedbed/models/app_state.dart';
+import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
+import 'package:seedbed/redux/state/store.dart';
+import 'package:seedbed/screens/route_guards.dart';
+import 'package:seedbed/screens/routes.gr.dart';
+import 'package:seedbed/themes/app_theme.dart';
+import 'package:seedbed/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:seedbed/generated/i18n.dart';
 import 'package:flutter/services.dart';
 
 void main() async {

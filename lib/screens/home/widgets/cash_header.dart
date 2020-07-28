@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/cash_header.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:seedbed/constans/keys.dart';
+import 'package:seedbed/generated/i18n.dart';
+import 'package:seedbed/models/views/cash_header.dart';
+import 'package:seedbed/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/send.dart';
+import 'package:seedbed/utils/format.dart';
+import 'package:seedbed/utils/send.dart';
 
 class CashHeader extends StatelessWidget {
   @override

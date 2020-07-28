@@ -35,7 +35,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
+				<string>com.googleusercontent.apps.1061346702666-hl1l5geu2qpal19srsadk7cvvts43f3v</string>
 			</array>
 		</dict>
 	</array>
@@ -94,7 +94,7 @@
 	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-    <string>itms</string>
+		<string>itms</string>
 	</array>
 </dict>
 </plist>

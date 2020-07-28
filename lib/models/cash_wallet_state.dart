@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/community/community.dart';
+import 'package:seedbed/models/community/community.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,6 +8,10 @@ part 'cash_wallet_state.g.dart';
 @immutable
 @JsonSerializable(explicitToJson: true)
 class CashWalletState {
+  @JsonKey(fromJson: _rewardFromJson)
+  final BigInt nextReward;
+  @JsonKey(fromJson: _rewardFromJson)
+  final BigInt currentReward;
   final String communityAddress;
   @JsonKey(
       name: 'communities',
@@ -37,6 +41,9 @@ class CashWalletState {
   final bool isJobProcessingStarted;
   @JsonKey(ignore: true)
   final Map<String, num> sendToInvites;
+
+  static BigInt _rewardFromJson(String value) =>
+      value == null ? BigInt.zero : BigInt.parse(value);
 
   static Map<String, Community> _communitiesFromJson(
       Map<String, dynamic> list) {
@@ -74,7 +81,9 @@ class CashWalletState {
       this.isBranchDataReceived,
       this.isCommunityBusinessesFetched,
       this.isJobProcessingStarted,
-      this.communities});
+      this.communities,
+      this.nextReward,
+      this.currentReward});
 
   factory CashWalletState.initial() {
     return new CashWalletState(
@@ -90,24 +99,31 @@ class CashWalletState {
         isTransfersFetchingStarted: false,
         isJobProcessingStarted: false,
         sendToInvites: new Map<String, num>(),
-        communities: new Map<String, Community>());
+        communities: new Map<String, Community>(),
+        currentReward: BigInt.zero,
+        nextReward: BigInt.zero);
   }
 
-  CashWalletState copyWith(
-      {wallet_core.Web3 web3,
-      String communityAddress,
-      String branchAddress,
-      bool isCommunityLoading,
-      bool isCommunityFetched,
-      bool isCommunityBusinessesFetched,
-      bool isBalanceFetchingStarted,
-      bool isTransfersFetchingStarted,
-      bool isListeningToBranch,
-      bool isBranchDataReceived,
-      bool isJobProcessingStarted,
-      Map<String, num> sendToInvites,
-      Map<String, Community> communities}) {
+  CashWalletState copyWith({
+    wallet_core.Web3 web3,
+    String communityAddress,
+    String branchAddress,
+    bool isCommunityLoading,
+    bool isCommunityFetched,
+    bool isCommunityBusinessesFetched,
+    bool isBalanceFetchingStarted,
+    bool isTransfersFetchingStarted,
+    bool isListeningToBranch,
+    bool isBranchDataReceived,
+    bool isJobProcessingStarted,
+    Map<String, num> sendToInvites,
+    Map<String, Community> communities,
+    BigInt currentReward,
+    BigInt nextReward,
+  }) {
     return CashWalletState(
+        nextReward: nextReward ?? this.nextReward,
+        currentReward: currentReward ?? this.currentReward,
         web3: web3 ?? this.web3,
         communityAddress: communityAddress ?? this.communityAddress,
         branchAddress: branchAddress ?? this.branchAddress,

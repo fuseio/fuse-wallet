@@ -1,11 +1,11 @@
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
+import 'package:seedbed/models/community/community.dart';
+import 'package:seedbed/models/jobs/base.dart';
+import 'package:seedbed/models/transactions/transaction.dart';
+import 'package:seedbed/models/transactions/transactions.dart';
+import 'package:seedbed/models/transactions/transfer.dart';
+import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
+import 'package:seedbed/redux/actions/user_actions.dart';
+import 'package:seedbed/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
@@ -49,8 +49,28 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _fetchingBusinessListFailed),
   TypedReducer<CashWalletState, AddJob>(_addJob),
   TypedReducer<CashWalletState, JobDone>(_jobDone),
-  TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
+  TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted),
+  TypedReducer<CashWalletState, FetchSecondaryTokenSuccess>(
+      _fetchSecondaryTokenSuccess),
+  TypedReducer<CashWalletState, GetWeeklyRewardSucces>(_getWeeklyRewardSucces),
 ]);
+
+CashWalletState _getWeeklyRewardSucces(
+    CashWalletState state, GetWeeklyRewardSucces action) {
+  return state.copyWith(
+      nextReward: action.nextReward, currentReward: action.currentReward);
+}
+
+CashWalletState _fetchSecondaryTokenSuccess(
+    CashWalletState state, FetchSecondaryTokenSuccess action) {
+  String communityAddress = state.communityAddress;
+  Community current = state.communities[communityAddress];
+  Community newCommunity = current.copyWith(secondaryToken: action.token);
+  Map<String, Community> newOne =
+      Map<String, Community>.from(state.communities);
+  newOne[communityAddress] = newCommunity;
+  return state.copyWith(communities: newOne);
+}
 
 CashWalletState _fetchCommunityMetadataSuccess(
     CashWalletState state, FetchCommunityMetadataSuccess action) {

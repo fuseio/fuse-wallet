@@ -1,9 +1,9 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:seedbed/generated/i18n.dart';
+import 'package:seedbed/screens/misc/about.dart';
+import 'package:seedbed/widgets/main_scaffold.dart';
 
 class FusePointsExplainedScreen extends StatefulWidget {
   @override

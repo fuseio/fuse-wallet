@@ -3,18 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:seedbed/generated/i18n.dart';
+import 'package:seedbed/models/app_state.dart';
+import 'package:seedbed/models/views/contacts.dart';
+import 'package:seedbed/screens/contacts/widgets/contact_tile.dart';
+import 'package:seedbed/utils/contacts.dart';
+import 'package:seedbed/utils/format.dart';
+import 'package:seedbed/utils/phone.dart';
+import 'package:seedbed/utils/send.dart';
+import 'package:seedbed/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
-import 'package:fusecash/widgets/preloader.dart';
-import 'package:fusecash/widgets/silver_app_bar.dart';
+import 'package:seedbed/widgets/preloader.dart';
+import 'package:seedbed/widgets/silver_app_bar.dart';
 
 class ContactsList extends StatefulWidget {
   @override

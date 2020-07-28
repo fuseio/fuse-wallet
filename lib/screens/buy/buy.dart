@@ -2,16 +2,16 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/utils/transaction_util.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:seedbed/generated/i18n.dart';
+import 'package:seedbed/models/app_state.dart';
+import 'package:seedbed/models/community/business.dart';
+import 'package:seedbed/models/views/buy_page.dart';
+import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
+import 'package:seedbed/screens/buy/router/buy_router.gr.dart';
+import 'package:seedbed/screens/routes.gr.dart';
+import 'package:seedbed/utils/send.dart';
+import 'package:seedbed/utils/transaction_util.dart';
+import 'package:seedbed/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 
 class BuyScreen extends StatelessWidget {
@@ -97,7 +97,9 @@ class BusinessesListView extends StatelessWidget {
                         padding: new EdgeInsets.only(left: 10, bottom: 5.0),
                         child: ListView.separated(
                           separatorBuilder: (BuildContext context, int index) =>
-                              new Divider(color: Color(0xFFE8E8E8),),
+                              new Divider(
+                            color: Color(0xFFE8E8E8),
+                          ),
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
                           itemCount: vm.businesses?.length ?? 0,
@@ -157,18 +159,16 @@ class BusinessesListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
+          InkWell(
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/go.png',
+                  fit: BoxFit.fill,
+                  width: 25,
+                  height: 25,
+                )),
+            onTap: () {
               navigateToSendAmountScreen(
                   business.account, business.name ?? '', null,
                   avatar: NetworkImage(image));

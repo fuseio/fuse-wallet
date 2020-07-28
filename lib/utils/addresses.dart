@@ -3,8 +3,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 final String foreignNetwork = DotEnv().env['MODE'] == 'production' ? 'mainnet' : 'ropsten';
 
 final String zeroAddress = "0x0000000000000000000000000000000000000000";
+final String reserveContractAddress = DotEnv().env['RESERVE_CONTRACT_ADDRESS'];
 
 final String defaultCommunityAddress = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'];
+
+final String secondryCommunityAddress = DotEnv().env['SECONDARY_COMMUNITY_CONTRACT_ADDRESS'];
 
 final String daiTokenAddress = DotEnv().env['DAI_TOKEN'];
 
