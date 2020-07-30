@@ -31,11 +31,11 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
   List<Widget> _pages(String walletAddress) {
     return [
       CashHomeScreen(),
-      WebViewPage(
-          pageArgs: WebViewPageArguments(
-              withBack: false,
-              url: 'https://app.itsaboutpeepl.com/today?wallet=$walletAddress',
-              title: 'Today')),
+      // WebViewPage(
+      //     pageArgs: WebViewPageArguments(
+      //         withBack: false,
+      //         url: 'https://app.itsaboutpeepl.com/today?wallet=$walletAddress',
+      //         title: 'Today')),
       WebViewPage(
           pageArgs: WebViewPageArguments(
               withBack: false,
@@ -77,7 +77,7 @@ class _CashModeScaffoldState extends State<CashModeScaffold> {
                 showUnselectedLabels: true,
                 items: [
                   bottomBarItem(I18n.of(context).wallet, 'home'),
-                  bottomBarItem(I18n.of(context).today_screen, 'today'),
+                  // bottomBarItem(I18n.of(context).today_screen, 'today'),
                   bottomBarItem(I18n.of(context).topup_screen, 'receive'),
                   bottomBarItem(I18n.of(context).buy, 'buy'),
                   // bottomBarItem(I18n.of(context).receive, 'receive'),
