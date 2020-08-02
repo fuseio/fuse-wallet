@@ -224,7 +224,7 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushWebview({
     String url,
     String title,
-    bool withBack,
+    bool withBack = false,
   }) =>
       push<dynamic>(
         Routes.webview,
@@ -282,7 +282,7 @@ class WebViewPageArguments {
   final String url;
   final String title;
   final bool withBack;
-  WebViewPageArguments({this.url, this.title, this.withBack});
+  WebViewPageArguments({this.url, this.title, this.withBack = false});
 }
 
 /// HomePage arguments holder class

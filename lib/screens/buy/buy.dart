@@ -63,7 +63,7 @@ class BusinessesListView extends StatelessWidget {
               onTap: () {
                 ExtendedNavigator.root.push(Routes.webview,
                     arguments: WebViewPageArguments(
-                        url: vm.walletBanner.link, title: ''));
+                        withBack: true, url: vm.walletBanner.link, title: ''));
               },
               child: CachedNetworkImage(
                 imageUrl: getIPFSImageUrl(vm.walletBanner.walletBannerHash),
@@ -97,7 +97,9 @@ class BusinessesListView extends StatelessWidget {
                         padding: new EdgeInsets.only(left: 10, bottom: 5.0),
                         child: ListView.separated(
                           separatorBuilder: (BuildContext context, int index) =>
-                              new Divider(color: Color(0xFFE8E8E8),),
+                              new Divider(
+                            color: Color(0xFFE8E8E8),
+                          ),
                           shrinkWrap: true,
                           physics: ScrollPhysics(),
                           itemCount: vm.businesses?.length ?? 0,

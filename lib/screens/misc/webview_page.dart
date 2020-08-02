@@ -8,7 +8,7 @@ class WebViewPage extends StatefulWidget {
   final String title;
   final bool withBack;
 
-  WebViewPage({this.url, this.title, this.withBack});
+  WebViewPage({this.url, this.title, this.withBack = false});
 
   @override
   _WebViewPageState createState() => _WebViewPageState();
