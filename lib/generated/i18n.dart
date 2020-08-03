@@ -272,6 +272,12 @@ class I18n implements WidgetsLocalizations {
   String get flash_on => "Flash on";
   /// "Flash off"
   String get flash_off => "Flash off";
+  /// "Current community"
+  String get current_community => "Current community";
+  /// "My communities"
+  String get my_communities => "My communities";
+  /// "Selected"
+  String get selected => "Selected";
 }
 
 class _I18n_en_US extends I18n {

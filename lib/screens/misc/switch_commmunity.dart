@@ -6,6 +6,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/widgets/community_card.dart';
+import 'package:fusecash/widgets/community_card_small.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
@@ -33,17 +34,9 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
         width: 260.0,
         height: 50.0,
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorDark,
-              ],
-            ),
-            borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-            border: Border.all(
-                color: Theme.of(context).primaryColor.withAlpha(14))),
+          color: Color(0xFFF2F2F2),
+          borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
+        ),
         child: InkWell(
           onTap: () async {
             try {
@@ -94,20 +87,36 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                 padding: EdgeInsets.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                        padding: EdgeInsets.only(left: 15, top: 20),
+                        child: Text(I18n.of(context).current_community,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.normal))),
                     viewModel.currentCommunity?.token != null &&
                             viewModel.currentCommunity?.token?.address != null
-                        ? CommunityCardScreen(
+                        ? CommunitySelectedCardScreen(
                             community: viewModel.currentCommunity,
                             switchCommunity: viewModel.switchCommunity,
                           )
                         : SizedBox.shrink(),
-                    Padding(
-                        padding: EdgeInsets.only(
-                            top: 20, bottom: 20, right: 40, left: 40),
-                        child:
-                            scanQRButton(context, viewModel.switchCommunity)),
+                    Center(
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 20, bottom: 20, right: 40, left: 40),
+                          child:
+                              scanQRButton(context, viewModel.switchCommunity)),
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(left: 15, top: 20),
+                        child: Text(I18n.of(context).my_communities,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.normal))),
                     ...viewModel.communities.values
                         .where((Community community) =>
                             community.address !=
