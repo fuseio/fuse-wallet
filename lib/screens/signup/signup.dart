@@ -27,10 +27,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
     super.initState();
   }
 
-  _updateCountryCode(Locale myLocale) {
+  _updateCountryCode(_) {
+    Locale myLocale = Localizations.localeOf(context);
     if (myLocale.countryCode != null) {
       Map localeData = codes.firstWhere(
           (Map code) => code['code'] == myLocale.countryCode,
@@ -46,8 +48,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
-    _updateCountryCode(myLocale);
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
