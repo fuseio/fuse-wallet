@@ -164,8 +164,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         final int decimals = selectedToken?.decimals;
         final num currentTokenBalance =
             num.parse(formatValue(balance, decimals, withPrecision: true));
-        final bool hasFund =
-            (num.parse(amountText ?? 0)).compareTo(currentTokenBalance) <= 0;
+        final bool hasFund = (num.tryParse(amountText ?? 0) ?? 0)
+                .compareTo(currentTokenBalance) <=
+            0;
 
         if (!hasFund) {
           controller.forward();

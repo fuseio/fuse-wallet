@@ -497,6 +497,16 @@ ThunkAction generateWalletSuccessCall(
           communityManagerAddress: communityManager,
           transferManagerAddress: transferManager,
           networks: networks));
+      Future.delayed(Duration(seconds: intervalSeconds), () {
+        if (deployedToForeign) {
+          store.dispatch(startListenToTransferEvents());
+          store.dispatch(startFetchBalancesOnForeign());
+          store.dispatch(fetchTokensBalances());
+          store.dispatch(startFetchTransferEventsCall());
+          store.dispatch(startFetchTokensLastestPrices());
+          store.dispatch(startProcessingTokensJobsCall());
+        }
+      });
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
         "App name": 'Fuse',
