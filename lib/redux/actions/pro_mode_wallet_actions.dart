@@ -236,6 +236,7 @@ ThunkAction fetchTokensBalances() {
                       amount: balance,
                       timestamp: DateTime.now().millisecondsSinceEpoch)));
               store.dispatch(updateTotalBalance());
+              store.dispatch(fetchTokensLatestPrice());
               store.dispatch(ClearTokenList());
             };
             void Function(Object error, StackTrace stackTrace) onError =
