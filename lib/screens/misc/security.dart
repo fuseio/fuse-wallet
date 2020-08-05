@@ -82,6 +82,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         InkWell(
+                          highlightColor: Theme.of(context).splashColor,
                           child: Container(
                               height: 60,
                               padding: EdgeInsets.symmetric(
@@ -160,6 +161,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                           height: 30,
                         ),
                         InkWell(
+                          highlightColor: Theme.of(context).splashColor,
                           child: Container(
                             height: 60,
                             padding: EdgeInsets.symmetric(

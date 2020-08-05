@@ -31,10 +31,26 @@ class _EmptyContactsState extends State<EmptyContacts> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  void resetSearch() {
+    FocusScope.of(context).unfocus();
+    if (mounted) {
+      setState(() {
+        searchController.text = '';
+      });
+    }
+  }
+
   Widget sendToAcccountAddress(BuildContext context, String accountAddress) {
     Widget component = ContactTile(
       displayName: formatAddress(accountAddress),
       onTap: () {
+        resetSearch();
         sendToPastedAddress(accountAddress);
       },
       trailing: InkWell(
@@ -43,6 +59,7 @@ class _EmptyContactsState extends State<EmptyContacts> {
           style: TextStyle(color: Color(0xFF0377FF)),
         ),
         onTap: () {
+          resetSearch();
           sendToPastedAddress(accountAddress);
         },
       ),
