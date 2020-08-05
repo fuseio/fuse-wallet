@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/backup.dart';
@@ -57,12 +56,15 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    SizedBox(
+                      height: 100,
+                    ),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          SvgPicture.asset('assets/images/fuse_logo.svg',
-                              width: 78, height: 25, color: Color(0xFF656565)),
+                          Image.asset('assets/images/pincode_logo.png',
+                              width: 71, height: 61),
                         ],
                       ),
                     ),
@@ -104,8 +106,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                           onChanged: (value) {
                                             if (value == viewModel.pincode) {
                                               ExtendedNavigator.root
-                                                  .replace(
-                                                      Routes.homePage);
+                                                  .replace(Routes.homePage);
                                             }
                                           }),
                                     )))

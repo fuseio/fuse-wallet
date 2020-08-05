@@ -22,6 +22,7 @@ class _WebViewPageState extends State<WebViewPage> {
         return WebviewScaffold(
             url: widget.url,
             appBar: MyAppBar(
+              backgroundColor: Colors.white,
               child: Container(
                 height: 120,
                 decoration: BoxDecoration(

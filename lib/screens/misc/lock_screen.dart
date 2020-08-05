@@ -97,14 +97,15 @@ class _LockScreenState extends State<LockScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
+                          SizedBox(
+                            height: 100,
+                          ),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                SvgPicture.asset('assets/images/fuse_logo.svg',
-                                    width: 78,
-                                    height: 25,
-                                    color: Color(0xFF656565)),
+                                Image.asset('assets/images/pincode_logo.png',
+                                    width: 71, height: 61),
                               ],
                             ),
                           ),

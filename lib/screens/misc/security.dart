@@ -88,11 +88,16 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                   horizontal: 20, vertical: 10),
                               width: MediaQuery.of(context).size.width * .8,
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color(0xFFDEDEDE), width: 2),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30.0)),
-                                color: Theme.of(context).splashColor,
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    Theme.of(context).primaryColorDark,
+                                    Theme.of(context).primaryColorLight,
+                                  ],
+                                ),
                                 shape: BoxShape.rectangle,
                               ),
                               child: Row(
@@ -118,7 +123,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       SvgPicture.asset(
-                                        'assets/images/info_gray.svg',
+                                        'assets/images/info_black.svg',
                                       ),
                                       SizedBox(
                                         width: 3,
@@ -161,11 +166,9 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                 horizontal: 20, vertical: 10),
                             width: MediaQuery.of(context).size.width * .8,
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color(0xFFDEDEDE), width: 2),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30.0)),
-                              color: Theme.of(context).splashColor,
+                              color: Color(0xFFF7F7F7),
                               shape: BoxShape.rectangle,
                             ),
                             child: Row(children: [
