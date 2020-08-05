@@ -10,7 +10,6 @@ import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {
   final List<Contact> contacts;
-  final bool isContactsSynced;
   final Function(List<Contact>) syncContacts;
   final Transactions transactions;
   final Map<String, String> reverseContacts;
@@ -25,7 +24,6 @@ class ContactsViewModel extends Equatable {
   ContactsViewModel(
       {this.contacts,
       this.syncContacts,
-      this.isContactsSynced,
       this.transactions,
       this.reverseContacts,
       this.countryCode,
@@ -43,7 +41,6 @@ class ContactsViewModel extends Equatable {
     return ContactsViewModel(
         isoCode: store.state.userState.isoCode,
         businesses: community?.businesses ?? [],
-        isContactsSynced: store.state.userState.isContactsSynced,
         contacts: store.state.userState?.contacts ?? [],
         community: community,
         transactions: community?.token?.transactions,
@@ -66,7 +63,6 @@ class ContactsViewModel extends Equatable {
   @override
   List<Object> get props => [
         contacts,
-        isContactsSynced,
         transactions,
         reverseContacts,
         countryCode,

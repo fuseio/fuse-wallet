@@ -160,7 +160,7 @@ UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {
 }
 
 UserState _saveContacts(UserState state, SaveContacts action) {
-  return state.copyWith(contacts: action.contacts);
+  return state.copyWith(contacts: action.contacts, isContactsSynced: true);
 }
 
 UserState _setPincode(UserState state, SetPincodeSuccess action) {

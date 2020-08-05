@@ -54,7 +54,9 @@ class AboutScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    new Divider(),
+                    Divider(
+                      color: Color(0xFFE8E8E8),
+                    ),
                     ListTile(
                       contentPadding: EdgeInsets.only(
                           top: 5, bottom: 5, right: 30, left: 30),
@@ -70,7 +72,9 @@ class AboutScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    new Divider(),
+                    Divider(
+                      color: Color(0xFFE8E8E8),
+                    ),
                     ListTile(
                       contentPadding: EdgeInsets.only(
                           top: 5, bottom: 5, right: 30, left: 30),

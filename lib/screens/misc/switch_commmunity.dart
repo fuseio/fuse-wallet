@@ -110,13 +110,15 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                           child:
                               scanQRButton(context, viewModel.switchCommunity)),
                     ),
-                    Container(
-                        padding: EdgeInsets.only(left: 15, top: 20),
-                        child: Text(I18n.of(context).my_communities,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.normal))),
+                    viewModel.communities.length > 1
+                        ? Container(
+                            padding: EdgeInsets.only(left: 15, top: 20),
+                            child: Text(I18n.of(context).my_communities,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.normal)))
+                        : SizedBox.shrink(),
                     ...viewModel.communities.values
                         .where((Community community) =>
                             community.address !=

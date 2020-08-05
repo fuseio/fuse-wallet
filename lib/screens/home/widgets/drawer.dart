@@ -71,7 +71,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     List depositPlugins = viewModel?.plugins?.getDepositPlugins();
     if (depositPlugins.isNotEmpty) {
       plugins.add(new Divider(
-        color: Color(0xFFCBCBCB),
+        color: Color(0xFFE8E8E8),
       ));
       plugins.add(ListTile(
         contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),

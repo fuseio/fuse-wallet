@@ -9,7 +9,6 @@ import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
-import 'package:fusecash/screens/home/home_page.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/send.dart';
@@ -73,8 +72,7 @@ class _EmptyContactsState extends State<EmptyContacts> {
         child: Container(
           decoration: new BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              border:
-                  Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
+              border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,20 +128,6 @@ class _EmptyContactsState extends State<EmptyContacts> {
     return StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
         converter: ContactsViewModel.fromStore,
-        onWillChange: (previousViewModel, newViewModel) async {
-          bool isPermitted = await Contacts.checkPermissions();
-          final bool isFirstTime = newViewModel.isContactsSynced == null;
-          final bool inSendTab = HomePage.of(context).currentIndex == 1;
-          if (!isPermitted && isFirstTime && inSendTab) {
-            Future.delayed(
-                Duration.zero,
-                () => showDialog(
-                    context: context, child: ContactsConfirmationScreen()));
-          }
-          setState(() {
-            hasSynced = isPermitted;
-          });
-        },
         builder: (_, viewModel) {
           return MainScaffold(
               automaticallyImplyLeading: false,

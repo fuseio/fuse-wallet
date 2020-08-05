@@ -47,7 +47,6 @@ class TransfersList extends StatelessWidget {
           ListView.builder(
               shrinkWrap: true,
               primary: false,
-              padding: EdgeInsets.only(left: 15, right: 15),
               itemCount: list?.length,
               itemBuilder: (BuildContext ctxt, int index) =>
                   TransactionTile(transfer: list[index]))

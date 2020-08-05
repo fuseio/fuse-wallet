@@ -113,7 +113,7 @@ class FeedState extends State<Feed> {
                 child: ListView.builder(
                     shrinkWrap: true,
                     primary: false,
-                    padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+                    padding: EdgeInsets.only(top: 10),
                     itemCount: feedList?.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return TransactionTile(transfer: feedList[index]);

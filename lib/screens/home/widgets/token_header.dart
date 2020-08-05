@@ -98,10 +98,7 @@ class TokenHeader extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         color: Theme.of(context).primaryColor),
                                     children: [
-                                  TextSpan(
-                                      text: tokenPrice != null
-                                          ? token.getBalance()
-                                          : ''),
+                                  TextSpan(text: token.getBalance()),
                                   TextSpan(text: " ${token.symbol}")
                                 ])),
                             SizedBox(
@@ -109,9 +106,12 @@ class TokenHeader extends StatelessWidget {
                             ),
                             RichText(
                                 text: TextSpan(
-                                    text: tokenPrice != null
+                                    text: ![null, '']
+                                                .contains(token.priceInfo) &&
+                                            token.priceInfo.total.isNotEmpty &&
+                                            tokenPrice != null
                                         ? '\$$price'
-                                        : "${token.getBalance()}",
+                                        : "",
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor,
                                         fontSize: 18))),

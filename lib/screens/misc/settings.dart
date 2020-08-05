@@ -28,22 +28,28 @@ class SettingsScreen extends StatelessWidget {
     if (isFork()) {
       return [
         getListTile(context, I18n.of(context).about, () {
-          ExtendedNavigator.named('homeRouter').replace(HomeRoutes.aboutScreen);
+          ExtendedNavigator.named('homeRouter').push(HomeRoutes.aboutScreen);
         }),
       ];
     } else {
       return [
         getListTile(context, I18n.of(context).about, () {
-          ExtendedNavigator.named('homeRouter').replace(HomeRoutes.aboutScreen);
+          ExtendedNavigator.named('homeRouter').push(HomeRoutes.aboutScreen);
         }),
-        Divider(),
+        Divider(
+          color: Color(0xFFE8E8E8),
+        ),
         getListTile(context, I18n.of(context).protect_wallet, () {
           ExtendedNavigator.named('homeRouter')
-              .replace(HomeRoutes.protectYourWallet);
+              .push(HomeRoutes.protectYourWallet);
         }),
-        Divider(),
+        Divider(
+          color: Color(0xFFE8E8E8),
+        ),
         LanguageSelector(),
-        Divider(),
+        Divider(
+          color: Color(0xFFE8E8E8),
+        ),
         getListTile(context, I18n.of(context).logout, () {
           viewModel.logout();
           ExtendedNavigator.root.replace(Routes.splashScreen);

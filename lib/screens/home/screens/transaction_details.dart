@@ -259,7 +259,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                         //     : Padding(
                         //         padding: EdgeInsets.only(top: 25, bottom: 25),
                         //         child: Divider(
-                        //           color: const Color(0xFFDCDCDC),
+                        //           color: const Color(0xFFE8E8E8),
                         //           height: 1,
                         //         ),
                         //       ),
