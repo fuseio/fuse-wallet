@@ -79,7 +79,7 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: InkWell(
                         onTap: () {
-                          launchUrl('mailto:hello@fuse.io');
+                          launchUrl('support@digitalrand.co.za');
                         },
                         child: Text(
                           I18n.of(context).contact_us,

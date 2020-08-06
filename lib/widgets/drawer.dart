@@ -103,7 +103,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           MaterialPageRoute(
               builder: (context) => WebViewPage(
                   pageArgs: WebViewPageArguments(
-                      url: 'https://digitalrand.co.za/deposit.html',
+                      url: 'https://digtalrand.typeform.com/to/WL65ZVKO',
                       title: I18n.of(context).add_funds)),
               fullscreenDialog: true),
         );
