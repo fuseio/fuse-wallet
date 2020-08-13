@@ -6,7 +6,6 @@ import 'package:curadai/generated/i18n.dart';
 import 'package:curadai/models/app_state.dart';
 import 'package:curadai/models/views/drawer.dart';
 import 'package:curadai/screens/home/router/home_router.gr.dart';
-import 'package:curadai/utils/forks.dart';
 import 'package:curadai/widgets/language_selector.dart';
 import 'package:curadai/widgets/main_scaffold.dart';
 import 'package:curadai/screens/routes.gr.dart';

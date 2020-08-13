@@ -7,7 +7,6 @@ import 'package:curadai/redux/actions/user_actions.dart';
 import 'package:curadai/screens/buy/router/buy_router.gr.dart';
 import 'package:curadai/screens/contacts/widgets/enable_contacts.dart';
 import 'package:curadai/screens/home/router/home_router.gr.dart';
-import 'package:curadai/screens/home/screens/fuse_points_explained.dart';
 import 'package:curadai/screens/home/screens/receive.dart';
 import 'package:curadai/screens/misc/webview_page.dart';
 import 'package:curadai/screens/contacts/router/router_contacts.gr.dart';
@@ -21,7 +20,6 @@ import 'package:curadai/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:curadai/models/community/community.dart';
-import 'package:curadai/utils/addresses.dart' as util;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
