@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:curadai/generated/i18n.dart';
+import 'package:curadai/models/app_state.dart';
+import 'package:curadai/models/views/backup.dart';
+import 'package:curadai/screens/routes.gr.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class ColorsPincodeScreen extends StatefulWidget {
@@ -41,9 +41,8 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              Color(0xFFB1FDC0),
-              Color(0xFFE6FD99),
-              Color(0xFFFEFD86)
+              Theme.of(context).primaryColorDark,
+              Theme.of(context).primaryColorLight,
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           ),
           child: Column(
@@ -76,7 +75,9 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                       children: <Widget>[
                         Text(
                           I18n.of(context).enter_pincode,
-                          style: TextStyle(fontSize: 25),
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Theme.of(context).splashColor),
                         ),
                         SizedBox(
                           height: 50,
@@ -93,10 +94,17 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                       child: PinInputTextField(
                                           pinLength: 6,
                                           decoration: UnderlineDecoration(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                              ),
                                               hintTextStyle: TextStyle(
                                                   fontWeight: FontWeight.bold),
-                                              color: Color(0xFF575757),
-                                              enteredColor: Color(0xFF575757),
+                                              color:
+                                                  Theme.of(context).splashColor,
+                                              enteredColor:
+                                                  Theme.of(context).splashColor,
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
                                                   obscureText: '●')),

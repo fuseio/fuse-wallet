@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:curadai/screens/routes.gr.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/misc/pincode.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:curadai/redux/actions/user_actions.dart';
+import 'package:curadai/screens/misc/pincode.dart';
+import 'package:curadai/utils/biometric_local_auth.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:curadai/generated/i18n.dart';
+import 'package:curadai/models/app_state.dart';
+import 'package:curadai/widgets/main_scaffold.dart';
 
 class SecurityScreen extends StatefulWidget {
   @override
@@ -108,7 +108,9 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                   Row(
                                     children: <Widget>[
                                       SvgPicture.asset(
-                                          'assets/images/${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg'),
+                                        'assets/images/${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg',
+                                        color: Theme.of(context).splashColor,
+                                      ),
                                       SizedBox(
                                         width: 10,
                                       ),
@@ -116,7 +118,9 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                         BiometricUtils.getBiometricString(
                                             _biometricType),
                                         style: TextStyle(
-                                            fontSize: 14, color: Colors.black),
+                                            fontSize: 14,
+                                            color:
+                                                Theme.of(context).splashColor),
                                       )
                                     ],
                                   ),
@@ -125,6 +129,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                     children: <Widget>[
                                       SvgPicture.asset(
                                         'assets/images/info_black.svg',
+                                        color: Theme.of(context).splashColor,
                                       ),
                                       SizedBox(
                                         width: 3,
@@ -132,7 +137,9 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                       Text(
                                         I18n.of(context).recommended,
                                         style: TextStyle(
-                                            fontSize: 10, color: Colors.black),
+                                            fontSize: 10,
+                                            color:
+                                                Theme.of(context).splashColor),
                                       ),
                                     ],
                                   )

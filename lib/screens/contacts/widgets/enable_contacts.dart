@@ -3,12 +3,12 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:curadai/generated/i18n.dart';
+import 'package:curadai/models/app_state.dart';
+import 'package:curadai/models/views/contacts.dart';
+import 'package:curadai/screens/contacts/router/router_contacts.gr.dart';
+import 'package:curadai/utils/contacts.dart';
+import 'package:curadai/widgets/primary_button.dart';
 import 'dart:core';
 
 class ContactsConfirmationScreen extends StatefulWidget {

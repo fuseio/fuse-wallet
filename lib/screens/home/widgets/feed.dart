@@ -1,16 +1,16 @@
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:curadai/generated/i18n.dart';
+import 'package:curadai/models/transactions/transaction.dart';
+import 'package:curadai/models/transactions/transfer.dart';
+import 'package:curadai/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:curadai/redux/actions/cash_wallet_actions.dart';
+import 'package:curadai/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/views/home.dart';
-import 'package:fusecash/screens/home/widgets/transaction_tile.dart';
+import 'package:curadai/models/views/home.dart';
+import 'package:curadai/screens/home/widgets/transaction_tile.dart';
 
 class Feed extends StatefulWidget {
   Feed({this.withTitle = true});

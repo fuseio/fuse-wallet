@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/views/backup.dart';
+import 'package:curadai/models/views/backup.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:curadai/models/app_state.dart';
+import 'package:curadai/models/user_state.dart';
+import 'package:curadai/screens/routes.gr.dart';
+import 'package:curadai/utils/biometric_local_auth.dart';
 
 class LockScreen extends StatefulWidget {
   @override
@@ -82,9 +82,8 @@ class _LockScreenState extends State<LockScreen> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    Color(0xFFB1FDC0),
-                    Color(0xFFE6FD99),
-                    Color(0xFFFEFD86)
+                    Theme.of(context).primaryColorDark,
+                    Theme.of(context).primaryColorLight,
                   ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                 ),
                 child: Column(

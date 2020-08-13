@@ -1,10 +1,10 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/price.dart';
-import 'package:fusecash/models/tokens/base.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:curadai/models/jobs/base.dart';
+import 'package:curadai/models/pro/price.dart';
+import 'package:curadai/models/tokens/base.dart';
+import 'package:curadai/models/transactions/transactions.dart';
+import 'package:curadai/redux/state/store.dart';
+import 'package:curadai/services.dart';
+import 'package:curadai/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';

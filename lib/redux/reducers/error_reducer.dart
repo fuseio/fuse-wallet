@@ -1,5 +1,5 @@
 import 'package:redux/redux.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:curadai/redux/actions/error_actions.dart';
 
 final errorReducers = combineReducers<dynamic>([
   TypedReducer<dynamic, ErrorAction>(_handleError)

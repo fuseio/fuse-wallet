@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/widgets/preloader.dart';
+import 'package:curadai/screens/routes.gr.dart';
+import 'package:curadai/screens/contacts/send_amount_arguments.dart';
+import 'package:curadai/services.dart';
+import 'package:curadai/utils/format.dart';
+import 'package:curadai/utils/phone.dart';
+import 'package:curadai/widgets/preloader.dart';
 
 void _openLoadingDialog(BuildContext context) {
   showDialog(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fusecash/themes/app_theme.dart';
+import 'package:curadai/themes/app_theme.dart';
 
 class _CustomTheme extends InheritedWidget {
   final CustomThemeState data;

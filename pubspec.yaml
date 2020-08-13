@@ -1,4 +1,4 @@
-name: fusecash
+name: curadai
 version: 1.1.41+214
 description: A new Flutter project.
 environment:
@@ -20,7 +20,7 @@ dependencies:
   shared_preferences: ^0.5.6+3
   package_info: ^0.4.1
   share: ^0.6.4+3
-  flutter_svg: 0.17.4
+  flutter_svg: ^0.18.0
   cupertino_icons: ^0.1.3
   flutter_secure_storage: ^3.3.3
   flutter_redux: ^0.6.0
@@ -67,7 +67,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_icons:
-  image_path: assets/images/icon_app.jpg
+  image_path: assets/images/icon_app.png
   android: true
   ios: true
 flutter:

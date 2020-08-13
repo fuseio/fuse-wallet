@@ -2,18 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
+import 'package:curadai/models/tokens/token.dart';
+import 'package:curadai/screens/home/router/home_router.gr.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/transaction_util.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:curadai/generated/i18n.dart';
+import 'package:curadai/models/app_state.dart';
+import 'package:curadai/models/community/community.dart';
+import 'package:curadai/models/transactions/transfer.dart';
+import 'package:curadai/utils/addresses.dart';
+import 'package:curadai/utils/transaction_util.dart';
+import 'package:curadai/utils/format.dart';
 
 class TransactionTile extends StatelessWidget {
   final Transfer transfer;
@@ -126,8 +126,8 @@ class TransactionTile extends StatelessWidget {
 
           return Container(
               decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(color: Color(0xFFE8E8E8)))), //
+                  border:
+                      Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))), //
               child: ListTile(
                 contentPadding:
                     EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
@@ -178,8 +178,8 @@ class TransactionTile extends StatelessWidget {
                                   // ),
                                   transfer.isPending()
                                       ? Container(
-                                          width: 55,
-                                          height: 55,
+                                          width: 60,
+                                          height: 60,
                                           child: CircularProgressIndicator(
                                             backgroundColor: Color(0xFF49D88D)
                                                 .withOpacity(0),

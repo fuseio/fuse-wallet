@@ -1,9 +1,9 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:curadai/generated/i18n.dart';
+import 'package:curadai/screens/misc/about.dart';
+import 'package:curadai/widgets/main_scaffold.dart';
 
 class FusePointsExplainedScreen extends StatefulWidget {
   @override
@@ -139,8 +139,8 @@ class _FusePointsExplainedScreenState extends State<FusePointsExplainedScreen> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Color(0xFFB1FDC0),
-                        Color(0xFFFEFD86),
+                        Theme.of(context).primaryColorDark,
+                        Theme.of(context).primaryColorLight,
                       ],
                     ),
                     borderRadius: BorderRadius.all(

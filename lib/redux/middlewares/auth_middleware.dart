@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:curadai/models/app_state.dart';
+import 'package:curadai/redux/actions/cash_wallet_actions.dart';
+import 'package:curadai/redux/actions/error_actions.dart';
+import 'package:curadai/redux/actions/user_actions.dart';
+import 'package:curadai/redux/state/store.dart';
+import 'package:curadai/screens/routes.gr.dart';
+import 'package:curadai/services.dart';
+import 'package:curadai/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 

@@ -2,12 +2,12 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:curadai/models/community/business.dart';
+import 'package:curadai/models/community/community.dart';
+import 'package:curadai/models/tokens/token.dart';
+import 'package:curadai/models/transactions/transfer.dart';
+import 'package:curadai/utils/format.dart';
+import 'package:curadai/utils/phone.dart';
 
 String getIPFSImageUrl(String image) {
   if (image == null) {

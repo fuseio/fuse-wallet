@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/home.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
-import 'package:fusecash/screens/home/widgets/cash_header.dart';
-import 'package:fusecash/screens/home/widgets/feed.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
+import 'package:curadai/models/app_state.dart';
+import 'package:curadai/models/views/home.dart';
+import 'package:curadai/redux/actions/cash_wallet_actions.dart';
+import 'package:curadai/screens/home/widgets/assets_list.dart';
+import 'package:curadai/screens/home/widgets/cash_header.dart';
+import 'package:curadai/screens/home/widgets/feed.dart';
+import 'package:curadai/utils/addresses.dart';
+import 'package:curadai/widgets/my_app_bar.dart';
 
 final List<String> tabsTitles = ['Feed', 'Wallet'];
 
@@ -107,7 +107,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           return Scaffold(
             appBar: MyAppBar(
               height: 210.0,
-              backgroundColor: Colors.white,
               child: CashHeader(),
             ),
             body: body,

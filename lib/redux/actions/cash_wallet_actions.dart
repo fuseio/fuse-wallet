@@ -3,30 +3,30 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:curadai/models/community/business.dart';
+import 'package:curadai/models/cash_wallet_state.dart';
+import 'package:curadai/models/community/community.dart';
+import 'package:curadai/models/community/community_metadata.dart';
+import 'package:curadai/models/jobs/base.dart';
+import 'package:curadai/models/plugins/plugins.dart';
+import 'package:curadai/models/tokens/token.dart';
+import 'package:curadai/models/transactions/transaction.dart';
+import 'package:curadai/models/transactions/transfer.dart';
+import 'package:curadai/models/user_state.dart';
+import 'package:curadai/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/utils/constans.dart';
-import 'package:fusecash/utils/firebase.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:curadai/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:curadai/redux/actions/user_actions.dart';
+import 'package:curadai/utils/addresses.dart';
+import 'package:curadai/redux/state/store.dart';
+import 'package:curadai/utils/constans.dart';
+import 'package:curadai/utils/firebase.dart';
+import 'package:curadai/utils/format.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:fusecash/services.dart';
+import 'package:curadai/services.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -509,7 +509,7 @@ ThunkAction generateWalletSuccessCall(
       });
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
-        "App name": 'Fuse',
+        "App name": 'CuraDAI',
         "Phone Number": store.state.userState.normalizedPhoneNumber,
         "Wallet Address": store.state.userState.walletAddress,
         "Account Address": store.state.userState.accountAddress,
