@@ -700,13 +700,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.6+3"
-  money2:
-    dependency: "direct main"
-    description:
-      name: money2
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.4.3"
   node_interop:
     dependency: transitive
     description:
@@ -1205,10 +1198,10 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
-    version: "0.2.4+2"
+      name: wallet_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.4+3"
   watcher:
     dependency: transitive
     description:

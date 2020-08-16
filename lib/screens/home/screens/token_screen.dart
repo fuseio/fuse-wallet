@@ -16,7 +16,7 @@ class TokenScreen extends StatelessWidget {
     return Scaffold(
         key: key,
         appBar: MyAppBar(
-            height: 165.0,
+            height: 170.0,
             child: TokenHeader(token: token, tokenPrice: tokenPrice),
             backgroundColor: Colors.white),
         drawerEdgeDragWidth: 0,

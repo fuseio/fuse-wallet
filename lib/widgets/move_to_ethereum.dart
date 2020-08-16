@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/utils/addresses.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/utils/send.dart';
 import 'package:redux/redux.dart';
@@ -183,8 +182,10 @@ class TokenActionsDialogViewModel extends Equatable {
   });
 
   static TokenActionsDialogViewModel fromStore(Store<AppState> store) {
+    final String communityAddress =
+        store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[defaultCommunityAddress];
+        store.state.cashWalletState.communities[communityAddress];
     return TokenActionsDialogViewModel(
       homeBridgeAddress: community.homeBridgeAddress,
       foreignBridgeAddress: community.foreignBridgeAddress,
