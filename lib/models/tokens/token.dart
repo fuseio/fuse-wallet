@@ -85,8 +85,8 @@ class Token extends ERC20Token {
       {void Function(BigInt) onDone, Function onError}) async {
     if (originNetwork == null) {
       try {
-        final BigInt balance = await tokenAPI.getTokenBalanceByAccountAddress(
-            this.address, accountAddress);
+        final BigInt balance = await ethereumExplorerApi
+            .getTokenBalanceByAccountAddress(this.address, accountAddress);
         if (this.amount.compareTo(balance) != 0) {
           onDone(balance);
         }
@@ -95,8 +95,8 @@ class Token extends ERC20Token {
       }
     } else {
       try {
-        final BigInt balance =
-            await graph.getTokenBalance(accountAddress, this.address);
+        final BigInt balance = await fuseExplorerApi
+            .getTokenBalanceByAccountAddress(this.address, accountAddress);
         if (this.amount.compareTo(balance) != 0) {
           onDone(balance);
         }

@@ -83,8 +83,7 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-        ExtendedNavigator.root.replace(Routes.userNameScreen);
-
+        ExtendedNavigator.root.push(Routes.userNameScreen);
       }
       catch (e, s) {
         store.dispatch(SetIsVerifyRequest(isLoading: false));

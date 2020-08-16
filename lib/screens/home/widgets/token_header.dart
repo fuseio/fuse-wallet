@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/screens/home/router/home_router.gr.dart';
 import 'package:fusecash/widgets/network_explained.dart';
@@ -62,14 +63,7 @@ class TokenHeader extends StatelessWidget {
                   },
                   child: Padding(
                       padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
-                      child: SvgPicture.asset(
-                        'assets/images/arrow_white.svg',
-                        fit: BoxFit.fill,
-                        color: Theme.of(context).primaryColor,
-                        width: 18,
-                        height: 18,
-                        alignment: Alignment.topLeft,
-                      ))),
+                      child: Icon(PlatformIcons(context).back))),
               Expanded(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,

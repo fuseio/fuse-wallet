@@ -273,7 +273,7 @@ packages:
       name: device_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2+4"
+    version: "0.4.2+6"
   enum_to_string:
     dependency: "direct main"
     description:
@@ -438,6 +438,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.9"
+  flutter_platform_widgets:
+    dependency: "direct main"
+    description:
+      name: flutter_platform_widgets
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.60.1"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -538,7 +545,7 @@ packages:
       name: graphql
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.1.0"
   graphs:
     dependency: transitive
     description:
@@ -566,7 +573,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0+4"
+    version: "0.12.2"
   http_multi_server:
     dependency: transitive
     description:
@@ -693,6 +700,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.6+3"
+  money2:
+    dependency: "direct main"
+    description:
+      name: money2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.3"
   node_interop:
     dependency: transitive
     description:
@@ -895,7 +909,7 @@ packages:
       name: rate_my_app
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.1+6"
+    version: "0.6.1+7"
   rational:
     dependency: transitive
     description:
@@ -937,14 +951,14 @@ packages:
       name: resource
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.6"
+    version: "2.1.7"
   rxdart:
     dependency: transitive
     description:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.23.1"
+    version: "0.24.1"
   sensors:
     dependency: transitive
     description:
@@ -1191,10 +1205,10 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      name: wallet_core
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.3+17"
+      path: "../wallet_core"
+      relative: true
+    source: path
+    version: "0.2.4+2"
   watcher:
     dependency: transitive
     description:

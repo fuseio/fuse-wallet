@@ -68,7 +68,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   List<Widget> pluginsItems(DrawerViewModel viewModel) {
     List<Widget> plugins = [];
-    List depositPlugins = viewModel?.plugins?.getDepositPlugins();
+    List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
     if (depositPlugins.isNotEmpty) {
       plugins.add(new Divider(
         color: Color(0xFFE8E8E8),

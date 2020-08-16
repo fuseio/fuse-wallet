@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 
@@ -63,8 +63,7 @@ class _WebViewPageState extends State<WebViewPage> {
                                 onTap: () {
                                   Navigator.of(context).pop();
                                 },
-                                child:
-                                    SvgPicture.asset('assets/images/arrow.svg'),
+                                child: Icon(PlatformIcons(context).back),
                               ))
                           : SizedBox.shrink(),
                     ],

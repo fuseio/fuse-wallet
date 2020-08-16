@@ -107,7 +107,9 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                               );
                             },
                           ),
-                          Divider(color: Color(0xFFE8E8E8),),
+                          Divider(
+                            color: Color(0xFFE8E8E8),
+                          ),
                           ListTile(
                             contentPadding: EdgeInsets.only(
                                 top: 5, bottom: 5, right: 30, left: 30),
@@ -161,141 +163,6 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                 ),
               );
             }),
-        // Container(
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.center,
-        //     children: <Widget>[
-        //       StoreConnector<AppState, _SecurityViewModel>(
-        //           distinct: true,
-        //           converter: _SecurityViewModel.fromStore,
-        //           builder: (_, viewModel) {
-        //             final isBiometric =
-        //                 viewModel.authType == BiometricAuth.faceID ||
-        //                     viewModel.authType == BiometricAuth.touchID;
-        //             return Container(
-        //               child: ListView(
-        //                 shrinkWrap: true,
-        //                 primary: false,
-        //                 padding: EdgeInsets.symmetric(vertical: 8.0),
-        //                 children: <Widget>[
-        //                   InkWell(
-        //                     child: Container(
-        //                         height: 60,
-        //                         padding: EdgeInsets.symmetric(
-        //                             horizontal: 20, vertical: 10),
-        //                         width: MediaQuery.of(context).size.width * .8,
-        //                         decoration: BoxDecoration(
-        //                             border: Border(
-        //                                 bottom: BorderSide(
-        //                                     color: Color(0xFFE8E8E8)))),
-        //                         child: Row(
-        //                           mainAxisAlignment:
-        //                               MainAxisAlignment.spaceBetween,
-        //                           children: <Widget>[
-        //                             Row(
-        //                               children: <Widget>[
-        //                                 SvgPicture.asset(
-        //                                     'assets/images/${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg'),
-        //                                 SizedBox(
-        //                                   width: 10,
-        //                                 ),
-        //                                 Text(
-        //                                   BiometricUtils.getBiometricString(
-        //                                       _biometricType),
-        //                                   style: TextStyle(
-        //                                       fontSize: 14,
-        //                                       color: Colors.black),
-        //                                 )
-        //                               ],
-        //                             ),
-        //                             isBiometric
-        //                                 ? Row(
-        //                                     mainAxisAlignment:
-        //                                         MainAxisAlignment.center,
-        //                                     children: <Widget>[
-        //                                       SvgPicture.asset(
-        //                                         'assets/images/checkmark.svg',
-        //                                       ),
-        //                                     ],
-        //                                   )
-        //                                 : SizedBox.shrink()
-        //                           ],
-        //                         )),
-        //                     onTap: () async {
-        //                       final String biometric =
-        //                           BiometricUtils.getBiometricString(
-        //                               _biometricType);
-
-        //                       await BiometricUtils
-        //                           .showDefaultPopupCheckBiometricAuth(
-        //                         message: 'Please use $biometric to unlock!',
-        //                         callback: (bool result) {
-        //                           if (result) {
-        //                             viewModel.setSecurityType(_biometricType);
-        //                             Navigator.of(context).pop();
-        //                           }
-        //                         },
-        //                       );
-        //                     },
-        //                   ),
-        //                   InkWell(
-        //                     child: Container(
-        //                       height: 60,
-        //                       padding: EdgeInsets.symmetric(
-        //                           horizontal: 20, vertical: 10),
-        //                       width: MediaQuery.of(context).size.width * .8,
-        //                       decoration: BoxDecoration(
-        //                           border: Border(
-        //                               bottom: BorderSide(
-        //                                   color: Color(0xFFE8E8E8)))),
-        //                       child: Row(
-        //                           mainAxisAlignment:
-        //                               MainAxisAlignment.spaceBetween,
-        //                           children: [
-        //                             Row(children: [
-        //                               SvgPicture.asset(
-        //                                   'assets/images/pincode.svg',
-        //                                   color: Colors.black),
-        //                               SizedBox(
-        //                                 width: 10,
-        //                               ),
-        //                               Text(I18n.of(context).pincode,
-        //                                   style: TextStyle(
-        //                                       fontSize: 14,
-        //                                       color: Colors.black))
-        //                             ]),
-        //                             !isBiometric
-        //                                 ? Row(
-        //                                     mainAxisAlignment:
-        //                                         MainAxisAlignment.center,
-        //                                     children: <Widget>[
-        //                                       SvgPicture.asset(
-        //                                         'assets/images/checkmark.svg',
-        //                                       ),
-        //                                     ],
-        //                                   )
-        //                                 : SizedBox.shrink()
-        //                           ]),
-        //                     ),
-        //                     onTap: () {
-        //                       Navigator.push(
-        //                           context,
-        //                           MaterialPageRoute(
-        //                               builder: (context) => PincodeScreen(
-        //                                     onSuccess: () {
-        //                                       Navigator.of(context).pop();
-        //                                       Navigator.of(context).pop();
-        //                                     },
-        //                                   )));
-        //                     },
-        //                   )
-        //                 ],
-        //               ),
-        //             );
-        //           }),
-        //     ],
-        //   ),
-        // ),
       ],
     );
   }

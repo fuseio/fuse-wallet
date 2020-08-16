@@ -76,7 +76,7 @@ class UserNameScreen extends StatelessWidget {
                         onPressed: () {
                           viewModel.setDisplayName(
                               capitalize(displayNameController.text ?? 'Anom'));
-                          ExtendedNavigator.root.replace(Routes.securityScreen);
+                          ExtendedNavigator.root.push(Routes.securityScreen);
                         },
                       ),
                     ),

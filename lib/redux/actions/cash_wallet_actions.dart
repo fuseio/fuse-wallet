@@ -871,7 +871,7 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
         logger.info(
             'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
         response = await api.tokenTransfer(
-            web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
+            web3, walletAddress, tokenAddress, receiverAddress, tokensAmount, network: 'fuse');
       }
 
       dynamic jobId = response['job']['_id'];
@@ -913,11 +913,11 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
   };
 }
 
-ThunkAction sendTokenSuccessCall(job, transfer, communityAddress) {
+ThunkAction sendTokenSuccessCall(txHash, transfer, communityAddress) {
   return (Store store) async {
     Transfer confirmedTx = transfer.copyWith(
       status: 'CONFIRMED',
-      txHash: job.data['txHash'],
+      txHash: txHash,
     );
     store.dispatch(new ReplaceTransaction(
         transaction: transfer,
@@ -1292,12 +1292,15 @@ ThunkAction getTokenTransfersListCall(Community community) {
       String walletAddress = store.state.userState.walletAddress;
       String tokenAddress = community?.token?.address;
       num lastBlockNumber = community?.token?.transactions?.blockNumber;
-      num currentBlockNumber = await web3.getBlockNumber();
-      Map<String, dynamic> response = await graph.getTransfers(
-          walletAddress, tokenAddress,
-          fromBlockNumber: lastBlockNumber, toBlockNumber: currentBlockNumber);
+      // num currentBlockNumber = await web3.getBlockNumber();
+      dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(walletAddress, tokenAddress, startblock: lastBlockNumber ?? 0);
+          // .getTokenTransferEventsByAccountAddress(tokenAddress, walletAddress,
+          //     startblock: lastBlockNumber ?? 0, endblock: currentBlockNumber);
+      // Map<String, dynamic> response = await graph.getTransfers(
+      //     walletAddress, tokenAddress,
+      //     fromBlockNumber: lastBlockNumber, toBlockNumber: currentBlockNumber);
       List<Transfer> transfers = List<Transfer>.from(
-          response["data"].map((json) => Transfer.fromJson(json)).toList());
+          tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(new GetTokenTransfersListSuccess(
           tokenTransfers: transfers, communityAddress: community.address));
     } catch (e) {
@@ -1318,12 +1321,16 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
       if (web3 == null) {
         throw "Web3 is empty";
       }
-      num currentBlockNumber = await web3.getBlockNumber();
-      Map<String, dynamic> response = await graph.getReceivedTransfers(
-          walletAddress, tokenAddress,
-          fromBlockNumber: lastBlockNumber, toBlockNumber: currentBlockNumber);
+      // num currentBlockNumber = await web3.getBlockNumber();
+      dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(walletAddress, tokenAddress, startblock: lastBlockNumber ?? 0);
+      // dynamic tokensTransferEvents = await fuseExplorerApi
+      //     .getTokenTransferEventsByAccountAddress(tokenAddress, walletAddress,
+      //         startblock: lastBlockNumber ?? 0, endblock: currentBlockNumber);
+      // Map<String, dynamic> response = await graph.getReceivedTransfers(
+      //     walletAddress, tokenAddress,
+      //     fromBlockNumber: lastBlockNumber, toBlockNumber: currentBlockNumber);
       List<Transfer> transfers = List<Transfer>.from(
-          response["data"].map((json) => Transfer.fromJson(json)).toList());
+          tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       if (transfers.isNotEmpty) {
         store.dispatch(new GetTokenTransfersListSuccess(
             tokenTransfers: transfers, communityAddress: community.address));

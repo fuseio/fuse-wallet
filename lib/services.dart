@@ -4,23 +4,26 @@ import 'package:http/http.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:wallet_core/wallet_core.dart';
 
-final Exchange exchangeApi = new Exchange();
+final Exchange exchangeApi = Exchange();
 
-final Client client = new Client();
+final Client client = Client();
 
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-final API api = new API(
+final API api = API(
     base: DotEnv().env['API_BASE_URL'],
     funderBase: DotEnv().env['FUNDER_BASE_URL']);
 
-final Graph graph = new Graph(
+final Graph graph = Graph(
     url: DotEnv().env['GRAPH_BASE_URL'], subGraph: DotEnv().env['SUB_GRAPH']);
 
-final TokensApi tokenAPI = new TokensApi(
-    etherscanBase: DotEnv().env['ETHERSCAN_BASE_URL'],
-    etherscanApiKey: DotEnv().env['ETHERSCAN_API_KEY']);
+final ExplorerApi ethereumExplorerApi = ExplorerApi(
+    base: DotEnv().env['ETHERSCAN_BASE_URL'],
+    apiKey: DotEnv().env['ETHERSCAN_API_KEY']);
 
-final MarketApi marketApi = new MarketApi();
+final ExplorerApi fuseExplorerApi =
+    ExplorerApi(base: DotEnv().env['FUSE_RPC_URL']);
 
-final PhoneNumber phoneNumberUtil = new PhoneNumber();
+final MarketApi marketApi = MarketApi();
+
+final PhoneNumber phoneNumberUtil = PhoneNumber();
