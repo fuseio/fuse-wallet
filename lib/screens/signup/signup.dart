@@ -6,7 +6,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:fusecash/services.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/signup_dialog.dart';
@@ -44,6 +44,18 @@ class _SignupScreenState extends State<SignupScreen> {
         });
       }
     }
+  }
+
+  void onPressed(Function(CountryCode, String) signUp) {
+    phoneNumberUtil
+        .parse('${countryCode.dialCode}${phoneController.text}')
+        .then((value) {
+      signUp(countryCode, phoneController.text);
+    }, onError: (e) {
+      setState(() {
+        isvalidPhone = false;
+      });
+    });
   }
 
   @override
@@ -92,8 +104,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Text(
                             I18n.of(context).why_do_we_need_this,
                             style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 11,
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 15,
                                 fontWeight: FontWeight.normal),
                           ),
                         )),
@@ -186,24 +198,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             label: I18n.of(context).next_button,
                             fontSize: 16,
                             labelFontWeight: FontWeight.normal,
-                            onPressed: () async {
-                              try {
-                                bool isValid = await PhoneService.isValid(
-                                    phoneController.text, countryCode.code);
-                                if (isValid) {
-                                  viewModel.signUp(
-                                      countryCode, phoneController.text);
-                                } else {
-                                  setState(() {
-                                    isvalidPhone = false;
-                                  });
-                                }
-                              } on PlatformException catch (e) {
-                                print(e);
-                                setState(() {
-                                  isvalidPhone = false;
-                                });
-                              }
+                            onPressed: () {
+                              onPressed(viewModel.signUp);
                             },
                             preload: viewModel.isLoginRequest,
                           ),
