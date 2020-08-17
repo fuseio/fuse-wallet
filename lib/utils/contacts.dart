@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -25,7 +27,7 @@ class Contacts {
 
   static Future<List<Contact>> getContacts() async {
     Iterable<Contact> contacts = (await ContactsService.getContacts(
-            withThumbnails: false))
+            withThumbnails: Platform.isAndroid ? false : true))
         .where((i) =>
             i.displayName != null && i.displayName != "" && i.phones.length > 0)
         .toList();
