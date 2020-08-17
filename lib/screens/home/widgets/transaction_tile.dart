@@ -178,8 +178,8 @@ class TransactionTile extends StatelessWidget {
                                   // ),
                                   transfer.isPending()
                                       ? Container(
-                                          width: 55,
-                                          height: 55,
+                                          width: 60,
+                                          height: 60,
                                           child: CircularProgressIndicator(
                                             backgroundColor: Color(0xFF49D88D)
                                                 .withOpacity(0),

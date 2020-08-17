@@ -116,7 +116,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                         BiometricUtils.getBiometricString(
                                             _biometricType),
                                         style: TextStyle(
-                                            fontSize: 14, color: Colors.black),
+                                            fontSize: 18, color: Colors.black),
                                       )
                                     ],
                                   ),
@@ -132,7 +132,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                       Text(
                                         I18n.of(context).recommended,
                                         style: TextStyle(
-                                            fontSize: 10, color: Colors.black),
+                                            fontSize: 12, color: Colors.black),
                                       ),
                                     ],
                                   )
@@ -181,7 +181,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                               ),
                               Text(I18n.of(context).pincode,
                                   style: TextStyle(
-                                      fontSize: 14, color: Colors.black))
+                                      fontSize: 18, color: Colors.black))
                             ]),
                           ),
                           onTap: () {

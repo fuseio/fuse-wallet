@@ -871,7 +871,8 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
         logger.info(
             'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
         response = await api.tokenTransfer(
-            web3, walletAddress, tokenAddress, receiverAddress, tokensAmount, network: 'fuse');
+            web3, walletAddress, tokenAddress, receiverAddress, tokensAmount,
+            network: 'fuse');
       }
 
       dynamic jobId = response['job']['_id'];
@@ -1293,12 +1294,9 @@ ThunkAction getTokenTransfersListCall(Community community) {
       String tokenAddress = community?.token?.address;
       num lastBlockNumber = community?.token?.transactions?.blockNumber;
       // num currentBlockNumber = await web3.getBlockNumber();
-      dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(walletAddress, tokenAddress, startblock: lastBlockNumber ?? 0);
-          // .getTokenTransferEventsByAccountAddress(tokenAddress, walletAddress,
-          //     startblock: lastBlockNumber ?? 0, endblock: currentBlockNumber);
-      // Map<String, dynamic> response = await graph.getTransfers(
-      //     walletAddress, tokenAddress,
-      //     fromBlockNumber: lastBlockNumber, toBlockNumber: currentBlockNumber);
+      dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
+          walletAddress, tokenAddress,
+          startblock: lastBlockNumber ?? 0);
       List<Transfer> transfers = List<Transfer>.from(
           tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(new GetTokenTransfersListSuccess(
@@ -1322,13 +1320,9 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
         throw "Web3 is empty";
       }
       // num currentBlockNumber = await web3.getBlockNumber();
-      dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(walletAddress, tokenAddress, startblock: lastBlockNumber ?? 0);
-      // dynamic tokensTransferEvents = await fuseExplorerApi
-      //     .getTokenTransferEventsByAccountAddress(tokenAddress, walletAddress,
-      //         startblock: lastBlockNumber ?? 0, endblock: currentBlockNumber);
-      // Map<String, dynamic> response = await graph.getReceivedTransfers(
-      //     walletAddress, tokenAddress,
-      //     fromBlockNumber: lastBlockNumber, toBlockNumber: currentBlockNumber);
+      dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
+          walletAddress, tokenAddress,
+          startblock: lastBlockNumber ?? 0);
       List<Transfer> transfers = List<Transfer>.from(
           tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       if (transfers.isNotEmpty) {

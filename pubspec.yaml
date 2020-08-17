@@ -1,16 +1,15 @@
 name: fusecash
-version: 1.1.42+217
+version: 1.1.42+218
 description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
-  # money2: ^1.4.3
   flutter_platform_widgets: ^0.60.1
   enum_to_string: ^1.0.9
   local_auth: ^0.6.2+3
   auto_size_text: ^2.1.0
   flutter_webview_plugin: ^0.3.11
-  phone_number: ^0.6.2+3
+  phone_number: ^0.6.2+4
   libphonenumber: ^1.0.1
   cached_network_image: ^2.2.0+1
   rate_my_app: ^0.6.1+7

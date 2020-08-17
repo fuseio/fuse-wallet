@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/generated/i18n.dart';
 import 'dart:core';
 
 import 'package:fusecash/widgets/primary_button.dart';
@@ -56,33 +57,33 @@ class SignupDialogState extends State<SignupDialog>
                 width: 300,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text("Why do we need this?",
+                    Text(I18n.of(context).why_do_we_need_this,
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
-                            fontSize: 15,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 20.0),
+                    SizedBox(height: 20.0),
                     Text(
                         "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 14,
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 18,
                             fontWeight: FontWeight.normal)),
-                    const SizedBox(height: 20.0),
+                    SizedBox(height: 20.0),
                     Text(
                         "Fuse will never share this information with 3rd party.",
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 14,
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 18,
                             fontWeight: FontWeight.normal)),
-                    const SizedBox(height: 20.0),
+                    SizedBox(height: 20.0),
                     Text("For more information: ",
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 14,
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 18,
                             fontWeight: FontWeight.normal)),
                     InkWell(
                         onTap: () {
@@ -91,45 +92,24 @@ class SignupDialogState extends State<SignupDialog>
                         child: Text("Fuse.io/privacy",
                             style: TextStyle(
                                 color: Color(0xFF0076FF),
-                                fontSize: 14,
+                                fontSize: 18,
                                 fontWeight: FontWeight.normal))),
-                    const SizedBox(height: 20.0),
-                    PrimaryButton(
+                    SizedBox(height: 40.0),
+                    Center(
+                        child: PrimaryButton(
                       label: "OK Thanks",
-                      fontSize: 14,
-                      width: 140,
+                      fontSize: 16,
+                      width: 120,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },
-                    )
+                    ))
                   ],
                 ),
               )
             ],
           ),
         ));
-  }
-}
-
-class BonusLetter extends StatelessWidget {
-  const BonusLetter(this._letter);
-
-  final String _letter;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 2),
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-      decoration: new BoxDecoration(
-          border: new Border.all(color: Colors.black12),
-          borderRadius: BorderRadius.circular(5.0)),
-      child: Text(_letter,
-          style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontSize: 30,
-              fontWeight: FontWeight.w500)),
-    );
   }
 }
