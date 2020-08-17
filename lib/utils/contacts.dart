@@ -27,7 +27,7 @@ class Contacts {
 
   static Future<List<Contact>> getContacts() async {
     Iterable<Contact> contacts = (await ContactsService.getContacts(
-            withThumbnails: Platform.isAndroid ? false : true))
+            withThumbnails: !Platform.isAndroid))
         .where((i) =>
             i.displayName != null && i.displayName != "" && i.phones.length > 0)
         .toList();
