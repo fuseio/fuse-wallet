@@ -4,6 +4,7 @@ description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  span_builder: ^0.1.0
   enum_to_string: ^1.0.9
   local_auth: ^0.6.2+3
   auto_size_text: ^2.1.0
@@ -29,7 +30,7 @@ dependencies:
   redux_logging: ^0.4.0
   redux_persist: ^0.8.4
   country_code_picker: ^1.4.0
-  wallet_core: ^0.2.3+17
+  wallet_core: ^0.2.3+18
   # wallet_core:
   # path: ../wallet_core
   barcode_scan: ^3.0.1
@@ -67,7 +68,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_icons:
-  image_path: assets/images/icon_app.jpg
+  image_path: assets/images/appicon.png
   android: true
   ios: true
 flutter:

@@ -191,7 +191,8 @@ class Plugins {
   static Map<String, dynamic> _moonpayToJson(MoonpayPlugin moonpay) =>
       moonpay != null ? moonpay.toJson() : null;
 
-  static Map<String, dynamic> _rampInstantToJson(RampInstantPlugin rampInstant) =>
+  static Map<String, dynamic> _rampInstantToJson(
+          RampInstantPlugin rampInstant) =>
       rampInstant != null ? rampInstant.toJson() : null;
 
   static Map<String, dynamic> _transakToJson(TransakPlugin transak) =>
@@ -199,9 +200,6 @@ class Plugins {
 
   List getDepositPlugins() {
     List depositPlugins = [];
-    if (this.rampInstant != null && this.rampInstant.isActive) {
-      depositPlugins.add(this.rampInstant);
-    }
     if (this.transak != null && this.transak.isActive) {
       depositPlugins.add(this.transak);
     }

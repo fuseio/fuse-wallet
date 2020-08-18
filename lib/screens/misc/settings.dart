@@ -25,31 +25,23 @@ class SettingsScreen extends StatelessWidget {
   }
 
   List<Widget> menuItem(BuildContext context, DrawerViewModel viewModel) {
-    if (isFork()) {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          ExtendedNavigator.named('homeRouter').replace(HomeRoutes.aboutScreen);
-        }),
-      ];
-    } else {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          ExtendedNavigator.named('homeRouter').replace(HomeRoutes.aboutScreen);
-        }),
-        Divider(),
-        getListTile(context, I18n.of(context).protect_wallet, () {
-          ExtendedNavigator.named('homeRouter')
-              .replace(HomeRoutes.protectYourWallet);
-        }),
-        Divider(),
-        LanguageSelector(),
-        Divider(),
-        getListTile(context, I18n.of(context).logout, () {
-          viewModel.logout();
-          ExtendedNavigator.root.replace(Routes.splashScreen);
-        })
-      ];
-    }
+    return [
+      getListTile(context, I18n.of(context).about, () {
+        ExtendedNavigator.named('homeRouter').replace(HomeRoutes.aboutScreen);
+      }),
+      Divider(),
+      getListTile(context, I18n.of(context).protect_wallet, () {
+        ExtendedNavigator.named('homeRouter')
+            .replace(HomeRoutes.protectYourWallet);
+      }),
+      Divider(),
+      LanguageSelector(),
+      Divider(),
+      getListTile(context, I18n.of(context).logout, () {
+        viewModel.logout();
+        ExtendedNavigator.root.replace(Routes.splashScreen);
+      })
+    ];
   }
 
   Widget build(BuildContext context) {

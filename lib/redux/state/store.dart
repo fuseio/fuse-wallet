@@ -87,7 +87,8 @@ class AppFactory {
             jwtToken = await api.login(
                 token.token,
                 initialState.userState.accountAddress,
-                initialState.userState.identifier);
+                initialState.userState.identifier,
+                appName: 'Seedbed');
           }
 
           logger.info('JWT: $jwtToken');
@@ -222,7 +223,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
-                app: App(name: 'Fuse Wallet'),
+                app: App(name: 'Seedbed'),
                 operatingSystem: operatingSystem),
             userContext: user));
 

@@ -10,6 +10,7 @@ import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {
   final String myCountryCode;
+  final Community community;
   final List<Token> tokens;
   final Function(
       Token token,
@@ -34,6 +35,18 @@ class SendAmountViewModel extends Equatable {
   final Function(String eventName, {Map<String, dynamic> properties})
       trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
+  final Function(
+      String daiTokenAddress,
+      String tokenAddress,
+      num tokensAmount,
+      VoidCallback sendSuccessCallback,
+      VoidCallback sendFailureCallback) buyToken;
+  final Function(
+      String daiTokenAddress,
+      String tokenAddress,
+      num tokensAmount,
+      VoidCallback sendSuccessCallback,
+      VoidCallback sendFailureCallback) sellToken;
 
   final Function(
     Token token,
@@ -48,38 +61,57 @@ class SendAmountViewModel extends Equatable {
   @override
   List<Object> get props => [tokens, myCountryCode];
 
-  SendAmountViewModel({
-    this.tokens,
-    this.myCountryCode,
-    this.sendToContact,
-    this.sendToAccountAddress,
-    this.trackTransferCall,
-    this.idenyifyCall,
-    this.sendToErc20Token,
-    this.sendERC20ToContact,
-  });
+  SendAmountViewModel(
+      {this.tokens,
+      this.myCountryCode,
+      this.sendToContact,
+      this.community,
+      this.sendToAccountAddress,
+      this.trackTransferCall,
+      this.idenyifyCall,
+      this.sendToErc20Token,
+      this.sendERC20ToContact,
+      this.buyToken,
+      this.sellToken});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     List<Community> communities =
         store.state.cashWalletState.communities.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
+        // .where((Token token) =>
+        //     num.parse(formatValue(token.amount, token.decimals,
+        //             withPrecision: true))
+        //         .compareTo(0) ==
+        //     1)
         .toList();
 
-    List<Token> homeTokens = communities
-        .map((Community community) => community.token
-            .copyWith(imageUrl: community.metadata.getImageUri()))
-        .toList();
+    List<Token> homeTokens =
+        communities.fold<List<Token>>([], (previousValue, Community community) {
+      if (community?.secondaryToken != null &&
+          community?.secondaryToken?.address != null) {
+        previousValue.add(community.secondaryToken
+            .copyWith(imageUrl: community.metadata.getImageUri()));
+      }
+      previousValue.add(
+          community.token.copyWith(imageUrl: community.metadata.getImageUri()));
+      return previousValue;
+    });
+    String communityAddres = store.state.cashWalletState.communityAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddres] ??
+            new Community.initial();
     return SendAmountViewModel(
-        tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
-            (tokenB?.amount ?? BigInt.zero)
-                ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+        tokens: [...homeTokens, ...foreignTokens]
+          ..where((Token token) =>
+              num.parse(formatValue(token.amount, token.decimals,
+                      withPrecision: true))
+                  .compareTo(0) ==
+              1)
+          ..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
+              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
         myCountryCode: store.state.userState.countryCode,
+        community: community,
         sendToContact: (
           Token token,
           String name,
@@ -150,6 +182,22 @@ class SendAmountViewModel extends Equatable {
         },
         idenyifyCall: (Map<String, dynamic> traits) {
           store.dispatch(segmentIdentifyCall(traits));
+        },
+        sellToken: (String daiTokenAddress,
+            String tokenAddress,
+            num tokensAmount,
+            VoidCallback sendSuccessCallback,
+            VoidCallback sendFailureCallback) {
+          store.dispatch(sellTokenAction(daiTokenAddress, tokenAddress,
+              tokensAmount, sendSuccessCallback, sendFailureCallback));
+        },
+        buyToken: (String daiTokenAddress,
+            String tokenAddress,
+            num tokensAmount,
+            VoidCallback sendSuccessCallback,
+            VoidCallback sendFailureCallback) {
+          store.dispatch(buyTokenAction(daiTokenAddress, tokenAddress,
+              tokensAmount, sendSuccessCallback, sendFailureCallback));
         });
   }
 }

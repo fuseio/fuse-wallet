@@ -50,9 +50,7 @@ class TransactionTile extends StatelessWidget {
           bool isWalletCreated = 'created' == viewModel.walletStatus;
           bool isZeroAddress = transfer.from == zeroAddress;
           ImageProvider<dynamic> image = isZeroAddress
-              ? AssetImage(
-                  'assets/images/ethereume_icon.png',
-                )
+              ? NetworkImage(community?.metadata?.getImageUri())
               : getTransferImage(transfer, contact, community);
           String displayName = transfer.isJoinBonus()
               ? (transfer.text ?? I18n.of(context).join_bonus)
@@ -242,8 +240,7 @@ class TransactionTile extends StatelessWidget {
                                         )
                                       : Text(
                                           isZeroAddress
-                                              ? I18n.of(context)
-                                                  .received_from_ethereum
+                                              ? I18n.of(context).convert
                                               : isSendingToForeign
                                                   ? I18n.of(context)
                                                       .sent_to_ethereum

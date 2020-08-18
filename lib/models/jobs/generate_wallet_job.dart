@@ -68,7 +68,7 @@ class GenerateWalletJob extends Job {
       store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
       final String communityAddress = store.state.cashWalletState.communityAddress ?? defaultCommunityAddress;
       store.dispatch(switchCommunityCall(communityAddress));
-      store.dispatch(activateProModeCall());
+      // store.dispatch(activateProModeCall());
     }
   }
 

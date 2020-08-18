@@ -24,11 +24,12 @@ class Contacts {
   }
 
   static Future<List<Contact>> getContacts() async {
-    Iterable<Contact> contacts = (await ContactsService.getContacts(
-            withThumbnails: false))
-        .where((i) =>
-            i.displayName != null && i.displayName != "" && i.phones.length > 0)
-        .toList();
+    Iterable<Contact> contacts =
+        (await ContactsService.getContacts(withThumbnails: false))
+            .where((contact) =>
+                ![null, ''].contains(contact.displayName) &&
+                contact.phones.isNotEmpty)
+            .toList();
     return contacts;
   }
 }

@@ -6,6 +6,7 @@ import 'package:seedbed/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:seedbed/utils/format.dart';
 import 'package:seedbed/utils/send.dart';
+import 'package:share/share.dart';
 
 class CashHeader extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class CashHeader extends StatelessWidget {
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).primaryColor.withAlpha(20),
+                    color: Theme.of(context).splashColor.withAlpha(20),
                     blurRadius: 30.0,
                     spreadRadius: 10.0,
                     offset: Offset(
@@ -42,126 +43,218 @@ class CashHeader extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(30.0))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                InkWell(
-                    onTap: () {
-                      AppKeys.homePageKey.currentState.openDrawer();
-                    },
-                    child: Padding(
-                        padding:
-                            EdgeInsets.only(top: 35, bottom: 35, right: 35),
-                        child: Image.asset(
-                          'assets/images/menu.png',
-                          width: 20,
-                        ))),
-                Text('${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 25,
-                    )),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  verticalDirection: VerticalDirection.up,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          child: Text(I18n.of(context).balance,
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withAlpha(150),
-                                  fontSize: 12.0)),
-                          padding: EdgeInsets.only(bottom: 6.0),
-                        ),
-                        viewModel.hasErc20Tokens
-                            ? Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                    RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
+            child: Stack(children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  InkWell(
+                      onTap: () {
+                        AppKeys.homePageKey.currentState.openDrawer();
+                      },
+                      child: Padding(
+                          padding:
+                              EdgeInsets.only(top: 35, bottom: 35, right: 35),
+                          child: Image.asset(
+                            'assets/images/menu_white.png',
+                            width: 20,
+                          ))),
+                  Text('${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
+                      style: TextStyle(
+                        color: Theme.of(context).splashColor,
+                        fontSize: 25,
+                      )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    verticalDirection: VerticalDirection.up,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                child: Text(I18n.of(context).balance,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .splashColor
+                                            .withAlpha(150),
+                                        fontSize: 12.0)),
+                                padding: EdgeInsets.only(bottom: 6.0),
+                              ),
+                              // viewModel.hasErc20Tokens
+                              //     ? Row(
+                              //         crossAxisAlignment:
+                              //             CrossAxisAlignment.center,
+                              //         mainAxisAlignment: MainAxisAlignment.center,
+                              //         children: <Widget>[
+                              //             RichText(
+                              //               text: TextSpan(
+                              //                 children: <TextSpan>[
+                              //                   TextSpan(
+                              //                       text:
+                              //                           '\$${viewModel?.usdValue ?? '0'}',
+                              //                       style: TextStyle(
+                              //                           fontSize: 30,
+                              //                           color: Theme.of(context)
+                              //                               .splashColor,
+                              //                           fontWeight:
+                              //                               FontWeight.bold)),
+                              //                 ],
+                              //               ),
+                              //             ),
+                              //           ]):
+                              RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                      color: Theme.of(context).splashColor),
+                                  children: viewModel.community.token == null
+                                      ? <TextSpan>[
                                           TextSpan(
-                                              text:
-                                                  '\$${viewModel?.usdValue ?? '0'}',
+                                              text: '0',
                                               style: TextStyle(
                                                   fontSize: 30,
                                                   color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                    ),
-                                  ])
-                            : RichText(
-                                text: new TextSpan(
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
-                                  children: viewModel.community.token == null
-                                      ? <TextSpan>[
-                                          new TextSpan(
-                                              text: '0',
-                                              style: new TextStyle(
-                                                  fontSize: 30,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
+                                                      .splashColor,
                                                   fontWeight: FontWeight.bold))
                                         ]
                                       : <TextSpan>[
-                                          new TextSpan(
+                                          TextSpan(
                                               text: formatValue(
                                                   viewModel
                                                       .community.token.amount,
                                                   viewModel.community.token
                                                       .decimals),
-                                              style: new TextStyle(
+                                              style: TextStyle(
                                                   fontSize: 32,
                                                   color: Theme.of(context)
-                                                      .primaryColor,
+                                                      .splashColor,
                                                   fontWeight: FontWeight.bold)),
-                                          new TextSpan(
+                                          TextSpan(
                                               text: ' ' +
                                                   viewModel
                                                       .community.token?.symbol
                                                       .toString(),
-                                              style: new TextStyle(
+                                              style: TextStyle(
                                                   fontSize: 18,
                                                   color: Theme.of(context)
-                                                      .primaryColor,
+                                                      .splashColor,
                                                   fontWeight: FontWeight.normal,
                                                   height: 0.0))
                                         ],
                                 ),
                               ),
-                      ],
-                    ),
-                    Container(
-                      width: 45,
-                      height: 45,
-                      child: FloatingActionButton(
-                          heroTag: 'cash_header',
-                          backgroundColor: Color(0xFF292929),
-                          elevation: 0,
-                          child: Image.asset(
-                            'assets/images/scan.png',
-                            width: 25.0,
-                            color: Theme.of(context).scaffoldBackgroundColor,
+                            ],
                           ),
-                          onPressed: bracodeScannerHandler),
-                    )
-                  ],
+                          SizedBox(
+                            width: 30,
+                          ),
+                          viewModel.community.secondaryToken == null
+                              ? SizedBox.shrink()
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      child: Text('Secondary token',
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).splashColor,
+                                              fontSize: 12.0)),
+                                      padding: EdgeInsets.only(bottom: 6.0),
+                                    ),
+                                    Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          RichText(
+                                            text: TextSpan(
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                    text: formatValue(
+                                                        viewModel
+                                                            .community
+                                                            .secondaryToken
+                                                            .amount,
+                                                        viewModel
+                                                            .community
+                                                            .secondaryToken
+                                                            .decimals),
+                                                    style: TextStyle(
+                                                        fontSize: 32,
+                                                        color: Theme.of(context)
+                                                            .splashColor,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                TextSpan(
+                                                    text: ' ' +
+                                                        viewModel
+                                                            .community
+                                                            .secondaryToken
+                                                            ?.symbol
+                                                            .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Theme.of(context)
+                                                            .splashColor,
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        height: 0.0)),
+                                              ],
+                                            ),
+                                          ),
+                                        ])
+                                  ],
+                                ),
+                        ],
+                      ),
+                      Container(
+                        width: 45,
+                        height: 45,
+                        child: FloatingActionButton(
+                            heroTag: 'cash_header',
+                            backgroundColor: Color(0xFF292929),
+                            elevation: 0,
+                            child: Image.asset(
+                              'assets/images/scan.png',
+                              width: 25.0,
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                            ),
+                            onPressed: bracodeScannerHandler),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              Positioned(
+                right: 0,
+                top: 25,
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        iconSize: 14,
+                        icon: const Icon(Icons.share),
+                        color: const Color(0xFFFFFFFF),
+                        onPressed: () async {
+                          Share.share(
+                              'Hey, your friend shared with you the Seedbed: https://app.fuse.io/1uBjztEBo6');
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              )
+            ]),
           );
         });
   }

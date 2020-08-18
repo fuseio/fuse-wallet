@@ -3,24 +3,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:seedbed/widgets/my_app_bar.dart';
 
-class WebViewPage extends StatefulWidget {
+class WebViewPage extends StatelessWidget {
   final String url;
   final String title;
   final bool withBack;
 
-  WebViewPage({this.url, this.title, this.withBack});
-
-  @override
-  _WebViewPageState createState() => _WebViewPageState();
-}
-
-class _WebViewPageState extends State<WebViewPage> {
+  WebViewPage({this.url, this.title, this.withBack = true});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         return WebviewScaffold(
-            url: widget.url,
+            url: url,
             appBar: MyAppBar(
               child: Container(
                 height: 120,
@@ -48,13 +42,13 @@ class _WebViewPageState extends State<WebViewPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(widget.title,
+                            Text(title,
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800))
                           ]),
-                      widget.withBack
+                      withBack
                           ? Positioned(
                               top: 60,
                               left: 20,

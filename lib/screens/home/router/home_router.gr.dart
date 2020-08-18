@@ -19,6 +19,7 @@ import '../../misc/about.dart';
 import '../../misc/protect_your_wallet.dart';
 import '../../misc/settings.dart';
 import '../../misc/switch_commmunity.dart';
+import '../../reward/change_reward.dart';
 import '../../trade/review_trade.dart';
 import '../../trade/trade.dart';
 import '../screens/home.dart';
@@ -38,6 +39,7 @@ class HomeRoutes {
   static const String settingsScreen = '/settings-screen';
   static const String switchCommunityScreen = '/switch-community-screen';
   static const String protectYourWallet = '/protect-your-wallet';
+  static const String changeRewardScreen = '/change-reward-screen';
   static const all = <String>{
     mainHomeScreen,
     transactionDetailsScreen,
@@ -51,6 +53,7 @@ class HomeRoutes {
     settingsScreen,
     switchCommunityScreen,
     protectYourWallet,
+    changeRewardScreen,
   };
 }
 
@@ -71,6 +74,7 @@ class HomeRouter extends RouterBase {
     RouteDef(HomeRoutes.settingsScreen, page: SettingsScreen),
     RouteDef(HomeRoutes.switchCommunityScreen, page: SwitchCommunityScreen),
     RouteDef(HomeRoutes.protectYourWallet, page: ProtectYourWallet),
+    RouteDef(HomeRoutes.changeRewardScreen, page: ChangeRewardScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -179,6 +183,12 @@ class HomeRouter extends RouterBase {
     ProtectYourWallet: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ProtectYourWallet(),
+        settings: data,
+      );
+    },
+    ChangeRewardScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ChangeRewardScreen(),
         settings: data,
       );
     },

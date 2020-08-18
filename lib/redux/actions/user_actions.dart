@@ -285,7 +285,7 @@ ThunkAction setDeviceId(bool reLogin) {
       final FirebaseUser currentUser = await firebaseAuth.currentUser();
       final String accountAddress = store.state.userState.accountAddress;
       IdTokenResult token = await currentUser.getIdToken();
-      String jwtToken = await api.login(token.token, accountAddress, identifier);
+      String jwtToken = await api.login(token.token, accountAddress, identifier, appName: 'Seedbed');
       store.dispatch(LoginVerifySuccess(jwtToken));
     }
   };
@@ -369,7 +369,7 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
       } else {
         int limit = 100;
         List<String> partial = newPhones.take(limit).toList();
-        while (partial.length > 0) {
+        while (partial.isNotEmpty) {
           dynamic response = await api.syncContacts(partial);
           store.dispatch(SyncContactsProgress(partial,
               List<Map<String, dynamic>>.from(response['newContacts'])));
@@ -392,6 +392,7 @@ ThunkAction identifyFirstTimeCall() {
     store.dispatch(segmentAliasCall(fullPhoneNumber));
     store.dispatch(segmentIdentifyCall(
         Map<String, dynamic>.from({
+          "App name": 'Seedbed',
           "Wallet Generated": true,
           "Phone Number": fullPhoneNumber,
           "Wallet Address": store.state.userState.walletAddress,

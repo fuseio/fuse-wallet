@@ -52,7 +52,7 @@ class ShowMnemonic extends StatelessWidget {
               converter: BackupViewModel.fromStore,
               builder: (_, viewModel) {
                 return (viewModel.user != null &&
-                        viewModel.user.mnemonic.length > 0)
+                        viewModel.user.mnemonic.isNotEmpty)
                     ? Column(
                         children: <Widget>[
                           Padding(

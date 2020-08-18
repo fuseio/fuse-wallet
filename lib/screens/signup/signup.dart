@@ -6,7 +6,7 @@ import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
-import 'package:seedbed/utils/phone.dart';
+import 'package:seedbed/services.dart';
 import 'package:seedbed/widgets/main_scaffold.dart';
 import 'package:seedbed/widgets/primary_button.dart';
 import 'package:seedbed/widgets/signup_dialog.dart';
@@ -27,10 +27,12 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
     super.initState();
   }
 
-  _updateCountryCode(Locale myLocale) {
+  _updateCountryCode(_) {
+    Locale myLocale = Localizations.localeOf(context);
     if (myLocale.countryCode != null) {
       Map localeData = codes.firstWhere(
           (Map code) => code['code'] == myLocale.countryCode,
@@ -42,6 +44,18 @@ class _SignupScreenState extends State<SignupScreen> {
         });
       }
     }
+  }
+
+  void onPressed(Function(CountryCode, String) signUp) {
+    phoneNumberUtil
+        .parse('${countryCode.dialCode}${phoneController.text}')
+        .then((value) {
+      signUp(countryCode, phoneController.text);
+    }, onError: (e) {
+      setState(() {
+        isvalidPhone = false;
+      });
+    });
   }
 
   @override
@@ -186,24 +200,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             label: I18n.of(context).next_button,
                             fontSize: 16,
                             labelFontWeight: FontWeight.normal,
-                            onPressed: () async {
-                              try {
-                                bool isValid = await PhoneService.isValid(
-                                    phoneController.text, countryCode.code);
-                                if (isValid) {
-                                  viewModel.signUp(
-                                      countryCode, phoneController.text);
-                                } else {
-                                  setState(() {
-                                    isvalidPhone = false;
-                                  });
-                                }
-                              } on PlatformException catch (e) {
-                                print(e);
-                                setState(() {
-                                  isvalidPhone = false;
-                                });
-                              }
+                            onPressed: () {
+                              onPressed(viewModel.signUp);
                             },
                             preload: viewModel.isLoginRequest,
                           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/app_state.dart';
 import 'package:seedbed/redux/actions/user_actions.dart';
@@ -34,7 +33,6 @@ class ReceiveScreen extends StatelessWidget {
                   });
             });
           }
-          Segment.screen(screenName: '/receive-screen');
         },
         converter: _ReceiveModel.fromStore,
         builder: (_, viewModel) {

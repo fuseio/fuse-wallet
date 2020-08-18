@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/views/send_amount.dart';
 import 'package:seedbed/screens/routes.gr.dart';
@@ -35,8 +34,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   @override
   void initState() {
     super.initState();
-    Segment.screen(screenName: '/send-review-screen');
-
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 2000));
 
@@ -53,6 +50,24 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       String transferNote,
       VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) {
+    if (args.isConvert) {
+      if (args.tokenToSend.address ==
+          viewModel.community.secondaryToken.address) {
+        viewModel.buyToken(
+            viewModel.community.secondaryToken.address,
+            args.tokenToSend.address,
+            args.amount,
+            sendSuccessCallback,
+            sendFailureCallback);
+      } else {
+        viewModel.sellToken(
+            viewModel.community.secondaryToken.address,
+            args.tokenToSend.address,
+            args.amount,
+            sendSuccessCallback,
+            sendFailureCallback);
+      }
+    }
     if (args.tokenToSend.originNetwork == null) {
       if (args.accountAddress == null ||
           args.accountAddress == '' && args.phoneNumber != null) {
@@ -325,8 +340,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     onPressed: () {
                       if (withFee && !hasFund) return;
                       send(viewModel, args, transferNoteController.text, () {
-                        ExtendedNavigator.root.replace(
-                            Routes.sendSuccessScreen,
+                        ExtendedNavigator.root.replace(Routes.sendSuccessScreen,
                             arguments:
                                 SendSuccessScreenArguments(pageArgs: args));
                       }, () {

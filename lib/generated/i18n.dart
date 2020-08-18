@@ -210,8 +210,8 @@ class I18n implements WidgetsLocalizations {
   String get protect_wallet => "Protect your wallet";
   /// "Backup"
   String get backup_wallet => "Backup";
-  /// "Top-up your account"
-  String get top_up => "Top-up your account";
+  /// "Buy with credit Card"
+  String get top_up => "Buy with credit Card";
   /// "Buy"
   String get buy => "Buy";
   /// "Map"
@@ -272,6 +272,14 @@ class I18n implements WidgetsLocalizations {
   String get flash_on => "Flash on";
   /// "Flash off"
   String get flash_off => "Flash off";
+  /// "Copy to clipboard"
+  String get copy_to_clipboard => "Copy to clipboard";
+  /// "Copied to Clipboard"
+  String get copied_to_clipboard => "Copied to Clipboard";
+  /// "More details"
+  String get more_details => "More details";
+  /// "Convert"
+  String get convert => "Convert";
 }
 
 class _I18n_en_US extends I18n {

@@ -107,7 +107,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           return Scaffold(
             appBar: MyAppBar(
               height: 210.0,
-              backgroundColor: Colors.white,
+              // backgroundColor: Colors.white,
               child: CashHeader(),
             ),
             body: body,

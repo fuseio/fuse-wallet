@@ -43,8 +43,10 @@ class _LockScreenState extends State<LockScreen> {
         await _showLocalAuthPopup(
           BiometricUtils.getBiometricString(_biometricType),
         );
-      } else {
+      } else if (userState.authType == BiometricAuth.pincode) {
         ExtendedNavigator.root.replace(Routes.pincode);
+      } else {
+        ExtendedNavigator.root.replace(Routes.homePage);
       }
     }
   }
@@ -81,9 +83,9 @@ class _LockScreenState extends State<LockScreen> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    Color(0xFFB1FDC0),
-                    Color(0xFFE6FD99),
-                    Color(0xFFFEFD86)
+                    Color(0xFF221333),
+                    Color(0xFF341E4D),
+                    Color(0xFF341E4D),
                   ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                 ),
                 child: Column(

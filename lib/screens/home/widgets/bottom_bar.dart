@@ -47,10 +47,7 @@ class BottomBar extends StatelessWidget {
             items: [
               bottomBarItem(I18n.of(context).home, 'home'),
               bottomBarItem(I18n.of(context).send_button, 'send'),
-              vm.isDefaultCommunity
-                  ? bottomBarItem(
-                      I18n.of(context).fuse_volts, 'fuse_points_tab')
-                  : bottomBarItem(I18n.of(context).buy, 'buy'),
+              bottomBarItem(I18n.of(context).convert, 'buy'),
               bottomBarItem(I18n.of(context).receive, 'receive'),
             ],
             onTap: onTap,

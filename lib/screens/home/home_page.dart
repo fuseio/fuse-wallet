@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:seedbed/constans/keys.dart';
-import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
 import 'package:seedbed/redux/actions/user_actions.dart';
-import 'package:seedbed/screens/buy/router/buy_router.gr.dart';
+import 'package:seedbed/screens/contacts/send_amount_arguments.dart';
 import 'package:seedbed/screens/home/router/home_router.gr.dart';
-import 'package:seedbed/screens/home/screens/fuse_points_explained.dart';
 import 'package:seedbed/screens/home/screens/receive.dart';
-import 'package:seedbed/screens/misc/webview_page.dart';
 import 'package:seedbed/screens/contacts/router/router_contacts.gr.dart';
 import 'package:seedbed/screens/home/widgets/drawer.dart';
+import 'package:seedbed/screens/send_flow/send_amount.dart';
+import 'package:seedbed/utils/addresses.dart';
 import 'package:seedbed/utils/contacts.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -97,17 +96,14 @@ class _HomePageState extends State<HomePage> {
                         : ContactsRoutes.emptyContacts,
                   ),
                 ),
-                !['', null].contains(vm.community.webUrl)
-                    ? WebViewPage(
-                        url: vm.community.webUrl,
-                        withBack: false,
-                        title: I18n.of(context).community_webpage)
-                    : vm.isDefaultCommunity
-                        ? FusePointsExplainedScreen()
-                        : ExtendedNavigator(
-                            router: BuyRouter(),
-                            observers: [SegmentObserver()],
-                          ),
+                SendAmountScreen(
+                    pageArgs: SendAmountArguments(
+                  isConvert: true,
+                  accountAddress: reserveContractAddress,
+                  avatar: NetworkImage(
+                      'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png'),
+                  name: 'Convertor',
+                )),
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(

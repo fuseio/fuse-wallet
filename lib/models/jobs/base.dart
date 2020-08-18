@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:seedbed/models/jobs/approve_job.dart';
 import 'package:seedbed/models/jobs/backup_job.dart';
+import 'package:seedbed/models/jobs/convert_job.dart';
 import 'package:seedbed/models/jobs/generate_wallet_job.dart';
 import 'package:seedbed/models/jobs/invite_bonus_job.dart';
 import 'package:seedbed/models/jobs/invite_job.dart';
@@ -84,7 +85,8 @@ class JobFactory {
       if (job['data']['walletModule'] == Job.COMMUNITY_MANAGER) {
         return 'joinCommunity';
       } else if (job['data']['walletModule'] == Job.TRANSFER_MANAGER &&
-          (job['data']['methodName'] != null && job['data']['methodName'] == 'approveToken')) {
+          (job['data']['methodName'] != null &&
+              job['data']['methodName'] == 'approveToken')) {
         return 'approveToken';
       } else if (job['data']['walletModule'] == Job.TRANSFER_MANAGER) {
         return 'transfer';
@@ -190,6 +192,15 @@ class JobFactory {
             arguments: json['arguments']);
       case 'swapToken':
         return new SwapTokenJob(
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
+      case 'convertToken':
+        return new ConvertJob(
             id: id,
             jobType: jobType,
             name: json['name'],

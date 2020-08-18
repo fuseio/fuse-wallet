@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:seedbed/constans/keys.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/screens/routes.gr.dart';
@@ -21,14 +20,16 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
   @override
   void initState() {
     super.initState();
-    Segment.screen(screenName: '/send-success-screen');
-
     Future.delayed(const Duration(milliseconds: 2500), () {
-      final BottomNavigationBar navigationBar =
-          AppKeys.bottomBarKey.currentWidget;
-      Navigator.of(context).pop();
-      navigationBar.onTap(0);
-      ExtendedNavigator.root.popUntilPath(Routes.homePage);
+      if (widget.pageArgs.isConvert) {
+        ExtendedNavigator.root.push(Routes.homePage);
+      } else {
+        final BottomNavigationBar navigationBar =
+            AppKeys.bottomBarKey.currentWidget;
+        Navigator.of(context).pop();
+        navigationBar.onTap(0);
+        ExtendedNavigator.root.popUntilPath(Routes.homePage);
+      }
     });
   }
 

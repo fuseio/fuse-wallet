@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/tokens/token.dart';
@@ -40,7 +39,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   @override
   void initState() {
     super.initState();
-    Segment.screen(screenName: '/send-amount-screen');
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
 
@@ -104,6 +102,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     String title =
         "${I18n.of(context).send_to} ${args.name != null ? args.name : formatAddress(args.accountAddress)}";
     return new StoreConnector<AppState, SendAmountViewModel>(
+      distinct: true,
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
         if ([null, ''].contains(args.tokenToSend)) {
@@ -164,8 +163,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         final int decimals = selectedToken?.decimals;
         final num currentTokenBalance =
             num.parse(formatValue(balance, decimals, withPrecision: true));
-        final bool hasFund =
-            (num.parse(amountText ?? 0)).compareTo(currentTokenBalance) <= 0;
+        final bool hasFund = (num.tryParse(amountText ?? 0) ?? 0)
+                .compareTo(currentTokenBalance) <=
+            0;
 
         if (!hasFund) {
           controller.forward();
@@ -206,6 +206,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                             selectedToken.amount,
                                             selectedToken.decimals,
                                             withPrecision: true);
+                                        print('max max max max $max');
                                         if (num.parse(max).compareTo(
                                                 num.parse(amountText)) !=
                                             0) {
@@ -312,6 +313,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                         Theme.of(context).bottomAppBarColor,
                       ]
                     : null,
+                labalColor: !hasFund ? Theme.of(context).primaryColor : null,
                 labelFontWeight: FontWeight.normal,
                 label: hasFund
                     ? I18n.of(context).continue_with +

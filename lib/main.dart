@@ -20,7 +20,7 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv().load('.env');
+  await DotEnv().load('.env_seedbed');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
   runZonedGuarded<Future<void>>(
@@ -120,7 +120,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'Fuse Cash',
+          title: 'Seedbed wallet',
           builder: ExtendedNavigator.builder(
             router: Router(),
             initialRoute: "/",

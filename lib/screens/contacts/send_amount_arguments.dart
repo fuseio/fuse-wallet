@@ -18,6 +18,7 @@ class SendAmountArguments {
   ImageProvider avatar;
   SendType sendType;
   Token tokenToSend;
+  final bool isConvert;
 
   SendAmountArguments(
       {this.sendType,
@@ -25,6 +26,7 @@ class SendAmountArguments {
       this.name,
       this.phoneNumber,
       this.accountAddress,
+      this.isConvert = false,
       this.amount,
       this.avatar});
 }

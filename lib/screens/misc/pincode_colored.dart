@@ -42,9 +42,9 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              Color(0xFFB1FDC0),
-              Color(0xFFE6FD99),
-              Color(0xFFFEFD86)
+              Color(0xFF221333),
+              Color(0xFF341E4D),
+              Color(0xFF341E4D),
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           ),
           child: Column(
@@ -61,8 +61,8 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          SvgPicture.asset('assets/images/fuse_logo.svg',
-                              width: 78, height: 25, color: Color(0xFF656565)),
+                          // SvgPicture.asset('assets/images/fuse_logo.svg',
+                          //     width: 78, height: 25, color: Color(0xFF656565)),
                         ],
                       ),
                     ),
@@ -104,8 +104,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                           onChanged: (value) {
                                             if (value == viewModel.pincode) {
                                               ExtendedNavigator.root
-                                                  .replace(
-                                                      Routes.homePage);
+                                                  .replace(Routes.homePage);
                                             }
                                           }),
                                     )))

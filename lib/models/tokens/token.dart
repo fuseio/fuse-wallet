@@ -82,12 +82,14 @@ class Token extends ERC20Token {
 
   @override
   Future<dynamic> fetchTokenBalance(String accountAddress,
-      {void Function(BigInt) onDone, Function onError}) async {
-    if (originNetwork == null) {
+      {void Function(BigInt) onDone,
+      Function onError,
+      bool fromGraph = false}) async {
+    if (originNetwork == null && !fromGraph) {
       try {
         final BigInt balance = await tokenAPI.getTokenBalanceByAccountAddress(
             this.address, accountAddress);
-        if (this.amount.compareTo(balance) != 0) {
+        if (this?.amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -97,7 +99,7 @@ class Token extends ERC20Token {
       try {
         final BigInt balance =
             await graph.getTokenBalance(accountAddress, this.address);
-        if (this.amount.compareTo(balance) != 0) {
+        if (this?.amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {

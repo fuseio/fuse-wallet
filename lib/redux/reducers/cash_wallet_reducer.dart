@@ -53,6 +53,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, FetchSecondaryTokenSuccess>(
       _fetchSecondaryTokenSuccess),
   TypedReducer<CashWalletState, GetWeeklyRewardSucces>(_getWeeklyRewardSucces),
+  TypedReducer<CashWalletState, GetSecondaryTokenBalanceSuccess>(
+      _getSecondaryTokenBalanceSuccess),
 ]);
 
 CashWalletState _getWeeklyRewardSucces(
@@ -63,8 +65,9 @@ CashWalletState _getWeeklyRewardSucces(
 
 CashWalletState _fetchSecondaryTokenSuccess(
     CashWalletState state, FetchSecondaryTokenSuccess action) {
-  String communityAddress = state.communityAddress;
-  Community current = state.communities[communityAddress];
+  String communityAddress = action.communityAddress;
+  Community current = state.communities[communityAddress] ??
+      Community.initial().copyWith(address: action.communityAddress);
   Community newCommunity = current.copyWith(secondaryToken: action.token);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
@@ -97,6 +100,18 @@ CashWalletState _setDefaultCommunity(
 CashWalletState _initWeb3Success(
     CashWalletState state, InitWeb3Success action) {
   return state.copyWith(web3: action.web3);
+}
+
+CashWalletState _getSecondaryTokenBalanceSuccess(
+    CashWalletState state, GetSecondaryTokenBalanceSuccess action) {
+  final String communityAddress = action.communityAddress;
+  Community current = state.communities[communityAddress];
+  Community newCommunity = current.copyWith(
+      secondaryToken: current.secondaryToken.copyWith(amount: action.balance));
+  Map<String, Community> newOne =
+      Map<String, Community>.from(state.communities);
+  newOne[communityAddress] = newCommunity;
+  return state.copyWith(communities: newOne);
 }
 
 CashWalletState _getTokenBalanceSuccess(
@@ -140,6 +155,7 @@ CashWalletState _switchCommunitySuccess(
       isClosed: action.isClosed,
       homeBridgeAddress: action.homeBridgeAddress,
       foreignBridgeAddress: action.foreignBridgeAddress,
+      secondaryTokenAddress: action.secondaryTokenAddress,
       webUrl: action.webUrl);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
@@ -188,31 +204,58 @@ CashWalletState _fetchingBusinessListFailed(
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
   final String communityAddress = action.communityAddress;
-  if (action.tokenTransfers.length > 0) {
-    dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
-            0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
-        1;
-    Community current = state.communities[communityAddress];
-    for (Transfer tx in action.tokenTransfers.reversed) {
-      Transfer saved = current.token.transactions.list
-          .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
-      if (saved != null) {
-        if (saved.isPending()) {
-          saved = saved.copyWith(status: 'CONFIRMED');
+  if (action.tokenTransfers.isNotEmpty) {
+    if (action.tokenAddress != null) {
+      dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
+              0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
+          1;
+      Community current = state.communities[communityAddress];
+      for (Transfer tx in action.tokenTransfers.reversed) {
+        Transfer saved = current.secondaryToken.transactions.list
+            .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+        if (saved != null) {
+          if (saved.isPending()) {
+            saved = saved.copyWith(status: 'CONFIRMED');
+          }
+        } else {
+          current.secondaryToken.transactions.list.add(tx);
         }
-      } else {
-        current.token.transactions.list.add(tx);
       }
+      Community newCommunity = current.copyWith(
+          secondaryToken: current.secondaryToken.copyWith(
+              transactions: current.secondaryToken.transactions.copyWith(
+                  list: current.secondaryToken.transactions.list,
+                  blockNumber: maxBlockNumber)));
+      Map<String, Community> newOne =
+          Map<String, Community>.from(state.communities);
+      newOne[communityAddress] = newCommunity;
+      return state.copyWith(communities: newOne);
+    } else {
+      dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
+              0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
+          1;
+      Community current = state.communities[communityAddress];
+      for (Transfer tx in action.tokenTransfers.reversed) {
+        Transfer saved = current.token.transactions.list
+            .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+        if (saved != null) {
+          if (saved.isPending()) {
+            saved = saved.copyWith(status: 'CONFIRMED');
+          }
+        } else {
+          current.token.transactions.list.add(tx);
+        }
+      }
+      Community newCommunity = current.copyWith(
+          token: current.token.copyWith(
+              transactions: current.token.transactions.copyWith(
+                  list: current.token.transactions.list,
+                  blockNumber: maxBlockNumber)));
+      Map<String, Community> newOne =
+          Map<String, Community>.from(state.communities);
+      newOne[communityAddress] = newCommunity;
+      return state.copyWith(communities: newOne);
     }
-    Community newCommunity = current.copyWith(
-        token: current.token.copyWith(
-            transactions: current.token.transactions.copyWith(
-                list: current.token.transactions.list,
-                blockNumber: maxBlockNumber)));
-    Map<String, Community> newOne =
-        Map<String, Community>.from(state.communities);
-    newOne[communityAddress] = newCommunity;
-    return state.copyWith(communities: newOne);
   } else {
     return state;
   }

@@ -31,6 +31,7 @@ class Community extends Equatable {
         token,
         plugins,
         secondaryToken,
+        secondaryTokenAddress,
         metadata,
         webUrl
       ];
@@ -65,21 +66,20 @@ class Community extends Equatable {
     );
   }
 
-  Community copyWith({
-    String name,
-    String address,
-    String foreignBridgeAddress,
-    String homeBridgeAddress,
-    String secondaryTokenAddress,
-    Plugins plugins,
-    Token token,
-    Token secondaryToken,
-    List<Business> businesses,
-    bool isMember,
-    CommunityMetadata metadata,
-    bool isClosed,
-    String webUrl
-  }) {
+  Community copyWith(
+      {String name,
+      String address,
+      String foreignBridgeAddress,
+      String homeBridgeAddress,
+      String secondaryTokenAddress,
+      Plugins plugins,
+      Token token,
+      Token secondaryToken,
+      List<Business> businesses,
+      bool isMember,
+      CommunityMetadata metadata,
+      bool isClosed,
+      String webUrl}) {
     return Community(
       isClosed: isClosed ?? this.isClosed,
       webUrl: webUrl,
@@ -93,7 +93,8 @@ class Community extends Equatable {
       isMember: isMember ?? this.isMember,
       homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
       foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,
-      secondaryTokenAddress: secondaryTokenAddress ?? this.secondaryTokenAddress,
+      secondaryTokenAddress:
+          secondaryTokenAddress ?? this.secondaryTokenAddress,
     );
   }
 
