@@ -122,7 +122,10 @@ to reward rate of $next''')
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: Icon(PlatformIcons(context).back),
+                          child: Icon(
+                            PlatformIcons(context).back,
+                            color: Theme.of(context).splashColor,
+                          ),
                         ))
                   ],
                 ),
