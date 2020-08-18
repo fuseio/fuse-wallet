@@ -60,8 +60,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
-    _updateCountryCode(myLocale);
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
@@ -106,8 +104,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Text(
                             I18n.of(context).why_do_we_need_this,
                             style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 11,
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 15,
                                 fontWeight: FontWeight.normal),
                           ),
                         )),

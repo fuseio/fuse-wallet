@@ -80,9 +80,7 @@ class CashHeader extends StatelessWidget {
                               Container(
                                 child: Text(I18n.of(context).balance,
                                     style: TextStyle(
-                                        color: Theme.of(context)
-                                            .splashColor
-                                            .withAlpha(150),
+                                        color: Theme.of(context).splashColor,
                                         fontSize: 12.0)),
                                 padding: EdgeInsets.only(bottom: 6.0),
                               ),

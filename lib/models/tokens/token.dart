@@ -87,9 +87,9 @@ class Token extends ERC20Token {
       bool fromGraph = false}) async {
     if (originNetwork == null && !fromGraph) {
       try {
-        final BigInt balance = await tokenAPI.getTokenBalanceByAccountAddress(
-            this.address, accountAddress);
-        if (this?.amount?.compareTo(balance) != 0) {
+        final BigInt balance = await ethereumExplorerApi
+            .getTokenBalanceByAccountAddress(this.address, accountAddress);
+        if (this.amount.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -97,9 +97,9 @@ class Token extends ERC20Token {
       }
     } else {
       try {
-        final BigInt balance =
-            await graph.getTokenBalance(accountAddress, this.address);
-        if (this?.amount?.compareTo(balance) != 0) {
+        final BigInt balance = await fuseExplorerApi
+            .getTokenBalanceByAccountAddress(this.address, accountAddress);
+        if (this.amount.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {

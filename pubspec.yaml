@@ -5,14 +5,15 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
   span_builder: ^0.1.0
+  flutter_platform_widgets: ^0.60.1
   enum_to_string: ^1.0.9
   local_auth: ^0.6.2+3
   auto_size_text: ^2.1.0
   flutter_webview_plugin: ^0.3.11
-  phone_number: ^0.6.2+3
+  phone_number: ^0.6.2+4
   libphonenumber: ^1.0.1
   cached_network_image: ^2.2.0+1
-  rate_my_app: ^0.6.1+6
+  rate_my_app: ^0.6.1+7
   auto_route: ^0.6.6
   url_launcher: ^5.5.0
   http: ^0.12.0+4
@@ -21,7 +22,7 @@ dependencies:
   shared_preferences: ^0.5.6+3
   package_info: ^0.4.1
   share: ^0.6.4+3
-  flutter_svg: 0.17.4
+  flutter_svg: ^0.18.0
   cupertino_icons: ^0.1.3
   flutter_secure_storage: ^3.3.3
   flutter_redux: ^0.6.0
@@ -30,7 +31,7 @@ dependencies:
   redux_logging: ^0.4.0
   redux_persist: ^0.8.4
   country_code_picker: ^1.4.0
-  wallet_core: ^0.2.3+18
+  wallet_core: ^0.2.4+3
   # wallet_core:
   # path: ../wallet_core
   barcode_scan: ^3.0.1
@@ -50,7 +51,7 @@ dependencies:
   firebase_auth: ^0.16.1
   ethereum_address: ^1.0.1
   sentry: ^3.0.1
-  device_info: ^0.4.2+4
+  device_info: '>=0.4.2+6 <2.0.0'
   flutter_cupertino_localizations: ^1.0.1
   flutter_branch_sdk: ^0.3.1
   flutter_udid: ^1.0.1
@@ -73,8 +74,8 @@ flutter_icons:
   ios: true
 flutter:
   assets:
-    - .env_seedbed
-    - .env_qa
+    - environment/.env_seedbed
+    - environment/.env_qa
     - assets/
     - assets/images/
   fonts:

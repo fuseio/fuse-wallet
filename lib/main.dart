@@ -20,7 +20,7 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv().load('.env_seedbed');
+  await DotEnv().load('environment/.env_seedbed');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
   runZonedGuarded<Future<void>>(

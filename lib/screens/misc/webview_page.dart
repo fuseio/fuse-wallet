@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:seedbed/widgets/my_app_bar.dart';
 
-class WebViewPage extends StatelessWidget {
+class WebViewPage extends StatefulWidget {
   final String url;
   final String title;
   final bool withBack;
 
-  WebViewPage({this.url, this.title, this.withBack = true});
+  WebViewPage({this.url, this.title, this.withBack = false});
+
+  @override
+  _WebViewPageState createState() => _WebViewPageState();
+}
+
+class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(builder: (BuildContext context) {
         return WebviewScaffold(
-            url: url,
+            url: widget.url,
             appBar: MyAppBar(
+              backgroundColor: Colors.white,
               child: Container(
                 height: 120,
                 decoration: BoxDecoration(
@@ -42,13 +49,13 @@ class WebViewPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(title,
+                            Text(widget.title,
                                 style: TextStyle(
                                     color: Theme.of(context).primaryColor,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800))
                           ]),
-                      withBack
+                      widget.withBack
                           ? Positioned(
                               top: 60,
                               left: 20,
@@ -56,8 +63,7 @@ class WebViewPage extends StatelessWidget {
                                 onTap: () {
                                   Navigator.of(context).pop();
                                 },
-                                child:
-                                    SvgPicture.asset('assets/images/arrow.svg'),
+                                child: Icon(PlatformIcons(context).back),
                               ))
                           : SizedBox.shrink(),
                     ],

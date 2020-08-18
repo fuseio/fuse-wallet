@@ -82,17 +82,23 @@ class _SecurityScreenState extends State<SecurityScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         InkWell(
+                          highlightColor: Theme.of(context).splashColor,
                           child: Container(
                               height: 60,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),
                               width: MediaQuery.of(context).size.width * .8,
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color(0xFFDEDEDE), width: 2),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30.0)),
-                                color: Theme.of(context).splashColor,
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    Theme.of(context).primaryColorDark,
+                                    Theme.of(context).primaryColorLight,
+                                  ],
+                                ),
                                 shape: BoxShape.rectangle,
                               ),
                               child: Row(
@@ -102,7 +108,9 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                   Row(
                                     children: <Widget>[
                                       SvgPicture.asset(
-                                          'assets/images/${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg'),
+                                        'assets/images/${BiometricAuth.faceID == _biometricType ? 'face_id' : 'fingerprint'}.svg',
+                                        color: Theme.of(context).splashColor,
+                                      ),
                                       SizedBox(
                                         width: 10,
                                       ),
@@ -110,7 +118,9 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                         BiometricUtils.getBiometricString(
                                             _biometricType),
                                         style: TextStyle(
-                                            fontSize: 14, color: Colors.black),
+                                            fontSize: 18,
+                                            color:
+                                                Theme.of(context).splashColor),
                                       )
                                     ],
                                   ),
@@ -118,7 +128,8 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       SvgPicture.asset(
-                                        'assets/images/info_gray.svg',
+                                        'assets/images/info_black.svg',
+                                        color: Theme.of(context).splashColor,
                                       ),
                                       SizedBox(
                                         width: 3,
@@ -126,7 +137,9 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                       Text(
                                         I18n.of(context).recommended,
                                         style: TextStyle(
-                                            fontSize: 10, color: Colors.black),
+                                            fontSize: 12,
+                                            color:
+                                                Theme.of(context).splashColor),
                                       ),
                                     ],
                                   )
@@ -155,17 +168,16 @@ class _SecurityScreenState extends State<SecurityScreen> {
                           height: 30,
                         ),
                         InkWell(
+                          highlightColor: Theme.of(context).splashColor,
                           child: Container(
                             height: 60,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                             width: MediaQuery.of(context).size.width * .8,
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color(0xFFDEDEDE), width: 2),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(30.0)),
-                              color: Theme.of(context).splashColor,
+                              color: Color(0xFFF7F7F7),
                               shape: BoxShape.rectangle,
                             ),
                             child: Row(children: [
@@ -176,7 +188,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                               ),
                               Text(I18n.of(context).pincode,
                                   style: TextStyle(
-                                      fontSize: 14, color: Colors.black))
+                                      fontSize: 18, color: Colors.black))
                             ]),
                           ),
                           onTap: () {

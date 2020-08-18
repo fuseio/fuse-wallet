@@ -125,10 +125,10 @@ class TransactionTile extends StatelessWidget {
           return Container(
               decoration: BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(color: const Color(0xFFDCDCDC)))), //
+                      bottom: BorderSide(color: Color(0xFFE8E8E8)))), //
               child: ListTile(
                 contentPadding:
-                    EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
+                    EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
                 title: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,7 +146,7 @@ class TransactionTile extends StatelessWidget {
                                 children: <Widget>[
                                   CircleAvatar(
                                     backgroundColor: Color(0xFFE0E0E0),
-                                    radius: 27,
+                                    radius: 30,
                                     backgroundImage: image,
                                   ),
                                   // Positioned(
@@ -176,8 +176,8 @@ class TransactionTile extends StatelessWidget {
                                   // ),
                                   transfer.isPending()
                                       ? Container(
-                                          width: 55,
-                                          height: 55,
+                                          width: 60,
+                                          height: 60,
                                           child: CircularProgressIndicator(
                                             backgroundColor: Color(0xFF49D88D)
                                                 .withOpacity(0),

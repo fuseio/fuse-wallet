@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/app_state.dart';
 import 'package:seedbed/models/views/contacts.dart';
+import 'package:seedbed/screens/contacts/router/router_contacts.gr.dart';
 import 'package:seedbed/utils/contacts.dart';
 import 'package:seedbed/widgets/primary_button.dart';
 import 'dart:core';
@@ -146,13 +148,21 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                       List<Contact> contacts =
                                           await ContactController.getContacts();
                                       viewModel.syncContacts(contacts);
-                                      viewModel.trackCall("Wallet: Contacts Permission Granted");
-                                      viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": true }));
+                                      viewModel.trackCall(
+                                          "Wallet: Contacts Permission Granted");
+                                      viewModel.idenyifyCall(Map.from({
+                                        "Contacts Permission Granted": true
+                                      }));
                                     } else {
-                                      viewModel.trackCall("Wallet: Contacts Permission Rejected");
-                                      viewModel.idenyifyCall(Map.from({ "Contacts Permission Granted": false }));
+                                      viewModel.trackCall(
+                                          "Wallet: Contacts Permission Rejected");
+                                      viewModel.idenyifyCall(Map.from({
+                                        "Contacts Permission Granted": false
+                                      }));
                                     }
                                     Navigator.of(context).pop();
+                                    ExtendedNavigator.named('contactsRouter')
+                                        .replace(ContactsRoutes.contactsList);
                                     setState(() {
                                       isPreloading = false;
                                     });

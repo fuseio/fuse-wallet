@@ -522,7 +522,17 @@ ThunkAction generateWalletSuccessCall(
           communityManagerAddress: communityManager,
           transferManagerAddress: transferManager,
           networks: networks));
-      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+      Future.delayed(Duration(seconds: intervalSeconds), () {
+        if (deployedToForeign) {
+          store.dispatch(startListenToTransferEvents());
+          store.dispatch(startFetchBalancesOnForeign());
+          store.dispatch(fetchTokensBalances());
+          store.dispatch(startFetchTransferEventsCall());
+          store.dispatch(startFetchTokensLastestPrices());
+          store.dispatch(startProcessingTokensJobsCall());
+        }
+      });
+      store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
         "App name": 'Seedbed',
         "Phone Number": store.state.userState.normalizedPhoneNumber,
@@ -1414,12 +1424,12 @@ ThunkAction getTokenTransfersListCall(Community community) {
       String walletAddress = store.state.userState.walletAddress;
       String tokenAddress = community?.token?.address;
       num lastBlockNumber = community?.token?.transactions?.blockNumber;
-      num currentBlockNumber = await web3.getBlockNumber();
-      Map<String, dynamic> response = await graph.getTransfers(
+      // num currentBlockNumber = await web3.getBlockNumber();
+      dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
           walletAddress, tokenAddress,
-          fromBlockNumber: lastBlockNumber, toBlockNumber: currentBlockNumber);
+          startblock: lastBlockNumber ?? 0);
       List<Transfer> transfers = List<Transfer>.from(
-          response["data"].map((json) => Transfer.fromJson(json)).toList());
+          tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(new GetTokenTransfersListSuccess(
           tokenTransfers: transfers, communityAddress: community.address));
 
@@ -1457,12 +1467,12 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
       if (web3 == null) {
         throw "Web3 is empty";
       }
-      num currentBlockNumber = await web3.getBlockNumber();
-      Map<String, dynamic> response = await graph.getReceivedTransfers(
+      // num currentBlockNumber = await web3.getBlockNumber();
+      dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
           walletAddress, tokenAddress,
-          fromBlockNumber: lastBlockNumber, toBlockNumber: currentBlockNumber);
+          startblock: lastBlockNumber ?? 0);
       List<Transfer> transfers = List<Transfer>.from(
-          response["data"].map((json) => Transfer.fromJson(json)).toList());
+          tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       if (transfers.isNotEmpty) {
         store.dispatch(new GetTokenTransfersListSuccess(
             tokenTransfers: transfers, communityAddress: community.address));
@@ -1471,12 +1481,12 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
 
       if (community.secondaryToken != null) {
         final tokenAddress = community.secondaryToken.address;
-        Map<String, dynamic> response = await graph.getReceivedTransfers(
-            walletAddress, tokenAddress,
-            fromBlockNumber: lastBlockNumber,
-            toBlockNumber: currentBlockNumber);
+        dynamic response = await api.fetchTokenTxByAddress(
+            walletAddress, community.secondaryToken.address,
+            startblock:
+                community?.secondaryToken?.transactions?.blockNumber ?? 0);
         List<Transfer> transfers = List<Transfer>.from(
-            response["data"].map((json) => Transfer.fromJson(json)).toList());
+            response.map((json) => Transfer.fromJson(json)).toList());
         if (transfers.isNotEmpty) {
           store.dispatch(new GetTokenTransfersListSuccess(
               tokenTransfers: transfers,

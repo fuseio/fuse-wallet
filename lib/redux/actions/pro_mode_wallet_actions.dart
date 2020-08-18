@@ -240,6 +240,9 @@ ThunkAction fetchTokensBalances() {
                       amount: balance,
                       timestamp: DateTime.now().millisecondsSinceEpoch)));
               store.dispatch(updateTotalBalance());
+              Future.delayed(Duration(seconds: intervalSeconds), () {
+                store.dispatch(fetchTokensLatestPrice());
+              });
               store.dispatch(ClearTokenList());
             };
             void Function(Object error, StackTrace stackTrace) onError =
@@ -265,7 +268,7 @@ ThunkAction startFetchTokensLastestPrices() {
     final logger = await AppFactory().getLogger('action');
     logger.info('Timer start - startFetchTokensLastestPrices');
     if (!isFetchTokensLastestPrice) {
-      new Timer.periodic(Duration(minutes: 10), (Timer timer) async {
+      new Timer.periodic(Duration(minutes: 1), (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           store.dispatch(SetIsFetchTokensLastestPrices(isFetching: false));
           logger.severe('Timer stopped - startFetchTokensLastestPrices');

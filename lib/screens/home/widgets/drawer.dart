@@ -6,7 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:seedbed/models/plugins/plugin_base.dart';
 import 'package:seedbed/models/views/drawer.dart';
 import 'package:seedbed/screens/home/router/home_router.gr.dart';
 import 'package:seedbed/screens/routes.gr.dart';
@@ -68,10 +67,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   List<Widget> pluginsItems(DrawerViewModel viewModel) {
     List<Widget> plugins = [];
-    List depositPlugins = viewModel?.plugins?.getDepositPlugins();
+    List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
     if (depositPlugins.isNotEmpty) {
       plugins.add(new Divider(
-        color: Color(0xFFCBCBCB),
+        color: Color(0xFFE8E8E8),
       ));
       print('depositPlugins depositPlugins ${depositPlugins[0].generateUrl()}');
 
@@ -104,7 +103,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           dynamic url = depositPlugins[0].generateUrl();
           ExtendedNavigator.root.push(Routes.webview,
               arguments: WebViewPageArguments(
-                  url: url, title: I18n.of(context).top_up));
+                  withBack: true, url: url, title: I18n.of(context).top_up));
           Segment.track(eventName: 'User clicked on top up');
         },
       ));

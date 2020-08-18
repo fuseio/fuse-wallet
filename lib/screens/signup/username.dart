@@ -22,6 +22,7 @@ class UserNameScreen extends StatelessWidget {
           return MainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
+              padding: 20.0,
               title: I18n.of(context).sign_up,
               children: <Widget>[
                 Padding(
@@ -29,10 +30,13 @@ class UserNameScreen extends StatelessWidget {
                       left: 30.0, right: 30.0, bottom: 0, top: 10.0),
                   child: Column(
                     children: <Widget>[
-                      Image.asset(
-                        'assets/images/username.png',
-                        width: 95,
-                        height: 80,
+                      Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Image.asset(
+                          'assets/images/username.png',
+                          width: 95,
+                          height: 80,
+                        ),
                       ),
                       SizedBox(height: 20.0),
                       Text(
@@ -48,39 +52,39 @@ class UserNameScreen extends StatelessWidget {
                               fontSize: 15,
                               color: Theme.of(context).colorScheme.secondary)),
                       SizedBox(height: 10.0),
-                      TextFormField(
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                        controller: displayNameController,
-                        keyboardType: TextInputType.text,
-                        autofocus: true,
-                        cursorColor: Color(0xFFC6C6C6),
-                        decoration: InputDecoration(
-                          focusColor: Color(0xFFC6C6C6),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFC6C6C6))),
+                      Container(
+                        width: 255,
+                        child: TextFormField(
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                          controller: displayNameController,
+                          keyboardType: TextInputType.text,
+                          autofocus: true,
+                          cursorColor: Color(0xFFC6C6C6),
+                          decoration: InputDecoration(
+                            focusColor: Color(0xFFC6C6C6),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xFFC6C6C6))),
+                          ),
                         ),
                       )
                     ],
                   ),
                 ),
               ],
-              footer: Container(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Column(children: <Widget>[
-                    Center(
-                      child: PrimaryButton(
-                        label: I18n.of(context).next_button,
-                        labelFontWeight: FontWeight.normal,
-                        fontSize: 16,
-                        onPressed: () {
-                          viewModel.setDisplayName(
-                              capitalize(displayNameController.text ?? 'Anom'));
-                          ExtendedNavigator.root.replace(Routes.securityScreen);
-                        },
-                      ),
-                    ),
-                  ])));
+              footer: Center(
+                child: PrimaryButton(
+                  label: I18n.of(context).next_button,
+                  labelFontWeight: FontWeight.normal,
+                  fontSize: 16,
+                  onPressed: () {
+                    viewModel.setDisplayName(
+                        capitalize(displayNameController.text ?? 'Anom'));
+                    ExtendedNavigator.root.push(Routes.securityScreen);
+                  },
+                ),
+              ));
         });
   }
 }

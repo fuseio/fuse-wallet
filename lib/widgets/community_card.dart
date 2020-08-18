@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/community/community.dart';
 
-class CommunityCardScreen extends StatefulWidget {
-  CommunityCardScreen(
+class CommunitySelectedCardScreen extends StatefulWidget {
+  CommunitySelectedCardScreen(
       {Key key, this.title, this.community, this.switchCommunity})
       : super(key: key);
 
@@ -16,7 +17,7 @@ class CommunityCardScreen extends StatefulWidget {
   _CommunityCardScreenState createState() => _CommunityCardScreenState();
 }
 
-class _CommunityCardScreenState extends State<CommunityCardScreen> {
+class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
   @override
   void initState() {
     super.initState();
@@ -35,18 +36,15 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
             boxShadow: [
               BoxShadow(
                 color: Theme.of(context).primaryColor.withAlpha(15),
-                blurRadius: 10.0,
-                spreadRadius: 0.0,
-                offset: Offset(
-                  2.0,
-                  2.0,
-                ),
+                offset: Offset(0.0, 1.5),
+                blurRadius: 30,
+                spreadRadius: 1.0,
               )
             ],
           ),
           child: Card(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -104,8 +102,8 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                                           Image(
                                         image: imageProvider,
                                         fit: BoxFit.cover,
-                                        height: 50.0,
-                                        width: 50.0,
+                                        height: 60.0,
+                                        width: 60.0,
                                       ),
                                     ),
                                   ),
@@ -163,7 +161,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Text('Joined',
+                                  Text(I18n.of(context).selected,
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.bold)),

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:seedbed/models/views/backup.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seedbed/models/app_state.dart';
 import 'package:seedbed/models/user_state.dart';
 import 'package:seedbed/screens/routes.gr.dart';
@@ -97,14 +96,15 @@ class _LockScreenState extends State<LockScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
+                          SizedBox(
+                            height: 100,
+                          ),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                SvgPicture.asset('assets/images/fuse_logo.svg',
-                                    width: 78,
-                                    height: 25,
-                                    color: Color(0xFF656565)),
+                                Image.asset('assets/images/pincode_logo.png',
+                                    width: 71, height: 61),
                               ],
                             ),
                           ),

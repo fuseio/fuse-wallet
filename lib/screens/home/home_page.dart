@@ -4,6 +4,7 @@ import 'package:seedbed/constans/keys.dart';
 import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
 import 'package:seedbed/redux/actions/user_actions.dart';
 import 'package:seedbed/screens/contacts/send_amount_arguments.dart';
+import 'package:seedbed/screens/contacts/widgets/enable_contacts.dart';
 import 'package:seedbed/screens/home/router/home_router.gr.dart';
 import 'package:seedbed/screens/home/screens/receive.dart';
 import 'package:seedbed/screens/contacts/router/router_contacts.gr.dart';
@@ -33,6 +34,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
+  bool isContactSynced = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Contacts.checkPermissions().then((value) {
+      setState(() {
+        isContactSynced = value;
+      });
+    });
+  }
 
   void _onTap(int itemIndex) {
     if (!mounted) return;
@@ -85,16 +97,14 @@ class _HomePageState extends State<HomePage> {
                   name: 'homeRouter',
                   observers: [SegmentObserver()],
                 ),
-                FutureBuilder(
-                  future: Contacts.checkPermissions(),
-                  builder: (context, snapshot) => ExtendedNavigator(
-                    observers: [SegmentObserver()],
-                    router: ContactsRouter(),
-                    name: 'contactsRouter',
-                    initialRoute: snapshot.data != null && snapshot.data == true
-                        ? ContactsRoutes.contactsList
-                        : ContactsRoutes.emptyContacts,
-                  ),
+                ExtendedNavigator(
+                  observers: [SegmentObserver()],
+                  router: ContactsRouter(),
+                  name: 'contactsRouter',
+                  initialRoute:
+                      vm.isContactsSynced != null && vm.isContactsSynced
+                          ? ContactsRoutes.contactsList
+                          : ContactsRoutes.emptyContacts,
                 ),
                 SendAmountScreen(
                     pageArgs: SendAmountArguments(
@@ -107,7 +117,18 @@ class _HomePageState extends State<HomePage> {
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(
-                onTap: _onTap,
+                onTap: (index) {
+                  _onTap(index);
+                  if (vm.isContactsSynced == null &&
+                      index == 1 &&
+                      !isContactSynced) {
+                    Future.delayed(
+                        Duration.zero,
+                        () => showDialog(
+                            context: context,
+                            child: ContactsConfirmationScreen()));
+                  }
+                },
                 tabIndex: currentIndex,
               ));
         });
@@ -117,8 +138,10 @@ class _HomePageState extends State<HomePage> {
 class _HomePageViewModel extends Equatable {
   final Community community;
   final bool isDefaultCommunity;
+  final bool isContactsSynced;
 
   _HomePageViewModel({
+    this.isContactsSynced,
     this.isDefaultCommunity,
     this.community,
   });
@@ -129,11 +152,12 @@ class _HomePageViewModel extends Equatable {
         store.state.cashWalletState.communities[communityAddress] ??
             new Community.initial();
     return _HomePageViewModel(
+      isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
       isDefaultCommunity: util.isDefaultCommunity(communityAddress),
     );
   }
 
   @override
-  List<Object> get props => [isDefaultCommunity, community];
+  List<Object> get props => [isDefaultCommunity, community, isContactsSynced];
 }

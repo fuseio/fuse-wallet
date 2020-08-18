@@ -45,7 +45,8 @@ class TokenTile extends StatelessWidget {
                   ExtendedNavigator.of(context).push(HomeRoutes.tokenScreen,
                       arguments: TokenScreenArguments(token: token));
                 },
-          contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 0, right: 0),
+          contentPadding:
+              EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
           title: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

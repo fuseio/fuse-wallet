@@ -17,7 +17,7 @@ import 'package:auto_route/auto_route.dart';
 class BuyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, BuyViewModel>(
+    return StoreConnector<AppState, BuyViewModel>(
         distinct: true,
         converter: BuyViewModel.fromStore,
         onInit: (store) {
@@ -56,18 +56,18 @@ class BusinessesListView extends StatelessWidget {
     return vm.walletBanner != null &&
             vm.walletBanner.walletBannerHash != null &&
             vm.walletBanner.walletBannerHash.isNotEmpty
-        ? new Container(
+        ? Container(
             constraints: BoxConstraints(maxHeight: 140),
             padding: EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
                 ExtendedNavigator.root.push(Routes.webview,
                     arguments: WebViewPageArguments(
-                        url: vm.walletBanner.link, title: ''));
+                        withBack: true, url: vm.walletBanner.link, title: ''));
               },
               child: CachedNetworkImage(
                 imageUrl: getIPFSImageUrl(vm.walletBanner.walletBannerHash),
-                imageBuilder: (context, imageProvider) => new Container(
+                imageBuilder: (context, imageProvider) => Container(
                     width: MediaQuery.of(context).size.width,
                     height: 140,
                     decoration: BoxDecoration(
@@ -83,7 +83,7 @@ class BusinessesListView extends StatelessWidget {
   Widget businessList(context, BuyViewModel vm) {
     return vm.businesses.isEmpty
         ? Container(
-            padding: const EdgeInsets.all(40.0),
+            padding: EdgeInsets.all(40.0),
             child: Center(
               child: Text(I18n.of(context).no_businesses),
             ),
@@ -92,12 +92,12 @@ class BusinessesListView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-                new Expanded(
-                    child: new Padding(
-                        padding: new EdgeInsets.only(left: 10, bottom: 5.0),
+                Expanded(
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 10, bottom: 5.0),
                         child: ListView.separated(
                           separatorBuilder: (BuildContext context, int index) =>
-                              new Divider(
+                              Divider(
                             color: Color(0xFFE8E8E8),
                           ),
                           shrinkWrap: true,
@@ -125,7 +125,7 @@ class BusinessesListView extends StatelessWidget {
               child: CachedNetworkImage(
             imageUrl: image,
             placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+            errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
               image: imageProvider,
               fit: BoxFit.cover,
@@ -181,15 +181,15 @@ class BusinessesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, BuyViewModel>(
+    return StoreConnector<AppState, BuyViewModel>(
         distinct: true,
         converter: BuyViewModel.fromStore,
         onInitialBuild: (vm) {
           vm.loadBusinesses();
         },
         builder: (_, vm) {
-          return new Container(
-            child: new Column(
+          return Container(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[

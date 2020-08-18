@@ -9,7 +9,6 @@ import 'package:seedbed/models/views/contacts.dart';
 import 'package:seedbed/screens/contacts/widgets/contact_tile.dart';
 import 'package:seedbed/screens/contacts/widgets/enable_contacts.dart';
 import 'package:seedbed/screens/contacts/router/router_contacts.gr.dart';
-import 'package:seedbed/screens/home/home_page.dart';
 import 'package:seedbed/utils/contacts.dart';
 import 'package:seedbed/utils/format.dart';
 import 'package:seedbed/utils/send.dart';
@@ -32,10 +31,26 @@ class _EmptyContactsState extends State<EmptyContacts> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  void resetSearch() {
+    FocusScope.of(context).unfocus();
+    if (mounted) {
+      setState(() {
+        searchController.text = '';
+      });
+    }
+  }
+
   Widget sendToAcccountAddress(BuildContext context, String accountAddress) {
     Widget component = ContactTile(
       displayName: formatAddress(accountAddress),
       onTap: () {
+        resetSearch();
         sendToPastedAddress(accountAddress);
       },
       trailing: InkWell(
@@ -44,6 +59,7 @@ class _EmptyContactsState extends State<EmptyContacts> {
           style: TextStyle(color: Color(0xFF0377FF)),
         ),
         onTap: () {
+          resetSearch();
           sendToPastedAddress(accountAddress);
         },
       ),
@@ -73,8 +89,7 @@ class _EmptyContactsState extends State<EmptyContacts> {
         child: Container(
           decoration: new BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              border:
-                  Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
+              border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,20 +145,6 @@ class _EmptyContactsState extends State<EmptyContacts> {
     return StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
         converter: ContactsViewModel.fromStore,
-        onWillChange: (previousViewModel, newViewModel) async {
-          bool isPermitted = await Contacts.checkPermissions();
-          final bool isFirstTime = newViewModel.isContactsSynced == null;
-          final bool inSendTab = HomePage.of(context).currentIndex == 1;
-          if (!isPermitted && isFirstTime && inSendTab) {
-            Future.delayed(
-                Duration.zero,
-                () => showDialog(
-                    context: context, child: ContactsConfirmationScreen()));
-          }
-          setState(() {
-            hasSynced = isPermitted;
-          });
-        },
         builder: (_, viewModel) {
           return MainScaffold(
               automaticallyImplyLeading: false,

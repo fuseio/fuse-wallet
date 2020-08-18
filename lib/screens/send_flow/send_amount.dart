@@ -69,10 +69,10 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                         ListView.separated(
                           shrinkWrap: true,
                           primary: false,
-                          padding: EdgeInsets.only(
-                              left: 15, right: 15, top: 20, bottom: 20),
+                          padding: EdgeInsets.only(top: 20, bottom: 20),
                           separatorBuilder: (BuildContext context, int index) =>
                               Divider(
+                            color: Color(0xFFE8E8E8),
                             height: 0,
                           ),
                           itemCount: viewModel.tokens?.length ?? 0,
@@ -286,7 +286,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                             padding: EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 20),
                             child: Divider(
-                              color: Color(0xFFDEDEDE),
+                              color: Color(0xFFE8E8E8),
                               thickness: 1.5,
                             ),
                           ),

@@ -30,6 +30,12 @@ class _ContactsListState extends State<ContactsList> {
   List<Contact> _contacts;
 
   @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
@@ -92,6 +98,15 @@ class _ContactsListState extends State<ContactsList> {
     }
   }
 
+  void resetSearch() {
+    FocusScope.of(context).unfocus();
+    if (mounted) {
+      setState(() {
+        searchController.text = '';
+      });
+    }
+  }
+
   SliverPersistentHeader listHeader(String title) {
     return SliverPersistentHeader(
       pinned: true,
@@ -129,6 +144,7 @@ class _ContactsListState extends State<ContactsList> {
             displayName: user.displayName,
             phoneNumber: phone.value,
             onTap: () {
+              resetSearch();
               sendToContact(context, user.displayName, phone.value,
                   isoCode: viewModel.isoCode,
                   countryCode: viewModel.countryCode,
@@ -152,6 +168,7 @@ class _ContactsListState extends State<ContactsList> {
     Widget component = ContactTile(
       displayName: formatAddress(accountAddress),
       onTap: () {
+        resetSearch();
         sendToPastedAddress(accountAddress);
       },
       trailing: InkWell(
@@ -160,6 +177,7 @@ class _ContactsListState extends State<ContactsList> {
           style: TextStyle(color: Color(0xFF0377FF)),
         ),
         onTap: () {
+          resetSearch();
           sendToPastedAddress(accountAddress);
         },
       ),
@@ -209,8 +227,7 @@ class _ContactsListState extends State<ContactsList> {
         child: Container(
           decoration: new BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
-              border:
-                  Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
+              border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
           padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -252,7 +269,14 @@ class _ContactsListState extends State<ContactsList> {
                       width: 25.0,
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
-                    onPressed: bracodeScannerHandler),
+                    onPressed: () {
+                      bracodeScannerHandler();
+                      if (mounted) {
+                        setState(() {
+                          searchController.text = '';
+                        });
+                      }
+                    }),
               )
             ],
           ),

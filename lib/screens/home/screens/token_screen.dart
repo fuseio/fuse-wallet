@@ -16,7 +16,7 @@ class TokenScreen extends StatelessWidget {
     return Scaffold(
         key: key,
         appBar: MyAppBar(
-            height: 165.0,
+            height: 170.0,
             child: TokenHeader(token: token, tokenPrice: tokenPrice),
             backgroundColor: Colors.white),
         drawerEdgeDragWidth: 0,
@@ -47,7 +47,6 @@ class TransfersList extends StatelessWidget {
           ListView.builder(
               shrinkWrap: true,
               primary: false,
-              padding: EdgeInsets.only(left: 15, right: 15),
               itemCount: list?.length,
               itemBuilder: (BuildContext ctxt, int index) =>
                   TransactionTile(transfer: list[index]))

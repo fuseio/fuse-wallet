@@ -24,12 +24,11 @@ class DrawerViewModel extends Equatable {
   static DrawerViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[communityAddress] ??
-            new Community.initial();
+        store.state.cashWalletState.communities[communityAddress];
     return DrawerViewModel(
         isBackup: store.state.userState.backup ?? false,
         walletAddress: store.state.userState.walletAddress,
-        plugins: community?.plugins,
+        plugins: community?.plugins ?? Plugins(),
         walletStatus: store.state.userState.walletStatus,
         logout: () {
           store.dispatch(logoutCall());

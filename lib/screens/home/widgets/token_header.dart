@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:seedbed/models/community/community.dart';
 import 'package:seedbed/screens/home/router/home_router.gr.dart';
 import 'package:seedbed/widgets/network_explained.dart';
@@ -62,14 +63,7 @@ class TokenHeader extends StatelessWidget {
                   },
                   child: Padding(
                       padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
-                      child: SvgPicture.asset(
-                        'assets/images/arrow_white.svg',
-                        fit: BoxFit.fill,
-                        color: Theme.of(context).primaryColor,
-                        width: 18,
-                        height: 18,
-                        alignment: Alignment.topLeft,
-                      ))),
+                      child: Icon(PlatformIcons(context).back))),
               Expanded(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -78,7 +72,7 @@ class TokenHeader extends StatelessWidget {
                   Container(
                     child: Text('${token.symbol} ${I18n.of(context).balance}',
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).splashColor,
                             fontSize: 12.0)),
                     padding: EdgeInsets.only(bottom: 6.0),
                   ),
@@ -96,12 +90,9 @@ class TokenHeader extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 27,
                                         fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).primaryColor),
+                                        color: Theme.of(context).splashColor),
                                     children: [
-                                  TextSpan(
-                                      text: tokenPrice != null
-                                          ? token.getBalance()
-                                          : ''),
+                                  TextSpan(text: token.getBalance()),
                                   TextSpan(text: " ${token.symbol}")
                                 ])),
                             SizedBox(
@@ -109,11 +100,14 @@ class TokenHeader extends StatelessWidget {
                             ),
                             RichText(
                                 text: TextSpan(
-                                    text: tokenPrice != null
+                                    text: ![null, '']
+                                                .contains(token.priceInfo) &&
+                                            token.priceInfo.total.isNotEmpty &&
+                                            tokenPrice != null
                                         ? '\$$price'
-                                        : "${token.getBalance()}",
+                                        : "",
                                     style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
+                                        color: Theme.of(context).splashColor,
                                         fontSize: 18))),
                           ],
                         ),

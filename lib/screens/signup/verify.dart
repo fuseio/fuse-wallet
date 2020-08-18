@@ -49,17 +49,23 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       Text(
                           I18n.of(context).we_just_sent +
                               "${viewModel.countryCode} ${viewModel.phoneNumber}" +
-                              "\n\n" +
-                              I18n.of(context).enter_verification_code,
+                              "\n",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,
                             fontWeight: FontWeight.normal,
                           )),
+                      Text(I18n.of(context).enter_verification_code,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                          )),
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 0.0, top: 10.0, right: 0.0),
+                        padding:
+                            EdgeInsets.only(left: 0.0, top: 10.0, right: 0.0),
                         child: Container(
                           width: 280,
                           child: Theme(
@@ -93,7 +99,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     fontSize: 16,
                     preload: viewModel.isVerifyRequest,
                     onPressed: () {
-                      viewModel.verify(verificationCodeController.text, widget.verificationId);
+                      viewModel.verify(verificationCodeController.text,
+                          widget.verificationId);
                     },
                   ),
                 ),

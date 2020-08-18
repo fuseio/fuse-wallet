@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
@@ -121,10 +122,7 @@ to reward rate of $next''')
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: SvgPicture.asset(
-                            'assets/images/arrow.svg',
-                            color: Theme.of(context).splashColor,
-                          ),
+                          child: Icon(PlatformIcons(context).back),
                         ))
                   ],
                 ),

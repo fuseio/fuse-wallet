@@ -30,7 +30,6 @@ class AssetsList extends StatelessWidget {
                   child: ListView.separated(
                       shrinkWrap: true,
                       primary: false,
-                      padding: EdgeInsets.only(left: 15, right: 15),
                       itemCount: viewModel.tokens?.length,
                       separatorBuilder: (BuildContext context, int index) =>
                           Divider(
