@@ -1,11 +1,11 @@
-import 'package:fusecash/utils/format.dart';
+import 'package:straitsx/utils/format.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:straitsx/models/app_state.dart';
+import 'package:straitsx/models/community/community.dart';
+import 'package:straitsx/models/tokens/token.dart';
+import 'package:straitsx/redux/actions/cash_wallet_actions.dart';
+import 'package:straitsx/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {

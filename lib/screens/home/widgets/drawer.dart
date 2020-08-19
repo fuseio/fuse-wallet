@@ -3,14 +3,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:straitsx/generated/i18n.dart';
+import 'package:straitsx/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/views/drawer.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:straitsx/models/views/drawer.dart';
+import 'package:straitsx/screens/home/router/home_router.gr.dart';
+import 'package:straitsx/screens/routes.gr.dart';
+import 'package:straitsx/utils/forks.dart';
+import 'package:straitsx/utils/format.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
@@ -127,6 +127,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   )
                 : null),
         getListTile(I18n.of(context).settings, () {
+          ExtendedNavigator.root.pop();
           ExtendedNavigator.named('homeRouter').push(HomeRoutes.settingsScreen);
         }, icon: 'settings_icon.svg'),
       ];

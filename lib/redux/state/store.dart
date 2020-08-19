@@ -1,16 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fusecash/redux/middlewares/auth_middleware.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/reducers/app_reducer.dart';
-import 'package:fusecash/redux/state/state_secure_storage.dart';
-import 'package:fusecash/utils/jwt.dart';
+import 'package:straitsx/redux/middlewares/auth_middleware.dart';
+import 'package:straitsx/models/app_state.dart';
+import 'package:straitsx/redux/reducers/app_reducer.dart';
+import 'package:straitsx/redux/state/state_secure_storage.dart';
+import 'package:straitsx/utils/jwt.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
-import 'package:fusecash/services.dart';
+import 'package:straitsx/services.dart';
 import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
@@ -222,7 +222,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
-                app: App(name: 'Fuse Wallet'),
+                app: App(name: 'StraitsX'),
                 operatingSystem: operatingSystem),
             userContext: user));
 

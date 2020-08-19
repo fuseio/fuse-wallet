@@ -1,9 +1,9 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:straitsx/models/jobs/base.dart';
+import 'package:straitsx/models/transactions/transfer.dart';
+import 'package:straitsx/redux/actions/cash_wallet_actions.dart';
+import 'package:straitsx/redux/actions/user_actions.dart';
+import 'package:straitsx/redux/state/store.dart';
+import 'package:straitsx/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'backup_job.g.dart';

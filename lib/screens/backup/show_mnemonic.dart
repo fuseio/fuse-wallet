@@ -1,15 +1,15 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:straitsx/generated/i18n.dart';
+import 'package:straitsx/models/views/backup.dart';
+import 'package:straitsx/screens/home/router/home_router.gr.dart';
+import 'package:straitsx/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/copy.dart';
-import 'package:fusecash/widgets/preloader.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:straitsx/models/app_state.dart';
+import 'package:straitsx/widgets/copy.dart';
+import 'package:straitsx/widgets/preloader.dart';
+import 'package:straitsx/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:straitsx/models/tokens/token.dart';
 
 enum SendType {
   CONTACT,

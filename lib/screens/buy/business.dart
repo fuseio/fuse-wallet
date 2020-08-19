@@ -3,13 +3,13 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/utils/transaction_util.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
+import 'package:straitsx/generated/i18n.dart';
+import 'package:straitsx/models/community/business.dart';
+import 'package:straitsx/models/tokens/token.dart';
+import 'package:straitsx/screens/misc/about.dart';
+import 'package:straitsx/utils/send.dart';
+import 'package:straitsx/utils/transaction_util.dart';
+import 'package:straitsx/screens/home/widgets/drawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BusinessPage extends StatefulWidget {

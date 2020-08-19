@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
+import 'package:straitsx/widgets/my_app_bar.dart';
 
 class WebViewPage extends StatefulWidget {
   final String url;

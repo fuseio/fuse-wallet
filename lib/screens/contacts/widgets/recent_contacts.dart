@@ -1,14 +1,14 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/utils/transaction_util.dart';
+import 'package:straitsx/generated/i18n.dart';
+import 'package:straitsx/models/app_state.dart';
+import 'package:straitsx/models/transactions/transaction.dart';
+import 'package:straitsx/models/transactions/transfer.dart';
+import 'package:straitsx/models/views/contacts.dart';
+import 'package:straitsx/screens/contacts/widgets/contact_tile.dart';
+import 'package:straitsx/utils/send.dart';
+import 'package:straitsx/utils/transaction_util.dart';
 
 class RecentContacts extends StatelessWidget {
   final int numToShow;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/models/views/onboard.dart';
+import 'package:straitsx/generated/i18n.dart';
+import 'package:straitsx/models/app_state.dart';
+import 'package:straitsx/widgets/main_scaffold.dart';
+import 'package:straitsx/widgets/primary_button.dart';
+import 'package:straitsx/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class VerifyScreen extends StatefulWidget {

@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/home/screens/fuse_points_explained.dart';
-import 'package:fusecash/screens/home/screens/receive.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
-import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
-import 'package:fusecash/utils/contacts.dart';
+import 'package:straitsx/constans/keys.dart';
+import 'package:straitsx/generated/i18n.dart';
+import 'package:straitsx/redux/actions/cash_wallet_actions.dart';
+import 'package:straitsx/redux/actions/user_actions.dart';
+import 'package:straitsx/screens/buy/router/buy_router.gr.dart';
+import 'package:straitsx/screens/contacts/widgets/enable_contacts.dart';
+import 'package:straitsx/screens/home/router/home_router.gr.dart';
+import 'package:straitsx/screens/home/screens/receive.dart';
+import 'package:straitsx/screens/misc/webview_page.dart';
+import 'package:straitsx/screens/contacts/router/router_contacts.gr.dart';
+import 'package:straitsx/screens/home/widgets/drawer.dart';
+import 'package:straitsx/utils/contacts.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/home/widgets/bottom_bar.dart';
+import 'package:straitsx/models/app_state.dart';
+import 'package:straitsx/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:straitsx/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
+import 'package:straitsx/models/community/community.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -112,12 +110,10 @@ class _HomePageState extends State<HomePage> {
                         url: vm.community.webUrl,
                         withBack: false,
                         title: I18n.of(context).community_webpage)
-                    : vm.isDefaultCommunity
-                        ? FusePointsExplainedScreen()
-                        : ExtendedNavigator(
-                            router: BuyRouter(),
-                            observers: [SegmentObserver()],
-                          ),
+                    : ExtendedNavigator(
+                        router: BuyRouter(),
+                        observers: [SegmentObserver()],
+                      ),
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(
@@ -141,12 +137,10 @@ class _HomePageState extends State<HomePage> {
 
 class _HomePageViewModel extends Equatable {
   final Community community;
-  final bool isDefaultCommunity;
   final bool isContactsSynced;
 
   _HomePageViewModel({
     this.isContactsSynced,
-    this.isDefaultCommunity,
     this.community,
   });
 
@@ -158,10 +152,9 @@ class _HomePageViewModel extends Equatable {
     return _HomePageViewModel(
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
     );
   }
 
   @override
-  List<Object> get props => [isDefaultCommunity, community, isContactsSynced];
+  List<Object> get props => [community, isContactsSynced];
 }
