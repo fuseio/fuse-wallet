@@ -5,7 +5,6 @@ import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/models/app_state.dart';
 import 'package:fc_knudde/models/views/backup.dart';
 import 'package:fc_knudde/screens/routes.gr.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class ColorsPincodeScreen extends StatefulWidget {
@@ -63,10 +62,8 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          SvgPicture.asset(
-                            'assets/images/fc-knudde-title.svg',
-                            // width: 71, height: 61
-                          ),
+                          Image.asset('assets/images/fc-knudde-logo-white.png',
+                              width: 71, height: 61),
                         ],
                       ),
                     ),
@@ -97,8 +94,10 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                           decoration: UnderlineDecoration(
                                               hintTextStyle: TextStyle(
                                                   fontWeight: FontWeight.bold),
-                                              color: Theme.of(context).primaryColor,
-                                              enteredColor: Theme.of(context).primaryColor,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              enteredColor: Theme.of(context)
+                                                  .primaryColor,
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
                                                   obscureText: '●')),

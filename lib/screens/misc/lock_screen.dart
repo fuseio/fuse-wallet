@@ -6,7 +6,6 @@ import 'package:fc_knudde/models/app_state.dart';
 import 'package:fc_knudde/models/user_state.dart';
 import 'package:fc_knudde/screens/routes.gr.dart';
 import 'package:fc_knudde/utils/biometric_local_auth.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LockScreen extends StatefulWidget {
   @override
@@ -103,11 +102,10 @@ class _LockScreenState extends State<LockScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                SvgPicture.asset(
-                                  'assets/images/fc-knudde-title.svg',
-                                  // width: 71,
-                                  // height: 61
-                                ),
+                                Image.asset(
+                                    'assets/images/fc-knudde-logo-white.png',
+                                    width: 71,
+                                    height: 61),
                               ],
                             ),
                           ),
