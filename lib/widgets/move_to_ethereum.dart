@@ -1,14 +1,14 @@
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:fc_knudde/constans/keys.dart';
+import 'package:fc_knudde/models/tokens/token.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/community.dart';
+import 'package:fc_knudde/generated/i18n.dart';
+import 'package:fc_knudde/models/community/community.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/utils/send.dart';
+import 'package:fc_knudde/utils/send.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:fc_knudde/models/app_state.dart';
 import 'dart:core';
 
 class TokenActionsDialog extends StatefulWidget {

@@ -1,6 +1,6 @@
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
+import 'package:fc_knudde/models/user_state.dart';
+import 'package:fc_knudde/models/cash_wallet_state.dart';
+import 'package:fc_knudde/models/pro/pro_wallet_state.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'app_state.g.dart';

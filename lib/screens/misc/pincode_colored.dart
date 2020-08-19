@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fc_knudde/generated/i18n.dart';
+import 'package:fc_knudde/models/app_state.dart';
+import 'package:fc_knudde/models/views/backup.dart';
+import 'package:fc_knudde/screens/routes.gr.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class ColorsPincodeScreen extends StatefulWidget {
@@ -41,9 +42,8 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              Color(0xFFB1FDC0),
-              Color(0xFFE6FD99),
-              Color(0xFFFEFD86)
+              Theme.of(context).primaryColorDark,
+              Theme.of(context).primaryColorLight,
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           ),
           child: Column(
@@ -63,8 +63,10 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Image.asset('assets/images/pincode_logo.png',
-                              width: 71, height: 61),
+                          SvgPicture.asset(
+                            'assets/images/fc-knudde-title.svg',
+                            // width: 71, height: 61
+                          ),
                         ],
                       ),
                     ),
@@ -95,8 +97,8 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                           decoration: UnderlineDecoration(
                                               hintTextStyle: TextStyle(
                                                   fontWeight: FontWeight.bold),
-                                              color: Color(0xFF575757),
-                                              enteredColor: Color(0xFF575757),
+                                              color: Theme.of(context).primaryColor,
+                                              enteredColor: Theme.of(context).primaryColor,
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
                                                   obscureText: '●')),

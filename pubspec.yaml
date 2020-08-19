@@ -1,4 +1,4 @@
-name: fusecash
+name: fc_knudde
 version: 1.1.42+219
 description: A new Flutter project.
 environment:
@@ -68,7 +68,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_icons:
-  image_path: assets/images/icon_app.jpg
+  image_path: assets/images/app_icon.png
   android: true
   ios: true
 flutter:

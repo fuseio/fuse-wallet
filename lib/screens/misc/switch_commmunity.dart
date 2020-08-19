@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/widgets/community_card.dart';
-import 'package:fusecash/widgets/community_card_small.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fc_knudde/generated/i18n.dart';
+import 'package:fc_knudde/models/app_state.dart';
+import 'package:fc_knudde/models/community/community.dart';
+import 'package:fc_knudde/widgets/community_card.dart';
+import 'package:fc_knudde/widgets/community_card_small.dart';
+import 'package:fc_knudde/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SwitchCommunityScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/splash/create_wallet.dart';
+import 'package:fc_knudde/generated/i18n.dart';
+import 'package:fc_knudde/screens/splash/create_wallet.dart';
 
 Widget introPage(BuildContext context, String title, String subTitle) {
   return Container(

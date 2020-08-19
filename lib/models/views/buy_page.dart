@@ -1,10 +1,10 @@
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/plugins/wallet_banner.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fc_knudde/models/community/business.dart';
+import 'package:fc_knudde/models/community/community.dart';
+import 'package:fc_knudde/models/plugins/wallet_banner.dart';
+import 'package:fc_knudde/models/tokens/token.dart';
+import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:fc_knudde/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 
 class BuyViewModel extends Equatable {

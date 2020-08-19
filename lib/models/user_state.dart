@@ -2,7 +2,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:fc_knudde/utils/biometric_local_auth.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_state.g.dart';

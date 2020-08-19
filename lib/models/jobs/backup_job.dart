@@ -1,9 +1,9 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:fc_knudde/models/jobs/base.dart';
+import 'package:fc_knudde/models/transactions/transfer.dart';
+import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
+import 'package:fc_knudde/redux/actions/user_actions.dart';
+import 'package:fc_knudde/redux/state/store.dart';
+import 'package:fc_knudde/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'backup_job.g.dart';

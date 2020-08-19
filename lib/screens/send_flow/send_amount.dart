@@ -3,17 +3,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/home/widgets/token_tile.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:fc_knudde/generated/i18n.dart';
+import 'package:fc_knudde/models/tokens/token.dart';
+import 'package:fc_knudde/models/views/send_amount.dart';
+import 'package:fc_knudde/screens/home/widgets/token_tile.dart';
+import 'package:fc_knudde/screens/routes.gr.dart';
+import 'package:fc_knudde/screens/contacts/send_amount_arguments.dart';
+import 'package:fc_knudde/utils/format.dart';
+import 'package:fc_knudde/widgets/main_scaffold.dart';
+import 'package:fc_knudde/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:fc_knudde/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SendAmountScreen extends StatefulWidget {

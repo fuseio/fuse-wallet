@@ -2,16 +2,16 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/utils/transaction_util.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fc_knudde/generated/i18n.dart';
+import 'package:fc_knudde/models/app_state.dart';
+import 'package:fc_knudde/models/community/business.dart';
+import 'package:fc_knudde/models/views/buy_page.dart';
+import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
+import 'package:fc_knudde/screens/buy/router/buy_router.gr.dart';
+import 'package:fc_knudde/screens/routes.gr.dart';
+import 'package:fc_knudde/utils/send.dart';
+import 'package:fc_knudde/utils/transaction_util.dart';
+import 'package:fc_knudde/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 
 class BuyScreen extends StatelessWidget {

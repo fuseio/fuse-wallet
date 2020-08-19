@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/buy/buy.dart';
-import 'package:fusecash/screens/buy/map.dart';
+import 'package:fc_knudde/screens/buy/business.dart';
+import 'package:fc_knudde/screens/buy/buy.dart';
+import 'package:fc_knudde/screens/buy/map.dart';
 
 @MaterialAutoRouter(
   routesClassName: "BusinessesRoutes",
