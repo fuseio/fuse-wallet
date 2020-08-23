@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -106,10 +107,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         final BigInt balance = args.tokenToSend.amount;
         final int decimals = args.tokenToSend.decimals;
         final bool withFee = (fees.containsKey(symbol) &&
-                args.tokenToSend.originNetwork == null) ||
+                args.tokenToSend.originNetwork == null) &&
             viewModel.communities.any((element) =>
-                args.accountAddress.toLowerCase() ==
-                element.homeBridgeAddress.toLowerCase());
+                args?.accountAddress?.toLowerCase() ==
+                element?.homeBridgeAddress?.toLowerCase());
         final num feeAmount =
             withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0;
         final num currentTokenBalance =
@@ -138,16 +139,22 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: <Widget>[
-                        Text('${args.amount} ',
+                        AutoSizeText.rich(TextSpan(children: [
+                          TextSpan(
+                            text: '${args.amount} ',
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontSize: 50,
-                                fontWeight: FontWeight.w900)),
-                        Text(symbol,
+                                fontWeight: FontWeight.w900),
+                          ),
+                          TextSpan(
+                            text: symbol,
                             style: TextStyle(
                                 color: Theme.of(context).primaryColor,
                                 fontSize: 30,
-                                fontWeight: FontWeight.w900)),
+                                fontWeight: FontWeight.w900),
+                          ),
+                        ])),
                       ],
                     ),
                   ),

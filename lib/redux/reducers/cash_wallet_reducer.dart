@@ -128,6 +128,7 @@ CashWalletState _switchCommunitySuccess(
   Community current = state.communities[communityAddress] ??
       Community.initial().copyWith(address: communityAddress);
   Community newCommunity = current?.copyWith(
+      address: communityAddress,
       metadata: action.metadata,
       plugins: action.plugins,
       token: action.token,

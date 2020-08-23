@@ -6,12 +6,12 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
+import 'package:fusecash/models/community/business_metadata.dart';
 import 'package:fusecash/models/views/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
 import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
 import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/transaction_util.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -70,7 +70,7 @@ class BusinessesListView extends StatelessWidget {
                         withBack: true, url: vm.walletBanner.link, title: ''));
               },
               child: CachedNetworkImage(
-                imageUrl: getIPFSImageUrl(vm.walletBanner.walletBannerHash),
+                imageUrl: getImage(vm.walletBanner.walletBannerHash),
                 imageBuilder: (context, imageProvider) => Container(
                     width: MediaQuery.of(context).size.width,
                     height: 140,

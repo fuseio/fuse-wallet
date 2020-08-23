@@ -7,6 +7,15 @@ part 'business_metadata.g.dart';
 bool isIpfsHash(String hash) => hash != null && hash.length == 46;
 bool isS3Hash(String hash) => hash != null && hash.length == 64;
 
+String getImage(hash) {
+  if (isIpfsHash(hash)) {
+    return getIPFSImageUrl(hash);
+  } else if (isS3Hash(hash)) {
+    return '${DotEnv().env['FUSE_S3_BUCKET']}/$hash';
+  }
+  return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+}
+
 @JsonSerializable(explicitToJson: true)
 class BusinessMetadata {
   final String address;
@@ -18,23 +27,9 @@ class BusinessMetadata {
   final String website;
   final List<double> latLng;
 
-  String getImageUri() {
-    if (isIpfsHash(image)) {
-      return getIPFSImageUrl(image);
-    } else if (isS3Hash(image)) {
-      return '${DotEnv().env['FUSE_S3_BUCKET']}/$image';
-    }
-    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  }
+  String getImageUri() => getImage(image);
 
-  String getCoverPhotoUri() {
-    if (isIpfsHash(coverPhoto)) {
-      return getIPFSImageUrl(coverPhoto);
-    } else if (isS3Hash(coverPhoto)) {
-      return '${DotEnv().env['FUSE_S3_BUCKET']}/$coverPhoto';
-    }
-    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  }
+  String getCoverPhotoUri() => getImage(coverPhoto);
 
   BusinessMetadata(
       {this.address = '',
