@@ -20,6 +20,7 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await DotEnv().load('environment/.env_qa');
   await DotEnv().load('environment/.env');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
@@ -92,7 +93,6 @@ class _MyAppState extends State<MyApp> {
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite",
             properties: new Map<String, dynamic>.from(linkData)));
       }
-      store.dispatch(BranchDataReceived());
     }, onError: (error) {
       PlatformException platformException = error as PlatformException;
       print(

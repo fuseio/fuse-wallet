@@ -11,6 +11,7 @@ import 'package:redux/redux.dart';
 class SendAmountViewModel extends Equatable {
   final String myCountryCode;
   final List<Token> tokens;
+  final List<Community> communities;
   final Function(
       Token token,
       String name,
@@ -29,8 +30,15 @@ class SendAmountViewModel extends Equatable {
       String transferNote,
       VoidCallback,
       VoidCallback) sendERC20ToContact;
-  final Function(Token token, String, num, String receiverName,
-      String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
+  final Function(
+    Token token,
+    String recieverAddress,
+    num amount,
+    String receiverName,
+    String transferNote,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+  ) sendToAccountAddress;
   final Function(String eventName, {Map<String, dynamic> properties})
       trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
@@ -46,10 +54,11 @@ class SendAmountViewModel extends Equatable {
   }) sendToErc20Token;
 
   @override
-  List<Object> get props => [tokens, myCountryCode];
+  List<Object> get props => [tokens, myCountryCode, communities];
 
   SendAmountViewModel({
     this.tokens,
+    this.communities,
     this.myCountryCode,
     this.sendToContact,
     this.sendToAccountAddress,
@@ -79,6 +88,7 @@ class SendAmountViewModel extends Equatable {
         tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
             (tokenB?.amount ?? BigInt.zero)
                 ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+        communities: communities,
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
           Token token,

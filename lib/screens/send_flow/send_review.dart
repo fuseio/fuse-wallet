@@ -75,7 +75,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
           args.accountAddress == '' && args.phoneNumber != null) {
         viewModel.sendToContact(
           args.tokenToSend,
-          args.name,
+          args.accountAddress,
           args.phoneNumber,
           args.amount,
           args.name,
@@ -105,9 +105,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         final String symbol = args.tokenToSend.symbol;
         final BigInt balance = args.tokenToSend.amount;
         final int decimals = args.tokenToSend.decimals;
-        final bool withFee =
-            fees.containsKey(symbol) && args.tokenToSend.originNetwork == null;
-        final num feeAmount = withFee ? fees[symbol] : 0;
+        final bool withFee = (fees.containsKey(symbol) &&
+                args.tokenToSend.originNetwork == null) ||
+            viewModel.communities.any((element) =>
+                args.accountAddress.toLowerCase() ==
+                element.homeBridgeAddress.toLowerCase());
+        final num feeAmount =
+            withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0;
         final num currentTokenBalance =
             num.parse(formatValue(balance, decimals));
         final bool hasFund =
@@ -325,8 +329,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     onPressed: () {
                       if (withFee && !hasFund) return;
                       send(viewModel, args, transferNoteController.text, () {
-                        ExtendedNavigator.root.replace(
-                            Routes.sendSuccessScreen,
+                        ExtendedNavigator.root.replace(Routes.sendSuccessScreen,
                             arguments:
                                 SendSuccessScreenArguments(pageArgs: args));
                       }, () {

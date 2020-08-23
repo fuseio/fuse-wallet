@@ -113,15 +113,20 @@ class TokenHeader extends StatelessWidget {
                         ),
                         StoreConnector<AppState, _ProTokenHeaderViewModel>(
                             converter: _ProTokenHeaderViewModel.fromStore,
+                            distinct: true,
                             builder: (_, viewModel) {
-                              final bool canMoveToOtherChain = token.symbol ==
-                                  viewModel.community.token.symbol;
+                              final Community community = viewModel.communities
+                                  .firstWhere(
+                                      (element) =>
+                                          element.token.address.toLowerCase() ==
+                                          token.address.toLowerCase(),
+                                      orElse: () => null);
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  !isFuseToken
+                                  community == null
                                       ? Container(
                                           width: 45,
                                           height: 45,
@@ -129,7 +134,7 @@ class TokenHeader extends StatelessWidget {
                                               heroTag: 'goto_trade',
                                               elevation: 0,
                                               backgroundColor:
-                                                  const Color(0xFF002669),
+                                                  Color(0xFF002669),
                                               child: SvgPicture.asset(
                                                 'assets/images/goto_trade.svg',
                                                 fit: BoxFit.cover,
@@ -164,12 +169,10 @@ class TokenHeader extends StatelessWidget {
                                         onPressed: () {
                                           showDialog(
                                               context: context,
-                                              builder: (BuildContext context) {
-                                                return TokenActionsDialog(
-                                                    token: token,
-                                                    canMoveToOtherChain:
-                                                        canMoveToOtherChain);
-                                              });
+                                              builder: (BuildContext context) =>
+                                                  TokenActionsDialog(
+                                                      token: token,
+                                                      community: community));
                                         }),
                                   )
                                 ],
@@ -211,19 +214,16 @@ class TokenHeader extends StatelessWidget {
 }
 
 class _ProTokenHeaderViewModel extends Equatable {
-  final Community community;
+  final List<Community> communities;
   _ProTokenHeaderViewModel({
-    this.community,
+    this.communities,
   });
 
   static _ProTokenHeaderViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
-            Community.initial();
-    return _ProTokenHeaderViewModel(community: community);
+    return _ProTokenHeaderViewModel(
+        communities: store.state.cashWalletState.communities.values.toList());
   }
 
   @override
-  List<Object> get props => [community];
+  List<Object> get props => [communities];
 }

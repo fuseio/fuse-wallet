@@ -2,14 +2,15 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/views/buy_page.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
+import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
 import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/send.dart';
 import 'package:fusecash/utils/transaction_util.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
@@ -22,6 +23,9 @@ class BuyScreen extends StatelessWidget {
         converter: BuyViewModel.fromStore,
         onInit: (store) {
           store.dispatch(getBusinessListCall());
+        },
+        onInitialBuild: (viewModel) {
+          Segment.screen(screenName: '/buy-screen');
         },
         builder: (_, viewModel) {
           return MainScaffold(
@@ -106,7 +110,7 @@ class BusinessesListView extends StatelessWidget {
                           itemBuilder: (context, index) => businessTile(
                               context,
                               vm.businesses[index],
-                              vm.communityAddres,
+                              vm.communityAddress,
                               vm.token),
                         )))
               ]);
@@ -114,7 +118,6 @@ class BusinessesListView extends StatelessWidget {
 
   ListTile businessTile(
       context, Business business, String communityAddres, token) {
-    var image = getImageUrl(business, communityAddres);
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       leading: Container(
@@ -123,7 +126,7 @@ class BusinessesListView extends StatelessWidget {
           decoration: BoxDecoration(),
           child: ClipOval(
               child: CachedNetworkImage(
-            imageUrl: image,
+            imageUrl: business.metadata.getImageUri(),
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
@@ -150,9 +153,9 @@ class BusinessesListView extends StatelessWidget {
       onTap: () {
         ExtendedNavigator.of(context).push(BusinessesRoutes.businessPage,
             arguments: BusinessPageArguments(
-                business: business,
-                token: token,
-                communityAddress: communityAddres));
+              business: business,
+              token: token,
+            ));
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -171,9 +174,14 @@ class BusinessesListView extends StatelessWidget {
                   fontWeight: FontWeight.normal),
             ),
             onPressed: () {
-              navigateToSendAmountScreen(
-                  business.account, business.name ?? '', null,
-                  avatar: NetworkImage(image));
+              ExtendedNavigator.root.push(Routes.sendAmountScreen,
+                  arguments: SendAmountScreenArguments(
+                      pageArgs: SendAmountArguments(
+                          tokenToSend: token,
+                          name: business.name ?? '',
+                          accountAddress: business.account,
+                          avatar:
+                              NetworkImage(business.metadata.getImageUri()))));
             },
           ),
         ],

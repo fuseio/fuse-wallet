@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
@@ -58,6 +59,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SplashViewModel>(
+        onInitialBuild: (viewModel) {
+          Segment.screen(screenName: '/splash-screen');
+        },
         distinct: true,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/screens/home/widgets/token_header.dart';
 import 'package:fusecash/screens/home/widgets/transaction_tile.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
@@ -21,19 +20,17 @@ class TokenScreen extends StatelessWidget {
             backgroundColor: Colors.white),
         drawerEdgeDragWidth: 0,
         body: Column(children: <Widget>[
-          Expanded(
-              child: ListView(children: [
-            TransfersList(list: token.transactions.list.reversed.toList())
-          ])),
+          Expanded(child: ListView(children: [TransfersList(token: token)])),
         ]));
   }
 }
 
 class TransfersList extends StatelessWidget {
-  TransfersList({this.list});
-  final List<Transaction> list;
+  final Token token;
+  TransfersList({this.token});
   @override
   Widget build(BuildContext context) {
+    final list = token.transactions.list.reversed.toList();
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -49,7 +46,7 @@ class TransfersList extends StatelessWidget {
               primary: false,
               itemCount: list?.length,
               itemBuilder: (BuildContext ctxt, int index) =>
-                  TransactionTile(transfer: list[index]))
+                  TransactionTile(transfer: list[index], token: token))
         ]);
   }
 }

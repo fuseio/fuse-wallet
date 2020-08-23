@@ -12,7 +12,7 @@ class BuyViewModel extends Equatable {
   final Function() loadBusinesses;
   final bool isCommunityBusinessesFetched;
   final Token token;
-  final String communityAddres;
+  final String communityAddress;
   final WalletBannerPlugin walletBanner;
 
   @override
@@ -25,7 +25,7 @@ class BuyViewModel extends Equatable {
       ];
 
   BuyViewModel(
-      {this.communityAddres,
+      {this.communityAddress,
       this.businesses,
       this.loadBusinesses,
       this.token,
@@ -33,12 +33,12 @@ class BuyViewModel extends Equatable {
       this.walletBanner});
 
   static BuyViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
+    String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
+        store.state.cashWalletState.communities[communityAddress] ??
             new Community.initial();
     return BuyViewModel(
-        communityAddres: communityAddres,
+        communityAddress: communityAddress,
         token: community?.token,
         businesses: community?.businesses ?? [],
         walletBanner: community.plugins.walletBanner,

@@ -1,6 +1,11 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/utils/transaction_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business_metadata.g.dart';
+
+bool isIpfsHash(String hash) => hash != null && hash.length == 46;
+bool isS3Hash(String hash) => hash != null && hash.length == 64;
 
 @JsonSerializable(explicitToJson: true)
 class BusinessMetadata {
@@ -13,29 +18,46 @@ class BusinessMetadata {
   final String website;
   final List<double> latLng;
 
-  BusinessMetadata({
-    this.address = '',
-    this.description = '',
-    this.image = '',
-    this.coverPhoto = '',
-    this.type = '',
-    this.phoneNumber = '',
-    this.website = '',
-    this.latLng
-  });
+  String getImageUri() {
+    if (isIpfsHash(image)) {
+      return getIPFSImageUrl(image);
+    } else if (isS3Hash(image)) {
+      return '${DotEnv().env['FUSE_S3_BUCKET']}/$image';
+    }
+    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+  }
+
+  String getCoverPhotoUri() {
+    if (isIpfsHash(coverPhoto)) {
+      return getIPFSImageUrl(coverPhoto);
+    } else if (isS3Hash(coverPhoto)) {
+      return '${DotEnv().env['FUSE_S3_BUCKET']}/$coverPhoto';
+    }
+    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+  }
+
+  BusinessMetadata(
+      {this.address = '',
+      this.description = '',
+      this.image = '',
+      this.coverPhoto = '',
+      this.type = '',
+      this.phoneNumber = '',
+      this.website = '',
+      this.latLng});
 
   factory BusinessMetadata.initial() => new BusinessMetadata(
-      address: '',
-      coverPhoto: '',
-      description: '',
-      image: '',
-      type: '',
-      phoneNumber: '',
-      website: '',
-    );
+        address: '',
+        coverPhoto: '',
+        description: '',
+        image: '',
+        type: '',
+        phoneNumber: '',
+        website: '',
+      );
 
-  factory BusinessMetadata.fromJson(Map<String, dynamic> json) => _$BusinessMetadataFromJson(json);
+  factory BusinessMetadata.fromJson(Map<String, dynamic> json) =>
+      _$BusinessMetadataFromJson(json);
 
   Map<String, dynamic> toJson() => _$BusinessMetadataToJson(this);
-
 }

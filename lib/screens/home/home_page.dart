@@ -1,3 +1,5 @@
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constans/keys.dart';
@@ -13,6 +15,7 @@ import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/screens/home/widgets/drawer.dart';
 import 'package:fusecash/utils/contacts.dart';
+import 'package:fusecash/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -55,8 +58,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   onInit(Store<AppState> store) {
-    String walletStatus = store.state.userState.walletStatus;
-    String accountAddress = store.state.userState.accountAddress;
+    final String walletStatus = store.state.userState.walletStatus;
+    final String accountAddress = store.state.userState.accountAddress;
+    final String identifier = store.state.userState.identifier;
+    final String isoCode = store.state.userState.isoCode;
+
+    if ([null, ''].contains(identifier)) {
+      store.dispatch(setDeviceId(true));
+    }
+
+    if ([null, ''].contains(isoCode)) {
+      Locale myLocale = Localizations.localeOf(context);
+      Map localeData = codes.firstWhere(
+          (Map code) => code['code'] == myLocale.countryCode,
+          orElse: () => null);
+      store.dispatch(setCountryCode(CountryCode(
+          dialCode: localeData['dial_code'], code: localeData['code'])));
+    }
 
     if (walletStatus != 'deploying' &&
         walletStatus != 'created' &&
@@ -67,6 +85,7 @@ class _HomePageState extends State<HomePage> {
       String jwtToken = store.state.userState.jwtToken;
       bool isLoggedOut = store.state.userState.isLoggedOut;
       if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+        // store.dispatch(fetchListOfTokenByAccountAddress());
         store.dispatch(getWalletAddressessCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
@@ -132,6 +151,17 @@ class _HomePageState extends State<HomePage> {
                             context: context,
                             child: ContactsConfirmationScreen()));
                   }
+
+                  if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
+                    Future.delayed(Duration.zero, () {
+                      vm.setShowDialog();
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BackUpDialog();
+                          });
+                    });
+                  }
                 },
                 tabIndex: currentIndex,
               ));
@@ -143,11 +173,17 @@ class _HomePageViewModel extends Equatable {
   final Community community;
   final bool isDefaultCommunity;
   final bool isContactsSynced;
+  final bool backup;
+  final bool isBackupDialogShowed;
+  final Function setShowDialog;
 
   _HomePageViewModel({
     this.isContactsSynced,
     this.isDefaultCommunity,
     this.community,
+    this.backup,
+    this.isBackupDialogShowed,
+    this.setShowDialog,
   });
 
   static _HomePageViewModel fromStore(Store<AppState> store) {
@@ -159,6 +195,12 @@ class _HomePageViewModel extends Equatable {
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
       isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+      backup: store.state.userState.backup,
+      isBackupDialogShowed:
+          store.state.userState?.receiveBackupDialogShowed ?? false,
+      setShowDialog: () {
+        store.dispatch(ReceiveBackupDialogShowed());
+      },
     );
   }
 
