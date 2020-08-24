@@ -14,7 +14,6 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/transaction_util.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:wallet_core/wallet_core.dart';
 
 class TransactionTile extends StatefulWidget {
   final Transfer transfer;
@@ -30,7 +29,6 @@ class TransactionTile extends StatefulWidget {
 }
 
 class _TransactionTileState extends State<TransactionTile> {
-  TransactionInformation transactionInformation;
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _TransactionTileViewModel>(

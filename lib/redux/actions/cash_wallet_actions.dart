@@ -584,8 +584,11 @@ ThunkAction getTokenBalanceCall(Community community) {
         store.dispatch(UpdateDisplayBalance(
             int.tryParse(formatValue(balance, community.token.decimals))));
         store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-          '${community.name} Balance': formatValue(balance, community.token.decimals, withPrecision: true),
-          "DisplayBalance": formatValue(balance, community.token.decimals, withPrecision: true)
+          '${community.name} Balance': formatValue(
+              balance, community.token.decimals,
+              withPrecision: true),
+          "DisplayBalance": formatValue(balance, community.token.decimals,
+              withPrecision: true)
         })));
       };
       void Function(Object error, StackTrace stackTrace) onError =
@@ -1039,7 +1042,6 @@ ThunkAction joinCommunityCall(
     String tokenAddress}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
-    logger.info('tokenAddress tokenAddress $tokenAddress');
     try {
       wallet_core.Web3 web3 = store.state.cashWalletState.web3;
       if (web3 == null) {
@@ -1062,6 +1064,7 @@ ThunkAction joinCommunityCall(
             tokenAddress: tokenAddress,
             status: 'PENDING',
             jobId: jobId);
+        // logger.info('joinCommunity jobId $jobId');
 
         store.dispatch(AddTransaction(
             transaction: transfer, communityAddress: communityAddress));
@@ -1084,6 +1087,9 @@ ThunkAction joinCommunityCall(
 ThunkAction joinCommunitySuccessCall(Job job, dynamic fetchedData,
     Transfer transfer, dynamic communityAddress, String communityName) {
   return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    logger.info(
+        'joinCommunitySuccessCall joinCommunitySuccessCall ${Map.from(job.data).toString()}');
     Transfer confirmedTx = transfer.copyWith(
         status: 'CONFIRMED',
         text: 'Joined ' + (communityName ?? '') + ' community',
@@ -1097,12 +1103,10 @@ ThunkAction joinCommunitySuccessCall(Job job, dynamic fetchedData,
         store.state.cashWalletState.communities;
     Community communityData = communities.values.firstWhere((element) =>
         element.token.address.toLowerCase() ==
-        transfer.tokenAddress.toLowerCase());
-    String joinBonusJobId = fetchedData['data']['funderJobId'];
+        confirmedTx.tokenAddress.toLowerCase());
     if (communityData.plugins.joinBonus != null &&
-        communityData.plugins.joinBonus.isActive &&
-        joinBonusJobId != null &&
-        joinBonusJobId.isNotEmpty) {
+        communityData.plugins.joinBonus.isActive) {
+      String joinBonusJobId = fetchedData['data']['funderJobId'];
       BigInt value = toBigInt(
           communityData.plugins.joinBonus.amount, communityData.token.decimals);
       String joinCommunityJobId = fetchedData['_id'];
@@ -1111,16 +1115,16 @@ ThunkAction joinCommunitySuccessCall(Job job, dynamic fetchedData,
           type: 'RECEIVE',
           value: value,
           timestamp: DateTime.now().millisecondsSinceEpoch,
-          tokenAddress: communityData?.token?.address,
+          tokenAddress: confirmedTx?.tokenAddress,
           text: 'You got a join bonus!',
           status: 'PENDING',
-          jobId: joinBonusJobId ?? joinCommunityJobId);
+          jobId: joinBonusJobId ?? joinBonusJobId);
       store.dispatch(new AddTransaction(
           transaction: joinBonus, communityAddress: communityAddress));
       Map response = Map.from({
         'job': {
-          'id': joinBonusJobId,
-          'isFunderJob': true,
+          'id': joinBonusJobId ?? joinCommunityJobId,
+          'isFunderJob': joinBonusJobId != null,
           'jobType': 'joinBonus',
           'arguments': {
             'joinBonus': joinBonus,

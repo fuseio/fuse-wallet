@@ -74,11 +74,8 @@ class JoinBonusJob extends Job {
         logger.info('JoinBonusJob FAILED');
         store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
+        return;
       }
-    } else {
-      this.status = 'FAILED';
-      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
-      return;
     }
 
     dynamic data = fetchedData['data'];
