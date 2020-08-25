@@ -92,7 +92,6 @@ class _MyAppState extends State<MyApp> {
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite",
             properties: new Map<String, dynamic>.from(linkData)));
       }
-      store.dispatch(BranchDataReceived());
     }, onError: (error) {
       PlatformException platformException = error as PlatformException;
       print(

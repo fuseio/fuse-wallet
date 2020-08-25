@@ -46,7 +46,7 @@ class _EmptyContactsState extends State<EmptyContacts> {
     }
   }
 
-  Widget sendToAcccountAddress(BuildContext context, String accountAddress) {
+  Widget sendToAcccountAddress(String accountAddress) {
     Widget component = ContactTile(
       displayName: formatAddress(accountAddress),
       onTap: () {
@@ -75,7 +75,7 @@ class _EmptyContactsState extends State<EmptyContacts> {
     listItems.add(searchPanel(viewModel));
 
     if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(context, searchController.text));
+      listItems.add(sendToAcccountAddress(searchController.text));
     }
     return listItems;
   }

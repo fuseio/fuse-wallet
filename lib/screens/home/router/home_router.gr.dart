@@ -80,7 +80,7 @@ class HomeRouter extends RouterBase {
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
     MainHomeScreen: (data) {
-      var args = data.getArgs<MainHomeScreenArguments>(
+      final args = data.getArgs<MainHomeScreenArguments>(
         orElse: () => MainHomeScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(
@@ -89,7 +89,7 @@ class HomeRouter extends RouterBase {
       );
     },
     TransactionDetailsScreen: (data) {
-      var args = data.getArgs<TransactionDetailsScreenArguments>(
+      final args = data.getArgs<TransactionDetailsScreenArguments>(
         orElse: () => TransactionDetailsScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(
@@ -106,7 +106,7 @@ class HomeRouter extends RouterBase {
       );
     },
     TokenScreen: (data) {
-      var args = data.getArgs<TokenScreenArguments>(
+      final args = data.getArgs<TokenScreenArguments>(
         orElse: () => TokenScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(
@@ -119,7 +119,7 @@ class HomeRouter extends RouterBase {
       );
     },
     TradeScreen: (data) {
-      var args = data.getArgs<TradeScreenArguments>(
+      final args = data.getArgs<TradeScreenArguments>(
         orElse: () => TradeScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(
@@ -131,7 +131,7 @@ class HomeRouter extends RouterBase {
       );
     },
     ReviewTradeScreen: (data) {
-      var args = data.getArgs<ReviewTradeScreenArguments>(
+      final args = data.getArgs<ReviewTradeScreenArguments>(
         orElse: () => ReviewTradeScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(

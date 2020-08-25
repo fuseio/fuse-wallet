@@ -2,6 +2,9 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:seedbed/models/community/community.dart';
+import 'package:seedbed/models/jobs/base.dart';
 import 'package:seedbed/models/pro/pro_wallet_state.dart';
 import 'package:seedbed/models/tokens/token.dart';
 import 'package:seedbed/models/transactions/transfer.dart';
@@ -197,44 +200,42 @@ ThunkAction setCountryCode(CountryCode countryCode) {
   };
 }
 
-ThunkAction backupWalletCall() { // VoidCallback successCb
+ThunkAction backupWalletCall() {
   return (Store store) async {
     if (store.state.userState.backup) return;
-    // final logger = await AppFactory().getLogger('action');
-    // String communityAddress = store.state.cashWalletState.communityAddress;
-    store.dispatch(BackupRequest());
     try {
-      await api.backupWallet();
-      // Community community = store.state.cashWalletState.communities[communityAddress];
-      // if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive) {
-      //   BigInt value = toBigInt(community.plugins.backupBonus.amount, community.token.decimals);
-      //   String walletAddress = store.state.userState.walletAddress;
-      //   dynamic jobId = response['job']['_id'];
-      //   logger.info('Job $jobId - sending backup bonus');
-      //   Transfer backupBonus = new Transfer(
-      //       tokenAddress: community.token.address,
-      //       timestamp: DateTime.now().millisecondsSinceEpoch,
-      //       from: DotEnv().env['FUNDER_ADDRESS'],
-      //       to: walletAddress,
-      //       text: 'You got a backup bonus!',
-      //       type: 'RECEIVE',
-      //       value: value,
-      //       status: 'PENDING',
-      //       jobId: jobId);
-      //   store.dispatch(AddTransaction(transaction: backupBonus, communityAddress: communityAddress));
+      final logger = await AppFactory().getLogger('action');
+      String communityAddress = store.state.cashWalletState.communityAddress;
+      store.dispatch(BackupRequest());
+      dynamic response = await api.backupWallet(communityAddress: communityAddress);
+      dynamic jobId = response['job']['_id'];
+      Community community = store.state.cashWalletState.communities[communityAddress];
+      if (community.plugins.backupBonus != null && community.plugins.backupBonus.isActive && ![null, ''].contains(jobId)) {
+        BigInt value = toBigInt(community.plugins.backupBonus.amount, community.token.decimals);
+        String walletAddress = store.state.userState.walletAddress;
+        logger.info('Job $jobId - sending backup bonus');
+        Transfer backupBonus = new Transfer(
+            tokenAddress: community.token.address,
+            timestamp: DateTime.now().millisecondsSinceEpoch,
+            from: DotEnv().env['FUNDER_ADDRESS'],
+            to: walletAddress,
+            text: 'You got a backup bonus!',
+            type: 'RECEIVE',
+            value: value,
+            status: 'PENDING',
+            jobId: jobId);
+        store.dispatch(AddTransaction(transaction: backupBonus, communityAddress: communityAddress));
 
-      //   response['job']['arguments'] = {
-      //     'backupBonus': backupBonus,
-      //   };
-      //   response['job']['jobType'] = 'backup';
-      //   Job job = JobFactory.create(response['job']);
-      //   store.dispatch(AddJob(job: job, communityAddress: communityAddress));
-      // }
-      // successCb();
-      store.dispatch(BackupSuccess());
+        response['job']['arguments'] = {
+          'backupBonus': backupBonus,
+        };
+        response['job']['jobType'] = 'backup';
+        Job job = JobFactory.create(response['job']);
+        store.dispatch(AddJob(job: job, communityAddress: communityAddress));
+        store.dispatch(BackupSuccess());
+      }
     } catch (e) {
       store.dispatch(BackupSuccess());
-      // successCb();
     }
   };
 }

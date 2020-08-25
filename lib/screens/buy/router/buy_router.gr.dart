@@ -44,14 +44,13 @@ class BuyRouter extends RouterBase {
       );
     },
     BusinessPage: (data) {
-      var args = data.getArgs<BusinessPageArguments>(
+      final args = data.getArgs<BusinessPageArguments>(
         orElse: () => BusinessPageArguments(),
       );
       return MaterialPageRoute<dynamic>(
         builder: (context) => BusinessPage(
           business: args.business,
           token: args.token,
-          communityAddress: args.communityAddress,
         ),
         settings: data,
       );
@@ -73,6 +72,5 @@ class BuyRouter extends RouterBase {
 class BusinessPageArguments {
   final Business business;
   final Token token;
-  final String communityAddress;
-  BusinessPageArguments({this.business, this.token, this.communityAddress});
+  BusinessPageArguments({this.business, this.token});
 }

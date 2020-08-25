@@ -6,6 +6,7 @@ import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:redux/redux.dart';
+import 'package:seedbed/models/community/community.dart';
 import 'package:seedbed/utils/addresses.dart' as util;
 
 class BottomBar extends StatelessWidget {
@@ -47,9 +48,13 @@ class BottomBar extends StatelessWidget {
             items: [
               bottomBarItem(I18n.of(context).home, 'home'),
               bottomBarItem(I18n.of(context).send_button, 'send'),
-              bottomBarItem(I18n.of(context).convert, 'buy'),
+              vm.hasReserveContract
+                  ? bottomBarItem(I18n.of(context).convert, 'buy')
+                  : null,
               bottomBarItem(I18n.of(context).receive, 'receive'),
-            ],
+            ]
+              ..removeWhere((element) => element == null)
+              ..toList(),
             onTap: onTap,
           );
         });
@@ -57,19 +62,22 @@ class BottomBar extends StatelessWidget {
 }
 
 class _BottomBarViewModel extends Equatable {
-  final bool isDefaultCommunity;
+  final bool hasReserveContract;
 
   _BottomBarViewModel({
-    this.isDefaultCommunity,
+    this.hasReserveContract,
   });
 
   static _BottomBarViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
+    final Community community =
+        store.state.cashWalletState.communities[communityAddress];
     return _BottomBarViewModel(
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+      hasReserveContract:
+          community?.customData?.containsKey('reserveContractAddress') ?? false,
     );
   }
 
   @override
-  List<Object> get props => [isDefaultCommunity];
+  List<Object> get props => [hasReserveContract];
 }

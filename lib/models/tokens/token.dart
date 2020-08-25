@@ -2,7 +2,6 @@ import 'package:seedbed/models/jobs/base.dart';
 import 'package:seedbed/models/pro/price.dart';
 import 'package:seedbed/models/tokens/base.dart';
 import 'package:seedbed/models/transactions/transactions.dart';
-import 'package:seedbed/redux/state/store.dart';
 import 'package:seedbed/services.dart';
 import 'package:seedbed/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -112,14 +111,12 @@ class Token extends ERC20Token {
       {String currency = 'usd',
       void Function(Price) onDone,
       Function onError}) async {
-    final logger = await AppFactory().getLogger('action');
+    // final logger = await AppFactory().getLogger('action');
     try {
       final Map<String, dynamic> response =
           await marketApi.getCurrentPriceOfTokens(this.address, currency);
       double price = response[this.address.toLowerCase()][currency];
       String quote = response[this.address.toLowerCase()][currency].toString();
-      logger.info(
-          'price response $quote ${response[this.address.toLowerCase()]}');
       String total =
           getFiatValue(this.amount, this.decimals, price, withPrecision: true);
       if (this.priceInfo == null) {

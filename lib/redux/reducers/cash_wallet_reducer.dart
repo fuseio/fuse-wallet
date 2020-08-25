@@ -17,6 +17,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _fetchCommunityMetadataSuccess),
   TypedReducer<CashWalletState, AlreadyJoinedCommunity>(
       _alreadyJoinedCommunity),
+  TypedReducer<CashWalletState, AddCommunities>(_addCommunities),
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(
       _switchCommunitySuccess),
   TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
@@ -30,8 +31,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, BranchListening>(_branchListening),
   TypedReducer<CashWalletState, BranchListeningStopped>(
       _branchListeningStopped),
-  TypedReducer<CashWalletState, BranchDataReceived>(_branchDataReceived),
-  TypedReducer<CashWalletState, BranchCommunityUpdate>(_branchCommunityUpdate),
   TypedReducer<CashWalletState, BranchCommunityToUpdate>(
       _branchCommunityToUpdate),
   TypedReducer<CashWalletState, SetIsTransfersFetching>(
@@ -55,7 +54,21 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, GetWeeklyRewardSucces>(_getWeeklyRewardSucces),
   TypedReducer<CashWalletState, GetSecondaryTokenBalanceSuccess>(
       _getSecondaryTokenBalanceSuccess),
+  TypedReducer<CashWalletState, UpdateJob>(_updateJob),
+  TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
 ]);
+
+CashWalletState _addCommunities(CashWalletState state, AddCommunities action) {
+  Map<String, Community> newOne =
+      Map<String, Community>.from(state.communities);
+  for (String communityAddress in action.communities.keys) {
+    print('communityAddress communityAddress $communityAddress');
+    if (newOne.containsKey(communityAddress)) continue;
+    newOne[communityAddress] = action.communities[communityAddress];
+    print('ADDDEDDDDD communityAddress $communityAddress');
+  }
+  return state.copyWith(communities: newOne);
+}
 
 CashWalletState _getWeeklyRewardSucces(
     CashWalletState state, GetWeeklyRewardSucces action) {
@@ -94,7 +107,10 @@ CashWalletState _setDefaultCommunity(
       Map<String, Community>.from(state.communities);
   newOne[action.defaultCommunity] = defaultCom;
   return state.copyWith(
-      communityAddress: action.defaultCommunity, communities: newOne);
+      communityAddress: action.defaultCommunity,
+      communities: newOne,
+      branchAddress: '',
+      isBranchDataReceived: false);
 }
 
 CashWalletState _initWeb3Success(
@@ -148,6 +164,8 @@ CashWalletState _switchCommunitySuccess(
   Community current = state.communities[communityAddress] ??
       Community.initial().copyWith(address: communityAddress);
   Community newCommunity = current?.copyWith(
+      customData: action.customData,
+      address: communityAddress,
       metadata: action.metadata,
       plugins: action.plugins,
       token: action.token,
@@ -266,7 +284,8 @@ CashWalletState _switchCommunityRequest(
   return state.copyWith(
       isCommunityLoading: true,
       communityAddress: action.communityAddress.toLowerCase(),
-      branchAddress: "");
+      branchAddress: "",
+      isBranchDataReceived: false);
 }
 
 CashWalletState _switchToNewCommunity(
@@ -278,21 +297,16 @@ CashWalletState _switchToNewCommunity(
       Map<String, Community>.from(state.communities);
   newOne[communityAddress] = newCommunity;
   return state.copyWith(
-      branchAddress: "", isCommunityLoading: true, communities: newOne);
-}
-
-CashWalletState _branchCommunityUpdate(
-    CashWalletState state, BranchCommunityUpdate action) {
-  return state.copyWith(
-      isCommunityLoading: false,
-      isCommunityFetched: false,
       branchAddress: "",
-      communityAddress: state.branchAddress);
+      isCommunityLoading: true,
+      communities: newOne,
+      isBranchDataReceived: false);
 }
 
 CashWalletState _branchCommunityToUpdate(
     CashWalletState state, BranchCommunityToUpdate action) {
-  return state.copyWith(branchAddress: action.communityAddress);
+  return state.copyWith(
+      branchAddress: action.communityAddress, isBranchDataReceived: true);
 }
 
 CashWalletState _branchListening(
@@ -303,11 +317,6 @@ CashWalletState _branchListening(
 CashWalletState _branchListeningStopped(
     CashWalletState state, BranchListeningStopped action) {
   return state.copyWith(isListeningToBranch: false);
-}
-
-CashWalletState _branchDataReceived(
-    CashWalletState state, BranchDataReceived action) {
-  return state.copyWith(isBranchDataReceived: true);
 }
 
 CashWalletState _setIsTransfersFetching(
@@ -362,8 +371,9 @@ CashWalletState _inviteSendSuccess(
 
 CashWalletState _createNewWalletSuccess(
     CashWalletState state, CreateLocalAccountSuccess action) {
-  return CashWalletState.initial()
-      .copyWith(isBranchDataReceived: state.isBranchDataReceived);
+  return CashWalletState.initial().copyWith(
+      isBranchDataReceived: state.isBranchDataReceived,
+      branchAddress: state.branchAddress);
 }
 
 CashWalletState _replaceTransfer(
@@ -412,6 +422,22 @@ CashWalletState _jobDone(CashWalletState state, JobDone action) {
   Community newCommunity = current.copyWith(
       token: current.token.copyWith(
           jobs: List<Job>.from(current.token.jobs ?? [])..remove(action.job)));
+  Map<String, Community> newOne =
+      Map<String, Community>.from(state.communities);
+  newOne[communityAddress] = newCommunity;
+  return state.copyWith(communities: newOne);
+}
+
+CashWalletState _updateJob(CashWalletState state, UpdateJob action) {
+  final String communityAddress = action.communityAddress;
+  Community current = state.communities[communityAddress];
+  Job job =
+      current.token.jobs.firstWhere((element) => action.job.id == element.id);
+  int index = current.token.jobs.indexOf(job);
+  current.token.jobs[index] = action.job;
+  Community newCommunity = current.copyWith(
+      token: current.token
+          .copyWith(jobs: List<Job>.from(current.token.jobs ?? [])));
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
   newOne[communityAddress] = newCommunity;

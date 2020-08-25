@@ -22,6 +22,7 @@ class Community extends Equatable {
   final CommunityMetadata metadata;
   final bool isClosed;
   final String webUrl;
+  final Map customData;
 
   @override
   List<Object> get props => [
@@ -38,6 +39,7 @@ class Community extends Equatable {
 
   Community(
       {this.name,
+      this.customData,
       this.isClosed,
       this.isMember,
       this.address,
@@ -79,8 +81,10 @@ class Community extends Equatable {
       bool isMember,
       CommunityMetadata metadata,
       bool isClosed,
-      String webUrl}) {
+      String webUrl,
+      Map customData}) {
     return Community(
+      customData: customData ?? this.customData,
       isClosed: isClosed ?? this.isClosed,
       webUrl: webUrl,
       metadata: metadata ?? this.metadata,

@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/app_state.dart';
 import 'package:seedbed/models/views/contacts.dart';
 import 'package:seedbed/screens/contacts/widgets/contact_tile.dart';
+import 'package:seedbed/screens/contacts/widgets/recent_contacts.dart';
 import 'package:seedbed/utils/contacts.dart';
 import 'package:seedbed/utils/format.dart';
 import 'package:seedbed/utils/phone.dart';
@@ -39,13 +42,16 @@ class _ContactsListState extends State<ContactsList> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
+        onInitialBuild: (viewModel) {
+          Segment.screen(screenName: '/contacts-screen');
+        },
         converter: ContactsViewModel.fromStore,
         builder: (_, viewModel) {
           return _contacts != null
               ? MainScaffold(
                   automaticallyImplyLeading: false,
                   title: I18n.of(context).send_to,
-                  sliverList: _buildPageList(context, viewModel),
+                  sliverList: _buildPageList(viewModel),
                 )
               : Center(
                   child: Preloader(),
@@ -126,10 +132,8 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  SliverList listBody(
-      BuildContext context, ContactsViewModel viewModel, List<Contact> group) {
+  SliverList listBody(ContactsViewModel viewModel, List<Contact> group) {
     List<Widget> listItems = List();
-
     for (Contact user in group) {
       Iterable<Item> phones = user.phones
           .map((e) => Item(
@@ -145,7 +149,8 @@ class _ContactsListState extends State<ContactsList> {
             phoneNumber: phone.value,
             onTap: () {
               resetSearch();
-              sendToContact(context, user.displayName, phone.value,
+              sendToContact(ExtendedNavigator.named('contactsRouter').context,
+                  user.displayName, phone.value,
                   isoCode: viewModel.isoCode,
                   countryCode: viewModel.countryCode,
                   avatar: user.avatar != null && user.avatar.isNotEmpty
@@ -164,7 +169,7 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  Widget sendToAcccountAddress(BuildContext context, String accountAddress) {
+  Widget sendToAcccountAddress(String accountAddress) {
     Widget component = ContactTile(
       displayName: formatAddress(accountAddress),
       onTap: () {
@@ -187,15 +192,15 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  List<Widget> _buildPageList(context, ContactsViewModel viewModel) {
+  List<Widget> _buildPageList(ContactsViewModel viewModel) {
     List<Widget> listItems = List();
 
     listItems.add(searchPanel(viewModel));
 
     if (searchController.text.isEmpty) {
-      // listItems.add(RecentContacts());
+      listItems.add(RecentContacts());
     } else if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(context, searchController.text));
+      listItems.add(sendToAcccountAddress(searchController.text));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
@@ -212,7 +217,7 @@ class _ContactsListState extends State<ContactsList> {
     for (String title in titles) {
       List<Contact> group = groups[title];
       listItems.add(listHeader(title));
-      listItems.add(listBody(context, viewModel, group));
+      listItems.add(listBody(viewModel, group));
     }
 
     return listItems;

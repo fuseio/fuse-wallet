@@ -1,4 +1,3 @@
-import 'package:seedbed/utils/format.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:seedbed/models/app_state.dart';
@@ -12,6 +11,7 @@ class SendAmountViewModel extends Equatable {
   final String myCountryCode;
   final Community community;
   final List<Token> tokens;
+  final List<Community> communities;
   final Function(
       Token token,
       String name,
@@ -30,8 +30,15 @@ class SendAmountViewModel extends Equatable {
       String transferNote,
       VoidCallback,
       VoidCallback) sendERC20ToContact;
-  final Function(Token token, String, num, String receiverName,
-      String transferNote, VoidCallback, VoidCallback) sendToAccountAddress;
+  final Function(
+    Token token,
+    String recieverAddress,
+    num amount,
+    String receiverName,
+    String transferNote,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+  ) sendToAccountAddress;
   final Function(String eventName, {Map<String, dynamic> properties})
       trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
@@ -59,7 +66,7 @@ class SendAmountViewModel extends Equatable {
   }) sendToErc20Token;
 
   @override
-  List<Object> get props => [tokens, myCountryCode];
+  List<Object> get props => [tokens, myCountryCode, communities];
 
   SendAmountViewModel(
       {this.tokens,
@@ -72,7 +79,8 @@ class SendAmountViewModel extends Equatable {
       this.sendToErc20Token,
       this.sendERC20ToContact,
       this.buyToken,
-      this.sellToken});
+      this.sellToken,
+      this.communities});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     List<Community> communities =
@@ -102,14 +110,10 @@ class SendAmountViewModel extends Equatable {
         store.state.cashWalletState.communities[communityAddres] ??
             new Community.initial();
     return SendAmountViewModel(
-        tokens: [...homeTokens, ...foreignTokens]
-          ..where((Token token) =>
-              num.parse(formatValue(token.amount, token.decimals,
-                      withPrecision: true))
-                  .compareTo(0) ==
-              1)
-          ..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
-              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+        tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
+            (tokenB?.amount ?? BigInt.zero)
+                ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+        communities: communities,
         myCountryCode: store.state.userState.countryCode,
         community: community,
         sendToContact: (

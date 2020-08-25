@@ -1,3 +1,5 @@
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:seedbed/constans/keys.dart';
@@ -12,6 +14,7 @@ import 'package:seedbed/screens/home/widgets/drawer.dart';
 import 'package:seedbed/screens/send_flow/send_amount.dart';
 import 'package:seedbed/utils/addresses.dart';
 import 'package:seedbed/utils/contacts.dart';
+import 'package:seedbed/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:seedbed/models/app_state.dart';
@@ -20,7 +23,6 @@ import 'package:seedbed/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:seedbed/models/community/community.dart';
-import 'package:seedbed/utils/addresses.dart' as util;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -54,8 +56,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   onInit(Store<AppState> store) {
-    String walletStatus = store.state.userState.walletStatus;
-    String accountAddress = store.state.userState.accountAddress;
+    final String walletStatus = store.state.userState.walletStatus;
+    final String accountAddress = store.state.userState.accountAddress;
+    final String identifier = store.state.userState.identifier;
+    final String isoCode = store.state.userState.isoCode;
+
+    if ([null, ''].contains(identifier)) {
+      store.dispatch(setDeviceId(true));
+    }
+
+    if ([null, ''].contains(isoCode)) {
+      Locale myLocale = Localizations.localeOf(context);
+      Map localeData = codes.firstWhere(
+          (Map code) => code['code'] == myLocale.countryCode,
+          orElse: () => null);
+      store.dispatch(setCountryCode(CountryCode(
+          dialCode: localeData['dial_code'], code: localeData['code'])));
+    }
 
     if (walletStatus != 'deploying' &&
         walletStatus != 'created' &&
@@ -66,6 +83,7 @@ class _HomePageState extends State<HomePage> {
       String jwtToken = store.state.userState.jwtToken;
       bool isLoggedOut = store.state.userState.isLoggedOut;
       if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
+        // store.dispatch(fetchListOfTokenByAccountAddress());
         store.dispatch(getWalletAddressessCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
@@ -91,31 +109,38 @@ class _HomePageState extends State<HomePage> {
               drawer: DrawerWidget(),
               drawerEdgeDragWidth: 0,
               drawerEnableOpenDragGesture: false,
-              body: IndexedStack(index: currentIndex, children: <Widget>[
-                ExtendedNavigator(
-                  router: HomeRouter(),
-                  name: 'homeRouter',
-                  observers: [SegmentObserver()],
-                ),
-                ExtendedNavigator(
-                  observers: [SegmentObserver()],
-                  router: ContactsRouter(),
-                  name: 'contactsRouter',
-                  initialRoute:
-                      vm.isContactsSynced != null && vm.isContactsSynced
-                          ? ContactsRoutes.contactsList
-                          : ContactsRoutes.emptyContacts,
-                ),
-                SendAmountScreen(
-                    pageArgs: SendAmountArguments(
-                  isConvert: true,
-                  accountAddress: reserveContractAddress,
-                  avatar: NetworkImage(
-                      'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png'),
-                  name: 'Convertor',
-                )),
-                ReceiveScreen()
-              ]),
+              body: IndexedStack(
+                  index: currentIndex,
+                  children: <Widget>[
+                    ExtendedNavigator(
+                      router: HomeRouter(),
+                      name: 'homeRouter',
+                      observers: [SegmentObserver()],
+                    ),
+                    ExtendedNavigator(
+                      observers: [SegmentObserver()],
+                      router: ContactsRouter(),
+                      name: 'contactsRouter',
+                      initialRoute:
+                          vm.isContactsSynced != null && vm.isContactsSynced
+                              ? ContactsRoutes.contactsList
+                              : ContactsRoutes.emptyContacts,
+                    ),
+                    vm.hasReserveContract
+                        ? SendAmountScreen(
+                            pageArgs: SendAmountArguments(
+                            isConvert: true,
+                            accountAddress: vm.community
+                                ?.customData['reserveContractAddress'],
+                            avatar: NetworkImage(
+                                'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png'),
+                            name: 'Convertor',
+                          ))
+                        : null,
+                    ReceiveScreen()
+                  ]
+                    ..removeWhere((element) => element == null)
+                    ..toList()),
               bottomNavigationBar: BottomBar(
                 onTap: (index) {
                   _onTap(index);
@@ -128,6 +153,17 @@ class _HomePageState extends State<HomePage> {
                             context: context,
                             child: ContactsConfirmationScreen()));
                   }
+
+                  if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
+                    Future.delayed(Duration.zero, () {
+                      vm.setShowDialog();
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BackUpDialog();
+                          });
+                    });
+                  }
                 },
                 tabIndex: currentIndex,
               ));
@@ -137,13 +173,19 @@ class _HomePageState extends State<HomePage> {
 
 class _HomePageViewModel extends Equatable {
   final Community community;
-  final bool isDefaultCommunity;
   final bool isContactsSynced;
+  final bool backup;
+  final bool isBackupDialogShowed;
+  final Function setShowDialog;
+  final bool hasReserveContract;
 
   _HomePageViewModel({
     this.isContactsSynced,
-    this.isDefaultCommunity,
+    this.hasReserveContract,
     this.community,
+    this.backup,
+    this.isBackupDialogShowed,
+    this.setShowDialog,
   });
 
   static _HomePageViewModel fromStore(Store<AppState> store) {
@@ -154,7 +196,14 @@ class _HomePageViewModel extends Equatable {
     return _HomePageViewModel(
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+      backup: store.state.userState.backup,
+      isBackupDialogShowed:
+          store.state.userState?.receiveBackupDialogShowed ?? false,
+      hasReserveContract:
+          community?.customData?.containsKey('reserveContractAddress') ?? false,
+      setShowDialog: () {
+        store.dispatch(ReceiveBackupDialogShowed());
+      },
     );
   }
 

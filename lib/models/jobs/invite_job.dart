@@ -62,7 +62,6 @@ class InviteJob extends Job {
     if (arguments['tokenAddress'] != null) {
       store.dispatch(inviteProAndSendSuccessCall(
           job,
-          fetchedData['data'],
           arguments['tokensAmount'],
           arguments['receiverName'],
           arguments['inviteTransfer'],
@@ -72,7 +71,6 @@ class InviteJob extends Job {
     } else {
       store.dispatch(inviteAndSendSuccessCall(
           job,
-          fetchedData['data'],
           arguments['tokensAmount'],
           arguments['receiverName'],
           arguments['inviteTransfer'],
