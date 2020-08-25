@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fc_knudde/screens/contacts/send_amount_arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fc_knudde/generated/i18n.dart';
@@ -159,21 +160,24 @@ class BusinessesListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
-              navigateToSendAmountScreen(
-                  business.account, business.name ?? '', null,
-                  avatar: NetworkImage(image));
+          InkWell(
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/go.png',
+                  fit: BoxFit.fill,
+                  width: 25,
+                  height: 25,
+                )),
+            onTap: () {
+              ExtendedNavigator.root.push(Routes.sendAmountScreen,
+                  arguments: SendAmountScreenArguments(
+                      pageArgs: SendAmountArguments(
+                          tokenToSend: token,
+                          name: business.name ?? '',
+                          accountAddress: business.account,
+                          avatar:
+                              NetworkImage(business.metadata.getImageUri()))));
             },
           ),
         ],

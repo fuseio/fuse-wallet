@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fc_knudde/models/community/business_metadata.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -1256,23 +1257,32 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
               : false);
       dynamic communityEntities =
           await graph.getCommunityBusinesses(communityAddress);
-      List<Business> businessList = new List();
       if (communityEntities != null) {
-        await Future.forEach(communityEntities, (entity) async {
-          dynamic metadata = await api.getEntityMetadata(
-              communityAddress, entity['address'],
-              isRopsten: isOriginRopsten);
-          if (metadata != null) {
-            entity['name'] = metadata['name'] ?? '';
-            entity['metadata'] = metadata;
-            entity['account'] = entity['address'] ?? '';
-            businessList.add(Business.fromJson(entity));
+        Future<List<Business>> businesses = Future.wait(
+            List.from(communityEntities).map((dynamic entity) async {
+          try {
+            dynamic metadata = await api.getEntityMetadata(
+                communityAddress, entity['address'],
+                isRopsten: isOriginRopsten);
+            return Business.initial().copyWith(
+                account: entity['address'],
+                name: metadata['name'] ?? '',
+                metadata: BusinessMetadata.fromJson(metadata ?? {}));
+          } catch (e) {
+            return Business.initial().copyWith(
+                account: entity['address'],
+                name: formatAddress(entity['address']),
+                metadata: BusinessMetadata.initial()
+                    .copyWith(address: entity['address']));
           }
-        }).then((r) {
-          store.dispatch(GetBusinessListSuccess(
-              businessList: businessList, communityAddress: communityAddress));
-          store.dispatch(FetchingBusinessListSuccess());
-        });
+        }));
+        List<Business> result = await businesses;
+        result
+          ..removeWhere((element) => element == null)
+          ..toList();
+        store.dispatch(GetBusinessListSuccess(
+            businessList: result, communityAddress: communityAddress));
+        store.dispatch(FetchingBusinessListSuccess());
       }
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');
