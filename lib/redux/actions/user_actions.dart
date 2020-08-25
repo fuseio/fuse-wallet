@@ -285,7 +285,7 @@ ThunkAction setDeviceId(bool reLogin) {
       final FirebaseUser currentUser = await firebaseAuth.currentUser();
       final String accountAddress = store.state.userState.accountAddress;
       IdTokenResult token = await currentUser.getIdToken();
-      String jwtToken = await api.login(token.token, accountAddress, identifier);
+      String jwtToken = await api.login(token.token, accountAddress, identifier, appName: 'FCKnudde');
       store.dispatch(LoginVerifySuccess(jwtToken));
     }
   };

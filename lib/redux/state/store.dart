@@ -87,7 +87,8 @@ class AppFactory {
             jwtToken = await api.login(
                 token.token,
                 initialState.userState.accountAddress,
-                initialState.userState.identifier);
+                initialState.userState.identifier,
+                appName: 'FCKnudde');
           }
 
           logger.info('JWT: $jwtToken');
