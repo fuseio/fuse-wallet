@@ -290,10 +290,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               child: Text(
                                 I18n.of(context).pay,
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        .color,
+                                    color: Theme.of(context).splashColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal),
                               ),
