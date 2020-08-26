@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:core';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fc_knudde/screens/contacts/send_amount_arguments.dart';
+import 'package:fc_knudde/screens/routes.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -295,13 +298,17 @@ class _BusinessPageState extends State<BusinessPage> {
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                navigateToSendAmountScreen(
-                                    widget.business.account,
-                                    widget.business.name ?? '',
-                                    null,
-                                    avatar: NetworkImage(widget
-                                        .business.metadata
-                                        .getImageUri()));
+                                ExtendedNavigator.root.push(
+                                    Routes.sendAmountScreen,
+                                    arguments: SendAmountScreenArguments(
+                                        pageArgs: SendAmountArguments(
+                                            tokenToSend: widget.token,
+                                            name: widget.business.name ?? '',
+                                            accountAddress:
+                                                widget.business.account,
+                                            avatar: NetworkImage(widget
+                                                .business.metadata
+                                                .getImageUri()))));
                                 //     )));
                               },
                             ),

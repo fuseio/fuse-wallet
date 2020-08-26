@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fc_knudde/models/community/business_metadata.dart';
 import 'package:fc_knudde/screens/contacts/send_amount_arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -10,8 +11,6 @@ import 'package:fc_knudde/models/views/buy_page.dart';
 import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
 import 'package:fc_knudde/screens/buy/router/buy_router.gr.dart';
 import 'package:fc_knudde/screens/routes.gr.dart';
-import 'package:fc_knudde/utils/send.dart';
-import 'package:fc_knudde/utils/transaction_util.dart';
 import 'package:fc_knudde/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -67,7 +66,7 @@ class BusinessesListView extends StatelessWidget {
                         withBack: true, url: vm.walletBanner.link, title: ''));
               },
               child: CachedNetworkImage(
-                imageUrl: getIPFSImageUrl(vm.walletBanner.walletBannerHash),
+                imageUrl: getImage(vm.walletBanner.walletBannerHash),
                 imageBuilder: (context, imageProvider) => Container(
                     width: MediaQuery.of(context).size.width,
                     height: 140,
@@ -115,7 +114,6 @@ class BusinessesListView extends StatelessWidget {
 
   ListTile businessTile(
       context, Business business, String communityAddres, token) {
-    var image = getImageUrl(business, communityAddres);
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       leading: Container(
@@ -124,7 +122,7 @@ class BusinessesListView extends StatelessWidget {
           decoration: BoxDecoration(),
           child: ClipOval(
               child: CachedNetworkImage(
-            imageUrl: image,
+            imageUrl: business.metadata.getImageUri(),
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
