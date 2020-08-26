@@ -11,7 +11,6 @@ import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/models/community/business.dart';
 import 'package:fc_knudde/models/tokens/token.dart';
 import 'package:fc_knudde/screens/misc/about.dart';
-import 'package:fc_knudde/utils/send.dart';
 import 'package:fc_knudde/screens/home/widgets/drawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
