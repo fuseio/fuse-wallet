@@ -12,7 +12,6 @@ import 'package:seedbed/screens/home/screens/receive.dart';
 import 'package:seedbed/screens/contacts/router/router_contacts.gr.dart';
 import 'package:seedbed/screens/home/widgets/drawer.dart';
 import 'package:seedbed/screens/send_flow/send_amount.dart';
-import 'package:seedbed/utils/addresses.dart';
 import 'package:seedbed/utils/contacts.dart';
 import 'package:seedbed/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
@@ -208,5 +207,11 @@ class _HomePageViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [isDefaultCommunity, community, isContactsSynced];
+  List<Object> get props => [
+        community,
+        isContactsSynced,
+        isBackupDialogShowed,
+        hasReserveContract,
+        backup
+      ];
 }

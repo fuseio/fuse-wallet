@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:seedbed/constans/keys.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/views/cash_header.dart';
@@ -244,8 +245,25 @@ class CashHeader extends StatelessWidget {
                         icon: const Icon(Icons.share),
                         color: const Color(0xFFFFFFFF),
                         onPressed: () async {
-                          Share.share(
-                              'Hey, your friend shared with you the Seedbed: https://app.fuse.io/1uBjztEBo6');
+                          BranchLinkProperties lp = BranchLinkProperties(
+                            campaign: 'invite_user',
+                            feature: 'invite_user',
+                            channel: 'mobile',
+                          );
+                          lp.addControlParam(
+                              'community_address', viewModel.community.address);
+                          BranchResponse response =
+                              await FlutterBranchSdk.getShortUrl(
+                                  buo: BranchUniversalObject(
+                                      canonicalIdentifier: 'invite user',
+                                      contentMetadata: BranchContentMetaData()
+                                        ..addCustomMetadata('community_address',
+                                            viewModel.community.address)),
+                                  linkProperties: lp);
+                          if (response.success) {
+                            Share.share(
+                                'Hey, your friend shared with you the Seedbed: ${response.result}');
+                          }
                         },
                       ),
                     ],

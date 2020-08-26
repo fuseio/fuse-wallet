@@ -102,10 +102,14 @@ class _FeedModel extends Equatable {
             [],
             (List<Transaction> previousValue, Token token) =>
                 previousValue..addAll(token?.transactions?.list ?? []));
-    List<Transaction> communityTxs = communities?.fold(
-        [],
-        (List<Transaction> previousValue, Community community) =>
-            previousValue..addAll(community?.token?.transactions?.list ?? []));
+    List<Transaction> communityTxs = communities?.fold([],
+        (List<Transaction> previousValue, Community community) {
+      if (community.secondaryToken != null) {
+        previousValue
+          ..addAll(community?.secondaryToken?.transactions?.list ?? []);
+      }
+      return previousValue..addAll(community?.token?.transactions?.list ?? []);
+    });
     List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
       ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return _FeedModel(
@@ -121,5 +125,5 @@ class _FeedModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [feedList];
+  List<Object> get props => [feedList, walletStatus];
 }

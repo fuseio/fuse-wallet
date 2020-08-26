@@ -72,8 +72,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       plugins.add(new Divider(
         color: Color(0xFFE8E8E8),
       ));
-      print('depositPlugins depositPlugins ${depositPlugins[0].generateUrl()}');
-
       plugins.add(ListTile(
         contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
         title: Padding(
@@ -114,6 +112,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   List<Widget> menuItem(DrawerViewModel viewModel) {
     return [
+      getListTile(I18n.of(context).switch_community, () {
+        ExtendedNavigator.root.pop();
+        ExtendedNavigator.named('homeRouter')
+            .push(HomeRoutes.switchCommunityScreen);
+      }, icon: 'switch_icon.svg'),
       getListTile(I18n.of(context).backup_wallet, () {
         ExtendedNavigator.root.pop();
         ExtendedNavigator.named('homeRouter').push(HomeRoutes.showMnemonic);

@@ -49,20 +49,20 @@ class OnboardViewModel extends Equatable {
     final PhoneVerificationCompleted verificationCompleted = (AuthCredential credentials) async {
       print('Got credentials: $credentials');
       store.dispatch(new SetCredentials(credentials));
-      final FirebaseUser user = (await firebaseAuth.signInWithCredential(credentials)).user;
-      final FirebaseUser currentUser = await firebaseAuth.currentUser();
+      final User user = (await firebaseAuth.signInWithCredential(credentials)).user;
+      final User currentUser = firebaseAuth.currentUser;
       assert(user.uid == currentUser.uid);
       final String accountAddress = store.state.userState.accountAddress;
       final String identifier = store.state.userState.identifier;
-      IdTokenResult token = await user.getIdToken();
-      String jwtToken = await api.login(token.token, accountAddress, identifier, appName: 'Seedbed');
+      String token = await user.getIdToken();
+      String jwtToken = await api.login(token, accountAddress, identifier, appName: 'Seedbed');
       store.dispatch(new LoginVerifySuccess(jwtToken));
       store.dispatch(SetIsVerifyRequest(isLoading: false));
       store.dispatch(segmentTrackCall("Wallet: verified phone number"));
       ExtendedNavigator.root.push(Routes.userNameScreen);
     };
 
-    final PhoneVerificationFailed verificationFailed = (AuthException authException) {
+    final PhoneVerificationFailed verificationFailed = (FirebaseAuthException authException) {
       print('Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
       store.dispatch(new ErrorAction('Could not login $authException'));
     };

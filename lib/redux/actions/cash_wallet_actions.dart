@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:seedbed/models/community/business.dart';
 import 'package:seedbed/models/cash_wallet_state.dart';
+import 'package:seedbed/models/community/business_metadata.dart';
 import 'package:seedbed/models/community/community.dart';
 import 'package:seedbed/models/community/community_metadata.dart';
 import 'package:seedbed/models/jobs/base.dart';
@@ -440,7 +441,8 @@ ThunkAction startTransfersFetchingCall() {
           }
         }
         logger.info('Timer start - startTransfersFetchingCall');
-        new Timer.periodic(Duration(seconds: intervalSeconds), (Timer t) async {
+        new Timer.periodic(Duration(seconds: intervalSeconds * 2),
+            (Timer t) async {
           if (store.state.userState.walletAddress == '') {
             logger.severe('Timer stopeed - startTransfersFetchingCall');
             store.dispatch(new SetIsTransfersFetching(isFetching: false));
@@ -1226,9 +1228,14 @@ ThunkAction fetchSecondaryTokenCall(
     try {
       dynamic tokens = await graph.getTokenByAddress(tokenAddress);
       dynamic tokenInfo = tokens[0];
+      CashWalletState cashWalletState = store.state.cashWalletState;
+      final Community community = cashWalletState.communities[communityAddress];
+      Token second = community.secondaryToken != null
+          ? community.secondaryToken
+          : Token.initial();
       logger.info(
           'fetched secondary token ${tokenInfo["name"]} ${tokenInfo["address"]} (${tokenInfo["symbol"]})');
-      Token secondaryToken = new Token.initial().copyWith(
+      Token secondaryToken = second.copyWith(
           originNetwork: tokenInfo['originNetwork'],
           address: tokenInfo["address"],
           name: tokenInfo["name"],
@@ -1322,7 +1329,8 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           walletAddress: walletAddress);
       Map<String, dynamic> secondaryCommunityData;
       if (secondryCommunityAddress != null) {
-        dynamic token = await graph.getTokenOfCommunity(secondryCommunityAddress);
+        dynamic token =
+            await graph.getTokenOfCommunity(secondryCommunityAddress);
         bool isRopsten = token != null && token['originNetwork'] == 'ropsten';
         secondaryCommunityData = await api.getCommunityData(
             secondryCommunityAddress,
@@ -1405,7 +1413,8 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           walletAddress: walletAddress);
       Map<String, dynamic> secondaryCommunityData;
       if (secondryCommunityAddress != null) {
-        dynamic token = await graph.getTokenOfCommunity(secondryCommunityAddress);
+        dynamic token =
+            await graph.getTokenOfCommunity(secondryCommunityAddress);
         bool isRopsten = token != null && token['originNetwork'] == 'ropsten';
         secondaryCommunityData = await api.getCommunityData(
             secondryCommunityAddress,
@@ -1511,23 +1520,31 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
               : false);
       dynamic communityEntities =
           await graph.getCommunityBusinesses(communityAddress);
-      List<Business> businessList = new List();
       if (communityEntities != null) {
-        await Future.forEach(communityEntities, (entity) async {
-          dynamic metadata = await api.getEntityMetadata(
-              communityAddress, entity['address'],
-              isRopsten: isOriginRopsten);
-          if (metadata != null) {
-            entity['name'] = metadata['name'] ?? '';
-            entity['metadata'] = metadata;
-            entity['account'] = entity['address'] ?? '';
-            businessList.add(Business.fromJson(entity));
+        List<dynamic> entities = List.from(communityEntities);
+        Future<List<Business>> businesses =
+            Future.wait(entities.map((dynamic entity) async {
+          try {
+            dynamic metadata = await api.getEntityMetadata(
+                communityAddress, entity['address'],
+                isRopsten: isOriginRopsten);
+            return Business.initial().copyWith(
+                account: entity['address'],
+                name: metadata['name'] ?? '',
+                metadata: BusinessMetadata.fromJson(metadata ?? {}));
+          } catch (e) {
+            return Business.initial().copyWith(
+                account: entity['address'],
+                name: formatAddress(entity['address']),
+                metadata: BusinessMetadata.initial()
+                    .copyWith(address: entity['address']));
           }
-        }).then((r) {
-          store.dispatch(GetBusinessListSuccess(
-              businessList: businessList, communityAddress: communityAddress));
-          store.dispatch(FetchingBusinessListSuccess());
-        });
+        }));
+        List<Business> result = await businesses;
+        result..toList();
+        store.dispatch(GetBusinessListSuccess(
+            businessList: result, communityAddress: communityAddress));
+        store.dispatch(FetchingBusinessListSuccess());
       }
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');
@@ -1561,13 +1578,13 @@ ThunkAction getTokenTransfersListCall(Community community) {
         num lastBlockNumber =
             community?.secondaryToken?.transactions?.blockNumber;
         final tokenAddress = community?.secondaryToken?.address;
-        num currentBlockNumber = await web3.getBlockNumber();
-        Map<String, dynamic> response = await graph.getTransfers(
+        // num currentBlockNumber = await web3.getBlockNumber();
+        dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
             walletAddress, tokenAddress,
-            fromBlockNumber: lastBlockNumber,
-            toBlockNumber: currentBlockNumber);
-        List<Transfer> transfers = List<Transfer>.from(
-            response["data"].map((json) => Transfer.fromJson(json)).toList());
+            startblock: lastBlockNumber ?? 0);
+        List<Transfer> transfers = List<Transfer>.from(tokensTransferEvents
+            .map((json) => Transfer.fromJson(json))
+            .toList());
         store.dispatch(new GetTokenTransfersListSuccess(
             tokenTransfers: transfers,
             communityAddress: community.address,
@@ -1604,11 +1621,12 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
       }
 
       if (community.secondaryToken != null) {
+        num lastBlockNumber =
+            community?.secondaryToken?.transactions?.blockNumber;
         final tokenAddress = community.secondaryToken.address;
         dynamic response = await api.fetchTokenTxByAddress(
-            walletAddress, community.secondaryToken.address,
-            startblock:
-                community?.secondaryToken?.transactions?.blockNumber ?? 0);
+            walletAddress, tokenAddress,
+            startblock: lastBlockNumber ?? 0);
         List<Transfer> transfers = List<Transfer>.from(
             response.map((json) => Transfer.fromJson(json)).toList());
         if (transfers.isNotEmpty) {
@@ -1676,15 +1694,11 @@ ThunkAction buyTokenAction(
       CashWalletState cashWalletState = store.state.cashWalletState;
       final String communityAddress = cashWalletState.communityAddress;
       final Community community = cashWalletState.communities[communityAddress];
-      final String reserveContractAddress = community?.customData['reserveContractAddress'];
+      final String reserveContractAddress =
+          community?.customData['reserveContractAddress'];
       if (![null, ''].contains(reserveContractAddress)) {
-        dynamic response = await api.buyToken(
-            reserveContractAddress,
-            daiTokenAddress,
-            web3,
-            tokenToApprove,
-            walletAddress,
-            tokensAmount);
+        dynamic response = await api.buyToken(reserveContractAddress,
+            daiTokenAddress, web3, tokenToApprove, walletAddress, tokensAmount);
         sendSuccessCallback();
         dynamic jobId = response['job']['_id'];
         logger.info('buyTokenAction $jobId');
@@ -1736,7 +1750,8 @@ ThunkAction sellTokenAction(
       CashWalletState cashWalletState = store.state.cashWalletState;
       final String communityAddress = cashWalletState.communityAddress;
       final Community community = cashWalletState.communities[communityAddress];
-      final String reserveContractAddress = community?.customData['reserveContractAddress'];
+      final String reserveContractAddress =
+          community?.customData['reserveContractAddress'];
       if (![null, ''].contains(reserveContractAddress)) {
         dynamic response = await api.sellToken(
             community.customData['reserveContractAddress'],

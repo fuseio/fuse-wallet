@@ -17,9 +17,11 @@ import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await DotEnv().load('environment/.env_seedbed');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();

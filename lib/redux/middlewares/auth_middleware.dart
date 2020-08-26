@@ -33,7 +33,6 @@ Middleware<AppState> _createLoginRequestMiddleware() {
           phoneNumber: normalizedPhoneNumber,
           codeAutoRetrievalTimeout: action.codeAutoRetrievalTimeout,
           codeSent: action.codeSent,
-          timeout: Duration(minutes: 2),
           verificationCompleted: action.verificationCompleted,
           verificationFailed: action.verificationFailed
         );
@@ -68,18 +67,18 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         store.dispatch(setDeviceId(false));
         PhoneAuthCredential credential = store.state.userState.credentials;
         if (credential == null) {
-          credential = PhoneAuthProvider.getCredential(
+          credential = PhoneAuthProvider.credential(
             verificationId: action.verificationId,
-            smsCode: action.verificationCode,
+            smsCode: action.verificationCode
           );
         }
-        final FirebaseUser user = (await firebaseAuth.signInWithCredential(credential)).user;
-        final FirebaseUser currentUser = await firebaseAuth.currentUser();
+        final User user = (await firebaseAuth.signInWithCredential(credential)).user;
+        final User currentUser = firebaseAuth.currentUser;
         assert(user.uid == currentUser.uid);
         final String accountAddress = store.state.userState.accountAddress;
         final String identifier = store.state.userState.identifier;
-        IdTokenResult token = await user.getIdToken();
-        String jwtToken = await api.login(token.token, accountAddress, identifier, appName: 'Seedbed');
+        String token = await currentUser.getIdToken();
+        String jwtToken = await api.login(token, accountAddress, identifier, appName: 'Seedbed');
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));

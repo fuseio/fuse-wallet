@@ -31,7 +31,7 @@
             </intent-filter>
             <!-- Branch URI scheme -->
             <intent-filter>
-                <data android:scheme="fuse" android:host="joinCommunity"/>
+                <data android:scheme="seedbed" android:host="joinCommunity"/>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -41,8 +41,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="fuseio.app.link" />
-                <data android:scheme="https" android:host="app.fuse.io" />
+                <data android:scheme="https" android:host="h9fs3.app.link" />
+                <data android:scheme="https" android:host="h9fs3.app.link" />
             </intent-filter>
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK"/>
@@ -52,8 +52,8 @@
 
         </activity>
         <!-- Branch init -->
-        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr" />
-        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_laLuH5hCCQKQjv5eM1Kugongssgw79iU" />
+        <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_biL0fnzFYAWDCrH3qcnq8dacrsd0dMQg" />
+        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_mdU5pnsF6A7CBCO2AgAfrfieywa3hLUv" />
         <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />
         <!-- Set to true to use Branch_Test_Key -->
         <meta-data android:name="com.claimsforce.segment.WRITE_KEY" android:value="UdBbfFPkYCntzoFaWyEiwfKRKFLtTz14" />

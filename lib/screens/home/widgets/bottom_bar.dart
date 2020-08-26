@@ -7,7 +7,6 @@ import 'package:seedbed/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:redux/redux.dart';
 import 'package:seedbed/models/community/community.dart';
-import 'package:seedbed/utils/addresses.dart' as util;
 
 class BottomBar extends StatelessWidget {
   final int tabIndex;
