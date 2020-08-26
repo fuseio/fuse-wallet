@@ -6,7 +6,6 @@ import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/models/app_state.dart';
 import 'package:fc_knudde/models/views/drawer.dart';
 import 'package:fc_knudde/screens/home/router/home_router.gr.dart';
-import 'package:fc_knudde/utils/forks.dart';
 import 'package:fc_knudde/widgets/language_selector.dart';
 import 'package:fc_knudde/widgets/main_scaffold.dart';
 import 'package:fc_knudde/screens/routes.gr.dart';
