@@ -103,8 +103,8 @@ class _LockScreenState extends State<LockScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                // Image.asset('assets/images/pincode_logo.png',
-                                //     width: 71, height: 61),
+                              Image.asset('assets/images/pincode_logo.png',
+                                    width: 71, height: 61),
                               ],
                             ),
                           ),
