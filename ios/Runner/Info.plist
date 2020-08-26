@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
-	<string>NO</string>
+	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
