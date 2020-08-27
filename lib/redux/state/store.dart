@@ -85,7 +85,8 @@ class AppFactory {
             jwtToken = await api.login(
                 token,
                 initialState.userState.accountAddress,
-                initialState.userState.identifier);
+                initialState.userState.identifier,
+                appName: 'StraitsX');
           }
 
           logger.info('JWT: $jwtToken');

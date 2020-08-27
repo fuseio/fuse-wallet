@@ -6,7 +6,6 @@ import 'package:straitsx/generated/i18n.dart';
 import 'package:straitsx/models/app_state.dart';
 import 'package:straitsx/models/views/drawer.dart';
 import 'package:straitsx/screens/home/router/home_router.gr.dart';
-import 'package:straitsx/utils/forks.dart';
 import 'package:straitsx/widgets/language_selector.dart';
 import 'package:straitsx/widgets/main_scaffold.dart';
 import 'package:straitsx/screens/routes.gr.dart';

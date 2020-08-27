@@ -286,7 +286,7 @@ ThunkAction setDeviceId(bool reLogin) {
       final User currentUser = firebaseAuth.currentUser;
       final String accountAddress = store.state.userState.accountAddress;
       String token = await currentUser.getIdToken();
-      String jwtToken = await api.login(token, accountAddress, identifier);
+      String jwtToken = await api.login(token, accountAddress, identifier, appName: 'StraitsX');
       store.dispatch(LoginVerifySuccess(jwtToken));
     }
   };
