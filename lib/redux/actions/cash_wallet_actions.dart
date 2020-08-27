@@ -837,7 +837,6 @@ ThunkAction inviteBonusSuccessCall(
   return (Store store) async {
     Transfer confirmedTx = transfer.copyWith(
       status: 'CONFIRMED',
-      txHash: txHash,
     );
     store.dispatch(new ReplaceTransaction(
         transaction: transfer,
@@ -1019,7 +1018,6 @@ ThunkAction sendTokenSuccessCall(txHash, transfer, communityAddress) {
   return (Store store) async {
     Transfer confirmedTx = transfer.copyWith(
       status: 'CONFIRMED',
-      txHash: txHash,
     );
     store.dispatch(new ReplaceTransaction(
         transaction: transfer,
@@ -1094,9 +1092,9 @@ ThunkAction joinCommunitySuccessCall(Job job, dynamic fetchedData,
     logger.info(
         'joinCommunitySuccessCall joinCommunitySuccessCall ${Map.from(job.data).toString()}');
     Transfer confirmedTx = transfer.copyWith(
-        status: 'CONFIRMED',
-        text: 'Joined ' + (communityName ?? '') + ' community',
-        txHash: job.data['txHash']);
+      status: 'CONFIRMED',
+      text: 'Joined ' + (communityName ?? '') + ' community',
+    );
     store.dispatch(new AlreadyJoinedCommunity(communityAddress));
     store.dispatch(new ReplaceTransaction(
         transaction: transfer,
@@ -1148,7 +1146,6 @@ ThunkAction joinBonusSuccessCall(txHash, transfer, communiyAddress) {
     Community communityData = communities[communiyAddress];
     Transfer confirmedTx = transfer.copyWith(
       status: 'CONFIRMED',
-      txHash: txHash,
     );
     store.dispatch(ReplaceTransaction(
         transaction: transfer,

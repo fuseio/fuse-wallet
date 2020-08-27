@@ -107,10 +107,12 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         final BigInt balance = args.tokenToSend.amount;
         final int decimals = args.tokenToSend.decimals;
         final bool withFee = (fees.containsKey(symbol) &&
-                args.tokenToSend.originNetwork == null) &&
-            viewModel.communities.any((element) =>
+                args.tokenToSend.originNetwork == null) ||
+            (viewModel.communities.any((element) =>
+                (args?.accountAddress?.toLowerCase() ==
+                    element?.homeBridgeAddress?.toLowerCase()) ||
                 args?.accountAddress?.toLowerCase() ==
-                element?.homeBridgeAddress?.toLowerCase());
+                    element?.foreignBridgeAddress?.toLowerCase()));
         final num feeAmount =
             withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0;
         final num currentTokenBalance =

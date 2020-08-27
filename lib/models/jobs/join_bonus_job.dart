@@ -62,6 +62,17 @@ class JoinBonusJob extends Job {
       dynamic response = await api.getFunderJob(funderJobId);
       dynamic data = response['data'];
       String responseStatus = data['status'];
+      if (data['txHash'] != null) {
+        logger.info('JoinBonusJob txHash txHash txHash ${data['txHash']}');
+        Transfer transfer = arguments['joinBonus'];
+        Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
+        store.dispatch(new ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx,
+            communityAddress: arguments['communityAddress']));
+        arguments['joinBonus'] = confirmedTx.copyWith();
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+      }
       if (responseStatus == 'SUCCEEDED') {
         this.status = 'DONE';
         store.dispatch(joinBonusSuccessCall(data['txHash'], arguments['joinBonus'], arguments['communityAddress']));
@@ -79,6 +90,18 @@ class JoinBonusJob extends Job {
     }
 
     dynamic data = fetchedData['data'];
+
+    if (data['txHash'] != null) {
+      logger.info('JoinCommunityJob txHash txHash txHash ${data['txHash']}');
+      Transfer transfer = arguments['joinBonus'];
+      Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
+      store.dispatch(new ReplaceTransaction(
+          transaction: transfer,
+          transactionToReplace: confirmedTx,
+          communityAddress: arguments['communityAddress']));
+      arguments['joinBonus'] = confirmedTx.copyWith();
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+    }
     String responseStatus = data['status'];
     if (responseStatus == 'SUCCEEDED') {
       this.status = 'DONE';

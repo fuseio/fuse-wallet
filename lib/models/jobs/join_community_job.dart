@@ -54,6 +54,18 @@ class JoinCommunityJob extends Job {
       return;
     }
 
+    if (job.data['txHash'] != null) {
+      logger.info('JoinCommunityJob txHash txHash txHash ${job.data['txHash']}');
+      Transfer transfer = arguments['transfer'];
+      Transfer confirmedTx = transfer.copyWith(txHash: job.data['txHash']);
+      store.dispatch(new ReplaceTransaction(
+          transaction: transfer,
+          transactionToReplace: confirmedTx,
+          communityAddress: arguments['communityAddress']));
+      arguments['transfer'] = confirmedTx.copyWith();
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+    }
+
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
       logger.info('JoinCommunityJob not done');
       return;

@@ -383,6 +383,28 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
       )));
     } else {
       try {
+        List<Community> communities =
+            store.state.cashWalletState.communities.values.toList();
+        Community community = communities.firstWhere(
+            (element) =>
+                tokenAddress?.toLowerCase() ==
+                element?.foreignTokenAddress?.toLowerCase(),
+            orElse: () => null);
+        if (community != null) {
+          Token newToken = Token.initial().copyWith(
+              address: tokenAddress,
+              name: community.token.name,
+              symbol: community.token.symbol,
+              decimals: community.token.decimals,
+              timestamp: 0,
+              amount: BigInt.zero,
+              originNetwork: null,
+              imageUrl: community.metadata.getImageUri());
+          logger.info('ADDED - new token $tokenAddress');
+          store.dispatch(AddNewToken(
+              token: newToken.copyWith(address: tokenAddress.toLowerCase())));
+          return;
+        }
         dynamic tokenDetails = await web3.getTokenDetails(tokenAddress);
         Token newToken = Token.initial().copyWith(
           address: tokenAddress.toLowerCase(),
@@ -394,7 +416,7 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
         store.dispatch(AddNewToken(
             token: newToken.copyWith(address: tokenAddress.toLowerCase())));
       } catch (e) {
-        logger.severe('Error while get Token Details for $tokenAddress');
+        logger.severe('Error while get Token Details for $tokenAddress $e');
       }
     }
   };

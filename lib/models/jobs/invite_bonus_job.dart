@@ -60,6 +60,17 @@ class InviteBonusJob extends Job {
       String funderJobId = fetchedData['data']['funderJobId'];
       dynamic response = await api.getFunderJob(funderJobId);
       dynamic data = response['data'];
+      if (data['txHash'] != null) {
+        logger.info('InviteBonusJob txHash txHash txHash ${data['txHash']}');
+        Transfer transfer = arguments['inviteBonus'];
+        Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
+        store.dispatch(new ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx,
+            communityAddress: arguments['communityAddress']));
+        arguments['inviteBonus'] = confirmedTx.copyWith();
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+      }
       String responseStatus = data['status'];
       if (responseStatus == 'SUCCEEDED') {
         logger.info('InviteBonusJob SUCCEEDED');
