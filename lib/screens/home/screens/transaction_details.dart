@@ -1,17 +1,17 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:ceu_do_mapia/utils/addresses.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:ceu_do_mapia/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/transaction_util.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:ceu_do_mapia/generated/i18n.dart';
+import 'package:ceu_do_mapia/models/tokens/token.dart';
+import 'package:ceu_do_mapia/models/transactions/transfer.dart';
+import 'package:ceu_do_mapia/utils/format.dart';
+import 'package:ceu_do_mapia/utils/transaction_util.dart';
+import 'package:ceu_do_mapia/widgets/main_scaffold.dart';
 
 class TransactionDetailsScreen extends StatefulWidget {
   final List<Widget> amount;

@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
+import 'package:ceu_do_mapia/generated/i18n.dart';
+import 'package:ceu_do_mapia/models/community/business.dart';
+import 'package:ceu_do_mapia/models/tokens/token.dart';
+import 'package:ceu_do_mapia/screens/contacts/send_amount_arguments.dart';
+import 'package:ceu_do_mapia/screens/misc/about.dart';
+import 'package:ceu_do_mapia/screens/routes.gr.dart';
+import 'package:ceu_do_mapia/screens/home/widgets/drawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BusinessPage extends StatefulWidget {
@@ -27,6 +27,7 @@ class BusinessPage extends StatefulWidget {
 class _BusinessPageState extends State<BusinessPage> {
   GlobalKey<ScaffoldState> scaffoldState;
   Completer<GoogleMapController> _controller = Completer();
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -35,6 +36,27 @@ class _BusinessPageState extends State<BusinessPage> {
   @override
   void initState() {
     super.initState();
+    bool showMap = this.widget.business.metadata.latLng != null &&
+        this.widget.business.metadata.latLng.isNotEmpty;
+    if (showMap) {
+      _add();
+    }
+  }
+
+  void _add() {
+    final String markerIdVal = this.widget.business.name;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    final Marker marker = Marker(
+        markerId: markerId,
+        position: LatLng(this.widget.business.metadata.latLng[0],
+            this.widget.business.metadata.latLng[1]),
+        infoWindow: InfoWindow(
+          title: this.widget.business.metadata.address,
+        ));
+
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
   @override
@@ -59,7 +81,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               padding: EdgeInsets.only(bottom: 20),
                               child: SizedBox.expand(
                                   child: CachedNetworkImage(
-                                imageUrl:
+                                imageUrl: widget.business.metadata.coverPhoto ??
                                     widget.business.metadata.getCoverPhotoUri(),
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
@@ -90,7 +112,8 @@ class _BusinessPageState extends State<BusinessPage> {
                             padding: EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
                                 child: CachedNetworkImage(
-                              imageUrl: widget.business.metadata.getImageUri(),
+                              imageUrl: widget.business.metadata.image ??
+                                  widget.business.metadata.getImageUri(),
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) =>
@@ -273,12 +296,13 @@ class _BusinessPageState extends State<BusinessPage> {
                           widget.business.metadata.latLng != null &&
                                   widget.business.metadata.latLng.isNotEmpty
                               ? GoogleMap(
+                                  markers: Set<Marker>.from(markers.values),
                                   onMapCreated: _onMapCreated,
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(
                                         widget.business.metadata.latLng[0],
                                         widget.business.metadata.latLng[1]),
-                                    zoom: 13.0,
+                                    zoom: 17.0,
                                   ),
                                 )
                               : SizedBox.shrink(),

@@ -1,8 +1,8 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:ceu_do_mapia/models/jobs/base.dart';
+import 'package:ceu_do_mapia/models/transactions/transfer.dart';
+import 'package:ceu_do_mapia/redux/actions/cash_wallet_actions.dart';
+import 'package:ceu_do_mapia/redux/state/store.dart';
+import 'package:ceu_do_mapia/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'join_bonus_job.g.dart';
@@ -92,7 +92,7 @@ class JoinBonusJob extends Job {
     dynamic data = fetchedData['data'];
 
     if (data['txHash'] != null) {
-      logger.info('JoinCommunityJob txHash txHash txHash ${data['txHash']}');
+      logger.info('JoinBonusJob txHash txHash txHash ${data['txHash']}');
       Transfer transfer = arguments['joinBonus'];
       Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
       store.dispatch(new ReplaceTransaction(

@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:ceu_do_mapia/generated/i18n.dart';
+import 'package:ceu_do_mapia/models/app_state.dart';
+import 'package:ceu_do_mapia/models/views/backup.dart';
+import 'package:ceu_do_mapia/screens/routes.gr.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class ColorsPincodeScreen extends StatefulWidget {
@@ -43,9 +43,9 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              Color(0xFFB1FDC0),
-              Color(0xFFE6FD99),
-              Color(0xFFFEFD86)
+              Color(0xFF4C7567),
+              Color(0xFF74A391),
+              Color(0xFF74A391)
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           ),
           child: Column(
@@ -61,15 +61,15 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                     SizedBox(
                       height: 100,
                     ),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset('assets/images/pincode_logo.png',
-                              width: 71, height: 61),
-                        ],
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Column(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: <Widget>[
+                    //       // Image.asset('assets/images/pincode_logo.png',
+                    //       //     width: 71, height: 61),
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 100,
                     ),

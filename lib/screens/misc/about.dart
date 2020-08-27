@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:ceu_do_mapia/generated/i18n.dart';
+import 'package:ceu_do_mapia/widgets/main_scaffold.dart';
 import 'dart:core';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';

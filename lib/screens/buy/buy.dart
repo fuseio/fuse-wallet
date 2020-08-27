@@ -3,16 +3,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:ceu_do_mapia/generated/i18n.dart';
+import 'package:ceu_do_mapia/models/app_state.dart';
+import 'package:ceu_do_mapia/models/community/business.dart';
+import 'package:ceu_do_mapia/models/community/business_metadata.dart';
+import 'package:ceu_do_mapia/models/views/buy_page.dart';
+import 'package:ceu_do_mapia/redux/actions/cash_wallet_actions.dart';
+import 'package:ceu_do_mapia/screens/buy/router/buy_router.gr.dart';
+import 'package:ceu_do_mapia/screens/contacts/send_amount_arguments.dart';
+import 'package:ceu_do_mapia/screens/routes.gr.dart';
+import 'package:ceu_do_mapia/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 
 class BuyScreen extends StatelessWidget {
@@ -126,7 +126,8 @@ class BusinessesListView extends StatelessWidget {
           decoration: BoxDecoration(),
           child: ClipOval(
               child: CachedNetworkImage(
-            imageUrl: business.metadata.getImageUri(),
+            imageUrl:
+                business.metadata.image ?? business.metadata.getImageUri(),
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
@@ -162,18 +163,16 @@ class BusinessesListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
+          InkWell(
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/go.png',
+                  fit: BoxFit.fill,
+                  width: 25,
+                  height: 25,
+                )),
+            onTap: () {
               ExtendedNavigator.root.push(Routes.sendAmountScreen,
                   arguments: SendAmountScreenArguments(
                       pageArgs: SendAmountArguments(
@@ -183,7 +182,7 @@ class BusinessesListView extends StatelessWidget {
                           avatar:
                               NetworkImage(business.metadata.getImageUri()))));
             },
-          ),
+          )
         ],
       ),
     );

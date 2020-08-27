@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/screens/buy/business.dart';
-import 'package:fusecash/screens/buy/buy.dart';
-import 'package:fusecash/screens/buy/map.dart';
+import 'package:ceu_do_mapia/screens/buy/business.dart';
+import 'package:ceu_do_mapia/screens/buy/buy.dart';
+import 'package:ceu_do_mapia/screens/buy/map.dart';
 
 @MaterialAutoRouter(
   routesClassName: "BusinessesRoutes",

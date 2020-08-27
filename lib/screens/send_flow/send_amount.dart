@@ -3,17 +3,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/home/widgets/token_tile.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:ceu_do_mapia/generated/i18n.dart';
+import 'package:ceu_do_mapia/models/tokens/token.dart';
+import 'package:ceu_do_mapia/models/views/send_amount.dart';
+import 'package:ceu_do_mapia/screens/home/widgets/token_tile.dart';
+import 'package:ceu_do_mapia/screens/routes.gr.dart';
+import 'package:ceu_do_mapia/screens/contacts/send_amount_arguments.dart';
+import 'package:ceu_do_mapia/utils/format.dart';
+import 'package:ceu_do_mapia/widgets/main_scaffold.dart';
+import 'package:ceu_do_mapia/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:ceu_do_mapia/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SendAmountScreen extends StatefulWidget {

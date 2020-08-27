@@ -1,4 +1,4 @@
-import 'package:fusecash/models/community/business_metadata.dart';
+import 'package:ceu_do_mapia/models/community/business_metadata.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business.g.dart';

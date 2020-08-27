@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:ceu_do_mapia/models/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/redux/state/store.dart';
+import 'package:ceu_do_mapia/redux/state/store.dart';
 
 class AuthGuard extends RouteGuard {
   @override

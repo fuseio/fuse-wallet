@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/home/widgets/token_header.dart';
-import 'package:fusecash/screens/home/widgets/transaction_tile.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:ceu_do_mapia/screens/home/widgets/token_header.dart';
+import 'package:ceu_do_mapia/screens/home/widgets/transaction_tile.dart';
+import 'package:ceu_do_mapia/widgets/my_app_bar.dart';
+import 'package:ceu_do_mapia/generated/i18n.dart';
+import 'package:ceu_do_mapia/models/tokens/token.dart';
 
 class TokenScreen extends StatelessWidget {
   TokenScreen({Key key, this.token, this.tokenPrice}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'dart:core';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:ceu_do_mapia/screens/home/widgets/drawer.dart';
+import 'package:ceu_do_mapia/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

@@ -1,9 +1,9 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:ceu_do_mapia/models/jobs/base.dart';
+import 'package:ceu_do_mapia/redux/actions/cash_wallet_actions.dart';
+import 'package:ceu_do_mapia/redux/actions/user_actions.dart';
+import 'package:ceu_do_mapia/redux/state/store.dart';
+import 'package:ceu_do_mapia/services.dart';
+import 'package:ceu_do_mapia/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generate_wallet_job.g.dart';

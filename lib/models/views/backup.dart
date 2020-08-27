@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:ceu_do_mapia/models/app_state.dart';
+import 'package:ceu_do_mapia/models/user_state.dart';
+import 'package:ceu_do_mapia/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 class BackupViewModel extends Equatable {

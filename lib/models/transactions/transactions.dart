@@ -1,5 +1,5 @@
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
+import 'package:ceu_do_mapia/models/transactions/transaction.dart';
+import 'package:ceu_do_mapia/models/transactions/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transactions.g.dart';

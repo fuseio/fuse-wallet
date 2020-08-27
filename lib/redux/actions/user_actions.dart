@@ -3,25 +3,25 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:ceu_do_mapia/models/community/community.dart';
+import 'package:ceu_do_mapia/models/jobs/base.dart';
+import 'package:ceu_do_mapia/models/pro/pro_wallet_state.dart';
+import 'package:ceu_do_mapia/models/tokens/token.dart';
+import 'package:ceu_do_mapia/models/transactions/transfer.dart';
+import 'package:ceu_do_mapia/redux/actions/cash_wallet_actions.dart';
+import 'package:ceu_do_mapia/redux/actions/error_actions.dart';
+import 'package:ceu_do_mapia/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:ceu_do_mapia/utils/addresses.dart';
+import 'package:ceu_do_mapia/utils/biometric_local_auth.dart';
+import 'package:ceu_do_mapia/utils/contacts.dart';
+import 'package:ceu_do_mapia/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/redux/state/store.dart';
+import 'package:ceu_do_mapia/services.dart';
+import 'package:ceu_do_mapia/redux/state/store.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:ceu_do_mapia/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
@@ -463,7 +463,7 @@ ThunkAction create3boxAccountCall(accountAddress) {
     try {
       Map user = {
         "accountAddress": accountAddress,
-        "email": 'wallet-user@fuse.io',
+        "email": 'wallet-user@ceo_do_mapia.io',
         "provider": 'HDWallet',
         "subscribe": false,
         "source": 'wallet-v2',

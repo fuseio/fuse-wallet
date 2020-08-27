@@ -2,18 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
+import 'package:ceu_do_mapia/models/tokens/token.dart';
+import 'package:ceu_do_mapia/screens/home/router/home_router.gr.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/utils/transaction_util.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:ceu_do_mapia/generated/i18n.dart';
+import 'package:ceu_do_mapia/models/app_state.dart';
+import 'package:ceu_do_mapia/models/community/community.dart';
+import 'package:ceu_do_mapia/models/transactions/transfer.dart';
+import 'package:ceu_do_mapia/utils/addresses.dart';
+import 'package:ceu_do_mapia/utils/transaction_util.dart';
+import 'package:ceu_do_mapia/utils/format.dart';
 
 class TransactionTile extends StatefulWidget {
   final Transfer transfer;

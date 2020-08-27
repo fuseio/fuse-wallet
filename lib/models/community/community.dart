@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:ceu_do_mapia/models/community/business.dart';
+import 'package:ceu_do_mapia/models/community/community_metadata.dart';
+import 'package:ceu_do_mapia/models/plugins/plugins.dart';
+import 'package:ceu_do_mapia/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';

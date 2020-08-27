@@ -1,6 +1,6 @@
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/user_state.dart';
+import 'package:ceu_do_mapia/redux/actions/cash_wallet_actions.dart';
+import 'package:ceu_do_mapia/redux/actions/user_actions.dart';
+import 'package:ceu_do_mapia/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([
