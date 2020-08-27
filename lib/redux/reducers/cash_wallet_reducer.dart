@@ -136,6 +136,7 @@ CashWalletState _switchCommunitySuccess(
       isClosed: action.isClosed,
       homeBridgeAddress: action.homeBridgeAddress,
       foreignBridgeAddress: action.foreignBridgeAddress,
+      foreignTokenAddress: action.foreignTokenAddress,
       webUrl: action.webUrl);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);

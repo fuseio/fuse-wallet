@@ -41,6 +41,28 @@ class BusinessMetadata {
       this.website = '',
       this.latLng});
 
+  BusinessMetadata copyWith({
+    String address,
+    String coverPhoto,
+    String description,
+    String image,
+    String type,
+    String phoneNumber,
+    String website,
+    List<double> latLng,
+  }) {
+    return BusinessMetadata(
+      address: address ?? this.address,
+      coverPhoto: coverPhoto ?? this.coverPhoto,
+      description: description ?? this.description,
+      image: image ?? this.image,
+      type: type ?? this.type,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      website: website ?? this.website,
+      latLng: latLng ?? this.latLng,
+    );
+  }
+
   factory BusinessMetadata.initial() => new BusinessMetadata(
         address: '',
         coverPhoto: '',

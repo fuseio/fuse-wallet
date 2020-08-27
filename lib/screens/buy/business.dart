@@ -60,7 +60,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               child: SizedBox.expand(
                                   child: CachedNetworkImage(
                                 imageUrl:
-                                    widget.business.metadata.getImageUri(),
+                                    widget.business.metadata.getCoverPhotoUri(),
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>

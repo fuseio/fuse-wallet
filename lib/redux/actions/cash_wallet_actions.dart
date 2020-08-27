@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
+import 'package:fusecash/models/community/business_metadata.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/community/community_metadata.dart';
 import 'package:fusecash/models/jobs/base.dart';
@@ -97,6 +98,7 @@ class SwitchCommunitySuccess {
   final String foreignBridgeAddress;
   final String webUrl;
   final CommunityMetadata metadata;
+  final String foreignTokenAddress;
   SwitchCommunitySuccess(
       {this.communityAddress,
       this.communityName,
@@ -105,6 +107,7 @@ class SwitchCommunitySuccess {
       this.isClosed,
       this.homeBridgeAddress,
       this.foreignBridgeAddress,
+      this.foreignTokenAddress,
       this.metadata,
       this.webUrl});
 }
@@ -1215,6 +1218,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           Plugins.fromJson(communityData['plugins']);
       final String homeBridgeAddress = communityData['homeBridgeAddress'];
       final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
+      String foreignTokenAddress = communityData['foreignTokenAddress'];
       final String webUrl = communityData['webUrl'];
 
       store.dispatch(SwitchCommunitySuccess(
@@ -1230,6 +1234,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isClosed: communityData['isClosed'],
           homeBridgeAddress: homeBridgeAddress,
           foreignBridgeAddress: foreignBridgeAddress,
+          foreignTokenAddress: foreignTokenAddress,
           webUrl: webUrl));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
           properties: new Map<String, dynamic>.from({
@@ -1279,6 +1284,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           isRopsten: isRopsten));
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
+      String foreignTokenAddress = communityData['foreignTokenAddress'];
       String webUrl = communityData['webUrl'];
       store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
           communityData['communityURI'], isRopsten));
@@ -1290,6 +1296,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           isClosed: current.isClosed,
           homeBridgeAddress: homeBridgeAddress,
           foreignBridgeAddress: foreignBridgeAddress,
+          foreignTokenAddress: foreignTokenAddress,
           webUrl: webUrl));
     } catch (e, s) {
       logger.severe('ERROR - switchToExisitingCommunityCall $e');
@@ -1304,6 +1311,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
 ThunkAction switchCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
+    logger.info('switchCommunityCall switchCommunityCall $communityAddress');
     try {
       bool isLoading = store.state.cashWalletState.isCommunityLoading ?? false;
       if (isLoading) return;
@@ -1357,23 +1365,31 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
               : false);
       dynamic communityEntities =
           await graph.getCommunityBusinesses(communityAddress);
-      List<Business> businessList = new List();
       if (communityEntities != null) {
-        await Future.forEach(communityEntities, (entity) async {
-          dynamic metadata = await api.getEntityMetadata(
-              communityAddress, entity['address'],
-              isRopsten: isOriginRopsten);
-          if (metadata != null) {
-            entity['name'] = metadata['name'] ?? '';
-            entity['metadata'] = metadata;
-            entity['account'] = entity['address'] ?? '';
-            businessList.add(Business.fromJson(entity));
+        List<dynamic> entities = List.from(communityEntities);
+        Future<List<Business>> businesses =
+            Future.wait(entities.map((dynamic entity) async {
+          try {
+            dynamic metadata = await api.getEntityMetadata(
+                communityAddress, entity['address'],
+                isRopsten: isOriginRopsten);
+            return Business.initial().copyWith(
+                account: entity['address'],
+                name: metadata['name'] ?? '',
+                metadata: BusinessMetadata.fromJson(metadata ?? {}));
+          } catch (e) {
+            return Business.initial().copyWith(
+                account: entity['address'],
+                name: formatAddress(entity['address']),
+                metadata: BusinessMetadata.initial()
+                    .copyWith(address: entity['address']));
           }
-        }).then((r) {
-          store.dispatch(GetBusinessListSuccess(
-              businessList: businessList, communityAddress: communityAddress));
-          store.dispatch(FetchingBusinessListSuccess());
-        });
+        }));
+        List<Business> result = await businesses;
+        result..toList();
+        store.dispatch(GetBusinessListSuccess(
+            businessList: result, communityAddress: communityAddress));
+        store.dispatch(FetchingBusinessListSuccess());
       }
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');

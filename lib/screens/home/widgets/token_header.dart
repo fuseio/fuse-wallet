@@ -118,15 +118,19 @@ class TokenHeader extends StatelessWidget {
                               final Community community = viewModel.communities
                                   .firstWhere(
                                       (element) =>
-                                          element.token.address.toLowerCase() ==
-                                          token.address.toLowerCase(),
+                                          (element.token.address
+                                                  .toLowerCase() ==
+                                              token.address.toLowerCase()) ||
+                                          (element?.foreignTokenAddress
+                                                  ?.toLowerCase() ==
+                                              token.address.toLowerCase()),
                                       orElse: () => null);
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  community == null
+                                  !isFuseToken
                                       ? Container(
                                           width: 45,
                                           height: 45,

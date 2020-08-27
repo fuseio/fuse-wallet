@@ -30,7 +30,7 @@ class TransfersList extends StatelessWidget {
   TransfersList({this.token});
   @override
   Widget build(BuildContext context) {
-    final list = token.transactions.list.reversed.toList();
+    final list = token?.transactions?.list?.reversed?.toList() ?? [];
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fusecash/redux/middlewares/auth_middleware.dart';
@@ -82,10 +81,9 @@ class AppFactory {
           Duration diff = exp.difference(now);
 
           if (diff.inDays <= 1) {
-            final FirebaseUser currentUser = await firebaseAuth.currentUser();
-            IdTokenResult token = await currentUser.getIdToken();
+            String token = await firebaseAuth.currentUser.getIdToken();
             jwtToken = await api.login(
-                token.token,
+                token,
                 initialState.userState.accountAddress,
                 initialState.userState.identifier);
           }
@@ -216,7 +214,7 @@ class AppFactory {
 
     final SentryClient sentry = new SentryClient(
         dsn: DotEnv().env['SENTRY_DSN'],
-        environmentAttributes: new Event(
+        environmentAttributes: Event(
             serverName: DotEnv().env['API_BASE_URL'],
             release: versionName + ":" + versionCode,
             environment: DotEnv().env['MODE'],

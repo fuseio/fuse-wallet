@@ -40,7 +40,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           final communities = store.state.cashWalletState.communities;
           String walletStatus = store.state.userState.walletStatus;
           if (walletStatus == 'created' &&
-              !communities.containsKey(defaultCommunityAddress)) {
+              !communities.containsKey(defaultCommunityAddress.toLowerCase())) {
             store.dispatch(switchCommunityCall(defaultCommunityAddress));
           }
         },

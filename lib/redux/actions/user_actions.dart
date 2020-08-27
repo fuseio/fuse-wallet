@@ -283,10 +283,10 @@ ThunkAction setDeviceId(bool reLogin) {
     logger.info("device identifier: $identifier");
     store.dispatch(DeviceIdSuccess(identifier));
     if (reLogin) {
-      final FirebaseUser currentUser = await firebaseAuth.currentUser();
+      final User currentUser = firebaseAuth.currentUser;
       final String accountAddress = store.state.userState.accountAddress;
-      IdTokenResult token = await currentUser.getIdToken();
-      String jwtToken = await api.login(token.token, accountAddress, identifier);
+      String token = await currentUser.getIdToken();
+      String jwtToken = await api.login(token, accountAddress, identifier);
       store.dispatch(LoginVerifySuccess(jwtToken));
     }
   };
