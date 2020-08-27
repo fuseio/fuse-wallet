@@ -3,10 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:straitsx/generated/i18n.dart';
 import 'package:straitsx/models/app_state.dart';
-import 'package:straitsx/redux/actions/user_actions.dart';
-import 'package:straitsx/screens/home/home_page.dart';
 import 'package:straitsx/utils/format.dart';
-import 'package:straitsx/widgets/back_up_dialog.dart';
 import 'package:straitsx/widgets/copy.dart';
 import 'package:straitsx/widgets/main_scaffold.dart';
 import 'package:straitsx/widgets/primary_button.dart';
@@ -20,20 +17,8 @@ class ReceiveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ReceiveModel>(
-        rebuildOnChange: true,
+        distinct: true,
         onInitialBuild: (viewModel) {
-          if (!viewModel.backup &&
-              !viewModel.isBackupDialogShowed &&
-              HomePage.of(context).currentIndex == 3) {
-            Future.delayed(Duration.zero, () {
-              viewModel.setShowDialog();
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return BackUpDialog();
-                  });
-            });
-          }
           Segment.screen(screenName: '/receive-screen');
         },
         converter: _ReceiveModel.fromStore,
@@ -115,25 +100,18 @@ class ReceiveScreen extends StatelessWidget {
 
 class _ReceiveModel extends Equatable {
   final String walletAddress;
-  final bool backup;
-  final bool isBackupDialogShowed;
-  final Function setShowDialog;
-  _ReceiveModel(
-      {this.walletAddress,
-      this.backup,
-      this.isBackupDialogShowed,
-      this.setShowDialog});
+  _ReceiveModel({
+    this.walletAddress,
+  });
 
   static _ReceiveModel fromStore(Store<AppState> store) {
     return _ReceiveModel(
-        walletAddress: store.state.userState?.walletAddress ?? '',
-        backup: store.state.userState.backup,
-        isBackupDialogShowed: store.state.userState.receiveBackupDialogShowed,
-        setShowDialog: () {
-          store.dispatch(ReceiveBackupDialogShowed());
-        });
+      walletAddress: store.state.userState?.walletAddress ?? '',
+    );
   }
 
   @override
-  List<Object> get props => [walletAddress, backup, isBackupDialogShowed];
+  List<Object> get props => [
+        walletAddress,
+      ];
 }

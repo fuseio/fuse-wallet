@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -48,13 +49,14 @@ class PrimaryButton extends StatelessWidget {
                   Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
               child: Center(
                 child: (preload == null || preload == false)
-                    ? Text(
+                    ? AutoSizeText(
                         label,
                         style: TextStyle(
                             color: labalColor ?? Theme.of(context).splashColor,
                             fontSize: this.fontSize ?? 18,
                             fontWeight:
                                 this.labelFontWeight ?? FontWeight.w700),
+                        maxLines: 1,
                       )
                     : Container(
                         child: CircularProgressIndicator(

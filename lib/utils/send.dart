@@ -8,6 +8,33 @@ import 'package:straitsx/utils/format.dart';
 import 'package:straitsx/utils/phone.dart';
 import 'package:straitsx/widgets/preloader.dart';
 
+Future<Map> fetchWalletByPhone(phone, countryCode, isoCode) async {
+  try {
+    Map<String, dynamic> response = await phoneNumberUtil.parse(phone);
+    String phoneNumber = response['e164'];
+    Map wallet = await api.getWalletByPhoneNumber(response['e164']);
+    String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
+
+    return {
+      'phoneNumber': phoneNumber,
+      'walletAddress': walletAddress,
+    };
+  } catch (e) {
+    String formatted = formatPhoneNumber(phone, countryCode);
+    bool isValid = await PhoneService.isValid(formatted, isoCode);
+    if (isValid) {
+      Map wallet = await api.getWalletByPhoneNumber(formatted);
+      String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
+      return {
+        'phoneNumber': formatted,
+        'walletAddress': walletAddress,
+      };
+    } else {
+      throw '[ERROR] Fetch Wallet By Phone - $e';
+    }
+  }
+}
+
 void _openLoadingDialog(BuildContext context) {
   showDialog(
     barrierDismissible: false,
@@ -16,47 +43,32 @@ void _openLoadingDialog(BuildContext context) {
   );
 }
 
-void navigateToSendAmountScreen(
-  String accountAddress,
-  String displayName,
-  String phoneNumber, {
-  ImageProvider<dynamic> avatar,
-}) {
-  ExtendedNavigator.root.replace(Routes.sendAmountScreen,
-      arguments: SendAmountScreenArguments(
-          pageArgs: SendAmountArguments(
-              name: displayName,
-              accountAddress: accountAddress,
-              avatar: avatar,
-              phoneNumber: phoneNumber)));
-}
-
 void sendToContact(BuildContext context, String displayName, String phone,
     {ImageProvider avatar,
     String address,
     String countryCode,
     String isoCode}) async {
   if (address != null && address.isNotEmpty) {
-    navigateToSendAmountScreen(address, displayName, null, avatar: avatar);
+    ExtendedNavigator.root.push(Routes.sendAmountScreen,
+        arguments: SendAmountScreenArguments(
+            pageArgs: SendAmountArguments(
+                accountAddress: address, name: displayName, avatar: avatar)));
     return;
   }
   try {
     _openLoadingDialog(context);
-    Map<String, dynamic> response = await phoneNumberUtil.parse(phone);
-    String phoneNumber = response['e164'];
-    Map wallet = await api.getWalletByPhoneNumber(response['e164']);
-    String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
-    navigateToSendAmountScreen(accountAddress, displayName, phoneNumber,
-        avatar: avatar);
+    Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
+    Navigator.of(context).pop();
+    ExtendedNavigator.root.push(Routes.sendAmountScreen,
+        arguments: SendAmountScreenArguments(
+            pageArgs: SendAmountArguments(
+                phoneNumber: res['phoneNumber'],
+                accountAddress: res['walletAddress'],
+                name: displayName,
+                avatar: avatar)));
   } catch (e) {
-    String formatted = formatPhoneNumber(phone, countryCode);
-    bool isValid = await PhoneService.isValid(formatted, isoCode);
-    if (isValid) {
-      Map wallet = await api.getWalletByPhoneNumber(formatted);
-      String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
-      navigateToSendAmountScreen(accountAddress, displayName, formatted,
-          avatar: avatar);
-    }
+    Navigator.of(context).pop();
+    throw '$e';
   }
 }
 

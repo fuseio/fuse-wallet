@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com</string>
+	<string>698006974236-s3oaq11m4qoi6ash7518iquvl9644t6i.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
+	<string>com.googleusercontent.apps.698006974236-s3oaq11m4qoi6ash7518iquvl9644t6i</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>698006974236-0sn7oeieujl3n9jgohgktpjbeuh6rbrt.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC1DHZQFPrNZo-dgm68PSaABIeGIc16nbY</string>
+	<string>AIzaSyCNL0Fn6reSxhNQWq_3wfV7ngooypszZFo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>863692183597</string>
+	<string>698006974236</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.fuse.fusecash</string>
+	<string>io.fuse.straitsx</string>
 	<key>PROJECT_ID</key>
-	<string>fuse-2-0</string>
+	<string>straitsx</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fuse-2-0.appspot.com</string>
+	<string>straitsx.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:863692183597:ios:91186a513b10fab59b80a4</string>
+	<string>1:698006974236:ios:c3edf6e16e82c507ca94d9</string>
 	<key>DATABASE_URL</key>
-	<string>https://fuse-2-0.firebaseio.com</string>
+	<string>https://straitsx.firebaseio.com</string>
 </dict>
 </plist>

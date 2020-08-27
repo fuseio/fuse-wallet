@@ -17,9 +17,11 @@ import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:straitsx/generated/i18n.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await DotEnv().load('environment/.env');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
@@ -92,7 +94,6 @@ class _MyAppState extends State<MyApp> {
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite",
             properties: new Map<String, dynamic>.from(linkData)));
       }
-      store.dispatch(BranchDataReceived());
     }, onError: (error) {
       PlatformException platformException = error as PlatformException;
       print(

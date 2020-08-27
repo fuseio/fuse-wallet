@@ -1,22 +1,24 @@
 import 'dart:async';
 import 'dart:core';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:straitsx/generated/i18n.dart';
 import 'package:straitsx/models/community/business.dart';
 import 'package:straitsx/models/tokens/token.dart';
+import 'package:straitsx/screens/contacts/send_amount_arguments.dart';
 import 'package:straitsx/screens/misc/about.dart';
-import 'package:straitsx/utils/send.dart';
-import 'package:straitsx/utils/transaction_util.dart';
+import 'package:straitsx/screens/routes.gr.dart';
 import 'package:straitsx/screens/home/widgets/drawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BusinessPage extends StatefulWidget {
   final Business business;
   final Token token;
-  final String communityAddress;
-  BusinessPage({this.business, this.token, this.communityAddress});
+  BusinessPage({this.business, this.token});
 
   @override
   _BusinessPageState createState() => _BusinessPageState();
@@ -37,10 +39,7 @@ class _BusinessPageState extends State<BusinessPage> {
 
   @override
   Widget build(BuildContext context) {
-    String coverPhotoUrl =
-        getCoverPhotoUrl(widget.business, widget.communityAddress);
-    String imageUrl = getImageUrl(widget.business, widget.communityAddress);
-
+    Segment.screen(screenName: '/business-details-screen');
     return Scaffold(
       key: scaffoldState,
       body: Container(
@@ -58,52 +57,28 @@ class _BusinessPageState extends State<BusinessPage> {
                         children: <Widget>[
                           Padding(
                               padding: EdgeInsets.only(bottom: 20),
-                              child: widget.business.metadata.coverPhoto ==
-                                          null ||
-                                      widget.business.metadata.coverPhoto == ''
-                                  ? SizedBox.expand(
-                                      child: CachedNetworkImage(
-                                      imageUrl: coverPhotoUrl,
-                                      placeholder: (context, url) =>
-                                          CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                      imageBuilder: (context, imageProvider) =>
-                                          Image(
-                                        image: imageProvider,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ))
-                                  : SizedBox.expand(
-                                      child: CachedNetworkImage(
-                                      imageUrl: coverPhotoUrl,
-                                      placeholder: (context, url) =>
-                                          CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                      imageBuilder: (context, imageProvider) =>
-                                          Image(
-                                        image: imageProvider,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        fit: BoxFit.fill,
-                                        height: 200,
-                                      ),
-                                    ))),
+                              child: SizedBox.expand(
+                                  child: CachedNetworkImage(
+                                imageUrl:
+                                    widget.business.metadata.getCoverPhotoUri(),
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                imageBuilder: (context, imageProvider) => Image(
+                                  image: imageProvider,
+                                  fit: BoxFit.fill,
+                                ),
+                              ))),
                           Positioned(
-                              top: 50.0,
-                              left: 18.0,
+                              top: 60,
+                              left: 20,
                               child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: SvgPicture.asset(
-                                    'assets/images/arrow_back_business.svg',
-                                    fit: BoxFit.fill,
-                                    width: 25,
-                                    height: 25,
-                                    alignment: Alignment.topLeft,
-                                  ))),
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Icon(PlatformIcons(context).back),
+                              )),
                         ],
                       ),
                     ),
@@ -115,7 +90,7 @@ class _BusinessPageState extends State<BusinessPage> {
                             padding: EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
                                 child: CachedNetworkImage(
-                              imageUrl: imageUrl,
+                              imageUrl: widget.business.metadata.getImageUri(),
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) =>
@@ -321,12 +296,17 @@ class _BusinessPageState extends State<BusinessPage> {
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                navigateToSendAmountScreen(
-                                    widget.business.account,
-                                    widget.business.name ?? '',
-                                    null,
-                                    avatar: NetworkImage(imageUrl));
-                                //     )));
+                                ExtendedNavigator.root.push(
+                                    Routes.sendAmountScreen,
+                                    arguments: SendAmountScreenArguments(
+                                        pageArgs: SendAmountArguments(
+                                            tokenToSend: widget.token,
+                                            name: widget.business.name ?? '',
+                                            accountAddress:
+                                                widget.business.account,
+                                            avatar: NetworkImage(widget
+                                                .business.metadata
+                                                .getImageUri()))));
                               },
                             ),
                           )

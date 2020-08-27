@@ -46,13 +46,13 @@ dependencies:
   flare_flutter: ^2.0.1
   decimal: ^0.3.5
   flutter_segment: ^2.1.1
-  firebase_messaging: ^6.0.13
-  firebase_auth: ^0.16.1
+  firebase_messaging: ^7.0.0
+  firebase_auth: ^0.18.0+1
   ethereum_address: ^1.0.1
   sentry: ^3.0.1
   device_info: '>=0.4.2+6 <2.0.0'
   flutter_cupertino_localizations: ^1.0.1
-  flutter_branch_sdk: ^0.3.1
+  flutter_branch_sdk: ^1.1.0
   flutter_udid: ^1.0.1
   flutter:
     sdk: flutter

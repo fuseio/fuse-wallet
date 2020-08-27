@@ -121,7 +121,7 @@ class Router extends RouterBase {
       );
     },
     VerifyScreen: (data) {
-      var args = data.getArgs<VerifyScreenArguments>(
+      final args = data.getArgs<VerifyScreenArguments>(
         orElse: () => VerifyScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(
@@ -136,7 +136,7 @@ class Router extends RouterBase {
       );
     },
     WebViewPage: (data) {
-      var args = data.getArgs<WebViewPageArguments>(
+      final args = data.getArgs<WebViewPageArguments>(
         orElse: () => WebViewPageArguments(),
       );
       return MaterialPageRoute<dynamic>(
@@ -150,7 +150,7 @@ class Router extends RouterBase {
       );
     },
     HomePage: (data) {
-      var args = data.getArgs<HomePageArguments>(
+      final args = data.getArgs<HomePageArguments>(
         orElse: () => HomePageArguments(),
       );
       return MaterialPageRoute<dynamic>(
@@ -159,7 +159,7 @@ class Router extends RouterBase {
       );
     },
     SendAmountScreen: (data) {
-      var args = data.getArgs<SendAmountScreenArguments>(
+      final args = data.getArgs<SendAmountScreenArguments>(
         orElse: () => SendAmountScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(
@@ -168,7 +168,7 @@ class Router extends RouterBase {
       );
     },
     SendReviewScreen: (data) {
-      var args = data.getArgs<SendReviewScreenArguments>(
+      final args = data.getArgs<SendReviewScreenArguments>(
         orElse: () => SendReviewScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(
@@ -177,7 +177,7 @@ class Router extends RouterBase {
       );
     },
     SendSuccessScreen: (data) {
-      var args = data.getArgs<SendSuccessScreenArguments>(
+      final args = data.getArgs<SendSuccessScreenArguments>(
         orElse: () => SendSuccessScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(

@@ -3,7 +3,6 @@ import 'dart:async';
 
 class Debouncer {
   final int milliseconds;
-  VoidCallback action;
   Timer _timer;
 
   Debouncer({this.milliseconds});

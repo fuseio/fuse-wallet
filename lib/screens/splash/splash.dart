@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:straitsx/models/app_state.dart';
 import 'package:straitsx/models/views/splash.dart';
 import 'package:straitsx/screens/splash/create_wallet.dart';
@@ -13,6 +14,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SplashViewModel>(
+        onInitialBuild: (viewModel) {
+          Segment.screen(screenName: '/splash-screen');
+        },
         distinct: true,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {

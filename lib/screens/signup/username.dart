@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:straitsx/generated/i18n.dart';
 import 'package:straitsx/models/app_state.dart';
 import 'package:straitsx/screens/routes.gr.dart';
@@ -15,6 +16,7 @@ class UserNameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/user-name-screen');
     return StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,

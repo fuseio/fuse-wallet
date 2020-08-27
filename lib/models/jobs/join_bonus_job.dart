@@ -37,6 +37,7 @@ class JoinBonusJob extends Job {
       logger.info('joinBonus FAILED');
       store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: joinBonus failed'));
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
       return;
     }
     int current = DateTime.now().millisecondsSinceEpoch;
@@ -45,6 +46,15 @@ class JoinBonusJob extends Job {
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       this.isReported = true;
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+    }
+
+    if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
+      logger.info('JoinBonusJob FAILED');
+      String failReason = fetchedData['failReason'];
+      store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
+      store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+      return;
     }
 
     if (fetchedData['data']['funderJobId'] != null) {
@@ -57,20 +67,15 @@ class JoinBonusJob extends Job {
         store.dispatch(joinBonusSuccessCall(data['txHash'], arguments['joinBonus'], arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         logger.info('JoinBonusJob SUCCEEDED');
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         return;
       } else if (responseStatus == 'FAILED') {
         this.status = 'FAILED';
         logger.info('JoinBonusJob FAILED');
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
+        return;
       }
-    }
-
-    if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-      logger.info('JoinBonusJob FAILED');
-      String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
-      store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
-      return;
     }
 
     dynamic data = fetchedData['data'];

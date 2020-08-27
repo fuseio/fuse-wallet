@@ -268,7 +268,7 @@ ThunkAction startFetchTokensLastestPrices() {
     final logger = await AppFactory().getLogger('action');
     logger.info('Timer start - startFetchTokensLastestPrices');
     if (!isFetchTokensLastestPrice) {
-      new Timer.periodic(Duration(minutes: 1), (Timer timer) async {
+      new Timer.periodic(Duration(minutes: 5), (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           store.dispatch(SetIsFetchTokensLastestPrices(isFetching: false));
           logger.severe('Timer stopped - startFetchTokensLastestPrices');
@@ -319,7 +319,8 @@ ThunkAction startFetchBalancesOnForeign(
         store.state.proWalletState?.isFetchNewTokens ?? false;
     if (!isFetchNewTokens) {
       logger.info('Timer start - startFetchBalancesOnForeign');
-      new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds),
+          (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           store.dispatch(SetIsFetchNewTokens(isFetching: false));
           logger.severe('Timer stopped - startFetchBalancesOnForeign');
@@ -354,10 +355,6 @@ ThunkAction getBalancesOnForeign(
         tokenAddresses..addAll(balancesOnForeign.keys);
       }
       if (tokenAddresses.isNotEmpty) {
-        wallet_core.Web3 web3 = proWalletState.web3;
-        if (web3 == null) {
-          throw "Web3 is empty";
-        }
         for (String address in tokenAddresses) {
           store.dispatch(fetchTokenByAddress(address));
         }
@@ -541,8 +538,8 @@ ThunkAction sendErc20TokenCall(
       Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
           walletAddress, token.address, receiverAddress, tokensAmount,
           network: foreignNetwork);
-      num feeAmount = fees[token
-          .symbol]; // community.plugins.foreignTransfers.calcFee(tokensAmount);
+      num feeAmount = fees[token.symbol] ??
+          1; // community.plugins.foreignTransfers.calcFee(tokensAmount);
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
           walletAddress,
           token.address,
@@ -562,7 +559,7 @@ ThunkAction sendErc20TokenCall(
           to: receiverAddress,
           tokenAddress: token.address,
           timestamp: DateTime.now().millisecondsSinceEpoch,
-          value: toBigInt(tokensAmount, token.decimals), //feeAmount +
+          value: toBigInt(feeAmount + tokensAmount, token.decimals),
           type: 'SEND',
           note: transferNote,
           receiverName: receiverName,
@@ -653,7 +650,6 @@ ThunkAction inviteAndSendCall(
 
 ThunkAction inviteProAndSendSuccessCall(
     Job job,
-    dynamic data,
     num tokensAmount,
     String receiverName,
     Transfer inviteTransfer,
@@ -750,7 +746,6 @@ ThunkAction processingTokenJobsCall(Timer timer) {
           }
 
           try {
-            logger.info('pro mode performing ${job.name} isJobProcessValid ${isJobProcessValid()}');
             await job.perform(store, isJobProcessValid);
           } catch (e) {
             logger.severe('failed perform ${job.name}');
