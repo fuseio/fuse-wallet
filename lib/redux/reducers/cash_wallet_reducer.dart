@@ -191,11 +191,8 @@ CashWalletState _getTokenTransfersListSuccess(
         1;
     Community current = state.communities[communityAddress];
     for (Transfer tx in action.tokenTransfers.reversed) {
-      Transfer saved = current.token.transactions.list.firstWhere(
-          (t) =>
-              (t?.txHash?.toLowerCase() == tx?.txHash?.toLowerCase()) ||
-              (t?.jobId?.toLowerCase() == tx?.jobId?.toLowerCase()),
-          orElse: () => null);
+      Transfer saved = current.token.transactions.list
+          .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
         if (saved.isPending()) {
           saved = saved.copyWith(status: tx.status);
@@ -329,11 +326,7 @@ CashWalletState _replaceTransfer(
   if (oldTxs.isEmpty) {
     return state;
   }
-  Transaction transaction = oldTxs[0];
-  Transaction saved = current.token.transactions.list.firstWhere((element) =>
-      (element?.jobId == transaction?.jobId?.toLowerCase()) ||
-      (element?.txHash?.toLowerCase() == transaction?.txHash?.toLowerCase()));
-  int index = current.token.transactions.list.indexOf(saved);
+  int index = current.token.transactions.list.indexOf(oldTxs[0]);
   current.token.transactions.list[index] = action.transactionToReplace;
   oldTxs.removeAt(0);
   current.token.transactions.list.removeWhere((tx) => oldTxs.contains(tx));

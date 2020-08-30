@@ -21,6 +21,9 @@ class Token extends ERC20Token {
   @JsonKey(ignore: true)
   final String subtitle;
 
+  @override
+  List<Object> get props => [amount, name, symbol, transactions?.list];
+
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);
 

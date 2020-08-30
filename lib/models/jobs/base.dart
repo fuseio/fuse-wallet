@@ -21,8 +21,8 @@ abstract class Job {
   String status;
   dynamic arguments;
   bool isReported;
-  final bool isFunderJob;
-  final String id;
+  bool isFunderJob;
+  String id;
   final String jobType;
   final String name;
   final dynamic data;
@@ -84,7 +84,8 @@ class JobFactory {
       if (job['data']['walletModule'] == Job.COMMUNITY_MANAGER) {
         return 'joinCommunity';
       } else if (job['data']['walletModule'] == Job.TRANSFER_MANAGER &&
-          (job['data']['methodName'] != null && job['data']['methodName'] == 'approveToken')) {
+          (job['data']['methodName'] != null &&
+              job['data']['methodName'] == 'approveToken')) {
         return 'approveToken';
       } else if (job['data']['walletModule'] == Job.TRANSFER_MANAGER) {
         return 'transfer';
