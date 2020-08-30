@@ -6,7 +6,6 @@ import 'package:ceu_do_mapia/generated/i18n.dart';
 import 'package:ceu_do_mapia/models/app_state.dart';
 import 'package:ceu_do_mapia/models/views/drawer.dart';
 import 'package:ceu_do_mapia/screens/home/router/home_router.gr.dart';
-import 'package:ceu_do_mapia/utils/forks.dart';
 import 'package:ceu_do_mapia/widgets/language_selector.dart';
 import 'package:ceu_do_mapia/widgets/main_scaffold.dart';
 import 'package:ceu_do_mapia/screens/routes.gr.dart';

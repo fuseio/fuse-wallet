@@ -1471,7 +1471,7 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      final logger = await AppFactory().getLogger('action');
+      // final logger = await AppFactory().getLogger('action');
       String walletAddress = store.state.userState.walletAddress;
       num lastBlockNumber = community?.token?.transactions?.blockNumber;
       final String tokenAddress = community?.token?.address;
