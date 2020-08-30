@@ -60,10 +60,11 @@ class InviteBonusJob extends Job {
       String funderJobId = fetchedData['data']['funderJobId'];
       dynamic response = await api.getFunderJob(funderJobId);
       dynamic data = response['data'];
-      if (data['txHash'] != null) {
-        logger.info('InviteBonusJob txHash txHash txHash ${data['txHash']}');
-        Transfer transfer = arguments['inviteBonus'];
-        Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
+      String txHash = data['txHash'];
+      Transfer transfer = arguments['inviteBonus'];
+      Transfer confirmedTx = transfer.copyWith(txHash: txHash);
+      if (txHash != null) {
+        logger.info('InviteBonusJob txHash txHash txHash $txHash');
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx,
@@ -74,7 +75,7 @@ class InviteBonusJob extends Job {
       String responseStatus = data['status'];
       if (responseStatus == 'SUCCEEDED') {
         logger.info('InviteBonusJob SUCCEEDED');
-        store.dispatch(inviteBonusSuccessCall(data['txHash'], arguments['inviteBonus'], arguments['communityAddress']));
+        store.dispatch(inviteBonusSuccessCall(confirmedTx, arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
         return;

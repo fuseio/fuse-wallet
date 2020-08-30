@@ -53,9 +53,10 @@ class JoinBonusJob extends Job {
       dynamic data = fetchedData['data'];
       String responseStatus = data['status'];
       Transfer transfer = arguments['joinBonus'];
-      Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
-      if (data['txHash'] != null  && [null, ''].contains(transfer.txHash)) {
-        logger.info('JoinBonusJob txHash txHash txHash ${data['txHash']}');
+      String txHash = data['txHash'];
+      Transfer confirmedTx = transfer.copyWith(txHash: txHash);
+      if ([null, ''].contains(txHash)) {
+        logger.info('isFunderJob JoinBonusJob txHash txHash txHash $txHash');
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx,
@@ -85,21 +86,20 @@ class JoinBonusJob extends Job {
       }
       if (fetchedData['data']['funderJobId'] != null) {
         String funderJobId = fetchedData['data']['funderJobId'];
-        this.isFunderJob = true;
-        this.id = funderJobId;
-        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         dynamic response = await api.getFunderJob(funderJobId);
         dynamic data = response['data'];
         String responseStatus = data['status'];
         Transfer transfer = arguments['joinBonus'];
-        Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
-        if (data['txHash'] != null && [null, ''].contains(transfer.txHash)) {
-          logger.info('JoinBonusJob txHash txHash txHash ${data['txHash']}');
+        String txHash = data['txHash'];
+        Transfer confirmedTx = transfer.copyWith(txHash: txHash);
+        if ([null, ''].contains(txHash)) {
+          logger.info('JoinBonusJob txHash txHash txHash $txHash');
           store.dispatch(new ReplaceTransaction(
               transaction: transfer,
               transactionToReplace: confirmedTx,
               communityAddress: arguments['communityAddress']));
           arguments['joinBonus'] = confirmedTx.copyWith();
+          store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         }
         if (responseStatus == 'SUCCEEDED') {
           this.status = 'DONE';

@@ -57,8 +57,9 @@ class JoinCommunityJob extends Job {
     }
 
     Transfer transfer = arguments['transfer'];
-    Transfer confirmedTx = transfer.copyWith(txHash: job.data['txHash']);
-    if (job.data['txHash'] != null && [null, ''].contains(transfer.txHash)) {
+    String txHash = job.data['txHash'];
+    Transfer confirmedTx = transfer.copyWith(txHash: txHash);
+    if ([null, ''].contains(txHash)) {
       logger.info('JoinCommunityJob txHash txHash txHash ${job.data['txHash']}');
       store.dispatch(new ReplaceTransaction(
           transaction: transfer,
