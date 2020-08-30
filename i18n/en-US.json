@@ -121,5 +121,7 @@
     "flash_off": "Flash off",
     "current_community": "Current community",
     "my_communities": "My communities",
-    "selected": "Selected"
+    "selected": "Selected",
+    "fee_amount": "Fee amount:",
+    "total_amount": "Total amount:"
 }

@@ -35,6 +35,16 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final num amount = widget.exchangeSummry['amount'];
+    final bool withFee = fees.containsKey(widget.fromToken.symbol);
+    final num feeAmount = withFee ? fees[widget.fromToken.symbol] : 0;
+    final amountToSwap = formatValue(
+        BigInt.from(num.parse(widget.exchangeSummry['sourceAmount'])),
+        int.parse(widget.exchangeSummry['sourceAsset']['decimals']),
+        withPrecision: true);
+    final num tokenBalance = num.parse(
+        formatValue(widget.fromToken.amount, widget.fromToken.decimals));
+    final bool hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
     return MainScaffold(
         withPadding: true,
         title: I18n.of(context).review_trade,
@@ -156,7 +166,57 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                       )
                     ],
                   ),
-                )
+                ),
+                withFee
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                              I18n.of(context).fee_amount +
+                                  ' $feeAmount ${widget.fromToken.symbol}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 12, color: Color(0xFF777777))),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                              I18n.of(context).total_amount +
+                                  ' ${(num.parse(amountToSwap) + feeAmount)} ${widget.fromToken.symbol}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          !hasFund
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.error,
+                                      color: Colors.red,
+                                      size: 16,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 7),
+                                      child: Text(
+                                          I18n.of(context).not_enough_balance,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 14, color: Colors.red)),
+                                    ),
+                                  ],
+                                )
+                              : SizedBox.shrink(),
+                        ],
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           )
@@ -169,7 +229,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                     labelFontWeight: FontWeight.normal,
                     label: I18n.of(context).trade,
                     fontSize: 15,
-                    disabled: isPreloading,
+                    disabled: isPreloading || !hasFund,
                     preload: isPreloading,
                     onPressed: () {
                       setState(() {
@@ -183,8 +243,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           widget.exchangeSummry['amountIn'],
                           widget.exchangeSummry['tx']['to'],
                           widget.exchangeSummry['tx']['data'], () {
-                        ExtendedNavigator.root
-                            .replace(Routes.homePage);
+                        ExtendedNavigator.root.replace(Routes.homePage);
                       }, () {
                         setState(() {
                           isPreloading = false;
