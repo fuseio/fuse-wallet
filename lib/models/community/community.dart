@@ -23,12 +23,14 @@ class Community extends Equatable {
   final bool isClosed;
   final String webUrl;
   final Map customData;
+  final String foreignTokenAddress;
 
   @override
   List<Object> get props => [
         name,
         address,
         isMember,
+        customData,
         token,
         plugins,
         secondaryToken,
@@ -37,21 +39,23 @@ class Community extends Equatable {
         webUrl
       ];
 
-  Community(
-      {this.name,
-      this.customData,
-      this.isClosed,
-      this.isMember,
-      this.address,
-      this.plugins,
-      this.token,
-      this.businesses,
-      this.metadata,
-      this.homeBridgeAddress,
-      this.secondaryToken,
-      this.secondaryTokenAddress,
-      this.webUrl,
-      this.foreignBridgeAddress});
+  Community({
+    this.name,
+    this.customData,
+    this.isClosed,
+    this.isMember,
+    this.address,
+    this.plugins,
+    this.token,
+    this.businesses,
+    this.metadata,
+    this.homeBridgeAddress,
+    this.secondaryToken,
+    this.secondaryTokenAddress,
+    this.webUrl,
+    this.foreignBridgeAddress,
+    this.foreignTokenAddress,
+  });
 
   factory Community.initial() {
     return new Community(
@@ -82,24 +86,25 @@ class Community extends Equatable {
       CommunityMetadata metadata,
       bool isClosed,
       String webUrl,
+      String foreignTokenAddress,
       Map customData}) {
     return Community(
-      customData: customData ?? this.customData,
-      isClosed: isClosed ?? this.isClosed,
-      webUrl: webUrl,
-      metadata: metadata ?? this.metadata,
-      address: address ?? this.address,
-      name: name ?? this.name,
-      plugins: plugins ?? this.plugins,
-      token: token ?? this.token,
-      secondaryToken: secondaryToken ?? this.secondaryToken,
-      businesses: businesses ?? this.businesses,
-      isMember: isMember ?? this.isMember,
-      homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
-      foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,
-      secondaryTokenAddress:
-          secondaryTokenAddress ?? this.secondaryTokenAddress,
-    );
+        isClosed: isClosed ?? this.isClosed,
+        webUrl: webUrl,
+        metadata: metadata ?? this.metadata,
+        address: address ?? this.address,
+        name: name ?? this.name,
+        plugins: plugins ?? this.plugins,
+        token: token ?? this.token,
+        secondaryToken: secondaryToken ?? this.secondaryToken,
+        businesses: businesses ?? this.businesses,
+        isMember: isMember ?? this.isMember,
+        homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
+        foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,
+        foreignTokenAddress: foreignTokenAddress ?? this.foreignTokenAddress,
+        customData: customData ?? this.customData,
+        secondaryTokenAddress:
+            secondaryTokenAddress ?? this.secondaryTokenAddress);
   }
 
   factory Community.fromJson(Map<String, dynamic> json) =>

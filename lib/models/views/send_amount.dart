@@ -43,14 +43,10 @@ class SendAmountViewModel extends Equatable {
       trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
   final Function(
-      String daiTokenAddress,
-      String tokenAddress,
       num tokensAmount,
       VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) buyToken;
   final Function(
-      String daiTokenAddress,
-      String tokenAddress,
       num tokensAmount,
       VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) sellToken;
@@ -187,20 +183,14 @@ class SendAmountViewModel extends Equatable {
         idenyifyCall: (Map<String, dynamic> traits) {
           store.dispatch(segmentIdentifyCall(traits));
         },
-        sellToken: (String daiTokenAddress,
-            String tokenAddress,
-            num tokensAmount,
-            VoidCallback sendSuccessCallback,
+        sellToken: (num tokensAmount, VoidCallback sendSuccessCallback,
             VoidCallback sendFailureCallback) {
-          store.dispatch(sellTokenAction(daiTokenAddress, tokenAddress,
+          store.dispatch(sellTokenAction(
               tokensAmount, sendSuccessCallback, sendFailureCallback));
         },
-        buyToken: (String daiTokenAddress,
-            String tokenAddress,
-            num tokensAmount,
-            VoidCallback sendSuccessCallback,
+        buyToken: (num tokensAmount, VoidCallback sendSuccessCallback,
             VoidCallback sendFailureCallback) {
-          store.dispatch(buyTokenAction(daiTokenAddress, tokenAddress,
+          store.dispatch(buyTokenAction(
               tokensAmount, sendSuccessCallback, sendFailureCallback));
         });
   }

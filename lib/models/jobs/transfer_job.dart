@@ -43,6 +43,18 @@ class TransferJob extends Job {
     Job job = JobFactory.create(fetchedData);
     int current = DateTime.now().millisecondsSinceEpoch;
     int jobTime = this.timeStart;
+    if (job?.data['txHash'] != null) {
+      logger.info('TransferJob txHash txHash txHash ${job.data['txHash']}');
+      Transfer transfer = arguments['transfer'];
+      Transfer confirmedTx = transfer.copyWith(txHash: job.data['txHash']);
+      store.dispatch(new ReplaceTransaction(
+          transaction: transfer,
+          transactionToReplace: confirmedTx,
+          communityAddress: arguments['communityAddress']));
+      arguments['transfer'] = confirmedTx.copyWith();
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+    }
+
     final int millisecondsIntoMin = 2 * 60 * 1000;
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
@@ -63,7 +75,7 @@ class TransferJob extends Job {
       return;
     }
     this.status = 'DONE';
-    store.dispatch(sendTokenSuccessCall(job.data['txHash'], arguments['transfer'], arguments['communityAddress']));
+    store.dispatch(sendTokenSuccessCall(arguments['transfer'], arguments['communityAddress']));
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 

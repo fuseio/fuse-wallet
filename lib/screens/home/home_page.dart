@@ -3,6 +3,7 @@ import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:seedbed/constans/keys.dart';
+import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
 import 'package:seedbed/redux/actions/user_actions.dart';
 import 'package:seedbed/screens/contacts/send_amount_arguments.dart';
@@ -128,13 +129,10 @@ class _HomePageState extends State<HomePage> {
                     vm.hasReserveContract
                         ? SendAmountScreen(
                             pageArgs: SendAmountArguments(
-                            isConvert: true,
-                            accountAddress: vm.community
-                                ?.customData['reserveContractAddress'],
-                            avatar: NetworkImage(
-                                'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png'),
-                            name: 'Convertor',
-                          ))
+                                isConvert: true,
+                                avatar: NetworkImage(
+                                    'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png'),
+                                name: I18n.of(context).convertor))
                         : null,
                     ReceiveScreen()
                   ]

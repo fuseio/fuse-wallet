@@ -52,26 +52,13 @@ Widget deduceTransferIcon(Transfer transfer) {
   }
 }
 
-Token getToken(String tokenAddress, List<Community> communities,
-    Map<String, Token> erc20Tokens) {
-  if (erc20Tokens.containsKey(tokenAddress)) {
-    return erc20Tokens[tokenAddress];
-  } else {
-    return communities
-        .firstWhere(
-            (community) =>
-                community?.token?.address?.toLowerCase() ==
-                tokenAddress?.toLowerCase(),
-            orElse: () => communities.first)
-        .token;
-  }
-}
-
 Community getCommunity(String tokenAddress, List<Community> communities) {
   return communities.firstWhere(
       (community) =>
           community?.token?.address?.toLowerCase() ==
-          tokenAddress?.toLowerCase(),
+              tokenAddress?.toLowerCase() ||
+          community?.secondaryToken?.address?.toLowerCase() ==
+              tokenAddress?.toLowerCase(),
       orElse: () => communities.first);
 }
 

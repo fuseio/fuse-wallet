@@ -15,8 +15,7 @@ import 'package:seedbed/models/tokens/token.dart';
 import 'package:seedbed/utils/format.dart';
 
 class TokenHeader extends StatelessWidget {
-  TokenHeader({this.token, this.tokenPrice});
-  final String tokenPrice;
+  TokenHeader({this.token});
   final Token token;
 
   @override
@@ -63,7 +62,10 @@ class TokenHeader extends StatelessWidget {
                   },
                   child: Padding(
                       padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
-                      child: Icon(PlatformIcons(context).back))),
+                      child: Icon(
+                        PlatformIcons(context).back,
+                        color: Theme.of(context).splashColor,
+                      ))),
               Expanded(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -100,12 +102,11 @@ class TokenHeader extends StatelessWidget {
                             ),
                             RichText(
                                 text: TextSpan(
-                                    text: ![null, '']
-                                                .contains(token.priceInfo) &&
-                                            token.priceInfo.total.isNotEmpty &&
-                                            tokenPrice != null
-                                        ? '\$$price'
-                                        : "",
+                                    text:
+                                        ![null, ''].contains(token.priceInfo) &&
+                                                token.priceInfo.total.isNotEmpty
+                                            ? '\$$price'
+                                            : "",
                                     style: TextStyle(
                                         color: Theme.of(context).splashColor,
                                         fontSize: 18))),
@@ -118,15 +119,19 @@ class TokenHeader extends StatelessWidget {
                               final Community community = viewModel.communities
                                   .firstWhere(
                                       (element) =>
-                                          element.token.address.toLowerCase() ==
-                                          token.address.toLowerCase(),
+                                          (element.token.address
+                                                  .toLowerCase() ==
+                                              token.address.toLowerCase()) ||
+                                          (element?.foreignTokenAddress
+                                                  ?.toLowerCase() ==
+                                              token.address.toLowerCase()),
                                       orElse: () => null);
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  community == null
+                                  !isFuseToken
                                       ? Container(
                                           width: 45,
                                           height: 45,

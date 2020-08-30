@@ -99,10 +99,21 @@ class ConvertJob extends Job {
         return;
       }
 
-      this.status = 'DONE';
+      Transfer transfer = arguments['transfer'];
       String txHash = data['txHash'];
-      store.dispatch(sendTokenSuccessCall(
-          txHash, arguments['transfer'], arguments['communityAddress']));
+      Transfer confirmedTx = transfer.copyWith(txHash: txHash);
+      if (data['txHash'] != null && [null, ''].contains(transfer.txHash)) {
+        logger.info('ConvertJob txHash txHash txHash $txHash');
+        store.dispatch(new ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx,
+            communityAddress: arguments['communityAddress']));
+        arguments['transfer'] = confirmedTx.copyWith();
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+      }
+
+      this.status = 'DONE';
+      store.dispatch(sendTokenSuccessCall(confirmedTx, arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: job succeeded',
           properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
     }

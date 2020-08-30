@@ -1,4 +1,6 @@
 import 'package:seedbed/models/jobs/base.dart';
+import 'package:seedbed/models/plugins/join_bonus.dart';
+import 'package:seedbed/models/tokens/token.dart';
 import 'package:seedbed/models/transactions/transfer.dart';
 import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
 import 'package:seedbed/redux/state/store.dart';
@@ -54,12 +56,24 @@ class JoinCommunityJob extends Job {
       return;
     }
 
+    Transfer transfer = arguments['transfer'];
+    Transfer confirmedTx = transfer.copyWith(txHash: job.data['txHash']);
+    if (job.data['txHash'] != null && [null, ''].contains(transfer.txHash)) {
+      logger.info('JoinCommunityJob txHash txHash txHash ${job.data['txHash']}');
+      store.dispatch(new ReplaceTransaction(
+          transaction: transfer,
+          transactionToReplace: confirmedTx,
+          communityAddress: arguments['communityAddress']));
+      arguments['transfer'] = confirmedTx.copyWith();
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+    }
+
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
       logger.info('JoinCommunityJob not done');
       return;
     }
     this.status = 'DONE';
-    store.dispatch(joinCommunitySuccessCall(job, fetchedData, arguments['transfer'], arguments['communityAddress'], arguments['communityName']));
+    store.dispatch(joinCommunitySuccessCall(job, fetchedData, confirmedTx, arguments['communityAddress'], arguments['communityName'], arguments['joinBonusPlugin'], arguments['token']));
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }
 
@@ -67,7 +81,9 @@ class JoinCommunityJob extends Job {
   dynamic argumentsToJson() => {
       'transfer': arguments['transfer'].toJson(),
       'communityAddress': arguments['communityAddress'],
-      'communityName': arguments['communityName']
+      'communityName': arguments['communityName'],
+      'joinBonusPlugin': arguments['joinBonusPlugin']?.toJson(),
+      'token': arguments['token']?.toJson()
     };
 
   @override
@@ -76,11 +92,17 @@ class JoinCommunityJob extends Job {
       return arguments;
     }
     if (arguments.containsKey('transfer')) {
+      Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
       if (arguments['transfer'] is Map) {
-        Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
         nArgs['transfer'] = TransactionFactory.fromJson(arguments['transfer']);
-        return nArgs;
       }
+      if (arguments['token'] is Map) {
+        nArgs['token'] = Token.fromJson(arguments['token']);
+      }
+      if (arguments['joinBonusPlugin'] is Map) {
+        nArgs['joinBonusPlugin'] = JoinBonusPlugin.fromJson(arguments['joinBonusPlugin']);
+      }
+      return nArgs;
     }
     return arguments;
   }

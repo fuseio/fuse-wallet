@@ -52,62 +52,55 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) {
     if (args.isConvert) {
-      if (args.tokenToSend.address ==
-          viewModel.community.secondaryToken.address) {
+      if (args.tokenToSend.address == viewModel.community.token.address) {
         viewModel.buyToken(
-            viewModel.community.secondaryToken.address,
-            args.tokenToSend.address,
-            args.amount,
-            sendSuccessCallback,
-            sendFailureCallback);
-      } else {
+            args.amount, sendSuccessCallback, sendFailureCallback);
+      } else if (args.tokenToSend.address ==
+          viewModel.community.secondaryToken.address) {
         viewModel.sellToken(
-            viewModel.community.secondaryToken.address,
-            args.tokenToSend.address,
-            args.amount,
-            sendSuccessCallback,
-            sendFailureCallback);
-      }
-    }
-    if (args.tokenToSend.originNetwork == null) {
-      if (args.accountAddress == null ||
-          args.accountAddress == '' && args.phoneNumber != null) {
-        viewModel.sendERC20ToContact(
-          args.tokenToSend,
-          args.accountAddress,
-          args.phoneNumber,
-          args.amount,
-          args.name,
-          transferNote,
-          sendSuccessCallback,
-          sendFailureCallback,
-        );
-      } else {
-        viewModel.sendToErc20Token(args.tokenToSend, args.accountAddress,
             args.amount, sendSuccessCallback, sendFailureCallback);
       }
     } else {
-      if (args.accountAddress == null ||
-          args.accountAddress == '' && args.phoneNumber != null) {
-        viewModel.sendToContact(
-          args.tokenToSend,
-          args.accountAddress,
-          args.phoneNumber,
-          args.amount,
-          args.name,
-          transferNote,
-          sendSuccessCallback,
-          sendFailureCallback,
-        );
-      } else {
-        viewModel.sendToAccountAddress(
+      if (args.tokenToSend.originNetwork == null) {
+        if (args.accountAddress == null ||
+            args.accountAddress == '' && args.phoneNumber != null) {
+          viewModel.sendERC20ToContact(
             args.tokenToSend,
             args.accountAddress,
+            args.phoneNumber,
             args.amount,
             args.name,
             transferNote,
             sendSuccessCallback,
-            sendFailureCallback);
+            sendFailureCallback,
+          );
+        } else {
+          viewModel.sendToErc20Token(args.tokenToSend, args.accountAddress,
+              args.amount, sendSuccessCallback, sendFailureCallback);
+        }
+      } else {
+        if (args.accountAddress == null ||
+            args.accountAddress == '' && args.phoneNumber != null) {
+          viewModel.sendToContact(
+            args.tokenToSend,
+            args.accountAddress,
+            args.phoneNumber,
+            args.amount,
+            args.name,
+            transferNote,
+            sendSuccessCallback,
+            sendFailureCallback,
+          );
+        } else {
+          viewModel.sendToAccountAddress(
+              args.tokenToSend,
+              args.accountAddress,
+              args.amount,
+              args.name,
+              transferNote,
+              sendSuccessCallback,
+              sendFailureCallback);
+        }
       }
     }
   }
@@ -122,10 +115,12 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         final BigInt balance = args.tokenToSend.amount;
         final int decimals = args.tokenToSend.decimals;
         final bool withFee = (fees.containsKey(symbol) &&
-                args.tokenToSend.originNetwork == null) &&
-            viewModel.communities.any((element) =>
+                args.tokenToSend.originNetwork == null) ||
+            (viewModel.communities.any((element) =>
+                (args?.accountAddress?.toLowerCase() ==
+                    element?.homeBridgeAddress?.toLowerCase()) ||
                 args?.accountAddress?.toLowerCase() ==
-                element?.homeBridgeAddress?.toLowerCase());
+                    element?.foreignBridgeAddress?.toLowerCase()));
         final num feeAmount =
             withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0;
         final num currentTokenBalance =
@@ -326,7 +321,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         ],
                       )
                     : SizedBox.shrink(),
-                args.tokenToSend.originNetwork == null
+                args.tokenToSend.originNetwork == null || args.isConvert == true
                     ? SizedBox.shrink()
                     : (args.accountAddress == null ||
                             args.accountAddress.isEmpty)

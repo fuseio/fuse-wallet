@@ -22,8 +22,8 @@ abstract class Job {
   String status;
   dynamic arguments;
   bool isReported;
-  final bool isFunderJob;
-  final String id;
+  bool isFunderJob;
+  String id;
   final String jobType;
   final String name;
   final dynamic data;

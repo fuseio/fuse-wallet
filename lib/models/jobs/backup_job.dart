@@ -59,8 +59,19 @@ class BackupJob extends Job {
       String funderJobId = fetchedData['data']['funderJobId'];
       dynamic response = await api.getFunderJob(funderJobId);
       dynamic data = response['data'];
+      Transfer transfer = arguments['backupBonus'];
+      Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
+      if (data['txHash'] != null && [null, ''].contains(transfer.txHash)) {
+        logger.info('BackupJob txHash txHash txHash ${data['txHash']}');
+        store.dispatch(new ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx,
+            communityAddress: arguments['communityAddress']));
+        arguments['backupBonus'] = confirmedTx.copyWith();
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+      }
       if (data['status'] == 'SUCCEEDED') {
-        store.dispatch(backupSuccessCall(data['txHash'], arguments['backupBonus'], arguments['communityAddress']));
+        store.dispatch(backupSuccessCall(confirmedTx, arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         return;
       } else if (status == 'FAILED') {

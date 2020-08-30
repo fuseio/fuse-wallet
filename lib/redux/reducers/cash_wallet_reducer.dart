@@ -174,6 +174,7 @@ CashWalletState _switchCommunitySuccess(
       homeBridgeAddress: action.homeBridgeAddress,
       foreignBridgeAddress: action.foreignBridgeAddress,
       secondaryTokenAddress: action.secondaryTokenAddress,
+      foreignTokenAddress: action.foreignTokenAddress,
       webUrl: action.webUrl);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
@@ -233,10 +234,10 @@ CashWalletState _getTokenTransfersListSuccess(
             .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
         if (saved != null) {
           if (saved.isPending()) {
-            saved = saved.copyWith(status: 'CONFIRMED');
+            saved = saved.copyWith(status: tx.status);
           }
         } else {
-          current.secondaryToken.transactions.list.add(tx);
+          current.token.transactions.list.add(tx);
         }
       }
       Community newCommunity = current.copyWith(
@@ -258,7 +259,7 @@ CashWalletState _getTokenTransfersListSuccess(
             .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
         if (saved != null) {
           if (saved.isPending()) {
-            saved = saved.copyWith(status: 'CONFIRMED');
+            saved = saved.copyWith(status: tx.status);
           }
         } else {
           current.token.transactions.list.add(tx);

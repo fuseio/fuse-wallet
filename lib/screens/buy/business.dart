@@ -125,13 +125,18 @@ class _BusinessPageState extends State<BusinessPage> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              Text(
-                                '#' + capitalize(widget.business.metadata.type),
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              )
+                              ![null, '']
+                                      .contains(widget.business.metadata.type)
+                                  ? Text(
+                                      '#' +
+                                          capitalize(
+                                              widget.business.metadata.type),
+                                      overflow: TextOverflow.fade,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    )
+                                  : SizedBox.shrink()
                             ],
                           ),
                         ],

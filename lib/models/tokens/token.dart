@@ -21,6 +21,9 @@ class Token extends ERC20Token {
   @JsonKey(ignore: true)
   final String subtitle;
 
+  @override
+  List<Object> get props => [amount, name, symbol, transactions?.list];
+
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);
 
@@ -84,11 +87,12 @@ class Token extends ERC20Token {
       {void Function(BigInt) onDone,
       Function onError,
       bool fromGraph = false}) async {
+    if (accountAddress == null) return;
     if (originNetwork == null && !fromGraph) {
       try {
         final BigInt balance = await ethereumExplorerApi
             .getTokenBalanceByAccountAddress(this.address, accountAddress);
-        if (this.amount.compareTo(balance) != 0) {
+        if (this.amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -98,7 +102,7 @@ class Token extends ERC20Token {
       try {
         final BigInt balance = await fuseExplorerApi
             .getTokenBalanceByAccountAddress(this.address, accountAddress);
-        if (this.amount.compareTo(balance) != 0) {
+        if (this.amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {

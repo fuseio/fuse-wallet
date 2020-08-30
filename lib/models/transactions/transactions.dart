@@ -25,7 +25,7 @@ class Transactions {
   }
 
   factory Transactions.initial() {
-    return Transactions(blockNumber: 0, list: new List<Transaction>());
+    return Transactions(blockNumber: 0, list: List<Transaction>());
   }
 
   static List<Transaction> _listFromJson(Map<String, dynamic> list) =>

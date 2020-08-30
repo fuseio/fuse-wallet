@@ -21,15 +21,11 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 2500), () {
-      if (widget.pageArgs.isConvert) {
-        ExtendedNavigator.root.push(Routes.homePage);
-      } else {
-        final BottomNavigationBar navigationBar =
-            AppKeys.bottomBarKey.currentWidget;
-        Navigator.of(context).pop();
-        navigationBar.onTap(0);
-        ExtendedNavigator.root.popUntilPath(Routes.homePage);
-      }
+      final BottomNavigationBar navigationBar =
+          AppKeys.bottomBarKey.currentWidget;
+      Navigator.of(context).pop();
+      navigationBar.onTap(0);
+      ExtendedNavigator.root.popUntilPath(Routes.homePage);
     });
   }
 

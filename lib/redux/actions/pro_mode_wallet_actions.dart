@@ -383,6 +383,28 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
       )));
     } else {
       try {
+        List<Community> communities =
+            store.state.cashWalletState.communities.values.toList();
+        Community community = communities.firstWhere(
+            (element) =>
+                tokenAddress?.toLowerCase() ==
+                element?.foreignTokenAddress?.toLowerCase(),
+            orElse: () => null);
+        if (community != null) {
+          Token newToken = Token.initial().copyWith(
+              address: tokenAddress,
+              name: community.token.name,
+              symbol: community.token.symbol,
+              decimals: community.token.decimals,
+              timestamp: 0,
+              amount: BigInt.zero,
+              originNetwork: null,
+              imageUrl: community.metadata.getImageUri());
+          logger.info('ADDED - new token $tokenAddress');
+          store.dispatch(AddNewToken(
+              token: newToken.copyWith(address: tokenAddress.toLowerCase())));
+          return;
+        }
         dynamic tokenDetails = await web3.getTokenDetails(tokenAddress);
         Token newToken = Token.initial().copyWith(
           address: tokenAddress.toLowerCase(),
@@ -394,7 +416,7 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
         store.dispatch(AddNewToken(
             token: newToken.copyWith(address: tokenAddress.toLowerCase())));
       } catch (e) {
-        logger.severe('Error while get Token Details for $tokenAddress');
+        logger.severe('Error while get Token Details for $tokenAddress $e');
       }
     }
   };
@@ -439,7 +461,8 @@ ThunkAction startFetchTransferEventsCall() {
         List<String> tokenAddresses =
             List<String>.from(proWalletState.erc20Tokens.keys);
         for (String tokenAddress in tokenAddresses) {
-          store.dispatch(getTokenTransferEventsByAccountAddress(tokenAddress));
+          store.dispatch(
+              getTokenTransferEventsByAccountAddressEtherscan(tokenAddress));
         }
       });
       store.dispatch(SetIsFetchTransferEvents(isFetching: true));
@@ -447,40 +470,44 @@ ThunkAction startFetchTransferEventsCall() {
   };
 }
 
-// ThunkAction getTokenTransferEventsByAccountAddressEtherscan(String tokenAddress) {
-//   return (Store store) async {
-//     final logger = await AppFactory().getLogger('action');
-//     try {
-//       Token token = store.state.proWalletState.erc20Tokens[tokenAddress];
-//       String walletAddress = store.state.userState.walletAddress;
-//       dynamic tokensTransferEvents = await tokenAPI.getTokenTransferEventsByAccountAddress(
-//           tokenAddress, walletAddress,
-//           startblock: token.transactions?.blockNumber ?? 0);
-//       if (tokensTransferEvents.isNotEmpty) {
-//         List<Transfer> transfers = List<Transfer>.from(tokensTransferEvents
-//               .map((json) => Transfer.fromJson(json))
-//               .toList());
-//         for (Transfer transfer in transfers) {
-//           store.dispatch(AddProTransaction(
-//               tokenAddress: tokenAddress, transaction: transfer));
-//         }
-//         int combiner(int max, dynamic transferEvent) =>
-//             (int.parse(transferEvent['blockNumber'].toString()) > max
-//                 ? int.parse(transferEvent['blockNumber'].toString())
-//                 : max) +
-//             1;
-//         int maxBlockNumber = tokensTransferEvents.fold<int>(0, combiner);
-//         logger.info('maxBlockNumber maxBlockNumber maxBlockNumber maxBlockNumber $maxBlockNumber');
-//         Token tokenToUpdate = token.copyWith(transactions: token.transactions.copyWith(blockNumber: maxBlockNumber));
-//         store.dispatch(UpdateToken(tokenToUpdate: tokenToUpdate));
-//       }
-//     } catch (e) {
-//       logger.severe(
-//           'ERROR in getTokenTransferEventsByAccountAddress ${e.toString()}');
-//       store.dispatch(new ErrorAction(e.toString()));
-//     }
-//   };
-// }
+ThunkAction getTokenTransferEventsByAccountAddressEtherscan(
+    String tokenAddress) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      Token token = store.state.proWalletState.erc20Tokens[tokenAddress];
+      String walletAddress = store.state.userState.walletAddress;
+      dynamic tokensTransferEvents = await ethereumExplorerApi
+          .getTokenTransferEventsByAccountAddress(tokenAddress, walletAddress,
+              startblock: token.transactions?.blockNumber ?? 0);
+      if (tokensTransferEvents.isNotEmpty) {
+        List<Transfer> transfers = List<Transfer>.from(tokensTransferEvents
+            .map((json) => Transfer.fromJson(json))
+            .toList());
+        for (Transfer transfer in transfers) {
+          store.dispatch(AddProTransaction(
+              tokenAddress: tokenAddress, transaction: transfer));
+        }
+        int combiner(int max, dynamic transferEvent) =>
+            (int.parse(transferEvent['blockNumber'].toString()) > max
+                ? int.parse(transferEvent['blockNumber'].toString())
+                : max) +
+            1;
+        int maxBlockNumber = tokensTransferEvents.fold<int>(0, combiner);
+        logger.info(
+            'maxBlockNumber maxBlockNumber maxBlockNumber maxBlockNumber $maxBlockNumber');
+        Token tokenToUpdate = token.copyWith(
+            transactions:
+                token.transactions.copyWith(blockNumber: maxBlockNumber));
+        store.dispatch(UpdateToken(tokenToUpdate: tokenToUpdate));
+      }
+    } catch (e) {
+      logger.severe(
+          'ERROR in getTokenTransferEventsByAccountAddress ${e.toString()}');
+      store.dispatch(new ErrorAction(e.toString()));
+    }
+  };
+}
 
 ThunkAction getTokenTransferEventsByAccountAddress(String tokenAddress) {
   return (Store store) async {

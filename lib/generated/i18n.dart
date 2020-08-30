@@ -286,6 +286,8 @@ class I18n implements WidgetsLocalizations {
   String get my_communities => "My communities";
   /// "Selected"
   String get selected => "Selected";
+  /// "Convertor"
+  String get convertor => "Convertor";
 }
 
 class _I18n_en_US extends I18n {
