@@ -288,6 +288,10 @@ class I18n implements WidgetsLocalizations {
   String get selected => "Selected";
   /// "Convertor"
   String get convertor => "Convertor";
+  /// "Fee amount:"
+  String get fee_amount => "Fee amount:";
+  /// "Total amount:"
+  String get total_amount => "Total amount:";
 }
 
 class _I18n_en_US extends I18n {

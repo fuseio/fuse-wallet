@@ -19,9 +19,11 @@ class SendAmountArguments {
   SendType sendType;
   Token tokenToSend;
   final bool isConvert;
+  final bool useBridge;
 
   SendAmountArguments(
       {this.sendType,
+      this.useBridge = false,
       this.tokenToSend,
       this.name,
       this.phoneNumber,

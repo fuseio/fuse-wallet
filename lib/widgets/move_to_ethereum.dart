@@ -106,6 +106,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                                 tokenToSend: widget.token,
                                                 accountAddress: widget.community
                                                     .homeBridgeAddress,
+                                                useBridge: true,
                                                 name: 'Ethereum',
                                                 avatar: AssetImage(
                                                   'assets/images/ethereume_icon.png',
@@ -115,6 +116,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                         Routes.sendAmountScreen,
                                         arguments: SendAmountScreenArguments(
                                             pageArgs: SendAmountArguments(
+                                                useBridge: true,
                                                 tokenToSend: widget.token,
                                                 accountAddress: widget.community
                                                     .foreignBridgeAddress,
