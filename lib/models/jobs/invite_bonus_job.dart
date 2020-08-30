@@ -63,7 +63,7 @@ class InviteBonusJob extends Job {
       String txHash = data['txHash'];
       Transfer transfer = arguments['inviteBonus'];
       Transfer confirmedTx = transfer.copyWith(txHash: txHash);
-      if (txHash != null) {
+      if (![null, ''].contains(txHash)) {
         logger.info('InviteBonusJob txHash txHash txHash $txHash');
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,

@@ -55,7 +55,7 @@ class JoinBonusJob extends Job {
       Transfer transfer = arguments['joinBonus'];
       String txHash = data['txHash'];
       Transfer confirmedTx = transfer.copyWith(txHash: txHash);
-      if ([null, ''].contains(txHash)) {
+      if (![null, ''].contains(txHash)) {
         logger.info('isFunderJob JoinBonusJob txHash txHash txHash $txHash');
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
@@ -92,7 +92,7 @@ class JoinBonusJob extends Job {
         Transfer transfer = arguments['joinBonus'];
         String txHash = data['txHash'];
         Transfer confirmedTx = transfer.copyWith(txHash: txHash);
-        if ([null, ''].contains(txHash)) {
+        if (![null, ''].contains(txHash)) {
           logger.info('JoinBonusJob txHash txHash txHash $txHash');
           store.dispatch(new ReplaceTransaction(
               transaction: transfer,

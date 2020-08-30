@@ -62,7 +62,7 @@ class BackupJob extends Job {
       Transfer transfer = arguments['backupBonus'];
       String txHash = data['txHash'];
       Transfer confirmedTx = transfer.copyWith(txHash: txHash);
-      if ([null, ''].contains(txHash)) {
+      if (![null, ''].contains(txHash)) {
         logger.info('BackupJob txHash txHash txHash $txHash');
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
