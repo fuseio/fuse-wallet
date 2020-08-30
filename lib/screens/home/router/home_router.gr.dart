@@ -108,8 +108,7 @@ class HomeRouter extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => TokenScreen(
           key: args.key,
-          token: args.token,
-          tokenPrice: args.tokenPrice,
+          tokenAddress: args.tokenAddress,
         ),
         settings: data,
       );
@@ -217,9 +216,8 @@ class TransactionDetailsScreenArguments {
 /// TokenScreen arguments holder class
 class TokenScreenArguments {
   final Key key;
-  final Token token;
-  final String tokenPrice;
-  TokenScreenArguments({this.key, this.token, this.tokenPrice});
+  final String tokenAddress;
+  TokenScreenArguments({this.key, this.tokenAddress});
 }
 
 /// TradeScreen arguments holder class

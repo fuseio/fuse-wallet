@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transaction.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Transaction {
+class Transaction extends Equatable {
   final String txHash;
   final int timestamp;
   final String type;
@@ -12,6 +13,9 @@ class Transaction {
   final int blockNumber;
   final String jobId;
   final bool isSwap;
+
+  @override
+  List<Object> get props => [txHash, status, timestamp];
 
   Transaction(
       {this.txHash,

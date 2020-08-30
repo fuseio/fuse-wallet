@@ -1,36 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
+import 'package:fusecash/screens/home/widgets/assets_list.dart';
 import 'package:fusecash/screens/home/widgets/token_header.dart';
 import 'package:fusecash/screens/home/widgets/transaction_tile.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fusecash/models/app_state.dart';
 
 class TokenScreen extends StatelessWidget {
-  TokenScreen({Key key, this.token, this.tokenPrice}) : super(key: key);
-  final String tokenPrice;
-  final Token token;
+  TokenScreen({Key key, this.tokenAddress}) : super(key: key);
+  final String tokenAddress;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: key,
-        appBar: MyAppBar(
-            height: 170.0,
-            child: TokenHeader(token: token, tokenPrice: tokenPrice),
-            backgroundColor: Colors.white),
-        drawerEdgeDragWidth: 0,
-        body: Column(children: <Widget>[
-          Expanded(child: ListView(children: [TransfersList(token: token)])),
-        ]));
+    return StoreConnector<AppState, TokensListViewModel>(
+        distinct: true,
+        converter: TokensListViewModel.fromStore,
+        builder: (_, viewModel) {
+          final token = viewModel.tokens
+              .firstWhere((element) => element.address == tokenAddress);
+          return Scaffold(
+              key: key,
+              appBar: MyAppBar(
+                  height: 170.0,
+                  child: TokenHeader(token: token),
+                  backgroundColor: Colors.white),
+              drawerEdgeDragWidth: 0,
+              body: Column(children: <Widget>[
+                Expanded(
+                    child: ListView(children: [
+                  TransfersList(
+                      list:
+                          (token?.transactions?.list?.reversed?.toList() ?? []))
+                ])),
+              ]));
+        });
   }
 }
 
 class TransfersList extends StatelessWidget {
-  final Token token;
-  TransfersList({this.token});
+  TransfersList({this.list});
+  final List<Transaction> list;
   @override
   Widget build(BuildContext context) {
-    final list = token?.transactions?.list?.reversed?.toList() ?? [];
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -46,7 +59,7 @@ class TransfersList extends StatelessWidget {
               primary: false,
               itemCount: list?.length,
               itemBuilder: (BuildContext ctxt, int index) =>
-                  TransactionTile(transfer: list[index], token: token))
+                  TransactionTile(transfer: list[index]))
         ]);
   }
 }

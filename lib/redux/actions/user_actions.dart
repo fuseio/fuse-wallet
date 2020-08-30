@@ -262,8 +262,7 @@ ThunkAction backupWalletCall() {
   };
 }
 
-ThunkAction backupSuccessCall(
-    String txHash, transfer, String communityAddress) {
+ThunkAction backupSuccessCall(Transfer transfer, String communityAddress) {
   return (Store store) async {
     Transfer confirmedTx = transfer.copyWith(
         status: 'CONFIRMED', timestamp: DateTime.now().millisecondsSinceEpoch);

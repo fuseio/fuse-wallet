@@ -49,23 +49,13 @@ class JoinBonusJob extends Job {
       store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
     }
 
-    if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-      logger.info('JoinBonusJob FAILED');
-      String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
-      store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
-      return;
-    }
-
-    if (fetchedData['data']['funderJobId'] != null) {
-      String funderJobId = fetchedData['data']['funderJobId'];
-      dynamic response = await api.getFunderJob(funderJobId);
-      dynamic data = response['data'];
+    if (isFunderJob == true) {
+      dynamic data = fetchedData['data'];
       String responseStatus = data['status'];
-      if (data['txHash'] != null) {
+      Transfer transfer = arguments['joinBonus'];
+      Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
+      if (data['txHash'] != null  && [null, ''].contains(transfer.txHash)) {
         logger.info('JoinBonusJob txHash txHash txHash ${data['txHash']}');
-        Transfer transfer = arguments['joinBonus'];
-        Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx,
@@ -75,44 +65,57 @@ class JoinBonusJob extends Job {
       }
       if (responseStatus == 'SUCCEEDED') {
         this.status = 'DONE';
-        store.dispatch(joinBonusSuccessCall(data['txHash'], arguments['joinBonus'], arguments['communityAddress']));
+        store.dispatch(joinBonusSuccessCall(confirmedTx, arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         logger.info('JoinBonusJob SUCCEEDED');
-        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         return;
       } else if (responseStatus == 'FAILED') {
-        this.status = 'FAILED';
         logger.info('JoinBonusJob FAILED');
-        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
+        store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id })));
         return;
       }
-    }
-
-    dynamic data = fetchedData['data'];
-
-    if (data['txHash'] != null) {
-      logger.info('JoinCommunityJob txHash txHash txHash ${data['txHash']}');
-      Transfer transfer = arguments['joinBonus'];
-      Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
-      store.dispatch(new ReplaceTransaction(
-          transaction: transfer,
-          transactionToReplace: confirmedTx,
-          communityAddress: arguments['communityAddress']));
-      arguments['joinBonus'] = confirmedTx.copyWith();
-      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
-    }
-    String responseStatus = data['status'];
-    if (responseStatus == 'SUCCEEDED') {
-      this.status = 'DONE';
-      store.dispatch(joinBonusSuccessCall(data['txHash'], arguments['joinBonus'], arguments['communityAddress']));
-      store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
-      logger.info('JoinBonusJob SUCCEEDED');
-      return;
-    } else if (responseStatus == 'FAILED') {
-      logger.info('JoinBonusJob FAILED');
-      store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
-      store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id })));
+    } else {
+      if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
+        logger.info('JoinBonusJob FAILED');
+        String failReason = fetchedData['failReason'];
+        store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
+        store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+        return;
+      }
+      if (fetchedData['data']['funderJobId'] != null) {
+        String funderJobId = fetchedData['data']['funderJobId'];
+        this.isFunderJob = true;
+        this.id = funderJobId;
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+        dynamic response = await api.getFunderJob(funderJobId);
+        dynamic data = response['data'];
+        String responseStatus = data['status'];
+        Transfer transfer = arguments['joinBonus'];
+        Transfer confirmedTx = transfer.copyWith(txHash: data['txHash']);
+        if (data['txHash'] != null && [null, ''].contains(transfer.txHash)) {
+          logger.info('JoinBonusJob txHash txHash txHash ${data['txHash']}');
+          store.dispatch(new ReplaceTransaction(
+              transaction: transfer,
+              transactionToReplace: confirmedTx,
+              communityAddress: arguments['communityAddress']));
+          arguments['joinBonus'] = confirmedTx.copyWith();
+        }
+        if (responseStatus == 'SUCCEEDED') {
+          this.status = 'DONE';
+          store.dispatch(joinBonusSuccessCall(confirmedTx, arguments['communityAddress']));
+          store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+          logger.info('JoinBonusJob SUCCEEDED');
+          store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+          return;
+        } else if (responseStatus == 'FAILED') {
+          this.status = 'FAILED';
+          logger.info('JoinBonusJob FAILED');
+          store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+          store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
+          return;
+        }
+      }
     }
   }
 

@@ -15,8 +15,7 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
 
 class TokenHeader extends StatelessWidget {
-  TokenHeader({this.token, this.tokenPrice});
-  final String tokenPrice;
+  TokenHeader({this.token});
   final Token token;
 
   @override
@@ -100,12 +99,11 @@ class TokenHeader extends StatelessWidget {
                             ),
                             RichText(
                                 text: TextSpan(
-                                    text: ![null, '']
-                                                .contains(token.priceInfo) &&
-                                            token.priceInfo.total.isNotEmpty &&
-                                            tokenPrice != null
-                                        ? '\$$price'
-                                        : "",
+                                    text:
+                                        ![null, ''].contains(token.priceInfo) &&
+                                                token.priceInfo.total.isNotEmpty
+                                            ? '\$$price'
+                                            : "",
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor,
                                         fontSize: 18))),
