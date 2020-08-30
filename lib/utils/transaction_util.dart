@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:seedbed/models/community/business.dart';
 import 'package:seedbed/models/community/community.dart';
-import 'package:seedbed/models/tokens/token.dart';
 import 'package:seedbed/models/transactions/transfer.dart';
 import 'package:seedbed/utils/format.dart';
 import 'package:seedbed/utils/phone.dart';
