@@ -174,6 +174,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         return MainScaffold(
             withPadding: true,
             title: title,
+            padding: args.isConvert ? 20 : null,
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height * 0.7,
