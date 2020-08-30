@@ -724,12 +724,14 @@ ThunkAction processingJobsCall(Timer timer) {
           }
 
           try {
+            // logger.info('cash mode performing ${job.name} ${job.id}');
             await job.perform(store, isJobProcessValid);
           } catch (e) {
             logger.severe('failed perform ${job.name}');
           }
         }
         if (job.status == 'DONE') {
+          // logger.info('Done ${job.name} ${job.id}');
           store
               .dispatch(JobDone(job: job, communityAddress: community.address));
           String tokenAddress = community?.token?.address;
@@ -1041,18 +1043,6 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
   };
 }
 
-ThunkAction sendTokenSuccessCall(transfer, communityAddress) {
-  return (Store store) async {
-    Transfer confirmedTx = transfer.copyWith(
-      status: 'CONFIRMED',
-    );
-    store.dispatch(new ReplaceTransaction(
-        transaction: transfer,
-        transactionToReplace: confirmedTx,
-        communityAddress: communityAddress));
-  };
-}
-
 ThunkAction transactionFailed(transfer, communityAddress) {
   return (Store store) async {
     Transfer failedTx = transfer.copyWith(status: 'FAILED');
@@ -1129,6 +1119,9 @@ ThunkAction joinCommunitySuccessCall(
       status: 'CONFIRMED',
       text: 'Joined ' + (communityName ?? '') + ' community',
     );
+    String joinCommunityJobId = job.id;
+    // logger.info(
+    //     'joinCommunitySuccessCall joinCommunityJobId $joinCommunityJobId');
     store.dispatch(new AlreadyJoinedCommunity(communityAddress));
     store.dispatch(new ReplaceTransaction(
         transaction: transfer,
@@ -1137,7 +1130,7 @@ ThunkAction joinCommunitySuccessCall(
     if (joinBonusPlugin != null && joinBonusPlugin.isActive) {
       String joinBonusJobId = fetchedData['data']['funderJobId'];
       BigInt value = toBigInt(joinBonusPlugin.amount, token.decimals);
-      String joinCommunityJobId = fetchedData['_id'];
+      // logger.info('joinCommunitySuccessCall joinBonusJobId $joinBonusJobId');
       Transfer joinBonus = new Transfer(
           from: DotEnv().env['FUNDER_ADDRESS'],
           type: 'RECEIVE',
@@ -1146,7 +1139,7 @@ ThunkAction joinCommunitySuccessCall(
           tokenAddress: confirmedTx?.tokenAddress,
           text: 'You got a join bonus!',
           status: 'PENDING',
-          jobId: joinBonusJobId ?? joinBonusJobId);
+          jobId: joinBonusJobId ?? joinCommunityJobId);
       store.dispatch(new AddTransaction(
           transaction: joinBonus, communityAddress: communityAddress));
       Map response = Map.from({

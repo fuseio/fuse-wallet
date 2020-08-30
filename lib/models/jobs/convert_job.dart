@@ -113,7 +113,10 @@ class ConvertJob extends Job {
       }
 
       this.status = 'DONE';
-      store.dispatch(sendTokenSuccessCall(confirmedTx, arguments['communityAddress']));
+      store.dispatch(new ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED'),
+            communityAddress: arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: job succeeded',
           properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
     }
