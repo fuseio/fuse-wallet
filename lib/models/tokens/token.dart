@@ -1,9 +1,9 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/price.dart';
-import 'package:fusecash/models/tokens/base.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:esol/models/jobs/base.dart';
+import 'package:esol/models/pro/price.dart';
+import 'package:esol/models/tokens/base.dart';
+import 'package:esol/models/transactions/transactions.dart';
+import 'package:esol/services.dart';
+import 'package:esol/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';

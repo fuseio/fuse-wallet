@@ -1,8 +1,8 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:esol/models/jobs/base.dart';
+import 'package:esol/models/transactions/transfer.dart';
+import 'package:esol/redux/actions/cash_wallet_actions.dart';
+import 'package:esol/redux/state/store.dart';
+import 'package:esol/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'join_bonus_job.g.dart';
@@ -71,6 +71,7 @@ class JoinBonusJob extends Job {
         logger.info('JoinBonusJob SUCCEEDED');
         return;
       } else if (responseStatus == 'FAILED') {
+          this.status = 'FAILED';
         logger.info('JoinBonusJob FAILED');
         store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id })));
@@ -78,6 +79,7 @@ class JoinBonusJob extends Job {
       }
     } else {
       if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
+          this.status = 'FAILED';
         logger.info('JoinBonusJob FAILED');
         String failReason = fetchedData['failReason'];
         store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));

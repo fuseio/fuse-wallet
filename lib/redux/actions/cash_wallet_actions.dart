@@ -3,32 +3,32 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/plugins/join_bonus.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:esol/models/community/business.dart';
+import 'package:esol/models/cash_wallet_state.dart';
+import 'package:esol/models/community/business_metadata.dart';
+import 'package:esol/models/community/community.dart';
+import 'package:esol/models/community/community_metadata.dart';
+import 'package:esol/models/jobs/base.dart';
+import 'package:esol/models/plugins/join_bonus.dart';
+import 'package:esol/models/plugins/plugins.dart';
+import 'package:esol/models/tokens/token.dart';
+import 'package:esol/models/transactions/transaction.dart';
+import 'package:esol/models/transactions/transfer.dart';
+import 'package:esol/models/user_state.dart';
+import 'package:esol/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/utils/constans.dart';
-import 'package:fusecash/utils/firebase.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:esol/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:esol/redux/actions/user_actions.dart';
+import 'package:esol/utils/addresses.dart';
+import 'package:esol/redux/state/store.dart';
+import 'package:esol/utils/constans.dart';
+import 'package:esol/utils/firebase.dart';
+import 'package:esol/utils/format.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:fusecash/services.dart';
+import 'package:esol/services.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -527,7 +527,7 @@ ThunkAction generateWalletSuccessCall(
       });
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
-        "App name": 'Fuse',
+        "App name": 'ESOL',
         "Phone Number": store.state.userState.normalizedPhoneNumber,
         "Wallet Address": store.state.userState.walletAddress,
         "Account Address": store.state.userState.accountAddress,
@@ -1087,15 +1087,11 @@ ThunkAction joinCommunitySuccessCall(
     JoinBonusPlugin joinBonusPlugin,
     Token token) {
   return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    // logger.info('joinCommunitySuccessCall joinCommunitySuccessCall ${job.id}');
     Transfer confirmedTx = transfer.copyWith(
       status: 'CONFIRMED',
       text: 'Joined ' + (communityName ?? '') + ' community',
     );
     String joinCommunityJobId = job.id;
-    // logger.info(
-    //     'joinCommunitySuccessCall joinCommunityJobId $joinCommunityJobId');
     store.dispatch(new AlreadyJoinedCommunity(communityAddress));
     store.dispatch(new ReplaceTransaction(
         transaction: transfer,
@@ -1104,7 +1100,6 @@ ThunkAction joinCommunitySuccessCall(
     if (joinBonusPlugin != null && joinBonusPlugin.isActive) {
       String joinBonusJobId = fetchedData['data']['funderJobId'];
       BigInt value = toBigInt(joinBonusPlugin.amount, token.decimals);
-      // logger.info('joinCommunitySuccessCall joinBonusJobId $joinBonusJobId');
       Transfer joinBonus = new Transfer(
           from: DotEnv().env['FUNDER_ADDRESS'],
           type: 'RECEIVE',
@@ -1395,16 +1390,9 @@ ThunkAction getTokenTransfersListCall(Community community) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      // wallet_core.Web3 web3 = store.state.cashWalletState.web3;
-      // if (web3 == null) {
-      //   throw "Web3 is empty";
-      // }
       String walletAddress = store.state.userState.walletAddress;
       String tokenAddress = community?.token?.address;
       num lastBlockNumber = community?.token?.transactions?.blockNumber;
-      // num currentBlockNumber = await web3.getBlockNumber();
-      // logger.info(
-      //     'getTokenTransfersListCall lastBlockNumber ${community?.name} ${community?.token?.name} $lastBlockNumber');
       dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
           walletAddress, tokenAddress,
           startblock: lastBlockNumber ?? 0);
@@ -1423,13 +1411,9 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      final logger = await AppFactory().getLogger('action');
       String walletAddress = store.state.userState.walletAddress;
       num lastBlockNumber = community?.token?.transactions?.blockNumber;
       final String tokenAddress = community?.token?.address;
-      // logger.info(
-      //     'getReceivedTokenTransfersListCall lastBlockNumber ${community?.name} ${community?.token?.name} $lastBlockNumber');
-      // num currentBlockNumber = await web3.getBlockNumber();
       dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
           walletAddress, tokenAddress,
           startblock: lastBlockNumber ?? 0);

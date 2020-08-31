@@ -1,16 +1,16 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:esol/models/tokens/token.dart';
+import 'package:esol/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:esol/screens/routes.gr.dart';
+import 'package:esol/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:esol/generated/i18n.dart';
+import 'package:esol/models/app_state.dart';
+import 'package:esol/widgets/main_scaffold.dart';
+import 'package:esol/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

@@ -1,10 +1,10 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/plugins/join_bonus.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:esol/models/jobs/base.dart';
+import 'package:esol/models/plugins/join_bonus.dart';
+import 'package:esol/models/tokens/token.dart';
+import 'package:esol/models/transactions/transfer.dart';
+import 'package:esol/redux/actions/cash_wallet_actions.dart';
+import 'package:esol/redux/state/store.dart';
+import 'package:esol/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'join_community_job.g.dart';

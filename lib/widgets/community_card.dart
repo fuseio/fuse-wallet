@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/community.dart';
+import 'package:esol/generated/i18n.dart';
+import 'package:esol/models/community/community.dart';
 
 class CommunitySelectedCardScreen extends StatefulWidget {
   CommunitySelectedCardScreen(

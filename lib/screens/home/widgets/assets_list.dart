@@ -1,14 +1,14 @@
-import 'package:fusecash/screens/home/widgets/token_tile.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:esol/screens/home/widgets/token_tile.dart';
+import 'package:esol/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/models/community/community.dart';
+import 'package:esol/models/app_state.dart';
+import 'package:esol/models/tokens/token.dart';
+import 'package:esol/utils/addresses.dart';
+import 'package:esol/models/community/community.dart';
 
 String getTokenUrl(tokenAddress) {
   return tokenAddress == zeroAddress

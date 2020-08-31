@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
-import 'package:fusecash/screens/contacts/widgets/recent_contacts.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:esol/generated/i18n.dart';
+import 'package:esol/models/app_state.dart';
+import 'package:esol/models/views/contacts.dart';
+import 'package:esol/screens/contacts/widgets/contact_tile.dart';
+import 'package:esol/screens/contacts/widgets/recent_contacts.dart';
+import 'package:esol/utils/contacts.dart';
+import 'package:esol/utils/format.dart';
+import 'package:esol/utils/phone.dart';
+import 'package:esol/utils/send.dart';
+import 'package:esol/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
-import 'package:fusecash/widgets/preloader.dart';
-import 'package:fusecash/widgets/silver_app_bar.dart';
+import 'package:esol/widgets/preloader.dart';
+import 'package:esol/widgets/silver_app_bar.dart';
 
 class ContactsList extends StatefulWidget {
   @override
@@ -266,7 +266,7 @@ class _ContactsListState extends State<ContactsList> {
                 height: 45,
                 child: FloatingActionButton(
                     heroTag: 'contacts_list',
-                    backgroundColor: Color(0xFF292929),
+                    backgroundColor: Theme.of(context).primaryColorDark,
                     elevation: 0,
                     child: Image.asset(
                       'assets/images/scan.png',

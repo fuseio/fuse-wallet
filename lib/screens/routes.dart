@@ -1,19 +1,19 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/screens/home/home_page.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
-import 'package:fusecash/screens/route_guards.dart';
-import 'package:fusecash/screens/misc/lock_screen.dart';
-import 'package:fusecash/screens/misc/pincode_colored.dart';
-import 'package:fusecash/screens/misc/security.dart';
-import 'package:fusecash/screens/signup/recovery.dart';
-import 'package:fusecash/screens/signup/username.dart';
-import 'package:fusecash/screens/signup/signup.dart';
-import 'package:fusecash/screens/signup/verify.dart';
-import 'package:fusecash/screens/splash/splash.dart';
-import 'package:fusecash/screens/send_flow/send_amount.dart';
-import 'package:fusecash/screens/send_flow/send_review.dart';
-import 'package:fusecash/screens/send_flow/send_success.dart';
-import 'package:fusecash/screens/unknown_route.dart';
+import 'package:esol/screens/home/home_page.dart';
+import 'package:esol/screens/misc/webview_page.dart';
+import 'package:esol/screens/route_guards.dart';
+import 'package:esol/screens/misc/lock_screen.dart';
+import 'package:esol/screens/misc/pincode_colored.dart';
+import 'package:esol/screens/misc/security.dart';
+import 'package:esol/screens/signup/recovery.dart';
+import 'package:esol/screens/signup/username.dart';
+import 'package:esol/screens/signup/signup.dart';
+import 'package:esol/screens/signup/verify.dart';
+import 'package:esol/screens/splash/splash.dart';
+import 'package:esol/screens/send_flow/send_amount.dart';
+import 'package:esol/screens/send_flow/send_review.dart';
+import 'package:esol/screens/send_flow/send_success.dart';
+import 'package:esol/screens/unknown_route.dart';
 
 @MaterialAutoRouter(generateNavigationHelperExtension: true, routes: [
   MaterialRoute(page: LockScreen, name: 'lockScreen', initial: true),

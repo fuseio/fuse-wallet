@@ -1,5 +1,5 @@
-name: fusecash
-version: 1.1.44+227
+name: esol
+version: 1.0.0
 description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -50,7 +50,7 @@ dependencies:
   firebase_auth: ^0.18.0+1
   ethereum_address: ^1.0.1
   sentry: ^3.0.1
-  device_info: '>=0.4.2+6 <2.0.0'
+  device_info: ">=0.4.2+6 <2.0.0"
   flutter_cupertino_localizations: ^1.0.1
   flutter_branch_sdk: ^1.1.0
   flutter_udid: ^1.0.1
@@ -68,7 +68,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 flutter_icons:
-  image_path: assets/images/icon_app.jpg
+  image_path: assets/images/app_icon.png
   android: true
   ios: true
 flutter:
@@ -79,19 +79,28 @@ flutter:
     - assets/
     - assets/images/
   fonts:
-    - family: Europa
+    - family: Exo
       fonts:
-        - asset: assets/fonts/europa-regular-webfont.ttf
-        - asset: assets/fonts/europa-light-webfont.ttf
+        - asset: assets/fonts/Exo-ExtraLight.ttf
+          weight: 100
+        - asset: assets/fonts/Exo-ExtraLightItalic.ttf
+          style: italic
+          weight: 100
+        - asset: assets/fonts/Exo-Light.ttf
           weight: 300
-        - asset: assets/fonts/europa-light-webfont.ttf
+        - asset: assets/fonts/Exo-Italic.ttf
+          style: italic
           weight: 400
-        - asset: assets/fonts/europa-regular-webfont.ttf
-          weight: 600
-        - asset: assets/fonts/europa-regular-webfont.ttf
+        - asset: assets/fonts/Exo-Black.ttf
+          weight: 400
+        - asset: assets/fonts/Exo-BoldItalic.ttf
           weight: 700
-        - asset: assets/fonts/europa-bold-webfont.ttf
-          weight: 800
-        - asset: assets/fonts/europa-bold-webfont.ttf
+          style: italic
+        - asset: assets/fonts/Exo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Exo-ExtraBold.ttf
+          weight: 900
+        - asset: assets/fonts/Exo-ExtraBoldItalic.ttf
+          style: italic
           weight: 900
   uses-material-design: true

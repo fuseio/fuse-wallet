@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:esol/generated/i18n.dart';
+import 'package:esol/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/signup_dialog.dart';
-import 'package:fusecash/models/views/onboard.dart';
+import 'package:esol/services.dart';
+import 'package:esol/widgets/main_scaffold.dart';
+import 'package:esol/widgets/primary_button.dart';
+import 'package:esol/widgets/signup_dialog.dart';
+import 'package:esol/models/views/onboard.dart';
 
 class SignupScreen extends StatefulWidget {
   @override

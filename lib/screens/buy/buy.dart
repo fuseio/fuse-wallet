@@ -3,16 +3,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:esol/generated/i18n.dart';
+import 'package:esol/models/app_state.dart';
+import 'package:esol/models/community/business.dart';
+import 'package:esol/models/community/business_metadata.dart';
+import 'package:esol/models/views/buy_page.dart';
+import 'package:esol/redux/actions/cash_wallet_actions.dart';
+import 'package:esol/screens/buy/router/buy_router.gr.dart';
+import 'package:esol/screens/contacts/send_amount_arguments.dart';
+import 'package:esol/screens/routes.gr.dart';
+import 'package:esol/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 
 class BuyScreen extends StatelessWidget {
@@ -146,7 +146,7 @@ class BusinessesListView extends StatelessWidget {
       subtitle: Text(
         business.metadata.description ?? '',
         style: TextStyle(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
             fontSize: 12,
             fontWeight: FontWeight.normal),
       ),
@@ -162,18 +162,16 @@ class BusinessesListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
+          InkWell(
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/go.png',
+                  fit: BoxFit.fill,
+                  width: 25,
+                  height: 25,
+                )),
+            onTap: () {
               ExtendedNavigator.root.push(Routes.sendAmountScreen,
                   arguments: SendAmountScreenArguments(
                       pageArgs: SendAmountArguments(
@@ -183,7 +181,7 @@ class BusinessesListView extends StatelessWidget {
                           avatar:
                               NetworkImage(business.metadata.getImageUri()))));
             },
-          ),
+          )
         ],
       ),
     );

@@ -1,13 +1,13 @@
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:esol/generated/i18n.dart';
+import 'package:esol/models/community/community.dart';
+import 'package:esol/models/tokens/token.dart';
+import 'package:esol/models/transactions/transaction.dart';
+import 'package:esol/models/transactions/transfer.dart';
+import 'package:esol/models/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/screens/home/widgets/transaction_tile.dart';
+import 'package:esol/redux/actions/cash_wallet_actions.dart';
+import 'package:esol/screens/home/widgets/transaction_tile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:redux/redux.dart';
 
