@@ -237,7 +237,7 @@ CashWalletState _getTokenTransfersListSuccess(
             saved = saved.copyWith(status: tx.status);
           }
         } else {
-          current.token.transactions.list.add(tx);
+          current.secondaryToken.transactions.list.add(tx);
         }
       }
       Community newCommunity = current.copyWith(

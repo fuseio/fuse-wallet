@@ -547,3 +547,71 @@ ThunkAction updateTotalBalance() {
     }
   };
 }
+
+ThunkAction getWalletAddressessCall() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      String privateKey = store.state.userState.privateKey;
+      dynamic walletData = await api.getWallet();
+      List<String> networks = List<String>.from(walletData['networks']);
+      String walletAddress = walletData['walletAddress'];
+      bool backup = walletData['backup'];
+      String communityManagerAddress = walletData['communityManager'];
+      String transferManagerAddress = walletData['transferManager'];
+      String dAIPointsManagerAddress = walletData['dAIPointsManager'];
+      store.dispatch(GetWalletAddressesSuccess(
+          backup: backup,
+          walletAddress: walletAddress,
+          daiPointsManagerAddress: dAIPointsManagerAddress,
+          communityManagerAddress: communityManagerAddress,
+          transferManagerAddress: transferManagerAddress,
+          networks: networks));
+      if (networks.contains(foreignNetwork)) {
+        store.dispatch(initWeb3ProMode(
+            privateKey: privateKey,
+            communityManagerAddress: communityManagerAddress,
+            transferManagerAddress: transferManagerAddress,
+            dAIPointsManagerAddress: dAIPointsManagerAddress));
+      } else {
+        store.dispatch(createForiegnWallet());
+      }
+      store.dispatch(initWeb3Call(privateKey,
+          communityManagerAddress: communityManagerAddress,
+          transferManagerAddress: transferManagerAddress,
+          dAIPointsManagerAddress: dAIPointsManagerAddress));
+    } catch (e) {
+      logger.severe('ERROR - getWalletAddressCall $e');
+      store.dispatch(new ErrorAction('Could not get wallet address'));
+    }
+  };
+}
+
+ThunkAction createForiegnWallet() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      String walletAddress = store.state.userState.walletAddress;
+      List transfersEvents = await graph.getTransferEvents(
+          foreignNetwork: foreignNetwork, to: walletAddress);
+      if (transfersEvents.isNotEmpty) {
+        store.dispatch(initWeb3ProMode());
+        dynamic response = await api.createWalletOnForeign(force: true);
+        String jobId = response['job']['_id'];
+        logger.info('Create wallet on foreign jobId - $jobId');
+        store.dispatch(startListenToTransferEvents());
+        store.dispatch(startFetchBalancesOnForeign());
+        store.dispatch(fetchTokensBalances());
+        store.dispatch(startFetchTransferEventsCall());
+        store.dispatch(startFetchTokensLastestPrices());
+        store.dispatch(startProcessingTokensJobsCall());
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          "Pro mode active": true,
+        })));
+      }
+    } catch (e) {
+      logger.severe('ERROR - getWalletAddressCall $e');
+      store.dispatch(new ErrorAction('Could not get wallet address'));
+    }
+  };
+}

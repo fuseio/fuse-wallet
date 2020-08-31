@@ -150,7 +150,7 @@ ThunkAction initWeb3ProMode(
     String dAIPointsManagerAddress}) {
   return (Store store) async {
     UserState userState = store.state.userState;
-    String privateKey = userState.privateKey;
+    String pk = privateKey ?? userState.privateKey;
     wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
         networkId: int.parse(DotEnv().env['FOREIGN_NETWORK_ID']),
         transferManagerAddress:
@@ -160,7 +160,7 @@ ThunkAction initWeb3ProMode(
         communityManagerAddress:
             communityManagerAddress ?? userState.communityManagerAddress,
         url: DotEnv().env['FOREIGN_PROVIDER_URL']);
-    await web3.setCredentials(privateKey);
+    await web3.setCredentials(pk);
     store.dispatch(new InitWeb3ProModeSuccess(web3: web3));
   };
 }
@@ -555,8 +555,6 @@ ThunkAction sendErc20TokenCall(
       if (web3 == null) {
         throw "Web3 is empty";
       }
-      Community community =
-          store.state.cashWalletState.communities[defaultCommunityAddress];
       logger.info(
           'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
       Map<String, dynamic> approveTokenData = await web3.approveTokenOffChain(
@@ -565,14 +563,9 @@ ThunkAction sendErc20TokenCall(
       Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
           walletAddress, token.address, receiverAddress, tokensAmount,
           network: foreignNetwork);
-      num feeAmount = fees[token.symbol] ??
-          1; // community.plugins.foreignTransfers.calcFee(tokensAmount);
+      num feeAmount = fees[token.symbol] ?? 1;
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress,
-          token.address,
-          community.plugins.foreignTransfers?.receiverAddress ??
-              '0x77D886e98133D99130179bdb41CE052a43d32c2F',
-          feeAmount,
+          walletAddress, token.address, feeReceiverAddress, feeAmount,
           network: foreignNetwork);
       dynamic approveTrasfer = await api
           .multiRelay([approveTokenData, transferTokenData, feeTrasnferData]);
@@ -809,15 +802,16 @@ ThunkAction swapHandler(
       num feeAmount = fees[fromToken.symbol] ?? 0;
       Map<String, dynamic> signedApprovalData = await web3.approveTokenOffChain(
           walletAddress, tokenAddress, tokensAmount,
-          spenderContract: spenderContract, network: 'mainnet');
+          spenderContract: spenderContract, network: foreignNetwork);
       Map<String, dynamic> signedSwapData = await web3.callContractOffChain(
           walletAddress,
           swapContractAddress,
           0,
           swapData.replaceFirst('0x', ''),
-          network: 'mainnet');
+          network: foreignNetwork);
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+          walletAddress, tokenAddress, feeReceiverAddress, feeAmount,
+          network: foreignNetwork);
 
       Map<String, dynamic> response = await api
           .multiRelay([signedApprovalData, signedSwapData, feeTrasnferData]);
