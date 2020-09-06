@@ -14,12 +14,14 @@ class BottomBar extends StatelessWidget {
             padding: EdgeInsets.only(top: 5, bottom: 3),
             child: SvgPicture.asset(
               'assets/images/$imgSvg\.svg',
+              height: 22,
             ),
           ),
           activeIcon: Padding(
             padding: EdgeInsets.only(top: 5, bottom: 3),
             child: SvgPicture.asset(
               'assets/images/$imgSvg\_selected.svg',
+              height: 22,
             ),
           ),
           title: Padding(
@@ -46,8 +48,8 @@ class BottomBar extends StatelessWidget {
           items: [
             bottomBarItem(context, I18n.of(context).home, 'home'),
             bottomBarItem(context, I18n.of(context).send_button, 'send'),
-            bottomBarItem(context, I18n.of(context).buy, 'buy'),
             bottomBarItem(context, I18n.of(context).receive, 'receive'),
+            bottomBarItem(context, I18n.of(context).buy, 'buy'),
           ],
           onTap: onTap,
         ));

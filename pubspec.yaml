@@ -4,6 +4,7 @@ description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  adobe_xd: ^1.0.0+1
   flutter_platform_widgets: ^0.60.1
   enum_to_string: ^1.0.9
   local_auth: ^0.6.2+3

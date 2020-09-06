@@ -116,6 +116,7 @@ class _HomePageState extends State<HomePage> {
                           ? ContactsRoutes.contactsList
                           : ContactsRoutes.emptyContacts,
                 ),
+                ReceiveScreen(),
                 !['', null].contains(vm.community.webUrl)
                     ? WebViewPage(
                         url: vm.community.webUrl,
@@ -125,7 +126,6 @@ class _HomePageState extends State<HomePage> {
                         router: BuyRouter(),
                         observers: [SegmentObserver()],
                       ),
-                ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(
                 onTap: (index) {

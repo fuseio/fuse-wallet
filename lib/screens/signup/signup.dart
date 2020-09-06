@@ -82,7 +82,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       )),
                 ),
                 Container(
-                  width: 180.0,
                   height: 35.0,
                   decoration: BoxDecoration(
                     color: Color(0xFFeaeaea),

@@ -6,6 +6,7 @@ import 'package:esol/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:esol/utils/format.dart';
 import 'package:esol/utils/send.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CashHeader extends StatelessWidget {
   @override
@@ -87,68 +88,74 @@ class CashHeader extends StatelessWidget {
                                               style: TextStyle(
                                                   fontSize: 30,
                                                   color: Theme.of(context)
-                                                      .splashColor,
-                                                  fontWeight: FontWeight.bold)),
+                                                      .splashColor)),
                                         ],
                                       ),
                                     ),
                                   ])
                             : RichText(
-                                text: new TextSpan(
+                                text: TextSpan(
                                   style: TextStyle(
                                       color: Theme.of(context).splashColor),
                                   children: viewModel.community.token == null
                                       ? <TextSpan>[
-                                          new TextSpan(
+                                          TextSpan(
                                               text: '0',
-                                              style: new TextStyle(
-                                                  fontSize: 30,
-                                                  color: Theme.of(context)
-                                                      .splashColor,
-                                                  fontWeight: FontWeight.bold))
+                                              style: TextStyle(
+                                                fontSize: 30,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                              ))
                                         ]
                                       : <TextSpan>[
-                                          new TextSpan(
-                                              text: formatValue(
-                                                  viewModel
-                                                      .community.token.amount,
-                                                  viewModel.community.token
-                                                      .decimals),
-                                              style: new TextStyle(
-                                                  fontSize: 32,
+                                          // TextSpan(
+                                          //     text: '/S ',
+                                          //     style: TextStyle(
+                                          //         fontSize: 32,
+                                          //         color: Theme.of(context)
+                                          //             .splashColor,
+                                          //         fontWeight: FontWeight.normal,
+                                          //         height: 0.0)),
+                                          TextSpan(
+                                              text: 'S/ ' +
+                                                  formatValue(
+                                                      viewModel.community.token
+                                                          .amount,
+                                                      viewModel.community.token
+                                                          .decimals),
+                                              style: TextStyle(
+                                                  fontSize: 36,
+                                                  fontWeight: FontWeight.w100,
                                                   color: Theme.of(context)
-                                                      .splashColor,
-                                                  fontWeight: FontWeight.bold)),
-                                          new TextSpan(
-                                              text: ' ' +
-                                                  viewModel
-                                                      .community.token?.symbol
-                                                      .toString(),
-                                              style: new TextStyle(
-                                                  fontSize: 18,
-                                                  color: Theme.of(context)
-                                                      .splashColor,
-                                                  fontWeight: FontWeight.normal,
-                                                  height: 0.0))
+                                                      .splashColor)),
                                         ],
                                 ),
                               ),
                       ],
                     ),
                     Container(
-                      width: 45,
-                      height: 45,
-                      child: FloatingActionButton(
-                          heroTag: 'cash_header',
-                          backgroundColor: Theme.of(context).splashColor,
-                          elevation: 0,
-                          child: Image.asset(
-                            'assets/images/scan.png',
-                            width: 25.0,
-                            color: Theme.of(context).primaryColorDark,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).splashColor,
+                            borderRadius: BorderRadius.circular(20.0)),
+                        padding: EdgeInsets.all(15),
+                        child: InkWell(
+                          onTap: bracodeScannerHandler,
+                          child: Column(
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/QR.svg",
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'QR',
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColorDark),
+                              )
+                            ],
                           ),
-                          onPressed: bracodeScannerHandler),
-                    )
+                        ))
                   ],
                 ),
               ],

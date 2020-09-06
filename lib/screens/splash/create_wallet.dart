@@ -104,11 +104,7 @@ class _CreateWalletState extends State<CreateWallet> {
               children: <Widget>[
                 Expanded(
                   flex: 6,
-                  child: Image.asset(
-                    'assets/images/e-sol-logo.png',
-                    width: 350,
-                    height: 350,
-                  ),
+                  child: SizedBox.expand(),
                 ),
                 Flexible(
                   flex: 2,

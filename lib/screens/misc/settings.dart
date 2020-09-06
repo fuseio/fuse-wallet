@@ -6,7 +6,6 @@ import 'package:esol/generated/i18n.dart';
 import 'package:esol/models/app_state.dart';
 import 'package:esol/models/views/drawer.dart';
 import 'package:esol/screens/home/router/home_router.gr.dart';
-import 'package:esol/utils/forks.dart';
 import 'package:esol/widgets/language_selector.dart';
 import 'package:esol/widgets/main_scaffold.dart';
 import 'package:esol/screens/routes.gr.dart';
@@ -25,37 +24,29 @@ class SettingsScreen extends StatelessWidget {
   }
 
   List<Widget> menuItem(BuildContext context, DrawerViewModel viewModel) {
-    if (isFork()) {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.aboutScreen);
-        }),
-      ];
-    } else {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.aboutScreen);
-        }),
-        Divider(
-          color: Color(0xFFE8E8E8),
-        ),
-        getListTile(context, I18n.of(context).protect_wallet, () {
-          ExtendedNavigator.named('homeRouter')
-              .push(HomeRoutes.protectYourWallet);
-        }),
-        Divider(
-          color: Color(0xFFE8E8E8),
-        ),
-        LanguageSelector(),
-        Divider(
-          color: Color(0xFFE8E8E8),
-        ),
-        getListTile(context, I18n.of(context).logout, () {
-          viewModel.logout();
-          ExtendedNavigator.root.replace(Routes.splashScreen);
-        })
-      ];
-    }
+    return [
+      getListTile(context, I18n.of(context).about, () {
+        ExtendedNavigator.named('homeRouter').push(HomeRoutes.aboutScreen);
+      }),
+      Divider(
+        color: Color(0xFFE8E8E8),
+      ),
+      getListTile(context, I18n.of(context).protect_wallet, () {
+        ExtendedNavigator.named('homeRouter')
+            .push(HomeRoutes.protectYourWallet);
+      }),
+      Divider(
+        color: Color(0xFFE8E8E8),
+      ),
+      LanguageSelector(),
+      Divider(
+        color: Color(0xFFE8E8E8),
+      ),
+      getListTile(context, I18n.of(context).logout, () {
+        viewModel.logout();
+        ExtendedNavigator.root.replace(Routes.splashScreen);
+      })
+    ];
   }
 
   Widget build(BuildContext context) {

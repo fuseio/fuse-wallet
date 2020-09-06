@@ -112,7 +112,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
 
           return Scaffold(
             appBar: MyAppBar(
-              height: 210.0,
+              height: 220.0,
               child: CashHeader(),
             ),
             body: body,

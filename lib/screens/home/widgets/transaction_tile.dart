@@ -63,7 +63,7 @@ class _TransactionTileState extends State<TransactionTile> {
               widget.transfer, contact, community,
               isZeroAddress: isZeroAddress);
           String displayName = widget.transfer.isJoinBonus()
-              ? (widget.transfer.text ?? I18n.of(context).join_bonus)
+              ? I18n.of(context).join_bonus
               : ![null, ''].contains(widget.transfer.receiverName)
                   ? widget.transfer.receiverName
                   : ![null, ''].contains(widget.transfer.text)
