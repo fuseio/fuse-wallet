@@ -127,6 +127,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   )
                 : null),
         getListTile(I18n.of(context).settings, () {
+          ExtendedNavigator.root.pop();
           ExtendedNavigator.named('homeRouter').push(HomeRoutes.settingsScreen);
         }, icon: 'settings_icon.svg'),
       ];

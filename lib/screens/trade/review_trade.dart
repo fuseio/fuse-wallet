@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
@@ -42,6 +43,10 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
         BigInt.from(num.parse(widget.exchangeSummry['sourceAmount'])),
         int.parse(widget.exchangeSummry['sourceAsset']['decimals']),
         withPrecision: true);
+    final amountToReceive = formatValue(
+        BigInt.from(num.parse(widget.exchangeSummry['destinationAmount'])),
+        int.parse(widget.exchangeSummry['destinationAsset']['decimals']),
+        withPrecision: true);
     final num tokenBalance = num.parse(
         formatValue(widget.fromToken.amount, widget.fromToken.decimals));
     final bool hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
@@ -76,7 +81,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Pay with',
+                              I18n.of(context).pay_with,
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
@@ -89,24 +94,17 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                               verticalDirection: VerticalDirection.down,
                               textBaseline: TextBaseline.alphabetic,
                               children: <Widget>[
-                                Text(
-                                  formatValue(
-                                      BigInt.from(num.parse(widget
-                                          .exchangeSummry['sourceAmount'])),
-                                      int.parse(
-                                          widget.exchangeSummry['sourceAsset']
-                                              ['decimals']),
-                                      withPrecision: true),
-                                  style: TextStyle(fontSize: 40),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  widget.exchangeSummry['sourceAsset']
-                                      ['symbol'],
-                                  style: TextStyle(fontSize: 20),
-                                ),
+                                AutoSizeText.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text: amountToSwap,
+                                    style: TextStyle(fontSize: 40),
+                                  ),
+                                  TextSpan(
+                                    text: widget.exchangeSummry['sourceAsset']
+                                        ['symbol'],
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ])),
                               ],
                             )
                           ],
@@ -128,7 +126,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Receive',
+                              I18n.of(context).receive,
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
@@ -141,24 +139,18 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                               verticalDirection: VerticalDirection.down,
                               textBaseline: TextBaseline.alphabetic,
                               children: <Widget>[
-                                Text(
-                                  formatValue(
-                                      BigInt.from(num.parse(
-                                          widget.exchangeSummry[
-                                              'destinationAmount'])),
-                                      int.parse(widget.exchangeSummry[
-                                          'destinationAsset']['decimals']),
-                                      withPrecision: true),
-                                  style: TextStyle(fontSize: 40),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  widget.exchangeSummry['destinationAsset']
-                                      ['symbol'],
-                                  style: TextStyle(fontSize: 20),
-                                ),
+                                AutoSizeText.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text: amountToReceive,
+                                    style: TextStyle(fontSize: 40),
+                                  ),
+                                  TextSpan(
+                                    text: widget
+                                            .exchangeSummry['destinationAsset']
+                                        ['symbol'],
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ]))
                               ],
                             )
                           ],

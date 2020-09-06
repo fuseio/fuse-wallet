@@ -13,6 +13,7 @@ import 'package:fusecash/redux/actions/error_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:fusecash/utils/constans.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
@@ -293,7 +294,7 @@ ThunkAction restoreWalletCall(
       dynamic accountAddress = await c.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
-      store.dispatch(initWeb3Call(privateKey));
+      store.dispatch(initWeb3Call(privateKey: privateKey));
       store.dispatch(segmentTrackCall("Wallet: restored mnemonic"));
       successCallback();
     } catch (e) {
@@ -333,7 +334,7 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
       dynamic accountAddress = await c.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
-      store.dispatch(initWeb3Call(privateKey));
+      store.dispatch(initWeb3Call(privateKey: privateKey));
       store.dispatch(segmentTrackCall("Wallet: Create wallet"));
       successCallback();
     } catch (e) {
@@ -476,34 +477,6 @@ ThunkAction create3boxAccountCall(accountAddress) {
   };
 }
 
-ThunkAction activateProModeCall() {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    store.dispatch(initWeb3ProMode());
-    try {
-      bool deployForeignToken =
-          store.state.userState.networks.contains(foreignNetwork);
-      if (!deployForeignToken) {
-        dynamic response = await api.createWalletOnForeign();
-        String jobId = response['job']['_id'];
-        logger.info('Create wallet on foreign jobId - $jobId');
-        store.dispatch(segmentTrackCall('Activate pro mode clicked'));
-        store.dispatch(startListenToTransferEvents());
-        store.dispatch(startFetchBalancesOnForeign());
-        store.dispatch(fetchTokensBalances());
-        store.dispatch(startFetchTransferEventsCall());
-        store.dispatch(startFetchTokensLastestPrices());
-        store.dispatch(startProcessingTokensJobsCall());
-        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-          "Pro mode active": true,
-        })));
-      }
-    } catch (error) {
-      logger.severe('Error createWalletOnForeign', error);
-    }
-  };
-}
-
 ThunkAction loadContacts() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
@@ -543,6 +516,122 @@ ThunkAction updateTotalBalance() {
       store.dispatch(UpdateTotalBalance(totalBalance: value));
     } catch (error) {
       logger.severe('ERROR while update total balance $error');
+    }
+  };
+}
+
+ThunkAction setupWalletCall(walletData) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      List<String> networks = List<String>.from(walletData['networks']);
+      String walletAddress = walletData['walletAddress'];
+      bool backup = walletData['backup'];
+      String communityManagerAddress = walletData['communityManager'];
+      String transferManagerAddress = walletData['transferManager'];
+      String dAIPointsManagerAddress = walletData['dAIPointsManager'];
+      store.dispatch(GetWalletAddressesSuccess(
+          backup: backup,
+          walletAddress: walletAddress,
+          daiPointsManagerAddress: dAIPointsManagerAddress,
+          communityManagerAddress: communityManagerAddress,
+          transferManagerAddress: transferManagerAddress,
+          networks: networks));
+      store.dispatch(initWeb3Call(
+          communityManagerAddress: communityManagerAddress,
+          transferManagerAddress: transferManagerAddress,
+          dAIPointsManagerAddress: dAIPointsManagerAddress));
+      if (networks.contains(foreignNetwork)) {
+        store.dispatch(initWeb3ProMode(
+            communityManagerAddress: communityManagerAddress,
+            transferManagerAddress: transferManagerAddress,
+            dAIPointsManagerAddress: dAIPointsManagerAddress));
+        Future.delayed(Duration(seconds: intervalSeconds), () {
+          store.dispatch(startListenToTransferEvents());
+          store.dispatch(startFetchBalancesOnForeign());
+          store.dispatch(fetchTokensBalances());
+          store.dispatch(startFetchTransferEventsCall());
+          store.dispatch(startFetchTokensLastestPrices());
+          store.dispatch(startProcessingTokensJobsCall());
+        });
+      } else {
+        store.dispatch(createForiegnWalletOnlyIfNeeded());
+      }
+    } catch (e) {
+      logger.severe('ERROR - getWalletAddressCall $e');
+      store.dispatch(new ErrorAction('Could not get wallet address'));
+    }
+  };
+}
+
+ThunkAction getWalletAddressessCall() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      dynamic walletData = await api.getWallet();
+      store.dispatch(setupWalletCall(walletData));
+    } catch (e) {
+      logger.severe('ERROR - getWalletAddressCall $e');
+      store.dispatch(new ErrorAction('Could not get wallet address'));
+    }
+  };
+}
+
+ThunkAction createForiegnWalletOnlyIfNeeded() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      String walletAddress = store.state.userState.walletAddress;
+      List transfersEvents = await graph.getTransferEvents(
+          foreignNetwork: foreignNetwork, to: walletAddress);
+      if (transfersEvents.isNotEmpty) {
+        dynamic response = await api.createWalletOnForeign(force: true);
+        String jobId = response['job']['_id'];
+        logger.info('Create wallet on foreign jobId - $jobId');
+        store.dispatch(initWeb3ProMode());
+        Future.delayed(Duration(seconds: intervalSeconds), () {
+          store.dispatch(startListenToTransferEvents());
+          store.dispatch(startFetchBalancesOnForeign());
+          store.dispatch(fetchTokensBalances());
+          store.dispatch(startFetchTransferEventsCall());
+          store.dispatch(startFetchTokensLastestPrices());
+          store.dispatch(startProcessingTokensJobsCall());
+        });
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          "Pro mode active": true,
+        })));
+      }
+    } catch (e) {
+      logger.severe('ERROR - createForiegnWallet $e');
+      store.dispatch(new ErrorAction('Could not get wallet address'));
+    }
+  };
+}
+
+ThunkAction activateProModeCall() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      bool deployForeignToken =
+          store.state.userState.networks.contains(foreignNetwork);
+      if (!deployForeignToken) {
+        dynamic response = await api.createWalletOnForeign();
+        store.dispatch(initWeb3ProMode());
+        String jobId = response['job']['_id'];
+        logger.info('Create wallet on foreign jobId - $jobId');
+        store.dispatch(segmentTrackCall('Activate pro mode clicked'));
+        store.dispatch(startListenToTransferEvents());
+        store.dispatch(startFetchBalancesOnForeign());
+        store.dispatch(fetchTokensBalances());
+        store.dispatch(startFetchTransferEventsCall());
+        store.dispatch(startFetchTokensLastestPrices());
+        store.dispatch(startProcessingTokensJobsCall());
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          "Pro mode active": true,
+        })));
+      }
+    } catch (error) {
+      logger.severe('Error createWalletOnForeign', error);
     }
   };
 }
