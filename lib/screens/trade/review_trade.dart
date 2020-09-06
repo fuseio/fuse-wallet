@@ -43,6 +43,10 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
         BigInt.from(num.parse(widget.exchangeSummry['sourceAmount'])),
         int.parse(widget.exchangeSummry['sourceAsset']['decimals']),
         withPrecision: true);
+    final amountToReceive = formatValue(
+        BigInt.from(num.parse(widget.exchangeSummry['destinationAmount'])),
+        int.parse(widget.exchangeSummry['destinationAsset']['decimals']),
+        withPrecision: true);
     final num tokenBalance = num.parse(
         formatValue(widget.fromToken.amount, widget.fromToken.decimals));
     final bool hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
@@ -77,7 +81,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Pay with',
+                              I18n.of(context).pay_with,
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
@@ -92,13 +96,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                               children: <Widget>[
                                 AutoSizeText.rich(TextSpan(children: [
                                   TextSpan(
-                                    text: formatValue(
-                                        BigInt.from(num.parse(widget
-                                            .exchangeSummry['sourceAmount'])),
-                                        int.parse(
-                                            widget.exchangeSummry['sourceAsset']
-                                                ['decimals']),
-                                        withPrecision: true),
+                                    text: amountToSwap,
                                     style: TextStyle(fontSize: 40),
                                   ),
                                   TextSpan(
@@ -128,7 +126,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Receive',
+                              I18n.of(context).receive,
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
@@ -143,13 +141,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                               children: <Widget>[
                                 AutoSizeText.rich(TextSpan(children: [
                                   TextSpan(
-                                    text: formatValue(
-                                        BigInt.from(num.parse(
-                                            widget.exchangeSummry[
-                                                'destinationAmount'])),
-                                        int.parse(widget.exchangeSummry[
-                                            'destinationAsset']['decimals']),
-                                        withPrecision: true),
+                                    text: amountToReceive,
                                     style: TextStyle(fontSize: 40),
                                   ),
                                   TextSpan(
@@ -158,7 +150,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                                         ['symbol'],
                                     style: TextStyle(fontSize: 20),
                                   ),
-                                ])),
+                                ]))
                               ],
                             )
                           ],

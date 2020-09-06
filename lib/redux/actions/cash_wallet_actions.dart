@@ -373,7 +373,7 @@ ThunkAction initWeb3Call({
     final logger = await AppFactory().getLogger('action');
     try {
       String pk = privateKey ?? store.state.userState.privateKey;
-      logger.info('initWeb3. privateKey: $pk');
+      logger.info('initWeb3. privateKey: $privateKey');
       logger.info('mnemonic : ${store.state.userState.mnemonic.toString()}');
       wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
           defaultCommunityAddress: defaultCommunityAddress,
@@ -397,7 +397,7 @@ ThunkAction initWeb3Call({
               SetDefaultCommunity(web3.getDefaultCommunity().toLowerCase()));
         }
       }
-      await web3.setCredentials(pk);
+      web3.setCredentials(pk);
       store.dispatch(new InitWeb3Success(web3));
     } catch (e) {
       logger.severe('ERROR - initWeb3Call $e');

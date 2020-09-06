@@ -284,6 +284,8 @@ class I18n implements WidgetsLocalizations {
   String get total_amount => "Total amount:";
   /// "Add funds"
   String get add_funds => "Add funds";
+  /// "Pay with"
+  String get pay_with => "Pay with";
 }
 
 class _I18n_en_US extends I18n {

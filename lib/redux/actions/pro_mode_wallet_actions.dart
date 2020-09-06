@@ -195,8 +195,7 @@ ThunkAction startListenToTransferEvents() {
             tokenAddresses
               ..removeWhere(
                   (address) => proWalletState.erc20Tokens.containsKey(address));
-            logger
-                .info('tokenAddresses tokenAddresses ${tokenAddresses.length}');
+            logger.info('tokenAddresses ${tokenAddresses.length}');
             if (tokenAddresses.isNotEmpty) {
               store.dispatch(addTokens(contractAddresses: tokenAddresses));
               store.dispatch(startFetchBalancesOnForeign());
@@ -396,7 +395,7 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
         List<Community> communities =
             store.state.cashWalletState.communities.values.toList();
         Community community = communities.firstWhere(
-            (element) =>
+            (Community element) =>
                 tokenAddress?.toLowerCase() ==
                 element?.foreignTokenAddress?.toLowerCase(),
             orElse: () => null);

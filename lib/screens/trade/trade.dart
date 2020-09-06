@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/screens/home/router/home_router.gr.dart';
 import 'package:digitalrand/screens/home/widgets/assets_list.dart';
+// import 'package:digitalrand/screens/home/widgets/token_tile.dart';
 import 'package:digitalrand/services.dart';
 import 'package:redux/redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -42,8 +43,7 @@ class _ExchangeState extends State<TradeScreen> {
   Map transactionsResponse;
   bool isFetchingReceive = false;
   bool isSwap = false;
-  bool isFetchingPricePay = true;
-  bool isFetchingPriceReceive = true;
+  bool isFetchingPrice = true;
   String fromTokenAmountPay;
   String fromTokenAmountReceive;
   String toTokenAmountPay;
@@ -173,6 +173,53 @@ class _ExchangeState extends State<TradeScreen> {
     }
   }
 
+  // showBottomMenu(List<Token> tokens, onTap) {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.only(
+  //               topLeft: Radius.circular(20.0),
+  //               topRight: Radius.circular(20.0))),
+  //       builder: (BuildContext context) => Container(
+  //           decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.only(
+  //                   topLeft: Radius.circular(30.0),
+  //                   topRight: Radius.circular(30.0)),
+  //               color: Theme.of(context).splashColor),
+  //           child: CustomScrollView(
+  //             slivers: <Widget>[
+  //               SliverList(
+  //                 delegate: SliverChildListDelegate([
+  //                   Column(
+  //                     mainAxisSize: MainAxisSize.min,
+  //                     children: <Widget>[
+  //                       ListView.separated(
+  //                         shrinkWrap: true,
+  //                         primary: false,
+  //                         padding: EdgeInsets.only(top: 20, bottom: 20),
+  //                         separatorBuilder: (BuildContext context, int index) =>
+  //                             Divider(
+  //                           color: Color(0xFFE8E8E8),
+  //                           height: 0,
+  //                         ),
+  //                         itemCount: tokens?.length ?? 0,
+  //                         itemBuilder: (context, index) => TokenTile(
+  //                             token: tokens[index],
+  //                             symbolWidth: 45,
+  //                             symbolHeight: 45,
+  //                             onTap: () {
+  //                               Navigator.of(context).pop();
+  //                               onTap(tokens[index]);
+  //                             }),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ]),
+  //               ),
+  //             ],
+  //           )));
+  // }
+
   List<DropdownMenuItem<Token>> _buildItems(List<Token> tokens) {
     return tokens.map((Token token) {
       return DropdownMenuItem<Token>(
@@ -197,30 +244,7 @@ class _ExchangeState extends State<TradeScreen> {
             Text(
               token.symbol,
               style: TextStyle(fontSize: 16),
-            ),
-            // RichText(
-            //     text: new TextSpan(
-            //         style: TextStyle(
-            //             color: Theme.of(context).primaryColor, fontSize: 16),
-            //         children: <InlineSpan>[
-            //       TextSpan(
-            //         text: '${token.symbol} ',
-            //         style: TextStyle(fontSize: 16),
-            //       ),
-            //       // token.subtitle != null && token.subtitle.isNotEmpty
-            //       exchangableTokens[checksumEthereumAddress(token.address)] != null &&
-            //               exchangableTokens[checksumEthereumAddress(token.address)].subtitle != null
-            //           ? TextSpan(
-            //               text: '(${exchangableTokens[checksumEthereumAddress(token.address)].subtitle})',
-            //               style: TextStyle(
-            //                   fontSize: 14,
-            //                   color: Color(0xFF888888)))
-            //           : TextSpan(
-            //               text: '',
-            //               style: TextStyle(
-            //                   fontSize: 14,
-            //                   color: Color(0xFF888888)))
-            //     ]))
+            )
           ],
         ),
       );
@@ -249,20 +273,23 @@ class _ExchangeState extends State<TradeScreen> {
           receiveController.text = '';
           fromTokenAmountPay = null;
           toTokenAmountPay = null;
-          isFetchingPricePay = true;
           fromTokenAmountReceive = null;
           toTokenAmountReceive = null;
-          isFetchingPriceReceive = true;
+          isFetchingPrice = true;
         });
       }
-      Map paywithResponse = await fetchSwap(
+      List<Future> futures = <Future>[];
+      futures.add(fetchSwap(
           walletAddress, soureToken.address, destinationToken.address,
           sourceAmount:
-              toBigInt(num.parse('1'), soureToken.decimals).toString());
-      Map receiceResponse = await fetchSwap(
+              toBigInt(num.parse('1'), soureToken.decimals).toString()));
+      futures.add(fetchSwap(
           walletAddress, destinationToken.address, soureToken.address,
           sourceAmount:
-              toBigInt(num.parse('1'), destinationToken.decimals).toString());
+              toBigInt(num.parse('1'), destinationToken.decimals).toString()));
+      List res = await Future.wait(futures);
+      Map paywithResponse = res[0];
+      Map receiceResponse = res[1];
       String fromTokenPay = formatValue(
           BigInt.from(num.parse(paywithResponse['sourceAmount'])),
           soureToken.decimals);
@@ -279,10 +306,9 @@ class _ExchangeState extends State<TradeScreen> {
         setState(() {
           fromTokenAmountPay = fromTokenPay;
           toTokenAmountPay = toTokenPay;
-          isFetchingPricePay = false;
+          isFetchingPrice = false;
           fromTokenAmountReceive = fromTokenReceive;
           toTokenAmountReceive = toTokenReceive;
-          isFetchingPriceReceive = false;
         });
       }
     } catch (e) {
@@ -291,10 +317,9 @@ class _ExchangeState extends State<TradeScreen> {
           swapResponse = null;
           fromTokenAmountPay = null;
           toTokenAmountPay = null;
-          isFetchingPricePay = false;
+          isFetchingPrice = false;
           fromTokenAmountReceive = null;
           toTokenAmountReceive = null;
-          isFetchingPriceReceive = false;
         });
       }
     }
@@ -349,6 +374,15 @@ class _ExchangeState extends State<TradeScreen> {
                       child: Column(
                         children: <Widget>[
                           TradeCard(
+                            // onTap: () {
+                            //   showBottomMenu(viewModel.tokens, (token) {
+                            //     setState(() {
+                            //       tokenToPayWith = token;
+                            //     });
+                            //     fetchPrices(viewModel.walletAddress, token,
+                            //         tokenToReceive);
+                            //   });
+                            // },
                             useMaxWidget: Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 15),
@@ -383,7 +417,7 @@ class _ExchangeState extends State<TradeScreen> {
                             toTokenAmount: !isSwap
                                 ? toTokenAmountPay
                                 : toTokenAmountReceive,
-                            isFetchingPrice: isFetchingPricePay,
+                            isFetchingPrice: isFetchingPrice,
                             hasBalance: payWithHasBalance,
                             // hasBalance: value == 0
                             //     ? false
@@ -404,7 +438,7 @@ class _ExchangeState extends State<TradeScreen> {
                             isFetching: isFetchingReceive,
                             tokenToReceive: receiveToken,
                             token: payWithToken,
-                            title: 'Pay with',
+                            title: I18n.of(context).pay_with,
                           ),
                           Stack(
                             alignment: Alignment.center,
@@ -430,13 +464,22 @@ class _ExchangeState extends State<TradeScreen> {
                             ],
                           ),
                           TradeCard(
+                            // onTap: () {
+                            //   showBottomMenu(viewModel.tokens, (token) {
+                            //     setState(() {
+                            //       tokenToReceive = token;
+                            //     });
+                            //     fetchPrices(viewModel.walletAddress, token,
+                            //         tokenToPayWith);
+                            //   });
+                            // },
                             fromTokenAmount: !isSwap
                                 ? fromTokenAmountReceive
                                 : fromTokenAmountPay,
                             toTokenAmount: !isSwap
                                 ? toTokenAmountReceive
                                 : toTokenAmountPay,
-                            isFetchingPrice: isFetchingPriceReceive,
+                            isFetchingPrice: isFetchingPrice,
                             // hasBalance: receiveValue == 0
                             //     ? false
                             //     : (isSwap
@@ -456,7 +499,7 @@ class _ExchangeState extends State<TradeScreen> {
                             isFetching: isFetchingPayWith,
                             tokenToReceive: payWithToken,
                             token: receiveToken,
-                            title: 'Receive',
+                            title: I18n.of(context).receive,
                           ),
                         ],
                       ),

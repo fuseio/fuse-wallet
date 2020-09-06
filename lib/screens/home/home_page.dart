@@ -82,7 +82,6 @@ class _HomePageState extends State<HomePage> {
       String jwtToken = store.state.userState.jwtToken;
       bool isLoggedOut = store.state.userState.isLoggedOut;
       if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-        // store.dispatch(fetchListOfTokenByAccountAddress());
         store.dispatch(getWalletAddressessCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
