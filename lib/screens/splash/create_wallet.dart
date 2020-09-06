@@ -175,7 +175,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                               isTransparentPreloading = false;
                                             });
                                             ExtendedNavigator.root
-                                                .replace(Routes.signupScreen);
+                                                .push(Routes.signupScreen);
                                           });
                                           setState(() {
                                             isTransparentPreloading = true;
@@ -190,7 +190,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                 label: I18n.of(context).restore_from_backup,
                                 onPressed: () async {
                                   ExtendedNavigator.root
-                                      .replace(Routes.recoveryPage);
+                                      .push(Routes.recoveryPage);
                                 }))
                   ],
                 ),

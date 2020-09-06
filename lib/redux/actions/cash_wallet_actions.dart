@@ -730,7 +730,9 @@ ThunkAction inviteAndSendCall(
       Map<String, Community> communities =
           store.state.cashWalletState.communities;
       Community community = communities.values.firstWhere((element) =>
-          element.token.address.toLowerCase() == token.address.toLowerCase());
+          element.token.address.toLowerCase() == token.address.toLowerCase() ||
+          element.secondaryToken.address.toLowerCase() ==
+              token.address.toLowerCase());
       dynamic response = await api.invite(contactPhoneNumber,
           communityAddress: community.address,
           name: senderName,
@@ -950,14 +952,32 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
       Map<String, Community> communities =
           store.state.cashWalletState.communities;
       Community community = communities.values.firstWhere((element) =>
-          element.token.address.toLowerCase() == token.address.toLowerCase());
+          element.token.address.toLowerCase() == token.address.toLowerCase() ||
+          element.secondaryToken.address.toLowerCase() ==
+              token.address.toLowerCase());
       String tokenAddress = token?.address;
 
-      BigInt value = toBigInt(tokensAmount, token.decimals);
-      logger.info(
-          'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
-      dynamic response = await api.tokenTransfer(
-          web3, walletAddress, tokenAddress, receiverAddress, tokensAmount);
+      BigInt value;
+      dynamic response;
+      if (receiverAddress.toLowerCase() ==
+          community.homeBridgeAddress.toLowerCase()) {
+        num feeAmount = 20;
+        value = toBigInt(tokensAmount, token.decimals);
+        logger.info(
+            'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
+        Map<String, dynamic> trasnferData = await web3.transferTokenOffChain(
+            walletAddress, tokenAddress, receiverAddress, tokensAmount);
+        Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+            walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+        response = await api.multiRelay([trasnferData, feeTrasnferData]);
+      } else {
+        value = toBigInt(tokensAmount, token.decimals);
+        logger.info(
+            'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
+        response = await api.tokenTransfer(
+            web3, walletAddress, tokenAddress, receiverAddress, tokensAmount,
+            network: 'fuse');
+      }
 
       dynamic jobId = response['job']['_id'];
       logger.info('Job $jobId for sending token sent to the relay service');
