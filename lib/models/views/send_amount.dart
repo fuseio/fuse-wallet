@@ -1,11 +1,11 @@
-import 'package:fusecash/utils/format.dart';
+import 'package:digitalrand/utils/format.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/community/community.dart';
+import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {
@@ -14,22 +14,15 @@ class SendAmountViewModel extends Equatable {
   final List<Community> communities;
   final Function(
       Token token,
-      String name,
+      String walletAddress,
       String phoneNumber,
-      num,
+      num amount,
       String receiverName,
       String transferNote,
       VoidCallback,
       VoidCallback) sendToContact;
-  final Function(
-      Token token,
-      String name,
-      String phoneNumber,
-      num,
-      String receiverName,
-      String transferNote,
-      VoidCallback,
-      VoidCallback) sendERC20ToContact;
+  final Function(Token token, String phoneNumber, num, String receiverName,
+      String transferNote, VoidCallback, VoidCallback) sendERC20ToContact;
   final Function(
     Token token,
     String recieverAddress,
@@ -92,7 +85,7 @@ class SendAmountViewModel extends Equatable {
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
           Token token,
-          String name,
+          String walletAddress,
           String phoneNumber,
           num amount,
           String receiverName,
@@ -100,13 +93,12 @@ class SendAmountViewModel extends Equatable {
           VoidCallback sendSuccessCallback,
           VoidCallback sendFailureCallback,
         ) {
-          store.dispatch(sendTokenToContactCall(token, name, phoneNumber,
-              amount, sendSuccessCallback, sendFailureCallback,
+          store.dispatch(sendTokenToContactCall(token, walletAddress,
+              phoneNumber, amount, sendSuccessCallback, sendFailureCallback,
               receiverName: receiverName));
         },
         sendERC20ToContact: (
           Token token,
-          String name,
           String phoneNumber,
           num amount,
           String receiverName,
@@ -114,8 +106,8 @@ class SendAmountViewModel extends Equatable {
           VoidCallback sendSuccessCallback,
           VoidCallback sendFailureCallback,
         ) {
-          store.dispatch(sendErc20TokenToContactCall(token, name, phoneNumber,
-              amount, sendSuccessCallback, sendFailureCallback,
+          store.dispatch(sendErc20TokenToContactCall(token, phoneNumber, amount,
+              sendSuccessCallback, sendFailureCallback,
               receiverName: receiverName));
         },
         sendToAccountAddress: (

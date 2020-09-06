@@ -1,19 +1,19 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/screens/home/home_page.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
-import 'package:fusecash/screens/route_guards.dart';
-import 'package:fusecash/screens/misc/lock_screen.dart';
-import 'package:fusecash/screens/misc/pincode_colored.dart';
-import 'package:fusecash/screens/misc/security.dart';
-import 'package:fusecash/screens/signup/recovery.dart';
-import 'package:fusecash/screens/signup/username.dart';
-import 'package:fusecash/screens/signup/signup.dart';
-import 'package:fusecash/screens/signup/verify.dart';
-import 'package:fusecash/screens/splash/splash.dart';
-import 'package:fusecash/screens/send_flow/send_amount.dart';
-import 'package:fusecash/screens/send_flow/send_review.dart';
-import 'package:fusecash/screens/send_flow/send_success.dart';
-import 'package:fusecash/screens/unknown_route.dart';
+import 'package:digitalrand/screens/home/home_page.dart';
+import 'package:digitalrand/screens/misc/webview_page.dart';
+import 'package:digitalrand/screens/route_guards.dart';
+import 'package:digitalrand/screens/misc/lock_screen.dart';
+import 'package:digitalrand/screens/misc/pincode_colored.dart';
+import 'package:digitalrand/screens/misc/security.dart';
+import 'package:digitalrand/screens/signup/recovery.dart';
+import 'package:digitalrand/screens/signup/username.dart';
+import 'package:digitalrand/screens/signup/signup.dart';
+import 'package:digitalrand/screens/signup/verify.dart';
+import 'package:digitalrand/screens/splash/splash.dart';
+import 'package:digitalrand/screens/send_flow/send_amount.dart';
+import 'package:digitalrand/screens/send_flow/send_review.dart';
+import 'package:digitalrand/screens/send_flow/send_success.dart';
+import 'package:digitalrand/screens/unknown_route.dart';
 
 @MaterialAutoRouter(generateNavigationHelperExtension: true, routes: [
   MaterialRoute(page: LockScreen, name: 'lockScreen', initial: true),

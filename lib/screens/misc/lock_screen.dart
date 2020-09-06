@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/views/backup.dart';
+import 'package:digitalrand/models/views/backup.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/user_state.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/utils/biometric_local_auth.dart';
 
 class LockScreen extends StatefulWidget {
   @override
@@ -81,11 +81,10 @@ class _LockScreenState extends State<LockScreen> {
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Color(0xFFB1FDC0),
-                    Color(0xFFE6FD99),
-                    Color(0xFFFEFD86)
-                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                  gradient: LinearGradient(
+                      colors: [Color(0xFF2256B9), Color(0xFF0233A4)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -103,8 +102,11 @@ class _LockScreenState extends State<LockScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Image.asset('assets/images/pincode_logo.png',
-                                    width: 71, height: 61),
+                                Image.asset(
+                                  'assets/images/digitalrand_logo.png',
+                                  width: 135,
+                                  height: 21,
+                                )
                               ],
                             ),
                           ),

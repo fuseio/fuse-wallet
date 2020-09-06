@@ -1,24 +1,24 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
-import 'package:fusecash/services.dart';
+import 'package:digitalrand/redux/state/store.dart';
+import 'package:digitalrand/screens/home/router/home_router.gr.dart';
+import 'package:digitalrand/screens/home/widgets/assets_list.dart';
+import 'package:digitalrand/services.dart';
 import 'package:redux/redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ethereum_address/ethereum_address.dart';
-import 'package:fusecash/utils/debouncer.dart';
+import 'package:digitalrand/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/constans/exchangable_tokens.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/trade/card.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:digitalrand/constans/exchangable_tokens.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/screens/trade/card.dart';
+import 'package:digitalrand/utils/format.dart';
+import 'package:digitalrand/widgets/main_scaffold.dart';
+import 'package:digitalrand/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -377,10 +377,10 @@ class _ExchangeState extends State<TradeScreen> {
                                         fontWeight: FontWeight.w400),
                                   )),
                             ),
-                            fromTokenAmount: isSwap
+                            fromTokenAmount: !isSwap
                                 ? fromTokenAmountPay
                                 : fromTokenAmountReceive,
-                            toTokenAmount: isSwap
+                            toTokenAmount: !isSwap
                                 ? toTokenAmountPay
                                 : toTokenAmountReceive,
                             isFetchingPrice: isFetchingPricePay,
@@ -430,10 +430,10 @@ class _ExchangeState extends State<TradeScreen> {
                             ],
                           ),
                           TradeCard(
-                            fromTokenAmount: isSwap
+                            fromTokenAmount: !isSwap
                                 ? fromTokenAmountReceive
                                 : fromTokenAmountPay,
-                            toTokenAmount: isSwap
+                            toTokenAmount: !isSwap
                                 ? toTokenAmountReceive
                                 : toTokenAmountPay,
                             isFetchingPrice: isFetchingPriceReceive,

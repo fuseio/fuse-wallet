@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Fuse wallet</string>
+	<string>Digital Rand</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -35,7 +35,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
+				<string>com.googleusercontent.apps.262793449920-847brjlv3qni1ua9hs8ov7jc7l0f4tsa</string>
 			</array>
 		</dict>
 	</array>
@@ -94,7 +94,7 @@
 	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-    <string>itms</string>
+		<string>itms</string>
 	</array>
 </dict>
 </plist>

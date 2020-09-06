@@ -6,16 +6,16 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/route_guards.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/state/store.dart';
+import 'package:digitalrand/screens/route_guards.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/themes/app_theme.dart';
+import 'package:digitalrand/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:digitalrand/generated/i18n.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -121,7 +121,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'Fuse Cash',
+          title: 'Digital Rand',
           builder: ExtendedNavigator.builder(
             router: Router(),
             initialRoute: "/",

@@ -1215,7 +1215,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.4+8"
+    version: "0.2.4+9"
   watcher:
     dependency: transitive
     description:

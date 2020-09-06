@@ -1,13 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/screens/splash/slide_animation_controller.dart';
-import 'package:fusecash/widgets/on_boarding_pages.dart';
-import 'dots_indicator.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/views/splash.dart';
+import 'package:digitalrand/screens/splash/slide_animation_controller.dart';
+import 'package:digitalrand/screens/splash/create_wallet.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -65,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
         distinct: true,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
-          List pages = getPages(context);
+          List pages = [CreateWallet()];
           return WillPopScope(
               onWillPop: () async {
                 ExtendedNavigator.root.pop<bool>(false);
@@ -76,47 +74,26 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: Column(
                 children: <Widget>[
                   Expanded(
-                      flex: 20,
-                      child: Container(
-                        child: Stack(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  bottom: 100, left: 20, right: 20),
-                              child: FlareActor(
-                                "assets/images/animation.flr",
-                                alignment: Alignment.center,
-                                fit: BoxFit.contain,
-                                controller: _slideController,
+                    flex: 20,
+                    child: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: new Stack(
+                            children: <Widget>[
+                              new PageView.builder(
+                                physics: new AlwaysScrollableScrollPhysics(),
+                                itemCount: pages.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return pages[index % pages.length];
+                                },
                               ),
-                            ),
-                            PageView.builder(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              controller: _pageController,
-                              itemCount: pages.length,
-                              itemBuilder: (BuildContext context, int index) =>
-                                  pages[index % 4],
-                            ),
-                            Positioned(
-                              bottom: 15.0,
-                              left: 0.0,
-                              right: 0.0,
-                              child: Container(
-                                padding: EdgeInsets.all(20.0),
-                                child: Center(
-                                  child: DotsIndicator(
-                                    controller: _pageController,
-                                    itemCount: 4,
-                                    onPageSelected: (int page) {
-                                      gotoPage(page);
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      )),
+                      ],
+                    )),
+                  ),
                 ],
               ))));
         });

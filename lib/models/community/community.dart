@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:digitalrand/models/community/business.dart';
+import 'package:digitalrand/models/community/community_metadata.dart';
+import 'package:digitalrand/models/plugins/plugins.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';

@@ -62,8 +62,8 @@ class I18n implements WidgetsLocalizations {
   String get ok => "Ok";
   /// "Contact us"
   String get contact_us => "Contact us";
-  /// "Your fuse wallet is protected!"
-  String get wallet_protected => "Your fuse wallet is protected!";
+  /// "Your Digital Rand wallet is protected!"
+  String get wallet_protected => "Your Digital Rand wallet is protected!";
   /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
   /// "write down the words in order and keep safe. You won’t be able to recover your account without it."
@@ -282,6 +282,8 @@ class I18n implements WidgetsLocalizations {
   String get fee_amount => "Fee amount:";
   /// "Total amount:"
   String get total_amount => "Total amount:";
+  /// "Add funds"
+  String get add_funds => "Add funds";
 }
 
 class _I18n_en_US extends I18n {
@@ -707,9 +709,9 @@ class _I18n_es_ES extends I18n {
   /// "Contact us"
   @override
   String get contact_us => "Contact us";
-  /// "Your fuse wallet is protected!"
+  /// "Your Digital Rand wallet is protected!"
   @override
-  String get wallet_protected => "Your fuse wallet is protected!";
+  String get wallet_protected => "Your Digital Rand wallet is protected!";
   /// "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   @override
   String get wallet_protected_text => "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
@@ -1544,9 +1546,9 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Kontakin kami"
   @override
   String get contact_us => "Kontakin kami";
-  /// "Ang iyong fuse wallet ay protektado!"
+  /// "Ang iyong Digital Rand wallet ay protektado!"
   @override
-  String get wallet_protected => "Ang iyong fuse wallet ay protektado!";
+  String get wallet_protected => "Ang iyong Digital Rand wallet ay protektado!";
   /// "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao."
   @override
   String get wallet_protected_text => "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao.";
@@ -1837,9 +1839,9 @@ class _I18n_id_ID extends I18n {
   /// "Hubungi Kami"
   @override
   String get contact_us => "Hubungi Kami";
-  /// "Dompet fuse anda terlindungi!"
+  /// "Dompet Digital Rand anda terlindungi!"
   @override
-  String get wallet_protected => "Dompet fuse anda terlindungi!";
+  String get wallet_protected => "Dompet Digital Rand anda terlindungi!";
   /// "Hebat, kamu telah melakukan perlindungan susunan kata rahasia kamu. Ingat untuk menjaga susunan kata rahasia kamu di tempat yang aman dan nyaman dan jangan biarkan orang lain tahu."
   @override
   String get wallet_protected_text => "Hebat, kamu telah melakukan perlindungan susunan kata rahasia kamu. Ingat untuk menjaga susunan kata rahasia kamu di tempat yang aman dan nyaman dan jangan biarkan orang lain tahu.";
@@ -2133,9 +2135,9 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "Contact us"
   @override
   String get contact_us => "Contact us";
-  /// "Your fuse wallet is protected!"
+  /// "Your Digital Rand wallet is protected!"
   @override
-  String get wallet_protected => "Your fuse wallet is protected!";
+  String get wallet_protected => "Your Digital Rand wallet is protected!";
   /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   @override
   String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";

@@ -1,9 +1,9 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/price.dart';
-import 'package:fusecash/models/tokens/base.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:digitalrand/models/jobs/base.dart';
+import 'package:digitalrand/models/pro/price.dart';
+import 'package:digitalrand/models/tokens/base.dart';
+import 'package:digitalrand/models/transactions/transactions.dart';
+import 'package:digitalrand/services.dart';
+import 'package:digitalrand/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';
@@ -112,13 +112,16 @@ class Token extends ERC20Token {
   Future<dynamic> fetchTokenLastestPrice(
       {String currency = 'usd',
       void Function(Price) onDone,
-      Function onError}) async {
-    // final logger = await AppFactory().getLogger('action');
+      Function onError,
+      String address}) async {
     try {
+      final Map<String, dynamic> coinInfoResponse =
+          await marketApi.getCoinInfoByAddress(address ?? this.address);
+      final String coinId = coinInfoResponse['id'];
       final Map<String, dynamic> response =
-          await marketApi.getCurrentPriceOfTokens(this.address, currency);
-      double price = response[this.address.toLowerCase()][currency];
-      String quote = response[this.address.toLowerCase()][currency].toString();
+          await marketApi.getCurrentPriceOfToken(coinId, currency);
+      double price = response[coinId][currency];
+      String quote = price.toString();
       String total =
           getFiatValue(this.amount, this.decimals, price, withPrecision: true);
       if (this.priceInfo == null) {

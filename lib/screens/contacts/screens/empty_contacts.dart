@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
-import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
-import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/views/contacts.dart';
+import 'package:digitalrand/screens/contacts/widgets/contact_tile.dart';
+import 'package:digitalrand/screens/contacts/widgets/enable_contacts.dart';
+import 'package:digitalrand/screens/contacts/router/router_contacts.gr.dart';
+import 'package:digitalrand/utils/contacts.dart';
+import 'package:digitalrand/utils/format.dart';
+import 'package:digitalrand/utils/send.dart';
+import 'package:digitalrand/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
-import 'package:fusecash/widgets/silver_app_bar.dart';
+import 'package:digitalrand/widgets/silver_app_bar.dart';
 
 class EmptyContacts extends StatefulWidget {
   @override
@@ -29,6 +29,9 @@ class _EmptyContactsState extends State<EmptyContacts> {
   @override
   void initState() {
     super.initState();
+    searchController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -77,6 +80,86 @@ class _EmptyContactsState extends State<EmptyContacts> {
     if (isValidEthereumAddress(searchController.text)) {
       listItems.add(sendToAcccountAddress(searchController.text));
     }
+    listItems.add(SliverList(
+      delegate: SliverChildListDelegate([
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 100),
+              child: SvgPicture.asset(
+                'assets/images/contacts.svg',
+                width: 70.0,
+                height: 70,
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Text(I18n.of(context).sync_your_contacts),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                InkWell(
+                  child: Text(I18n.of(context).learn_more),
+                  onTap: () {
+                    showDialog(
+                        child: ContactsConfirmationScreen(), context: context);
+                  },
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                InkWell(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          I18n.of(context).activate,
+                          style: TextStyle(color: Color(0xFF0377FF)),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        SvgPicture.asset('assets/images/blue_arrow.svg')
+                      ],
+                    ),
+                    onTap: () async {
+                      bool premission =
+                          await ContactController.getPermissions();
+                      if (premission) {
+                        List<Contact> contacts =
+                            await ContactController.getContacts();
+                        viewModel.syncContacts(contacts);
+                        ExtendedNavigator.named('contactsRouter')
+                            .replace(ContactsRoutes.contactsList);
+                        viewModel
+                            .trackCall("Wallet: Contacts Permission Granted");
+                        viewModel.idenyifyCall(
+                            Map.from({"Contacts Permission Granted": false}));
+                        setState(() {
+                          hasSynced = true;
+                        });
+                      } else {
+                        viewModel
+                            .trackCall("Wallet: Contacts Permission Rejected");
+                        viewModel.idenyifyCall(
+                            Map.from({"Contacts Permission Granted": false}));
+                      }
+                    })
+              ],
+            )
+          ],
+        )
+      ]),
+    ));
+
     return listItems;
   }
 
@@ -147,87 +230,10 @@ class _EmptyContactsState extends State<EmptyContacts> {
         converter: ContactsViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
-              automaticallyImplyLeading: false,
-              title: I18n.of(context).send_to,
-              sliverList: _buildPageList(viewModel),
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top: 100),
-                      child: SvgPicture.asset(
-                        'assets/images/contacts.svg',
-                        width: 70.0,
-                        height: 70,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Text(I18n.of(context).sync_your_contacts),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        InkWell(
-                          child: Text(I18n.of(context).learn_more),
-                          onTap: () {
-                            showDialog(
-                                child: ContactsConfirmationScreen(),
-                                context: context);
-                          },
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        InkWell(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  I18n.of(context).activate,
-                                  style: TextStyle(color: Color(0xFF0377FF)),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                SvgPicture.asset('assets/images/blue_arrow.svg')
-                              ],
-                            ),
-                            onTap: () async {
-                              bool premission =
-                                  await ContactController.getPermissions();
-                              if (premission) {
-                                List<Contact> contacts =
-                                    await ContactController.getContacts();
-                                viewModel.syncContacts(contacts);
-                                ExtendedNavigator.named('contactsRouter')
-                                    .replace(ContactsRoutes.contactsList);
-                                viewModel.trackCall(
-                                    "Wallet: Contacts Permission Granted");
-                                viewModel.idenyifyCall(Map.from(
-                                    {"Contacts Permission Granted": false}));
-                                setState(() {
-                                  hasSynced = true;
-                                });
-                              } else {
-                                viewModel.trackCall(
-                                    "Wallet: Contacts Permission Rejected");
-                                viewModel.idenyifyCall(Map.from(
-                                    {"Contacts Permission Granted": false}));
-                              }
-                            })
-                      ],
-                    )
-                  ],
-                )
-              ]);
+            automaticallyImplyLeading: false,
+            title: I18n.of(context).send_to,
+            sliverList: _buildPageList(viewModel),
+          );
         });
   }
 }

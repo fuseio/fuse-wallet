@@ -1,15 +1,15 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fusecash/redux/middlewares/auth_middleware.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/reducers/app_reducer.dart';
-import 'package:fusecash/redux/state/state_secure_storage.dart';
-import 'package:fusecash/utils/jwt.dart';
+import 'package:digitalrand/redux/middlewares/auth_middleware.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/redux/reducers/app_reducer.dart';
+import 'package:digitalrand/redux/state/state_secure_storage.dart';
+import 'package:digitalrand/utils/jwt.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
-import 'package:fusecash/services.dart';
+import 'package:digitalrand/services.dart';
 import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
@@ -81,11 +81,12 @@ class AppFactory {
           Duration diff = exp.difference(now);
 
           if (diff.inDays <= 1) {
-            String token = await firebaseAuth.currentUser.getIdToken();
+            String token = await firebaseAuth.currentUser.getIdToken(true);
             jwtToken = await api.login(
                 token,
                 initialState.userState.accountAddress,
-                initialState.userState.identifier);
+                initialState.userState.identifier,
+                appName: 'DigitalRand');
           }
 
           logger.info('JWT: $jwtToken');
@@ -220,7 +221,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
-                app: App(name: 'Fuse Wallet'),
+                app: App(name: 'Digital Rand'),
                 operatingSystem: operatingSystem),
             userContext: user));
 

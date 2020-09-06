@@ -1,21 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/widgets/network_explained.dart';
+import 'package:digitalrand/models/community/community.dart';
+import 'package:digitalrand/screens/home/router/home_router.gr.dart';
+import 'package:digitalrand/widgets/network_explained.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/move_to_ethereum.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/widgets/move_to_ethereum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/utils/format.dart';
 
 class TokenHeader extends StatelessWidget {
-  TokenHeader({this.token});
+  TokenHeader({this.token, this.dzarQuate});
+  final double dzarQuate;
   final Token token;
 
   @override
@@ -62,7 +63,10 @@ class TokenHeader extends StatelessWidget {
                   },
                   child: Padding(
                       padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
-                      child: Icon(PlatformIcons(context).back))),
+                      child: Icon(
+                        PlatformIcons(context).back,
+                        color: Theme.of(context).splashColor,
+                      ))),
               Expanded(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -71,7 +75,7 @@ class TokenHeader extends StatelessWidget {
                   Container(
                     child: Text('${token.symbol} ${I18n.of(context).balance}',
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).splashColor,
                             fontSize: 12.0)),
                     padding: EdgeInsets.only(bottom: 6.0),
                   ),
@@ -89,7 +93,7 @@ class TokenHeader extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 27,
                                         fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).primaryColor),
+                                        color: Theme.of(context).splashColor),
                                     children: [
                                   TextSpan(text: token.getBalance()),
                                   TextSpan(text: " ${token.symbol}")
@@ -99,13 +103,11 @@ class TokenHeader extends StatelessWidget {
                             ),
                             RichText(
                                 text: TextSpan(
-                                    text:
-                                        ![null, ''].contains(token.priceInfo) &&
-                                                token.priceInfo.total.isNotEmpty
-                                            ? '\$$price'
-                                            : "",
+                                    text: dzarQuate != null
+                                        ? '${reduce(num.parse(price) / num.parse(dzarQuate?.toString()))} DZAR'
+                                        : '',
                                     style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
+                                        color: Theme.of(context).splashColor,
                                         fontSize: 18))),
                           ],
                         ),

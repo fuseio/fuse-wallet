@@ -1,16 +1,15 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/views/drawer.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/forks.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:digitalrand/models/views/drawer.dart';
+import 'package:digitalrand/screens/home/router/home_router.gr.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/utils/forks.dart';
+import 'package:digitalrand/utils/format.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
@@ -68,45 +67,41 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   List<Widget> pluginsItems(DrawerViewModel viewModel) {
     List<Widget> plugins = [];
-    List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
-    if (depositPlugins.isNotEmpty) {
-      plugins.add(new Divider(
-        color: Color(0xFFE8E8E8),
-      ));
-      plugins.add(ListTile(
-        contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
-        title: Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: Row(
-            children: <Widget>[
-              SvgPicture.asset(
-                'assets/images/top_up.svg',
-                width: 20,
-                height: 20,
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Text(
-                I18n.of(context).top_up,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Theme.of(context).primaryColor),
-              ),
-            ],
-          ),
+    plugins.add(new Divider(
+      color: Color(0xFFCBCBCB),
+    ));
+    plugins.add(ListTile(
+      contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
+      title: Padding(
+        padding: EdgeInsets.only(left: 10),
+        child: Row(
+          children: <Widget>[
+            SvgPicture.asset(
+              'assets/images/top_up.svg',
+              width: 20,
+              height: 20,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              I18n.of(context).add_funds,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Theme.of(context).primaryColor),
+            ),
+          ],
         ),
-        onTap: () {
-          ExtendedNavigator.root.pop();
-          dynamic url = depositPlugins[0].generateUrl();
-          ExtendedNavigator.root.push(Routes.webview,
-              arguments: WebViewPageArguments(
-                  withBack: true, url: url, title: I18n.of(context).top_up));
-          Segment.track(eventName: 'User clicked on top up');
-        },
-      ));
-    }
+      ),
+      onTap: () {
+        ExtendedNavigator.root.push(Routes.webview,
+            arguments: WebViewPageArguments(
+                withBack: true,
+                url: 'https://digtalrand.typeform.com/to/WL65ZVKO',
+                title: I18n.of(context).add_funds));
+      },
+    ));
 
     return plugins;
   }
@@ -127,6 +122,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   )
                 : null),
         getListTile(I18n.of(context).settings, () {
+          ExtendedNavigator.root.pop();
           ExtendedNavigator.named('homeRouter').push(HomeRoutes.settingsScreen);
         }, icon: 'settings_icon.svg'),
       ];

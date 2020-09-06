@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:equatable/equatable.dart';
-import 'package:redux/redux.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
+import 'package:digitalrand/constans/keys.dart';
+import 'package:digitalrand/generated/i18n.dart';
 
 class BottomBar extends StatelessWidget {
   final int tabIndex;
@@ -32,47 +27,21 @@ class BottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, _BottomBarViewModel>(
-        distinct: true,
-        converter: _BottomBarViewModel.fromStore,
-        builder: (_, vm) {
-          return BottomNavigationBar(
-            key: AppKeys.bottomBarKey,
-            selectedFontSize: 13,
-            unselectedFontSize: 13,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: tabIndex,
-            backgroundColor: Theme.of(context).bottomAppBarColor,
-            showUnselectedLabels: true,
-            items: [
-              bottomBarItem(I18n.of(context).home, 'home'),
-              bottomBarItem(I18n.of(context).send_button, 'send'),
-              vm.isDefaultCommunity
-                  ? bottomBarItem(
-                      I18n.of(context).fuse_volts, 'fuse_points_tab')
-                  : bottomBarItem(I18n.of(context).buy, 'buy'),
-              bottomBarItem(I18n.of(context).receive, 'receive'),
-            ],
-            onTap: onTap,
-          );
-        });
-  }
-}
-
-class _BottomBarViewModel extends Equatable {
-  final bool isDefaultCommunity;
-
-  _BottomBarViewModel({
-    this.isDefaultCommunity,
-  });
-
-  static _BottomBarViewModel fromStore(Store<AppState> store) {
-    String communityAddress = store.state.cashWalletState.communityAddress;
-    return _BottomBarViewModel(
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+    return BottomNavigationBar(
+      key: AppKeys.bottomBarKey,
+      selectedFontSize: 13,
+      unselectedFontSize: 13,
+      type: BottomNavigationBarType.fixed,
+      currentIndex: tabIndex,
+      backgroundColor: Theme.of(context).bottomAppBarColor,
+      showUnselectedLabels: true,
+      items: [
+        bottomBarItem(I18n.of(context).home, 'home'),
+        bottomBarItem(I18n.of(context).send_button, 'send'),
+        bottomBarItem(I18n.of(context).trade, 'trade'),
+        bottomBarItem(I18n.of(context).receive, 'receive'),
+      ],
+      onTap: onTap,
     );
   }
-
-  @override
-  List<Object> get props => [isDefaultCommunity];
 }

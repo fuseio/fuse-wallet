@@ -2,29 +2,26 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/home/screens/fuse_points_explained.dart';
-import 'package:fusecash/screens/home/screens/receive.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
-import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/widgets/back_up_dialog.dart';
+import 'package:digitalrand/constans/keys.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/user_actions.dart';
+import 'package:digitalrand/screens/contacts/widgets/enable_contacts.dart';
+import 'package:digitalrand/screens/home/router/home_router.gr.dart';
+import 'package:digitalrand/screens/home/screens/receive.dart';
+import 'package:digitalrand/screens/misc/webview_page.dart';
+import 'package:digitalrand/screens/contacts/router/router_contacts.gr.dart';
+import 'package:digitalrand/screens/home/widgets/drawer.dart';
+import 'package:digitalrand/utils/contacts.dart';
+import 'package:digitalrand/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/home/widgets/bottom_bar.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
+import 'package:digitalrand/models/community/community.dart';
+import 'package:digitalrand/screens/trade/trade.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -89,12 +86,6 @@ class _HomePageState extends State<HomePage> {
         store.dispatch(getWalletAddressessCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
-        store.dispatch(startListenToTransferEvents());
-        store.dispatch(startFetchBalancesOnForeign());
-        store.dispatch(startFetchTransferEventsCall());
-        store.dispatch(fetchTokensBalances());
-        store.dispatch(startFetchTokensLastestPrices());
-        store.dispatch(startProcessingTokensJobsCall());
       }
     }
   }
@@ -131,12 +122,7 @@ class _HomePageState extends State<HomePage> {
                         url: vm.community.webUrl,
                         withBack: false,
                         title: I18n.of(context).community_webpage)
-                    : vm.isDefaultCommunity
-                        ? FusePointsExplainedScreen()
-                        : ExtendedNavigator(
-                            router: BuyRouter(),
-                            observers: [SegmentObserver()],
-                          ),
+                    : TradeScreen(),
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(
@@ -194,7 +180,6 @@ class _HomePageViewModel extends Equatable {
     return _HomePageViewModel(
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
       backup: store.state.userState.backup,
       isBackupDialogShowed:
           store.state.userState?.receiveBackupDialogShowed ?? false,
@@ -205,5 +190,5 @@ class _HomePageViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [isDefaultCommunity, community, isContactsSynced];
+  List<Object> get props => [community, backup, isContactsSynced];
 }

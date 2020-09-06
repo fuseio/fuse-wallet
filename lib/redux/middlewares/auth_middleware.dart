@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/error_actions.dart';
+import 'package:digitalrand/redux/actions/user_actions.dart';
+import 'package:digitalrand/redux/state/store.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/services.dart';
+import 'package:digitalrand/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 
@@ -79,7 +79,7 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         final String accountAddress = store.state.userState.accountAddress;
         final String identifier = store.state.userState.identifier;
         String token = await user.getIdToken();
-        String jwtToken = await api.login(token, accountAddress, identifier);
+        String jwtToken = await api.login(token, accountAddress, identifier, appName: 'DigitalRand');
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));

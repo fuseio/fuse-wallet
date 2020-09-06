@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com</string>
+	<string>262793449920-847brjlv3qni1ua9hs8ov7jc7l0f4tsa.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
+	<string>com.googleusercontent.apps.262793449920-847brjlv3qni1ua9hs8ov7jc7l0f4tsa</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>262793449920-pcslb49ned2ns243a2handoot939sevu.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC1DHZQFPrNZo-dgm68PSaABIeGIc16nbY</string>
+	<string>AIzaSyC3KVTn46woqpRdksu1rxVFKD19_D3A5FE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>863692183597</string>
+	<string>262793449920</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.fuse.fusecash</string>
+	<string>io.fuse.digitalrand</string>
 	<key>PROJECT_ID</key>
-	<string>fuse-2-0</string>
+	<string>digitalrand-5c2a7</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fuse-2-0.appspot.com</string>
+	<string>digitalrand-5c2a7.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:863692183597:ios:91186a513b10fab59b80a4</string>
+	<string>1:262793449920:ios:19ab8ab4a516132124b825</string>
 	<key>DATABASE_URL</key>
-	<string>https://fuse-2-0.firebaseio.com</string>
+	<string>https://digitalrand-5c2a7.firebaseio.com</string>
 </dict>
 </plist>

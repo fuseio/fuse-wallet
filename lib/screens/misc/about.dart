@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/widgets/main_scaffold.dart';
 import 'dart:core';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -62,7 +62,8 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: InkWell(
                         onTap: () {
-                          // TODO - link to privacy policy
+                          launchUrl(
+                              'https://digitalrand.co.za/legal/terms.html');
                         },
                         child: Text(
                           I18n.of(context).legal,
@@ -80,7 +81,7 @@ class AboutScreen extends StatelessWidget {
                           top: 5, bottom: 5, right: 30, left: 30),
                       title: InkWell(
                         onTap: () {
-                          launchUrl('mailto:hello@fuse.io');
+                          launchUrl('mailto:support@digitalrand.co.za');
                         },
                         child: Text(
                           I18n.of(context).contact_us,

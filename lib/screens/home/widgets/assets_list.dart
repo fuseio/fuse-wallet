@@ -1,14 +1,15 @@
-import 'package:fusecash/screens/home/widgets/token_tile.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:digitalrand/screens/home/widgets/token_tile.dart';
+import 'package:digitalrand/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/models/community/community.dart';
+import 'package:digitalrand/services.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/utils/addresses.dart';
+import 'package:digitalrand/models/community/community.dart';
+import 'package:digitalrand/constans/exchangable_tokens.dart';
 
 String getTokenUrl(tokenAddress) {
   return tokenAddress == zeroAddress
@@ -16,30 +17,54 @@ String getTokenUrl(tokenAddress) {
       : "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/$tokenAddress/logo.png";
 }
 
-class AssetsList extends StatelessWidget {
+class AssetsList extends StatefulWidget {
+  @override
+  _AssetsListState createState() => _AssetsListState();
+}
+
+class _AssetsListState extends State<AssetsList> {
+  double dzarQuate;
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, TokensListViewModel>(
       distinct: true,
       converter: TokensListViewModel.fromStore,
+      onInit: (store) async {
+        String currency = store.state.userState.currency;
+        final Map<String, dynamic> dzarInfo =
+            await marketApi.getCoinInfoByAddress(dzarToken.address);
+        final String coinId = dzarInfo['id'];
+        final Map<String, dynamic> response =
+            await marketApi.getCurrentPriceOfToken(coinId, currency);
+        double price = response[coinId][currency];
+        if (!this.mounted) return;
+        setState(() {
+          dzarQuate = price;
+        });
+      },
       builder: (_, viewModel) {
         return Scaffold(
-            key: key,
             body: Column(children: <Widget>[
-              Expanded(
-                  child: ListView.separated(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: viewModel.tokens?.length,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          Divider(
-                            color: Color(0xFFE8E8E8),
-                            thickness: 1,
-                            height: 0,
-                          ),
-                      itemBuilder: (context, index) =>
-                          TokenTile(token: viewModel.tokens[index]))),
-            ]));
+          Expanded(
+              child: ListView.separated(
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: viewModel.tokens?.length,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      Divider(
+                        color: Color(0xFFE8E8E8),
+                        thickness: 1,
+                        height: 0,
+                      ),
+                  itemBuilder: (context, index) => TokenTile(
+                      token: viewModel.tokens[index],
+                      dzarQuate: viewModel.tokens[index].originNetwork ==
+                                  null ||
+                              viewModel.tokens[index].symbol == dzarToken.symbol
+                          ? dzarQuate
+                          : null))),
+        ]));
       },
     );
   }

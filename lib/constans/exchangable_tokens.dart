@@ -1,6 +1,6 @@
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/screens/home/widgets/assets_list.dart';
+import 'package:digitalrand/utils/addresses.dart';
 
 final Token daiToken = Token.initial().copyWith(
     address: daiTokenAddress,
@@ -11,7 +11,7 @@ final Token daiToken = Token.initial().copyWith(
     amount: BigInt.zero,
     symbol: "DAI");
 
-final _dzarToken = Token.initial().copyWith(
+final dzarToken = Token.initial().copyWith(
     symbol: "DZAR",
     name: "Digital Rand",
     amount: BigInt.zero,
@@ -79,7 +79,7 @@ final Map<String, Token> exchangableTokens = new Map<String, Token>.from({
   _tetherToken.address: _tetherToken,
   _trueUSDToken.address: _trueUSDToken,
   _eursToken.address: _eursToken,
-  _dzarToken.address: _dzarToken,
+  dzarToken.address: dzarToken,
   _rupiahToken.address: _rupiahToken,
 });
 

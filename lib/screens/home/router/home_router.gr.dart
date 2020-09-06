@@ -109,6 +109,7 @@ class HomeRouter extends RouterBase {
         builder: (context) => TokenScreen(
           key: args.key,
           tokenAddress: args.tokenAddress,
+          dzarQuate: args.dzarQuate,
         ),
         settings: data,
       );
@@ -217,7 +218,8 @@ class TransactionDetailsScreenArguments {
 class TokenScreenArguments {
   final Key key;
   final String tokenAddress;
-  TokenScreenArguments({this.key, this.tokenAddress});
+  final double dzarQuate;
+  TokenScreenArguments({this.key, this.tokenAddress, this.dzarQuate});
 }
 
 /// TradeScreen arguments holder class

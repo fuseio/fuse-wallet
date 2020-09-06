@@ -1,16 +1,17 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/widgets/main_scaffold.dart';
+import 'package:digitalrand/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -89,24 +90,23 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                               verticalDirection: VerticalDirection.down,
                               textBaseline: TextBaseline.alphabetic,
                               children: <Widget>[
-                                Text(
-                                  formatValue(
-                                      BigInt.from(num.parse(widget
-                                          .exchangeSummry['sourceAmount'])),
-                                      int.parse(
-                                          widget.exchangeSummry['sourceAsset']
-                                              ['decimals']),
-                                      withPrecision: true),
-                                  style: TextStyle(fontSize: 40),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  widget.exchangeSummry['sourceAsset']
-                                      ['symbol'],
-                                  style: TextStyle(fontSize: 20),
-                                ),
+                                AutoSizeText.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text: formatValue(
+                                        BigInt.from(num.parse(widget
+                                            .exchangeSummry['sourceAmount'])),
+                                        int.parse(
+                                            widget.exchangeSummry['sourceAsset']
+                                                ['decimals']),
+                                        withPrecision: true),
+                                    style: TextStyle(fontSize: 40),
+                                  ),
+                                  TextSpan(
+                                    text: widget.exchangeSummry['sourceAsset']
+                                        ['symbol'],
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ])),
                               ],
                             )
                           ],
@@ -141,24 +141,24 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                               verticalDirection: VerticalDirection.down,
                               textBaseline: TextBaseline.alphabetic,
                               children: <Widget>[
-                                Text(
-                                  formatValue(
-                                      BigInt.from(num.parse(
-                                          widget.exchangeSummry[
-                                              'destinationAmount'])),
-                                      int.parse(widget.exchangeSummry[
-                                          'destinationAsset']['decimals']),
-                                      withPrecision: true),
-                                  style: TextStyle(fontSize: 40),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  widget.exchangeSummry['destinationAsset']
-                                      ['symbol'],
-                                  style: TextStyle(fontSize: 20),
-                                ),
+                                AutoSizeText.rich(TextSpan(children: [
+                                  TextSpan(
+                                    text: formatValue(
+                                        BigInt.from(num.parse(
+                                            widget.exchangeSummry[
+                                                'destinationAmount'])),
+                                        int.parse(widget.exchangeSummry[
+                                            'destinationAsset']['decimals']),
+                                        withPrecision: true),
+                                    style: TextStyle(fontSize: 40),
+                                  ),
+                                  TextSpan(
+                                    text: widget
+                                            .exchangeSummry['destinationAsset']
+                                        ['symbol'],
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ])),
                               ],
                             )
                           ],

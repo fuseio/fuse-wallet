@@ -2,14 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/send_amount.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/views/send_amount.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/screens/contacts/send_amount_arguments.dart';
+import 'package:digitalrand/utils/format.dart';
+import 'package:digitalrand/widgets/main_scaffold.dart';
+import 'package:digitalrand/widgets/primary_button.dart';
+import 'package:digitalrand/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SendReviewScreen extends StatefulWidget {
@@ -55,11 +55,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) {
     if (args.tokenToSend.originNetwork == null) {
-      if (args.accountAddress == null ||
-          args.accountAddress == '' && args.phoneNumber != null) {
+      if ([null, ''].contains(args.accountAddress) &&
+          args.phoneNumber != null) {
         viewModel.sendERC20ToContact(
           args.tokenToSend,
-          args.name,
           args.phoneNumber,
           args.amount,
           args.name,
@@ -72,8 +71,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             args.amount, sendSuccessCallback, sendFailureCallback);
       }
     } else {
-      if (args.accountAddress == null ||
-          args.accountAddress == '' && args.phoneNumber != null) {
+      if ([null, ''].contains(args.accountAddress) &&
+          args.phoneNumber != null) {
         viewModel.sendToContact(
           args.tokenToSend,
           args.accountAddress,
@@ -325,7 +324,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                             padding:
                                 EdgeInsets.only(top: 20.0, left: 30, right: 30),
                             child: Text(
-                                '''Sending money to ${args.name != null ? args.name : 'friend'} will automatically invite them to Fuse and let them redeem the funds you sent''',
+                                '''Sending money to ${args.name != null ? args.name : 'friend'} will automatically invite them to Digital Rand and let them redeem the funds you sent''',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color:

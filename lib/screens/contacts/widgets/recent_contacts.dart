@@ -2,15 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/utils/transaction_util.dart';
+import 'package:digitalrand/generated/i18n.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/transactions/transfer.dart';
+import 'package:digitalrand/models/views/contacts.dart';
+import 'package:digitalrand/screens/contacts/send_amount_arguments.dart';
+import 'package:digitalrand/screens/contacts/widgets/contact_tile.dart';
+import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/utils/send.dart';
+import 'package:digitalrand/utils/transaction_util.dart';
 
 class RecentContacts extends StatelessWidget {
   final int numofRecentToShow;

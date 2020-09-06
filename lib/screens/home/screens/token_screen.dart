@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
-import 'package:fusecash/screens/home/widgets/token_header.dart';
-import 'package:fusecash/screens/home/widgets/transaction_tile.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:digitalrand/models/transactions/transaction.dart';
+import 'package:digitalrand/screens/home/widgets/assets_list.dart';
+import 'package:digitalrand/screens/home/widgets/token_header.dart';
+import 'package:digitalrand/screens/home/widgets/transaction_tile.dart';
+import 'package:digitalrand/widgets/my_app_bar.dart';
+import 'package:digitalrand/generated/i18n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:digitalrand/models/app_state.dart';
 
 class TokenScreen extends StatelessWidget {
-  TokenScreen({Key key, this.tokenAddress}) : super(key: key);
+  TokenScreen({Key key, this.tokenAddress, this.dzarQuate}) : super(key: key);
   final String tokenAddress;
+  final double dzarQuate;
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +24,9 @@ class TokenScreen extends StatelessWidget {
           return Scaffold(
               key: key,
               appBar: MyAppBar(
-                  height: 170.0,
-                  child: TokenHeader(token: token),
-                  backgroundColor: Colors.white),
+                height: 170.0,
+                child: TokenHeader(token: token, dzarQuate: dzarQuate),
+              ),
               drawerEdgeDragWidth: 0,
               body: Column(children: <Widget>[
                 Expanded(

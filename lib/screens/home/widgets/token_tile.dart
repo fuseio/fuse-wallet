@@ -2,22 +2,23 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
+import 'package:digitalrand/screens/home/router/home_router.gr.dart';
+import 'package:digitalrand/screens/home/widgets/assets_list.dart';
 import 'package:redux/redux.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:digitalrand/models/app_state.dart';
+import 'package:digitalrand/models/community/community.dart';
+import 'package:digitalrand/models/tokens/token.dart';
+import 'package:digitalrand/utils/format.dart';
 
 class TokenTile extends StatelessWidget {
   TokenTile(
       {Key key,
       this.token,
       this.onTap,
+      this.dzarQuate,
       this.quate,
       this.symbolHeight = 60.0,
       this.symbolWidth = 60.0})
@@ -26,16 +27,18 @@ class TokenTile extends StatelessWidget {
   final double quate;
   final double symbolWidth;
   final double symbolHeight;
+  final double dzarQuate;
   final Token token;
   @override
   Widget build(BuildContext context) {
     final bool hasPriceInfo = token.priceInfo != null &&
         token.priceInfo.total.isNotEmpty &&
-        quate != null;
+        dzarQuate != null;
     final String price =
         hasPriceInfo ? reduce(double.parse(token?.priceInfo?.total)) : '0';
-    // final String value =
-    //     hasPriceInfo ? reduce(num.parse(price) / quate) : token.getBalance();
+    final String value = hasPriceInfo
+        ? reduce(num.parse(price) / dzarQuate)
+        : token.getBalance();
     final bool isFuseTxs = token.originNetwork != null;
     return Container(
       child: ListTile(
@@ -43,7 +46,8 @@ class TokenTile extends StatelessWidget {
               ? onTap
               : () {
                   ExtendedNavigator.of(context).push(HomeRoutes.tokenScreen,
-                      arguments: TokenScreenArguments(tokenAddress: token.address));
+                      arguments: TokenScreenArguments(
+                          tokenAddress: token.address, dzarQuate: dzarQuate));
                 },
           contentPadding:
               EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
@@ -179,7 +183,9 @@ class TokenTile extends StatelessWidget {
                                     text: TextSpan(children: <TextSpan>[
                                   token.priceInfo != null
                                       ? TextSpan(
-                                          text: '\$' + price,
+                                          text: token.getBalance() +
+                                              ' ' +
+                                              token.symbol,
                                           style: TextStyle(
                                               fontSize: 15.0,
                                               color: Theme.of(context)
@@ -197,10 +203,7 @@ class TokenTile extends StatelessWidget {
                                     ? Positioned(
                                         bottom: -20,
                                         child: Padding(
-                                            child: Text(
-                                                token.getBalance() +
-                                                    ' ' +
-                                                    token.symbol,
+                                            child: Text('$value DZAR',
                                                 style: TextStyle(
                                                     color: Color(0xFF8D8D8D),
                                                     fontSize: 10)),

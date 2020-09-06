@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/screens/backup/done_backup.dart';
-import 'package:fusecash/screens/backup/show_mnemonic.dart';
-import 'package:fusecash/screens/backup/verify_mnemonic.dart';
-import 'package:fusecash/screens/home/screens/home.dart';
-import 'package:fusecash/screens/home/screens/transaction_details.dart';
-import 'package:fusecash/screens/home/screens/token_screen.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/screens/misc/protect_your_wallet.dart';
-import 'package:fusecash/screens/misc/settings.dart';
-import 'package:fusecash/screens/misc/switch_commmunity.dart';
-import 'package:fusecash/screens/trade/review_trade.dart';
-import 'package:fusecash/screens/trade/trade.dart';
+import 'package:digitalrand/screens/backup/done_backup.dart';
+import 'package:digitalrand/screens/backup/show_mnemonic.dart';
+import 'package:digitalrand/screens/backup/verify_mnemonic.dart';
+import 'package:digitalrand/screens/home/screens/home.dart';
+import 'package:digitalrand/screens/home/screens/transaction_details.dart';
+import 'package:digitalrand/screens/home/screens/token_screen.dart';
+import 'package:digitalrand/screens/misc/about.dart';
+import 'package:digitalrand/screens/misc/protect_your_wallet.dart';
+import 'package:digitalrand/screens/misc/settings.dart';
+import 'package:digitalrand/screens/misc/switch_commmunity.dart';
+import 'package:digitalrand/screens/trade/review_trade.dart';
+import 'package:digitalrand/screens/trade/trade.dart';
 
 @MaterialAutoRouter(routesClassName: "HomeRoutes", routes: <AutoRoute>[
   MaterialRoute(
