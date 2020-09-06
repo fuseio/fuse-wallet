@@ -2,28 +2,24 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/home/screens/fuse_points_explained.dart';
-import 'package:fusecash/screens/home/screens/receive.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
-import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/widgets/back_up_dialog.dart';
+import 'package:roost/constans/keys.dart';
+import 'package:roost/redux/actions/cash_wallet_actions.dart';
+import 'package:roost/redux/actions/user_actions.dart';
+import 'package:roost/screens/buy/router/buy_router.gr.dart';
+import 'package:roost/screens/contacts/widgets/enable_contacts.dart';
+import 'package:roost/screens/home/router/home_router.gr.dart';
+import 'package:roost/screens/misc/webview_page.dart';
+import 'package:roost/screens/home/widgets/drawer.dart';
+import 'package:roost/utils/contacts.dart';
+import 'package:roost/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/home/widgets/bottom_bar.dart';
+import 'package:roost/models/app_state.dart';
+import 'package:roost/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
+import 'package:roost/models/community/community.dart';
+import 'package:roost/utils/addresses.dart' as util;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -109,27 +105,15 @@ class _HomePageState extends State<HomePage> {
                   name: 'homeRouter',
                   observers: [SegmentObserver()],
                 ),
+                WebViewPage(
+                    withBack: false,
+                    url:
+                        'https://app.roostnow.co.uk/home?wallet=${vm.walletAddress}',
+                    title: 'Your Home'),
                 ExtendedNavigator(
+                  router: BuyRouter(),
                   observers: [SegmentObserver()],
-                  router: ContactsRouter(),
-                  name: 'contactsRouter',
-                  initialRoute:
-                      vm.isContactsSynced != null && vm.isContactsSynced
-                          ? ContactsRoutes.contactsList
-                          : ContactsRoutes.emptyContacts,
-                ),
-                !['', null].contains(vm.community.webUrl)
-                    ? WebViewPage(
-                        url: vm.community.webUrl,
-                        withBack: false,
-                        title: I18n.of(context).community_webpage)
-                    : vm.isDefaultCommunity
-                        ? FusePointsExplainedScreen()
-                        : ExtendedNavigator(
-                            router: BuyRouter(),
-                            observers: [SegmentObserver()],
-                          ),
-                ReceiveScreen()
+                )
               ]),
               bottomNavigationBar: BottomBar(
                 onTap: (index) {
@@ -168,15 +152,16 @@ class _HomePageViewModel extends Equatable {
   final bool backup;
   final bool isBackupDialogShowed;
   final Function setShowDialog;
+  final String walletAddress;
 
-  _HomePageViewModel({
-    this.isContactsSynced,
-    this.isDefaultCommunity,
-    this.community,
-    this.backup,
-    this.isBackupDialogShowed,
-    this.setShowDialog,
-  });
+  _HomePageViewModel(
+      {this.isContactsSynced,
+      this.isDefaultCommunity,
+      this.community,
+      this.backup,
+      this.isBackupDialogShowed,
+      this.setShowDialog,
+      this.walletAddress});
 
   static _HomePageViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
@@ -184,6 +169,7 @@ class _HomePageViewModel extends Equatable {
         store.state.cashWalletState.communities[communityAddress] ??
             new Community.initial();
     return _HomePageViewModel(
+      walletAddress: store.state.userState.walletAddress,
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
       isDefaultCommunity: util.isDefaultCommunity(communityAddress),

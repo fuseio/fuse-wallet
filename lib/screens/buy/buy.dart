@@ -3,17 +3,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/models/app_state.dart';
+import 'package:roost/models/community/business.dart';
+import 'package:roost/models/community/business_metadata.dart';
+import 'package:roost/models/views/buy_page.dart';
+import 'package:roost/redux/actions/cash_wallet_actions.dart';
+import 'package:roost/screens/buy/router/buy_router.gr.dart';
+import 'package:roost/screens/contacts/send_amount_arguments.dart';
+import 'package:roost/screens/routes.gr.dart';
+import 'package:roost/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
+
+import '../misc/about.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
@@ -50,7 +52,7 @@ class BuyScreen extends StatelessWidget {
               // ],
               automaticallyImplyLeading: false,
               title: I18n.of(context).buy,
-              children: <Widget>[BusinessesListView()]);
+              children: <Widget>[RoostPaymentHelpView(), BusinessesListView()]);
         });
   }
 }
@@ -162,18 +164,16 @@ class BusinessesListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
+          InkWell(
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/go.png',
+                  fit: BoxFit.fill,
+                  width: 25,
+                  height: 25,
+                )),
+            onTap: () {
               ExtendedNavigator.root.push(Routes.sendAmountScreen,
                   arguments: SendAmountScreenArguments(
                       pageArgs: SendAmountArguments(
@@ -209,5 +209,38 @@ class BusinessesListView extends StatelessWidget {
             ),
           );
         });
+  }
+}
+
+class RoostPaymentHelpView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 40, right: 40, left: 40),
+      child: new Column(
+        children: [
+          Text(
+            'Not yet renting through Roost?',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text('Contact', textAlign: TextAlign.center),
+              InkWell(
+                onTap: () {
+                  launchUrl('mailto:leon@roostnow.co.uk');
+                },
+                child: Text(
+                  ' leon@roostnow.co.uk',
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

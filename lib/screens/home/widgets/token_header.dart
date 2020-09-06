@@ -1,18 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/widgets/network_explained.dart';
+import 'package:roost/models/community/community.dart';
+import 'package:roost/screens/home/router/home_router.gr.dart';
+import 'package:roost/widgets/network_explained.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/move_to_ethereum.dart';
+import 'package:roost/models/app_state.dart';
+import 'package:roost/widgets/move_to_ethereum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/models/tokens/token.dart';
+import 'package:roost/utils/format.dart';
 
 class TokenHeader extends StatelessWidget {
   TokenHeader({this.token});
@@ -71,7 +71,7 @@ class TokenHeader extends StatelessWidget {
                   Container(
                     child: Text('${token.symbol} ${I18n.of(context).balance}',
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).splashColor,
                             fontSize: 12.0)),
                     padding: EdgeInsets.only(bottom: 6.0),
                   ),
@@ -89,7 +89,7 @@ class TokenHeader extends StatelessWidget {
                                     style: TextStyle(
                                         fontSize: 27,
                                         fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).primaryColor),
+                                        color: Theme.of(context).splashColor),
                                     children: [
                                   TextSpan(text: token.getBalance()),
                                   TextSpan(text: " ${token.symbol}")
@@ -105,7 +105,7 @@ class TokenHeader extends StatelessWidget {
                                             ? '\$$price'
                                             : "",
                                     style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
+                                        color: Theme.of(context).splashColor,
                                         fontSize: 18))),
                           ],
                         ),

@@ -62,8 +62,8 @@ class I18n implements WidgetsLocalizations {
   String get ok => "Ok";
   /// "Contact us"
   String get contact_us => "Contact us";
-  /// "Your fuse wallet is protected!"
-  String get wallet_protected => "Your fuse wallet is protected!";
+  /// "Your roost wallet is protected!"
+  String get wallet_protected => "Your roost wallet is protected!";
   /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
   /// "write down the words in order and keep safe. You won’t be able to recover your account without it."
@@ -284,6 +284,12 @@ class I18n implements WidgetsLocalizations {
   String get total_amount => "Total amount:";
   /// "Pay with"
   String get pay_with => "Pay with";
+  /// "Wallet"
+  String get wallet => "Wallet";
+  /// "Your Home"
+  String get your_home => "Your Home";
+  /// "Pay Rent"
+  String get pay_rent => "Pay Rent";
 }
 
 class _I18n_en_US extends I18n {
@@ -709,9 +715,9 @@ class _I18n_es_ES extends I18n {
   /// "Contact us"
   @override
   String get contact_us => "Contact us";
-  /// "Your fuse wallet is protected!"
+  /// "Your roost wallet is protected!"
   @override
-  String get wallet_protected => "Your fuse wallet is protected!";
+  String get wallet_protected => "Your roost wallet is protected!";
   /// "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   @override
   String get wallet_protected_text => "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
@@ -1546,9 +1552,9 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Kontakin kami"
   @override
   String get contact_us => "Kontakin kami";
-  /// "Ang iyong fuse wallet ay protektado!"
+  /// "Ang iyong roost wallet ay protektado!"
   @override
-  String get wallet_protected => "Ang iyong fuse wallet ay protektado!";
+  String get wallet_protected => "Ang iyong roost wallet ay protektado!";
   /// "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao."
   @override
   String get wallet_protected_text => "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao.";
@@ -2135,9 +2141,9 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "Contact us"
   @override
   String get contact_us => "Contact us";
-  /// "Your fuse wallet is protected!"
+  /// "Your roost wallet is protected!"
   @override
-  String get wallet_protected => "Your fuse wallet is protected!";
+  String get wallet_protected => "Your roost wallet is protected!";
   /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   @override
   String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";

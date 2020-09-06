@@ -27,6 +27,9 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
     webUrl: json['webUrl'] as String,
     foreignBridgeAddress: json['foreignBridgeAddress'] as String,
     foreignTokenAddress: json['foreignTokenAddress'] as String,
+    secondaryToken: json['secondaryToken'] == null
+        ? null
+        : Token.fromJson(json['secondaryToken'] as Map<String, dynamic>),
   );
 }
 
@@ -43,4 +46,5 @@ Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'isClosed': instance.isClosed,
       'webUrl': instance.webUrl,
       'foreignTokenAddress': instance.foreignTokenAddress,
+      'secondaryToken': instance.secondaryToken?.toJson(),
     };

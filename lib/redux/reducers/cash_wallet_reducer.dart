@@ -1,11 +1,11 @@
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
+import 'package:roost/models/community/community.dart';
+import 'package:roost/models/jobs/base.dart';
+import 'package:roost/models/transactions/transaction.dart';
+import 'package:roost/models/transactions/transactions.dart';
+import 'package:roost/models/transactions/transfer.dart';
+import 'package:roost/redux/actions/cash_wallet_actions.dart';
+import 'package:roost/redux/actions/user_actions.dart';
+import 'package:roost/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
@@ -49,7 +49,9 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, AddJob>(_addJob),
   TypedReducer<CashWalletState, JobDone>(_jobDone),
   TypedReducer<CashWalletState, UpdateJob>(_updateJob),
-  TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
+  TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted),
+  TypedReducer<CashWalletState, FetchSecondaryTokenSuccess>(
+      _fetchSecondaryTokenSuccess),
 ]);
 
 CashWalletState _addCommunities(CashWalletState state, AddCommunities action) {
@@ -383,4 +385,16 @@ CashWalletState _updateJob(CashWalletState state, UpdateJob action) {
 CashWalletState _jobProcessingStarted(
     CashWalletState state, SetIsJobProcessing action) {
   return state.copyWith(isJobProcessingStarted: action.isFetching);
+}
+
+CashWalletState _fetchSecondaryTokenSuccess(
+    CashWalletState state, FetchSecondaryTokenSuccess action) {
+  String communityAddress = action.communityAddress;
+  Community current = state.communities[communityAddress] ??
+      Community.initial().copyWith(address: action.communityAddress);
+  Community newCommunity = current.copyWith(secondaryToken: action.token);
+  Map<String, Community> newOne =
+      Map<String, Community>.from(state.communities);
+  newOne[communityAddress] = newCommunity;
+  return state.copyWith(communities: newOne);
 }

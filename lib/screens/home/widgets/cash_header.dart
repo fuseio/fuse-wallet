@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/cash_header.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:roost/constans/keys.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/models/views/cash_header.dart';
+import 'package:roost/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/send.dart';
+import 'package:roost/utils/format.dart';
+import 'package:roost/utils/send.dart';
 
 class CashHeader extends StatelessWidget {
   @override
@@ -54,12 +54,12 @@ class CashHeader extends StatelessWidget {
                         padding:
                             EdgeInsets.only(top: 35, bottom: 35, right: 35),
                         child: Image.asset(
-                          'assets/images/menu.png',
+                          'assets/images/menu_white.png',
                           width: 20,
                         ))),
                 Text('${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).splashColor,
                       fontSize: 25,
                     )),
                 SizedBox(
@@ -70,77 +70,143 @@ class CashHeader extends StatelessWidget {
                   verticalDirection: VerticalDirection.up,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: <Widget>[
-                        Container(
-                          child: Text(I18n.of(context).balance,
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withAlpha(150),
-                                  fontSize: 12.0)),
-                          padding: EdgeInsets.only(bottom: 6.0),
-                        ),
-                        viewModel.hasErc20Tokens
-                            ? Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                    RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text:
-                                                  '\$${viewModel?.usdValue ?? '0'}',
-                                              style: TextStyle(
-                                                  fontSize: 30,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                    ),
-                                  ])
-                            : RichText(
-                                text: new TextSpan(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: Text(I18n.of(context).balance,
                                   style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
-                                  children: viewModel.community.token == null
-                                      ? <TextSpan>[
-                                          new TextSpan(
-                                              text: '0',
-                                              style: new TextStyle(
-                                                  fontSize: 30,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.bold))
-                                        ]
-                                      : <TextSpan>[
-                                          new TextSpan(
-                                              text: formatValue(
-                                                  viewModel
-                                                      .community.token.amount,
-                                                  viewModel.community.token
-                                                      .decimals),
-                                              style: new TextStyle(
-                                                  fontSize: 32,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.bold)),
-                                          new TextSpan(
-                                              text: ' ' +
-                                                  viewModel
-                                                      .community.token?.symbol
-                                                      .toString(),
-                                              style: new TextStyle(
-                                                  fontSize: 18,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.normal,
-                                                  height: 0.0))
-                                        ],
-                                ),
+                                      color: Theme.of(context).splashColor,
+                                      fontSize: 12.0)),
+                              padding: EdgeInsets.only(bottom: 6.0),
+                            ),
+                            // viewModel.hasErc20Tokens
+                            //     ? Row(
+                            //         crossAxisAlignment:
+                            //             CrossAxisAlignment.center,
+                            //         mainAxisAlignment: MainAxisAlignment.center,
+                            //         children: <Widget>[
+                            //             RichText(
+                            //               text: TextSpan(
+                            //                 children: <TextSpan>[
+                            //                   TextSpan(
+                            //                       text:
+                            //                           '\$${viewModel?.usdValue ?? '0'}',
+                            //                       style: TextStyle(
+                            //                           fontSize: 30,
+                            //                           color: Theme.of(context)
+                            //                               .splashColor,
+                            //                           fontWeight:
+                            //                               FontWeight.bold)),
+                            //                 ],
+                            //               ),
+                            //             ),
+                            //           ]):
+                            RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                    color: Theme.of(context).splashColor),
+                                children: viewModel.community.token == null
+                                    ? <TextSpan>[
+                                        TextSpan(
+                                            text: '0',
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                                fontWeight: FontWeight.bold))
+                                      ]
+                                    : <TextSpan>[
+                                        TextSpan(
+                                            text: formatValue(
+                                                viewModel
+                                                    .community.token.amount,
+                                                viewModel
+                                                    .community.token.decimals),
+                                            style: TextStyle(
+                                                fontSize: 32,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                                fontWeight: FontWeight.bold)),
+                                        TextSpan(
+                                            text: ' ' +
+                                                viewModel
+                                                    .community.token?.symbol
+                                                    .toString(),
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                                fontWeight: FontWeight.normal,
+                                                height: 0.0))
+                                      ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        viewModel.community.secondaryToken == null
+                            ? SizedBox.shrink()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    child: Text('Secondary token',
+                                        style: TextStyle(
+                                            color:
+                                                Theme.of(context).splashColor,
+                                            fontSize: 12.0)),
+                                    padding: EdgeInsets.only(bottom: 6.0),
+                                  ),
+                                  Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        RichText(
+                                          text: TextSpan(
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: formatValue(
+                                                      viewModel
+                                                          .community
+                                                          .secondaryToken
+                                                          .amount,
+                                                      viewModel
+                                                          .community
+                                                          .secondaryToken
+                                                          .decimals),
+                                                  style: TextStyle(
+                                                      fontSize: 32,
+                                                      color: Theme.of(context)
+                                                          .splashColor,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              TextSpan(
+                                                  text: ' ' +
+                                                      viewModel
+                                                          .community
+                                                          .secondaryToken
+                                                          ?.symbol
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Theme.of(context)
+                                                          .splashColor,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      height: 0.0)),
+                                            ],
+                                          ),
+                                        ),
+                                      ])
+                                ],
                               ),
                       ],
                     ),

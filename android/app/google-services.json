@@ -1,41 +1,321 @@
 {
   "project_info": {
-    "project_number": "863692183597",
-    "firebase_url": "https://fuse-2-0.firebaseio.com",
-    "project_id": "fuse-2-0",
-    "storage_bucket": "fuse-2-0.appspot.com"
+    "project_number": "629222004995",
+    "firebase_url": "https://roost-60f71.firebaseio.com",
+    "project_id": "roost-60f71",
+    "storage_bucket": "roost-60f71.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:863692183597:android:0591105e8b1bb60b9b80a4",
+        "mobilesdk_app_id": "1:629222004995:android:20efad9be3131fc5be3136",
         "android_client_info": {
-          "package_name": "io.fuse.fusecash"
+          "package_name": "com.itsaboutpeepl.peepl"
         }
       },
       "oauth_client": [
         {
-          "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+          "client_id": "629222004995-g80kmj1nt3uaf2u9f2414nh3vdkuniga.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "65ebe54df2b42c5ff5d5c3384dd443cbc5b1d76f"
+          }
+        },
+        {
+          "client_id": "629222004995-huflf8nq9d81olv20h51j1bubb0e76v6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
+          "client_id": "629222004995-0svkfvbp0tkve35b6ab4nj759h7sfko8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
+          }
+        },
+        {
+          "client_id": "629222004995-s3hv5cc8gkqdphgkv3f9h37rlh1dh6he.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "6ef39bd8ccb23c9a98a00f615c21c0732cc8097b"
+          }
+        },
+        {
+          "client_id": "629222004995-q8inlcf0d1fnv1t8m66epb6p96i1br49.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "ff0350a69bf0ce5bd0840044ecc754e7d3680e74"
+          }
+        },
+        {
+          "client_id": "629222004995-7v6jlbagi0l4ujnc6iprdlgp09se6kpu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "45ceff1f5f49fdecae14ccc13974544f97fa83bf"
+          }
+        },
+        {
+          "client_id": "629222004995-3lqrcvicjs8qjuos1mol0nkd8m2q5b88.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "e69185290b29a29589349975b5cdebc080f0d7d5"
+          }
+        },
+        {
+          "client_id": "629222004995-rtoof5b4pipseubm7rppi8c883pgshih.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "6ca2aa88d7f3894dacc644063e3b1049ec5b5a53"
+          }
+        },
+        {
+          "client_id": "629222004995-iicsed927o3pl4phe2t0vqmpc40np1v2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "64a998c9100ef3d9cfd6b33f942e3a7e13fa78df"
+          }
+        },
+        {
+          "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDvx56Wp3R5M4d0I1lwYc6fhgJy6dTFNPM"
+          "current_key": "AIzaSyBlZZHB3SD_-hgUuQ9G6xHUdrlXMCj6JbY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "863692183597-1i1k4s4f73ecldtf2pnnjnubqtkc5984.apps.googleusercontent.com",
+              "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com",
+              "client_id": "629222004995-d9beogo7m7ojbmtidnsqn0vi358bmuju.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "io.fuse.fusecash"
+                "bundle_id": "com.itsaboutpeepl.peepl"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629222004995:android:a4fbd56515df6654be3136",
+        "android_client_info": {
+          "package_name": "com.roostnow.Roost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629222004995-fcj9uk0ma0od2bimjtggq3hint2drnmt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "65ebe54df2b42c5ff5d5c3384dd443cbc5b1d76f"
+          }
+        },
+        {
+          "client_id": "629222004995-hb4d9qsfle0860o49nd75usjlho79emp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
+          "client_id": "629222004995-25990m7kb0gna0jf7d5bn46r3ivc8ejp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
+          }
+        },
+        {
+          "client_id": "629222004995-ecki81ackgemfcai3iv93c0jk4ompbp3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "6ef39bd8ccb23c9a98a00f615c21c0732cc8097b"
+          }
+        },
+        {
+          "client_id": "629222004995-65547lhfttca6gm0rfujduqcqmjui68b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "ff0350a69bf0ce5bd0840044ecc754e7d3680e74"
+          }
+        },
+        {
+          "client_id": "629222004995-5hlfe6piq7vlpkod900u5t5e6n34s18p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "45ceff1f5f49fdecae14ccc13974544f97fa83bf"
+          }
+        },
+        {
+          "client_id": "629222004995-e3m9vnt4atbgft7lvaevluu9rf7fepc6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "e69185290b29a29589349975b5cdebc080f0d7d5"
+          }
+        },
+        {
+          "client_id": "629222004995-ivqlu45v731af5isqkussbvkt8mmbv9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "6ca2aa88d7f3894dacc644063e3b1049ec5b5a53"
+          }
+        },
+        {
+          "client_id": "629222004995-qomdnlb455rfndtf3745vee8tbt53pgk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.roostnow.Roost",
+            "certificate_hash": "64a998c9100ef3d9cfd6b33f942e3a7e13fa78df"
+          }
+        },
+        {
+          "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlZZHB3SD_-hgUuQ9G6xHUdrlXMCj6JbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "629222004995-d9beogo7m7ojbmtidnsqn0vi358bmuju.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.itsaboutpeepl.peepl"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629222004995:android:b0ef15d3565cbf4ebe3136",
+        "android_client_info": {
+          "package_name": "io.fuse.roost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629222004995-0sbf591mhkv6dk3kn3tts8je8uodjgbv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.roost",
+            "certificate_hash": "64a998c9100ef3d9cfd6b33f942e3a7e13fa78df"
+          }
+        },
+        {
+          "client_id": "629222004995-6tui26aq45nohocjalts80t5vvk6upl0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.roost",
+            "certificate_hash": "6ca2aa88d7f3894dacc644063e3b1049ec5b5a53"
+          }
+        },
+        {
+          "client_id": "629222004995-n3frclpqpumeilpdki1em3ogv72pr5ru.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.roost",
+            "certificate_hash": "e69185290b29a29589349975b5cdebc080f0d7d5"
+          }
+        },
+        {
+          "client_id": "629222004995-geri7c1dts14rsmaofvvj6gr2nhijnkh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.roost",
+            "certificate_hash": "45ceff1f5f49fdecae14ccc13974544f97fa83bf"
+          }
+        },
+        {
+          "client_id": "629222004995-oj2qc32ok97n0720l7rl940fu5f2gpcu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.roost",
+            "certificate_hash": "ff0350a69bf0ce5bd0840044ecc754e7d3680e74"
+          }
+        },
+        {
+          "client_id": "629222004995-fpc71vknv19o9crd8f48trbg1vrcjujb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.roost",
+            "certificate_hash": "6ef39bd8ccb23c9a98a00f615c21c0732cc8097b"
+          }
+        },
+        {
+          "client_id": "629222004995-gc7shrol172184epmmougogof65h6tf8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.roost",
+            "certificate_hash": "9dcf5c9d9b14e1969b0b0f31b20d173f95257dcf"
+          }
+        },
+        {
+          "client_id": "629222004995-sfkh0j6c7e97arbf1ucckgdimfb1ug1u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.fuse.roost",
+            "certificate_hash": "2f493d75c6927e23c3b8ac7f10f61ffcc39d5704"
+          }
+        },
+        {
+          "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlZZHB3SD_-hgUuQ9G6xHUdrlXMCj6JbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629222004995-gbjt9j7kvksrv222gga84ic7f1gd36lf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "629222004995-d9beogo7m7ojbmtidnsqn0vi358bmuju.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.itsaboutpeepl.peepl"
               }
             }
           ]

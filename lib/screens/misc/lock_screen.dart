@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/views/backup.dart';
+import 'package:roost/models/views/backup.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:roost/models/app_state.dart';
+import 'package:roost/models/user_state.dart';
+import 'package:roost/screens/routes.gr.dart';
+import 'package:roost/utils/biometric_local_auth.dart';
 
 class LockScreen extends StatefulWidget {
   @override
@@ -82,9 +82,8 @@ class _LockScreenState extends State<LockScreen> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
-                    Color(0xFFB1FDC0),
-                    Color(0xFFE6FD99),
-                    Color(0xFFFEFD86)
+                    Theme.of(context).primaryColorDark,
+                    Theme.of(context).primaryColorLight,
                   ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                 ),
                 child: Column(
@@ -103,8 +102,10 @@ class _LockScreenState extends State<LockScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Image.asset('assets/images/pincode_logo.png',
-                                    width: 71, height: 61),
+                                Image.asset(
+                                    'assets/images/icon-android-adaptive-foreground.png',
+                                    width: 71,
+                                    height: 61),
                               ],
                             ),
                           ),

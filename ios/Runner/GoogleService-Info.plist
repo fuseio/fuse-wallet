@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8.apps.googleusercontent.com</string>
+	<string>629222004995-kumjfdfbirkn3r2fgm3gp6iqaoo3d3eu.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
+	<string>com.googleusercontent.apps.629222004995-kumjfdfbirkn3r2fgm3gp6iqaoo3d3eu</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>629222004995-g80kmj1nt3uaf2u9f2414nh3vdkuniga.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC1DHZQFPrNZo-dgm68PSaABIeGIc16nbY</string>
+	<string>AIzaSyAoWtl4KOuR_F45q4wIfnRuKtxsmgzmY4I</string>
 	<key>GCM_SENDER_ID</key>
-	<string>863692183597</string>
+	<string>629222004995</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>io.fuse.fusecash</string>
+	<string>com.roostnow.Roost</string>
 	<key>PROJECT_ID</key>
-	<string>fuse-2-0</string>
+	<string>roost-60f71</string>
 	<key>STORAGE_BUCKET</key>
-	<string>fuse-2-0.appspot.com</string>
+	<string>roost-60f71.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:863692183597:ios:91186a513b10fab59b80a4</string>
+	<string>1:629222004995:ios:df462d12cfa1277cbe3136</string>
 	<key>DATABASE_URL</key>
-	<string>https://fuse-2-0.firebaseio.com</string>
+	<string>https://roost-60f71.firebaseio.com</string>
 </dict>
 </plist>

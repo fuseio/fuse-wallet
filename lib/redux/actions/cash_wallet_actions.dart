@@ -3,31 +3,31 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/plugins/join_bonus.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:roost/models/community/business.dart';
+import 'package:roost/models/cash_wallet_state.dart';
+import 'package:roost/models/community/business_metadata.dart';
+import 'package:roost/models/community/community.dart';
+import 'package:roost/models/community/community_metadata.dart';
+import 'package:roost/models/jobs/base.dart';
+import 'package:roost/models/plugins/join_bonus.dart';
+import 'package:roost/models/plugins/plugins.dart';
+import 'package:roost/models/tokens/token.dart';
+import 'package:roost/models/transactions/transaction.dart';
+import 'package:roost/models/transactions/transfer.dart';
+import 'package:roost/models/user_state.dart';
+import 'package:roost/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/utils/constans.dart';
-import 'package:fusecash/utils/firebase.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:roost/redux/actions/user_actions.dart';
+import 'package:roost/utils/addresses.dart';
+import 'package:roost/redux/state/store.dart';
+import 'package:roost/utils/constans.dart';
+import 'package:roost/utils/firebase.dart';
+import 'package:roost/utils/format.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:fusecash/services.dart';
+import 'package:roost/services.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -96,20 +96,22 @@ class SwitchCommunitySuccess {
   final Plugins plugins;
   final String homeBridgeAddress;
   final String foreignBridgeAddress;
+  final String secondaryTokenAddress;
   final String webUrl;
   final CommunityMetadata metadata;
   final String foreignTokenAddress;
   SwitchCommunitySuccess(
-      {this.communityAddress,
+      {this.webUrl,
+      this.communityAddress,
       this.communityName,
       this.token,
+      this.secondaryTokenAddress,
       this.plugins,
       this.isClosed,
       this.homeBridgeAddress,
       this.foreignBridgeAddress,
       this.foreignTokenAddress,
-      this.metadata,
-      this.webUrl});
+      this.metadata});
 }
 
 class FetchCommunityMetadataSuccess {
@@ -206,6 +208,12 @@ class UpdateJob {
 class SetIsJobProcessing {
   final bool isFetching;
   SetIsJobProcessing({this.isFetching});
+}
+
+class FetchSecondaryTokenSuccess {
+  final String communityAddress;
+  final Token token;
+  FetchSecondaryTokenSuccess({this.token, this.communityAddress});
 }
 
 Future<bool> approvalCallback() async {
@@ -1118,6 +1126,34 @@ ThunkAction fetchCommunityMetadataCall(
   };
 }
 
+ThunkAction fetchSecondaryTokenCall(
+    String tokenAddress, String communityAddress) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      dynamic tokens = await graph.getTokenByAddress(tokenAddress);
+      dynamic tokenInfo = tokens[0];
+      CashWalletState cashWalletState = store.state.cashWalletState;
+      final Community community = cashWalletState.communities[communityAddress];
+      Token second = community.secondaryToken != null
+          ? community.secondaryToken
+          : Token.initial();
+      logger.info(
+          'fetched secondary token ${tokenInfo["name"]} ${tokenInfo["address"]} (${tokenInfo["symbol"]})');
+      Token secondaryToken = second.copyWith(
+          originNetwork: 'mainnet',
+          address: tokenInfo["address"],
+          name: tokenInfo["name"],
+          symbol: tokenInfo["symbol"],
+          decimals: tokenInfo["decimals"]);
+      store.dispatch(FetchSecondaryTokenSuccess(
+          token: secondaryToken, communityAddress: communityAddress));
+    } catch (e) {
+      logger.info('ERROR - fetchSecondaryTokenCall $e');
+    }
+  };
+}
+
 ThunkAction switchToNewCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
@@ -1138,6 +1174,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           Plugins.fromJson(communityData['plugins']);
       final String homeBridgeAddress = communityData['homeBridgeAddress'];
       final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
+      String secondaryTokenAddress = communityData['secondaryTokenAddress'];
       String foreignTokenAddress = communityData['foreignTokenAddress'];
       final String webUrl = communityData['webUrl'];
       final Token communityToken = Token.initial().copyWith(
@@ -1153,6 +1190,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           plugins: communityPlugins,
           isClosed: communityData['isClosed'],
           homeBridgeAddress: homeBridgeAddress,
+          secondaryTokenAddress: secondaryTokenAddress,
           foreignBridgeAddress: foreignBridgeAddress,
           foreignTokenAddress: foreignTokenAddress,
           webUrl: webUrl));
@@ -1164,6 +1202,10 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
             "Token Symbol": token["symbol"],
             "Origin Network": token['originNetwork']
           })));
+      if (![null, ''].contains(secondaryTokenAddress)) {
+        store.dispatch(fetchSecondaryTokenCall(
+            secondaryTokenAddress, communityAddress.toLowerCase()));
+      }
       logger.info('joinCommunityCall joinCommunityCall $tokenAddress');
       final String entitiesListAddress = community["entitiesList"]["address"];
       store.dispatch(fetchCommunityMetadataCall(
@@ -1206,9 +1248,14 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String foreignTokenAddress = communityData['foreignTokenAddress'];
+      String secondaryTokenAddress = communityData['secondaryTokenAddress'];
       String webUrl = communityData['webUrl'];
       store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
           communityData['communityURI'], isRopsten));
+      if (![null, ''].contains(secondaryTokenAddress)) {
+        store.dispatch(fetchSecondaryTokenCall(
+            secondaryTokenAddress, communityAddress.toLowerCase()));
+      }
       store.dispatch(SwitchCommunitySuccess(
           communityAddress: communityAddress,
           communityName: current.name,
@@ -1216,6 +1263,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           plugins: communityPlugins,
           isClosed: current.isClosed,
           homeBridgeAddress: homeBridgeAddress,
+          secondaryTokenAddress: secondaryTokenAddress,
           foreignBridgeAddress: foreignBridgeAddress,
           foreignTokenAddress: foreignTokenAddress,
           webUrl: webUrl));

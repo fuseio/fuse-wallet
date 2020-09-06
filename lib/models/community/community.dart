@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:roost/models/community/business.dart';
+import 'package:roost/models/community/community_metadata.dart';
+import 'package:roost/models/plugins/plugins.dart';
+import 'package:roost/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';
@@ -21,10 +21,20 @@ class Community extends Equatable {
   final bool isClosed;
   final String webUrl;
   final String foreignTokenAddress;
+  final Token secondaryToken;
 
   @override
-  List<Object> get props =>
-      [name, address, isMember, token, plugins, metadata, webUrl];
+  List<Object> get props => [
+        name,
+        address,
+        isMember,
+        token,
+        plugins,
+        metadata,
+        webUrl,
+        secondaryToken,
+        foreignTokenAddress
+      ];
 
   Community(
       {this.name,
@@ -38,7 +48,8 @@ class Community extends Equatable {
       this.homeBridgeAddress,
       this.webUrl,
       this.foreignBridgeAddress,
-      this.foreignTokenAddress});
+      this.foreignTokenAddress,
+      this.secondaryToken});
 
   factory Community.initial() {
     return new Community(
@@ -66,6 +77,7 @@ class Community extends Equatable {
       bool isMember,
       CommunityMetadata metadata,
       bool isClosed,
+      Token secondaryToken,
       String webUrl,
       String foreignTokenAddress}) {
     return Community(
@@ -78,6 +90,7 @@ class Community extends Equatable {
         token: token ?? this.token,
         businesses: businesses ?? this.businesses,
         isMember: isMember ?? this.isMember,
+        secondaryToken: secondaryToken ?? this.secondaryToken,
         homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
         foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,
         foreignTokenAddress: foreignTokenAddress ?? this.foreignTokenAddress);
