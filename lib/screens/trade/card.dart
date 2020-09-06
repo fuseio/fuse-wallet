@@ -1,3 +1,7 @@
+// import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:ethereum_address/ethereum_address.dart';
+// import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+// import 'package:fusecash/screens/home/widgets/assets_list.dart';
 import 'package:esol/generated/i18n.dart';
 import 'package:esol/models/tokens/token.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +21,12 @@ class TradeCard extends StatelessWidget {
   final void Function(String) onChanged;
   final void Function(Token) onDropDownChanged;
   final TextEditingController textEditingController;
-  const TradeCard(
+  // final void Function() onTap;
+  TradeCard(
       {Key key,
       this.title,
       this.items,
+      // this.onTap,
       this.useMaxWidget,
       this.isFetchingPrice,
       this.fromTokenAmount,
@@ -82,6 +88,37 @@ class TradeCard extends StatelessWidget {
                           onChanged: onDropDownChanged,
                           items: items,
                         )
+                        // InkWell(
+                        //   onTap: onTap,
+                        //   child: Row(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     children: <Widget>[
+                        //       CachedNetworkImage(
+                        //         width: 33,
+                        //         height: 33,
+                        //         imageUrl: token.imageUrl != null &&
+                        //                 token.imageUrl.isNotEmpty
+                        //             ? token.imageUrl
+                        //             : getTokenUrl(
+                        //                 checksumEthereumAddress(token.address)),
+                        //         placeholder: (context, url) =>
+                        //             CircularProgressIndicator(),
+                        //         errorWidget: (context, url, error) => Icon(
+                        //           Icons.error,
+                        //           size: 18,
+                        //         ),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 10,
+                        //       ),
+                        //       Text(
+                        //         token.symbol,
+                        //         style: TextStyle(fontSize: 16),
+                        //       ),
+                        //       Icon(Icons.arrow_drop_down)
+                        //     ],
+                        //   ),
+                        // )
                       ],
                     ),
                   ),

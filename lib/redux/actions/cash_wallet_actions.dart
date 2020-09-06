@@ -17,7 +17,6 @@ import 'package:esol/models/transactions/transfer.dart';
 import 'package:esol/models/user_state.dart';
 import 'package:esol/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:esol/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:esol/redux/actions/user_actions.dart';
 import 'package:esol/utils/addresses.dart';
 import 'package:esol/redux/state/store.dart';
@@ -357,8 +356,8 @@ ThunkAction listenToBranchCall() {
   };
 }
 
-ThunkAction initWeb3Call(
-  String privateKey, {
+ThunkAction initWeb3Call({
+  String privateKey,
   String communityManagerAddress,
   String transferManagerAddress,
   String dAIPointsManagerAddress,
@@ -366,6 +365,7 @@ ThunkAction initWeb3Call(
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
+      String pk = privateKey ?? store.state.userState.privateKey;
       logger.info('initWeb3. privateKey: $privateKey');
       logger.info('mnemonic : ${store.state.userState.mnemonic.toString()}');
       wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
@@ -390,7 +390,7 @@ ThunkAction initWeb3Call(
               SetDefaultCommunity(web3.getDefaultCommunity().toLowerCase()));
         }
       }
-      web3.setCredentials(privateKey);
+      web3.setCredentials(pk);
       store.dispatch(new InitWeb3Success(web3));
     } catch (e) {
       logger.severe('ERROR - initWeb3Call $e');
@@ -490,41 +490,7 @@ ThunkAction generateWalletSuccessCall(
     String walletAddress = walletData["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
       store.dispatch(enablePushNotifications());
-      String privateKey = store.state.userState.privateKey;
-      List<String> networks = List<String>.from(walletData['networks']);
-      String communityManager = walletData['communityManager'];
-      String transferManager = walletData['transferManager'];
-      String dAIPointsManager = walletData['dAIPointsManager'];
-      store.dispatch(initWeb3Call(privateKey,
-          communityManagerAddress: communityManager,
-          transferManagerAddress: transferManager,
-          dAIPointsManagerAddress: dAIPointsManager));
-      bool deployedToForeign = networks?.contains(foreignNetwork) ?? false;
-      if (deployedToForeign) {
-        store.dispatch(initWeb3ProMode(
-            privateKey: privateKey,
-            communityManagerAddress: communityManager,
-            transferManagerAddress: transferManager,
-            dAIPointsManagerAddress: dAIPointsManager));
-      } else {
-        store.dispatch(activateProModeCall());
-      }
-      store.dispatch(new GetWalletAddressesSuccess(
-          walletAddress: walletAddress,
-          daiPointsManagerAddress: dAIPointsManager,
-          communityManagerAddress: communityManager,
-          transferManagerAddress: transferManager,
-          networks: networks));
-      Future.delayed(Duration(seconds: intervalSeconds), () {
-        if (deployedToForeign) {
-          store.dispatch(startListenToTransferEvents());
-          store.dispatch(startFetchBalancesOnForeign());
-          store.dispatch(fetchTokensBalances());
-          store.dispatch(startFetchTransferEventsCall());
-          store.dispatch(startFetchTokensLastestPrices());
-          store.dispatch(startProcessingTokensJobsCall());
-        }
-      });
+      store.dispatch(setupWalletCall(walletData));
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
         "App name": 'ESOL',
@@ -535,43 +501,6 @@ ThunkAction generateWalletSuccessCall(
       })));
       store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
       store.dispatch(create3boxAccountCall(accountAddress));
-    }
-  };
-}
-
-ThunkAction getWalletAddressessCall() {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      String privateKey = store.state.userState.privateKey;
-      dynamic walletData = await api.getWallet();
-      List<String> networks = List<String>.from(walletData['networks']);
-      String walletAddress = walletData['walletAddress'];
-      bool backup = walletData['backup'];
-      String communityManagerAddress = walletData['communityManager'];
-      String transferManagerAddress = walletData['transferManager'];
-      String dAIPointsManagerAddress = walletData['dAIPointsManager'];
-      store.dispatch(GetWalletAddressesSuccess(
-          backup: backup,
-          walletAddress: walletAddress,
-          daiPointsManagerAddress: dAIPointsManagerAddress,
-          communityManagerAddress: communityManagerAddress,
-          transferManagerAddress: transferManagerAddress,
-          networks: networks));
-      if (networks.contains(foreignNetwork)) {
-        store.dispatch(initWeb3ProMode(
-            privateKey: privateKey,
-            communityManagerAddress: communityManagerAddress,
-            transferManagerAddress: transferManagerAddress,
-            dAIPointsManagerAddress: dAIPointsManagerAddress));
-      }
-      store.dispatch(initWeb3Call(privateKey,
-          communityManagerAddress: communityManagerAddress,
-          transferManagerAddress: transferManagerAddress,
-          dAIPointsManagerAddress: dAIPointsManagerAddress));
-    } catch (e) {
-      logger.severe('ERROR - getWalletAddressCall $e');
-      store.dispatch(new ErrorAction('Could not get wallet address'));
     }
   };
 }
@@ -1087,6 +1016,8 @@ ThunkAction joinCommunitySuccessCall(
     JoinBonusPlugin joinBonusPlugin,
     Token token) {
   return (Store store) async {
+    // final logger = await AppFactory().getLogger('action');
+    // logger.info('joinCommunitySuccessCall joinCommunitySuccessCall ${job.id}');
     Transfer confirmedTx = transfer.copyWith(
       status: 'CONFIRMED',
       text: 'Joined ' + (communityName ?? '') + ' community',
