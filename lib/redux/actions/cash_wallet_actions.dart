@@ -729,12 +729,15 @@ ThunkAction inviteAndSendCall(
       String senderName = store.state.userState.displayName;
       Map<String, Community> communities =
           store.state.cashWalletState.communities;
-      Community community = communities.values.firstWhere((element) =>
-          element.token.address.toLowerCase() == token.address.toLowerCase() ||
-          element.secondaryToken.address.toLowerCase() ==
-              token.address.toLowerCase());
+      Community community = communities.values.firstWhere(
+          (element) =>
+              element?.token?.address?.toLowerCase() ==
+                  token?.address?.toLowerCase() ||
+              element?.secondaryToken?.address?.toLowerCase() ==
+                  token?.address?.toLowerCase(),
+          orElse: () => null);
       dynamic response = await api.invite(contactPhoneNumber,
-          communityAddress: community.address,
+          communityAddress: community?.address,
           name: senderName,
           amount: tokensAmount.toString(),
           symbol: token.symbol);
@@ -951,16 +954,20 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
       String walletAddress = store.state.userState.walletAddress;
       Map<String, Community> communities =
           store.state.cashWalletState.communities;
-      Community community = communities.values.firstWhere((element) =>
-          element.token.address.toLowerCase() == token.address.toLowerCase() ||
-          element.secondaryToken.address.toLowerCase() ==
-              token.address.toLowerCase());
+      Community community = communities.values.firstWhere(
+          (element) =>
+              element?.token?.address?.toLowerCase() ==
+                  token?.address?.toLowerCase() ||
+              element?.secondaryToken?.address?.toLowerCase() ==
+                  token?.address?.toLowerCase(),
+          orElse: () => null);
       String tokenAddress = token?.address;
 
       BigInt value;
       dynamic response;
-      if (receiverAddress.toLowerCase() ==
-          community.homeBridgeAddress.toLowerCase()) {
+      if (community != null &&
+          (receiverAddress.toLowerCase() ==
+              community?.homeBridgeAddress?.toLowerCase())) {
         num feeAmount = 20;
         value = toBigInt(tokensAmount, token.decimals);
         logger.info(
