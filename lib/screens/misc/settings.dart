@@ -6,7 +6,6 @@ import 'package:supervecina/generated/i18n.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'package:supervecina/models/views/drawer.dart';
 import 'package:supervecina/screens/home/router/home_router.gr.dart';
-import 'package:supervecina/utils/forks.dart';
 import 'package:supervecina/widgets/language_selector.dart';
 import 'package:supervecina/widgets/main_scaffold.dart';
 import 'package:supervecina/screens/routes.gr.dart';
