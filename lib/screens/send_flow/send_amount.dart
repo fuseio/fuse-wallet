@@ -29,6 +29,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   Animation<Offset> offset;
   bool isPreloading = false;
   Token selectedToken;
+  List<Token> options;
 
   @override
   void dispose() {
@@ -75,16 +76,16 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                             color: Color(0xFFE8E8E8),
                             height: 0,
                           ),
-                          itemCount: viewModel.tokens?.length ?? 0,
+                          itemCount: options?.length ?? 0,
                           itemBuilder: (context, index) => TokenTile(
-                              token: viewModel.tokens[index],
+                              token: options[index],
                               symbolWidth: 45,
                               symbolHeight: 45,
                               onTap: () {
                                 Navigator.of(context).pop();
                                 setState(() {
                                   amountText = "0";
-                                  selectedToken = viewModel.tokens[index];
+                                  selectedToken = options[index];
                                 });
                               }),
                         ),
@@ -96,6 +97,27 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             )));
   }
 
+  List<Token> setDefaultOptions(SendAmountViewModel viewModel) {
+    final List<Token> tokens = widget.pageArgs.isConvert
+        ? [
+            ...[
+              viewModel.community.token.copyWith(
+                  imageUrl: viewModel.community.metadata.getImageUri()),
+              viewModel.community.secondaryToken.copyWith(
+                  imageUrl: viewModel.community.metadata.getImageUri())
+            ]..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
+                ?.compareTo(tokenA?.amount ?? BigInt.zero))
+          ]
+        : viewModel.tokens;
+    if (mounted) {
+      setState(() {
+        options = tokens;
+      });
+    }
+
+    return tokens;
+  }
+
   @override
   Widget build(BuildContext context) {
     final SendAmountArguments args = this.widget.pageArgs;
@@ -105,14 +127,29 @@ class _SendAmountScreenState extends State<SendAmountScreen>
       distinct: true,
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
+        final List<Token> tokens = setDefaultOptions(viewModel);
         if ([null, ''].contains(args.tokenToSend)) {
           setState(() {
-            selectedToken = viewModel.tokens[0];
+            selectedToken = tokens[0];
           });
         } else {
           setState(() {
             selectedToken = args.tokenToSend;
           });
+        }
+      },
+      onWillChange: (previousViewModel, newViewModel) {
+        if (previousViewModel.communities != newViewModel.communities) {
+          final List<Token> tokens = setDefaultOptions(newViewModel);
+          if ([null, ''].contains(args.tokenToSend)) {
+            setState(() {
+              selectedToken = tokens[0];
+            });
+          } else {
+            setState(() {
+              selectedToken = args.tokenToSend;
+            });
+          }
         }
       },
       builder: (_, viewModel) {
@@ -287,8 +324,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 20),
+                            padding: EdgeInsets.symmetric(horizontal: 40),
                             child: Divider(
                               color: Color(0xFFE8E8E8),
                               thickness: 1.5,

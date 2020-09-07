@@ -42,13 +42,9 @@ class SendAmountViewModel extends Equatable {
   final Function(String eventName, {Map<String, dynamic> properties})
       trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
-  final Function(
-      num tokensAmount,
-      VoidCallback sendSuccessCallback,
+  final Function(num tokensAmount, VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) buyToken;
-  final Function(
-      num tokensAmount,
-      VoidCallback sendSuccessCallback,
+  final Function(num tokensAmount, VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) sellToken;
 
   final Function(
@@ -62,7 +58,7 @@ class SendAmountViewModel extends Equatable {
   }) sendToErc20Token;
 
   @override
-  List<Object> get props => [tokens, myCountryCode, communities];
+  List<Object> get props => [tokens, myCountryCode, communities, community];
 
   SendAmountViewModel(
       {this.tokens,
