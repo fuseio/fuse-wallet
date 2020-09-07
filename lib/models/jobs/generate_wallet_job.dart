@@ -1,9 +1,9 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:supervecina/models/jobs/base.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/redux/state/store.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'generate_wallet_job.g.dart';

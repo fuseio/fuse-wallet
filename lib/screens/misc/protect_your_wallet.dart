@@ -1,13 +1,13 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/misc/pincode.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/screens/misc/pincode.dart';
+import 'package:supervecina/utils/biometric_local_auth.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
 
 class ProtectYourWallet extends StatefulWidget {
   @override
@@ -44,6 +44,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
             builder: (_, viewModel) {
               final isBiometric = viewModel.authType == BiometricAuth.faceID ||
                   viewModel.authType == BiometricAuth.touchID;
+              final isPinCode = viewModel.authType == BiometricAuth.pincode;
               return Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,7 +133,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                                               Theme.of(context).primaryColor),
                                     )
                                   ]),
-                                  !isBiometric
+                                  isPinCode
                                       ? Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,

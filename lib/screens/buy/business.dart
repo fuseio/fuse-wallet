@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/screens/contacts/send_amount_arguments.dart';
+import 'package:supervecina/screens/misc/about.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/home/widgets/drawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BusinessPage extends StatefulWidget {
@@ -25,8 +25,8 @@ class BusinessPage extends StatefulWidget {
 }
 
 class _BusinessPageState extends State<BusinessPage> {
-  GlobalKey<ScaffoldState> scaffoldState;
   Completer<GoogleMapController> _controller = Completer();
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -35,13 +35,33 @@ class _BusinessPageState extends State<BusinessPage> {
   @override
   void initState() {
     super.initState();
+    bool showMap = widget.business.metadata.latLng != null &&
+        this.widget.business.metadata.latLng.isNotEmpty;
+    if (showMap) {
+      _add();
+    }
+  }
+
+  void _add() {
+    final String markerIdVal = widget.business.name;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    final Marker marker = Marker(
+        markerId: markerId,
+        position: LatLng(widget.business.metadata.latLng[0],
+            widget.business.metadata.latLng[1]),
+        infoWindow: InfoWindow(
+          title: this.widget.business.metadata.address,
+        ));
+
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Segment.screen(screenName: '/business-details-screen');
     return Scaffold(
-      key: scaffoldState,
       body: Container(
         child: Column(
           children: <Widget>[
@@ -59,8 +79,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               padding: EdgeInsets.only(bottom: 20),
                               child: SizedBox.expand(
                                   child: CachedNetworkImage(
-                                imageUrl:
-                                    widget.business.metadata.getCoverPhotoUri(),
+                                imageUrl: widget.business.metadata.coverPhoto,
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
@@ -77,7 +96,10 @@ class _BusinessPageState extends State<BusinessPage> {
                                 onTap: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Icon(PlatformIcons(context).back),
+                                child: Icon(
+                                  PlatformIcons(context).back,
+                                  // color: Theme.of(context).splashColor,
+                                ),
                               )),
                         ],
                       ),
@@ -90,7 +112,7 @@ class _BusinessPageState extends State<BusinessPage> {
                             padding: EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
                                 child: CachedNetworkImage(
-                              imageUrl: widget.business.metadata.getImageUri(),
+                              imageUrl: widget.business.metadata.image,
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) =>
@@ -273,12 +295,13 @@ class _BusinessPageState extends State<BusinessPage> {
                           widget.business.metadata.latLng != null &&
                                   widget.business.metadata.latLng.isNotEmpty
                               ? GoogleMap(
+                                  markers: Set<Marker>.from(markers.values),
                                   onMapCreated: _onMapCreated,
                                   initialCameraPosition: CameraPosition(
                                     target: LatLng(
                                         widget.business.metadata.latLng[0],
                                         widget.business.metadata.latLng[1]),
-                                    zoom: 13.0,
+                                    zoom: 17.0,
                                   ),
                                 )
                               : SizedBox.shrink(),
@@ -293,10 +316,7 @@ class _BusinessPageState extends State<BusinessPage> {
                               child: Text(
                                 I18n.of(context).pay,
                                 style: TextStyle(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .button
-                                        .color,
+                                    color: Theme.of(context).splashColor,
                                     fontSize: 16,
                                     fontWeight: FontWeight.normal),
                               ),
@@ -310,8 +330,7 @@ class _BusinessPageState extends State<BusinessPage> {
                                             accountAddress:
                                                 widget.business.account,
                                             avatar: NetworkImage(widget
-                                                .business.metadata
-                                                .getImageUri()))));
+                                                .business.metadata.image))));
                               },
                             ),
                           )

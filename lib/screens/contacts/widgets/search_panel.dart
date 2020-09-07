@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/widgets/silver_app_bar.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/utils/send.dart';
+import 'package:supervecina/widgets/silver_app_bar.dart';
 
 class SearchPanel extends StatelessWidget {
   const SearchPanel({Key key, this.searchController}) : super(key: key);

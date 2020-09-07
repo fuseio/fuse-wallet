@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/widgets/preloader.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/contacts/send_amount_arguments.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/phone.dart';
+import 'package:supervecina/widgets/preloader.dart';
 
 Future<Map> fetchWalletByPhone(phone, countryCode, isoCode) async {
   try {

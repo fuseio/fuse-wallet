@@ -3,31 +3,32 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/plugins/join_bonus.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/models/cash_wallet_state.dart';
+import 'package:supervecina/models/community/business_metadata.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/community/community_metadata.dart';
+import 'package:supervecina/models/jobs/base.dart';
+import 'package:supervecina/models/plugins/join_bonus.dart';
+import 'package:supervecina/models/plugins/plugins.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/models/transactions/transaction.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/models/user_state.dart';
+import 'package:supervecina/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/utils/constans.dart';
-import 'package:fusecash/utils/firebase.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/utils/addresses.dart';
+import 'package:supervecina/redux/state/store.dart';
+import 'package:supervecina/utils/constans.dart';
+import 'package:supervecina/utils/firebase.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/forks.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:fusecash/services.dart';
+import 'package:supervecina/services.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -493,7 +494,7 @@ ThunkAction generateWalletSuccessCall(
       store.dispatch(setupWalletCall(walletData));
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
-        "App name": 'Fuse',
+        "App name": 'Wikibank',
         "Phone Number": store.state.userState.normalizedPhoneNumber,
         "Wallet Address": store.state.userState.walletAddress,
         "Account Address": store.state.userState.accountAddress,
@@ -1277,39 +1278,79 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
         communityAddress = store.state.cashWalletState.communityAddress;
       }
       store.dispatch(StartFetchingBusinessList());
-      Community community =
-          store.state.cashWalletState.communities[communityAddress];
-      bool isOriginRopsten = isRopsten ??
-          (community?.token?.originNetwork != null
-              ? community?.token?.originNetwork == 'ropsten'
-              : false);
-      dynamic communityEntities =
-          await graph.getCommunityBusinesses(communityAddress);
-      if (communityEntities != null) {
-        List<dynamic> entities = List.from(communityEntities);
-        Future<List<Business>> businesses =
-            Future.wait(entities.map((dynamic entity) async {
-          try {
-            dynamic metadata = await api.getEntityMetadata(
-                communityAddress, entity['address'],
-                isRopsten: isOriginRopsten);
-            return Business.initial().copyWith(
-                account: entity['address'],
-                name: metadata['name'] ?? '',
-                metadata: BusinessMetadata.fromJson(metadata ?? {}));
-          } catch (e) {
-            return Business.initial().copyWith(
-                account: entity['address'],
-                name: formatAddress(entity['address']),
-                metadata: BusinessMetadata.initial()
-                    .copyWith(address: entity['address']));
+      if (isWikiBank(communityAddress)) {
+        Client client = new Client();
+        dynamic res = await client.get(
+            'https://api.airtable.com/v0/appQ4QMWLG5Y5ECsg/Table%201',
+            headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
+        dynamic a = responseHandler(res);
+        List<Business> businessList = new List();
+        await Future.forEach(a['records'], (record) {
+          if (record['fields'].containsKey('name') &&
+              record['fields'].containsKey('account')) {
+            dynamic data = record['fields'];
+            Map<String, dynamic> business = Map.from({
+              'name': data['name'] ?? '',
+              'account': data['account'] ?? '',
+              'metadata': {
+                'image': data['image'][0]['url'] ?? '',
+                "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
+                'address': data['address'] ?? '',
+                'description': data['description'] ?? '',
+                'phoneNumber': data['phoneNumber'] ?? '',
+                'website': data['website'] ?? '',
+                'type': data['type'] ?? '',
+                'latLng': data['GPS'] != null
+                    ? data['GPS']
+                        .split(',')
+                        .toList()
+                        .map((item) => double.parse(item.trim()))
+                        .toList()
+                    : null
+              }
+            });
+            businessList.add(new Business.fromJson(business));
           }
-        }));
-        List<Business> result = await businesses;
-        result..toList();
-        store.dispatch(GetBusinessListSuccess(
-            businessList: result, communityAddress: communityAddress));
-        store.dispatch(FetchingBusinessListSuccess());
+        }).then((r) {
+          store.dispatch(GetBusinessListSuccess(
+              businessList: businessList, communityAddress: communityAddress));
+          store.dispatch(FetchingBusinessListSuccess());
+        });
+      } else {
+        Community community =
+            store.state.cashWalletState.communities[communityAddress];
+        bool isOriginRopsten = isRopsten ??
+            (community?.token?.originNetwork != null
+                ? community?.token?.originNetwork == 'ropsten'
+                : false);
+        dynamic communityEntities =
+            await graph.getCommunityBusinesses(communityAddress);
+        if (communityEntities != null) {
+          List<dynamic> entities = List.from(communityEntities);
+          Future<List<Business>> businesses =
+              Future.wait(entities.map((dynamic entity) async {
+            try {
+              dynamic metadata = await api.getEntityMetadata(
+                  communityAddress, entity['address'],
+                  isRopsten: isOriginRopsten);
+              return Business.initial().copyWith(
+                  account: entity['address'],
+                  name: metadata['name'] ?? '',
+                  metadata: BusinessMetadata.fromJson(metadata ?? {}));
+            } catch (e) {
+              return Business.initial().copyWith(
+                  account: entity['address'],
+                  name: formatAddress(entity['address']),
+                  metadata: BusinessMetadata.initial()
+                      .copyWith(address: entity['address']));
+            }
+          }));
+          List<Business> result = await businesses;
+          result..toList();
+          store.dispatch(GetBusinessListSuccess(
+              businessList: result, communityAddress: communityAddress));
+          store.dispatch(FetchingBusinessListSuccess());
+        }
       }
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');

@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/transparent_button.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/splash.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/widgets/primary_button.dart';
+import 'package:supervecina/widgets/transparent_button.dart';
 
 class WarnBeforeReCreation extends StatefulWidget {
   @override
@@ -97,92 +97,88 @@ class _CreateWalletState extends State<CreateWallet> {
         distinct: true,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
-          return Container(
-            padding: EdgeInsets.only(bottom: 80),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                PrimaryButton(
-                  fontSize: 16,
-                  labelFontWeight: FontWeight.normal,
-                  disabled: isPrimaryPreloading,
-                  label: viewModel.isLoggedOut
-                      ? I18n.of(context).login
-                      : I18n.of(context).create_new_wallet,
-                  onPressed: () async {
-                    if (viewModel.isLoggedOut) {
-                      viewModel.loginAgain();
-                      ExtendedNavigator.root.replace(Routes.homePage);
-                    } else {
-                      viewModel.setDeviceIdCall();
-                      viewModel.createLocalAccount(() {
-                        setState(() {
-                          isPrimaryPreloading = false;
-                        });
-                        ExtendedNavigator.root.push(Routes.signupScreen);
-                      });
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              PrimaryButton(
+                fontSize: 16,
+                labelFontWeight: FontWeight.normal,
+                disabled: isPrimaryPreloading,
+                label: viewModel.isLoggedOut
+                    ? I18n.of(context).login
+                    : I18n.of(context).create_new_wallet,
+                onPressed: () async {
+                  if (viewModel.isLoggedOut) {
+                    viewModel.loginAgain();
+                    ExtendedNavigator.root.replace(Routes.homePage);
+                  } else {
+                    viewModel.setDeviceIdCall();
+                    viewModel.createLocalAccount(() {
                       setState(() {
-                        isPrimaryPreloading = true;
+                        isPrimaryPreloading = false;
                       });
-                    }
-                  },
-                  preload: isPrimaryPreloading,
-                ),
-                Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: viewModel.isLoggedOut
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              TransparentButton(
-                                  fontSize: 14,
-                                  label: I18n.of(context).restore_backup,
-                                  onPressed: () async {
-                                    ExtendedNavigator.root
-                                        .push(Routes.recoveryPage);
-                                  }),
-                              Text(
-                                I18n.of(context).or,
-                                style: TextStyle(color: Colors.grey[400]),
-                              ),
-                              TransparentButton(
-                                  fontSize: 14,
-                                  label: I18n.of(context).create__wallet,
-                                  onPressed: () async {
-                                    bool result = await showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return WarnBeforeReCreation();
-                                      },
-                                    );
-                                    if (result) {
-                                      viewModel.setDeviceIdCall();
-                                      viewModel.createLocalAccount(() {
-                                        setState(() {
-                                          isTransparentPreloading = false;
-                                        });
-                                        ExtendedNavigator.root
-                                            .push(Routes.signupScreen);
-                                      });
+                      ExtendedNavigator.root.push(Routes.signupScreen);
+                    });
+                    setState(() {
+                      isPrimaryPreloading = true;
+                    });
+                  }
+                },
+                preload: isPrimaryPreloading,
+              ),
+              Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: viewModel.isLoggedOut
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            TransparentButton(
+                                fontSize: 14,
+                                label: I18n.of(context).restore_backup,
+                                onPressed: () async {
+                                  ExtendedNavigator.root
+                                      .push(Routes.recoveryPage);
+                                }),
+                            Text(
+                              I18n.of(context).or,
+                              style: TextStyle(color: Colors.grey[400]),
+                            ),
+                            TransparentButton(
+                                fontSize: 14,
+                                label: I18n.of(context).create__wallet,
+                                onPressed: () async {
+                                  bool result = await showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return WarnBeforeReCreation();
+                                    },
+                                  );
+                                  if (result) {
+                                    viewModel.setDeviceIdCall();
+                                    viewModel.createLocalAccount(() {
                                       setState(() {
-                                        isTransparentPreloading = true;
+                                        isTransparentPreloading = false;
                                       });
-                                    }
-                                  },
-                                  preload: isTransparentPreloading)
-                            ],
-                          )
-                        : TransparentButton(
-                            fontSize: 16,
-                            label: I18n.of(context).restore_from_backup,
-                            onPressed: () async {
-                              ExtendedNavigator.root.push(Routes.recoveryPage);
-                            }))
-              ],
-            ),
+                                      ExtendedNavigator.root
+                                          .push(Routes.signupScreen);
+                                    });
+                                    setState(() {
+                                      isTransparentPreloading = true;
+                                    });
+                                  }
+                                },
+                                preload: isTransparentPreloading)
+                          ],
+                        )
+                      : TransparentButton(
+                          fontSize: 16,
+                          label: I18n.of(context).restore_from_backup,
+                          onPressed: () async {
+                            ExtendedNavigator.root.push(Routes.recoveryPage);
+                          }))
+            ],
           );
         });
   }

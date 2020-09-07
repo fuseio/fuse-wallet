@@ -1,15 +1,15 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/views/backup.dart';
+import 'package:supervecina/screens/home/router/home_router.gr.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/copy.dart';
-import 'package:fusecash/widgets/preloader.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/widgets/copy.dart';
+import 'package:supervecina/widgets/preloader.dart';
+import 'package:supervecina/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   @override

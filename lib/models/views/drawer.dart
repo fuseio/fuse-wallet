@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/plugins/plugins.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 
 class DrawerViewModel extends Equatable {
   final Function() logout;

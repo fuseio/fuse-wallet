@@ -1,6 +1,6 @@
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/screens/home/widgets/assets_list.dart';
+import 'package:supervecina/utils/addresses.dart';
 
 final Token daiToken = Token.initial().copyWith(
     address: daiTokenAddress,

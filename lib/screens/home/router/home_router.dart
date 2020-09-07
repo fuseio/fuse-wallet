@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/screens/backup/done_backup.dart';
-import 'package:fusecash/screens/backup/show_mnemonic.dart';
-import 'package:fusecash/screens/backup/verify_mnemonic.dart';
-import 'package:fusecash/screens/home/screens/home.dart';
-import 'package:fusecash/screens/home/screens/transaction_details.dart';
-import 'package:fusecash/screens/home/screens/token_screen.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/screens/misc/protect_your_wallet.dart';
-import 'package:fusecash/screens/misc/settings.dart';
-import 'package:fusecash/screens/misc/switch_commmunity.dart';
-import 'package:fusecash/screens/trade/review_trade.dart';
-import 'package:fusecash/screens/trade/trade.dart';
+import 'package:supervecina/screens/backup/done_backup.dart';
+import 'package:supervecina/screens/backup/show_mnemonic.dart';
+import 'package:supervecina/screens/backup/verify_mnemonic.dart';
+import 'package:supervecina/screens/home/screens/home.dart';
+import 'package:supervecina/screens/home/screens/transaction_details.dart';
+import 'package:supervecina/screens/home/screens/token_screen.dart';
+import 'package:supervecina/screens/misc/about.dart';
+import 'package:supervecina/screens/misc/protect_your_wallet.dart';
+import 'package:supervecina/screens/misc/settings.dart';
+import 'package:supervecina/screens/misc/switch_commmunity.dart';
+import 'package:supervecina/screens/trade/review_trade.dart';
+import 'package:supervecina/screens/trade/trade.dart';
 
 @MaterialAutoRouter(routesClassName: "HomeRoutes", routes: <AutoRoute>[
   MaterialRoute(

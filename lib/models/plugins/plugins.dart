@@ -1,12 +1,12 @@
-import 'package:fusecash/models/plugins/backup_bonus.dart';
-import 'package:fusecash/models/plugins/bridge_to_foreign_fee.dart';
-import 'package:fusecash/models/plugins/foreign_transfers_fee.dart';
-import 'package:fusecash/models/plugins/invite_bonus.dart';
-import 'package:fusecash/models/plugins/join_bonus.dart';
-import 'package:fusecash/models/plugins/moonpay.dart';
-import 'package:fusecash/models/plugins/rampInstant.dart';
-import 'package:fusecash/models/plugins/transak.dart';
-import 'package:fusecash/models/plugins/wallet_banner.dart';
+import 'package:supervecina/models/plugins/backup_bonus.dart';
+import 'package:supervecina/models/plugins/bridge_to_foreign_fee.dart';
+import 'package:supervecina/models/plugins/foreign_transfers_fee.dart';
+import 'package:supervecina/models/plugins/invite_bonus.dart';
+import 'package:supervecina/models/plugins/join_bonus.dart';
+import 'package:supervecina/models/plugins/moonpay.dart';
+import 'package:supervecina/models/plugins/rampInstant.dart';
+import 'package:supervecina/models/plugins/transak.dart';
+import 'package:supervecina/models/plugins/wallet_banner.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'plugins.g.dart';

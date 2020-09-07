@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/models/transactions/transaction.dart';
+import 'package:supervecina/utils/format.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 
 class HomeViewModel extends Equatable {
   final List<Token> tokens;

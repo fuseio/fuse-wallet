@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/models/views/onboard.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/home/widgets/drawer.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:supervecina/widgets/primary_button.dart';
+import 'package:supervecina/models/views/onboard.dart';
 
 class UserNameScreen extends StatelessWidget {
   final verificationCodeController = TextEditingController(text: "");

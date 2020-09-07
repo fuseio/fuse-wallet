@@ -3,16 +3,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/models/community/business_metadata.dart';
+import 'package:supervecina/models/views/buy_page.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/screens/buy/router/buy_router.gr.dart';
+import 'package:supervecina/screens/contacts/send_amount_arguments.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 
 class BuyScreen extends StatelessWidget {
@@ -126,7 +126,7 @@ class BusinessesListView extends StatelessWidget {
           decoration: BoxDecoration(),
           child: ClipOval(
               child: CachedNetworkImage(
-            imageUrl: business.metadata.getImageUri(),
+            imageUrl: business.metadata.image,
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
@@ -162,26 +162,23 @@ class BusinessesListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
+          InkWell(
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/go.png',
+                  fit: BoxFit.fill,
+                  width: 25,
+                  height: 25,
+                )),
+            onTap: () {
               ExtendedNavigator.root.push(Routes.sendAmountScreen,
                   arguments: SendAmountScreenArguments(
                       pageArgs: SendAmountArguments(
                           tokenToSend: token,
                           name: business.name ?? '',
                           accountAddress: business.account,
-                          avatar:
-                              NetworkImage(business.metadata.getImageUri()))));
+                          avatar: NetworkImage(business.metadata.image))));
             },
           ),
         ],

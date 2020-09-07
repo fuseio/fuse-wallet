@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/signup_dialog.dart';
-import 'package:fusecash/models/views/onboard.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:supervecina/widgets/primary_button.dart';
+import 'package:supervecina/widgets/signup_dialog.dart';
+import 'package:supervecina/models/views/onboard.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -23,7 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
   bool isvalidPhone = true;
-  CountryCode countryCode = CountryCode(dialCode: '‎+1', code: 'US');
+  CountryCode countryCode = new CountryCode(dialCode: '‎+34', code: 'ES');
 
   @override
   void initState() {

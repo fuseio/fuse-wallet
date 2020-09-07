@@ -2,16 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
+import 'package:supervecina/screens/home/router/home_router.gr.dart';
+import 'package:supervecina/screens/home/widgets/assets_list.dart';
 import 'package:redux/redux.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/utils/format.dart';
 
 class TokenTile extends StatelessWidget {
   TokenTile(

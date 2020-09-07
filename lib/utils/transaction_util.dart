@@ -2,12 +2,12 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/phone.dart';
 
 String getIPFSImageUrl(String image) {
   if (image == null) {
@@ -160,7 +160,7 @@ dynamic getTransferImage(
       (business) => business.account == accountAddress,
       orElse: () => null);
   if (business != null) {
-    return NetworkImage(business.metadata.getImageUri());
+    return NetworkImage(business.metadata.image);
   }
   return new AssetImage('assets/images/anom.png');
 }
@@ -176,7 +176,7 @@ dynamic getContactImage(Transfer transfer, Contact contact,
         (business) => business.account == accountAddress,
         orElse: () => null);
     if (business != null) {
-      return NetworkImage(business.metadata.getImageUri());
+      return NetworkImage(business.metadata.image);
     }
   }
   return new AssetImage('assets/images/anom.png');

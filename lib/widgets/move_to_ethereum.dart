@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:supervecina/constans/keys.dart';
+import 'package:supervecina/models/tokens/token.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/community.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/community/community.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:supervecina/screens/contacts/send_amount_arguments.dart';
+import 'package:supervecina/screens/routes.gr.dart';
 import 'dart:core';
 
 class TokenActionsDialog extends StatefulWidget {
