@@ -340,7 +340,8 @@ class _ExchangeState extends State<TradeScreen> {
           });
         },
         builder: (_, viewModel) {
-          final Token payWithToken = tokenToPayWith ?? viewModel.tokens[0];
+          final Token payWithToken =
+              tokenToPayWith ?? widget.primaryToken ?? viewModel.tokens[0];
           final Token receiveToken = tokenToReceive ??
               viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
           num value = num.parse(formatValue(

@@ -1,3 +1,4 @@
+import 'package:digitalrand/screens/misc/about.dart';
 import 'package:flutter/material.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'dart:core';
@@ -87,9 +88,10 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.normal)),
                     InkWell(
                         onTap: () {
-                          // TODO - link to privacy policy
+                          launchUrl(
+                              'https://digitalrand.co.za/legal/terms.html');
                         },
-                        child: Text("Fuse.io/privacy",
+                        child: Text("Digitalrand.co.za/legal/terms",
                             style: TextStyle(
                                 color: Color(0xFF0076FF),
                                 fontSize: 18,

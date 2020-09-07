@@ -1367,13 +1367,13 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
       if (transfers.isNotEmpty) {
         logger.info(
             'getReceivedTokenTransfersListCall transfers ${community?.name} ${community?.token?.name} ${transfers.length}');
-        store.dispatch(new GetTokenTransfersListSuccess(
+        store.dispatch(GetTokenTransfersListSuccess(
             tokenTransfers: transfers, communityAddress: community.address));
         store.dispatch(getTokenBalanceCall(community));
       }
     } catch (e) {
       logger.severe('ERROR - getReceivedTokenTransfersListCall $e');
-      store.dispatch(new ErrorAction('Could not get token transfers'));
+      store.dispatch(ErrorAction('Could not get token transfers'));
     }
   };
 }
