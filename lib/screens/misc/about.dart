@@ -54,42 +54,42 @@ class AboutScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Divider(
-                      color: Color(0xFFE8E8E8),
-                    ),
-                    ListTile(
-                      contentPadding: EdgeInsets.only(
-                          top: 5, bottom: 5, right: 30, left: 30),
-                      title: InkWell(
-                        onTap: () {
-                          // TODO - link to privacy policy
-                        },
-                        child: Text(
-                          I18n.of(context).legal,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      color: Color(0xFFE8E8E8),
-                    ),
-                    ListTile(
-                      contentPadding: EdgeInsets.only(
-                          top: 5, bottom: 5, right: 30, left: 30),
-                      title: InkWell(
-                        onTap: () {
-                          launchUrl('mailto:hello@fuse.io');
-                        },
-                        child: Text(
-                          I18n.of(context).contact_us,
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ),
+                    // Divider(
+                    //   color: Color(0xFFE8E8E8),
+                    // ),
+                    // ListTile(
+                    //   contentPadding: EdgeInsets.only(
+                    //       top: 5, bottom: 5, right: 30, left: 30),
+                    //   title: InkWell(
+                    //     onTap: () {
+                    //       // TODO - link to privacy policy
+                    //     },
+                    //     child: Text(
+                    //       I18n.of(context).legal,
+                    //       style: TextStyle(
+                    //           fontSize: 16,
+                    //           color: Theme.of(context).primaryColor),
+                    //     ),
+                    //   ),
+                    // ),
+                    // Divider(
+                    //   color: Color(0xFFE8E8E8),
+                    // ),
+                    // ListTile(
+                    //   contentPadding: EdgeInsets.only(
+                    //       top: 5, bottom: 5, right: 30, left: 30),
+                    //   title: InkWell(
+                    //     onTap: () {
+                    //       launchUrl('mailto:hello@fuse.io');
+                    //     },
+                    //     child: Text(
+                    //       I18n.of(context).contact_us,
+                    //       style: TextStyle(
+                    //           fontSize: 16,
+                    //           color: Theme.of(context).primaryColor),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
