@@ -6,7 +6,6 @@ import 'package:roost/generated/i18n.dart';
 import 'package:roost/models/app_state.dart';
 import 'package:roost/models/views/drawer.dart';
 import 'package:roost/screens/home/router/home_router.gr.dart';
-import 'package:roost/utils/forks.dart';
 import 'package:roost/widgets/language_selector.dart';
 import 'package:roost/widgets/main_scaffold.dart';
 import 'package:roost/screens/routes.gr.dart';

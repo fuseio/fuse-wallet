@@ -80,20 +80,20 @@ class SignupDialogState extends State<SignupDialog>
                             fontSize: 18,
                             fontWeight: FontWeight.normal)),
                     SizedBox(height: 20.0),
-                    Text("For more information: ",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal)),
-                    InkWell(
-                        onTap: () {
-                          // TODO - link to privacy policy
-                        },
-                        child: Text("Fuse.io/privacy",
-                            style: TextStyle(
-                                color: Color(0xFF0076FF),
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal))),
+                    // Text("For more information: ",
+                    //     style: TextStyle(
+                    //         color: Theme.of(context).colorScheme.secondary,
+                    //         fontSize: 18,
+                    //         fontWeight: FontWeight.normal)),
+                    // InkWell(
+                    //     onTap: () {
+                    //       // TODO - link to privacy policy
+                    //     },
+                    //     child: Text("Fuse.io/privacy",
+                    //         style: TextStyle(
+                    //             color: Color(0xFF0076FF),
+                    //             fontSize: 18,
+                    //             fontWeight: FontWeight.normal))),
                     SizedBox(height: 40.0),
                     Center(
                         child: PrimaryButton(

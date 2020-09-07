@@ -3,15 +3,14 @@ import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:roost/constans/keys.dart';
+import 'package:roost/generated/i18n.dart';
 import 'package:roost/redux/actions/cash_wallet_actions.dart';
 import 'package:roost/redux/actions/user_actions.dart';
 import 'package:roost/screens/buy/router/buy_router.gr.dart';
-import 'package:roost/screens/contacts/widgets/enable_contacts.dart';
 import 'package:roost/screens/home/router/home_router.gr.dart';
-import 'package:roost/screens/misc/webview_page.dart';
+import 'package:roost/screens/misc/inapp_webview_page.dart';
 import 'package:roost/screens/home/widgets/drawer.dart';
 import 'package:roost/utils/contacts.dart';
-import 'package:roost/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:roost/models/app_state.dart';
@@ -105,11 +104,11 @@ class _HomePageState extends State<HomePage> {
                   name: 'homeRouter',
                   observers: [SegmentObserver()],
                 ),
-                WebViewPage(
+                WebViewWidget(
                     withBack: false,
                     url:
                         'https://app.roostnow.co.uk/home?wallet=${vm.walletAddress}',
-                    title: 'Your Home'),
+                    title: I18n.of(context).your_home),
                 ExtendedNavigator(
                   router: BuyRouter(),
                   observers: [SegmentObserver()],
@@ -118,26 +117,26 @@ class _HomePageState extends State<HomePage> {
               bottomNavigationBar: BottomBar(
                 onTap: (index) {
                   _onTap(index);
-                  if (vm.isContactsSynced == null &&
-                      index == 1 &&
-                      !isContactSynced) {
-                    Future.delayed(
-                        Duration.zero,
-                        () => showDialog(
-                            context: context,
-                            child: ContactsConfirmationScreen()));
-                  }
+                  // if (vm.isContactsSynced == null &&
+                  //     index == 1 &&
+                  //     !isContactSynced) {
+                  //   Future.delayed(
+                  //       Duration.zero,
+                  //       () => showDialog(
+                  //           context: context,
+                  //           child: ContactsConfirmationScreen()));
+                  // }
 
-                  if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
-                    Future.delayed(Duration.zero, () {
-                      vm.setShowDialog();
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return BackUpDialog();
-                          });
-                    });
-                  }
+                  // if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
+                  //   Future.delayed(Duration.zero, () {
+                  //     vm.setShowDialog();
+                  //     showDialog(
+                  //         context: context,
+                  //         builder: (BuildContext context) {
+                  //           return BackUpDialog();
+                  //         });
+                  //   });
+                  // }
                 },
                 tabIndex: currentIndex,
               ));
