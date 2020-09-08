@@ -59,20 +59,24 @@ class _TransactionTileState extends State<TransactionTile> {
               false;
           bool isWalletCreated = 'created' == viewModel.walletStatus;
           bool isZeroAddress = widget.transfer.from == zeroAddress;
+          bool isDepositAddress = widget?.transfer?.from?.toLowerCase() ==
+              depositAddress?.toLowerCase();
           ImageProvider<dynamic> image = getTransferImage(
               widget.transfer, contact, community,
               isZeroAddress: isZeroAddress);
-          String displayName = widget.transfer.isJoinBonus()
-              ? (widget.transfer.text ?? I18n.of(context).join_bonus)
-              : ![null, ''].contains(widget.transfer.receiverName)
-                  ? widget.transfer.receiverName
-                  : ![null, ''].contains(widget.transfer.text)
-                      ? widget.transfer.text
-                      : contact != null
-                          ? contact.displayName
-                          : deducePhoneNumber(
-                              widget.transfer, viewModel.reverseContacts,
-                              businesses: community?.businesses);
+          String displayName = isDepositAddress
+              ? I18n.of(context).deposit
+              : widget.transfer.isJoinBonus()
+                  ? (I18n.of(context).join_bonus)
+                  : ![null, ''].contains(widget.transfer.receiverName)
+                      ? widget.transfer.receiverName
+                      : ![null, ''].contains(widget.transfer.text)
+                          ? widget.transfer.text
+                          : contact != null
+                              ? contact.displayName
+                              : deducePhoneNumber(
+                                  widget.transfer, viewModel.reverseContacts,
+                                  businesses: community?.businesses);
           String amount = formatValue(widget.transfer?.value, token?.decimals);
           List<Widget> rightColumn = <Widget>[
             widget.transfer.isGenerateWallet() ||

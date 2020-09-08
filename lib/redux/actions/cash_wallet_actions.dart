@@ -900,8 +900,7 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
       dynamic response;
       if (receiverAddress.toLowerCase() ==
           community.homeBridgeAddress.toLowerCase()) {
-        num feeAmount =
-            20; //community.plugins.bridgeToForeign.calcFee(tokensAmount);
+        num feeAmount = 20;
         value = toBigInt(tokensAmount, token.decimals);
         String feeReceiverAddress =
             community.plugins?.bridgeToForeign?.receiverAddress ??

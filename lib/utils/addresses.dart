@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 final String foreignNetwork = DotEnv().env['MODE'] == 'production' ? 'mainnet' : 'ropsten';
 
 final String zeroAddress = "0x0000000000000000000000000000000000000000";
+final String depositAddress = "0x3A0eA0535Aa0777302E457ab36B6435dF90e0014";
 
 final String defaultCommunityAddress = DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'];
 
