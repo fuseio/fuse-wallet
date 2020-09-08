@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:roost/models/community/business.dart';
-import 'package:roost/models/community/community_metadata.dart';
-import 'package:roost/models/plugins/plugins.dart';
-import 'package:roost/models/tokens/token.dart';
+import 'package:peepl/models/community/business.dart';
+import 'package:peepl/models/community/community_metadata.dart';
+import 'package:peepl/models/plugins/plugins.dart';
+import 'package:peepl/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';

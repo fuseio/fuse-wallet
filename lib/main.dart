@@ -6,16 +6,16 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/redux/state/store.dart';
-import 'package:roost/screens/route_guards.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/themes/app_theme.dart';
-import 'package:roost/themes/custom_theme.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/redux/state/store.dart';
+import 'package:peepl/screens/route_guards.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/themes/app_theme.dart';
+import 'package:peepl/themes/custom_theme.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:roost/generated/i18n.dart';
+import 'package:peepl/generated/i18n.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -121,7 +121,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'Roost',
+          title: 'Peepl',
           builder: ExtendedNavigator.builder(
             router: Router(),
             initialRoute: "/",

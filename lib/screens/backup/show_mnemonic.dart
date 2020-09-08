@@ -1,15 +1,15 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/views/backup.dart';
-import 'package:roost/screens/home/router/home_router.gr.dart';
-import 'package:roost/widgets/main_scaffold.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/views/backup.dart';
+import 'package:peepl/screens/home/router/home_router.gr.dart';
+import 'package:peepl/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/widgets/copy.dart';
-import 'package:roost/widgets/preloader.dart';
-import 'package:roost/widgets/primary_button.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/widgets/copy.dart';
+import 'package:peepl/widgets/preloader.dart';
+import 'package:peepl/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   @override

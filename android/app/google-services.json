@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "629222004995-gm9q1qfaokk7l2g37e9ati63dn2j046t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.itsaboutpeepl.peepl",
+            "certificate_hash": "8a21e38629c880fda8a845383c1be537263c015f"
+          }
+        },
+        {
           "client_id": "629222004995-g80kmj1nt3uaf2u9f2414nh3vdkuniga.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

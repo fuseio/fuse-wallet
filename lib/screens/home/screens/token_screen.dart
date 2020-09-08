@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:roost/models/transactions/transaction.dart';
-import 'package:roost/screens/home/widgets/assets_list.dart';
-import 'package:roost/screens/home/widgets/token_header.dart';
-import 'package:roost/screens/home/widgets/transaction_tile.dart';
-import 'package:roost/widgets/my_app_bar.dart';
-import 'package:roost/generated/i18n.dart';
+import 'package:peepl/models/transactions/transaction.dart';
+import 'package:peepl/screens/home/widgets/assets_list.dart';
+import 'package:peepl/screens/home/widgets/token_header.dart';
+import 'package:peepl/screens/home/widgets/transaction_tile.dart';
+import 'package:peepl/widgets/my_app_bar.dart';
+import 'package:peepl/generated/i18n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/models/app_state.dart';
 
 class TokenScreen extends StatelessWidget {
   TokenScreen({Key key, this.tokenAddress}) : super(key: key);

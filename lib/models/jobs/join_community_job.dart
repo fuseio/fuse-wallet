@@ -1,10 +1,10 @@
-import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/plugins/join_bonus.dart';
-import 'package:roost/models/tokens/token.dart';
-import 'package:roost/models/transactions/transfer.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/redux/state/store.dart';
-import 'package:roost/services.dart';
+import 'package:peepl/models/jobs/base.dart';
+import 'package:peepl/models/plugins/join_bonus.dart';
+import 'package:peepl/models/tokens/token.dart';
+import 'package:peepl/models/transactions/transfer.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/redux/state/store.dart';
+import 'package:peepl/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'join_community_job.g.dart';

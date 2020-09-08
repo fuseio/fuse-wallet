@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/screens/contacts/send_amount_arguments.dart';
-import 'package:roost/services.dart';
-import 'package:roost/utils/format.dart';
-import 'package:roost/utils/phone.dart';
-import 'package:roost/widgets/preloader.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/screens/contacts/send_amount_arguments.dart';
+import 'package:peepl/services.dart';
+import 'package:peepl/utils/format.dart';
+import 'package:peepl/utils/phone.dart';
+import 'package:peepl/widgets/preloader.dart';
 
 Future<Map> fetchWalletByPhone(phone, countryCode, isoCode) async {
   try {

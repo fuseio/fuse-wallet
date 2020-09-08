@@ -1,5 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:roost/utils/transaction_util.dart';
+import 'package:peepl/utils/transaction_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business_metadata.g.dart';

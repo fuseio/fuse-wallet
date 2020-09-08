@@ -2,18 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/tokens/token.dart';
-import 'package:roost/screens/home/router/home_router.gr.dart';
+import 'package:peepl/models/tokens/token.dart';
+import 'package:peepl/screens/home/router/home_router.gr.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/community/community.dart';
-import 'package:roost/models/transactions/transfer.dart';
-import 'package:roost/utils/addresses.dart';
-import 'package:roost/utils/transaction_util.dart';
-import 'package:roost/utils/format.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/community/community.dart';
+import 'package:peepl/models/transactions/transfer.dart';
+import 'package:peepl/utils/addresses.dart';
+import 'package:peepl/utils/transaction_util.dart';
+import 'package:peepl/utils/format.dart';
 
 class TransactionTile extends StatefulWidget {
   final Transfer transfer;

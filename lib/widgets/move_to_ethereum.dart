@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:roost/constans/keys.dart';
-import 'package:roost/models/tokens/token.dart';
+import 'package:peepl/constans/keys.dart';
+import 'package:peepl/models/tokens/token.dart';
 import 'package:flutter/material.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/community/community.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/community/community.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:roost/screens/contacts/send_amount_arguments.dart';
-import 'package:roost/screens/routes.gr.dart';
+import 'package:peepl/screens/contacts/send_amount_arguments.dart';
+import 'package:peepl/screens/routes.gr.dart';
 import 'dart:core';
 
 class TokenActionsDialog extends StatefulWidget {

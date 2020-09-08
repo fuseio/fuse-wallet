@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:roost/screens/backup/done_backup.dart';
-import 'package:roost/screens/backup/show_mnemonic.dart';
-import 'package:roost/screens/backup/verify_mnemonic.dart';
-import 'package:roost/screens/home/screens/home.dart';
-import 'package:roost/screens/home/screens/transaction_details.dart';
-import 'package:roost/screens/home/screens/token_screen.dart';
-import 'package:roost/screens/misc/about.dart';
-import 'package:roost/screens/misc/protect_your_wallet.dart';
-import 'package:roost/screens/misc/settings.dart';
-import 'package:roost/screens/misc/switch_commmunity.dart';
-import 'package:roost/screens/trade/review_trade.dart';
-import 'package:roost/screens/trade/trade.dart';
+import 'package:peepl/screens/backup/done_backup.dart';
+import 'package:peepl/screens/backup/show_mnemonic.dart';
+import 'package:peepl/screens/backup/verify_mnemonic.dart';
+import 'package:peepl/screens/home/screens/home.dart';
+import 'package:peepl/screens/home/screens/transaction_details.dart';
+import 'package:peepl/screens/home/screens/token_screen.dart';
+import 'package:peepl/screens/misc/about.dart';
+import 'package:peepl/screens/misc/protect_your_wallet.dart';
+import 'package:peepl/screens/misc/settings.dart';
+import 'package:peepl/screens/misc/switch_commmunity.dart';
+import 'package:peepl/screens/trade/review_trade.dart';
+import 'package:peepl/screens/trade/trade.dart';
 
 @MaterialAutoRouter(routesClassName: "HomeRoutes", routes: <AutoRoute>[
   MaterialRoute(

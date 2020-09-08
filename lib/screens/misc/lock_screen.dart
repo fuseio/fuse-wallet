@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/views/backup.dart';
+import 'package:peepl/models/views/backup.dart';
 import 'package:flutter/material.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/user_state.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/utils/biometric_local_auth.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/user_state.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/utils/biometric_local_auth.dart';
 
 class LockScreen extends StatefulWidget {
   @override
@@ -103,7 +103,7 @@ class _LockScreenState extends State<LockScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Image.asset(
-                                    'assets/images/icon-android-adaptive-foreground.png',
+                                    'assets/images/splash.png',
                                     width: 71,
                                     height: 61),
                               ],

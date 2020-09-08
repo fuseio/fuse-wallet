@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:roost/generated/i18n.dart';
+import 'package:peepl/generated/i18n.dart';
 import 'dart:core';
 
-import 'package:roost/widgets/primary_button.dart';
+import 'package:peepl/widgets/primary_button.dart';
 
 class SignupDialog extends StatefulWidget {
   SignupDialog();

@@ -1,6 +1,6 @@
 import 'dart:core';
-import 'package:roost/screens/home/widgets/drawer.dart';
-import 'package:roost/widgets/primary_button.dart';
+import 'package:peepl/screens/home/widgets/drawer.dart';
+import 'package:peepl/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

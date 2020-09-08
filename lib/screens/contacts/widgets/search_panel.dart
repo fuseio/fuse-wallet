@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/utils/send.dart';
-import 'package:roost/widgets/silver_app_bar.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/utils/send.dart';
+import 'package:peepl/widgets/silver_app_bar.dart';
 
 class SearchPanel extends StatelessWidget {
   const SearchPanel({Key key, this.searchController}) : super(key: key);

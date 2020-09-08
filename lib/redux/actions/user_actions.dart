@@ -3,26 +3,26 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:roost/models/community/community.dart';
-import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/pro/pro_wallet_state.dart';
-import 'package:roost/models/tokens/token.dart';
-import 'package:roost/models/transactions/transfer.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/redux/actions/error_actions.dart';
-import 'package:roost/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:roost/utils/addresses.dart';
-import 'package:roost/utils/biometric_local_auth.dart';
-import 'package:roost/utils/constans.dart';
-import 'package:roost/utils/contacts.dart';
-import 'package:roost/utils/format.dart';
+import 'package:peepl/models/community/community.dart';
+import 'package:peepl/models/jobs/base.dart';
+import 'package:peepl/models/pro/pro_wallet_state.dart';
+import 'package:peepl/models/tokens/token.dart';
+import 'package:peepl/models/transactions/transfer.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/redux/actions/error_actions.dart';
+import 'package:peepl/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:peepl/utils/addresses.dart';
+import 'package:peepl/utils/biometric_local_auth.dart';
+import 'package:peepl/utils/constans.dart';
+import 'package:peepl/utils/contacts.dart';
+import 'package:peepl/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
-import 'package:roost/services.dart';
-import 'package:roost/redux/state/store.dart';
+import 'package:peepl/services.dart';
+import 'package:peepl/redux/state/store.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:roost/utils/phone.dart';
+import 'package:peepl/utils/phone.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
@@ -464,7 +464,7 @@ ThunkAction create3boxAccountCall(accountAddress) {
     try {
       Map user = {
         "accountAddress": accountAddress,
-        "email": 'wallet-user@fuse.io',
+        "email": '$displayName@peepl.io',
         "provider": 'HDWallet',
         "subscribe": false,
         "source": 'wallet-v2',

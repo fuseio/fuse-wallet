@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:roost/widgets/my_app_bar.dart';
+import 'package:peepl/widgets/my_app_bar.dart';
 
 class WebViewPage extends StatefulWidget {
   final String url;

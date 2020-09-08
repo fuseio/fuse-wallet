@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/home.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/screens/home/widgets/assets_list.dart';
-import 'package:roost/screens/home/widgets/cash_header.dart';
-import 'package:roost/screens/home/widgets/feed.dart';
-import 'package:roost/utils/addresses.dart';
-import 'package:roost/widgets/my_app_bar.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/home.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/screens/home/widgets/assets_list.dart';
+import 'package:peepl/screens/home/widgets/cash_header.dart';
+import 'package:peepl/screens/home/widgets/feed.dart';
+import 'package:peepl/utils/addresses.dart';
+import 'package:peepl/widgets/my_app_bar.dart';
 
 final List<String> tabsTitles = ['Feed', 'Wallet'];
 

@@ -1,14 +1,14 @@
-import 'package:roost/screens/home/widgets/token_tile.dart';
-import 'package:roost/utils/format.dart';
+import 'package:peepl/screens/home/widgets/token_tile.dart';
+import 'package:peepl/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/tokens/token.dart';
-import 'package:roost/utils/addresses.dart';
-import 'package:roost/models/community/community.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/tokens/token.dart';
+import 'package:peepl/utils/addresses.dart';
+import 'package:peepl/models/community/community.dart';
 
 String getTokenUrl(tokenAddress) {
   return tokenAddress == zeroAddress

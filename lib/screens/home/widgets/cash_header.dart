@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:roost/constans/keys.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/views/cash_header.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/constans/keys.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/views/cash_header.dart';
+import 'package:peepl/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/utils/format.dart';
-import 'package:roost/utils/send.dart';
+import 'package:peepl/utils/format.dart';
+import 'package:peepl/utils/send.dart';
 
 class CashHeader extends StatelessWidget {
   @override

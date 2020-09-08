@@ -1,4 +1,4 @@
-import 'package:roost/models/community/business_metadata.dart';
+import 'package:peepl/models/community/business_metadata.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business.g.dart';

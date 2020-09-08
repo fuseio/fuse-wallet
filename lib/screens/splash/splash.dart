@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/models/views/splash.dart';
-import 'package:roost/screens/splash/create_wallet.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/models/views/splash.dart';
+import 'package:peepl/screens/splash/create_wallet.dart';
 
 class SplashScreen extends StatelessWidget {
   @override

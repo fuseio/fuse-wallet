@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/pro/pro_wallet_state.dart';
-import 'package:roost/models/tokens/token.dart';
-import 'package:roost/models/transactions/transaction.dart';
-import 'package:roost/models/transactions/transactions.dart';
-import 'package:roost/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:roost/redux/actions/user_actions.dart';
+import 'package:peepl/models/jobs/base.dart';
+import 'package:peepl/models/pro/pro_wallet_state.dart';
+import 'package:peepl/models/tokens/token.dart';
+import 'package:peepl/models/transactions/transaction.dart';
+import 'package:peepl/models/transactions/transactions.dart';
+import 'package:peepl/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:peepl/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 bool Function(String, Token) clearTokensWithZero = (key, token) {

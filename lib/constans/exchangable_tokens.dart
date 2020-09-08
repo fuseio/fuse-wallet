@@ -1,6 +1,6 @@
-import 'package:roost/models/tokens/token.dart';
-import 'package:roost/screens/home/widgets/assets_list.dart';
-import 'package:roost/utils/addresses.dart';
+import 'package:peepl/models/tokens/token.dart';
+import 'package:peepl/screens/home/widgets/assets_list.dart';
+import 'package:peepl/utils/addresses.dart';
 
 final Token daiToken = Token.initial().copyWith(
     address: daiTokenAddress,

@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Roost</string>
+	<string>Peepl</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -35,7 +35,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.629222004995-kumjfdfbirkn3r2fgm3gp6iqaoo3d3eu</string>
+				<string>com.googleusercontent.apps.629222004995-d9beogo7m7ojbmtidnsqn0vi358bmuju</string>
 			</array>
 		</dict>
 	</array>
@@ -69,7 +69,10 @@
 	<string>Main</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-			<key>NSAllowsArbitraryLoads</key><true/>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+    <true/>
 	</dict>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

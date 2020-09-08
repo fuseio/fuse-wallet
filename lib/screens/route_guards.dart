@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/models/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:roost/redux/state/store.dart';
+import 'package:peepl/redux/state/store.dart';
 
 class AuthGuard extends RouteGuard {
   @override

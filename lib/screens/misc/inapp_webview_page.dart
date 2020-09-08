@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/widgets/my_app_bar.dart';
+import 'package:peepl/widgets/my_app_bar.dart';
 
 class WebViewWidget extends StatelessWidget {
   final String url;

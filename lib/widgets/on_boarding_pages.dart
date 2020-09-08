@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/screens/splash/create_wallet.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/screens/splash/create_wallet.dart';
 
 Widget introPage(BuildContext context, String title, String subTitle) {
   return Container(

@@ -2,23 +2,23 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:roost/constans/keys.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/redux/actions/user_actions.dart';
-import 'package:roost/screens/buy/router/buy_router.gr.dart';
-import 'package:roost/screens/home/router/home_router.gr.dart';
-import 'package:roost/screens/misc/inapp_webview_page.dart';
-import 'package:roost/screens/home/widgets/drawer.dart';
-import 'package:roost/utils/contacts.dart';
+import 'package:peepl/constans/keys.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/redux/actions/user_actions.dart';
+import 'package:peepl/screens/buy/router/buy_router.gr.dart';
+import 'package:peepl/screens/home/router/home_router.gr.dart';
+import 'package:peepl/screens/misc/inapp_webview_page.dart';
+import 'package:peepl/screens/home/widgets/drawer.dart';
+import 'package:peepl/utils/contacts.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/app_state.dart';
-import 'package:roost/screens/home/widgets/bottom_bar.dart';
+import 'package:peepl/models/app_state.dart';
+import 'package:peepl/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
-import 'package:roost/models/community/community.dart';
-import 'package:roost/utils/addresses.dart' as util;
+import 'package:peepl/models/community/community.dart';
+import 'package:peepl/utils/addresses.dart' as util;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -107,8 +107,8 @@ class _HomePageState extends State<HomePage> {
                 WebViewWidget(
                     withBack: false,
                     url:
-                        'https://app.roostnow.co.uk/home?wallet=${vm.walletAddress}',
-                    title: I18n.of(context).your_home),
+                        'https://app.itsaboutpeepl.com/topup?wallet=${vm.walletAddress}',
+                    title: I18n.of(context).top_up),
                 ExtendedNavigator(
                   router: BuyRouter(),
                   observers: [SegmentObserver()],

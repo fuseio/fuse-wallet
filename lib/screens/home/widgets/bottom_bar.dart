@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:roost/constans/keys.dart';
-import 'package:roost/generated/i18n.dart';
+import 'package:peepl/constans/keys.dart';
+import 'package:peepl/generated/i18n.dart';
 
 class BottomBar extends StatelessWidget {
   final int tabIndex;
@@ -37,8 +37,8 @@ class BottomBar extends StatelessWidget {
       showUnselectedLabels: true,
       items: [
         bottomBarItem(I18n.of(context).wallet, 'receive'),
-        bottomBarItem(I18n.of(context).your_home, 'home'),
-        bottomBarItem(I18n.of(context).pay_rent, 'rent'),
+        bottomBarItem(I18n.of(context).topup_screen, 'receive'),
+        bottomBarItem(I18n.of(context).buy, 'buy'),
       ],
       onTap: onTap,
     );

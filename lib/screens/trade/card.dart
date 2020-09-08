@@ -1,9 +1,9 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:ethereum_address/ethereum_address.dart';
 // import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-// import 'package:roost/screens/home/widgets/assets_list.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/tokens/token.dart';
+// import 'package:peepl/screens/home/widgets/assets_list.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/tokens/token.dart';
 import 'package:flutter/material.dart';
 
 class TradeCard extends StatelessWidget {

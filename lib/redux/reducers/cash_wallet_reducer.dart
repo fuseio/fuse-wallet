@@ -1,11 +1,11 @@
-import 'package:roost/models/community/community.dart';
-import 'package:roost/models/jobs/base.dart';
-import 'package:roost/models/transactions/transaction.dart';
-import 'package:roost/models/transactions/transactions.dart';
-import 'package:roost/models/transactions/transfer.dart';
-import 'package:roost/redux/actions/cash_wallet_actions.dart';
-import 'package:roost/redux/actions/user_actions.dart';
-import 'package:roost/models/cash_wallet_state.dart';
+import 'package:peepl/models/community/community.dart';
+import 'package:peepl/models/jobs/base.dart';
+import 'package:peepl/models/transactions/transaction.dart';
+import 'package:peepl/models/transactions/transactions.dart';
+import 'package:peepl/models/transactions/transfer.dart';
+import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/redux/actions/user_actions.dart';
+import 'package:peepl/models/cash_wallet_state.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([

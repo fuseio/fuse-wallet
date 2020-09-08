@@ -3,14 +3,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:roost/generated/i18n.dart';
-import 'package:roost/models/app_state.dart';
+import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:roost/models/views/drawer.dart';
-import 'package:roost/screens/home/router/home_router.gr.dart';
-import 'package:roost/screens/routes.gr.dart';
-import 'package:roost/utils/forks.dart';
-import 'package:roost/utils/format.dart';
+import 'package:peepl/models/views/drawer.dart';
+import 'package:peepl/screens/home/router/home_router.gr.dart';
+import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/utils/forks.dart';
+import 'package:peepl/utils/format.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
@@ -112,50 +112,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   List<Widget> menuItem(DrawerViewModel viewModel) {
-    if (isFork()) {
-      return [
-        getListTile(I18n.of(context).backup_wallet, () {
-          ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.showMnemonic);
-        },
-            icon: 'backup_icon.svg',
-            temp: !viewModel.isBackup
-                ? SvgPicture.asset(
-                    'assets/images/back_up_icon.svg',
-                    width: 17,
-                    height: 17,
-                  )
-                : null),
-        getListTile(I18n.of(context).settings, () {
-          ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.settingsScreen);
-        }, icon: 'settings_icon.svg'),
-      ];
-    } else {
-      return [
-        getListTile(I18n.of(context).switch_community, () {
-          ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter')
-              .push(HomeRoutes.switchCommunityScreen);
-        }, icon: 'switch_icon.svg'),
-        getListTile(I18n.of(context).backup_wallet, () {
-          ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.showMnemonic);
-        },
-            icon: 'backup_icon.svg',
-            temp: !viewModel.isBackup
-                ? SvgPicture.asset(
-                    'assets/images/back_up_icon.svg',
-                    width: 17,
-                    height: 17,
-                  )
-                : null),
-        getListTile(I18n.of(context).settings, () {
-          ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.settingsScreen);
-        }, icon: 'settings_icon.svg'),
-      ];
-    }
+    return [
+      getListTile(I18n.of(context).backup_wallet, () {
+        ExtendedNavigator.root.pop();
+        ExtendedNavigator.named('homeRouter').push(HomeRoutes.showMnemonic);
+      },
+          icon: 'backup_icon.svg',
+          temp: !viewModel.isBackup
+              ? SvgPicture.asset(
+                  'assets/images/back_up_icon.svg',
+                  width: 17,
+                  height: 17,
+                )
+              : null),
+      getListTile(I18n.of(context).settings, () {
+        ExtendedNavigator.root.pop();
+        ExtendedNavigator.named('homeRouter').push(HomeRoutes.settingsScreen);
+      }, icon: 'settings_icon.svg'),
+    ];
   }
 
   Widget drawerHeader(DrawerViewModel viewModel) {
