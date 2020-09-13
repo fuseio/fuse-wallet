@@ -45,12 +45,8 @@ class _TransactionTileState extends State<TransactionTile> {
               viewModel.communities);
           Token token = widget.token;
           if (token == null) {
-            if (widget.transfer.tokenAddress == null) {
-              token = community?.token;
-            } else {
-              token = getToken(widget.transfer?.tokenAddress?.toLowerCase(),
-                  viewModel?.communities, viewModel?.erc20Tokens);
-            }
+            token =
+                viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
           }
           bool isSendingToForeign = (community?.homeBridgeAddress != null &&
                   widget.transfer.to != null &&
@@ -354,22 +350,48 @@ class _TransactionTileViewModel extends Equatable {
   final String countryCode;
   final Map<String, Token> erc20Tokens;
   final List<Community> communities;
+  final Map<String, Token> tokens;
   _TransactionTileViewModel(
       {this.reverseContacts,
       this.walletStatus,
       this.countryCode,
       this.communities,
       this.erc20Tokens,
+      this.tokens,
       this.contacts});
 
   static _TransactionTileViewModel fromStore(Store<AppState> store) {
+    Map<String, Community> communities =
+        store.state.cashWalletState.communities;
+    List<Token> foreignTokens = List<Token>.from(
+            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .toList();
+
+    List<Token> homeTokens = communities.values.fold<List<Token>>([],
+        (previousValue, Community community) {
+      if (community?.secondaryToken != null &&
+          community?.secondaryToken?.address != null) {
+        previousValue.add(community.secondaryToken
+            .copyWith(imageUrl: community.metadata.getImageUri()));
+      }
+      previousValue.add(
+          community.token.copyWith(imageUrl: community.metadata.getImageUri()));
+      return previousValue;
+    });
+
+    Map<String, Token> tokens =
+        [...foreignTokens, ...homeTokens].fold(Map(), (previousValue, element) {
+      previousValue.putIfAbsent(element.address.toLowerCase(), () => element);
+      return previousValue;
+    });
     return _TransactionTileViewModel(
       reverseContacts: store.state.userState.reverseContacts,
       contacts: store.state.userState.contacts,
       walletStatus: store.state.userState.walletStatus,
       countryCode: store.state.userState.countryCode,
       erc20Tokens: store.state.proWalletState.erc20Tokens,
-      communities: store.state.cashWalletState.communities.values.toList(),
+      communities: communities.values.toList(),
+      tokens: tokens,
     );
   }
 
@@ -380,6 +402,7 @@ class _TransactionTileViewModel extends Equatable {
         communities,
         countryCode,
         contacts,
-        erc20Tokens
+        erc20Tokens,
+        tokens
       ];
 }

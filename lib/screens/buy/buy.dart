@@ -175,7 +175,6 @@ class BusinessesListView extends StatelessWidget {
               ExtendedNavigator.root.push(Routes.sendAmountScreen,
                   arguments: SendAmountScreenArguments(
                       pageArgs: SendAmountArguments(
-                          tokenToSend: token,
                           name: business.name ?? '',
                           accountAddress: business.account,
                           avatar:

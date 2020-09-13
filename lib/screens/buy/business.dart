@@ -305,7 +305,6 @@ class _BusinessPageState extends State<BusinessPage> {
                                     Routes.sendAmountScreen,
                                     arguments: SendAmountScreenArguments(
                                         pageArgs: SendAmountArguments(
-                                            tokenToSend: widget.token,
                                             name: widget.business.name ?? '',
                                             accountAddress:
                                                 widget.business.account,

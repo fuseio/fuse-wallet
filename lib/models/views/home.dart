@@ -45,10 +45,17 @@ class HomeViewModel extends Equatable {
     List<Token> erc20Tokens = List<Token>.from(
             store.state.proWalletState?.erc20Tokens?.values ?? Iterable.empty())
         .toList();
-    List<Token> homeTokens = communities
-        .map((Community community) => community?.token
-            ?.copyWith(imageUrl: community.metadata.getImageUri()))
-        .toList();
+    List<Token> homeTokens =
+        communities.fold<List<Token>>([], (previousValue, Community community) {
+      if (community?.secondaryToken != null &&
+          community?.secondaryToken?.address != null) {
+        previousValue.add(community.secondaryToken
+            .copyWith(imageUrl: community.metadata.getImageUri()));
+      }
+      previousValue.add(
+          community.token.copyWith(imageUrl: community.metadata.getImageUri()));
+      return previousValue;
+    });
     List<Token> tokens = [...homeTokens, ...erc20Tokens]
         .where((Token token) =>
             num.parse(formatValue(token?.amount, token?.decimals,

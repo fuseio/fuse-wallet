@@ -71,7 +71,9 @@ Community getCommunity(String tokenAddress, List<Community> communities) {
   return communities.firstWhere(
       (community) =>
           community?.token?.address?.toLowerCase() ==
-          tokenAddress?.toLowerCase(),
+              tokenAddress?.toLowerCase() ||
+          community?.secondaryToken?.address?.toLowerCase() ==
+              tokenAddress?.toLowerCase(),
       orElse: () => communities.first);
 }
 

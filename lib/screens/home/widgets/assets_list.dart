@@ -70,10 +70,17 @@ class TokensListViewModel extends Equatable {
             1)
         .toList();
 
-    List<Token> homeTokens = communities
-        .map((Community community) => community?.token
-            ?.copyWith(imageUrl: community?.metadata?.getImageUri()))
-        .toList();
+    List<Token> homeTokens =
+        communities.fold<List<Token>>([], (previousValue, Community community) {
+      if (community?.secondaryToken != null &&
+          community?.secondaryToken?.address != null) {
+        previousValue.add(community.secondaryToken
+            .copyWith(imageUrl: community.metadata.getImageUri()));
+      }
+      previousValue.add(
+          community.token.copyWith(imageUrl: community.metadata.getImageUri()));
+      return previousValue;
+    });
     return TokensListViewModel(
       walletAddress: store.state.userState.walletAddress,
       tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
