@@ -36,7 +36,7 @@ class BottomBar extends StatelessWidget {
       backgroundColor: Theme.of(context).bottomAppBarColor,
       showUnselectedLabels: true,
       items: [
-        bottomBarItem(I18n.of(context).wallet, 'receive'),
+        bottomBarItem(I18n.of(context).wallet, 'home'),
         bottomBarItem(I18n.of(context).topup_screen, 'receive'),
         bottomBarItem(I18n.of(context).buy, 'buy'),
       ],
