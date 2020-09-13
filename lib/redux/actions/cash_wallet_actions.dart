@@ -68,6 +68,12 @@ class GetTokenBalanceSuccess {
   GetTokenBalanceSuccess({this.tokenBalance, this.communityAddress});
 }
 
+class GetSecondaryTokenBalanceSuccess {
+  final String communityAddress;
+  final BigInt balance;
+  GetSecondaryTokenBalanceSuccess({this.balance, this.communityAddress});
+}
+
 class AlreadyJoinedCommunity {
   final String communityAddress;
   AlreadyJoinedCommunity(this.communityAddress);
@@ -144,9 +150,10 @@ class GetBusinessListSuccess {
 }
 
 class GetTokenTransfersListSuccess {
+  final String tokenAddress;
   final String communityAddress;
   final List<Transfer> tokenTransfers;
-  GetTokenTransfersListSuccess({this.communityAddress, this.tokenTransfers});
+  GetTokenTransfersListSuccess({this.communityAddress, this.tokenTransfers, this.tokenAddress});
 }
 
 class StartBalanceFetchingSuccess {
@@ -518,7 +525,8 @@ ThunkAction getTokenBalanceCall(Community community) {
     final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.userState.walletAddress;
-      void Function(BigInt) onDone = (BigInt balance) {
+      await community.token.fetchTokenBalance(walletAddress,
+          onDone: (BigInt balance) {
         logger.info('${community.token.name} balance updated');
         store.dispatch(GetTokenBalanceSuccess(
             tokenBalance: balance, communityAddress: community.address));
@@ -531,14 +539,29 @@ ThunkAction getTokenBalanceCall(Community community) {
           "DisplayBalance": formatValue(balance, community.token.decimals,
               withPrecision: true)
         })));
-      };
-      void Function(Object error, StackTrace stackTrace) onError =
-          (Object error, StackTrace stackTrace) {
+      }, onError: (Object error, StackTrace stackTrace) {
         logger.severe(
             'Error in fetchTokenBalance for - ${community.token.name} $error');
-      };
-      await community.token
-          .fetchTokenBalance(walletAddress, onDone: onDone, onError: onError);
+      });
+
+      if (community.secondaryToken != null &&
+          community.secondaryToken.address != null &&
+          community.secondaryToken.address != '') {
+        await community.secondaryToken.fetchTokenBalance(walletAddress,
+            onDone: (BigInt balance) {
+          final String amount = formatValue(balance, community.token.decimals,
+              withPrecision: true);
+          store.dispatch(GetSecondaryTokenBalanceSuccess(
+              balance: balance, communityAddress: community.address));
+          store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+            'Secondary token - ${community.name} Balance': amount,
+            "Secondary token Display Balance": amount
+          })));
+        }, onError: (Object error, StackTrace stackTrace) {
+          logger.severe(
+              'Error in fetchTokenBalance secondaryToken for - ${community.token.name} $error');
+        });
+      }
     } catch (e) {
       logger.severe('ERROR - getTokenBalanceCall $e');
       store.dispatch(new ErrorAction('Could not get token balance'));
@@ -1371,16 +1394,9 @@ ThunkAction getTokenTransfersListCall(Community community) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      // wallet_core.Web3 web3 = store.state.cashWalletState.web3;
-      // if (web3 == null) {
-      //   throw "Web3 is empty";
-      // }
       String walletAddress = store.state.userState.walletAddress;
       String tokenAddress = community?.token?.address;
       num lastBlockNumber = community?.token?.transactions?.blockNumber;
-      // num currentBlockNumber = await web3.getBlockNumber();
-      // logger.info(
-      //     'getTokenTransfersListCall lastBlockNumber ${community?.name} ${community?.token?.name} $lastBlockNumber');
       dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
           walletAddress, tokenAddress,
           startblock: lastBlockNumber ?? 0);
@@ -1388,6 +1404,22 @@ ThunkAction getTokenTransfersListCall(Community community) {
           tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(new GetTokenTransfersListSuccess(
           tokenTransfers: transfers, communityAddress: community.address));
+
+      if (community.secondaryToken != null) {
+        num lastBlockNumber =
+            community?.secondaryToken?.transactions?.blockNumber;
+        final tokenAddress = community?.secondaryToken?.address;
+        dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
+            walletAddress, tokenAddress,
+            startblock: lastBlockNumber ?? 0);
+        List<Transfer> transfers = List<Transfer>.from(tokensTransferEvents
+            .map((json) => Transfer.fromJson(json))
+            .toList());
+        store.dispatch(new GetTokenTransfersListSuccess(
+            tokenTransfers: transfers,
+            communityAddress: community.address,
+            tokenAddress: tokenAddress));
+      }
     } catch (e) {
       logger.severe('ERROR - getTokenTransfersListCall $e');
       store.dispatch(new ErrorAction('Could not get token transfers'));
@@ -1411,6 +1443,22 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
         store.dispatch(new GetTokenTransfersListSuccess(
             tokenTransfers: transfers, communityAddress: community.address));
         store.dispatch(getTokenBalanceCall(community));
+      }
+
+      if (community.secondaryToken != null) {
+        dynamic response = await api.fetchTokenTxByAddress(
+            walletAddress, community.secondaryToken.address,
+            startblock:
+                community?.secondaryToken?.transactions?.blockNumber ?? 0);
+        List<Transfer> secondaryTokenTransfers = List<Transfer>.from(
+            response.map((json) => Transfer.fromJson(json)).toList());
+        if (transfers.isNotEmpty) {
+          store.dispatch(new GetTokenTransfersListSuccess(
+              tokenTransfers: secondaryTokenTransfers,
+              communityAddress: community.address,
+              tokenAddress: community.secondaryToken.address));
+          store.dispatch(getTokenBalanceCall(community));
+        }
       }
     } catch (e) {
       logger.severe('ERROR - getReceivedTokenTransfersListCall $e');

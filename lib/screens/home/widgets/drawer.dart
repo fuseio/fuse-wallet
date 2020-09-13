@@ -9,7 +9,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:peepl/models/views/drawer.dart';
 import 'package:peepl/screens/home/router/home_router.gr.dart';
 import 'package:peepl/screens/routes.gr.dart';
-import 'package:peepl/utils/forks.dart';
 import 'package:peepl/utils/format.dart';
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);

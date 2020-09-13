@@ -15,8 +15,6 @@ import 'package:peepl/screens/routes.gr.dart';
 import 'package:peepl/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 
-import '../misc/about.dart';
-
 class BuyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
