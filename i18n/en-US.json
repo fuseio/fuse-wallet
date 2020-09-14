@@ -127,5 +127,9 @@
     "pay_with": "Pay with",
     "transaction_failed": "Transaction failed",
     "something_went_wrong": "Something went wrong",
-    "no_activity": "No activity"
+    "no_activity": "No activity",
+    "account": "Account",
+    "edit": "Edit",
+    "private_key": "Private Key",
+    "name": "Name"
 }

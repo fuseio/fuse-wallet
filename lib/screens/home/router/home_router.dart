@@ -9,6 +9,7 @@ import 'package:fusecash/screens/misc/about.dart';
 import 'package:fusecash/screens/misc/protect_your_wallet.dart';
 import 'package:fusecash/screens/misc/settings.dart';
 import 'package:fusecash/screens/misc/switch_commmunity.dart';
+import 'package:fusecash/screens/profile/screen/profile.dart';
 import 'package:fusecash/screens/trade/review_trade.dart';
 import 'package:fusecash/screens/trade/trade.dart';
 
@@ -28,5 +29,6 @@ import 'package:fusecash/screens/trade/trade.dart';
   MaterialRoute(page: SettingsScreen),
   MaterialRoute(page: SwitchCommunityScreen),
   MaterialRoute(page: ProtectYourWallet),
+  MaterialRoute(page: ProfileScreen),
 ])
 class $HomeRouter {}

@@ -11,7 +11,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/screens/route_guards.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:fusecash/screens/routes.gr.dart' as gRoutes;
 import 'package:fusecash/services.dart';
 import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/themes/custom_theme.dart';
@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Fuse Cash',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: gRoutes.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(
