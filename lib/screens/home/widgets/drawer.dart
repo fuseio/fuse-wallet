@@ -166,7 +166,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         children: <Widget>[
           InkWell(
             onTap: () {
-              print('click on account');
+              ExtendedNavigator.root.pop();
+              ExtendedNavigator.named('homeRouter')
+                  .push(HomeRoutes.profileScreen);
             },
             child: Padding(
                 padding: EdgeInsets.only(top: 10, bottom: 15, left: 10),
