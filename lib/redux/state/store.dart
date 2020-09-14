@@ -4,12 +4,10 @@ import 'package:fusecash/redux/middlewares/auth_middleware.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/state_secure_storage.dart';
-import 'package:fusecash/utils/jwt.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
-import 'package:fusecash/services.dart';
 import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
@@ -72,27 +70,6 @@ class AppFactory {
       AppState initialState;
       try {
         initialState = await persistor.load();
-        if (initialState?.userState?.jwtToken != '') {
-          String jwtToken = initialState.userState.jwtToken;
-          Map<String, dynamic> tokenData = parseJwt(jwtToken);
-          DateTime exp =
-              new DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
-          DateTime now = DateTime.now();
-          Duration diff = exp.difference(now);
-
-          if (diff.inDays <= 1) {
-            String token = await firebaseAuth.currentUser.getIdToken(true);
-            jwtToken = await api.login(
-                token,
-                initialState.userState.accountAddress,
-                initialState.userState.identifier);
-          }
-
-          logger.info('JWT: $jwtToken');
-          api.setJwtToken(jwtToken);
-        } else {
-          logger.info('no JWT');
-        }
       } catch (e) {
         logger.severe('ERROR - getStore $e');
         initialState = new AppState.initial();
@@ -227,7 +204,7 @@ class AppFactory {
     return sentry;
   }
 
-  Future<void> reportError(dynamic error, dynamic stackTrace) async {
+  Future<void> reportError(dynamic error, {dynamic stackTrace}) async {
     _sentry = await getSentry();
     _sentry.captureException(
       exception: error,

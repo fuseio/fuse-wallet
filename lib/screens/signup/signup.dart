@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,10 +8,12 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/utils/constans.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/widgets/signup_dialog.dart';
 import 'package:fusecash/models/views/onboard.dart';
+import 'package:fusecash/widgets/snackbars.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -193,6 +196,23 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 40.0),
                 StoreConnector<AppState, OnboardViewModel>(
                     distinct: true,
+                    onWillChange: (previousViewModel, newViewModel) {
+                      if (previousViewModel.signupException !=
+                              newViewModel.signupException &&
+                          newViewModel.signupException.runtimeType ==
+                              FirebaseAuthException) {
+                        transactionFailedSnack(
+                            newViewModel.signupException.message,
+                            title: newViewModel.signupException.code,
+                            duration: Duration(seconds: 3),
+                            context: context,
+                            margin: EdgeInsets.only(
+                                top: 8, right: 8, left: 8, bottom: 120));
+                        Future.delayed(Duration(seconds: intervalSeconds), () {
+                          newViewModel.resetErrors();
+                        });
+                      }
+                    },
                     converter: OnboardViewModel.fromStore,
                     builder: (_, viewModel) => Center(
                           child: PrimaryButton(

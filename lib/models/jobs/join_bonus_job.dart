@@ -3,6 +3,7 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'join_bonus_job.g.dart';
@@ -35,7 +36,7 @@ class JoinBonusJob extends Job {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
       logger.info('joinBonus FAILED');
-      store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
+      // store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: joinBonus failed'));
       store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
       return;
@@ -61,27 +62,36 @@ class JoinBonusJob extends Job {
             transaction: transfer,
             transactionToReplace: confirmedTx,
             communityAddress: arguments['communityAddress']));
-        arguments['joinBonus'] = confirmedTx.copyWith();
         store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
       }
       if (responseStatus == 'SUCCEEDED') {
         this.status = 'DONE';
-        store.dispatch(joinBonusSuccessCall(confirmedTx, arguments['communityAddress']));
+        store.dispatch(ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED',),
+            communityAddress: arguments['communityAddress']));
+        store.dispatch(joinBonusSuccessCall(arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         logger.info('JoinBonusJob SUCCEEDED');
         return;
       } else if (responseStatus == 'FAILED') {
+        this.status = 'FAILED';
         logger.info('JoinBonusJob FAILED');
-        store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
+        store.dispatch(transactionFailed(confirmedTx, arguments['communityAddress'], fetchedData['failReason']));
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id })));
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         return;
       }
     } else {
       if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
         logger.info('JoinBonusJob FAILED');
+        this.status = 'FAILED';
         String failReason = fetchedData['failReason'];
-        store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
+        transactionFailedSnack(failReason);
+        store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress'], failReason));
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         return;
       }
       if (fetchedData['data']['funderJobId'] != null) {
@@ -98,12 +108,15 @@ class JoinBonusJob extends Job {
               transaction: transfer,
               transactionToReplace: confirmedTx,
               communityAddress: arguments['communityAddress']));
-          arguments['joinBonus'] = confirmedTx.copyWith();
           store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
         }
         if (responseStatus == 'SUCCEEDED') {
           this.status = 'DONE';
-          store.dispatch(joinBonusSuccessCall(confirmedTx, arguments['communityAddress']));
+          store.dispatch(ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED',),
+            communityAddress: arguments['communityAddress']));
+          store.dispatch(joinBonusSuccessCall(arguments['communityAddress']));
           store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
           logger.info('JoinBonusJob SUCCEEDED');
           store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
@@ -111,8 +124,8 @@ class JoinBonusJob extends Job {
         } else if (responseStatus == 'FAILED') {
           this.status = 'FAILED';
           logger.info('JoinBonusJob FAILED');
+          store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress'], response['failReason']));
           store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
-          store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
           return;
         }
       }
