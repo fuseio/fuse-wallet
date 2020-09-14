@@ -442,6 +442,15 @@ class I18n implements WidgetsLocalizations {
   /// "Private Key"
   String get private_key => "Private Key";
 
+  /// "Account"
+  String get account => "Account";
+
+  /// "Edit"
+  String get edit => "Edit";
+
+  /// "Private Key"
+  String get private_key => "Private Key";
+
   /// "Name"
   String get name => "Name";
 }
@@ -945,6 +954,34 @@ class _I18n_he_IL extends I18n {
   /// "כבה פנס"
   @override
   String get flash_off => "כבה פנס";
+
+  /// "קהילה נוכחית"
+  @override
+  String get current_community => "קהילה נוכחית";
+
+  /// "הקהילות שלי"
+  @override
+  String get my_communities => "הקהילות שלי";
+
+  /// "נבחר"
+  @override
+  String get selected => "נבחר";
+
+  /// "סכום תשלום:"
+  @override
+  String get fee_amount => "סכום תשלום:";
+
+  /// "סכום סופי:"
+  @override
+  String get total_amount => "סכום סופי:";
+
+  /// "לשלם עם"
+  @override
+  String get pay_with => "לשלם עם";
+
+  /// "חֶשְׁבּוֹן"
+  @override
+  String get account => "חֶשְׁבּוֹן";
 
   /// "קהילה נוכחית"
   @override
@@ -2514,6 +2551,10 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Assets at mga kontrata"
   @override
   String get assets_and_contracts => "Assets at mga kontrata";
+
+  /// "Account"
+  @override
+  String get account => "Account";
 
   /// "Account"
   @override
