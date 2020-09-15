@@ -194,9 +194,8 @@ CashWalletState _getTokenTransfersListSuccess(
       Transfer saved = current.token.transactions.list
           .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
-        if (saved.isPending()) {
-          saved = saved.copyWith(status: tx.status);
-        }
+        int index = current.token.transactions.list.indexOf(saved);
+        current.token.transactions.list[index] = tx.copyWith();
       } else {
         current.token.transactions.list.add(tx);
       }
