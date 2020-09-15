@@ -126,5 +126,6 @@
     "total_amount": "Total amount:",
     "pay_with": "Pay with",
     "transaction_failed": "Transaction failed",
-    "something_went_wrong": "Something went wrong"
+    "something_went_wrong": "Something went wrong",
+    "no_activity": "No activity"
 }

@@ -34,13 +34,6 @@ class JoinBonusJob extends Job {
   @override
   onDone(store, dynamic fetchedData) async {
     final logger = await AppFactory().getLogger('Job');
-    if (isReported == true) {
-      logger.info('joinBonus FAILED');
-      // store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress']));
-      store.dispatch(segmentTrackCall('Wallet: joinBonus failed'));
-      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
-      return;
-    }
     int current = DateTime.now().millisecondsSinceEpoch;
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
@@ -84,16 +77,6 @@ class JoinBonusJob extends Job {
         return;
       }
     } else {
-      if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-        logger.info('JoinBonusJob FAILED');
-        this.status = 'FAILED';
-        String failReason = fetchedData['failReason'];
-        transactionFailedSnack(failReason);
-        store.dispatch(transactionFailed(arguments['joinBonus'], arguments['communityAddress'], failReason));
-        store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
-        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
-        return;
-      }
       if (fetchedData['data']['funderJobId'] != null) {
         String funderJobId = fetchedData['data']['funderJobId'];
         dynamic response = await api.getFunderJob(funderJobId);
@@ -128,6 +111,11 @@ class JoinBonusJob extends Job {
           store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
           return;
         }
+      } else {
+        this.status = 'FAILED';
+        logger.info('JoinBonusJob FAILED');
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+        return;
       }
     }
   }
