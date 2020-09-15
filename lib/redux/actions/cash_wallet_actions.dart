@@ -998,6 +998,7 @@ ThunkAction joinCommunitySuccessCall(
     JoinBonusPlugin joinBonusPlugin,
     Token token) {
   return (Store store) async {
+    store.dispatch(new AlreadyJoinedCommunity(communityAddress));
     if (joinBonusPlugin != null && joinBonusPlugin.isActive) {
       BigInt value = toBigInt(joinBonusPlugin.amount, token.decimals);
       Transfer joinBonus = new Transfer(
