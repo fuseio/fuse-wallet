@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/profile.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -13,11 +15,20 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String displayName;
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ProfileViewModel>(
         distinct: true,
         converter: ProfileViewModel.fromStore,
+        onDispose: (store) {
+          if (displayName != null &&
+              store.state.userState.displayName != displayName) {
+            final viewModel = ProfileViewModel.fromStore(store);
+            viewModel.updateDisplaName(displayName);
+          }
+        },
         builder: (_, viewModel) {
           return MainScaffold(
             backgroundColor: Colors.grey[200],
@@ -70,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               SizedBox(height: 5),
-                              Text(viewModel?.firstName() ?? '',
+                              Text(viewModel?.displayName() ?? '',
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 18))
                             ],
@@ -87,21 +98,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       fontSize: 12, color: Colors.grey))),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                viewModel.firstName() ?? '',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 18),
-                              )),
-                              IconButton(
+                          padding: const EdgeInsets.symmetric(horizontal: 0),
+                          child: TextFormField(
+                            style: TextStyle(fontSize: 20, color: Colors.black),
+                            initialValue: viewModel.displayName(),
+                            keyboardType: TextInputType.text,
+                            cursorColor: Color(0xFFC6C6C6),
+                            onChanged: (value) => displayName = value,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              border: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              suffixIcon: IconButton(
                                 icon: Icon(Icons.edit),
                                 color: Colors.grey,
-                                onPressed: () {},
-                              )
-                            ],
+                                onPressed: () => ExtendedNavigator.root
+                                    .push(Routes.userNameScreen),
+                              ),
+                            ),
                           ),
                         ),
                         Container(height: 1, color: Colors.grey[200]),

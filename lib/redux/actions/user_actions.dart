@@ -637,3 +637,14 @@ ThunkAction activateProModeCall() {
     }
   };
 }
+
+ThunkAction updateDisplayNameCall(String displayName) {
+  return (Store store) async {
+    try {
+      String accountAddress = store.state.userState.accountAddress;
+      await api.updateDisplayName(accountAddress, displayName);
+      store.dispatch(SetDisplayName(displayName));
+      store.dispatch(segmentTrackCall("Wallet: display name updated"));
+    } catch (e) {}
+  };
+}
