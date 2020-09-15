@@ -634,7 +634,8 @@ ThunkAction startProcessingJobsCall() {
         store.state.cashWalletState.isJobProcessingStarted ?? false;
     if (!isJobProcessingStarted) {
       logger.info('Start Processing Jobs Call');
-      new Timer.periodic(Duration(seconds: 1), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds),
+          (Timer timer) async {
         store.dispatch(processingJobsCall(timer));
       });
       store.dispatch(SetIsJobProcessing(isFetching: true));
