@@ -49,7 +49,6 @@ class GenerateWalletJob extends Job {
   onDone(store, dynamic fetchedData) async {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
-      this.status = 'FAILED';
       logger.info('GenerateWalletJob FAILED');
       store.dispatch(segmentTrackCall('Wallet: GenerateWalletJob FAILED'));
       store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));

@@ -292,6 +292,12 @@ class I18n implements WidgetsLocalizations {
   String get pay_rent => "Pay Rent";
   /// "Top Up"
   String get topup_screen => "Top Up";
+  /// "Transaction failed"
+  String get transaction_failed => "Transaction failed";
+  /// "Something went wrong"
+  String get something_went_wrong => "Something went wrong";
+  /// "No activity"
+  String get no_activity => "No activity";
 }
 
 class _I18n_en_US extends I18n {

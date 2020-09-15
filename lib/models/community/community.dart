@@ -22,6 +22,7 @@ class Community extends Equatable {
   final String webUrl;
   final String foreignTokenAddress;
   final Token secondaryToken;
+  final String description;
 
   @override
   List<Object> get props => [
@@ -33,7 +34,8 @@ class Community extends Equatable {
         metadata,
         webUrl,
         secondaryToken,
-        foreignTokenAddress
+        foreignTokenAddress,
+        description
       ];
 
   Community(
@@ -49,7 +51,8 @@ class Community extends Equatable {
       this.webUrl,
       this.foreignBridgeAddress,
       this.foreignTokenAddress,
-      this.secondaryToken});
+      this.secondaryToken,
+      this.description});
 
   factory Community.initial() {
     return new Community(
@@ -79,8 +82,10 @@ class Community extends Equatable {
       bool isClosed,
       Token secondaryToken,
       String webUrl,
-      String foreignTokenAddress}) {
+      String foreignTokenAddress,
+      String description}) {
     return Community(
+        description: description ?? this.description,
         isClosed: isClosed ?? this.isClosed,
         webUrl: webUrl,
         metadata: metadata ?? this.metadata,

@@ -43,11 +43,8 @@ class _TransactionTileState extends State<TransactionTile> {
           Community community = getCommunity(
               (widget?.token?.address ?? widget.transfer?.tokenAddress),
               viewModel.communities);
-          Token token = widget.token;
-          if (token == null) {
-            token =
-                viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
-          }
+          Token token = widget.token ??
+              viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
           bool isSendingToForeign = (community?.homeBridgeAddress != null &&
                   widget.transfer.to != null &&
                   widget.transfer.to?.toLowerCase() ==
@@ -385,13 +382,13 @@ class _TransactionTileViewModel extends Equatable {
       return previousValue;
     });
     return _TransactionTileViewModel(
+      tokens: tokens,
       reverseContacts: store.state.userState.reverseContacts,
       contacts: store.state.userState.contacts,
       walletStatus: store.state.userState.walletStatus,
       countryCode: store.state.userState.countryCode,
       erc20Tokens: store.state.proWalletState.erc20Tokens,
       communities: communities.values.toList(),
-      tokens: tokens,
     );
   }
 

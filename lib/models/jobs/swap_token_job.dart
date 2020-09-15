@@ -9,6 +9,7 @@ import 'package:peepl/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:peepl/redux/state/store.dart';
 import 'package:peepl/services.dart';
 import 'package:peepl/utils/addresses.dart';
+import 'package:peepl/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'swap_token_job.g.dart';
@@ -71,6 +72,7 @@ class SwapTokenJob extends Job {
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('SwapTokenJob FAILED');
       String failReason = fetchedData['failReason'];
+      transactionFailedSnack(failReason);
       store.dispatch(proTransactionFailed(
           arguments['fromToken'].address, arguments['transfer']));
       store.dispatch(segmentTrackCall('Wallet: job failed',
@@ -95,6 +97,7 @@ class SwapTokenJob extends Job {
           nextRealyJobResponse['failedAt'] != null) {
         logger.info('SwapTokenJob FAILED');
         String failReason = nextRealyJobResponse['failReason'];
+        transactionFailedSnack(failReason);
         store.dispatch(proTransactionFailed(
             arguments['fromToken'].address, arguments['transfer']));
         store.dispatch(ProJobDone(

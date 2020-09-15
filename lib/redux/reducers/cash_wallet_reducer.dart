@@ -144,6 +144,7 @@ CashWalletState _switchCommunitySuccess(
   Community current = state.communities[communityAddress] ??
       Community.initial().copyWith(address: communityAddress);
   Community newCommunity = current?.copyWith(
+      description: action.description,
       address: communityAddress,
       metadata: action.metadata,
       plugins: action.plugins,
@@ -211,9 +212,8 @@ CashWalletState _getTokenTransfersListSuccess(
         Transfer saved = current.secondaryToken.transactions.list
             .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
         if (saved != null) {
-          if (saved.isPending()) {
-            saved = saved.copyWith(status: tx.status);
-          }
+          int index = current.secondaryToken.transactions.list.indexOf(saved);
+          current.secondaryToken.transactions.list[index] = tx.copyWith();
         } else {
           current.secondaryToken.transactions.list.add(tx);
         }
@@ -236,9 +236,8 @@ CashWalletState _getTokenTransfersListSuccess(
         Transfer saved = current.token.transactions.list
             .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
         if (saved != null) {
-          if (saved.isPending()) {
-            saved = saved.copyWith(status: tx.status);
-          }
+          int index = current.token.transactions.list.indexOf(saved);
+          current.token.transactions.list[index] = tx.copyWith();
         } else {
           current.token.transactions.list.add(tx);
         }

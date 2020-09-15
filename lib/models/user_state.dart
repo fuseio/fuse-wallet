@@ -47,6 +47,10 @@ class UserState {
   final num totalBalance;
 
   @JsonKey(ignore: true)
+  final dynamic signupException;
+  @JsonKey(ignore: true)
+  final dynamic verifyException;
+  @JsonKey(ignore: true)
   final bool isLoginRequest;
   @JsonKey(ignore: true)
   final bool isVerifyRequest;
@@ -92,7 +96,9 @@ class UserState {
       this.homeBackupDialogShowed,
       this.receiveBackupDialogShowed,
       this.currency,
-      this.totalBalance});
+      this.totalBalance,
+      this.signupException,
+      this.verifyException});
 
   factory UserState.initial() {
     return new UserState(
@@ -172,8 +178,12 @@ class UserState {
       bool receiveBackupDialogShowed,
       bool homeBackupDialogShowed,
       String currency,
-      num totalBalance}) {
+      num totalBalance,
+      dynamic verifyException,
+      dynamic signupException}) {
     return UserState(
+        verifyException: verifyException ?? this.verifyException,
+        signupException: signupException ?? this.signupException,
         authType: authType ?? this.authType,
         walletAddress: walletAddress ?? this.walletAddress,
         communityManagerAddress:

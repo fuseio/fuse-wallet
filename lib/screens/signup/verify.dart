@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:peepl/generated/i18n.dart';
 import 'package:peepl/models/app_state.dart';
+import 'package:peepl/utils/constans.dart';
 import 'package:peepl/widgets/main_scaffold.dart';
 import 'package:peepl/widgets/primary_button.dart';
 import 'package:peepl/models/views/onboard.dart';
+import 'package:peepl/widgets/snackbars.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class VerifyScreen extends StatefulWidget {
@@ -33,6 +36,22 @@ class _VerifyScreenState extends State<VerifyScreen> {
           if (viewModel.credentials != null) {
             autoCode = viewModel.credentials.smsCode ?? "";
             viewModel.verify(autoCode, widget.verificationId);
+          }
+        },
+        onWillChange: (previousViewModel, newViewModel) {
+          if (previousViewModel.verifyException !=
+                  newViewModel.verifyException &&
+              newViewModel.verifyException.runtimeType ==
+                  FirebaseAuthException) {
+            transactionFailedSnack(newViewModel.verifyException.message,
+                title: newViewModel.verifyException.code,
+                duration: Duration(seconds: 3),
+                context: context,
+                margin:
+                    EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
+            Future.delayed(Duration(seconds: intervalSeconds), () {
+              newViewModel.resetErrors();
+            });
           }
         },
         builder: (_, viewModel) {
