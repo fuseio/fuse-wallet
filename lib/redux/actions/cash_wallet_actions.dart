@@ -99,6 +99,7 @@ class SwitchCommunitySuccess {
   final String webUrl;
   final CommunityMetadata metadata;
   final String foreignTokenAddress;
+  final String description;
   SwitchCommunitySuccess(
       {this.communityAddress,
       this.communityName,
@@ -109,7 +110,8 @@ class SwitchCommunitySuccess {
       this.foreignBridgeAddress,
       this.foreignTokenAddress,
       this.metadata,
-      this.webUrl});
+      this.webUrl,
+      this.description});
 }
 
 class FetchCommunityMetadataSuccess {
@@ -1096,6 +1098,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           walletAddress: walletAddress);
       final Plugins communityPlugins =
           Plugins.fromJson(communityData['plugins']);
+      final String description = communityData['description'];
       final String homeBridgeAddress = communityData['homeBridgeAddress'];
       final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String foreignTokenAddress = communityData['foreignTokenAddress'];
@@ -1107,6 +1110,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           symbol: token["symbol"],
           decimals: token["decimals"]);
       store.dispatch(SwitchCommunitySuccess(
+          description: description,
           communityAddress: communityAddress,
           communityName: community["name"],
           token: communityToken,
@@ -1168,10 +1172,12 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String foreignTokenAddress = communityData['foreignTokenAddress'];
+      String description = communityData['description'];
       String webUrl = communityData['webUrl'];
       store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
           communityData['communityURI'], isRopsten));
       store.dispatch(SwitchCommunitySuccess(
+          description: description,
           communityAddress: communityAddress,
           communityName: current.name,
           token: current.token,
