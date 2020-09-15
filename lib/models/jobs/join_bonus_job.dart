@@ -3,7 +3,6 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'join_bonus_job.g.dart';
