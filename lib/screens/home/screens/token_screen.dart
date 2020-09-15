@@ -20,17 +20,38 @@ class TokenScreen extends StatelessWidget {
         builder: (_, viewModel) {
           final token = viewModel.tokens
               .firstWhere((element) => element.address == tokenAddress);
+          final List<Transaction> list =
+              token?.transactions?.list?.reversed?.toList() ?? [];
           return Scaffold(
               key: key,
               appBar: MyAppBar(height: 170.0, child: TokenHeader(token: token)),
               drawerEdgeDragWidth: 0,
               body: Column(children: <Widget>[
-                Expanded(
-                    child: ListView(children: [
-                  TransfersList(
-                      list:
-                          (token?.transactions?.list?.reversed?.toList() ?? []))
-                ])),
+                list.isEmpty
+                    ? Flexible(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/no-activity.png',
+                                fit: BoxFit.cover,
+                                height: 100,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(I18n.of(context).no_activity,
+                                  style: TextStyle(
+                                      color: Color(0xFF979797),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.normal))
+                            ],
+                          ),
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView(children: [TransfersList(list: list)])),
               ]));
         });
   }

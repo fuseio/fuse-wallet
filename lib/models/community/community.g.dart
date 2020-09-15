@@ -30,6 +30,7 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
     secondaryToken: json['secondaryToken'] == null
         ? null
         : Token.fromJson(json['secondaryToken'] as Map<String, dynamic>),
+    description: json['description'] as String,
   );
 }
 
@@ -47,4 +48,5 @@ Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'webUrl': instance.webUrl,
       'foreignTokenAddress': instance.foreignTokenAddress,
       'secondaryToken': instance.secondaryToken?.toJson(),
+      'description': instance.description,
     };

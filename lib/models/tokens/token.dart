@@ -85,7 +85,8 @@ class Token extends ERC20Token {
   @override
   Future<dynamic> fetchTokenBalance(String accountAddress,
       {void Function(BigInt) onDone, Function onError}) async {
-    if (accountAddress == null) return;
+    if ([null, ''].contains(accountAddress) ||
+        [null, ''].contains(this.address)) return;
     if (originNetwork == null) {
       try {
         final BigInt balance = await ethereumExplorerApi

@@ -36,7 +36,7 @@ class InviteBonusJob extends Job {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
       logger.info('InviteBonusJob FAILED');
-      store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['']));
+      // store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['']));
       store.dispatch(segmentTrackCall('Wallet: InviteBonusJob FAILED'));
       return;
     }
@@ -51,7 +51,7 @@ class InviteBonusJob extends Job {
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('InviteBonusJob FAILED');
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['communityAddress']));
+      store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['communityAddress'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -69,20 +69,23 @@ class InviteBonusJob extends Job {
             transaction: transfer,
             transactionToReplace: confirmedTx,
             communityAddress: arguments['communityAddress']));
-        arguments['inviteBonus'] = confirmedTx.copyWith();
         store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
       }
       String responseStatus = data['status'];
       if (responseStatus == 'SUCCEEDED') {
         logger.info('InviteBonusJob SUCCEEDED');
-        store.dispatch(inviteBonusSuccessCall(confirmedTx, arguments['communityAddress']));
+        store.dispatch(new ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED'),
+            communityAddress: arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+        store.dispatch(segmentTrackCall('Wallet: invite bonus success'));
         store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
         return;
       } else if (responseStatus == 'FAILED') {
         logger.info('InviteBonusJob FAILED');
         String failReason = fetchedData['failReason'];
-        store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['communityAddress']));
+        store.dispatch(transactionFailed(confirmedTx, arguments['communityAddress'], failReason));
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
         store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
       }

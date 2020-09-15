@@ -8,11 +8,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:roost/models/app_state.dart';
 import 'package:roost/redux/actions/cash_wallet_actions.dart';
+import 'package:roost/redux/actions/user_actions.dart';
 import 'package:roost/redux/state/store.dart';
 import 'package:roost/screens/route_guards.dart';
 import 'package:roost/screens/routes.gr.dart';
+import 'package:roost/services.dart';
 import 'package:roost/themes/app_theme.dart';
 import 'package:roost/themes/custom_theme.dart';
+import 'package:roost/utils/jwt.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:roost/generated/i18n.dart';
@@ -31,7 +34,7 @@ void main() async {
             child: new MyApp(store: store),
           )), (Object error, StackTrace stackTrace) async {
     try {
-      await AppFactory().reportError(error, stackTrace);
+      await AppFactory().reportError(error, stackTrace: stackTrace);
     } catch (e) {
       print('Sending report to sentry.io failed: $e');
       print('Original error: $error');
@@ -63,6 +66,30 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       I18n.locale = locale;
     });
+  }
+
+  void refreshToken(Store<AppState> store) async {
+    final logger = await AppFactory().getLogger('action');
+    String jwtToken = store?.state?.userState?.jwtToken;
+    final accoutAddress = store?.state?.userState?.accountAddress;
+    final identifier = store?.state?.userState?.identifier;
+    if (![null, ''].contains(jwtToken)) {
+      Map<String, dynamic> tokenData = parseJwt(jwtToken);
+      DateTime exp =
+          DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
+      DateTime now = DateTime.now();
+      Duration diff = exp.difference(now);
+      if (diff.inDays <= 1) {
+        String token = await firebaseAuth.currentUser.getIdToken(true);
+        jwtToken = await api.login(token, accoutAddress, identifier, appName: "Roost");
+      }
+
+      logger.info('JWT: $jwtToken');
+      api.setJwtToken(jwtToken);
+      store.dispatch(LoginVerifySuccess(jwtToken));
+    } else {
+      logger.info('no JWT');
+    }
   }
 
   void listenDynamicLinks(Store<AppState> store) async {
@@ -112,6 +139,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    refreshToken(widget.store);
     listenDynamicLinks(widget.store);
     I18n.onLocaleChanged = onLocaleChange;
   }

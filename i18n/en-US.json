@@ -127,5 +127,8 @@
     "pay_with": "Pay with",
     "wallet": "Wallet",
     "your_home": "Your Home",
-    "pay_rent": "Pay Rent"
+    "pay_rent": "Pay Rent",
+    "transaction_failed": "Transaction failed",
+    "something_went_wrong": "Something went wrong",
+    "no_activity": "No activity"
 }

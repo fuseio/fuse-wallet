@@ -3,6 +3,7 @@ import 'package:roost/models/transactions/transfer.dart';
 import 'package:roost/redux/actions/cash_wallet_actions.dart';
 import 'package:roost/redux/state/store.dart';
 import 'package:roost/services.dart';
+import 'package:roost/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer_job.g.dart';
@@ -36,7 +37,7 @@ class TransferJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('TransferJob FAILED');
-      store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
+      // store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: TransferJob FAILED'));
       return;
     }
@@ -44,15 +45,14 @@ class TransferJob extends Job {
     int current = DateTime.now().millisecondsSinceEpoch;
     int jobTime = this.timeStart;
     String txHash = job?.data['txHash'];
-    if (txHash != null) {
+    Transfer transfer = arguments['transfer'];
+    Transfer confirmedTx = transfer.copyWith(txHash: txHash);
+    if (![null, ''].contains(txHash)) {
       logger.info('TransferJob txHash txHash txHash $txHash');
-      Transfer transfer = arguments['transfer'];
-      Transfer confirmedTx = transfer.copyWith(txHash: txHash);
       store.dispatch(new ReplaceTransaction(
           transaction: transfer,
           transactionToReplace: confirmedTx,
           communityAddress: arguments['communityAddress']));
-      arguments['transfer'] = confirmedTx.copyWith();
       store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
     }
 
@@ -60,14 +60,17 @@ class TransferJob extends Job {
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       this.isReported = true;
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('TransferJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
+      transactionFailedSnack(failReason);
+      store.dispatch(transactionFailed(transfer, arguments['communityAddress'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
       return;
     }
 
@@ -76,13 +79,12 @@ class TransferJob extends Job {
       return;
     }
     this.status = 'DONE';
-    Transfer transfer = arguments['transfer'];
-    Transfer confirmedTx = transfer.copyWith(status: 'CONFIRMED');
     store.dispatch(new ReplaceTransaction(
         transaction: transfer,
-        transactionToReplace: confirmedTx,
+        transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED'),
         communityAddress: arguments['communityAddress']));
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+    store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
   }
 
   @override
