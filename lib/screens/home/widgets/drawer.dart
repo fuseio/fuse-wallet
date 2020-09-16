@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
@@ -173,50 +174,73 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             child: Padding(
                 padding: EdgeInsets.only(top: 10, bottom: 15, left: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    CircleAvatar(
-                      backgroundImage: viewModel.avatarUrl == null
-                          ? new AssetImage('assets/images/anom.png')
-                          : new NetworkImage(viewModel.avatarUrl),
-                      radius: 30,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Column(
+                  children: [
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            (viewModel?.firstName() ?? ''),
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 22,
-                                fontWeight: FontWeight.normal),
+                          SizedBox(
+                              height: 70,
+                              width: 70,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Positioned.fill(
+                                    child: CachedNetworkImage(
+                                  imageUrl: viewModel.avatarUrl,
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset('assets/images/anom.png',
+                                          width: 40, height: 40),
+                                  imageBuilder: (context, imageProvider) =>
+                                      Image(
+                                    image: imageProvider,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )),
+                              )),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  (viewModel?.firstName() ?? ''),
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                                viewModel.walletAddress != null
+                                    ? Row(
+                                        children: <Widget>[
+                                          Text(
+                                            formatAddress(
+                                                viewModel.walletAddress),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                        ],
+                                      )
+                                    : SizedBox.shrink()
+                              ],
+                            ),
                           ),
-                          viewModel.walletAddress != null
-                              ? Row(
-                                  children: <Widget>[
-                                    Text(
-                                      formatAddress(viewModel.walletAddress),
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                  ],
-                                )
-                              : SizedBox.shrink()
-                        ],
-                      ),
-                    ),
+                        ]),
+                    SvgPicture.asset(
+                      'assets/images/header_arrow.svg',
+                    )
                   ],
                 )),
-          ),
+          )
         ],
       ),
       decoration: BoxDecoration(

@@ -20,6 +20,7 @@ class Transfer extends Transaction {
       String text,
       String jobId,
       int blockNumber,
+      String failReason,
       int timestamp,
       bool isSwap,
       this.to,
@@ -45,8 +46,13 @@ class Transfer extends Transaction {
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');
 
   Transfer copyWith(
-      {String status, String txHash, String text, int timestamp}) {
+      {String status,
+      String txHash,
+      String text,
+      int timestamp,
+      String failReason}) {
     return Transfer(
+        failReason: failReason ?? this.failReason,
         isSwap: this.isSwap,
         note: note ?? this.note,
         receiverName: receiverName ?? this.receiverName,

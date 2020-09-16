@@ -1,10 +1,9 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/profile.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -42,15 +41,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(16),
                           child: Column(
                             children: [
                               GestureDetector(
                                 onTap: () => _showSourceImagePicker(context,
                                     (source) => viewModel.editAvatar(source)),
                                 child: SizedBox(
-                                  height: 50,
-                                  width: 50,
+                                  height: 70,
+                                  width: 70,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: Container(
@@ -58,24 +57,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       child: Stack(
                                         children: [
                                           Positioned.fill(
-                                              child: viewModel.avatarUrl == null
-                                                  ? Image.asset(
-                                                      'assets/images/anom.png',
-                                                      width: 40,
-                                                      height: 40)
-                                                  : Image.network(
-                                                      viewModel.avatarUrl,
-                                                      width: 40,
-                                                      height: 40)),
+                                              child: CachedNetworkImage(
+                                            imageUrl: viewModel.avatarUrl,
+                                            placeholder: (context, url) =>
+                                                CircularProgressIndicator(),
+                                            errorWidget: (context, url,
+                                                    error) =>
+                                                Image.asset(
+                                                    'assets/images/anom.png',
+                                                    width: 40,
+                                                    height: 40),
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Image(
+                                              image: imageProvider,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          )),
                                           Positioned.directional(
                                               textDirection: TextDirection.ltr,
                                               bottom: 0,
                                               start: 0,
                                               end: 0,
                                               child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 3),
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 3),
                                                 alignment: Alignment.center,
                                                 color: Colors.black,
                                                 child: Text(
@@ -92,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               SizedBox(height: 5),
-                              Text(viewModel?.displayName() ?? '',
+                              Text(viewModel?.displayName ?? '',
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 18))
                             ],
@@ -100,8 +106,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(height: 1, color: Colors.grey[200]),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                           child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(I18n.of(context).name,
@@ -109,30 +115,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       fontSize: 12, color: Colors.grey))),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 0),
+                          padding: EdgeInsets.symmetric(horizontal: 0),
                           child: TextFormField(
                             style: TextStyle(fontSize: 20, color: Colors.black),
-                            initialValue: viewModel.displayName(),
+                            initialValue: viewModel.displayName,
                             keyboardType: TextInputType.text,
                             cursorColor: Color(0xFFC6C6C6),
                             onChanged: (value) => displayName = value,
                             decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              border: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.edit),
-                                color: Colors.grey,
-                                onPressed: () => ExtendedNavigator.root
-                                    .push(Routes.userNameScreen),
-                              ),
-                            ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                suffixIcon: Icon(
+                                  Icons.edit,
+                                  color: Colors.grey,
+                                )),
                           ),
                         ),
                         Container(height: 1, color: Colors.grey[200]),
-                        _buildGroup(I18n.of(context).private_key,
+                        _buildGroup(I18n.of(context).wallet_address,
                             viewModel?.walletAddress ?? ''),
                         Container(height: 1, color: Colors.grey[200]),
                         _buildGroup(I18n.of(context).phoneNumber,
@@ -150,9 +153,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildGroup(String title, String value) => Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: EdgeInsets.symmetric(vertical: 16),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +181,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (context) => BottomSheet(
           onClosing: () {},
           builder: (context) => Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(

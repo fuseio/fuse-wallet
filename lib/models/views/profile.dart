@@ -9,7 +9,7 @@ class ProfileViewModel extends Equatable {
   final String phone;
   final String walletAddress;
   final String avatarUrl;
-  final String Function() displayName;
+  final String displayName;
   final void Function(String displayName) updateDisplaName;
   final void Function(ImageSource source) editAvatar;
 
@@ -23,13 +23,10 @@ class ProfileViewModel extends Equatable {
 
   static ProfileViewModel fromStore(Store<AppState> store) {
     return ProfileViewModel(
-        phone: store.state.userState.phoneNumber,
+        displayName: store.state.userState.displayName ?? '',
+        phone: store.state.userState.normalizedPhoneNumber,
         avatarUrl: store.state.userState.avatarUrl,
         walletAddress: formatAddress(store.state.userState.walletAddress),
-        displayName: () {
-          String fullName = store.state.userState.displayName ?? '';
-          return fullName.split(' ')[0];
-        },
         editAvatar: (source) {
           store.dispatch(updateUserAvatarCall(source));
         },
