@@ -13,9 +13,10 @@ class Transaction extends Equatable {
   final int blockNumber;
   final String jobId;
   final bool isSwap;
+  final String failReason;
 
   @override
-  List<Object> get props => [txHash, status, timestamp];
+  List<Object> get props => [txHash, status, timestamp, failReason];
 
   Transaction(
       {this.txHash,
@@ -25,14 +26,16 @@ class Transaction extends Equatable {
       this.text,
       this.blockNumber,
       this.timestamp,
-      this.jobId});
+      this.jobId,
+      this.failReason});
 
-  Transaction copyWith({String status}) {
+  Transaction copyWith({String status, String failReason}) {
     return Transaction(
         isSwap: this.isSwap,
         txHash: this.txHash,
         type: this.type,
         timestamp: this.timestamp,
+        failReason: failReason ?? this.failReason,
         status: status ?? this.status,
         text: this.text,
         blockNumber: this.blockNumber,

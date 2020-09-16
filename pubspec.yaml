@@ -1,9 +1,10 @@
 name: supervecina
-version: 1.1.42+173
+version: 1.1.42+174
 description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  flushbar: ^1.10.4
   flutter_platform_widgets: ^0.60.1
   enum_to_string: ^1.0.9
   local_auth: ^0.6.2+3

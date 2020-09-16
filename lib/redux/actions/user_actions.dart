@@ -192,12 +192,14 @@ class JustInstalled {
 
 class SetIsLoginRequest {
   final bool isLoading;
-  SetIsLoginRequest({this.isLoading});
+  final dynamic message;
+  SetIsLoginRequest({this.isLoading, this.message});
 }
 
 class SetIsVerifyRequest {
   final bool isLoading;
-  SetIsVerifyRequest({this.isLoading});
+  final dynamic message;
+  SetIsVerifyRequest({this.isLoading, this.message});
 }
 
 class DeviceIdSuccess {

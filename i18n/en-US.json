@@ -124,5 +124,8 @@
     "selected": "Selected",
     "fee_amount": "Fee amount:",
     "total_amount": "Total amount:",
-    "pay_with": "Pay with"
+    "pay_with": "Pay with",
+    "transaction_failed": "Transaction failed",
+    "something_went_wrong": "Something went wrong",
+    "no_activity": "No activity"
 }

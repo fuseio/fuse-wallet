@@ -180,11 +180,11 @@ UserState _justInstalled(UserState state, JustInstalled action) {
 }
 
 UserState _setIsLoginRequest(UserState state, SetIsLoginRequest action) {
-  return state.copyWith(isLoginRequest: action.isLoading);
+  return state.copyWith(isLoginRequest: action.isLoading, signupException: action.message);
 }
 
 UserState _setIsVerifyRequest(UserState state, SetIsVerifyRequest action) {
-  return state.copyWith(isVerifyRequest: action.isLoading);
+  return state.copyWith(isVerifyRequest: action.isLoading, verifyException: action.message);
 }
 
 UserState _deviceIdSuccess(UserState state, DeviceIdSuccess action) {

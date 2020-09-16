@@ -266,7 +266,7 @@ ThunkAction startFetchTokensLastestPrices() {
     final logger = await AppFactory().getLogger('action');
     logger.info('Timer start - startFetchTokensLastestPrices');
     if (!isFetchTokensLastestPrice) {
-      new Timer.periodic(Duration(minutes: 5), (Timer timer) async {
+      new Timer.periodic(Duration(minutes: intervalSeconds), (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           store.dispatch(SetIsFetchTokensLastestPrices(isFetching: false));
           logger.severe('Timer stopped - startFetchTokensLastestPrices');
