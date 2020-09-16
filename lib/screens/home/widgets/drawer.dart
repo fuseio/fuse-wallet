@@ -177,7 +177,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     CircleAvatar(
-                      backgroundImage: new AssetImage('assets/images/anom.png'),
+                      backgroundImage: viewModel.avatarUrl == null
+                          ? new AssetImage('assets/images/anom.png')
+                          : new NetworkImage(viewModel.avatarUrl),
                       radius: 30,
                     ),
                     Padding(

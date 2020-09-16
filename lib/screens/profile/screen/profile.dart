@@ -6,6 +6,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/profile.dart';
 import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);
@@ -44,38 +45,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             children: [
-                              SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Container(
-                                    color: Colors.grey[400],
-                                    child: Stack(
-                                      children: [
-                                        Positioned.fill(
-                                            child: Icon(Icons.person,
-                                                size: 40,
-                                                color: Colors.grey[300])),
-                                        Positioned.directional(
-                                            textDirection: TextDirection.ltr,
-                                            bottom: 0,
-                                            start: 0,
-                                            end: 0,
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 3),
-                                              alignment: Alignment.center,
-                                              color: Colors.black,
-                                              child: Text(
-                                                I18n.of(context).edit,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 9),
-                                              ),
-                                            ))
-                                      ],
+                              GestureDetector(
+                                onTap: () => _showSourceImagePicker(context,
+                                    (source) => viewModel.editAvatar(source)),
+                                child: SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Container(
+                                      color: Colors.grey[400],
+                                      child: Stack(
+                                        children: [
+                                          Positioned.fill(
+                                              child: viewModel.avatarUrl == null
+                                                  ? Image.asset(
+                                                      'assets/images/anom.png',
+                                                      width: 40,
+                                                      height: 40)
+                                                  : Image.network(
+                                                      viewModel.avatarUrl,
+                                                      width: 40,
+                                                      height: 40)),
+                                          Positioned.directional(
+                                              textDirection: TextDirection.ltr,
+                                              bottom: 0,
+                                              start: 0,
+                                              end: 0,
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 3),
+                                                alignment: Alignment.center,
+                                                color: Colors.black,
+                                                child: Text(
+                                                  I18n.of(context).edit,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 9),
+                                                ),
+                                              ))
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -156,6 +167,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
             ],
+          ),
+        ),
+      );
+
+  void _showSourceImagePicker(
+          BuildContext context, void Function(ImageSource source) callback) =>
+      showModalBottomSheet(
+        context: context,
+        builder: (context) => BottomSheet(
+          onClosing: () {},
+          builder: (context) => Container(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                )),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                    title: Text('Camera'),
+                    onTap: () {
+                      callback(ImageSource.camera);
+                      Navigator.pop(context);
+                    }),
+                ListTile(
+                    title: Text('Gallery'),
+                    onTap: () {
+                      callback(ImageSource.gallery);
+                      Navigator.pop(context);
+                    }),
+              ],
+            ),
           ),
         ),
       );
