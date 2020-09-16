@@ -21,427 +21,281 @@ class I18n implements WidgetsLocalizations {
     I18n._locale = newLocale;
   }
 
-  static const GeneratedLocalizationsDelegate delegate =
-      GeneratedLocalizationsDelegate();
+  static const GeneratedLocalizationsDelegate delegate = GeneratedLocalizationsDelegate();
 
   /// function to be invoked when changing the language
   static LocaleChangeCallback onLocaleChanged;
 
   static I18n of(BuildContext context) =>
-      Localizations.of<I18n>(context, WidgetsLocalizations);
+    Localizations.of<I18n>(context, WidgetsLocalizations);
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
   /// "Use the wallet to send money \n to friends without fees or friction"
-  String get intro_text_one =>
-      "Use the wallet to send money \n to friends without fees or friction";
-
+  String get intro_text_one => "Use the wallet to send money \n to friends without fees or friction";
   /// "Pay and get paid using crypto \n and see where you can shop nearby"
-  String get intro_text_two =>
-      "Pay and get paid using crypto \n and see where you can shop nearby";
-
+  String get intro_text_two => "Pay and get paid using crypto \n and see where you can shop nearby";
   /// "Hold Ethereum assets and access \n decentralized finance with a few taps"
-  String get intro_text_three =>
-      "Hold Ethereum assets and access \n decentralized finance with a few taps";
-
+  String get intro_text_three => "Hold Ethereum assets and access \n decentralized finance with a few taps";
   /// "Hello"
   String get hi => "Hello";
-
   /// "Language"
   String get language => "Language";
-
   /// "Logout"
   String get logout => "Logout";
-
   /// "Login"
   String get login => "Login";
-
   /// "Create a new wallet"
   String get create_new_wallet => "Create a new wallet";
-
   /// "Create wallet"
   String get create__wallet => "Create wallet";
-
   /// "Restore backup"
   String get restore_backup => "Restore backup";
-
   /// "Balance"
   String get balance => "Balance";
-
   /// "Important!"
   String get important => "Important!";
-
   /// "Phone number"
   String get phoneNumber => "Phone number";
-
   /// "Ok"
   String get ok => "Ok";
-
   /// "Contact us"
   String get contact_us => "Contact us";
-
   /// "Your fuse wallet is protected!"
   String get wallet_protected => "Your fuse wallet is protected!";
-
   /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
-  String get wallet_protected_text =>
-      "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
-
+  String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
   /// "write down the words in order and keep safe. You won’t be able to recover your account without it."
-  String get write_words =>
-      "write down the words in order and keep safe. You won’t be able to recover your account without it.";
-
+  String get write_words => "write down the words in order and keep safe. You won’t be able to recover your account without it.";
   /// "Please write down words \n"
   String get write_word => "Please write down words \n";
-
   /// "Word "
   String get word => "Word ";
-
   /// "The word does not match"
   String get word_not_match => "The word does not match";
-
   /// "Back up"
   String get back_up => "Back up";
-
   /// "Next"
   String get next_button => "Next";
-
   /// "Skip"
   String get skip_button => "Skip";
-
   /// "PAY"
   String get pay => "PAY";
-
   /// "No businesses found"
   String get no_businesses => "No businesses found";
-
   /// "Generating wallet"
   String get generating_wallet => "Generating wallet";
-
   /// "Generated wallet"
   String get generated_wallet => "Generated wallet";
-
   /// "PENDING"
   String get pending => "PENDING";
-
   /// "FAILED"
   String get failed => "FAILED";
-
   /// "CONFIRMED"
   String get confirmed => "CONFIRMED";
-
   /// "Transactions"
   String get transactions => "Transactions";
-
   /// "Transaction details"
   String get transaction_details => "Transaction details";
-
   /// "To"
   String get to => "To";
-
   /// "From"
   String get from => "From";
-
   /// "Address"
   String get address => "Address";
-
   /// "Amount"
   String get amount => "Amount";
-
   /// "You got a join bonus!"
   String get join_bonus => "You got a join bonus!";
-
   /// "Joining Community"
   String get joining_community => "Joining Community";
-
   /// "Joining"
   String get joining => "Joining";
-
   /// "Joined"
   String get joined => "Joined";
-
   /// "community"
   String get community => "community";
-
   /// "About"
   String get about => "About";
-
   /// "Version"
   String get version => "Version";
-
   /// "Legal"
   String get legal => "Legal";
-
   /// "Pincode"
   String get pincode => "Pincode";
-
   /// "Enter your Pincode:"
   String get enter_pincode => "Enter your Pincode:";
-
   /// "Re-type your passcode"
   String get re_type_passcode => "Re-type your passcode";
-
   /// "Create your passcode"
   String get create_passcode => "Create your passcode";
-
   /// "Switch community"
   String get switch_community => "Switch community";
-
   /// "Scan QR to switch"
   String get sqan_qr_code => "Scan QR to switch";
-
   /// "or"
   String get or => "or";
-
   /// "Enter Community Address"
   String get enter_community_address => "Enter Community Address";
-
   /// "Community Address"
   String get community_address => "Community Address";
-
   /// "Save"
   String get save_button => "Save";
-
   /// "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code"
-  String get fuse_studio =>
-      "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code";
-
+  String get fuse_studio => "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code";
   /// "Enable Contacts Access"
   String get enable_contacts_access => "Enable Contacts Access";
-
   /// "Your contacts will not be saved on our \n server and this action will not send  \n them any messages"
-  String get enable_text =>
-      "Your contacts will not be saved on our \n server and this action will not send  \n them any messages";
-
+  String get enable_text => "Your contacts will not be saved on our \n server and this action will not send  \n them any messages";
   /// "Don't worry:"
   String get dont_worry => "Don't worry:";
-
   /// "Enable contact sync to send\n money to your phone contacts"
-  String get enable_contacts_text =>
-      "Enable contact sync to send\n money to your phone contacts";
-
+  String get enable_contacts_text => "Enable contact sync to send\n money to your phone contacts";
   /// "Sync contacts"
   String get sync_contacts => "Sync contacts";
-
   /// "Receive"
   String get receive => "Receive";
-
   /// "Scan the QR code to receive money"
   String get scan_to_receive => "Scan the QR code to receive money";
-
   /// "Share"
   String get share_button => "Share";
-
   /// "Send to"
   String get send_to => "Send to";
-
   /// "How much?"
   String get how_much => "How much?";
-
   /// "Continue with"
   String get continue_with => "Continue with";
-
   /// "Sync your contact"
   String get sync_your_contacts => "Sync your contact";
-
   /// "Learn more"
   String get learn_more => "Learn more";
-
   /// "Activate"
   String get activate => "Activate";
-
   /// "Recent"
   String get recent => "Recent";
-
   /// "Name or Address"
   String get search => "Name or Address";
-
   /// "Review transfer"
   String get review_transfer => "Review transfer";
-
   /// "Send"
   String get send_button => "Send";
-
   /// "Success"
   String get success => "Success";
-
   /// "Restore from backup"
   String get restore_from_backup => "Restore from backup";
-
   /// "This is a 12 word phrase you were given when you created your previous wallet"
-  String get restore_words =>
-      "This is a 12 word phrase you were given when you created your previous wallet";
-
+  String get restore_words => "This is a 12 word phrase you were given when you created your previous wallet";
   /// "Write down your 12 words..."
   String get write_down_your_words => "Write down your 12 words...";
-
   /// "Sign up"
   String get sign_up => "Sign up";
-
   /// "Please enter your phone number so we can setup your account"
-  String get enter_phone_number =>
-      "Please enter your phone number so we can setup your account";
-
+  String get enter_phone_number => "Please enter your phone number so we can setup your account";
   /// "Why do we need this?"
   String get why_do_we_need_this => "Why do we need this?";
-
   /// "Pick your display name"
   String get pickup_display_name => "Pick your display name";
-
   /// "This name will be shown to contacts that send you money to identify your account"
-  String get pickup_display_name_text =>
-      "This name will be shown to contacts that send you money to identify your account";
-
+  String get pickup_display_name_text => "This name will be shown to contacts that send you money to identify your account";
   /// "Resend code"
   String get resend_code => "Resend code";
-
   /// "Didn't get the message? - "
   String get didnt_get_message => "Didn't get the message? - ";
-
   /// "We just sent a message to \n"
   String get we_just_sent => "We just sent a message to \n";
-
   /// "Please enter 6-digit code from\n that message here"
-  String get enter_verification_code =>
-      "Please enter 6-digit code from\n that message here";
-
+  String get enter_verification_code => "Please enter 6-digit code from\n that message here";
   /// "Protect your wallet"
   String get protect_wallet => "Protect your wallet";
-
   /// "Backup"
   String get backup_wallet => "Backup";
-
   /// "Top-up your account"
   String get top_up => "Top-up your account";
-
   /// "Buy"
   String get buy => "Buy";
-
   /// "Map"
   String get map => "Map";
-
   /// "Approved"
   String get approved => "Approved";
-
   /// "Network"
   String get network => "Network";
-
   /// "Simple"
   String get simple => "Simple";
-
   /// "Useful"
   String get useful => "Useful";
-
   /// "Smart"
   String get smart => "Smart";
-
   /// "Settings"
   String get settings => "Settings";
-
   /// "Home"
   String get home => "Home";
-
   /// "Trade"
   String get trade => "Trade";
-
   /// "Assets and contracts"
   String get assets_and_contracts => "Assets and contracts";
-
   /// "Sent to your Ethereum wallet"
   String get sending_to_ethereum => "Sent to your Ethereum wallet";
-
   /// "Sent to Ethereum"
   String get sent_to_ethereum => "Sent to Ethereum";
-
   /// "Received from Ethereum"
   String get received_from_ethereum => "Received from Ethereum";
-
   /// "No funds available"
   String get no_funds_available => "No funds available";
-
   /// "Review trade"
   String get review_trade => "Review trade";
-
   /// "Use max"
   String get use_max => "Use max";
-
   /// "Send to an address"
   String get send_to_address => "Send to an address";
-
   /// "Not enough balance in your account"
   String get not_enough_balance => "Not enough balance in your account";
-
   /// "Please choose how your prefer to protect your wallet by selecting the following methods"
-  String get choose_lock_method =>
-      "Please choose how your prefer to protect your wallet by selecting the following methods";
-
+  String get choose_lock_method => "Please choose how your prefer to protect your wallet by selecting the following methods";
   /// "Yes"
   String get yes => "Yes";
-
   /// "No"
   String get no => "No";
-
   /// "Fuse Volts"
   String get fuse_volts => "Fuse Volts";
-
   /// "Back up now"
   String get back_up_now => "Back up now";
-
   /// "Recommended"
   String get recommended => "Recommended";
-
   /// "Insufficient fund"
   String get insufficient_fund => "Insufficient fund";
-
   /// "Community webpage"
   String get community_webpage => "Community webpage";
-
   /// "Cancel"
   String get cancel => "Cancel";
-
   /// "Flash on"
   String get flash_on => "Flash on";
-
   /// "Flash off"
   String get flash_off => "Flash off";
-
   /// "Current community"
   String get current_community => "Current community";
-
   /// "My communities"
   String get my_communities => "My communities";
-
   /// "Selected"
   String get selected => "Selected";
-
   /// "Fee amount:"
   String get fee_amount => "Fee amount:";
-
   /// "Total amount:"
   String get total_amount => "Total amount:";
-
   /// "Pay with"
   String get pay_with => "Pay with";
-
   /// "Transaction failed"
   String get transaction_failed => "Transaction failed";
-
   /// "Something went wrong"
   String get something_went_wrong => "Something went wrong";
-
   /// "No activity"
   String get no_activity => "No activity";
-
   /// "Account"
   String get account => "Account";
-
   /// "Edit"
   String get edit => "Edit";
-
   /// "Private Key"
   String get private_key => "Private Key";
-
   /// "Name"
   String get name => "Name";
 }
@@ -458,518 +312,382 @@ class _I18n_he_IL extends I18n {
 
   /// "Pay and get paid using crypto\nwithout fees or friction"
   @override
-  String get intro_text_one =>
-      "Pay and get paid using crypto\nwithout fees or friction";
-
+  String get intro_text_one => "Pay and get paid using crypto\nwithout fees or friction";
   /// "Use the wallet to send\nmoney to friends"
   @override
   String get intro_text_two => "Use the wallet to send\nmoney to friends";
-
   /// "Hold Ethereum assets and\naccess decentralized finance"
   @override
-  String get intro_text_three =>
-      "Hold Ethereum assets and\naccess decentralized finance";
-
+  String get intro_text_three => "Hold Ethereum assets and\naccess decentralized finance";
   /// "שלום"
   @override
   String get hi => "שלום";
-
   /// "שפה"
   @override
   String get language => "שפה";
-
   /// "התנתק"
   @override
   String get logout => "התנתק";
-
   /// "הירשם"
   @override
   String get login => "הירשם";
-
   /// "צור ארנק חדש"
   @override
   String get create_new_wallet => "צור ארנק חדש";
-
   /// "צור ארנק"
   @override
   String get create__wallet => "צור ארנק";
-
   /// "שחזר ארנק"
   @override
   String get restore_backup => "שחזר ארנק";
-
   /// "מאזן"
   @override
   String get balance => "מאזן";
-
   /// "חשוב!"
   @override
   String get important => "חשוב!";
-
   /// "מספר נייד"
   @override
   String get phoneNumber => "מספר נייד";
-
   /// "אוקיי"
   @override
   String get ok => "אוקיי";
-
   /// "צור קשר"
   @override
   String get contact_us => "צור קשר";
-
   /// "הארנק מאובטח!"
   @override
   String get wallet_protected => "הארנק מאובטח!";
-
   /// "נהדר, גיבית את רצף האותיות הסודי שלך. זכור לשמור את הרצף האותיות שלך במקום בטוח ובטוח ולעולם לא ליידע אף אחד מה זה."
   @override
-  String get wallet_protected_text =>
-      "נהדר, גיבית את רצף האותיות הסודי שלך. זכור לשמור את הרצף האותיות שלך במקום בטוח ובטוח ולעולם לא ליידע אף אחד מה זה.";
-
+  String get wallet_protected_text => "נהדר, גיבית את רצף האותיות הסודי שלך. זכור לשמור את הרצף האותיות שלך במקום בטוח ובטוח ולעולם לא ליידע אף אחד מה זה.";
   /// "רשום 12 מילים אלו במקום בטוח לגיבוי"
   @override
   String get write_words => "רשום 12 מילים אלו במקום בטוח לגיבוי";
-
   /// "\n רשום את האותיות"
   @override
   String get write_word => "\n רשום את האותיות";
-
   /// "מילה"
   @override
   String get word => "מילה";
-
   /// "המילה לא תואמת"
   @override
   String get word_not_match => "המילה לא תואמת";
-
   /// "גבה"
   @override
   String get back_up => "גבה";
-
   /// "הבא"
   @override
   String get next_button => "הבא";
-
   /// "דלג"
   @override
   String get skip_button => "דלג";
-
   /// "שלם"
   @override
   String get pay => "שלם";
-
   /// "לא נמצאו עסקים"
   @override
   String get no_businesses => "לא נמצאו עסקים";
-
   /// "מייצר ארנק"
   @override
   String get generating_wallet => "מייצר ארנק";
-
   /// "ארנק נוצר"
   @override
   String get generated_wallet => "ארנק נוצר";
-
   /// "ממתין"
   @override
   String get pending => "ממתין";
-
   /// "נכשל"
   @override
   String get failed => "נכשל";
-
   /// "אושר"
   @override
   String get confirmed => "אושר";
-
   /// "עסקאות"
   @override
   String get transactions => "עסקאות";
-
   /// "פרטי עסקה"
   @override
   String get transaction_details => "פרטי עסקה";
-
   /// "נמען"
   @override
   String get to => "נמען";
-
   /// "מען"
   @override
   String get from => "מען";
-
   /// "כתובת"
   @override
   String get address => "כתובת";
-
   /// "סכום"
   @override
   String get amount => "סכום";
-
   /// "קיבלת בונוס על הצטרפותך!"
   @override
   String get join_bonus => "קיבלת בונוס על הצטרפותך!";
-
   /// "מצטרף לקהילה"
   @override
   String get joining_community => "מצטרף לקהילה";
-
   /// "מצטרף"
   @override
   String get joining => "מצטרף";
-
   /// "הצטרף"
   @override
   String get joined => "הצטרף";
-
   /// "קהילה"
   @override
   String get community => "קהילה";
-
   /// "אודות"
   @override
   String get about => "אודות";
-
   /// "גרסא"
   @override
   String get version => "גרסא";
-
   /// "Legal"
   @override
   String get legal => "Legal";
-
   /// "קוד סודי"
   @override
   String get pincode => "קוד סודי";
-
   /// "הזן את PIN קוד שלך:"
   @override
   String get enter_pincode => "הזן את PIN קוד שלך:";
-
   /// "הקלד מחדש את קוד הסיסמה שלך"
   @override
   String get re_type_passcode => "הקלד מחדש את קוד הסיסמה שלך";
-
   /// "צור את קוד הסיסמה שלך"
   @override
   String get create_passcode => "צור את קוד הסיסמה שלך";
-
   /// "החלף קהילה"
   @override
   String get switch_community => "החלף קהילה";
-
   /// "סרוק ברקוד"
   @override
   String get sqan_qr_code => "סרוק ברקוד";
-
   /// "או"
   @override
   String get or => "או";
-
   /// "הכנס כתובת קהילה"
   @override
   String get enter_community_address => "הכנס כתובת קהילה";
-
   /// "כתובת קהילה"
   @override
   String get community_address => "כתובת קהילה";
-
   /// "שמור"
   @override
   String get save_button => "שמור";
-
   /// "הנך יכול לעבור בין קהילות על-ידי הכנסת כתובת"
   @override
   String get fuse_studio => "הנך יכול לעבור בין קהילות על-ידי הכנסת כתובת";
-
   /// "גישה לאנשי קשר"
   @override
   String get enable_contacts_access => "גישה לאנשי קשר";
-
   /// "אנשי הקשר שלך לא ישמרו בשרתים שלנו \n ופעולה זו לא שולחת להם הודעות"
   @override
-  String get enable_text =>
-      "אנשי הקשר שלך לא ישמרו בשרתים שלנו \n ופעולה זו לא שולחת להם הודעות";
-
+  String get enable_text => "אנשי הקשר שלך לא ישמרו בשרתים שלנו \n ופעולה זו לא שולחת להם הודעות";
   /// "לא לחשוש:"
   @override
   String get dont_worry => "לא לחשוש:";
-
   /// "אנא אשר סנכרון אנשי קשר לגישה נוחה לאנשי הקשר שלך בעת ​​שליחת כסף."
   @override
-  String get enable_contacts_text =>
-      "אנא אשר סנכרון אנשי קשר לגישה נוחה לאנשי הקשר שלך בעת ​​שליחת כסף.";
-
+  String get enable_contacts_text => "אנא אשר סנכרון אנשי קשר לגישה נוחה לאנשי הקשר שלך בעת ​​שליחת כסף.";
   /// "סנכרן אנשי קשר"
   @override
   String get sync_contacts => "סנכרן אנשי קשר";
-
   /// "קבל"
   @override
   String get receive => "קבל";
-
   /// "סרוק הברקוד לקבלת כסף מחבריך"
   @override
   String get scan_to_receive => "סרוק הברקוד לקבלת כסף מחבריך";
-
   /// "שתף"
   @override
   String get share_button => "שתף";
-
   /// "של אל"
   @override
   String get send_to => "של אל";
-
   /// "כמה תרצה לשלוח?"
   @override
   String get how_much => "כמה תרצה לשלוח?";
-
   /// "המשך עם"
   @override
   String get continue_with => "המשך עם";
-
   /// "סנכרן את אנשי הקשר שלך"
   @override
   String get sync_your_contacts => "סנכרן את אנשי הקשר שלך";
-
   /// "עוד"
   @override
   String get learn_more => "עוד";
-
   /// "הפעל"
   @override
   String get activate => "הפעל";
-
   /// "אחרונים"
   @override
   String get recent => "אחרונים";
-
   /// "חפש"
   @override
   String get search => "חפש";
-
   /// "קבלה"
   @override
   String get review_transfer => "קבלה";
-
   /// "שלח"
   @override
   String get send_button => "שלח";
-
   /// "הצלחה"
   @override
   String get success => "הצלחה";
-
   /// "שחזר מגיבוי"
   @override
   String get restore_from_backup => "שחזר מגיבוי";
-
   /// "זהו ביטוי בן 12 מילים שניתנה לך כשיצרת את הארנק הקודם שלך"
   @override
-  String get restore_words =>
-      "זהו ביטוי בן 12 מילים שניתנה לך כשיצרת את הארנק הקודם שלך";
-
+  String get restore_words => "זהו ביטוי בן 12 מילים שניתנה לך כשיצרת את הארנק הקודם שלך";
   /// "רשמו את 12 המילים שלכם..."
   @override
   String get write_down_your_words => "רשמו את 12 המילים שלכם...";
-
   /// "הרשמה"
   @override
   String get sign_up => "הרשמה";
-
   /// "הכנס את המספר נייד שלך כדי שנוכל להגדיר את חשבונך"
   @override
-  String get enter_phone_number =>
-      "הכנס את המספר נייד שלך כדי שנוכל להגדיר את חשבונך";
-
+  String get enter_phone_number => "הכנס את המספר נייד שלך כדי שנוכל להגדיר את חשבונך";
   /// "למה אנחנו צריכים את זה?"
   @override
   String get why_do_we_need_this => "למה אנחנו צריכים את זה?";
-
   /// "בחר את הכינוי שלך"
   @override
   String get pickup_display_name => "בחר את הכינוי שלך";
-
   /// "שם זה יוצג לאנשי קשר ששולחים לך כסף לזיהוי חשבונך"
   @override
-  String get pickup_display_name_text =>
-      "שם זה יוצג לאנשי קשר ששולחים לך כסף לזיהוי חשבונך";
-
+  String get pickup_display_name_text => "שם זה יוצג לאנשי קשר ששולחים לך כסף לזיהוי חשבונך";
   /// "שלב שוב"
   @override
   String get resend_code => "שלב שוב";
-
   /// "לא קיבלת הודעה? - "
   @override
   String get didnt_get_message => "לא קיבלת הודעה? - ";
-
   /// "הרגע שלנו לך הודעה \n"
   @override
   String get we_just_sent => "הרגע שלנו לך הודעה \n";
-
   /// "אנא הכנס את הקוד בין ה-6 ספרות שנשלח אלייך"
   @override
-  String get enter_verification_code =>
-      "אנא הכנס את הקוד בין ה-6 ספרות שנשלח אלייך";
-
+  String get enter_verification_code => "אנא הכנס את הקוד בין ה-6 ספרות שנשלח אלייך";
   /// "הגן על חשבונך"
   @override
   String get protect_wallet => "הגן על חשבונך";
-
   /// "גבה את חשבונך"
   @override
   String get backup_wallet => "גבה את חשבונך";
-
   /// "Top up"
   @override
   String get top_up => "Top up";
-
   /// "רכוש"
   @override
   String get buy => "רכוש";
-
   /// "Map"
   @override
   String get map => "Map";
-
   /// "אושר"
   @override
   String get approved => "אושר";
-
   /// "רשת"
   @override
   String get network => "רשת";
-
   /// "פשוט"
   @override
   String get simple => "פשוט";
-
   /// "שימושי"
   @override
   String get useful => "שימושי";
-
   /// "חכם"
   @override
   String get smart => "חכם";
-
   /// "הגדרות"
   @override
   String get settings => "הגדרות";
-
   /// "בית"
   @override
   String get home => "בית";
-
   /// "מסחר"
   @override
   String get trade => "מסחר";
-
   /// "נכסים"
   @override
   String get assets_and_contracts => "נכסים";
-
   /// "שלח לכתובת איתריום שלך"
   @override
   String get sending_to_ethereum => "שלח לכתובת איתריום שלך";
-
   /// "שלח לאיתריום"
   @override
   String get sent_to_ethereum => "שלח לאיתריום";
-
   /// "התקבל מתאתריום"
   @override
   String get received_from_ethereum => "התקבל מתאתריום";
-
   /// "אין יתרה מספקת"
   @override
   String get no_funds_available => "אין יתרה מספקת";
-
   /// "Review trade"
   @override
   String get review_trade => "Review trade";
-
   /// "Use max"
   @override
   String get use_max => "Use max";
-
   /// "שלח לכתובת"
   @override
   String get send_to_address => "שלח לכתובת";
-
   /// "אין מספיק יתרה בחשבונך"
   @override
   String get not_enough_balance => "אין מספיק יתרה בחשבונך";
-
   /// "בחר את צורת ההגנה על הארנק שלך על ידי בחירה מבין האפשרויות הבאות"
   @override
-  String get choose_lock_method =>
-      "בחר את צורת ההגנה על הארנק שלך על ידי בחירה מבין האפשרויות הבאות";
-
+  String get choose_lock_method => "בחר את צורת ההגנה על הארנק שלך על ידי בחירה מבין האפשרויות הבאות";
   /// "כן"
   @override
   String get yes => "כן";
-
   /// "לא"
   @override
   String get no => "לא";
-
   /// "Fuse Volts"
   @override
   String get fuse_volts => "Fuse Volts";
-
   /// "בצע גיבוי"
   @override
   String get back_up_now => "בצע גיבוי";
-
   /// "מומלץ"
   @override
   String get recommended => "מומלץ";
-
   /// "Insufficient fund"
   @override
   String get insufficient_fund => "Insufficient fund";
-
   /// "עמוד הקהילה"
   @override
   String get community_webpage => "עמוד הקהילה";
-
   /// "בטל"
   @override
   String get cancel => "בטל";
-
   /// "הדלק פנס"
   @override
   String get flash_on => "הדלק פנס";
-
   /// "כבה פנס"
   @override
   String get flash_off => "כבה פנס";
-
   /// "קהילה נוכחית"
   @override
   String get current_community => "קהילה נוכחית";
-
   /// "הקהילות שלי"
   @override
   String get my_communities => "הקהילות שלי";
-
   /// "נבחר"
   @override
   String get selected => "נבחר";
-
   /// "סכום תשלום:"
   @override
   String get fee_amount => "סכום תשלום:";
-
   /// "סכום סופי:"
   @override
   String get total_amount => "סכום סופי:";
-
   /// "לשלם עם"
   @override
   String get pay_with => "לשלם עם";
-
   /// "חֶשְׁבּוֹן"
   @override
   String get account => "חֶשְׁבּוֹן";
@@ -983,420 +701,307 @@ class _I18n_es_ES extends I18n {
 
   /// "Compra y recibe pagos en criptomonedas sin comisiones"
   @override
-  String get intro_text_one =>
-      "Compra y recibe pagos en criptomonedas sin comisiones";
-
+  String get intro_text_one => "Compra y recibe pagos en criptomonedas sin comisiones";
   /// "Usa el monedero para enviar dinero a tus amigos"
   @override
-  String get intro_text_two =>
-      "Usa el monedero para enviar dinero a tus amigos";
-
+  String get intro_text_two => "Usa el monedero para enviar dinero a tus amigos";
   /// "Almacena tokens de Ethereum y accede a las finanzas descentralizadas"
   @override
-  String get intro_text_three =>
-      "Almacena tokens de Ethereum y accede a las finanzas descentralizadas";
-
+  String get intro_text_three => "Almacena tokens de Ethereum y accede a las finanzas descentralizadas";
   /// "Hola"
   @override
   String get hi => "Hola";
-
   /// "Idioma"
   @override
   String get language => "Idioma";
-
   /// "Cerrar Sesión"
   @override
   String get logout => "Cerrar Sesión";
-
   /// "Iniciar Sesión"
   @override
   String get login => "Iniciar Sesión";
-
   /// "Crear una nueva cuenta"
   @override
   String get create_new_wallet => "Crear una nueva cuenta";
-
   /// "Crear un monedero"
   @override
   String get create__wallet => "Crear un monedero";
-
   /// "Restauras copia de seguridad"
   @override
   String get restore_backup => "Restauras copia de seguridad";
-
   /// "Mi cuenta"
   @override
   String get balance => "Mi cuenta";
-
   /// "Important!"
   @override
   String get important => "Important!";
-
   /// "Número de teléfono"
   @override
   String get phoneNumber => "Número de teléfono";
-
   /// "Ok"
   @override
   String get ok => "Ok";
-
   /// "Contact us"
   @override
   String get contact_us => "Contact us";
-
   /// "Your fuse wallet is protected!"
   @override
   String get wallet_protected => "Your fuse wallet is protected!";
-
   /// "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   @override
-  String get wallet_protected_text =>
-      "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
-
+  String get wallet_protected_text => "Great, you've backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
   /// "Las siguientes 12 palabras te darán acceso a recuperar tu cuenta."
   @override
-  String get write_words =>
-      "Las siguientes 12 palabras te darán acceso a recuperar tu cuenta.";
-
+  String get write_words => "Las siguientes 12 palabras te darán acceso a recuperar tu cuenta.";
   /// "Por favor escribe estas palabras"
   @override
   String get write_word => "Por favor escribe estas palabras";
-
   /// "Palabra"
   @override
   String get word => "Palabra";
-
   /// "La palabara no coincide"
   @override
   String get word_not_match => "La palabara no coincide";
-
   /// "Respaldo"
   @override
   String get back_up => "Respaldo";
-
   /// "Siguiente"
   @override
   String get next_button => "Siguiente";
-
   /// "Saltar"
   @override
   String get skip_button => "Saltar";
-
   /// "Pagar"
   @override
   String get pay => "Pagar";
-
   /// "No se encontraron negocios"
   @override
   String get no_businesses => "No se encontraron negocios";
-
   /// "Creando tu cuenta"
   @override
   String get generating_wallet => "Creando tu cuenta";
-
   /// "Cuenta creada"
   @override
   String get generated_wallet => "Cuenta creada";
-
   /// "PENDIENTE"
   @override
   String get pending => "PENDIENTE";
-
   /// "FAILED"
   @override
   String get failed => "FAILED";
-
   /// "CONFIRMADO"
   @override
   String get confirmed => "CONFIRMADO";
-
   /// "Transacciones"
   @override
   String get transactions => "Transacciones";
-
   /// "Detalles de la transacción"
   @override
   String get transaction_details => "Detalles de la transacción";
-
   /// "A"
   @override
   String get to => "A";
-
   /// "From"
   @override
   String get from => "From";
-
   /// "Dirección"
   @override
   String get address => "Dirección";
-
   /// "Cantidad"
   @override
   String get amount => "Cantidad";
-
   /// "Tienes un regalo por unirte!"
   @override
   String get join_bonus => "Tienes un regalo por unirte!";
-
   /// "Unirse a la Comunidad"
   @override
   String get joining_community => "Unirse a la Comunidad";
-
   /// "Unirse"
   @override
   String get joining => "Unirse";
-
   /// "Unido"
   @override
   String get joined => "Unido";
-
   /// "comunidad"
   @override
   String get community => "comunidad";
-
   /// "Acerca de"
   @override
   String get about => "Acerca de";
-
   /// "Versión"
   @override
   String get version => "Versión";
-
   /// "Legal"
   @override
   String get legal => "Legal";
-
   /// "Código numérico"
   @override
   String get pincode => "Código numérico";
-
   /// "Re-escribe tu contraseña"
   @override
   String get re_type_passcode => "Re-escribe tu contraseña";
-
   /// "Crea una contraseña"
   @override
   String get create_passcode => "Crea una contraseña";
-
   /// "Cambiar de comunidad"
   @override
   String get switch_community => "Cambiar de comunidad";
-
   /// "Escanea el código QR"
   @override
   String get sqan_qr_code => "Escanea el código QR";
-
   /// "o"
   @override
   String get or => "o";
-
   /// "Ingresa la dirección de la comunidad"
   @override
   String get enter_community_address => "Ingresa la dirección de la comunidad";
-
   /// "Dirección de la comunidad"
   @override
   String get community_address => "Dirección de la comunidad";
-
   /// "Guardar"
   @override
   String get save_button => "Guardar";
-
   /// "Pudes cambiar de comunidad ingresando el ID del token (disponible en la página) o escanear el código QR"
   @override
-  String get fuse_studio =>
-      "Pudes cambiar de comunidad ingresando el ID del token (disponible en la página) o escanear el código QR";
-
+  String get fuse_studio => "Pudes cambiar de comunidad ingresando el ID del token (disponible en la página) o escanear el código QR";
   /// "Permite el acceso a tu contactos"
   @override
   String get enable_contacts_access => "Permite el acceso a tu contactos";
-
   /// "Tus contactos no serán guardados en nuestro servidor"
   @override
-  String get enable_text =>
-      "Tus contactos no serán guardados en nuestro servidor";
-
+  String get enable_text => "Tus contactos no serán guardados en nuestro servidor";
   /// "No te preocupes:"
   @override
   String get dont_worry => "No te preocupes:";
-
   /// "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos"
   @override
-  String get enable_contacts_text =>
-      "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos";
-
+  String get enable_contacts_text => "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos";
   /// "Sync contcats"
   @override
   String get sync_contacts => "Sync contcats";
-
   /// "Recibir"
   @override
   String get receive => "Recibir";
-
   /// "Escanea el código QR para recibir"
   @override
   String get scan_to_receive => "Escanea el código QR para recibir";
-
   /// "Compartir"
   @override
   String get share_button => "Compartir";
-
   /// "Enviar a"
   @override
   String get send_to => "Enviar a";
-
   /// "¿Cuánto?"
   @override
   String get how_much => "¿Cuánto?";
-
   /// "Continua con"
   @override
   String get continue_with => "Continua con";
-
   /// "Sync your contact"
   @override
   String get sync_your_contacts => "Sync your contact";
-
   /// "Learn more"
   @override
   String get learn_more => "Learn more";
-
   /// "Activate"
   @override
   String get activate => "Activate";
-
   /// "Reciente"
   @override
   String get recent => "Reciente";
-
   /// "Buscar"
   @override
   String get search => "Buscar";
-
   /// "Verifica tu transacción"
   @override
   String get review_transfer => "Verifica tu transacción";
-
   /// "Enviar"
   @override
   String get send_button => "Enviar";
-
   /// "Éxito"
   @override
   String get success => "Éxito";
-
   /// "Recuperar tu cuenta"
   @override
   String get restore_from_backup => "Recuperar tu cuenta";
-
   /// "Estas son las 12 palabras que te fueron entregadas para recuperar tu monedero"
   @override
-  String get restore_words =>
-      "Estas son las 12 palabras que te fueron entregadas para recuperar tu monedero";
-
+  String get restore_words => "Estas son las 12 palabras que te fueron entregadas para recuperar tu monedero";
   /// "Escriba en un lugar seguro estas 12 palabras"
   @override
-  String get write_down_your_words =>
-      "Escriba en un lugar seguro estas 12 palabras";
-
+  String get write_down_your_words => "Escriba en un lugar seguro estas 12 palabras";
   /// "Ingresar"
   @override
   String get sign_up => "Ingresar";
-
   /// "Por favor escribe tu número telefónico para que podamos crear tu cuenta"
   @override
-  String get enter_phone_number =>
-      "Por favor escribe tu número telefónico para que podamos crear tu cuenta";
-
+  String get enter_phone_number => "Por favor escribe tu número telefónico para que podamos crear tu cuenta";
   /// "¿Por qué necesitamos esto?"
   @override
   String get why_do_we_need_this => "¿Por qué necesitamos esto?";
-
   /// "Escribe el nombre que deseas usar"
   @override
   String get pickup_display_name => "Escribe el nombre que deseas usar";
-
   /// "Este nombre será mostrado a los contactos que decidan enviarte dinero para identificar tu monedero"
   @override
-  String get pickup_display_name_text =>
-      "Este nombre será mostrado a los contactos que decidan enviarte dinero para identificar tu monedero";
-
+  String get pickup_display_name_text => "Este nombre será mostrado a los contactos que decidan enviarte dinero para identificar tu monedero";
   /// "Re-enviar el código"
   @override
   String get resend_code => "Re-enviar el código";
-
   /// "¿No recibiste el mensaje?"
   @override
   String get didnt_get_message => "¿No recibiste el mensaje?";
-
   /// "Listo, Enviamos un mensaje a"
   @override
   String get we_just_sent => "Listo, Enviamos un mensaje a";
-
   /// "Ingresa un código de 6 digitos"
   @override
   String get enter_verification_code => "Ingresa un código de 6 digitos";
-
   /// "Protege tu monedero"
   @override
   String get protect_wallet => "Protege tu monedero";
-
   /// "Respalda tu monedero"
   @override
   String get backup_wallet => "Respalda tu monedero";
-
   /// "Cargar dinero"
   @override
   String get top_up => "Cargar dinero";
-
   /// "Comprar"
   @override
   String get buy => "Comprar";
-
   /// "Mapa"
   @override
   String get map => "Mapa";
-
   /// "APROBADO"
   @override
   String get approved => "APROBADO";
-
   /// "Sencillo"
   @override
   String get simple => "Sencillo";
-
   /// "Útil"
   @override
   String get useful => "Útil";
-
   /// "Inteligente"
   @override
   String get smart => "Inteligente";
-
   /// "Configuraciones"
   @override
   String get settings => "Configuraciones";
-
   /// "Inicio"
   @override
   String get home => "Inicio";
-
   /// "Comercio"
   @override
   String get trade => "Comercio";
-
   /// "Activos y contratos"
   @override
   String get assets_and_contracts => "Activos y contratos";
-
   /// "Sent to your Ethereum wallet"
   @override
   String get sending_to_ethereum => "Sent to your Ethereum wallet";
-
   /// "Sent to Ethereum"
   @override
   String get sent_to_ethereum => "Sent to Ethereum";
-
   /// "Received from Ethereum"
   @override
   String get received_from_ethereum => "Received from Ethereum";
@@ -1410,309 +1015,226 @@ class _I18n_br_BR extends I18n {
 
   /// "Pague e receba pagamentos usando crypto facilmente e sem taxas"
   @override
-  String get intro_text_one =>
-      "Pague e receba pagamentos usando crypto facilmente e sem taxas";
-
+  String get intro_text_one => "Pague e receba pagamentos usando crypto facilmente e sem taxas";
   /// "Use a carteira para enviar dinheiro para os amigos"
   @override
-  String get intro_text_two =>
-      "Use a carteira para enviar dinheiro para os amigos";
-
+  String get intro_text_two => "Use a carteira para enviar dinheiro para os amigos";
   /// "Mantenha ativos Ethereum e acesse"
   @override
   String get intro_text_three => "Mantenha ativos Ethereum e acesse";
-
   /// "ola"
   @override
   String get hi => "ola";
-
   /// "Lingua"
   @override
   String get language => "Lingua";
-
   /// "Desconectar"
   @override
   String get logout => "Desconectar";
-
   /// "Acessar"
   @override
   String get login => "Acessar";
-
   /// "Criar uma nova carteira"
   @override
   String get create_new_wallet => "Criar uma nova carteira";
-
   /// "Criar carteira"
   @override
   String get create__wallet => "Criar carteira";
-
   /// "Recuperar cópia de segurança"
   @override
   String get restore_backup => "Recuperar cópia de segurança";
-
   /// "Saldo"
   @override
   String get balance => "Saldo";
-
   /// "Por favor anote estas 12 palavras"
   @override
   String get write_words => "Por favor anote estas 12 palavras";
-
   /// "Por favor anote as palavras"
   @override
   String get write_word => "Por favor anote as palavras";
-
   /// "Palavra"
   @override
   String get word => "Palavra";
-
   /// "A palavra não corresponde"
   @override
   String get word_not_match => "A palavra não corresponde";
-
   /// "Criar cópia de segurança"
   @override
   String get back_up => "Criar cópia de segurança";
-
   /// "próximo"
   @override
   String get next_button => "próximo";
-
   /// "pular"
   @override
   String get skip_button => "pular";
-
   /// "pagar"
   @override
   String get pay => "pagar";
-
   /// "Nenhuma empresa encontrada"
   @override
   String get no_businesses => "Nenhuma empresa encontrada";
-
   /// "Gerando carteira"
   @override
   String get generating_wallet => "Gerando carteira";
-
   /// "Carteira gerada"
   @override
   String get generated_wallet => "Carteira gerada";
-
   /// "pendente"
   @override
   String get pending => "pendente";
-
   /// "confirmado"
   @override
   String get confirmed => "confirmado";
-
   /// "transações"
   @override
   String get transactions => "transações";
-
   /// "Detalhes das transações"
   @override
   String get transaction_details => "Detalhes das transações";
-
   /// "para"
   @override
   String get to => "para";
-
   /// "endereço"
   @override
   String get address => "endereço";
-
   /// "quantidade"
   @override
   String get amount => "quantidade";
-
   /// "Você recebeu um bônus por ter aderido"
   @override
   String get join_bonus => "Você recebeu um bônus por ter aderido";
-
   /// "Participar da comunidade"
   @override
   String get joining_community => "Participar da comunidade";
-
   /// "sobre"
   @override
   String get about => "sobre";
-
   /// "versão"
   @override
   String get version => "versão";
-
   /// "legal"
   @override
   String get legal => "legal";
-
   /// "código PIN"
   @override
   String get pincode => "código PIN";
-
   /// "redigite sua senha"
   @override
   String get re_type_passcode => "redigite sua senha";
-
   /// "crie sua senha"
   @override
   String get create_passcode => "crie sua senha";
-
   /// "trocar de comunidade"
   @override
   String get switch_community => "trocar de comunidade";
-
   /// "digitalizar codigo qr"
   @override
   String get sqan_qr_code => "digitalizar codigo qr";
-
   /// "ou"
   @override
   String get or => "ou";
-
   /// "insira o endereço da comunidade"
   @override
   String get enter_community_address => "insira o endereço da comunidade";
-
   /// "endereço da comunidade"
   @override
   String get community_address => "endereço da comunidade";
-
   /// "Salvar"
   @override
   String get save_button => "Salvar";
-
   /// "Você pode mudar para uma nova comunidade digitando seu Asset ID (disponível no Fuse Studio) ou digitalizando um código QR"
   @override
-  String get fuse_studio =>
-      "Você pode mudar para uma nova comunidade digitando seu Asset ID (disponível no Fuse Studio) ou digitalizando um código QR";
-
+  String get fuse_studio => "Você pode mudar para uma nova comunidade digitando seu Asset ID (disponível no Fuse Studio) ou digitalizando um código QR";
   /// "ativar acesso aos contatos"
   @override
   String get enable_contacts_access => "ativar acesso aos contatos";
-
   /// "Seus contatos não serão salvos em nosso\n  servidor e esta ação não enviará\n  eles quaisquer mensagens"
   @override
-  String get enable_text =>
-      "Seus contatos não serão salvos em nosso\n  servidor e esta ação não enviará\n  eles quaisquer mensagens";
-
+  String get enable_text => "Seus contatos não serão salvos em nosso\n  servidor e esta ação não enviará\n  eles quaisquer mensagens";
   /// "Não se preocupe"
   @override
   String get dont_worry => "Não se preocupe";
-
   /// "Ative a sincronização de contatos para acessar facilmente os contatos do telefone ao enviar dinheiro."
   @override
-  String get enable_contacts_text =>
-      "Ative a sincronização de contatos para acessar facilmente os contatos do telefone ao enviar dinheiro.";
-
+  String get enable_contacts_text => "Ative a sincronização de contatos para acessar facilmente os contatos do telefone ao enviar dinheiro.";
   /// "receber"
   @override
   String get receive => "receber";
-
   /// "Digitalize o código QR para receber dinheiro"
   @override
   String get scan_to_receive => "Digitalize o código QR para receber dinheiro";
-
   /// "compartilhar"
   @override
   String get share_button => "compartilhar";
-
   /// "enviar para"
   @override
   String get send_to => "enviar para";
-
   /// "quanto ?"
   @override
   String get how_much => "quanto ?";
-
   /// "continue com"
   @override
   String get continue_with => "continue com";
-
   /// "recente"
   @override
   String get recent => "recente";
-
   /// "busca"
   @override
   String get search => "busca";
-
   /// "Revisar transferência"
   @override
   String get review_transfer => "Revisar transferência";
-
   /// "enviar"
   @override
   String get send_button => "enviar";
-
   /// "sucesso"
   @override
   String get success => "sucesso";
-
   /// "restaurar da cópia de segurança"
   @override
   String get restore_from_backup => "restaurar da cópia de segurança";
-
   /// "Esta é uma frase de 12 palavras que você recebeu quando criou sua carteira anterior"
   @override
-  String get restore_words =>
-      "Esta é uma frase de 12 palavras que você recebeu quando criou sua carteira anterior";
-
+  String get restore_words => "Esta é uma frase de 12 palavras que você recebeu quando criou sua carteira anterior";
   /// "Anote suas 12 palavras ..."
   @override
   String get write_down_your_words => "Anote suas 12 palavras ...";
-
   /// "inscrever-se"
   @override
   String get sign_up => "inscrever-se";
-
   /// "Digite seu número de telefone para que possamos configurar sua conta"
   @override
-  String get enter_phone_number =>
-      "Digite seu número de telefone para que possamos configurar sua conta";
-
+  String get enter_phone_number => "Digite seu número de telefone para que possamos configurar sua conta";
   /// "Por que nós precisamos disso?"
   @override
   String get why_do_we_need_this => "Por que nós precisamos disso?";
-
   /// "Escolha o nome que sera exibido"
   @override
   String get pickup_display_name => "Escolha o nome que sera exibido";
-
   /// "Este nome será mostrado para os contatos que enviarem dinheiro para identificar sua conta"
   @override
-  String get pickup_display_name_text =>
-      "Este nome será mostrado para os contatos que enviarem dinheiro para identificar sua conta";
-
+  String get pickup_display_name_text => "Este nome será mostrado para os contatos que enviarem dinheiro para identificar sua conta";
   /// "reenviar código"
   @override
   String get resend_code => "reenviar código";
-
   /// "Não recebeu a mensagem? -"
   @override
   String get didnt_get_message => "Não recebeu a mensagem? -";
-
   /// "Acabamos de enviar uma mensagem para"
   @override
   String get we_just_sent => "Acabamos de enviar uma mensagem para";
-
   /// "Digite o código de 6 dígitos daquela mensagem aqui"
   @override
-  String get enter_verification_code =>
-      "Digite o código de 6 dígitos daquela mensagem aqui";
-
+  String get enter_verification_code => "Digite o código de 6 dígitos daquela mensagem aqui";
   /// "proteja sua carteira"
   @override
   String get protect_wallet => "proteja sua carteira";
-
   /// "criar copia de seguranca da carteira"
   @override
   String get backup_wallet => "criar copia de seguranca da carteira";
-
   /// "completar"
   @override
   String get top_up => "completar";
-
   /// "comprar"
   @override
   String get buy => "comprar";
@@ -1726,392 +1248,286 @@ class _I18n_it_IT extends I18n {
 
   /// "Utilizza il portafoglio per inviare denaro \n agli amici senza commissioni o attriti"
   @override
-  String get intro_text_one =>
-      "Utilizza il portafoglio per inviare denaro \n agli amici senza commissioni o attriti";
-
+  String get intro_text_one => "Utilizza il portafoglio per inviare denaro \n agli amici senza commissioni o attriti";
   /// "Paga e ricevi pagamenti utilizzando crypto \n e vedi dove puoi fare acquisti nelle vicinanze"
   @override
-  String get intro_text_two =>
-      "Paga e ricevi pagamenti utilizzando crypto \n e vedi dove puoi fare acquisti nelle vicinanze";
-
+  String get intro_text_two => "Paga e ricevi pagamenti utilizzando crypto \n e vedi dove puoi fare acquisti nelle vicinanze";
   /// "Tieni le risorse di Ethereum e accedi a \n finanziamenti decentralizzati con pochi tocchi"
   @override
-  String get intro_text_three =>
-      "Tieni le risorse di Ethereum e accedi a \n finanziamenti decentralizzati con pochi tocchi";
-
+  String get intro_text_three => "Tieni le risorse di Ethereum e accedi a \n finanziamenti decentralizzati con pochi tocchi";
   /// "Ciao"
   @override
   String get hi => "Ciao";
-
   /// "linguaggio"
   @override
   String get language => "linguaggio";
-
   /// "Disconnettersi"
   @override
   String get logout => "Disconnettersi";
-
   /// "Accesso"
   @override
   String get login => "Accesso";
-
   /// "Crea un nuovo portafoglio"
   @override
   String get create_new_wallet => "Crea un nuovo portafoglio";
-
   /// "Crea portafoglio"
   @override
   String get create__wallet => "Crea portafoglio";
-
   /// "Ripristinare il backup"
   @override
   String get restore_backup => "Ripristinare il backup";
-
   /// "Equilibrio"
   @override
   String get balance => "Equilibrio";
-
   /// "Importante!"
   @override
   String get important => "Importante!";
-
   /// "Ok"
   @override
   String get ok => "Ok";
-
   /// "Contattaci"
   @override
   String get contact_us => "Contattaci";
-
   /// "Il tuo portafoglio con fusibili è protetto!"
   @override
   String get wallet_protected => "Il tuo portafoglio con fusibili è protetto!";
-
   /// "Fantastico, hai eseguito il backup della tua frase segreta. Ricorda di conservare la tua frase segreta in un luogo sicuro e non far mai sapere a nessuno di cosa si tratta."
   @override
-  String get wallet_protected_text =>
-      "Fantastico, hai eseguito il backup della tua frase segreta. Ricorda di conservare la tua frase segreta in un luogo sicuro e non far mai sapere a nessuno di cosa si tratta.";
-
+  String get wallet_protected_text => "Fantastico, hai eseguito il backup della tua frase segreta. Ricorda di conservare la tua frase segreta in un luogo sicuro e non far mai sapere a nessuno di cosa si tratta.";
   /// "annotare le parole in ordine e tenere al sicuro. Non sarai in grado di recuperare il tuo account senza di esso."
   @override
-  String get write_words =>
-      "annotare le parole in ordine e tenere al sicuro. Non sarai in grado di recuperare il tuo account senza di esso.";
-
+  String get write_words => "annotare le parole in ordine e tenere al sicuro. Non sarai in grado di recuperare il tuo account senza di esso.";
   /// "Per favore, scrivi le parole \n"
   @override
   String get write_word => "Per favore, scrivi le parole \n";
-
   /// "parola "
   @override
   String get word => "parola ";
-
   /// "La parola non corrisponde"
   @override
   String get word_not_match => "La parola non corrisponde";
-
   /// "Eseguire il backup"
   @override
   String get back_up => "Eseguire il backup";
-
   /// "Il prossimo"
   @override
   String get next_button => "Il prossimo";
-
   /// "Salta"
   @override
   String get skip_button => "Salta";
-
   /// "PAGARE"
   @override
   String get pay => "PAGARE";
-
   /// "Nessuna attività trovata"
   @override
   String get no_businesses => "Nessuna attività trovata";
-
   /// "Portafoglio di generazione"
   @override
   String get generating_wallet => "Portafoglio di generazione";
-
   /// "Portafoglio generato"
   @override
   String get generated_wallet => "Portafoglio generato";
-
   /// "IN ATTESA DI"
   @override
   String get pending => "IN ATTESA DI";
-
   /// "FALLITO"
   @override
   String get failed => "FALLITO";
-
   /// "CONFERMATO"
   @override
   String get confirmed => "CONFERMATO";
-
   /// "Le transazioni"
   @override
   String get transactions => "Le transazioni";
-
   /// "Dettagli di Transazione"
   @override
   String get transaction_details => "Dettagli di Transazione";
-
   /// "Per"
   @override
   String get to => "Per";
-
   /// "A partire dal"
   @override
   String get from => "A partire dal";
-
   /// "Indirizzo"
   @override
   String get address => "Indirizzo";
-
   /// "Quantità"
   @override
   String get amount => "Quantità";
-
   /// "Hai un bonus di iscrizione!"
   @override
   String get join_bonus => "Hai un bonus di iscrizione!";
-
   /// "Unirsi alla comunità"
   @override
   String get joining_community => "Unirsi alla comunità";
-
   /// "Di"
   @override
   String get about => "Di";
-
   /// "Versione"
   @override
   String get version => "Versione";
-
   /// "legale"
   @override
   String get legal => "legale";
-
   /// "Codice PIN"
   @override
   String get pincode => "Codice PIN";
-
   /// "Digita nuovamente il passcode"
   @override
   String get re_type_passcode => "Digita nuovamente il passcode";
-
   /// "Crea il tuo passcode"
   @override
   String get create_passcode => "Crea il tuo passcode";
-
   /// "Cambia comunità"
   @override
   String get switch_community => "Cambia comunità";
-
   /// "Scansiona QR per passare"
   @override
   String get sqan_qr_code => "Scansiona QR per passare";
-
   /// "o"
   @override
   String get or => "o";
-
   /// "Inserisci l'indirizzo della comunità"
   @override
   String get enter_community_address => "Inserisci l'indirizzo della comunità";
-
   /// "Indirizzo della comunità"
   @override
   String get community_address => "Indirizzo della comunità";
-
   /// "Salva"
   @override
   String get save_button => "Salva";
-
   /// "Puoi passare a una nuova comunità inserendo il tuo ID risorsa (disponibile da Fuse Studio) o scansionando un codice QR"
   @override
-  String get fuse_studio =>
-      "Puoi passare a una nuova comunità inserendo il tuo ID risorsa (disponibile da Fuse Studio) o scansionando un codice QR";
-
+  String get fuse_studio => "Puoi passare a una nuova comunità inserendo il tuo ID risorsa (disponibile da Fuse Studio) o scansionando un codice QR";
   /// "Abilita accesso ai contatti"
   @override
   String get enable_contacts_access => "Abilita accesso ai contatti";
-
   /// "I tuoi contatti non verranno salvati sul nostro \n server e questa azione non invierà loro alcun massaggio"
   @override
-  String get enable_text =>
-      "I tuoi contatti non verranno salvati sul nostro \n server e questa azione non invierà loro alcun massaggio";
-
+  String get enable_text => "I tuoi contatti non verranno salvati sul nostro \n server e questa azione non invierà loro alcun massaggio";
   /// "Non ti preoccupare:"
   @override
   String get dont_worry => "Non ti preoccupare:";
-
   /// "Abilita la sincronizzazione dei contatti per inviare \n denaro ai tuoi contatti telefonici"
   @override
-  String get enable_contacts_text =>
-      "Abilita la sincronizzazione dei contatti per inviare \n denaro ai tuoi contatti telefonici";
-
+  String get enable_contacts_text => "Abilita la sincronizzazione dei contatti per inviare \n denaro ai tuoi contatti telefonici";
   /// "Sincronizzare i contatti"
   @override
   String get sync_contacts => "Sincronizzare i contatti";
-
   /// "Ricevere"
   @override
   String get receive => "Ricevere";
-
   /// "Scansiona il codice QR per ricevere denaro"
   @override
   String get scan_to_receive => "Scansiona il codice QR per ricevere denaro";
-
   /// "Condividere"
   @override
   String get share_button => "Condividere";
-
   /// "Inviare a"
   @override
   String get send_to => "Inviare a";
-
   /// "Quanto?"
   @override
   String get how_much => "Quanto?";
-
   /// "Continua con"
   @override
   String get continue_with => "Continua con";
-
   /// "Sincronizza il tuo contatto"
   @override
   String get sync_your_contacts => "Sincronizza il tuo contatto";
-
   /// "Per saperne di più"
   @override
   String get learn_more => "Per saperne di più";
-
   /// "Attivare"
   @override
   String get activate => "Attivare";
-
   /// "Recente"
   @override
   String get recent => "Recente";
-
   /// "Nome o indirizzo"
   @override
   String get search => "Nome o indirizzo";
-
   /// "Rivedi il trasferimento"
   @override
   String get review_transfer => "Rivedi il trasferimento";
-
   /// "Spedire"
   @override
   String get send_button => "Spedire";
-
   /// "Successo"
   @override
   String get success => "Successo";
-
   /// "Ripristinare dal backup"
   @override
   String get restore_from_backup => "Ripristinare dal backup";
-
   /// "Questa è una frase di 12 parole che ti è stata data quando hai creato il tuo portafoglio precedente"
   @override
-  String get restore_words =>
-      "Questa è una frase di 12 parole che ti è stata data quando hai creato il tuo portafoglio precedente";
-
+  String get restore_words => "Questa è una frase di 12 parole che ti è stata data quando hai creato il tuo portafoglio precedente";
   /// "Scrivi le tue 12 parole ..."
   @override
   String get write_down_your_words => "Scrivi le tue 12 parole ...";
-
   /// "Iscriviti"
   @override
   String get sign_up => "Iscriviti";
-
   /// "Inserisci il tuo numero di telefono per consentirci di configurare il tuo account"
   @override
-  String get enter_phone_number =>
-      "Inserisci il tuo numero di telefono per consentirci di configurare il tuo account";
-
+  String get enter_phone_number => "Inserisci il tuo numero di telefono per consentirci di configurare il tuo account";
   /// "perché ne abbiamo bisogno?"
   @override
   String get why_do_we_need_this => "perché ne abbiamo bisogno?";
-
   /// "Scegli il nome visualizzato"
   @override
   String get pickup_display_name => "Scegli il nome visualizzato";
-
   /// "Questo nome verrà mostrato ai contatti che ti inviano denaro per identificare il tuo account"
   @override
-  String get pickup_display_name_text =>
-      "Questo nome verrà mostrato ai contatti che ti inviano denaro per identificare il tuo account";
-
+  String get pickup_display_name_text => "Questo nome verrà mostrato ai contatti che ti inviano denaro per identificare il tuo account";
   /// "Codice di rispedizione"
   @override
   String get resend_code => "Codice di rispedizione";
-
   /// "Non hai ricevuto il messaggio? -"
   @override
   String get didnt_get_message => "Non hai ricevuto il messaggio? -";
-
   /// "Abbiamo appena inviato un messaggio a \n"
   @override
   String get we_just_sent => "Abbiamo appena inviato un messaggio a \n";
-
   /// "Inserisci qui il codice a 6 cifre da \n quel messaggio"
   @override
-  String get enter_verification_code =>
-      "Inserisci qui il codice a 6 cifre da \n quel messaggio";
-
+  String get enter_verification_code => "Inserisci qui il codice a 6 cifre da \n quel messaggio";
   /// "Proteggi il tuo portafoglio"
   @override
   String get protect_wallet => "Proteggi il tuo portafoglio";
-
   /// "di riserva"
   @override
   String get backup_wallet => "di riserva";
-
   /// "Ricarica il tuo account"
   @override
   String get top_up => "Ricarica il tuo account";
-
   /// "Acquistare"
   @override
   String get buy => "Acquistare";
-
   /// "Carta geografica"
   @override
   String get map => "Carta geografica";
-
   /// "APPROVATO"
   @override
   String get approved => "APPROVATO";
-
   /// "Semplice"
   @override
   String get simple => "Semplice";
-
   /// "Utile"
   @override
   String get useful => "Utile";
-
   /// "Inteligente"
   @override
   String get smart => "Inteligente";
-
   /// "impostazioni"
   @override
   String get settings => "impostazioni";
-
   /// "Casa"
   @override
   String get home => "Casa";
-
   /// "Commercio"
   @override
   String get trade => "Commercio";
-
   /// "Attività e contratti"
   @override
   String get assets_and_contracts => "Attività e contratti";
@@ -2125,396 +1541,289 @@ class _I18n_en_PH extends _I18n_en_US {
 
   /// "Gamitin ang wallet para magpadala ng pera \n sa iyong mga kaibigan ng libre at walang charges"
   @override
-  String get intro_text_one =>
-      "Gamitin ang wallet para magpadala ng pera \n sa iyong mga kaibigan ng libre at walang charges";
-
+  String get intro_text_one => "Gamitin ang wallet para magpadala ng pera \n sa iyong mga kaibigan ng libre at walang charges";
   /// "Gamiting pambayad at mabayaran gamit ang crypto \n at tingnan kung saan maaari kang makabili malapit sa iyo"
   @override
-  String get intro_text_two =>
-      "Gamiting pambayad at mabayaran gamit ang crypto \n at tingnan kung saan maaari kang makabili malapit sa iyo";
-
+  String get intro_text_two => "Gamiting pambayad at mabayaran gamit ang crypto \n at tingnan kung saan maaari kang makabili malapit sa iyo";
   /// "Hold DCA at Ethereum assets at i-access \n ang desentralisadong pananalapi sa ilang pindot"
   @override
-  String get intro_text_three =>
-      "Hold DCA at Ethereum assets at i-access \n ang desentralisadong pananalapi sa ilang pindot";
-
+  String get intro_text_three => "Hold DCA at Ethereum assets at i-access \n ang desentralisadong pananalapi sa ilang pindot";
   /// "Hello"
   @override
   String get hi => "Hello";
-
   /// "ibang wika"
   @override
   String get language => "ibang wika";
-
   /// "Logout"
   @override
   String get logout => "Logout";
-
   /// "Login"
   @override
   String get login => "Login";
-
   /// "Gumawa ng bagong wallet"
   @override
   String get create_new_wallet => "Gumawa ng bagong wallet";
-
   /// "Gumawa ng wallet"
   @override
   String get create__wallet => "Gumawa ng wallet";
-
   /// "Mag backup"
   @override
   String get restore_backup => "Mag backup";
-
   /// "Balanse"
   @override
   String get balance => "Balanse";
-
   /// "Importante!"
   @override
   String get important => "Importante!";
-
   /// "Ok"
   @override
   String get ok => "Ok";
-
   /// "Kontakin kami"
   @override
   String get contact_us => "Kontakin kami";
-
   /// "Ang iyong fuse wallet ay protektado!"
   @override
   String get wallet_protected => "Ang iyong fuse wallet ay protektado!";
-
   /// "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao."
   @override
-  String get wallet_protected_text =>
-      "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao.";
-
+  String get wallet_protected_text => "Ayos!, ikaw ay matagumpay na nakapag backed up. Paunawa! itagong maigi ang iyong secret phrase at huwag ipapaalam sa ibang tao.";
   /// "isulat ang mga salita sa tamang ayos at pagkakasunod sunod. kapag ito ay iyong naiwala ay hindi mo na mabubuksan ang iyong account."
   @override
-  String get write_words =>
-      "isulat ang mga salita sa tamang ayos at pagkakasunod sunod. kapag ito ay iyong naiwala ay hindi mo na mabubuksan ang iyong account.";
-
+  String get write_words => "isulat ang mga salita sa tamang ayos at pagkakasunod sunod. kapag ito ay iyong naiwala ay hindi mo na mabubuksan ang iyong account.";
   /// "Pakisulat ang mga salita \n"
   @override
   String get write_word => "Pakisulat ang mga salita \n";
-
   /// "Salita "
   @override
   String get word => "Salita ";
-
   /// "Hindi angkop ang salita"
   @override
   String get word_not_match => "Hindi angkop ang salita";
-
   /// "Back up"
   @override
   String get back_up => "Back up";
-
   /// "Sunod"
   @override
   String get next_button => "Sunod";
-
   /// "Lagpasan"
   @override
   String get skip_button => "Lagpasan";
-
   /// "BAYAD"
   @override
   String get pay => "BAYAD";
-
   /// "Walang natagpuang mga negosyo"
   @override
   String get no_businesses => "Walang natagpuang mga negosyo";
-
   /// "Gumagawa ng wallet"
   @override
   String get generating_wallet => "Gumagawa ng wallet";
-
   /// "Nakagawa na ng wallet"
   @override
   String get generated_wallet => "Nakagawa na ng wallet";
-
   /// "NAKABINBIN"
   @override
   String get pending => "NAKABINBIN";
-
   /// "NABIGO"
   @override
   String get failed => "NABIGO";
-
   /// "NAKUMPIRMA"
   @override
   String get confirmed => "NAKUMPIRMA";
-
   /// "Mga transaksyon"
   @override
   String get transactions => "Mga transaksyon";
-
   /// "Detalye ng mga transaksyon"
   @override
   String get transaction_details => "Detalye ng mga transaksyon";
-
   /// "To"
   @override
   String get to => "To";
-
   /// "From"
   @override
   String get from => "From";
-
   /// "Address"
   @override
   String get address => "Address";
-
   /// "Halaga"
   @override
   String get amount => "Halaga";
-
   /// "Nakakuha ka ng bonus sa pagsali!"
   @override
   String get join_bonus => "Nakakuha ka ng bonus sa pagsali!";
-
   /// "Sumali sa kumunidad"
   @override
   String get joining_community => "Sumali sa kumunidad";
-
   /// "Tungkol sa"
   @override
   String get about => "Tungkol sa";
-
   /// "Bersyon"
   @override
   String get version => "Bersyon";
-
   /// "Legal"
   @override
   String get legal => "Legal";
-
   /// "Pincode"
   @override
   String get pincode => "Pincode";
-
   /// "Ulitin ang iyong passcode"
   @override
   String get re_type_passcode => "Ulitin ang iyong passcode";
-
   /// "Gumawa ng iyong passcode"
   @override
   String get create_passcode => "Gumawa ng iyong passcode";
-
   /// "Lumipat ng kumunidad"
   @override
   String get switch_community => "Lumipat ng kumunidad";
-
   /// "Scan QR para mag switch"
   @override
   String get sqan_qr_code => "Scan QR para mag switch";
-
   /// "or"
   @override
   String get or => "or";
-
   /// "Ipasok ang Address ng Kumunidad"
   @override
   String get enter_community_address => "Ipasok ang Address ng Kumunidad";
-
   /// "Address ng Kumunidad"
   @override
   String get community_address => "Address ng Kumunidad";
-
   /// "i-Save"
   @override
   String get save_button => "i-Save";
-
   /// " Maaari kang lumipat sa bagong komunidad sa pamamagitan ng pagpasok ng iyong Asset ID (magagamit mula sa Fuse Studio) o kaya sa pag scan ng QR code"
   @override
-  String get fuse_studio =>
-      " Maaari kang lumipat sa bagong komunidad sa pamamagitan ng pagpasok ng iyong Asset ID (magagamit mula sa Fuse Studio) o kaya sa pag scan ng QR code";
-
+  String get fuse_studio => " Maaari kang lumipat sa bagong komunidad sa pamamagitan ng pagpasok ng iyong Asset ID (magagamit mula sa Fuse Studio) o kaya sa pag scan ng QR code";
   /// "Pag Access ng mga Kontak"
   @override
   String get enable_contacts_access => "Pag Access ng mga Kontak";
-
   /// "Ang iyong mga kontak ay hindi naitatago sa aming \n server at ang aksyong ito ay hindi magpapadala  \n sa kanila ng mga mensahe"
   @override
-  String get enable_text =>
-      "Ang iyong mga kontak ay hindi naitatago sa aming \n server at ang aksyong ito ay hindi magpapadala  \n sa kanila ng mga mensahe";
-
+  String get enable_text => "Ang iyong mga kontak ay hindi naitatago sa aming \n server at ang aksyong ito ay hindi magpapadala  \n sa kanila ng mga mensahe";
   /// "Huwag Mag alala:"
   @override
   String get dont_worry => "Huwag Mag alala:";
-
   /// "Paganahin ang kontak sync para maipadala ang\n pera sa iyong mga kontak sa telepono"
   @override
-  String get enable_contacts_text =>
-      "Paganahin ang kontak sync para maipadala ang\n pera sa iyong mga kontak sa telepono";
-
+  String get enable_contacts_text => "Paganahin ang kontak sync para maipadala ang\n pera sa iyong mga kontak sa telepono";
   /// "Paganahin mga kontak"
   @override
   String get sync_contacts => "Paganahin mga kontak";
-
   /// "Tumanggap"
   @override
   String get receive => "Tumanggap";
-
   /// "i-Scan ang QR code para sa pagtanggap ng pera"
   @override
   String get scan_to_receive => "i-Scan ang QR code para sa pagtanggap ng pera";
-
   /// "Ibahagi"
   @override
   String get share_button => "Ibahagi";
-
   /// "Magpadala kay"
   @override
   String get send_to => "Magpadala kay";
-
   /// "Magkano?"
   @override
   String get how_much => "Magkano?";
-
   /// "Magpatuloy sa"
   @override
   String get continue_with => "Magpatuloy sa";
-
   /// "i-Sync ang iyong mga kontak"
   @override
   String get sync_your_contacts => "i-Sync ang iyong mga kontak";
-
   /// "Matuto ng iba pa"
   @override
   String get learn_more => "Matuto ng iba pa";
-
   /// "i-Activate"
   @override
   String get activate => "i-Activate";
-
   /// "Kamakailan"
   @override
   String get recent => "Kamakailan";
-
   /// "Pangalan ng Address"
   @override
   String get search => "Pangalan ng Address";
-
   /// "Repasuhin ang Paglilipat"
   @override
   String get review_transfer => "Repasuhin ang Paglilipat";
-
   /// "Magpadala"
   @override
   String get send_button => "Magpadala";
-
   /// "Tagumpay"
   @override
   String get success => "Tagumpay";
-
   /// "i-Restore mula sa backup"
   @override
   String get restore_from_backup => "i-Restore mula sa backup";
-
   /// "Ito ang 12 word phrase na ibinigay sa iyo noong ikaw ay gumawa ng iyong wallet"
   @override
-  String get restore_words =>
-      "Ito ang 12 word phrase na ibinigay sa iyo noong ikaw ay gumawa ng iyong wallet";
-
+  String get restore_words => "Ito ang 12 word phrase na ibinigay sa iyo noong ikaw ay gumawa ng iyong wallet";
   /// "Isulat ang 12 na salita..."
   @override
   String get write_down_your_words => "Isulat ang 12 na salita...";
-
   /// "Mag Sign up"
   @override
   String get sign_up => "Mag Sign up";
-
   /// "Mangyaring ipasok ang iyong numero ng telepono upang maaari naming i-setup ang iyong account"
   @override
-  String get enter_phone_number =>
-      "Mangyaring ipasok ang iyong numero ng telepono upang maaari naming i-setup ang iyong account";
-
+  String get enter_phone_number => "Mangyaring ipasok ang iyong numero ng telepono upang maaari naming i-setup ang iyong account";
   /// "Bkit kailangan natin ito?"
   @override
   String get why_do_we_need_this => "Bkit kailangan natin ito?";
-
   /// "Piliin ang pangalan ng iyong Display"
   @override
   String get pickup_display_name => "Piliin ang pangalan ng iyong Display";
-
   /// "Ang pangalan na ito ay ipapakita sa mga kontak na nagpapadala sa iyo ng pera upang makilala ang iyong account"
   @override
-  String get pickup_display_name_text =>
-      "Ang pangalan na ito ay ipapakita sa mga kontak na nagpapadala sa iyo ng pera upang makilala ang iyong account";
-
+  String get pickup_display_name_text => "Ang pangalan na ito ay ipapakita sa mga kontak na nagpapadala sa iyo ng pera upang makilala ang iyong account";
   /// "Ipadala muli ang code"
   @override
   String get resend_code => "Ipadala muli ang code";
-
   /// "Hindi nakuha ang mensahe? - "
   @override
   String get didnt_get_message => "Hindi nakuha ang mensahe? - ";
-
   /// "Nagpadala na kami ng mensahe sa \n"
   @override
   String get we_just_sent => "Nagpadala na kami ng mensahe sa \n";
-
   /// "Pakipasok ang 6-digit code mula\n sa mensaheng ito"
   @override
-  String get enter_verification_code =>
-      "Pakipasok ang 6-digit code mula\n sa mensaheng ito";
-
+  String get enter_verification_code => "Pakipasok ang 6-digit code mula\n sa mensaheng ito";
   /// "Protektahan ang iyong wallet"
   @override
   String get protect_wallet => "Protektahan ang iyong wallet";
-
   /// "Backup"
   @override
   String get backup_wallet => "Backup";
-
   /// "i-Top-up ang iyong account"
   @override
   String get top_up => "i-Top-up ang iyong account";
-
   /// "Bumili"
   @override
   String get buy => "Bumili";
-
   /// "Mapa"
   @override
   String get map => "Mapa";
-
   /// "APPROVED"
   @override
   String get approved => "APPROVED";
-
   /// "Simple"
   @override
   String get simple => "Simple";
-
   /// "Kapakipakinabang"
   @override
   String get useful => "Kapakipakinabang";
-
   /// "Smart"
   @override
   String get smart => "Smart";
-
   /// "Settings"
   @override
   String get settings => "Settings";
-
   /// "Home"
   @override
   String get home => "Home";
-
   /// "Kalakalan"
   @override
   String get trade => "Kalakalan";
-
   /// "Assets at mga kontrata"
   @override
   String get assets_and_contracts => "Assets at mga kontrata";
-
   /// "Account"
   @override
   String get account => "Account";
@@ -2528,392 +1837,286 @@ class _I18n_id_ID extends I18n {
 
   /// "Gunakan dompet untuk mengirim uang \n kepada teman tanpa biaya atau selisih"
   @override
-  String get intro_text_one =>
-      "Gunakan dompet untuk mengirim uang \n kepada teman tanpa biaya atau selisih";
-
+  String get intro_text_one => "Gunakan dompet untuk mengirim uang \n kepada teman tanpa biaya atau selisih";
   /// "Membayar dan di bayar menggunakan kripto \n dan lihatlah dimana anda bisa belanja di toko sekitar"
   @override
-  String get intro_text_two =>
-      "Membayar dan di bayar menggunakan kripto \n dan lihatlah dimana anda bisa belanja di toko sekitar";
-
+  String get intro_text_two => "Membayar dan di bayar menggunakan kripto \n dan lihatlah dimana anda bisa belanja di toko sekitar";
   /// "Simpan Aset Ethereum dan akses \n desentralisasi keuangan hanya dengan beberapa ketukan"
   @override
-  String get intro_text_three =>
-      "Simpan Aset Ethereum dan akses \n desentralisasi keuangan hanya dengan beberapa ketukan";
-
+  String get intro_text_three => "Simpan Aset Ethereum dan akses \n desentralisasi keuangan hanya dengan beberapa ketukan";
   /// "Halo"
   @override
   String get hi => "Halo";
-
   /// "Bahasa Indonesia"
   @override
   String get language => "Bahasa Indonesia";
-
   /// "Keluar"
   @override
   String get logout => "Keluar";
-
   /// "Masuk"
   @override
   String get login => "Masuk";
-
   /// "Membuat dompet baru"
   @override
   String get create_new_wallet => "Membuat dompet baru";
-
   /// "Membuat dompet"
   @override
   String get create__wallet => "Membuat dompet";
-
   /// "Memulihkan perlindungan"
   @override
   String get restore_backup => "Memulihkan perlindungan";
-
   /// "Saldo"
   @override
   String get balance => "Saldo";
-
   /// "Penting!"
   @override
   String get important => "Penting!";
-
   /// "Ok"
   @override
   String get ok => "Ok";
-
   /// "Hubungi Kami"
   @override
   String get contact_us => "Hubungi Kami";
-
   /// "Dompet fuse anda terlindungi!"
   @override
   String get wallet_protected => "Dompet fuse anda terlindungi!";
-
   /// "Hebat, kamu telah melakukan perlindungan susunan kata rahasia kamu. Ingat untuk menjaga susunan kata rahasia kamu di tempat yang aman dan nyaman dan jangan biarkan orang lain tahu."
   @override
-  String get wallet_protected_text =>
-      "Hebat, kamu telah melakukan perlindungan susunan kata rahasia kamu. Ingat untuk menjaga susunan kata rahasia kamu di tempat yang aman dan nyaman dan jangan biarkan orang lain tahu.";
-
+  String get wallet_protected_text => "Hebat, kamu telah melakukan perlindungan susunan kata rahasia kamu. Ingat untuk menjaga susunan kata rahasia kamu di tempat yang aman dan nyaman dan jangan biarkan orang lain tahu.";
   /// "tulislah secara berurutan dan jaga tetap aman. Anda tidak akan bisa memulihkan akun anda tanpa itu."
   @override
-  String get write_words =>
-      "tulislah secara berurutan dan jaga tetap aman. Anda tidak akan bisa memulihkan akun anda tanpa itu.";
-
+  String get write_words => "tulislah secara berurutan dan jaga tetap aman. Anda tidak akan bisa memulihkan akun anda tanpa itu.";
   /// "Mohon tuliskan kata-kata \n"
   @override
   String get write_word => "Mohon tuliskan kata-kata \n";
-
   /// "kata "
   @override
   String get word => "kata ";
-
   /// "Kata tidak cocok"
   @override
   String get word_not_match => "Kata tidak cocok";
-
   /// "Perlindungan"
   @override
   String get back_up => "Perlindungan";
-
   /// "Lanjutkan"
   @override
   String get next_button => "Lanjutkan";
-
   /// "Lewatkan"
   @override
   String get skip_button => "Lewatkan";
-
   /// "Bayar"
   @override
   String get pay => "Bayar";
-
   /// "Tidak ada bisnis di temukan"
   @override
   String get no_businesses => "Tidak ada bisnis di temukan";
-
   /// "Sedang membuat dompet"
   @override
   String get generating_wallet => "Sedang membuat dompet";
-
   /// "Dompet di buat"
   @override
   String get generated_wallet => "Dompet di buat";
-
   /// "TERTUNDA"
   @override
   String get pending => "TERTUNDA";
-
   /// "GAGAL"
   @override
   String get failed => "GAGAL";
-
   /// "TERKONFIRMASI"
   @override
   String get confirmed => "TERKONFIRMASI";
-
   /// "Transaksi"
   @override
   String get transactions => "Transaksi";
-
   /// "Rincian transaksi"
   @override
   String get transaction_details => "Rincian transaksi";
-
   /// "Kepada"
   @override
   String get to => "Kepada";
-
   /// "Dari"
   @override
   String get from => "Dari";
-
   /// "Alamat"
   @override
   String get address => "Alamat";
-
   /// "Jumlah"
   @override
   String get amount => "Jumlah";
-
   /// "Anda mendapatkan bonus bergabung!"
   @override
   String get join_bonus => "Anda mendapatkan bonus bergabung!";
-
   /// "Bergabung komunitas"
   @override
   String get joining_community => "Bergabung komunitas";
-
   /// "Tentang"
   @override
   String get about => "Tentang";
-
   /// "Versi"
   @override
   String get version => "Versi";
-
   /// "Legalitas"
   @override
   String get legal => "Legalitas";
-
   /// "Kode pin"
   @override
   String get pincode => "Kode pin";
-
   /// "Tulis kembali kode sandi "
   @override
   String get re_type_passcode => "Tulis kembali kode sandi ";
-
   /// "Buat kode sandi anda"
   @override
   String get create_passcode => "Buat kode sandi anda";
-
   /// "Ganti komunitas"
   @override
   String get switch_community => "Ganti komunitas";
-
   /// "Scan QR untuk ganti"
   @override
   String get sqan_qr_code => "Scan QR untuk ganti";
-
   /// "atau"
   @override
   String get or => "atau";
-
   /// "Masukan alamat komunitas"
   @override
   String get enter_community_address => "Masukan alamat komunitas";
-
   /// "Alamat komunitas"
   @override
   String get community_address => "Alamat komunitas";
-
   /// "Simpan"
   @override
   String get save_button => "Simpan";
-
   /// "Anda dapat ganti ke komunitas baru dengan memasukan aset ID anda(tersedia dari Fuse Studio) atau scan QR kode"
   @override
-  String get fuse_studio =>
-      "Anda dapat ganti ke komunitas baru dengan memasukan aset ID anda(tersedia dari Fuse Studio) atau scan QR kode";
-
+  String get fuse_studio => "Anda dapat ganti ke komunitas baru dengan memasukan aset ID anda(tersedia dari Fuse Studio) atau scan QR kode";
   /// "Mengizinkan akses kontak"
   @override
   String get enable_contacts_access => "Mengizinkan akses kontak";
-
   /// "Kontak anda tidak akan di simpan pada \n server kami dan tindakan ini tidak akan mengirimkan \n kepada mereka pesan apapun"
   @override
-  String get enable_text =>
-      "Kontak anda tidak akan di simpan pada \n server kami dan tindakan ini tidak akan mengirimkan \n kepada mereka pesan apapun";
-
+  String get enable_text => "Kontak anda tidak akan di simpan pada \n server kami dan tindakan ini tidak akan mengirimkan \n kepada mereka pesan apapun";
   /// "Jangan khawatir:"
   @override
   String get dont_worry => "Jangan khawatir:";
-
   /// "Mengizinkan sinkron kontak untuk mengirim \n uang kepada nomer kontak anda"
   @override
-  String get enable_contacts_text =>
-      "Mengizinkan sinkron kontak untuk mengirim \n uang kepada nomer kontak anda";
-
+  String get enable_contacts_text => "Mengizinkan sinkron kontak untuk mengirim \n uang kepada nomer kontak anda";
   /// "Sinkronisasi kontak"
   @override
   String get sync_contacts => "Sinkronisasi kontak";
-
   /// "Terima"
   @override
   String get receive => "Terima";
-
   /// "Scan Kode QR untuk terima uang"
   @override
   String get scan_to_receive => "Scan Kode QR untuk terima uang";
-
   /// "Bagikan"
   @override
   String get share_button => "Bagikan";
-
   /// "Kirim kepada"
   @override
   String get send_to => "Kirim kepada";
-
   /// "Berapa jumlah?"
   @override
   String get how_much => "Berapa jumlah?";
-
   /// "Melanjutkan"
   @override
   String get continue_with => "Melanjutkan";
-
   /// "Sinkronisasi kontak anda"
   @override
   String get sync_your_contacts => "Sinkronisasi kontak anda";
-
   /// "Pelajari lebih lanjut"
   @override
   String get learn_more => "Pelajari lebih lanjut";
-
   /// "Aktif"
   @override
   String get activate => "Aktif";
-
   /// "Saat ini"
   @override
   String get recent => "Saat ini";
-
   /// "Nama atau Alamat"
   @override
   String get search => "Nama atau Alamat";
-
   /// "Tinjau pengiriman"
   @override
   String get review_transfer => "Tinjau pengiriman";
-
   /// "Kirim"
   @override
   String get send_button => "Kirim";
-
   /// "Berhasil"
   @override
   String get success => "Berhasil";
-
   /// "Memulihkan dari perlindungan"
   @override
   String get restore_from_backup => "Memulihkan dari perlindungan";
-
   /// "Ini adalah 12 susunan kata yang di berikan kepada anda ketika anda membuat dompet sebelumnya"
   @override
-  String get restore_words =>
-      "Ini adalah 12 susunan kata yang di berikan kepada anda ketika anda membuat dompet sebelumnya";
-
+  String get restore_words => "Ini adalah 12 susunan kata yang di berikan kepada anda ketika anda membuat dompet sebelumnya";
   /// "Tuliskan 12 susunan kata anda..."
   @override
   String get write_down_your_words => "Tuliskan 12 susunan kata anda...";
-
   /// "Daftar"
   @override
   String get sign_up => "Daftar";
-
   /// "Mohon masukan nomor telephone anda sehingga kami dapat menyiapkan akun anda"
   @override
-  String get enter_phone_number =>
-      "Mohon masukan nomor telephone anda sehingga kami dapat menyiapkan akun anda";
-
+  String get enter_phone_number => "Mohon masukan nomor telephone anda sehingga kami dapat menyiapkan akun anda";
   /// "Mengapa kami memerlukan ini?"
   @override
   String get why_do_we_need_this => "Mengapa kami memerlukan ini?";
-
   /// "Pilih nama akun anda"
   @override
   String get pickup_display_name => "Pilih nama akun anda";
-
   /// "Nama ini akan di perlihatkan kepada kontak yang mengirimkan anda uang agar mengenali akun anda"
   @override
-  String get pickup_display_name_text =>
-      "Nama ini akan di perlihatkan kepada kontak yang mengirimkan anda uang agar mengenali akun anda";
-
+  String get pickup_display_name_text => "Nama ini akan di perlihatkan kepada kontak yang mengirimkan anda uang agar mengenali akun anda";
   /// "Kirim kembali kode"
   @override
   String get resend_code => "Kirim kembali kode";
-
   /// "Tidak mendapatkan pesan? - "
   @override
   String get didnt_get_message => "Tidak mendapatkan pesan? - ";
-
   /// "Kami baru mengirimkan pesan ke \n"
   @override
   String get we_just_sent => "Kami baru mengirimkan pesan ke \n";
-
   /// " Silahkan masukan 6-digit kode dari \n pesan itu disini"
   @override
-  String get enter_verification_code =>
-      " Silahkan masukan 6-digit kode dari \n pesan itu disini";
-
+  String get enter_verification_code => " Silahkan masukan 6-digit kode dari \n pesan itu disini";
   /// "Lindungi dompet anda"
   @override
   String get protect_wallet => "Lindungi dompet anda";
-
   /// "Perlindungan"
   @override
   String get backup_wallet => "Perlindungan";
-
   /// "Isi ulang akun anda"
   @override
   String get top_up => "Isi ulang akun anda";
-
   /// "Beli"
   @override
   String get buy => "Beli";
-
   /// "Peta"
   @override
   String get map => "Peta";
-
   /// "Disetujui"
   @override
   String get approved => "Disetujui";
-
   /// "Mudah"
   @override
   String get simple => "Mudah";
-
   /// "Berguna"
   @override
   String get useful => "Berguna";
-
   /// "Pintar"
   @override
   String get smart => "Pintar";
-
   /// "Pengaturan"
   @override
   String get settings => "Pengaturan";
-
   /// "Home"
   @override
   String get home => "Home";
-
   /// "Perdagangan"
   @override
   String get trade => "Perdagangan";
-
   /// "Aset dan kontrak"
   @override
   String get assets_and_contracts => "Aset dan kontrak";
@@ -2927,420 +2130,307 @@ class _I18n_es_MX extends _I18n_es_ES {
 
   /// "Compra y recibe pagos en criptomonedas sin comisiones"
   @override
-  String get intro_text_one =>
-      "Compra y recibe pagos en criptomonedas sin comisiones";
-
+  String get intro_text_one => "Compra y recibe pagos en criptomonedas sin comisiones";
   /// "Usa el monedero para enviar dinero a tus amigos"
   @override
-  String get intro_text_two =>
-      "Usa el monedero para enviar dinero a tus amigos";
-
+  String get intro_text_two => "Usa el monedero para enviar dinero a tus amigos";
   /// "Almacena tokens de Ethereum y accede a las finanzas descentralizadas"
   @override
-  String get intro_text_three =>
-      "Almacena tokens de Ethereum y accede a las finanzas descentralizadas";
-
+  String get intro_text_three => "Almacena tokens de Ethereum y accede a las finanzas descentralizadas";
   /// "Hola"
   @override
   String get hi => "Hola";
-
   /// "Idioma"
   @override
   String get language => "Idioma";
-
   /// "Cerrar Sesión"
   @override
   String get logout => "Cerrar Sesión";
-
   /// "Iniciar Sesión"
   @override
   String get login => "Iniciar Sesión";
-
   /// "Crear un monedero nuevo"
   @override
   String get create_new_wallet => "Crear un monedero nuevo";
-
   /// "Crear un monedero"
   @override
   String get create__wallet => "Crear un monedero";
-
   /// "Restauras copia de seguridad"
   @override
   String get restore_backup => "Restauras copia de seguridad";
-
   /// "Mi balance"
   @override
   String get balance => "Mi balance";
-
   /// "Important!"
   @override
   String get important => "Important!";
-
   /// "Phone number"
   @override
   String get phoneNumber => "Phone number";
-
   /// "Ok"
   @override
   String get ok => "Ok";
-
   /// "Contact us"
   @override
   String get contact_us => "Contact us";
-
   /// "Your fuse wallet is protected!"
   @override
   String get wallet_protected => "Your fuse wallet is protected!";
-
   /// "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is."
   @override
-  String get wallet_protected_text =>
-      "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
-
+  String get wallet_protected_text => "Great, you’ve backed up your secret phrase. Remember to keep your secret phrase in a safe and secure place and never let anyone know what it is.";
   /// "Las siguientes 12 palabras te darán acceso a recuperar tu cuenta."
   @override
-  String get write_words =>
-      "Las siguientes 12 palabras te darán acceso a recuperar tu cuenta.";
-
+  String get write_words => "Las siguientes 12 palabras te darán acceso a recuperar tu cuenta.";
   /// "Por favor escribe estas palabras"
   @override
   String get write_word => "Por favor escribe estas palabras";
-
   /// "Palabra"
   @override
   String get word => "Palabra";
-
   /// "La palabara no coincide"
   @override
   String get word_not_match => "La palabara no coincide";
-
   /// "Respaldo"
   @override
   String get back_up => "Respaldo";
-
   /// "Siguiente"
   @override
   String get next_button => "Siguiente";
-
   /// "Saltar"
   @override
   String get skip_button => "Saltar";
-
   /// "Pagar"
   @override
   String get pay => "Pagar";
-
   /// "No se encontraron negocios"
   @override
   String get no_businesses => "No se encontraron negocios";
-
   /// "Crear monedero"
   @override
   String get generating_wallet => "Crear monedero";
-
   /// "Monedero creado"
   @override
   String get generated_wallet => "Monedero creado";
-
   /// "PENDIENTE"
   @override
   String get pending => "PENDIENTE";
-
   /// "FAILED"
   @override
   String get failed => "FAILED";
-
   /// "CONFIRMADO"
   @override
   String get confirmed => "CONFIRMADO";
-
   /// "Transacciones"
   @override
   String get transactions => "Transacciones";
-
   /// "Detalles de la transacción"
   @override
   String get transaction_details => "Detalles de la transacción";
-
   /// "A"
   @override
   String get to => "A";
-
   /// "From"
   @override
   String get from => "From";
-
   /// "Dirección"
   @override
   String get address => "Dirección";
-
   /// "Cantidad"
   @override
   String get amount => "Cantidad";
-
   /// "Bono de bienvenida!"
   @override
   String get join_bonus => "Bono de bienvenida!";
-
   /// "Unirse a la Comunidad"
   @override
   String get joining_community => "Unirse a la Comunidad";
-
   /// "Joining"
   @override
   String get joining => "Joining";
-
   /// "Joined"
   @override
   String get joined => "Joined";
-
   /// "community"
   @override
   String get community => "community";
-
   /// "Acerca de"
   @override
   String get about => "Acerca de";
-
   /// "Versión"
   @override
   String get version => "Versión";
-
   /// "Legal"
   @override
   String get legal => "Legal";
-
   /// "Código numérico"
   @override
   String get pincode => "Código numérico";
-
   /// "Re-escribe tu contraseña"
   @override
   String get re_type_passcode => "Re-escribe tu contraseña";
-
   /// "Crea una contraseña"
   @override
   String get create_passcode => "Crea una contraseña";
-
   /// "Cambiar de comunidad"
   @override
   String get switch_community => "Cambiar de comunidad";
-
   /// "Escanea el código QR"
   @override
   String get sqan_qr_code => "Escanea el código QR";
-
   /// "o"
   @override
   String get or => "o";
-
   /// "Ingresa la dirección de la comunidad"
   @override
   String get enter_community_address => "Ingresa la dirección de la comunidad";
-
   /// "Dirección de la comunidad"
   @override
   String get community_address => "Dirección de la comunidad";
-
   /// "Guardar"
   @override
   String get save_button => "Guardar";
-
   /// "Pudes cambiar de comunidad ingresando el ID del token (disponible en la página) o escanear el código QR"
   @override
-  String get fuse_studio =>
-      "Pudes cambiar de comunidad ingresando el ID del token (disponible en la página) o escanear el código QR";
-
+  String get fuse_studio => "Pudes cambiar de comunidad ingresando el ID del token (disponible en la página) o escanear el código QR";
   /// "Permite el acceso a tu contactos"
   @override
   String get enable_contacts_access => "Permite el acceso a tu contactos";
-
   /// "Tus contactos no serán guardados en nuestro servidor"
   @override
-  String get enable_text =>
-      "Tus contactos no serán guardados en nuestro servidor";
-
+  String get enable_text => "Tus contactos no serán guardados en nuestro servidor";
   /// "No te preocupes:"
   @override
   String get dont_worry => "No te preocupes:";
-
   /// "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos"
   @override
-  String get enable_contacts_text =>
-      "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos";
-
+  String get enable_contacts_text => "Pofavor, permite el acceso a tus contactos para un fácil envío de dinero a tu directorio de contactos";
   /// "Sync contcats"
   @override
   String get sync_contacts => "Sync contcats";
-
   /// "Recibir dinero"
   @override
   String get receive => "Recibir dinero";
-
   /// "Escanea el código QR para recibir dinero"
   @override
   String get scan_to_receive => "Escanea el código QR para recibir dinero";
-
   /// "Compartir"
   @override
   String get share_button => "Compartir";
-
   /// "Enviar a"
   @override
   String get send_to => "Enviar a";
-
   /// "¿Cuánto?"
   @override
   String get how_much => "¿Cuánto?";
-
   /// "Continua con"
   @override
   String get continue_with => "Continua con";
-
   /// "Sync your contact"
   @override
   String get sync_your_contacts => "Sync your contact";
-
   /// "Learn more"
   @override
   String get learn_more => "Learn more";
-
   /// "Activate"
   @override
   String get activate => "Activate";
-
   /// "Reciente"
   @override
   String get recent => "Reciente";
-
   /// "Buscar"
   @override
   String get search => "Buscar";
-
   /// "Verifica tu transacción"
   @override
   String get review_transfer => "Verifica tu transacción";
-
   /// "Enviar"
   @override
   String get send_button => "Enviar";
-
   /// "Éxito"
   @override
   String get success => "Éxito";
-
   /// "Recuperar de tu soporte"
   @override
   String get restore_from_backup => "Recuperar de tu soporte";
-
   /// "Estas son las 12 palabras que te fueron entregadas para recuperar tu monedero"
   @override
-  String get restore_words =>
-      "Estas son las 12 palabras que te fueron entregadas para recuperar tu monedero";
-
+  String get restore_words => "Estas son las 12 palabras que te fueron entregadas para recuperar tu monedero";
   /// "Escriba en un lugar seguro estas 12 palabras"
   @override
-  String get write_down_your_words =>
-      "Escriba en un lugar seguro estas 12 palabras";
-
+  String get write_down_your_words => "Escriba en un lugar seguro estas 12 palabras";
   /// "Ingresar"
   @override
   String get sign_up => "Ingresar";
-
   /// "Porfavor escribe tu número telefónico para que podamos crear tu monedero"
   @override
-  String get enter_phone_number =>
-      "Porfavor escribe tu número telefónico para que podamos crear tu monedero";
-
+  String get enter_phone_number => "Porfavor escribe tu número telefónico para que podamos crear tu monedero";
   /// "¿Por qué necesitamos esto?"
   @override
   String get why_do_we_need_this => "¿Por qué necesitamos esto?";
-
   /// "Escribe el nombre que deseas usar"
   @override
   String get pickup_display_name => "Escribe el nombre que deseas usar";
-
   /// "Este nombre será mostrado a los contactos que decidan enviarte dinero para identificar tu monedero"
   @override
-  String get pickup_display_name_text =>
-      "Este nombre será mostrado a los contactos que decidan enviarte dinero para identificar tu monedero";
-
+  String get pickup_display_name_text => "Este nombre será mostrado a los contactos que decidan enviarte dinero para identificar tu monedero";
   /// "Re-enviar el código"
   @override
   String get resend_code => "Re-enviar el código";
-
   /// "¿No recibiste el mensaje?"
   @override
   String get didnt_get_message => "¿No recibiste el mensaje?";
-
   /// "Listo, Enviamos un mensaje a"
   @override
   String get we_just_sent => "Listo, Enviamos un mensaje a";
-
   /// "Ingresa un código de 6 digitos"
   @override
   String get enter_verification_code => "Ingresa un código de 6 digitos";
-
   /// "Protege tu monedero"
   @override
   String get protect_wallet => "Protege tu monedero";
-
   /// "Respalda tu monedero"
   @override
   String get backup_wallet => "Respalda tu monedero";
-
   /// "Cargar dinero"
   @override
   String get top_up => "Cargar dinero";
-
   /// "Comprar"
   @override
   String get buy => "Comprar";
-
   /// "Mapa"
   @override
   String get map => "Mapa";
-
   /// "APROBADO"
   @override
   String get approved => "APROBADO";
-
   /// "Sencillo"
   @override
   String get simple => "Sencillo";
-
   /// "Útil"
   @override
   String get useful => "Útil";
-
   /// "Inteligente"
   @override
   String get smart => "Inteligente";
-
   /// "Configuraciones"
   @override
   String get settings => "Configuraciones";
-
   /// "Hogar"
   @override
   String get home => "Hogar";
-
   /// "Comercio"
   @override
   String get trade => "Comercio";
-
   /// "Activos y contratos"
   @override
   String get assets_and_contracts => "Activos y contratos";
-
   /// "Sent to your Ethereum wallet"
   @override
   String get sending_to_ethereum => "Sent to your Ethereum wallet";
-
   /// "Sent to Ethereum"
   @override
   String get sent_to_ethereum => "Sent to Ethereum";
-
   /// "Received from Ethereum"
   @override
   String get received_from_ethereum => "Received from Ethereum";
@@ -3354,394 +2444,286 @@ class _I18n_de_DE extends I18n {
 
   /// "Verwende die kontaktlose Gutschein-App um Wertgutscheine \n ohne Probleme und Kosten zu verwalten und einzulösen."
   @override
-  String get intro_text_one =>
-      "Verwende die kontaktlose Gutschein-App um Wertgutscheine \n ohne Probleme und Kosten zu verwalten und einzulösen.";
-
+  String get intro_text_one => "Verwende die kontaktlose Gutschein-App um Wertgutscheine \n ohne Probleme und Kosten zu verwalten und einzulösen.";
   /// "Gutscheine können über Crypto-Token erhalten und eingelöst werden\n gleichzeitig findest Du heraus, wo Du überall damit Einkaufen oder Vorteile erhalten kannst."
   @override
-  String get intro_text_two =>
-      "Gutscheine können über Crypto-Token erhalten und eingelöst werden\n gleichzeitig findest Du heraus, wo Du überall damit Einkaufen oder Vorteile erhalten kannst.";
-
+  String get intro_text_two => "Gutscheine können über Crypto-Token erhalten und eingelöst werden\n gleichzeitig findest Du heraus, wo Du überall damit Einkaufen oder Vorteile erhalten kannst.";
   /// "Sichere Dir Wertgutscheine und löse diese\n ganz einfach und dezentralisiert bei Deinen Local Champions ein."
   @override
-  String get intro_text_three =>
-      "Sichere Dir Wertgutscheine und löse diese\n ganz einfach und dezentralisiert bei Deinen Local Champions ein.";
-
+  String get intro_text_three => "Sichere Dir Wertgutscheine und löse diese\n ganz einfach und dezentralisiert bei Deinen Local Champions ein.";
   /// "Hallo"
   @override
   String get hi => "Hallo";
-
   /// "Sprache"
   @override
   String get language => "Sprache";
-
   /// "Abmelden"
   @override
   String get logout => "Abmelden";
-
   /// "Anmelden"
   @override
   String get login => "Anmelden";
-
   /// "Neue kontaktlose Gutschein-App anlegen"
   @override
   String get create_new_wallet => "Neue kontaktlose Gutschein-App anlegen";
-
   /// "kontaktlose Gutschein-App anlegen"
   @override
   String get create__wallet => "kontaktlose Gutschein-App anlegen";
-
   /// "Sicherung zurückholen"
   @override
   String get restore_backup => "Sicherung zurückholen";
-
   /// "Wert-Übersicht"
   @override
   String get balance => "Wert-Übersicht";
-
   /// "Wichtig!"
   @override
   String get important => "Wichtig!";
-
   /// "Abschicken"
   @override
   String get ok => "Abschicken";
-
   /// "Kontaktiere uns"
   @override
   String get contact_us => "Kontaktiere uns";
-
   /// "Deine kontaktlose Gutschein-App ist geschützt!"
   @override
-  String get wallet_protected =>
-      "Deine kontaktlose Gutschein-App ist geschützt!";
-
+  String get wallet_protected => "Deine kontaktlose Gutschein-App ist geschützt!";
   /// "Sehr gut, Du hast Deine Sicherheitscodes gespeichert. Bewahre die Codes an einem sicheren Ort auf und gebe niemandem Zugriff auf diese Codes."
   @override
-  String get wallet_protected_text =>
-      "Sehr gut, Du hast Deine Sicherheitscodes gespeichert. Bewahre die Codes an einem sicheren Ort auf und gebe niemandem Zugriff auf diese Codes.";
-
+  String get wallet_protected_text => "Sehr gut, Du hast Deine Sicherheitscodes gespeichert. Bewahre die Codes an einem sicheren Ort auf und gebe niemandem Zugriff auf diese Codes.";
   /// "Schreibe diese Worte in dieser Reihenfolge auf und bewahre sie an einem sicheren Ort auf. Anderenfalls kannst Du die Sicherungskopie  Deiner Gutscheine nicht wieder herstellen."
   @override
-  String get write_words =>
-      "Schreibe diese Worte in dieser Reihenfolge auf und bewahre sie an einem sicheren Ort auf. Anderenfalls kannst Du die Sicherungskopie  Deiner Gutscheine nicht wieder herstellen.";
-
+  String get write_words => "Schreibe diese Worte in dieser Reihenfolge auf und bewahre sie an einem sicheren Ort auf. Anderenfalls kannst Du die Sicherungskopie  Deiner Gutscheine nicht wieder herstellen.";
   /// "Bitte schreibe diese Worte auf \n"
   @override
   String get write_word => "Bitte schreibe diese Worte auf \n";
-
   /// "Wort "
   @override
   String get word => "Wort ";
-
   /// "Die Worte stimmen nicht überein"
   @override
   String get word_not_match => "Die Worte stimmen nicht überein";
-
   /// "Sicherung"
   @override
   String get back_up => "Sicherung";
-
   /// "Nächste"
   @override
   String get next_button => "Nächste";
-
   /// "Überspringen"
   @override
   String get skip_button => "Überspringen";
-
   /// "Zahlen"
   @override
   String get pay => "Zahlen";
-
   /// "Keine lokalen Geschäfte gefunden"
   @override
   String get no_businesses => "Keine lokalen Geschäfte gefunden";
-
   /// "Gutschein-Ablage anlegen"
   @override
   String get generating_wallet => "Gutschein-Ablage anlegen";
-
   /// "Gutschein-Ablage angelegt"
   @override
   String get generated_wallet => "Gutschein-Ablage angelegt";
-
   /// "Warten"
   @override
   String get pending => "Warten";
-
   /// "Fehlgeschlagen"
   @override
   String get failed => "Fehlgeschlagen";
-
   /// "Bestätigt"
   @override
   String get confirmed => "Bestätigt";
-
   /// "Übertragungen"
   @override
   String get transactions => "Übertragungen";
-
   /// "Details der Übertragung"
   @override
   String get transaction_details => "Details der Übertragung";
-
   /// "ZU"
   @override
   String get to => "ZU";
-
   /// "VON"
   @override
   String get from => "VON";
-
   /// "Adresse"
   @override
   String get address => "Adresse";
-
   /// "Anzahl"
   @override
   String get amount => "Anzahl";
-
   /// "Du hast einen Begrüßungs-Wert erhalten!"
   @override
   String get join_bonus => "Du hast einen Begrüßungs-Wert erhalten!";
-
   /// "Bei LocalChampions.de teilnehmen"
   @override
   String get joining_community => "Bei LocalChampions.de teilnehmen";
-
   /// "Über"
   @override
   String get about => "Über";
-
   /// "Version"
   @override
   String get version => "Version";
-
   /// "Rechtliches"
   @override
   String get legal => "Rechtliches";
-
   /// "PIN-Nummer"
   @override
   String get pincode => "PIN-Nummer";
-
   /// "Passwort wiederholen"
   @override
   String get re_type_passcode => "Passwort wiederholen";
-
   /// "Ein Passwort festlegen"
   @override
   String get create_passcode => "Ein Passwort festlegen";
-
   /// "Die Plattform wechseln"
   @override
   String get switch_community => "Die Plattform wechseln";
-
   /// "Die Kamera auf den QR-Code richten"
   @override
   String get sqan_qr_code => "Die Kamera auf den QR-Code richten";
-
   /// "oder"
   @override
   String get or => "oder";
-
   /// "Die Plattform-Adresse eingeben"
   @override
   String get enter_community_address => "Die Plattform-Adresse eingeben";
-
   /// "Plattform-Adresse"
   @override
   String get community_address => "Plattform-Adresse";
-
   /// "Sichern"
   @override
   String get save_button => "Sichern";
-
   /// "Du kannst durch die Eingabe einer eindeutigen ID-Nummer auf eine andere Plattform wechseln (erhältlich beim Plattform Betreiber) oder einfach mit der Kamera einen QR-Code aufnehmen"
   @override
-  String get fuse_studio =>
-      "Du kannst durch die Eingabe einer eindeutigen ID-Nummer auf eine andere Plattform wechseln (erhältlich beim Plattform Betreiber) oder einfach mit der Kamera einen QR-Code aufnehmen";
-
+  String get fuse_studio => "Du kannst durch die Eingabe einer eindeutigen ID-Nummer auf eine andere Plattform wechseln (erhältlich beim Plattform Betreiber) oder einfach mit der Kamera einen QR-Code aufnehmen";
   /// "Zugriff auf Kontakte gewähren"
   @override
   String get enable_contacts_access => "Zugriff auf Kontakte gewähren";
-
   /// "Deine Kontakte werden nicht auf unseren Servern gespeichert\n und Informationen werden nicht versendet oder mit Dritten geteilt.  \n Wir senden keine Nachrichten oder E-Mails an Deine Kontakte"
   @override
-  String get enable_text =>
-      "Deine Kontakte werden nicht auf unseren Servern gespeichert\n und Informationen werden nicht versendet oder mit Dritten geteilt.  \n Wir senden keine Nachrichten oder E-Mails an Deine Kontakte";
-
+  String get enable_text => "Deine Kontakte werden nicht auf unseren Servern gespeichert\n und Informationen werden nicht versendet oder mit Dritten geteilt.  \n Wir senden keine Nachrichten oder E-Mails an Deine Kontakte";
   /// "Deine Daten sind sicher:"
   @override
   String get dont_worry => "Deine Daten sind sicher:";
-
   /// "Ermögliche den Zugriff auf Deine Kontakte\n um Gutscheine bei gespeicherten Kontakten einzulösen"
   @override
-  String get enable_contacts_text =>
-      "Ermögliche den Zugriff auf Deine Kontakte\n um Gutscheine bei gespeicherten Kontakten einzulösen";
-
+  String get enable_contacts_text => "Ermögliche den Zugriff auf Deine Kontakte\n um Gutscheine bei gespeicherten Kontakten einzulösen";
   /// "Kontakte lesen"
   @override
   String get sync_contacts => "Kontakte lesen";
-
   /// "Empfangen"
   @override
   String get receive => "Empfangen";
-
   /// "QR-Code scannen um Wert-Gutscheine zu erhalten"
   @override
-  String get scan_to_receive =>
-      "QR-Code scannen um Wert-Gutscheine zu erhalten";
-
+  String get scan_to_receive => "QR-Code scannen um Wert-Gutscheine zu erhalten";
   /// "Teilen"
   @override
   String get share_button => "Teilen";
-
   /// "Senden"
   @override
   String get send_to => "Senden";
-
   /// "Wieviel?"
   @override
   String get how_much => "Wieviel?";
-
   /// "Weiter mit"
   @override
   String get continue_with => "Weiter mit";
-
   /// "Kontakt synchronisieren"
   @override
   String get sync_your_contacts => "Kontakt synchronisieren";
-
   /// "Mehr darüber"
   @override
   String get learn_more => "Mehr darüber";
-
   /// "Aktivieren"
   @override
   String get activate => "Aktivieren";
-
   /// "Aktuell"
   @override
   String get recent => "Aktuell";
-
   /// "Name oder Adresse"
   @override
   String get search => "Name oder Adresse";
-
   /// "Übertragung Überprüfen"
   @override
   String get review_transfer => "Übertragung Überprüfen";
-
   /// "Senden"
   @override
   String get send_button => "Senden";
-
   /// "Erfolg!"
   @override
   String get success => "Erfolg!";
-
   /// "Wiederherstellen"
   @override
   String get restore_from_backup => "Wiederherstellen";
-
   /// "Hier benötigst Du die 12 Worte, die Du beim Anlegen zuvor festgelegt und sicher aufbewahrt hattest."
   @override
-  String get restore_words =>
-      "Hier benötigst Du die 12 Worte, die Du beim Anlegen zuvor festgelegt und sicher aufbewahrt hattest.";
-
+  String get restore_words => "Hier benötigst Du die 12 Worte, die Du beim Anlegen zuvor festgelegt und sicher aufbewahrt hattest.";
   /// "Schreibe die 12 Worte auf..."
   @override
   String get write_down_your_words => "Schreibe die 12 Worte auf...";
-
   /// "Registrierung"
   @override
   String get sign_up => "Registrierung";
-
   /// "Bitte Deine persönliche Mobilfunknummer eingeben, damit wir Deinen Account anlegen können."
   @override
-  String get enter_phone_number =>
-      "Bitte Deine persönliche Mobilfunknummer eingeben, damit wir Deinen Account anlegen können.";
-
+  String get enter_phone_number => "Bitte Deine persönliche Mobilfunknummer eingeben, damit wir Deinen Account anlegen können.";
   /// "Warum benötigen wir das?"
   @override
   String get why_do_we_need_this => "Warum benötigen wir das?";
-
   /// "Wähle Dein Pseudonym"
   @override
   String get pickup_display_name => "Wähle Dein Pseudonym";
-
   /// "Dieser Name wird sichtbar, um Dich gegenüber Partnern zu identifizieren die Dir Gutscheine übermitteln oder bei denen Du Gutscheine einlösen willst."
   @override
-  String get pickup_display_name_text =>
-      "Dieser Name wird sichtbar, um Dich gegenüber Partnern zu identifizieren die Dir Gutscheine übermitteln oder bei denen Du Gutscheine einlösen willst.";
-
+  String get pickup_display_name_text => "Dieser Name wird sichtbar, um Dich gegenüber Partnern zu identifizieren die Dir Gutscheine übermitteln oder bei denen Du Gutscheine einlösen willst.";
   /// "Code erneut per SMS senden"
   @override
   String get resend_code => "Code erneut per SMS senden";
-
   /// "SMS-Nachricht nicht erhalten? - "
   @override
   String get didnt_get_message => "SMS-Nachricht nicht erhalten? - ";
-
   /// "Wir haben gerade eine Nachricht gesendet an \n"
   @override
   String get we_just_sent => "Wir haben gerade eine Nachricht gesendet an \n";
-
   /// "Bitte den 6-stelligen Code aus der Bestätigungsnachricht\n hier eingeben"
   @override
-  String get enter_verification_code =>
-      "Bitte den 6-stelligen Code aus der Bestätigungsnachricht\n hier eingeben";
-
+  String get enter_verification_code => "Bitte den 6-stelligen Code aus der Bestätigungsnachricht\n hier eingeben";
   /// "Schütze Deine Gutschein-Ablage"
   @override
   String get protect_wallet => "Schütze Deine Gutschein-Ablage";
-
   /// "Sicherung"
   @override
   String get backup_wallet => "Sicherung";
-
   /// "Gutschein aufnehmen"
   @override
   String get top_up => "Gutschein aufnehmen";
-
   /// "Kaufen"
   @override
   String get buy => "Kaufen";
-
   /// "Karte"
   @override
   String get map => "Karte";
-
   /// "Genehmigt"
   @override
   String get approved => "Genehmigt";
-
   /// "Einfach"
   @override
   String get simple => "Einfach";
-
   /// "Nützlich"
   @override
   String get useful => "Nützlich";
-
   /// "Geschickt"
   @override
   String get smart => "Geschickt";
-
   /// "Einstellungen"
   @override
   String get settings => "Einstellungen";
-
   /// "Start"
   @override
   String get home => "Start";
-
   /// "Handel"
   @override
   String get trade => "Handel";
-
   /// "Anlagen und Verträge"
   @override
   String get assets_and_contracts => "Anlagen und Verträge";
@@ -3755,501 +2737,367 @@ class _I18n_nl_NL extends I18n {
 
   /// "Gebruik de wallet om geld te sturen \n naar vrienden zonder fees en beperkingen"
   @override
-  String get intro_text_one =>
-      "Gebruik de wallet om geld te sturen \n naar vrienden zonder fees en beperkingen";
-
+  String get intro_text_one => "Gebruik de wallet om geld te sturen \n naar vrienden zonder fees en beperkingen";
   /// "Betalen en betaald worden in crypto \n en kijk waar je in de buurt kunt winkelen"
   @override
-  String get intro_text_two =>
-      "Betalen en betaald worden in crypto \n en kijk waar je in de buurt kunt winkelen";
-
+  String get intro_text_two => "Betalen en betaald worden in crypto \n en kijk waar je in de buurt kunt winkelen";
   /// "Houd Ethereum bezittingen vast en krijg met een paar tikken \n toegang tot gedecentraliseerde financiering"
   @override
-  String get intro_text_three =>
-      "Houd Ethereum bezittingen vast en krijg met een paar tikken \n toegang tot gedecentraliseerde financiering";
-
+  String get intro_text_three => "Houd Ethereum bezittingen vast en krijg met een paar tikken \n toegang tot gedecentraliseerde financiering";
   /// "Hallo"
   @override
   String get hi => "Hallo";
-
   /// "Taal"
   @override
   String get language => "Taal";
-
   /// "Logout"
   @override
   String get logout => "Logout";
-
   /// "Login"
   @override
   String get login => "Login";
-
   /// "Maak een nieuwe wallet"
   @override
   String get create_new_wallet => "Maak een nieuwe wallet";
-
   /// "Wallet aanmaken"
   @override
   String get create__wallet => "Wallet aanmaken";
-
   /// "Herstellen van backup"
   @override
   String get restore_backup => "Herstellen van backup";
-
   /// "Saldo"
   @override
   String get balance => "Saldo";
-
   /// "Belangrijk!"
   @override
   String get important => "Belangrijk!";
-
   /// "Telefoonnummer"
   @override
   String get phoneNumber => "Telefoonnummer";
-
   /// "Ok"
   @override
   String get ok => "Ok";
-
   /// "Neem contact op"
   @override
   String get contact_us => "Neem contact op";
-
   /// "Je wallet is beschermd!"
   @override
   String get wallet_protected => "Je wallet is beschermd!";
-
   /// "Geweldig, je hebt een back-up gemaakt van je geheime woorden. Bewaar je geheime woorden op een veilige plaats en deel deze informatie nooit."
   @override
-  String get wallet_protected_text =>
-      "Geweldig, je hebt een back-up gemaakt van je geheime woorden. Bewaar je geheime woorden op een veilige plaats en deel deze informatie nooit.";
-
+  String get wallet_protected_text => "Geweldig, je hebt een back-up gemaakt van je geheime woorden. Bewaar je geheime woorden op een veilige plaats en deel deze informatie nooit.";
   /// "schrijf de woorden op in de juiste volgorde en bewaar ze op een veilige plaats. Je kunt je acount niet herstellen zonder deze informatie."
   @override
-  String get write_words =>
-      "schrijf de woorden op in de juiste volgorde en bewaar ze op een veilige plaats. Je kunt je acount niet herstellen zonder deze informatie.";
-
+  String get write_words => "schrijf de woorden op in de juiste volgorde en bewaar ze op een veilige plaats. Je kunt je acount niet herstellen zonder deze informatie.";
   /// "Schrijf de volgende woorden op \n"
   @override
   String get write_word => "Schrijf de volgende woorden op \n";
-
   /// "Woord"
   @override
   String get word => "Woord";
-
   /// "Het woord komt niet overeen"
   @override
   String get word_not_match => "Het woord komt niet overeen";
-
   /// "Back-up"
   @override
   String get back_up => "Back-up";
-
   /// "Volgende"
   @override
   String get next_button => "Volgende";
-
   /// "Overslaan"
   @override
   String get skip_button => "Overslaan";
-
   /// "BETAAL"
   @override
   String get pay => "BETAAL";
-
   /// "Geen bedrijven gevonden"
   @override
   String get no_businesses => "Geen bedrijven gevonden";
-
   /// "Genereer wallet"
   @override
   String get generating_wallet => "Genereer wallet";
-
   /// "Wallet aangemaakt"
   @override
   String get generated_wallet => "Wallet aangemaakt";
-
   /// "IN AFWACHTING"
   @override
   String get pending => "IN AFWACHTING";
-
   /// "MISLUKT"
   @override
   String get failed => "MISLUKT";
-
   /// "BEVESTIGD"
   @override
   String get confirmed => "BEVESTIGD";
-
   /// "Transacties"
   @override
   String get transactions => "Transacties";
-
   /// "Transactie details"
   @override
   String get transaction_details => "Transactie details";
-
   /// "Naar"
   @override
   String get to => "Naar";
-
   /// "Van"
   @override
   String get from => "Van";
-
   /// "Adres"
   @override
   String get address => "Adres";
-
   /// "Bedrag"
   @override
   String get amount => "Bedrag";
-
   /// "Je hebt een aanmeldingsbonus ontvangen!"
   @override
   String get join_bonus => "Je hebt een aanmeldingsbonus ontvangen!";
-
   /// "Lid worden van de community"
   @override
   String get joining_community => "Lid worden van de community";
-
   /// "Deelnemen"
   @override
   String get joining => "Deelnemen";
-
   /// "Aangesloten"
   @override
   String get joined => "Aangesloten";
-
   /// "community"
   @override
   String get community => "community";
-
   /// "Over"
   @override
   String get about => "Over";
-
   /// "Versie"
   @override
   String get version => "Versie";
-
   /// "Legal"
   @override
   String get legal => "Legal";
-
   /// "Pincode"
   @override
   String get pincode => "Pincode";
-
   /// "Voer uw pincode in:"
   @override
   String get enter_pincode => "Voer uw pincode in:";
-
   /// "Voer uw toegangscode nogmaals in"
   @override
   String get re_type_passcode => "Voer uw toegangscode nogmaals in";
-
   /// "Voer toegangscode in"
   @override
   String get create_passcode => "Voer toegangscode in";
-
   /// "Wissel van community"
   @override
   String get switch_community => "Wissel van community";
-
   /// "Scan QR code om te wisselen"
   @override
   String get sqan_qr_code => "Scan QR code om te wisselen";
-
   /// "of"
   @override
   String get or => "of";
-
   /// "Voer het community adres in"
   @override
   String get enter_community_address => "Voer het community adres in";
-
   /// "community adres"
   @override
   String get community_address => "community adres";
-
   /// "Opslaan"
   @override
   String get save_button => "Opslaan";
-
   /// "Je kunt wisselen naar een nieuwe community door je Asset ID (verkrijgbaar in de Studio) in te voeren of door een QR code te scannen"
   @override
-  String get fuse_studio =>
-      "Je kunt wisselen naar een nieuwe community door je Asset ID (verkrijgbaar in de Studio) in te voeren of door een QR code te scannen";
-
+  String get fuse_studio => "Je kunt wisselen naar een nieuwe community door je Asset ID (verkrijgbaar in de Studio) in te voeren of door een QR code te scannen";
   /// "Geef toegang tot je contacten"
   @override
   String get enable_contacts_access => "Geef toegang tot je contacten";
-
   /// "Je contacten worden niet opgeslagen op onze \n server en deze actie stuurt hen geen \n berichten"
   @override
-  String get enable_text =>
-      "Je contacten worden niet opgeslagen op onze \n server en deze actie stuurt hen geen \n berichten";
-
+  String get enable_text => "Je contacten worden niet opgeslagen op onze \n server en deze actie stuurt hen geen \n berichten";
   /// "Maak je geen zorgen:"
   @override
   String get dont_worry => "Maak je geen zorgen:";
-
   /// "Schakel contact sync in om\n geld te sturen naar je contacten"
   @override
-  String get enable_contacts_text =>
-      "Schakel contact sync in om\n geld te sturen naar je contacten";
-
+  String get enable_contacts_text => "Schakel contact sync in om\n geld te sturen naar je contacten";
   /// "Synchroniseer je contacten"
   @override
   String get sync_contacts => "Synchroniseer je contacten";
-
   /// "Ontvang"
   @override
   String get receive => "Ontvang";
-
   /// "Scan de QR code om geld te ontvangen"
   @override
   String get scan_to_receive => "Scan de QR code om geld te ontvangen";
-
   /// "Deel"
   @override
   String get share_button => "Deel";
-
   /// "Stuur naar"
   @override
   String get send_to => "Stuur naar";
-
   /// "Hoeveel?"
   @override
   String get how_much => "Hoeveel?";
-
   /// "Doorgaan met"
   @override
   String get continue_with => "Doorgaan met";
-
   /// "Sync je contacten"
   @override
   String get sync_your_contacts => "Sync je contacten";
-
   /// "Meer informatie"
   @override
   String get learn_more => "Meer informatie";
-
   /// "Activeer"
   @override
   String get activate => "Activeer";
-
   /// "Recent"
   @override
   String get recent => "Recent";
-
   /// "Naam of adres"
   @override
   String get search => "Naam of adres";
-
   /// "Controleer transactie"
   @override
   String get review_transfer => "Controleer transactie";
-
   /// "Versturen"
   @override
   String get send_button => "Versturen";
-
   /// "Succes"
   @override
   String get success => "Succes";
-
   /// "Herstel vanuit backup"
   @override
   String get restore_from_backup => "Herstel vanuit backup";
-
   /// "Dit is een groep van 12 woorden die je gekregen hebt tijdens het aanmaken van je vorige wallet"
   @override
-  String get restore_words =>
-      "Dit is een groep van 12 woorden die je gekregen hebt tijdens het aanmaken van je vorige wallet";
-
+  String get restore_words => "Dit is een groep van 12 woorden die je gekregen hebt tijdens het aanmaken van je vorige wallet";
   /// "Schrijf je 12 woorden op..."
   @override
   String get write_down_your_words => "Schrijf je 12 woorden op...";
-
   /// "Registreer"
   @override
   String get sign_up => "Registreer";
-
   /// "Voer je telefoonnummer in om je account in te stellen"
   @override
-  String get enter_phone_number =>
-      "Voer je telefoonnummer in om je account in te stellen";
-
+  String get enter_phone_number => "Voer je telefoonnummer in om je account in te stellen";
   /// "Waarom hebben jullie dit nodig?"
   @override
   String get why_do_we_need_this => "Waarom hebben jullie dit nodig?";
-
   /// "Kies een weergave naam"
   @override
   String get pickup_display_name => "Kies een weergave naam";
-
   /// "Deze naam zal worden weergegeven aan contacten die je geld sturen om je account te identificeren"
   @override
-  String get pickup_display_name_text =>
-      "Deze naam zal worden weergegeven aan contacten die je geld sturen om je account te identificeren";
-
+  String get pickup_display_name_text => "Deze naam zal worden weergegeven aan contacten die je geld sturen om je account te identificeren";
   /// "Stuur code opnieuw"
   @override
   String get resend_code => "Stuur code opnieuw";
-
   /// "Heb je het bericht niet ontvangen? - "
   @override
   String get didnt_get_message => "Heb je het bericht niet ontvangen? - ";
-
   /// "We hebben zojuist een bericht gestuurd naar \n"
   @override
   String get we_just_sent => "We hebben zojuist een bericht gestuurd naar \n";
-
   /// "Voer hier de 6-cijferige code van \n dat bericht in"
   @override
-  String get enter_verification_code =>
-      "Voer hier de 6-cijferige code van \n dat bericht in";
-
+  String get enter_verification_code => "Voer hier de 6-cijferige code van \n dat bericht in";
   /// "Bescherm je wallet"
   @override
   String get protect_wallet => "Bescherm je wallet";
-
   /// "Maak backup"
   @override
   String get backup_wallet => "Maak backup";
-
   /// "Account opwaarderen"
   @override
   String get top_up => "Account opwaarderen";
-
   /// "Koop"
   @override
   String get buy => "Koop";
-
   /// "Goedgekeurd"
   @override
   String get approved => "Goedgekeurd";
-
   /// "Netwerk"
   @override
   String get network => "Netwerk";
-
   /// "Simpel"
   @override
   String get simple => "Simpel";
-
   /// "Nuttig"
   @override
   String get useful => "Nuttig";
-
   /// "slim"
   @override
   String get smart => "slim";
-
   /// "Instellingen"
   @override
   String get settings => "Instellingen";
-
   /// "Home"
   @override
   String get home => "Home";
-
   /// "Handel"
   @override
   String get trade => "Handel";
-
   /// "Bezittingen en contracten"
   @override
   String get assets_and_contracts => "Bezittingen en contracten";
-
   /// "Verstuur naar je Ethereum wallet"
   @override
   String get sending_to_ethereum => "Verstuur naar je Ethereum wallet";
-
   /// "Verstuur naar Ethereum"
   @override
   String get sent_to_ethereum => "Verstuur naar Ethereum";
-
   /// "Ontvangen van Ethereum"
   @override
   String get received_from_ethereum => "Ontvangen van Ethereum";
-
   /// "Geen geld beschikbaar"
   @override
   String get no_funds_available => "Geen geld beschikbaar";
-
   /// "Controleer handelstransactie"
   @override
   String get review_trade => "Controleer handelstransactie";
-
   /// "Gebruik alles"
   @override
   String get use_max => "Gebruik alles";
-
   /// "Verstuur naar een adres"
   @override
   String get send_to_address => "Verstuur naar een adres";
-
   /// "Onvoldoende saldo op je rekening"
   @override
   String get not_enough_balance => "Onvoldoende saldo op je rekening";
-
   /// "Kies hoe je je wallet wilt beschermen door een van de volgende methoden te selecteren"
   @override
-  String get choose_lock_method =>
-      "Kies hoe je je wallet wilt beschermen door een van de volgende methoden te selecteren";
-
+  String get choose_lock_method => "Kies hoe je je wallet wilt beschermen door een van de volgende methoden te selecteren";
   /// "Ja"
   @override
   String get yes => "Ja";
-
   /// "Nee"
   @override
   String get no => "Nee";
-
   /// "Fuse Volts"
   @override
   String get fuse_volts => "Fuse Volts";
-
   /// "Maak nu een back-up"
   @override
   String get back_up_now => "Maak nu een back-up";
-
   /// "Aanbevolen"
   @override
   String get recommended => "Aanbevolen";
-
   /// "Onvoldoende saldo"
   @override
   String get insufficient_fund => "Onvoldoende saldo";
-
   /// "Community Webpagina"
   @override
   String get community_webpage => "Community Webpagina";
-
   /// "Annuleer"
   @override
   String get cancel => "Annuleer";
-
   /// "Flits aan"
   @override
   String get flash_on => "Flits aan";
-
   /// "Flits uit"
   @override
   String get flash_off => "Flits uit";
-
   /// "Huidige community"
   @override
   String get current_community => "Huidige community";
-
   /// "Mijn communities"
   @override
   String get my_communities => "Mijn communities";
-
   /// "Geselecteerd"
   @override
   String get selected => "Geselecteerd";
@@ -4258,8 +3106,7 @@ class _I18n_nl_NL extends I18n {
   TextDirection get textDirection => TextDirection.ltr;
 }
 
-class GeneratedLocalizationsDelegate
-    extends LocalizationsDelegate<WidgetsLocalizations> {
+class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocalizations> {
   const GeneratedLocalizationsDelegate();
   List<Locale> get supportedLocales {
     return const <Locale>[
@@ -4291,43 +3138,59 @@ class GeneratedLocalizationsDelegate
     I18n._locale ??= locale;
     I18n._shouldReload = false;
     final String lang = I18n._locale != null ? I18n._locale.toString() : "";
-    final String languageCode =
-        I18n._locale != null ? I18n._locale.languageCode : "";
+    final String languageCode = I18n._locale != null ? I18n._locale.languageCode : "";
     if ("en_US" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
-    } else if ("he_IL" == lang) {
+    }
+    else if ("he_IL" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_he_IL());
-    } else if ("es_ES" == lang) {
+    }
+    else if ("es_ES" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_es_ES());
-    } else if ("br_BR" == lang) {
+    }
+    else if ("br_BR" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_br_BR());
-    } else if ("it_IT" == lang) {
+    }
+    else if ("it_IT" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_it_IT());
-    } else if ("en_PH" == lang) {
+    }
+    else if ("en_PH" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_PH());
-    } else if ("id_ID" == lang) {
+    }
+    else if ("id_ID" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_id_ID());
-    } else if ("es_MX" == lang) {
+    }
+    else if ("es_MX" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_es_MX());
-    } else if ("de_DE" == lang) {
+    }
+    else if ("de_DE" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_de_DE());
-    } else if ("nl_NL" == lang) {
+    }
+    else if ("nl_NL" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_nl_NL());
-    } else if ("en" == languageCode) {
+    }
+    else if ("en" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
-    } else if ("he" == languageCode) {
+    }
+    else if ("he" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_he_IL());
-    } else if ("es" == languageCode) {
+    }
+    else if ("es" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_es_ES());
-    } else if ("br" == languageCode) {
+    }
+    else if ("br" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_br_BR());
-    } else if ("it" == languageCode) {
+    }
+    else if ("it" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_it_IT());
-    } else if ("id" == languageCode) {
+    }
+    else if ("id" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_id_ID());
-    } else if ("de" == languageCode) {
+    }
+    else if ("de" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_de_DE());
-    } else if ("nl" == languageCode) {
+    }
+    else if ("nl" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_nl_NL());
     }
 
