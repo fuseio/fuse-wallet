@@ -16,6 +16,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SaveContacts>(_saveContacts),
   TypedReducer<UserState, SetPincodeSuccess>(_setPincode),
   TypedReducer<UserState, SetDisplayName>(_setDisplayName),
+  TypedReducer<UserState, SetUserAvatar>(_setUserAvatar),
   TypedReducer<UserState, ReLogin>(_reLoginUser),
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
   TypedReducer<UserState, SetCredentials>(_setCredentials),
@@ -146,6 +147,10 @@ UserState _setDisplayName(UserState state, SetDisplayName action) {
   return state.copyWith(displayName: action.displayName);
 }
 
+UserState _setUserAvatar(UserState state, SetUserAvatar action) {
+  return state.copyWith(avatarUrl: action.avatarUrl);
+}
+
 UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {
   Map<String, String> reverseContacts =
       Map<String, String>.from(state.reverseContacts);
@@ -180,11 +185,11 @@ UserState _justInstalled(UserState state, JustInstalled action) {
 }
 
 UserState _setIsLoginRequest(UserState state, SetIsLoginRequest action) {
-  return state.copyWith(isLoginRequest: action.isLoading);
+  return state.copyWith(isLoginRequest: action.isLoading, signupException: action.message);
 }
 
 UserState _setIsVerifyRequest(UserState state, SetIsVerifyRequest action) {
-  return state.copyWith(isVerifyRequest: action.isLoading);
+  return state.copyWith(isVerifyRequest: action.isLoading, verifyException: action.message);
 }
 
 UserState _deviceIdSuccess(UserState state, DeviceIdSuccess action) {

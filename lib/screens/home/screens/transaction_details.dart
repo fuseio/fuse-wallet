@@ -48,54 +48,81 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
       title: widget.transfer.type.toUpperCase(),
       children: <Widget>[
         Container(
-            height: MediaQuery.of(context).size.height * 0.75,
+            height: MediaQuery.of(context).size.height * 0.7,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     children: <Widget>[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          widget.transfer.isFailed()
-                              ? Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: SvgPicture.asset(
-                                    'assets/images/failed_icon.svg',
-                                    width: 25,
-                                    height: 25,
-                                  ),
-                                )
-                              : widget.transfer.isConfirmed()
-                                  ? Padding(
-                                      padding: EdgeInsets.only(right: 10),
-                                      child: SvgPicture.asset(
-                                          'assets/images/approve_icon.svg',
-                                          width: 25,
-                                          height: 25),
-                                    )
-                                  : widget.transfer.isPending()
-                                      ? Padding(
-                                          padding: EdgeInsets.only(right: 10),
-                                          child: SvgPicture.asset(
-                                              'assets/images/pending.svg',
-                                              width: 25,
-                                              height: 25),
-                                        )
-                                      : SizedBox.shrink(),
-                          Text(
-                              widget.transfer.isConfirmed()
-                                  ? I18n.of(context).approved
-                                  : widget?.transfer?.status,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal))
-                        ],
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            widget.transfer.isFailed()
+                                ? Padding(
+                                    padding: EdgeInsets.only(right: 10),
+                                    child: SvgPicture.asset(
+                                      'assets/images/failed_icon.svg',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                  )
+                                : widget.transfer.isConfirmed()
+                                    ? Padding(
+                                        padding: EdgeInsets.only(right: 10),
+                                        child: SvgPicture.asset(
+                                            'assets/images/approve_icon.svg',
+                                            width: 25,
+                                            height: 25),
+                                      )
+                                    : widget.transfer.isPending()
+                                        ? Padding(
+                                            padding: EdgeInsets.only(right: 10),
+                                            child: SvgPicture.asset(
+                                                'assets/images/pending.svg',
+                                                width: 25,
+                                                height: 25),
+                                          )
+                                        : SizedBox.shrink(),
+                            Text(
+                                widget.transfer.isConfirmed()
+                                    ? I18n.of(context).approved
+                                    : widget?.transfer?.status,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Theme.of(context).accentColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.normal))
+                          ],
+                        ),
                       ),
+                      widget.transfer.isFailed()
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(I18n.of(context).transaction_failed,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal)),
+                                Text(
+                                    widget?.transfer?.failReason ??
+                                        I18n.of(context).something_went_wrong,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal))
+                              ],
+                            )
+                          : SizedBox.shrink(),
                     ],
                   ),
                   SizedBox(
