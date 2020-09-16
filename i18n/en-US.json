@@ -128,5 +128,6 @@
     "selected": "Selected",
     "convertor": "Convertor",
     "fee_amount": "Fee amount:",
-    "total_amount": "Total amount:"
+    "total_amount": "Total amount:",
+    "pay_with": "Pay with"
 }

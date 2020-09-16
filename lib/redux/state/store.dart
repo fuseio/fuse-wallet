@@ -81,7 +81,7 @@ class AppFactory {
           Duration diff = exp.difference(now);
 
           if (diff.inDays <= 1) {
-            String token = await firebaseAuth.currentUser.getIdToken();
+            String token = await firebaseAuth.currentUser.getIdToken(true);
             jwtToken = await api.login(
                 token,
                 initialState.userState.accountAddress,

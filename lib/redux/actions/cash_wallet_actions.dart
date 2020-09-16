@@ -17,7 +17,6 @@ import 'package:seedbed/models/transactions/transfer.dart';
 import 'package:seedbed/models/user_state.dart';
 import 'package:seedbed/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:seedbed/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:seedbed/redux/actions/user_actions.dart';
 import 'package:seedbed/utils/addresses.dart';
 import 'package:seedbed/redux/state/store.dart';
@@ -381,8 +380,8 @@ ThunkAction listenToBranchCall() {
   };
 }
 
-ThunkAction initWeb3Call(
-  String privateKey, {
+ThunkAction initWeb3Call({
+  String privateKey,
   String communityManagerAddress,
   String transferManagerAddress,
   String dAIPointsManagerAddress,
@@ -390,6 +389,7 @@ ThunkAction initWeb3Call(
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
+      String pk = privateKey ?? store.state.userState.privateKey;
       logger.info('initWeb3. privateKey: $privateKey');
       logger.info('mnemonic : ${store.state.userState.mnemonic.toString()}');
       wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
@@ -414,7 +414,7 @@ ThunkAction initWeb3Call(
               SetDefaultCommunity(web3.getDefaultCommunity().toLowerCase()));
         }
       }
-      web3.setCredentials(privateKey);
+      web3.setCredentials(pk);
       store.dispatch(new InitWeb3Success(web3));
     } catch (e) {
       logger.severe('ERROR - initWeb3Call $e');
@@ -515,39 +515,7 @@ ThunkAction generateWalletSuccessCall(
     String walletAddress = walletData["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
       store.dispatch(enablePushNotifications());
-      String privateKey = store.state.userState.privateKey;
-      List<String> networks = List<String>.from(walletData['networks']);
-      String communityManager = walletData['communityManager'];
-      String transferManager = walletData['transferManager'];
-      String dAIPointsManager = walletData['dAIPointsManager'];
-      store.dispatch(initWeb3Call(privateKey,
-          communityManagerAddress: communityManager,
-          transferManagerAddress: transferManager,
-          dAIPointsManagerAddress: dAIPointsManager));
-      bool deployedToForeign = networks?.contains(foreignNetwork) ?? false;
-      if (deployedToForeign) {
-        store.dispatch(initWeb3ProMode(
-            privateKey: privateKey,
-            communityManagerAddress: communityManager,
-            transferManagerAddress: transferManager,
-            dAIPointsManagerAddress: dAIPointsManager));
-      }
-      store.dispatch(new GetWalletAddressesSuccess(
-          walletAddress: walletAddress,
-          daiPointsManagerAddress: dAIPointsManager,
-          communityManagerAddress: communityManager,
-          transferManagerAddress: transferManager,
-          networks: networks));
-      Future.delayed(Duration(seconds: intervalSeconds), () {
-        if (deployedToForeign) {
-          store.dispatch(startListenToTransferEvents());
-          store.dispatch(startFetchBalancesOnForeign());
-          store.dispatch(fetchTokensBalances());
-          store.dispatch(startFetchTransferEventsCall());
-          store.dispatch(startFetchTokensLastestPrices());
-          store.dispatch(startProcessingTokensJobsCall());
-        }
-      });
+      store.dispatch(setupWalletCall(walletData));
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
         "App name": 'Seedbed',

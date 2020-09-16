@@ -160,7 +160,7 @@ ThunkAction initWeb3ProMode(
         communityManagerAddress:
             communityManagerAddress ?? userState.communityManagerAddress,
         url: DotEnv().env['FOREIGN_PROVIDER_URL']);
-    await web3.setCredentials(pk);
+    web3.setCredentials(pk);
     store.dispatch(new InitWeb3ProModeSuccess(web3: web3));
   };
 }
@@ -184,20 +184,18 @@ ThunkAction startListenToTransferEvents() {
               foreignNetwork: foreignNetwork, to: walletAddress);
           ProWalletState proWalletState = store.state.proWalletState;
           if (transfersEvents.isNotEmpty) {
-            List<String> addressesFromTransfersEvents = [
+            List<String> tokenAddresses = [
               ...transfersEvents.map((transferEvent) =>
                   transferEvent['tokenAddress'].toLowerCase())
                 ..toSet()
                 ..toList()
             ];
-            addressesFromTransfersEvents
+            tokenAddresses
               ..removeWhere(
                   (address) => proWalletState.erc20Tokens.containsKey(address));
-            logger.info(
-                'addressesFromTransfersEvents addressesFromTransfersEvents ${addressesFromTransfersEvents.length}');
-            if (addressesFromTransfersEvents.isNotEmpty) {
-              store.dispatch(getBalancesOnForeign(
-                  addressesFromTransfersEvents: addressesFromTransfersEvents));
+            logger.info('tokenAddresses ${tokenAddresses.length}');
+            if (tokenAddresses.isNotEmpty) {
+              store.dispatch(addTokens(contractAddresses: tokenAddresses));
               store.dispatch(startFetchBalancesOnForeign());
             }
             timer.cancel();
@@ -311,8 +309,7 @@ ThunkAction fetchTokensLatestPrice() {
   };
 }
 
-ThunkAction startFetchBalancesOnForeign(
-    {List<String> addressesFromTransfersEvents = const []}) {
+ThunkAction startFetchBalancesOnForeign() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     bool isFetchNewTokens =
@@ -327,37 +324,33 @@ ThunkAction startFetchBalancesOnForeign(
           timer.cancel();
           return;
         }
-        store.dispatch(getBalancesOnForeign(
-            addressesFromTransfersEvents: addressesFromTransfersEvents));
+        Map walletData = await api.getWallet();
+        ProWalletState proWalletState = store.state.proWalletState;
+        List<String> tokenAddresses = [];
+        if (walletData['balancesOnForeign'] != null) {
+          Map<String, dynamic> balancesOnForeign =
+              Map.from(walletData['balancesOnForeign']);
+          balancesOnForeign
+            ..removeWhere((key, value) =>
+                proWalletState.erc20Tokens.containsKey(key.toLowerCase()));
+          tokenAddresses..addAll(balancesOnForeign.keys);
+        }
+        if (tokenAddresses.isNotEmpty) {
+          store.dispatch(addTokens(contractAddresses: tokenAddresses));
+        }
       });
       store.dispatch(SetIsFetchNewTokens(isFetching: true));
     }
   };
 }
 
-ThunkAction getBalancesOnForeign(
-    {List<String> addressesFromTransfersEvents = const []}) {
+ThunkAction addTokens({List<String> contractAddresses = const []}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      Map walletData = await api.getWallet();
-      ProWalletState proWalletState = store.state.proWalletState;
-      List<String> tokenAddresses = [];
-      if (addressesFromTransfersEvents.isNotEmpty) {
-        tokenAddresses..addAll(addressesFromTransfersEvents);
-      }
-      if (walletData['balancesOnForeign'] != null) {
-        Map<String, dynamic> balancesOnForeign =
-            Map.from(walletData['balancesOnForeign']);
-        balancesOnForeign
-          ..removeWhere((key, value) =>
-              proWalletState.erc20Tokens.containsKey(key.toLowerCase()));
-        tokenAddresses..addAll(balancesOnForeign.keys);
-      }
-      if (tokenAddresses.isNotEmpty) {
-        for (String address in tokenAddresses) {
-          store.dispatch(fetchTokenByAddress(address));
-        }
+      List<String> tokenAddresses = []..addAll(contractAddresses);
+      for (String address in tokenAddresses) {
+        store.dispatch(fetchTokenByAddress(address));
       }
     } catch (error) {
       logger.severe('Error in getBalancesOnForeign ${error.toString()}');
@@ -386,7 +379,7 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
         List<Community> communities =
             store.state.cashWalletState.communities.values.toList();
         Community community = communities.firstWhere(
-            (element) =>
+            (Community element) =>
                 tokenAddress?.toLowerCase() ==
                 element?.foreignTokenAddress?.toLowerCase(),
             orElse: () => null);
