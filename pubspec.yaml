@@ -6,13 +6,13 @@ environment:
 dependencies:
   flushbar: ^1.10.4
   flutter_platform_widgets: ^0.60.1
-  enum_to_string: ^1.0.9
+  enum_to_string: ^1.0.11
   local_auth: ^0.6.2+3
   auto_size_text: ^2.1.0
   flutter_webview_plugin: ^0.3.11
   phone_number: ^0.6.2+4
   libphonenumber: ^1.0.1
-  cached_network_image: ^2.2.0+1
+  cached_network_image: ^2.3.2+1
   rate_my_app: ^0.6.1+7
   auto_route: ^0.6.6
   url_launcher: ^5.5.0
@@ -46,7 +46,7 @@ dependencies:
   pin_input_text_field: ^3.0.4
   flare_flutter: ^2.0.1
   decimal: ^0.3.5
-  flutter_segment: ^2.1.1
+  flutter_segment: 2.1.1
   firebase_messaging: ^7.0.0
   firebase_auth: ^0.18.0+1
   ethereum_address: ^1.0.1
