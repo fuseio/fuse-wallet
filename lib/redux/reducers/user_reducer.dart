@@ -16,6 +16,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SaveContacts>(_saveContacts),
   TypedReducer<UserState, SetPincodeSuccess>(_setPincode),
   TypedReducer<UserState, SetDisplayName>(_setDisplayName),
+  TypedReducer<UserState, SetUserAvatar>(_setUserAvatar),
   TypedReducer<UserState, ReLogin>(_reLoginUser),
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
   TypedReducer<UserState, SetCredentials>(_setCredentials),
@@ -144,6 +145,10 @@ UserState _syncContactsRejected(UserState state, SyncContactsRejected action) {
 
 UserState _setDisplayName(UserState state, SetDisplayName action) {
   return state.copyWith(displayName: action.displayName);
+}
+
+UserState _setUserAvatar(UserState state, SetUserAvatar action) {
+  return state.copyWith(avatarUrl: action.avatarUrl);
 }
 
 UserState _syncContactsProgress(UserState state, SyncContactsProgress action) {

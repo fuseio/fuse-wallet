@@ -28,6 +28,7 @@ class UserState {
   final Map<String, String> reverseContacts;
   final String jwtToken;
   final String displayName;
+  final String avatarUrl;
   final String email;
   final String verificationId;
   final String identifier;
@@ -76,6 +77,7 @@ class UserState {
       this.syncedContacts,
       this.jwtToken,
       this.displayName,
+      this.avatarUrl,
       this.email,
       this.verificationId,
       this.identifier,
@@ -155,6 +157,7 @@ class UserState {
       Map<String, String> reverseContacts,
       String jwtToken,
       String displayName,
+      String avatarUrl,
       String email,
       String verificationId,
       String identifier,
@@ -195,6 +198,7 @@ class UserState {
         syncedContacts: syncedContacts ?? this.syncedContacts,
         reverseContacts: reverseContacts ?? this.reverseContacts,
         jwtToken: jwtToken ?? this.jwtToken,
+        avatarUrl: avatarUrl ?? this.avatarUrl,
         displayName: displayName ?? this.displayName,
         email: email ?? this.email,
         verificationId: verificationId ?? this.verificationId,
