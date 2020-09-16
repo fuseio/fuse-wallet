@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:seedbed/generated/i18n.dart';
 import 'package:seedbed/models/app_state.dart';
+import 'package:seedbed/utils/constans.dart';
 import 'package:seedbed/widgets/main_scaffold.dart';
 import 'package:seedbed/widgets/primary_button.dart';
 import 'package:seedbed/models/views/onboard.dart';
+import 'package:seedbed/widgets/snackbars.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class VerifyScreen extends StatefulWidget {
@@ -33,6 +36,22 @@ class _VerifyScreenState extends State<VerifyScreen> {
           if (viewModel.credentials != null) {
             autoCode = viewModel.credentials.smsCode ?? "";
             viewModel.verify(autoCode, widget.verificationId);
+          }
+        },
+        onWillChange: (previousViewModel, newViewModel) {
+          if (previousViewModel.verifyException !=
+                  newViewModel.verifyException &&
+              newViewModel.verifyException.runtimeType ==
+                  FirebaseAuthException) {
+            transactionFailedSnack(newViewModel.verifyException.message,
+                title: newViewModel.verifyException.code,
+                duration: Duration(seconds: 3),
+                context: context,
+                margin:
+                    EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
+            Future.delayed(Duration(seconds: intervalSeconds), () {
+              newViewModel.resetErrors();
+            });
           }
         },
         builder: (_, viewModel) {
@@ -77,8 +96,14 @@ class _VerifyScreenState extends State<VerifyScreen> {
                               child: PinInputTextField(
                                 pinLength: 6,
                                 decoration: UnderlineDecoration(
-                                  color: Color(0xFFDDDDDD),
-                                  enteredColor: Color(0xFF575757),
+                                  colorBuilder: FixedColorListBuilder([
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                  ]),
                                 ),
                                 controller: verificationCodeController,
                                 autoFocus: true,

@@ -43,17 +43,8 @@ class _TransactionTileState extends State<TransactionTile> {
           Community community = getCommunity(
               (widget?.token?.address ?? widget.transfer?.tokenAddress),
               viewModel.communities);
-          Token token = widget.token;
-          if (token == null) {
-            token =
-                viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
-            // if (widget.transfer.tokenAddress == null) {
-            //   token = community?.token;
-            // } else {
-            //   token = getToken(widget.transfer?.tokenAddress?.toLowerCase(),
-            //       viewModel?.communities, viewModel?.erc20Tokens);
-            // }
-          }
+          Token token = widget.token ??
+              viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
           bool isSendingToForeign = (community?.homeBridgeAddress != null &&
                   widget.transfer.to != null &&
                   widget.transfer.to?.toLowerCase() ==
@@ -99,7 +90,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                         fontSize: 15.0,
                                         fontWeight: FontWeight.bold)),
                                 TextSpan(
-                                    text: " ${token.symbol}",
+                                    text: " ${token?.symbol}",
                                     style: TextStyle(
                                         color: Color(0xFF696969),
                                         fontSize: 10.0,
@@ -205,7 +196,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                           community.metadata.isDefaultImage &&
                                           widget.transfer.isJoinCommunity()
                                       ? Text(
-                                          token.symbol,
+                                          token?.symbol,
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,
@@ -333,7 +324,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  " ${token.symbol}",
+                                  " ${token?.symbol}",
                                   style: TextStyle(
                                       color: Color(0xFF696969),
                                       fontSize: 16.0,
@@ -390,13 +381,13 @@ class _TransactionTileViewModel extends Equatable {
       return previousValue;
     });
     return _TransactionTileViewModel(
+      tokens: tokens,
       reverseContacts: store.state.userState.reverseContacts,
       contacts: store.state.userState.contacts,
       walletStatus: store.state.userState.walletStatus,
       countryCode: store.state.userState.countryCode,
       erc20Tokens: store.state.proWalletState.erc20Tokens,
       communities: communities.values.toList(),
-      tokens: tokens,
     );
   }
 

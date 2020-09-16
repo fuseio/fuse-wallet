@@ -9,6 +9,7 @@ import 'package:seedbed/screens/misc/about.dart';
 import 'package:seedbed/screens/misc/protect_your_wallet.dart';
 import 'package:seedbed/screens/misc/settings.dart';
 import 'package:seedbed/screens/misc/switch_commmunity.dart';
+import 'package:seedbed/screens/profile/screen/profile.dart';
 import 'package:seedbed/screens/reward/change_reward.dart';
 import 'package:seedbed/screens/trade/review_trade.dart';
 import 'package:seedbed/screens/trade/trade.dart';
@@ -30,5 +31,6 @@ import 'package:seedbed/screens/trade/trade.dart';
   MaterialRoute(page: SwitchCommunityScreen),
   MaterialRoute(page: ProtectYourWallet),
   MaterialRoute(page: ChangeRewardScreen),
+  MaterialRoute(page: ProfileScreen),
 ])
 class $HomeRouter {}

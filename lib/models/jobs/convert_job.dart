@@ -64,7 +64,7 @@ class ConvertJob extends Job {
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       store.dispatch(transactionFailed(
-          arguments['transfer'], arguments['communityAddress']));
+          arguments['transfer'], arguments['communityAddress'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed',
           properties: new Map<String, dynamic>.from(
               {'id': id, 'failReason': failReason, 'name': name})));
@@ -86,7 +86,7 @@ class ConvertJob extends Job {
         this.status = 'FAILED';
         String failReason = response['failReason'];
         store.dispatch(transactionFailed(
-            arguments['transfer'], arguments['communityAddress']));
+            arguments['transfer'], arguments['communityAddress'], failReason));
         store.dispatch(segmentTrackCall('Wallet: job failed',
             properties: new Map<String, dynamic>.from(
                 {'id': id, 'failReason': failReason, 'name': name})));

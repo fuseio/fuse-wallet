@@ -3,6 +3,7 @@ import 'package:seedbed/models/transactions/transfer.dart';
 import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
 import 'package:seedbed/redux/state/store.dart';
 import 'package:seedbed/services.dart';
+import 'package:seedbed/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer_job.g.dart';
@@ -36,7 +37,7 @@ class TransferJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('TransferJob FAILED');
-      store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
+      // store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: TransferJob FAILED'));
       return;
     }
@@ -52,7 +53,6 @@ class TransferJob extends Job {
           transaction: transfer,
           transactionToReplace: confirmedTx,
           communityAddress: arguments['communityAddress']));
-      arguments['transfer'] = confirmedTx.copyWith();
       store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
     }
 
@@ -60,14 +60,17 @@ class TransferJob extends Job {
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       this.isReported = true;
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('TransferJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
+      transactionFailedSnack(failReason);
+      store.dispatch(transactionFailed(transfer, arguments['communityAddress'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
       return;
     }
 
@@ -81,6 +84,7 @@ class TransferJob extends Job {
         transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED'),
         communityAddress: arguments['communityAddress']));
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+    store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
   }
 
   @override

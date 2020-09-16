@@ -49,7 +49,7 @@ Middleware<AppState> _createLoginRequestMiddleware() {
       catch (e, s) {
         store.dispatch(SetIsLoginRequest(isLoading: false));
         logger.severe('ERROR - LoginRequest $e');
-        await AppFactory().reportError(e, s);
+        await AppFactory().reportError(e, stackTrace: s);
         store.dispatch(new ErrorAction(e.toString()));
         store.dispatch(segmentTrackCall("ERROR in LoginRequest", properties: new Map.from({ "error": e.toString() })));
       }
@@ -84,12 +84,13 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
         ExtendedNavigator.root.push(Routes.userNameScreen);
       }
-      catch (e, s) {
-        store.dispatch(SetIsVerifyRequest(isLoading: false));
-        logger.severe('ERROR - Verification failed $e');
-        await AppFactory().reportError(e, s);
-        store.dispatch(new ErrorAction(e.toString()));
-        store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": e.toString() })));
+      catch (error, s) {
+        FirebaseAuthException firebaseAuthException = error as FirebaseAuthException;
+        store.dispatch(SetIsVerifyRequest(isLoading: false, message: firebaseAuthException));
+        logger.severe('ERROR - Verification failed ${firebaseAuthException.code} - ${firebaseAuthException.message}');
+        await AppFactory().reportError(firebaseAuthException.message, stackTrace: s);
+        store.dispatch(new ErrorAction(firebaseAuthException.message));
+        store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": firebaseAuthException.message })));
       }
     }
     next(action);

@@ -106,10 +106,15 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                                   color: Theme.of(context)
                                                       .splashColor,
                                                   fontWeight: FontWeight.bold),
-                                              color:
-                                                  Theme.of(context).splashColor,
-                                              enteredColor:
-                                                  Theme.of(context).splashColor,
+                                              colorBuilder:
+                                                  FixedColorListBuilder([
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor
+                                              ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
                                                   obscureText: '●')),
