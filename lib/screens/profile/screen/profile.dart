@@ -117,18 +117,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             cursorColor: Color(0xFFC6C6C6),
                             onChanged: (value) => displayName = value,
                             decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              border: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.edit),
-                                color: Colors.grey,
-                                onPressed: () => ExtendedNavigator.root
-                                    .push(Routes.userNameScreen),
-                              ),
-                            ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                suffixIcon:
+                                    Icon(Icons.edit, color: Colors.grey)),
                           ),
                         ),
                         Container(height: 1, color: Colors.grey[200]),
