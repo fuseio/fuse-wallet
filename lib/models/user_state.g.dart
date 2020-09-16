@@ -80,7 +80,7 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'backup': instance.backup,
       'displayBalance': instance.displayBalance,
       'installedAt': instance.installedAt?.toIso8601String(),
-      'authType': EnumToString.parse(instance.authType),
+      'authType': EnumToString.convertToString(instance.authType),
       'homeBackupDialogShowed': instance.homeBackupDialogShowed,
       'receiveBackupDialogShowed': instance.receiveBackupDialogShowed,
       'currency': instance.currency,

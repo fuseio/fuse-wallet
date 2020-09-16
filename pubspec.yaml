@@ -1,5 +1,5 @@
 name: fusecash
-version: 1.1.46+233
+version: 1.1.46+234
 description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -41,9 +41,9 @@ dependencies:
   virtual_keyboard: ^0.1.4
   qr_flutter: ^3.2.0
   logger_flutter: ^0.7.1
-  path_provider: ^1.6.11
+  path_provider: ^1.6.14
   json_annotation: ^3.0.1
-  pin_input_text_field: ^3.0.4
+  pin_input_text_field: ^3.1.1
   flare_flutter: ^2.0.1
   decimal: ^0.3.5
   flutter_segment: 2.1.1

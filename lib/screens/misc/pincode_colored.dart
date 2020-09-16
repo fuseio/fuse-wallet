@@ -101,6 +101,10 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                                   FixedColorListBuilder([
                                                 Color(0xFF575757),
                                                 Color(0xFF575757),
+                                                Color(0xFF575757),
+                                                Color(0xFF575757),
+                                                Color(0xFF575757),
+                                                Color(0xFF575757),
                                               ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,

@@ -98,7 +98,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
                                 decoration: UnderlineDecoration(
                                   colorBuilder: FixedColorListBuilder([
                                     Color(0xFFDDDDDD),
-                                    Color(0xFF575757),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
                                   ]),
                                 ),
                                 controller: verificationCodeController,

@@ -87,6 +87,10 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                                   FixedColorListBuilder([
                                                 Theme.of(context).primaryColor,
                                                 Theme.of(context).primaryColor,
+                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).primaryColor,
                                               ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,

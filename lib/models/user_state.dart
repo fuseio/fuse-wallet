@@ -39,7 +39,7 @@ class UserState {
   final bool backup;
   final int displayBalance;
   final DateTime installedAt;
-  @JsonKey(fromJson: _authTypeFromJson, toJson: EnumToString.parse)
+  @JsonKey(fromJson: _authTypeFromJson, toJson: EnumToString.convertToString)
   final BiometricAuth authType;
   final bool homeBackupDialogShowed;
   final bool receiveBackupDialogShowed;
