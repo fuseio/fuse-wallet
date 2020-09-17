@@ -691,6 +691,24 @@ class _I18n_he_IL extends I18n {
   /// "חֶשְׁבּוֹן"
   @override
   String get account => "חֶשְׁבּוֹן";
+  /// "ערוך"
+  @override
+  String get edit => "ערוך";
+  /// "כתובת ארנק"
+  @override
+  String get wallet_address => "כתובת ארנק";
+  /// "שם"
+  @override
+  String get name => "שם";
+  /// "העסקה נכשלה"
+  @override
+  String get transaction_failed => "העסקה נכשלה";
+  /// "משהו השתבש"
+  @override
+  String get something_went_wrong => "משהו השתבש";
+  /// "אין עסקאות"
+  @override
+  String get no_activity => "אין עסקאות";
 
   @override
   TextDirection get textDirection => TextDirection.rtl;
