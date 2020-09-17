@@ -96,8 +96,14 @@ class _VerifyScreenState extends State<VerifyScreen> {
                               child: PinInputTextField(
                                 pinLength: 6,
                                 decoration: UnderlineDecoration(
-                                  color: Color(0xFFDDDDDD),
-                                  enteredColor: Color(0xFF575757),
+                                  colorBuilder: FixedColorListBuilder([
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                  ]),
                                 ),
                                 controller: verificationCodeController,
                                 autoFocus: true,

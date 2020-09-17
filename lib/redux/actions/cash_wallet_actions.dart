@@ -424,15 +424,16 @@ ThunkAction startTransfersFetchingCall() {
         store.state.cashWalletState.isTransfersFetchingStarted ?? false;
     Map<String, Community> communities =
         store.state.cashWalletState.communities;
-    final String walletAddress = store.state.userState.walletAddress;
     if (!isTransfersFetchingStarted &&
         communities.isNotEmpty &&
-        walletAddress != null) {
+        store.state.userState.walletStatus != null &&
+        store.state.userState.walletStatus == 'created' &&
+        ![null, ''].contains(store.state.userState.walletAddress)) {
       try {
         Map<String, Community> communities =
             store.state.cashWalletState.communities;
         for (Community community in communities.values) {
-          if (community.token.address != null) {
+          if (![null, ''].contains(community.token.address)) {
             store.dispatch(getTokenTransfersListCall(community));
             store.dispatch(getTokenBalanceCall(community));
           }
@@ -448,7 +449,7 @@ ThunkAction startTransfersFetchingCall() {
           Map<String, Community> communities =
               store.state.cashWalletState.communities;
           for (Community community in communities.values) {
-            if (community.token.address != null) {
+            if (![null, ''].contains(community.token.address)) {
               store.dispatch(getReceivedTokenTransfersListCall(community));
             }
           }

@@ -129,6 +129,10 @@
     "your_home": "Your Home",
     "pay_rent": "Pay Rent",
     "topup_screen": "Top Up",
+    "account": "Account",
+    "edit": "Edit",
+    "wallet_address": "Wallet address",
+    "name": "Name",
     "transaction_failed": "Transaction failed",
     "something_went_wrong": "Something went wrong",
     "no_activity": "No activity"

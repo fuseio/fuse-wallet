@@ -64,10 +64,8 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Image.asset(
-                              'assets/images/splash.png',
-                              width: 71,
-                              height: 61),
+                          Image.asset('assets/images/splash.png',
+                              width: 71, height: 61),
                         ],
                       ),
                     ),
@@ -104,10 +102,15 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                                   fontWeight: FontWeight.bold),
                                               hintTextStyle: TextStyle(
                                                   fontWeight: FontWeight.bold),
-                                              color:
-                                                  Theme.of(context).splashColor,
-                                              enteredColor:
-                                                  Theme.of(context).splashColor,
+                                              colorBuilder:
+                                                  FixedColorListBuilder([
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor
+                                              ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
                                                   obscureText: '●')),

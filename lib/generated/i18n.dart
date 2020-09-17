@@ -292,6 +292,14 @@ class I18n implements WidgetsLocalizations {
   String get pay_rent => "Pay Rent";
   /// "Top Up"
   String get topup_screen => "Top Up";
+  /// "Account"
+  String get account => "Account";
+  /// "Edit"
+  String get edit => "Edit";
+  /// "Wallet address"
+  String get wallet_address => "Wallet address";
+  /// "Name"
+  String get name => "Name";
   /// "Transaction failed"
   String get transaction_failed => "Transaction failed";
   /// "Something went wrong"
@@ -670,6 +678,27 @@ class _I18n_he_IL extends I18n {
   /// "כבה פנס"
   @override
   String get flash_off => "כבה פנס";
+  /// "קהילה נוכחית"
+  @override
+  String get current_community => "קהילה נוכחית";
+  /// "הקהילות שלי"
+  @override
+  String get my_communities => "הקהילות שלי";
+  /// "נבחר"
+  @override
+  String get selected => "נבחר";
+  /// "סכום תשלום:"
+  @override
+  String get fee_amount => "סכום תשלום:";
+  /// "סכום סופי:"
+  @override
+  String get total_amount => "סכום סופי:";
+  /// "לשלם עם"
+  @override
+  String get pay_with => "לשלם עם";
+  /// "חֶשְׁבּוֹן"
+  @override
+  String get account => "חֶשְׁבּוֹן";
 
   @override
   TextDirection get textDirection => TextDirection.rtl;
@@ -1803,6 +1832,9 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Assets at mga kontrata"
   @override
   String get assets_and_contracts => "Assets at mga kontrata";
+  /// "Account"
+  @override
+  String get account => "Account";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
