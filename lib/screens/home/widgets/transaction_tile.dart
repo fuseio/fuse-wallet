@@ -90,7 +90,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                         fontSize: 15.0,
                                         fontWeight: FontWeight.bold)),
                                 TextSpan(
-                                    text: " ${token.symbol}",
+                                    text: " ${token?.symbol}",
                                     style: TextStyle(
                                         color: Color(0xFF696969),
                                         fontSize: 10.0,
@@ -196,7 +196,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                           community.metadata.isDefaultImage &&
                                           widget.transfer.isJoinCommunity()
                                       ? Text(
-                                          token.symbol,
+                                          token?.symbol,
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,
@@ -325,7 +325,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  " ${token.symbol}",
+                                  " ${token?.symbol}",
                                   style: TextStyle(
                                       color: Color(0xFF696969),
                                       fontSize: 16.0,

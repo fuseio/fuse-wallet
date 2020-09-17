@@ -290,6 +290,14 @@ class I18n implements WidgetsLocalizations {
   String get your_home => "Your Home";
   /// "Pay Rent"
   String get pay_rent => "Pay Rent";
+  /// "Account"
+  String get account => "Account";
+  /// "Edit"
+  String get edit => "Edit";
+  /// "Wallet address"
+  String get wallet_address => "Wallet address";
+  /// "Name"
+  String get name => "Name";
   /// "Transaction failed"
   String get transaction_failed => "Transaction failed";
   /// "Something went wrong"
@@ -668,6 +676,54 @@ class _I18n_he_IL extends I18n {
   /// "כבה פנס"
   @override
   String get flash_off => "כבה פנס";
+  /// "קהילה נוכחית"
+  @override
+  String get current_community => "קהילה נוכחית";
+  /// "הקהילות שלי"
+  @override
+  String get my_communities => "הקהילות שלי";
+  /// "נבחר"
+  @override
+  String get selected => "נבחר";
+  /// "סכום תשלום:"
+  @override
+  String get fee_amount => "סכום תשלום:";
+  /// "סכום סופי:"
+  @override
+  String get total_amount => "סכום סופי:";
+  /// "לשלם עם"
+  @override
+  String get pay_with => "לשלם עם";
+  /// "Wallet"
+  @override
+  String get wallet => "Wallet";
+  /// "Your Home"
+  @override
+  String get your_home => "Your Home";
+  /// "Pay Rent"
+  @override
+  String get pay_rent => "Pay Rent";
+  /// "חֶשְׁבּוֹן"
+  @override
+  String get account => "חֶשְׁבּוֹן";
+  /// "ערוך"
+  @override
+  String get edit => "ערוך";
+  /// "כתובת ארנק"
+  @override
+  String get wallet_address => "כתובת ארנק";
+  /// "שם"
+  @override
+  String get name => "שם";
+  /// "העסקה נכשלה"
+  @override
+  String get transaction_failed => "העסקה נכשלה";
+  /// "משהו השתבש"
+  @override
+  String get something_went_wrong => "משהו השתבש";
+  /// "אין עסקאות"
+  @override
+  String get no_activity => "אין עסקאות";
 
   @override
   TextDirection get textDirection => TextDirection.rtl;
@@ -1801,6 +1857,9 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Assets at mga kontrata"
   @override
   String get assets_and_contracts => "Assets at mga kontrata";
+  /// "Account"
+  @override
+  String get account => "Account";
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
