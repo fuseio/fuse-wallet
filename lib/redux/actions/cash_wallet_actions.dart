@@ -503,7 +503,7 @@ ThunkAction generateWalletSuccessCall(
       store.dispatch(setupWalletCall(walletData));
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
-        "App name": 'Fuse',
+        "App name": 'Roost',
         "Phone Number": store.state.userState.normalizedPhoneNumber,
         "Wallet Address": store.state.userState.walletAddress,
         "Account Address": store.state.userState.accountAddress,
