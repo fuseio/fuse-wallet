@@ -4,14 +4,15 @@ description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  flushbar: ^1.10.4
   flutter_platform_widgets: ^0.60.1
-  enum_to_string: ^1.0.9
+  enum_to_string: ^1.0.11
   local_auth: ^0.6.2+3
   auto_size_text: ^2.1.0
   flutter_webview_plugin: ^0.3.11
   phone_number: ^0.6.2+4
   libphonenumber: ^1.0.1
-  cached_network_image: ^2.2.0+1
+  cached_network_image: ^2.3.2+1
   rate_my_app: ^0.6.1+7
   auto_route: ^0.6.6
   url_launcher: ^5.5.0
@@ -30,7 +31,7 @@ dependencies:
   redux_logging: ^0.4.0
   redux_persist: ^0.8.4
   country_code_picker: ^1.4.0
-  wallet_core: ^0.2.4+9
+  wallet_core: ^0.2.4+12
   # wallet_core:
   # path: ../wallet_core
   barcode_scan: ^3.0.1
@@ -40,17 +41,18 @@ dependencies:
   virtual_keyboard: ^0.1.4
   qr_flutter: ^3.2.0
   logger_flutter: ^0.7.1
-  path_provider: ^1.6.11
+  path_provider: ^1.6.14
   json_annotation: ^3.0.1
-  pin_input_text_field: ^3.0.4
+  pin_input_text_field: ^3.1.1
   flare_flutter: ^2.0.1
   decimal: ^0.3.5
-  flutter_segment: ^2.1.1
+  flutter_segment: 2.1.1
   firebase_messaging: ^7.0.0
   firebase_auth: ^0.18.0+1
   ethereum_address: ^1.0.1
   sentry: ^3.0.1
   device_info: '>=0.4.2+6 <2.0.0'
+  image_picker: ^0.6.7+7
   flutter_cupertino_localizations: ^1.0.1
   flutter_branch_sdk: ^1.1.0
   flutter_udid: ^1.0.1

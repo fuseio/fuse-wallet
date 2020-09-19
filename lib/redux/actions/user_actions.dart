@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code.dart';
 import 'package:decimal/decimal.dart';
 import 'package:digitalrand/utils/constans.dart';
@@ -16,6 +18,7 @@ import 'package:digitalrand/utils/addresses.dart';
 import 'package:digitalrand/utils/biometric_local_auth.dart';
 import 'package:digitalrand/utils/contacts.dart';
 import 'package:digitalrand/utils/format.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
@@ -164,6 +167,11 @@ class SetDisplayName {
   SetDisplayName(this.displayName);
 }
 
+class SetUserAvatar {
+  String avatarUrl;
+  SetUserAvatar(this.avatarUrl);
+}
+
 class BackupRequest {
   BackupRequest();
 }
@@ -194,12 +202,14 @@ class JustInstalled {
 
 class SetIsLoginRequest {
   final bool isLoading;
-  SetIsLoginRequest({this.isLoading});
+  final dynamic message;
+  SetIsLoginRequest({this.isLoading, this.message});
 }
 
 class SetIsVerifyRequest {
   final bool isLoading;
-  SetIsVerifyRequest({this.isLoading});
+  final dynamic message;
+  SetIsVerifyRequest({this.isLoading, this.message});
 }
 
 class DeviceIdSuccess {
@@ -624,5 +634,59 @@ ThunkAction createForiegnWalletOnlyIfNeeded() {
       logger.severe('ERROR - createForiegnWallet $e');
       store.dispatch(new ErrorAction('Could not get wallet address'));
     }
+  };
+}
+
+ThunkAction activateProModeCall() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      bool deployForeignToken =
+          store.state.userState.networks.contains(foreignNetwork);
+      if (!deployForeignToken) {
+        dynamic response = await api.createWalletOnForeign();
+        store.dispatch(initWeb3ProMode());
+        String jobId = response['job']['_id'];
+        logger.info('Create wallet on foreign jobId - $jobId');
+        store.dispatch(segmentTrackCall('Activate pro mode clicked'));
+        store.dispatch(startListenToTransferEvents());
+        store.dispatch(startFetchBalancesOnForeign());
+        store.dispatch(fetchTokensBalances());
+        store.dispatch(startFetchTransferEventsCall());
+        store.dispatch(startFetchTokensLastestPrices());
+        store.dispatch(startProcessingTokensJobsCall());
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          "Pro mode active": true,
+        })));
+      }
+    } catch (error) {
+      logger.severe('Error createWalletOnForeign', error);
+    }
+  };
+}
+
+ThunkAction updateDisplayNameCall(String displayName) {
+  return (Store store) async {
+    try {
+      String accountAddress = store.state.userState.accountAddress;
+      await api.updateDisplayName(accountAddress, displayName);
+      store.dispatch(SetDisplayName(displayName));
+      store.dispatch(segmentTrackCall("Wallet: display name updated"));
+    } catch (e) {}
+  };
+}
+
+ThunkAction updateUserAvatarCall(ImageSource source) {
+  return (Store store) async {
+    final picker = ImagePicker();
+    final file = await picker.getImage(source: source);
+    try {
+      final uploadResponse = await api.uploadImage(File(file.path));
+      print(uploadResponse);
+      String accountAddress = store.state.userState.accountAddress;
+      await api.updateAvatar(accountAddress, uploadResponse['hash']);
+      store.dispatch(SetUserAvatar(uploadResponse['uri']));
+      store.dispatch(segmentTrackCall("User avatar updated"));
+    } catch (e) {}
   };
 }

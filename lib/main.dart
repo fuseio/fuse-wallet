@@ -8,11 +8,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
+import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/screens/route_guards.dart';
 import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/services.dart';
 import 'package:digitalrand/themes/app_theme.dart';
 import 'package:digitalrand/themes/custom_theme.dart';
+import 'package:digitalrand/utils/jwt.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:digitalrand/generated/i18n.dart';
@@ -31,7 +34,7 @@ void main() async {
             child: new MyApp(store: store),
           )), (Object error, StackTrace stackTrace) async {
     try {
-      await AppFactory().reportError(error, stackTrace);
+      await AppFactory().reportError(error, stackTrace: stackTrace);
     } catch (e) {
       print('Sending report to sentry.io failed: $e');
       print('Original error: $error');
@@ -63,6 +66,30 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       I18n.locale = locale;
     });
+  }
+
+  void refreshToken(Store<AppState> store) async {
+    final logger = await AppFactory().getLogger('action');
+    String jwtToken = store?.state?.userState?.jwtToken;
+    final accoutAddress = store?.state?.userState?.accountAddress;
+    final identifier = store?.state?.userState?.identifier;
+    if (![null, ''].contains(jwtToken)) {
+      Map<String, dynamic> tokenData = parseJwt(jwtToken);
+      DateTime exp =
+          DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
+      DateTime now = DateTime.now();
+      Duration diff = exp.difference(now);
+      if (diff.inDays <= 1) {
+        String token = await firebaseAuth.currentUser.getIdToken(true);
+        jwtToken = await api.login(token, accoutAddress, identifier, appName: 'DigitalRand');
+      }
+
+      logger.info('JWT: $jwtToken');
+      api.setJwtToken(jwtToken);
+      store.dispatch(LoginVerifySuccess(jwtToken));
+    } else {
+      logger.info('no JWT');
+    }
   }
 
   void listenDynamicLinks(Store<AppState> store) async {
@@ -112,6 +139,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    refreshToken(widget.store);
     listenDynamicLinks(widget.store);
     I18n.onLocaleChanged = onLocaleChange;
   }

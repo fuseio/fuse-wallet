@@ -97,7 +97,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                                     ['symbol'],
                                 style: TextStyle(fontSize: 20),
                               ),
-                            ])),
+                            ]))
                           ],
                         ),
                       ),
@@ -123,20 +123,17 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                             SizedBox(
                               height: 20,
                             ),
-                            AutoSizeText.rich(
-                              TextSpan(children: [
-                                TextSpan(
-                                  text: '$amountToReceive ',
-                                  style: TextStyle(fontSize: 40),
-                                ),
-                                TextSpan(
-                                  text:
-                                      widget.exchangeSummry['destinationAsset']
-                                          ['symbol'],
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ]),
-                            )
+                            AutoSizeText.rich(TextSpan(children: [
+                              TextSpan(
+                                text: '$amountToReceive ',
+                                style: TextStyle(fontSize: 40),
+                              ),
+                              TextSpan(
+                                text: widget.exchangeSummry['destinationAsset']
+                                    ['symbol'],
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ]))
                           ],
                         ),
                       )

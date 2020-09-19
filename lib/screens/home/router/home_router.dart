@@ -9,6 +9,7 @@ import 'package:digitalrand/screens/misc/about.dart';
 import 'package:digitalrand/screens/misc/protect_your_wallet.dart';
 import 'package:digitalrand/screens/misc/settings.dart';
 import 'package:digitalrand/screens/misc/switch_commmunity.dart';
+import 'package:digitalrand/screens/profile/screen/profile.dart';
 import 'package:digitalrand/screens/trade/review_trade.dart';
 import 'package:digitalrand/screens/trade/trade.dart';
 
@@ -28,5 +29,6 @@ import 'package:digitalrand/screens/trade/trade.dart';
   MaterialRoute(page: SettingsScreen),
   MaterialRoute(page: SwitchCommunityScreen),
   MaterialRoute(page: ProtectYourWallet),
+  MaterialRoute(page: ProfileScreen),
 ])
 class $HomeRouter {}
