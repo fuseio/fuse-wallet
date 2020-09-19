@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
@@ -16,6 +18,7 @@ import 'package:supervecina/utils/biometric_local_auth.dart';
 import 'package:supervecina/utils/constans.dart';
 import 'package:supervecina/utils/contacts.dart';
 import 'package:supervecina/utils/format.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
@@ -160,6 +163,11 @@ class SetPincodeSuccess {
 class SetDisplayName {
   String displayName;
   SetDisplayName(this.displayName);
+}
+
+class SetUserAvatar {
+  String avatarUrl;
+  SetUserAvatar(this.avatarUrl);
 }
 
 class BackupRequest {
@@ -635,5 +643,31 @@ ThunkAction activateProModeCall() {
     } catch (error) {
       logger.severe('Error createWalletOnForeign', error);
     }
+  };
+}
+
+ThunkAction updateDisplayNameCall(String displayName) {
+  return (Store store) async {
+    try {
+      String accountAddress = store.state.userState.accountAddress;
+      await api.updateDisplayName(accountAddress, displayName);
+      store.dispatch(SetDisplayName(displayName));
+      store.dispatch(segmentTrackCall("Wallet: display name updated"));
+    } catch (e) {}
+  };
+}
+
+ThunkAction updateUserAvatarCall(ImageSource source) {
+  return (Store store) async {
+    final picker = ImagePicker();
+    final file = await picker.getImage(source: source);
+    try {
+      final uploadResponse = await api.uploadImage(File(file.path));
+      print(uploadResponse);
+      String accountAddress = store.state.userState.accountAddress;
+      await api.updateAvatar(accountAddress, uploadResponse['hash']);
+      store.dispatch(SetUserAvatar(uploadResponse['uri']));
+      store.dispatch(segmentTrackCall("User avatar updated"));
+    } catch (e) {}
   };
 }

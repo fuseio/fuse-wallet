@@ -9,6 +9,7 @@ import 'package:supervecina/screens/misc/about.dart';
 import 'package:supervecina/screens/misc/protect_your_wallet.dart';
 import 'package:supervecina/screens/misc/settings.dart';
 import 'package:supervecina/screens/misc/switch_commmunity.dart';
+import 'package:supervecina/screens/profile/screen/profile.dart';
 import 'package:supervecina/screens/trade/review_trade.dart';
 import 'package:supervecina/screens/trade/trade.dart';
 
@@ -28,5 +29,6 @@ import 'package:supervecina/screens/trade/trade.dart';
   MaterialRoute(page: SettingsScreen),
   MaterialRoute(page: SwitchCommunityScreen),
   MaterialRoute(page: ProtectYourWallet),
+  MaterialRoute(page: ProfileScreen),
 ])
 class $HomeRouter {}

@@ -19,6 +19,7 @@ import '../../misc/about.dart';
 import '../../misc/protect_your_wallet.dart';
 import '../../misc/settings.dart';
 import '../../misc/switch_commmunity.dart';
+import '../../profile/screen/profile.dart';
 import '../../trade/review_trade.dart';
 import '../../trade/trade.dart';
 import '../screens/home.dart';
@@ -38,6 +39,7 @@ class HomeRoutes {
   static const String settingsScreen = '/settings-screen';
   static const String switchCommunityScreen = '/switch-community-screen';
   static const String protectYourWallet = '/protect-your-wallet';
+  static const String profileScreen = '/profile-screen';
   static const all = <String>{
     mainHomeScreen,
     transactionDetailsScreen,
@@ -51,6 +53,7 @@ class HomeRoutes {
     settingsScreen,
     switchCommunityScreen,
     protectYourWallet,
+    profileScreen,
   };
 }
 
@@ -71,6 +74,7 @@ class HomeRouter extends RouterBase {
     RouteDef(HomeRoutes.settingsScreen, page: SettingsScreen),
     RouteDef(HomeRoutes.switchCommunityScreen, page: SwitchCommunityScreen),
     RouteDef(HomeRoutes.protectYourWallet, page: ProtectYourWallet),
+    RouteDef(HomeRoutes.profileScreen, page: ProfileScreen),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -181,6 +185,15 @@ class HomeRouter extends RouterBase {
         settings: data,
       );
     },
+    ProfileScreen: (data) {
+      final args = data.getArgs<ProfileScreenArguments>(
+        orElse: () => ProfileScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ProfileScreen(key: args.key),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -235,4 +248,10 @@ class ReviewTradeScreenArguments {
   final Token toToken;
   ReviewTradeScreenArguments(
       {this.key, this.exchangeSummry, this.fromToken, this.toToken});
+}
+
+/// ProfileScreen arguments holder class
+class ProfileScreenArguments {
+  final Key key;
+  ProfileScreenArguments({this.key});
 }

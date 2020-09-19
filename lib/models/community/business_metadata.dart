@@ -1,4 +1,3 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supervecina/utils/transaction_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -11,7 +10,7 @@ String getImage(hash) {
   if (isIpfsHash(hash)) {
     return getIPFSImageUrl(hash);
   } else if (isS3Hash(hash)) {
-    return '${DotEnv().env['FUSE_S3_BUCKET']}/$hash';
+    return getS3ImageUrl(hash);
   }
   return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
 }

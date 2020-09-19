@@ -83,10 +83,15 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                               ),
                                               hintTextStyle: TextStyle(
                                                   fontWeight: FontWeight.bold),
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              enteredColor: Theme.of(context)
-                                                  .primaryColor,
+                                              colorBuilder:
+                                                  FixedColorListBuilder([
+                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).primaryColor,
+                                                Theme.of(context).primaryColor,
+                                              ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
                                                   obscureText: '●')),
