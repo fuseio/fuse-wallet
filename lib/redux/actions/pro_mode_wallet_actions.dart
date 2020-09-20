@@ -251,7 +251,7 @@ ThunkAction fetchTokensBalances() {
             await token.fetchTokenBalance(walletAddress,
                 onDone: onDone, onError: onError);
           };
-          await Future.delayed(Duration(milliseconds: 500), fetchTokenBalance);
+          await Future.delayed(Duration(milliseconds: 1000), fetchTokenBalance);
         }
       });
       store.dispatch(SetIsFetchTokensBalances(isFetching: true));

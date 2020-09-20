@@ -25,7 +25,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  bool isvalidPhone = true;
   CountryCode countryCode = new CountryCode(dialCode: '‎+34', code: 'ES');
 
   @override
@@ -55,9 +54,11 @@ class _SignupScreenState extends State<SignupScreen> {
         .then((value) {
       signUp(countryCode, phoneController.text);
     }, onError: (e) {
-      setState(() {
-        isvalidPhone = false;
-      });
+      transactionFailedSnack(I18n.of(context).invalid_number,
+          title: I18n.of(context).something_went_wrong,
+          duration: Duration(seconds: 3),
+          context: context,
+          margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
     });
   }
 
@@ -132,11 +133,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
-                              color: isvalidPhone
-                                  ? Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.1)
-                                  : Colors.red,
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.1),
                               width: 2.0)),
                     ),
                     child: Row(

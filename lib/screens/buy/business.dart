@@ -321,16 +321,14 @@ class _BusinessPageState extends State<BusinessPage> {
                                     fontWeight: FontWeight.normal),
                               ),
                               onPressed: () {
-                                ExtendedNavigator.root.push(
-                                    Routes.sendAmountScreen,
-                                    arguments: SendAmountScreenArguments(
-                                        pageArgs: SendAmountArguments(
-                                            tokenToSend: widget.token,
-                                            name: widget.business.name ?? '',
-                                            accountAddress:
-                                                widget.business.account,
-                                            avatar: NetworkImage(widget
-                                                .business.metadata.image))));
+                                ExtendedNavigator.root.pushSendAmountScreen(
+                                    pageArgs: SendAmountArguments(
+                                        tokenToSend: widget.token,
+                                        name: widget.business.name ?? '',
+                                        accountAddress: widget.business.account,
+                                        avatar: NetworkImage(widget
+                                            .business.metadata
+                                            .getImageUri())));
                               },
                             ),
                           )

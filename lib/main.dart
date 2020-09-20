@@ -11,7 +11,7 @@ import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:supervecina/redux/state/store.dart';
 import 'package:supervecina/screens/route_guards.dart';
-import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/routes.gr.dart' as router;
 import 'package:supervecina/services.dart';
 import 'package:supervecina/themes/app_theme.dart';
 import 'package:supervecina/themes/custom_theme.dart';
@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Wiki Bank',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(

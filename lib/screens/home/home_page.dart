@@ -10,7 +10,7 @@ import 'package:supervecina/screens/buy/router/buy_router.gr.dart';
 import 'package:supervecina/screens/contacts/widgets/enable_contacts.dart';
 import 'package:supervecina/screens/home/router/home_router.gr.dart';
 import 'package:supervecina/screens/home/screens/receive.dart';
-import 'package:supervecina/screens/misc/webview_page.dart';
+import 'package:supervecina/screens/misc/inapp_webview_page.dart';
 import 'package:supervecina/screens/contacts/router/router_contacts.gr.dart';
 import 'package:supervecina/screens/home/widgets/drawer.dart';
 import 'package:supervecina/utils/contacts.dart';
@@ -117,11 +117,12 @@ class _HomePageState extends State<HomePage> {
                           : ContactsRoutes.emptyContacts,
                 ),
                 !['', null].contains(vm.community.webUrl)
-                    ? WebViewPage(
+                    ? WebViewWidget(
                         url: vm.community.webUrl,
                         withBack: false,
                         title: I18n.of(context).community_webpage)
                     : ExtendedNavigator(
+                        name: 'buyRouter',
                         router: BuyRouter(),
                         observers: [SegmentObserver()],
                       ),

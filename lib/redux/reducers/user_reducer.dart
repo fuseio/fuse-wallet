@@ -127,6 +127,7 @@ UserState _setVerificationId(UserState state, SetVerificationId action) {
 }
 
 UserState _loginVerifySuccess(UserState state, LoginVerifySuccess action) {
+  print('_loginVerifySuccess jwtToken - ${action.jwtToken}');
   return state.copyWith(jwtToken: action.jwtToken, loginVerifySuccess: true);
 }
 
