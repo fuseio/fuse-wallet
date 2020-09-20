@@ -83,7 +83,8 @@ class FeedState extends State<Feed> {
                       )
                     ],
                   ),
-                  height: MediaQuery.of(context).size.height * .565,
+                  height: MediaQuery.of(context).size.height *
+                      (widget.withTitle ? .65 : .565),
                 ),
               ));
         });
