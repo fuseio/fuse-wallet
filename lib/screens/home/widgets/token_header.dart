@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:fc_knudde/models/community/community.dart';
 import 'package:fc_knudde/screens/home/router/home_router.gr.dart';
+import 'package:fc_knudde/screens/home/widgets/community_description.dart';
 import 'package:fc_knudde/widgets/network_explained.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -15,8 +16,7 @@ import 'package:fc_knudde/models/tokens/token.dart';
 import 'package:fc_knudde/utils/format.dart';
 
 class TokenHeader extends StatelessWidget {
-  TokenHeader({this.token, this.tokenPrice});
-  final String tokenPrice;
+  TokenHeader({this.token});
   final Token token;
 
   @override
@@ -100,12 +100,11 @@ class TokenHeader extends StatelessWidget {
                             ),
                             RichText(
                                 text: TextSpan(
-                                    text: ![null, '']
-                                                .contains(token.priceInfo) &&
-                                            token.priceInfo.total.isNotEmpty &&
-                                            tokenPrice != null
-                                        ? '\$$price'
-                                        : "",
+                                    text:
+                                        ![null, ''].contains(token.priceInfo) &&
+                                                token.priceInfo.total.isNotEmpty
+                                            ? '\$$price'
+                                            : "",
                                     style: TextStyle(
                                         color: Theme.of(context).primaryColor,
                                         fontSize: 18))),
@@ -113,9 +112,18 @@ class TokenHeader extends StatelessWidget {
                         ),
                         StoreConnector<AppState, _ProTokenHeaderViewModel>(
                             converter: _ProTokenHeaderViewModel.fromStore,
+                            distinct: true,
                             builder: (_, viewModel) {
-                              final bool canMoveToOtherChain = token.symbol ==
-                                  viewModel.community.token.symbol;
+                              final Community community = viewModel.communities
+                                  .firstWhere(
+                                      (element) =>
+                                          (element.token.address
+                                                  .toLowerCase() ==
+                                              token.address.toLowerCase()) ||
+                                          (element?.foreignTokenAddress
+                                                  ?.toLowerCase() ==
+                                              token.address.toLowerCase()),
+                                      orElse: () => null);
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 mainAxisAlignment:
@@ -129,7 +137,7 @@ class TokenHeader extends StatelessWidget {
                                               heroTag: 'goto_trade',
                                               elevation: 0,
                                               backgroundColor:
-                                                  Color(0xFF292929),
+                                                  Color(0xFF002669),
                                               child: SvgPicture.asset(
                                                 'assets/images/goto_trade.svg',
                                                 fit: BoxFit.cover,
@@ -145,7 +153,28 @@ class TokenHeader extends StatelessWidget {
                                                                     token));
                                               }),
                                         )
-                                      : SizedBox.shrink(),
+                                      : Container(
+                                          width: 45,
+                                          height: 45,
+                                          child: FloatingActionButton(
+                                              elevation: 0,
+                                              backgroundColor: Theme.of(context)
+                                                  .primaryColor,
+                                              child: Icon(
+                                                Icons.info,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        CommunityDescription(
+                                                            community:
+                                                                community));
+                                              }),
+                                        ),
                                   SizedBox(
                                     width: 10,
                                   ),
@@ -163,12 +192,10 @@ class TokenHeader extends StatelessWidget {
                                         onPressed: () {
                                           showDialog(
                                               context: context,
-                                              builder: (BuildContext context) {
-                                                return TokenActionsDialog(
-                                                    token: token,
-                                                    canMoveToOtherChain:
-                                                        canMoveToOtherChain);
-                                              });
+                                              builder: (BuildContext context) =>
+                                                  TokenActionsDialog(
+                                                      token: token,
+                                                      community: community));
                                         }),
                                   )
                                 ],
@@ -210,19 +237,16 @@ class TokenHeader extends StatelessWidget {
 }
 
 class _ProTokenHeaderViewModel extends Equatable {
-  final Community community;
+  final List<Community> communities;
   _ProTokenHeaderViewModel({
-    this.community,
+    this.communities,
   });
 
   static _ProTokenHeaderViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
-            Community.initial();
-    return _ProTokenHeaderViewModel(community: community);
+    return _ProTokenHeaderViewModel(
+        communities: store.state.cashWalletState.communities.values.toList());
   }
 
   @override
-  List<Object> get props => [community];
+  List<Object> get props => [communities];
 }

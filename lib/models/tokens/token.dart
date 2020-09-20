@@ -2,7 +2,6 @@ import 'package:fc_knudde/models/jobs/base.dart';
 import 'package:fc_knudde/models/pro/price.dart';
 import 'package:fc_knudde/models/tokens/base.dart';
 import 'package:fc_knudde/models/transactions/transactions.dart';
-import 'package:fc_knudde/redux/state/store.dart';
 import 'package:fc_knudde/services.dart';
 import 'package:fc_knudde/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -21,6 +20,9 @@ class Token extends ERC20Token {
   final List<Job> jobs;
   @JsonKey(ignore: true)
   final String subtitle;
+
+  @override
+  List<Object> get props => [amount, name, symbol, transactions?.list];
 
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);
@@ -83,11 +85,13 @@ class Token extends ERC20Token {
   @override
   Future<dynamic> fetchTokenBalance(String accountAddress,
       {void Function(BigInt) onDone, Function onError}) async {
+    if ([null, ''].contains(accountAddress) ||
+        [null, ''].contains(this.address)) return;
     if (originNetwork == null) {
       try {
         final BigInt balance = await ethereumExplorerApi
             .getTokenBalanceByAccountAddress(this.address, accountAddress);
-        if (this.amount.compareTo(balance) != 0) {
+        if (this.amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -97,7 +101,7 @@ class Token extends ERC20Token {
       try {
         final BigInt balance = await fuseExplorerApi
             .getTokenBalanceByAccountAddress(this.address, accountAddress);
-        if (this.amount.compareTo(balance) != 0) {
+        if (this.amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -110,14 +114,12 @@ class Token extends ERC20Token {
       {String currency = 'usd',
       void Function(Price) onDone,
       Function onError}) async {
-    final logger = await AppFactory().getLogger('action');
+    // final logger = await AppFactory().getLogger('action');
     try {
       final Map<String, dynamic> response =
           await marketApi.getCurrentPriceOfTokens(this.address, currency);
       double price = response[this.address.toLowerCase()][currency];
       String quote = response[this.address.toLowerCase()][currency].toString();
-      logger.info(
-          'price response $quote ${response[this.address.toLowerCase()]}');
       String total =
           getFiatValue(this.amount, this.decimals, price, withPrecision: true);
       if (this.priceInfo == null) {

@@ -1,12 +1,16 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/models/app_state.dart';
 import 'package:fc_knudde/models/views/contacts.dart';
 import 'package:fc_knudde/screens/contacts/widgets/contact_tile.dart';
+import 'package:fc_knudde/screens/contacts/widgets/recent_contacts.dart';
+import 'package:fc_knudde/screens/contacts/widgets/search_panel.dart';
 import 'package:fc_knudde/utils/contacts.dart';
 import 'package:fc_knudde/utils/format.dart';
 import 'package:fc_knudde/utils/phone.dart';
@@ -26,7 +30,6 @@ class _ContactsListState extends State<ContactsList> {
   List<Contact> filteredUsers = [];
   bool hasSynced = false;
   TextEditingController searchController = TextEditingController();
-  bool isPreloading = false;
   List<Contact> _contacts;
 
   @override
@@ -39,13 +42,16 @@ class _ContactsListState extends State<ContactsList> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
         distinct: true,
+        onInitialBuild: (viewModel) {
+          Segment.screen(screenName: '/contacts-screen');
+        },
         converter: ContactsViewModel.fromStore,
         builder: (_, viewModel) {
           return _contacts != null
               ? MainScaffold(
                   automaticallyImplyLeading: false,
                   title: I18n.of(context).send_to,
-                  sliverList: _buildPageList(context, viewModel),
+                  sliverList: _buildPageList(viewModel),
                 )
               : Center(
                   child: Preloader(),
@@ -126,10 +132,8 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  SliverList listBody(
-      BuildContext context, ContactsViewModel viewModel, List<Contact> group) {
+  SliverList listBody(ContactsViewModel viewModel, List<Contact> group) {
     List<Widget> listItems = List();
-
     for (Contact user in group) {
       Iterable<Item> phones = user.phones
           .map((e) => Item(
@@ -145,7 +149,8 @@ class _ContactsListState extends State<ContactsList> {
             phoneNumber: phone.value,
             onTap: () {
               resetSearch();
-              sendToContact(context, user.displayName, phone.value,
+              sendToContact(ExtendedNavigator.named('contactsRouter').context,
+                  user.displayName, phone.value,
                   isoCode: viewModel.isoCode,
                   countryCode: viewModel.countryCode,
                   avatar: user.avatar != null && user.avatar.isNotEmpty
@@ -164,7 +169,7 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  Widget sendToAcccountAddress(BuildContext context, String accountAddress) {
+  Widget sendToAcccountAddress(String accountAddress) {
     Widget component = ContactTile(
       displayName: formatAddress(accountAddress),
       onTap: () {
@@ -187,15 +192,17 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  List<Widget> _buildPageList(context, ContactsViewModel viewModel) {
+  List<Widget> _buildPageList(ContactsViewModel viewModel) {
     List<Widget> listItems = List();
 
-    listItems.add(searchPanel(viewModel));
+    listItems.add(SearchPanel(
+      searchController: searchController,
+    ));
 
     if (searchController.text.isEmpty) {
-      // listItems.add(RecentContacts());
+      listItems.add(RecentContacts());
     } else if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(context, searchController.text));
+      listItems.add(sendToAcccountAddress(searchController.text));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
@@ -212,76 +219,9 @@ class _ContactsListState extends State<ContactsList> {
     for (String title in titles) {
       List<Contact> group = groups[title];
       listItems.add(listHeader(title));
-      listItems.add(listBody(context, viewModel, group));
+      listItems.add(listBody(viewModel, group));
     }
 
     return listItems;
-  }
-
-  SliverPersistentHeader searchPanel(ContactsViewModel viewModel) {
-    return SliverPersistentHeader(
-      pinned: true,
-      delegate: SliverAppBarDelegate(
-        minHeight: 80.0,
-        maxHeight: 100.0,
-        child: Container(
-          decoration: new BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
-          padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: TextFormField(
-                    controller: searchController,
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(0.0),
-                      border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xFFE0E0E0), width: 3)),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: const Color(0xFF292929)),
-                      ),
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: Color(0xFFACACAC),
-                      ),
-                      labelText: I18n.of(context).search,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 45,
-                height: 45,
-                child: new FloatingActionButton(
-                    heroTag: 'contacts_list',
-                    backgroundColor: const Color(0xFF292929),
-                    elevation: 0,
-                    child: Image.asset(
-                      'assets/images/scan.png',
-                      width: 25.0,
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
-                    onPressed: () {
-                      bracodeScannerHandler();
-                      if (mounted) {
-                        setState(() {
-                          searchController.text = '';
-                        });
-                      }
-                    }),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

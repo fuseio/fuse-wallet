@@ -1,85 +1,96 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/models/app_state.dart';
-import 'package:fc_knudde/models/transactions/transaction.dart';
 import 'package:fc_knudde/models/transactions/transfer.dart';
 import 'package:fc_knudde/models/views/contacts.dart';
+import 'package:fc_knudde/screens/contacts/send_amount_arguments.dart';
 import 'package:fc_knudde/screens/contacts/widgets/contact_tile.dart';
+import 'package:fc_knudde/screens/routes.gr.dart';
 import 'package:fc_knudde/utils/send.dart';
 import 'package:fc_knudde/utils/transaction_util.dart';
 
 class RecentContacts extends StatelessWidget {
-  final int numToShow;
-  const RecentContacts({Key key, this.numToShow = 3}) : super(key: key);
+  final int numofRecentToShow;
+  const RecentContacts({Key key, this.numofRecentToShow = 3}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
+      distinct: true,
       converter: ContactsViewModel.fromStore,
       builder: (_, viewModel) {
-        List<Widget> listItems = List();
-        Map<String, Transaction> uniqueValues = {};
-        final List<Transaction> sorted = new List<Transaction>.from(
+        final List<Transfer> sorted = new List<Transfer>.from(
                 viewModel.transactions.list.toSet().toList())
             .where((t) => t.type == 'SEND' && t.isConfirmed())
             .toList();
 
-        for (Transaction item in sorted) {
-          final Contact contact = getContact(item, viewModel.reverseContacts,
-              viewModel.contacts, viewModel.countryCode);
-          var a = contact != null
-              ? contact.displayName
-              : deducePhoneNumber(item, viewModel.reverseContacts,
-                  businesses: viewModel.businesses);
-          uniqueValues[a] = item;
-        }
-        List test = uniqueValues.values.toList().reversed.toList();
-        List uniqueList =
-            test.length > numToShow ? test.sublist(0, numToShow) : test;
+        final Map<String, Transfer> uniqueValues =
+            Map<String, Transfer>.fromEntries(
+                sorted.map((e) => new MapEntry(e.to, e)));
 
-        for (int i = 0; i < uniqueList.length; i++) {
-          final Transfer transfer = uniqueList[i];
-          final Contact contact = getContact(
-              transfer,
-              viewModel.reverseContacts,
-              viewModel.contacts,
-              viewModel.countryCode);
-          final String displayName = contact != null
-              ? contact.displayName
-              : deducePhoneNumber(transfer, viewModel.reverseContacts,
+        final List<Transfer> uniqueList =
+            uniqueValues.length > numofRecentToShow
+                ? uniqueValues.values.toList().sublist(0, numofRecentToShow)
+                : uniqueValues.values.toList();
+
+        final List<Widget> listItems = uniqueList
+            .map((Transfer transfer) {
+              final Contact contact = getContact(
+                  transfer,
+                  viewModel.reverseContacts,
+                  viewModel.contacts,
+                  viewModel.countryCode);
+              final String displayName = contact != null
+                  ? contact.displayName
+                  : deducePhoneNumber(transfer, viewModel.reverseContacts,
+                      businesses: viewModel.businesses);
+              dynamic image = getContactImage(transfer, contact,
                   businesses: viewModel.businesses);
-          dynamic image = getContactImage(transfer, contact,
-              businesses: viewModel.businesses);
-          String phoneNumber =
-              viewModel.reverseContacts[transfer.to.toLowerCase()] ?? '';
-          listItems.add(ContactTile(
-              image: image,
-              displayName: displayName,
-              phoneNumber: phoneNumber,
-              trailing: Text(
-                phoneNumber,
-                style: TextStyle(
-                    fontSize: 13, color: Theme.of(context).primaryColor),
-              ),
-              onTap: () {
-                if (transfer.to.toLowerCase() ==
-                    viewModel.community.homeBridgeAddress.toLowerCase()) {
-                  navigateToSendAmountScreen(transfer.to, 'ethereum', null,
-                      avatar: AssetImage(
-                        'assets/images/ethereume_icon.png',
-                      ));
-                  return;
-                }
-                if (contact == null) {
-                  navigateToSendAmountScreen(transfer.to, displayName, null,
-                      avatar: image);
-                } else {
-                  sendToContact(context, displayName, '',
-                      avatar: image, address: transfer.to);
-                }
-              }));
-        }
+              String phoneNumber =
+                  viewModel.reverseContacts[transfer.to.toLowerCase()] ?? '';
+              return ContactTile(
+                  image: image,
+                  displayName: displayName,
+                  phoneNumber: phoneNumber,
+                  trailing: Text(
+                    phoneNumber,
+                    style: TextStyle(
+                        fontSize: 13, color: Theme.of(context).primaryColor),
+                  ),
+                  onTap: () {
+                    if (transfer.to.toLowerCase() ==
+                        viewModel.community.homeBridgeAddress.toLowerCase()) {
+                      ExtendedNavigator.root.push(Routes.sendAmountScreen,
+                          arguments: SendAmountScreenArguments(
+                              pageArgs: SendAmountArguments(
+                                  name: 'Ethereum',
+                                  accountAddress: transfer.to,
+                                  avatar: AssetImage(
+                                    'assets/images/ethereume_icon.png',
+                                  ))));
+                      return;
+                    }
+                    if (contact == null) {
+                      ExtendedNavigator.root.push(Routes.sendAmountScreen,
+                          arguments: SendAmountScreenArguments(
+                              pageArgs: SendAmountArguments(
+                                  name: displayName,
+                                  accountAddress: transfer.to,
+                                  avatar: image)));
+                    } else {
+                      sendToContact(
+                          ExtendedNavigator.named('contactsRouter').context,
+                          displayName,
+                          '',
+                          avatar: image,
+                          address: transfer.to);
+                    }
+                  });
+            })
+            .cast<Widget>()
+            .toList();
 
         if (listItems.isNotEmpty) {
           listItems.insert(
@@ -92,6 +103,7 @@ class RecentContacts extends StatelessWidget {
                           fontSize: 12.0,
                           fontWeight: FontWeight.normal))));
         }
+
         return SliverList(
           delegate: SliverChildListDelegate(listItems),
         );

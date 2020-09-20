@@ -1,3 +1,5 @@
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fc_knudde/constans/keys.dart';
@@ -12,10 +14,10 @@ import 'package:fc_knudde/screens/misc/webview_page.dart';
 import 'package:fc_knudde/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fc_knudde/screens/home/widgets/drawer.dart';
 import 'package:fc_knudde/utils/contacts.dart';
+import 'package:fc_knudde/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fc_knudde/models/app_state.dart';
-import 'package:fc_knudde/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fc_knudde/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
@@ -53,8 +55,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   onInit(Store<AppState> store) {
-    String walletStatus = store.state.userState.walletStatus;
-    String accountAddress = store.state.userState.accountAddress;
+    final String walletStatus = store.state.userState.walletStatus;
+    final String accountAddress = store.state.userState.accountAddress;
+    final String identifier = store.state.userState.identifier;
+    final String isoCode = store.state.userState.isoCode;
+
+    if ([null, ''].contains(identifier)) {
+      store.dispatch(setDeviceId(true));
+    }
+
+    if ([null, ''].contains(isoCode)) {
+      Locale myLocale = Localizations.localeOf(context);
+      Map localeData = codes.firstWhere(
+          (Map code) => code['code'] == myLocale.countryCode,
+          orElse: () => null);
+      store.dispatch(setCountryCode(CountryCode(
+          dialCode: localeData['dial_code'], code: localeData['code'])));
+    }
 
     if (walletStatus != 'deploying' &&
         walletStatus != 'created' &&
@@ -68,12 +85,6 @@ class _HomePageState extends State<HomePage> {
         store.dispatch(getWalletAddressessCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
-        store.dispatch(startListenToTransferEvents());
-        store.dispatch(startFetchBalancesOnForeign());
-        store.dispatch(startFetchTransferEventsCall());
-        store.dispatch(fetchTokensBalances());
-        store.dispatch(startFetchTokensLastestPrices());
-        store.dispatch(startProcessingTokensJobsCall());
       }
     }
   }
@@ -128,6 +139,17 @@ class _HomePageState extends State<HomePage> {
                             context: context,
                             child: ContactsConfirmationScreen()));
                   }
+
+                  if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
+                    Future.delayed(Duration.zero, () {
+                      vm.setShowDialog();
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BackUpDialog();
+                          });
+                    });
+                  }
                 },
                 tabIndex: currentIndex,
               ));
@@ -138,10 +160,16 @@ class _HomePageState extends State<HomePage> {
 class _HomePageViewModel extends Equatable {
   final Community community;
   final bool isContactsSynced;
+  final bool backup;
+  final bool isBackupDialogShowed;
+  final Function setShowDialog;
 
   _HomePageViewModel({
     this.isContactsSynced,
     this.community,
+    this.backup,
+    this.isBackupDialogShowed,
+    this.setShowDialog,
   });
 
   static _HomePageViewModel fromStore(Store<AppState> store) {
@@ -152,9 +180,15 @@ class _HomePageViewModel extends Equatable {
     return _HomePageViewModel(
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
+      backup: store.state.userState.backup,
+      isBackupDialogShowed:
+          store.state.userState?.receiveBackupDialogShowed ?? false,
+      setShowDialog: () {
+        store.dispatch(ReceiveBackupDialogShowed());
+      },
     );
   }
 
   @override
-  List<Object> get props => [community, isContactsSynced];
+  List<Object> get props => [community, isContactsSynced, backup, community];
 }

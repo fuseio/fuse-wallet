@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/models/app_state.dart';
 import 'package:fc_knudde/models/views/backup.dart';
@@ -30,6 +31,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/pincode-screen');
     return WillPopScope(
         onWillPop: () async {
           ExtendedNavigator.root.pop<bool>(false);
@@ -94,10 +96,21 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                           decoration: UnderlineDecoration(
                                               hintTextStyle: TextStyle(
                                                   fontWeight: FontWeight.bold),
-                                              color: Theme.of(context)
+                                              colorBuilder:
+                                                  FixedColorListBuilder([
+                                                Theme.of(context)
                                                   .primaryColor,
-                                              enteredColor: Theme.of(context)
+                                                  Theme.of(context)
                                                   .primaryColor,
+                                                  Theme.of(context)
+                                                  .primaryColor,
+                                                  Theme.of(context)
+                                                  .primaryColor,
+                                                  Theme.of(context)
+                                                  .primaryColor,
+                                                  Theme.of(context)
+                                                  .primaryColor
+                                              ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
                                                   obscureText: '●')),

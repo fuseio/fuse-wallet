@@ -6,6 +6,7 @@ import 'package:fc_knudde/screens/contacts/send_amount_arguments.dart';
 import 'package:fc_knudde/screens/routes.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/models/community/business.dart';
@@ -17,8 +18,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class BusinessPage extends StatefulWidget {
   final Business business;
   final Token token;
-  final String communityAddress;
-  BusinessPage({this.business, this.token, this.communityAddress});
+  BusinessPage({this.business, this.token});
 
   @override
   _BusinessPageState createState() => _BusinessPageState();
@@ -39,6 +39,7 @@ class _BusinessPageState extends State<BusinessPage> {
 
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/business-details-screen');
     return Scaffold(
       key: scaffoldState,
       body: Container(
@@ -308,7 +309,6 @@ class _BusinessPageState extends State<BusinessPage> {
                                             avatar: NetworkImage(widget
                                                 .business.metadata
                                                 .getImageUri()))));
-                                //     )));
                               },
                             ),
                           )

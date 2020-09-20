@@ -4,6 +4,7 @@ import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
 import 'package:fc_knudde/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fc_knudde/redux/state/store.dart';
 import 'package:fc_knudde/services.dart';
+import 'package:fc_knudde/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'invite_job.g.dart';
@@ -33,7 +34,7 @@ class InviteJob extends Job {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
       logger.info('InviteJob FAILED');
-      store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress']));
+      // store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: InviteJob FAILED'));
       return;
     }
@@ -48,7 +49,8 @@ class InviteJob extends Job {
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('InviteJob FAILED');
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress']));
+      transactionFailedSnack(failReason);
+      store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -62,7 +64,6 @@ class InviteJob extends Job {
     if (arguments['tokenAddress'] != null) {
       store.dispatch(inviteProAndSendSuccessCall(
           job,
-          fetchedData['data'],
           arguments['tokensAmount'],
           arguments['receiverName'],
           arguments['inviteTransfer'],
@@ -72,7 +73,6 @@ class InviteJob extends Job {
     } else {
       store.dispatch(inviteAndSendSuccessCall(
           job,
-          fetchedData['data'],
           arguments['tokensAmount'],
           arguments['receiverName'],
           arguments['inviteTransfer'],

@@ -49,9 +49,9 @@ class GenerateWalletJob extends Job {
   onDone(store, dynamic fetchedData) async {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
-      this.status = 'FAILED';
       logger.info('GenerateWalletJob FAILED');
       store.dispatch(segmentTrackCall('Wallet: GenerateWalletJob FAILED'));
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
       return;
     }
     int current = DateTime.now().millisecondsSinceEpoch;
@@ -60,15 +60,17 @@ class GenerateWalletJob extends Job {
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
       this.isReported = true;
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
     }
 
     String walletAddress = fetchedData["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
-      store.dispatch(new CreateAccountWalletSuccess(arguments['accountAddress']));
+      store.dispatch(CreateAccountWalletSuccess(arguments['accountAddress']));
       store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
       final String communityAddress = store.state.cashWalletState.communityAddress ?? defaultCommunityAddress;
       store.dispatch(switchCommunityCall(communityAddress));
-      store.dispatch(activateProModeCall());
+      this.status = 'DONE';
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
     }
   }
 

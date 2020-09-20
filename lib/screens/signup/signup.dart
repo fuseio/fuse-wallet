@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,10 +8,12 @@ import 'package:fc_knudde/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:fc_knudde/services.dart';
+import 'package:fc_knudde/utils/constans.dart';
 import 'package:fc_knudde/widgets/main_scaffold.dart';
 import 'package:fc_knudde/widgets/primary_button.dart';
 import 'package:fc_knudde/widgets/signup_dialog.dart';
 import 'package:fc_knudde/models/views/onboard.dart';
+import 'package:fc_knudde/widgets/snackbars.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -60,6 +63,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/signup-screen');
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
@@ -192,6 +196,23 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 40.0),
                 StoreConnector<AppState, OnboardViewModel>(
                     distinct: true,
+                    onWillChange: (previousViewModel, newViewModel) {
+                      if (previousViewModel.signupException !=
+                              newViewModel.signupException &&
+                          newViewModel.signupException.runtimeType ==
+                              FirebaseAuthException) {
+                        transactionFailedSnack(
+                            newViewModel.signupException.message,
+                            title: newViewModel.signupException.code,
+                            duration: Duration(seconds: 3),
+                            context: context,
+                            margin: EdgeInsets.only(
+                                top: 8, right: 8, left: 8, bottom: 120));
+                        Future.delayed(Duration(seconds: intervalSeconds), () {
+                          newViewModel.resetErrors();
+                        });
+                      }
+                    },
                     converter: OnboardViewModel.fromStore,
                     builder: (_, viewModel) => Center(
                           child: PrimaryButton(

@@ -9,6 +9,7 @@ import 'package:fc_knudde/screens/misc/about.dart';
 import 'package:fc_knudde/screens/misc/protect_your_wallet.dart';
 import 'package:fc_knudde/screens/misc/settings.dart';
 import 'package:fc_knudde/screens/misc/switch_commmunity.dart';
+import 'package:fc_knudde/screens/profile/screen/profile.dart';
 import 'package:fc_knudde/screens/trade/review_trade.dart';
 import 'package:fc_knudde/screens/trade/trade.dart';
 
@@ -28,5 +29,6 @@ import 'package:fc_knudde/screens/trade/trade.dart';
   MaterialRoute(page: SettingsScreen),
   MaterialRoute(page: SwitchCommunityScreen),
   MaterialRoute(page: ProtectYourWallet),
+  MaterialRoute(page: ProfileScreen),
 ])
 class $HomeRouter {}

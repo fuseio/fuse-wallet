@@ -19,9 +19,9 @@ String getTokenUrl(tokenAddress) {
 class AssetsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, _AssetsListViewModel>(
+    return StoreConnector<AppState, TokensListViewModel>(
       distinct: true,
-      converter: _AssetsListViewModel.fromStore,
+      converter: TokensListViewModel.fromStore,
       builder: (_, viewModel) {
         return Scaffold(
             key: key,
@@ -45,16 +45,16 @@ class AssetsList extends StatelessWidget {
   }
 }
 
-class _AssetsListViewModel extends Equatable {
+class TokensListViewModel extends Equatable {
   final String walletAddress;
   final List<Token> tokens;
 
-  _AssetsListViewModel({
+  TokensListViewModel({
     this.walletAddress,
     this.tokens,
   });
 
-  static _AssetsListViewModel fromStore(Store<AppState> store) {
+  static TokensListViewModel fromStore(Store<AppState> store) {
     Map communitiesR = store.state.cashWalletState.communities
       ..removeWhere((key, Community community) =>
           [null, ''].contains(community?.token) ||
@@ -74,7 +74,7 @@ class _AssetsListViewModel extends Equatable {
         .map((Community community) => community?.token
             ?.copyWith(imageUrl: community?.metadata?.getImageUri()))
         .toList();
-    return _AssetsListViewModel(
+    return TokensListViewModel(
       walletAddress: store.state.userState.walletAddress,
       tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
           (tokenB?.amount ?? BigInt.zero)

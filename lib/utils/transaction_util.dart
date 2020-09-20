@@ -16,6 +16,13 @@ String getIPFSImageUrl(String image) {
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;
 }
 
+String getS3ImageUrl(String image) {
+  if (image == null) {
+    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+  }
+  return '${DotEnv().env['FUSE_S3_BUCKET']}/$image';
+}
+
 Widget deduceTransferIcon(Transfer transfer) {
   if (transfer.isFailed()) {
     return SvgPicture.asset(
@@ -52,28 +59,27 @@ Widget deduceTransferIcon(Transfer transfer) {
   }
 }
 
-Token getToken(String tokenAddress, Map<String, Community> communities,
+Token getToken(String tokenAddress, List<Community> communities,
     Map<String, Token> erc20Tokens) {
   if (erc20Tokens.containsKey(tokenAddress)) {
     return erc20Tokens[tokenAddress];
   } else {
-    return communities.values
+    return communities
         .firstWhere(
             (community) =>
                 community?.token?.address?.toLowerCase() ==
                 tokenAddress?.toLowerCase(),
-            orElse: () => communities.values.first)
+            orElse: () => communities.first)
         .token;
   }
 }
 
-Community getCommunity(
-    String tokenAddress, Map<String, Community> communities) {
-  return communities.values.toList().firstWhere(
+Community getCommunity(String tokenAddress, List<Community> communities) {
+  return communities.firstWhere(
       (community) =>
           community?.token?.address?.toLowerCase() ==
           tokenAddress?.toLowerCase(),
-      orElse: () => communities.values.first);
+      orElse: () => communities.first);
 }
 
 Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
@@ -126,7 +132,13 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
 }
 
 dynamic getTransferImage(
-    Transfer transfer, Contact contact, Community community) {
+    Transfer transfer, Contact contact, Community community,
+    {bool isZeroAddress}) {
+  if (isZeroAddress != null && isZeroAddress) {
+    AssetImage(
+      'assets/images/ethereume_icon.png',
+    );
+  }
   if (transfer.isJoinCommunity() &&
       ![null, ''].contains(community.metadata.image)) {
     return new NetworkImage(community.metadata.getImageUri());
@@ -155,26 +167,9 @@ dynamic getTransferImage(
       (business) => business.account == accountAddress,
       orElse: () => null);
   if (business != null) {
-    return NetworkImage(getImageUrl(business, community?.address));
+    return NetworkImage(business.metadata.getImageUri());
   }
   return new AssetImage('assets/images/anom.png');
-}
-
-String getCoverPhotoUrl(business, communityAddress) {
-  if (business.metadata.coverPhoto == null ||
-      business.metadata.coverPhoto == '') {
-    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else {
-    return getIPFSImageUrl(business.metadata.coverPhoto);
-  }
-}
-
-String getImageUrl(business, communityAddress) {
-  if (business.metadata.image == null || business.metadata.image == '') {
-    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-  } else {
-    return getIPFSImageUrl(business.metadata.image);
-  }
 }
 
 dynamic getContactImage(Transfer transfer, Contact contact,
@@ -188,7 +183,7 @@ dynamic getContactImage(Transfer transfer, Contact contact,
         (business) => business.account == accountAddress,
         orElse: () => null);
     if (business != null) {
-      return NetworkImage(getImageUrl(business, ''));
+      return NetworkImage(business.metadata.getImageUri());
     }
   }
   return new AssetImage('assets/images/anom.png');

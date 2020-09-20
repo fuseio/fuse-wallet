@@ -8,18 +8,23 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fc_knudde/models/app_state.dart';
 import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
+import 'package:fc_knudde/redux/actions/user_actions.dart';
 import 'package:fc_knudde/redux/state/store.dart';
 import 'package:fc_knudde/screens/route_guards.dart';
 import 'package:fc_knudde/screens/routes.gr.dart';
+import 'package:fc_knudde/services.dart';
 import 'package:fc_knudde/themes/app_theme.dart';
 import 'package:fc_knudde/themes/custom_theme.dart';
+import 'package:fc_knudde/utils/jwt.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fc_knudde/generated/i18n.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await DotEnv().load('environment/.env');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
@@ -29,7 +34,7 @@ void main() async {
             child: new MyApp(store: store),
           )), (Object error, StackTrace stackTrace) async {
     try {
-      await AppFactory().reportError(error, stackTrace);
+      await AppFactory().reportError(error, stackTrace: stackTrace);
     } catch (e) {
       print('Sending report to sentry.io failed: $e');
       print('Original error: $error');
@@ -63,6 +68,30 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void refreshToken(Store<AppState> store) async {
+    final logger = await AppFactory().getLogger('action');
+    String jwtToken = store?.state?.userState?.jwtToken;
+    final accoutAddress = store?.state?.userState?.accountAddress;
+    final identifier = store?.state?.userState?.identifier;
+    if (![null, ''].contains(jwtToken)) {
+      Map<String, dynamic> tokenData = parseJwt(jwtToken);
+      DateTime exp =
+          DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
+      DateTime now = DateTime.now();
+      Duration diff = exp.difference(now);
+      if (diff.inDays <= 1) {
+        String token = await firebaseAuth.currentUser.getIdToken(true);
+        jwtToken = await api.login(token, accoutAddress, identifier);
+      }
+
+      logger.info('JWT: $jwtToken');
+      api.setJwtToken(jwtToken);
+      store.dispatch(LoginVerifySuccess(jwtToken));
+    } else {
+      logger.info('no JWT');
+    }
+  }
+
   void listenDynamicLinks(Store<AppState> store) async {
     final logger = await AppFactory().getLogger('action');
     logger.info("branch listening.");
@@ -92,7 +121,6 @@ class _MyAppState extends State<MyApp> {
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite",
             properties: new Map<String, dynamic>.from(linkData)));
       }
-      store.dispatch(BranchDataReceived());
     }, onError: (error) {
       PlatformException platformException = error as PlatformException;
       print(
@@ -111,6 +139,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    refreshToken(widget.store);
     listenDynamicLinks(widget.store);
     I18n.onLocaleChanged = onLocaleChange;
   }

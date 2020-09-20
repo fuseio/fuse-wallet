@@ -4,6 +4,7 @@ import 'package:fc_knudde/models/community/business_metadata.dart';
 import 'package:fc_knudde/screens/contacts/send_amount_arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/models/app_state.dart';
 import 'package:fc_knudde/models/community/business.dart';
@@ -22,6 +23,9 @@ class BuyScreen extends StatelessWidget {
         converter: BuyViewModel.fromStore,
         onInit: (store) {
           store.dispatch(getBusinessListCall());
+        },
+        onInitialBuild: (viewModel) {
+          Segment.screen(screenName: '/buy-screen');
         },
         builder: (_, viewModel) {
           return MainScaffold(
@@ -106,7 +110,7 @@ class BusinessesListView extends StatelessWidget {
                           itemBuilder: (context, index) => businessTile(
                               context,
                               vm.businesses[index],
-                              vm.communityAddres,
+                              vm.communityAddress,
                               vm.token),
                         )))
               ]);
@@ -149,9 +153,9 @@ class BusinessesListView extends StatelessWidget {
       onTap: () {
         ExtendedNavigator.of(context).push(BusinessesRoutes.businessPage,
             arguments: BusinessPageArguments(
-                business: business,
-                token: token,
-                communityAddress: communityAddres));
+              business: business,
+              token: token,
+            ));
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

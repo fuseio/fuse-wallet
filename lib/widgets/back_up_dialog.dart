@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fc_knudde/constans/keys.dart';
 import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/screens/home/router/home_router.gr.dart';
 import 'dart:core';
@@ -94,6 +95,10 @@ class BackUpDialogState extends State<BackUpDialog>
                       width: 170,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () async {
+                        final BottomNavigationBar navigationBar =
+                            AppKeys.bottomBarKey.currentWidget;
+                        Navigator.of(context).pop();
+                        navigationBar.onTap(0);
                         ExtendedNavigator.named('homeRouter')
                             .push(HomeRoutes.showMnemonic);
                       },

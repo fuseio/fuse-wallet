@@ -50,7 +50,7 @@ Middleware<AppState> _createLoginRequestMiddleware() {
       catch (e, s) {
         store.dispatch(SetIsLoginRequest(isLoading: false));
         logger.severe('ERROR - LoginRequest $e');
-        await AppFactory().reportError(e, s);
+        await AppFactory().reportError(e, stackTrace: s);
         store.dispatch(new ErrorAction(e.toString()));
         store.dispatch(segmentTrackCall("ERROR in LoginRequest", properties: new Map.from({ "error": e.toString() })));
       }
@@ -68,29 +68,30 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         store.dispatch(setDeviceId(false));
         PhoneAuthCredential credential = store.state.userState.credentials;
         if (credential == null) {
-          credential = PhoneAuthProvider.getCredential(
+          credential = PhoneAuthProvider.credential(
             verificationId: action.verificationId,
-            smsCode: action.verificationCode,
+            smsCode: action.verificationCode
           );
         }
-        final FirebaseUser user = (await firebaseAuth.signInWithCredential(credential)).user;
-        final FirebaseUser currentUser = await firebaseAuth.currentUser();
+        final User user = (await firebaseAuth.signInWithCredential(credential)).user;
+        final User currentUser = firebaseAuth.currentUser;
         assert(user.uid == currentUser.uid);
         final String accountAddress = store.state.userState.accountAddress;
         final String identifier = store.state.userState.identifier;
-        IdTokenResult token = await user.getIdToken();
-        String jwtToken = await api.login(token.token, accountAddress, identifier, appName: 'FCKnudde');
+        String token = await user.getIdToken();
+        String jwtToken = await api.login(token, accountAddress, identifier, appName: 'FCKnudde');
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
         ExtendedNavigator.root.push(Routes.userNameScreen);
       }
-      catch (e, s) {
-        store.dispatch(SetIsVerifyRequest(isLoading: false));
-        logger.severe('ERROR - Verification failed $e');
-        await AppFactory().reportError(e, s);
-        store.dispatch(new ErrorAction(e.toString()));
-        store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": e.toString() })));
+      catch (error, s) {
+        FirebaseAuthException firebaseAuthException = error as FirebaseAuthException;
+        store.dispatch(SetIsVerifyRequest(isLoading: false, message: firebaseAuthException));
+        logger.severe('ERROR - Verification failed ${firebaseAuthException.code} - ${firebaseAuthException.message}');
+        await AppFactory().reportError(firebaseAuthException.message, stackTrace: s);
+        store.dispatch(new ErrorAction(firebaseAuthException.message));
+        store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": firebaseAuthException.message })));
       }
     }
     next(action);
