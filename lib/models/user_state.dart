@@ -28,6 +28,7 @@ class UserState {
   final Map<String, String> reverseContacts;
   final String jwtToken;
   final String displayName;
+  final String avatarUrl;
   final String email;
   final String verificationId;
   final String identifier;
@@ -38,7 +39,7 @@ class UserState {
   final bool backup;
   final int displayBalance;
   final DateTime installedAt;
-  @JsonKey(fromJson: _authTypeFromJson, toJson: EnumToString.parse)
+  @JsonKey(fromJson: _authTypeFromJson, toJson: EnumToString.convertToString)
   final BiometricAuth authType;
   final bool homeBackupDialogShowed;
   final bool receiveBackupDialogShowed;
@@ -46,6 +47,10 @@ class UserState {
   final String currency;
   final num totalBalance;
 
+  @JsonKey(ignore: true)
+  final dynamic signupException;
+  @JsonKey(ignore: true)
+  final dynamic verifyException;
   @JsonKey(ignore: true)
   final bool isLoginRequest;
   @JsonKey(ignore: true)
@@ -76,6 +81,7 @@ class UserState {
       this.syncedContacts,
       this.jwtToken,
       this.displayName,
+      this.avatarUrl,
       this.email,
       this.verificationId,
       this.identifier,
@@ -92,7 +98,9 @@ class UserState {
       this.homeBackupDialogShowed,
       this.receiveBackupDialogShowed,
       this.currency,
-      this.totalBalance});
+      this.totalBalance,
+      this.signupException,
+      this.verifyException});
 
   factory UserState.initial() {
     return new UserState(
@@ -155,6 +163,7 @@ class UserState {
       Map<String, String> reverseContacts,
       String jwtToken,
       String displayName,
+      String avatarUrl,
       String email,
       String verificationId,
       String identifier,
@@ -172,8 +181,12 @@ class UserState {
       bool receiveBackupDialogShowed,
       bool homeBackupDialogShowed,
       String currency,
-      num totalBalance}) {
+      num totalBalance,
+      dynamic verifyException,
+      dynamic signupException}) {
     return UserState(
+        verifyException: verifyException ?? this.verifyException,
+        signupException: signupException ?? this.signupException,
         authType: authType ?? this.authType,
         walletAddress: walletAddress ?? this.walletAddress,
         communityManagerAddress:
@@ -195,6 +208,7 @@ class UserState {
         syncedContacts: syncedContacts ?? this.syncedContacts,
         reverseContacts: reverseContacts ?? this.reverseContacts,
         jwtToken: jwtToken ?? this.jwtToken,
+        avatarUrl: avatarUrl ?? this.avatarUrl,
         displayName: displayName ?? this.displayName,
         email: email ?? this.email,
         verificationId: verificationId ?? this.verificationId,

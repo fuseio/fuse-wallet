@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ceu_do_mapia/models/tokens/token.dart';
 import 'package:ceu_do_mapia/redux/actions/pro_mode_wallet_actions.dart';
@@ -35,6 +36,20 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final num amount = widget.exchangeSummry['amount'];
+    final bool withFee = fees.containsKey(widget.fromToken.symbol);
+    final num feeAmount = withFee ? fees[widget.fromToken.symbol] : 0;
+    final amountToSwap = formatValue(
+        BigInt.from(num.parse(widget.exchangeSummry['sourceAmount'])),
+        int.parse(widget.exchangeSummry['sourceAsset']['decimals']),
+        withPrecision: true);
+    final amountToReceive = formatValue(
+        BigInt.from(num.parse(widget.exchangeSummry['destinationAmount'])),
+        int.parse(widget.exchangeSummry['destinationAsset']['decimals']),
+        withPrecision: true);
+    final num tokenBalance = num.parse(
+        formatValue(widget.fromToken.amount, widget.fromToken.decimals));
+    final bool hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
     return MainScaffold(
         withPadding: true,
         title: I18n.of(context).review_trade,
@@ -66,39 +81,23 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Pay with',
+                              I18n.of(context).pay_with,
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
                               height: 20,
                             ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              verticalDirection: VerticalDirection.down,
-                              textBaseline: TextBaseline.alphabetic,
-                              children: <Widget>[
-                                Text(
-                                  formatValue(
-                                      BigInt.from(num.parse(widget
-                                          .exchangeSummry['sourceAmount'])),
-                                      int.parse(
-                                          widget.exchangeSummry['sourceAsset']
-                                              ['decimals']),
-                                      withPrecision: true),
-                                  style: TextStyle(fontSize: 40),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  widget.exchangeSummry['sourceAsset']
-                                      ['symbol'],
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            )
+                            AutoSizeText.rich(TextSpan(children: [
+                              TextSpan(
+                                text: '$amountToSwap ',
+                                style: TextStyle(fontSize: 40),
+                              ),
+                              TextSpan(
+                                text: widget.exchangeSummry['sourceAsset']
+                                    ['symbol'],
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ]))
                           ],
                         ),
                       ),
@@ -118,45 +117,79 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Receive',
+                              I18n.of(context).receive,
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
                               height: 20,
                             ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              verticalDirection: VerticalDirection.down,
-                              textBaseline: TextBaseline.alphabetic,
-                              children: <Widget>[
-                                Text(
-                                  formatValue(
-                                      BigInt.from(num.parse(
-                                          widget.exchangeSummry[
-                                              'destinationAmount'])),
-                                      int.parse(widget.exchangeSummry[
-                                          'destinationAsset']['decimals']),
-                                      withPrecision: true),
-                                  style: TextStyle(fontSize: 40),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  widget.exchangeSummry['destinationAsset']
-                                      ['symbol'],
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            )
+                            AutoSizeText.rich(TextSpan(children: [
+                              TextSpan(
+                                text: '$amountToReceive ',
+                                style: TextStyle(fontSize: 40),
+                              ),
+                              TextSpan(
+                                text: widget.exchangeSummry['destinationAsset']
+                                    ['symbol'],
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ]))
                           ],
                         ),
                       )
                     ],
                   ),
-                )
+                ),
+                withFee
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                              I18n.of(context).fee_amount +
+                                  ' $feeAmount ${widget.fromToken.symbol}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 12, color: Color(0xFF777777))),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                              I18n.of(context).total_amount +
+                                  ' ${(num.parse(amountToSwap) + feeAmount)} ${widget.fromToken.symbol}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          !hasFund
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.error,
+                                      color: Colors.red,
+                                      size: 16,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 7),
+                                      child: Text(
+                                          I18n.of(context).not_enough_balance,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 14, color: Colors.red)),
+                                    ),
+                                  ],
+                                )
+                              : SizedBox.shrink(),
+                        ],
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           )
@@ -169,7 +202,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                     labelFontWeight: FontWeight.normal,
                     label: I18n.of(context).trade,
                     fontSize: 15,
-                    disabled: isPreloading,
+                    disabled: isPreloading || !hasFund,
                     preload: isPreloading,
                     onPressed: () {
                       setState(() {
@@ -183,8 +216,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                           widget.exchangeSummry['amountIn'],
                           widget.exchangeSummry['tx']['to'],
                           widget.exchangeSummry['tx']['data'], () {
-                        ExtendedNavigator.root
-                            .replace(Routes.homePage);
+                        ExtendedNavigator.root.replace(Routes.homePage);
                       }, () {
                         setState(() {
                           isPreloading = false;

@@ -16,6 +16,13 @@ String getIPFSImageUrl(String image) {
   return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;
 }
 
+String getS3ImageUrl(String image) {
+  if (image == null) {
+    return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
+  }
+  return '${DotEnv().env['FUSE_S3_BUCKET']}/$image';
+}
+
 Widget deduceTransferIcon(Transfer transfer) {
   if (transfer.isFailed()) {
     return SvgPicture.asset(

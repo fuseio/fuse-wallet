@@ -111,8 +111,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             (viewModel.communities.any((element) =>
                 (args?.accountAddress?.toLowerCase() ==
                     element?.homeBridgeAddress?.toLowerCase()) ||
-                args?.accountAddress?.toLowerCase() ==
-                    element?.foreignBridgeAddress?.toLowerCase()));
+                (args?.accountAddress?.toLowerCase() ==
+                    element?.foreignBridgeAddress?.toLowerCase()) ||
+                args?.tokenToSend?.address?.toLowerCase() ==
+                    element?.foreignTokenAddress?.toLowerCase()));
         final num feeAmount =
             withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0;
         final num currentTokenBalance =
@@ -274,7 +276,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                             height: 10,
                           ),
                           Text(
-                              'Fee amount: ${feeAmount.toStringAsFixed(1)} $symbol',
+                              I18n.of(context).fee_amount +
+                                  ' ${feeAmount.toStringAsFixed(1)} $symbol',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 12, color: Color(0xFF777777))),
@@ -282,7 +285,8 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                             height: 10,
                           ),
                           Text(
-                              'Total amount: ${(args.amount + feeAmount).toStringAsFixed(1)} $symbol',
+                              I18n.of(context).total_amount +
+                                  ' ${(args.amount + feeAmount).toStringAsFixed(1)} $symbol',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 14)),

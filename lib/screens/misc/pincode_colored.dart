@@ -97,8 +97,15 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                           decoration: UnderlineDecoration(
                                               hintTextStyle: TextStyle(
                                                   fontWeight: FontWeight.bold),
-                                              color: Color(0xFF575757),
-                                              enteredColor: Color(0xFF575757),
+                                              colorBuilder:
+                                                  FixedColorListBuilder([
+                                                Color(0xFF575757),
+                                                Color(0xFF575757),
+                                                Color(0xFF575757),
+                                                Color(0xFF575757),
+                                                Color(0xFF575757),
+                                                Color(0xFF575757),
+                                              ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
                                                   obscureText: '●')),

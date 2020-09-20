@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:ceu_do_mapia/screens/routes.gr.dart';
 import 'package:ceu_do_mapia/screens/contacts/send_amount_arguments.dart';
@@ -84,13 +85,17 @@ void sendToPastedAddress(accountAddress) {
 bracodeScannerHandler() async {
   try {
     ScanResult scanResult = await BarcodeScanner.scan();
-    List<String> parts = scanResult.rawContent.split(':');
-    bool expression = parts.length == 2 && parts[0] == 'ethereum';
-    if (expression) {
-      final String accountAddress = parts[1];
-      sendToPastedAddress(accountAddress);
+    if (isValidEthereumAddress(scanResult.rawContent)) {
+      sendToPastedAddress(scanResult.rawContent);
     } else {
-      print('Account address is not on Fuse');
+      List<String> parts = scanResult.rawContent.split(':');
+      bool expression = parts.length == 2 && parts[0] == 'ethereum';
+      if (expression) {
+        final String accountAddress = parts[1];
+        sendToPastedAddress(accountAddress);
+      } else {
+        print('Account address is not on Fuse');
+      }
     }
   } catch (e) {
     print('ERROR - BarcodeScanner');

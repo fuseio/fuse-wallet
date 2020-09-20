@@ -150,7 +150,7 @@ ThunkAction initWeb3ProMode(
     String dAIPointsManagerAddress}) {
   return (Store store) async {
     UserState userState = store.state.userState;
-    String privateKey = userState.privateKey;
+    String pk = privateKey ?? userState.privateKey;
     wallet_core.Web3 web3 = new wallet_core.Web3(approvalCallback,
         networkId: int.parse(DotEnv().env['FOREIGN_NETWORK_ID']),
         transferManagerAddress:
@@ -160,7 +160,7 @@ ThunkAction initWeb3ProMode(
         communityManagerAddress:
             communityManagerAddress ?? userState.communityManagerAddress,
         url: DotEnv().env['FOREIGN_PROVIDER_URL']);
-    await web3.setCredentials(privateKey);
+    web3.setCredentials(pk);
     store.dispatch(new InitWeb3ProModeSuccess(web3: web3));
   };
 }
@@ -184,20 +184,18 @@ ThunkAction startListenToTransferEvents() {
               foreignNetwork: foreignNetwork, to: walletAddress);
           ProWalletState proWalletState = store.state.proWalletState;
           if (transfersEvents.isNotEmpty) {
-            List<String> addressesFromTransfersEvents = [
+            List<String> tokenAddresses = [
               ...transfersEvents.map((transferEvent) =>
                   transferEvent['tokenAddress'].toLowerCase())
                 ..toSet()
                 ..toList()
             ];
-            addressesFromTransfersEvents
+            tokenAddresses
               ..removeWhere(
                   (address) => proWalletState.erc20Tokens.containsKey(address));
-            logger.info(
-                'addressesFromTransfersEvents addressesFromTransfersEvents ${addressesFromTransfersEvents.length}');
-            if (addressesFromTransfersEvents.isNotEmpty) {
-              store.dispatch(getBalancesOnForeign(
-                  addressesFromTransfersEvents: addressesFromTransfersEvents));
+            logger.info('tokenAddresses ${tokenAddresses.length}');
+            if (tokenAddresses.isNotEmpty) {
+              store.dispatch(addTokens(contractAddresses: tokenAddresses));
               store.dispatch(startFetchBalancesOnForeign());
             }
             timer.cancel();
@@ -268,7 +266,7 @@ ThunkAction startFetchTokensLastestPrices() {
     final logger = await AppFactory().getLogger('action');
     logger.info('Timer start - startFetchTokensLastestPrices');
     if (!isFetchTokensLastestPrice) {
-      new Timer.periodic(Duration(minutes: 5), (Timer timer) async {
+      new Timer.periodic(Duration(minutes: intervalSeconds), (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           store.dispatch(SetIsFetchTokensLastestPrices(isFetching: false));
           logger.severe('Timer stopped - startFetchTokensLastestPrices');
@@ -311,8 +309,7 @@ ThunkAction fetchTokensLatestPrice() {
   };
 }
 
-ThunkAction startFetchBalancesOnForeign(
-    {List<String> addressesFromTransfersEvents = const []}) {
+ThunkAction startFetchBalancesOnForeign() {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     bool isFetchNewTokens =
@@ -327,37 +324,33 @@ ThunkAction startFetchBalancesOnForeign(
           timer.cancel();
           return;
         }
-        store.dispatch(getBalancesOnForeign(
-            addressesFromTransfersEvents: addressesFromTransfersEvents));
+        Map walletData = await api.getWallet();
+        ProWalletState proWalletState = store.state.proWalletState;
+        List<String> tokenAddresses = [];
+        if (walletData['balancesOnForeign'] != null) {
+          Map<String, dynamic> balancesOnForeign =
+              Map.from(walletData['balancesOnForeign']);
+          balancesOnForeign
+            ..removeWhere((key, value) =>
+                proWalletState.erc20Tokens.containsKey(key.toLowerCase()));
+          tokenAddresses..addAll(balancesOnForeign.keys);
+        }
+        if (tokenAddresses.isNotEmpty) {
+          store.dispatch(addTokens(contractAddresses: tokenAddresses));
+        }
       });
       store.dispatch(SetIsFetchNewTokens(isFetching: true));
     }
   };
 }
 
-ThunkAction getBalancesOnForeign(
-    {List<String> addressesFromTransfersEvents = const []}) {
+ThunkAction addTokens({List<String> contractAddresses = const []}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      Map walletData = await api.getWallet();
-      ProWalletState proWalletState = store.state.proWalletState;
-      List<String> tokenAddresses = [];
-      if (addressesFromTransfersEvents.isNotEmpty) {
-        tokenAddresses..addAll(addressesFromTransfersEvents);
-      }
-      if (walletData['balancesOnForeign'] != null) {
-        Map<String, dynamic> balancesOnForeign =
-            Map.from(walletData['balancesOnForeign']);
-        balancesOnForeign
-          ..removeWhere((key, value) =>
-              proWalletState.erc20Tokens.containsKey(key.toLowerCase()));
-        tokenAddresses..addAll(balancesOnForeign.keys);
-      }
-      if (tokenAddresses.isNotEmpty) {
-        for (String address in tokenAddresses) {
-          store.dispatch(fetchTokenByAddress(address));
-        }
+      List<String> tokenAddresses = []..addAll(contractAddresses);
+      for (String address in tokenAddresses) {
+        store.dispatch(fetchTokenByAddress(address));
       }
     } catch (error) {
       logger.severe('Error in getBalancesOnForeign ${error.toString()}');
@@ -386,7 +379,7 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
         List<Community> communities =
             store.state.cashWalletState.communities.values.toList();
         Community community = communities.firstWhere(
-            (element) =>
+            (Community element) =>
                 tokenAddress?.toLowerCase() ==
                 element?.foreignTokenAddress?.toLowerCase(),
             orElse: () => null);
@@ -565,8 +558,7 @@ ThunkAction sendErc20TokenCall(
       Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
           walletAddress, token.address, receiverAddress, tokensAmount,
           network: foreignNetwork);
-      num feeAmount = fees[token.symbol] ??
-          1; // community.plugins.foreignTransfers.calcFee(tokensAmount);
+      num feeAmount = fees[token.symbol] ?? 1;
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
           walletAddress,
           token.address,
@@ -804,29 +796,23 @@ ThunkAction swapHandler(
     try {
       final String spenderContract =
           DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'];
-      // String communityAddres = store.state.cashWalletState.communityAddress;
-      // Community community =
-      //     store.state.cashWalletState.communities[communityAddres];
-      // String feeReceiverAddress =
-      //     community.plugins.bridgeToForeign?.receiverAddress ??
-      //         '0x77D886e98133D99130179bdb41CE052a43d32c2F';
+
+      String feeReceiverAddress = '0x77D886e98133D99130179bdb41CE052a43d32c2F';
       num feeAmount = fees[fromToken.symbol] ?? 0;
       Map<String, dynamic> signedApprovalData = await web3.approveTokenOffChain(
           walletAddress, tokenAddress, tokensAmount,
-          spenderContract: spenderContract, network: 'mainnet');
+          spenderContract: spenderContract, network: foreignNetwork);
       Map<String, dynamic> signedSwapData = await web3.callContractOffChain(
           walletAddress,
           swapContractAddress,
           0,
           swapData.replaceFirst('0x', ''),
-          network: 'mainnet');
-      // Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-      //     walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+          network: foreignNetwork);
+      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
 
-      Map<String, dynamic> response = await api.multiRelay([
-        signedApprovalData,
-        signedSwapData,
-      ]); // feeTrasnferData
+      Map<String, dynamic> response = await api
+          .multiRelay([signedApprovalData, signedSwapData, feeTrasnferData]);
       sendSuccessCallback();
       String swapJobId = response['job']['_id'];
       logger.info('Job $swapJobId for swap');
