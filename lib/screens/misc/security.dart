@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:curadai/screens/routes.gr.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:curadai/redux/actions/user_actions.dart';
@@ -37,6 +38,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/choose-lock-method-screen');
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
@@ -188,7 +190,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                               ),
                               Text(I18n.of(context).pincode,
                                   style: TextStyle(
-                                      fontSize: 14, color: Colors.black))
+                                      fontSize: 18, color: Colors.black))
                             ]),
                           ),
                           onTap: () {

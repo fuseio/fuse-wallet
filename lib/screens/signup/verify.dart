@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:curadai/generated/i18n.dart';
 import 'package:curadai/models/app_state.dart';
+import 'package:curadai/utils/constans.dart';
 import 'package:curadai/widgets/main_scaffold.dart';
 import 'package:curadai/widgets/primary_button.dart';
 import 'package:curadai/models/views/onboard.dart';
+import 'package:curadai/widgets/snackbars.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class VerifyScreen extends StatefulWidget {
@@ -24,6 +28,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/verify-phone-number-screen');
     return StoreConnector<AppState, OnboardViewModel>(
         distinct: true,
         converter: OnboardViewModel.fromStore,
@@ -31,6 +36,22 @@ class _VerifyScreenState extends State<VerifyScreen> {
           if (viewModel.credentials != null) {
             autoCode = viewModel.credentials.smsCode ?? "";
             viewModel.verify(autoCode, widget.verificationId);
+          }
+        },
+        onWillChange: (previousViewModel, newViewModel) {
+          if (previousViewModel.verifyException !=
+                  newViewModel.verifyException &&
+              newViewModel.verifyException.runtimeType ==
+                  FirebaseAuthException) {
+            transactionFailedSnack(newViewModel.verifyException.message,
+                title: newViewModel.verifyException.code,
+                duration: Duration(seconds: 3),
+                context: context,
+                margin:
+                    EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
+            Future.delayed(Duration(seconds: intervalSeconds), () {
+              newViewModel.resetErrors();
+            });
           }
         },
         builder: (_, viewModel) {
@@ -49,17 +70,23 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       Text(
                           I18n.of(context).we_just_sent +
                               "${viewModel.countryCode} ${viewModel.phoneNumber}" +
-                              "\n\n" +
-                              I18n.of(context).enter_verification_code,
+                              "\n",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,
                             fontWeight: FontWeight.normal,
                           )),
+                      Text(I18n.of(context).enter_verification_code,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.normal,
+                          )),
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 0.0, top: 10.0, right: 0.0),
+                        padding:
+                            EdgeInsets.only(left: 0.0, top: 10.0, right: 0.0),
                         child: Container(
                           width: 280,
                           child: Theme(
@@ -69,8 +96,14 @@ class _VerifyScreenState extends State<VerifyScreen> {
                               child: PinInputTextField(
                                 pinLength: 6,
                                 decoration: UnderlineDecoration(
-                                  color: Color(0xFFDDDDDD),
-                                  enteredColor: Color(0xFF575757),
+                                  colorBuilder: FixedColorListBuilder([
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                    Color(0xFFDDDDDD),
+                                  ]),
                                 ),
                                 controller: verificationCodeController,
                                 autoFocus: true,
@@ -93,7 +126,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     fontSize: 16,
                     preload: viewModel.isVerifyRequest,
                     onPressed: () {
-                      viewModel.verify(verificationCodeController.text, widget.verificationId);
+                      viewModel.verify(verificationCodeController.text,
+                          widget.verificationId);
                     },
                   ),
                 ),

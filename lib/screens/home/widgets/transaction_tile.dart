@@ -15,13 +15,20 @@ import 'package:curadai/utils/addresses.dart';
 import 'package:curadai/utils/transaction_util.dart';
 import 'package:curadai/utils/format.dart';
 
-class TransactionTile extends StatelessWidget {
+class TransactionTile extends StatefulWidget {
   final Transfer transfer;
+  final Token token;
 
   TransactionTile({
     this.transfer,
+    this.token,
   });
 
+  @override
+  _TransactionTileState createState() => _TransactionTileState();
+}
+
+class _TransactionTileState extends State<TransactionTile> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, _TransactionTileViewModel>(
@@ -29,45 +36,40 @@ class TransactionTile extends StatelessWidget {
         converter: _TransactionTileViewModel.fromStore,
         builder: (_, viewModel) {
           final Contact contact = getContact(
-              transfer,
+              widget.transfer,
               viewModel.reverseContacts,
               viewModel.contacts,
               viewModel.countryCode);
-          Community community =
-              getCommunity(transfer?.tokenAddress, viewModel.communities);
-          Token token;
-          if (transfer.tokenAddress == null) {
-            token = community?.token;
-          } else {
-            token = getToken(transfer?.tokenAddress?.toLowerCase(),
-                viewModel?.communities, viewModel?.erc20Tokens);
-          }
+          Community community = getCommunity(
+              (widget?.token?.address ?? widget.transfer?.tokenAddress),
+              viewModel.communities);
+          Token token = widget.token ??
+              viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
           bool isSendingToForeign = (community?.homeBridgeAddress != null &&
-                  transfer.to != null &&
-                  transfer.to?.toLowerCase() ==
+                  widget.transfer.to != null &&
+                  widget.transfer.to?.toLowerCase() ==
                       community?.homeBridgeAddress?.toLowerCase()) ??
               false;
           bool isWalletCreated = 'created' == viewModel.walletStatus;
-          bool isZeroAddress = transfer.from == zeroAddress;
-          ImageProvider<dynamic> image = isZeroAddress
-              ? AssetImage(
-                  'assets/images/ethereume_icon.png',
-                )
-              : getTransferImage(transfer, contact, community);
-          String displayName = transfer.isJoinBonus()
-              ? (transfer.text ?? I18n.of(context).join_bonus)
-              : ![null, ''].contains(transfer.receiverName)
-                  ? transfer.receiverName
-                  : ![null, ''].contains(transfer.text)
-                      ? transfer.text
+          bool isZeroAddress = widget.transfer.from == zeroAddress;
+          ImageProvider<dynamic> image = getTransferImage(
+              widget.transfer, contact, community,
+              isZeroAddress: isZeroAddress);
+          String displayName = widget.transfer.isJoinBonus()
+              ? (widget.transfer.text ?? I18n.of(context).join_bonus)
+              : ![null, ''].contains(widget.transfer.receiverName)
+                  ? widget.transfer.receiverName
+                  : ![null, ''].contains(widget.transfer.text)
+                      ? widget.transfer.text
                       : contact != null
                           ? contact.displayName
                           : deducePhoneNumber(
-                              transfer, viewModel.reverseContacts,
+                              widget.transfer, viewModel.reverseContacts,
                               businesses: community?.businesses);
-          String amount = formatValue(transfer?.value, token?.decimals);
+          String amount = formatValue(widget.transfer?.value, token?.decimals);
           List<Widget> rightColumn = <Widget>[
-            transfer.isGenerateWallet() || transfer.isJoinCommunity()
+            widget.transfer.isGenerateWallet() ||
+                    widget.transfer.isJoinCommunity()
                 ? SizedBox.shrink()
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -88,7 +90,7 @@ class TransactionTile extends StatelessWidget {
                                         fontSize: 15.0,
                                         fontWeight: FontWeight.bold)),
                                 TextSpan(
-                                    text: " ${token.symbol}",
+                                    text: " ${token?.symbol}",
                                     style: TextStyle(
                                         color: Color(0xFF696969),
                                         fontSize: 10.0,
@@ -103,14 +105,14 @@ class TransactionTile extends StatelessWidget {
                                       width: 8,
                                       height: 8,
                                     )
-                                  : deduceTransferIcon(transfer),
+                                  : deduceTransferIcon(widget.transfer),
                             ],
                           ),
                           Positioned(
                               bottom: -20,
-                              child: (transfer.isPending() &&
-                                      !transfer.isGenerateWallet() &&
-                                      !transfer.isJoinCommunity())
+                              child: (widget.transfer.isPending() &&
+                                      !widget.transfer.isGenerateWallet() &&
+                                      !widget.transfer.isJoinCommunity())
                                   ? Padding(
                                       child: Text(I18n.of(context).pending,
                                           style: TextStyle(
@@ -164,19 +166,19 @@ class TransactionTile extends StatelessWidget {
                                   // Hero(
                                   //   child: CircleAvatar(
                                   //     backgroundColor: Color(0xFFE0E0E0),
-                                  //     radius: 27,
+                                  //     radius: 30,
                                   //     backgroundImage: image,
                                   //   ),
-                                  //   tag: transfer.isGenerateWallet()
+                                  //   tag: widget.transfer.isGenerateWallet()
                                   //       ? 'GenerateWallet'
-                                  //       : transfer.isPending()
+                                  //       : widget.transfer.isPending()
                                   //           ? "contactSent"
                                   //           : "transaction" +
-                                  //               (transfer.txHash ??
-                                  //                   transfer?.timestamp
+                                  //               (widget.transfer.txHash ??
+                                  //                   widget.transfer?.timestamp
                                   //                       .toString()),
                                   // ),
-                                  transfer.isPending()
+                                  widget.transfer.isPending()
                                       ? Container(
                                           width: 60,
                                           height: 60,
@@ -192,9 +194,9 @@ class TransactionTile extends StatelessWidget {
                                       : SizedBox.shrink(),
                                   community?.metadata?.isDefaultImage != null &&
                                           community.metadata.isDefaultImage &&
-                                          transfer.isJoinCommunity()
+                                          widget.transfer.isJoinCommunity()
                                       ? Text(
-                                          token.symbol,
+                                          token?.symbol,
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,
@@ -213,14 +215,15 @@ class TransactionTile extends StatelessWidget {
                                 overflow: Overflow.visible,
                                 alignment: AlignmentDirectional.bottomStart,
                                 children: <Widget>[
-                                  transfer.isJoinCommunity()
+                                  widget.transfer.isJoinCommunity()
                                       ? RichText(
                                           text: TextSpan(
                                             children: <TextSpan>[
                                               TextSpan(
-                                                  text: transfer
+                                                  text: widget.transfer
                                                               .isJoinCommunity() &&
-                                                          transfer.isPending()
+                                                          widget.transfer
+                                                              .isPending()
                                                       ? I18n.of(context).joining
                                                       : I18n.of(context).joined,
                                                   style: TextStyle(
@@ -251,7 +254,7 @@ class TransactionTile extends StatelessWidget {
                                           style: TextStyle(
                                               color: Color(0xFF333333),
                                               fontSize: 15)),
-                                  transfer.isGenerateWallet() &&
+                                  widget.transfer.isGenerateWallet() &&
                                           !isWalletCreated
                                       ? Positioned(
                                           bottom: -20,
@@ -274,38 +277,41 @@ class TransactionTile extends StatelessWidget {
                     Flexible(
                         flex: 3,
                         child: Container(
-                          child: transfer.isFailed()
+                          child: widget.transfer.isFailed()
                               ? InkWell(
                                   onTap: () {
                                     // TODO - Resend fail job
                                   },
                                   child: Column(
-                                      mainAxisAlignment: transfer.isPending()
-                                          ? MainAxisAlignment.start
-                                          : MainAxisAlignment.center,
-                                      crossAxisAlignment: transfer.isPending()
-                                          ? CrossAxisAlignment.end
-                                          : CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          widget.transfer.isPending()
+                                              ? MainAxisAlignment.start
+                                              : MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          widget.transfer.isPending()
+                                              ? CrossAxisAlignment.end
+                                              : CrossAxisAlignment.center,
                                       children: rightColumn),
                                 )
                               : Column(
-                                  mainAxisAlignment: transfer.isPending()
+                                  mainAxisAlignment: widget.transfer.isPending()
                                       ? MainAxisAlignment.start
                                       : MainAxisAlignment.center,
-                                  crossAxisAlignment: transfer.isPending()
-                                      ? CrossAxisAlignment.end
-                                      : CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      widget.transfer.isPending()
+                                          ? CrossAxisAlignment.end
+                                          : CrossAxisAlignment.center,
                                   children: rightColumn),
                         ))
                   ],
                 ),
                 onTap: () {
-                  if (!transfer.isGenerateWallet() &&
-                      !transfer.isJoinCommunity()) {
+                  if (!widget.transfer.isGenerateWallet() &&
+                      !widget.transfer.isJoinCommunity()) {
                     ExtendedNavigator.of(context)
                         .push(HomeRoutes.transactionDetailsScreen,
                             arguments: TransactionDetailsScreenArguments(
-                              transfer: transfer,
+                              transfer: widget.transfer,
                               contact: contact,
                               from: displayName,
                               image: image,
@@ -319,7 +325,7 @@ class TransactionTile extends StatelessWidget {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  " ${token.symbol}",
+                                  " ${token?.symbol}",
                                   style: TextStyle(
                                       color: Color(0xFF696969),
                                       fontSize: 16.0,
@@ -340,24 +346,40 @@ class _TransactionTileViewModel extends Equatable {
   final List<Contact> contacts;
   final String countryCode;
   final Map<String, Token> erc20Tokens;
-  final Map<String, Community> communities;
-
+  final List<Community> communities;
+  final Map<String, Token> tokens;
   _TransactionTileViewModel(
       {this.reverseContacts,
       this.walletStatus,
       this.countryCode,
       this.communities,
       this.erc20Tokens,
+      this.tokens,
       this.contacts});
 
   static _TransactionTileViewModel fromStore(Store<AppState> store) {
+    List<Community> communities =
+        store.state.cashWalletState.communities.values.toList();
+    List<Token> foreignTokens = List<Token>.from(
+            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .toList();
+    List<Token> homeTokens = communities
+        .map((Community community) => community?.token
+            ?.copyWith(imageUrl: community.metadata.getImageUri()))
+        .toList();
+    Map<String, Token> tokens =
+        [...foreignTokens, ...homeTokens].fold(Map(), (previousValue, element) {
+      previousValue.putIfAbsent(element.address.toLowerCase(), () => element);
+      return previousValue;
+    });
     return _TransactionTileViewModel(
+      tokens: tokens,
       reverseContacts: store.state.userState.reverseContacts,
       contacts: store.state.userState.contacts,
       walletStatus: store.state.userState.walletStatus,
       countryCode: store.state.userState.countryCode,
       erc20Tokens: store.state.proWalletState.erc20Tokens,
-      communities: store.state.cashWalletState.communities,
+      communities: store.state.cashWalletState.communities.values.toList(),
     );
   }
 
@@ -368,6 +390,7 @@ class _TransactionTileViewModel extends Equatable {
         communities,
         countryCode,
         contacts,
-        erc20Tokens
+        erc20Tokens,
+        tokens
       ];
 }

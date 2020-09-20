@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:curadai/generated/i18n.dart';
 import 'package:curadai/models/app_state.dart';
 import 'package:curadai/models/views/recovery.dart';
@@ -29,6 +30,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
 
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/restore-wallet-screen');
     return MainScaffold(
       expandedHeight: MediaQuery.of(context).size.height / 12,
       padding: 20.0,

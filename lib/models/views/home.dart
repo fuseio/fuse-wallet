@@ -20,14 +20,12 @@ class HomeViewModel extends Equatable {
   final bool isCommunityFetched;
   final bool isBalanceFetchingStarted;
   final bool isBranchDataReceived;
-  final String walletStatus;
-  final Function() startTransfersFetching;
-  final Function() startProcessingJobs;
+  final Function(bool initial) onReceiveBranchData;
 
   HomeViewModel({
+    this.onReceiveBranchData,
     this.accountAddress,
     this.walletAddress,
-    this.walletStatus,
     this.communityAddress,
     this.branchAddress,
     this.isoCode,
@@ -35,8 +33,6 @@ class HomeViewModel extends Equatable {
     this.isCommunityFetched,
     this.isBalanceFetchingStarted,
     this.isBranchDataReceived,
-    this.startTransfersFetching,
-    this.startProcessingJobs,
     this.feedList,
     this.tokens,
     this.communities,
@@ -63,58 +59,55 @@ class HomeViewModel extends Equatable {
           ..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.one)
               ?.compareTo(tokenA?.amount ?? BigInt.zero));
 
-    List<Transaction> erc20TokensTxs =
-        store.state.proWalletState.erc20Tokens?.values?.fold(
-            [],
-            (List<Transaction> previousValue, Token token) =>
-                previousValue..addAll(token?.transactions?.list ?? []));
-    List<Transaction> communityTxs = communities?.fold(
-        [],
-        (List<Transaction> previousValue, Community community) =>
-            previousValue..addAll(community?.token?.transactions?.list ?? []));
     String communityAddress = store.state.cashWalletState.communityAddress;
     bool isCommunityLoading =
         store.state.cashWalletState.isCommunityLoading ?? false;
     String branchAddress = store.state.cashWalletState.branchAddress;
-    List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
-      ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
+
+    final bool isBranchDataReceived =
+        store.state.cashWalletState.isBranchDataReceived ?? false;
+    final bool isCommunityFetched =
+        store.state.cashWalletState.isCommunityFetched ?? false;
+    final String walletAddress = store.state.userState.walletAddress;
     return HomeViewModel(
-      communities: store.state.cashWalletState.communities,
-      tokens: tokens,
-      isoCode: store.state.userState.isoCode,
-      accountAddress: store.state.userState.accountAddress,
-      walletAddress: store.state.userState.walletAddress,
-      walletStatus: store.state.userState.walletStatus,
-      communityAddress: communityAddress,
-      branchAddress: branchAddress,
-      isCommunityLoading: isCommunityLoading,
-      isCommunityFetched:
-          store.state.cashWalletState.isCommunityFetched ?? false,
-      isBalanceFetchingStarted:
-          store.state.cashWalletState.isBalanceFetchingStarted ?? false,
-      isBranchDataReceived:
-          store.state.cashWalletState.isBranchDataReceived ?? false,
-      feedList: feedList,
-      startTransfersFetching: () {
-        store.dispatch(startTransfersFetchingCall());
-      },
-      startProcessingJobs: () {
-        store.dispatch(startProcessingJobsCall());
-      },
-    );
+        communities: store.state.cashWalletState.communities,
+        tokens: tokens,
+        isoCode: store.state.userState.isoCode,
+        accountAddress: store.state.userState.accountAddress,
+        walletAddress: walletAddress,
+        communityAddress: communityAddress,
+        branchAddress: branchAddress,
+        isCommunityLoading: isCommunityLoading,
+        isCommunityFetched: isCommunityFetched,
+        isBalanceFetchingStarted:
+            store.state.cashWalletState.isBalanceFetchingStarted ?? false,
+        isBranchDataReceived: isBranchDataReceived,
+        onReceiveBranchData: (initial) {
+          if (!isCommunityLoading &&
+              isCommunityFetched &&
+              isBranchDataReceived) {
+            store.dispatch(switchCommunityCall(branchAddress));
+          } else if (initial) {
+            if (!isCommunityLoading &&
+                !isBranchDataReceived &&
+                !isCommunityFetched &&
+                ![null, ''].contains(walletAddress)) {
+              store.dispatch(switchCommunityCall(communityAddress));
+            }
+          }
+        });
   }
 
   @override
   List<Object> get props => [
         accountAddress,
         walletAddress,
-        walletStatus,
+        tokens,
         communityAddress,
         branchAddress,
         isCommunityLoading,
         isBranchDataReceived,
         isoCode,
-        feedList,
         isCommunityFetched
       ];
 }

@@ -26,6 +26,8 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
     homeBridgeAddress: json['homeBridgeAddress'] as String,
     webUrl: json['webUrl'] as String,
     foreignBridgeAddress: json['foreignBridgeAddress'] as String,
+    foreignTokenAddress: json['foreignTokenAddress'] as String,
+    description: json['description'] as String,
   );
 }
 
@@ -41,4 +43,6 @@ Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'metadata': instance.metadata?.toJson(),
       'isClosed': instance.isClosed,
       'webUrl': instance.webUrl,
+      'foreignTokenAddress': instance.foreignTokenAddress,
+      'description': instance.description,
     };

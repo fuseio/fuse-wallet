@@ -25,6 +25,8 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+        focusColor: Theme.of(context).splashColor,
+        highlightColor: Theme.of(context).splashColor,
         onTap: () {
           widget.switchCommunity(widget?.community?.address);
           Navigator.of(context).pop();

@@ -245,40 +245,43 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                                     maxLines: 1,
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    showBottomMenu(viewModel);
-                                  },
-                                  child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 5),
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.rectangle,
-                                          color:
-                                              Theme.of(context).backgroundColor,
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Text(
-                                            selectedToken?.symbol ?? '',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xFF808080)),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          SvgPicture.asset(
-                                            'assets/images/dropdown_icon.svg',
-                                            width: 9,
-                                            height: 9,
-                                          )
-                                        ],
-                                      )),
-                                ),
+                                !args.useBridge
+                                    ? InkWell(
+                                        onTap: () {
+                                          showBottomMenu(viewModel);
+                                        },
+                                        child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 5),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.rectangle,
+                                                color: Theme.of(context)
+                                                    .backgroundColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Text(
+                                                  selectedToken?.symbol ?? '',
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color(0xFF808080)),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                SvgPicture.asset(
+                                                  'assets/images/dropdown_icon.svg',
+                                                  width: 9,
+                                                  height: 9,
+                                                )
+                                              ],
+                                            )),
+                                      )
+                                    : SizedBox.shrink(),
                               ],
                             ),
                           ),

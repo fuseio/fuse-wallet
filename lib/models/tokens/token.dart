@@ -2,7 +2,6 @@ import 'package:curadai/models/jobs/base.dart';
 import 'package:curadai/models/pro/price.dart';
 import 'package:curadai/models/tokens/base.dart';
 import 'package:curadai/models/transactions/transactions.dart';
-import 'package:curadai/redux/state/store.dart';
 import 'package:curadai/services.dart';
 import 'package:curadai/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -21,6 +20,9 @@ class Token extends ERC20Token {
   final List<Job> jobs;
   @JsonKey(ignore: true)
   final String subtitle;
+
+  @override
+  List<Object> get props => [amount, name, symbol, transactions?.list];
 
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);
@@ -83,11 +85,13 @@ class Token extends ERC20Token {
   @override
   Future<dynamic> fetchTokenBalance(String accountAddress,
       {void Function(BigInt) onDone, Function onError}) async {
+    if ([null, ''].contains(accountAddress) ||
+        [null, ''].contains(this.address)) return;
     if (originNetwork == null) {
       try {
-        final BigInt balance = await tokenAPI.getTokenBalanceByAccountAddress(
-            this.address, accountAddress);
-        if (this.amount.compareTo(balance) != 0) {
+        final BigInt balance = await ethereumExplorerApi
+            .getTokenBalanceByAccountAddress(this.address, accountAddress);
+        if (this.amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -95,9 +99,9 @@ class Token extends ERC20Token {
       }
     } else {
       try {
-        final BigInt balance =
-            await graph.getTokenBalance(accountAddress, this.address);
-        if (this.amount.compareTo(balance) != 0) {
+        final BigInt balance = await fuseExplorerApi
+            .getTokenBalanceByAccountAddress(this.address, accountAddress);
+        if (this.amount?.compareTo(balance) != 0) {
           onDone(balance);
         }
       } catch (e, s) {
@@ -110,14 +114,12 @@ class Token extends ERC20Token {
       {String currency = 'usd',
       void Function(Price) onDone,
       Function onError}) async {
-    final logger = await AppFactory().getLogger('action');
+    // final logger = await AppFactory().getLogger('action');
     try {
       final Map<String, dynamic> response =
           await marketApi.getCurrentPriceOfTokens(this.address, currency);
       double price = response[this.address.toLowerCase()][currency];
       String quote = response[this.address.toLowerCase()][currency].toString();
-      logger.info(
-          'price response $quote ${response[this.address.toLowerCase()]}');
       String total =
           getFiatValue(this.amount, this.decimals, price, withPrecision: true);
       if (this.priceInfo == null) {

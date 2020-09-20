@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -6,11 +7,13 @@ import 'package:curadai/generated/i18n.dart';
 import 'package:curadai/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
-import 'package:curadai/utils/phone.dart';
+import 'package:curadai/services.dart';
+import 'package:curadai/utils/constans.dart';
 import 'package:curadai/widgets/main_scaffold.dart';
 import 'package:curadai/widgets/primary_button.dart';
 import 'package:curadai/widgets/signup_dialog.dart';
 import 'package:curadai/models/views/onboard.dart';
+import 'package:curadai/widgets/snackbars.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -46,8 +49,21 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
+  void onPressed(Function(CountryCode, String) signUp) {
+    phoneNumberUtil
+        .parse('${countryCode.dialCode}${phoneController.text}')
+        .then((value) {
+      signUp(countryCode, phoneController.text);
+    }, onError: (e) {
+      setState(() {
+        isvalidPhone = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/signup-screen');
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
@@ -92,8 +108,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Text(
                             I18n.of(context).why_do_we_need_this,
                             style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 11,
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 15,
                                 fontWeight: FontWeight.normal),
                           ),
                         )),
@@ -180,30 +196,31 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 40.0),
                 StoreConnector<AppState, OnboardViewModel>(
                     distinct: true,
+                    onWillChange: (previousViewModel, newViewModel) {
+                      if (previousViewModel.signupException !=
+                              newViewModel.signupException &&
+                          newViewModel.signupException.runtimeType ==
+                              FirebaseAuthException) {
+                        transactionFailedSnack(
+                            newViewModel.signupException.message,
+                            title: newViewModel.signupException.code,
+                            duration: Duration(seconds: 3),
+                            context: context,
+                            margin: EdgeInsets.only(
+                                top: 8, right: 8, left: 8, bottom: 120));
+                        Future.delayed(Duration(seconds: intervalSeconds), () {
+                          newViewModel.resetErrors();
+                        });
+                      }
+                    },
                     converter: OnboardViewModel.fromStore,
                     builder: (_, viewModel) => Center(
                           child: PrimaryButton(
                             label: I18n.of(context).next_button,
                             fontSize: 16,
                             labelFontWeight: FontWeight.normal,
-                            onPressed: () async {
-                              try {
-                                bool isValid = await PhoneService.isValid(
-                                    phoneController.text, countryCode.code);
-                                if (isValid) {
-                                  viewModel.signUp(
-                                      countryCode, phoneController.text);
-                                } else {
-                                  setState(() {
-                                    isvalidPhone = false;
-                                  });
-                                }
-                              } on PlatformException catch (e) {
-                                print(e);
-                                setState(() {
-                                  isvalidPhone = false;
-                                });
-                              }
+                            onPressed: () {
+                              onPressed(viewModel.signUp);
                             },
                             preload: viewModel.isLoginRequest,
                           ),

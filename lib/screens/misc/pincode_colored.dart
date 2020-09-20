@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
 import 'package:curadai/generated/i18n.dart';
 import 'package:curadai/models/app_state.dart';
 import 'package:curadai/models/views/backup.dart';
@@ -30,6 +31,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Segment.screen(screenName: '/pincode-screen');
     return WillPopScope(
         onWillPop: () async {
           ExtendedNavigator.root.pop<bool>(false);
@@ -101,10 +103,15 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                               ),
                                               hintTextStyle: TextStyle(
                                                   fontWeight: FontWeight.bold),
-                                              color:
-                                                  Theme.of(context).splashColor,
-                                              enteredColor:
-                                                  Theme.of(context).splashColor,
+                                              colorBuilder:
+                                                  FixedColorListBuilder([
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor
+                                              ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
                                                   obscureText: '●')),

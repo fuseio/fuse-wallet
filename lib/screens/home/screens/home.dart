@@ -30,11 +30,17 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, HomeViewModel>(
         converter: HomeViewModel.fromStore,
+        onInitialBuild: (viewModel) {
+          viewModel.onReceiveBranchData(true);
+        },
+        onWillChange: (previousViewModel, newViewModel) {
+          newViewModel.onReceiveBranchData(false);
+        },
         onInit: (store) {
           final communities = store.state.cashWalletState.communities;
           String walletStatus = store.state.userState.walletStatus;
           if (walletStatus == 'created' &&
-              !communities.containsKey(defaultCommunityAddress)) {
+              !communities.containsKey(defaultCommunityAddress.toLowerCase())) {
             store.dispatch(switchCommunityCall(defaultCommunityAddress));
           }
         },

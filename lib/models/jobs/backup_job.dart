@@ -34,7 +34,7 @@ class BackupJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('BackupJob FAILED');
-      store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress']));
+      // store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: BackupJob FAILED'));
       return;
     }
@@ -50,7 +50,7 @@ class BackupJob extends Job {
       logger.info('BackupJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress']));
+      store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -59,12 +59,24 @@ class BackupJob extends Job {
       String funderJobId = fetchedData['data']['funderJobId'];
       dynamic response = await api.getFunderJob(funderJobId);
       dynamic data = response['data'];
+      Transfer transfer = arguments['backupBonus'];
+      String txHash = data['txHash'];
+      Transfer confirmedTx = transfer.copyWith(txHash: txHash);
+      if (![null, ''].contains(txHash)) {
+        logger.info('BackupJob txHash txHash txHash $txHash');
+        store.dispatch(new ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx,
+            communityAddress: arguments['communityAddress']));
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+      }
       if (data['status'] == 'SUCCEEDED') {
-        store.dispatch(backupSuccessCall(data['txHash'], arguments['backupBonus'], arguments['communityAddress']));
+        store.dispatch(backupSuccessCall(confirmedTx, arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         return;
       } else if (status == 'FAILED') {
-        store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress']));
+        dynamic failReason = response['failReason'];
+        store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress'], failReason));
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id })));
       }
     }

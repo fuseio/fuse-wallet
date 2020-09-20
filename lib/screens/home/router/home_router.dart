@@ -9,6 +9,7 @@ import 'package:curadai/screens/misc/about.dart';
 import 'package:curadai/screens/misc/protect_your_wallet.dart';
 import 'package:curadai/screens/misc/settings.dart';
 import 'package:curadai/screens/misc/switch_commmunity.dart';
+import 'package:curadai/screens/profile/screen/profile.dart';
 import 'package:curadai/screens/trade/review_trade.dart';
 import 'package:curadai/screens/trade/trade.dart';
 
@@ -28,5 +29,6 @@ import 'package:curadai/screens/trade/trade.dart';
   MaterialRoute(page: SettingsScreen),
   MaterialRoute(page: SwitchCommunityScreen),
   MaterialRoute(page: ProtectYourWallet),
+  MaterialRoute(page: ProfileScreen),
 ])
 class $HomeRouter {}

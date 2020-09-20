@@ -29,13 +29,9 @@ class TokenTile extends StatelessWidget {
   final Token token;
   @override
   Widget build(BuildContext context) {
-    final bool hasPriceInfo = token.priceInfo != null &&
-        token.priceInfo.total.isNotEmpty &&
-        quate != null;
-    final String price =
-        hasPriceInfo ? reduce(double.parse(token?.priceInfo?.total)) : '0';
-    // final String value =
-    //     hasPriceInfo ? reduce(num.parse(price) / quate) : token.getBalance();
+    final String price = token.priceInfo != null
+        ? reduce(double.parse(token?.priceInfo?.total))
+        : '0';
     final bool isFuseTxs = token.originNetwork != null;
     return Container(
       child: ListTile(
@@ -43,7 +39,8 @@ class TokenTile extends StatelessWidget {
               ? onTap
               : () {
                   ExtendedNavigator.of(context).push(HomeRoutes.tokenScreen,
-                      arguments: TokenScreenArguments(token: token));
+                      arguments:
+                          TokenScreenArguments(tokenAddress: token.address));
                 },
           contentPadding:
               EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
