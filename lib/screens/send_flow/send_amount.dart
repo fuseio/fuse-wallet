@@ -324,8 +324,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 onPressed: () {
                   args.tokenToSend = selectedToken;
                   args.amount = num.parse(amountText);
-                  ExtendedNavigator.root.replace(Routes.sendReviewScreen,
-                      arguments: SendReviewScreenArguments(pageArgs: args));
+                  ExtendedNavigator.root.pushSendReviewScreen(pageArgs: args);
                 },
                 preload: isPreloading,
                 disabled: isPreloading || !hasFund,

@@ -19,8 +19,6 @@ class Feed extends StatefulWidget {
 }
 
 class FeedState extends State<Feed> {
-  FeedState();
-
   @override
   void initState() {
     super.initState();
@@ -52,30 +50,42 @@ class FeedState extends State<Feed> {
             ...viewModel.feedList,
             generateWallet,
           ];
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              widget.withTitle
-                  ? Container(
-                      padding: EdgeInsets.only(left: 15, top: 20),
-                      child: Text(I18n.of(context).transactions,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              color: Color(0xFF979797),
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.normal)))
-                  : SizedBox.shrink(),
-              Expanded(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    padding: EdgeInsets.only(top: 10),
-                    itemCount: feedList?.length,
-                    itemBuilder: (BuildContext ctxt, int index) =>
-                        TransactionTile(transfer: feedList[index])),
-              )
-            ],
-          );
+          return RefreshIndicator(
+              onRefresh: () async {
+                viewModel.refreshFeed();
+                await Future.delayed(Duration(milliseconds: 1000));
+                return 'success';
+              },
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      widget.withTitle
+                          ? Container(
+                              padding: EdgeInsets.only(left: 15, top: 20),
+                              child: Text(I18n.of(context).transactions,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      color: Color(0xFF979797),
+                                      fontSize: 13.0,
+                                      fontWeight: FontWeight.normal)))
+                          : SizedBox.shrink(),
+                      Expanded(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            padding: EdgeInsets.only(top: 10),
+                            itemCount: feedList?.length,
+                            itemBuilder: (BuildContext ctxt, int index) =>
+                                TransactionTile(transfer: feedList[index])),
+                      )
+                    ],
+                  ),
+                  height: MediaQuery.of(context).size.height * .565,
+                ),
+              ));
         });
   }
 }
@@ -85,12 +95,14 @@ class _FeedModel extends Equatable {
   final String walletStatus;
   final Function() startTransfersFetching;
   final Function() startProcessingJobs;
+  final Function() refreshFeed;
 
   _FeedModel({
     this.feedList,
     this.walletStatus,
     this.startTransfersFetching,
     this.startProcessingJobs,
+    this.refreshFeed,
   });
 
   static _FeedModel fromStore(Store<AppState> store) {
@@ -109,15 +121,17 @@ class _FeedModel extends Equatable {
     List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
       ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return _FeedModel(
-      feedList: feedList,
-      walletStatus: store.state.userState.walletStatus,
-      startTransfersFetching: () {
-        store.dispatch(startTransfersFetchingCall());
-      },
-      startProcessingJobs: () {
-        store.dispatch(startProcessingJobsCall());
-      },
-    );
+        feedList: feedList,
+        walletStatus: store.state.userState.walletStatus,
+        startTransfersFetching: () {
+          store.dispatch(startTransfersFetchingCall());
+        },
+        startProcessingJobs: () {
+          store.dispatch(startProcessingJobsCall());
+        },
+        refreshFeed: () {
+          store.dispatch(ResetTokenTxs());
+        });
   }
 
   @override

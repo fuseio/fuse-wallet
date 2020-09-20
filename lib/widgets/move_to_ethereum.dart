@@ -10,7 +10,8 @@ import 'package:fusecash/screens/routes.gr.dart';
 import 'dart:core';
 
 class TokenActionsDialog extends StatefulWidget {
-  TokenActionsDialog({this.token, this.community});
+  TokenActionsDialog({this.token, this.community, this.logo});
+  final String logo;
   final Token token;
   final Community community;
   @override
@@ -49,7 +50,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
 
   @override
   Widget build(BuildContext _context) {
-    bool isFuseToken = widget.token.originNetwork != null;
+    final bool isFuseToken = ![null, ''].contains(widget.token.originNetwork);
     return ScaleTransition(
         scale: scaleAnimatoin,
         child: AlertDialog(
@@ -66,7 +67,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                   children: <Widget>[
                     Center(
                       child: SvgPicture.asset(
-                        'assets/images/move_from_fuse.svg',
+                        'assets/images/${widget.logo}',
                       ),
                     ),
                     SizedBox(height: 20.0),
@@ -91,39 +92,36 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                   child: Center(
                                     child: Text(
                                       isFuseToken
-                                          ? ' Move to Ethereum account'
-                                          : 'Move to Fuse',
+                                          ? I18n.of(context).move_to +
+                                              ' Ethereum'
+                                          : I18n.of(context).move_to + ' Fuse',
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ),
                                 ),
                                 onTap: () {
                                   if (isFuseToken) {
-                                    ExtendedNavigator.root.push(
-                                        Routes.sendAmountScreen,
-                                        arguments: SendAmountScreenArguments(
-                                            pageArgs: SendAmountArguments(
-                                                tokenToSend: widget.token,
-                                                accountAddress: widget.community
-                                                    .homeBridgeAddress,
-                                                useBridge: true,
-                                                name: 'Ethereum',
-                                                avatar: AssetImage(
-                                                  'assets/images/ethereume_icon.png',
-                                                ))));
+                                    ExtendedNavigator.root.pushSendAmountScreen(
+                                        pageArgs: SendAmountArguments(
+                                            tokenToSend: widget.token,
+                                            accountAddress: widget
+                                                .community.homeBridgeAddress,
+                                            useBridge: true,
+                                            name: 'Ethereum',
+                                            avatar: AssetImage(
+                                              'assets/images/ethereume_icon.png',
+                                            )));
                                   } else {
-                                    ExtendedNavigator.root.push(
-                                        Routes.sendAmountScreen,
-                                        arguments: SendAmountScreenArguments(
-                                            pageArgs: SendAmountArguments(
-                                                useBridge: true,
-                                                tokenToSend: widget.token,
-                                                accountAddress: widget.community
-                                                    .foreignBridgeAddress,
-                                                name: 'Fuse',
-                                                avatar: AssetImage(
-                                                  'assets/images/fuse_icon.png',
-                                                ))));
+                                    ExtendedNavigator.root.pushSendAmountScreen(
+                                        pageArgs: SendAmountArguments(
+                                            useBridge: true,
+                                            tokenToSend: widget.token,
+                                            accountAddress: widget
+                                                .community.foreignBridgeAddress,
+                                            name: 'Fuse',
+                                            avatar: AssetImage(
+                                              'assets/images/fuse_icon.png',
+                                            )));
                                   }
                                 },
                               ),

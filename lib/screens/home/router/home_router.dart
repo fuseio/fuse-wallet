@@ -13,22 +13,25 @@ import 'package:fusecash/screens/profile/screen/profile.dart';
 import 'package:fusecash/screens/trade/review_trade.dart';
 import 'package:fusecash/screens/trade/trade.dart';
 
-@MaterialAutoRouter(routesClassName: "HomeRoutes", routes: <AutoRoute>[
-  MaterialRoute(
-    initial: true,
-    page: MainHomeScreen,
-  ),
-  MaterialRoute(page: TransactionDetailsScreen),
-  MaterialRoute(page: TokenScreen),
-  MaterialRoute(page: TradeScreen),
-  MaterialRoute(page: ReviewTradeScreen),
-  MaterialRoute(page: AboutScreen),
-  MaterialRoute(page: ShowMnemonic),
-  MaterialRoute(page: VerifyMnemonic),
-  MaterialRoute(page: DoneBackup),
-  MaterialRoute(page: SettingsScreen),
-  MaterialRoute(page: SwitchCommunityScreen),
-  MaterialRoute(page: ProtectYourWallet),
-  MaterialRoute(page: ProfileScreen),
-])
+@MaterialAutoRouter(
+    generateNavigationHelperExtension: true,
+    routesClassName: "HomeRoutes",
+    routes: <AutoRoute>[
+      MaterialRoute(
+        initial: true,
+        page: MainHomeScreen,
+      ),
+      MaterialRoute(page: TransactionDetailsScreen),
+      MaterialRoute(page: TokenScreen),
+      MaterialRoute(page: TradeScreen),
+      MaterialRoute(page: ReviewTradeScreen),
+      MaterialRoute(page: AboutScreen),
+      MaterialRoute(page: ShowMnemonic),
+      MaterialRoute(page: VerifyMnemonic),
+      MaterialRoute(page: DoneBackup),
+      MaterialRoute(page: SettingsScreen),
+      MaterialRoute(page: SwitchCommunityScreen),
+      MaterialRoute(page: ProtectYourWallet),
+      MaterialRoute(page: ProfileScreen),
+    ])
 class $HomeRouter {}

@@ -62,23 +62,21 @@ class RecentContacts extends StatelessWidget {
                   onTap: () {
                     if (transfer.to.toLowerCase() ==
                         viewModel.community.homeBridgeAddress.toLowerCase()) {
-                      ExtendedNavigator.root.push(Routes.sendAmountScreen,
-                          arguments: SendAmountScreenArguments(
-                              pageArgs: SendAmountArguments(
-                                  name: 'Ethereum',
-                                  accountAddress: transfer.to,
-                                  avatar: AssetImage(
-                                    'assets/images/ethereume_icon.png',
-                                  ))));
+                      ExtendedNavigator.root.pushSendAmountScreen(
+                          pageArgs: SendAmountArguments(
+                              name: 'Ethereum',
+                              accountAddress: transfer.to,
+                              avatar: AssetImage(
+                                'assets/images/ethereume_icon.png',
+                              )));
                       return;
                     }
                     if (contact == null) {
-                      ExtendedNavigator.root.push(Routes.sendAmountScreen,
-                          arguments: SendAmountScreenArguments(
-                              pageArgs: SendAmountArguments(
-                                  name: displayName,
-                                  accountAddress: transfer.to,
-                                  avatar: image)));
+                      ExtendedNavigator.root.pushSendAmountScreen(
+                          pageArgs: SendAmountArguments(
+                              name: displayName,
+                              accountAddress: transfer.to,
+                              avatar: image));
                     } else {
                       sendToContact(
                           ExtendedNavigator.named('contactsRouter').context,
