@@ -18,7 +18,6 @@ import 'package:straitsx/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:straitsx/models/app_state.dart';
-import 'package:straitsx/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:straitsx/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
@@ -83,16 +82,9 @@ class _HomePageState extends State<HomePage> {
       String jwtToken = store.state.userState.jwtToken;
       bool isLoggedOut = store.state.userState.isLoggedOut;
       if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-        // store.dispatch(fetchListOfTokenByAccountAddress());
         store.dispatch(getWalletAddressessCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
-        store.dispatch(startListenToTransferEvents());
-        store.dispatch(startFetchBalancesOnForeign());
-        store.dispatch(startFetchTransferEventsCall());
-        store.dispatch(fetchTokensBalances());
-        store.dispatch(startFetchTokensLastestPrices());
-        store.dispatch(startProcessingTokensJobsCall());
       }
     }
   }

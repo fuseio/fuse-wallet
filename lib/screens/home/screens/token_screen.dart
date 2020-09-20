@@ -1,36 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:straitsx/models/transactions/transaction.dart';
+import 'package:straitsx/screens/home/widgets/assets_list.dart';
 import 'package:straitsx/screens/home/widgets/token_header.dart';
 import 'package:straitsx/screens/home/widgets/transaction_tile.dart';
 import 'package:straitsx/widgets/my_app_bar.dart';
 import 'package:straitsx/generated/i18n.dart';
-import 'package:straitsx/models/tokens/token.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:straitsx/models/app_state.dart';
 
 class TokenScreen extends StatelessWidget {
-  TokenScreen({Key key, this.token, this.tokenPrice}) : super(key: key);
-  final String tokenPrice;
-  final Token token;
+  TokenScreen({Key key, this.tokenAddress}) : super(key: key);
+  final String tokenAddress;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: key,
-        appBar: MyAppBar(
-            height: 170.0,
-            child: TokenHeader(token: token, tokenPrice: tokenPrice),
-            backgroundColor: Colors.white),
-        drawerEdgeDragWidth: 0,
-        body: Column(children: <Widget>[
-          Expanded(child: ListView(children: [TransfersList(token: token)])),
-        ]));
+    return StoreConnector<AppState, TokensListViewModel>(
+        distinct: true,
+        converter: TokensListViewModel.fromStore,
+        builder: (_, viewModel) {
+          final token = viewModel.tokens
+              .firstWhere((element) => element.address == tokenAddress);
+          final List<Transaction> list =
+              token?.transactions?.list?.reversed?.toList() ?? [];
+          return Scaffold(
+              key: key,
+              appBar: MyAppBar(
+                  height: 170.0,
+                  child: TokenHeader(token: token),
+                  backgroundColor: Colors.white),
+              drawerEdgeDragWidth: 0,
+              body: Column(children: <Widget>[
+                list.isEmpty
+                    ? Flexible(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/no-activity.png',
+                                fit: BoxFit.cover,
+                                height: 100,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(I18n.of(context).no_activity,
+                                  style: TextStyle(
+                                      color: Color(0xFF979797),
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.normal))
+                            ],
+                          ),
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView(children: [TransfersList(list: list)])),
+              ]));
+        });
   }
 }
 
 class TransfersList extends StatelessWidget {
-  final Token token;
-  TransfersList({this.token});
+  TransfersList({this.list});
+  final List<Transaction> list;
   @override
   Widget build(BuildContext context) {
-    final list = token?.transactions?.list?.reversed?.toList() ?? [];
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -46,7 +80,7 @@ class TransfersList extends StatelessWidget {
               primary: false,
               itemCount: list?.length,
               itemBuilder: (BuildContext ctxt, int index) =>
-                  TransactionTile(transfer: list[index], token: token))
+                  TransactionTile(transfer: list[index]))
         ]);
   }
 }

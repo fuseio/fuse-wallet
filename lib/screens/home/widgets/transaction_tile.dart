@@ -43,15 +43,8 @@ class _TransactionTileState extends State<TransactionTile> {
           Community community = getCommunity(
               (widget?.token?.address ?? widget.transfer?.tokenAddress),
               viewModel.communities);
-          Token token = widget.token;
-          if (token == null) {
-            if (widget.transfer.tokenAddress == null) {
-              token = community?.token;
-            } else {
-              token = getToken(widget.transfer?.tokenAddress?.toLowerCase(),
-                  viewModel?.communities, viewModel?.erc20Tokens);
-            }
-          }
+          Token token = widget.token ??
+              viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
           bool isSendingToForeign = (community?.homeBridgeAddress != null &&
                   widget.transfer.to != null &&
                   widget.transfer.to?.toLowerCase() ==
@@ -97,7 +90,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                         fontSize: 15.0,
                                         fontWeight: FontWeight.bold)),
                                 TextSpan(
-                                    text: " ${token.symbol}",
+                                    text: " ${token?.symbol}",
                                     style: TextStyle(
                                         color: Color(0xFF696969),
                                         fontSize: 10.0,
@@ -203,7 +196,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                           community.metadata.isDefaultImage &&
                                           widget.transfer.isJoinCommunity()
                                       ? Text(
-                                          token.symbol,
+                                          token?.symbol,
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,
@@ -332,7 +325,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  " ${token.symbol}",
+                                  " ${token?.symbol}",
                                   style: TextStyle(
                                       color: Color(0xFF696969),
                                       fontSize: 16.0,
@@ -354,16 +347,33 @@ class _TransactionTileViewModel extends Equatable {
   final String countryCode;
   final Map<String, Token> erc20Tokens;
   final List<Community> communities;
+  final Map<String, Token> tokens;
   _TransactionTileViewModel(
       {this.reverseContacts,
       this.walletStatus,
       this.countryCode,
       this.communities,
       this.erc20Tokens,
+      this.tokens,
       this.contacts});
 
   static _TransactionTileViewModel fromStore(Store<AppState> store) {
+    List<Community> communities =
+        store.state.cashWalletState.communities.values.toList();
+    List<Token> foreignTokens = List<Token>.from(
+            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .toList();
+    List<Token> homeTokens = communities
+        .map((Community community) => community?.token
+            ?.copyWith(imageUrl: community.metadata.getImageUri()))
+        .toList();
+    Map<String, Token> tokens =
+        [...foreignTokens, ...homeTokens].fold(Map(), (previousValue, element) {
+      previousValue.putIfAbsent(element.address.toLowerCase(), () => element);
+      return previousValue;
+    });
     return _TransactionTileViewModel(
+      tokens: tokens,
       reverseContacts: store.state.userState.reverseContacts,
       contacts: store.state.userState.contacts,
       walletStatus: store.state.userState.walletStatus,
@@ -380,6 +390,7 @@ class _TransactionTileViewModel extends Equatable {
         communities,
         countryCode,
         contacts,
-        erc20Tokens
+        erc20Tokens,
+        tokens
       ];
 }
