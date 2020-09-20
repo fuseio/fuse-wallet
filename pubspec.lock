@@ -514,7 +514,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.18.1"
+    version: "0.19.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1028,7 +1028,7 @@ packages:
       name: share
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.5"
+    version: "0.6.5+1"
   shared_preferences:
     dependency: "direct main"
     description:
