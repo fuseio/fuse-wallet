@@ -5,6 +5,7 @@ import 'package:roost/models/pro/pro_wallet_state.dart';
 import 'package:roost/models/tokens/token.dart';
 import 'package:roost/models/transactions/transaction.dart';
 import 'package:roost/models/transactions/transactions.dart';
+import 'package:roost/redux/actions/cash_wallet_actions.dart';
 import 'package:roost/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:roost/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
@@ -16,6 +17,7 @@ bool Function(String, Token) clearTokensWithZero = (key, token) {
 };
 
 final proWalletReducers = combineReducers<ProWalletState>([
+  TypedReducer<ProWalletState, ResetTokenTxs>(_resetTokensTxs),
   TypedReducer<ProWalletState, SetIsListenToTransferEvents>(
       _startListenToTransferEventsSuccess),
   TypedReducer<ProWalletState, UpdateToken>(_updateToken),
@@ -73,6 +75,15 @@ final proWalletReducers = combineReducers<ProWalletState>([
 //     return state;
 //   }
 // }
+
+ProWalletState _resetTokensTxs(ProWalletState state, ResetTokenTxs action) {
+  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
+  for (String tokenAddress in newOne.keys) {
+    newOne[tokenAddress] =
+        newOne[tokenAddress].copyWith(transactions: Transactions.initial());
+  }
+  return state.copyWith(erc20Tokens: newOne);
+}
 
 ProWalletState _proJobDone(ProWalletState state, ProJobDone action) {
   Token current = state.erc20Tokens[action.tokenAddress];

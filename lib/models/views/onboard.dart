@@ -70,7 +70,7 @@ class OnboardViewModel extends Equatable {
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-        ExtendedNavigator.root.push(Routes.userNameScreen);
+        ExtendedNavigator.root.pushUserNameScreen();
       } catch (error, s) {
         FirebaseAuthException platformException =
             error as FirebaseAuthException;
@@ -106,8 +106,7 @@ class OnboardViewModel extends Equatable {
       print("PhoneCodeSent " + verificationId);
       store.dispatch(new SetCredentials(null));
       store.dispatch(SetIsLoginRequest(isLoading: false));
-      ExtendedNavigator.root.push(Routes.verifyScreen,
-          arguments: VerifyScreenArguments(verificationId: verificationId));
+      ExtendedNavigator.root.pushVerifyScreen(verificationId: verificationId);
     };
 
     final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =

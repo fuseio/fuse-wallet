@@ -1,27 +1,37 @@
 import 'dart:core';
-import 'package:roost/screens/home/widgets/drawer.dart';
+import 'package:roost/generated/i18n.dart';
+import 'package:roost/models/community/community.dart';
+import 'package:roost/models/tokens/token.dart';
+import 'package:roost/widgets/move_to_ethereum.dart';
 import 'package:roost/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class NetworkExplainedScreen extends StatefulWidget {
-  final String network;
+class BridgeDialog extends StatefulWidget {
   final String logo;
-  NetworkExplainedScreen({this.network, this.logo});
+  final Token token;
+  final bool isFuseToken;
+  final Community community;
+  BridgeDialog({this.logo, this.community, this.token, this.isFuseToken});
   @override
-  _NetworkExplainedScreenState createState() => _NetworkExplainedScreenState();
+  _BridgeDialogState createState() => _BridgeDialogState();
 }
 
-class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
+class _BridgeDialogState extends State<BridgeDialog>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<double> scaleAnimatoin;
   bool isPreloading = false;
+  String network;
 
   @override
   void initState() {
     super.initState();
-
+    setState(() {
+      network = widget.isFuseToken != null && !widget.isFuseToken
+          ? 'Ethereum'
+          : 'Fuse';
+    });
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     scaleAnimatoin =
@@ -57,8 +67,6 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                   children: <Widget>[
                     SvgPicture.asset(
                       "assets/images/${widget.logo}",
-                      width: 85,
-                      height: 85,
                     ),
                     SizedBox(height: 30.0),
                     Padding(
@@ -70,54 +78,33 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              '''This page shows your assets on the ${widget.network == 'fuse' ? capitalize(widget.network) : 'Ethereum'} network''',
+                              I18n.of(context).bridge_to +
+                                  ' ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 15,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
-                            ),
-                            Text(
-                              '''It’s possible to move assets between Ethereum and Fuse network.''',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
                             ),
                             SizedBox(height: 15.0),
-                            Column(
-                              children: <Widget>[
-                                Text(
-                                  'What is the difference between Ethereum and Fuse?',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                                Text(
-                                  '''
-On Fuse you can send assets for free to anybody and on Ethereum you can trade them''',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ],
-                            ),
+                            Text(
+                                "This token is held on your account on the $network network. It's possible to use the bridge to move this token to your same account on ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}. The only difference between holding this token on Ethereum and Fuse is the fees to send it are much more expensive on Ethereum."),
                             SizedBox(height: 30.0),
                             Center(
                                 child: PrimaryButton(
                               fontSize: 15,
-                              width: 100,
                               preload: isPreloading,
                               labelFontWeight: FontWeight.normal,
-                              label: "Ok",
+                              label: I18n.of(context).move_to +
+                                  ' ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}',
                               onPressed: () async {
                                 Navigator.of(context).pop();
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        TokenActionsDialog(
+                                            token: widget.token,
+                                            community: widget.community));
                               },
                             )),
                           ],

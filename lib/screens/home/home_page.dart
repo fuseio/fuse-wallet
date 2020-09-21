@@ -110,6 +110,7 @@ class _HomePageState extends State<HomePage> {
                         'https://app.roostnow.co.uk/home?wallet=${vm.walletAddress}',
                     title: I18n.of(context).your_home),
                 ExtendedNavigator(
+                  name: 'buyRouter',
                   router: BuyRouter(),
                   observers: [SegmentObserver()],
                 )

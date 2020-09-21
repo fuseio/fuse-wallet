@@ -304,6 +304,12 @@ class I18n implements WidgetsLocalizations {
   String get something_went_wrong => "Something went wrong";
   /// "No activity"
   String get no_activity => "No activity";
+  /// "Bridge to"
+  String get bridge_to => "Bridge to";
+  /// "Move to"
+  String get move_to => "Move to";
+  /// "Invalid number"
+  String get invalid_number => "Invalid number";
 }
 
 class _I18n_en_US extends I18n {
@@ -694,15 +700,15 @@ class _I18n_he_IL extends I18n {
   /// "לשלם עם"
   @override
   String get pay_with => "לשלם עם";
-  /// "Wallet"
+  /// "ארנק"
   @override
-  String get wallet => "Wallet";
+  String get wallet => "ארנק";
   /// "Your Home"
   @override
   String get your_home => "Your Home";
-  /// "Pay Rent"
+  /// "ֿשלם שכירות"
   @override
-  String get pay_rent => "Pay Rent";
+  String get pay_rent => "ֿשלם שכירות";
   /// "חֶשְׁבּוֹן"
   @override
   String get account => "חֶשְׁבּוֹן";

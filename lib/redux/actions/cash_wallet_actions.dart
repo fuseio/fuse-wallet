@@ -160,6 +160,10 @@ class SetIsTransfersFetching {
   SetIsTransfersFetching({this.isFetching});
 }
 
+class ResetTokenTxs {
+  ResetTokenTxs();
+}
+
 class BranchCommunityToUpdate {
   final String communityAddress;
   BranchCommunityToUpdate(this.communityAddress);
@@ -427,7 +431,6 @@ ThunkAction startTransfersFetchingCall() {
         for (Community community in communities.values) {
           if (![null, ''].contains(community.token.address)) {
             store.dispatch(getTokenTransfersListCall(community));
-            store.dispatch(getTokenBalanceCall(community));
           }
         }
         logger.info('Timer start - startTransfersFetchingCall');
@@ -443,6 +446,7 @@ ThunkAction startTransfersFetchingCall() {
           for (Community community in communities.values) {
             if (![null, ''].contains(community.token.address)) {
               store.dispatch(getReceivedTokenTransfersListCall(community));
+              store.dispatch(getTokenBalanceCall(community));
             }
           }
         });
@@ -624,14 +628,9 @@ ThunkAction processingJobsCall(Timer timer) {
           }
         }
         if (job.status == 'DONE') {
-          // logger.info('Done ${job.name} ${job.id}');
+          logger.info('Done ${job.name} ${job.id}');
           store
               .dispatch(JobDone(job: job, communityAddress: community.address));
-          String tokenAddress = community?.token?.address;
-          if (tokenAddress != null) {
-            logger.info('processingJobsCall getTokenBalanceCall');
-            store.dispatch(getTokenBalanceCall(community));
-          }
         }
       }
     }
@@ -1171,7 +1170,6 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
         store.dispatch(fetchSecondaryTokenCall(
             secondaryTokenAddress, communityAddress.toLowerCase()));
       }
-      logger.info('joinCommunityCall joinCommunityCall $tokenAddress');
       final String entitiesListAddress = community["entitiesList"]["address"];
       store.dispatch(fetchCommunityMetadataCall(
           communityAddress, communityData['communityURI'], isRopsten));
@@ -1255,11 +1253,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       if (isLoading) return;
       Community current = store
           .state.cashWalletState.communities[communityAddress.toLowerCase()];
-      if (current != null &&
-          current.name != null &&
-          current.token != null &&
-          current.isMember != null &&
-          current.isMember) {
+      if (current != null && current.name != null && current.token != null) {
         store.dispatch(SwitchCommunityRequested(communityAddress));
         store.dispatch(switchToExisitingCommunityCall(communityAddress));
       } else {
@@ -1373,10 +1367,6 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
       if (transfers.isNotEmpty) {
         store.dispatch(GetTokenTransfersListSuccess(
             tokenTransfers: transfers, communityAddress: community.address));
-        logger.info('GetTokenTransfersListSuccess getTokenBalanceCall');
-        Future.delayed(Duration(seconds: 2), () {
-          store.dispatch(getTokenBalanceCall(community));
-        });
       }
     } catch (e) {
       logger.severe('ERROR - getReceivedTokenTransfersListCall $e');

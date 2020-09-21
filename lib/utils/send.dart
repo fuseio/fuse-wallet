@@ -50,23 +50,21 @@ void sendToContact(BuildContext context, String displayName, String phone,
     String countryCode,
     String isoCode}) async {
   if (address != null && address.isNotEmpty) {
-    ExtendedNavigator.root.push(Routes.sendAmountScreen,
-        arguments: SendAmountScreenArguments(
-            pageArgs: SendAmountArguments(
-                accountAddress: address, name: displayName, avatar: avatar)));
+    ExtendedNavigator.root.pushSendAmountScreen(
+        pageArgs: SendAmountArguments(
+            accountAddress: address, name: displayName, avatar: avatar));
     return;
   }
   try {
     _openLoadingDialog(context);
     Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
     Navigator.of(context).pop();
-    ExtendedNavigator.root.push(Routes.sendAmountScreen,
-        arguments: SendAmountScreenArguments(
-            pageArgs: SendAmountArguments(
-                phoneNumber: res['phoneNumber'],
-                accountAddress: res['walletAddress'],
-                name: displayName,
-                avatar: avatar)));
+    ExtendedNavigator.root.pushSendAmountScreen(
+        pageArgs: SendAmountArguments(
+            phoneNumber: res['phoneNumber'],
+            accountAddress: res['walletAddress'],
+            name: displayName,
+            avatar: avatar));
   } catch (e) {
     Navigator.of(context).pop();
     throw '$e';
@@ -74,12 +72,11 @@ void sendToContact(BuildContext context, String displayName, String phone,
 }
 
 void sendToPastedAddress(accountAddress) {
-  ExtendedNavigator.root.push(Routes.sendAmountScreen,
-      arguments: SendAmountScreenArguments(
-          pageArgs: SendAmountArguments(
-              accountAddress: accountAddress,
-              name: formatAddress(accountAddress),
-              avatar: new AssetImage('assets/images/anom.png'))));
+  ExtendedNavigator.root.pushSendAmountScreen(
+      pageArgs: SendAmountArguments(
+          accountAddress: accountAddress,
+          name: formatAddress(accountAddress),
+          avatar: new AssetImage('assets/images/anom.png')));
 }
 
 bracodeScannerHandler() async {

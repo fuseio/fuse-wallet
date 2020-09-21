@@ -11,7 +11,7 @@ import 'package:roost/redux/actions/cash_wallet_actions.dart';
 import 'package:roost/redux/actions/user_actions.dart';
 import 'package:roost/redux/state/store.dart';
 import 'package:roost/screens/route_guards.dart';
-import 'package:roost/screens/routes.gr.dart';
+import 'package:roost/screens/routes.gr.dart' as router;
 import 'package:roost/services.dart';
 import 'package:roost/themes/app_theme.dart';
 import 'package:roost/themes/custom_theme.dart';
@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Roost',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(
