@@ -65,6 +65,25 @@ class BuyRouter extends RouterBase {
 }
 
 /// ************************************************************************
+/// Navigation helper methods extension
+/// *************************************************************************
+
+extension BuyRouterExtendedNavigatorStateX on ExtendedNavigatorState {
+  Future<dynamic> pushBuyScreen() => push<dynamic>(BusinessesRoutes.buyScreen);
+
+  Future<dynamic> pushBusinessPage({
+    Business business,
+    Token token,
+  }) =>
+      push<dynamic>(
+        BusinessesRoutes.businessPage,
+        arguments: BusinessPageArguments(business: business, token: token),
+      );
+
+  Future<dynamic> pushMapScreen() => push<dynamic>(BusinessesRoutes.mapScreen);
+}
+
+/// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
 

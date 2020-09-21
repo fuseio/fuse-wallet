@@ -72,7 +72,7 @@ class _EmptyContactsState extends State<EmptyContacts> {
     );
   }
 
-  List<Widget> _buildPageList(viewModel) {
+  List<Widget> _buildPageList(ContactsViewModel viewModel) {
     List<Widget> listItems = List();
 
     listItems.add(SearchPanel(

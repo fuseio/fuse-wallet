@@ -3,11 +3,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:peepl/models/community/community.dart';
 import 'package:peepl/screens/home/router/home_router.gr.dart';
 import 'package:peepl/screens/home/widgets/community_description.dart';
+import 'package:peepl/widgets/bridge_dialog.dart';
 import 'package:peepl/widgets/network_explained.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:peepl/models/app_state.dart';
-import 'package:peepl/widgets/move_to_ethereum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,8 +24,10 @@ class TokenHeader extends StatelessWidget {
     final String price = token.priceInfo != null
         ? reduce(double.parse(token?.priceInfo?.total))
         : '0';
-    final bool isFuseToken = token.originNetwork != null;
+    final bool isFuseToken = ![null, ''].contains(token.originNetwork);
     final String logo = isFuseToken ? 'fuse-network.svg' : 'ether-network.svg';
+    final String moveToLogo =
+        !isFuseToken ? 'move_from_fuse.svg' : 'move_to_ethereum.svg';
     return Container(
         height: MediaQuery.of(context).size.height,
         alignment: Alignment.bottomLeft,
@@ -145,18 +147,15 @@ class TokenHeader extends StatelessWidget {
                                               onPressed: () {
                                                 ExtendedNavigator.named(
                                                         'homeRouter')
-                                                    .push(
-                                                        HomeRoutes.tradeScreen,
-                                                        arguments:
-                                                            TradeScreenArguments(
-                                                                primaryToken:
-                                                                    token));
+                                                    .pushTradeScreen(
+                                                        primaryToken: token);
                                               }),
                                         )
                                       : Container(
                                           width: 45,
                                           height: 45,
                                           child: FloatingActionButton(
+                                              heroTag: 'CommunityDescription',
                                               elevation: 0,
                                               backgroundColor: Theme.of(context)
                                                   .primaryColor,
@@ -175,30 +174,39 @@ class TokenHeader extends StatelessWidget {
                                                                 community));
                                               }),
                                         ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    width: 45,
-                                    height: 45,
-                                    child: FloatingActionButton(
-                                        heroTag: 'move_from_scanner',
-                                        elevation: 0,
-                                        backgroundColor:
-                                            const Color(0xFF002669),
-                                        child: SvgPicture.asset(
-                                          'assets/images/move_from_fuse.svg',
-                                          fit: BoxFit.cover,
-                                        ),
-                                        onPressed: () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  TokenActionsDialog(
-                                                      token: token,
-                                                      community: community));
-                                        }),
-                                  )
+                                  community != null
+                                      ? SizedBox(
+                                          width: 10,
+                                        )
+                                      : SizedBox.shrink(),
+                                  community != null
+                                      ? Container(
+                                          width: 45,
+                                          height: 45,
+                                          child: FloatingActionButton(
+                                              heroTag: 'move_from_scanner',
+                                              elevation: 0,
+                                              backgroundColor:
+                                                  Color(0xFF002669),
+                                              child: SvgPicture.asset(
+                                                'assets/images/$moveToLogo',
+                                                fit: BoxFit.cover,
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        BridgeDialog(
+                                                          token: token,
+                                                          community: community,
+                                                          logo: moveToLogo,
+                                                          isFuseToken:
+                                                              isFuseToken,
+                                                        ));
+                                              }),
+                                        )
+                                      : SizedBox.shrink()
                                 ],
                               );
                             })
@@ -225,6 +233,9 @@ class TokenHeader extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return NetworkExplainedScreen(
+                                logo: isFuseToken
+                                    ? 'fuse_network_logo.svg'
+                                    : 'ether-logo.svg',
                                 network: isFuseToken ? 'fuse' : 'ether');
                           });
                     },

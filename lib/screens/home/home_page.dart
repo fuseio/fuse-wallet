@@ -110,6 +110,7 @@ class _HomePageState extends State<HomePage> {
                         'https://app.itsaboutpeepl.com/topup?wallet=${vm.walletAddress}',
                     title: I18n.of(context).top_up),
                 ExtendedNavigator(
+                  name: 'buyRouter',
                   router: BuyRouter(),
                   observers: [SegmentObserver()],
                 )

@@ -21,6 +21,7 @@ class HomeViewModel extends Equatable {
   final bool isBalanceFetchingStarted;
   final bool isBranchDataReceived;
   final Function(bool initial) onReceiveBranchData;
+  final Function() refreshFeed;
 
   HomeViewModel({
     this.onReceiveBranchData,
@@ -36,6 +37,7 @@ class HomeViewModel extends Equatable {
     this.feedList,
     this.tokens,
     this.communities,
+    this.refreshFeed,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
@@ -102,6 +104,9 @@ class HomeViewModel extends Equatable {
               store.dispatch(switchCommunityCall(communityAddress));
             }
           }
+        },
+        refreshFeed: () {
+          store.dispatch(ResetTokenTxs());
         });
   }
 

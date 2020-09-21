@@ -11,7 +11,7 @@ import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/redux/actions/user_actions.dart';
 import 'package:peepl/redux/state/store.dart';
 import 'package:peepl/screens/route_guards.dart';
-import 'package:peepl/screens/routes.gr.dart';
+import 'package:peepl/screens/routes.gr.dart' as router;
 import 'package:peepl/services.dart';
 import 'package:peepl/themes/app_theme.dart';
 import 'package:peepl/themes/custom_theme.dart';
@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Peepl',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(

@@ -26,14 +26,13 @@ class SettingsScreen extends StatelessWidget {
   List<Widget> menuItem(BuildContext context, DrawerViewModel viewModel) {
     return [
       getListTile(context, I18n.of(context).about, () {
-        ExtendedNavigator.named('homeRouter').push(HomeRoutes.aboutScreen);
+        ExtendedNavigator.named('homeRouter').pushAboutScreen();
       }),
       Divider(
         color: Color(0xFFE8E8E8),
       ),
       getListTile(context, I18n.of(context).protect_wallet, () {
-        ExtendedNavigator.named('homeRouter')
-            .push(HomeRoutes.protectYourWallet);
+        ExtendedNavigator.named('homeRouter').pushProtectYourWallet();
       }),
       Divider(
         color: Color(0xFFE8E8E8),

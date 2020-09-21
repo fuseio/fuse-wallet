@@ -38,9 +38,8 @@ class TokenTile extends StatelessWidget {
           onTap: onTap != null
               ? onTap
               : () {
-                  ExtendedNavigator.of(context).push(HomeRoutes.tokenScreen,
-                      arguments:
-                          TokenScreenArguments(tokenAddress: token.address));
+                  ExtendedNavigator.of(context)
+                      .pushTokenScreen(tokenAddress: token.address);
                 },
           contentPadding:
               EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
