@@ -11,7 +11,7 @@ import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
 import 'package:fusecash/screens/home/router/home_router.gr.dart';
 import 'package:fusecash/screens/home/screens/fuse_points_explained.dart';
 import 'package:fusecash/screens/home/screens/receive.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
+import 'package:fusecash/screens/misc/inapp_webview_page.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/screens/home/widgets/drawer.dart';
 import 'package:fusecash/utils/contacts.dart';
@@ -119,13 +119,14 @@ class _HomePageState extends State<HomePage> {
                           : ContactsRoutes.emptyContacts,
                 ),
                 !['', null].contains(vm.community.webUrl)
-                    ? WebViewPage(
+                    ? WebViewWidget(
                         url: vm.community.webUrl,
                         withBack: false,
                         title: I18n.of(context).community_webpage)
                     : vm.isDefaultCommunity
                         ? FusePointsExplainedScreen()
                         : ExtendedNavigator(
+                            name: 'buyRouter',
                             router: BuyRouter(),
                             observers: [SegmentObserver()],
                           ),
