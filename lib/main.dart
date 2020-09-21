@@ -11,7 +11,7 @@ import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/redux/state/store.dart';
 import 'package:digitalrand/screens/route_guards.dart';
-import 'package:digitalrand/screens/routes.gr.dart';
+import 'package:digitalrand/screens/routes.gr.dart' as router;
 import 'package:digitalrand/services.dart';
 import 'package:digitalrand/themes/app_theme.dart';
 import 'package:digitalrand/themes/custom_theme.dart';
@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Digital Rand',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(

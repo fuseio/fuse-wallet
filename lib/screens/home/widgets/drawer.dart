@@ -96,11 +96,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ),
       ),
       onTap: () {
-        ExtendedNavigator.root.push(Routes.webview,
-            arguments: WebViewPageArguments(
-                withBack: true,
-                url: 'https://digtalrand.typeform.com/to/WL65ZVKO',
-                title: I18n.of(context).add_funds));
+        ExtendedNavigator.root.pushWebview(
+            withBack: true,
+            url: 'https://digtalrand.typeform.com/to/WL65ZVKO',
+            title: I18n.of(context).add_funds);
       },
     ));
 
@@ -112,7 +111,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       return [
         getListTile(I18n.of(context).backup_wallet, () {
           ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.showMnemonic);
+          ExtendedNavigator.named('homeRouter').pushShowMnemonic();
         },
             icon: 'backup_icon.svg',
             temp: !viewModel.isBackup
@@ -124,19 +123,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 : null),
         getListTile(I18n.of(context).settings, () {
           ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.settingsScreen);
+          ExtendedNavigator.named('homeRouter').pushSettingsScreen();
         }, icon: 'settings_icon.svg'),
       ];
     } else {
       return [
         getListTile(I18n.of(context).switch_community, () {
           ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter')
-              .push(HomeRoutes.switchCommunityScreen);
+          ExtendedNavigator.named('homeRouter').pushSwitchCommunityScreen();
         }, icon: 'switch_icon.svg'),
         getListTile(I18n.of(context).backup_wallet, () {
           ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.showMnemonic);
+          ExtendedNavigator.named('homeRouter').pushShowMnemonic();
         },
             icon: 'backup_icon.svg',
             temp: !viewModel.isBackup
@@ -148,7 +146,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 : null),
         getListTile(I18n.of(context).settings, () {
           ExtendedNavigator.root.pop();
-          ExtendedNavigator.named('homeRouter').push(HomeRoutes.settingsScreen);
+          ExtendedNavigator.named('homeRouter').pushSettingsScreen();
         }, icon: 'settings_icon.svg'),
       ];
     }
@@ -163,8 +161,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           InkWell(
             onTap: () {
               ExtendedNavigator.root.pop();
-              ExtendedNavigator.named('homeRouter')
-                  .push(HomeRoutes.profileScreen);
+              ExtendedNavigator.named('homeRouter').pushProfileScreen();
             },
             child: Padding(
                 padding: EdgeInsets.only(top: 10, bottom: 15, left: 10),
@@ -176,34 +173,30 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(
-                              height: 70,
-                              width: 70,
-                              child: ![null, ''].contains(viewModel.avatarUrl)
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: Positioned.fill(
-                                          child: CachedNetworkImage(
-                                        imageUrl: viewModel.avatarUrl,
-                                        placeholder: (context, url) =>
-                                            CircularProgressIndicator(),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                                'assets/images/anom.png',
-                                                width: 40,
-                                                height: 40),
-                                        imageBuilder:
-                                            (context, imageProvider) => Image(
-                                          image: imageProvider,
-                                          fit: BoxFit.fill,
-                                        ),
-                                      )),
-                                    )
-                                  : CircleAvatar(
-                                      backgroundImage: new AssetImage(
-                                          'assets/images/anom.png'),
-                                      radius: 30,
-                                    )),
+                          ![null, ''].contains(viewModel.avatarUrl)
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: CachedNetworkImage(
+                                    imageUrl: viewModel.avatarUrl,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset('assets/images/anom.png',
+                                            width: 40, height: 40),
+                                    imageBuilder: (context, imageProvider) =>
+                                        Image(
+                                      image: imageProvider,
+                                      fit: BoxFit.fill,
+                                      width: 70,
+                                      height: 70,
+                                    ),
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/images/anom.png'),
+                                  radius: 30,
+                                ),
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: Column(

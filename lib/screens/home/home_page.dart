@@ -9,7 +9,7 @@ import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/screens/contacts/widgets/enable_contacts.dart';
 import 'package:digitalrand/screens/home/router/home_router.gr.dart';
 import 'package:digitalrand/screens/home/screens/receive.dart';
-import 'package:digitalrand/screens/misc/webview_page.dart';
+import 'package:digitalrand/screens/misc/inapp_webview_page.dart';
 import 'package:digitalrand/screens/contacts/router/router_contacts.gr.dart';
 import 'package:digitalrand/screens/home/widgets/drawer.dart';
 import 'package:digitalrand/utils/contacts.dart';
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                           : ContactsRoutes.emptyContacts,
                 ),
                 !['', null].contains(vm.community.webUrl)
-                    ? WebViewPage(
+                    ? WebViewWidget(
                         url: vm.community.webUrl,
                         withBack: false,
                         title: I18n.of(context).community_webpage)

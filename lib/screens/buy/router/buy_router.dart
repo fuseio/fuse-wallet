@@ -4,10 +4,11 @@ import 'package:digitalrand/screens/buy/buy.dart';
 import 'package:digitalrand/screens/buy/map.dart';
 
 @MaterialAutoRouter(
-  routesClassName: "BusinessesRoutes",
-  routes: <AutoRoute>[
-  MaterialRoute(initial: true, page: BuyScreen),
-  MaterialRoute(page: BusinessPage),
-  MaterialRoute(page: MapScreen),
-])
+    generateNavigationHelperExtension: true,
+    routesClassName: "BusinessesRoutes",
+    routes: <AutoRoute>[
+      MaterialRoute(initial: true, page: BuyScreen),
+      MaterialRoute(page: BusinessPage),
+      MaterialRoute(page: MapScreen),
+    ])
 class $BuyRouter {}

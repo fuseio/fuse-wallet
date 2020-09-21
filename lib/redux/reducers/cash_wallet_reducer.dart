@@ -19,6 +19,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, AlreadyJoinedCommunity>(
       _alreadyJoinedCommunity),
   TypedReducer<CashWalletState, AddCommunities>(_addCommunities),
+  TypedReducer<CashWalletState, ResetTokenTxs>(_resetTokensTxs),
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(
       _switchCommunitySuccess),
   TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
@@ -52,6 +53,15 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, UpdateJob>(_updateJob),
   TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
 ]);
+
+CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
+  Map<String, Community> newOne =
+      Map<String, Community>.from(state.communities);
+  for (String communityAddress in newOne.keys) {
+    newOne[communityAddress] = newOne[communityAddress].copyWith(token: newOne[communityAddress].token.copyWith(transactions: Transactions.initial()));
+  }
+  return state.copyWith(communities: newOne);
+}
 
 CashWalletState _addCommunities(CashWalletState state, AddCommunities action) {
   Map<String, Community> newOne =

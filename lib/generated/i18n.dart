@@ -302,6 +302,12 @@ class I18n implements WidgetsLocalizations {
   String get something_went_wrong => "Something went wrong";
   /// "No activity"
   String get no_activity => "No activity";
+  /// "Bridge to"
+  String get bridge_to => "Bridge to";
+  /// "Move to"
+  String get move_to => "Move to";
+  /// "Invalid number"
+  String get invalid_number => "Invalid number";
 }
 
 class _I18n_en_US extends I18n {
@@ -695,6 +701,24 @@ class _I18n_he_IL extends I18n {
   /// "חֶשְׁבּוֹן"
   @override
   String get account => "חֶשְׁבּוֹן";
+  /// "ערוך"
+  @override
+  String get edit => "ערוך";
+  /// "כתובת ארנק"
+  @override
+  String get wallet_address => "כתובת ארנק";
+  /// "שם"
+  @override
+  String get name => "שם";
+  /// "העסקה נכשלה"
+  @override
+  String get transaction_failed => "העסקה נכשלה";
+  /// "משהו השתבש"
+  @override
+  String get something_went_wrong => "משהו השתבש";
+  /// "אין עסקאות"
+  @override
+  String get no_activity => "אין עסקאות";
 
   @override
   TextDirection get textDirection => TextDirection.rtl;

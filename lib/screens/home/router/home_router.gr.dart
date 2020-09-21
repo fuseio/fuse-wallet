@@ -199,6 +199,102 @@ class HomeRouter extends RouterBase {
 }
 
 /// ************************************************************************
+/// Navigation helper methods extension
+/// *************************************************************************
+
+extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
+  Future<dynamic> pushMainHomeScreen({
+    Key key,
+  }) =>
+      push<dynamic>(
+        HomeRoutes.mainHomeScreen,
+        arguments: MainHomeScreenArguments(key: key),
+      );
+
+  Future<dynamic> pushTransactionDetailsScreen({
+    ImageProvider<dynamic> image,
+    String from,
+    String status,
+    Token token,
+    Contact contact,
+    List<Widget> amount,
+    Transfer transfer,
+  }) =>
+      push<dynamic>(
+        HomeRoutes.transactionDetailsScreen,
+        arguments: TransactionDetailsScreenArguments(
+            image: image,
+            from: from,
+            status: status,
+            token: token,
+            contact: contact,
+            amount: amount,
+            transfer: transfer),
+      );
+
+  Future<dynamic> pushTokenScreen({
+    Key key,
+    String tokenAddress,
+    double dzarQuate,
+  }) =>
+      push<dynamic>(
+        HomeRoutes.tokenScreen,
+        arguments: TokenScreenArguments(
+            key: key, tokenAddress: tokenAddress, dzarQuate: dzarQuate),
+      );
+
+  Future<dynamic> pushTradeScreen({
+    Key key,
+    Token primaryToken,
+  }) =>
+      push<dynamic>(
+        HomeRoutes.tradeScreen,
+        arguments: TradeScreenArguments(key: key, primaryToken: primaryToken),
+      );
+
+  Future<dynamic> pushReviewTradeScreen({
+    Key key,
+    Map<dynamic, dynamic> exchangeSummry,
+    Token fromToken,
+    Token toToken,
+  }) =>
+      push<dynamic>(
+        HomeRoutes.reviewTradeScreen,
+        arguments: ReviewTradeScreenArguments(
+            key: key,
+            exchangeSummry: exchangeSummry,
+            fromToken: fromToken,
+            toToken: toToken),
+      );
+
+  Future<dynamic> pushAboutScreen() => push<dynamic>(HomeRoutes.aboutScreen);
+
+  Future<dynamic> pushShowMnemonic() => push<dynamic>(HomeRoutes.showMnemonic);
+
+  Future<dynamic> pushVerifyMnemonic() =>
+      push<dynamic>(HomeRoutes.verifyMnemonic);
+
+  Future<dynamic> pushDoneBackup() => push<dynamic>(HomeRoutes.doneBackup);
+
+  Future<dynamic> pushSettingsScreen() =>
+      push<dynamic>(HomeRoutes.settingsScreen);
+
+  Future<dynamic> pushSwitchCommunityScreen() =>
+      push<dynamic>(HomeRoutes.switchCommunityScreen);
+
+  Future<dynamic> pushProtectYourWallet() =>
+      push<dynamic>(HomeRoutes.protectYourWallet);
+
+  Future<dynamic> pushProfileScreen({
+    Key key,
+  }) =>
+      push<dynamic>(
+        HomeRoutes.profileScreen,
+        arguments: ProfileScreenArguments(key: key),
+      );
+}
+
+/// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
 
