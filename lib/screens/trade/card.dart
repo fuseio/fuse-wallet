@@ -1,7 +1,6 @@
-// import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:ethereum_address/ethereum_address.dart';
-// import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-// import 'package:fusecash/screens/home/widgets/assets_list.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ethereum_address/ethereum_address.dart';
+import 'package:fusecash/screens/home/widgets/assets_list.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
@@ -17,23 +16,19 @@ class TradeCard extends StatelessWidget {
   final String toTokenAmount;
   final Token tokenToReceive;
   final Widget useMaxWidget;
-  final List<DropdownMenuItem<Token>> items;
   final void Function(String) onChanged;
-  final void Function(Token) onDropDownChanged;
   final TextEditingController textEditingController;
-  // final void Function() onTap;
+  final void Function() onTap;
   TradeCard(
       {Key key,
       this.title,
-      this.items,
-      // this.onTap,
+      this.onTap,
       this.useMaxWidget,
       this.isFetchingPrice,
       this.fromTokenAmount,
       this.toTokenAmount,
       this.hasBalance = true,
       this.walletAddress,
-      this.onDropDownChanged,
       this.onChanged,
       this.token,
       this.isFetching,
@@ -79,46 +74,37 @@ class TradeCard extends StatelessWidget {
                     padding: EdgeInsets.only(left: 10.0),
                     child: Row(
                       children: <Widget>[
-                        DropdownButton<Token>(
-                          value: token,
-                          underline: Container(
-                            height: 0,
-                            color: Colors.white,
+                        InkWell(
+                          onTap: onTap,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              CachedNetworkImage(
+                                width: 33,
+                                height: 33,
+                                imageUrl: token.imageUrl != null &&
+                                        token.imageUrl.isNotEmpty
+                                    ? token.imageUrl
+                                    : getTokenUrl(
+                                        checksumEthereumAddress(token.address)),
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.error,
+                                  size: 18,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                token.symbol,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Icon(Icons.arrow_drop_down)
+                            ],
                           ),
-                          onChanged: onDropDownChanged,
-                          items: items,
                         )
-                        // InkWell(
-                        //   onTap: onTap,
-                        //   child: Row(
-                        //     mainAxisSize: MainAxisSize.min,
-                        //     children: <Widget>[
-                        //       CachedNetworkImage(
-                        //         width: 33,
-                        //         height: 33,
-                        //         imageUrl: token.imageUrl != null &&
-                        //                 token.imageUrl.isNotEmpty
-                        //             ? token.imageUrl
-                        //             : getTokenUrl(
-                        //                 checksumEthereumAddress(token.address)),
-                        //         placeholder: (context, url) =>
-                        //             CircularProgressIndicator(),
-                        //         errorWidget: (context, url, error) => Icon(
-                        //           Icons.error,
-                        //           size: 18,
-                        //         ),
-                        //       ),
-                        //       SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       Text(
-                        //         token.symbol,
-                        //         style: TextStyle(fontSize: 16),
-                        //       ),
-                        //       Icon(Icons.arrow_drop_down)
-                        //     ],
-                        //   ),
-                        // )
                       ],
                     ),
                   ),

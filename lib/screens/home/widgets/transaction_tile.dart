@@ -308,31 +308,29 @@ class _TransactionTileState extends State<TransactionTile> {
                 onTap: () {
                   if (!widget.transfer.isGenerateWallet() &&
                       !widget.transfer.isJoinCommunity()) {
-                    ExtendedNavigator.of(context)
-                        .push(HomeRoutes.transactionDetailsScreen,
-                            arguments: TransactionDetailsScreenArguments(
-                              transfer: widget.transfer,
-                              contact: contact,
-                              from: displayName,
-                              image: image,
-                              token: token,
-                              amount: [
-                                Text(
-                                  amount,
-                                  style: TextStyle(
-                                      color: Color(0xFF696969),
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  " ${token?.symbol}",
-                                  style: TextStyle(
-                                      color: Color(0xFF696969),
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.normal),
-                                )
-                              ],
-                            ));
+                    ExtendedNavigator.of(context).pushTransactionDetailsScreen(
+                      transfer: widget.transfer,
+                      contact: contact,
+                      from: displayName,
+                      image: image,
+                      token: token,
+                      amount: [
+                        Text(
+                          amount,
+                          style: TextStyle(
+                              color: Color(0xFF696969),
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          " ${token?.symbol}",
+                          style: TextStyle(
+                              color: Color(0xFF696969),
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.normal),
+                        )
+                      ],
+                    );
                   }
                 },
               ));
