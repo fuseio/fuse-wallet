@@ -59,7 +59,14 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
   for (String communityAddress in newOne.keys) {
-    newOne[communityAddress] = newOne[communityAddress].copyWith(token: newOne[communityAddress].token.copyWith(transactions: Transactions.initial()));
+    Community community = newOne[communityAddress].copyWith();
+    community = community.copyWith(
+        token: community.token.copyWith(transactions: Transactions.initial()),
+        secondaryToken: community.secondaryToken != null
+            ? community.secondaryToken
+                .copyWith(transactions: Transactions.initial())
+            : null);
+    newOne[communityAddress] = community.copyWith();
   }
   return state.copyWith(communities: newOne);
 }
