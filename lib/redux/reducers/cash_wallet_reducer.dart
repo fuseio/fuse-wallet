@@ -18,6 +18,7 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, AlreadyJoinedCommunity>(
       _alreadyJoinedCommunity),
   TypedReducer<CashWalletState, AddCommunities>(_addCommunities),
+  TypedReducer<CashWalletState, ResetTokenTxs>(_resetTokensTxs),
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(
       _switchCommunitySuccess),
   TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
@@ -58,6 +59,22 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
 ]);
 
+CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
+  Map<String, Community> newOne =
+      Map<String, Community>.from(state.communities);
+  for (String communityAddress in newOne.keys) {
+    Community community = newOne[communityAddress].copyWith();
+    community = community.copyWith(
+        token: community.token.copyWith(transactions: Transactions.initial()),
+        secondaryToken: community.secondaryToken != null
+            ? community.secondaryToken
+                .copyWith(transactions: Transactions.initial())
+            : null);
+    newOne[communityAddress] = community.copyWith();
+  }
+  return state.copyWith(communities: newOne);
+}
+
 CashWalletState _addCommunities(CashWalletState state, AddCommunities action) {
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
@@ -65,7 +82,6 @@ CashWalletState _addCommunities(CashWalletState state, AddCommunities action) {
     print('communityAddress communityAddress $communityAddress');
     if (newOne.containsKey(communityAddress)) continue;
     newOne[communityAddress] = action.communities[communityAddress];
-    print('ADDDEDDDDD communityAddress $communityAddress');
   }
   return state.copyWith(communities: newOne);
 }

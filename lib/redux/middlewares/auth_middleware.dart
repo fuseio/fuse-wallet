@@ -82,7 +82,7 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-        ExtendedNavigator.root.push(Routes.userNameScreen);
+        ExtendedNavigator.root.pushUserNameScreen();
       }
       catch (error, s) {
         FirebaseAuthException firebaseAuthException = error as FirebaseAuthException;

@@ -11,7 +11,7 @@ import 'package:seedbed/redux/actions/cash_wallet_actions.dart';
 import 'package:seedbed/redux/actions/user_actions.dart';
 import 'package:seedbed/redux/state/store.dart';
 import 'package:seedbed/screens/route_guards.dart';
-import 'package:seedbed/screens/routes.gr.dart';
+import 'package:seedbed/screens/routes.gr.dart' as router;
 import 'package:seedbed/services.dart';
 import 'package:seedbed/themes/app_theme.dart';
 import 'package:seedbed/themes/custom_theme.dart';
@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Seedbed wallet',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(

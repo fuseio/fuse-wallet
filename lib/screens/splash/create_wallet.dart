@@ -131,7 +131,7 @@ class _CreateWalletState extends State<CreateWallet> {
                             setState(() {
                               isPrimaryPreloading = false;
                             });
-                            ExtendedNavigator.root.push(Routes.signupScreen);
+                            ExtendedNavigator.root.pushSignupScreen();
                           });
                           setState(() {
                             isPrimaryPreloading = true;
@@ -152,7 +152,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                       label: I18n.of(context).restore_backup,
                                       onPressed: () async {
                                         ExtendedNavigator.root
-                                            .push(Routes.recoveryPage);
+                                            .pushRecoveryPage();
                                       }),
                                   Text(
                                     I18n.of(context).or,
@@ -175,7 +175,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                               isTransparentPreloading = false;
                                             });
                                             ExtendedNavigator.root
-                                                .push(Routes.signupScreen);
+                                                .pushSignupScreen();
                                           });
                                           setState(() {
                                             isTransparentPreloading = true;
@@ -189,8 +189,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                 fontSize: 16,
                                 label: I18n.of(context).restore_from_backup,
                                 onPressed: () async {
-                                  ExtendedNavigator.root
-                                      .push(Routes.recoveryPage);
+                                  ExtendedNavigator.root.pushRecoveryPage();
                                 }))
                   ],
                 ),

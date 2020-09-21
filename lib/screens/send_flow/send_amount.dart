@@ -363,8 +363,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                   args.tokenToSend = selectedToken;
                   args.amount = num.parse(amountText);
                   if (args.isConvert) {
-                    ExtendedNavigator.root.push(Routes.sendReviewScreen,
-                        arguments: SendReviewScreenArguments(pageArgs: args));
+                    ExtendedNavigator.root.pushSendReviewScreen(pageArgs: args);
                   } else {
                     ExtendedNavigator.root.replace(Routes.sendReviewScreen,
                         arguments: SendReviewScreenArguments(pageArgs: args));

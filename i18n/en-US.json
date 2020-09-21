@@ -136,5 +136,9 @@
     "name": "Name",
     "transaction_failed": "Transaction failed",
     "something_went_wrong": "Something went wrong",
-    "no_activity": "No activity"
+    "no_activity": "No activity",
+    "bridge_to": "Bridge to",
+    "move_to": "Move to",
+    "change_reward": "Change reward",
+    "invalid_number": "Invalid number"
 }
