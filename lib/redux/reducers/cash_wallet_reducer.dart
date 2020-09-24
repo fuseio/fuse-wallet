@@ -1,14 +1,19 @@
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/jobs/base.dart';
+// import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
+// import 'package:fusecash/redux/reducers/pro_mode_reducer.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
+  // TypedReducer<CashWalletState, AddCashTokens>(_addCashTokens),
+  // TypedReducer<CashWalletState, AddCashToken>(_addCashToken),
+  // TypedReducer<CashWalletState, UpdateCashToken>(_updateCashToken),
   TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
   TypedReducer<CashWalletState, GetTokenBalanceSuccess>(
@@ -53,11 +58,43 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
 ]);
 
+// CashWalletState _addCashTokens(CashWalletState state, AddCashTokens action) {
+//   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+//   for (String tokenAddress in action.tokens.keys) {
+//     if (newOne.containsKey(tokenAddress)) continue;
+//     newOne[tokenAddress] = action.tokens[tokenAddress].copyWith();
+//   }
+//   return state.copyWith(tokens: newOne);
+// }
+
+// CashWalletState _addCashToken(CashWalletState state, AddCashToken action) {
+//   Token token = action.token;
+//   Map<String, Token> newOne =
+//       Map<String, Token>.from(state.tokens..removeWhere(clearTokensWithZero));
+//   if (newOne.containsKey(token.address)) {
+//     newOne[token.address] = newOne[token.address]
+//         .copyWith(amount: token.amount, timestamp: token.timestamp);
+//   } else if (!newOne.containsKey(token.address)) {
+//     newOne[token.address] = token;
+//   }
+//   return state.copyWith(tokens: newOne);
+// }
+
+// CashWalletState _updateCashToken(
+//     CashWalletState state, UpdateCashToken action) {
+//   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+//   newOne[action.tokenToUpdate.address] = action.tokenToUpdate;
+//   return state.copyWith(tokens: newOne);
+// }
+
 CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
   for (String communityAddress in newOne.keys) {
-    newOne[communityAddress] = newOne[communityAddress].copyWith(token: newOne[communityAddress].token.copyWith(transactions: Transactions.initial()));
+    newOne[communityAddress] = newOne[communityAddress].copyWith(
+        token: newOne[communityAddress]
+            .token
+            .copyWith(transactions: Transactions.initial()));
   }
   return state.copyWith(communities: newOne);
 }
@@ -138,6 +175,7 @@ CashWalletState _switchCommunitySuccess(
   Community current = state.communities[communityAddress] ??
       Community.initial().copyWith(address: communityAddress);
   Community newCommunity = current?.copyWith(
+      isMultiBridge: action.isMultiBridge,
       description: action.description,
       address: communityAddress,
       metadata: action.metadata,

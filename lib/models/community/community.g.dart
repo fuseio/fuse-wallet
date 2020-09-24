@@ -9,6 +9,7 @@ part of 'community.dart';
 Community _$CommunityFromJson(Map<String, dynamic> json) {
   return Community(
     name: json['name'] as String,
+    isMultiBridge: json['isMultiBridge'] as bool,
     isClosed: json['isClosed'] as bool,
     isMember: json['isMember'] as bool,
     address: json['address'] as String,
@@ -45,4 +46,5 @@ Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'webUrl': instance.webUrl,
       'foreignTokenAddress': instance.foreignTokenAddress,
       'description': instance.description,
+      'isMultiBridge': instance.isMultiBridge,
     };

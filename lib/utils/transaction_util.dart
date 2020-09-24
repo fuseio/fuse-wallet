@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -59,27 +58,12 @@ Widget deduceTransferIcon(Transfer transfer) {
   }
 }
 
-Token getToken(String tokenAddress, List<Community> communities,
-    Map<String, Token> erc20Tokens) {
-  if (erc20Tokens.containsKey(tokenAddress)) {
-    return erc20Tokens[tokenAddress];
-  } else {
-    return communities
-        .firstWhere(
-            (community) =>
-                community?.token?.address?.toLowerCase() ==
-                tokenAddress?.toLowerCase(),
-            orElse: () => communities.first)
-        .token;
-  }
-}
-
 Community getCommunity(String tokenAddress, List<Community> communities) {
   return communities.firstWhere(
       (community) =>
           community?.token?.address?.toLowerCase() ==
           tokenAddress?.toLowerCase(),
-      orElse: () => communities.first);
+      orElse: () => communities?.first ?? null);
 }
 
 Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
