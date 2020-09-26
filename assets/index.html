@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Peepl</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body>
+  <form id="payment-form" class="container py-4">
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="payment-amount">Amount</label>
+          <input type="text" id="payment-amount" class="form-control" value="10">
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="payment-currency">Currency</label>
+          <select id="payment-currency" class="form-control">
+            <option value="GBPx" selected="selected">GBPx</option>
+            <option value="PPL">PPL</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="payment-destination">Destination wallet ID</label>
+      <input type="text" id="payment-destination" class="form-control text-monospace"
+        value="0x47b2706a3af571142966d4eb73e1006ef84b4b74">
+    </div>
+    <button type="submit" class="btn btn-primary">Send payment</button>
+    <pre id="log" class="mt-3"></pre>
+  </form>
+</body>
+<script>
+  var form = document.querySelector('#payment-form');
+  var pre = document.querySelector('#log');
+
+  var sendMessage = function (message) {
+    if (typeof Fuse !== 'undefined') {
+      Fuse.postMessage(message);
+      log('Message sent');
+    } else {
+      log('Fuse global variable not defined');
+    }
+  };
+
+  var log = function (text) {
+    var time = new Date();
+    pre.innerHTML += time.toLocaleTimeString('en-GB') + ' ' + text + '\n';
+  };
+  // In order to call window.flutter_inappwebview.callHandler(handlerName <String>, ...args) 
+  // properly, you need to wait and listen the JavaScript event flutterInAppWebViewPlatformReady. 
+  // This event will be dispatched as soon as the platform (Android or iOS) is ready to handle the callHandler method. 
+  window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var paymentDetails = {
+        action: 'pay',
+        amount: document.querySelector('#payment-amount').value,
+        currency: document.querySelector('#payment-currency').value,
+        destination: document.querySelector('#payment-destination').value,
+      };
+      window.flutter_inappwebview.callHandler('pay', paymentDetails).then(function (result) {
+        // get result from Flutter side. It will be the number 64.
+        // console.log(result);
+      });
+    });
+  });
+</script>
+</body>
+
+</html>

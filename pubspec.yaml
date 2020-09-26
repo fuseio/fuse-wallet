@@ -84,6 +84,7 @@ flutter:
     - environment/.env_prod
     - environment/.env_qa
     - assets/
+    - assets/index.html
     - assets/images/
   fonts:
     - family: Europa
