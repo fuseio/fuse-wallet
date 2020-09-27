@@ -46,17 +46,17 @@ class Community extends Equatable {
 
   factory Community.initial() {
     return new Community(
-      name: null,
-      isClosed: false,
-      metadata: CommunityMetadata.initial(),
-      address: null,
-      foreignBridgeAddress: null,
-      homeBridgeAddress: null,
-      token: Token.initial(),
-      isMember: false,
-      businesses: new List<Business>(),
-      plugins: new Plugins(),
-    );
+        name: null,
+        isClosed: false,
+        metadata: CommunityMetadata.initial(),
+        address: null,
+        foreignBridgeAddress: null,
+        homeBridgeAddress: null,
+        token: Token.initial(),
+        isMember: false,
+        businesses: new List<Business>(),
+        plugins: new Plugins(),
+        isMultiBridge: false);
   }
 
   Community copyWith(

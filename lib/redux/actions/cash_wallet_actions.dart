@@ -955,20 +955,17 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
       String walletAddress = store.state.userState.walletAddress;
       Map<String, Community> communities =
           store.state.cashWalletState.communities;
-      Community community = communities.values.firstWhere((element) =>
-          element.token.address.toLowerCase() == token.address.toLowerCase());
       String tokenAddress = token?.address;
+      Community community = communities.values.firstWhere((element) =>
+          element?.token?.address?.toLowerCase() ==
+          tokenAddress?.toLowerCase());
 
       BigInt value;
       dynamic response;
-      if (!community.isMultiBridge &&
-          receiverAddress?.toLowerCase() ==
-              community?.homeBridgeAddress?.toLowerCase()) {
+      if (receiverAddress?.toLowerCase() ==
+          community?.homeBridgeAddress?.toLowerCase()) {
         num feeAmount = 20;
         value = toBigInt(tokensAmount, token.decimals);
-        String feeReceiverAddress =
-            community.plugins?.bridgeToForeign?.receiverAddress ??
-                '0x77D886e98133D99130179bdb41CE052a43d32c2F';
         logger.info(
             'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
         Map<String, dynamic> trasnferData = await web3.transferTokenOffChain(
