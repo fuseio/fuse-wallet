@@ -1,6 +1,5 @@
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
@@ -107,19 +106,18 @@ class _FeedModel extends Equatable {
   });
 
   static _FeedModel fromStore(Store<AppState> store) {
-    List<Community> communities =
-        store.state.cashWalletState.communities.values.toList();
+    List<Transaction> tokensTxs = store.state.cashWalletState.tokens?.values
+        ?.fold(
+            [],
+            (List<Transaction> previousValue, Token token) =>
+                previousValue..addAll(token?.transactions?.list ?? []));
 
     List<Transaction> erc20TokensTxs =
         store.state.proWalletState.erc20Tokens?.values?.fold(
             [],
             (List<Transaction> previousValue, Token token) =>
                 previousValue..addAll(token?.transactions?.list ?? []));
-    List<Transaction> communityTxs = communities?.fold(
-        [],
-        (List<Transaction> previousValue, Community community) =>
-            previousValue..addAll(community?.token?.transactions?.list ?? []));
-    List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
+    List<Transaction> feedList = [...tokensTxs, ...erc20TokensTxs]
       ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return _FeedModel(
         feedList: feedList,
@@ -131,6 +129,7 @@ class _FeedModel extends Equatable {
           store.dispatch(startProcessingJobsCall());
         },
         refreshFeed: () {
+          store.dispatch(fetchListOfTokensByAddress());
           store.dispatch(ResetTokenTxs());
         });
   }

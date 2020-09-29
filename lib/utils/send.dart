@@ -74,9 +74,7 @@ void sendToContact(BuildContext context, String displayName, String phone,
 void sendToPastedAddress(accountAddress) {
   ExtendedNavigator.root.pushSendAmountScreen(
       pageArgs: SendAmountArguments(
-          accountAddress: accountAddress,
-          name: formatAddress(accountAddress),
-          avatar: new AssetImage('assets/images/anom.png')));
+          accountAddress: accountAddress, name: formatAddress(accountAddress)));
 }
 
 bracodeScannerHandler() async {

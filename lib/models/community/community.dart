@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community_metadata.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';
@@ -15,7 +14,7 @@ class Community extends Equatable {
   final String foreignBridgeAddress;
   final bool isMember;
   final List<Business> businesses;
-  final Token token;
+  final String homeTokenAddress;
   final Plugins plugins;
   final CommunityMetadata metadata;
   final bool isClosed;
@@ -25,8 +24,16 @@ class Community extends Equatable {
   final bool isMultiBridge;
 
   @override
-  List<Object> get props =>
-      [name, address, isMember, token, plugins, metadata, webUrl, description];
+  List<Object> get props => [
+        name,
+        address,
+        isMember,
+        plugins,
+        metadata,
+        webUrl,
+        description,
+        homeTokenAddress,
+      ];
 
   Community(
       {this.name,
@@ -35,7 +42,7 @@ class Community extends Equatable {
       this.isMember,
       this.address,
       this.plugins,
-      this.token,
+      this.homeTokenAddress,
       this.businesses,
       this.metadata,
       this.homeBridgeAddress,
@@ -52,7 +59,6 @@ class Community extends Equatable {
         address: null,
         foreignBridgeAddress: null,
         homeBridgeAddress: null,
-        token: Token.initial(),
         isMember: false,
         businesses: new List<Business>(),
         plugins: new Plugins(),
@@ -65,13 +71,13 @@ class Community extends Equatable {
       String foreignBridgeAddress,
       String homeBridgeAddress,
       Plugins plugins,
-      Token token,
       List<Business> businesses,
       bool isMember,
       CommunityMetadata metadata,
       bool isClosed,
       String webUrl,
       String foreignTokenAddress,
+      String homeTokenAddress,
       String description,
       bool isMultiBridge}) {
     return Community(
@@ -83,7 +89,7 @@ class Community extends Equatable {
         address: address ?? this.address,
         name: name ?? this.name,
         plugins: plugins ?? this.plugins,
-        token: token ?? this.token,
+        homeTokenAddress: homeTokenAddress ?? this.homeTokenAddress,
         businesses: businesses ?? this.businesses,
         isMember: isMember ?? this.isMember,
         homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,

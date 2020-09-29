@@ -58,14 +58,6 @@ Widget deduceTransferIcon(Transfer transfer) {
   }
 }
 
-Community getCommunity(String tokenAddress, List<Community> communities) {
-  return communities.firstWhere(
-      (community) =>
-          community?.token?.address?.toLowerCase() ==
-          tokenAddress?.toLowerCase(),
-      orElse: () => communities?.first ?? null);
-}
-
 Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
     List<Contact> contacts, String countryCode) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;

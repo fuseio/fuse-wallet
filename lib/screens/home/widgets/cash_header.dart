@@ -103,37 +103,34 @@ class CashHeader extends StatelessWidget {
                                     ),
                                   ])
                             : RichText(
-                                text: new TextSpan(
+                                text: TextSpan(
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor),
-                                  children: viewModel.community.token == null
+                                  children: viewModel.token == null
                                       ? <TextSpan>[
-                                          new TextSpan(
+                                          TextSpan(
                                               text: '0',
-                                              style: new TextStyle(
+                                              style: TextStyle(
                                                   fontSize: 30,
                                                   color: Theme.of(context)
                                                       .primaryColor,
                                                   fontWeight: FontWeight.bold))
                                         ]
                                       : <TextSpan>[
-                                          new TextSpan(
+                                          TextSpan(
                                               text: formatValue(
-                                                  viewModel
-                                                      .community.token.amount,
-                                                  viewModel.community.token
-                                                      .decimals),
-                                              style: new TextStyle(
+                                                  viewModel.token.amount,
+                                                  viewModel.token.decimals),
+                                              style: TextStyle(
                                                   fontSize: 32,
                                                   color: Theme.of(context)
                                                       .primaryColor,
                                                   fontWeight: FontWeight.bold)),
-                                          new TextSpan(
+                                          TextSpan(
                                               text: ' ' +
-                                                  viewModel
-                                                      .community.token?.symbol
+                                                  viewModel.token?.symbol
                                                       .toString(),
-                                              style: new TextStyle(
+                                              style: TextStyle(
                                                   fontSize: 18,
                                                   color: Theme.of(context)
                                                       .primaryColor,

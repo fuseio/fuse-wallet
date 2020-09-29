@@ -51,7 +51,7 @@ class InviteBonusJob extends Job {
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('InviteBonusJob FAILED');
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['communityAddress'], failReason));
+      store.dispatch(transactionFailed(arguments['inviteBonus'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -68,8 +68,8 @@ class InviteBonusJob extends Job {
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx,
-            communityAddress: arguments['communityAddress']));
-        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+            tokenAddress: transfer.tokenAddress));
+        store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
       }
       String responseStatus = data['status'];
       if (responseStatus == 'SUCCEEDED') {
@@ -77,17 +77,17 @@ class InviteBonusJob extends Job {
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED'),
-            communityAddress: arguments['communityAddress']));
+            tokenAddress: transfer.tokenAddress));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         store.dispatch(segmentTrackCall('Wallet: invite bonus success'));
-        store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
+        store.dispatch(JobDone(tokenAddress: transfer.tokenAddress, job: this));
         return;
       } else if (responseStatus == 'FAILED') {
         logger.info('InviteBonusJob FAILED');
         String failReason = fetchedData['failReason'];
-        store.dispatch(transactionFailed(confirmedTx, arguments['communityAddress'], failReason));
+        store.dispatch(transactionFailed(confirmedTx, failReason));
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
-        store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
+        store.dispatch(JobDone(tokenAddress: transfer.tokenAddress, job: this));
       }
     }
   }
