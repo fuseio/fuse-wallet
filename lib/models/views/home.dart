@@ -96,7 +96,7 @@ class HomeViewModel extends Equatable {
                 !isBranchDataReceived &&
                 !isCommunityFetched &&
                 ![null, ''].contains(walletAddress)) {
-              store.dispatch(switchCommunityCall(communityAddress));
+              store.dispatch(refetchCommunityData());
             }
           }
         },

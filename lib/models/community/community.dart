@@ -27,11 +27,9 @@ class Community extends Equatable {
   List<Object> get props => [
         name,
         address,
-        isMember,
         plugins,
         metadata,
         webUrl,
-        description,
         homeTokenAddress,
       ];
 
@@ -84,7 +82,7 @@ class Community extends Equatable {
         isMultiBridge: isMultiBridge ?? this.isMultiBridge,
         description: description ?? this.description,
         isClosed: isClosed ?? this.isClosed,
-        webUrl: webUrl,
+        webUrl: webUrl ?? this.webUrl,
         metadata: metadata ?? this.metadata,
         address: address ?? this.address,
         name: name ?? this.name,
