@@ -592,8 +592,8 @@ ThunkAction createForiegnWalletOnlyIfNeeded() {
     final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.userState.walletAddress;
-      List transfersEvents = await graph.getTransferEvents(
-          foreignNetwork: foreignNetwork, to: walletAddress);
+      List transfersEvents = await ethereumExplorerApi
+          .getTransferEventsByAccountAddress(walletAddress);
       if (transfersEvents.isNotEmpty) {
         dynamic response = await api.createWalletOnForeign(force: true);
         String jobId = response['job']['_id'];

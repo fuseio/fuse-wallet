@@ -304,6 +304,10 @@ class I18n implements WidgetsLocalizations {
   String get move_to => "Move to";
   /// "Invalid number"
   String get invalid_number => "Invalid number";
+  /// "Copy to clipboard"
+  String get copy_to_clipboard => "Copy to clipboard";
+  /// "Copied to clipboard"
+  String get copied_to_clipboard => "Copied to clipboard";
 }
 
 class _I18n_en_US extends I18n {

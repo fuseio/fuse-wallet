@@ -13,6 +13,22 @@ class SendAmountViewModel extends Equatable {
   final List<Token> tokens;
   final List<Community> communities;
   final Function(
+    Token token,
+    String recieverAddress,
+    num amount,
+    String receiverName,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+  ) sendToForeignMultiBridge;
+  final Function(
+    Token token,
+    String recieverAddress,
+    num amount,
+    String receiverName,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+  ) sendToHomeMultiBridge;
+  final Function(
       Token token,
       String name,
       String phoneNumber,
@@ -56,17 +72,18 @@ class SendAmountViewModel extends Equatable {
   @override
   List<Object> get props => [tokens, myCountryCode, communities];
 
-  SendAmountViewModel({
-    this.tokens,
-    this.communities,
-    this.myCountryCode,
-    this.sendToContact,
-    this.sendToAccountAddress,
-    this.trackTransferCall,
-    this.idenyifyCall,
-    this.sendToErc20Token,
-    this.sendERC20ToContact,
-  });
+  SendAmountViewModel(
+      {this.tokens,
+      this.communities,
+      this.myCountryCode,
+      this.sendToContact,
+      this.sendToAccountAddress,
+      this.trackTransferCall,
+      this.idenyifyCall,
+      this.sendToErc20Token,
+      this.sendERC20ToContact,
+      this.sendToForeignMultiBridge,
+      this.sendToHomeMultiBridge});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     List<Community> communities =
@@ -134,6 +151,7 @@ class SendAmountViewModel extends Equatable {
             sendSuccessCallback,
             sendFailureCallback,
             receiverName: receiverName,
+            transferNote: transferNote
           ));
         },
         sendToErc20Token: (
@@ -146,6 +164,41 @@ class SendAmountViewModel extends Equatable {
           String transferNote,
         }) {
           store.dispatch(sendErc20TokenCall(
+            token,
+            recieverAddress,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+            transferNote: transferNote
+          ));
+        },
+        sendToForeignMultiBridge: (
+          Token token,
+          String recieverAddress,
+          num amount,
+          String receiverName,
+          VoidCallback sendSuccessCallback,
+          VoidCallback sendFailureCallback,
+        ) {
+          store.dispatch(sendTokenToForeignMultiBridge(
+            token,
+            recieverAddress,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+          ));
+        },
+        sendToHomeMultiBridge: (
+          Token token,
+          String recieverAddress,
+          num amount,
+          String receiverName,
+          VoidCallback sendSuccessCallback,
+          VoidCallback sendFailureCallback,
+        ) {
+          store.dispatch(sendTokenToHomeMultiBridge(
             token,
             recieverAddress,
             amount,

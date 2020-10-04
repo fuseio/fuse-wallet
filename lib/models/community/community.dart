@@ -22,6 +22,7 @@ class Community extends Equatable {
   final String webUrl;
   final String foreignTokenAddress;
   final String description;
+  final bool isMultiBridge;
 
   @override
   List<Object> get props =>
@@ -29,6 +30,7 @@ class Community extends Equatable {
 
   Community(
       {this.name,
+      this.isMultiBridge,
       this.isClosed,
       this.isMember,
       this.address,
@@ -44,17 +46,17 @@ class Community extends Equatable {
 
   factory Community.initial() {
     return new Community(
-      name: null,
-      isClosed: false,
-      metadata: CommunityMetadata.initial(),
-      address: null,
-      foreignBridgeAddress: null,
-      homeBridgeAddress: null,
-      token: Token.initial(),
-      isMember: false,
-      businesses: new List<Business>(),
-      plugins: new Plugins(),
-    );
+        name: null,
+        isClosed: false,
+        metadata: CommunityMetadata.initial(),
+        address: null,
+        foreignBridgeAddress: null,
+        homeBridgeAddress: null,
+        token: Token.initial(),
+        isMember: false,
+        businesses: new List<Business>(),
+        plugins: new Plugins(),
+        isMultiBridge: false);
   }
 
   Community copyWith(
@@ -70,8 +72,10 @@ class Community extends Equatable {
       bool isClosed,
       String webUrl,
       String foreignTokenAddress,
-      String description}) {
+      String description,
+      bool isMultiBridge}) {
     return Community(
+        isMultiBridge: isMultiBridge ?? this.isMultiBridge,
         description: description ?? this.description,
         isClosed: isClosed ?? this.isClosed,
         webUrl: webUrl,
