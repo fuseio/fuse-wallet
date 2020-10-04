@@ -3134,6 +3134,422 @@ class _I18n_nl_NL extends I18n {
   TextDirection get textDirection => TextDirection.ltr;
 }
 
+class _I18n_sr_RS extends I18n {
+  const _I18n_sr_RS();
+
+  /// "Користи новчаник за слање новца \n пријатељима без провизије и наплате"
+  @override
+  String get intro_text_one => "Користи новчаник за слање новца \n пријатељима без провизије и наплате";
+  /// "Плаћајте и будите плаћени користећи крипто \n и видите где можете куповати у близини"
+  @override
+  String get intro_text_two => "Плаћајте и будите плаћени користећи крипто \n и видите где можете куповати у близини";
+  /// "Чувај Ethereum сретства и приступи \n децентрализиваним финансијама у неколико корака"
+  @override
+  String get intro_text_three => "Чувај Ethereum сретства и приступи \n децентрализиваним финансијама у неколико корака";
+  /// "Здраво"
+  @override
+  String get hi => "Здраво";
+  /// "Језик"
+  @override
+  String get language => "Језик";
+  /// "Одјава"
+  @override
+  String get logout => "Одјава";
+  /// "Пријава"
+  @override
+  String get login => "Пријава";
+  /// "Направи нови новчаник"
+  @override
+  String get create_new_wallet => "Направи нови новчаник";
+  /// "Направи новчаник"
+  @override
+  String get create__wallet => "Направи новчаник";
+  /// "Врати резервну копију"
+  @override
+  String get restore_backup => "Врати резервну копију";
+  /// "Стање"
+  @override
+  String get balance => "Стање";
+  /// "Битно!"
+  @override
+  String get important => "Битно!";
+  /// "Број телефона"
+  @override
+  String get phoneNumber => "Број телефона";
+  /// "У реду"
+  @override
+  String get ok => "У реду";
+  /// "Контактирај нас"
+  @override
+  String get contact_us => "Контактирај нас";
+  /// "Твој fuse новчаник је заштићен!"
+  @override
+  String get wallet_protected => "Твој fuse новчаник је заштићен!";
+  /// "Одлично, направили сте резервну копију тајне фразе. Чувајте фразу на сигурном месту и никоме је не показујте."
+  @override
+  String get wallet_protected_text => "Одлично, направили сте резервну копију тајне фразе. Чувајте фразу на сигурном месту и никоме је не показујте.";
+  /// "запишите речи правим редоследом и чувајте их. Нећете моћи отворити налог без њих."
+  @override
+  String get write_words => "запишите речи правим редоследом и чувајте их. Нећете моћи отворити налог без њих.";
+  /// "Молимо запишите речи \n"
+  @override
+  String get write_word => "Молимо запишите речи \n";
+  /// "Реч "
+  @override
+  String get word => "Реч ";
+  /// "Речи се не поклапају"
+  @override
+  String get word_not_match => "Речи се не поклапају";
+  /// "Резервна копија"
+  @override
+  String get back_up => "Резервна копија";
+  /// "Следеће"
+  @override
+  String get next_button => "Следеће";
+  /// "Прескочи"
+  @override
+  String get skip_button => "Прескочи";
+  /// "ПЛАТИ"
+  @override
+  String get pay => "ПЛАТИ";
+  /// "No businesses found"
+  @override
+  String get no_businesses => "No businesses found";
+  /// "Правим новчаник"
+  @override
+  String get generating_wallet => "Правим новчаник";
+  /// "Нови новчаник"
+  @override
+  String get generated_wallet => "Нови новчаник";
+  /// "НЕРЕШЕНО"
+  @override
+  String get pending => "НЕРЕШЕНО";
+  /// "НЕУСПЕЛО"
+  @override
+  String get failed => "НЕУСПЕЛО";
+  /// "ПОТВРЂЕНО"
+  @override
+  String get confirmed => "ПОТВРЂЕНО";
+  /// "Трансакције"
+  @override
+  String get transactions => "Трансакције";
+  /// "Детаљи о трансакцији"
+  @override
+  String get transaction_details => "Детаљи о трансакцији";
+  /// "За"
+  @override
+  String get to => "За";
+  /// "Од"
+  @override
+  String get from => "Од";
+  /// "Адреса"
+  @override
+  String get address => "Адреса";
+  /// "Количина"
+  @override
+  String get amount => "Количина";
+  /// "Добили сте бонус за придруживање!"
+  @override
+  String get join_bonus => "Добили сте бонус за придруживање!";
+  /// "Придруживање заједници"
+  @override
+  String get joining_community => "Придруживање заједници";
+  /// "Придруживање"
+  @override
+  String get joining => "Придруживање";
+  /// "Приступио"
+  @override
+  String get joined => "Приступио";
+  /// "заједници"
+  @override
+  String get community => "заједници";
+  /// "О"
+  @override
+  String get about => "О";
+  /// "Верзија"
+  @override
+  String get version => "Верзија";
+  /// "Legal"
+  @override
+  String get legal => "Legal";
+  /// "Пин код"
+  @override
+  String get pincode => "Пин код";
+  /// "Упиши пин код:"
+  @override
+  String get enter_pincode => "Упиши пин код:";
+  /// "Re-type your passcode"
+  @override
+  String get re_type_passcode => "Re-type your passcode";
+  /// "Create your passcode"
+  @override
+  String get create_passcode => "Create your passcode";
+  /// "Промени заједницу"
+  @override
+  String get switch_community => "Промени заједницу";
+  /// "Скенирај QR за промену"
+  @override
+  String get sqan_qr_code => "Скенирај QR за промену";
+  /// "или"
+  @override
+  String get or => "или";
+  /// "Упиши адресу заједнице"
+  @override
+  String get enter_community_address => "Упиши адресу заједнице";
+  /// "Адреса заједнице"
+  @override
+  String get community_address => "Адреса заједнице";
+  /// "Сачувај"
+  @override
+  String get save_button => "Сачувај";
+  /// "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code"
+  @override
+  String get fuse_studio => "You can switch to a new community by entering your Asset ID (available from the Fuse Studio) or scanning a QR code";
+  /// "Дозволи приступ контактима"
+  @override
+  String get enable_contacts_access => "Дозволи приступ контактима";
+  /// "Ваши контакти неће бити сачувани на нашем \n серверу и овим поступком им не  \n шаљемо поруку"
+  @override
+  String get enable_text => "Ваши контакти неће бити сачувани на нашем \n серверу и овим поступком им не  \n шаљемо поруку";
+  /// "Не брини:"
+  @override
+  String get dont_worry => "Не брини:";
+  /// "Укључи синхронизацију котаката са бисте послали\n новац контакту из вашег телефона"
+  @override
+  String get enable_contacts_text => "Укључи синхронизацију котаката са бисте послали\n новац контакту из вашег телефона";
+  /// "Синхронизуј котакте"
+  @override
+  String get sync_contacts => "Синхронизуј котакте";
+  /// "Прими"
+  @override
+  String get receive => "Прими";
+  /// "Scan the QR code to receive money"
+  @override
+  String get scan_to_receive => "Scan the QR code to receive money";
+  /// "Подели"
+  @override
+  String get share_button => "Подели";
+  /// "Пошаљи"
+  @override
+  String get send_to => "Пошаљи";
+  /// "Колико?"
+  @override
+  String get how_much => "Колико?";
+  /// "Настави са"
+  @override
+  String get continue_with => "Настави са";
+  /// "Синхронизуј контакт"
+  @override
+  String get sync_your_contacts => "Синхронизуј контакт";
+  /// "Научи више"
+  @override
+  String get learn_more => "Научи више";
+  /// "Активирај"
+  @override
+  String get activate => "Активирај";
+  /// "Скорашње"
+  @override
+  String get recent => "Скорашње";
+  /// "Име или адреса"
+  @override
+  String get search => "Име или адреса";
+  /// "Прегледај трансфер"
+  @override
+  String get review_transfer => "Прегледај трансфер";
+  /// "Пошаљи"
+  @override
+  String get send_button => "Пошаљи";
+  /// "Успешно"
+  @override
+  String get success => "Успешно";
+  /// "Врати из резервне копије"
+  @override
+  String get restore_from_backup => "Врати из резервне копије";
+  /// "This is a 12 word phrase you were given when you created your previous wallet"
+  @override
+  String get restore_words => "This is a 12 word phrase you were given when you created your previous wallet";
+  /// "Запиши ових 12 речи..."
+  @override
+  String get write_down_your_words => "Запиши ових 12 речи...";
+  /// "Пријави се"
+  @override
+  String get sign_up => "Пријави се";
+  /// "Молимо упишите број телефона како бисмо подесили ваш новчаник"
+  @override
+  String get enter_phone_number => "Молимо упишите број телефона како бисмо подесили ваш новчаник";
+  /// "Зашто нам је ово потребно?"
+  @override
+  String get why_do_we_need_this => "Зашто нам је ово потребно?";
+  /// "Изабери име за приказ"
+  @override
+  String get pickup_display_name => "Изабери име за приказ";
+  /// "Ово име ће бити приказано контактима који вам шаљу новац да идентификују ваш налог"
+  @override
+  String get pickup_display_name_text => "Ово име ће бити приказано контактима који вам шаљу новац да идентификују ваш налог";
+  /// "Пошаљи поново"
+  @override
+  String get resend_code => "Пошаљи поново";
+  /// "Нисте добили поруку? - "
+  @override
+  String get didnt_get_message => "Нисте добили поруку? - ";
+  /// "Управо смо послали поруку за \n"
+  @override
+  String get we_just_sent => "Управо смо послали поруку за \n";
+  /// "Молимо упишите 6-цифрени код од\n из поруке овде"
+  @override
+  String get enter_verification_code => "Молимо упишите 6-цифрени код од\n из поруке овде";
+  /// "Заштити свој новчаник"
+  @override
+  String get protect_wallet => "Заштити свој новчаник";
+  /// "Резервна копија"
+  @override
+  String get backup_wallet => "Резервна копија";
+  /// "Top-up your account"
+  @override
+  String get top_up => "Top-up your account";
+  /// "Купи"
+  @override
+  String get buy => "Купи";
+  /// "Мапа"
+  @override
+  String get map => "Мапа";
+  /// "Дозвољено"
+  @override
+  String get approved => "Дозвољено";
+  /// "Мрежа"
+  @override
+  String get network => "Мрежа";
+  /// "Једноставно"
+  @override
+  String get simple => "Једноставно";
+  /// "Корисно"
+  @override
+  String get useful => "Корисно";
+  /// "Паметно"
+  @override
+  String get smart => "Паметно";
+  /// "Подешавања"
+  @override
+  String get settings => "Подешавања";
+  /// "Главна"
+  @override
+  String get home => "Главна";
+  /// "Тргуј"
+  @override
+  String get trade => "Тргуј";
+  /// "Средства и уговори"
+  @override
+  String get assets_and_contracts => "Средства и уговори";
+  /// "Послато на твој Ethereum новчаник"
+  @override
+  String get sending_to_ethereum => "Послато на твој Ethereum новчаник";
+  /// "Послато ка Ethereum"
+  @override
+  String get sent_to_ethereum => "Послато ка Ethereum";
+  /// "Примљено од Ethereum"
+  @override
+  String get received_from_ethereum => "Примљено од Ethereum";
+  /// "Нема средстава"
+  @override
+  String get no_funds_available => "Нема средстава";
+  /// "Review trade"
+  @override
+  String get review_trade => "Review trade";
+  /// "Користи максимално"
+  @override
+  String get use_max => "Користи максимално";
+  /// "Пошаљи на адресу"
+  @override
+  String get send_to_address => "Пошаљи на адресу";
+  /// "Немате довољно средстава на рачуну"
+  @override
+  String get not_enough_balance => "Немате довољно средстава на рачуну";
+  /// "Молимо изаберите како желите заштитити новчаник тако што ћете изабрати следеће методе"
+  @override
+  String get choose_lock_method => "Молимо изаберите како желите заштитити новчаник тако што ћете изабрати следеће методе";
+  /// "Да"
+  @override
+  String get yes => "Да";
+  /// "Не"
+  @override
+  String get no => "Не";
+  /// "Fuse Volts"
+  @override
+  String get fuse_volts => "Fuse Volts";
+  /// "Направи резервну копију"
+  @override
+  String get back_up_now => "Направи резервну копију";
+  /// "Препоручено"
+  @override
+  String get recommended => "Препоручено";
+  /// "Недовољно средстава"
+  @override
+  String get insufficient_fund => "Недовољно средстава";
+  /// "Сајт заједнице"
+  @override
+  String get community_webpage => "Сајт заједнице";
+  /// "Обустави"
+  @override
+  String get cancel => "Обустави";
+  /// "Flash on"
+  @override
+  String get flash_on => "Flash on";
+  /// "Flash off"
+  @override
+  String get flash_off => "Flash off";
+  /// "тренутна заједница"
+  @override
+  String get current_community => "тренутна заједница";
+  /// "Моја заједница"
+  @override
+  String get my_communities => "Моја заједница";
+  /// "Изабрано"
+  @override
+  String get selected => "Изабрано";
+  /// "Провизија:"
+  @override
+  String get fee_amount => "Провизија:";
+  /// "Укупна количина:"
+  @override
+  String get total_amount => "Укупна количина:";
+  /// "Плати са"
+  @override
+  String get pay_with => "Плати са";
+  /// "Налог"
+  @override
+  String get account => "Налог";
+  /// "Измени"
+  @override
+  String get edit => "Измени";
+  /// "Адреса новчаника"
+  @override
+  String get wallet_address => "Адреса новчаника";
+  /// "Име"
+  @override
+  String get name => "Име";
+  /// "Трансакција неуспешна"
+  @override
+  String get transaction_failed => "Трансакција неуспешна";
+  /// "Нешто није у реду"
+  @override
+  String get something_went_wrong => "Нешто није у реду";
+  /// "Нема активности"
+  @override
+  String get no_activity => "Нема активности";
+  /// "Премости"
+  @override
+  String get bridge_to => "Премости";
+  /// "Премести"
+  @override
+  String get move_to => "Премести";
+  /// "Погрешан број"
+  @override
+  String get invalid_number => "Погрешан број";
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+}
+
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocalizations> {
   const GeneratedLocalizationsDelegate();
   List<Locale> get supportedLocales {
@@ -3147,7 +3563,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
       Locale("id", "ID"),
       Locale("es", "MX"),
       Locale("de", "DE"),
-      Locale("nl", "NL")
+      Locale("nl", "NL"),
+      Locale("sr", "RS")
     ];
   }
 
@@ -3197,6 +3614,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     else if ("nl_NL" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_nl_NL());
     }
+    else if ("sr_RS" == lang) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_sr_RS());
+    }
     else if ("en" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
     }
@@ -3220,6 +3640,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     }
     else if ("nl" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_nl_NL());
+    }
+    else if ("sr" == languageCode) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_sr_RS());
     }
 
     return SynchronousFuture<WidgetsLocalizations>(const I18n());
