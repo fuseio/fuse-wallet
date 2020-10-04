@@ -16,7 +16,7 @@ class SendAmountArguments {
   String phoneNumber;
   String accountAddress;
   num amount;
-  ImageProvider avatar;
+  ImageProvider avatar = AssetImage('assets/images/anom.png');
   SendType sendType;
   Token tokenToSend;
   final bool useBridge;

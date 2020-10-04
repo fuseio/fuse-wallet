@@ -172,7 +172,7 @@ ThunkAction startListenToTransferEvents() {
     final logger = await AppFactory().getLogger('action');
     if (!isListenToTransferEvents) {
       logger.info('Timer start - startListenToTransferEvents');
-      new Timer.periodic(Duration(seconds: 2), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           logger.severe('Timer stopped - startListenToTransferEvents');
           timer.cancel();
@@ -385,11 +385,13 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
                 element?.foreignTokenAddress?.toLowerCase(),
             orElse: () => null);
         if (community != null) {
+          Token token =
+              store.state.cashWalletState.tokens[community?.homeTokenAddress];
           Token newToken = Token.initial().copyWith(
               address: tokenAddress,
-              name: community.token.name,
-              symbol: community.token.symbol,
-              decimals: community.token.decimals,
+              name: token.name,
+              symbol: token.symbol,
+              decimals: token.decimals,
               timestamp: 0,
               amount: BigInt.zero,
               originNetwork: null,

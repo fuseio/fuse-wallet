@@ -14,9 +14,7 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
     isMember: json['isMember'] as bool,
     address: json['address'] as String,
     plugins: json['plugins'] == null ? null : Plugins.fromJson(json['plugins']),
-    token: json['token'] == null
-        ? null
-        : Token.fromJson(json['token'] as Map<String, dynamic>),
+    homeTokenAddress: json['homeTokenAddress'] as String,
     businesses: (json['businesses'] as List)
         ?.map((e) =>
             e == null ? null : Business.fromJson(e as Map<String, dynamic>))
@@ -39,7 +37,7 @@ Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'foreignBridgeAddress': instance.foreignBridgeAddress,
       'isMember': instance.isMember,
       'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
-      'token': instance.token?.toJson(),
+      'homeTokenAddress': instance.homeTokenAddress,
       'plugins': instance.plugins?.toJson(),
       'metadata': instance.metadata?.toJson(),
       'isClosed': instance.isClosed,

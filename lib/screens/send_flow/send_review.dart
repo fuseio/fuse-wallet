@@ -62,7 +62,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
           args.tokenToSend,
           args.accountAddress,
           args.amount,
-          args.name,
           sendSuccessCallback,
           sendFailureCallback,
         );
@@ -71,7 +70,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
           args.tokenToSend,
           args.accountAddress,
           args.amount,
-          args.name,
           sendSuccessCallback,
           sendFailureCallback,
         );
@@ -85,10 +83,10 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             args.name,
             args.phoneNumber,
             args.amount,
-            args.name,
-            transferNote,
             sendSuccessCallback,
             sendFailureCallback,
+            receiverName: args.name,
+            transferNote: transferNote,
           );
         } else {
           viewModel.sendToErc20Token(args.tokenToSend, args.accountAddress,
@@ -100,22 +98,21 @@ class _SendReviewScreenState extends State<SendReviewScreen>
           viewModel.sendToContact(
             args.tokenToSend,
             args.accountAddress,
-            args.phoneNumber,
             args.amount,
-            args.name,
-            transferNote,
             sendSuccessCallback,
             sendFailureCallback,
+            transferNote: transferNote,
           );
         } else {
           viewModel.sendToAccountAddress(
-              args.tokenToSend,
-              args.accountAddress,
-              args.amount,
-              args.name,
-              transferNote,
-              sendSuccessCallback,
-              sendFailureCallback);
+            args.tokenToSend,
+            args.accountAddress,
+            args.amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: args.name,
+            transferNote: transferNote,
+          );
         }
       }
     }
