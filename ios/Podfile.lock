@@ -17,7 +17,7 @@ PODS:
   - Firebase/Messaging (6.26.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 4.4.1)
-  - firebase_auth (0.18.0-1):
+  - firebase_auth (0.18.1-1):
     - Firebase/Auth (~> 6.26.0)
     - Firebase/CoreOnly (~> 6.26.0)
     - firebase_core
@@ -25,7 +25,7 @@ PODS:
   - firebase_core (0.5.0):
     - Firebase/CoreOnly (~> 6.26.0)
     - Flutter
-  - firebase_messaging (7.0.0):
+  - firebase_messaging (7.0.2):
     - Firebase/CoreOnly (~> 6.26.0)
     - Firebase/Messaging (~> 6.26.0)
     - firebase_core
@@ -69,7 +69,7 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 6.5)
     - Protobuf (>= 3.9.2, ~> 3.9)
   - Flutter (1.0.0)
-  - flutter_branch_sdk (1.0.0):
+  - flutter_branch_sdk (1.2.0):
     - Branch (~> 0.35.0)
     - Flutter
   - flutter_secure_storage (3.3.1):
@@ -262,9 +262,9 @@ SPEC CHECKSUMS:
   contacts_service: 849e1f84281804c8bfbec1b4c3eedcb23c5d3eca
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Firebase: 7cf5f9c67f03cb3b606d1d6535286e1080e57eb6
-  firebase_auth: c42c06a212439824b5da53437da905931e8e6b9a
+  firebase_auth: 7263cdea1ab32345b00be89bed437e6f427363b7
   firebase_core: 3134fe79d257d430f163b558caf52a10a87efe8a
-  firebase_messaging: 6061cbdfe4463502a0d4d7049820c25d1757a095
+  firebase_messaging: 2844c37f9ce87c0904b38fe435223161b1a71528
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
   FirebaseAuth: 7047aec89c0b17ecd924a550c853f0c27ac6015e
   FirebaseAuthInterop: a0f37ae05833af156e72028f648d313f7e7592e9
@@ -275,7 +275,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: cef67c4967c7cecb56ea65d8acbb4834825c587b
   FirebaseMessaging: 29543feb343b09546ab3aa04d008ee8595b43c44
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_branch_sdk: 088d262dc9a497ec5217d2032832cd1aca4c07b0
+  flutter_branch_sdk: 4b6cda04245cdff4cc36e04c41fb0dc98ffb3c71
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_segment: 0357d36d6b066d5d255cda46d2f217b55110af95
   flutter_udid: c9d59b0a440e137882faa5cf53a3501e906fb8c2
