@@ -23,11 +23,7 @@ class BottomBar extends StatelessWidget {
           padding: EdgeInsets.only(top: 5, bottom: 3),
           child: SvgPicture.asset('assets/images/$imgSvg\_selected.svg'),
         ),
-        title: Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Text(title,
-              style: TextStyle(fontSize: 13.0, color: Color(0xFF292929))),
-        ));
+        label: title);
   }
 
   @override
@@ -37,6 +33,7 @@ class BottomBar extends StatelessWidget {
         converter: _BottomBarViewModel.fromStore,
         builder: (_, vm) {
           return BottomNavigationBar(
+            selectedItemColor: Color(0xFF292929),
             key: AppKeys.bottomBarKey,
             selectedFontSize: 13,
             unselectedFontSize: 13,

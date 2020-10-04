@@ -107,6 +107,17 @@ class SwitchCommunitySuccess {
   });
 }
 
+class RefreshCommunityData {
+  final Plugins plugins;
+  final String communityAddress;
+  final String webUrl;
+  RefreshCommunityData({
+    this.plugins,
+    this.communityAddress,
+    this.webUrl,
+  });
+}
+
 class FetchCommunityMetadataSuccess {
   final String communityAddress;
   final CommunityMetadata metadata;
@@ -1236,6 +1247,34 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       store.dispatch(ErrorAction('Could not switch community'));
       store.dispatch(SwitchCommunityFailed(
           communityAddress: communityAddress.toLowerCase()));
+    }
+  };
+}
+
+ThunkAction refetchCommunityData() {
+  return (Store store) async {
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    final logger = await AppFactory().getLogger('action');
+    logger.info('refetchCommunityData refetchCommunityData $communityAddress');
+    String walletAddress = store.state.userState.walletAddress;
+    Community current =
+        store.state.cashWalletState.communities[communityAddress.toLowerCase()];
+    if (current != null &&
+        current.name != null &&
+        current.isMember != null &&
+        current.isMember) {
+      Map<String, dynamic> communityData = await getCommunityData(
+          checksumEthereumAddress(communityAddress),
+          checksumEthereumAddress(walletAddress));
+      bool isRopsten = communityData['isRopsten'];
+      store.dispatch(RefreshCommunityData(
+          communityAddress: communityAddress,
+          plugins: Plugins.fromJson(communityData['plugins']),
+          webUrl: communityData['webUrl']));
+      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
+          communityData['communityURI'], isRopsten));
+    } else {
+      store.dispatch(switchCommunityCall(communityAddress));
     }
   };
 }

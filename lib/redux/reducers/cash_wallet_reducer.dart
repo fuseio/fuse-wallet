@@ -21,8 +21,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _fetchCommunityMetadataSuccess),
   TypedReducer<CashWalletState, AlreadyJoinedCommunity>(
       _alreadyJoinedCommunity),
-  TypedReducer<CashWalletState, AddCommunities>(_addCommunities),
   TypedReducer<CashWalletState, ResetTokenTxs>(_resetTokensTxs),
+  TypedReducer<CashWalletState, RefreshCommunityData>(_refreshCommunityData),
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(
       _switchCommunitySuccess),
   TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
@@ -92,15 +92,14 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
   return state.copyWith(tokens: newOne);
 }
 
-CashWalletState _addCommunities(CashWalletState state, AddCommunities action) {
+CashWalletState _refreshCommunityData(
+    CashWalletState state, RefreshCommunityData action) {
+  String communityAddress = action.communityAddress.toLowerCase();
+  Community current = state.communities[communityAddress];
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
-  for (String communityAddress in action.communities.keys) {
-    print('communityAddress communityAddress $communityAddress');
-    if (newOne.containsKey(communityAddress)) continue;
-    newOne[communityAddress] = action.communities[communityAddress];
-    print('ADDDEDDDDD communityAddress $communityAddress');
-  }
+  newOne[communityAddress] =
+      current?.copyWith(plugins: action.plugins, webUrl: action.webUrl);
   return state.copyWith(communities: newOne);
 }
 
