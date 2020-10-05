@@ -76,7 +76,6 @@ flutter:
   assets:
     - environment/.env
     - environment/.env_prod
-    - environment/.env_qa
     - assets/
     - assets/images/
   fonts:
