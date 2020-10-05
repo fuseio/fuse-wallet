@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> {
       if (diff.inDays <= 1) {
         String token = await firebaseAuth.currentUser.getIdToken(true);
         logger.info('forceRefreshJWT: $jwtToken');
-        jwtToken = await api.login(token, accoutAddress, identifier);
+        jwtToken = await api.login(token, accoutAddress, identifier, appName: 'CuraDAI');
       }
 
       logger.info('JWT: $jwtToken');
