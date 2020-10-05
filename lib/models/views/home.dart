@@ -21,6 +21,7 @@ class HomeViewModel extends Equatable {
   final bool isBalanceFetchingStarted;
   final bool isBranchDataReceived;
   final Function(bool initial) onReceiveBranchData;
+  final Function() refreshFeed;
 
   HomeViewModel({
     this.onReceiveBranchData,
@@ -36,18 +37,21 @@ class HomeViewModel extends Equatable {
     this.feedList,
     this.tokens,
     this.communities,
+    this.refreshFeed,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
-    List<Community> communities =
-        store.state.cashWalletState.communities.values.toList();
-
     List<Token> erc20Tokens = List<Token>.from(
             store.state.proWalletState?.erc20Tokens?.values ?? Iterable.empty())
         .toList();
-    List<Token> homeTokens = communities
-        .map((Community community) => community?.token
-            ?.copyWith(imageUrl: community.metadata.getImageUri()))
+    List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .map((Token token) => token?.copyWith(
+            imageUrl: store.state.cashWalletState.communities
+                    .containsKey(token.communityAddress)
+                ? store.state.cashWalletState
+                    .communities[token.communityAddress].metadata
+                    .getImageUri()
+                : null))
         .toList();
     List<Token> tokens = [...homeTokens, ...erc20Tokens]
         .where((Token token) =>
@@ -92,9 +96,13 @@ class HomeViewModel extends Equatable {
                 !isBranchDataReceived &&
                 !isCommunityFetched &&
                 ![null, ''].contains(walletAddress)) {
-              store.dispatch(switchCommunityCall(communityAddress));
+              store.dispatch(refetchCommunityData());
             }
           }
+        },
+        refreshFeed: () {
+          store.dispatch(fetchListOfTokensByAddress());
+          store.dispatch(ResetTokenTxs());
         });
   }
 

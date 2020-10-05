@@ -3,11 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:curadai/generated/i18n.dart';
 import 'package:curadai/models/community/community.dart';
+import 'package:curadai/models/tokens/token.dart';
 import 'package:curadai/widgets/primary_button.dart';
 
 class CommunityDescription extends StatefulWidget {
+  final Token token;
   final Community community;
-  CommunityDescription({this.community});
+  CommunityDescription({this.community, this.token});
   @override
   _CommunityDescriptionState createState() => _CommunityDescriptionState();
 }
@@ -112,15 +114,14 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                                 image: imageProvider,
                                               ),
                                             )),
+                                        // Todo - isDefaultImage
                                         widget.community.metadata
                                                         .isDefaultImage !=
                                                     null &&
                                                 widget.community.metadata
                                                     .isDefaultImage
                                             ? Text(
-                                                widget.community?.token
-                                                        ?.symbol ??
-                                                    '',
+                                                widget?.token?.symbol ?? '',
                                                 style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,

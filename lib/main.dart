@@ -11,7 +11,7 @@ import 'package:curadai/redux/actions/cash_wallet_actions.dart';
 import 'package:curadai/redux/actions/user_actions.dart';
 import 'package:curadai/redux/state/store.dart';
 import 'package:curadai/screens/route_guards.dart';
-import 'package:curadai/screens/routes.gr.dart';
+import 'package:curadai/screens/routes.gr.dart' as router;
 import 'package:curadai/services.dart';
 import 'package:curadai/themes/app_theme.dart';
 import 'package:curadai/themes/custom_theme.dart';
@@ -81,6 +81,7 @@ class _MyAppState extends State<MyApp> {
       Duration diff = exp.difference(now);
       if (diff.inDays <= 1) {
         String token = await firebaseAuth.currentUser.getIdToken(true);
+        logger.info('forceRefreshJWT: $jwtToken');
         jwtToken = await api.login(token, accoutAddress, identifier);
       }
 
@@ -151,7 +152,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'CuraDAI',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(

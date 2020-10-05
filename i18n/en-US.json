@@ -131,5 +131,10 @@
     "name": "Name",
     "transaction_failed": "Transaction failed",
     "something_went_wrong": "Something went wrong",
-    "no_activity": "No activity"
+    "no_activity": "No activity",
+    "bridge_to": "Bridge to",
+    "move_to": "Move to",
+    "invalid_number": "Invalid number",
+    "copy_to_clipboard": "Copy to clipboard",
+    "copied_to_clipboard": "Copied to clipboard"
 }

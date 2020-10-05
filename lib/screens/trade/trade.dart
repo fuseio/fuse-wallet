@@ -1,15 +1,13 @@
 import 'dart:core';
 import 'package:auto_route/auto_route.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:curadai/redux/state/store.dart';
 import 'package:curadai/screens/home/router/home_router.gr.dart';
-import 'package:curadai/screens/home/widgets/assets_list.dart';
-// import 'package:curadai/screens/home/widgets/token_tile.dart';
+import 'package:curadai/screens/home/widgets/token_tile.dart';
 import 'package:curadai/services.dart';
 import 'package:redux/redux.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
-import 'package:ethereum_address/ethereum_address.dart';
 import 'package:curadai/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:curadai/constans/exchangable_tokens.dart';
@@ -97,7 +95,8 @@ class _ExchangeState extends State<TradeScreen> {
           walletAddress, tokenToPayWith.address, tokenToReceive.address,
           sourceAmount: toBigInt(value, tokenToPayWith.decimals).toString(),
           transactions: true,
-          skipBalanceChecks: false);
+          skipBalanceChecks: false,
+          context: context);
       String toTokenAmount = formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
           tokenToReceive.decimals,
@@ -146,7 +145,8 @@ class _ExchangeState extends State<TradeScreen> {
           walletAddress, tokenToReceive.address, tokenToPayWith.address,
           sourceAmount: toBigInt(value, tokenToReceive.decimals).toString(),
           transactions: true,
-          skipBalanceChecks: false);
+          skipBalanceChecks: false,
+          context: context);
       response['amount'] = num.parse(value);
       response['amountIn'] = num.parse(formatValue(
           BigInt.from(num.parse(response['destinationAmount'])),
@@ -173,105 +173,52 @@ class _ExchangeState extends State<TradeScreen> {
     }
   }
 
-  // showBottomMenu(List<Token> tokens, onTap) {
-  //   showModalBottomSheet(
-  //       context: context,
-  //       shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.only(
-  //               topLeft: Radius.circular(20.0),
-  //               topRight: Radius.circular(20.0))),
-  //       builder: (BuildContext context) => Container(
-  //           decoration: BoxDecoration(
-  //               borderRadius: BorderRadius.only(
-  //                   topLeft: Radius.circular(30.0),
-  //                   topRight: Radius.circular(30.0)),
-  //               color: Theme.of(context).splashColor),
-  //           child: CustomScrollView(
-  //             slivers: <Widget>[
-  //               SliverList(
-  //                 delegate: SliverChildListDelegate([
-  //                   Column(
-  //                     mainAxisSize: MainAxisSize.min,
-  //                     children: <Widget>[
-  //                       ListView.separated(
-  //                         shrinkWrap: true,
-  //                         primary: false,
-  //                         padding: EdgeInsets.only(top: 20, bottom: 20),
-  //                         separatorBuilder: (BuildContext context, int index) =>
-  //                             Divider(
-  //                           color: Color(0xFFE8E8E8),
-  //                           height: 0,
-  //                         ),
-  //                         itemCount: tokens?.length ?? 0,
-  //                         itemBuilder: (context, index) => TokenTile(
-  //                             token: tokens[index],
-  //                             symbolWidth: 45,
-  //                             symbolHeight: 45,
-  //                             onTap: () {
-  //                               Navigator.of(context).pop();
-  //                               onTap(tokens[index]);
-  //                             }),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ]),
-  //               ),
-  //             ],
-  //           )));
-  // }
-
-  List<DropdownMenuItem<Token>> _buildItems(List<Token> tokens) {
-    return tokens.map((Token token) {
-      return DropdownMenuItem<Token>(
-        value: token,
-        child: Row(
-          children: <Widget>[
-            CachedNetworkImage(
-              width: 33,
-              height: 33,
-              imageUrl: token.imageUrl != null && token.imageUrl.isNotEmpty
-                  ? token.imageUrl
-                  : getTokenUrl(checksumEthereumAddress(token.address)),
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(
-                Icons.error,
-                size: 18,
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              token.symbol,
-              style: TextStyle(fontSize: 16),
-            ),
-            // RichText(
-            //     text: new TextSpan(
-            //         style: TextStyle(
-            //             color: Theme.of(context).primaryColor, fontSize: 16),
-            //         children: <InlineSpan>[
-            //       TextSpan(
-            //         text: '${token.symbol} ',
-            //         style: TextStyle(fontSize: 16),
-            //       ),
-            //       // token.subtitle != null && token.subtitle.isNotEmpty
-            //       exchangableTokens[checksumEthereumAddress(token.address)] != null &&
-            //               exchangableTokens[checksumEthereumAddress(token.address)].subtitle != null
-            //           ? TextSpan(
-            //               text: '(${exchangableTokens[checksumEthereumAddress(token.address)].subtitle})',
-            //               style: TextStyle(
-            //                   fontSize: 14,
-            //                   color: Color(0xFF888888)))
-            //           : TextSpan(
-            //               text: '',
-            //               style: TextStyle(
-            //                   fontSize: 14,
-            //                   color: Color(0xFF888888)))
-            //     ]))
-          ],
-        ),
-      );
-    }).toList();
+  showBottomMenu(List<Token> tokens, onTap) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0))),
+        builder: (BuildContext context) => Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30.0),
+                    topRight: Radius.circular(30.0)),
+                color: Theme.of(context).splashColor),
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        ListView.separated(
+                          shrinkWrap: true,
+                          primary: false,
+                          padding: EdgeInsets.only(top: 20, bottom: 20),
+                          separatorBuilder: (BuildContext context, int index) =>
+                              Divider(
+                            color: Color(0xFFE8E8E8),
+                            height: 0,
+                          ),
+                          itemCount: tokens?.length ?? 0,
+                          itemBuilder: (context, index) => TokenTile(
+                              token: tokens[index],
+                              symbolWidth: 60,
+                              symbolHeight: 60,
+                              showPending: false,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                onTap(tokens[index]);
+                              }),
+                        ),
+                      ],
+                    ),
+                  ]),
+                ),
+              ],
+            )));
   }
 
   void swap() {
@@ -398,15 +345,12 @@ class _ExchangeState extends State<TradeScreen> {
                       child: Column(
                         children: <Widget>[
                           TradeCard(
-                            // onTap: () {
-                            //   showBottomMenu(viewModel.tokens, (token) {
-                            //     setState(() {
-                            //       tokenToPayWith = token;
-                            //     });
-                            //     fetchPrices(viewModel.walletAddress, token,
-                            //         tokenToReceive);
-                            //   });
-                            // },
+                            onTap: () {
+                              showBottomMenu(viewModel.tokens, (token) {
+                                onPayWithDropDownChanged(
+                                    token, viewModel.walletAddress);
+                              });
+                            },
                             useMaxWidget: Container(
                               padding: EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 15),
@@ -448,11 +392,10 @@ class _ExchangeState extends State<TradeScreen> {
                             //     : (isSwap
                             //         ? payWithHasBalance
                             //         : receiveHasBalance),
-                            onDropDownChanged: (token) {
-                              onPayWithDropDownChanged(
-                                  token, viewModel.walletAddress);
-                            },
-                            items: _buildItems(viewModel.tokens),
+                            // onDropDownChanged: (token) {
+                            //   onPayWithDropDownChanged(
+                            //       token, viewModel.walletAddress);
+                            // },
                             onChanged: (value) {
                               _payWithDebouncer.run(() => getQuateForPayWith(
                                   value, viewModel.walletAddress));
@@ -488,15 +431,12 @@ class _ExchangeState extends State<TradeScreen> {
                             ],
                           ),
                           TradeCard(
-                            // onTap: () {
-                            //   showBottomMenu(viewModel.tokens, (token) {
-                            //     setState(() {
-                            //       tokenToReceive = token;
-                            //     });
-                            //     fetchPrices(viewModel.walletAddress, token,
-                            //         tokenToPayWith);
-                            //   });
-                            // },
+                            onTap: () {
+                              showBottomMenu(viewModel.tokens, (token) {
+                                onReceiveDropDownChanged(
+                                    token, viewModel.walletAddress);
+                              });
+                            },
                             fromTokenAmount: !isSwap
                                 ? fromTokenAmountReceive
                                 : fromTokenAmountPay,
@@ -509,11 +449,6 @@ class _ExchangeState extends State<TradeScreen> {
                             //     : (isSwap
                             //         ? receiveHasBalance
                             //         : payWithHasBalance),
-                            onDropDownChanged: (token) {
-                              onReceiveDropDownChanged(
-                                  token, viewModel.walletAddress);
-                            },
-                            items: _buildItems(viewModel.tokens),
                             onChanged: (value) {
                               _receiveDebouncer.run(() => getQuateForReceive(
                                   value, viewModel.walletAddress));
@@ -540,13 +475,11 @@ class _ExchangeState extends State<TradeScreen> {
                 disabled: swapResponse == null,
                 onPressed: () async {
                   if (swapResponse != null && swapResponse['tx'] != null) {
-                    ExtendedNavigator.named('homeRouter')
-                        .push(HomeRoutes.reviewTradeScreen,
-                            arguments: ReviewTradeScreenArguments(
-                              fromToken: tokenToPayWith.copyWith(),
-                              toToken: tokenToReceive.copyWith(),
-                              exchangeSummry: swapResponse,
-                            ));
+                    ExtendedNavigator.named('homeRouter').pushReviewTradeScreen(
+                      fromToken: tokenToPayWith.copyWith(),
+                      toToken: tokenToReceive.copyWith(),
+                      exchangeSummry: swapResponse,
+                    );
                   }
                 },
               ),
@@ -602,7 +535,8 @@ Future<dynamic> fetchSwap(
     {String sourceAmount,
     String destinationAmount,
     bool transactions = false,
-    bool skipBalanceChecks = true}) async {
+    bool skipBalanceChecks = true,
+    BuildContext context}) async {
   final logger = await AppFactory().getLogger('action');
   try {
     if (fromTokenAddress != null &&
@@ -642,10 +576,44 @@ Future<dynamic> fetchSwap(
         } else {
           return Map.from({...response['response']['summary'][0]});
         }
+      } else {
+        if (context != null) {
+          Flushbar(
+              boxShadows: [
+                BoxShadow(
+                  color: Colors.grey[500],
+                  offset: Offset(0.5, 0.5),
+                  blurRadius: 5,
+                ),
+              ],
+              titleText: Text(
+                I18n.of(context).something_went_wrong,
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+              messageText: Text(
+                response['message'] ??
+                    response['response']['message'] ??
+                    response['info'] ??
+                    response['response']['info'] ??
+                    I18n.of(context).something_went_wrong,
+                style: TextStyle(fontSize: 14.0, color: Colors.black),
+              ),
+              backgroundColor: Theme.of(context).bottomAppBarColor,
+              margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),
+              borderRadius: 8,
+              icon: SvgPicture.asset(
+                'assets/images/failed_icon.svg',
+                width: 20,
+                height: 20,
+              ))
+            ..show(context);
+        }
+        throw response;
       }
-      throw response;
     }
-    throw 'Error fromTokenAddress and toTokenAddress are empty';
   } catch (error) {
     logger.severe('ERROR in fetchSwap - ${error.toString()}');
   }

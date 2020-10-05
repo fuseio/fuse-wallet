@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:curadai/models/community/business.dart';
 import 'package:curadai/models/community/community.dart';
-import 'package:curadai/models/tokens/token.dart';
 import 'package:curadai/models/transactions/transfer.dart';
 import 'package:curadai/utils/format.dart';
 import 'package:curadai/utils/phone.dart';
@@ -57,29 +56,6 @@ Widget deduceTransferIcon(Transfer transfer) {
       height: 10,
     );
   }
-}
-
-Token getToken(String tokenAddress, List<Community> communities,
-    Map<String, Token> erc20Tokens) {
-  if (erc20Tokens.containsKey(tokenAddress)) {
-    return erc20Tokens[tokenAddress];
-  } else {
-    return communities
-        .firstWhere(
-            (community) =>
-                community?.token?.address?.toLowerCase() ==
-                tokenAddress?.toLowerCase(),
-            orElse: () => communities.first)
-        .token;
-  }
-}
-
-Community getCommunity(String tokenAddress, List<Community> communities) {
-  return communities.firstWhere(
-      (community) =>
-          community?.token?.address?.toLowerCase() ==
-          tokenAddress?.toLowerCase(),
-      orElse: () => communities.first);
 }
 
 Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
