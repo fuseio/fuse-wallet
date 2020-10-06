@@ -58,7 +58,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
 ]);
 
 CashWalletState _addCashTokens(CashWalletState state, AddCashTokens action) {
-  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  Map<String, Token> newOne =
+      Map<String, Token>.from(state.tokens..removeWhere(clearTokensWithZero));
   for (String tokenAddress in action.tokens.keys) {
     if (newOne.containsKey(tokenAddress)) {
       newOne[tokenAddress] = newOne[tokenAddress]

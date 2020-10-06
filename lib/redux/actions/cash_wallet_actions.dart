@@ -1267,6 +1267,8 @@ ThunkAction refetchCommunityData() {
           checksumEthereumAddress(communityAddress),
           checksumEthereumAddress(walletAddress));
       bool isRopsten = communityData['isRopsten'];
+      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
+          communityData['communityURI'], isRopsten));
       store.dispatch(RefreshCommunityData(
           communityAddress: communityAddress,
           plugins: Plugins.fromJson(communityData['plugins']),
