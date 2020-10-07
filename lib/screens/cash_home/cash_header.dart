@@ -157,6 +157,21 @@ class CashHeader extends StatelessWidget {
                         ),
                         new Container(
                           child: Row(children: [
+
+                            FloatingActionButton(
+                                heroTag: 'cash_scanner',
+                                backgroundColor: const Color(0xFF292929),
+                                elevation: 0,
+                                child: Image.asset(
+                                  'assets/images/scan.png',
+                                  width: 25.0,
+                                  color:
+                                  Theme.of(context).scaffoldBackgroundColor,
+                                ),
+                                onPressed: () {
+                                  bracodeScannerValidateAPI(context, viewModel?.phoneNumber(), viewModel?.address(), viewModel?.token());
+                                }),
+                            Padding(padding: EdgeInsets.only(right: 10),),
                             new FloatingActionButton(
                                 heroTag: 'cash_scanner',
                                 backgroundColor: const Color(0xFF292929),
@@ -165,12 +180,13 @@ class CashHeader extends StatelessWidget {
                                   'assets/images/scan.png',
                                   width: 25.0,
                                   color:
-                                      Theme.of(context).scaffoldBackgroundColor,
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 ),
                                 onPressed: () {
                                   bracodeScannerHandler(context);
                                 })
                           ]),
+
                         )
                       ],
                     ),
