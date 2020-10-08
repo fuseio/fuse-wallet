@@ -159,7 +159,7 @@ class CashHeader extends StatelessWidget {
                           child: Row(children: [
 
                             FloatingActionButton(
-                                heroTag: 'cash_scanner',
+                                heroTag: 'cash_scanner_validate',
                                 backgroundColor: const Color(0xFF292929),
                                 elevation: 0,
                                 child: Image.asset(
