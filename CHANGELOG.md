@@ -1,9 +1,10 @@
 # Fuse Wallet Changelog
 
-## [Unreleased](https://github.com/fuseio/fuse-wallet/tree/HEAD)
+## [1.1.48+244](https://github.com/fuseio/fuse-wallet/tree/1.1.48+244) (2020-10-08)
 
-[Full Changelog](https://github.com/fuseio/fuse-wallet/compare/1.1.48+242...HEAD)
+[Full Changelog](https://github.com/fuseio/fuse-wallet/compare/1.1.48+244...HEAD)
 
+- **Fixed** Surface Android WebView [\#242](https://github.com/fuseio/fuse-wallet/pull/242) ([LiorAgnin](https://github.com/LiorAgnin))
 - **Fixed** remove token with balance 0 [\#240](https://github.com/fuseio/fuse-wallet/pull/240) ([LiorAgnin](https://github.com/LiorAgnin))
 
 ## [1.1.48+242](https://github.com/fuseio/fuse-wallet/tree/1.1.48+242) (2020-10-04)
