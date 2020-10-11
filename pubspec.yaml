@@ -1,5 +1,5 @@
 name: supervecina
-version: 1.1.42+175
+version: 1.1.43+176
 description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
