@@ -2,13 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/tokens/token.dart';
 
 class CommunityCardScreen extends StatefulWidget {
   CommunityCardScreen(
-      {Key key, this.title, this.community, this.switchCommunity})
+      {Key key, this.title, this.community, this.token, this.switchCommunity})
       : super(key: key);
 
   final Community community;
+  final Token token;
   final Function(String) switchCommunity;
   final String title;
 
@@ -91,7 +93,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                             SizedBox(
                               width: 3,
                             ),
-                            Text('Token: ${widget?.community?.token?.symbol}',
+                            Text('Token: ${widget?.token?.symbol}',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color:

@@ -109,8 +109,7 @@ class CashHeader extends StatelessWidget {
                                     text: new TextSpan(
                                       style: TextStyle(
                                           color: Theme.of(context).splashColor),
-                                      children: viewModel.community.token ==
-                                              null
+                                      children: viewModel.token == null
                                           ? <TextSpan>[
                                               new TextSpan(
                                                   text: '0',
@@ -124,10 +123,8 @@ class CashHeader extends StatelessWidget {
                                           : <TextSpan>[
                                               new TextSpan(
                                                   text: formatValue(
-                                                      viewModel.community.token
-                                                          .amount,
-                                                      viewModel.community.token
-                                                          .decimals),
+                                                      viewModel.token.amount,
+                                                      viewModel.token.decimals),
                                                   style: new TextStyle(
                                                       fontSize: 32,
                                                       color: Theme.of(context)
@@ -136,8 +133,7 @@ class CashHeader extends StatelessWidget {
                                                           FontWeight.bold)),
                                               new TextSpan(
                                                   text: ' ' +
-                                                      viewModel.community.token
-                                                          ?.symbol
+                                                      viewModel.token?.symbol
                                                           .toString(),
                                                   style: new TextStyle(
                                                       fontSize: 18,

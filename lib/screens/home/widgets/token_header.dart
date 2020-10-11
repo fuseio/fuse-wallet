@@ -119,7 +119,7 @@ class TokenHeader extends StatelessWidget {
                               final Community community = viewModel.communities
                                   .firstWhere(
                                       (element) =>
-                                          (element.token.address
+                                          (element.homeTokenAddress
                                                   .toLowerCase() ==
                                               token.address.toLowerCase()) ||
                                           (element?.foreignTokenAddress
@@ -151,29 +151,34 @@ class TokenHeader extends StatelessWidget {
                                                         primaryToken: token);
                                               }),
                                         )
-                                      : Container(
-                                          width: 45,
-                                          height: 45,
-                                          child: FloatingActionButton(
-                                              heroTag: 'CommunityDescription',
-                                              elevation: 0,
-                                              backgroundColor: Theme.of(context)
-                                                  .primaryColor,
-                                              child: Icon(
-                                                Icons.info,
-                                                color: Theme.of(context)
-                                                    .splashColor,
-                                              ),
-                                              onPressed: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        CommunityDescription(
-                                                            community:
-                                                                community));
-                                              }),
-                                        ),
+                                      : community != null
+                                          ? Container(
+                                              width: 45,
+                                              height: 45,
+                                              child: FloatingActionButton(
+                                                  heroTag:
+                                                      'CommunityDescription',
+                                                  elevation: 0,
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .primaryColor,
+                                                  child: Icon(
+                                                    Icons.info,
+                                                    color: Theme.of(context)
+                                                        .splashColor,
+                                                  ),
+                                                  onPressed: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            CommunityDescription(
+                                                                token: token,
+                                                                community:
+                                                                    community));
+                                                  }),
+                                            )
+                                          : SizedBox.shrink(),
                                   community != null
                                       ? SizedBox(
                                           width: 10,
