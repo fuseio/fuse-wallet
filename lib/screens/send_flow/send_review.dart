@@ -141,7 +141,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         final num feeAmount =
             withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0;
         final num currentTokenBalance =
-            num.parse(formatValue(balance, decimals));
+            num.parse(formatValue(balance, decimals, withPrecision: true));
         final bool hasFund =
             (args.amount + feeAmount).compareTo(currentTokenBalance) <= 0;
         return MainScaffold(

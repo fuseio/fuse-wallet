@@ -13,7 +13,6 @@ dependencies:
   phone_number: ^0.6.2+4
   libphonenumber: ^1.0.1
   cached_network_image: ^2.3.2+1
-  # rate_my_app: ^0.6.1+7
   auto_route: ^0.6.7
   url_launcher: ^5.5.0
   http: ^0.12.2
