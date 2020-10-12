@@ -1,5 +1,5 @@
 name: digitalrand
-version: 1.1.36+209
+version: 1.1.37+210
 description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,12 +11,11 @@ dependencies:
   enum_to_string: ^1.0.11
   local_auth: ^0.6.3+1
   auto_size_text: ^2.1.0
-  flutter_webview_plugin: ^0.3.11
+  webview_flutter: ^1.0.0
   phone_number: ^0.6.2+4
   libphonenumber: ^1.0.1
   cached_network_image: ^2.3.2+1
-  # rate_my_app: ^0.6.1+7
-  auto_route: ^0.6.7
+  auto_route: ^0.6.9
   url_launcher: ^5.5.0
   http: ^0.12.2
   google_maps_flutter: ^0.5.32
@@ -25,14 +24,14 @@ dependencies:
   share: ^0.6.5+1
   flutter_svg: ^0.19.0
   cupertino_icons: ^1.0.0
-  flutter_secure_storage: ^3.3.4
+  flutter_secure_storage: ^3.3.5
   flutter_redux: ^0.6.0
   flutter_dotenv: ^2.1.0
   redux_thunk: ^0.3.0
   redux_logging: ^0.4.0
   redux_persist: ^0.8.4
   country_code_picker: ^1.5.0
-  wallet_core: ^0.2.4+13
+  wallet_core: ^0.2.4+18
   # wallet_core:
     # path: ../../wallet_core
   barcode_scan: ^3.0.1
@@ -48,11 +47,11 @@ dependencies:
   flare_flutter: ^2.0.1
   decimal: ^0.3.5
   flutter_segment: 2.1.1
-  firebase_messaging: ^7.0.0
-  firebase_auth: ^0.18.0+1
+  firebase_messaging: ^7.0.3
+  firebase_auth: ^0.18.0+2
   ethereum_address: ^1.0.1
   sentry: ^3.0.1
-  device_info: '>=0.4.2+7 <2.0.0'
+  device_info: ">=0.4.2+8 <2.0.0"
   image_picker: ^0.6.7+7
   flutter_cupertino_localizations: ^1.0.1
   flutter_branch_sdk: ^1.1.0
@@ -62,12 +61,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 dev_dependencies:
-  auto_route_generator: ^0.6.8
+  auto_route_generator: ^0.6.10
   flutter_native_splash: ^0.1.9
   dependency_validator: ^1.5.0
   flutter_launcher_icons: ^0.8.0
-  build_runner: ^1.10.0
-  json_serializable: ^3.4.1
+  build_runner: ^1.10.3
+  json_serializable: ^3.5.0
   flutter_test:
     sdk: flutter
 flutter_icons:
