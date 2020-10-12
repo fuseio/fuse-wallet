@@ -54,44 +54,65 @@ class _SendReviewScreenState extends State<SendReviewScreen>
       String transferNote,
       VoidCallback sendSuccessCallback,
       VoidCallback sendFailureCallback) {
-    if (args.tokenToSend.originNetwork == null) {
-      if ([null, ''].contains(args.accountAddress) &&
-          args.phoneNumber != null) {
-        viewModel.sendERC20ToContact(
-          args.tokenToSend,
-          args.phoneNumber,
-          args.amount,
-          args.name,
-          transferNote,
-          sendSuccessCallback,
-          sendFailureCallback,
-        );
-      } else {
-        viewModel.sendToErc20Token(args.tokenToSend, args.accountAddress,
-            args.amount, sendSuccessCallback, sendFailureCallback);
-      }
-    } else {
-      if ([null, ''].contains(args.accountAddress) &&
-          args.phoneNumber != null) {
-        viewModel.sendToContact(
+    final bool isFuseToken =
+        ![null, ''].contains(args?.tokenToSend?.originNetwork) ?? false;
+    if (args.useBridge && args.isMultiBridge) {
+      if (isFuseToken) {
+        viewModel.sendToForeignMultiBridge(
           args.tokenToSend,
           args.accountAddress,
-          args.phoneNumber,
           args.amount,
-          args.name,
-          transferNote,
           sendSuccessCallback,
           sendFailureCallback,
         );
       } else {
-        viewModel.sendToAccountAddress(
+        viewModel.sendToHomeMultiBridge(
+          args.tokenToSend,
+          args.accountAddress,
+          args.amount,
+          sendSuccessCallback,
+          sendFailureCallback,
+        );
+      }
+    } else {
+      if (!isFuseToken) {
+        if (args.accountAddress == null ||
+            args.accountAddress == '' && args.phoneNumber != null) {
+          viewModel.sendERC20ToContact(
+            args.tokenToSend,
+            args.phoneNumber,
+            args.amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: args.name,
+            transferNote: transferNote,
+          );
+        } else {
+          viewModel.sendToErc20Token(args.tokenToSend, args.accountAddress,
+              args.amount, sendSuccessCallback, sendFailureCallback);
+        }
+      } else {
+        if (args.accountAddress == null ||
+            args.accountAddress == '' && args.phoneNumber != null) {
+          viewModel.sendToContact(
             args.tokenToSend,
             args.accountAddress,
             args.amount,
-            args.name,
-            transferNote,
             sendSuccessCallback,
-            sendFailureCallback);
+            sendFailureCallback,
+            transferNote: transferNote,
+          );
+        } else {
+          viewModel.sendToAccountAddress(
+            args.tokenToSend,
+            args.accountAddress,
+            args.amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: args.name,
+            transferNote: transferNote,
+          );
+        }
       }
     }
   }
@@ -105,7 +126,9 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         final String symbol = args.tokenToSend.symbol;
         final BigInt balance = args.tokenToSend.amount;
         final int decimals = args.tokenToSend.decimals;
-        final bool withFee = (fees.containsKey(symbol) &&
+        final bool withFee = args.isMultiBridge ||
+            args.useBridge ||
+            (fees.containsKey(symbol) &&
                 args.tokenToSend.originNetwork == null) ||
             (viewModel.communities.any((element) =>
                 (args?.accountAddress?.toLowerCase() ==
@@ -117,7 +140,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         final num feeAmount =
             withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0;
         final num currentTokenBalance =
-            num.parse(formatValue(balance, decimals));
+            num.parse(formatValue(balance, decimals, withPrecision: true));
         final bool hasFund =
             (args.amount + feeAmount).compareTo(currentTokenBalance) <= 0;
         return MainScaffold(

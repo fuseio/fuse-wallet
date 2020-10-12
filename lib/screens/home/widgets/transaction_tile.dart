@@ -40,9 +40,8 @@ class _TransactionTileState extends State<TransactionTile> {
               viewModel.reverseContacts,
               viewModel.contacts,
               viewModel.countryCode);
-          Community community = getCommunity(
-              (widget?.token?.address ?? widget.transfer?.tokenAddress),
-              viewModel.communities);
+          Community community =
+              viewModel.communitiesMap[widget.transfer?.tokenAddress];
           Token token = widget.token ??
               viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
           bool isSendingToForeign = (community?.homeBridgeAddress != null &&
@@ -114,9 +113,7 @@ class _TransactionTileState extends State<TransactionTile> {
                           ),
                           Positioned(
                               bottom: -20,
-                              child: (widget.transfer.isPending() &&
-                                      !widget.transfer.isGenerateWallet() &&
-                                      !widget.transfer.isJoinCommunity())
+                              child: widget.transfer.isPending()
                                   ? Padding(
                                       child: Text(I18n.of(context).pending,
                                           style: TextStyle(
@@ -348,16 +345,16 @@ class _TransactionTileViewModel extends Equatable {
   final List<Contact> contacts;
   final String countryCode;
   final Map<String, Token> erc20Tokens;
-  final List<Community> communities;
   final Map<String, Token> tokens;
+  final Map<String, Community> communitiesMap;
   _TransactionTileViewModel(
       {this.reverseContacts,
       this.walletStatus,
       this.countryCode,
-      this.communities,
       this.erc20Tokens,
       this.tokens,
-      this.contacts});
+      this.contacts,
+      this.communitiesMap});
 
   static _TransactionTileViewModel fromStore(Store<AppState> store) {
     List<Community> communities =
@@ -365,34 +362,44 @@ class _TransactionTileViewModel extends Equatable {
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .toList();
-    List<Token> homeTokens = communities
-        .map((Community community) => community?.token
-            ?.copyWith(imageUrl: community.metadata.getImageUri()))
+    List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .map((Token token) => token?.copyWith(
+            imageUrl: store.state.cashWalletState.communities
+                    .containsKey(token.communityAddress)
+                ? store.state.cashWalletState
+                    .communities[token.communityAddress].metadata
+                    .getImageUri()
+                : null))
         .toList();
     Map<String, Token> tokens =
         [...foreignTokens, ...homeTokens].fold(Map(), (previousValue, element) {
       previousValue.putIfAbsent(element.address.toLowerCase(), () => element);
       return previousValue;
     });
+
+    Map<String, Community> communitiesMap =
+        communities.fold(Map(), (previousValue, element) {
+      previousValue.putIfAbsent(element.homeTokenAddress, () => element);
+      return previousValue;
+    });
     return _TransactionTileViewModel(
-      tokens: tokens,
-      reverseContacts: store.state.userState.reverseContacts,
-      contacts: store.state.userState.contacts,
-      walletStatus: store.state.userState.walletStatus,
-      countryCode: store.state.userState.countryCode,
-      erc20Tokens: store.state.proWalletState.erc20Tokens,
-      communities: store.state.cashWalletState.communities.values.toList(),
-    );
+        tokens: tokens,
+        reverseContacts: store.state.userState.reverseContacts,
+        contacts: store.state.userState.contacts,
+        walletStatus: store.state.userState.walletStatus,
+        countryCode: store.state.userState.countryCode,
+        erc20Tokens: store.state.proWalletState.erc20Tokens,
+        communitiesMap: communitiesMap);
   }
 
   @override
   List<Object> get props => [
         reverseContacts,
         walletStatus,
-        communities,
         countryCode,
         contacts,
         erc20Tokens,
-        tokens
+        tokens,
+        communitiesMap
       ];
 }

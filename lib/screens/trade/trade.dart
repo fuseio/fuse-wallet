@@ -205,8 +205,9 @@ class _ExchangeState extends State<TradeScreen> {
                           itemCount: tokens?.length ?? 0,
                           itemBuilder: (context, index) => TokenTile(
                               token: tokens[index],
-                              symbolWidth: 45,
-                              symbolHeight: 45,
+                              symbolWidth: 60,
+                              symbolHeight: 60,
+                              showPending: false,
                               onTap: () {
                                 Navigator.of(context).pop();
                                 onTap(tokens[index]);
@@ -593,10 +594,10 @@ Future<dynamic> fetchSwap(
                     fontWeight: FontWeight.bold),
               ),
               messageText: Text(
-                response['info'] ??
-                    response['message'] ??
-                    response['response']['info'] ??
+                response['message'] ??
                     response['response']['message'] ??
+                    response['info'] ??
+                    response['response']['info'] ??
                     I18n.of(context).something_went_wrong,
                 style: TextStyle(fontSize: 14.0, color: Colors.black),
               ),

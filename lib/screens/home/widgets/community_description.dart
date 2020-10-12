@@ -3,11 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/community/community.dart';
+import 'package:digitalrand/models/tokens/token.dart';
 import 'package:digitalrand/widgets/primary_button.dart';
 
 class CommunityDescription extends StatefulWidget {
+  final Token token;
   final Community community;
-  CommunityDescription({this.community});
+  CommunityDescription({this.community, this.token});
   @override
   _CommunityDescriptionState createState() => _CommunityDescriptionState();
 }
@@ -112,15 +114,14 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                                 image: imageProvider,
                                               ),
                                             )),
+                                        // Todo - isDefaultImage
                                         widget.community.metadata
                                                         .isDefaultImage !=
                                                     null &&
                                                 widget.community.metadata
                                                     .isDefaultImage
                                             ? Text(
-                                                widget.community?.token
-                                                        ?.symbol ??
-                                                    '',
+                                                widget?.token?.symbol ?? '',
                                                 style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
@@ -153,23 +154,27 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                     color: Colors.black),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    widget.community.description,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                                    textAlign: TextAlign.center,
+                            ![null, ''].contains(widget?.community?.description)
+                                ? Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          widget?.community?.description ?? '',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
+                                          textAlign: TextAlign.center,
+                                        )
+                                      ],
+                                    ),
                                   )
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 30.0),
+                                : SizedBox.shrink(),
+                            ![null, ''].contains(widget?.community?.description)
+                                ? SizedBox(height: 30.0)
+                                : SizedBox.shrink(),
                             Center(
                                 child: PrimaryButton(
                               fontSize: 15,

@@ -13,25 +13,48 @@ class SendAmountViewModel extends Equatable {
   final List<Token> tokens;
   final List<Community> communities;
   final Function(
-      Token token,
-      String walletAddress,
-      String phoneNumber,
-      num amount,
-      String receiverName,
-      String transferNote,
-      VoidCallback,
-      VoidCallback) sendToContact;
-  final Function(Token token, String phoneNumber, num, String receiverName,
-      String transferNote, VoidCallback, VoidCallback) sendERC20ToContact;
+    Token token,
+    String recieverAddress,
+    num amount,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback, {
+    String receiverName,
+  }) sendToForeignMultiBridge;
   final Function(
     Token token,
     String recieverAddress,
     num amount,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback, {
+    String receiverName,
+  }) sendToHomeMultiBridge;
+  final Function(
+    Token token,
+    String phoneNumber,
+    num amount,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback, {
     String receiverName,
     String transferNote,
+  }) sendToContact;
+  final Function(
+    Token token,
+    String phoneNumber,
+    num amount,
     VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback,
-  ) sendToAccountAddress;
+    VoidCallback sendFailureCallback, {
+    String receiverName,
+    String transferNote,
+  }) sendERC20ToContact;
+  final Function(
+    Token token,
+    String recieverAddress,
+    num amount,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback, {
+    String receiverName,
+    String transferNote,
+  }) sendToAccountAddress;
   final Function(String eventName, {Map<String, dynamic> properties})
       trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
@@ -40,8 +63,8 @@ class SendAmountViewModel extends Equatable {
     Token token,
     String recieverAddress,
     num amount,
-    VoidCallback,
-    VoidCallback, {
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback, {
     String receiverName,
     String transferNote,
   }) sendToErc20Token;
@@ -49,84 +72,84 @@ class SendAmountViewModel extends Equatable {
   @override
   List<Object> get props => [tokens, myCountryCode, communities];
 
-  SendAmountViewModel({
-    this.tokens,
-    this.communities,
-    this.myCountryCode,
-    this.sendToContact,
-    this.sendToAccountAddress,
-    this.trackTransferCall,
-    this.idenyifyCall,
-    this.sendToErc20Token,
-    this.sendERC20ToContact,
-  });
+  SendAmountViewModel(
+      {this.tokens,
+      this.communities,
+      this.myCountryCode,
+      this.sendToContact,
+      this.sendToAccountAddress,
+      this.trackTransferCall,
+      this.idenyifyCall,
+      this.sendToErc20Token,
+      this.sendERC20ToContact,
+      this.sendToForeignMultiBridge,
+      this.sendToHomeMultiBridge});
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     List<Community> communities =
         store.state.cashWalletState.communities.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
         .toList();
 
-    List<Token> homeTokens = communities
-        .map((Community community) => community.token
-            .copyWith(imageUrl: community.metadata.getImageUri()))
+    List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .map((Token token) => token?.copyWith(
+            imageUrl: store.state.cashWalletState.communities
+                    .containsKey(token.communityAddress)
+                ? store.state.cashWalletState
+                    .communities[token.communityAddress].metadata
+                    .getImageUri()
+                : null))
         .toList();
     return SendAmountViewModel(
-        tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
-            (tokenB?.amount ?? BigInt.zero)
-                ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+        tokens: [...homeTokens, ...foreignTokens]
+          ..where((Token token) =>
+              num.parse(formatValue(token.amount, token.decimals,
+                      withPrecision: true))
+                  .compareTo(0) ==
+              1)
+          ..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
+              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
         communities: communities,
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
           Token token,
-          String walletAddress,
           String phoneNumber,
           num amount,
+          VoidCallback sendSuccessCallback,
+          VoidCallback sendFailureCallback, {
           String receiverName,
           String transferNote,
-          VoidCallback sendSuccessCallback,
-          VoidCallback sendFailureCallback,
-        ) {
-          store.dispatch(sendTokenToContactCall(token, walletAddress,
-              phoneNumber, amount, sendSuccessCallback, sendFailureCallback,
-              receiverName: receiverName));
+        }) {
+          store.dispatch(sendTokenToContactCall(token, phoneNumber, amount,
+              sendSuccessCallback, sendFailureCallback,
+              receiverName: receiverName, transferNote: transferNote));
         },
         sendERC20ToContact: (
           Token token,
           String phoneNumber,
           num amount,
+          VoidCallback sendSuccessCallback,
+          VoidCallback sendFailureCallback, {
           String receiverName,
           String transferNote,
-          VoidCallback sendSuccessCallback,
-          VoidCallback sendFailureCallback,
-        ) {
-          store.dispatch(sendErc20TokenToContactCall(token, phoneNumber, amount,
-              sendSuccessCallback, sendFailureCallback,
+        }) {
+          store.dispatch(sendErc20TokenToContactCall(token, phoneNumber,
+              amount, sendSuccessCallback, sendFailureCallback,
               receiverName: receiverName));
         },
         sendToAccountAddress: (
           Token token,
           String recieverAddress,
           num amount,
+          VoidCallback sendSuccessCallback,
+          VoidCallback sendFailureCallback, {
           String receiverName,
           String transferNote,
-          VoidCallback sendSuccessCallback,
-          VoidCallback sendFailureCallback,
-        ) {
-          store.dispatch(sendTokenCall(
-            token,
-            recieverAddress,
-            amount,
-            sendSuccessCallback,
-            sendFailureCallback,
-            receiverName: receiverName,
-          ));
+        }) {
+          store.dispatch(sendTokenCall(token, recieverAddress, amount,
+              sendSuccessCallback, sendFailureCallback,
+              receiverName: receiverName, transferNote: transferNote));
         },
         sendToErc20Token: (
           Token token,
@@ -137,7 +160,36 @@ class SendAmountViewModel extends Equatable {
           String receiverName,
           String transferNote,
         }) {
-          store.dispatch(sendErc20TokenCall(
+          store.dispatch(sendErc20TokenCall(token, recieverAddress, amount,
+              sendSuccessCallback, sendFailureCallback,
+              receiverName: receiverName, transferNote: transferNote));
+        },
+        sendToForeignMultiBridge: (
+          Token token,
+          String recieverAddress,
+          num amount,
+          VoidCallback sendSuccessCallback,
+          VoidCallback sendFailureCallback, {
+          String receiverName,
+        }) {
+          store.dispatch(sendTokenToForeignMultiBridge(
+            token,
+            recieverAddress,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+          ));
+        },
+        sendToHomeMultiBridge: (
+          Token token,
+          String recieverAddress,
+          num amount,
+          VoidCallback sendSuccessCallback,
+          VoidCallback sendFailureCallback, {
+          String receiverName,
+        }) {
+          store.dispatch(sendTokenToHomeMultiBridge(
             token,
             recieverAddress,
             amount,

@@ -3,9 +3,9 @@ import 'package:digitalrand/screens/home/widgets/assets_list.dart';
 import 'package:digitalrand/utils/addresses.dart';
 
 final Token daiToken = Token.initial().copyWith(
-    address: daiTokenAddress,
+    address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
     decimals: 18,
-    imageUrl: getTokenUrl(daiTokenAddress),
+    imageUrl: getTokenUrl('0x6B175474E89094C44Da98b954EedeAC495271d0F'),
     name: "Dai Stablecoin",
     subtitle: 'US dollar',
     amount: BigInt.zero,

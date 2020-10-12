@@ -11,6 +11,7 @@ part 'token.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Token extends ERC20Token {
   final String imageUrl;
+  final String communityAddress;
   final String originNetwork;
   final int timestamp;
   final Price priceInfo;
@@ -22,7 +23,10 @@ class Token extends ERC20Token {
   final String subtitle;
 
   @override
-  List<Object> get props => [amount, name, symbol, transactions?.list];
+  toString() => 'Token info name: $name symbol: $symbol address: $address';
+
+  @override
+  List<Object> get props => [amount, name, symbol, transactions?.list, communityAddress];
 
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);
@@ -46,6 +50,7 @@ class Token extends ERC20Token {
       this.timestamp = 0,
       this.transactions,
       this.jobs,
+      this.communityAddress,
       this.originNetwork})
       : super(
             address: address,
@@ -66,7 +71,8 @@ class Token extends ERC20Token {
       Price priceInfo,
       String originNetwork,
       Transactions transactions,
-      List<Job> jobs}) {
+      List<Job> jobs,
+      String communityAddress}) {
     return Token(
         priceInfo: priceInfo ?? this.priceInfo,
         subtitle: subtitle,
@@ -79,6 +85,7 @@ class Token extends ERC20Token {
         amount: amount ?? this.amount,
         timestamp: timestamp ?? this.timestamp,
         transactions: transactions ?? this.transactions,
+        communityAddress: communityAddress ?? this.communityAddress,
         jobs: jobs ?? this.jobs);
   }
 
