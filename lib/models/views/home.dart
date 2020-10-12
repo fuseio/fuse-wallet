@@ -92,6 +92,9 @@ class HomeViewModel extends Equatable {
               isBranchDataReceived) {
             store.dispatch(switchCommunityCall(branchAddress));
           } else if (initial) {
+            if (store.state.cashWalletState.tokens.isEmpty) {
+              store.dispatch(switchCommunityCall(communityAddress));
+            }
             if (!isCommunityLoading &&
                 !isBranchDataReceived &&
                 !isCommunityFetched &&
