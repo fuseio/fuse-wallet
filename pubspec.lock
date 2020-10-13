@@ -532,6 +532,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "8.10.0"
   glob:
     dependency: transitive
     description:
@@ -545,7 +552,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.33"
+    version: "1.0.2"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:
@@ -672,13 +679,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.5.0"
-  libphonenumber:
-    dependency: "direct main"
-    description:
-      name: libphonenumber
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   local_auth:
     dependency: "direct main"
     description:
@@ -853,7 +853,7 @@ packages:
       name: phone_number
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.3"
+    version: "0.8.0"
   pin_input_text_field:
     dependency: "direct main"
     description:
