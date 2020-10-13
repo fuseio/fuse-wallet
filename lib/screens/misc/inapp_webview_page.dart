@@ -168,7 +168,7 @@ class InAppWebViewViewModel extends Equatable {
         Function(dynamic) sendSuccessCallback,
         VoidCallback sendFailureCallback,
       ) {
-        store.dispatch(sendTokenFromWebView(
+        store.dispatch(sendTokenFromWebViewCall(
           token,
           recieverAddress,
           amount,
