@@ -7,7 +7,7 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/views/splash.dart';
 import 'package:fusecash/screens/splash/slide_animation_controller.dart';
 import 'package:fusecash/widgets/on_boarding_pages.dart';
-import 'dots_indicator.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -104,12 +104,14 @@ class _SplashScreenState extends State<SplashScreen> {
                               child: Container(
                                 padding: EdgeInsets.all(20.0),
                                 child: Center(
-                                  child: DotsIndicator(
+                                  child: SmoothPageIndicator(
                                     controller: _pageController,
-                                    itemCount: 4,
-                                    onPageSelected: (int page) {
-                                      gotoPage(page);
-                                    },
+                                    count: 4,
+                                    effect: JumpingDotEffect(
+                                        dotWidth: 9.0,
+                                        dotHeight: 9.0,
+                                        activeDotColor: Color(0xFF696B6D)),
+                                    onDotClicked: gotoPage,
                                   ),
                                 ),
                               ),
