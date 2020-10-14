@@ -1,9 +1,9 @@
 import 'dart:core';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/widgets/move_to_ethereum.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/community/community.dart';
+import 'package:bit2c/models/tokens/token.dart';
+import 'package:bit2c/widgets/move_to_ethereum.dart';
+import 'package:bit2c/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

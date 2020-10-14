@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/models/views/backup.dart';
+import 'package:bit2c/screens/routes.gr.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class ColorsPincodeScreen extends StatefulWidget {
@@ -43,9 +43,8 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              Color(0xFFB1FDC0),
-              Color(0xFFE6FD99),
-              Color(0xFFFEFD86)
+              Color(0xFF414C74),
+              Color(0xFF06144C),
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           ),
           child: Column(
@@ -65,7 +64,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Image.asset('assets/images/pincode_logo.png',
+                          Image.asset('assets/images/bit2c.png',
                               width: 71, height: 61),
                         ],
                       ),
@@ -78,7 +77,9 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                       children: <Widget>[
                         Text(
                           I18n.of(context).enter_pincode,
-                          style: TextStyle(fontSize: 25),
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Theme.of(context).splashColor),
                         ),
                         SizedBox(
                           height: 50,
@@ -95,16 +96,21 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                       child: PinInputTextField(
                                           pinLength: 6,
                                           decoration: UnderlineDecoration(
+                                              textStyle: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                              ),
                                               hintTextStyle: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                               colorBuilder:
                                                   FixedColorListBuilder([
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
                                               ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,

@@ -1,13 +1,18 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/redux/state/store.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/widgets/preloader.dart';
+import 'package:bit2c/screens/routes.gr.dart';
+import 'package:bit2c/screens/contacts/send_amount_arguments.dart';
+import 'package:bit2c/services.dart';
+import 'package:bit2c/utils/format.dart';
+import 'package:bit2c/utils/phone.dart';
+import 'package:bit2c/widgets/preloader.dart';
+import 'package:http/http.dart';
 
 Future<Map> fetchWalletByPhone(phone, countryCode, isoCode) async {
   try {
@@ -91,6 +96,46 @@ bracodeScannerHandler() async {
       } else {
         print('Account address is not on Fuse');
       }
+    }
+  } catch (e) {
+    print('ERROR - BarcodeScanner');
+  }
+}
+
+void bracodeScannerValidateAPI(
+  String phoneNumber,
+  String address,
+  String token,
+) async {
+  // print(phoneNumber);
+  // print(address);
+  // print(token);
+  try {
+    ScanResult scanResult = await BarcodeScanner.scan();
+    List<String> parts = scanResult.rawContent.split('.');
+
+    if (parts.length >= 2) {
+      String first = parts[1];
+      String second = parts[2] != null ? parts[2] : "";
+      String token = "$first.$second";
+      try {
+        String qrValidateAPI = "https://testing.bit2c.co.il/account/validate";
+        var param = jsonEncode(<String, String>{
+          'phonenumber': phoneNumber,
+          'address': address,
+          'token': token,
+        });
+
+        Response response = await client.post(qrValidateAPI, body: param);
+        Map<String, dynamic> drawInfoResponse = responseHandler(response);
+        final data = drawInfoResponse['data'];
+        return data;
+      } catch (error, stackTrace) {
+        await AppFactory().reportError(error, stackTrace: stackTrace);
+        throw 'Error while validating QR';
+      }
+    } else {
+      print('QR Validate is not on Fuse');
     }
   } catch (e) {
     print('ERROR - BarcodeScanner');

@@ -3,15 +3,15 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/redux/actions/error_actions.dart';
+import 'package:bit2c/redux/state/store.dart';
+import 'package:bit2c/screens/routes.gr.dart';
+import 'package:bit2c/services.dart';
+import 'package:bit2c/utils/biometric_local_auth.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/redux/actions/user_actions.dart';
 
 class OnboardViewModel extends Equatable {
   final String countryCode;
@@ -65,7 +65,7 @@ class OnboardViewModel extends Equatable {
         final String accountAddress = store.state.userState.accountAddress;
         final String identifier = store.state.userState.identifier;
         String token = await user.getIdToken();
-        String jwtToken = await api.login(token, accountAddress, identifier);
+        String jwtToken = await api.login(token, accountAddress, identifier, appName: 'Bit2C');
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));

@@ -4,32 +4,32 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/plugins/join_bonus.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/models/user_state.dart';
-import 'package:fusecash/redux/actions/error_actions.dart';
+import 'package:bit2c/models/community/business.dart';
+import 'package:bit2c/models/cash_wallet_state.dart';
+import 'package:bit2c/models/community/business_metadata.dart';
+import 'package:bit2c/models/community/community.dart';
+import 'package:bit2c/models/community/community_metadata.dart';
+import 'package:bit2c/models/jobs/base.dart';
+import 'package:bit2c/models/plugins/join_bonus.dart';
+import 'package:bit2c/models/plugins/plugins.dart';
+import 'package:bit2c/models/tokens/token.dart';
+import 'package:bit2c/models/transactions/transaction.dart';
+import 'package:bit2c/models/transactions/transactions.dart';
+import 'package:bit2c/models/transactions/transfer.dart';
+import 'package:bit2c/models/user_state.dart';
+import 'package:bit2c/redux/actions/error_actions.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/utils/constans.dart';
-import 'package:fusecash/utils/firebase.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:bit2c/redux/actions/user_actions.dart';
+import 'package:bit2c/utils/addresses.dart';
+import 'package:bit2c/redux/state/store.dart';
+import 'package:bit2c/utils/constans.dart';
+import 'package:bit2c/utils/firebase.dart';
+import 'package:bit2c/utils/format.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
-import 'package:fusecash/services.dart';
+import 'package:bit2c/services.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -504,7 +504,7 @@ ThunkAction generateWalletSuccessCall(
       store.dispatch(setupWalletCall(walletData));
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
-        "App name": 'Fuse',
+        "App name": 'Bit2c Wallet',
         "Phone Number": store.state.userState.normalizedPhoneNumber,
         "Wallet Address": store.state.userState.walletAddress,
         "Account Address": store.state.userState.accountAddress,

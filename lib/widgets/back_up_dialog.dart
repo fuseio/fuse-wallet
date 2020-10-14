@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
+import 'package:bit2c/constans/keys.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/screens/home/router/home_router.gr.dart';
 import 'dart:core';
 
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:bit2c/widgets/primary_button.dart';
 
 class BackUpDialog extends StatefulWidget {
   BackUpDialog();

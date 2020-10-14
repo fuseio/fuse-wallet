@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:bit2c/models/community/community.dart';
+import 'package:bit2c/models/pro/pro_wallet_state.dart';
+import 'package:bit2c/models/tokens/token.dart';
+import 'package:bit2c/utils/format.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:bit2c/models/app_state.dart';
 
 class CashHeaderViewModel extends Equatable {
   final Function() firstName;
@@ -13,12 +13,16 @@ class CashHeaderViewModel extends Equatable {
   final bool hasErc20Tokens;
   final Community community;
   final Token token;
+  final String phoneNumber;
+  final String walletAddress;
 
   CashHeaderViewModel(
       {this.usdValue,
       this.firstName,
       this.walletStatus,
       this.hasErc20Tokens,
+      this.phoneNumber,
+      this.walletAddress,
       this.community,
       this.token});
 
@@ -43,6 +47,8 @@ class CashHeaderViewModel extends Equatable {
         hasErc20Tokens: erc20Tokens.isNotEmpty,
         usdValue: reduce(usdValue),
         walletStatus: store.state.userState.walletStatus,
+        phoneNumber: store.state.userState.normalizedPhoneNumber,
+        walletAddress: store.state.userState.walletAddress,
         firstName: () {
           String fullName = store.state.userState.displayName ?? '';
           return fullName.split(' ')[0];
@@ -50,5 +56,12 @@ class CashHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [community, walletStatus, usdValue, hasErc20Tokens];
+  List<Object> get props => [
+        community,
+        walletStatus,
+        usdValue,
+        hasErc20Tokens,
+        walletAddress,
+        phoneNumber
+      ];
 }

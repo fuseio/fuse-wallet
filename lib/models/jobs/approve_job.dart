@@ -1,9 +1,9 @@
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
+import 'package:bit2c/models/jobs/base.dart';
+import 'package:bit2c/models/transactions/transfer.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:bit2c/redux/state/store.dart';
+import 'package:bit2c/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'approve_job.g.dart';

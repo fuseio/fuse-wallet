@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/redux/actions/user_actions.dart';
+import 'package:bit2c/utils/format.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 

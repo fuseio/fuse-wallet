@@ -2,13 +2,13 @@ import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/drawer.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/widgets/language_selector.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/models/views/drawer.dart';
+import 'package:bit2c/screens/home/router/home_router.gr.dart';
+import 'package:bit2c/widgets/language_selector.dart';
+import 'package:bit2c/widgets/main_scaffold.dart';
+import 'package:bit2c/screens/routes.gr.dart';
 
 class SettingsScreen extends StatelessWidget {
   Widget getListTile(

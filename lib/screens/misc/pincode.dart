@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/models/views/onboard.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/utils/biometric_local_auth.dart';
+import 'package:bit2c/widgets/main_scaffold.dart';
+import 'package:bit2c/models/views/onboard.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class PincodeScreen extends StatefulWidget {

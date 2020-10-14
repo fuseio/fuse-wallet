@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/constans.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/signup_dialog.dart';
-import 'package:fusecash/models/views/onboard.dart';
-import 'package:fusecash/widgets/snackbars.dart';
+import 'package:bit2c/services.dart';
+import 'package:bit2c/utils/constans.dart';
+import 'package:bit2c/widgets/main_scaffold.dart';
+import 'package:bit2c/widgets/primary_button.dart';
+import 'package:bit2c/widgets/signup_dialog.dart';
+import 'package:bit2c/models/views/onboard.dart';
+import 'package:bit2c/widgets/snackbars.dart';
 
 class SignupScreen extends StatefulWidget {
   @override

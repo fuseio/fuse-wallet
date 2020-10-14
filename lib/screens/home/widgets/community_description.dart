@@ -1,10 +1,10 @@
 import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:bit2c/generated/i18n.dart';
+import 'package:bit2c/models/community/community.dart';
+import 'package:bit2c/models/tokens/token.dart';
+import 'package:bit2c/widgets/primary_button.dart';
 
 class CommunityDescription extends StatefulWidget {
   final Token token;

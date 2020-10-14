@@ -6,19 +6,19 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/route_guards.dart';
-import 'package:fusecash/screens/routes.gr.dart' as router;
-import 'package:fusecash/services.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
-import 'package:fusecash/utils/jwt.dart';
+import 'package:bit2c/models/app_state.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/redux/actions/user_actions.dart';
+import 'package:bit2c/redux/state/store.dart';
+import 'package:bit2c/screens/route_guards.dart';
+import 'package:bit2c/screens/routes.gr.dart' as router;
+import 'package:bit2c/services.dart';
+import 'package:bit2c/themes/app_theme.dart';
+import 'package:bit2c/themes/custom_theme.dart';
+import 'package:bit2c/utils/jwt.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:bit2c/generated/i18n.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -82,7 +82,8 @@ class _MyAppState extends State<MyApp> {
       if (diff.inDays <= 1) {
         String token = await firebaseAuth.currentUser.getIdToken(true);
         logger.info('forceRefreshJWT: $jwtToken');
-        jwtToken = await api.login(token, accoutAddress, identifier);
+        jwtToken =
+            await api.login(token, accoutAddress, identifier, appName: 'Bit2C');
       }
 
       logger.info('JWT: $jwtToken');
@@ -150,7 +151,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'Fuse Cash',
+          title: 'Bit2c wallet',
           builder: ExtendedNavigator.builder(
             router: router.Router(),
             initialRoute: "/",
