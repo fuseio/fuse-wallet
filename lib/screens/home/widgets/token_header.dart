@@ -3,11 +3,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:straitsx/models/community/community.dart';
 import 'package:straitsx/screens/home/router/home_router.gr.dart';
 import 'package:straitsx/screens/home/widgets/community_description.dart';
+import 'package:straitsx/widgets/bridge_dialog.dart';
 import 'package:straitsx/widgets/network_explained.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:straitsx/models/app_state.dart';
-import 'package:straitsx/widgets/move_to_ethereum.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,8 +24,10 @@ class TokenHeader extends StatelessWidget {
     final String price = token.priceInfo != null
         ? reduce(double.parse(token?.priceInfo?.total))
         : '0';
-    final bool isFuseToken = token.originNetwork != null;
+    final bool isFuseToken = ![null, ''].contains(token.originNetwork);
     final String logo = isFuseToken ? 'fuse-network.svg' : 'ether-network.svg';
+    final String moveToLogo =
+        !isFuseToken ? 'move_from_fuse.svg' : 'move_to_ethereum.svg';
     return Container(
         height: MediaQuery.of(context).size.height,
         alignment: Alignment.bottomLeft,
@@ -117,7 +119,7 @@ class TokenHeader extends StatelessWidget {
                               final Community community = viewModel.communities
                                   .firstWhere(
                                       (element) =>
-                                          (element.token.address
+                                          (element.homeTokenAddress
                                                   .toLowerCase() ==
                                               token.address.toLowerCase()) ||
                                           (element?.foreignTokenAddress
@@ -129,7 +131,7 @@ class TokenHeader extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  !isFuseToken
+                                  !isFuseToken && community != null
                                       ? Container(
                                           width: 45,
                                           height: 45,
@@ -145,59 +147,71 @@ class TokenHeader extends StatelessWidget {
                                               onPressed: () {
                                                 ExtendedNavigator.named(
                                                         'homeRouter')
-                                                    .push(
-                                                        HomeRoutes.tradeScreen,
-                                                        arguments:
-                                                            TradeScreenArguments(
-                                                                primaryToken:
-                                                                    token));
+                                                    .pushTradeScreen(
+                                                        primaryToken: token);
                                               }),
                                         )
-                                      : Container(
+                                      : isFuseToken && community != null
+                                          ? Container(
+                                              width: 45,
+                                              height: 45,
+                                              child: FloatingActionButton(
+                                                  heroTag:
+                                                      'CommunityDescription',
+                                                  elevation: 0,
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .primaryColor,
+                                                  child: Icon(
+                                                    Icons.info,
+                                                    color: Theme.of(context)
+                                                        .splashColor,
+                                                  ),
+                                                  onPressed: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            CommunityDescription(
+                                                                token: token,
+                                                                community:
+                                                                    community));
+                                                  }),
+                                            )
+                                          : SizedBox.shrink(),
+                                  community != null
+                                      ? SizedBox(
+                                          width: 10,
+                                        )
+                                      : SizedBox.shrink(),
+                                  community != null
+                                      ? Container(
                                           width: 45,
                                           height: 45,
                                           child: FloatingActionButton(
+                                              heroTag: 'move_from_scanner',
                                               elevation: 0,
-                                              backgroundColor: Theme.of(context)
-                                                  .primaryColor,
-                                              child: Icon(
-                                                Icons.info,
-                                                color: Theme.of(context)
-                                                    .splashColor,
+                                              backgroundColor:
+                                                  Color(0xFF002669),
+                                              child: SvgPicture.asset(
+                                                'assets/images/$moveToLogo',
+                                                fit: BoxFit.cover,
                                               ),
                                               onPressed: () {
                                                 showDialog(
                                                     context: context,
                                                     builder: (BuildContext
                                                             context) =>
-                                                        CommunityDescription(
-                                                            community:
-                                                                community));
+                                                        BridgeDialog(
+                                                          token: token,
+                                                          community: community,
+                                                          logo: moveToLogo,
+                                                          isFuseToken:
+                                                              isFuseToken,
+                                                        ));
                                               }),
-                                        ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    width: 45,
-                                    height: 45,
-                                    child: FloatingActionButton(
-                                        heroTag: 'move_from_scanner',
-                                        elevation: 0,
-                                        backgroundColor: Color(0xFFF68C17),
-                                        child: SvgPicture.asset(
-                                          'assets/images/move_from_fuse.svg',
-                                          fit: BoxFit.cover,
-                                        ),
-                                        onPressed: () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) =>
-                                                  TokenActionsDialog(
-                                                      token: token,
-                                                      community: community));
-                                        }),
-                                  )
+                                        )
+                                      : SizedBox.shrink()
                                 ],
                               );
                             })
@@ -224,6 +238,9 @@ class TokenHeader extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return NetworkExplainedScreen(
+                                logo: isFuseToken
+                                    ? 'fuse_network_logo.svg'
+                                    : 'ether-logo.svg',
                                 network: isFuseToken ? 'fuse' : 'ether');
                           });
                     },

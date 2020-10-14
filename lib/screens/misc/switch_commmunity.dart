@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:straitsx/generated/i18n.dart';
 import 'package:straitsx/models/app_state.dart';
 import 'package:straitsx/models/community/community.dart';
+import 'package:straitsx/models/tokens/token.dart';
 import 'package:straitsx/widgets/community_card.dart';
 import 'package:straitsx/widgets/community_card_small.dart';
 import 'package:straitsx/widgets/main_scaffold.dart';
@@ -96,10 +97,12 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                             style: TextStyle(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.normal))),
-                    viewModel.currentCommunity?.token != null &&
-                            viewModel.currentCommunity?.token?.address != null
+                    viewModel.tokens.containsKey(
+                            viewModel.currentCommunity.homeTokenAddress)
                         ? CommunitySelectedCardScreen(
                             community: viewModel.currentCommunity,
+                            token: viewModel.tokens[
+                                viewModel.currentCommunity.homeTokenAddress],
                             switchCommunity: viewModel.switchCommunity,
                           )
                         : SizedBox.shrink(),
@@ -122,10 +125,11 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                     ...viewModel.communities.values
                         .where((Community community) =>
                             community.address !=
-                                viewModel.currentCommunity.address &&
-                            community.token != null)
+                            viewModel.currentCommunity.address)
                         .map((Community community) {
                       return CommunityCardScreen(
+                          token: viewModel.tokens[
+                              viewModel.currentCommunity.homeTokenAddress],
                           community: community,
                           switchCommunity: viewModel.switchCommunity);
                     }).toList()
@@ -140,15 +144,20 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
 
 class _SwitchCommunityViewModel extends Equatable {
   final Map<String, Community> communities;
+  final Map<String, Token> tokens;
   final Community currentCommunity;
   final Function(String) switchCommunity;
 
   _SwitchCommunityViewModel(
-      {this.communities, this.switchCommunity, this.currentCommunity});
+      {this.communities,
+      this.switchCommunity,
+      this.currentCommunity,
+      this.tokens});
 
   static _SwitchCommunityViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
     return _SwitchCommunityViewModel(
+      tokens: store.state.cashWalletState.tokens,
       currentCommunity:
           store.state.cashWalletState.communities.containsKey(communityAddres)
               ? store.state.cashWalletState.communities[communityAddres]
@@ -156,9 +165,7 @@ class _SwitchCommunityViewModel extends Equatable {
       communities: store.state.cashWalletState.communities
         ..removeWhere((key, community) =>
             [null, ''].contains(community.address) ||
-            [null, ''].contains(community.name) ||
-            ([null, ''].contains(community.token) ||
-                [null, ''].contains(community.token.name))),
+            [null, ''].contains(community.name)),
       switchCommunity: (String communityAddress) {
         store.dispatch(switchCommunityCall(communityAddress));
       },
@@ -166,5 +173,5 @@ class _SwitchCommunityViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [communities, currentCommunity];
+  List<Object> get props => [communities, currentCommunity, tokens];
 }

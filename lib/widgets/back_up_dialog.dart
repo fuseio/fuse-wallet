@@ -100,7 +100,7 @@ class BackUpDialogState extends State<BackUpDialog>
                         Navigator.of(context).pop();
                         navigationBar.onTap(0);
                         ExtendedNavigator.named('homeRouter')
-                            .push(HomeRoutes.showMnemonic);
+                            .pushShowMnemonic();
                       },
                     )
                   ],

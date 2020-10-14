@@ -12,10 +12,11 @@ enum SendType {
 
 class SendAmountArguments {
   String name;
+  final bool isMultiBridge;
   String phoneNumber;
   String accountAddress;
   num amount;
-  ImageProvider avatar;
+  ImageProvider avatar = AssetImage('assets/images/anom.png');
   SendType sendType;
   Token tokenToSend;
   final bool useBridge;
@@ -26,6 +27,7 @@ class SendAmountArguments {
       this.tokenToSend,
       this.name,
       this.phoneNumber,
+      this.isMultiBridge = false,
       this.accountAddress,
       this.amount,
       this.avatar});

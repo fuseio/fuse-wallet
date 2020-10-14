@@ -3,14 +3,12 @@ import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:straitsx/constans/keys.dart';
-import 'package:straitsx/generated/i18n.dart';
 import 'package:straitsx/redux/actions/cash_wallet_actions.dart';
 import 'package:straitsx/redux/actions/user_actions.dart';
 import 'package:straitsx/screens/buy/router/buy_router.gr.dart';
 import 'package:straitsx/screens/contacts/widgets/enable_contacts.dart';
 import 'package:straitsx/screens/home/router/home_router.gr.dart';
 import 'package:straitsx/screens/home/screens/receive.dart';
-import 'package:straitsx/screens/misc/webview_page.dart';
 import 'package:straitsx/screens/contacts/router/router_contacts.gr.dart';
 import 'package:straitsx/screens/home/widgets/drawer.dart';
 import 'package:straitsx/utils/contacts.dart';
@@ -116,15 +114,10 @@ class _HomePageState extends State<HomePage> {
                           ? ContactsRoutes.contactsList
                           : ContactsRoutes.emptyContacts,
                 ),
-                !['', null].contains(vm.community.webUrl)
-                    ? WebViewPage(
-                        url: vm.community.webUrl,
-                        withBack: false,
-                        title: I18n.of(context).community_webpage)
-                    : ExtendedNavigator(
-                        router: BuyRouter(),
-                        observers: [SegmentObserver()],
-                      ),
+                ExtendedNavigator(
+                  router: BuyRouter(),
+                  observers: [SegmentObserver()],
+                ),
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(

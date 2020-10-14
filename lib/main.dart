@@ -11,7 +11,7 @@ import 'package:straitsx/redux/actions/cash_wallet_actions.dart';
 import 'package:straitsx/redux/actions/user_actions.dart';
 import 'package:straitsx/redux/state/store.dart';
 import 'package:straitsx/screens/route_guards.dart';
-import 'package:straitsx/screens/routes.gr.dart';
+import 'package:straitsx/screens/routes.gr.dart' as router;
 import 'package:straitsx/services.dart';
 import 'package:straitsx/themes/app_theme.dart';
 import 'package:straitsx/themes/custom_theme.dart';
@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'StraitsX',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(
