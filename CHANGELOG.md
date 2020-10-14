@@ -1,6 +1,8 @@
 # Fuse Wallet Changelog
 
-## [Unreleased](https://github.com/fuseio/fuse-wallet/tree/HEAD)
+## [1.1.49+246](https://github.com/fuseio/fuse-wallet/tree/1.1.49+246) (2020-10-14)
+
+[Full Changelog](https://github.com/fuseio/fuse-wallet/compare/1.1.49+246...HEAD)
 
 - **Added** Ability to copy transaction hash & receiver/sender addresses from within the transaction details page
 - **Fixed** UI Bug - token screen
