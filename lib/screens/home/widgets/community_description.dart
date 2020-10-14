@@ -154,30 +154,34 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                     color: Colors.black),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    widget.community.description,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                                    textAlign: TextAlign.center,
+                            ![null, ''].contains(widget?.community?.description)
+                                ? Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          widget.community.description,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
+                                          textAlign: TextAlign.center,
+                                        )
+                                      ],
+                                    ),
                                   )
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 30.0),
+                                : SizedBox.shrink(),
+                            ![null, ''].contains(widget?.community?.description)
+                                ? SizedBox(height: 30.0)
+                                : SizedBox.shrink(),
                             Center(
                                 child: PrimaryButton(
                               fontSize: 15,
                               width: 140,
                               preload: isPreloading,
                               labelFontWeight: FontWeight.normal,
-                              label: "Ok",
+                              label: I18n.of(context).ok,
                               onPressed: () async {
                                 Navigator.of(context).pop();
                               },

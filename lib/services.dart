@@ -26,4 +26,4 @@ final ExplorerApi fuseExplorerApi =
 
 final MarketApi marketApi = MarketApi();
 
-final PhoneNumber phoneNumberUtil = PhoneNumber();
+final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil();
