@@ -160,7 +160,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                     child: Column(
                                       children: <Widget>[
                                         Text(
-                                          widget?.community?.description ?? '',
+                                          widget.community.description,
                                           style: TextStyle(
                                               fontSize: 16,
                                               color: Theme.of(context)
@@ -181,7 +181,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                               width: 140,
                               preload: isPreloading,
                               labelFontWeight: FontWeight.normal,
-                              label: "Ok",
+                              label: I18n.of(context).ok,
                               onPressed: () async {
                                 Navigator.of(context).pop();
                               },

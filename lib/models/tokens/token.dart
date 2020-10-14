@@ -23,10 +23,11 @@ class Token extends ERC20Token {
   final String subtitle;
 
   @override
-  toString() => 'Token info name: $name symbol: $symbol address: $address';
+  toString() => 'Token info - $name $symbol $address';
 
   @override
-  List<Object> get props => [amount, name, symbol, transactions?.list, communityAddress];
+  List<Object> get props =>
+      [amount, name, symbol, transactions?.list, communityAddress];
 
   static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
       json == null ? Transactions.initial() : Transactions.fromJson(json);

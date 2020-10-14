@@ -3,13 +3,11 @@ import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:digitalrand/constans/keys.dart';
-import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/redux/actions/cash_wallet_actions.dart';
 import 'package:digitalrand/redux/actions/user_actions.dart';
 import 'package:digitalrand/screens/contacts/widgets/enable_contacts.dart';
 import 'package:digitalrand/screens/home/router/home_router.gr.dart';
 import 'package:digitalrand/screens/home/screens/receive.dart';
-import 'package:digitalrand/screens/misc/inapp_webview_page.dart';
 import 'package:digitalrand/screens/contacts/router/router_contacts.gr.dart';
 import 'package:digitalrand/screens/home/widgets/drawer.dart';
 import 'package:digitalrand/utils/contacts.dart';
@@ -116,12 +114,7 @@ class _HomePageState extends State<HomePage> {
                           ? ContactsRoutes.contactsList
                           : ContactsRoutes.emptyContacts,
                 ),
-                !['', null].contains(vm.community.webUrl)
-                    ? WebViewWidget(
-                        url: vm.community.webUrl,
-                        withBack: false,
-                        title: I18n.of(context).community_webpage)
-                    : TradeScreen(),
+                TradeScreen(),
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(
