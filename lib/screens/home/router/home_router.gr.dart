@@ -95,11 +95,10 @@ class HomeRouter extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => TransactionDetailsScreen(
           image: args.image,
-          from: args.from,
+          displayName: args.displayName,
           status: args.status,
           token: args.token,
           contact: args.contact,
-          amount: args.amount,
           transfer: args.transfer,
         ),
         settings: data,
@@ -212,22 +211,20 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushTransactionDetailsScreen({
     ImageProvider<dynamic> image,
-    String from,
+    String displayName,
     String status,
     Token token,
     Contact contact,
-    List<Widget> amount,
     Transfer transfer,
   }) =>
       push<dynamic>(
         HomeRoutes.transactionDetailsScreen,
         arguments: TransactionDetailsScreenArguments(
             image: image,
-            from: from,
+            displayName: displayName,
             status: status,
             token: token,
             contact: contact,
-            amount: amount,
             transfer: transfer),
       );
 
@@ -304,19 +301,17 @@ class MainHomeScreenArguments {
 /// TransactionDetailsScreen arguments holder class
 class TransactionDetailsScreenArguments {
   final ImageProvider<dynamic> image;
-  final String from;
+  final String displayName;
   final String status;
   final Token token;
   final Contact contact;
-  final List<Widget> amount;
   final Transfer transfer;
   TransactionDetailsScreenArguments(
       {this.image,
-      this.from,
+      this.displayName,
       this.status,
       this.token,
       this.contact,
-      this.amount,
       this.transfer});
 }
 
