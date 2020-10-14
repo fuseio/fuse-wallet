@@ -3,9 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fc_knudde/screens/home/router/home_router.gr.dart';
-import 'package:fc_knudde/screens/home/widgets/assets_list.dart';
+import 'package:fc_knudde/widgets/default_logo.dart';
 import 'package:redux/redux.dart';
-import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fc_knudde/models/app_state.dart';
@@ -17,6 +16,7 @@ class TokenTile extends StatelessWidget {
   TokenTile(
       {Key key,
       this.token,
+      this.showPending = true,
       this.onTap,
       this.quate,
       this.symbolHeight = 60.0,
@@ -24,6 +24,7 @@ class TokenTile extends StatelessWidget {
       : super(key: key);
   final Function() onTap;
   final double quate;
+  final bool showPending;
   final double symbolWidth;
   final double symbolHeight;
   final Token token;
@@ -38,9 +39,8 @@ class TokenTile extends StatelessWidget {
           onTap: onTap != null
               ? onTap
               : () {
-                  ExtendedNavigator.of(context).push(HomeRoutes.tokenScreen,
-                      arguments:
-                          TokenScreenArguments(tokenAddress: token.address));
+                  ExtendedNavigator.of(context)
+                      .pushTokenScreen(tokenAddress: token.address);
                 },
           contentPadding:
               EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
@@ -59,7 +59,8 @@ class TokenTile extends StatelessWidget {
                           builder: (_, viewModel) {
                             final bool isCommunityToken = viewModel.communities
                                 .any((element) =>
-                                    element.token.address == token.address &&
+                                    element?.homeTokenAddress?.toLowerCase() ==
+                                        token?.address &&
                                     ![false, null].contains(
                                         element.metadata.isDefaultImage));
                             return Flexible(
@@ -72,30 +73,34 @@ class TokenTile extends StatelessWidget {
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(50),
-                                          child: CachedNetworkImage(
-                                            width: 60,
-                                            height: 60,
-                                            imageUrl: token.imageUrl != null &&
-                                                    token.imageUrl.isNotEmpty
-                                                ? token.imageUrl
-                                                : getTokenUrl(
-                                                    checksumEthereumAddress(
-                                                        token.address)),
-                                            placeholder: (context, url) =>
-                                                CircularProgressIndicator(),
-                                            errorWidget:
-                                                (context, url, error) => Icon(
-                                              Icons.error,
-                                              size: 54,
-                                            ),
-                                          ),
+                                          child: token.imageUrl != null &&
+                                                  token.imageUrl.isNotEmpty
+                                              ? CachedNetworkImage(
+                                                  width: symbolWidth,
+                                                  height: symbolHeight,
+                                                  imageUrl: token.imageUrl,
+                                                  placeholder: (context, url) =>
+                                                      CircularProgressIndicator(),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          Icon(
+                                                    Icons.error,
+                                                    size: 54,
+                                                  ),
+                                                )
+                                              : DefaultLogo(
+                                                  symbol: token?.symbol,
+                                                  width: symbolWidth,
+                                                  height: symbolHeight,
+                                                ),
                                         ),
-                                        token.transactions.list.any(
-                                                (transfer) =>
-                                                    transfer.isPending())
+                                        showPending &&
+                                                token.transactions.list.any(
+                                                    (transfer) =>
+                                                        transfer.isPending())
                                             ? Container(
-                                                width: 60,
-                                                height: 60,
+                                                width: symbolWidth,
+                                                height: symbolHeight,
                                                 child:
                                                     CircularProgressIndicator(
                                                   backgroundColor:

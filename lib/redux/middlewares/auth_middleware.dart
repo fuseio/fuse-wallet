@@ -7,7 +7,6 @@ import 'package:fc_knudde/redux/actions/user_actions.dart';
 import 'package:fc_knudde/redux/state/store.dart';
 import 'package:fc_knudde/screens/routes.gr.dart';
 import 'package:fc_knudde/services.dart';
-import 'package:fc_knudde/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 
@@ -27,8 +26,7 @@ Middleware<AppState> _createLoginRequestMiddleware() {
     if (action is LoginRequest) {
       try {
         store.dispatch(SetIsLoginRequest(isLoading: true));
-        String phoneNumber = '${action.countryCode.dialCode}${action.phoneNumber}';
-        String normalizedPhoneNumber = await PhoneService.getNormalizedPhoneNumber(phoneNumber, action.countryCode.code);
+        String normalizedPhoneNumber = action.phoneNumber.e164;
         await firebaseAuth.verifyPhoneNumber(
           phoneNumber: normalizedPhoneNumber,
           codeAutoRetrievalTimeout: action.codeAutoRetrievalTimeout,
@@ -39,7 +37,7 @@ Middleware<AppState> _createLoginRequestMiddleware() {
         );
         store.dispatch(new LoginRequestSuccess(
           countryCode: action.countryCode,
-          phoneNumber: action.phoneNumber,
+          phoneNumber: action.phoneNumber.e164,
           email: "",
           displayName: "",
           normalizedPhoneNumber: normalizedPhoneNumber
@@ -83,15 +81,15 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-        ExtendedNavigator.root.push(Routes.userNameScreen);
+        ExtendedNavigator.root.pushUserNameScreen();
       }
       catch (error, s) {
         FirebaseAuthException firebaseAuthException = error as FirebaseAuthException;
         store.dispatch(SetIsVerifyRequest(isLoading: false, message: firebaseAuthException));
         logger.severe('ERROR - Verification failed ${firebaseAuthException.code} - ${firebaseAuthException.message}');
         await AppFactory().reportError(firebaseAuthException.message, stackTrace: s);
-        store.dispatch(new ErrorAction(firebaseAuthException.message));
-        store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": firebaseAuthException.message })));
+        store.dispatch(ErrorAction(firebaseAuthException.message));
+        store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: Map.from({ "error": firebaseAuthException.message })));
       }
     }
     next(action);

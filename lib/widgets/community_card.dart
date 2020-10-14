@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fc_knudde/generated/i18n.dart';
 import 'package:fc_knudde/models/community/community.dart';
+import 'package:fc_knudde/models/tokens/token.dart';
 
 class CommunitySelectedCardScreen extends StatefulWidget {
   CommunitySelectedCardScreen(
-      {Key key, this.title, this.community, this.switchCommunity})
+      {Key key, this.title, this.community, this.token, this.switchCommunity})
       : super(key: key);
 
   final Community community;
+  final Token token;
   final Function(String) switchCommunity;
   final String title;
 
@@ -112,7 +114,7 @@ class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
                                           widget
                                               .community.metadata.isDefaultImage
                                       ? Text(
-                                          widget.community?.token?.symbol ?? '',
+                                          widget?.token?.symbol ?? '',
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,

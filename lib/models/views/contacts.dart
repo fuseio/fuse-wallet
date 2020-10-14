@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fc_knudde/models/app_state.dart';
 import 'package:fc_knudde/models/community/business.dart';
 import 'package:fc_knudde/models/community/community.dart';
+import 'package:fc_knudde/models/tokens/token.dart';
 import 'package:fc_knudde/models/transactions/transactions.dart';
 import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
 import 'package:fc_knudde/redux/actions/user_actions.dart';
@@ -38,12 +39,14 @@ class ContactsViewModel extends Equatable {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddres];
+    Token token =
+        store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return ContactsViewModel(
         isoCode: store.state.userState.isoCode,
         businesses: community?.businesses ?? [],
         contacts: store.state.userState?.contacts ?? [],
         community: community,
-        transactions: community?.token?.transactions,
+        transactions: token?.transactions,
         reverseContacts: store.state.userState.reverseContacts,
         countryCode: store.state.userState.countryCode,
         syncContacts: (List<Contact> contacts) {

@@ -47,8 +47,9 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
         BigInt.from(num.parse(widget.exchangeSummry['destinationAmount'])),
         int.parse(widget.exchangeSummry['destinationAsset']['decimals']),
         withPrecision: true);
-    final num tokenBalance = num.parse(
-        formatValue(widget.fromToken.amount, widget.fromToken.decimals));
+    final num tokenBalance = num.parse(formatValue(
+        widget.fromToken.amount, widget.fromToken.decimals,
+        withPrecision: true));
     final bool hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
     return MainScaffold(
         withPadding: true,

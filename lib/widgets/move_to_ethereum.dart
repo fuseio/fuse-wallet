@@ -9,8 +9,11 @@ import 'package:fc_knudde/screens/contacts/send_amount_arguments.dart';
 import 'package:fc_knudde/screens/routes.gr.dart';
 import 'dart:core';
 
+import 'package:fc_knudde/utils/constans.dart';
+
 class TokenActionsDialog extends StatefulWidget {
-  TokenActionsDialog({this.token, this.community});
+  TokenActionsDialog({this.token, this.community, this.logo});
+  final String logo;
   final Token token;
   final Community community;
   @override
@@ -49,7 +52,15 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
 
   @override
   Widget build(BuildContext _context) {
-    bool isFuseToken = widget.token.originNetwork != null;
+    final bool isFuseToken = ![null, ''].contains(widget.token.originNetwork);
+    final String accountAddress = widget.community.isMultiBridge
+        ? isFuseToken
+            ? getBridgeMediator(
+                networkType: widget.token.originNetwork, bridgeType: 'home')
+            : getBridgeMediator(networkType: widget.token.originNetwork)
+        : isFuseToken
+            ? widget.community.homeBridgeAddress
+            : widget.community.foreignBridgeAddress;
     return ScaleTransition(
         scale: scaleAnimatoin,
         child: AlertDialog(
@@ -66,7 +77,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                   children: <Widget>[
                     Center(
                       child: SvgPicture.asset(
-                        'assets/images/move_from_fuse.svg',
+                        'assets/images/${isFuseToken ? 'move_from_fuse.svg' : 'move_to_ethereum.svg'}',
                       ),
                     ),
                     SizedBox(height: 20.0),
@@ -91,40 +102,26 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                   child: Center(
                                     child: Text(
                                       isFuseToken
-                                          ? ' Move to Ethereum account'
-                                          : 'Move to Fuse',
+                                          ? I18n.of(context).move_to +
+                                              ' Ethereum'
+                                          : I18n.of(context).move_to + ' Fuse',
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ),
                                 ),
                                 onTap: () {
-                                  if (isFuseToken) {
-                                    ExtendedNavigator.root.push(
-                                        Routes.sendAmountScreen,
-                                        arguments: SendAmountScreenArguments(
-                                            pageArgs: SendAmountArguments(
-                                                tokenToSend: widget.token,
-                                                accountAddress: widget.community
-                                                    .homeBridgeAddress,
-                                                useBridge: true,
-                                                name: 'Ethereum',
-                                                avatar: AssetImage(
-                                                  'assets/images/ethereume_icon.png',
-                                                ))));
-                                  } else {
-                                    ExtendedNavigator.root.push(
-                                        Routes.sendAmountScreen,
-                                        arguments: SendAmountScreenArguments(
-                                            pageArgs: SendAmountArguments(
-                                                useBridge: true,
-                                                tokenToSend: widget.token,
-                                                accountAddress: widget.community
-                                                    .foreignBridgeAddress,
-                                                name: 'Fuse',
-                                                avatar: AssetImage(
-                                                  'assets/images/fuse_icon.png',
-                                                ))));
-                                  }
+                                  ExtendedNavigator.root.pushSendAmountScreen(
+                                      pageArgs: SendAmountArguments(
+                                          tokenToSend: widget.token,
+                                          isMultiBridge:
+                                              widget.community.isMultiBridge,
+                                          accountAddress: accountAddress,
+                                          useBridge: true,
+                                          name:
+                                              isFuseToken ? 'Ethereum' : 'Fuse',
+                                          avatar: AssetImage(
+                                            'assets/images/ethereume_icon.png',
+                                          )));
                                 },
                               ),
                         widget.community == null

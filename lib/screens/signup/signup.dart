@@ -14,6 +14,7 @@ import 'package:fc_knudde/widgets/primary_button.dart';
 import 'package:fc_knudde/widgets/signup_dialog.dart';
 import 'package:fc_knudde/models/views/onboard.dart';
 import 'package:fc_knudde/widgets/snackbars.dart';
+import 'package:phone_number/phone_number.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -25,7 +26,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  bool isvalidPhone = true;
   CountryCode countryCode = CountryCode(dialCode: '‎+1', code: 'US');
 
   @override
@@ -49,15 +49,16 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-  void onPressed(Function(CountryCode, String) signUp) {
-    phoneNumberUtil
-        .parse('${countryCode.dialCode}${phoneController.text}')
-        .then((value) {
-      signUp(countryCode, phoneController.text);
+  void onPressed(Function(CountryCode, PhoneNumber) signUp) {
+    final String phoneNumber = '${countryCode.dialCode}${phoneController.text}';
+    phoneNumberUtil.parse(phoneNumber).then((value) {
+      signUp(countryCode, value);
     }, onError: (e) {
-      setState(() {
-        isvalidPhone = false;
-      });
+      transactionFailedSnack(I18n.of(context).invalid_number,
+          title: I18n.of(context).something_went_wrong,
+          duration: Duration(seconds: 3),
+          context: context,
+          margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
     });
   }
 
@@ -97,9 +98,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         onTap: () {
                           showDialog(
                               context: context,
-                              builder: (BuildContext context) {
-                                return SignupDialog();
-                              });
+                              builder: (BuildContext context) =>
+                                  SignupDialog());
                           Segment.track(
                               eventName:
                                   "Wallet: opened modal - why do we need this");
@@ -132,11 +132,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
-                              color: isvalidPhone
-                                  ? Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.1)
-                                  : Colors.red,
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.1),
                               width: 2.0)),
                     ),
                     child: Row(

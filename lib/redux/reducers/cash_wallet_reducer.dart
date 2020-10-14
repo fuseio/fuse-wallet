@@ -1,14 +1,18 @@
 import 'package:fc_knudde/models/community/community.dart';
 import 'package:fc_knudde/models/jobs/base.dart';
+import 'package:fc_knudde/models/tokens/token.dart';
 import 'package:fc_knudde/models/transactions/transaction.dart';
 import 'package:fc_knudde/models/transactions/transactions.dart';
 import 'package:fc_knudde/models/transactions/transfer.dart';
 import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
 import 'package:fc_knudde/redux/actions/user_actions.dart';
 import 'package:fc_knudde/models/cash_wallet_state.dart';
+import 'package:fc_knudde/redux/reducers/pro_mode_reducer.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
+  TypedReducer<CashWalletState, AddCashTokens>(_addCashTokens),
+  TypedReducer<CashWalletState, AddCashToken>(_addCashToken),
   TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
   TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
   TypedReducer<CashWalletState, GetTokenBalanceSuccess>(
@@ -17,7 +21,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _fetchCommunityMetadataSuccess),
   TypedReducer<CashWalletState, AlreadyJoinedCommunity>(
       _alreadyJoinedCommunity),
-  TypedReducer<CashWalletState, AddCommunities>(_addCommunities),
+  TypedReducer<CashWalletState, ResetTokenTxs>(_resetTokensTxs),
+  TypedReducer<CashWalletState, RefreshCommunityData>(_refreshCommunityData),
   TypedReducer<CashWalletState, SwitchCommunitySuccess>(
       _switchCommunitySuccess),
   TypedReducer<CashWalletState, SwitchCommunityFailed>(_switchCommunityFailed),
@@ -52,15 +57,50 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
 ]);
 
-CashWalletState _addCommunities(CashWalletState state, AddCommunities action) {
+CashWalletState _addCashTokens(CashWalletState state, AddCashTokens action) {
+  Map<String, Token> newOne =
+      Map<String, Token>.from(state.tokens..removeWhere(clearTokensWithZero));
+  for (String tokenAddress in action.tokens.keys) {
+    if (newOne.containsKey(tokenAddress)) {
+      newOne[tokenAddress] = newOne[tokenAddress]
+          .copyWith(amount: action.tokens[tokenAddress].amount);
+    } else {
+      newOne[tokenAddress] = action.tokens[tokenAddress].copyWith();
+    }
+  }
+  return state.copyWith(tokens: newOne);
+}
+
+CashWalletState _addCashToken(CashWalletState state, AddCashToken action) {
+  Token token = action.token;
+  Map<String, Token> newOne =
+      Map<String, Token>.from(state.tokens..removeWhere(clearTokensWithZero));
+  if (!newOne.containsKey(token.address)) {
+    newOne[token.address] = token;
+  } else {
+    newOne[token.address] = newOne[token.address]
+        .copyWith(name: token.name, communityAddress: token.communityAddress);
+  }
+  return state.copyWith(tokens: newOne);
+}
+
+CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  for (String communityAddress in newOne.keys) {
+    newOne[communityAddress] =
+        newOne[communityAddress].copyWith(transactions: Transactions.initial());
+  }
+  return state.copyWith(tokens: newOne);
+}
+
+CashWalletState _refreshCommunityData(
+    CashWalletState state, RefreshCommunityData action) {
+  String communityAddress = action.communityAddress.toLowerCase();
+  Community current = state.communities[communityAddress];
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
-  for (String communityAddress in action.communities.keys) {
-    print('communityAddress communityAddress $communityAddress');
-    if (newOne.containsKey(communityAddress)) continue;
-    newOne[communityAddress] = action.communities[communityAddress];
-    print('ADDDEDDDDD communityAddress $communityAddress');
-  }
+  newOne[communityAddress] =
+      current?.copyWith(plugins: action.plugins, webUrl: action.webUrl);
   return state.copyWith(communities: newOne);
 }
 
@@ -96,14 +136,11 @@ CashWalletState _initWeb3Success(
 
 CashWalletState _getTokenBalanceSuccess(
     CashWalletState state, GetTokenBalanceSuccess action) {
-  final String communityAddress = action.communityAddress;
-  Community current = state.communities[communityAddress];
-  Community newCommunity = current.copyWith(
-      token: current.token.copyWith(amount: action.tokenBalance));
-  Map<String, Community> newOne =
-      Map<String, Community>.from(state.communities);
-  newOne[communityAddress] = newCommunity;
-  return state.copyWith(communities: newOne);
+  final String tokenAddress = action.tokenAddress;
+  Token current = state.tokens[action.tokenAddress];
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[tokenAddress] = current.copyWith(amount: action.tokenBalance);
+  return state.copyWith(tokens: newOne);
 }
 
 CashWalletState _alreadyJoinedCommunity(
@@ -124,24 +161,10 @@ CashWalletState _alreadyJoinedCommunity(
 
 CashWalletState _switchCommunitySuccess(
     CashWalletState state, SwitchCommunitySuccess action) {
-  String communityAddress = action.communityAddress.toLowerCase();
-  Community current = state.communities[communityAddress] ??
-      Community.initial().copyWith(address: communityAddress);
-  Community newCommunity = current?.copyWith(
-      description: action.description,
-      address: communityAddress,
-      metadata: action.metadata,
-      plugins: action.plugins,
-      token: action.token,
-      name: action.communityName,
-      isClosed: action.isClosed,
-      homeBridgeAddress: action.homeBridgeAddress,
-      foreignBridgeAddress: action.foreignBridgeAddress,
-      foreignTokenAddress: action.foreignTokenAddress,
-      webUrl: action.webUrl);
+  String communityAddress = action.community.address.toLowerCase();
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
-  newOne[communityAddress] = newCommunity;
+  newOne[communityAddress] = action.community;
   return state.copyWith(
       isCommunityLoading: false,
       isCommunityFetched: true,
@@ -185,31 +208,27 @@ CashWalletState _fetchingBusinessListFailed(
 
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
-  final String communityAddress = action.communityAddress;
+  final String tokenAddress = action.tokenAddress;
   if (action.tokenTransfers.length > 0) {
     dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
             0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
         1;
-    Community current = state.communities[communityAddress];
+    Token currentToken = state.tokens[tokenAddress];
     for (Transfer tx in action.tokenTransfers.reversed) {
-      Transfer saved = current.token.transactions.list
-          .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
+      Transfer saved = currentToken.transactions?.list
+          ?.firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
-        int index = current.token.transactions.list.indexOf(saved);
-        current.token.transactions.list[index] = tx.copyWith();
+        int index = currentToken.transactions.list.indexOf(saved);
+        currentToken.transactions.list[index] = tx.copyWith();
       } else {
-        current.token.transactions.list.add(tx);
+        currentToken.transactions.list.add(tx);
       }
     }
-    Community newCommunity = current.copyWith(
-        token: current.token.copyWith(
-            transactions: current.token.transactions.copyWith(
-                list: current.token.transactions.list,
-                blockNumber: maxBlockNumber)));
-    Map<String, Community> newOne =
-        Map<String, Community>.from(state.communities);
-    newOne[communityAddress] = newCommunity;
-    return state.copyWith(communities: newOne);
+    Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+    newOne[tokenAddress] = currentToken.copyWith(
+        transactions: currentToken.transactions.copyWith(
+            list: currentToken.transactions.list, blockNumber: maxBlockNumber));
+    return state.copyWith(tokens: newOne);
   } else {
     return state;
   }
@@ -261,48 +280,42 @@ CashWalletState _setIsTransfersFetching(
 }
 
 CashWalletState _addTransaction(CashWalletState state, AddTransaction action) {
-  final String communityAddress = action.communityAddress;
-  Community current = state.communities[communityAddress] ??
-      Community.initial().copyWith(address: communityAddress);
+  final String tokenAddress = action.tokenAddress;
+  Token current = state.tokens[tokenAddress] ??
+      Token.initial().copyWith(address: tokenAddress);
 
-  Transaction saved = current?.token?.transactions?.list?.firstWhere(
+  Transaction saved = current?.transactions?.list?.firstWhere(
       (tx) => tx.jobId != null && tx.jobId == action.transaction.jobId,
       orElse: () => null);
   Transactions transactions;
   if (saved == null) {
-    transactions = current?.token?.transactions?.copyWith(
-        list: current.token.transactions.list..add(action.transaction));
+    transactions = current?.transactions?.copyWith(
+        list: (current?.transactions?.list ?? [])..add(action.transaction));
   } else {
     if (action.transaction.isPending()) {
       return state;
     }
-    int index = current.token.transactions.list.indexOf(saved);
-    transactions = current.token.transactions.copyWith();
+    int index = (current?.transactions?.list ?? [])?.indexOf(saved);
+    transactions = current.transactions.copyWith();
     transactions.list[index] = action.transaction;
   }
-  Community newCommunity = current?.copyWith(
-      token: current?.token?.copyWith(transactions: transactions));
-  Map<String, Community> newOne =
-      Map<String, Community>.from(state.communities);
-  newOne[communityAddress] = newCommunity;
-  return state.copyWith(communities: newOne);
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[tokenAddress] = current?.copyWith(transactions: transactions);
+  return state.copyWith(tokens: newOne);
 }
 
 CashWalletState _inviteSendSuccess(
     CashWalletState state, InviteSendSuccess action) {
-  Community current = state.communities[action.communityAddress];
-  dynamic invites = Map.from(current.token.transactions.invites);
+  Token current = state.tokens[action.tokenAddress];
+  dynamic invites = Map.from(current.transactions.invites);
   invites[action.invite.jobId] = action.invite;
-  Community newCommunity = current.copyWith(
-      token: current.token.copyWith(
-          transactions: current.token.transactions.copyWith(
-              invites: invites,
-              list: List.from(current.token.transactions.list)
-                ..add(action.invite))));
-  Map<String, Community> newOne =
-      Map<String, Community>.from(state.communities);
-  newOne[action.communityAddress] = newCommunity;
-  return state.copyWith(communities: newOne);
+  Token newCommunity = current.copyWith(
+      transactions: current.transactions.copyWith(
+          invites: invites,
+          list: List.from(current.transactions.list)..add(action.invite)));
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[action.tokenAddress] = newCommunity;
+  return state.copyWith(tokens: newOne);
 }
 
 CashWalletState _createNewWalletSuccess(
@@ -314,10 +327,10 @@ CashWalletState _createNewWalletSuccess(
 
 CashWalletState _replaceTransfer(
     CashWalletState state, ReplaceTransaction action) {
-  final String communityAddress = action.communityAddress;
-  Community current = state.communities[communityAddress];
-  List<Transaction> oldTxs = List<Transaction>.from(
-      current.token.transactions.list.where((tx) =>
+  final String tokenAddress = action.tokenAddress;
+  Token current = state.tokens[tokenAddress];
+  List<Transaction> oldTxs = List<Transaction>.from(current.transactions.list
+      .where((tx) =>
           (tx.jobId != null && tx.jobId == action.transaction.jobId) ||
           (tx.txHash != null && tx.txHash == action.transaction.txHash) ||
           (tx.jobId != null && tx.jobId == action.transactionToReplace.jobId) ||
@@ -326,58 +339,48 @@ CashWalletState _replaceTransfer(
   if (oldTxs.isEmpty) {
     return state;
   }
-  int index = current.token.transactions.list.indexOf(oldTxs[0]);
-  current.token.transactions.list[index] = action.transactionToReplace;
+  int index = current.transactions.list.indexOf(oldTxs[0]);
+  current.transactions.list[index] = action.transactionToReplace;
   oldTxs.removeAt(0);
-  current.token.transactions.list.removeWhere((tx) => oldTxs.contains(tx));
-  Community newCommunity = current.copyWith(
-      token: current.token.copyWith(
-          transactions: current.token.transactions
-              .copyWith(list: current.token.transactions.list)));
-  Map<String, Community> newOne =
-      Map<String, Community>.from(state.communities);
-  newOne[communityAddress] = newCommunity;
-  return state.copyWith(communities: newOne);
+  current.transactions.list.removeWhere((tx) => oldTxs.contains(tx));
+  Token newToken = current.copyWith(
+      transactions:
+          current.transactions.copyWith(list: current.transactions.list));
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[tokenAddress] = newToken;
+  return state.copyWith(tokens: newOne);
 }
 
 CashWalletState _addJob(CashWalletState state, AddJob action) {
-  final String communityAddress = action.communityAddress;
-  Community current = state.communities[communityAddress];
-  Community newCommunity = current.copyWith(
-      token: current.token.copyWith(
-          jobs: List<Job>.from(current.token.jobs ?? [])..add(action.job)));
-  Map<String, Community> newOne =
-      Map<String, Community>.from(state.communities);
-  newOne[communityAddress] = newCommunity;
-  return state.copyWith(communities: newOne);
+  final String tokenAddress = action.tokenAddress;
+  Token current = state.tokens[tokenAddress];
+  Token newToken = current.copyWith(
+      jobs: List<Job>.from(current?.jobs ?? [])..add(action.job));
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[tokenAddress] = newToken;
+  return state.copyWith(tokens: newOne);
 }
 
 CashWalletState _jobDone(CashWalletState state, JobDone action) {
-  final String communityAddress = action.communityAddress;
-  Community current = state.communities[communityAddress];
-  Community newCommunity = current.copyWith(
-      token: current.token.copyWith(
-          jobs: List<Job>.from(current.token.jobs ?? [])..remove(action.job)));
-  Map<String, Community> newOne =
-      Map<String, Community>.from(state.communities);
-  newOne[communityAddress] = newCommunity;
-  return state.copyWith(communities: newOne);
+  final String tokenAddress = action.tokenAddress;
+  Token current = state.tokens[tokenAddress];
+  Token newCommunity = current.copyWith(
+      jobs: List<Job>.from(current.jobs ?? [])..remove(action.job));
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[tokenAddress] = newCommunity;
+  return state.copyWith(tokens: newOne);
 }
 
 CashWalletState _updateJob(CashWalletState state, UpdateJob action) {
-  final String communityAddress = action.communityAddress;
-  Community current = state.communities[communityAddress];
-  Job job =
-      current.token.jobs.firstWhere((element) => action.job.id == element.id);
-  int index = current.token.jobs.indexOf(job);
-  current.token.jobs[index] = action.job;
-  Community newCommunity = current.copyWith(
-      token: current.token
-          .copyWith(jobs: List<Job>.from(current.token.jobs ?? [])));
-  Map<String, Community> newOne =
-      Map<String, Community>.from(state.communities);
-  newOne[communityAddress] = newCommunity;
-  return state.copyWith(communities: newOne);
+  final String tokenAddress = action.tokenAddress;
+  Token current = state.tokens[tokenAddress];
+  Job job = current.jobs.firstWhere((element) => action.job.id == element.id);
+  int index = current.jobs.indexOf(job);
+  current.jobs[index] = action.job;
+  Token newToken = current.copyWith(jobs: List<Job>.from(current.jobs ?? []));
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne[tokenAddress] = newToken;
+  return state.copyWith(tokens: newOne);
 }
 
 CashWalletState _jobProcessingStarted(

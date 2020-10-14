@@ -37,7 +37,6 @@ class TransferJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('TransferJob FAILED');
-      // store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: TransferJob FAILED'));
       return;
     }
@@ -52,15 +51,15 @@ class TransferJob extends Job {
       store.dispatch(new ReplaceTransaction(
           transaction: transfer,
           transactionToReplace: confirmedTx,
-          communityAddress: arguments['communityAddress']));
-      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+          tokenAddress: transfer.tokenAddress));
+      store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
     }
 
     final int millisecondsIntoMin = 2 * 60 * 1000;
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       this.isReported = true;
-      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+      store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
@@ -68,9 +67,9 @@ class TransferJob extends Job {
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       transactionFailedSnack(failReason);
-      store.dispatch(transactionFailed(transfer, arguments['communityAddress'], failReason));
+      store.dispatch(transactionFailed(transfer, failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
-      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+      store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
       return;
     }
 
@@ -82,15 +81,14 @@ class TransferJob extends Job {
     store.dispatch(new ReplaceTransaction(
         transaction: transfer,
         transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED'),
-        communityAddress: arguments['communityAddress']));
+        tokenAddress: transfer.tokenAddress));
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
-    store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+    store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
   }
 
   @override
   dynamic argumentsToJson() => {
     'transfer': arguments['transfer'].toJson(),
-    'communityAddress': arguments['communityAddress']
   };
 
   @override

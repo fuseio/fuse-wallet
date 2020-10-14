@@ -11,7 +11,7 @@ import 'package:fc_knudde/redux/actions/cash_wallet_actions.dart';
 import 'package:fc_knudde/redux/actions/user_actions.dart';
 import 'package:fc_knudde/redux/state/store.dart';
 import 'package:fc_knudde/screens/route_guards.dart';
-import 'package:fc_knudde/screens/routes.gr.dart';
+import 'package:fc_knudde/screens/routes.gr.dart' as router;
 import 'package:fc_knudde/services.dart';
 import 'package:fc_knudde/themes/app_theme.dart';
 import 'package:fc_knudde/themes/custom_theme.dart';
@@ -149,9 +149,9 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'Fuse Cash',
+          title: 'FC Knudde',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(
