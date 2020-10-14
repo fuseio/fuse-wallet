@@ -8,26 +8,29 @@ import 'package:supervecina/services.dart';
 import 'package:supervecina/utils/format.dart';
 import 'package:supervecina/utils/phone.dart';
 import 'package:supervecina/widgets/preloader.dart';
+import 'package:phone_number/phone_number.dart';
 
-Future<Map> fetchWalletByPhone(phone, countryCode, isoCode) async {
+Future<Map> fetchWalletByPhone(
+    String phone, String countryCode, String isoCode) async {
   try {
-    Map<String, dynamic> response = await phoneNumberUtil.parse(phone);
-    String phoneNumber = response['e164'];
-    Map wallet = await api.getWalletByPhoneNumber(response['e164']);
+    PhoneNumber phoneNumber = await phoneNumberUtil.parse(phone);
+    Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
     String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
 
     return {
-      'phoneNumber': phoneNumber,
+      'phoneNumber': phoneNumber.e164,
       'walletAddress': walletAddress,
     };
   } catch (e) {
     String formatted = formatPhoneNumber(phone, countryCode);
-    bool isValid = await PhoneService.isValid(formatted, isoCode);
+    bool isValid = await phoneNumberUtil.validate(formatted, isoCode);
     if (isValid) {
-      Map wallet = await api.getWalletByPhoneNumber(formatted);
+      PhoneNumber phoneNumber =
+          await phoneNumberUtil.parse(formatted, regionCode: isoCode);
+      Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       return {
-        'phoneNumber': formatted,
+        'phoneNumber': phoneNumber.e164,
         'walletAddress': walletAddress,
       };
     } else {

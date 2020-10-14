@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:supervecina/generated/i18n.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -48,11 +49,10 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-  void onPressed(Function(CountryCode, String) signUp) {
-    phoneNumberUtil
-        .parse('${countryCode.dialCode}${phoneController.text}')
-        .then((value) {
-      signUp(countryCode, phoneController.text);
+  void onPressed(Function(CountryCode, PhoneNumber) signUp) {
+    final String phoneNumber = '${countryCode.dialCode}${phoneController.text}';
+    phoneNumberUtil.parse(phoneNumber).then((value) {
+      signUp(countryCode, value);
     }, onError: (e) {
       transactionFailedSnack(I18n.of(context).invalid_number,
           title: I18n.of(context).something_went_wrong,
@@ -98,9 +98,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         onTap: () {
                           showDialog(
                               context: context,
-                              builder: (BuildContext context) {
-                                return SignupDialog();
-                              });
+                              builder: (BuildContext context) =>
+                                  SignupDialog());
                           Segment.track(
                               eventName:
                                   "Wallet: opened modal - why do we need this");

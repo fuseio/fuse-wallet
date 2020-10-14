@@ -459,7 +459,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
     try {
       Map<String, dynamic> response = await api.createWallet();
       final String communityAddress =
-          store.state.cashWalletState.communityAddress ??
+          store.state?.cashWalletState?.communityAddress ??
               defaultCommunityAddress;
       if (!response.containsKey('job')) {
         logger.info('Wallet already exists');
@@ -467,10 +467,6 @@ ThunkAction createAccountWalletCall(String accountAddress) {
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
         store.dispatch(switchCommunityCall(communityAddress));
         return;
-      }
-      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
       }
       CashWalletState cashWalletState = store.state.cashWalletState;
       Community community = cashWalletState.communities[communityAddress];
@@ -788,7 +784,11 @@ ThunkAction fetchListOfTokensByAddress() {
             transactions: Transactions.initial(),
             jobs: List<Job>(),
             name: formatTokenName(element["name"]));
-        if (!cashWalletState.tokens.containsKey(token.address)) {
+        if (!cashWalletState.tokens.containsKey(token.address) &&
+            num.parse(formatValue(token.amount, token.decimals,
+                        withPrecision: true))
+                    .compareTo(0) ==
+                1) {
           logger.info('newToken newToken ${token.name}');
           previousValue[token.address] = token;
         }

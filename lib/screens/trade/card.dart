@@ -79,21 +79,24 @@ class TradeCard extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              CachedNetworkImage(
-                                width: 33,
-                                height: 33,
-                                imageUrl: token.imageUrl != null &&
-                                        token.imageUrl.isNotEmpty
-                                    ? token.imageUrl
-                                    : getTokenUrl(
-                                        checksumEthereumAddress(token.address)),
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => Icon(
-                                  Icons.error,
-                                  size: 18,
-                                ),
-                              ),
+                              ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50)),
+                                  child: CachedNetworkImage(
+                                    width: 33,
+                                    height: 33,
+                                    imageUrl: token.imageUrl != null &&
+                                            token.imageUrl.isNotEmpty
+                                        ? token.imageUrl
+                                        : getTokenUrl(checksumEthereumAddress(
+                                            token.address)),
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) => Icon(
+                                      Icons.error,
+                                      size: 18,
+                                    ),
+                                  )),
                               SizedBox(
                                 width: 10,
                               ),
