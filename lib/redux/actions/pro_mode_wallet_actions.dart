@@ -180,8 +180,8 @@ ThunkAction startListenToTransferEvents() {
         }
         try {
           String walletAddress = store.state.userState.walletAddress;
-          List transfersEvents = await graph.getTransferEvents(
-              foreignNetwork: foreignNetwork, to: walletAddress);
+          List transfersEvents = await ethereumExplorerApi
+              .getTransferEventsByAccountAddress(walletAddress);
           ProWalletState proWalletState = store.state.proWalletState;
           if (transfersEvents.isNotEmpty) {
             List<String> tokenAddresses = [

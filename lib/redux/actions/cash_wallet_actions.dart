@@ -885,9 +885,15 @@ ThunkAction inviteBonusCall(dynamic data, Community community) {
 //   };
 // }
 
-ThunkAction sendTokenFromWebViewCall(Token token, String receiverAddress, num tokensAmount,
-    Function(dynamic) sendSuccessCallback, VoidCallback sendFailureCallback,
-    {String receiverName, String transferNote, Transfer inviteTransfer}) {
+ThunkAction sendTokenFromWebViewCall(
+    Token token,
+    String receiverAddress,
+    num tokensAmount,
+    Function(dynamic) sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+    {String receiverName,
+    String transferNote,
+    Transfer inviteTransfer}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -1094,8 +1100,9 @@ ThunkAction joinCommunityCall(
       if (isMember) {
         store.dispatch(AlreadyJoinedCommunity(community.address));
       } else {
-        dynamic response =
-            await api.joinCommunity(web3, walletAddress, community.address);
+        dynamic response = await api.joinCommunity(
+            web3, walletAddress, community.address, community.token.address,
+            originNetwork: community.token.originNetwork);
 
         dynamic jobId = response['job']['_id'];
         Transfer transfer = new Transfer(
