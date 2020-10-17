@@ -1,51 +1,38 @@
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bit2c/screens/home/widgets/drawer.dart';
 import 'package:bit2c/utils/addresses.dart';
-import 'package:redux/redux.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bit2c/generated/i18n.dart';
 import 'package:bit2c/models/tokens/token.dart';
 import 'package:bit2c/models/transactions/transfer.dart';
 import 'package:bit2c/utils/format.dart';
-import 'package:bit2c/utils/transaction_util.dart';
 import 'package:bit2c/widgets/main_scaffold.dart';
 
-class TransactionDetailsScreen extends StatefulWidget {
-  final List<Widget> amount;
+class TransactionDetailsScreen extends StatelessWidget {
   final String status;
-  final String from;
+  final String displayName;
   final ImageProvider<dynamic> image;
   final Contact contact;
   final Transfer transfer;
   final Token token;
+
   TransactionDetailsScreen(
       {this.image,
-      this.from,
+      this.displayName,
       this.status,
       this.token,
       this.contact,
-      this.amount,
       this.transfer});
-  @override
-  _TransactionDetailsScreenState createState() =>
-      _TransactionDetailsScreenState();
-}
-
-class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
-    with TickerProviderStateMixin {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    String amount = formatValue(transfer?.value, token?.decimals);
     return MainScaffold(
       withPadding: true,
-      title: widget.transfer.type.toUpperCase(),
+      title: transfer.type.toUpperCase(),
       children: <Widget>[
         Container(
             height: MediaQuery.of(context).size.height * 0.7,
@@ -61,7 +48,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            widget.transfer.isFailed()
+                            transfer.isFailed()
                                 ? Padding(
                                     padding: EdgeInsets.only(right: 10),
                                     child: SvgPicture.asset(
@@ -70,7 +57,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                                       height: 25,
                                     ),
                                   )
-                                : widget.transfer.isConfirmed()
+                                : transfer.isConfirmed()
                                     ? Padding(
                                         padding: EdgeInsets.only(right: 10),
                                         child: SvgPicture.asset(
@@ -78,7 +65,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                                             width: 25,
                                             height: 25),
                                       )
-                                    : widget.transfer.isPending()
+                                    : transfer.isPending()
                                         ? Padding(
                                             padding: EdgeInsets.only(right: 10),
                                             child: SvgPicture.asset(
@@ -88,9 +75,9 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                                           )
                                         : SizedBox.shrink(),
                             Text(
-                                widget.transfer.isConfirmed()
+                                transfer.isConfirmed()
                                     ? I18n.of(context).approved
-                                    : widget?.transfer?.status,
+                                    : transfer?.status,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Theme.of(context).accentColor,
@@ -99,7 +86,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                           ],
                         ),
                       ),
-                      widget.transfer.isFailed()
+                      transfer.isFailed()
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +100,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                                         fontSize: 14,
                                         fontWeight: FontWeight.normal)),
                                 Text(
-                                    widget?.transfer?.failReason ??
+                                    transfer?.failReason ??
                                         I18n.of(context).something_went_wrong,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -144,7 +131,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                           children: <Widget>[
                             SizedBox(
                               width: MediaQuery.of(context).size.width * .3,
-                              child: Text(widget.transfer.type == 'SEND'
+                              child: Text(transfer.type == 'SEND'
                                   ? I18n.of(context).to
                                   : I18n.of(context).from),
                             ),
@@ -155,16 +142,16 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                                   CircleAvatar(
                                     backgroundColor: Color(0xFFE0E0E0),
                                     radius: 22,
-                                    backgroundImage: widget.image,
+                                    backgroundImage: image,
                                   ),
                                   Expanded(
                                       child: Padding(
                                     padding: EdgeInsets.only(left: 10),
                                     child: Text(
-                                      widget.from,
+                                      displayName,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                  )),
+                                  ))
                                 ],
                               ),
                             )
@@ -177,32 +164,24 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                             height: 1,
                           ),
                         ),
-                        StoreConnector<AppState, _TransactionDetailViewModel>(
-                            distinct: true,
-                            converter: _TransactionDetailViewModel.fromStore,
-                            builder: (_, viewModel) {
-                              return Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * .3,
-                                    child: Text(I18n.of(context).address),
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * .3,
-                                    child: Text(deducePhoneNumber(
-                                        widget.transfer,
-                                        viewModel.reverseContacts,
-                                        getReverseContact: false)),
-                                  )
-                                ],
-                              );
-                            }),
+                        rowItem(
+                            context,
+                            I18n.of(context).address,
+                            formatAddress(transfer.type == 'SEND'
+                                ? transfer.to
+                                : transfer.from),
+                            withCopy: true, onTap: () {
+                          Clipboard.setData(ClipboardData(
+                              text: transfer.type == 'SEND'
+                                  ? transfer.to
+                                  : transfer.from));
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                              I18n.of(context).copied_to_clipboard,
+                              textAlign: TextAlign.center,
+                            ),
+                          ));
+                        }),
                         Padding(
                           padding: EdgeInsets.only(top: 25, bottom: 25),
                           child: Divider(
@@ -210,23 +189,8 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                             height: 1,
                           ),
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .3,
-                              child: Text(I18n.of(context).amount),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .3,
-                              child: Row(
-                                children: widget?.amount,
-                              ),
-                            )
-                          ],
-                        ),
+                        rowItem(context, I18n.of(context).amount,
+                            '$amount ${token.symbol}'),
                         Padding(
                           padding: EdgeInsets.only(top: 25, bottom: 25),
                           child: Divider(
@@ -234,24 +198,13 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                             height: 1,
                           ),
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .3,
-                              child: Text(I18n.of(context).network),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .3,
-                              child: Text(widget.token.originNetwork != null
-                                  ? 'Fuse'
-                                  : 'Ethereum $foreignNetwork'),
-                            )
-                          ],
-                        ),
-                        [null, ''].contains(widget.transfer.txHash)
+                        rowItem(
+                            context,
+                            I18n.of(context).network,
+                            token.originNetwork != null
+                                ? 'Fuse'
+                                : 'Ethereum ${capitalize(foreignNetwork)}'),
+                        [null, ''].contains(transfer.txHash)
                             ? SizedBox.shrink()
                             : Padding(
                                 padding: EdgeInsets.only(top: 25, bottom: 25),
@@ -260,28 +213,21 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                                   height: 1,
                                 ),
                               ),
-                        [null, ''].contains(widget.transfer.txHash)
+                        [null, ''].contains(transfer.txHash)
                             ? SizedBox.shrink()
-                            : Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * .3,
-                                    child: Text('Txn'),
+                            : rowItem(
+                                context, 'Txn', formatAddress(transfer?.txHash),
+                                withCopy: true, onTap: () {
+                                Clipboard.setData(
+                                    ClipboardData(text: transfer?.txHash));
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                    I18n.of(context).copied_to_clipboard,
+                                    textAlign: TextAlign.center,
                                   ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * .3,
-                                    child: Text(formatAddress(
-                                        widget?.transfer?.txHash)),
-                                  )
-                                ],
-                              )
-                        // widget.transfer.timestamp == null
+                                ));
+                              })
+                        // transfer.timestamp == null
                         //     ? SizedBox.shrink()
                         //     : Padding(
                         //         padding: EdgeInsets.only(top: 25, bottom: 25),
@@ -290,7 +236,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                         //           height: 1,
                         //         ),
                         //       ),
-                        // widget.transfer.timestamp == null
+                        // transfer.timestamp == null
                         //     ? SizedBox.shrink()
                         //     : Row(
                         //         crossAxisAlignment: CrossAxisAlignment.center,
@@ -307,8 +253,8 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
                         //             width:
                         //                 MediaQuery.of(context).size.width * .3,
                         //             child: Text(
-                        //                 new DateTime.fromMillisecondsSinceEpoch(
-                        //                         widget.transfer.timestamp * 1000)
+                        //                 DateTime.fromMillisecondsSinceEpoch(
+                        //                         transfer.timestamp)
                         //                     .toString()),
                         //           )
                         //         ],
@@ -320,19 +266,52 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen>
       ],
     );
   }
-}
 
-class _TransactionDetailViewModel extends Equatable {
-  final Map<String, String> reverseContacts;
-
-  _TransactionDetailViewModel({this.reverseContacts});
-
-  static _TransactionDetailViewModel fromStore(Store<AppState> store) {
-    return _TransactionDetailViewModel(
-      reverseContacts: store.state.userState.reverseContacts,
-    );
+  Widget rowItem(BuildContext context, String title, String value,
+      {void Function() onTap, bool withCopy = false}) {
+    if (withCopy) {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          SizedBox(
+            width: MediaQuery.of(context).size.width * .3,
+            child: Text(title),
+          ),
+          SizedBox(
+              width: MediaQuery.of(context).size.width * .3,
+              child: InkWell(
+                onTap: onTap,
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Icon(
+                        FaIcon(FontAwesomeIcons.copy).icon,
+                        size: 14,
+                      ),
+                      Text(value)
+                    ]),
+              ))
+        ],
+      );
+    } else {
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          SizedBox(
+            width: MediaQuery.of(context).size.width * .3,
+            child: Text(title),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * .3,
+            child: Text(value),
+          )
+        ],
+      );
+    }
   }
-
-  @override
-  List<Object> get props => [reverseContacts];
 }

@@ -19,6 +19,7 @@ import 'package:bit2c/utils/constans.dart';
 import 'package:bit2c/utils/contacts.dart';
 import 'package:bit2c/utils/format.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart';
@@ -94,7 +95,7 @@ class ReLogin {
 
 class LoginRequest {
   final CountryCode countryCode;
-  final String phoneNumber;
+  final PhoneNumber phoneNumber;
   final PhoneCodeSent codeSent;
   final PhoneVerificationCompleted verificationCompleted;
   final PhoneVerificationFailed verificationFailed;
@@ -217,11 +218,10 @@ ThunkAction setCountryCode(CountryCode countryCode) {
   return (Store store) async {
     String phone =
         '${countryCode.dialCode}${store.state.userState.phoneNumber}';
-    String normalizedPhoneNumber =
-        await PhoneService.getNormalizedPhoneNumber(phone, countryCode.code);
+    PhoneNumber phoneNumber =
+        await phoneNumberUtil.parse(phone, regionCode: countryCode.code);
     store.dispatch(SetIsoCode(
-        countryCode: countryCode,
-        normalizedPhoneNumber: normalizedPhoneNumber));
+        countryCode: countryCode, normalizedPhoneNumber: phoneNumber.e164));
   };
 }
 
@@ -382,15 +382,16 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
             Future.wait(contact.phones.map((Item phone) async {
           String value = clearNotNumbersAndPlusSymbol(phone.value);
           try {
-            Map<String, dynamic> response = await phoneNumberUtil.parse(value);
-            return response['e164'];
+            PhoneNumber phoneNumber = await phoneNumberUtil.parse(value);
+            return phoneNumber.e164;
           } catch (e) {
             String formatted = formatPhoneNumber(value, countryCode);
-            bool isValid = await PhoneService.isValid(formatted, isoCode);
+            bool isValid = await phoneNumberUtil.validate(formatted, isoCode);
             if (isValid) {
-              String phoneNum = await PhoneService.getNormalizedPhoneNumber(
-                  formatted, isoCode);
-              return phoneNum;
+              String phoneNum =
+                  await phoneNumberUtil.format(formatted, isoCode);
+              PhoneNumber phoneNumber = await phoneNumberUtil.parse(phoneNum);
+              return phoneNumber.e164;
             }
             return '';
           }

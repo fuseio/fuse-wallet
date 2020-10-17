@@ -9,6 +9,7 @@ import 'package:bit2c/redux/state/store.dart';
 import 'package:bit2c/screens/routes.gr.dart';
 import 'package:bit2c/services.dart';
 import 'package:bit2c/utils/biometric_local_auth.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
 import 'package:bit2c/models/app_state.dart';
 import 'package:bit2c/redux/actions/user_actions.dart';
@@ -23,7 +24,7 @@ class OnboardViewModel extends Equatable {
   final bool loginVerifySuccess;
   final bool isLoginRequest;
   final bool isVerifyRequest;
-  final Function(CountryCode, String) signUp;
+  final Function(CountryCode, PhoneNumber) signUp;
   final Function(String, String) verify;
   final Function(String) setPincode;
   final Function(String) setDisplayName;
@@ -122,7 +123,7 @@ class OnboardViewModel extends Equatable {
         isLoginRequest: store.state.userState.isLoginRequest,
         signupException: store.state.userState.signupException,
         verifyException: store.state.userState.verifyException,
-        signUp: (CountryCode countryCode, String phoneNumber) {
+        signUp: (CountryCode countryCode, PhoneNumber phoneNumber) {
           store.dispatch(LoginRequest(
               countryCode: countryCode,
               phoneNumber: phoneNumber,

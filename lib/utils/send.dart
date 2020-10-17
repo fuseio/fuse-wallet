@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
@@ -12,26 +14,29 @@ import 'package:bit2c/utils/format.dart';
 import 'package:bit2c/utils/phone.dart';
 import 'package:bit2c/widgets/preloader.dart';
 import 'package:http/http.dart';
+import 'package:phone_number/phone_number.dart';
 
-Future<Map> fetchWalletByPhone(phone, countryCode, isoCode) async {
+Future<Map> fetchWalletByPhone(
+    String phone, String countryCode, String isoCode) async {
   try {
-    Map<String, dynamic> response = await phoneNumberUtil.parse(phone);
-    String phoneNumber = response['e164'];
-    Map wallet = await api.getWalletByPhoneNumber(response['e164']);
+    PhoneNumber phoneNumber = await phoneNumberUtil.parse(phone);
+    Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
     String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
 
     return {
-      'phoneNumber': phoneNumber,
+      'phoneNumber': phoneNumber.e164,
       'walletAddress': walletAddress,
     };
   } catch (e) {
     String formatted = formatPhoneNumber(phone, countryCode);
-    bool isValid = await PhoneService.isValid(formatted, isoCode);
+    bool isValid = await phoneNumberUtil.validate(formatted, isoCode);
     if (isValid) {
-      Map wallet = await api.getWalletByPhoneNumber(formatted);
+      PhoneNumber phoneNumber =
+          await phoneNumberUtil.parse(formatted, regionCode: isoCode);
+      Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       return {
-        'phoneNumber': formatted,
+        'phoneNumber': phoneNumber.e164,
         'walletAddress': walletAddress,
       };
     } else {
@@ -107,16 +112,17 @@ void bracodeScannerValidateAPI(
 ) async {
   final logger = await AppFactory().getLogger('validateApi');
   ScanResult scanResult = await BarcodeScanner.scan();
-  logger.info('scanResult.rawContent ${scanResult.rawContent}');
+  logger.info('token - ${scanResult.rawContent}');
+  final String token = scanResult.rawContent;
   try {
     String qrValidateAPI = "https://bit2c.co.il/account/validate";
-    Response response = await client.post(qrValidateAPI, body: <String, String>{
+    var body = jsonEncode(<String, String>{
       'phonenumber': phoneNumber,
       'address': address,
-      'token': scanResult.rawContent,
-    }, headers: {
-      'Content-Type': 'application/json'
+      'token': token,
     });
+    Response response = await client.post(qrValidateAPI,
+        body: body, headers: {'Content-Type': 'application/json'});
     Map<String, dynamic> res = responseHandler(response);
     transactionFailedSnack(res['Message'],
         title: res['Status'],

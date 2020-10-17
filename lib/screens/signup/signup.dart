@@ -14,6 +14,7 @@ import 'package:bit2c/widgets/primary_button.dart';
 import 'package:bit2c/widgets/signup_dialog.dart';
 import 'package:bit2c/models/views/onboard.dart';
 import 'package:bit2c/widgets/snackbars.dart';
+import 'package:phone_number/phone_number.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -48,11 +49,10 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-  void onPressed(Function(CountryCode, String) signUp) {
-    phoneNumberUtil
-        .parse('${countryCode.dialCode}${phoneController.text}')
-        .then((value) {
-      signUp(countryCode, phoneController.text);
+  void onPressed(Function(CountryCode, PhoneNumber) signUp) {
+    final String phoneNumber = '${countryCode.dialCode}${phoneController.text}';
+    phoneNumberUtil.parse(phoneNumber).then((value) {
+      signUp(countryCode, value);
     }, onError: (e) {
       transactionFailedSnack(I18n.of(context).invalid_number,
           title: I18n.of(context).something_went_wrong,
@@ -98,9 +98,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         onTap: () {
                           showDialog(
                               context: context,
-                              builder: (BuildContext context) {
-                                return SignupDialog();
-                              });
+                              builder: (BuildContext context) =>
+                                  SignupDialog());
                           Segment.track(
                               eventName:
                                   "Wallet: opened modal - why do we need this");
