@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
 import 'package:bit2c/redux/state/store.dart';
+import 'package:bit2c/widgets/snackbars.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:bit2c/screens/routes.gr.dart';
@@ -105,39 +104,29 @@ bracodeScannerHandler() async {
 void bracodeScannerValidateAPI(
   String phoneNumber,
   String address,
-  String token,
 ) async {
-  // print(phoneNumber);
-  // print(address);
-  // print(token);
+  final logger = await AppFactory().getLogger('validateApi');
+  ScanResult scanResult = await BarcodeScanner.scan();
+  logger.info('scanResult.rawContent ${scanResult.rawContent}');
   try {
-    ScanResult scanResult = await BarcodeScanner.scan();
-    List<String> parts = scanResult.rawContent.split('.');
-
-    if (parts.length >= 2) {
-      String first = parts[1];
-      String second = parts[2] != null ? parts[2] : "";
-      String token = "$first.$second";
-      try {
-        String qrValidateAPI = "https://testing.bit2c.co.il/account/validate";
-        var param = jsonEncode(<String, String>{
-          'phonenumber': phoneNumber,
-          'address': address,
-          'token': token,
-        });
-
-        Response response = await client.post(qrValidateAPI, body: param);
-        Map<String, dynamic> drawInfoResponse = responseHandler(response);
-        final data = drawInfoResponse['data'];
-        return data;
-      } catch (error, stackTrace) {
-        await AppFactory().reportError(error, stackTrace: stackTrace);
-        throw 'Error while validating QR';
-      }
-    } else {
-      print('QR Validate is not on Fuse');
-    }
-  } catch (e) {
-    print('ERROR - BarcodeScanner');
+    String qrValidateAPI = "https://bit2c.co.il/account/validate";
+    Response response = await client.post(qrValidateAPI, body: <String, String>{
+      'phonenumber': phoneNumber,
+      'address': address,
+      'token': scanResult.rawContent,
+    }, headers: {
+      'Content-Type': 'application/json'
+    });
+    Map<String, dynamic> res = responseHandler(response);
+    transactionFailedSnack(res['Message'],
+        title: res['Status'],
+        duration: Duration(seconds: 3),
+        context: ExtendedNavigator.named('homeRouter').context,
+        margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
+    logger.info('res res ${res.toString()}');
+  } catch (error, stackTrace) {
+    logger.severe('Error while validating account ${error.toString()}');
+    await AppFactory().reportError(error, stackTrace: stackTrace);
+    throw 'Error while validating QR';
   }
 }
