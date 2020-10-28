@@ -4,6 +4,7 @@ description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  smooth_page_indicator: ^0.2.0
   font_awesome_flutter: ^8.10.0
   flushbar: ^1.10.4
   flutter_platform_widgets: ^0.60.2

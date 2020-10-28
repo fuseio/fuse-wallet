@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:curadai/utils/forks.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -1329,41 +1330,81 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
         communityAddress = store.state.cashWalletState.communityAddress;
       }
       store.dispatch(StartFetchingBusinessList());
-      Community community =
-          store.state.cashWalletState.communities[communityAddress];
-      Token token =
-          store.state.cashWalletState.tokens[community?.homeTokenAddress];
-      bool isOriginRopsten = isRopsten ??
-          (token?.originNetwork != null
-              ? token?.originNetwork == 'ropsten'
-              : false);
-      dynamic communityEntities =
-          await graph.getCommunityBusinesses(communityAddress);
-      if (communityEntities != null) {
-        List<dynamic> entities = List.from(communityEntities);
-        Future<List<Business>> businesses =
-            Future.wait(entities.map((dynamic entity) async {
-          try {
-            dynamic metadata = await api.getEntityMetadata(
-                communityAddress, entity['address'],
-                isRopsten: isOriginRopsten);
-            return Business.initial().copyWith(
-                account: entity['address'],
-                name: metadata['name'] ?? '',
-                metadata: BusinessMetadata.fromJson(metadata ?? {}));
-          } catch (e) {
-            return Business.initial().copyWith(
-                account: entity['address'],
-                name: formatAddress(entity['address']),
-                metadata: BusinessMetadata.initial()
-                    .copyWith(address: entity['address']));
+      if (isCuraDAI(communityAddress)) {
+        Client client = new Client();
+        dynamic res = await client.get(
+            'https://api.airtable.com/v0/appsNpalD79zYmAcn/Table%201',
+            headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
+        dynamic a = responseHandler(res);
+        List<Business> businessList = new List();
+        await Future.forEach(a['records'], (record) {
+          if (record['fields'].containsKey('name') &&
+              record['fields'].containsKey('account')) {
+            dynamic data = record['fields'];
+            Map<String, dynamic> business = Map.from({
+              'name': data['name'] ?? '',
+              'account': data['account'] ?? '',
+              'metadata': {
+                'image': data['image'][0]['url'] ?? '',
+                "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
+                'address': data['address'] ?? '',
+                'description': data['description'] ?? '',
+                'phoneNumber': data['phoneNumber'] ?? '',
+                'website': data['website'] ?? '',
+                'type': data['type'] ?? '',
+                'latLng': data['GPS'] != null
+                    ? data['GPS']
+                        .split(',')
+                        .toList()
+                        .map((item) => double.parse(item.trim()))
+                        .toList()
+                    : null
+              }
+            });
+            businessList.add(new Business.fromJson(business));
           }
-        }));
-        List<Business> result = await businesses;
-        result..toList();
-        store.dispatch(GetBusinessListSuccess(
-            businessList: result, communityAddress: communityAddress));
-        store.dispatch(FetchingBusinessListSuccess());
+        }).then((r) {
+          store.dispatch(GetBusinessListSuccess(
+              businessList: businessList, communityAddress: communityAddress));
+          store.dispatch(FetchingBusinessListSuccess());
+        });
+      } else {
+        Community community =
+            store.state.cashWalletState.communities[communityAddress];
+        Token token =
+            store.state.cashWalletState.tokens[community?.homeTokenAddress];
+        bool isOriginRopsten = isRopsten ??
+            (token?.originNetwork != null
+                ? token?.originNetwork == 'ropsten'
+                : false);
+        dynamic communityEntities =
+            await graph.getCommunityBusinesses(communityAddress);
+        if (communityEntities != null) {
+          List<dynamic> entities = List.from(communityEntities);
+          Future<List<Business>> businesses =
+              Future.wait(entities.map((dynamic entity) async {
+            try {
+              dynamic metadata = await api.getEntityMetadata(
+                  communityAddress, entity['address'],
+                  isRopsten: isOriginRopsten);
+              return Business.initial().copyWith(
+                  account: entity['address'],
+                  name: metadata['name'] ?? '',
+                  metadata: BusinessMetadata.fromJson(metadata ?? {}));
+            } catch (e) {
+              return Business.initial().copyWith(
+                  account: entity['address'],
+                  name: formatAddress(entity['address']),
+                  metadata: BusinessMetadata.initial()
+                      .copyWith(address: entity['address']));
+            }
+          }));
+          List<Business> result = await businesses;
+          result..toList();
+          store.dispatch(GetBusinessListSuccess(
+              businessList: result, communityAddress: communityAddress));
+          store.dispatch(FetchingBusinessListSuccess());
+        }
       }
     } catch (e) {
       logger.severe('ERROR - getBusinessListCall $e');

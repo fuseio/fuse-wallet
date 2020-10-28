@@ -32,12 +32,12 @@ class I18n implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  /// "Use the wallet to send money \n to friends without fees or friction"
-  String get intro_text_one => "Use the wallet to send money \n to friends without fees or friction";
-  /// "Pay and get paid using crypto \n and see where you can shop nearby"
-  String get intro_text_two => "Pay and get paid using crypto \n and see where you can shop nearby";
-  /// "Hold Ethereum assets and access \n decentralized finance with a few taps"
-  String get intro_text_three => "Hold Ethereum assets and access \n decentralized finance with a few taps";
+  /// "Use the wallet to send, receive \n and store CuraDAI, our community currency"
+  String get intro_text_one => "Use the wallet to send, receive \n and store CuraDAI, our community currency";
+  /// "Use CuraDAI as a digital Guilder \n to get paid and pay at local shops"
+  String get intro_text_two => "Use CuraDAI as a digital Guilder \n to get paid and pay at local shops";
+  /// "Earn CuraDAI by contributing to \n social-impact projects that support Curaçao"
+  String get intro_text_three => "Earn CuraDAI by contributing to \n social-impact projects that support Curaçao";
   /// "Hello"
   String get hi => "Hello";
   /// "Language"
