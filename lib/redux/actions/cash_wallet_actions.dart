@@ -1330,23 +1330,25 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
         communityAddress = store.state.cashWalletState.communityAddress;
       }
       store.dispatch(StartFetchingBusinessList());
-      if (isCuraDAI(communityAddress)) {
+      if (isCuraDAI(communityAddress..toLowerCase())) {
         Client client = new Client();
-        dynamic res = await client.get(
+        Map<String, dynamic> res = responseHandler(await client.get(
             'https://api.airtable.com/v0/appsNpalD79zYmAcn/Table%201',
-            headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"});
-        dynamic a = responseHandler(res);
+            headers: {"Authorization": "Bearer keywI4WPG7mJVm2XU"}));
         List<Business> businessList = new List();
-        await Future.forEach(a['records'], (record) {
+        await Future.forEach(res['records'], (record) {
           if (record['fields'].containsKey('name') &&
               record['fields'].containsKey('account')) {
             dynamic data = record['fields'];
+            final image = data['image'] != null ? data['image'][0]['url'] : '';
+            final coverPhoto =
+                data['coverPhoto'] != null ? data['coverPhoto'][0]['url'] : '';
             Map<String, dynamic> business = Map.from({
               'name': data['name'] ?? '',
               'account': data['account'] ?? '',
               'metadata': {
-                'image': data['image'][0]['url'] ?? '',
-                "coverPhoto": data['coverPhoto'][0]['url'] ?? '',
+                'image': image,
+                "coverPhoto": coverPhoto,
                 'address': data['address'] ?? '',
                 'description': data['description'] ?? '',
                 'phoneNumber': data['phoneNumber'] ?? '',

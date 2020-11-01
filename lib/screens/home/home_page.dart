@@ -116,15 +116,10 @@ class _HomePageState extends State<HomePage> {
                           ? ContactsRoutes.contactsList
                           : ContactsRoutes.emptyContacts,
                 ),
-                !['', null].contains(vm.community.webUrl)
-                    ? WebViewPage(
-                        url: vm.community.webUrl,
-                        withBack: false,
-                        title: I18n.of(context).community_webpage)
-                    : ExtendedNavigator(
-                        router: BuyRouter(),
-                        observers: [SegmentObserver()],
-                      ),
+                ExtendedNavigator(
+                  router: BuyRouter(),
+                  observers: [SegmentObserver()],
+                ),
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(
