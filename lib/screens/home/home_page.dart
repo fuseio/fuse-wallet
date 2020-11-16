@@ -12,6 +12,7 @@ import 'package:peepl/screens/home/router/home_router.gr.dart';
 import 'package:peepl/screens/misc/inapp_webview_page.dart';
 import 'package:peepl/screens/home/widgets/drawer.dart';
 import 'package:peepl/utils/contacts.dart';
+import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:peepl/models/app_state.dart';
@@ -32,6 +33,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  PlaidLink _plaidLinkToken;
   int currentIndex = 0;
   bool isContactSynced = false;
   InAppWebViewController controller;
@@ -44,6 +46,18 @@ class _HomePageState extends State<HomePage> {
         isContactSynced = value;
       });
     });
+  }
+
+  void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
+    print("onSuccess: $publicToken, metadata: ${metadata.description()}");
+  }
+
+  void _onEventCallback(String event, LinkEventMetadata metadata) {
+    print("onEvent: $event, metadata: ${metadata.description()}");
+  }
+
+  void _onExitCallback(String error, LinkExitMetadata metadata) {
+    print("onExit: $error, metadata: ${metadata.description()}");
   }
 
   void _onTap(int itemIndex) {
@@ -94,6 +108,22 @@ class _HomePageState extends State<HomePage> {
         distinct: true,
         converter: _HomePageViewModel.fromStore,
         onInit: onInit,
+        onWillChange: (previousViewModel, newViewModel) {
+          if (previousViewModel.plaidLinkToken == null &&
+              newViewModel.plaidLinkToken != null) {
+            print('newViewModel.plaidLinkToken ${newViewModel.plaidLinkToken}');
+            setState(() {
+              _plaidLinkToken = PlaidLink(
+                configuration: LinkConfiguration(
+                  linkToken: newViewModel.plaidLinkToken,
+                ),
+                onSuccess: _onSuccessCallback,
+                onEvent: _onEventCallback,
+                onExit: _onExitCallback,
+              );
+            });
+          }
+        },
         builder: (_, vm) {
           return Scaffold(
               key: AppKeys.homePageKey,
@@ -107,7 +137,6 @@ class _HomePageState extends State<HomePage> {
                   observers: [SegmentObserver()],
                 ),
                 WebViewWidget(
-                    controller: controller,
                     withBack: false,
                     url:
                         'https://app.itsaboutpeepl.com/topup?wallet=${vm.walletAddress}',
@@ -121,6 +150,9 @@ class _HomePageState extends State<HomePage> {
               bottomNavigationBar: BottomBar(
                 onTap: (index) {
                   _onTap(index);
+                  if (index == 1 && _plaidLinkToken != null) {
+                    _plaidLinkToken.open();
+                  }
                   // if (vm.isContactsSynced == null &&
                   //     index == 1 &&
                   //     !isContactSynced) {
@@ -156,15 +188,18 @@ class _HomePageViewModel extends Equatable {
   final bool isBackupDialogShowed;
   final Function setShowDialog;
   final String walletAddress;
+  final String plaidLinkToken;
 
-  _HomePageViewModel(
-      {this.isContactsSynced,
-      this.isDefaultCommunity,
-      this.community,
-      this.backup,
-      this.isBackupDialogShowed,
-      this.setShowDialog,
-      this.walletAddress});
+  _HomePageViewModel({
+    this.isContactsSynced,
+    this.isDefaultCommunity,
+    this.community,
+    this.backup,
+    this.isBackupDialogShowed,
+    this.setShowDialog,
+    this.walletAddress,
+    this.plaidLinkToken,
+  });
 
   static _HomePageViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
@@ -175,6 +210,7 @@ class _HomePageViewModel extends Equatable {
       walletAddress: store.state.userState.walletAddress,
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
+      plaidLinkToken: store.state.userState.plaidLinkToken,
       isDefaultCommunity: util.isDefaultCommunity(communityAddress),
       backup: store.state.userState.backup,
       isBackupDialogShowed:
@@ -186,5 +222,6 @@ class _HomePageViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [isDefaultCommunity, community, isContactsSynced];
+  List<Object> get props =>
+      [isDefaultCommunity, community, isContactsSynced, plaidLinkToken];
 }

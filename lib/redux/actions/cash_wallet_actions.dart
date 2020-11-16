@@ -514,6 +514,7 @@ ThunkAction generateWalletSuccessCall(
     if (walletAddress != null && walletAddress.isNotEmpty) {
       store.dispatch(enablePushNotifications());
       store.dispatch(setupWalletCall(walletData));
+      store.dispatch(generateLinkToken(walletData));
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
         "App name": 'Peepl',

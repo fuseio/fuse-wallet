@@ -11,6 +11,7 @@ part 'user_state.g.dart';
 @JsonSerializable(explicitToJson: true)
 class UserState {
   final String walletStatus;
+  final String plaidLinkToken;
   final String walletAddress;
   final String communityManagerAddress;
   final String transferManagerAddress;
@@ -63,6 +64,7 @@ class UserState {
   UserState(
       {this.walletStatus,
       this.walletAddress,
+      this.plaidLinkToken,
       this.communityManagerAddress,
       this.transferManagerAddress,
       this.daiPointsManagerAddress,
@@ -183,8 +185,10 @@ class UserState {
       String currency,
       num totalBalance,
       dynamic verifyException,
-      dynamic signupException}) {
+      dynamic signupException,
+      String plaidLinkToken}) {
     return UserState(
+        plaidLinkToken: plaidLinkToken ?? this.plaidLinkToken,
         verifyException: verifyException ?? this.verifyException,
         signupException: signupException ?? this.signupException,
         authType: authType ?? this.authType,

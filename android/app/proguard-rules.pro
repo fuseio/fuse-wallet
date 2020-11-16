@@ -1,4 +1,5 @@
 ## Flutter wrapper
+-keep class com.google.crypto.tink.proto.** { *; }
 -keep class io.flutter.app.** { *; }
 -keep class io.flutter.plugin.**  { *; }
 -keep class io.flutter.util.**  { *; }

@@ -32,6 +32,7 @@ final userReducers = combineReducers<UserState>([
       _receiveBackupDialogShowed),
   TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
   TypedReducer<UserState, UpdateCurrency>(_updateCurrency),
+  TypedReducer<UserState, UpdatePlaidLinkToken>(_updatePlaidLinkToken),
   TypedReducer<UserState, UpdateTotalBalance>(_updateTotalBalance),
   TypedReducer<UserState, CreateAccountWalletRequest>(
       _createAccountWalletRequest),
@@ -47,6 +48,10 @@ UserState _createAccountWalletRequest(
 UserState _createAccountWalletSuccess(
     UserState state, CreateAccountWalletSuccess action) {
   return state.copyWith(walletStatus: 'deploying');
+}
+
+UserState _updatePlaidLinkToken(UserState state, UpdatePlaidLinkToken action) {
+  return state.copyWith(plaidLinkToken: action.linkToken);
 }
 
 UserState _updateCurrency(UserState state, UpdateCurrency action) {

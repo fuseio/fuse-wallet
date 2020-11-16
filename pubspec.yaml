@@ -4,6 +4,7 @@ description: A new Flutter project.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  plaid_flutter: ^1.1.5
   pull_to_refresh: ^1.6.1
   flutter_inappwebview: ^4.0.0+4
   flushbar: ^1.10.4
@@ -11,7 +12,7 @@ dependencies:
   enum_to_string: ^1.0.11
   local_auth: ^0.6.3+1
   auto_size_text: ^2.1.0
-  webview_flutter: ^1.0.1
+  webview_flutter: ^1.0.7
   phone_number: ^0.6.2+4
   libphonenumber: ^1.0.1
   cached_network_image: ^2.3.2+1

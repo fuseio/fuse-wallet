@@ -868,6 +868,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
+  plaid_flutter:
+    dependency: "direct main"
+    description:
+      name: plaid_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.5"
   platform:
     dependency: transitive
     description:
@@ -1250,7 +1257,7 @@ packages:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.7"
   win32:
     dependency: transitive
     description:

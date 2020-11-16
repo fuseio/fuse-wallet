@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:country_code_picker/country_code.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart';
 import 'package:peepl/models/community/community.dart';
 import 'package:peepl/models/jobs/base.dart';
 import 'package:peepl/models/pro/pro_wallet_state.dart';
@@ -43,6 +44,11 @@ class CreateAccountWalletSuccess {
 class UpdateCurrency {
   final String currency;
   UpdateCurrency({this.currency});
+}
+
+class UpdatePlaidLinkToken {
+  final String linkToken;
+  UpdatePlaidLinkToken({this.linkToken});
 }
 
 class UpdateTotalBalance {
@@ -531,6 +537,34 @@ ThunkAction updateTotalBalance() {
   };
 }
 
+ThunkAction generateLinkToken(walletData) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      final String walletAddress = walletData['walletAddress'];
+      String body = jsonEncode(Map.from({
+        'client_id': "5ef49899ca4e880012173407",
+        'secret': "19dcaba9b0d937190ae40e6383b830",
+        'client_name': "Peepl wallet",
+        'country_codes': ["US"],
+        'language': "en",
+        'user': {"client_user_id": walletAddress},
+        'products': ["auth", "transactions"]
+      }));
+      Response response = await client.post(
+          'https://sandbox.plaid.com/link/token/create',
+          headers: {"Content-Type": 'application/json'},
+          body: body);
+      Map a = responseHandler(response);
+      logger.info('generateLinkToken respopnse ${a.toString()}');
+      store.dispatch(UpdatePlaidLinkToken(linkToken: a['link_token']));
+    } catch (e) {
+      logger.severe('ERROR - generateLinkToken $e');
+      store.dispatch(new ErrorAction('Could not get wallet address'));
+    }
+  };
+}
+
 ThunkAction setupWalletCall(walletData) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
@@ -580,6 +614,7 @@ ThunkAction getWalletAddressessCall() {
     final logger = await AppFactory().getLogger('action');
     try {
       dynamic walletData = await api.getWallet();
+      store.dispatch(generateLinkToken(walletData));
       store.dispatch(setupWalletCall(walletData));
     } catch (e) {
       logger.severe('ERROR - getWalletAddressCall $e');
