@@ -116,8 +116,8 @@ dynamic getTransferImage(
     );
   }
   if (transfer.isJoinCommunity() &&
-      ![null, ''].contains(community.metadata.image)) {
-    return new NetworkImage(community.metadata.getImageUri());
+      ![null, ''].contains(community?.metadata?.image)) {
+    return new NetworkImage(community?.metadata?.getImageUri());
   } else if (transfer.isGenerateWallet()) {
     return new AssetImage(
       'assets/images/generate_wallet.png',
@@ -143,7 +143,7 @@ dynamic getTransferImage(
       (business) => business.account == accountAddress,
       orElse: () => null);
   if (business != null) {
-    return NetworkImage(business.metadata.getImageUri());
+    return NetworkImage(business?.metadata?.getImageUri());
   }
   return new AssetImage('assets/images/anom.png');
 }
@@ -159,7 +159,7 @@ dynamic getContactImage(Transfer transfer, Contact contact,
         (business) => business.account == accountAddress,
         orElse: () => null);
     if (business != null) {
-      return NetworkImage(business.metadata.getImageUri());
+      return NetworkImage(business?.metadata?.getImageUri());
     }
   }
   return new AssetImage('assets/images/anom.png');

@@ -1090,7 +1090,7 @@ ThunkAction fetchCommunityMetadataCall(
           metadata: communityMetadata,
           communityAddress: communityAddress.toLowerCase()));
     } catch (e, s) {
-      logger.info('ERROR - fetchCommunityMetadataCall $e');
+      logger.severe('ERROR - fetchCommunityMetadataCall $e');
       await AppFactory().reportError(e, stackTrace: s);
       store.dispatch(new ErrorAction('Could not fetch community metadata'));
     }
