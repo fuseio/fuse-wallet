@@ -75,12 +75,6 @@ class VerifyRequest {
   }
 }
 
-class RestoreWalletSuccess {
-  final List<String> mnemonic;
-  final String privateKey;
-  RestoreWalletSuccess(this.mnemonic, this.privateKey);
-}
-
 class CreateLocalAccountSuccess {
   final List<String> mnemonic;
   final String privateKey;
@@ -300,9 +294,8 @@ ThunkAction restoreWalletCall(
       logger.info('compute pk');
       String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
       logger.info('privateKey: $privateKey');
-      store.dispatch(RestoreWalletSuccess(_mnemonic, privateKey));
-      Credentials c = EthPrivateKey.fromHex(privateKey);
-      dynamic accountAddress = await c.extractAddress();
+      Credentials credentials = EthPrivateKey.fromHex(privateKey);
+      EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey: privateKey));
@@ -341,8 +334,8 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
       logger.info('compute pk');
       String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
       logger.info('privateKey: $privateKey');
-      Credentials c = EthPrivateKey.fromHex(privateKey);
-      dynamic accountAddress = await c.extractAddress();
+      Credentials credentials = EthPrivateKey.fromHex(privateKey);
+      EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey: privateKey));

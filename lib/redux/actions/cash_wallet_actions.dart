@@ -391,13 +391,10 @@ ThunkAction initWeb3Call({
           store.state.cashWalletState.communityAddress;
       if ([null, ''].contains(communityAddress)) {
         if (![null, ''].contains(branchAddress)) {
-          logger.info('SetDefaultCommunity branchAddress $branchAddress');
           store.dispatch(SetDefaultCommunity(branchAddress));
         } else {
-          logger.info(
-              'SetDefaultCommunity getDefaultCommunity ${web3.getDefaultCommunity().toLowerCase()}');
-          store.dispatch(
-              SetDefaultCommunity(web3.getDefaultCommunity().toLowerCase()));
+          final communityAddress = web3.getDefaultCommunity().toLowerCase();
+          store.dispatch(SetDefaultCommunity(communityAddress));
         }
       }
       web3.setCredentials(pk);
@@ -979,8 +976,8 @@ ThunkAction joinCommunityCall(
         store.dispatch(AlreadyJoinedCommunity(community.address));
       } else {
         dynamic response = await api.joinCommunity(
-            web3, walletAddress, community.address, token.address,
-            originNetwork: token.originNetwork);
+            web3, walletAddress, community.address,
+            tokenAddress: token.address, originNetwork: token.originNetwork);
 
         dynamic jobId = response['job']['_id'];
         Transfer transfer = new Transfer(
