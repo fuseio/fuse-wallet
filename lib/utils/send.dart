@@ -106,33 +106,33 @@ bracodeScannerHandler() async {
   }
 }
 
-void bracodeScannerValidateAPI(
-  String phoneNumber,
-  String address,
-) async {
-  final logger = await AppFactory().getLogger('validateApi');
-  ScanResult scanResult = await BarcodeScanner.scan();
-  logger.info('token - ${scanResult.rawContent}');
-  final String token = scanResult.rawContent;
-  try {
-    String qrValidateAPI = "https://bit2c.co.il/account/validate";
-    var body = jsonEncode(<String, String>{
-      'phonenumber': phoneNumber,
-      'address': address,
-      'token': token,
-    });
-    Response response = await client.post(qrValidateAPI,
-        body: body, headers: {'Content-Type': 'application/json'});
-    Map<String, dynamic> res = responseHandler(response);
-    transactionFailedSnack(res['Message'],
-        title: res['Status'],
-        duration: Duration(seconds: 3),
-        context: ExtendedNavigator.named('homeRouter').context,
-        margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
-    logger.info('res res ${res.toString()}');
-  } catch (error, stackTrace) {
-    logger.severe('Error while validating account ${error.toString()}');
-    await AppFactory().reportError(error, stackTrace: stackTrace);
-    throw 'Error while validating QR';
-  }
-}
+// void bracodeScannerValidateAPI(
+//   String phoneNumber,
+//   String address,
+// ) async {
+//   final logger = await AppFactory().getLogger('validateApi');
+//   ScanResult scanResult = await BarcodeScanner.scan();
+//   logger.info('token - ${scanResult.rawContent}');
+//   final String token = scanResult.rawContent;
+//   try {
+//     String qrValidateAPI = "https://bit2c.co.il/account/validate";
+//     var body = jsonEncode(<String, String>{
+//       'phonenumber': phoneNumber,
+//       'address': address,
+//       'token': token,
+//     });
+//     Response response = await client.post(qrValidateAPI,
+//         body: body, headers: {'Content-Type': 'application/json'});
+//     Map<String, dynamic> res = responseHandler(response);
+//     transactionFailedSnack(res['Message'],
+//         title: res['Status'],
+//         duration: Duration(seconds: 3),
+//         context: ExtendedNavigator.named('homeRouter').context,
+//         margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
+//     logger.info('res res ${res.toString()}');
+//   } catch (error, stackTrace) {
+//     logger.severe('Error while validating account ${error.toString()}');
+//     await AppFactory().reportError(error, stackTrace: stackTrace);
+//     throw 'Error while validating QR';
+//   }
+// }

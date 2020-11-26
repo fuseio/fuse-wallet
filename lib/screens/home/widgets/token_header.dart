@@ -131,7 +131,7 @@ class TokenHeader extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  !isFuseToken && community != null
+                                  !isFuseToken
                                       ? Container(
                                           width: 45,
                                           height: 45,

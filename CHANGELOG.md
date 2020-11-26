@@ -1,5 +1,9 @@
 # Fuse Wallet Changelog
 
+## [1.1.50+247](https://github.com/fuseio/fuse-wallet/tree/1.1.50+247) (2020-10-28)
+
+- **Fixed** German translation, thanks to [Holger Schauf](https://github.com/fluse)
+
 ## [1.1.49+246](https://github.com/fuseio/fuse-wallet/tree/1.1.49+246) (2020-10-14)
 
 [Full Changelog](https://github.com/fuseio/fuse-wallet/compare/1.1.49+246...HEAD)

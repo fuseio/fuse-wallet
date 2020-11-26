@@ -128,8 +128,7 @@ class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
                             viewModel.currentCommunity.address)
                         .map((Community community) {
                       return CommunityCardScreen(
-                          token: viewModel.tokens[
-                              viewModel.currentCommunity.homeTokenAddress],
+                          token: viewModel.tokens[community.homeTokenAddress],
                           community: community,
                           switchCommunity: viewModel.switchCommunity);
                     }).toList()
