@@ -136,5 +136,8 @@
     "move_to": "Move to",
     "invalid_number": "Invalid number",
     "copy_to_clipboard": "Copy to clipboard",
-    "copied_to_clipboard": "Copied to clipboard"
+    "copied_to_clipboard": "Copied to clipboard",
+    "oops": "Oops",
+    "offline": "it's seems you are offline",
+    "connection": "please fix your internet connection and try again!"
 }
