@@ -324,7 +324,8 @@ ThunkAction setDeviceId(bool reLogin) {
   };
 }
 
-ThunkAction createLocalAccountCall(VoidCallback successCallback) {
+ThunkAction createLocalAccountCall(
+    VoidCallback successCallback, VoidCallback errorCallback) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -341,9 +342,11 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
       store.dispatch(initWeb3Call(privateKey: privateKey));
       store.dispatch(segmentTrackCall("Wallet: Create wallet"));
       successCallback();
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - createLocalAccountCall $e');
       store.dispatch(ErrorAction('Could not create wallet'));
+      await AppFactory().reportError(e, stackTrace: s);
+      errorCallback();
     }
   };
 }
@@ -648,6 +651,9 @@ ThunkAction updateDisplayNameCall(String displayName) {
       await api.updateDisplayName(accountAddress, displayName);
       store.dispatch(SetDisplayName(displayName));
       store.dispatch(segmentTrackCall("Wallet: display name updated"));
+      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+        "Display Name": displayName,
+      })));
     } catch (e) {}
   };
 }

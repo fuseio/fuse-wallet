@@ -1,6 +1,6 @@
 name: fusecash
-version: 1.1.51+248
-description: A new Flutter project.
+version: 1.1.51+249
+description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:

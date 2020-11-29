@@ -26,7 +26,6 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     Future.delayed(const Duration(milliseconds: 2500), () {
       final BottomNavigationBar navigationBar =
           AppKeys.bottomBarKey.currentWidget;
-      Navigator.of(context).pop();
       navigationBar.onTap(0);
       ExtendedNavigator.root.popUntilPath(Routes.homePage);
     });
