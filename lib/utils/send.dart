@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:bit2c/redux/state/store.dart';
+import 'package:bit2c/widgets/snackbars.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:bit2c/screens/routes.gr.dart';
@@ -8,6 +13,7 @@ import 'package:bit2c/services.dart';
 import 'package:bit2c/utils/format.dart';
 import 'package:bit2c/utils/phone.dart';
 import 'package:bit2c/widgets/preloader.dart';
+import 'package:http/http.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_number/phone_number.dart';
 
@@ -102,33 +108,33 @@ void bracodeScannerHandler() async {
   }
 }
 
-// void bracodeScannerValidateAPI(
-//   String phoneNumber,
-//   String address,
-// ) async {
-//   final logger = await AppFactory().getLogger('validateApi');
-//   ScanResult scanResult = await BarcodeScanner.scan();
-//   logger.info('token - ${scanResult.rawContent}');
-//   final String token = scanResult.rawContent;
-//   try {
-//     String qrValidateAPI = "https://bit2c.co.il/account/validate";
-//     var body = jsonEncode(<String, String>{
-//       'phonenumber': phoneNumber,
-//       'address': address,
-//       'token': token,
-//     });
-//     Response response = await client.post(qrValidateAPI,
-//         body: body, headers: {'Content-Type': 'application/json'});
-//     Map<String, dynamic> res = responseHandler(response);
-//     transactionFailedSnack(res['Message'],
-//         title: res['Status'],
-//         duration: Duration(seconds: 3),
-//         context: ExtendedNavigator.named('homeRouter').context,
-//         margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
-//     logger.info('res res ${res.toString()}');
-//   } catch (error, stackTrace) {
-//     logger.severe('Error while validating account ${error.toString()}');
-//     await AppFactory().reportError(error, stackTrace: stackTrace);
-//     throw 'Error while validating QR';
-//   }
-// }
+void bracodeScannerValidateAPI(
+  String phoneNumber,
+  String address,
+) async {
+  final logger = await AppFactory().getLogger('validateApi');
+  ScanResult scanResult = await BarcodeScanner.scan();
+  logger.info('token - ${scanResult.rawContent}');
+  final String token = scanResult.rawContent;
+  try {
+    String qrValidateAPI = "https://bit2c.co.il/account/validate";
+    var body = jsonEncode(<String, String>{
+      'phonenumber': phoneNumber,
+      'address': address,
+      'token': token,
+    });
+    Response response = await client.post(qrValidateAPI,
+        body: body, headers: {'Content-Type': 'application/json'});
+    Map<String, dynamic> res = responseHandler(response);
+    transactionFailedSnack(res['Message'],
+        title: res['Status'],
+        duration: Duration(seconds: 3),
+        context: ExtendedNavigator.named('homeRouter').context,
+        margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
+    logger.info('res res ${res.toString()}');
+  } catch (error, stackTrace) {
+    logger.severe('Error while validating account ${error.toString()}');
+    await AppFactory().reportError(error, stackTrace: stackTrace);
+    throw 'Error while validating QR';
+  }
+}

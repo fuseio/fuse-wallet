@@ -311,12 +311,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
               position: offset,
               child: PrimaryButton(
                 opacity: 1,
-                colors: !hasFund
-                    ? [
-                        Theme.of(context).bottomAppBarColor,
-                        Theme.of(context).bottomAppBarColor,
-                      ]
-                    : null,
+                color: !hasFund ? Theme.of(context).bottomAppBarColor : null,
                 labelFontWeight: FontWeight.normal,
                 label: hasFund
                     ? I18n.of(context).continue_with +

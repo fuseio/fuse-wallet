@@ -10,7 +10,7 @@ class PrimaryButton extends StatelessWidget {
       this.width,
       this.height,
       this.preload,
-      this.colors,
+      this.color,
       this.opacity = 0.4,
       this.disabled = false,
       this.labalColor});
@@ -23,7 +23,7 @@ class PrimaryButton extends StatelessWidget {
   final bool preload;
   final bool disabled;
   final double fontSize;
-  final List<Color> colors;
+  final Color color;
   final Color labalColor;
 
   @override
@@ -34,7 +34,7 @@ class PrimaryButton extends StatelessWidget {
         width: width ?? 255.0,
         height: height ?? 50.0,
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorDark,
+            color: color ?? Theme.of(context).primaryColorDark,
             borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
             border: Border.all(
                 color: Theme.of(context).primaryColor.withAlpha(14))),

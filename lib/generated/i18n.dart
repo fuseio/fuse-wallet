@@ -308,6 +308,8 @@ class I18n implements WidgetsLocalizations {
   String get copy_to_clipboard => "Copy to clipboard";
   /// "Copied to clipboard"
   String get copied_to_clipboard => "Copied to clipboard";
+  /// "Bit2c Points"
+  String get bit2c_points => "Bit2c Points";
 }
 
 class _I18n_en_US extends I18n {
@@ -719,6 +721,9 @@ class _I18n_he_IL extends I18n {
   /// "אין עסקאות"
   @override
   String get no_activity => "אין עסקאות";
+  /// "נקודות Bit2c"
+  @override
+  String get bit2c_points => "נקודות Bit2c";
 
   @override
   TextDirection get textDirection => TextDirection.rtl;
