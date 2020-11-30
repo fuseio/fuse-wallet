@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:curadai/models/app_state.dart';
+import 'package:curadai/screens/routes.gr.dart';
 import 'package:redux/redux.dart';
 import 'package:curadai/redux/state/store.dart';
 
@@ -11,6 +12,10 @@ class AuthGuard extends RouteGuard {
     Object arguments,
   ) async {
     Store<AppState> store = await AppFactory().getStore();
-    return !store.state.userState.isLoggedOut;
+    final bool isAuthenticated = !store.state.userState.isLoggedOut;
+    if (isAuthenticated) {
+      return true;
+    }
+    return navigator.root.push(Routes.lockScreen);
   }
 }

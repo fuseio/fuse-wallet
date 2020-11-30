@@ -91,6 +91,11 @@ class SendAmountViewModel extends Equatable {
         store.state.cashWalletState.communities.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: true))
+                .compareTo(0) ==
+            1)
         .toList();
 
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
@@ -101,16 +106,16 @@ class SendAmountViewModel extends Equatable {
                     .communities[token.communityAddress].metadata
                     .getImageUri()
                 : null))
+        .where((Token token) =>
+            num.parse(
+                    formatValue(token.amount, token.decimals, withPrecision: true))
+                .compareTo(0) ==
+            1)
         .toList();
     return SendAmountViewModel(
-        tokens: [...homeTokens, ...foreignTokens]
-          ..where((Token token) =>
-              num.parse(formatValue(token.amount, token.decimals,
-                      withPrecision: true))
-                  .compareTo(0) ==
-              1)
-          ..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
-              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+        tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
+            (tokenB?.amount ?? BigInt.zero)
+                ?.compareTo(tokenA?.amount ?? BigInt.zero)),
         communities: communities,
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
