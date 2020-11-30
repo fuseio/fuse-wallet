@@ -3,7 +3,6 @@ import 'package:bit2c/models/community/community.dart';
 import 'package:bit2c/models/tokens/token.dart';
 import 'package:bit2c/utils/send.dart';
 import 'package:bit2c/widgets/main_scaffold.dart';
-import 'package:bit2c/widgets/primary_button.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
