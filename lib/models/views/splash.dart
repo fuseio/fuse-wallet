@@ -10,7 +10,8 @@ class SplashViewModel extends Equatable {
   final bool isLoggedOut;
   final Function() loginAgain;
   final Function() setDeviceIdCall;
-  final Function(VoidCallback successCallback) createLocalAccount;
+  final Function(VoidCallback successCallback, VoidCallback errorCallback)
+      createLocalAccount;
 
   SplashViewModel(
       {this.privateKey,
@@ -25,8 +26,10 @@ class SplashViewModel extends Equatable {
         privateKey: store.state.userState.privateKey,
         jwtToken: store.state.userState.jwtToken,
         isLoggedOut: store.state.userState.isLoggedOut ?? false,
-        createLocalAccount: (VoidCallback successCallback) {
-          store.dispatch(createLocalAccountCall(successCallback));
+        createLocalAccount:
+            (VoidCallback successCallback, VoidCallback errorCallback) {
+          store
+              .dispatch(createLocalAccountCall(successCallback, errorCallback));
         },
         setDeviceIdCall: () {
           store.dispatch(setDeviceId(false));

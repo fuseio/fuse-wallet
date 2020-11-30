@@ -194,7 +194,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                               true &&
                                           widget.transfer.isJoinCommunity()
                                       ? Text(
-                                          token?.symbol,
+                                          token?.symbol ?? '',
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,

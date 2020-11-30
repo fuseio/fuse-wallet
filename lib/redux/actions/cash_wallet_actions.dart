@@ -481,9 +481,10 @@ ThunkAction createAccountWalletCall(String accountAddress) {
           store.dispatch(switchCommunityCall(communityAddress));
         }));
       }
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - createAccountWalletCall $e');
       store.dispatch(new ErrorAction('Could not create wallet'));
+      await AppFactory().reportError(e, stackTrace: s);
     }
   };
 }
@@ -528,8 +529,9 @@ ThunkAction getTokenBalanceCall(Token token) {
         })));
       };
       void Function(Object error, StackTrace stackTrace) onError =
-          (Object error, StackTrace stackTrace) {
+          (Object error, StackTrace stackTrace) async {
         logger.severe('Error in fetchTokenBalance for - ${token.name} $error');
+        await AppFactory().reportError(error, stackTrace: stackTrace);
       };
       await token.fetchTokenBalance(walletAddress,
           onDone: onDone, onError: onError);
