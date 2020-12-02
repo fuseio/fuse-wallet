@@ -6,19 +6,19 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/route_guards.dart';
-import 'package:fusecash/screens/routes.gr.dart' as router;
-import 'package:fusecash/services.dart';
-import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
-import 'package:fusecash/utils/jwt.dart';
+import 'package:gooddollar/models/app_state.dart';
+import 'package:gooddollar/redux/actions/cash_wallet_actions.dart';
+import 'package:gooddollar/redux/actions/user_actions.dart';
+import 'package:gooddollar/redux/state/store.dart';
+import 'package:gooddollar/screens/route_guards.dart';
+import 'package:gooddollar/screens/routes.gr.dart' as router;
+import 'package:gooddollar/services.dart';
+import 'package:gooddollar/themes/app_theme.dart';
+import 'package:gooddollar/themes/custom_theme.dart';
+import 'package:gooddollar/utils/jwt.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:gooddollar/generated/i18n.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -150,7 +150,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'Fuse Cash',
+          title: 'GoodDollar',
           builder: ExtendedNavigator.builder(
             router: router.Router(),
             initialRoute: "/",

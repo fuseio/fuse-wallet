@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/misc/about.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/community/business.dart';
+import 'package:gooddollar/models/tokens/token.dart';
+import 'package:gooddollar/screens/contacts/send_amount_arguments.dart';
+import 'package:gooddollar/screens/misc/about.dart';
+import 'package:gooddollar/screens/routes.gr.dart';
+import 'package:gooddollar/screens/home/widgets/drawer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BusinessPage extends StatefulWidget {

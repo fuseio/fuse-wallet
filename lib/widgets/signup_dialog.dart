@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:gooddollar/generated/i18n.dart';
 import 'dart:core';
 
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:gooddollar/widgets/primary_button.dart';
 
 class SignupDialog extends StatefulWidget {
   SignupDialog();
@@ -67,7 +67,7 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.bold)),
                     SizedBox(height: 20.0),
                     Text(
-                        "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
+                        "The GoodDollar stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,

@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/primary_button.dart';
-import 'package:fusecash/widgets/transparent_button.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/app_state.dart';
+import 'package:gooddollar/models/views/splash.dart';
+import 'package:gooddollar/screens/routes.gr.dart';
+import 'package:gooddollar/widgets/primary_button.dart';
+import 'package:gooddollar/widgets/transparent_button.dart';
 
 class WarnBeforeReCreation extends StatefulWidget {
   @override
@@ -104,8 +104,39 @@ class _CreateWalletState extends State<CreateWallet> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
+                Container(
+                  height: 200,
+                  child: Image.asset('assets/images/illustration.png'),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: Text(
+                    'GoodDollar Wallet',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  'GoodDollar is a digital coin and wallet\n that allows you to receive FREE income\n with real monetary value straight to your phone!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      // fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
                 PrimaryButton(
-                  fontSize: 16,
+                  width: MediaQuery.of(context).size.width,
+                  fontSize: 20,
                   labelFontWeight: FontWeight.normal,
                   disabled: isPrimaryPreloading,
                   label: viewModel.isLoggedOut
@@ -175,7 +206,7 @@ class _CreateWalletState extends State<CreateWallet> {
                             ],
                           )
                         : TransparentButton(
-                            fontSize: 16,
+                            fontSize: 20,
                             label: I18n.of(context).restore_from_backup,
                             onPressed: () async {
                               ExtendedNavigator.root.pushRecoveryPage();

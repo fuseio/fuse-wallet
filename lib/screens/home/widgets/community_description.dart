@@ -1,10 +1,10 @@
 import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/widgets/primary_button.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/community/community.dart';
+import 'package:gooddollar/models/tokens/token.dart';
+import 'package:gooddollar/widgets/primary_button.dart';
 
 class CommunityDescription extends StatefulWidget {
   final Token token;

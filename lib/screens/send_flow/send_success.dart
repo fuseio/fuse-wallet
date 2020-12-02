@@ -3,11 +3,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:gooddollar/constans/keys.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/screens/routes.gr.dart';
+import 'package:gooddollar/screens/contacts/send_amount_arguments.dart';
+import 'package:gooddollar/widgets/main_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;

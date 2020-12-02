@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:gooddollar/constans/keys.dart';
+import 'package:gooddollar/models/tokens/token.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/community/community.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/community/community.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:gooddollar/screens/contacts/send_amount_arguments.dart';
+import 'package:gooddollar/screens/routes.gr.dart';
 import 'dart:core';
 
-import 'package:fusecash/utils/constans.dart';
+import 'package:gooddollar/utils/constans.dart';
 
 class TokenActionsDialog extends StatefulWidget {
   TokenActionsDialog({this.token, this.community, this.logo});

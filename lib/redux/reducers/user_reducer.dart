@@ -1,6 +1,6 @@
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/user_state.dart';
+import 'package:gooddollar/redux/actions/cash_wallet_actions.dart';
+import 'package:gooddollar/redux/actions/user_actions.dart';
+import 'package:gooddollar/models/user_state.dart';
 import 'package:redux/redux.dart';
 
 final userReducers = combineReducers<UserState>([

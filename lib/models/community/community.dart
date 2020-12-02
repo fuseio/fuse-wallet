@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/community_metadata.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
+import 'package:gooddollar/models/community/business.dart';
+import 'package:gooddollar/models/community/community_metadata.dart';
+import 'package:gooddollar/models/plugins/plugins.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';

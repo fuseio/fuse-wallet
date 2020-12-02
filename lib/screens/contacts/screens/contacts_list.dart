@@ -5,20 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/contacts.dart';
-import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
-import 'package:fusecash/screens/contacts/widgets/recent_contacts.dart';
-import 'package:fusecash/screens/contacts/widgets/search_panel.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/app_state.dart';
+import 'package:gooddollar/models/views/contacts.dart';
+import 'package:gooddollar/screens/contacts/widgets/contact_tile.dart';
+import 'package:gooddollar/screens/contacts/widgets/recent_contacts.dart';
+import 'package:gooddollar/screens/contacts/widgets/search_panel.dart';
+import 'package:gooddollar/utils/contacts.dart';
+import 'package:gooddollar/utils/format.dart';
+import 'package:gooddollar/utils/phone.dart';
+import 'package:gooddollar/utils/send.dart';
+import 'package:gooddollar/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
-import 'package:fusecash/widgets/preloader.dart';
-import 'package:fusecash/widgets/silver_app_bar.dart';
+import 'package:gooddollar/widgets/preloader.dart';
+import 'package:gooddollar/widgets/silver_app_bar.dart';
 
 class ContactsList extends StatefulWidget {
   @override

@@ -1,6 +1,6 @@
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:gooddollar/models/tokens/token.dart';
+import 'package:gooddollar/screens/home/widgets/assets_list.dart';
+import 'package:gooddollar/utils/addresses.dart';
 
 final Token daiToken = Token.initial().copyWith(
     address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',

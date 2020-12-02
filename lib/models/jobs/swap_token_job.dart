@@ -1,15 +1,15 @@
 import 'package:ethereum_address/ethereum_address.dart';
-import 'package:fusecash/constans/exchangable_tokens.dart';
-import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/addresses.dart';
-import 'package:fusecash/widgets/snackbars.dart';
+import 'package:gooddollar/constans/exchangable_tokens.dart';
+import 'package:gooddollar/models/jobs/base.dart';
+import 'package:gooddollar/models/pro/pro_wallet_state.dart';
+import 'package:gooddollar/models/tokens/token.dart';
+import 'package:gooddollar/models/transactions/transfer.dart';
+import 'package:gooddollar/redux/actions/cash_wallet_actions.dart';
+import 'package:gooddollar/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:gooddollar/redux/state/store.dart';
+import 'package:gooddollar/services.dart';
+import 'package:gooddollar/utils/addresses.dart';
+import 'package:gooddollar/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'swap_token_job.g.dart';

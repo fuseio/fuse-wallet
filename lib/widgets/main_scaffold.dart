@@ -53,7 +53,7 @@ class MainScaffold extends StatelessWidget {
                   fontSize: titleFontSize,
                   fontWeight: FontWeight.w800)),
         ),
-        centerTitle: true,
+        centerTitle: false,
         collapseMode: CollapseMode.parallax,
       ),
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor),

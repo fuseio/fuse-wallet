@@ -1,15 +1,15 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
-import 'package:fusecash/utils/addresses.dart';
+import 'package:gooddollar/screens/home/widgets/drawer.dart';
+import 'package:gooddollar/utils/addresses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/tokens/token.dart';
+import 'package:gooddollar/models/transactions/transfer.dart';
+import 'package:gooddollar/utils/format.dart';
+import 'package:gooddollar/widgets/main_scaffold.dart';
 
 class TransactionDetailsScreen extends StatelessWidget {
   final String status;

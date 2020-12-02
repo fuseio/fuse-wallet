@@ -1,4 +1,4 @@
-import 'package:fusecash/utils/transaction_util.dart';
+import 'package:gooddollar/utils/transaction_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business_metadata.g.dart';

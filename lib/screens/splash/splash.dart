@@ -3,10 +3,10 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/splash.dart';
-import 'package:fusecash/screens/splash/slide_animation_controller.dart';
-import 'package:fusecash/widgets/on_boarding_pages.dart';
+import 'package:gooddollar/models/app_state.dart';
+import 'package:gooddollar/models/views/splash.dart';
+import 'package:gooddollar/screens/splash/slide_animation_controller.dart';
+import 'package:gooddollar/widgets/on_boarding_pages.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -84,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               padding: EdgeInsets.only(
                                   bottom: 100, left: 20, right: 20),
                               child: FlareActor(
-                                "assets/images/animation.flr",
+                                "assets/images/",
                                 alignment: Alignment.center,
                                 fit: BoxFit.contain,
                                 controller: _slideController,
@@ -104,15 +104,15 @@ class _SplashScreenState extends State<SplashScreen> {
                               child: Container(
                                 padding: EdgeInsets.all(20.0),
                                 child: Center(
-                                  child: SmoothPageIndicator(
-                                    controller: _pageController,
-                                    count: 4,
-                                    effect: JumpingDotEffect(
-                                        dotWidth: 9.0,
-                                        dotHeight: 9.0,
-                                        activeDotColor: Color(0xFF696B6D)),
-                                    onDotClicked: gotoPage,
-                                  ),
+                                  // child: SmoothPageIndicator(
+                                  //   controller: _pageController,
+                                  //   count: 4,
+                                  //   effect: JumpingDotEffect(
+                                  //       dotWidth: 9.0,
+                                  //       dotHeight: 9.0,
+                                  //       activeDotColor: Color(0xFF696B6D)),
+                                  //   onDotClicked: gotoPage,
+                                  // ),
                                 ),
                               ),
                             ),

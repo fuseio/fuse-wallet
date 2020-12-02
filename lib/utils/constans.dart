@@ -1,5 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
+import 'package:gooddollar/screens/home/widgets/drawer.dart';
 
 final int intervalSeconds = int.parse(DotEnv().env['INTERVAL_SECONDS']);
 

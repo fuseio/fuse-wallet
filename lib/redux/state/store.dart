@@ -1,9 +1,9 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fusecash/redux/middlewares/auth_middleware.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/redux/reducers/app_reducer.dart';
-import 'package:fusecash/redux/state/state_secure_storage.dart';
+import 'package:gooddollar/redux/middlewares/auth_middleware.dart';
+import 'package:gooddollar/models/app_state.dart';
+import 'package:gooddollar/redux/reducers/app_reducer.dart';
+import 'package:gooddollar/redux/state/state_secure_storage.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
@@ -197,7 +197,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
-                app: App(name: 'Fuse Wallet'),
+                app: App(name: 'Good Dollar'),
                 operatingSystem: operatingSystem),
             userContext: user));
 

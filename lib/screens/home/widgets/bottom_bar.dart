@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:gooddollar/constans/keys.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
+import 'package:gooddollar/utils/addresses.dart' as util;
 
 class BottomBar extends StatelessWidget {
   final int tabIndex;
@@ -45,9 +45,12 @@ class BottomBar extends StatelessWidget {
               bottomBarItem(I18n.of(context).home, 'home'),
               bottomBarItem(I18n.of(context).send_button, 'send'),
               vm.isDefaultCommunity
-                  ? bottomBarItem(
-                      I18n.of(context).fuse_volts, 'fuse_points_tab')
-                  : bottomBarItem(I18n.of(context).buy, 'buy'),
+              ? bottomBarItem(I18n.of(context).buy, 'buy')
+                  : bottomBarItem(
+              I18n.of(context).fuse_volts, 'fuse_points_tab'),
+                  // ? bottomBarItem(
+                  //     I18n.of(context).fuse_volts, 'fuse_points_tab')
+                  // : bottomBarItem(I18n.of(context).buy, 'buy'),
               bottomBarItem(I18n.of(context).receive, 'receive'),
             ],
             onTap: onTap,

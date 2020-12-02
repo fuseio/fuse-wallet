@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:gooddollar/models/community/community.dart';
+import 'package:gooddollar/models/pro/pro_wallet_state.dart';
+import 'package:gooddollar/models/tokens/token.dart';
+import 'package:gooddollar/utils/format.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:gooddollar/models/app_state.dart';
 
 class CashHeaderViewModel extends Equatable {
   final Function() firstName;

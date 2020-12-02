@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/phone.dart';
-import 'package:fusecash/widgets/preloader.dart';
+import 'package:gooddollar/screens/routes.gr.dart';
+import 'package:gooddollar/screens/contacts/send_amount_arguments.dart';
+import 'package:gooddollar/services.dart';
+import 'package:gooddollar/utils/format.dart';
+import 'package:gooddollar/utils/phone.dart';
+import 'package:gooddollar/widgets/preloader.dart';
 import 'package:phone_number/phone_number.dart';
 
 Future<Map> fetchWalletByPhone(

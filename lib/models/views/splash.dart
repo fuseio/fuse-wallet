@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:gooddollar/redux/actions/user_actions.dart';
+import 'package:gooddollar/models/app_state.dart';
 import 'package:redux/redux.dart';
 
 class SplashViewModel extends Equatable {

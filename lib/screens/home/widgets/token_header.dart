@@ -1,19 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/home/widgets/community_description.dart';
-import 'package:fusecash/widgets/bridge_dialog.dart';
-import 'package:fusecash/widgets/network_explained.dart';
+import 'package:gooddollar/models/community/community.dart';
+import 'package:gooddollar/screens/home/router/home_router.gr.dart';
+import 'package:gooddollar/screens/home/widgets/community_description.dart';
+import 'package:gooddollar/widgets/bridge_dialog.dart';
+import 'package:gooddollar/widgets/network_explained.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:gooddollar/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/utils/format.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/tokens/token.dart';
+import 'package:gooddollar/utils/format.dart';
 
 class TokenHeader extends StatelessWidget {
   TokenHeader({this.token});

@@ -1,12 +1,12 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:gooddollar/models/app_state.dart';
+import 'package:gooddollar/models/community/business.dart';
+import 'package:gooddollar/models/community/community.dart';
+import 'package:gooddollar/models/tokens/token.dart';
+import 'package:gooddollar/models/transactions/transactions.dart';
+import 'package:gooddollar/redux/actions/cash_wallet_actions.dart';
+import 'package:gooddollar/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 class ContactsViewModel extends Equatable {

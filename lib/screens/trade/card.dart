@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ethereum_address/ethereum_address.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:gooddollar/screens/home/widgets/assets_list.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/tokens/token.dart';
 import 'package:flutter/material.dart';
 
 class TradeCard extends StatelessWidget {

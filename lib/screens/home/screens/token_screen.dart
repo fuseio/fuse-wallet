@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/screens/home/widgets/assets_list.dart';
-import 'package:fusecash/screens/home/widgets/token_header.dart';
-import 'package:fusecash/screens/home/widgets/transaction_tile.dart';
-import 'package:fusecash/widgets/my_app_bar.dart';
-import 'package:fusecash/generated/i18n.dart';
+import 'package:gooddollar/models/transactions/transaction.dart';
+import 'package:gooddollar/screens/home/widgets/assets_list.dart';
+import 'package:gooddollar/screens/home/widgets/token_header.dart';
+import 'package:gooddollar/screens/home/widgets/transaction_tile.dart';
+import 'package:gooddollar/widgets/my_app_bar.dart';
+import 'package:gooddollar/generated/i18n.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
+import 'package:gooddollar/models/app_state.dart';
 
 class TokenScreen extends StatelessWidget {
   TokenScreen({Key key, this.tokenAddress}) : super(key: key);

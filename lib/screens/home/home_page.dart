@@ -2,28 +2,28 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/constans/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/home/screens/fuse_points_explained.dart';
-import 'package:fusecash/screens/home/screens/receive.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
-import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
-import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/widgets/back_up_dialog.dart';
+import 'package:gooddollar/constans/keys.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/redux/actions/cash_wallet_actions.dart';
+import 'package:gooddollar/redux/actions/user_actions.dart';
+import 'package:gooddollar/screens/buy/router/buy_router.gr.dart';
+import 'package:gooddollar/screens/contacts/widgets/enable_contacts.dart';
+import 'package:gooddollar/screens/home/router/home_router.gr.dart';
+import 'package:gooddollar/screens/home/screens/fuse_points_explained.dart';
+import 'package:gooddollar/screens/home/screens/receive.dart';
+import 'package:gooddollar/screens/misc/webview_page.dart';
+import 'package:gooddollar/screens/contacts/router/router_contacts.gr.dart';
+import 'package:gooddollar/screens/home/widgets/drawer.dart';
+import 'package:gooddollar/utils/contacts.dart';
+import 'package:gooddollar/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/screens/home/widgets/bottom_bar.dart';
+import 'package:gooddollar/models/app_state.dart';
+import 'package:gooddollar/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
+import 'package:gooddollar/models/community/community.dart';
+import 'package:gooddollar/utils/addresses.dart' as util;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -124,12 +124,18 @@ class _HomePageState extends State<HomePage> {
                         withBack: false,
                         title: I18n.of(context).community_webpage)
                     : vm.isDefaultCommunity
-                        ? FusePointsExplainedScreen()
-                        : ExtendedNavigator(
-                            name: 'buyRouter',
-                            router: BuyRouter(),
-                            observers: [SegmentObserver()],
-                          ),
+                ? ExtendedNavigator(
+                    name: 'buyRouter',
+                    router: BuyRouter(),
+                    observers: [SegmentObserver()]
+                )
+                        : FusePointsExplainedScreen(),
+                        // ? FusePointsExplainedScreen()
+                        // : ExtendedNavigator(
+                        //     name: 'buyRouter',
+                        //     router: BuyRouter(),
+                        //     observers: [SegmentObserver()],
+                        //   ),
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(

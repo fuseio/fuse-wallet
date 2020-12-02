@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/tokens/token.dart';
+import 'package:gooddollar/models/community/community.dart';
+import 'package:gooddollar/models/tokens/token.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 

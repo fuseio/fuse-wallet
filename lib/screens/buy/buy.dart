@@ -3,16 +3,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/community/business_metadata.dart';
-import 'package:fusecash/models/views/buy_page.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
-import 'package:fusecash/screens/contacts/send_amount_arguments.dart';
-import 'package:fusecash/screens/routes.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/app_state.dart';
+import 'package:gooddollar/models/community/business.dart';
+import 'package:gooddollar/models/community/business_metadata.dart';
+import 'package:gooddollar/models/views/buy_page.dart';
+import 'package:gooddollar/redux/actions/cash_wallet_actions.dart';
+import 'package:gooddollar/screens/buy/router/buy_router.gr.dart';
+import 'package:gooddollar/screens/contacts/send_amount_arguments.dart';
+import 'package:gooddollar/screens/routes.gr.dart';
+import 'package:gooddollar/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 
 class BuyScreen extends StatelessWidget {
@@ -29,7 +29,28 @@ class BuyScreen extends StatelessWidget {
         },
         builder: (_, viewModel) {
           return MainScaffold(
+            titleFontSize: 25,
               // TODO - added map with all business
+            actions: [
+              IconButton(
+                icon: InkWell(
+                  onTap: () {
+              Navigator.pushNamed(context, '/Map');
+            },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Image.asset(
+                        'assets/images/map-marker-circle.png',
+                        width: 30,
+                        height: 30,
+                      ),
+                  ),
+                ),
+                onPressed: (){
+                  Navigator.pushNamed(context, '/Map');
+                },
+              )
+            ],
               // actions: <Widget>[
               //   IconButton(
               //     icon: InkWell(
@@ -85,12 +106,48 @@ class BusinessesListView extends StatelessWidget {
 
   Widget businessList(context, BuyViewModel vm) {
     return vm.businesses.isEmpty
-        ? Container(
-            padding: EdgeInsets.all(40.0),
-            child: Center(
-              child: Text(I18n.of(context).no_businesses),
+        // ? Container(
+        //     padding: EdgeInsets.all(40.0),
+        //     child: Center(
+        //       child: Text(I18n.of(context).no_businesses),
+        //     ),
+        //   )
+    ? ListTile(
+      contentPadding: EdgeInsets.all(10),
+      leading: Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(),
+        child: ClipOval(
+          child: CachedNetworkImage(
+            imageUrl: 'http://www.pngmart.com/files/7/Cart-PNG-Clipart.png',
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+            imageBuilder: (context, imageProvider) => Image(
+              image: imageProvider,
+              fit: BoxFit.cover,
+              width: 50.0,
+              height: 50.0,
             ),
-          )
+          ),
+        )
+      ),
+      title: Text(
+         'Coffee House',
+        style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 16,
+            fontWeight: FontWeight.normal),
+      ),
+      subtitle: Text(
+        'Coffee & Food',
+        style: TextStyle(
+            color: Theme.of(context).accentColor,
+            fontSize: 14,
+            fontWeight: FontWeight.normal),
+      ),
+      trailing: Image.asset('assets/images/chevron-right-circle.png', height: 25,)
+    )
         : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -111,7 +168,9 @@ class BusinessesListView extends StatelessWidget {
                               vm.businesses[index],
                               vm.communityAddress,
                               vm.token),
-                        )))
+                        ),
+                    ),
+                )
               ]);
   }
 
@@ -134,19 +193,21 @@ class BusinessesListView extends StatelessWidget {
               width: 50.0,
               height: 50.0,
             ),
-          ))),
+          ),
+          ),
+      ),
       title: Text(
         business.name ?? '',
         style: TextStyle(
             color: Theme.of(context).primaryColor,
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.normal),
       ),
       subtitle: Text(
         business.metadata.description ?? '',
         style: TextStyle(
             color: Theme.of(context).accentColor,
-            fontSize: 12,
+            fontSize: 14,
             fontWeight: FontWeight.normal),
       ),
       onTap: () {
@@ -155,33 +216,34 @@ class BusinessesListView extends StatelessWidget {
           token: token,
         );
       },
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
-              ExtendedNavigator.root.pushSendAmountScreen(
-                  pageArgs: SendAmountArguments(
-                      tokenToSend: token,
-                      name: business.name ?? '',
-                      accountAddress: business.account,
-                      avatar: NetworkImage(business.metadata.getImageUri())));
-            },
-          ),
-        ],
-      ),
+      trailing: Image.asset('assets/images/chevron-right-circle.png', height: 25,),
+      // trailing: Row(
+      //   mainAxisSize: MainAxisSize.min,
+      //   crossAxisAlignment: CrossAxisAlignment.end,
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   children: <Widget>[
+      //     FlatButton(
+      //       padding: EdgeInsets.all(10),
+      //       shape: CircleBorder(),
+      //       color: Theme.of(context).buttonColor,
+      //       child: Text(
+      //         I18n.of(context).pay,
+      //         style: TextStyle(
+      //             color: Theme.of(context).textTheme.button.color,
+      //             fontSize: 15,
+      //             fontWeight: FontWeight.normal),
+      //       ),
+      //       onPressed: () {
+      //         ExtendedNavigator.root.pushSendAmountScreen(
+      //             pageArgs: SendAmountArguments(
+      //                 tokenToSend: token,
+      //                 name: business.name ?? '',
+      //                 accountAddress: business.account,
+      //                 avatar: NetworkImage(business.metadata.getImageUri())));
+      //       },
+      //     ),
+      //   ],
+      // ),
     );
   }
 
@@ -197,8 +259,16 @@ class BusinessesListView extends StatelessWidget {
           return Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 10),
+                  child: Text('Categories',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey
+                  )),
+                ),
                 banner(context, vm),
                 businessList(context, vm)
               ],

@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/models/views/backup.dart';
-import 'package:fusecash/screens/routes.gr.dart';
+import 'package:gooddollar/generated/i18n.dart';
+import 'package:gooddollar/models/app_state.dart';
+import 'package:gooddollar/models/views/backup.dart';
+import 'package:gooddollar/screens/routes.gr.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class ColorsPincodeScreen extends StatefulWidget {
@@ -43,9 +43,11 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              Color(0xFFB1FDC0),
-              Color(0xFFE6FD99),
-              Color(0xFFFEFD86)
+              Color.fromRGBO(0, 175, 255, 1),
+              Color.fromRGBO(0, 175, 255, 1),
+              // Color(0xFFB1FDC0),
+              // Color(0xFFE6FD99),
+              // Color(0xFFFEFD86)
             ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
           ),
           child: Column(
@@ -84,9 +86,9 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                           height: 50,
                         ),
                         Theme(
-                            data: ThemeData(
-                                hintColor:
-                                    Theme.of(context).scaffoldBackgroundColor),
+                            data: ThemeData(hintColor: Colors.black
+                                // Theme.of(context).scaffoldBackgroundColor
+                                ),
                             child: StoreConnector<AppState,
                                     LockScreenViewModel>(
                                 converter: LockScreenViewModel.fromStore,

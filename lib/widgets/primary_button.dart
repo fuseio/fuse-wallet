@@ -39,8 +39,10 @@ class PrimaryButton extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: colors ??
                   [
-                    Theme.of(context).primaryColorLight,
-                    Theme.of(context).primaryColorDark,
+                    Color.fromRGBO(0, 175, 255, 1),
+                    Color.fromRGBO(0, 175, 255, 1),
+                    // Theme.of(context).primaryColorLight,
+                    // Theme.of(context).primaryColorDark,
                   ],
             ),
             borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
@@ -60,8 +62,7 @@ class PrimaryButton extends StatelessWidget {
                     ? AutoSizeText(
                         label,
                         style: TextStyle(
-                            color: labalColor ??
-                                Theme.of(context).textTheme.button.color,
+                            color: labalColor ?? Colors.white,
                             fontSize: this.fontSize ?? 18,
                             fontWeight:
                                 this.labelFontWeight ?? FontWeight.w700),
