@@ -97,122 +97,132 @@ class _CreateWalletState extends State<CreateWallet> {
         distinct: true,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
-          return Container(
-            padding: EdgeInsets.only(bottom: 80),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  height: 200,
-                  child: Image.asset('assets/images/illustration.png'),
+          return Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                flex: 4,
+                child: SvgPicture.asset(
+                  'assets/images/create-wallet-gooddollar.svg',
                 ),
-                SizedBox(
-                  height: 30,
-                ),
-                Center(
-                  child: Text(
-                    'GoodDollar Wallet',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+              ),
+              Flexible(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          'GoodDollar Wallet',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        'GoodDollar is a digital coin and wallet\n that allows you to receive FREE income\n with real monetary value straight to your phone!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ],
+                  )),
+              Flexible(
+                flex: 2,
+                child: Column(
+                  children: <Widget>[
+                    PrimaryButton(
+                      fontSize: 16,
+                      labelFontWeight: FontWeight.normal,
+                      label: viewModel.isLoggedOut
+                          ? I18n.of(context).login
+                          : I18n.of(context).create_new_wallet,
+                      onPressed: () async {
+                        if (viewModel.isLoggedOut) {
+                          viewModel.loginAgain();
+                          if (ExtendedNavigator.root.canPop()) {
+                            ExtendedNavigator.root.popUntilRoot();
+                          }
+                          ExtendedNavigator.root.replace(Routes.homePage);
+                        } else {
+                          setState(() {
+                            isPrimaryPreloading = true;
+                          });
+                          viewModel.setDeviceIdCall();
+                          viewModel.createLocalAccount(() {
+                            ExtendedNavigator.root.pushSignupScreen();
+                          }, () {
+                            setState(() {
+                              isPrimaryPreloading = false;
+                            });
+                          });
+                        }
+                      },
+                      preload: isPrimaryPreloading,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'GoodDollar is a digital coin and wallet\n that allows you to receive FREE income\n with real monetary value straight to your phone!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      // fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                PrimaryButton(
-                  width: MediaQuery.of(context).size.width,
-                  fontSize: 20,
-                  labelFontWeight: FontWeight.normal,
-                  disabled: isPrimaryPreloading,
-                  label: viewModel.isLoggedOut
-                      ? I18n.of(context).login
-                      : I18n.of(context).create_new_wallet,
-                  onPressed: () async {
-                    if (viewModel.isLoggedOut) {
-                      viewModel.loginAgain();
-                      ExtendedNavigator.root.replace(Routes.homePage);
-                    } else {
-                      viewModel.setDeviceIdCall();
-                      viewModel.createLocalAccount(() {
-                        setState(() {
-                          isPrimaryPreloading = false;
-                        });
-                        ExtendedNavigator.root.pushSignupScreen();
-                      });
-                      setState(() {
-                        isPrimaryPreloading = true;
-                      });
-                    }
-                  },
-                  preload: isPrimaryPreloading,
-                ),
-                Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: viewModel.isLoggedOut
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              TransparentButton(
-                                  fontSize: 14,
-                                  label: I18n.of(context).restore_backup,
-                                  onPressed: () async {
-                                    ExtendedNavigator.root.pushRecoveryPage();
-                                  }),
-                              Text(
-                                I18n.of(context).or,
-                                style: TextStyle(color: Colors.grey[400]),
-                              ),
-                              TransparentButton(
-                                  fontSize: 14,
-                                  label: I18n.of(context).create__wallet,
-                                  onPressed: () async {
-                                    bool result = await showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return WarnBeforeReCreation();
-                                      },
-                                    );
-                                    if (result) {
-                                      viewModel.setDeviceIdCall();
-                                      viewModel.createLocalAccount(() {
-                                        setState(() {
-                                          isTransparentPreloading = false;
-                                        });
+                    Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: viewModel.isLoggedOut
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  TransparentButton(
+                                      fontSize: 14,
+                                      label: I18n.of(context).restore_backup,
+                                      onPressed: () async {
                                         ExtendedNavigator.root
-                                            .pushSignupScreen();
-                                      });
-                                      setState(() {
-                                        isTransparentPreloading = true;
-                                      });
-                                    }
-                                  },
-                                  preload: isTransparentPreloading)
-                            ],
-                          )
-                        : TransparentButton(
-                            fontSize: 20,
-                            label: I18n.of(context).restore_from_backup,
-                            onPressed: () async {
-                              ExtendedNavigator.root.pushRecoveryPage();
-                            }))
-              ],
-            ),
+                                            .pushRecoveryPage();
+                                      }),
+                                  Text(
+                                    I18n.of(context).or,
+                                    style: TextStyle(color: Colors.grey[400]),
+                                  ),
+                                  TransparentButton(
+                                      fontSize: 14,
+                                      label: I18n.of(context).create__wallet,
+                                      onPressed: () async {
+                                        bool result = await showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return WarnBeforeReCreation();
+                                          },
+                                        );
+                                        if (result) {
+                                          setState(() {
+                                            isTransparentPreloading = true;
+                                          });
+                                          viewModel.setDeviceIdCall();
+                                          viewModel.createLocalAccount(() {
+                                            ExtendedNavigator.root
+                                                .pushSignupScreen();
+                                          }, () {
+                                            setState(() {
+                                              isTransparentPreloading = false;
+                                            });
+                                          });
+                                        }
+                                      },
+                                      preload: isTransparentPreloading)
+                                ],
+                              )
+                            : TransparentButton(
+                                fontSize: 16,
+                                label: I18n.of(context).restore_from_backup,
+                                onPressed: () async {
+                                  ExtendedNavigator.root.pushRecoveryPage();
+                                }))
+                  ],
+                ),
+              ),
+            ],
           );
         });
   }

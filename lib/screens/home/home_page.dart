@@ -3,15 +3,12 @@ import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:gooddollar/constans/keys.dart';
-import 'package:gooddollar/generated/i18n.dart';
 import 'package:gooddollar/redux/actions/cash_wallet_actions.dart';
 import 'package:gooddollar/redux/actions/user_actions.dart';
 import 'package:gooddollar/screens/buy/router/buy_router.gr.dart';
 import 'package:gooddollar/screens/contacts/widgets/enable_contacts.dart';
 import 'package:gooddollar/screens/home/router/home_router.gr.dart';
-import 'package:gooddollar/screens/home/screens/fuse_points_explained.dart';
 import 'package:gooddollar/screens/home/screens/receive.dart';
-import 'package:gooddollar/screens/misc/webview_page.dart';
 import 'package:gooddollar/screens/contacts/router/router_contacts.gr.dart';
 import 'package:gooddollar/screens/home/widgets/drawer.dart';
 import 'package:gooddollar/utils/contacts.dart';
@@ -23,7 +20,6 @@ import 'package:gooddollar/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:gooddollar/models/community/community.dart';
-import 'package:gooddollar/utils/addresses.dart' as util;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -118,24 +114,10 @@ class _HomePageState extends State<HomePage> {
                           ? ContactsRoutes.contactsList
                           : ContactsRoutes.emptyContacts,
                 ),
-                !['', null].contains(vm.community.webUrl)
-                    ? WebViewPage(
-                        url: vm.community.webUrl,
-                        withBack: false,
-                        title: I18n.of(context).community_webpage)
-                    : vm.isDefaultCommunity
-                ? ExtendedNavigator(
+                ExtendedNavigator(
                     name: 'buyRouter',
                     router: BuyRouter(),
-                    observers: [SegmentObserver()]
-                )
-                        : FusePointsExplainedScreen(),
-                        // ? FusePointsExplainedScreen()
-                        // : ExtendedNavigator(
-                        //     name: 'buyRouter',
-                        //     router: BuyRouter(),
-                        //     observers: [SegmentObserver()],
-                        //   ),
+                    observers: [SegmentObserver()]),
                 ReceiveScreen()
               ]),
               bottomNavigationBar: BottomBar(
@@ -170,7 +152,6 @@ class _HomePageState extends State<HomePage> {
 
 class _HomePageViewModel extends Equatable {
   final Community community;
-  final bool isDefaultCommunity;
   final bool isContactsSynced;
   final bool backup;
   final bool isBackupDialogShowed;
@@ -178,7 +159,6 @@ class _HomePageViewModel extends Equatable {
 
   _HomePageViewModel({
     this.isContactsSynced,
-    this.isDefaultCommunity,
     this.community,
     this.backup,
     this.isBackupDialogShowed,
@@ -193,7 +173,6 @@ class _HomePageViewModel extends Equatable {
     return _HomePageViewModel(
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
       backup: store.state.userState.backup,
       isBackupDialogShowed:
           store.state.userState?.receiveBackupDialogShowed ?? false,
@@ -204,5 +183,6 @@ class _HomePageViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [isDefaultCommunity, community, isContactsSynced];
+  List<Object> get props =>
+      [community, isContactsSynced, backup, isBackupDialogShowed];
 }

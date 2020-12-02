@@ -10,7 +10,6 @@ import 'package:gooddollar/models/community/business_metadata.dart';
 import 'package:gooddollar/models/views/buy_page.dart';
 import 'package:gooddollar/redux/actions/cash_wallet_actions.dart';
 import 'package:gooddollar/screens/buy/router/buy_router.gr.dart';
-import 'package:gooddollar/screens/contacts/send_amount_arguments.dart';
 import 'package:gooddollar/screens/routes.gr.dart';
 import 'package:gooddollar/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';

@@ -47,8 +47,8 @@ android {
 
     defaultConfig {
         applicationId "io.fuse.fusecash"
-        minSdkVersion 19
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

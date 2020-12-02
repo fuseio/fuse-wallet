@@ -190,10 +190,11 @@ class _TransactionTileState extends State<TransactionTile> {
                                           ))
                                       : SizedBox.shrink(),
                                   community?.metadata?.isDefaultImage != null &&
-                                          community.metadata.isDefaultImage &&
+                                          community?.metadata?.isDefaultImage ==
+                                              true &&
                                           widget.transfer.isJoinCommunity()
                                       ? Text(
-                                          token?.symbol,
+                                          token?.symbol ?? '',
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,

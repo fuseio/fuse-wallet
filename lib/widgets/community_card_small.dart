@@ -93,12 +93,15 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                             SizedBox(
                               width: 3,
                             ),
-                            Text('Token: ${widget?.token?.symbol}',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                )),
+                            widget?.token != null
+                                ? Text('Token: ${widget?.token?.symbol}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ))
+                                : SizedBox.shrink(),
                           ],
                         ),
                       ],

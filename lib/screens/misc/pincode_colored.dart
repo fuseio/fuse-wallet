@@ -67,20 +67,22 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Image.asset('assets/images/pincode_logo.png',
-                              width: 71, height: 61),
+                          Image.asset('assets/images/app_icon_te.png',
+                              height: 100),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 100,
-                    ),
+                    // SizedBox(
+                    //   height: 100,
+                    // ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
                           I18n.of(context).enter_pincode,
-                          style: TextStyle(fontSize: 25),
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Theme.of(context).splashColor),
                         ),
                         SizedBox(
                           height: 50,
@@ -98,15 +100,17 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                           pinLength: 6,
                                           decoration: UnderlineDecoration(
                                               hintTextStyle: TextStyle(
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Theme.of(context)
+                                                      .splashColor),
                                               colorBuilder:
                                                   FixedColorListBuilder([
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
+                                                Theme.of(context).splashColor,
                                               ]),
                                               obscureStyle: ObscureStyle(
                                                   isTextObscure: true,
