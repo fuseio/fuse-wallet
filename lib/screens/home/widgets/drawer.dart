@@ -20,9 +20,6 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-  final assetIdController = TextEditingController(text: "");
-  String userName = "";
-
   @override
   void initState() {
     super.initState();

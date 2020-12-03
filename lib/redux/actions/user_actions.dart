@@ -46,11 +46,6 @@ class UpdateCurrency {
   UpdateCurrency({this.currency});
 }
 
-class UpdatePlaidLinkToken {
-  final String linkToken;
-  UpdatePlaidLinkToken({this.linkToken});
-}
-
 class UpdateTotalBalance {
   final num totalBalance;
   UpdateTotalBalance({this.totalBalance});
@@ -537,33 +532,6 @@ ThunkAction updateTotalBalance() {
   };
 }
 
-ThunkAction generateLinkToken(walletData) {
-  return (Store store) async {
-    final logger = await AppFactory().getLogger('action');
-    try {
-      final String walletAddress = walletData['walletAddress'];
-      String body = jsonEncode(Map.from({
-        'client_id': "5ef49899ca4e880012173407",
-        'secret': "19dcaba9b0d937190ae40e6383b830",
-        'client_name': "Peepl wallet",
-        'country_codes': ["US"],
-        'language': "en",
-        'user': {"client_user_id": walletAddress},
-        'products': ["auth", "transactions"]
-      }));
-      Response response = await client.post(
-          'https://sandbox.plaid.com/link/token/create',
-          headers: {"Content-Type": 'application/json'},
-          body: body);
-      Map a = responseHandler(response);
-      logger.info('generateLinkToken respopnse ${a.toString()}');
-      store.dispatch(UpdatePlaidLinkToken(linkToken: a['link_token']));
-    } catch (e) {
-      logger.severe('ERROR - generateLinkToken $e');
-      store.dispatch(new ErrorAction('Could not get wallet address'));
-    }
-  };
-}
 
 ThunkAction setupWalletCall(walletData) {
   return (Store store) async {
@@ -614,7 +582,6 @@ ThunkAction getWalletAddressessCall() {
     final logger = await AppFactory().getLogger('action');
     try {
       dynamic walletData = await api.getWallet();
-      store.dispatch(generateLinkToken(walletData));
       store.dispatch(setupWalletCall(walletData));
     } catch (e) {
       logger.severe('ERROR - getWalletAddressCall $e');

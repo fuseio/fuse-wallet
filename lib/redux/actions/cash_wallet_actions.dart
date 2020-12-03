@@ -514,7 +514,6 @@ ThunkAction generateWalletSuccessCall(
     if (walletAddress != null && walletAddress.isNotEmpty) {
       store.dispatch(enablePushNotifications());
       store.dispatch(setupWalletCall(walletData));
-      store.dispatch(generateLinkToken(walletData));
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Wallet Generated": true,
         "App name": 'Peepl',
@@ -1102,7 +1101,8 @@ ThunkAction joinCommunityCall(
         store.dispatch(AlreadyJoinedCommunity(community.address));
       } else {
         dynamic response = await api.joinCommunity(
-            web3, walletAddress, community.address, community.token.address,
+            web3, walletAddress, community.address,
+            tokenAddress: community.token.address,
             originNetwork: community.token.originNetwork);
 
         dynamic jobId = response['job']['_id'];
