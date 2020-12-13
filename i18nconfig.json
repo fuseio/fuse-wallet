@@ -10,7 +10,8 @@
         "id-ID",
         "es-MX",
         "de-DE",
-        "nl-NL"
+        "nl-NL",
+        "sr-RS"
     ],
     "localePath": "i18n",
     "generatedPath": "lib/generated",
@@ -23,7 +24,8 @@
         "id-ID",
         "es-MX",
         "de-DE",
-        "nl-NL"
+        "nl-NL",
+        "sr-RS"
     ],
     "rtl": [
         "he-IL"

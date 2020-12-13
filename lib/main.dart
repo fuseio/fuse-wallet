@@ -11,7 +11,7 @@ import 'package:esol/redux/actions/cash_wallet_actions.dart';
 import 'package:esol/redux/actions/user_actions.dart';
 import 'package:esol/redux/state/store.dart';
 import 'package:esol/screens/route_guards.dart';
-import 'package:esol/screens/routes.gr.dart';
+import 'package:esol/screens/routes.gr.dart' as router;
 import 'package:esol/services.dart';
 import 'package:esol/themes/app_theme.dart';
 import 'package:esol/themes/custom_theme.dart';
@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Fuse Cash',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(

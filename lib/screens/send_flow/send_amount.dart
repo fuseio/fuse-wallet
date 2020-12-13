@@ -80,8 +80,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                           itemCount: viewModel.tokens?.length ?? 0,
                           itemBuilder: (context, index) => TokenTile(
                               token: viewModel.tokens[index],
-                              symbolWidth: 45,
-                              symbolHeight: 45,
+                              symbolWidth: 60,
+                              symbolHeight: 60,
+                              showPending: false,
                               onTap: () {
                                 Navigator.of(context).pop();
                                 setState(() {
@@ -324,8 +325,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 onPressed: () {
                   args.tokenToSend = selectedToken;
                   args.amount = num.parse(amountText);
-                  ExtendedNavigator.root.replace(Routes.sendReviewScreen,
-                      arguments: SendReviewScreenArguments(pageArgs: args));
+                  ExtendedNavigator.root.pushSendReviewScreen(pageArgs: args);
                 },
                 preload: isPreloading,
                 disabled: isPreloading || !hasFund,

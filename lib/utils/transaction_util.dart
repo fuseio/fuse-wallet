@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:esol/models/community/business.dart';
 import 'package:esol/models/community/community.dart';
-import 'package:esol/models/tokens/token.dart';
 import 'package:esol/models/transactions/transfer.dart';
 import 'package:esol/utils/format.dart';
 import 'package:esol/utils/phone.dart';
@@ -57,29 +56,6 @@ Widget deduceTransferIcon(Transfer transfer) {
       height: 10,
     );
   }
-}
-
-Token getToken(String tokenAddress, List<Community> communities,
-    Map<String, Token> erc20Tokens) {
-  if (erc20Tokens.containsKey(tokenAddress)) {
-    return erc20Tokens[tokenAddress];
-  } else {
-    return communities
-        .firstWhere(
-            (community) =>
-                community?.token?.address?.toLowerCase() ==
-                tokenAddress?.toLowerCase(),
-            orElse: () => communities.first)
-        .token;
-  }
-}
-
-Community getCommunity(String tokenAddress, List<Community> communities) {
-  return communities.firstWhere(
-      (community) =>
-          community?.token?.address?.toLowerCase() ==
-          tokenAddress?.toLowerCase(),
-      orElse: () => communities.first);
 }
 
 Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
@@ -140,8 +116,8 @@ dynamic getTransferImage(
     );
   }
   if (transfer.isJoinCommunity() &&
-      ![null, ''].contains(community.metadata.image)) {
-    return new NetworkImage(community.metadata.getImageUri());
+      ![null, ''].contains(community?.metadata?.image)) {
+    return new NetworkImage(community?.metadata?.getImageUri());
   } else if (transfer.isGenerateWallet()) {
     return new AssetImage(
       'assets/images/generate_wallet.png',
@@ -167,7 +143,7 @@ dynamic getTransferImage(
       (business) => business.account == accountAddress,
       orElse: () => null);
   if (business != null) {
-    return NetworkImage(business.metadata.getImageUri());
+    return NetworkImage(business?.metadata?.getImageUri());
   }
   return new AssetImage('assets/images/anom.png');
 }
@@ -183,7 +159,7 @@ dynamic getContactImage(Transfer transfer, Contact contact,
         (business) => business.account == accountAddress,
         orElse: () => null);
     if (business != null) {
-      return NetworkImage(business.metadata.getImageUri());
+      return NetworkImage(business?.metadata?.getImageUri());
     }
   }
   return new AssetImage('assets/images/anom.png');

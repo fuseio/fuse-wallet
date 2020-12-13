@@ -97,35 +97,32 @@ class CashHeader extends StatelessWidget {
                                 text: TextSpan(
                                   style: TextStyle(
                                       color: Theme.of(context).splashColor),
-                                  children: viewModel.community.token == null
+                                  children: viewModel.token == null
                                       ? <TextSpan>[
                                           TextSpan(
                                               text: '0',
                                               style: TextStyle(
-                                                fontSize: 30,
-                                                color: Theme.of(context)
-                                                    .splashColor,
-                                              ))
+                                                  fontSize: 30,
+                                                  color: Theme.of(context)
+                                                      .splashColor,
+                                                  fontWeight: FontWeight.bold))
                                         ]
                                       : <TextSpan>[
-                                          // TextSpan(
-                                          //     text: '/S ',
-                                          //     style: TextStyle(
-                                          //         fontSize: 32,
-                                          //         color: Theme.of(context)
-                                          //             .splashColor,
-                                          //         fontWeight: FontWeight.normal,
-                                          //         height: 0.0)),
                                           TextSpan(
-                                              text: 'S/ ' +
-                                                  formatValue(
-                                                      viewModel.community.token
-                                                          .amount,
-                                                      viewModel.community.token
-                                                          .decimals),
+                                              text: formatValue(
+                                                  viewModel.token.amount,
+                                                  viewModel.token.decimals),
                                               style: TextStyle(
-                                                  fontSize: 36,
-                                                  fontWeight: FontWeight.w100,
+                                                  fontSize: 32,
+                                                  color: Theme.of(context)
+                                                      .splashColor,
+                                                  fontWeight: FontWeight.bold)),
+                                          TextSpan(
+                                              text: ' ' +
+                                                  viewModel.token?.symbol
+                                                      .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 18,
                                                   color: Theme.of(context)
                                                       .splashColor)),
                                         ],

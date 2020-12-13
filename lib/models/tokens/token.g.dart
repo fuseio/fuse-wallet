@@ -22,6 +22,7 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
     transactions: Token._transactionsFromJson(
         json['transactions'] as Map<String, dynamic>),
     jobs: Token._jobsFromJson(json['jobs'] as Map<String, dynamic>),
+    communityAddress: json['communityAddress'] as String,
     originNetwork: json['originNetwork'] as String,
   );
 }
@@ -33,6 +34,7 @@ Map<String, dynamic> _$TokenToJson(Token instance) => <String, dynamic>{
       'decimals': instance.decimals,
       'amount': instance.amount?.toString(),
       'imageUrl': instance.imageUrl,
+      'communityAddress': instance.communityAddress,
       'originNetwork': instance.originNetwork,
       'timestamp': instance.timestamp,
       'priceInfo': instance.priceInfo?.toJson(),

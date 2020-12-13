@@ -24,11 +24,7 @@ class BottomBar extends StatelessWidget {
               height: 22,
             ),
           ),
-          title: Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Text(title,
-                style: TextStyle(fontSize: 13.0, color: Color(0xFF292929))),
-          ));
+          label: title);
 
   @override
   Widget build(BuildContext context) {

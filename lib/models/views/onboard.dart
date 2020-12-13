@@ -9,6 +9,7 @@ import 'package:esol/redux/state/store.dart';
 import 'package:esol/screens/routes.gr.dart';
 import 'package:esol/services.dart';
 import 'package:esol/utils/biometric_local_auth.dart';
+import 'package:phone_number/phone_number.dart';
 import 'package:redux/redux.dart';
 import 'package:esol/models/app_state.dart';
 import 'package:esol/redux/actions/user_actions.dart';
@@ -23,7 +24,7 @@ class OnboardViewModel extends Equatable {
   final bool loginVerifySuccess;
   final bool isLoginRequest;
   final bool isVerifyRequest;
-  final Function(CountryCode, String) signUp;
+  final Function(CountryCode, PhoneNumber) signUp;
   final Function(String, String) verify;
   final Function(String) setPincode;
   final Function(String) setDisplayName;
@@ -69,7 +70,7 @@ class OnboardViewModel extends Equatable {
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-        ExtendedNavigator.root.push(Routes.userNameScreen);
+        ExtendedNavigator.root.pushUserNameScreen();
       } catch (error, s) {
         FirebaseAuthException platformException =
             error as FirebaseAuthException;
@@ -105,8 +106,7 @@ class OnboardViewModel extends Equatable {
       print("PhoneCodeSent " + verificationId);
       store.dispatch(new SetCredentials(null));
       store.dispatch(SetIsLoginRequest(isLoading: false));
-      ExtendedNavigator.root.push(Routes.verifyScreen,
-          arguments: VerifyScreenArguments(verificationId: verificationId));
+      ExtendedNavigator.root.pushVerifyScreen(verificationId: verificationId);
     };
 
     final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
@@ -123,7 +123,7 @@ class OnboardViewModel extends Equatable {
         isLoginRequest: store.state.userState.isLoginRequest,
         signupException: store.state.userState.signupException,
         verifyException: store.state.userState.verifyException,
-        signUp: (CountryCode countryCode, String phoneNumber) {
+        signUp: (CountryCode countryCode, PhoneNumber phoneNumber) {
           store.dispatch(LoginRequest(
               countryCode: countryCode,
               phoneNumber: phoneNumber,

@@ -1,6 +1,5 @@
 import 'package:esol/models/community/community.dart';
 import 'package:esol/models/jobs/base.dart';
-import 'package:esol/models/plugins/join_bonus.dart';
 import 'package:esol/models/tokens/token.dart';
 import 'package:esol/models/transactions/transfer.dart';
 import 'package:esol/redux/actions/cash_wallet_actions.dart';
@@ -40,7 +39,7 @@ class JoinCommunityJob extends Job {
       logger.info('JoinCommunityJob FAILED');
       // store.dispatch(transactionFailed(confirmedTx, communityAddress, fetchedData['failReason']));
       store.dispatch(segmentTrackCall('Wallet: JoinCommunityJob FAILED'));
-      store.dispatch(UpdateJob(communityAddress: communityAddress, job: this));
+      store.dispatch(UpdateJob(tokenAddress: arguments['transfer'].tokenAddress, job: this));
       return;
     }
     Job job = JobFactory.create(fetchedData);
@@ -49,14 +48,13 @@ class JoinCommunityJob extends Job {
     Transfer transfer = arguments['transfer'];
     String txHash = job.data['txHash'];
     final String communityName = community.name;
-    final JoinBonusPlugin joinBonusPlugin = community.plugins.joinBonus;
-    final Token token = community.token;
+    final Token token = arguments['token'];
     Transfer confirmedTx = transfer.copyWith(txHash: txHash);
     final int millisecondsIntoMin = 2 * 60 * 1000;
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       this.isReported = true;
       store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
-      store.dispatch(UpdateJob(communityAddress: communityAddress, job: this));
+      store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
@@ -64,9 +62,9 @@ class JoinCommunityJob extends Job {
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       transactionFailedSnack(failReason);
-      store.dispatch(transactionFailed(confirmedTx, communityAddress, failReason));
+      store.dispatch(transactionFailed(confirmedTx, failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
-      store.dispatch(UpdateJob(communityAddress: communityAddress, job: this));
+      store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
       return;
     }
 
@@ -75,8 +73,8 @@ class JoinCommunityJob extends Job {
       store.dispatch(new ReplaceTransaction(
           transaction: transfer,
           transactionToReplace: confirmedTx,
-          communityAddress: communityAddress));
-      store.dispatch(UpdateJob(communityAddress: communityAddress, job: this));
+          tokenAddress: transfer.tokenAddress));
+      store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
     }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
@@ -87,16 +85,17 @@ class JoinCommunityJob extends Job {
     store.dispatch(new ReplaceTransaction(
         transaction: transfer,
         transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED', text: 'Joined ' + (communityName ?? '') + ' community',),
-        communityAddress: communityAddress));
-    store.dispatch(joinCommunitySuccessCall(job.id, fetchedData['data']['funderJobId'], communityAddress, joinBonusPlugin, token));
+        tokenAddress: transfer.tokenAddress));
+    store.dispatch(joinCommunitySuccessCall(job.id, fetchedData['data']['funderJobId'], communityAddress, community.plugins.joinBonus, token));
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
-    store.dispatch(UpdateJob(communityAddress: communityAddress, job: this));
+    store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
   }
 
   @override
   dynamic argumentsToJson() => {
       'transfer': arguments['transfer'].toJson(),
       'community': arguments['community'].toJson(),
+      'token': arguments['token'].toJson(),
     };
 
   @override
@@ -111,6 +110,9 @@ class JoinCommunityJob extends Job {
       }
       if (arguments['community'] is Map) {
         nArgs['community'] = Community.fromJson(arguments['community']);
+      }
+      if (arguments['token'] is Map) {
+        nArgs['token'] = Token.fromJson(arguments['token']);
       }
       return nArgs;
     }

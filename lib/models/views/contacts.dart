@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:esol/models/app_state.dart';
 import 'package:esol/models/community/business.dart';
 import 'package:esol/models/community/community.dart';
+import 'package:esol/models/tokens/token.dart';
 import 'package:esol/models/transactions/transactions.dart';
 import 'package:esol/redux/actions/cash_wallet_actions.dart';
 import 'package:esol/redux/actions/user_actions.dart';
@@ -38,12 +39,14 @@ class ContactsViewModel extends Equatable {
     String communityAddres = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddres];
+    Token token =
+        store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return ContactsViewModel(
         isoCode: store.state.userState.isoCode,
         businesses: community?.businesses ?? [],
         contacts: store.state.userState?.contacts ?? [],
         community: community,
-        transactions: community?.token?.transactions,
+        transactions: token?.transactions,
         reverseContacts: store.state.userState.reverseContacts,
         countryCode: store.state.userState.countryCode,
         syncContacts: (List<Contact> contacts) {

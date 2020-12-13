@@ -58,3 +58,12 @@ BigInt toBigInt(dynamic value, int decimals) {
   Decimal decimalsPow = Decimal.parse(pow(10, decimals).toString());
   return BigInt.parse((tokensAmountDecimal * decimalsPow).toString());
 }
+
+String formatTokenName(String tokenName) {
+  if (tokenName.endsWith('on Fuse')) {
+    List splitted = tokenName.split(" ")
+      ..removeWhere((ele) => ele == 'on' || ele == 'Fuse');
+    return splitted.join(" ");
+  }
+  return tokenName;
+}
