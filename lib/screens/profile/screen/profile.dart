@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:esol/widgets/another_mainScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:esol/generated/i18n.dart';
 import 'package:esol/models/app_state.dart';
 import 'package:esol/models/views/profile.dart';
-import 'package:esol/widgets/main_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           }
         },
         builder: (_, viewModel) {
-          return MainScaffold(
+          return AnotherMainScaffold(
             backgroundColor: Colors.grey[200],
             title: I18n.of(context).account,
             children: [

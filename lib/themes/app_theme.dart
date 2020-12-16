@@ -20,11 +20,14 @@ ThemeData getTheme() {
     colorScheme: ColorScheme.light().copyWith(
       secondary: Color(0xFF808080),
     ),
+    appBarTheme: AppBarTheme(
+      color: Color.fromRGBO(0, 85, 255, 0),
+    ),
     backgroundColor: Color(0xFFF5F5F5),
     bottomAppBarColor: Color(0xFFF8F8F8),
     fontFamily: 'Exo',
     primaryColor: Colors.black,
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: Color.fromRGBO(245, 246, 249, 1),
     primaryColorDark: Color(0xFF0055FF),
     buttonColor: Color(0xFFFFBE00),
     splashColor: Colors.white,

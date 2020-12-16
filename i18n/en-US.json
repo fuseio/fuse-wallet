@@ -131,5 +131,6 @@
     "name": "Name",
     "transaction_failed": "Transaction failed",
     "something_went_wrong": "Something went wrong",
-    "no_activity": "No activity"
+    "no_activity": "No activity",
+    "invalid_number": "Invalid number"
 }

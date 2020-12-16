@@ -11,7 +11,9 @@ class PrimaryButton extends StatelessWidget {
       this.height,
       this.preload,
       this.colors,
+      this.color,
       this.opacity = 0.4,
+      this.icon,
       this.disabled = false,
       this.labalColor});
   final double opacity;
@@ -25,6 +27,8 @@ class PrimaryButton extends StatelessWidget {
   final double fontSize;
   final List<Color> colors;
   final Color labalColor;
+  final Color color;
+  final Widget icon;
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +38,11 @@ class PrimaryButton extends StatelessWidget {
         width: width ?? 255.0,
         height: height ?? 50.0,
         decoration: BoxDecoration(
-            color: Theme.of(context).buttonColor,
-            borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
-            border: Border.all(
-                color: Theme.of(context).primaryColor.withAlpha(14))),
+          color: color ?? Theme.of(context).buttonColor,
+          borderRadius: new BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
@@ -49,14 +54,26 @@ class PrimaryButton extends StatelessWidget {
                   Theme.of(context).scaffoldBackgroundColor.withOpacity(0.6),
               child: Center(
                 child: (preload == null || preload == false)
-                    ? AutoSizeText(
-                        label,
-                        style: TextStyle(
-                            color: labalColor ?? Theme.of(context).splashColor,
-                            fontSize: this.fontSize ?? 18,
-                            fontWeight:
-                                this.labelFontWeight ?? FontWeight.w700),
-                        maxLines: 1,
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          icon != null ? icon : SizedBox.shrink(),
+                          icon != null
+                              ? SizedBox(
+                                  width: 10,
+                                )
+                              : SizedBox.shrink(),
+                          AutoSizeText(
+                            label,
+                            style: TextStyle(
+                                color:
+                                    labalColor ?? Theme.of(context).splashColor,
+                                fontSize: this.fontSize ?? 18,
+                                fontWeight:
+                                    this.labelFontWeight ?? FontWeight.w700),
+                            maxLines: 1,
+                          )
+                        ],
                       )
                     : Container(
                         child: CircularProgressIndicator(

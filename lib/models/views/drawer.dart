@@ -13,9 +13,11 @@ class DrawerViewModel extends Equatable {
   final bool isBackup;
   final Plugins plugins;
   final Function() firstName;
+  final bool isFaceVerified;
 
   DrawerViewModel(
       {this.logout,
+      this.isFaceVerified,
       this.walletStatus,
       this.plugins,
       this.isBackup,
@@ -28,6 +30,7 @@ class DrawerViewModel extends Equatable {
     Community community =
         store.state.cashWalletState.communities[communityAddress];
     return DrawerViewModel(
+        isFaceVerified: store.state.userState?.isFaceVerified ?? false,
         isBackup: store.state.userState.backup ?? false,
         walletAddress: store.state.userState.walletAddress,
         plugins: community?.plugins ?? Plugins(),
@@ -43,5 +46,5 @@ class DrawerViewModel extends Equatable {
   }
 
   @override
-  List get props => [walletStatus, walletAddress, plugins];
+  List get props => [walletStatus, walletAddress, plugins, isFaceVerified];
 }

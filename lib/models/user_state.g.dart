@@ -9,6 +9,7 @@ part of 'user_state.dart';
 UserState _$UserStateFromJson(Map<String, dynamic> json) {
   return UserState(
     walletStatus: json['walletStatus'] as String,
+    isFaceVerified: json['isFaceVerified'] as bool,
     walletAddress: json['walletAddress'] as String,
     communityManagerAddress: json['communityManagerAddress'] as String,
     transferManagerAddress: json['transferManagerAddress'] as String,
@@ -51,6 +52,7 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
+      'isFaceVerified': instance.isFaceVerified,
       'walletStatus': instance.walletStatus,
       'walletAddress': instance.walletAddress,
       'communityManagerAddress': instance.communityManagerAddress,

@@ -40,9 +40,12 @@ class _SecurityScreenState extends State<SecurityScreen> {
   Widget build(BuildContext context) {
     Segment.screen(screenName: '/choose-lock-method-screen');
     return MainScaffold(
+        drawerIcon: Icon(Icons.arrow_back),
+        expandedHeight: 0.8,
+        newHeaderAppBar: SizedBox.shrink(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
-        title: I18n.of(context).protect_wallet,
+        title: Text(I18n.of(context).protect_wallet),
         children: <Widget>[
           Column(
             children: <Widget>[

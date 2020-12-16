@@ -51,8 +51,11 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
         formatValue(widget.fromToken.amount, widget.fromToken.decimals));
     final bool hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
     return MainScaffold(
+        drawerIcon: Icon(Icons.arrow_back),
+        expandedHeight: 0.8,
+        newHeaderAppBar: SizedBox.shrink(),
         withPadding: true,
-        title: I18n.of(context).review_trade,
+        title: Text(I18n.of(context).review_trade),
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),

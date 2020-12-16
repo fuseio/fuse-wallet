@@ -7,14 +7,12 @@ import 'package:esol/generated/i18n.dart';
 import 'package:esol/redux/actions/cash_wallet_actions.dart';
 import 'package:esol/redux/actions/user_actions.dart';
 import 'package:esol/screens/buy/router/buy_router.gr.dart';
-import 'package:esol/screens/contacts/widgets/enable_contacts.dart';
 import 'package:esol/screens/home/router/home_router.gr.dart';
 import 'package:esol/screens/home/screens/receive.dart';
 import 'package:esol/screens/misc/webview_page.dart';
 import 'package:esol/screens/contacts/router/router_contacts.gr.dart';
 import 'package:esol/screens/home/widgets/drawer.dart';
 import 'package:esol/utils/contacts.dart';
-import 'package:esol/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:esol/models/app_state.dart';
@@ -97,62 +95,40 @@ class _HomePageState extends State<HomePage> {
         onInit: onInit,
         builder: (_, vm) {
           return Scaffold(
-              key: AppKeys.homePageKey,
-              drawer: DrawerWidget(),
-              drawerEdgeDragWidth: 0,
-              drawerEnableOpenDragGesture: false,
-              body: IndexedStack(index: currentIndex, children: <Widget>[
-                ExtendedNavigator(
-                  router: HomeRouter(),
-                  name: 'homeRouter',
-                  observers: [SegmentObserver()],
-                ),
-                ExtendedNavigator(
-                  observers: [SegmentObserver()],
-                  router: ContactsRouter(),
-                  name: 'contactsRouter',
-                  initialRoute:
-                      vm.isContactsSynced != null && vm.isContactsSynced
-                          ? ContactsRoutes.contactsList
-                          : ContactsRoutes.emptyContacts,
-                ),
-                ReceiveScreen(),
-                !['', null].contains(vm.community.webUrl)
-                    ? WebViewPage(
-                        url: vm.community.webUrl,
-                        withBack: false,
-                        title: I18n.of(context).community_webpage)
-                    : ExtendedNavigator(
-                        router: BuyRouter(),
-                        observers: [SegmentObserver()],
-                      ),
-              ]),
-              bottomNavigationBar: BottomBar(
-                onTap: (index) {
-                  _onTap(index);
-                  if (vm.isContactsSynced == null &&
-                      index == 1 &&
-                      !isContactSynced) {
-                    Future.delayed(
-                        Duration.zero,
-                        () => showDialog(
-                            context: context,
-                            child: ContactsConfirmationScreen()));
-                  }
-
-                  if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
-                    Future.delayed(Duration.zero, () {
-                      vm.setShowDialog();
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return BackUpDialog();
-                          });
-                    });
-                  }
-                },
-                tabIndex: currentIndex,
-              ));
+            key: AppKeys.homePageKey,
+            drawer: DrawerWidget(currentIndex: currentIndex),
+            drawerEdgeDragWidth: 0,
+            drawerEnableOpenDragGesture: false,
+            body: IndexedStack(index: currentIndex, children: <Widget>[
+              ExtendedNavigator(
+                router: HomeRouter(),
+                name: 'homeRouter',
+                observers: [SegmentObserver()],
+              ),
+              ExtendedNavigator(
+                observers: [SegmentObserver()],
+                router: ContactsRouter(),
+                name: 'contactsRouter',
+                initialRoute: vm.isContactsSynced != null && vm.isContactsSynced
+                    ? ContactsRoutes.contactsList
+                    : ContactsRoutes.emptyContacts,
+              ),
+              ReceiveScreen(),
+              !['', null].contains(vm.community.webUrl)
+                  ? WebViewPage(
+                      url: vm.community.webUrl,
+                      withBack: false,
+                      title: I18n.of(context).community_webpage)
+                  : ExtendedNavigator(
+                      router: BuyRouter(),
+                      observers: [SegmentObserver()],
+                    ),
+            ]),
+            bottomNavigationBar: BottomBar(
+              onTap: _onTap,
+              tabIndex: currentIndex,
+            ),
+          );
         });
   }
 }

@@ -8,7 +8,6 @@ import 'package:esol/screens/home/screens/token_screen.dart';
 import 'package:esol/screens/misc/about.dart';
 import 'package:esol/screens/misc/protect_your_wallet.dart';
 import 'package:esol/screens/misc/settings.dart';
-import 'package:esol/screens/misc/switch_commmunity.dart';
 import 'package:esol/screens/profile/screen/profile.dart';
 import 'package:esol/screens/trade/review_trade.dart';
 import 'package:esol/screens/trade/trade.dart';
@@ -18,6 +17,7 @@ import 'package:esol/screens/trade/trade.dart';
     initial: true,
     page: MainHomeScreen,
   ),
+  //Material Auto Route Package
   MaterialRoute(page: TransactionDetailsScreen),
   MaterialRoute(page: TokenScreen),
   MaterialRoute(page: TradeScreen),
@@ -27,7 +27,6 @@ import 'package:esol/screens/trade/trade.dart';
   MaterialRoute(page: VerifyMnemonic),
   MaterialRoute(page: DoneBackup),
   MaterialRoute(page: SettingsScreen),
-  MaterialRoute(page: SwitchCommunityScreen),
   MaterialRoute(page: ProtectYourWallet),
   MaterialRoute(page: ProfileScreen),
 ])

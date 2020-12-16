@@ -40,9 +40,8 @@ class _TransactionTileState extends State<TransactionTile> {
               viewModel.reverseContacts,
               viewModel.contacts,
               viewModel.countryCode);
-          Community community = getCommunity(
-              (widget?.token?.address ?? widget.transfer?.tokenAddress),
-              viewModel.communities);
+          Community community =
+              viewModel.communitiesMap[widget.transfer?.tokenAddress];
           Token token = widget.token ??
               viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
           bool isSendingToForeign = (community?.homeBridgeAddress != null &&
@@ -127,173 +126,173 @@ class _TransactionTileState extends State<TransactionTile> {
           ];
 
           return Container(
-              decoration: BoxDecoration(
-                  border:
-                      Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))), //
+              // decoration: BoxDecoration(
+              // border: Border(
+              // bottom: BorderSide(
+              //   color: Color(0xFFE8E8E8),
+              // ),
+              // )), //
               child: ListTile(
-                contentPadding:
-                    EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
-                title: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                        flex: 11,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            // image widget
-                            Flexible(
-                              flex: 4,
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: <Widget>[
-                                  CircleAvatar(
-                                    backgroundColor: Color(0xFFE0E0E0),
-                                    radius: 30,
-                                    backgroundImage: image,
-                                  ),
-                                  // Positioned(
-                                  //   bottom: 0,
-                                  //   right: 0,
-                                  //   child: SvgPicture.asset(
-                                  //     'assets/images/${isFuseTxs ? 'fuse' : 'ethereum'}_network.svg',
-                                  //     fit: BoxFit.contain,
-                                  //     width: 20,
-                                  //     height: 20,
-                                  //   ),
-                                  // ),
-                                  // Hero(
-                                  //   child: CircleAvatar(
-                                  //     backgroundColor: Color(0xFFE0E0E0),
-                                  //     radius: 30,
-                                  //     backgroundImage: image,
-                                  //   ),
-                                  //   tag: widget.transfer.isGenerateWallet()
-                                  //       ? 'GenerateWallet'
-                                  //       : widget.transfer.isPending()
-                                  //           ? "contactSent"
-                                  //           : "transaction" +
-                                  //               (widget.transfer.txHash ??
-                                  //                   widget.transfer?.timestamp
-                                  //                       .toString()),
-                                  // ),
-                                  widget.transfer.isPending()
-                                      ? Container(
-                                          width: 60,
-                                          height: 60,
-                                          child: CircularProgressIndicator(
-                                            backgroundColor: Color(0xFF49D88D)
-                                                .withOpacity(0),
-                                            strokeWidth: 3,
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                                    Color(0xFF49D88D)
-                                                        .withOpacity(1)),
-                                          ))
-                                      : SizedBox.shrink(),
-                                  community?.metadata?.isDefaultImage != null &&
-                                          community.metadata.isDefaultImage &&
-                                          widget.transfer.isJoinCommunity()
-                                      ? Text(
-                                          token?.symbol,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        )
-                                      : SizedBox.shrink()
-                                ],
+            contentPadding:
+                EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
+            title: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Flexible(
+                    flex: 11,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        // image widget
+                        Flexible(
+                          flex: 4,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: <Widget>[
+                              // CircleAvatar(
+                              //   backgroundColor: Color(0xFFE0E0E0),
+                              //   radius: 30,
+                              //   backgroundImage: image,
+                              // ),
+                              //Rectangular Box of the Image
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: image,
+                                      fit: BoxFit.contain,
+                                    ),
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Colors.green[50]),
                               ),
-                            ),
-                            SizedBox(width: 10.0),
-                            // text widget
-                            Flexible(
-                              flex: 10,
-                              child: Stack(
-                                overflow: Overflow.visible,
-                                alignment: AlignmentDirectional.bottomStart,
-                                children: <Widget>[
-                                  widget.transfer.isJoinCommunity()
-                                      ? RichText(
-                                          text: TextSpan(
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                  text: widget.transfer
-                                                              .isJoinCommunity() &&
-                                                          widget.transfer
-                                                              .isPending()
-                                                      ? I18n.of(context).joining
-                                                      : I18n.of(context).joined,
-                                                  style: TextStyle(
-                                                      color: Colors.black)),
-                                              TextSpan(
-                                                  text:
-                                                      ' \‘${community?.name ?? ''}\’ ',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black)),
-                                              TextSpan(
-                                                  text: I18n.of(context)
-                                                      .community,
-                                                  style: TextStyle(
-                                                      color: Colors.black)),
-                                            ],
-                                          ),
-                                        )
-                                      : Text(
-                                          isZeroAddress
+                              // Positioned(
+                              //   bottom: 0,
+                              //   right: 0,
+                              //   child: SvgPicture.asset(
+                              //     'assets/images/${isFuseTxs ? 'fuse' : 'ethereum'}_network.svg',
+                              //     fit: BoxFit.contain,
+                              //     width: 20,
+                              //     height: 20,
+                              //   ),
+                              // ),
+                              // Hero(
+                              //   child: CircleAvatar(
+                              //     backgroundColor: Color(0xFFE0E0E0),
+                              //     radius: 30,
+                              //     backgroundImage: image,
+                              //   ),
+                              //   tag: widget.transfer.isGenerateWallet()
+                              //       ? 'GenerateWallet'
+                              //       : widget.transfer.isPending()
+                              //           ? "contactSent"
+                              //           : "transaction" +
+                              //               (widget.transfer.txHash ??
+                              //                   widget.transfer?.timestamp
+                              //                       .toString()),
+                              // ),
+                              widget.transfer.isPending()
+                                  ? Container(
+                                      width: 60,
+                                      height: 60,
+                                      child: CircularProgressIndicator(
+                                        backgroundColor:
+                                            Color(0xFF49D88D).withOpacity(0),
+                                        strokeWidth: 3,
+                                        valueColor: AlwaysStoppedAnimation<
+                                                Color>(
+                                            Color(0xFF49D88D).withOpacity(1)),
+                                      ))
+                                  : SizedBox.shrink(),
+                              // community?.metadata?.isDefaultImage != null &&
+                              //         community.metadata.isDefaultImage &&
+                              //         widget.transfer.isJoinCommunity()
+                              //     ? Text(
+                              //         token?.symbol,
+                              //         style: TextStyle(
+                              //           fontSize: 13,
+                              //           fontWeight: FontWeight.bold,
+                              //         ),
+                              //         textAlign: TextAlign.left,
+                              //       )
+                              //     : SizedBox.shrink()
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        // text widget
+                        Flexible(
+                          flex: 10,
+                          child: Stack(
+                            overflow: Overflow.visible,
+                            alignment: AlignmentDirectional.bottomStart,
+                            children: <Widget>[
+                              widget.transfer.isJoinCommunity()
+                                  ? RichText(
+                                      text: TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text: widget.transfer
+                                                          .isJoinCommunity() &&
+                                                      widget.transfer
+                                                          .isPending()
+                                                  ? I18n.of(context).joining
+                                                  : I18n.of(context).joined,
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                          TextSpan(
+                                              text:
+                                                  ' \‘${community?.name ?? ''}\’ ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black)),
+                                          TextSpan(
+                                              text: I18n.of(context).community,
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                        ],
+                                      ),
+                                    )
+                                  : Text(
+                                      isZeroAddress
+                                          ? I18n.of(context)
+                                              .received_from_ethereum
+                                          : isSendingToForeign
                                               ? I18n.of(context)
-                                                  .received_from_ethereum
-                                              : isSendingToForeign
-                                                  ? I18n.of(context)
-                                                      .sent_to_ethereum
-                                                  : displayName,
-                                          style: TextStyle(
-                                              color: Color(0xFF333333),
-                                              fontSize: 15)),
-                                  widget.transfer.isGenerateWallet() &&
-                                          !isWalletCreated
-                                      ? Positioned(
-                                          bottom: -20,
-                                          child: Padding(
-                                              child: Text('(up to 10 seconds)',
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary)),
-                                              padding:
-                                                  EdgeInsets.only(top: 10)))
-                                      : SizedBox.shrink()
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
-                    // rightColumn widget
-                    Flexible(
-                        flex: 3,
-                        child: Container(
-                          child: widget.transfer.isFailed()
-                              ? InkWell(
-                                  onTap: () {
-                                    // TODO - Resend fail job
-                                  },
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          widget.transfer.isPending()
-                                              ? MainAxisAlignment.start
-                                              : MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          widget.transfer.isPending()
-                                              ? CrossAxisAlignment.end
-                                              : CrossAxisAlignment.center,
-                                      children: rightColumn),
-                                )
-                              : Column(
+                                                  .sent_to_ethereum
+                                              : displayName,
+                                      style: TextStyle(
+                                          color: Color(0xFF333333),
+                                          fontSize: 15)),
+                              widget.transfer.isGenerateWallet() &&
+                                      !isWalletCreated
+                                  ? Positioned(
+                                      bottom: -20,
+                                      child: Padding(
+                                          child: Text('(up to 10 seconds)',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary)),
+                                          padding: EdgeInsets.only(top: 10)))
+                                  : SizedBox.shrink()
+                            ],
+                          ),
+                        ),
+                      ],
+                    )),
+                // rightColumn widget
+                Flexible(
+                    flex: 3,
+                    child: Container(
+                      child: widget.transfer.isFailed()
+                          ? InkWell(
+                              onTap: () {
+                                // TODO - Resend fail job
+                              },
+                              child: Column(
                                   mainAxisAlignment: widget.transfer.isPending()
                                       ? MainAxisAlignment.start
                                       : MainAxisAlignment.center,
@@ -302,40 +301,49 @@ class _TransactionTileState extends State<TransactionTile> {
                                           ? CrossAxisAlignment.end
                                           : CrossAxisAlignment.center,
                                   children: rightColumn),
-                        ))
-                  ],
-                ),
-                onTap: () {
-                  if (!widget.transfer.isGenerateWallet() &&
-                      !widget.transfer.isJoinCommunity()) {
-                    ExtendedNavigator.of(context)
-                        .push(HomeRoutes.transactionDetailsScreen,
-                            arguments: TransactionDetailsScreenArguments(
-                              transfer: widget.transfer,
-                              contact: contact,
-                              from: displayName,
-                              image: image,
-                              token: token,
-                              amount: [
-                                Text(
-                                  amount,
-                                  style: TextStyle(
-                                      color: Color(0xFF696969),
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  " ${token?.symbol}",
-                                  style: TextStyle(
-                                      color: Color(0xFF696969),
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.normal),
-                                )
-                              ],
-                            ));
-                  }
-                },
-              ));
+                            )
+                          : Column(
+                              mainAxisAlignment: widget.transfer.isPending()
+                                  ? MainAxisAlignment.start
+                                  : MainAxisAlignment.center,
+                              crossAxisAlignment: widget.transfer.isPending()
+                                  ? CrossAxisAlignment.end
+                                  : CrossAxisAlignment.center,
+                              children: rightColumn),
+                    ))
+              ],
+            ),
+            onTap: () {
+              if (!widget.transfer.isGenerateWallet() &&
+                  !widget.transfer.isJoinCommunity()) {
+                ExtendedNavigator.of(context)
+                    .push(HomeRoutes.transactionDetailsScreen,
+                        arguments: TransactionDetailsScreenArguments(
+                          transfer: widget.transfer,
+                          contact: contact,
+                          from: displayName,
+                          image: image,
+                          token: token,
+                          amount: [
+                            Text(
+                              amount,
+                              style: TextStyle(
+                                  color: Color(0xFF696969),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              " ${token?.symbol}",
+                              style: TextStyle(
+                                  color: Color(0xFF696969),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.normal),
+                            )
+                          ],
+                        ));
+              }
+            },
+          ));
         });
   }
 }
@@ -346,16 +354,16 @@ class _TransactionTileViewModel extends Equatable {
   final List<Contact> contacts;
   final String countryCode;
   final Map<String, Token> erc20Tokens;
-  final List<Community> communities;
   final Map<String, Token> tokens;
+  final Map<String, Community> communitiesMap;
   _TransactionTileViewModel(
       {this.reverseContacts,
       this.walletStatus,
       this.countryCode,
-      this.communities,
       this.erc20Tokens,
       this.tokens,
-      this.contacts});
+      this.contacts,
+      this.communitiesMap});
 
   static _TransactionTileViewModel fromStore(Store<AppState> store) {
     List<Community> communities =
@@ -363,34 +371,44 @@ class _TransactionTileViewModel extends Equatable {
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .toList();
-    List<Token> homeTokens = communities
-        .map((Community community) => community?.token
-            ?.copyWith(imageUrl: community.metadata.getImageUri()))
+    List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .map((Token token) => token?.copyWith(
+            imageUrl: store.state.cashWalletState.communities
+                    .containsKey(token.communityAddress)
+                ? store.state.cashWalletState
+                    .communities[token.communityAddress].metadata
+                    .getImageUri()
+                : null))
         .toList();
     Map<String, Token> tokens =
         [...foreignTokens, ...homeTokens].fold(Map(), (previousValue, element) {
       previousValue.putIfAbsent(element.address.toLowerCase(), () => element);
       return previousValue;
     });
+
+    Map<String, Community> communitiesMap =
+        communities.fold(Map(), (previousValue, element) {
+      previousValue.putIfAbsent(element.homeTokenAddress, () => element);
+      return previousValue;
+    });
     return _TransactionTileViewModel(
-      tokens: tokens,
-      reverseContacts: store.state.userState.reverseContacts,
-      contacts: store.state.userState.contacts,
-      walletStatus: store.state.userState.walletStatus,
-      countryCode: store.state.userState.countryCode,
-      erc20Tokens: store.state.proWalletState.erc20Tokens,
-      communities: store.state.cashWalletState.communities.values.toList(),
-    );
+        tokens: tokens,
+        reverseContacts: store.state.userState.reverseContacts,
+        contacts: store.state.userState.contacts,
+        walletStatus: store.state.userState.walletStatus,
+        countryCode: store.state.userState.countryCode,
+        erc20Tokens: store.state.proWalletState.erc20Tokens,
+        communitiesMap: communitiesMap);
   }
 
   @override
   List<Object> get props => [
         reverseContacts,
         walletStatus,
-        communities,
         countryCode,
         contacts,
         erc20Tokens,
-        tokens
+        tokens,
+        communitiesMap
       ];
 }

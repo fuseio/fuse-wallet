@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:esol/widgets/another_mainScaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -6,7 +7,6 @@ import 'package:esol/generated/i18n.dart';
 import 'package:esol/models/app_state.dart';
 import 'package:esol/screens/routes.gr.dart';
 import 'package:esol/screens/home/widgets/drawer.dart';
-import 'package:esol/widgets/main_scaffold.dart';
 import 'package:esol/widgets/primary_button.dart';
 import 'package:esol/models/views/onboard.dart';
 
@@ -21,7 +21,7 @@ class UserNameScreen extends StatelessWidget {
         distinct: true,
         converter: OnboardViewModel.fromStore,
         builder: (_, viewModel) {
-          return MainScaffold(
+          return AnotherMainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
               padding: 20.0,

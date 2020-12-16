@@ -24,11 +24,7 @@ class BottomBar extends StatelessWidget {
               height: 22,
             ),
           ),
-          title: Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Text(title,
-                style: TextStyle(fontSize: 13.0, color: Color(0xFF292929))),
-          ));
+          label: title);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +39,7 @@ class BottomBar extends StatelessWidget {
           unselectedFontSize: 13,
           type: BottomNavigationBarType.fixed,
           currentIndex: tabIndex,
-          backgroundColor: Theme.of(context).bottomAppBarColor,
+          backgroundColor: Theme.of(context).splashColor,
           showUnselectedLabels: true,
           items: [
             bottomBarItem(context, I18n.of(context).home, 'home'),

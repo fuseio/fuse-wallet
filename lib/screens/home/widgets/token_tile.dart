@@ -59,7 +59,8 @@ class TokenTile extends StatelessWidget {
                           builder: (_, viewModel) {
                             final bool isCommunityToken = viewModel.communities
                                 .any((element) =>
-                                    element.token.address == token.address &&
+                                    element?.homeTokenAddress?.toLowerCase() ==
+                                        token?.address &&
                                     ![false, null].contains(
                                         element.metadata.isDefaultImage));
                             return Flexible(

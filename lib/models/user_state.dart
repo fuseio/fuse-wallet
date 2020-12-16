@@ -10,6 +10,7 @@ part 'user_state.g.dart';
 @immutable
 @JsonSerializable(explicitToJson: true)
 class UserState {
+  final bool isFaceVerified;
   final String walletStatus;
   final String walletAddress;
   final String communityManagerAddress;
@@ -62,6 +63,7 @@ class UserState {
 
   UserState(
       {this.walletStatus,
+      this.isFaceVerified,
       this.walletAddress,
       this.communityManagerAddress,
       this.transferManagerAddress,
@@ -108,6 +110,7 @@ class UserState {
         transferManagerAddress: "",
         communityManagerAddress: "",
         daiPointsManagerAddress: "",
+        isFaceVerified: false,
         walletStatus: null,
         networks: [],
         mnemonic: [],
@@ -145,6 +148,7 @@ class UserState {
 
   UserState copyWith(
       {String walletAddress,
+      bool isFaceVerified,
       String communityManagerAddress,
       String transferManagerAddress,
       String daiPointsManagerAddress,
@@ -185,6 +189,7 @@ class UserState {
       dynamic verifyException,
       dynamic signupException}) {
     return UserState(
+        isFaceVerified: isFaceVerified ?? this.isFaceVerified,
         verifyException: verifyException ?? this.verifyException,
         signupException: signupException ?? this.signupException,
         authType: authType ?? this.authType,

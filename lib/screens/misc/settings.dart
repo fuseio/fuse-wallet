@@ -55,7 +55,10 @@ class SettingsScreen extends StatelessWidget {
         converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
-            title: I18n.of(context).settings,
+            drawerIcon: Icon(Icons.arrow_back),
+            expandedHeight: 0.8,
+            newHeaderAppBar: SizedBox.shrink(),
+            title: Text(I18n.of(context).settings),
             withPadding: true,
             children: <Widget>[
               Container(

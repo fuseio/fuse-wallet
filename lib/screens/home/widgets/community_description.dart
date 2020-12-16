@@ -112,22 +112,22 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                                 image: imageProvider,
                                               ),
                                             )),
-                                        widget.community.metadata
-                                                        .isDefaultImage !=
-                                                    null &&
-                                                widget.community.metadata
-                                                    .isDefaultImage
-                                            ? Text(
-                                                widget.community?.token
-                                                        ?.symbol ??
-                                                    '',
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                textAlign: TextAlign.left,
-                                              )
-                                            : SizedBox.shrink()
+                                        // widget.community.metadata
+                                        //                 .isDefaultImage !=
+                                        //             null &&
+                                        //         widget.community.metadata
+                                        //             .isDefaultImage
+                                        //     ? Text(
+                                        //         widget.community?.token
+                                        //                 ?.symbol ??
+                                        //             '',
+                                        //         style: TextStyle(
+                                        //           fontSize: 13,
+                                        //           fontWeight: FontWeight.bold,
+                                        //         ),
+                                        //         textAlign: TextAlign.left,
+                                        //       )
+                                        //     : SizedBox.shrink()
                                       ],
                                     ),
                                   ],

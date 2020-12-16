@@ -21,9 +21,12 @@ class HomeViewModel extends Equatable {
   final bool isBalanceFetchingStarted;
   final bool isBranchDataReceived;
   final Function(bool initial) onReceiveBranchData;
+  final Function() refreshFeed;
+  final bool isFaceVerified;
 
   HomeViewModel({
     this.onReceiveBranchData,
+    this.isFaceVerified,
     this.accountAddress,
     this.walletAddress,
     this.communityAddress,
@@ -36,18 +39,21 @@ class HomeViewModel extends Equatable {
     this.feedList,
     this.tokens,
     this.communities,
+    this.refreshFeed,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
-    List<Community> communities =
-        store.state.cashWalletState.communities.values.toList();
-
     List<Token> erc20Tokens = List<Token>.from(
             store.state.proWalletState?.erc20Tokens?.values ?? Iterable.empty())
         .toList();
-    List<Token> homeTokens = communities
-        .map((Community community) => community?.token
-            ?.copyWith(imageUrl: community.metadata.getImageUri()))
+    List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .map((Token token) => token?.copyWith(
+            imageUrl: store.state.cashWalletState.communities
+                    .containsKey(token.communityAddress)
+                ? store.state.cashWalletState
+                    .communities[token.communityAddress].metadata
+                    .getImageUri()
+                : null))
         .toList();
     List<Token> tokens = [...homeTokens, ...erc20Tokens]
         .where((Token token) =>
@@ -70,6 +76,7 @@ class HomeViewModel extends Equatable {
         store.state.cashWalletState.isCommunityFetched ?? false;
     final String walletAddress = store.state.userState.walletAddress;
     return HomeViewModel(
+        isFaceVerified: store.state.userState?.isFaceVerified ?? false,
         communities: store.state.cashWalletState.communities,
         tokens: tokens,
         isoCode: store.state.userState.isoCode,
@@ -88,13 +95,23 @@ class HomeViewModel extends Equatable {
               isBranchDataReceived) {
             store.dispatch(switchCommunityCall(branchAddress));
           } else if (initial) {
+            if (store.state.cashWalletState.tokens.isEmpty &&
+                !isCommunityLoading &&
+                isCommunityFetched &&
+                isBranchDataReceived) {
+              store.dispatch(switchCommunityCall(communityAddress));
+            }
             if (!isCommunityLoading &&
                 !isBranchDataReceived &&
                 !isCommunityFetched &&
                 ![null, ''].contains(walletAddress)) {
-              store.dispatch(switchCommunityCall(communityAddress));
+              store.dispatch(refetchCommunityData());
             }
           }
+        },
+        refreshFeed: () {
+          store.dispatch(fetchListOfTokensByAddress());
+          store.dispatch(ResetTokenTxs());
         });
   }
 
@@ -108,6 +125,7 @@ class HomeViewModel extends Equatable {
         isCommunityLoading,
         isBranchDataReceived,
         isoCode,
-        isCommunityFetched
+        isCommunityFetched,
+        isFaceVerified
       ];
 }

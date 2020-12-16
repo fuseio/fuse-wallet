@@ -35,8 +35,11 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+      drawerIcon: Icon(Icons.arrow_back),
+      expandedHeight: 0.8,
+      newHeaderAppBar: SizedBox.shrink(),
       withPadding: true,
-      title: I18n.of(context).success,
+      title: Text(I18n.of(context).success),
       children: <Widget>[
         Container(
             padding: EdgeInsets.only(top: 140),

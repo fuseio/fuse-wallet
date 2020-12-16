@@ -6,7 +6,6 @@ import 'package:redux/redux.dart';
 final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, GetWalletAddressesSuccess>(
       _getWalletAddressesSuccess),
-  TypedReducer<UserState, RestoreWalletSuccess>(_restoreWalletSuccess),
   TypedReducer<UserState, CreateLocalAccountSuccess>(_createNewWalletSuccess),
   TypedReducer<UserState, LoginRequestSuccess>(_loginSuccess),
   TypedReducer<UserState, LoginVerifySuccess>(_loginVerifySuccess),
@@ -15,6 +14,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SyncContactsRejected>(_syncContactsRejected),
   TypedReducer<UserState, SaveContacts>(_saveContacts),
   TypedReducer<UserState, SetPincodeSuccess>(_setPincode),
+  TypedReducer<UserState, SetIsFaceVerified>(_setIsFaceVerified),
   TypedReducer<UserState, SetDisplayName>(_setDisplayName),
   TypedReducer<UserState, SetUserAvatar>(_setUserAvatar),
   TypedReducer<UserState, ReLogin>(_reLoginUser),
@@ -98,11 +98,6 @@ UserState _reLoginUser(UserState state, ReLogin action) {
   return state.copyWith(isLoggedOut: false);
 }
 
-UserState _restoreWalletSuccess(UserState state, RestoreWalletSuccess action) {
-  return state.copyWith(
-      mnemonic: action.mnemonic, privateKey: action.privateKey);
-}
-
 UserState _createNewWalletSuccess(
     UserState state, CreateLocalAccountSuccess action) {
   UserState newState = UserState.initial();
@@ -170,6 +165,10 @@ UserState _saveContacts(UserState state, SaveContacts action) {
 
 UserState _setPincode(UserState state, SetPincodeSuccess action) {
   return state.copyWith(pincode: action.pincode);
+}
+
+UserState _setIsFaceVerified(UserState state, SetIsFaceVerified action) {
+  return state.copyWith(isFaceVerified: action.isFaceVerified);
 }
 
 UserState _setCredentials(UserState state, SetCredentials action) {

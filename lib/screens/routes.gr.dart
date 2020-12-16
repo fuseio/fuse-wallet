@@ -9,12 +9,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import 'backup/done_backup.dart';
+import 'backup/show_mnemonic.dart';
+import 'backup/verify_mnemonic.dart';
 import 'contacts/send_amount_arguments.dart';
 import 'home/home_page.dart';
+import 'misc/about.dart';
 import 'misc/lock_screen.dart';
 import 'misc/pincode_colored.dart';
+import 'misc/protect_your_wallet.dart';
 import 'misc/security.dart';
+import 'misc/settings.dart';
 import 'misc/webview_page.dart';
+import 'profile/screen/profile.dart';
 import 'route_guards.dart';
 import 'send_flow/send_amount.dart';
 import 'send_flow/send_review.dart';
@@ -36,6 +43,13 @@ class Routes {
   static const String verifyScreen = '/verify-screen';
   static const String userNameScreen = '/user-name-screen';
   static const String webview = '/web-view-page';
+  static const String aboutScreen = '/about-screen';
+  static const String showMnemonic = '/show-mnemonic';
+  static const String verifyMnemonic = '/verify-mnemonic';
+  static const String doneBackup = '/done-backup';
+  static const String settingsScreen = '/settings-screen';
+  static const String protectYourWallet = '/protect-your-wallet';
+  static const String profileScreen = '/profile-screen';
   static const String homePage = '/home-page';
   static const String sendAmountScreen = '/send-amount-screen';
   static const String sendReviewScreen = '/send-review-screen';
@@ -51,6 +65,13 @@ class Routes {
     verifyScreen,
     userNameScreen,
     webview,
+    aboutScreen,
+    showMnemonic,
+    verifyMnemonic,
+    doneBackup,
+    settingsScreen,
+    protectYourWallet,
+    profileScreen,
     homePage,
     sendAmountScreen,
     sendReviewScreen,
@@ -72,6 +93,14 @@ class Router extends RouterBase {
     RouteDef(Routes.verifyScreen, page: VerifyScreen),
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
     RouteDef(Routes.webview, page: WebViewPage),
+    RouteDef(Routes.aboutScreen, page: AboutScreen, guards: [AuthGuard]),
+    RouteDef(Routes.showMnemonic, page: ShowMnemonic, guards: [AuthGuard]),
+    RouteDef(Routes.verifyMnemonic, page: VerifyMnemonic, guards: [AuthGuard]),
+    RouteDef(Routes.doneBackup, page: DoneBackup, guards: [AuthGuard]),
+    RouteDef(Routes.settingsScreen, page: SettingsScreen, guards: [AuthGuard]),
+    RouteDef(Routes.protectYourWallet,
+        page: ProtectYourWallet, guards: [AuthGuard]),
+    RouteDef(Routes.profileScreen, page: ProfileScreen, guards: [AuthGuard]),
     RouteDef(Routes.homePage, page: HomePage, guards: [AuthGuard]),
     RouteDef(Routes.sendAmountScreen,
         page: SendAmountScreen, guards: [AuthGuard]),
@@ -147,6 +176,51 @@ class Router extends RouterBase {
         ),
         settings: data,
         fullscreenDialog: true,
+      );
+    },
+    AboutScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => AboutScreen(),
+        settings: data,
+      );
+    },
+    ShowMnemonic: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ShowMnemonic(),
+        settings: data,
+      );
+    },
+    VerifyMnemonic: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => VerifyMnemonic(),
+        settings: data,
+      );
+    },
+    DoneBackup: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => DoneBackup(),
+        settings: data,
+      );
+    },
+    SettingsScreen: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => SettingsScreen(),
+        settings: data,
+      );
+    },
+    ProtectYourWallet: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ProtectYourWallet(),
+        settings: data,
+      );
+    },
+    ProfileScreen: (data) {
+      final args = data.getArgs<ProfileScreenArguments>(
+        orElse: () => ProfileScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ProfileScreen(key: args.key),
+        settings: data,
       );
     },
     HomePage: (data) {
@@ -232,6 +306,26 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
             WebViewPageArguments(url: url, title: title, withBack: withBack),
       );
 
+  Future<dynamic> pushAboutScreen() => push<dynamic>(Routes.aboutScreen);
+
+  Future<dynamic> pushShowMnemonic() => push<dynamic>(Routes.showMnemonic);
+
+  Future<dynamic> pushVerifyMnemonic() => push<dynamic>(Routes.verifyMnemonic);
+
+  Future<dynamic> pushDoneBackup() => push<dynamic>(Routes.doneBackup);
+
+  Future<dynamic> pushSettingsScreen() => push<dynamic>(Routes.settingsScreen);
+
+  Future<dynamic> pushProtectYourWallet() =>
+      push<dynamic>(Routes.protectYourWallet);
+
+  Future<dynamic> pushProfileScreen({Key key, OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.profileScreen,
+        arguments: ProfileScreenArguments(key: key),
+        onReject: onReject,
+      );
+
   Future<dynamic> pushHomePage({Key key, OnNavigationRejected onReject}) =>
       push<dynamic>(
         Routes.homePage,
@@ -283,6 +377,12 @@ class WebViewPageArguments {
   final String title;
   final bool withBack;
   WebViewPageArguments({this.url, this.title, this.withBack = false});
+}
+
+/// ProfileScreen arguments holder class
+class ProfileScreenArguments {
+  final Key key;
+  ProfileScreenArguments({this.key});
 }
 
 /// HomePage arguments holder class

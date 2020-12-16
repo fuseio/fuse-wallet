@@ -1,3 +1,4 @@
+import 'package:esol/widgets/another_mainScaffold.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:esol/generated/i18n.dart';
 import 'package:esol/models/app_state.dart';
 import 'package:esol/utils/constans.dart';
-import 'package:esol/widgets/main_scaffold.dart';
 import 'package:esol/widgets/primary_button.dart';
 import 'package:esol/models/views/onboard.dart';
 import 'package:esol/widgets/snackbars.dart';
@@ -57,7 +57,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
         builder: (_, viewModel) {
           final verificationCodeController =
               TextEditingController(text: autoCode);
-          return MainScaffold(
+          return AnotherMainScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               withPadding: true,
               title: I18n.of(context).sign_up,
@@ -69,7 +69,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     children: <Widget>[
                       Text(
                           I18n.of(context).we_just_sent +
-                              "${viewModel.countryCode} ${viewModel.phoneNumber}" +
+                              "${viewModel.phoneNumber}" +
                               "\n",
                           textAlign: TextAlign.center,
                           style: TextStyle(

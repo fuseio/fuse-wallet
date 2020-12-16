@@ -384,10 +384,12 @@ class _ExchangeState extends State<TradeScreen> {
           //         0
           //     : true;
           return MainScaffold(
+            drawerIcon: Icon(Icons.arrow_back),
+            newHeaderAppBar: SizedBox.shrink(),
             expandedHeight: MediaQuery.of(context).size.height / 12,
             withPadding: true,
             padding: 20.0,
-            title: I18n.of(context).trade,
+            title: Text(I18n.of(context).trade),
             children: <Widget>[
               Padding(
                 padding:

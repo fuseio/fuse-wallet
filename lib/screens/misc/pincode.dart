@@ -33,9 +33,12 @@ class _PincodeScreenState extends State<PincodeScreen> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
+        drawerIcon: Icon(Icons.arrow_back),
+        expandedHeight: 0.8,
+        newHeaderAppBar: SizedBox.shrink(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: false,
-        title: I18n.of(context).pincode,
+        title: Text(I18n.of(context).pincode),
         children: <Widget>[
           Column(
             mainAxisAlignment: MainAxisAlignment.start,

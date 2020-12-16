@@ -43,6 +43,7 @@ class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
             ],
           ),
           child: Card(
+            elevation: 0.0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Column(
@@ -112,7 +113,7 @@ class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
                                           widget
                                               .community.metadata.isDefaultImage
                                       ? Text(
-                                          widget.community?.token?.symbol ?? '',
+                                          '', // widget.community?.token?.symbol ??
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,

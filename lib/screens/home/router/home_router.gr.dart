@@ -18,7 +18,6 @@ import '../../backup/verify_mnemonic.dart';
 import '../../misc/about.dart';
 import '../../misc/protect_your_wallet.dart';
 import '../../misc/settings.dart';
-import '../../misc/switch_commmunity.dart';
 import '../../profile/screen/profile.dart';
 import '../../trade/review_trade.dart';
 import '../../trade/trade.dart';
@@ -37,7 +36,6 @@ class HomeRoutes {
   static const String verifyMnemonic = '/verify-mnemonic';
   static const String doneBackup = '/done-backup';
   static const String settingsScreen = '/settings-screen';
-  static const String switchCommunityScreen = '/switch-community-screen';
   static const String protectYourWallet = '/protect-your-wallet';
   static const String profileScreen = '/profile-screen';
   static const all = <String>{
@@ -51,7 +49,6 @@ class HomeRoutes {
     verifyMnemonic,
     doneBackup,
     settingsScreen,
-    switchCommunityScreen,
     protectYourWallet,
     profileScreen,
   };
@@ -72,7 +69,6 @@ class HomeRouter extends RouterBase {
     RouteDef(HomeRoutes.verifyMnemonic, page: VerifyMnemonic),
     RouteDef(HomeRoutes.doneBackup, page: DoneBackup),
     RouteDef(HomeRoutes.settingsScreen, page: SettingsScreen),
-    RouteDef(HomeRoutes.switchCommunityScreen, page: SwitchCommunityScreen),
     RouteDef(HomeRoutes.protectYourWallet, page: ProtectYourWallet),
     RouteDef(HomeRoutes.profileScreen, page: ProfileScreen),
   ];
@@ -170,12 +166,6 @@ class HomeRouter extends RouterBase {
     SettingsScreen: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => SettingsScreen(),
-        settings: data,
-      );
-    },
-    SwitchCommunityScreen: (data) {
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => SwitchCommunityScreen(),
         settings: data,
       );
     },

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:esol/widgets/another_mainScaffold.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:flutter/services.dart';
@@ -8,7 +9,6 @@ import 'package:esol/generated/i18n.dart';
 import 'package:esol/models/app_state.dart';
 import 'package:esol/models/views/recovery.dart';
 import 'package:esol/screens/routes.gr.dart';
-import 'package:esol/widgets/main_scaffold.dart';
 import 'package:esol/widgets/primary_button.dart';
 
 class RecoveryPage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
   @override
   Widget build(BuildContext context) {
     Segment.screen(screenName: '/restore-wallet-screen');
-    return MainScaffold(
+    return AnotherMainScaffold(
       expandedHeight: MediaQuery.of(context).size.height / 12,
       padding: 20.0,
       withPadding: true,

@@ -298,6 +298,8 @@ class I18n implements WidgetsLocalizations {
   String get something_went_wrong => "Something went wrong";
   /// "No activity"
   String get no_activity => "No activity";
+  /// "Invalid number"
+  String get invalid_number => "Invalid number";
 }
 
 class _I18n_en_US extends I18n {

@@ -47,7 +47,7 @@ android {
 
     defaultConfig {
         applicationId "io.fuse.esol"
-        minSdkVersion 18
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -85,6 +85,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+        // implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.gms:play-services-vision:20.1.1'
+    implementation 'com.google.android.gms:play-services-vision-common:19.1.1'
+    implementation 'com.google.android.gms:play-services-vision-image-label:18.0.5'
+    implementation "com.google.firebase:firebase-ml-vision:24.1.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

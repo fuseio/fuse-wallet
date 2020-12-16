@@ -21,24 +21,38 @@ class ContactTile extends StatelessWidget {
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
-        child: ListTile(
-          contentPadding:
-              EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
-          leading: CircleAvatar(
-            backgroundColor: Color(0xFFE0E0E0),
-            radius: 25,
-            backgroundImage: image ?? AssetImage('assets/images/anom.png'),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        child: Card(
+          elevation: 0.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
           ),
-          title: Text(
-            displayName,
-            style:
-                TextStyle(fontSize: 15, color: Theme.of(context).primaryColor),
+          child: Container(
+            child: ListTile(
+              contentPadding:
+                  EdgeInsets.only(top: 5, bottom: 5, left: 16, right: 16),
+              leading: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  image: DecorationImage(
+                    image: image ?? AssetImage('assets/images/anom.png'),
+                    fit: BoxFit.contain,
+                  ),
+                  borderRadius: BorderRadius.circular(17),
+                ),
+              ),
+              title: Text(
+                displayName,
+                style: TextStyle(
+                    fontSize: 15, color: Theme.of(context).primaryColor),
+              ),
+              trailing: trailing,
+              onTap: onTap,
+            ),
           ),
-          trailing: trailing,
-          onTap: onTap,
         ),
       ),
     );

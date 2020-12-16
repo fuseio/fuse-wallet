@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:esol/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:esol/generated/i18n.dart';
 import 'package:esol/models/tokens/token.dart';
 import 'package:esol/models/views/send_amount.dart';
@@ -101,8 +101,8 @@ class _SendAmountScreenState extends State<SendAmountScreen>
   @override
   Widget build(BuildContext context) {
     final SendAmountArguments args = this.widget.pageArgs;
-    String title =
-        "${I18n.of(context).send_to} ${args.name != null ? args.name : formatAddress(args.accountAddress)}";
+    // String title =
+    //     "${I18n.of(context).send_to} ${args.name != null ? args.name : formatAddress(args.accountAddress)}";
     return new StoreConnector<AppState, SendAmountViewModel>(
       converter: SendAmountViewModel.fromStore,
       onInitialBuild: (viewModel) {
@@ -173,140 +173,187 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
 
         return MainScaffold(
-            withPadding: true,
-            title: title,
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Column(
+          drawerIcon: Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            child: Container(
+                decoration: new BoxDecoration(
+                  color: Theme.of(context).splashColor,
+                  borderRadius: new BorderRadius.only(
+                    topRight: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0),
+                  ),
+                ),
+                child: IconButton(
+                    icon: Icon(Icons.arrow_back_ios),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    })),
+          ),
+          expandedHeight: MediaQuery.of(context).size.height * 0.23,
+          newHeaderAppBar: Header(
+            image: args.avatar,
+            imageshow: false,
+            contactEmpty: true,
+            textshow: true,
+          ),
+          withPadding: true,
+          title:
+              FittedBox(child: Container(width: 100, child: Text(args.name))),
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 15,
+                  ),
+                  // Container(
+                  //   padding: EdgeInsets.symmetric(horizontal: 40),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: <Widget>[
+                  //       // Text(
+                  //       //   I18n.of(context).how_much,
+                  //       //   style: TextStyle(color: Color(0xFF898989)),
+                  //       // ),
+                  //       // Container(
+                  //       //   padding: EdgeInsets.symmetric(
+                  //       //       vertical: 3, horizontal: 15),
+                  //       //   decoration: BoxDecoration(
+                  //       //     borderRadius:
+                  //       //         BorderRadius.all(Radius.circular(10)),
+                  //       //   ),
+                  //       //   child: InkWell(
+                  //       //       onTap: () {
+                  //       //         String max = formatValue(
+                  //       //             selectedToken.amount,
+                  //       //             selectedToken.decimals,
+                  //       //             withPrecision: true);
+                  //       //         if (num.parse(max).compareTo(
+                  //       //                 num.parse(amountText)) !=
+                  //       //             0) {
+                  //       //           _onKeyPress(
+                  //       //               VirtualKeyboardKey(
+                  //       //                   text: max,
+                  //       //                   keyType:
+                  //       //                       VirtualKeyboardKeyType
+                  //       //                           .String),
+                  //       //               max: true);
+                  //       //         }
+                  //       //       },
+                  //       //       child: Text(
+                  //       //         I18n.of(context).use_max,
+                  //       //         style: TextStyle(
+                  //       //             fontSize: 15,
+                  //       //             fontWeight: FontWeight.bold),
+                  //       //       )),
+                  //       // )
+                  //     ],
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 40),
+                    child: FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 40),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  I18n.of(context).how_much,
-                                  style: TextStyle(color: Color(0xFF898989)),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 3, horizontal: 15),
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                  child: InkWell(
-                                      onTap: () {
-                                        String max = formatValue(
-                                            selectedToken.amount,
-                                            selectedToken.decimals,
-                                            withPrecision: true);
-                                        if (num.parse(max).compareTo(
-                                                num.parse(amountText)) !=
-                                            0) {
-                                          _onKeyPress(
-                                              VirtualKeyboardKey(
-                                                  text: max,
-                                                  keyType:
-                                                      VirtualKeyboardKeyType
-                                                          .String),
-                                              max: true);
-                                        }
-                                      },
-                                      child: Text(
-                                        I18n.of(context).use_max,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                      )),
-                                )
-                              ],
+                          AutoSizeText(
+                            amountText,
+                            style: TextStyle(
+                              fontSize: 40.0,
+                              // fontWeight: FontWeight.bold,
                             ),
+                            maxLines: 1,
                           ),
                           SizedBox(
-                            height: 30,
+                            width: 10,
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 40),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: AutoSizeText(
-                                    amountText,
+                          !args.useBridge
+                              ? InkWell(
+                                  onTap: () {
+                                    showBottomMenu(viewModel);
+                                  },
+                                  child: Text(
+                                    'E-SOL' ?? '',
                                     style: TextStyle(
-                                        fontSize: 40.0,
-                                        fontWeight: FontWeight.bold),
-                                    maxLines: 1,
+                                      fontSize: 40,
+                                      // fontWeight: FontWeight.bold,
+                                      // color: Color(0xFF808080),
+                                    ),
                                   ),
-                                ),
-                                !args.useBridge
-                                    ? InkWell(
-                                        onTap: () {
-                                          showBottomMenu(viewModel);
-                                        },
-                                        child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 5),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                                color: Theme.of(context)
-                                                    .backgroundColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Text(
-                                                  selectedToken?.symbol ?? '',
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Color(0xFF808080)),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                SvgPicture.asset(
-                                                  'assets/images/dropdown_icon.svg',
-                                                  width: 9,
-                                                  height: 9,
-                                                )
-                                              ],
-                                            )),
-                                      )
-                                    : SizedBox.shrink(),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 20),
-                            child: Divider(
-                              color: Color(0xFFE8E8E8),
-                              thickness: 1.5,
-                            ),
-                          ),
+                                )
+                              : SizedBox.shrink(),
                         ],
                       ),
-                      VirtualKeyboard(
-                          height: MediaQuery.of(context).size.height * 0.37,
-                          fontSize: 28,
-                          alwaysCaps: true,
-                          textColor: Theme.of(context).primaryColor,
-                          type: VirtualKeyboardType.Numeric,
-                          onKeyPress: _onKeyPress),
-                    ]),
-              )
-            ],
-            footer: Center(
-                child: SlideTransition(
+                    ),
+                  ),
+
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(
+                  //       horizontal: 40, vertical: 20),
+                  //   child: Divider(
+                  //     color: Color(0xFFE8E8E8),
+                  //     thickness: 1.5,
+                  //   ),
+                  // ),
+                  Expanded(flex: 1, child: SizedBox.shrink()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: Cro,
+                    children: [
+                      Text('Balance disponible: '),
+                      Text(
+                        ' E-SOL ${formatValue(selectedToken?.amount, selectedToken?.decimals, withPrecision: true)}',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Container(
+                        height: 20,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Color.fromRGBO(218, 225, 249, 1),
+                        ),
+                        child:
+                            Image.asset('assets/images/another_eye_hide.png'),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(40),
+                        topLeft: Radius.circular(40),
+                      ),
+                    ),
+                    child: VirtualKeyboard(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        fontSize: 28,
+                        alwaysCaps: true,
+                        textColor: Theme.of(context).primaryColor,
+                        type: VirtualKeyboardType.Numeric,
+                        onKeyPress: _onKeyPress),
+                  ),
+                  Expanded(
+                      flex: 3,
+                      child: Container(
+                        color: Colors.white,
+                      ))
+                ],
+              ),
+            )
+          ],
+          footer: Center(
+            child: SlideTransition(
               position: offset,
               child: PrimaryButton(
                 opacity: 1,
@@ -318,8 +365,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                     : null,
                 labelFontWeight: FontWeight.normal,
                 label: hasFund
-                    ? I18n.of(context).continue_with +
-                        ' $amountText ${selectedToken?.symbol}'
+                    ? I18n.of(context).continue_with + ' $amountText E-SOL'
                     : I18n.of(context).insufficient_fund,
                 onPressed: () {
                   args.tokenToSend = selectedToken;
@@ -331,7 +377,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                 disabled: isPreloading || !hasFund,
                 width: 300,
               ),
-            )));
+            ),
+          ),
+        );
       },
     );
   }

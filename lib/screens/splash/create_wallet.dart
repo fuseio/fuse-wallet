@@ -123,14 +123,15 @@ class _CreateWalletState extends State<CreateWallet> {
                             ExtendedNavigator.root.replace(Routes.homePage);
                           } else {
                             viewModel.setDeviceIdCall();
+                            setState(() {
+                              isPrimaryPreloading = true;
+                            });
                             viewModel.createLocalAccount(() {
+                              ExtendedNavigator.root.pushSignupScreen();
+                            }, () {
                               setState(() {
                                 isPrimaryPreloading = false;
                               });
-                              ExtendedNavigator.root.push(Routes.signupScreen);
-                            });
-                            setState(() {
-                              isPrimaryPreloading = true;
                             });
                           }
                         },
@@ -166,15 +167,16 @@ class _CreateWalletState extends State<CreateWallet> {
                                           );
                                           if (result) {
                                             viewModel.setDeviceIdCall();
+                                            setState(() {
+                                              isTransparentPreloading = false;
+                                            });
                                             viewModel.createLocalAccount(() {
+                                              ExtendedNavigator.root
+                                                  .pushSignupScreen();
+                                            }, () {
                                               setState(() {
                                                 isTransparentPreloading = false;
                                               });
-                                              ExtendedNavigator.root
-                                                  .push(Routes.signupScreen);
-                                            });
-                                            setState(() {
-                                              isTransparentPreloading = true;
                                             });
                                           }
                                         },

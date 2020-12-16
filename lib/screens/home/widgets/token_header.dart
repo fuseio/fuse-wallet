@@ -110,7 +110,7 @@ class TokenHeader extends StatelessWidget {
                               final Community community = viewModel.communities
                                   .firstWhere(
                                       (element) =>
-                                          (element.token.address
+                                          (element.homeTokenAddress
                                                   .toLowerCase() ==
                                               token.address.toLowerCase()) ||
                                           (element?.foreignTokenAddress

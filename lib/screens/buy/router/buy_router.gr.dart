@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 
 import '../../../models/community/business.dart';
 import '../../../models/tokens/token.dart';
+import '../../backup/show_mnemonic.dart';
+import '../../profile/screen/profile.dart';
 import '../business.dart';
 import '../buy.dart';
 import '../map.dart';
@@ -19,10 +21,14 @@ class BusinessesRoutes {
   static const String buyScreen = '/';
   static const String businessPage = '/business-page';
   static const String mapScreen = '/map-screen';
+  static const String profileScreen = '/profile-screen';
+  static const String showMnemonic = '/show-mnemonic';
   static const all = <String>{
     buyScreen,
     businessPage,
     mapScreen,
+    profileScreen,
+    showMnemonic,
   };
 }
 
@@ -33,6 +39,8 @@ class BuyRouter extends RouterBase {
     RouteDef(BusinessesRoutes.buyScreen, page: BuyScreen),
     RouteDef(BusinessesRoutes.businessPage, page: BusinessPage),
     RouteDef(BusinessesRoutes.mapScreen, page: MapScreen),
+    RouteDef(BusinessesRoutes.profileScreen, page: ProfileScreen),
+    RouteDef(BusinessesRoutes.showMnemonic, page: ShowMnemonic),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -61,6 +69,21 @@ class BuyRouter extends RouterBase {
         settings: data,
       );
     },
+    ProfileScreen: (data) {
+      final args = data.getArgs<ProfileScreenArguments>(
+        orElse: () => ProfileScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ProfileScreen(key: args.key),
+        settings: data,
+      );
+    },
+    ShowMnemonic: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ShowMnemonic(),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -73,4 +96,10 @@ class BusinessPageArguments {
   final Business business;
   final Token token;
   BusinessPageArguments({this.business, this.token});
+}
+
+/// ProfileScreen arguments holder class
+class ProfileScreenArguments {
+  final Key key;
+  ProfileScreenArguments({this.key});
 }

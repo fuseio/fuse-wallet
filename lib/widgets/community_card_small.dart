@@ -44,6 +44,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
             ),
             height: 110,
             child: Card(
+                elevation: 0.0,
                 margin: EdgeInsets.all(10),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -91,12 +92,12 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                             SizedBox(
                               width: 3,
                             ),
-                            Text('Token: ${widget?.community?.token?.symbol}',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                )),
+                            // Text('Token: ${widget?.community?.token?.symbol}',
+                            //     style: TextStyle(
+                            //       fontSize: 14,
+                            //       color:
+                            //           Theme.of(context).colorScheme.secondary,
+                            //     )),
                           ],
                         ),
                       ],

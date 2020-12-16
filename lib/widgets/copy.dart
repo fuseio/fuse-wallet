@@ -10,14 +10,35 @@ class CopyToClipboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new InkWell(
-      child: Text("Copy to clipboard",
-          style: TextStyle(
-              color: this.textColor ?? const Color(0xFF546c7c),
-              fontSize: 16,
-              fontWeight: FontWeight.w500)),
+      child: Container(
+        decoration: new BoxDecoration(
+          color: Color.fromRGBO(0, 85, 255, 1),
+          borderRadius: new BorderRadius.all(
+            Radius.circular(15.0),
+          ),
+        ),
+        alignment: Alignment.center,
+        height: 50,
+        width: 100,
+        // color: Theme.of(context).splashColor,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.content_copy,
+              color: Theme.of(context).scaffoldBackgroundColor,
+            ),
+            Text("Copiar",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
+      ),
       onTap: () async {
-        Clipboard.setData(
-            new ClipboardData(text: content));
+        Clipboard.setData(new ClipboardData(text: content));
         Scaffold.of(context).showSnackBar(new SnackBar(
           content: new Text(
             "Copied to Clipboard",

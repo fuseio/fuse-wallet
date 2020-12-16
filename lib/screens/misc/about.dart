@@ -22,7 +22,10 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      title: I18n.of(context).about,
+      drawerIcon: Icon(Icons.arrow_back),
+      expandedHeight: 0.8,
+      newHeaderAppBar: SizedBox.shrink(),
+      title: Text(I18n.of(context).about),
       withPadding: true,
       children: <Widget>[
         Container(

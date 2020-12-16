@@ -38,8 +38,11 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
         converter: BackupViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(
+              drawerIcon: Icon(Icons.arrow_back),
+              expandedHeight: 0.8,
+              newHeaderAppBar: SizedBox.shrink(),
               withPadding: true,
-              title: I18n.of(context).back_up,
+              title: Text(I18n.of(context).back_up),
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(

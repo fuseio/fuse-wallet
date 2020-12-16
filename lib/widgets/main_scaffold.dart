@@ -1,5 +1,8 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:esol/widgets/my_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../constans/keys.dart';
 
 class MainScaffold extends StatelessWidget {
   MainScaffold(
@@ -14,17 +17,19 @@ class MainScaffold extends StatelessWidget {
       double padding,
       this.key,
       this.backgroundColor,
-      this.expandedHeight})
+      @required this.drawerIcon,
+      @required this.expandedHeight,
+      @required this.newHeaderAppBar})
       : sliverList = sliverList ?? new List<Widget>(),
         children = children ?? new List<Widget>(),
         titleFontSize = titleFontSize ?? 15,
         automaticallyImplyLeading = automaticallyImplyLeading ?? true,
-        footer = footer ?? Container(),
+        footer = footer ?? SizedBox.shrink(),
         padding = padding ?? 40.0,
         withPadding = withPadding ?? false,
         actions = actions ?? new List<Widget>();
 
-  final String title;
+  final Widget title;
   final List<Widget> children;
   final List<Widget> sliverList;
   final Widget footer;
@@ -36,28 +41,36 @@ class MainScaffold extends StatelessWidget {
   final double titleFontSize;
   final List<Widget> actions;
   final bool automaticallyImplyLeading;
+  final Widget newHeaderAppBar;
+  final Widget drawerIcon;
 
   SliverAppBar appBar(BuildContext context) {
     return SliverAppBar(
-      automaticallyImplyLeading: automaticallyImplyLeading,
-      expandedHeight:
-          expandedHeight ?? MediaQuery.of(context).size.height / 9.5,
+      elevation: 0.0,
+      automaticallyImplyLeading: false,
+      expandedHeight: expandedHeight,
       pinned: true,
+      floating: false,
       actions: actions,
-      flexibleSpace: FlexibleSpaceBar(
-        title: Container(
-          child: Text(title,
-              softWrap: true,
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: titleFontSize,
-                  fontWeight: FontWeight.w800)),
-        ),
-        centerTitle: true,
-        collapseMode: CollapseMode.parallax,
+      leading: InkWell(
+        onTap: () {
+          AppKeys.homePageKey.currentState.openDrawer();
+        },
+        child: drawerIcon,
+      ),
+      flexibleSpace: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return FlexibleSpaceBar(
+            title: title,
+            collapseMode: CollapseMode.none,
+            background: MyAppBar(
+              child: newHeaderAppBar,
+            ),
+          );
+        },
       ),
       iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
-      backgroundColor: backgroundColor ?? Theme.of(context).backgroundColor,
+      backgroundColor: backgroundColor ?? Color.fromRGBO(0, 85, 255, 1),
       brightness: Brightness.light,
     );
   }
@@ -76,31 +89,30 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Scaffold(
-          body: Stack(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Expanded(child: scrollView(context)),
-                ],
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: Scaffold(
+        resizeToAvoidBottomPadding: true,
+        body: Stack(
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(child: scrollView(context)),
+              ],
+            ),
+            Positioned(
+              bottom: withPadding ? padding : 0,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.center,
+                child: footer,
               ),
-              Positioned(
-                bottom: withPadding ? padding : 0,
-                left: 0,
-                right: 0,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: footer,
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

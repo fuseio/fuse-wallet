@@ -1,3 +1,4 @@
+import 'package:esol/widgets/another_mainScaffold.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,11 +10,11 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:esol/services.dart';
 import 'package:esol/utils/constans.dart';
-import 'package:esol/widgets/main_scaffold.dart';
 import 'package:esol/widgets/primary_button.dart';
 import 'package:esol/widgets/signup_dialog.dart';
 import 'package:esol/models/views/onboard.dart';
 import 'package:esol/widgets/snackbars.dart';
+import 'package:phone_number/phone_number.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -49,23 +50,28 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-  void onPressed(Function(CountryCode, String) signUp) {
-    phoneNumberUtil
-        .parse('${countryCode.dialCode}${phoneController.text}')
-        .then((value) {
-      signUp(countryCode, phoneController.text);
+  void onPressed(Function(CountryCode, PhoneNumber) signUp) {
+    final String phoneNumber = '${countryCode.dialCode}${phoneController.text}';
+    phoneNumberUtil.parse(phoneNumber).then((value) {
+      signUp(countryCode, value);
     }, onError: (e) {
-      setState(() {
-        isvalidPhone = false;
-      });
+      transactionFailedSnack(I18n.of(context).invalid_number,
+          title: I18n.of(context).something_went_wrong,
+          duration: Duration(seconds: 3),
+          context: context,
+          margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     Segment.screen(screenName: '/signup-screen');
-    return MainScaffold(
+    return AnotherMainScaffold(
+        // drawerIcon: Icon(Icons.arrow_back),
+        expandedHeight: MediaQuery.of(context).size.height / 12,
+        // newHeaderAppBar: SizedBox.shrink(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        padding: 20.0,
         withPadding: true,
         title: I18n.of(context).sign_up,
         children: <Widget>[
@@ -76,13 +82,15 @@ class _SignupScreenState extends State<SignupScreen> {
                 Padding(
                   padding: EdgeInsets.only(
                       left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
-                  child: Text(I18n.of(context).enter_phone_number,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                      )),
+                  child: Text(
+                    I18n.of(context).enter_phone_number,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                 ),
                 Container(
                   height: 35.0,
@@ -93,25 +101,26 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return SignupDialog();
-                              });
-                          Segment.track(
-                              eventName:
-                                  "Wallet: opened modal - why do we need this");
-                        },
-                        child: Center(
-                          child: Text(
-                            I18n.of(context).why_do_we_need_this,
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal),
-                          ),
-                        )),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SignupDialog();
+                            });
+                        Segment.track(
+                            eventName:
+                                "Wallet: opened modal - why do we need this");
+                      },
+                      child: Center(
+                        child: Text(
+                          I18n.of(context).why_do_we_need_this,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: 15,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ),
                   ),
                 )
               ],

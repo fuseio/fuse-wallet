@@ -35,7 +35,10 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
   @override
   Widget build(BuildContext context) {
     return MainScaffold(
-      title: I18n.of(context).protect_wallet,
+      drawerIcon: Icon(Icons.arrow_back),
+      expandedHeight: 0.8,
+      newHeaderAppBar: SizedBox.shrink(),
+      title: Text(I18n.of(context).protect_wallet),
       withPadding: true,
       children: <Widget>[
         StoreConnector<AppState, _SecurityViewModel>(

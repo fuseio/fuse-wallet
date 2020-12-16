@@ -26,7 +26,8 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     Locale currentLocal = Localizations.localeOf(context);
     return I18n.delegate.supportedLocales.map((local) {
       bool isSelected = currentLocal == local;
-      Map code = codes.firstWhere((code) => code['code'] == local.countryCode, orElse: () => null);
+      Map code = codes.firstWhere((code) => code['code'] == local.countryCode,
+          orElse: () => null);
       String name = code['name'] ?? local.countryCode;
       return new ListTile(
           contentPadding:
@@ -35,7 +36,8 @@ class _LanguageSelectorState extends State<LanguageSelector> {
             name,
             style: TextStyle(color: Theme.of(context).primaryColor),
           ),
-          trailing: isSelected ? new Icon(Icons.check, color: Colors.green) : null,
+          trailing:
+              isSelected ? new Icon(Icons.check, color: Colors.green) : null,
           selected: isSelected,
           onTap: () {
             I18n.onLocaleChanged(local);

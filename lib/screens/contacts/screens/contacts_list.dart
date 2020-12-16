@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:esol/screens/contacts/widgets/custom_send_field.dart';
+import 'package:esol/screens/contacts/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:contacts_service/contacts_service.dart';
@@ -49,8 +51,26 @@ class _ContactsListState extends State<ContactsList> {
         builder: (_, viewModel) {
           return _contacts != null
               ? MainScaffold(
-                  automaticallyImplyLeading: false,
-                  title: I18n.of(context).send_to,
+                  drawerIcon: Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 15),
+                    child: Image.asset(
+                      'assets/images/menu_white.png',
+                    ),
+                  ),
+                  expandedHeight: MediaQuery.of(context).size.height * 0.20,
+                  newHeaderAppBar: ContactsHeader(
+                    avatarUrl: null,
+                    text: null,
+                    image: null,
+                    imageshow: false,
+                    contactEmpty: true,
+                    textshow: true,
+                  ),
+                  automaticallyImplyLeading: true,
+                  title: Text(
+                    I18n.of(context).send_to,
+                    style: TextStyle(),
+                  ),
                   sliverList: _buildPageList(viewModel),
                 )
               : Center(
@@ -141,7 +161,8 @@ class _ContactsListState extends State<ContactsList> {
           .toSet()
           .toList();
       for (Item phone in phones) {
-        listItems.add(ContactTile(
+        listItems.add(
+          ContactTile(
             image: user.avatar != null && user.avatar.isNotEmpty
                 ? MemoryImage(user.avatar)
                 : null,
@@ -157,11 +178,22 @@ class _ContactsListState extends State<ContactsList> {
                       ? MemoryImage(user.avatar)
                       : new AssetImage('assets/images/anom.png'));
             },
-            trailing: Text(
-              phone.value,
-              style: TextStyle(
-                  fontSize: 13, color: Theme.of(context).primaryColor),
-            )));
+            trailing: Container(
+              height: 30,
+              width: 30,
+              // child: Image.asset('assets\images\gift.png'),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 15,
+                color: Colors.blue,
+              ),
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+        );
       }
     }
     return SliverList(
@@ -193,12 +225,26 @@ class _ContactsListState extends State<ContactsList> {
   }
 
   List<Widget> _buildPageList(ContactsViewModel viewModel) {
-    List<Widget> listItems = List();
+    List<Widget> listItems = List<Widget>();
 
     listItems.add(SearchPanel(
       searchController: searchController,
     ));
-
+    listItems.add(
+      SliverPersistentHeader(
+        pinned: true,
+        delegate: SliverAppBarDelegate(
+          minHeight: 40.0,
+          maxHeight: 40.0,
+          child: Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Text('Enviar dinero fuera de tus contactos'),
+          ),
+        ),
+      ),
+    );
+    listItems.add(CustomSendField());
     if (searchController.text.isEmpty) {
       listItems.add(RecentContacts());
     } else if (isValidEthereumAddress(searchController.text)) {
@@ -218,7 +264,8 @@ class _ContactsListState extends State<ContactsList> {
 
     for (String title in titles) {
       List<Contact> group = groups[title];
-      listItems.add(listHeader(title));
+      // listItems.add(listHeader(title));
+      // listItems.add(Text('Data'));
       listItems.add(listBody(viewModel, group));
     }
 
