@@ -137,5 +137,9 @@
     "invalid_number": "Invalid number",
     "copy_to_clipboard": "Copy to clipboard",
     "copied_to_clipboard": "Copied to clipboard",
-    "bit2c_points": "Bit2c Points"
+    "bit2c_points": "Bit2c Points",
+    "oops": "Oops",
+    "offline": "it's seems you are offline",
+    "connection": "please fix your internet connection and try again!",
+    "ok_thanks": "OK Thanks"
 }

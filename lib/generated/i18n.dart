@@ -310,6 +310,14 @@ class I18n implements WidgetsLocalizations {
   String get copied_to_clipboard => "Copied to clipboard";
   /// "Bit2c Points"
   String get bit2c_points => "Bit2c Points";
+  /// "Oops"
+  String get oops => "Oops";
+  /// "it's seems you are offline"
+  String get offline => "it's seems you are offline";
+  /// "please fix your internet connection and try again!"
+  String get connection => "please fix your internet connection and try again!";
+  /// "OK Thanks"
+  String get ok_thanks => "OK Thanks";
 }
 
 class _I18n_en_US extends I18n {

@@ -1,7 +1,7 @@
+import 'package:bit2c/screens/misc/about.dart';
 import 'package:flutter/material.dart';
 import 'package:bit2c/generated/i18n.dart';
 import 'dart:core';
-
 import 'package:bit2c/widgets/primary_button.dart';
 
 class SignupDialog extends StatefulWidget {
@@ -74,7 +74,7 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.normal)),
                     SizedBox(height: 20.0),
                     Text(
-                        "Fuse will never share this information with 3rd party.",
+                        "Bit2c will never share this information with 3rd party.",
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,
@@ -87,9 +87,9 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.normal)),
                     InkWell(
                         onTap: () {
-                          // TODO - link to privacy policy
+                          launchUrl('https://bit2c.co.il/home/privacypolicy');
                         },
-                        child: Text("Fuse.io/privacy",
+                        child: Text("Bit2c privacy",
                             style: TextStyle(
                                 color: Color(0xFF0076FF),
                                 fontSize: 18,
@@ -97,7 +97,7 @@ class SignupDialogState extends State<SignupDialog>
                     SizedBox(height: 40.0),
                     Center(
                         child: PrimaryButton(
-                      label: "OK Thanks",
+                      label: I18n.of(context).ok_thanks,
                       fontSize: 16,
                       width: 120,
                       labelFontWeight: FontWeight.normal,
