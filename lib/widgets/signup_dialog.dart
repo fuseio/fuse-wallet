@@ -67,7 +67,7 @@ class SignupDialogState extends State<SignupDialog>
                             fontWeight: FontWeight.bold)),
                     SizedBox(height: 20.0),
                     Text(
-                        "The Bit2c wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
+                        "The Bit2c club stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,

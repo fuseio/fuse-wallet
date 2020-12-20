@@ -151,7 +151,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
         store: widget.store,
         child: MaterialApp(
-          title: 'Bit2c wallet',
+          title: 'Bit2c club',
           builder: ExtendedNavigator.builder(
             router: router.Router(),
             initialRoute: "/",

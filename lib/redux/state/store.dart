@@ -197,7 +197,7 @@ class AppFactory {
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
-                app: App(name: 'Bit2c Wallet'),
+                app: App(name: 'Bit2c'),
                 operatingSystem: operatingSystem),
             userContext: user));
 
