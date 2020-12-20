@@ -172,7 +172,8 @@ ThunkAction startListenToTransferEvents() {
     final logger = await AppFactory().getLogger('action');
     if (!isListenToTransferEvents) {
       logger.info('Timer start - startListenToTransferEvents');
-      new Timer.periodic(Duration(seconds: intervalSeconds), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds),
+          (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           logger.severe('Timer stopped - startListenToTransferEvents');
           timer.cancel();

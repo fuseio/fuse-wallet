@@ -4,6 +4,7 @@ description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  flutter_offline: ^0.3.0
   smooth_page_indicator: ^0.2.0
   font_awesome_flutter: ^8.10.0
   flushbar: ^1.10.4
@@ -30,7 +31,7 @@ dependencies:
   redux_logging: ^0.4.0
   redux_persist: ^0.8.4
   country_code_picker: ^1.6.1
-  wallet_core: ^0.2.4+20
+  wallet_core: ^0.2.4+21
   # wallet_core:
   # path: ../wallet_core
   barcode_scan: ^3.0.1

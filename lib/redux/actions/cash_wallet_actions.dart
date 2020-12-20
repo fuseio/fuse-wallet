@@ -454,10 +454,11 @@ ThunkAction createAccountWalletCall(String accountAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      Map<String, dynamic> response = await api.createWallet();
       final String communityAddress =
           store.state?.cashWalletState?.communityAddress ??
               defaultCommunityAddress;
+      Map<String, dynamic> response =
+          await api.createWallet(communityAddress: communityAddress);
       if (!response.containsKey('job')) {
         logger.info('Wallet already exists');
         store.dispatch(CreateAccountWalletSuccess());
@@ -613,7 +614,7 @@ ThunkAction processingJobsCall(Timer timer) {
             // logger.info('cash mode performing ${job.name} ${job.id}');
             await job.perform(store, isJobProcessValid);
           } catch (e) {
-            logger.severe('failed perform ${job.name}');
+            logger.severe('failed perform ${job.name} $e');
           }
         }
         if (job.status == 'DONE') {
@@ -1054,8 +1055,8 @@ ThunkAction joinBonusSuccessCall(communiyAddress) {
         store.state.cashWalletState.communities;
     Community communityData = communities[communiyAddress];
     store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
-      "Join Bonus ${communityData.name} Received": true,
-      "Community ${communityData.name} Joined": true,
+      "Join Bonus ${communityData?.name} Received": true,
+      "Community ${communityData?.name} Joined": true,
     })));
     store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
         properties: new Map<String, dynamic>.from({

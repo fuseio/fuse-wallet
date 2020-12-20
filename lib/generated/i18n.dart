@@ -308,6 +308,14 @@ class I18n implements WidgetsLocalizations {
   String get copy_to_clipboard => "Copy to clipboard";
   /// "Copied to clipboard"
   String get copied_to_clipboard => "Copied to clipboard";
+  /// "Oops"
+  String get oops => "Oops";
+  /// "it's seems you are offline"
+  String get offline => "it's seems you are offline";
+  /// "please fix your internet connection and try again!"
+  String get connection => "please fix your internet connection and try again!";
+  /// "Invalid pincode"
+  String get invalid_pincode => "Invalid pincode";
 }
 
 class _I18n_en_US extends I18n {

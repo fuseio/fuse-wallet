@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:curadai/widgets/snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -94,36 +95,44 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                 builder: (_, viewModel) => Container(
                                       width: 250,
                                       child: PinInputTextField(
-                                          pinLength: 6,
-                                          decoration: UnderlineDecoration(
-                                              textStyle: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .splashColor,
-                                              ),
-                                              hintTextStyle: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                              colorBuilder:
-                                                  FixedColorListBuilder([
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor
-                                              ]),
-                                              obscureStyle: ObscureStyle(
-                                                  isTextObscure: true,
-                                                  obscureText: '●')),
-                                          controller: pincodeController,
-                                          autoFocus: true,
-                                          textInputAction: TextInputAction.go,
-                                          onChanged: (value) {
-                                            if (value == viewModel.pincode) {
-                                              ExtendedNavigator.root
-                                                  .replace(Routes.homePage);
-                                            }
-                                          }),
+                                        pinLength: 6,
+                                        decoration: UnderlineDecoration(
+                                            textStyle: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color:
+                                                  Theme.of(context).splashColor,
+                                            ),
+                                            hintTextStyle: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            colorBuilder:
+                                                FixedColorListBuilder([
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor
+                                            ]),
+                                            obscureStyle: ObscureStyle(
+                                                isTextObscure: true,
+                                                obscureText: '●')),
+                                        controller: pincodeController,
+                                        autoFocus: true,
+                                        textInputAction: TextInputAction.next,
+                                        onSubmit: (value) {
+                                          if (value == viewModel.pincode) {
+                                            ExtendedNavigator.root
+                                                .replace(Routes.homePage);
+                                          } else {
+                                            transactionFailedSnack(
+                                                I18n.of(context)
+                                                    .invalid_pincode,
+                                                title: I18n.of(context).oops,
+                                                duration: Duration(seconds: 3),
+                                                context: context);
+                                          }
+                                        },
+                                      ),
                                     )))
                       ],
                     )
