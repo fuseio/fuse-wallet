@@ -75,12 +75,6 @@ class VerifyRequest {
   }
 }
 
-class RestoreWalletSuccess {
-  final List<String> mnemonic;
-  final String privateKey;
-  RestoreWalletSuccess(this.mnemonic, this.privateKey);
-}
-
 class CreateLocalAccountSuccess {
   final List<String> mnemonic;
   final String privateKey;
@@ -300,9 +294,8 @@ ThunkAction restoreWalletCall(
       logger.info('compute pk');
       String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
       logger.info('privateKey: $privateKey');
-      store.dispatch(RestoreWalletSuccess(_mnemonic, privateKey));
-      Credentials c = EthPrivateKey.fromHex(privateKey);
-      dynamic accountAddress = await c.extractAddress();
+      Credentials credentials = EthPrivateKey.fromHex(privateKey);
+      EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey: privateKey));
@@ -331,7 +324,8 @@ ThunkAction setDeviceId(bool reLogin) {
   };
 }
 
-ThunkAction createLocalAccountCall(VoidCallback successCallback) {
+ThunkAction createLocalAccountCall(
+    VoidCallback successCallback, VoidCallback errorCallback) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -341,16 +335,18 @@ ThunkAction createLocalAccountCall(VoidCallback successCallback) {
       logger.info('compute pk');
       String privateKey = await compute(Web3.privateKeyFromMnemonic, mnemonic);
       logger.info('privateKey: $privateKey');
-      Credentials c = EthPrivateKey.fromHex(privateKey);
-      dynamic accountAddress = await c.extractAddress();
+      Credentials credentials = EthPrivateKey.fromHex(privateKey);
+      EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
       store.dispatch(initWeb3Call(privateKey: privateKey));
       store.dispatch(segmentTrackCall("Wallet: Create wallet"));
       successCallback();
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - createLocalAccountCall $e');
       store.dispatch(ErrorAction('Could not create wallet'));
+      await AppFactory().reportError(e, stackTrace: s);
+      errorCallback();
     }
   };
 }
@@ -655,6 +651,9 @@ ThunkAction updateDisplayNameCall(String displayName) {
       await api.updateDisplayName(accountAddress, displayName);
       store.dispatch(SetDisplayName(displayName));
       store.dispatch(segmentTrackCall("Wallet: display name updated"));
+      store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+        "Display Name": displayName,
+      })));
     } catch (e) {}
   };
 }

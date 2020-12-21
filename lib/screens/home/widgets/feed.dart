@@ -1,5 +1,6 @@
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/community/community.dart';
 import 'package:supervecina/models/tokens/token.dart';
 import 'package:supervecina/models/transactions/transaction.dart';
 import 'package:supervecina/models/transactions/transfer.dart';
@@ -96,6 +97,7 @@ class _FeedModel extends Equatable {
   final Function() startTransfersFetching;
   final Function() startProcessingJobs;
   final Function() refreshFeed;
+  final List<Community> communities;
 
   _FeedModel({
     this.feedList,
@@ -103,6 +105,7 @@ class _FeedModel extends Equatable {
     this.startTransfersFetching,
     this.startProcessingJobs,
     this.refreshFeed,
+    this.communities,
   });
 
   static _FeedModel fromStore(Store<AppState> store) {
@@ -122,6 +125,7 @@ class _FeedModel extends Equatable {
     return _FeedModel(
         feedList: feedList,
         walletStatus: store.state.userState.walletStatus,
+        communities: store.state.cashWalletState.communities.values.toList(),
         startTransfersFetching: () {
           store.dispatch(startTransfersFetchingCall());
         },
@@ -135,5 +139,5 @@ class _FeedModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [feedList];
+  List<Object> get props => [feedList, communities, walletStatus];
 }

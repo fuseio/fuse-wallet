@@ -204,13 +204,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
-                    title: Text('Camera'),
+                    title: Text(I18n.of(context).camera),
                     onTap: () {
                       callback(ImageSource.camera);
                       Navigator.pop(context);
                     }),
                 ListTile(
-                    title: Text('Gallery'),
+                    title: Text(I18n.of(context).gallery),
                     onTap: () {
                       callback(ImageSource.gallery);
                       Navigator.pop(context);

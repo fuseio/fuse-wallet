@@ -6,6 +6,7 @@ import 'package:supervecina/generated/i18n.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'package:supervecina/models/views/backup.dart';
 import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/widgets/snackbars.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class ColorsPincodeScreen extends StatefulWidget {
@@ -115,37 +116,44 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                 builder: (_, viewModel) => Container(
                                       width: 250,
                                       child: PinInputTextField(
-                                          pinLength: 6,
-                                          decoration: UnderlineDecoration(
-                                              textStyle: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .splashColor,
-                                                  fontWeight: FontWeight.bold),
-                                              hintTextStyle: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .splashColor,
-                                                  fontWeight: FontWeight.bold),
-                                              colorBuilder:
-                                                  FixedColorListBuilder([
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor,
-                                                Theme.of(context).splashColor
-                                              ]),
-                                              obscureStyle: ObscureStyle(
-                                                  isTextObscure: true,
-                                                  obscureText: '●')),
-                                          controller: pincodeController,
-                                          autoFocus: true,
-                                          textInputAction: TextInputAction.go,
-                                          onChanged: (value) {
-                                            if (value == viewModel.pincode) {
-                                              ExtendedNavigator.root
-                                                  .replace(Routes.homePage);
-                                            }
-                                          }),
+                                        pinLength: 6,
+                                        decoration: UnderlineDecoration(
+                                            textStyle: TextStyle(
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                                fontWeight: FontWeight.bold),
+                                            hintTextStyle: TextStyle(
+                                                color: Theme.of(context)
+                                                    .splashColor,
+                                                fontWeight: FontWeight.bold),
+                                            colorBuilder:
+                                                FixedColorListBuilder([
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor,
+                                              Theme.of(context).splashColor
+                                            ]),
+                                            obscureStyle: ObscureStyle(
+                                                isTextObscure: true,
+                                                obscureText: '●')),
+                                        controller: pincodeController,
+                                        autoFocus: true,
+                                        onSubmit: (value) {
+                                          if (value == viewModel.pincode) {
+                                            ExtendedNavigator.root
+                                                .replace(Routes.homePage);
+                                          } else {
+                                            transactionFailedSnack(
+                                                I18n.of(context)
+                                                    .invalid_pincode,
+                                                title: I18n.of(context).oops,
+                                                duration: Duration(seconds: 3),
+                                                context: context);
+                                          }
+                                        },
+                                      ),
                                     )))
                       ],
                     )

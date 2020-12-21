@@ -66,21 +66,19 @@ class SignupDialogState extends State<SignupDialog>
                             fontSize: 18,
                             fontWeight: FontWeight.bold)),
                     SizedBox(height: 20.0),
-                    Text(
-                        "The wikibank wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
+                    Text(I18n.of(context).stores_private,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,
                             fontWeight: FontWeight.normal)),
                     SizedBox(height: 20.0),
-                    Text(
-                        "Wikibank will never share this information with 3rd party.",
+                    Text(I18n.of(context).will_never_share,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,
                             fontWeight: FontWeight.normal)),
                     SizedBox(height: 20.0),
-                    Text("For more information: ",
+                    Text(I18n.of(context).for_more_info,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary,
                             fontSize: 18,
@@ -89,7 +87,7 @@ class SignupDialogState extends State<SignupDialog>
                         onTap: () {
                           // TODO - link to privacy policy
                         },
-                        child: Text("Fuse.io/privacy",
+                        child: Text(I18n.of(context).privacy,
                             style: TextStyle(
                                 color: Color(0xFF0076FF),
                                 fontSize: 18,
@@ -97,7 +95,7 @@ class SignupDialogState extends State<SignupDialog>
                     SizedBox(height: 40.0),
                     Center(
                         child: PrimaryButton(
-                      label: "OK Thanks",
+                      label: I18n.of(context).ok_thanks,
                       fontSize: 16,
                       width: 120,
                       labelFontWeight: FontWeight.normal,
