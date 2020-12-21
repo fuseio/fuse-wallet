@@ -314,6 +314,30 @@ class I18n implements WidgetsLocalizations {
   String get offline => "it's seems you are offline";
   /// "please fix your internet connection and try again!"
   String get connection => "please fix your internet connection and try again!";
+  /// "OK Thanks"
+  String get ok_thanks => "OK Thanks";
+  /// "Invalid pincode"
+  String get invalid_pincode => "Invalid pincode";
+  /// "Pin code doesn't match"
+  String get pincode_dont_match => "Pin code doesn't match";
+  /// "Creating a new account will reset your existing account - are you sure you want to continue?"
+  String get reset_account => "Creating a new account will reset your existing account - are you sure you want to continue?";
+  /// "We notice you haven’t backup your wallet yet."
+  String get we_notice => "We notice you haven’t backup your wallet yet.";
+  /// "To protect your money and wallet go now to the settings and back up your wallet in few easy steps"
+  String get to_protect => "To protect your money and wallet go now to the settings and back up your wallet in few easy steps";
+  /// "Camera"
+  String get camera => "Camera";
+  /// "Gallery"
+  String get gallery => "Gallery";
+  /// "For more information: "
+  String get for_more_info => "For more information: ";
+  /// "Fuse.io/privacy"
+  String get privacy => "Fuse.io/privacy";
+  /// "Fuse will never share this information with 3rd party."
+  String get will_never_share => "Fuse will never share this information with 3rd party.";
+  /// "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."
+  String get stores_private => "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.";
 }
 
 class _I18n_en_US extends I18n {
