@@ -56,8 +56,7 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
               height: 35,
             ),
           ),
-          content: Text(
-              'Creating a new account will reset your existing account - are you sure you want to continue?'),
+          content: Text(I18n.of(context).reset_account),
           actions: <Widget>[
             FlatButton(
               textColor: Color(0xFF009DFF),

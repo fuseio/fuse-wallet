@@ -97,11 +97,6 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                       child: PinInputTextField(
                                         pinLength: 6,
                                         decoration: UnderlineDecoration(
-                                            textStyle: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color:
-                                                  Theme.of(context).splashColor,
-                                            ),
                                             hintTextStyle: TextStyle(
                                                 fontWeight: FontWeight.bold),
                                             colorBuilder:
@@ -118,7 +113,6 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                                 obscureText: '●')),
                                         controller: pincodeController,
                                         autoFocus: true,
-                                        textInputAction: TextInputAction.next,
                                         onSubmit: (value) {
                                           if (value == viewModel.pincode) {
                                             ExtendedNavigator.root
