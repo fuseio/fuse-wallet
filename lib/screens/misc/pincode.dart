@@ -1,3 +1,4 @@
+import 'package:bit2c/widgets/snackbars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:bit2c/generated/i18n.dart';
@@ -74,49 +75,56 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                 builder: (_, viewModel) => Container(
                                       width: 250,
                                       child: PinInputTextField(
-                                          pinLength: 6,
-                                          decoration: UnderlineDecoration(
-                                              textStyle: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                              ),
-                                              hintTextStyle: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                              colorBuilder:
-                                                  FixedColorListBuilder([
-                                                Theme.of(context).primaryColor,
-                                                Theme.of(context).primaryColor,
-                                                Theme.of(context).primaryColor,
-                                                Theme.of(context).primaryColor,
-                                                Theme.of(context).primaryColor,
-                                                Theme.of(context).primaryColor,
-                                              ]),
-                                              obscureStyle: ObscureStyle(
-                                                  isTextObscure: true,
-                                                  obscureText: '●')),
-                                          controller: pincodeController,
-                                          autoFocus: true,
-                                          textInputAction: TextInputAction.go,
-                                          onChanged: (String pin) {
-                                            if (pin.length == 6 &&
-                                                !this.isRetype) {
-                                              pincodeController.text = '';
-                                              setState(() {
-                                                isRetype = true;
-                                                lastPincode = pin;
-                                              });
-                                            } else if (pin.length == 6 &&
-                                                this.isRetype) {
-                                              if (pin == this.lastPincode) {
-                                                viewModel.setSecurityType(
-                                                    BiometricAuth.pincode);
-                                                viewModel.setPincode(
-                                                    this.lastPincode);
-                                                widget.onSuccess();
-                                              }
-                                            }
-                                          }),
+                                        pinLength: 6,
+                                        decoration: UnderlineDecoration(
+                                            textStyle: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
+                                            hintTextStyle: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            colorBuilder:
+                                                FixedColorListBuilder([
+                                              Theme.of(context).primaryColor,
+                                              Theme.of(context).primaryColor,
+                                              Theme.of(context).primaryColor,
+                                              Theme.of(context).primaryColor,
+                                              Theme.of(context).primaryColor,
+                                              Theme.of(context).primaryColor,
+                                            ]),
+                                            obscureStyle: ObscureStyle(
+                                                isTextObscure: true,
+                                                obscureText: '●')),
+                                        controller: pincodeController,
+                                        autoFocus: true,
+                                        onSubmit: (String pin) {
+                                          if (pin == this.lastPincode) {
+                                            viewModel.setSecurityType(
+                                                BiometricAuth.pincode);
+                                            viewModel
+                                                .setPincode(this.lastPincode);
+                                            widget.onSuccess();
+                                          } else {
+                                            transactionFailedSnack(
+                                                I18n.of(context)
+                                                    .pincode_dont_match,
+                                                title: I18n.of(context).oops,
+                                                duration: Duration(seconds: 3),
+                                                context: context);
+                                          }
+                                        },
+                                        onChanged: (String pin) {
+                                          if (pin.length == 6 &&
+                                              !this.isRetype) {
+                                            pincodeController.text = '';
+                                            setState(() {
+                                              isRetype = true;
+                                              lastPincode = pin;
+                                            });
+                                          }
+                                        },
+                                      ),
                                     )))
                       ],
                     )

@@ -318,6 +318,28 @@ class I18n implements WidgetsLocalizations {
   String get connection => "please fix your internet connection and try again!";
   /// "OK Thanks"
   String get ok_thanks => "OK Thanks";
+  /// "Invalid pincode"
+  String get invalid_pincode => "Invalid pincode";
+  /// "Pin code doesn't match"
+  String get pincode_dont_match => "Pin code doesn't match";
+  /// "Creating a new account will reset your existing account - are you sure you want to continue?"
+  String get reset_account => "Creating a new account will reset your existing account - are you sure you want to continue?";
+  /// "We notice you haven’t backup your wallet yet."
+  String get we_notice => "We notice you haven’t backup your wallet yet.";
+  /// "To protect your money and wallet go now to the settings and back up your wallet in few easy steps"
+  String get to_protect => "To protect your money and wallet go now to the settings and back up your wallet in few easy steps";
+  /// "Camera"
+  String get camera => "Camera";
+  /// "Gallery"
+  String get gallery => "Gallery";
+  /// "For more information: "
+  String get for_more_info => "For more information: ";
+  /// "Bit2c privacy"
+  String get privacy => "Bit2c privacy";
+  /// "Bit2c will never share this information with 3rd party."
+  String get will_never_share => "Bit2c will never share this information with 3rd party.";
+  /// "The Bit2c club stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."
+  String get stores_private => "The Bit2c club stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.";
 }
 
 class _I18n_en_US extends I18n {
@@ -603,9 +625,9 @@ class _I18n_he_IL extends I18n {
   /// "רכוש"
   @override
   String get buy => "רכוש";
-  /// "Map"
+  /// "מפה"
   @override
-  String get map => "Map";
+  String get map => "מפה";
   /// "אושר"
   @override
   String get approved => "אושר";
@@ -675,9 +697,9 @@ class _I18n_he_IL extends I18n {
   /// "מומלץ"
   @override
   String get recommended => "מומלץ";
-  /// "Insufficient fund"
+  /// "קרן לא מספקת"
   @override
-  String get insufficient_fund => "Insufficient fund";
+  String get insufficient_fund => "קרן לא מספקת";
   /// "עמוד הקהילה"
   @override
   String get community_webpage => "עמוד הקהילה";
@@ -729,9 +751,69 @@ class _I18n_he_IL extends I18n {
   /// "אין עסקאות"
   @override
   String get no_activity => "אין עסקאות";
+  /// "Bridge to"
+  @override
+  String get bridge_to => "Bridge to";
+  /// "Move to"
+  @override
+  String get move_to => "Move to";
+  /// "מספר לא תקין"
+  @override
+  String get invalid_number => "מספר לא תקין";
+  /// "העתק ללוח"
+  @override
+  String get copy_to_clipboard => "העתק ללוח";
+  /// "הועתק ללוח"
+  @override
+  String get copied_to_clipboard => "הועתק ללוח";
   /// "נקודות Bit2c"
   @override
   String get bit2c_points => "נקודות Bit2c";
+  /// "אופס"
+  @override
+  String get oops => "אופס";
+  /// "נראה שאתה לא מחובר"
+  @override
+  String get offline => "נראה שאתה לא מחובר";
+  /// "אנא תקן את חיבור האינטרנט שלך ונסה שוב!"
+  @override
+  String get connection => "אנא תקן את חיבור האינטרנט שלך ונסה שוב!";
+  /// "אוקיי"
+  @override
+  String get ok_thanks => "אוקיי";
+  /// "הקוד שגוי"
+  @override
+  String get invalid_pincode => "הקוד שגוי";
+  /// "קוד לא תואם"
+  @override
+  String get pincode_dont_match => "קוד לא תואם";
+  /// "יצירת חשבון חדש תאפס את חשבונך הקיים - האם אתה בטוח שברצונך להמשיך?"
+  @override
+  String get reset_account => "יצירת חשבון חדש תאפס את חשבונך הקיים - האם אתה בטוח שברצונך להמשיך?";
+  /// "שמנו לב שטרם ביצעת גיבוי"
+  @override
+  String get we_notice => "שמנו לב שטרם ביצעת גיבוי";
+  /// "כדי להגן על הכסף והארנק שלך, עבור עכשיו להגדרות וגבה את הארנק בכמה צעדים פשוטים"
+  @override
+  String get to_protect => "כדי להגן על הכסף והארנק שלך, עבור עכשיו להגדרות וגבה את הארנק בכמה צעדים פשוטים";
+  /// "מצלמה"
+  @override
+  String get camera => "מצלמה";
+  /// "גלריה"
+  @override
+  String get gallery => "גלריה";
+  /// "למידע נוסף: "
+  @override
+  String get for_more_info => "למידע נוסף: ";
+  /// "בי.טו.סי פרטיות"
+  @override
+  String get privacy => "בי.טו.סי פרטיות";
+  /// "Bit2c club לעולם לא ישתף מידע זה עם צד שלישי."
+  @override
+  String get will_never_share => "Bit2c club לעולם לא ישתף מידע זה עם צד שלישי.";
+  /// "Bit2c club שומר מידע פרטי באופן מקומי על המכשיר. רק מספר הטלפון משמש כדי להיות מסוגל לאמת את זהותך ולהפחית את החיכוך בעת שליחת כסף לאנשי קשר טלפוניים."
+  @override
+  String get stores_private => "Bit2c club שומר מידע פרטי באופן מקומי על המכשיר. רק מספר הטלפון משמש כדי להיות מסוגל לאמת את זהותך ולהפחית את החיכוך בעת שליחת כסף לאנשי קשר טלפוניים.";
 
   @override
   TextDirection get textDirection => TextDirection.rtl;
