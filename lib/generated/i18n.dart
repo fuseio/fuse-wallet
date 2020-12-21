@@ -623,9 +623,9 @@ class _I18n_he_IL extends I18n {
   /// "רכוש"
   @override
   String get buy => "רכוש";
-  /// "Map"
+  /// "מפה"
   @override
-  String get map => "Map";
+  String get map => "מפה";
   /// "אושר"
   @override
   String get approved => "אושר";
@@ -695,9 +695,9 @@ class _I18n_he_IL extends I18n {
   /// "מומלץ"
   @override
   String get recommended => "מומלץ";
-  /// "Insufficient fund"
+  /// "קרן לא מספקת"
   @override
-  String get insufficient_fund => "Insufficient fund";
+  String get insufficient_fund => "קרן לא מספקת";
   /// "עמוד הקהילה"
   @override
   String get community_webpage => "עמוד הקהילה";
@@ -749,6 +749,66 @@ class _I18n_he_IL extends I18n {
   /// "אין עסקאות"
   @override
   String get no_activity => "אין עסקאות";
+  /// "Bridge to"
+  @override
+  String get bridge_to => "Bridge to";
+  /// "Move to"
+  @override
+  String get move_to => "Move to";
+  /// "מספר לא תקין"
+  @override
+  String get invalid_number => "מספר לא תקין";
+  /// "העתק ללוח"
+  @override
+  String get copy_to_clipboard => "העתק ללוח";
+  /// "הועתק ללוח"
+  @override
+  String get copied_to_clipboard => "הועתק ללוח";
+  /// "אופס"
+  @override
+  String get oops => "אופס";
+  /// "נראה שאתה לא מחובר"
+  @override
+  String get offline => "נראה שאתה לא מחובר";
+  /// "אנא תקן את חיבור האינטרנט שלך ונסה שוב!"
+  @override
+  String get connection => "אנא תקן את חיבור האינטרנט שלך ונסה שוב!";
+  /// "אוקיי"
+  @override
+  String get ok_thanks => "אוקיי";
+  /// "הקוד שגוי"
+  @override
+  String get invalid_pincode => "הקוד שגוי";
+  /// "קוד לא תואם"
+  @override
+  String get pincode_dont_match => "קוד לא תואם";
+  /// "יצירת חשבון חדש תאפס את חשבונך הקיים - האם אתה בטוח שברצונך להמשיך?"
+  @override
+  String get reset_account => "יצירת חשבון חדש תאפס את חשבונך הקיים - האם אתה בטוח שברצונך להמשיך?";
+  /// "שמנו לב שטרם ביצעת גיבוי"
+  @override
+  String get we_notice => "שמנו לב שטרם ביצעת גיבוי";
+  /// "כדי להגן על הכסף והארנק שלך, עבור עכשיו להגדרות וגבה את הארנק בכמה צעדים פשוטים"
+  @override
+  String get to_protect => "כדי להגן על הכסף והארנק שלך, עבור עכשיו להגדרות וגבה את הארנק בכמה צעדים פשוטים";
+  /// "מצלמה"
+  @override
+  String get camera => "מצלמה";
+  /// "גלריה"
+  @override
+  String get gallery => "גלריה";
+  /// "למידע נוסף: "
+  @override
+  String get for_more_info => "למידע נוסף: ";
+  /// "Fuse פרטיות"
+  @override
+  String get privacy => "Fuse פרטיות";
+  /// "Fuse לעולם לא ישתף מידע זה עם צד שלישי."
+  @override
+  String get will_never_share => "Fuse לעולם לא ישתף מידע זה עם צד שלישי.";
+  /// "Fuse שומר מידע פרטי באופן מקומי על המכשיר. רק מספר הטלפון משמש כדי להיות מסוגל לאמת את זהותך ולהפחית את החיכוך בעת שליחת כסף לאנשי קשר טלפוניים."
+  @override
+  String get stores_private => "Fuse שומר מידע פרטי באופן מקומי על המכשיר. רק מספר הטלפון משמש כדי להיות מסוגל לאמת את זהותך ולהפחית את החיכוך בעת שליחת כסף לאנשי קשר טלפוניים.";
 
   @override
   TextDirection get textDirection => TextDirection.rtl;
