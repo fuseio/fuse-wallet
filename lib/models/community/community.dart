@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:roost/models/community/business.dart';
 import 'package:roost/models/community/community_metadata.dart';
 import 'package:roost/models/plugins/plugins.dart';
-import 'package:roost/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community.g.dart';
@@ -15,57 +14,56 @@ class Community extends Equatable {
   final String foreignBridgeAddress;
   final bool isMember;
   final List<Business> businesses;
-  final Token token;
+  final String homeTokenAddress;
   final Plugins plugins;
   final CommunityMetadata metadata;
   final bool isClosed;
   final String webUrl;
   final String foreignTokenAddress;
-  final Token secondaryToken;
+  final String secondaryTokenAddress;
   final String description;
+  final bool isMultiBridge;
 
   @override
   List<Object> get props => [
         name,
         address,
-        isMember,
-        token,
         plugins,
         metadata,
         webUrl,
-        secondaryToken,
-        foreignTokenAddress
+        homeTokenAddress,
+        secondaryTokenAddress
       ];
 
   Community(
       {this.name,
+      this.isMultiBridge,
       this.isClosed,
       this.isMember,
       this.address,
       this.plugins,
-      this.token,
+      this.homeTokenAddress,
       this.businesses,
       this.metadata,
       this.homeBridgeAddress,
       this.webUrl,
       this.foreignBridgeAddress,
       this.foreignTokenAddress,
-      this.secondaryToken,
+      this.secondaryTokenAddress,
       this.description});
 
   factory Community.initial() {
     return new Community(
-      name: null,
-      isClosed: false,
-      metadata: CommunityMetadata.initial(),
-      address: null,
-      foreignBridgeAddress: null,
-      homeBridgeAddress: null,
-      token: Token.initial(),
-      isMember: false,
-      businesses: new List<Business>(),
-      plugins: new Plugins(),
-    );
+        name: null,
+        isClosed: false,
+        metadata: CommunityMetadata.initial(),
+        address: null,
+        foreignBridgeAddress: null,
+        homeBridgeAddress: null,
+        isMember: false,
+        businesses: new List<Business>(),
+        plugins: new Plugins(),
+        isMultiBridge: false);
   }
 
   Community copyWith(
@@ -74,27 +72,30 @@ class Community extends Equatable {
       String foreignBridgeAddress,
       String homeBridgeAddress,
       Plugins plugins,
-      Token token,
       List<Business> businesses,
       bool isMember,
       CommunityMetadata metadata,
       bool isClosed,
-      Token secondaryToken,
+      String secondaryTokenAddress,
       String webUrl,
       String foreignTokenAddress,
-      String description}) {
+      String homeTokenAddress,
+      String description,
+      bool isMultiBridge}) {
     return Community(
+        isMultiBridge: isMultiBridge ?? this.isMultiBridge,
         description: description ?? this.description,
         isClosed: isClosed ?? this.isClosed,
-        webUrl: webUrl,
+        webUrl: webUrl ?? this.webUrl,
         metadata: metadata ?? this.metadata,
         address: address ?? this.address,
         name: name ?? this.name,
         plugins: plugins ?? this.plugins,
-        token: token ?? this.token,
+        homeTokenAddress: homeTokenAddress ?? this.homeTokenAddress,
         businesses: businesses ?? this.businesses,
         isMember: isMember ?? this.isMember,
-        secondaryToken: secondaryToken ?? this.secondaryToken,
+        secondaryTokenAddress:
+            secondaryTokenAddress ?? this.secondaryTokenAddress,
         homeBridgeAddress: homeBridgeAddress ?? this.homeBridgeAddress,
         foreignBridgeAddress: foreignBridgeAddress ?? this.foreignBridgeAddress,
         foreignTokenAddress: foreignTokenAddress ?? this.foreignTokenAddress);

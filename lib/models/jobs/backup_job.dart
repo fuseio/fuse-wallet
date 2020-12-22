@@ -50,7 +50,7 @@ class BackupJob extends Job {
       logger.info('BackupJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress'], failReason));
+      store.dispatch(transactionFailed(arguments['backupBonus'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -67,16 +67,16 @@ class BackupJob extends Job {
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx,
-            communityAddress: arguments['communityAddress']));
-        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+            tokenAddress: transfer.tokenAddress));
+        store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
       }
       if (data['status'] == 'SUCCEEDED') {
-        store.dispatch(backupSuccessCall(confirmedTx, arguments['communityAddress']));
+        store.dispatch(backupSuccessCall(confirmedTx));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         return;
       } else if (status == 'FAILED') {
         dynamic failReason = response['failReason'];
-        store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress'], failReason));
+        store.dispatch(transactionFailed(arguments['backupBonus'], failReason));
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id })));
       }
     }

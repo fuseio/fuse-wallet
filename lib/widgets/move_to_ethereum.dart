@@ -9,6 +9,8 @@ import 'package:roost/screens/contacts/send_amount_arguments.dart';
 import 'package:roost/screens/routes.gr.dart';
 import 'dart:core';
 
+import 'package:roost/utils/constans.dart';
+
 class TokenActionsDialog extends StatefulWidget {
   TokenActionsDialog({this.token, this.community, this.logo});
   final String logo;
@@ -51,6 +53,14 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
   @override
   Widget build(BuildContext _context) {
     final bool isFuseToken = ![null, ''].contains(widget.token.originNetwork);
+    final String accountAddress = widget.community.isMultiBridge
+        ? isFuseToken
+            ? getBridgeMediator(
+                networkType: widget.token.originNetwork, bridgeType: 'home')
+            : getBridgeMediator(networkType: widget.token.originNetwork)
+        : isFuseToken
+            ? widget.community.homeBridgeAddress
+            : widget.community.foreignBridgeAddress;
     return ScaleTransition(
         scale: scaleAnimatoin,
         child: AlertDialog(
@@ -67,7 +77,7 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                   children: <Widget>[
                     Center(
                       child: SvgPicture.asset(
-                        'assets/images/${widget.logo}',
+                        'assets/images/${isFuseToken ? 'move_from_fuse.svg' : 'move_to_ethereum.svg'}',
                       ),
                     ),
                     SizedBox(height: 20.0),
@@ -100,29 +110,18 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                   ),
                                 ),
                                 onTap: () {
-                                  if (isFuseToken) {
-                                    ExtendedNavigator.root.pushSendAmountScreen(
-                                        pageArgs: SendAmountArguments(
-                                            tokenToSend: widget.token,
-                                            accountAddress: widget
-                                                .community.homeBridgeAddress,
-                                            useBridge: true,
-                                            name: 'Ethereum',
-                                            avatar: AssetImage(
-                                              'assets/images/ethereume_icon.png',
-                                            )));
-                                  } else {
-                                    ExtendedNavigator.root.pushSendAmountScreen(
-                                        pageArgs: SendAmountArguments(
-                                            useBridge: true,
-                                            tokenToSend: widget.token,
-                                            accountAddress: widget
-                                                .community.foreignBridgeAddress,
-                                            name: 'Fuse',
-                                            avatar: AssetImage(
-                                              'assets/images/fuse_icon.png',
-                                            )));
-                                  }
+                                  ExtendedNavigator.root.pushSendAmountScreen(
+                                      pageArgs: SendAmountArguments(
+                                          tokenToSend: widget.token,
+                                          isMultiBridge:
+                                              widget.community.isMultiBridge,
+                                          accountAddress: accountAddress,
+                                          useBridge: true,
+                                          name:
+                                              isFuseToken ? 'Ethereum' : 'Fuse',
+                                          avatar: AssetImage(
+                                            'assets/images/ethereume_icon.png',
+                                          )));
                                 },
                               ),
                         widget.community == null

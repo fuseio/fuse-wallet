@@ -32,14 +32,14 @@ class SplashScreen extends StatelessWidget {
                         child: Column(
                       children: <Widget>[
                         Expanded(
-                          child: new Stack(
+                          child: Stack(
                             children: <Widget>[
-                              new PageView.builder(
-                                physics: new AlwaysScrollableScrollPhysics(),
+                              PageView.builder(
+                                physics: AlwaysScrollableScrollPhysics(),
                                 itemCount: pages.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return pages[index % pages.length];
-                                },
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        pages[index % pages.length],
                               ),
                             ],
                           ),

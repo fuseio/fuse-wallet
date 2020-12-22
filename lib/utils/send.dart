@@ -8,26 +8,30 @@ import 'package:roost/services.dart';
 import 'package:roost/utils/format.dart';
 import 'package:roost/utils/phone.dart';
 import 'package:roost/widgets/preloader.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:phone_number/phone_number.dart';
 
-Future<Map> fetchWalletByPhone(phone, countryCode, isoCode) async {
+Future<Map> fetchWalletByPhone(
+    String phone, String countryCode, String isoCode) async {
   try {
-    Map<String, dynamic> response = await phoneNumberUtil.parse(phone);
-    String phoneNumber = response['e164'];
-    Map wallet = await api.getWalletByPhoneNumber(response['e164']);
+    PhoneNumber phoneNumber = await phoneNumberUtil.parse(phone);
+    Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
     String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
 
     return {
-      'phoneNumber': phoneNumber,
+      'phoneNumber': phoneNumber.e164,
       'walletAddress': walletAddress,
     };
   } catch (e) {
     String formatted = formatPhoneNumber(phone, countryCode);
-    bool isValid = await PhoneService.isValid(formatted, isoCode);
+    bool isValid = await phoneNumberUtil.validate(formatted, isoCode);
     if (isValid) {
-      Map wallet = await api.getWalletByPhoneNumber(formatted);
+      PhoneNumber phoneNumber =
+          await phoneNumberUtil.parse(formatted, regionCode: isoCode);
+      Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       return {
-        'phoneNumber': formatted,
+        'phoneNumber': phoneNumber.e164,
         'walletAddress': walletAddress,
       };
     } else {
@@ -74,24 +78,23 @@ void sendToContact(BuildContext context, String displayName, String phone,
 void sendToPastedAddress(accountAddress) {
   ExtendedNavigator.root.pushSendAmountScreen(
       pageArgs: SendAmountArguments(
-          accountAddress: accountAddress,
-          name: formatAddress(accountAddress),
-          avatar: new AssetImage('assets/images/anom.png')));
+          accountAddress: accountAddress, name: formatAddress(accountAddress)));
 }
 
-bracodeScannerHandler() async {
+void bracodeScannerHandler() async {
   try {
-    ScanResult scanResult = await BarcodeScanner.scan();
-    if (isValidEthereumAddress(scanResult.rawContent)) {
-      sendToPastedAddress(scanResult.rawContent);
-    } else {
-      List<String> parts = scanResult.rawContent.split(':');
-      bool expression = parts.length == 2 && parts[0] == 'ethereum';
-      if (expression) {
-        final String accountAddress = parts[1];
-        sendToPastedAddress(accountAddress);
+    PermissionStatus permission = await Permission.camera.request();
+    if (permission == PermissionStatus.granted) {
+      ScanResult scanResult = await BarcodeScanner.scan();
+      if (isValidEthereumAddress(scanResult.rawContent)) {
+        sendToPastedAddress(scanResult.rawContent);
       } else {
-        print('Account address is not on Fuse');
+        List<String> parts = scanResult.rawContent.split(':');
+        bool expression = parts.length == 2 && parts[0] == 'ethereum';
+        if (expression) {
+          final String accountAddress = parts[1];
+          sendToPastedAddress(accountAddress);
+        }
       }
     }
   } catch (e) {

@@ -9,7 +9,6 @@ The Fuse Wallet built upon the [wallet-core SDK](https://github.com/fuseio/walle
 - The [graphql API](https://graph.fuse.io/subgraphs/name/fuseio/fuse/graphql) (provided by [theraph's node](https://thegraph.com/)) provides a convinient API for reading from the network. More info about the API can be found [here](https://github.com/fuseio/fuse-graph)
 - The relayer service for fee abstraction
 - The [fuse-studio](https://github.com/fuseio/fuse-studio) backend API for business logic and data
-- [3box](https://3box.io/) to store user's private and public data in a decentralized manner.
 - [IPFS](https://ipfs.io/) to store other public data, e.g. businesses data and images.
 
 ## Smart Contracts

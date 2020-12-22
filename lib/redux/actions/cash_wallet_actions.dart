@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -13,6 +14,7 @@ import 'package:roost/models/plugins/join_bonus.dart';
 import 'package:roost/models/plugins/plugins.dart';
 import 'package:roost/models/tokens/token.dart';
 import 'package:roost/models/transactions/transaction.dart';
+import 'package:roost/models/transactions/transactions.dart';
 import 'package:roost/models/transactions/transfer.dart';
 import 'package:roost/models/user_state.dart';
 import 'package:roost/redux/actions/error_actions.dart';
@@ -30,6 +32,16 @@ import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:roost/services.dart';
 import 'dart:async';
 import 'dart:convert';
+
+class AddCashTokens {
+  Map<String, Token> tokens;
+  AddCashTokens({this.tokens});
+}
+
+class AddCashToken {
+  Token token;
+  AddCashToken({this.token});
+}
 
 class SetDefaultCommunity {
   String defaultCommunity;
@@ -63,9 +75,9 @@ class GetWalletAddressesSuccess {
 }
 
 class GetTokenBalanceSuccess {
-  final String communityAddress;
+  final String tokenAddress;
   final BigInt tokenBalance;
-  GetTokenBalanceSuccess({this.tokenBalance, this.communityAddress});
+  GetTokenBalanceSuccess({this.tokenBalance, this.tokenAddress});
 }
 
 class AlreadyJoinedCommunity {
@@ -89,31 +101,21 @@ class SwitchToNewCommunity {
 }
 
 class SwitchCommunitySuccess {
-  final bool isClosed;
-  final Token token;
-  final String communityAddress;
-  final String communityName;
+  final Community community;
+  SwitchCommunitySuccess({
+    this.community,
+  });
+}
+
+class RefreshCommunityData {
   final Plugins plugins;
-  final String homeBridgeAddress;
-  final String foreignBridgeAddress;
-  final String secondaryTokenAddress;
+  final String communityAddress;
   final String webUrl;
-  final CommunityMetadata metadata;
-  final String foreignTokenAddress;
-  final String description;
-  SwitchCommunitySuccess(
-      {this.webUrl,
-      this.communityAddress,
-      this.communityName,
-      this.token,
-      this.secondaryTokenAddress,
-      this.plugins,
-      this.isClosed,
-      this.homeBridgeAddress,
-      this.foreignBridgeAddress,
-      this.foreignTokenAddress,
-      this.metadata,
-      this.description});
+  RefreshCommunityData({
+    this.plugins,
+    this.communityAddress,
+    this.webUrl,
+  });
 }
 
 class FetchCommunityMetadataSuccess {
@@ -146,9 +148,9 @@ class GetBusinessListSuccess {
 }
 
 class GetTokenTransfersListSuccess {
-  final String communityAddress;
+  final String tokenAddress;
   final List<Transfer> tokenTransfers;
-  GetTokenTransfersListSuccess({this.communityAddress, this.tokenTransfers});
+  GetTokenTransfersListSuccess({this.tokenAddress, this.tokenTransfers});
 }
 
 class StartBalanceFetchingSuccess {
@@ -174,41 +176,41 @@ class BranchListening {}
 class BranchListeningStopped {}
 
 class InviteSendSuccess {
-  final String communityAddress;
+  final String tokenAddress;
   final Transaction invite;
-  InviteSendSuccess({this.invite, this.communityAddress});
+  InviteSendSuccess({this.invite, this.tokenAddress});
 }
 
 class ReplaceTransaction {
-  final String communityAddress;
+  final String tokenAddress;
   final Transaction transaction;
   final Transaction transactionToReplace;
   ReplaceTransaction(
-      {this.transaction, this.transactionToReplace, this.communityAddress});
+      {this.transaction, this.transactionToReplace, this.tokenAddress});
 }
 
 class AddTransaction {
-  final String communityAddress;
+  final String tokenAddress;
   final Transaction transaction;
-  AddTransaction({this.transaction, this.communityAddress});
+  AddTransaction({this.transaction, this.tokenAddress});
 }
 
 class AddJob {
-  final String communityAddress;
+  final String tokenAddress;
   final Job job;
-  AddJob({this.job, this.communityAddress});
+  AddJob({this.job, this.tokenAddress});
 }
 
 class JobDone {
-  final String communityAddress;
+  final String tokenAddress;
   final Job job;
-  JobDone({this.job, this.communityAddress});
+  JobDone({this.job, this.tokenAddress});
 }
 
 class UpdateJob {
-  final String communityAddress;
+  final String tokenAddress;
   final Job job;
-  UpdateJob({this.job, this.communityAddress});
+  UpdateJob({this.job, this.tokenAddress});
 }
 
 class SetIsJobProcessing {
@@ -216,11 +218,11 @@ class SetIsJobProcessing {
   SetIsJobProcessing({this.isFetching});
 }
 
-class FetchSecondaryTokenSuccess {
-  final String communityAddress;
-  final Token token;
-  FetchSecondaryTokenSuccess({this.token, this.communityAddress});
-}
+// class FetchSecondaryTokenSuccess {
+//   final String communityAddress;
+//   final Token token;
+//   FetchSecondaryTokenSuccess({this.token, this.communityAddress});
+// }
 
 Future<bool> approvalCallback() async {
   return true;
@@ -395,13 +397,10 @@ ThunkAction initWeb3Call({
           store.state.cashWalletState.communityAddress;
       if ([null, ''].contains(communityAddress)) {
         if (![null, ''].contains(branchAddress)) {
-          logger.info('SetDefaultCommunity branchAddress $branchAddress');
           store.dispatch(SetDefaultCommunity(branchAddress));
         } else {
-          logger.info(
-              'SetDefaultCommunity getDefaultCommunity ${web3.getDefaultCommunity().toLowerCase()}');
-          store.dispatch(
-              SetDefaultCommunity(web3.getDefaultCommunity().toLowerCase()));
+          final communityAddress = web3.getDefaultCommunity().toLowerCase();
+          store.dispatch(SetDefaultCommunity(communityAddress));
         }
       }
       web3.setCredentials(pk);
@@ -418,39 +417,37 @@ ThunkAction startTransfersFetchingCall() {
     final logger = await AppFactory().getLogger('action');
     bool isTransfersFetchingStarted =
         store.state.cashWalletState.isTransfersFetchingStarted ?? false;
-    Map<String, Community> communities =
-        store.state.cashWalletState.communities;
+    Map<String, Token> tokens = store.state.cashWalletState.tokens;
     if (!isTransfersFetchingStarted &&
-        communities.isNotEmpty &&
+        tokens.isNotEmpty &&
         store.state.userState.walletStatus != null &&
         store.state.userState.walletStatus == 'created' &&
         ![null, ''].contains(store.state.userState.walletAddress)) {
       try {
-        Map<String, Community> communities =
-            store.state.cashWalletState.communities;
-        for (Community community in communities.values) {
-          if (![null, ''].contains(community.token.address)) {
-            store.dispatch(getTokenTransfersListCall(community));
+        Map<String, Token> tokens = store.state.cashWalletState.tokens;
+        store.dispatch(fetchListOfTokensByAddress());
+        for (Token token in tokens.values) {
+          if (![null, ''].contains(token?.address)) {
+            store.dispatch(getTokenTransfersListCall(token));
           }
         }
         logger.info('Timer start - startTransfersFetchingCall');
-        new Timer.periodic(Duration(seconds: intervalSeconds), (Timer t) async {
+        Timer.periodic(Duration(seconds: intervalSeconds), (Timer t) async {
           if (store.state.userState.walletAddress == '') {
             logger.severe('Timer stopeed - startTransfersFetchingCall');
-            store.dispatch(new SetIsTransfersFetching(isFetching: false));
+            store.dispatch(SetIsTransfersFetching(isFetching: false));
             t.cancel();
             return;
           }
-          Map<String, Community> communities =
-              store.state.cashWalletState.communities;
-          for (Community community in communities.values) {
-            if (![null, ''].contains(community.token.address)) {
-              store.dispatch(getReceivedTokenTransfersListCall(community));
-              store.dispatch(getTokenBalanceCall(community));
+          Map<String, Token> tokens = store.state.cashWalletState.tokens;
+          for (Token token in tokens.values) {
+            if (![null, ''].contains(token.address)) {
+              store.dispatch(getReceivedTokenTransfersListCall(token));
+              store.dispatch(getTokenBalanceCall(token));
             }
           }
         });
-        store.dispatch(new SetIsTransfersFetching(isFetching: true));
+        store.dispatch(SetIsTransfersFetching(isFetching: true));
       } catch (e) {
         logger.severe('error in startTransfersFetchingCall $e');
       }
@@ -462,39 +459,39 @@ ThunkAction createAccountWalletCall(String accountAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      Map<String, dynamic> response = await api.createWallet();
       final String communityAddress =
-          store.state.cashWalletState.communityAddress ??
+          store.state?.cashWalletState?.communityAddress ??
               defaultCommunityAddress;
+      Map<String, dynamic> response =
+          await api.createWallet(communityAddress: communityAddress);
       if (!response.containsKey('job')) {
         logger.info('Wallet already exists');
-        store.dispatch(CreateAccountWalletSuccess(accountAddress));
+        store.dispatch(CreateAccountWalletSuccess());
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
         store.dispatch(switchCommunityCall(communityAddress));
         return;
       }
-      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
       CashWalletState cashWalletState = store.state.cashWalletState;
-      List<Job> jobs =
-          cashWalletState.communities[communityAddress]?.token?.jobs ?? [];
-      bool hasCreateWallet = jobs.any((job) => job.jobType == 'createWallet');
-      if (hasCreateWallet) {
-        store.dispatch(CreateAccountWalletRequest(accountAddress));
-        return;
+      Community community = cashWalletState.communities[communityAddress];
+      if (!cashWalletState.tokens.containsKey(community?.homeTokenAddress)) {
+        store.dispatch(CreateAccountWalletRequest());
+        store.dispatch(
+            startFetchingJobCall(response['job']['_id'], (Job job) async {
+          dynamic fetchedData = job.data;
+          final String accountAddress = fetchedData['owner'];
+          store.dispatch(CreateAccountWalletSuccess());
+          final response = await api.getWallet();
+          store.dispatch(generateWalletSuccessCall(response, accountAddress));
+          final String communityAddress =
+              store.state.cashWalletState.communityAddress ??
+                  defaultCommunityAddress;
+          store.dispatch(switchCommunityCall(communityAddress));
+        }));
       }
-      response['job']['arguments'] = {
-        'accountAddress': accountAddress,
-        'communityAddress': communityAddress
-      };
-      Job job = JobFactory.create(response['job']);
-      store.dispatch(AddJob(job: job, communityAddress: communityAddress));
-      store.dispatch(new CreateAccountWalletRequest(accountAddress));
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - createAccountWalletCall $e');
       store.dispatch(new ErrorAction('Could not create wallet'));
+      await AppFactory().reportError(e, stackTrace: s);
     }
   };
 }
@@ -520,32 +517,31 @@ ThunkAction generateWalletSuccessCall(
   };
 }
 
-ThunkAction getTokenBalanceCall(Community community) {
+ThunkAction getTokenBalanceCall(Token token) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.userState.walletAddress;
       void Function(BigInt) onDone = (BigInt balance) {
-        logger.info('${community.token.name} balance updated');
+        logger.info('${token.name} balance updated');
         store.dispatch(GetTokenBalanceSuccess(
-            tokenBalance: balance, communityAddress: community.address));
+            tokenBalance: balance, tokenAddress: token.address));
         store.dispatch(UpdateDisplayBalance(
-            int.tryParse(formatValue(balance, community.token.decimals))));
+            int.tryParse(formatValue(balance, token.decimals))));
         store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-          '${community.name} Balance': formatValue(
-              balance, community.token.decimals,
-              withPrecision: true),
-          "DisplayBalance": formatValue(balance, community.token.decimals,
-              withPrecision: true)
+          '${token?.name} Balance':
+              formatValue(balance, token.decimals, withPrecision: true),
+          "DisplayBalance":
+              formatValue(balance, token.decimals, withPrecision: true)
         })));
       };
       void Function(Object error, StackTrace stackTrace) onError =
-          (Object error, StackTrace stackTrace) {
-        logger.severe(
-            'Error in fetchTokenBalance for - ${community.token.name} $error');
+          (Object error, StackTrace stackTrace) async {
+        logger.severe('Error in fetchTokenBalance for - ${token.name} $error');
+        await AppFactory().reportError(error, stackTrace: stackTrace);
       };
-      await community.token
-          .fetchTokenBalance(walletAddress, onDone: onDone, onError: onError);
+      await token.fetchTokenBalance(walletAddress,
+          onDone: onDone, onError: onError);
     } catch (e) {
       logger.severe('ERROR - getTokenBalanceCall $e');
       store.dispatch(new ErrorAction('Could not get token balance'));
@@ -600,10 +596,9 @@ ThunkAction processingJobsCall(Timer timer) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     final String walletAddress = store.state.userState.walletAddress;
-    Map<String, Community> communities =
-        store.state.cashWalletState.communities;
-    for (Community community in communities.values) {
-      List<Job> jobs = community?.token?.jobs ?? [];
+    Map<String, Token> tokens = store.state.cashWalletState.tokens;
+    for (Token token in tokens.values) {
+      List<Job> jobs = token?.jobs ?? [];
       for (Job job in jobs) {
         String currentWalletAddress = store.state.userState.walletAddress;
         if (job.status != 'DONE' && job.status != 'FAILED') {
@@ -624,13 +619,12 @@ ThunkAction processingJobsCall(Timer timer) {
             // logger.info('cash mode performing ${job.name} ${job.id}');
             await job.perform(store, isJobProcessValid);
           } catch (e) {
-            logger.severe('failed perform ${job.name}');
+            logger.severe('failed perform ${job.name} $e');
           }
         }
         if (job.status == 'DONE') {
           logger.info('Done ${job.name} ${job.id}');
-          store
-              .dispatch(JobDone(job: job, communityAddress: community.address));
+          store.dispatch(JobDone(job: job, tokenAddress: token.address));
         }
       }
     }
@@ -655,7 +649,6 @@ ThunkAction startProcessingJobsCall() {
 
 ThunkAction inviteAndSendCall(
     Token token,
-    String name,
     String contactPhoneNumber,
     num tokensAmount,
     VoidCallback sendSuccessCallback,
@@ -667,10 +660,13 @@ ThunkAction inviteAndSendCall(
       String senderName = store.state.userState.displayName;
       Map<String, Community> communities =
           store.state.cashWalletState.communities;
-      Community community = communities.values.firstWhere((element) =>
-          element.token.address.toLowerCase() == token.address.toLowerCase());
+      Community community = communities.values.firstWhere(
+          (element) =>
+              element.homeTokenAddress.toLowerCase() ==
+              token.address.toLowerCase(),
+          orElse: () => null);
       dynamic response = await api.invite(contactPhoneNumber,
-          communityAddress: community.address,
+          communityAddress: community?.address,
           name: senderName,
           amount: tokensAmount.toString(),
           symbol: token.symbol);
@@ -692,7 +688,7 @@ ThunkAction inviteAndSendCall(
           status: 'PENDING',
           jobId: response['job']['_id']);
       store.dispatch(AddTransaction(
-          transaction: inviteTransfer, communityAddress: community.address));
+          transaction: inviteTransfer, tokenAddress: tokenAddress));
 
       response['job']['arguments'] = {
         'tokensAmount': tokensAmount,
@@ -704,7 +700,7 @@ ThunkAction inviteAndSendCall(
       };
 
       Job job = JobFactory.create(response['job']);
-      store.dispatch(AddJob(job: job, communityAddress: community.address));
+      store.dispatch(AddJob(job: job, tokenAddress: tokenAddress));
     } catch (e) {
       logger.severe('ERROR - inviteAndSendCall $e');
     }
@@ -722,12 +718,14 @@ ThunkAction inviteAndSendSuccessCall(
   return (Store store) async {
     Community community =
         store.state.cashWalletState.communities[communityAddress];
+    Token token =
+        store.state.cashWalletState.tokens[community?.homeTokenAddress];
     VoidCallback successCallBack = () {
       sendSuccessCallback();
       if (community.plugins.inviteBonus != null &&
           community.plugins.inviteBonus.isActive &&
           job.data['bonusInfo'] != null) {
-        store.dispatch(inviteBonusCall(job.data, community));
+        store.dispatch(inviteBonusCall(token, job.data, community));
       }
       store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
         "Invite ${community.name}": true,
@@ -735,30 +733,30 @@ ThunkAction inviteAndSendSuccessCall(
     };
 
     String receiverAddress = job.data["walletAddress"];
-    store.dispatch(sendTokenCall(community.token, receiverAddress, tokensAmount,
+    store.dispatch(sendTokenCall(token, receiverAddress, tokensAmount,
         successCallBack, sendFailureCallback,
         receiverName: receiverName, inviteTransfer: inviteTransfer));
     store.dispatch(loadContacts());
   };
 }
 
-ThunkAction inviteBonusCall(dynamic data, Community community) {
+ThunkAction inviteBonusCall(token, dynamic data, Community community) {
   return (Store store) async {
-    BigInt value = toBigInt(
-        community.plugins.inviteBonus.amount, community.token.decimals);
+    BigInt value =
+        toBigInt(community.plugins.inviteBonus.amount, token.decimals);
     String walletAddress = store.state.userState.walletAddress;
     String bonusJobId = data['bonusJob']['_id'];
     Transfer inviteBonus = new Transfer(
         from: DotEnv().env['FUNDER_ADDRESS'],
         to: walletAddress,
-        tokenAddress: community.token.address,
+        tokenAddress: token.address,
         text: 'You got a invite bonus!',
         type: 'RECEIVE',
         value: value,
         status: 'PENDING',
         jobId: bonusJobId);
-    store.dispatch(AddTransaction(
-        transaction: inviteBonus, communityAddress: community.address));
+    store.dispatch(
+        AddTransaction(transaction: inviteBonus, tokenAddress: token.address));
     Map response = new Map.from({
       'job': {
         'id': bonusJobId,
@@ -771,95 +769,109 @@ ThunkAction inviteBonusCall(dynamic data, Community community) {
     });
 
     Job job = JobFactory.create(response['job']);
-    store.dispatch(AddJob(job: job, communityAddress: community.address));
+    store.dispatch(AddJob(job: job, tokenAddress: community.address));
   };
 }
 
-// ThunkAction fetchListOfTokenByAccountAddress() {
-//   return (Store store) async {
-//     try {
-//       final logger = await AppFactory().getLogger('action');
-//       String walletAddress = store.state.userState.walletAddress;
-//       List<dynamic> tokens =
-//           await fuseExplorerApi.getListOfTokenByAccountAddress(walletAddress);
-//       print('tokens tokens tokens $tokens');
-//       Future<List<Community>> future =
-//           Future.wait(tokens.map((dynamic tokenData) async {
-//         print(
-//             'tokenData tokenData tokenData $tokenData ${tokenData['address']}');
-//         try {
-//           dynamic tokenCommunityData =
-//               await graph.getCommunityAddressByToken(tokenData['address']);
-//           if (tokenCommunityData['communityAddress'] != null) {
-//             final String communityAddress =
-//                 tokenCommunityData['communityAddress'];
-//             dynamic community =
-//                 await graph.getCommunityByAddress(communityAddress);
-//             bool isRopsten = tokenCommunityData != null &&
-//                 tokenCommunityData['originNetwork'] == 'ropsten';
-//             Map<String, dynamic> communityData = await api.getCommunityData(
-//                 communityAddress,
-//                 isRopsten: isRopsten,
-//                 walletAddress: walletAddress);
-//             final Plugins communityPlugins =
-//                 Plugins.fromJson(communityData['plugins']);
-//             final String homeBridgeAddress = communityData['homeBridgeAddress'];
-//             final String foreignBridgeAddress =
-//                 communityData['foreignBridgeAddress'];
-//             final String webUrl = communityData['webUrl'];
+ThunkAction fetchListOfTokensByAddress() {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      String walletAddress = store.state.userState.walletAddress;
+      List<dynamic> response =
+          await fuseExplorerApi.getListOfTokensByAddress(walletAddress);
+      logger.info(
+          'fetchListOfTokensByAddress response ${List.from(response).length}');
+      CashWalletState cashWalletState = store.state.cashWalletState;
+      Map<String, Token> newTokens =
+          Map<String, Token>.from(response.fold({}, (previousValue, element) {
+        Token token = Token.fromJson(element).copyWith(
+            transactions: Transactions.initial(),
+            jobs: List<Job>(),
+            name: formatTokenName(element["name"]));
+        if (!cashWalletState.tokens.containsKey(token.address) &&
+            num.parse(formatValue(token.amount, token.decimals,
+                        withPrecision: true))
+                    .compareTo(0) ==
+                1) {
+          logger.info('newToken newToken ${token.name}');
+          previousValue[token.address] = token;
+        }
+        return previousValue;
+      }));
+      logger.info('newTokens newTokens ${newTokens.length}');
+      store.dispatch(AddCashTokens(tokens: newTokens));
+    } catch (e) {
+      logger.severe('fetchListOfTokensByAddress $e');
+    }
+  };
+}
 
-//             CommunityMetadata communityMetadata = CommunityMetadata.initial();
-//             if (communityData['communityURI'] != null) {
-//               String hash = communityData['communityURI'].startsWith('ipfs://')
-//                   ? communityData['communityURI'].split('://').last
-//                   : communityData['communityURI'].split('/').last;
-//               dynamic metadata = await api.fetchMetadata(
-//                 hash,
-//                 isRopsten: isRopsten,
-//               );
-//               communityMetadata = communityMetadata.copyWith(
-//                   image: metadata['image'],
-//                   coverPhoto: metadata['coverPhoto'],
-//                   imageUri: metadata['imageUri'] ?? null,
-//                   coverPhotoUri: metadata['coverPhotoUri'] ?? null,
-//                   isDefaultImage: metadata['isDefault'] ?? false);
-//             }
-//             return Community.initial().copyWith(
-//                 plugins: communityPlugins,
-//                 metadata: communityMetadata,
-//                 token: Token.initial().copyWith(
-//                     originNetwork: tokenCommunityData['originNetwork'],
-//                     address: tokenData['address'],
-//                     name: tokenData['name'],
-//                     symbol: tokenData["symbol"],
-//                     decimals: int.parse(tokenData["decimals"])),
-//                 name: community['name'],
-//                 isClosed: communityData['isClosed'],
-//                 homeBridgeAddress: homeBridgeAddress,
-//                 address: communityAddress,
-//                 foreignBridgeAddress: foreignBridgeAddress,
-//                 webUrl: webUrl);
-//           }
-//           logger.severe('ERORR in tokenCommunityData $tokenCommunityData');
-//           return null;
-//         } catch (e) {
-//           logger.severe('ERORR in fetchListOfTokenByAccountAddress $e');
-//           return null;
-//         }
-//       }));
+ThunkAction sendTokenToForeignMultiBridge(
+    Token token,
+    String receiverAddress,
+    num tokensAmount,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+    {String receiverName,
+    String transferNote}) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
+      if (web3 == null) {
+        throw "Web3 is empty";
+      }
+      String walletAddress = store.state.userState.walletAddress;
+      String tokenAddress = token?.address;
+      BigInt value = toBigInt(tokensAmount, token.decimals);
+      dynamic response;
+      num feeAmount = 20;
+      logger.info(
+          'Multi bridge - Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
+      List trasnferData = await web3.transferTokenToForeign(
+          walletAddress,
+          receiverAddress,
+          checksumEthereumAddress(tokenAddress),
+          tokensAmount,
+          token.decimals,
+          network: 'fuse');
+      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+      response = await api.multiRelay([...trasnferData, feeTrasnferData]);
 
-//       List<Community> result = await future;
-//       result = result.toSet().toList()
-//         ..removeWhere((element) => element == null);
-//       store.dispatch(AddCommunities(
-//           communities: Map<String, Community>.from(
-//               result.fold({}, (previousValue, element) {
-//         previousValue[element.address] = element;
-//         return previousValue;
-//       }))));
-//     } catch (e) {}
-//   };
-// }
+      dynamic jobId = response['job']['_id'];
+      logger.info('Job $jobId for sending token sent to the relay service');
+
+      sendSuccessCallback();
+      Transfer transfer = Transfer(
+          from: walletAddress,
+          to: receiverAddress,
+          tokenAddress: tokenAddress,
+          value: value,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+          type: 'SEND',
+          note: transferNote,
+          receiverName: receiverName,
+          status: 'PENDING',
+          jobId: jobId);
+
+      store.dispatch(
+          AddTransaction(transaction: transfer, tokenAddress: tokenAddress));
+
+      response['job']['arguments'] = {
+        'transfer': transfer,
+        'jobType': 'transfer',
+      };
+      Job job = JobFactory.create(response['job']);
+      store.dispatch(AddJob(job: job, tokenAddress: tokenAddress));
+    } catch (e) {
+      logger.severe('ERROR - sendTokenToForeignMultiBridge $e');
+      sendFailureCallback();
+      store.dispatch(ErrorAction('Could not send token'));
+    }
+  };
+}
 
 ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
     VoidCallback sendSuccessCallback, VoidCallback sendFailureCallback,
@@ -874,19 +886,20 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
       String walletAddress = store.state.userState.walletAddress;
       Map<String, Community> communities =
           store.state.cashWalletState.communities;
-      Community community = communities.values.firstWhere((element) =>
-          element.token.address.toLowerCase() == token.address.toLowerCase());
       String tokenAddress = token?.address;
+      Community community = communities.values.firstWhere(
+          (element) =>
+              element?.homeTokenAddress?.toLowerCase() ==
+              tokenAddress?.toLowerCase(),
+          orElse: () => null);
 
       BigInt value;
       dynamic response;
-      if (receiverAddress.toLowerCase() ==
-          community.homeBridgeAddress.toLowerCase()) {
+      if (![null, ''].contains(token.communityAddress) &&
+          receiverAddress?.toLowerCase() ==
+              community?.homeBridgeAddress?.toLowerCase()) {
         num feeAmount = 20;
         value = toBigInt(tokensAmount, token.decimals);
-        String feeReceiverAddress =
-            community.plugins?.bridgeToForeign?.receiverAddress ??
-                '0x77D886e98133D99130179bdb41CE052a43d32c2F';
         logger.info(
             'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
         Map<String, dynamic> trasnferData = await web3.transferTokenOffChain(
@@ -927,39 +940,37 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
         store.dispatch(ReplaceTransaction(
             transaction: inviteTransfer, transactionToReplace: transfer));
       } else {
-        store.dispatch(AddTransaction(
-            transaction: transfer, communityAddress: community.address));
+        store.dispatch(
+            AddTransaction(transaction: transfer, tokenAddress: tokenAddress));
       }
 
       response['job']['arguments'] = {
         'transfer': transfer,
         'jobType': 'transfer',
-        'communityAddress': community.address
       };
       Job job = JobFactory.create(response['job']);
-      store.dispatch(AddJob(job: job, communityAddress: community.address));
+      store.dispatch(AddJob(job: job, tokenAddress: tokenAddress));
     } catch (e) {
-      logger.severe('ERROR - sendTokenCall $e');
+      logger.severe('ERROR - sendTokenCall ${e.toString()}');
       sendFailureCallback();
       store.dispatch(ErrorAction('Could not send token'));
     }
   };
 }
 
-ThunkAction transactionFailed(
-    transfer, String communityAddress, String failReason) {
+ThunkAction transactionFailed(transfer, String failReason) {
   return (Store store) async {
     Transfer failedTx =
         transfer.copyWith(status: 'FAILED', failReason: failReason);
     store.dispatch(ReplaceTransaction(
         transaction: transfer,
         transactionToReplace: failedTx,
-        communityAddress: communityAddress));
+        tokenAddress: failedTx.tokenAddress));
   };
 }
 
 ThunkAction joinCommunityCall(
-    {String entitiesListAddress, Community community}) {
+    {String entitiesListAddress, Community community, Token token}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -973,26 +984,30 @@ ThunkAction joinCommunityCall(
       if (isMember) {
         store.dispatch(AlreadyJoinedCommunity(community.address));
       } else {
-        dynamic response =
-            await api.joinCommunity(web3, walletAddress, community.address);
+        dynamic response = await api.joinCommunity(
+            web3, walletAddress, community.address,
+            tokenAddress: token.address, originNetwork: token.originNetwork);
 
         dynamic jobId = response['job']['_id'];
         Transfer transfer = new Transfer(
             type: 'RECEIVE',
             timestamp: DateTime.now().millisecondsSinceEpoch,
             text: 'Joining ' + community?.name + ' community',
-            tokenAddress: community?.token?.address,
+            tokenAddress: token?.address,
             status: 'PENDING',
             jobId: jobId);
         logger.info('joinCommunity jobId $jobId');
 
-        store.dispatch(AddTransaction(
-            transaction: transfer, communityAddress: community.address));
+        store.dispatch(
+            AddTransaction(transaction: transfer, tokenAddress: token.address));
 
-        response['job']
-            ['arguments'] = {'transfer': transfer, 'community': community};
+        response['job']['arguments'] = {
+          'transfer': transfer,
+          'community': community,
+          'token': token
+        };
         Job job = JobFactory.create(response['job']);
-        store.dispatch(AddJob(job: job, communityAddress: community.address));
+        store.dispatch(AddJob(job: job, tokenAddress: token.address));
       }
     } catch (e) {
       logger.severe('ERROR - joinCommunityCall $e');
@@ -1021,7 +1036,7 @@ ThunkAction joinCommunitySuccessCall(
           status: 'PENDING',
           jobId: joinBonusJobId ?? joinCommunityJobId);
       store.dispatch(new AddTransaction(
-          transaction: joinBonus, communityAddress: communityAddress));
+          transaction: joinBonus, tokenAddress: token.address));
       Map response = Map.from({
         'job': {
           'id': joinBonusJobId ?? joinCommunityJobId,
@@ -1034,7 +1049,7 @@ ThunkAction joinCommunitySuccessCall(
         }
       });
       Job job = JobFactory.create(response['job']);
-      store.dispatch(AddJob(job: job, communityAddress: communityAddress));
+      store.dispatch(AddJob(job: job, tokenAddress: token.address));
     }
   };
 }
@@ -1045,8 +1060,8 @@ ThunkAction joinBonusSuccessCall(communiyAddress) {
         store.state.cashWalletState.communities;
     Community communityData = communities[communiyAddress];
     store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
-      "Join Bonus ${communityData.name} Received": true,
-      "Community ${communityData.name} Joined": true,
+      "Join Bonus ${communityData?.name} Received": true,
+      "Community ${communityData?.name} Joined": true,
     })));
     store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
         properties: new Map<String, dynamic>.from({
@@ -1081,7 +1096,7 @@ ThunkAction fetchCommunityMetadataCall(
           metadata: communityMetadata,
           communityAddress: communityAddress.toLowerCase()));
     } catch (e, s) {
-      logger.info('ERROR - fetchCommunityMetadataCall $e');
+      logger.severe('ERROR - fetchCommunityMetadataCall $e');
       await AppFactory().reportError(e, stackTrace: s);
       store.dispatch(new ErrorAction('Could not fetch community metadata'));
     }
@@ -1093,78 +1108,118 @@ ThunkAction fetchSecondaryTokenCall(
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      dynamic tokens = await graph.getTokenByAddress(tokenAddress);
-      dynamic tokenInfo = tokens[0];
-      CashWalletState cashWalletState = store.state.cashWalletState;
-      final Community community = cashWalletState.communities[communityAddress];
-      Token second = community.secondaryToken != null
-          ? community.secondaryToken
-          : Token.initial();
+      dynamic tokenInfo = await fuseExplorerApi.getTokenInfo(tokenAddress);
+      // CashWalletState cashWalletState = store.state.cashWalletState;
+      // final Community community = cashWalletState.communities[communityAddress];
+      Token second = Token.initial();
+      //     ? community.secondaryToken
+      //     : Token.initial();
       logger.info(
-          'fetched secondary token ${tokenInfo["name"]} ${tokenInfo["address"]} (${tokenInfo["symbol"]})');
+          'fetched secondary token ${tokenInfo["name"]} ${tokenInfo["contractAddress"]} (${tokenInfo["symbol"]})');
       Token secondaryToken = second.copyWith(
+          communityAddress: communityAddress,
           originNetwork: 'mainnet',
-          address: tokenInfo["address"],
+          address: tokenAddress,
           name: tokenInfo["name"],
           symbol: tokenInfo["symbol"],
           decimals: tokenInfo["decimals"]);
-      store.dispatch(FetchSecondaryTokenSuccess(
-          token: secondaryToken, communityAddress: communityAddress));
+      store.dispatch(AddCashToken(
+          token: secondaryToken.copyWith(
+              timestamp: 0, communityAddress: communityAddress)));
+      // store.dispatch(FetchSecondaryTokenSuccess(
+      //     token: secondaryToken, communityAddress: communityAddress));
     } catch (e) {
       logger.info('ERROR - fetchSecondaryTokenCall $e');
     }
   };
 }
 
+Future<Map<String, dynamic>> getCommunityData(
+    communityAddress, walletAddress) async {
+  Map<String, dynamic> communityData = await api.getCommunityData(
+      communityAddress,
+      isRopsten: true,
+      walletAddress: walletAddress);
+  if (communityData == null) {
+    communityData = await api.getCommunityData(communityAddress,
+        walletAddress: walletAddress);
+    return Map.from(
+        {...communityData, 'isRopsten': false, 'originNetwork': 'mainnet'});
+  }
+  return Map.from(
+      {...communityData, 'isRopsten': true, 'originNetwork': 'ropsten'});
+}
+
+Future<Token> fetchToken(
+    Community community, bool isRopsten, String originNetwork) async {
+  if (community.isMultiBridge) {
+    dynamic token = await graph.getHomeBridgedToken(
+        community.foreignTokenAddress, isRopsten);
+    return Token.initial().copyWith(
+        originNetwork: originNetwork,
+        address: token['address'].toString(),
+        name: formatTokenName(token["name"]),
+        symbol: token["symbol"],
+        decimals: token["decimals"]);
+  } else {
+    dynamic token = await graph.getTokenOfCommunity(community.address);
+    final String tokenAddress = token["address"].toString();
+    return Token.initial().copyWith(
+        originNetwork: originNetwork,
+        address: tokenAddress,
+        name: token["name"],
+        symbol: token["symbol"],
+        decimals: token["decimals"]);
+  }
+}
+
 ThunkAction switchToNewCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      dynamic community = await graph.getCommunityByAddress(communityAddress);
-      logger.info('community fetched for $communityAddress');
-      dynamic token = await graph.getTokenOfCommunity(communityAddress);
-      final String tokenAddress = token["address"];
-      bool isRopsten = token != null && token['originNetwork'] == 'ropsten';
-      logger.info(
-          'token $tokenAddress (${token["symbol"]}) fetched for $communityAddress on ${token['originNetwork']} network');
       String walletAddress = store.state.userState.walletAddress;
-      Map<String, dynamic> communityData = await api.getCommunityData(
-          communityAddress,
-          isRopsten: isRopsten,
-          walletAddress: walletAddress);
-      final Plugins communityPlugins =
-          Plugins.fromJson(communityData['plugins']);
+      dynamic community = await graph.getCommunityByAddress(communityAddress);
+      Map<String, dynamic> communityData = await getCommunityData(
+          checksumEthereumAddress(communityAddress),
+          checksumEthereumAddress(walletAddress));
+      final bool isMultiBridge =
+          communityData?.containsKey('isMultiBridge') ?? false;
       final String description = communityData['description'];
       final String homeBridgeAddress = communityData['homeBridgeAddress'];
       final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String secondaryTokenAddress = communityData['secondaryTokenAddress'];
       String foreignTokenAddress = communityData['foreignTokenAddress'];
       final String webUrl = communityData['webUrl'];
-      final Token communityToken = Token.initial().copyWith(
-          originNetwork: token['originNetwork'],
-          address: tokenAddress,
-          name: token["name"],
-          symbol: token["symbol"],
-          decimals: token["decimals"]);
-      store.dispatch(SwitchCommunitySuccess(
-          description: description,
-          communityAddress: communityAddress,
-          communityName: community["name"],
-          token: communityToken,
-          plugins: communityPlugins,
-          isClosed: communityData['isClosed'],
-          homeBridgeAddress: homeBridgeAddress,
-          secondaryTokenAddress: secondaryTokenAddress,
-          foreignBridgeAddress: foreignBridgeAddress,
-          foreignTokenAddress: foreignTokenAddress,
-          webUrl: webUrl));
+      Community newCommunity = Community.initial().copyWith(
+        secondaryTokenAddress: secondaryTokenAddress,
+        address: communityAddress,
+        name: communityData["name"],
+        foreignTokenAddress: foreignTokenAddress,
+        webUrl: webUrl,
+        homeBridgeAddress: homeBridgeAddress,
+        foreignBridgeAddress: foreignBridgeAddress,
+        description: description,
+        plugins: Plugins.fromJson(communityData['plugins']),
+        isMultiBridge: isMultiBridge,
+        isClosed: communityData['isClosed'],
+      );
+      bool isRopsten = communityData['isRopsten'];
+      String originNetwork = communityData['originNetwork'];
+      Token communityToken =
+          await fetchToken(newCommunity, isRopsten, originNetwork);
+      newCommunity =
+          newCommunity.copyWith(homeTokenAddress: communityToken.address);
+      store.dispatch(AddCashToken(
+          token: communityToken.copyWith(
+              timestamp: 0, communityAddress: communityAddress)));
+      store.dispatch(SwitchCommunitySuccess(community: newCommunity));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
-          properties: new Map<String, dynamic>.from({
-            "Community Name": community["name"],
+          properties: Map<String, dynamic>.from({
+            "Community Name": newCommunity.name,
             "Community Address": communityAddress,
-            "Token Address": tokenAddress,
-            "Token Symbol": token["symbol"],
-            "Origin Network": token['originNetwork']
+            "Token Address": communityToken.address,
+            "Token Symbol": communityToken.symbol,
+            "Origin Network": originNetwork
           })));
       if (![null, ''].contains(secondaryTokenAddress)) {
         store.dispatch(fetchSecondaryTokenCall(
@@ -1177,11 +1232,8 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           communityAddress: communityAddress.toLowerCase(),
           isRopsten: isRopsten));
       store.dispatch(joinCommunityCall(
-        community: Community.initial().copyWith(
-            address: communityAddress,
-            token: communityToken,
-            name: community["name"],
-            plugins: communityPlugins),
+        token: communityToken,
+        community: newCommunity,
         entitiesListAddress: entitiesListAddress,
       ));
     } catch (e, s) {
@@ -1197,49 +1249,83 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      Community current = store
-          .state.cashWalletState.communities[communityAddress.toLowerCase()];
-      bool isRopsten =
-          current.token != null && current.token.originNetwork == 'ropsten';
       String walletAddress = store.state.userState.walletAddress;
-      Map<String, dynamic> communityData = await api.getCommunityData(
-          communityAddress,
-          isRopsten: isRopsten,
-          walletAddress: walletAddress);
-      Plugins communityPlugins = Plugins.fromJson(communityData['plugins']);
-      store.dispatch(getBusinessListCall(
-          communityAddress: communityAddress.toLowerCase(),
-          isRopsten: isRopsten));
+      Map<String, dynamic> communityData = await getCommunityData(
+          checksumEthereumAddress(communityAddress),
+          checksumEthereumAddress(walletAddress));
+      String foreignTokenAddress = communityData['foreignTokenAddress'];
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
-      String foreignTokenAddress = communityData['foreignTokenAddress'];
       String secondaryTokenAddress = communityData['secondaryTokenAddress'];
       String description = communityData['description'];
       String webUrl = communityData['webUrl'];
+      Community newCommunity = Community.initial().copyWith(
+        secondaryTokenAddress: secondaryTokenAddress,
+        address: communityAddress,
+        name: communityData["name"],
+        foreignTokenAddress: foreignTokenAddress,
+        webUrl: webUrl,
+        homeBridgeAddress: homeBridgeAddress,
+        foreignBridgeAddress: foreignBridgeAddress,
+        description: description,
+        plugins: Plugins.fromJson(communityData['plugins']),
+        isMultiBridge: communityData?.containsKey('isMultiBridge') ?? false,
+        isClosed: communityData['isClosed'],
+      );
+      bool isRopsten = communityData['isRopsten'];
+      Token communityToken = await fetchToken(
+          newCommunity, isRopsten, communityData['originNetwork']);
+      store.dispatch(AddCashToken(
+          token: communityToken.copyWith(
+              timestamp: 0, communityAddress: communityAddress.toLowerCase())));
+      newCommunity =
+          newCommunity.copyWith(homeTokenAddress: communityToken?.address);
+      store.dispatch(SwitchCommunitySuccess(community: newCommunity));
+      store.dispatch(getBusinessListCall(
+          communityAddress: communityAddress.toLowerCase(),
+          isRopsten: isRopsten));
       store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
           communityData['communityURI'], isRopsten));
       if (![null, ''].contains(secondaryTokenAddress)) {
         store.dispatch(fetchSecondaryTokenCall(
             secondaryTokenAddress, communityAddress.toLowerCase()));
       }
-      store.dispatch(SwitchCommunitySuccess(
-          description: description,
-          communityAddress: communityAddress,
-          communityName: current.name,
-          token: current.token,
-          plugins: communityPlugins,
-          isClosed: current.isClosed,
-          homeBridgeAddress: homeBridgeAddress,
-          secondaryTokenAddress: secondaryTokenAddress,
-          foreignBridgeAddress: foreignBridgeAddress,
-          foreignTokenAddress: foreignTokenAddress,
-          webUrl: webUrl));
     } catch (e, s) {
       logger.severe('ERROR - switchToExisitingCommunityCall $e');
       await AppFactory().reportError(e, stackTrace: s);
       store.dispatch(ErrorAction('Could not switch community'));
       store.dispatch(SwitchCommunityFailed(
           communityAddress: communityAddress.toLowerCase()));
+    }
+  };
+}
+
+ThunkAction refetchCommunityData() {
+  return (Store store) async {
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    final logger = await AppFactory().getLogger('action');
+    logger.info('refetchCommunityData refetchCommunityData $communityAddress');
+    String walletAddress = store.state.userState.walletAddress;
+    Community current =
+        store.state.cashWalletState.communities[communityAddress.toLowerCase()];
+    if (current != null &&
+        current.name != null &&
+        current.isMember != null &&
+        current.isMember) {
+      Map<String, dynamic> communityData = await getCommunityData(
+          checksumEthereumAddress(communityAddress),
+          checksumEthereumAddress(walletAddress));
+      bool isRopsten = communityData['isRopsten'];
+      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
+          communityData['communityURI'], isRopsten));
+      store.dispatch(RefreshCommunityData(
+          communityAddress: communityAddress,
+          plugins: Plugins.fromJson(communityData['plugins']),
+          webUrl: communityData['webUrl']));
+      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
+          communityData['communityURI'], isRopsten));
+    } else {
+      store.dispatch(switchCommunityCall(communityAddress));
     }
   };
 }
@@ -1253,7 +1339,10 @@ ThunkAction switchCommunityCall(String communityAddress) {
       if (isLoading) return;
       Community current = store
           .state.cashWalletState.communities[communityAddress.toLowerCase()];
-      if (current != null && current.name != null && current.token != null) {
+      if (current != null &&
+          current.name != null &&
+          current.isMember != null &&
+          current.isMember) {
         store.dispatch(SwitchCommunityRequested(communityAddress));
         store.dispatch(switchToExisitingCommunityCall(communityAddress));
       } else {
@@ -1291,9 +1380,11 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
       store.dispatch(StartFetchingBusinessList());
       Community community =
           store.state.cashWalletState.communities[communityAddress];
+      Token token =
+          store.state.cashWalletState.tokens[community?.homeTokenAddress];
       bool isOriginRopsten = isRopsten ??
-          (community?.token?.originNetwork != null
-              ? community?.token?.originNetwork == 'ropsten'
+          (token?.originNetwork != null
+              ? token?.originNetwork == 'ropsten'
               : false);
       dynamic communityEntities =
           await graph.getCommunityBusinesses(communityAddress);
@@ -1331,20 +1422,20 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
   };
 }
 
-ThunkAction getTokenTransfersListCall(Community community) {
+ThunkAction getTokenTransfersListCall(Token token) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.userState.walletAddress;
-      String tokenAddress = community?.token?.address;
-      num lastBlockNumber = community?.token?.transactions?.blockNumber;
+      String tokenAddress = token?.address;
+      num lastBlockNumber = token?.transactions?.blockNumber;
       dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
           walletAddress, tokenAddress,
           startblock: lastBlockNumber ?? 0);
       List<Transfer> transfers = List<Transfer>.from(
           tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(GetTokenTransfersListSuccess(
-          tokenTransfers: transfers, communityAddress: community.address));
+          tokenTransfers: transfers, tokenAddress: tokenAddress));
     } catch (e) {
       logger.severe('ERROR - getTokenTransfersListCall $e');
       store.dispatch(ErrorAction('Could not get token transfers'));
@@ -1352,13 +1443,13 @@ ThunkAction getTokenTransfersListCall(Community community) {
   };
 }
 
-ThunkAction getReceivedTokenTransfersListCall(Community community) {
+ThunkAction getReceivedTokenTransfersListCall(Token token) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
       String walletAddress = store.state.userState.walletAddress;
-      num lastBlockNumber = community?.token?.transactions?.blockNumber;
-      final String tokenAddress = community?.token?.address;
+      num lastBlockNumber = token?.transactions?.blockNumber;
+      final String tokenAddress = token?.address;
       dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
           walletAddress, tokenAddress,
           startblock: lastBlockNumber ?? 0);
@@ -1366,7 +1457,7 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
           tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       if (transfers.isNotEmpty) {
         store.dispatch(GetTokenTransfersListSuccess(
-            tokenTransfers: transfers, communityAddress: community.address));
+            tokenTransfers: transfers, tokenAddress: token.address));
       }
     } catch (e) {
       logger.severe('ERROR - getReceivedTokenTransfersListCall $e');
@@ -1377,7 +1468,6 @@ ThunkAction getReceivedTokenTransfersListCall(Community community) {
 
 ThunkAction sendTokenToContactCall(
     Token token,
-    String name,
     String contactPhoneNumber,
     num tokensAmount,
     VoidCallback sendSuccessCallback,
@@ -1393,7 +1483,7 @@ ThunkAction sendTokenToContactCall(
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       logger.info("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
-        store.dispatch(inviteAndSendCall(token, name, contactPhoneNumber,
+        store.dispatch(inviteAndSendCall(token, contactPhoneNumber,
             tokensAmount, sendSuccessCallback, sendFailureCallback,
             receiverName: receiverName));
         return;

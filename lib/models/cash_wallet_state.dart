@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roost/models/community/community.dart';
+import 'package:roost/models/tokens/token.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:json_annotation/json_annotation.dart';
 
@@ -14,6 +15,8 @@ class CashWalletState {
       fromJson: _communitiesFromJson,
       toJson: _communitiesToJson)
   final Map<String, Community> communities;
+  @JsonKey(fromJson: _tokensFromJson)
+  final Map<String, Token> tokens;
 
   @JsonKey(ignore: true, defaultValue: false)
   final bool isCommunityLoading;
@@ -38,14 +41,20 @@ class CashWalletState {
   @JsonKey(ignore: true)
   final Map<String, num> sendToInvites;
 
+  static Map<String, Token> _tokensFromJson(Map<String, dynamic> tokens) =>
+      tokens == null
+          ? Map<String, Token>()
+          : tokens.map(
+              (k, e) => MapEntry(k, Token.fromJson(e as Map<String, dynamic>)));
+
   static Map<String, Community> _communitiesFromJson(
       Map<String, dynamic> list) {
     if (list == null) {
       return Map<String, Community>();
     } else {
-      Map<String, Community> communities = new Map<String, Community>();
+      Map<String, Community> communities = Map<String, Community>();
       Iterable<MapEntry<String, Community>> entries =
-          List.from(list['communities']).map((community) => new MapEntry(
+          List.from(list['communities']).map((community) => MapEntry(
               (community['address'] as String).toLowerCase(),
               Community.fromJson(community)));
       communities.addEntries(entries);
@@ -55,7 +64,7 @@ class CashWalletState {
 
   static Map<String, dynamic> _communitiesToJson(
           Map<String, Community> communities) =>
-      new Map<String, dynamic>.from({
+      Map<String, dynamic>.from({
         "communities": List<Community>.from(communities.values)
             .map((community) => community.toJson())
             .toList()
@@ -74,10 +83,11 @@ class CashWalletState {
       this.isBranchDataReceived,
       this.isCommunityBusinessesFetched,
       this.isJobProcessingStarted,
-      this.communities});
+      this.communities,
+      this.tokens});
 
   factory CashWalletState.initial() {
-    return new CashWalletState(
+    return CashWalletState(
         web3: null,
         communityAddress: null,
         branchAddress: "",
@@ -89,8 +99,9 @@ class CashWalletState {
         isBalanceFetchingStarted: false,
         isTransfersFetchingStarted: false,
         isJobProcessingStarted: false,
-        sendToInvites: new Map<String, num>(),
-        communities: new Map<String, Community>());
+        sendToInvites: Map<String, num>(),
+        communities: Map<String, Community>(),
+        tokens: Map<String, Token>());
   }
 
   CashWalletState copyWith(
@@ -106,9 +117,11 @@ class CashWalletState {
       bool isBranchDataReceived,
       bool isJobProcessingStarted,
       Map<String, num> sendToInvites,
+      Map<String, Token> tokens,
       Map<String, Community> communities}) {
     return CashWalletState(
         web3: web3 ?? this.web3,
+        tokens: tokens ?? this.tokens,
         communityAddress: communityAddress ?? this.communityAddress,
         branchAddress: branchAddress ?? this.branchAddress,
         isCommunityLoading: isCommunityLoading ?? this.isCommunityLoading,

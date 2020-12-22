@@ -103,6 +103,7 @@ class _BridgeDialogState extends State<BridgeDialog>
                                     context: context,
                                     builder: (BuildContext context) =>
                                         TokenActionsDialog(
+                                            logo: widget.logo,
                                             token: widget.token,
                                             community: widget.community));
                               },

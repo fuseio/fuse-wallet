@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:roost/constans/keys.dart';
 import 'package:roost/generated/i18n.dart';
@@ -88,60 +89,101 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, _HomePageViewModel>(
-        distinct: true,
-        converter: _HomePageViewModel.fromStore,
-        onInit: onInit,
-        builder: (_, vm) {
-          return Scaffold(
-              key: AppKeys.homePageKey,
-              drawer: DrawerWidget(),
-              drawerEdgeDragWidth: 0,
-              drawerEnableOpenDragGesture: false,
-              body: IndexedStack(index: currentIndex, children: <Widget>[
-                ExtendedNavigator(
-                  router: HomeRouter(),
-                  name: 'homeRouter',
-                  observers: [SegmentObserver()],
+    return OfflineBuilder(connectivityBuilder: (
+      BuildContext context,
+      ConnectivityResult connectivity,
+      Widget child,
+    ) {
+      if (connectivity == ConnectivityResult.none) {
+        return Container(
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height,
+          child: Center(
+              child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  I18n.of(context).oops,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor, fontSize: 25),
                 ),
-                WebViewWidget(
-                    withBack: false,
-                    url:
-                        'https://app.roostnow.co.uk/home?wallet=${vm.walletAddress}',
-                    title: I18n.of(context).your_home),
-                ExtendedNavigator(
-                  name: 'buyRouter',
-                  router: BuyRouter(),
-                  observers: [SegmentObserver()],
-                )
-              ]),
-              bottomNavigationBar: BottomBar(
-                onTap: (index) {
-                  _onTap(index);
-                  // if (vm.isContactsSynced == null &&
-                  //     index == 1 &&
-                  //     !isContactSynced) {
-                  //   Future.delayed(
-                  //       Duration.zero,
-                  //       () => showDialog(
-                  //           context: context,
-                  //           child: ContactsConfirmationScreen()));
-                  // }
+                Text(
+                  I18n.of(context).offline,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor, fontSize: 18),
+                ),
+                Text(
+                  I18n.of(context).connection,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor, fontSize: 18),
+                ),
+              ],
+            ),
+          )),
+        );
+      } else {
+        return child;
+      }
+    }, builder: (BuildContext context) {
+      return new StoreConnector<AppState, _HomePageViewModel>(
+          distinct: true,
+          converter: _HomePageViewModel.fromStore,
+          onInit: onInit,
+          builder: (_, vm) {
+            return Scaffold(
+                key: AppKeys.homePageKey,
+                drawer: DrawerWidget(),
+                drawerEdgeDragWidth: 0,
+                drawerEnableOpenDragGesture: false,
+                body: IndexedStack(index: currentIndex, children: <Widget>[
+                  ExtendedNavigator(
+                    router: HomeRouter(),
+                    name: 'homeRouter',
+                    observers: [SegmentObserver()],
+                  ),
+                  WebViewWidget(
+                      withBack: false,
+                      url:
+                          'https://app.roostnow.co.uk/home?wallet=${vm.walletAddress}',
+                      title: I18n.of(context).your_home),
+                  ExtendedNavigator(
+                    name: 'buyRouter',
+                    router: BuyRouter(),
+                    observers: [SegmentObserver()],
+                  )
+                ]),
+                bottomNavigationBar: BottomBar(
+                  onTap: (index) {
+                    _onTap(index);
+                    // if (vm.isContactsSynced == null &&
+                    //     index == 1 &&
+                    //     !isContactSynced) {
+                    //   Future.delayed(
+                    //       Duration.zero,
+                    //       () => showDialog(
+                    //           context: context,
+                    //           child: ContactsConfirmationScreen()));
+                    // }
 
-                  // if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
-                  //   Future.delayed(Duration.zero, () {
-                  //     vm.setShowDialog();
-                  //     showDialog(
-                  //         context: context,
-                  //         builder: (BuildContext context) {
-                  //           return BackUpDialog();
-                  //         });
-                  //   });
-                  // }
-                },
-                tabIndex: currentIndex,
-              ));
-        });
+                    // if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
+                    //   Future.delayed(Duration.zero, () {
+                    //     vm.setShowDialog();
+                    //     showDialog(
+                    //         context: context,
+                    //         builder: (BuildContext context) {
+                    //           return BackUpDialog();
+                    //         });
+                    //   });
+                    // }
+                  },
+                  tabIndex: currentIndex,
+                ));
+          });
+    });
   }
 }
 
