@@ -21,7 +21,6 @@ import 'package:flutter/foundation.dart';
 import 'package:esol/generated/i18n.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_preview/device_preview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -163,6 +162,22 @@ class _MyAppState extends State<MyApp> {
               child: extendedNav,
             ),
           ),
+          localeListResolutionCallback: (locales, supportedLocales) {
+            print(
+                'device locales=$locales supported locales=$supportedLocales');
+
+            for (Locale locale in locales) {
+              // if device language is supported by the app,
+              // just return it to set it as current app language
+              if (supportedLocales.contains(locale)) {
+                return Locale('es', 'ES');
+              }
+            }
+
+            // if device language is not supported by the app,
+            // the app will set it to english but return this to set to Bahasa instead
+            return Locale('id', 'ID');
+          },
           localizationsDelegates: [
             i18n,
             CountryLocalizations.delegate,
