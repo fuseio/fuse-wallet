@@ -58,12 +58,8 @@ class Header extends StatelessWidget {
                     AppKeys.homePageKey.currentState.openDrawer();
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
-                    child: Image.asset(
-                      'assets/images/menu_white.png',
-                      width: 20,
-                    ),
-                  ),
+                      padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
+                      child: Container()),
                 ),
                 //Editing Start
                 Row(

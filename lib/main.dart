@@ -21,6 +21,7 @@ import 'package:flutter/foundation.dart';
 import 'package:esol/generated/i18n.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,10 +30,19 @@ void main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
   runZonedGuarded<Future<void>>(
-      () async => runApp(CustomTheme(
-            initialThemeKey: MyThemeKeys.DEFAULT,
-            child: new MyApp(store: store),
-          )), (Object error, StackTrace stackTrace) async {
+      () async => runApp(
+            // CustomTheme(
+            //   initialThemeKey: MyThemeKeys.DEFAULT,
+            //   child: MyApp(
+            //     store: store,
+            //   ),
+            //   // Wrap your app
+            // ),
+            CustomTheme(
+              initialThemeKey: MyThemeKeys.DEFAULT,
+              child: new MyApp(store: store),
+            ),
+          ), (Object error, StackTrace stackTrace) async {
     try {
       await AppFactory().reportError(error, stackTrace: stackTrace);
     } catch (e) {
@@ -81,7 +91,8 @@ class _MyAppState extends State<MyApp> {
       Duration diff = exp.difference(now);
       if (diff.inDays <= 1) {
         String token = await firebaseAuth.currentUser.getIdToken(true);
-        jwtToken = await api.login(token, accoutAddress, identifier, appName: 'ESOL');
+        jwtToken =
+            await api.login(token, accoutAddress, identifier, appName: 'ESOL');
       }
 
       logger.info('JWT: $jwtToken');

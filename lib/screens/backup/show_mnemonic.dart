@@ -327,7 +327,10 @@ class ShowMnemonic extends StatelessWidget {
                     ),
                   ),
                   FittedBox(
-                    child: Text(word),
+                    child: Container(
+                        width: 50,
+                        height: 36,
+                        child: Center(child: Text(word))),
                   ),
                 ],
               ),

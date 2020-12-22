@@ -26,16 +26,18 @@ class _CashHeaderState extends State<CashHeader> {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Theme.of(context).primaryColor.withAlpha(20),
-                  blurRadius: 30.0,
-                  spreadRadius: 10.0,
-                  offset: Offset(
-                    0.0,
-                    3.0,
-                  ),
+                  color: Theme.of(context).primaryColor.withAlpha(0),
+                  // blurRadius: 30.0,
+                  // spreadRadius: 10.0,
+                  // offset: Offset(
+                  //   0.0,
+                  //   3.0,
+                  // ),
                 )
               ],
               color: Theme.of(context).primaryColorDark,
+              // border: Border(),
+              // border: Border.all(color: Colors.white),
               borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(40.0),
               ),
@@ -160,16 +162,18 @@ class _CashHeaderState extends State<CashHeader> {
                                                 ]
                                               : <TextSpan>[
                                                   TextSpan(
-                                                      text: imageshow
-                                                          ? '${viewModel?.token?.symbol} ${formatValue(viewModel?.token?.amount, viewModel?.token?.decimals)}'
-                                                          : '${viewModel?.token?.symbol} ****',
-                                                      style: TextStyle(
-                                                          fontSize: 36,
-                                                          fontWeight:
-                                                              FontWeight.w100,
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .splashColor)),
+                                                    text: imageshow
+                                                        // viewModel?.token?.symbol
+                                                        ? '${viewModel?.token?.symbol} ${formatValue(viewModel?.token?.amount, viewModel?.token?.decimals)}'
+                                                        // viewModel?.token?.symbol
+                                                        : '${viewModel?.token?.symbol} ****',
+                                                    style: TextStyle(
+                                                        fontSize: 36,
+                                                        fontWeight:
+                                                            FontWeight.w100,
+                                                        color: Theme.of(context)
+                                                            .splashColor),
+                                                  ),
                                                 ],
                                         ),
                                       ),

@@ -59,10 +59,7 @@ class ContactsHeader extends StatelessWidget {
                   },
                   child: Padding(
                     padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
-                    child: Image.asset(
-                      'assets/images/menu_white.png',
-                      width: 20,
-                    ),
+                    child: Container(),
                   ),
                 ),
                 //Editing Start

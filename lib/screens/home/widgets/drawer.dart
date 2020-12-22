@@ -29,9 +29,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   Widget getListTile(String label, void Function() onTap,
-      {String icon, Widget temp}) {
+      {String icon, Widget temp, double left}) {
     return ListTile(
-      contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
+      contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: left ?? 20),
       title: Container(
         color: Colors.white,
         child: Padding(
@@ -48,10 +48,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     SizedBox(
                       width: 20,
                     ),
-                    Text(
-                      label,
-                      style: TextStyle(
-                          fontSize: 16, color: Theme.of(context).primaryColor),
+                    Flexible(
+                      child: Text(
+                        label,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).primaryColor),
+                      ),
                     ),
                   ],
                 ),
@@ -168,13 +171,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         //   viewModel.logout();
         //   ExtendedNavigator.root.replace(Routes.splashScreen);
         // })
+        // getListTile('label', () {}, icon: 'help.svg'),
         getListTile(I18n.of(context).contact_us, () {
           // launch('mailto:hello@fuse.io');
         }, icon: 'help.svg'),
         getListTile(I18n.of(context).logout, () {
           viewModel.logout();
           ExtendedNavigator.root.replace(Routes.splashScreen);
-        }, icon: 'log_out.svg')
+        }, icon: 'logout.svg')
       ];
     }
   }
@@ -283,263 +287,262 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         distinct: true,
         converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
-          return SizedBox(
-            // width: MediaQuery.of(context).size.width * 1,
-            child: SafeArea(
-              child: Stack(
-                // overflow: Overflow.visible,
-                children: [
-                  Container(
-                    width: double.infinity,
+          return SafeArea(
+            child: Stack(
+              // overflow: Overflow.visible,
+              children: [
+                Container(
+                  width: double.infinity,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(50),
+                    // bottomRight: Radius.circular(50),
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(50),
-                      // bottomRight: Radius.circular(50),
-                    ),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width - 120,
-                      child: Drawer(
-                        child: Container(
-                          color: Colors.white,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.width / 8),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 30,
-                                ),
-                                child:
-                                    SvgPicture.asset('assets/images/E-SOL.svg'),
-                              ),
-                              SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.width / 8),
-                              // (viewModel.avatarUrl == null)
-                              //     ? Padding(
-                              //         padding:
-                              //             const EdgeInsets.only(right: 8.0),
-                              //         child: InkWell(
-                              //           onTap: () {
-                              //             ExtendedNavigator.root.popUntilRoot();
-                              //             ExtendedNavigator.root
-                              //                 .push(Routes.profileScreen);
-                              //             // if (widget.currentIndex == 0)
-                              //             // if (widget.currentIndex == 1)
-                              //             //   ExtendedNavigator.named(
-                              //             //           'contactsRouter')
-                              //             //       .push(ContactsRoutes
-                              //             //           .profileScreen);
-                              //             // if (widget.currentIndex == 3) {
-                              //             //   ExtendedNavigator.named('BuyRouter')
-                              //             //       .push(HomeRoutes.profileScreen);
-                              //             // }
-                              //           },
-                              //           child: Container(
-                              //             height: 59,
-                              //             width: 250,
-                              //             decoration: BoxDecoration(
-                              //               color: Color.fromRGBO(
-                              //                   255, 196, 23, 0.14),
-                              //               borderRadius: BorderRadius.only(
-                              //                 topRight: Radius.circular(20.0),
-                              //                 bottomRight:
-                              //                     Radius.circular(20.0),
-                              //               ),
-                              //             ),
-                              //             child: Flexible(
-                              //               child: Row(children: [
-                              //                 Image.asset(
-                              //                     'assets/images/title.png'),
-                              //                 Padding(
-                              //                   padding:
-                              //                       const EdgeInsets.all(8.0),
-                              //                   child: Icon(
-                              //                     Icons.error,
-                              //                     color: Colors.orange,
-                              //                   ),
-                              //                 ),
-                              //                 Column(
-                              //                     mainAxisAlignment:
-                              //                         MainAxisAlignment.center,
-                              //                     crossAxisAlignment:
-                              //                         CrossAxisAlignment.center,
-                              //                     children: [
-                              //                       Text(
-                              //                         'Terminar Registrode',
-                              //                         style: TextStyle(
-                              //                             color: Color.fromRGBO(
-                              //                                 255, 196, 23, 1),
-                              //                             fontSize: 14,
-                              //                             fontWeight:
-                              //                                 FontWeight.bold),
-                              //                       ),
-                              //                       Text(
-                              //                         "de mi cuenta",
-                              //                         style: TextStyle(
-                              //                             color: Color.fromRGBO(
-                              //                                 255, 196, 23, 1),
-                              //                             fontSize: 14,
-                              //                             fontWeight:
-                              //                                 FontWeight.bold),
-                              //                         textAlign:
-                              //                             TextAlign.center,
-                              //                       ),
-                              //                     ]),
-                              //               ]),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       )
-                              //     : SizedBox.shrink(),
-                              // (viewModel.avatarUrl != null)
-                              //     ? InkWell(
-                              //         child: Padding(
-                              //           padding: const EdgeInsets.only(top: 30),
-                              //           child: Row(
-                              //             children: [
-                              //               Padding(
-                              //                 padding: const EdgeInsets.only(
-                              //                     left: 30.0, right: 20.0),
-                              //                 child: SvgPicture.asset(
-                              //                     'assets/images/cast.svg'),
-                              //               ),
-                              //               Text(
-                              //                 'Respaladar mi',
-                              //                 style: TextStyle(fontSize: 16),
-                              //               )
-                              //             ],
-                              //           ),
-                              //         ),
-                              //         onTap: () {
-                              //           ExtendedNavigator.root.pop();
-                              //           ExtendedNavigator.root
-                              //               .push(Routes.showMnemonic);
-                              //           // if (widget.currentIndex == 0)
-                              //           // if (widget.currentIndex == 1)
-                              //           //   ExtendedNavigator.named(
-                              //           //           'contactsRouter')
-                              //           //       .push(
-                              //           //           ContactsRoutes.showMnemonic);
-                              //           // if (widget.currentIndex == 2) {
-                              //           //   // ExtendedNavigator.named(
-                              //           //   //         '/receive-screen')
-                              //           //   //     .push(HomeRoutes.showMnemonic);
-                              //           // }
-                              //           // if (widget.currentIndex == 3) {
-                              //           //   ExtendedNavigator.named('BuyRouter')
-                              //           //       .push(HomeRoutes.showMnemonic);
-                              //           // }
-                              //           // ExtendedNavigator.named('homeRouter')
-                              //           //     .push(HomeRoutes.showMnemonic);
-                              //         },
-                              //       )
-                              //     : SizedBox.shrink(),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 120,
+                    child: Drawer(
+                      child: Container(
+                        color: Colors.white,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                                height: MediaQuery.of(context).size.width / 8),
+                            SvgPicture.asset('assets/images/E-SOL.svg'),
+                            SizedBox(
+                                height: MediaQuery.of(context).size.width / 8),
 
-                              // (viewModel.avatarUrl != null)
-                              //     ? Padding(
-                              //         padding: const EdgeInsets.only(left: 72),
-                              //         child: Text(
-                              //           'monedero',
-                              //           style: TextStyle(fontSize: 16),
-                              //         ),
-                              //       )
-                              //     : SizedBox.shrink(),
-                              viewModel.isFaceVerified
-                                  ? SizedBox.shrink()
-                                  : Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 40,
-                                      ),
-                                      child: Container(
-                                        padding: EdgeInsets.all(5),
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                .45,
-                                        decoration: BoxDecoration(
-                                            color: Colors.amber[100],
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              'assets/images/alert-icn.png',
-                                              fit: BoxFit.cover,
-                                              height: 20,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text('Déjanos Conocerte'),
-                                          ],
-                                        ),
+                            getListTile('Respaladar mi monedero', () {
+                              ExtendedNavigator.root.pushShowMnemonic();
+                            }, left: 0, icon: 'cast.svg'),
+
+                            // (viewModel.avatarUrl == null)
+                            //     ? Padding(
+                            //         padding:
+                            //             const EdgeInsets.only(right: 8.0),
+                            //         child: InkWell(
+                            //           onTap: () {
+                            //             ExtendedNavigator.root.popUntilRoot();
+                            //             ExtendedNavigator.root
+                            //                 .push(Routes.profileScreen);
+                            //             // if (widget.currentIndex == 0)
+                            //             // if (widget.currentIndex == 1)
+                            //             //   ExtendedNavigator.named(
+                            //             //           'contactsRouter')
+                            //             //       .push(ContactsRoutes
+                            //             //           .profileScreen);
+                            //             // if (widget.currentIndex == 3) {
+                            //             //   ExtendedNavigator.named('BuyRouter')
+                            //             //       .push(HomeRoutes.profileScreen);
+                            //             // }
+                            //           },
+                            //           child: Container(
+                            //             height: 59,
+                            //             width: 250,
+                            //             decoration: BoxDecoration(
+                            //               color: Color.fromRGBO(
+                            //                   255, 196, 23, 0.14),
+                            //               borderRadius: BorderRadius.only(
+                            //                 topRight: Radius.circular(20.0),
+                            //                 bottomRight:
+                            //                     Radius.circular(20.0),
+                            //               ),
+                            //             ),
+                            //             child: Flexible(
+                            //               child: Row(children: [
+                            //                 Image.asset(
+                            //                     'assets/images/title.png'),
+                            //                 Padding(
+                            //                   padding:
+                            //                       const EdgeInsets.all(8.0),
+                            //                   child: Icon(
+                            //                     Icons.error,
+                            //                     color: Colors.orange,
+                            //                   ),
+                            //                 ),
+                            //                 Column(
+                            //                     mainAxisAlignment:
+                            //                         MainAxisAlignment.center,
+                            //                     crossAxisAlignment:
+                            //                         CrossAxisAlignment.center,
+                            //                     children: [
+                            //                       Text(
+                            //                         'Terminar Registrode',
+                            //                         style: TextStyle(
+                            //                             color: Color.fromRGBO(
+                            //                                 255, 196, 23, 1),
+                            //                             fontSize: 14,
+                            //                             fontWeight:
+                            //                                 FontWeight.bold),
+                            //                       ),
+                            //                       Text(
+                            //                         "de mi cuenta",
+                            //                         style: TextStyle(
+                            //                             color: Color.fromRGBO(
+                            //                                 255, 196, 23, 1),
+                            //                             fontSize: 14,
+                            //                             fontWeight:
+                            //                                 FontWeight.bold),
+                            //                         textAlign:
+                            //                             TextAlign.center,
+                            //                       ),
+                            //                     ]),
+                            //               ]),
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       )
+                            //     : SizedBox.shrink(),
+                            // (viewModel.avatarUrl != null)
+                            //     ? InkWell(
+                            //         child: Padding(
+                            //           padding: const EdgeInsets.only(top: 30),
+                            //           child: Row(
+                            //             children: [
+                            //               Padding(
+                            //                 padding: const EdgeInsets.only(
+                            //                     left: 30.0, right: 20.0),
+                            //                 child: SvgPicture.asset(
+                            //                     'assets/images/cast.svg'),
+                            //               ),
+                            //               Text(
+                            //                 'Respaladar mi',
+                            //                 style: TextStyle(fontSize: 16),
+                            //               )
+                            //             ],
+                            //           ),
+                            //         ),
+                            //         onTap: () {
+                            //           ExtendedNavigator.root.pop();
+                            //           ExtendedNavigator.root
+                            //               .push(Routes.showMnemonic);
+                            //           // if (widget.currentIndex == 0)
+                            //           // if (widget.currentIndex == 1)
+                            //           //   ExtendedNavigator.named(
+                            //           //           'contactsRouter')
+                            //           //       .push(
+                            //           //           ContactsRoutes.showMnemonic);
+                            //           // if (widget.currentIndex == 2) {
+                            //           //   // ExtendedNavigator.named(
+                            //           //   //         '/receive-screen')
+                            //           //   //     .push(HomeRoutes.showMnemonic);
+                            //           // }
+                            //           // if (widget.currentIndex == 3) {
+                            //           //   ExtendedNavigator.named('BuyRouter')
+                            //           //       .push(HomeRoutes.showMnemonic);
+                            //           // }
+                            //           // ExtendedNavigator.named('homeRouter')
+                            //           //     .push(HomeRoutes.showMnemonic);
+                            //         },
+                            //       )
+                            //     : SizedBox.shrink(),
+
+                            // (viewModel.avatarUrl != null)
+                            //     ? Padding(
+                            //         padding: const EdgeInsets.only(left: 72),
+                            //         child: Text(
+                            //           'monedero',
+                            //           style: TextStyle(fontSize: 16),
+                            //         ),
+                            //       )
+                            //     : SizedBox.shrink(),
+
+                            viewModel.isFaceVerified
+                                ? SizedBox.shrink()
+                                : Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 40,
+                                    ),
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      width: MediaQuery.of(context).size.width *
+                                          .7,
+                                      decoration: BoxDecoration(
+                                          color: Colors.amber[100],
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/alert-icn.png',
+                                            fit: BoxFit.cover,
+                                            height: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            'Déjanos Conocerte',
+                                            // overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
                                       ),
                                     ),
+                                  ),
+                            getListTile('Mi Cuenta', () {},
+                                left: 0, icon: 'myprofile.svg'),
 
-                              // (viewModel.avatarUrl != null)
-                              //     ? InkWell(
-                              //         onTap: () {
-                              //           Navigator.push(
-                              //             context,
-                              //             MaterialPageRoute(
-                              //               builder: (context) => MainProfile(),
-                              //             ),
-                              //           );
-                              //         },
-                              //         child: Padding(
-                              //           padding: const EdgeInsets.only(top: 10),
-                              //           child: Row(
-                              //             children: [
-                              //               Padding(
-                              //                 padding: const EdgeInsets.only(
-                              //                     left: 30.0, right: 20.0),
-                              //                 child: SvgPicture.asset(
-                              //                     'assets/images/profile.svg'),
-                              //               ),
-                              //               Text(
-                              //                 'Mi Cuenta',
-                              //                 style: TextStyle(fontSize: 16),
-                              //               )
-                              //             ],
-                              //           ),
-                              //         ),
-                              //       )
-                              //     : SizedBox.shrink(),
-                              Expanded(
-                                child: SizedBox(),
-                              ),
-                              ...menuItem(viewModel),
-                              // ...pluginsItems(viewModel),
-                            ],
-                          ),
+                            // (viewModel.avatarUrl != null)
+                            //     ? InkWell(
+                            //         onTap: () {
+                            //           Navigator.push(
+                            //             context,
+                            //             MaterialPageRoute(
+                            //               builder: (context) => MainProfile(),
+                            //             ),
+                            //           );
+                            //         },
+                            //         child: Padding(
+                            //           padding: const EdgeInsets.only(top: 10),
+                            //           child: Row(
+                            //             children: [
+                            //               Padding(
+                            //                 padding: const EdgeInsets.only(
+                            //                     left: 30.0, right: 20.0),
+                            //                 child: SvgPicture.asset(
+                            //                     'assets/images/profile.svg'),
+                            //               ),
+                            //               Text(
+                            //                 'Mi Cuenta',
+                            //                 style: TextStyle(fontSize: 16),
+                            //               )
+                            //             ],
+                            //           ),
+                            //         ),
+                            //       )
+                            //     : SizedBox.shrink(),
+                            Expanded(
+                              child: SizedBox(),
+                            ),
+                            ...menuItem(viewModel),
+                            // ...pluginsItems(viewModel),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 30,
-                    // right: 80,
-                    right: 95,
-                    child: InkWell(
-                      onTap: () => Navigator.pop(context),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
+                ),
+                Positioned(
+                  top: 30,
+                  // right: 80,
+                  right: 95,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
                         ),
-                        height: 50,
-                        width: 50,
-                        child: Icon(Icons.close),
                       ),
+                      height: 50,
+                      width: 50,
+                      child: Icon(Icons.close),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           );
         });

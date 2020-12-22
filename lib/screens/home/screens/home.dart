@@ -47,17 +47,18 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           }
         },
         builder: (_, viewModel) {
+          print('Is the face Verified ${viewModel.isFaceVerified}');
           final Widget body = viewModel.tokens
                       .any((element) => element.originNetwork == null) ||
                   viewModel.communities.length > 1
               ? Tabs()
-              : !viewModel.isFaceVerified
+              : viewModel.isFaceVerified
                   ? Feed()
                   : DetectFace();
 
           return Scaffold(
             appBar: MyAppBar(
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: MediaQuery.of(context).size.height * 0.29,
               child: CashHeader(),
             ),
             body: body,

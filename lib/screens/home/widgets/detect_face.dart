@@ -32,7 +32,7 @@ class DetectFace extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height / 6,
+          height: MediaQuery.of(context).size.height / 12,
         ),
         Center(
           child: Stack(
@@ -46,7 +46,7 @@ class DetectFace extends StatelessWidget {
                 ),
                 color: Theme.of(context).splashColor,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * .8,
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: Column(
                     children: [
                       SizedBox(
@@ -77,45 +77,47 @@ class DetectFace extends StatelessWidget {
                 ),
               ),
               Positioned.fill(
-                  top: -50,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Card(
-                      elevation: 0,
-                      shadowColor: Color(0xFF979797),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: const BorderRadius.all(
+                top: -50,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Card(
+                    elevation: 0,
+                    shadowColor: Color(0xFF979797),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(32.0),
+                      ),
+                    ),
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Image.asset(
+                            'assets/images/alert-icn.png',
+                            fit: BoxFit.cover,
+                            height: MediaQuery.of(context).size.height / 16,
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Text('Importante'),
+                        ],
+                      ),
+                      height: MediaQuery.of(context).size.height / 7,
+                      width: 110,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
                           Radius.circular(32.0),
                         ),
                       ),
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Image.asset(
-                              'assets/images/alert-icn.png',
-                              fit: BoxFit.cover,
-                              height: MediaQuery.of(context).size.height / 16,
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Text('Importante'),
-                          ],
-                        ),
-                        height: MediaQuery.of(context).size.height / 7,
-                        width: 110,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(32.0),
-                            )),
-                      ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
         )

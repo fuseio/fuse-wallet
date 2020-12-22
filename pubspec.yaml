@@ -2,7 +2,7 @@ name: esol
 version: 1.0.0
 description: A new Flutter project.
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.8.0 <3.0.0"
 dependencies:
   # adobe_xd: ^1.0.0+1
   shared_preferences: ^0.5.6+3
@@ -13,6 +13,7 @@ dependencies:
   font_awesome_flutter: ^8.10.0
   flushbar: ^1.10.4
   flutter_platform_widgets: ^0.71.0
+  device_preview: ^0.5.5
   enum_to_string: ^1.0.14
   local_auth: ^0.6.3+4
   auto_size_text: ^2.1.0

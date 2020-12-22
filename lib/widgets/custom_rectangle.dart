@@ -18,27 +18,30 @@ class CustomRectangle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius:
-              BorderRadius.only(bottomRight: Radius.circular(borderRadius)),
-          child: Container(
-            height: height + borderSize,
-            decoration: BoxDecoration(
-              color: borderColor,
+    return Container(
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius:
+                BorderRadius.only(bottomRight: Radius.circular(borderRadius)),
+            child: Container(
+              height: height + borderSize,
+              decoration: BoxDecoration(
+                color: borderColor,
+              ),
             ),
           ),
-        ),
-        ClipRRect(
-          borderRadius:
-              BorderRadius.only(bottomRight: Radius.circular(borderRadius)),
-          child: Container(
-            height: height + borderSize,
-            child: child,
+          ClipRRect(
+            borderRadius:
+                BorderRadius.only(bottomRight: Radius.circular(borderRadius)),
+            child: Container(
+              color: Colors.white,
+              height: height + borderSize,
+              child: child,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

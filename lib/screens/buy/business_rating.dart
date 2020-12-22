@@ -20,7 +20,7 @@ class _BusinessRatingState extends State<BusinessRating> {
             'assets/images/menu_white.png',
           ),
         ),
-        expandedHeight: MediaQuery.of(context).size.height * 0.25,
+        expandedHeight: MediaQuery.of(context).size.height * 0.29,
         newHeaderAppBar: Header(
           image: null,
           imageshow: false,

@@ -21,7 +21,7 @@ class VeifyFaceDetect extends StatefulWidget {
 }
 
 class _VeifyFaceDetectState extends State<VeifyFaceDetect> {
-  String detectString = 'No Face Found';
+  String detectString = 'Place face in circle';
   String verifiedString = 'Data';
 
   CameraLensDirection cameraLensDirection = CameraLensDirection.front;
@@ -33,7 +33,7 @@ class _VeifyFaceDetectState extends State<VeifyFaceDetect> {
     mode: FaceDetectorMode.accurate,
   ));
 
-  Future<void> uploadData(
+  Future<void> verificationProcess(
     _VeifyFaceModel viewModel,
     String base64Image,
     String imgPath,
@@ -92,7 +92,10 @@ class _VeifyFaceDetectState extends State<VeifyFaceDetect> {
       }
     } catch (e) {
       deleteVar.delete();
-      print('Error in uploadData verify-face ${e.toString()}');
+      setState(() {
+        detectString = 'Error on the Side Api';
+      });
+      print('Error in verificationProcess verify-face ${e.toString()}');
     }
   }
 
@@ -101,7 +104,7 @@ class _VeifyFaceDetectState extends State<VeifyFaceDetect> {
     if (dataValue != null) {
       String base64Image = base64Encode(File(dataValue).readAsBytesSync());
       if (verifiedString != 'Face is Verified') {
-        uploadData(viewModel, base64Image, dataValue);
+        verificationProcess(viewModel, base64Image, dataValue);
       }
     }
   }
@@ -134,8 +137,10 @@ class _VeifyFaceDetectState extends State<VeifyFaceDetect> {
               Align(
                   alignment: Alignment.topCenter,
                   child: (verifiedString == "Data")
-                      ? Text(detectString,
-                          style: TextStyle(color: Colors.white, fontSize: 30))
+                      ? Text(
+                          detectString,
+                          style: TextStyle(color: Colors.white, fontSize: 30),
+                        )
                       : Icon(
                           Icons.verified,
                           color: Colors.green,
@@ -169,12 +174,14 @@ class _VeifyFaceDetectState extends State<VeifyFaceDetect> {
                         }
                         if (faces[0].rightEyeOpenProbability >= 0.9 &&
                             faces[0].leftEyeOpenProbability >= 0.9 &&
-                            faces[0].boundingBox.isEmpty == false) {
+                            faces[0].boundingBox.isEmpty == false &&
+                            verifiedString == 'Data') {
                           if (this.mounted) {
                             setState(() {
                               detectString = 'Face detected';
                             });
                           }
+
                           _takeScreenShot(viewModel);
                         }
                       },

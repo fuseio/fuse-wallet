@@ -14,6 +14,7 @@ import 'package:esol/utils/format.dart';
 import 'package:esol/utils/send.dart';
 import 'package:esol/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
+import 'package:esol/screens/home/widgets/cash_header.dart';
 
 class EmptyContacts extends StatefulWidget {
   @override
@@ -192,19 +193,12 @@ class _EmptyContactsState extends State<EmptyContacts> {
           return MainScaffold(
             drawerIcon: Padding(
               padding: const EdgeInsets.only(left: 20, right: 15),
-              child: Image.asset(
-                'assets/images/menu_white.png',
-              ),
+              child: Container(),
             ),
-            expandedHeight: MediaQuery.of(context).size.height * 0.20,
-            newHeaderAppBar: ContactsHeader(
-              image: null,
-              contactEmpty: true,
-              imageshow: false,
-              textshow: false,
-            ),
-            automaticallyImplyLeading: true,
-            title: Text(''),
+            expandedHeight: MediaQuery.of(context).size.height * 0.29,
+            newHeaderAppBar: CashHeader(),
+            // automaticallyImplyLeading: true,
+            // title: Text(''),
             sliverList: _buildPageList(viewModel),
           );
         });

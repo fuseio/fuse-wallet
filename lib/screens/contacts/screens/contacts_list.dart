@@ -52,12 +52,13 @@ class _ContactsListState extends State<ContactsList> {
           return _contacts != null
               ? MainScaffold(
                   drawerIcon: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 15),
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 15, bottom: 8),
                     child: Image.asset(
                       'assets/images/menu_white.png',
                     ),
                   ),
-                  expandedHeight: MediaQuery.of(context).size.height * 0.20,
+                  expandedHeight: MediaQuery.of(context).size.height * 0.29,
                   newHeaderAppBar: ContactsHeader(
                     avatarUrl: null,
                     text: null,
@@ -67,9 +68,13 @@ class _ContactsListState extends State<ContactsList> {
                     textshow: true,
                   ),
                   automaticallyImplyLeading: true,
-                  title: Text(
-                    I18n.of(context).send_to,
-                    style: TextStyle(),
+                  title: Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Text(
+                      // I18n.of(context).send_to,
+                      'Enviar a',
+                      style: TextStyle(),
+                    ),
                   ),
                   sliverList: _buildPageList(viewModel),
                 )

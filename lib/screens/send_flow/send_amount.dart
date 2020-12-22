@@ -189,7 +189,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                       Navigator.of(context).pop();
                     })),
           ),
-          expandedHeight: MediaQuery.of(context).size.height * 0.23,
+          expandedHeight: MediaQuery.of(context).size.height * 0.26,
           newHeaderAppBar: Header(
             image: args.avatar,
             imageshow: false,

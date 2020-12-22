@@ -33,12 +33,12 @@ class BuyScreen extends StatelessWidget {
         builder: (_, viewModel) {
           return MainScaffold(
               drawerIcon: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 15),
+                padding: const EdgeInsets.only(left: 20, right: 15, bottom: 8),
                 child: Image.asset(
                   'assets/images/menu_white.png',
                 ),
               ),
-              expandedHeight: MediaQuery.of(context).size.height * 0.20,
+              expandedHeight: MediaQuery.of(context).size.height * 0.29,
               newHeaderAppBar: Header(
                 image: null,
                 imageshow: false,
@@ -65,7 +65,9 @@ class BuyScreen extends StatelessWidget {
               //   ),
               // ],
               automaticallyImplyLeading: false,
-              title: Text(I18n.of(context).buy),
+              title: Text('Comprar'),
+              // Text(I18n.of(context).buy
+
               children: <Widget>[BusinessesListView()]);
         });
   }
