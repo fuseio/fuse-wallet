@@ -9,13 +9,12 @@ part of 'community.dart';
 Community _$CommunityFromJson(Map<String, dynamic> json) {
   return Community(
     name: json['name'] as String,
+    isMultiBridge: json['isMultiBridge'] as bool,
     isClosed: json['isClosed'] as bool,
     isMember: json['isMember'] as bool,
     address: json['address'] as String,
     plugins: json['plugins'] == null ? null : Plugins.fromJson(json['plugins']),
-    token: json['token'] == null
-        ? null
-        : Token.fromJson(json['token'] as Map<String, dynamic>),
+    homeTokenAddress: json['homeTokenAddress'] as String,
     businesses: (json['businesses'] as List)
         ?.map((e) =>
             e == null ? null : Business.fromJson(e as Map<String, dynamic>))
@@ -27,9 +26,7 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
     webUrl: json['webUrl'] as String,
     foreignBridgeAddress: json['foreignBridgeAddress'] as String,
     foreignTokenAddress: json['foreignTokenAddress'] as String,
-    secondaryToken: json['secondaryToken'] == null
-        ? null
-        : Token.fromJson(json['secondaryToken'] as Map<String, dynamic>),
+    secondaryTokenAddress: json['secondaryTokenAddress'] as String,
     description: json['description'] as String,
   );
 }
@@ -41,12 +38,13 @@ Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
       'foreignBridgeAddress': instance.foreignBridgeAddress,
       'isMember': instance.isMember,
       'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
-      'token': instance.token?.toJson(),
+      'homeTokenAddress': instance.homeTokenAddress,
       'plugins': instance.plugins?.toJson(),
       'metadata': instance.metadata?.toJson(),
       'isClosed': instance.isClosed,
       'webUrl': instance.webUrl,
       'foreignTokenAddress': instance.foreignTokenAddress,
-      'secondaryToken': instance.secondaryToken?.toJson(),
+      'secondaryTokenAddress': instance.secondaryTokenAddress,
       'description': instance.description,
+      'isMultiBridge': instance.isMultiBridge,
     };

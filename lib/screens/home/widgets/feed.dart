@@ -84,7 +84,7 @@ class FeedState extends State<Feed> {
                     ],
                   ),
                   height: MediaQuery.of(context).size.height *
-                      (widget.withTitle ? .65 : .565),
+                      (widget.withTitle ? .66 : .576),
                 ),
               ));
         });
@@ -97,6 +97,7 @@ class _FeedModel extends Equatable {
   final Function() startTransfersFetching;
   final Function() startProcessingJobs;
   final Function() refreshFeed;
+  final List<Community> communities;
 
   _FeedModel({
     this.feedList,
@@ -104,26 +105,27 @@ class _FeedModel extends Equatable {
     this.startTransfersFetching,
     this.startProcessingJobs,
     this.refreshFeed,
+    this.communities,
   });
 
   static _FeedModel fromStore(Store<AppState> store) {
-    List<Community> communities =
-        store.state.cashWalletState.communities.values.toList();
+    List<Transaction> tokensTxs = store.state.cashWalletState.tokens?.values
+        ?.fold(
+            [],
+            (List<Transaction> previousValue, Token token) =>
+                previousValue..addAll(token?.transactions?.list ?? []));
 
     List<Transaction> erc20TokensTxs =
         store.state.proWalletState.erc20Tokens?.values?.fold(
             [],
             (List<Transaction> previousValue, Token token) =>
                 previousValue..addAll(token?.transactions?.list ?? []));
-    List<Transaction> communityTxs = communities?.fold(
-        [],
-        (List<Transaction> previousValue, Community community) =>
-            previousValue..addAll(community?.token?.transactions?.list ?? []));
-    List<Transaction> feedList = [...communityTxs, ...erc20TokensTxs]
+    List<Transaction> feedList = [...tokensTxs, ...erc20TokensTxs]
       ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
     return _FeedModel(
         feedList: feedList,
         walletStatus: store.state.userState.walletStatus,
+        communities: store.state.cashWalletState.communities.values.toList(),
         startTransfersFetching: () {
           store.dispatch(startTransfersFetchingCall());
         },
@@ -131,10 +133,11 @@ class _FeedModel extends Equatable {
           store.dispatch(startProcessingJobsCall());
         },
         refreshFeed: () {
+          store.dispatch(fetchListOfTokensByAddress());
           store.dispatch(ResetTokenTxs());
         });
   }
 
   @override
-  List<Object> get props => [feedList];
+  List<Object> get props => [feedList, communities, walletStatus];
 }

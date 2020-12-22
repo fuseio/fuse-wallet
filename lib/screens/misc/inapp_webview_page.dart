@@ -10,7 +10,6 @@ import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:peepl/models/app_state.dart';
-import 'package:peepl/models/community/community.dart';
 import 'package:peepl/models/tokens/token.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/utils/format.dart';
@@ -30,11 +29,6 @@ class WebViewWidget extends StatefulWidget {
 
 class _WebViewWidgetState extends State<WebViewWidget> {
   PlaidLink _plaidLinkToken;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata,
       String walletAddress) async {
@@ -154,8 +148,8 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                 ),
               ),
               body: InAppWebView(
-                // initialUrl: url,
-                initialFile: "assets/index.html",
+                initialUrl: widget.url,
+                // initialFile: "assets/index.html",
                 onWebViewCreated: (InAppWebViewController controller) {
                   controller = controller;
                   controller.addJavaScriptHandler(
@@ -176,7 +170,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                         viewModel.sendTokenFromWebView(
                             token,
                             paymentDetails['destination'],
-                            num.parse(paymentDetails['amount']),
+                            paymentDetails['amount'],
                             sendSuccessCallback,
                             sendFailureCallback);
                       });
@@ -214,8 +208,6 @@ class InAppWebViewViewModel extends Equatable {
   });
 
   static InAppWebViewViewModel fromStore(Store<AppState> store) {
-    List<Community> communities =
-        store.state.cashWalletState.communities.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
@@ -225,17 +217,19 @@ class InAppWebViewViewModel extends Equatable {
             1)
         .toList();
 
-    List<Token> homeTokens =
-        communities.fold<List<Token>>([], (previousValue, Community community) {
-      if (community?.secondaryToken != null &&
-          community?.secondaryToken?.address != null) {
-        previousValue.add(community.secondaryToken
-            .copyWith(imageUrl: community.metadata.getImageUri()));
-      }
-      previousValue.add(
-          community.token.copyWith(imageUrl: community.metadata.getImageUri()));
-      return previousValue;
-    });
+    List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals, withPrecision: true))
+                .compareTo(0) ==
+            1)
+        .map((Token token) => token?.copyWith(
+            imageUrl: store.state.cashWalletState.communities
+                    .containsKey(token.communityAddress)
+                ? store.state.cashWalletState
+                    .communities[token.communityAddress].metadata
+                    .getImageUri()
+                : null))
+        .toList();
     return InAppWebViewViewModel(
       walletAddress: store.state.userState.walletAddress,
       tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>

@@ -172,7 +172,8 @@ ThunkAction startListenToTransferEvents() {
     final logger = await AppFactory().getLogger('action');
     if (!isListenToTransferEvents) {
       logger.info('Timer start - startListenToTransferEvents');
-      new Timer.periodic(Duration(seconds: 2), (Timer timer) async {
+      new Timer.periodic(Duration(seconds: intervalSeconds),
+          (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
           logger.severe('Timer stopped - startListenToTransferEvents');
           timer.cancel();
@@ -385,11 +386,13 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
                 element?.foreignTokenAddress?.toLowerCase(),
             orElse: () => null);
         if (community != null) {
+          Token token =
+              store.state.cashWalletState.tokens[community?.homeTokenAddress];
           Token newToken = Token.initial().copyWith(
               address: tokenAddress,
-              name: community.token.name,
-              symbol: community.token.symbol,
-              decimals: community.token.decimals,
+              name: token.name,
+              symbol: token.symbol,
+              decimals: token.decimals,
               timestamp: 0,
               amount: BigInt.zero,
               originNetwork: null,
@@ -544,8 +547,6 @@ ThunkAction sendErc20TokenCall(
       if (web3 == null) {
         throw "Web3 is empty";
       }
-      Community community =
-          store.state.cashWalletState.communities[defaultCommunityAddress];
       logger.info(
           'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
       Map<String, dynamic> approveTokenData = await web3.approveTokenOffChain(
@@ -556,11 +557,7 @@ ThunkAction sendErc20TokenCall(
           network: foreignNetwork);
       num feeAmount = fees[token.symbol] ?? 1;
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress,
-          token.address,
-          community.plugins.foreignTransfers?.receiverAddress ??
-              '0x77D886e98133D99130179bdb41CE052a43d32c2F',
-          feeAmount,
+          walletAddress, token.address, feeReceiverAddress, feeAmount,
           network: foreignNetwork);
       dynamic approveTrasfer = await api
           .multiRelay([approveTokenData, transferTokenData, feeTrasnferData]);
@@ -606,6 +603,73 @@ ThunkAction sendErc20TokenCall(
       logger.severe('ERROR - sendErc20TokenCall $e');
       store.dispatch(new ErrorAction(e.toString()));
       sendFailureCallback();
+    }
+  };
+}
+
+ThunkAction sendTokenToHomeMultiBridge(
+    Token token,
+    String receiverAddress,
+    num tokensAmount,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+    {String receiverName,
+    String transferNote}) {
+  return (Store store) async {
+    final logger = await AppFactory().getLogger('action');
+    try {
+      UserState userState = store.state.userState;
+      String walletAddress = userState.walletAddress;
+      wallet_core.Web3 web3 = store.state.proWalletState.web3;
+      if (web3 == null) {
+        throw "Web3 is empty";
+      }
+      String tokenAddress = token?.address;
+      BigInt value = toBigInt(tokensAmount, token.decimals);
+      dynamic response;
+      num feeAmount = 20;
+      logger.info(
+          'Multi bridge - Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
+      List trasnferData = await web3.transferTokenToHome(walletAddress,
+          receiverAddress, tokenAddress, tokensAmount, token.decimals,
+          network: token.originNetwork);
+      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+      response = await api.multiRelay([...trasnferData, feeTrasnferData]);
+
+      dynamic jobId = response['job']['_id'];
+      logger.info('Job $jobId for sending token sent to the relay service');
+
+      sendSuccessCallback();
+      Transfer transfer = Transfer(
+          from: walletAddress,
+          to: receiverAddress,
+          tokenAddress: tokenAddress,
+          value: value,
+          timestamp: DateTime.now().millisecondsSinceEpoch,
+          type: 'SEND',
+          note: transferNote,
+          receiverName: receiverName,
+          status: 'PENDING',
+          jobId: jobId);
+
+      store.dispatch(
+          AddProTransaction(transaction: transfer, tokenAddress: tokenAddress));
+
+      response['job']['arguments'] = {
+        'receiverAddress': receiverAddress,
+        'tokensAmount': tokensAmount,
+        'network': token.originNetwork,
+        'jobType': 'approveToken',
+        'tokenAddress': tokenAddress,
+        'transfer': transfer
+      };
+      Job job = JobFactory.create(response['job']);
+      store.dispatch(AddProJob(job: job, tokenAddress: tokenAddress));
+    } catch (e) {
+      logger.severe('ERROR - sendTokenCall $e');
+      sendFailureCallback();
+      store.dispatch(ErrorAction('Could not send token'));
     }
   };
 }
@@ -793,7 +857,6 @@ ThunkAction swapHandler(
       final String spenderContract =
           DotEnv().env['TOTLE_APPROVAL_CONTRACT_ADDRESS'];
 
-      String feeReceiverAddress = '0x77D886e98133D99130179bdb41CE052a43d32c2F';
       num feeAmount = fees[fromToken.symbol] ?? 0;
       Map<String, dynamic> signedApprovalData = await web3.approveTokenOffChain(
           walletAddress, tokenAddress, tokensAmount,

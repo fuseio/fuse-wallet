@@ -33,8 +33,10 @@ class BottomBar extends StatelessWidget {
       showUnselectedLabels: true,
       items: [
         bottomBarItem(I18n.of(context).wallet, 'home'),
-        bottomBarItem(I18n.of(context).topup_screen, 'receive'),
-        bottomBarItem(I18n.of(context).buy, 'buy'),
+        bottomBarItem(I18n.of(context).topup, 'topup'),
+        bottomBarItem(I18n.of(context).order, 'order'),
+        bottomBarItem(I18n.of(context).help, 'help'),
+        bottomBarItem(I18n.of(context).tips, 'tips'),
       ],
       onTap: onTap,
     );

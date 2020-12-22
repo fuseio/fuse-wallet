@@ -80,8 +80,9 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                           itemCount: viewModel.tokens?.length ?? 0,
                           itemBuilder: (context, index) => TokenTile(
                               token: viewModel.tokens[index],
-                              symbolWidth: 45,
-                              symbolHeight: 45,
+                              symbolWidth: 60,
+                              symbolHeight: 60,
+                              showPending: false,
                               onTap: () {
                                 Navigator.of(context).pop();
                                 setState(() {

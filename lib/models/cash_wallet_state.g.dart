@@ -11,6 +11,8 @@ CashWalletState _$CashWalletStateFromJson(Map<String, dynamic> json) {
     communityAddress: json['communityAddress'] as String,
     communities: CashWalletState._communitiesFromJson(
         json['communities'] as Map<String, dynamic>),
+    tokens:
+        CashWalletState._tokensFromJson(json['tokens'] as Map<String, dynamic>),
   );
 }
 
@@ -18,4 +20,5 @@ Map<String, dynamic> _$CashWalletStateToJson(CashWalletState instance) =>
     <String, dynamic>{
       'communityAddress': instance.communityAddress,
       'communities': CashWalletState._communitiesToJson(instance.communities),
+      'tokens': instance.tokens?.map((k, e) => MapEntry(k, e?.toJson())),
     };

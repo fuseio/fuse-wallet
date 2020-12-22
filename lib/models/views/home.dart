@@ -41,23 +41,18 @@ class HomeViewModel extends Equatable {
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
-    List<Community> communities =
-        store.state.cashWalletState.communities.values.toList();
-
     List<Token> erc20Tokens = List<Token>.from(
             store.state.proWalletState?.erc20Tokens?.values ?? Iterable.empty())
         .toList();
-    List<Token> homeTokens =
-        communities.fold<List<Token>>([], (previousValue, Community community) {
-      if (community?.secondaryToken != null &&
-          community?.secondaryToken?.address != null) {
-        previousValue.add(community.secondaryToken
-            .copyWith(imageUrl: community.metadata.getImageUri()));
-      }
-      previousValue.add(
-          community.token.copyWith(imageUrl: community.metadata.getImageUri()));
-      return previousValue;
-    });
+    List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .map((Token token) => token?.copyWith(
+            imageUrl: store.state.cashWalletState.communities
+                    .containsKey(token.communityAddress)
+                ? store.state.cashWalletState
+                    .communities[token.communityAddress].metadata
+                    .getImageUri()
+                : null))
+        .toList();
     List<Token> tokens = [...homeTokens, ...erc20Tokens]
         .where((Token token) =>
             num.parse(formatValue(token?.amount, token?.decimals,
@@ -97,15 +92,22 @@ class HomeViewModel extends Equatable {
               isBranchDataReceived) {
             store.dispatch(switchCommunityCall(branchAddress));
           } else if (initial) {
+            if (store.state.cashWalletState.tokens.isEmpty &&
+                !isCommunityLoading &&
+                isCommunityFetched &&
+                isBranchDataReceived) {
+              store.dispatch(switchCommunityCall(communityAddress));
+            }
             if (!isCommunityLoading &&
                 !isBranchDataReceived &&
                 !isCommunityFetched &&
                 ![null, ''].contains(walletAddress)) {
-              store.dispatch(switchCommunityCall(communityAddress));
+              store.dispatch(refetchCommunityData());
             }
           }
         },
         refreshFeed: () {
+          store.dispatch(fetchListOfTokensByAddress());
           store.dispatch(ResetTokenTxs());
         });
   }

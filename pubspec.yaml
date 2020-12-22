@@ -1,20 +1,21 @@
 name: peepl
 version: 1.0.2+13
-description: A new Flutter project.
+description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
   plaid_flutter: ^1.1.6
+  flutter_offline: ^0.3.0
+  smooth_page_indicator: ^0.2.0
   flutter_inappwebview: ^4.0.0+4
-  flushbar: ^1.10.4
   font_awesome_flutter: ^8.10.0
+  flushbar: ^1.10.4
   flutter_platform_widgets: ^0.71.0
   enum_to_string: ^1.0.14
   local_auth: ^0.6.3+4
   auto_size_text: ^2.1.0
   webview_flutter: ^1.0.7
-  phone_number: ^0.6.2+4
-  libphonenumber: ^1.0.1
+  phone_number: ^0.8.1
   cached_network_image: ^2.3.3
   auto_route: ^0.6.9
   url_launcher: ^5.7.10
@@ -32,7 +33,7 @@ dependencies:
   redux_logging: ^0.4.0
   redux_persist: ^0.8.4
   country_code_picker: ^1.6.1
-  wallet_core: ^0.2.4+20
+  wallet_core: ^0.2.4+21
   # wallet_core:
   # path: ../wallet_core
   barcode_scan: ^3.0.1

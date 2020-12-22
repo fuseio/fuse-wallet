@@ -8,7 +8,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:peepl/models/app_state.dart';
 import 'package:peepl/models/tokens/token.dart';
 import 'package:peepl/utils/addresses.dart';
-import 'package:peepl/models/community/community.dart';
 
 String getTokenUrl(tokenAddress) {
   return tokenAddress == zeroAddress
@@ -55,12 +54,6 @@ class TokensListViewModel extends Equatable {
   });
 
   static TokensListViewModel fromStore(Store<AppState> store) {
-    Map communitiesR = store.state.cashWalletState.communities
-      ..removeWhere((key, Community community) =>
-          [null, ''].contains(community?.token) ||
-          [null, ''].contains(community?.name) ||
-          [null, ''].contains(community?.address));
-    List<Community> communities = communitiesR.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
@@ -70,17 +63,19 @@ class TokensListViewModel extends Equatable {
             1)
         .toList();
 
-    List<Token> homeTokens =
-        communities.fold<List<Token>>([], (previousValue, Community community) {
-      if (community?.secondaryToken != null &&
-          community?.secondaryToken?.address != null) {
-        previousValue.add(community.secondaryToken
-            .copyWith(imageUrl: community.metadata.getImageUri()));
-      }
-      previousValue.add(
-          community.token.copyWith(imageUrl: community.metadata.getImageUri()));
-      return previousValue;
-    });
+    List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals, withPrecision: true))
+                .compareTo(0) ==
+            1)
+        .map((Token token) => token?.copyWith(
+            imageUrl: store.state.cashWalletState.communities
+                    .containsKey(token.communityAddress)
+                ? store.state.cashWalletState
+                    .communities[token.communityAddress].metadata
+                    .getImageUri()
+                : null))
+        .toList();
     return TokensListViewModel(
       walletAddress: store.state.userState.walletAddress,
       tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>

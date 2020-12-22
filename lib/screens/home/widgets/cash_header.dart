@@ -108,7 +108,7 @@ class CashHeader extends StatelessWidget {
                               text: TextSpan(
                                 style: TextStyle(
                                     color: Theme.of(context).splashColor),
-                                children: viewModel.community.token == null
+                                children: viewModel.token == null
                                     ? <TextSpan>[
                                         TextSpan(
                                             text: '0',
@@ -121,10 +121,8 @@ class CashHeader extends StatelessWidget {
                                     : <TextSpan>[
                                         TextSpan(
                                             text: formatValue(
-                                                viewModel
-                                                    .community.token.amount,
-                                                viewModel
-                                                    .community.token.decimals),
+                                                viewModel.token.amount,
+                                                viewModel.token.decimals),
                                             style: TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
@@ -132,8 +130,7 @@ class CashHeader extends StatelessWidget {
                                                 fontWeight: FontWeight.bold)),
                                         TextSpan(
                                             text: ' ' +
-                                                viewModel
-                                                    .community.token?.symbol
+                                                viewModel.token?.symbol
                                                     .toString(),
                                             style: TextStyle(
                                                 fontSize: 18,
@@ -146,10 +143,12 @@ class CashHeader extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        viewModel.community.secondaryToken == null
+                        viewModel.secondaryToken == null
+                            ? SizedBox.shrink()
+                            : SizedBox(
+                                width: 30,
+                              ),
+                        viewModel.secondaryToken == null
                             ? SizedBox.shrink()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,13 +173,9 @@ class CashHeader extends StatelessWidget {
                                             children: <TextSpan>[
                                               TextSpan(
                                                   text: formatValue(
-                                                      viewModel
-                                                          .community
-                                                          .secondaryToken
+                                                      viewModel.secondaryToken
                                                           .amount,
-                                                      viewModel
-                                                          .community
-                                                          .secondaryToken
+                                                      viewModel.secondaryToken
                                                           .decimals),
                                                   style: TextStyle(
                                                       fontSize: 32,
@@ -190,9 +185,7 @@ class CashHeader extends StatelessWidget {
                                                           FontWeight.bold)),
                                               TextSpan(
                                                   text: ' ' +
-                                                      viewModel
-                                                          .community
-                                                          .secondaryToken
+                                                      viewModel.secondaryToken
                                                           ?.symbol
                                                           .toString(),
                                                   style: TextStyle(

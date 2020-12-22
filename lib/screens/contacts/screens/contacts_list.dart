@@ -8,17 +8,17 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:peepl/generated/i18n.dart';
 import 'package:peepl/models/app_state.dart';
 import 'package:peepl/models/views/contacts.dart';
+import 'package:peepl/screens/contacts/screens/send_to_account.dart';
 import 'package:peepl/screens/contacts/widgets/contact_tile.dart';
+import 'package:peepl/screens/contacts/widgets/list_header.dart';
 import 'package:peepl/screens/contacts/widgets/recent_contacts.dart';
 import 'package:peepl/screens/contacts/widgets/search_panel.dart';
 import 'package:peepl/utils/contacts.dart';
-import 'package:peepl/utils/format.dart';
 import 'package:peepl/utils/phone.dart';
 import 'package:peepl/utils/send.dart';
 import 'package:peepl/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
 import 'package:peepl/widgets/preloader.dart';
-import 'package:peepl/widgets/silver_app_bar.dart';
 
 class ContactsList extends StatefulWidget {
   @override
@@ -113,25 +113,6 @@ class _ContactsListState extends State<ContactsList> {
     }
   }
 
-  SliverPersistentHeader listHeader(String title) {
-    return SliverPersistentHeader(
-      pinned: true,
-      floating: true,
-      delegate: SliverAppBarDelegate(
-        minHeight: 40.0,
-        maxHeight: 40.0,
-        child: Container(
-          color: Color(0xFFF8F8F8),
-          padding: EdgeInsets.only(left: 20, top: 7),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    );
-  }
-
   SliverList listBody(ContactsViewModel viewModel, List<Contact> group) {
     List<Widget> listItems = List();
     for (Contact user in group) {
@@ -169,29 +150,6 @@ class _ContactsListState extends State<ContactsList> {
     );
   }
 
-  Widget sendToAcccountAddress(String accountAddress) {
-    Widget component = ContactTile(
-      displayName: formatAddress(accountAddress),
-      onTap: () {
-        resetSearch();
-        sendToPastedAddress(accountAddress);
-      },
-      trailing: InkWell(
-        child: Text(
-          I18n.of(context).next_button,
-          style: TextStyle(color: Color(0xFF0377FF)),
-        ),
-        onTap: () {
-          resetSearch();
-          sendToPastedAddress(accountAddress);
-        },
-      ),
-    );
-    return SliverList(
-      delegate: SliverChildListDelegate([component]),
-    );
-  }
-
   List<Widget> _buildPageList(ContactsViewModel viewModel) {
     List<Widget> listItems = List();
 
@@ -202,7 +160,10 @@ class _ContactsListState extends State<ContactsList> {
     if (searchController.text.isEmpty) {
       listItems.add(RecentContacts());
     } else if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(searchController.text));
+      listItems.add(SendToAccount(
+        accountAddress: searchController.text,
+        resetSearch: resetSearch,
+      ));
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();
@@ -218,7 +179,7 @@ class _ContactsListState extends State<ContactsList> {
 
     for (String title in titles) {
       List<Contact> group = groups[title];
-      listItems.add(listHeader(title));
+      listItems.add(ListHeader(title: title));
       listItems.add(listBody(viewModel, group));
     }
 
