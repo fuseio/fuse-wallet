@@ -6,13 +6,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:digitalrand/generated/i18n.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/views/contacts.dart';
-import 'package:digitalrand/screens/contacts/widgets/contact_tile.dart';
+import 'package:digitalrand/screens/contacts/screens/send_to_account.dart';
 import 'package:digitalrand/screens/contacts/widgets/enable_contacts.dart';
 import 'package:digitalrand/screens/contacts/router/router_contacts.gr.dart';
 import 'package:digitalrand/screens/contacts/widgets/search_panel.dart';
 import 'package:digitalrand/utils/contacts.dart';
-import 'package:digitalrand/utils/format.dart';
-import 'package:digitalrand/utils/send.dart';
 import 'package:digitalrand/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
 
@@ -48,30 +46,6 @@ class _EmptyContactsState extends State<EmptyContacts> {
       });
     }
   }
-
-  Widget sendToAcccountAddress(String accountAddress) {
-    Widget component = ContactTile(
-      displayName: formatAddress(accountAddress),
-      onTap: () {
-        resetSearch();
-        sendToPastedAddress(accountAddress);
-      },
-      trailing: InkWell(
-        child: Text(
-          I18n.of(context).next_button,
-          style: TextStyle(color: Color(0xFF0377FF)),
-        ),
-        onTap: () {
-          resetSearch();
-          sendToPastedAddress(accountAddress);
-        },
-      ),
-    );
-    return SliverList(
-      delegate: SliverChildListDelegate([component]),
-    );
-  }
-
   List<Widget> _buildPageList(ContactsViewModel viewModel) {
     List<Widget> listItems = List();
 
@@ -80,7 +54,10 @@ class _EmptyContactsState extends State<EmptyContacts> {
     ));
 
     if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(sendToAcccountAddress(searchController.text));
+      listItems.add(SendToAccount(
+        accountAddress: searchController.text,
+        resetSearch: resetSearch,
+      ));
     }
     listItems.add(SliverList(
       delegate: SliverChildListDelegate([

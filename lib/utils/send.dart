@@ -8,6 +8,7 @@ import 'package:digitalrand/services.dart';
 import 'package:digitalrand/utils/format.dart';
 import 'package:digitalrand/utils/phone.dart';
 import 'package:digitalrand/widgets/preloader.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_number/phone_number.dart';
 
 Future<Map> fetchWalletByPhone(
@@ -80,19 +81,20 @@ void sendToPastedAddress(accountAddress) {
           accountAddress: accountAddress, name: formatAddress(accountAddress)));
 }
 
-bracodeScannerHandler() async {
+void bracodeScannerHandler() async {
   try {
-    ScanResult scanResult = await BarcodeScanner.scan();
-    if (isValidEthereumAddress(scanResult.rawContent)) {
-      sendToPastedAddress(scanResult.rawContent);
-    } else {
-      List<String> parts = scanResult.rawContent.split(':');
-      bool expression = parts.length == 2 && parts[0] == 'ethereum';
-      if (expression) {
-        final String accountAddress = parts[1];
-        sendToPastedAddress(accountAddress);
+    PermissionStatus permission = await Permission.camera.request();
+    if (permission == PermissionStatus.granted) {
+      ScanResult scanResult = await BarcodeScanner.scan();
+      if (isValidEthereumAddress(scanResult.rawContent)) {
+        sendToPastedAddress(scanResult.rawContent);
       } else {
-        print('Account address is not on Fuse');
+        List<String> parts = scanResult.rawContent.split(':');
+        bool expression = parts.length == 2 && parts[0] == 'ethereum';
+        if (expression) {
+          final String accountAddress = parts[1];
+          sendToPastedAddress(accountAddress);
+        }
       }
     }
   } catch (e) {

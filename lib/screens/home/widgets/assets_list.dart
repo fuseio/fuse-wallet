@@ -82,9 +82,18 @@ class TokensListViewModel extends Equatable {
   static TokensListViewModel fromStore(Store<AppState> store) {
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: true))
+                .compareTo(0) ==
+            1)
         .toList();
 
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals, withPrecision: true))
+                .compareTo(0) ==
+            1)
         .map((Token token) => token?.copyWith(
             imageUrl: store.state.cashWalletState.communities
                     .containsKey(token.communityAddress)
@@ -95,14 +104,9 @@ class TokensListViewModel extends Equatable {
         .toList();
     return TokensListViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: [...homeTokens, ...foreignTokens]
-        ..where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
-        ..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
-            ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
+          (tokenB?.amount ?? BigInt.zero)
+              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
     );
   }
 

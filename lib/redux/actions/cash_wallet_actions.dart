@@ -404,13 +404,10 @@ ThunkAction initWeb3Call({
           store.state.cashWalletState.communityAddress;
       if ([null, ''].contains(communityAddress)) {
         if (![null, ''].contains(branchAddress)) {
-          logger.info('SetDefaultCommunity branchAddress $branchAddress');
           store.dispatch(SetDefaultCommunity(branchAddress));
         } else {
-          logger.info(
-              'SetDefaultCommunity getDefaultCommunity ${web3.getDefaultCommunity().toLowerCase()}');
-          store.dispatch(
-              SetDefaultCommunity(web3.getDefaultCommunity().toLowerCase()));
+          final communityAddress = web3.getDefaultCommunity().toLowerCase();
+          store.dispatch(SetDefaultCommunity(communityAddress));
         }
       }
       web3.setCredentials(pk);
@@ -469,10 +466,11 @@ ThunkAction createAccountWalletCall(String accountAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      Map<String, dynamic> response = await api.createWallet();
       final String communityAddress =
           store.state?.cashWalletState?.communityAddress ??
               defaultCommunityAddress;
+      Map<String, dynamic> response =
+          await api.createWallet(communityAddress: communityAddress);
       if (!response.containsKey('job')) {
         logger.info('Wallet already exists');
         store.dispatch(CreateAccountWalletSuccess());
@@ -497,9 +495,10 @@ ThunkAction createAccountWalletCall(String accountAddress) {
           store.dispatch(switchCommunityCall(communityAddress));
         }));
       }
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - createAccountWalletCall $e');
       store.dispatch(new ErrorAction('Could not create wallet'));
+      await AppFactory().reportError(e, stackTrace: s);
     }
   };
 }
@@ -557,8 +556,9 @@ ThunkAction getTokenBalanceCall(Token token) {
             address: dzarToken.address);
       };
       void Function(Object error, StackTrace stackTrace) onError =
-          (Object error, StackTrace stackTrace) {
+          (Object error, StackTrace stackTrace) async {
         logger.severe('Error in fetchTokenBalance for - ${token.name} $error');
+        await AppFactory().reportError(error, stackTrace: stackTrace);
       };
       await token.fetchTokenBalance(walletAddress,
           onDone: onDone, onError: onError);
@@ -639,7 +639,7 @@ ThunkAction processingJobsCall(Timer timer) {
             // logger.info('cash mode performing ${job.name} ${job.id}');
             await job.perform(store, isJobProcessValid);
           } catch (e) {
-            logger.severe('failed perform ${job.name}');
+            logger.severe('failed perform ${job.name} $e');
           }
         }
         if (job.status == 'DONE') {
@@ -1005,8 +1005,8 @@ ThunkAction joinCommunityCall(
         store.dispatch(AlreadyJoinedCommunity(community.address));
       } else {
         dynamic response = await api.joinCommunity(
-            web3, walletAddress, community.address, token.address,
-            originNetwork: token.originNetwork);
+            web3, walletAddress, community.address,
+            tokenAddress: token.address, originNetwork: token.originNetwork);
 
         dynamic jobId = response['job']['_id'];
         Transfer transfer = new Transfer(
@@ -1080,8 +1080,8 @@ ThunkAction joinBonusSuccessCall(communiyAddress) {
         store.state.cashWalletState.communities;
     Community communityData = communities[communiyAddress];
     store.dispatch(segmentIdentifyCall(new Map<String, dynamic>.from({
-      "Join Bonus ${communityData.name} Received": true,
-      "Community ${communityData.name} Joined": true,
+      "Join Bonus ${communityData?.name} Received": true,
+      "Community ${communityData?.name} Joined": true,
     })));
     store.dispatch(segmentTrackCall("Wallet: user got a join bonus",
         properties: new Map<String, dynamic>.from({
@@ -1116,7 +1116,7 @@ ThunkAction fetchCommunityMetadataCall(
           metadata: communityMetadata,
           communityAddress: communityAddress.toLowerCase()));
     } catch (e, s) {
-      logger.info('ERROR - fetchCommunityMetadataCall $e');
+      logger.severe('ERROR - fetchCommunityMetadataCall $e');
       await AppFactory().reportError(e, stackTrace: s);
       store.dispatch(new ErrorAction('Could not fetch community metadata'));
     }

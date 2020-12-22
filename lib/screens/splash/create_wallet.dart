@@ -56,8 +56,7 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
               height: 35,
             ),
           ),
-          content: Text(
-              'Creating a new account will reset your existing account - are you sure you want to continue?'),
+          content: Text(I18n.of(context).reset_account),
           actions: <Widget>[
             FlatButton(
               textColor: Color(0xFF009DFF),
@@ -117,22 +116,28 @@ class _CreateWalletState extends State<CreateWallet> {
                     PrimaryButton(
                       fontSize: 16,
                       labelFontWeight: FontWeight.normal,
+                      disabled: isPrimaryPreloading,
                       label: viewModel.isLoggedOut
                           ? I18n.of(context).login
                           : I18n.of(context).create_new_wallet,
                       onPressed: () async {
                         if (viewModel.isLoggedOut) {
                           viewModel.loginAgain();
+                          if (ExtendedNavigator.root.canPop()) {
+                            ExtendedNavigator.root.popUntilRoot();
+                          }
+                          ExtendedNavigator.root.replace(Routes.homePage);
                         } else {
+                          setState(() {
+                            isPrimaryPreloading = true;
+                          });
                           viewModel.setDeviceIdCall();
                           viewModel.createLocalAccount(() {
+                            ExtendedNavigator.root.pushSignupScreen();
+                          }, () {
                             setState(() {
                               isPrimaryPreloading = false;
                             });
-                            ExtendedNavigator.root.pushSignupScreen();
-                          });
-                          setState(() {
-                            isPrimaryPreloading = false;
                           });
                         }
                       },
@@ -168,15 +173,16 @@ class _CreateWalletState extends State<CreateWallet> {
                                         );
                                         if (result) {
                                           viewModel.setDeviceIdCall();
+                                          setState(() {
+                                            isTransparentPreloading = false;
+                                          });
                                           viewModel.createLocalAccount(() {
+                                            ExtendedNavigator.root
+                                                .pushSignupScreen();
+                                          }, () {
                                             setState(() {
                                               isTransparentPreloading = false;
                                             });
-                                            ExtendedNavigator.root
-                                                .pushSignupScreen();
-                                          });
-                                          setState(() {
-                                            isTransparentPreloading = true;
                                           });
                                         }
                                       },

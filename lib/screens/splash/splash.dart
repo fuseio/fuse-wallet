@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:digitalrand/screens/splash/create_wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:digitalrand/models/app_state.dart';
 import 'package:digitalrand/models/views/splash.dart';
 import 'package:digitalrand/screens/splash/slide_animation_controller.dart';
-import 'package:digitalrand/screens/splash/create_wallet.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -79,14 +79,14 @@ class _SplashScreenState extends State<SplashScreen> {
                         child: Column(
                       children: <Widget>[
                         Expanded(
-                          child: new Stack(
+                          child: Stack(
                             children: <Widget>[
-                              new PageView.builder(
-                                physics: new AlwaysScrollableScrollPhysics(),
+                              PageView.builder(
+                                physics: AlwaysScrollableScrollPhysics(),
                                 itemCount: pages.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return pages[index % pages.length];
-                                },
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        pages[index % pages.length],
                               ),
                             ],
                           ),
