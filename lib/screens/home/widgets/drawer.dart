@@ -309,13 +309,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           children: <Widget>[
                             SizedBox(
                                 height: MediaQuery.of(context).size.width / 8),
-                            SvgPicture.asset('assets/images/E-SOL.svg'),
+                            Padding(
+                                padding: EdgeInsets.only(left: 30),
+                                child: SvgPicture.asset(
+                                    'assets/images/E-SOL.svg')),
                             SizedBox(
                                 height: MediaQuery.of(context).size.width / 8),
 
                             getListTile('Respaladar mi monedero', () {
                               ExtendedNavigator.root.pushShowMnemonic();
-                            }, left: 0, icon: 'cast.svg'),
+                            }, icon: 'cast.svg'),
 
                             // (viewModel.avatarUrl == null)
                             //     ? Padding(
@@ -481,7 +484,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                     ),
                                   ),
                             getListTile('Mi Cuenta', () {},
-                                left: 0, icon: 'myprofile.svg'),
+                                icon: 'myprofile.svg'),
 
                             // (viewModel.avatarUrl != null)
                             //     ? InkWell(
@@ -533,7 +536,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       decoration: BoxDecoration(
                         color: Theme.of(context).backgroundColor,
                         borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
+                          Radius.circular(20.0),
                         ),
                       ),
                       height: 50,

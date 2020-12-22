@@ -31,13 +31,6 @@ void main() async {
   Store<AppState> store = await AppFactory().getStore();
   runZonedGuarded<Future<void>>(
       () async => runApp(
-            // CustomTheme(
-            //   initialThemeKey: MyThemeKeys.DEFAULT,
-            //   child: MyApp(
-            //     store: store,
-            //   ),
-            //   // Wrap your app
-            // ),
             CustomTheme(
               initialThemeKey: MyThemeKeys.DEFAULT,
               child: new MyApp(store: store),
