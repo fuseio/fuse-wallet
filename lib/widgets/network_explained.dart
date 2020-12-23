@@ -6,7 +6,8 @@ import 'package:flutter_svg/svg.dart';
 
 class NetworkExplainedScreen extends StatefulWidget {
   final String network;
-  NetworkExplainedScreen({this.network});
+  final String logo;
+  NetworkExplainedScreen({this.network, this.logo});
   @override
   _NetworkExplainedScreenState createState() => _NetworkExplainedScreenState();
 }
@@ -55,7 +56,7 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     SvgPicture.asset(
-                      "assets/images/${widget.network}-logo.svg",
+                      "assets/images/${widget.logo}",
                       width: 85,
                       height: 85,
                     ),

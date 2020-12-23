@@ -8,7 +8,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:ceu_do_mapia/models/app_state.dart';
 import 'package:ceu_do_mapia/models/tokens/token.dart';
 import 'package:ceu_do_mapia/utils/addresses.dart';
-import 'package:ceu_do_mapia/models/community/community.dart';
 
 String getTokenUrl(tokenAddress) {
   return tokenAddress == zeroAddress
@@ -55,12 +54,6 @@ class TokensListViewModel extends Equatable {
   });
 
   static TokensListViewModel fromStore(Store<AppState> store) {
-    Map communitiesR = store.state.cashWalletState.communities
-      ..removeWhere((key, Community community) =>
-          [null, ''].contains(community?.token) ||
-          [null, ''].contains(community?.name) ||
-          [null, ''].contains(community?.address));
-    List<Community> communities = communitiesR.values.toList();
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .where((Token token) =>
@@ -70,9 +63,18 @@ class TokensListViewModel extends Equatable {
             1)
         .toList();
 
-    List<Token> homeTokens = communities
-        .map((Community community) => community?.token
-            ?.copyWith(imageUrl: community?.metadata?.getImageUri()))
+    List<Token> homeTokens = store.state.cashWalletState.tokens.values
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals, withPrecision: true))
+                .compareTo(0) ==
+            1)
+        .map((Token token) => token?.copyWith(
+            imageUrl: store.state.cashWalletState.communities
+                    .containsKey(token.communityAddress)
+                ? store.state.cashWalletState
+                    .communities[token.communityAddress].metadata
+                    .getImageUri()
+                : null))
         .toList();
     return TokensListViewModel(
       walletAddress: store.state.userState.walletAddress,

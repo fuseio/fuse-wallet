@@ -2,13 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ceu_do_mapia/models/community/community.dart';
+import 'package:ceu_do_mapia/models/tokens/token.dart';
 
 class CommunityCardScreen extends StatefulWidget {
   CommunityCardScreen(
-      {Key key, this.title, this.community, this.switchCommunity})
+      {Key key, this.title, this.community, this.token, this.switchCommunity})
       : super(key: key);
 
   final Community community;
+  final Token token;
   final Function(String) switchCommunity;
   final String title;
 
@@ -91,12 +93,15 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                             SizedBox(
                               width: 3,
                             ),
-                            Text('Token: ${widget?.community?.token?.symbol}',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                )),
+                            widget?.token != null
+                                ? Text('Token: ${widget?.token?.symbol}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                    ))
+                                : SizedBox.shrink(),
                           ],
                         ),
                       ],

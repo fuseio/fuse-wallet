@@ -76,14 +76,13 @@ class BackUpDialogState extends State<BackUpDialog>
                             fontSize: 20,
                             fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0),
-                    Text("We notice you haven’t backup your wallet yet.",
+                    Text(I18n.of(context).we_notice,
                         style: TextStyle(
                             color: Color(0xFF696969),
                             fontSize: 16,
                             fontWeight: FontWeight.normal)),
                     const SizedBox(height: 20.0),
-                    Text(
-                        "To protect your money and wallet go now to the settings and back up your wallet in few easy steps",
+                    Text(I18n.of(context).to_protect,
                         style: TextStyle(
                             color: Color(0xFF696969),
                             fontSize: 16,
@@ -100,7 +99,7 @@ class BackUpDialogState extends State<BackUpDialog>
                         Navigator.of(context).pop();
                         navigationBar.onTap(0);
                         ExtendedNavigator.named('homeRouter')
-                            .push(HomeRoutes.showMnemonic);
+                            .pushShowMnemonic();
                       },
                     )
                   ],

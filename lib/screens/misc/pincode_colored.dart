@@ -6,6 +6,7 @@ import 'package:ceu_do_mapia/generated/i18n.dart';
 import 'package:ceu_do_mapia/models/app_state.dart';
 import 'package:ceu_do_mapia/models/views/backup.dart';
 import 'package:ceu_do_mapia/screens/routes.gr.dart';
+import 'package:ceu_do_mapia/widgets/snackbars.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
 class ColorsPincodeScreen extends StatefulWidget {
@@ -93,31 +94,38 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                 builder: (_, viewModel) => Container(
                                       width: 250,
                                       child: PinInputTextField(
-                                          pinLength: 6,
-                                          decoration: UnderlineDecoration(
-                                              hintTextStyle: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                              colorBuilder:
-                                                  FixedColorListBuilder([
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                                Color(0xFF575757),
-                                              ]),
-                                              obscureStyle: ObscureStyle(
-                                                  isTextObscure: true,
-                                                  obscureText: '●')),
-                                          controller: pincodeController,
-                                          autoFocus: true,
-                                          textInputAction: TextInputAction.go,
-                                          onChanged: (value) {
-                                            if (value == viewModel.pincode) {
-                                              ExtendedNavigator.root
-                                                  .replace(Routes.homePage);
-                                            }
-                                          }),
+                                        pinLength: 6,
+                                        decoration: UnderlineDecoration(
+                                            hintTextStyle: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            colorBuilder:
+                                                FixedColorListBuilder([
+                                              Color(0xFF575757),
+                                              Color(0xFF575757),
+                                              Color(0xFF575757),
+                                              Color(0xFF575757),
+                                              Color(0xFF575757),
+                                              Color(0xFF575757),
+                                            ]),
+                                            obscureStyle: ObscureStyle(
+                                                isTextObscure: true,
+                                                obscureText: '●')),
+                                        controller: pincodeController,
+                                        autoFocus: true,
+                                        onSubmit: (value) {
+                                          if (value == viewModel.pincode) {
+                                            ExtendedNavigator.root
+                                                .replace(Routes.homePage);
+                                          } else {
+                                            transactionFailedSnack(
+                                                I18n.of(context)
+                                                    .invalid_pincode,
+                                                title: I18n.of(context).oops,
+                                                duration: Duration(seconds: 3),
+                                                context: context);
+                                          }
+                                        },
+                                      ),
                                     )))
                       ],
                     )

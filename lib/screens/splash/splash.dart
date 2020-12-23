@@ -40,9 +40,9 @@ class _SplashScreenState extends State<SplashScreen> {
                               PageView.builder(
                                 physics: AlwaysScrollableScrollPhysics(),
                                 itemCount: pages.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return pages[index % pages.length];
-                                },
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        pages[index % pages.length],
                               ),
                             ],
                           ),

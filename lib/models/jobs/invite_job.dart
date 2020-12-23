@@ -50,7 +50,7 @@ class InviteJob extends Job {
       logger.info('InviteJob FAILED');
       String failReason = fetchedData['failReason'];
       transactionFailedSnack(failReason);
-      store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress'], failReason));
+      store.dispatch(transactionFailed(arguments['inviteTransfer'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -69,7 +69,7 @@ class InviteJob extends Job {
           arguments['inviteTransfer'],
           arguments['sendSuccessCallback'],
           arguments['sendFailureCallback']));
-      store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
+      store.dispatch(JobDone(tokenAddress: arguments['tokenAddress'], job: this));
     } else {
       store.dispatch(inviteAndSendSuccessCall(
           job,
@@ -79,7 +79,7 @@ class InviteJob extends Job {
           arguments['sendSuccessCallback'],
           arguments['sendFailureCallback'],
           arguments['communityAddress']));
-      store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
+      store.dispatch(JobDone(tokenAddress: arguments['inviteTransfer'].tokenAddress, job: this));
     }
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
   }

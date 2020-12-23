@@ -56,8 +56,7 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
               height: 35,
             ),
           ),
-          content: Text(
-              'Creating a new account will reset your existing account - are you sure you want to continue?'),
+          content: Text(I18n.of(context).reset_account),
           actions: <Widget>[
             FlatButton(
               textColor: Color(0xFF009DFF),
@@ -124,17 +123,21 @@ class _CreateWalletState extends State<CreateWallet> {
                         onPressed: () async {
                           if (viewModel.isLoggedOut) {
                             viewModel.loginAgain();
+                            if (ExtendedNavigator.root.canPop()) {
+                              ExtendedNavigator.root.popUntilRoot();
+                            }
                             ExtendedNavigator.root.replace(Routes.homePage);
                           } else {
+                            setState(() {
+                              isPrimaryPreloading = true;
+                            });
                             viewModel.setDeviceIdCall();
                             viewModel.createLocalAccount(() {
+                              ExtendedNavigator.root.pushSignupScreen();
+                            }, () {
                               setState(() {
                                 isPrimaryPreloading = false;
                               });
-                              ExtendedNavigator.root.push(Routes.signupScreen);
-                            });
-                            setState(() {
-                              isPrimaryPreloading = true;
                             });
                           }
                         },
@@ -169,16 +172,17 @@ class _CreateWalletState extends State<CreateWallet> {
                                             },
                                           );
                                           if (result) {
+                                            setState(() {
+                                              isTransparentPreloading = true;
+                                            });
                                             viewModel.setDeviceIdCall();
                                             viewModel.createLocalAccount(() {
+                                              ExtendedNavigator.root
+                                                  .pushSignupScreen();
+                                            }, () {
                                               setState(() {
                                                 isTransparentPreloading = false;
                                               });
-                                              ExtendedNavigator.root
-                                                  .replace(Routes.signupScreen);
-                                            });
-                                            setState(() {
-                                              isTransparentPreloading = true;
                                             });
                                           }
                                         },

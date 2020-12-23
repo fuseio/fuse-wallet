@@ -69,7 +69,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                     children: <Widget>[
                       Text(
                           I18n.of(context).we_just_sent +
-                              "${viewModel.countryCode} ${viewModel.phoneNumber}" +
+                              "${viewModel.phoneNumber}" +
                               "\n",
                           textAlign: TextAlign.center,
                           style: TextStyle(

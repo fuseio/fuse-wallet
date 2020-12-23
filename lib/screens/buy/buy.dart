@@ -65,9 +65,8 @@ class BusinessesListView extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
-                ExtendedNavigator.root.push(Routes.webview,
-                    arguments: WebViewPageArguments(
-                        withBack: true, url: vm.walletBanner.link, title: ''));
+                ExtendedNavigator.root.pushWebview(
+                    withBack: true, url: vm.walletBanner.link, title: '');
               },
               child: CachedNetworkImage(
                 imageUrl: getImage(vm.walletBanner.walletBannerHash),
@@ -152,11 +151,10 @@ class BusinessesListView extends StatelessWidget {
             fontWeight: FontWeight.normal),
       ),
       onTap: () {
-        ExtendedNavigator.of(context).push(BusinessesRoutes.businessPage,
-            arguments: BusinessPageArguments(
-              business: business,
-              token: token,
-            ));
+        ExtendedNavigator.named('buyRouter').pushBusinessPage(
+          business: business,
+          token: token,
+        );
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -173,14 +171,12 @@ class BusinessesListView extends StatelessWidget {
                   height: 25,
                 )),
             onTap: () {
-              ExtendedNavigator.root.push(Routes.sendAmountScreen,
-                  arguments: SendAmountScreenArguments(
-                      pageArgs: SendAmountArguments(
-                          tokenToSend: token,
-                          name: business.name ?? '',
-                          accountAddress: business.account,
-                          avatar:
-                              NetworkImage(business.metadata.getImageUri()))));
+              ExtendedNavigator.root.pushSendAmountScreen(
+                  pageArgs: SendAmountArguments(
+                      tokenToSend: token,
+                      name: business.name ?? '',
+                      accountAddress: business.account,
+                      avatar: NetworkImage(business.metadata.getImageUri())));
             },
           )
         ],

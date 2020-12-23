@@ -11,7 +11,7 @@ import 'package:ceu_do_mapia/redux/actions/cash_wallet_actions.dart';
 import 'package:ceu_do_mapia/redux/actions/user_actions.dart';
 import 'package:ceu_do_mapia/redux/state/store.dart';
 import 'package:ceu_do_mapia/screens/route_guards.dart';
-import 'package:ceu_do_mapia/screens/routes.gr.dart';
+import 'package:ceu_do_mapia/screens/routes.gr.dart' as router;
 import 'package:ceu_do_mapia/services.dart';
 import 'package:ceu_do_mapia/themes/app_theme.dart';
 import 'package:ceu_do_mapia/themes/custom_theme.dart';
@@ -81,6 +81,7 @@ class _MyAppState extends State<MyApp> {
       Duration diff = exp.difference(now);
       if (diff.inDays <= 1) {
         String token = await firebaseAuth.currentUser.getIdToken(true);
+        logger.info('forceRefreshJWT: $jwtToken');
         jwtToken = await api.login(token, accoutAddress, identifier);
       }
 
@@ -151,7 +152,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: 'Ceu Do Mapia',
           builder: ExtendedNavigator.builder(
-            router: Router(),
+            router: router.Router(),
             initialRoute: "/",
             guards: [AuthGuard()],
             builder: (_, extendedNav) => Theme(
