@@ -110,8 +110,12 @@ class SwitchCommunitySuccess {
 class RefreshCommunityData {
   final Plugins plugins;
   final String communityAddress;
+  final String bridgeType;
+  final String bridgeDirection;
   final String webUrl;
   RefreshCommunityData({
+    this.bridgeDirection,
+    this.bridgeType,
     this.plugins,
     this.communityAddress,
     this.webUrl,
@@ -506,7 +510,7 @@ ThunkAction generateWalletSuccessCall(
         "Display Name": store.state.userState.displayName
       })));
       store.dispatch(segmentTrackCall('Wallet: Wallet Generated'));
-      store.dispatch(create3boxAccountCall(accountAddress));
+      store.dispatch(create3boxAccountCall(walletAddress));
     }
   };
 }
@@ -1115,7 +1119,20 @@ Future<Map<String, dynamic>> getCommunityData(
 
 Future<Token> fetchToken(
     Community community, bool isRopsten, String originNetwork) async {
-  if (community.isMultiBridge) {
+  if (community.homeTokenAddress != null &&
+      community.homeTokenAddress.isNotEmpty) {
+    Map tokenInfo =
+        await fuseExplorerApi.getTokenInfo(community.homeTokenAddress);
+    return Token.initial().copyWith(
+      originNetwork: originNetwork,
+      address: tokenInfo['contractAddress'],
+      decimals: tokenInfo['decimals'],
+      name: formatTokenName(tokenInfo['name']),
+      symbol: tokenInfo['symbol'],
+      timestamp: 0,
+      communityAddress: community.address,
+    );
+  } else if (community.isMultiBridge) {
     dynamic token = await graph.getHomeBridgedToken(
         community.foreignTokenAddress, isRopsten);
     return Token.initial().copyWith(
@@ -1123,6 +1140,8 @@ Future<Token> fetchToken(
         address: token['address'].toString(),
         name: formatTokenName(token["name"]),
         symbol: token["symbol"],
+        timestamp: 0,
+        communityAddress: community.address,
         decimals: token["decimals"]);
   } else {
     dynamic token = await graph.getTokenOfCommunity(community.address);
@@ -1132,6 +1151,8 @@ Future<Token> fetchToken(
         address: tokenAddress,
         name: token["name"],
         symbol: token["symbol"],
+        timestamp: 0,
+        communityAddress: community.address,
         decimals: token["decimals"]);
   }
 }
@@ -1145,17 +1166,24 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       Map<String, dynamic> communityData = await getCommunityData(
           checksumEthereumAddress(communityAddress),
           checksumEthereumAddress(walletAddress));
-      final bool isMultiBridge =
-          communityData?.containsKey('isMultiBridge') ?? false;
+      final bool isMultiBridge = communityData.containsKey('isMultiBridge')
+          ? communityData['isMultiBridge']
+          : false;
       final String description = communityData['description'];
       final String homeBridgeAddress = communityData['homeBridgeAddress'];
       final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
-      String foreignTokenAddress = communityData['foreignTokenAddress'];
+      final String homeTokenAddress = communityData['homeTokenAddress'];
+      final String foreignTokenAddress = communityData['foreignTokenAddress'];
+      final String bridgeDirection = communityData['bridgeDirection'];
+      final String bridgeType = communityData['bridgeType'];
       final String webUrl = communityData['webUrl'];
       Community newCommunity = Community.initial().copyWith(
         address: communityAddress,
         name: communityData["name"],
+        bridgeDirection: bridgeDirection,
+        bridgeType: bridgeType,
         foreignTokenAddress: foreignTokenAddress,
+        homeTokenAddress: homeTokenAddress,
         webUrl: webUrl,
         homeBridgeAddress: homeBridgeAddress,
         foreignBridgeAddress: foreignBridgeAddress,
@@ -1168,11 +1196,13 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       String originNetwork = communityData['originNetwork'];
       Token communityToken =
           await fetchToken(newCommunity, isRopsten, originNetwork);
-      newCommunity =
-          newCommunity.copyWith(homeTokenAddress: communityToken.address);
-      store.dispatch(AddCashToken(
-          token: communityToken.copyWith(
-              timestamp: 0, communityAddress: communityAddress)));
+      if (newCommunity.homeTokenAddress == null ||
+          newCommunity.homeTokenAddress.isEmpty) {
+        newCommunity = newCommunity.copyWith(
+          homeTokenAddress: communityToken.address,
+        );
+      }
+      store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
           properties: Map<String, dynamic>.from({
@@ -1210,21 +1240,33 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       Map<String, dynamic> communityData = await getCommunityData(
           checksumEthereumAddress(communityAddress),
           checksumEthereumAddress(walletAddress));
+      final bool isMultiBridge = communityData.containsKey('isMultiBridge')
+          ? communityData['isMultiBridge']
+          : false;
       String foreignTokenAddress = communityData['foreignTokenAddress'];
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String description = communityData['description'];
       String webUrl = communityData['webUrl'];
+      final String bridgeDirection =
+          communityData.containsKey('bridgeDirection')
+              ? communityData['bridgeDirection']
+              : null;
+      final String bridgeType = communityData.containsKey('bridgeType')
+          ? communityData['bridgeType']
+          : null;
       Community newCommunity = Community.initial().copyWith(
         address: communityAddress,
         name: communityData["name"],
+        bridgeDirection: bridgeDirection,
+        bridgeType: bridgeType,
         foreignTokenAddress: foreignTokenAddress,
         webUrl: webUrl,
         homeBridgeAddress: homeBridgeAddress,
         foreignBridgeAddress: foreignBridgeAddress,
         description: description,
         plugins: Plugins.fromJson(communityData['plugins']),
-        isMultiBridge: communityData?.containsKey('isMultiBridge') ?? false,
+        isMultiBridge: isMultiBridge,
         isClosed: communityData['isClosed'],
       );
       bool isRopsten = communityData['isRopsten'];
@@ -1267,9 +1309,18 @@ ThunkAction refetchCommunityData() {
           checksumEthereumAddress(communityAddress),
           checksumEthereumAddress(walletAddress));
       bool isRopsten = communityData['isRopsten'];
+      final String bridgeDirection =
+          communityData.containsKey('bridgeDirection')
+              ? communityData['bridgeDirection']
+              : null;
+      final String bridgeType = communityData.containsKey('bridgeType')
+          ? communityData['bridgeType']
+          : null;
       store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
           communityData['communityURI'], isRopsten));
       store.dispatch(RefreshCommunityData(
+          bridgeType: bridgeType,
+          bridgeDirection: bridgeDirection,
           communityAddress: communityAddress,
           plugins: Plugins.fromJson(communityData['plugins']),
           webUrl: communityData['webUrl']));
