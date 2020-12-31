@@ -40,7 +40,7 @@ Future<Map> fetchWalletByPhone(
   }
 }
 
-void _openLoadingDialog(BuildContext context) {
+void openLoadingDialog(BuildContext context) {
   showDialog(
     barrierDismissible: false,
     context: context,
@@ -60,7 +60,7 @@ void sendToContact(BuildContext context, String displayName, String phone,
     return;
   }
   try {
-    _openLoadingDialog(context);
+    openLoadingDialog(context);
     Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
     Navigator.of(context).pop();
     ExtendedNavigator.root.pushSendAmountScreen(

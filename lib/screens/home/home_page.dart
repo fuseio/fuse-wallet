@@ -1,7 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:peepl/constans/keys.dart';
@@ -36,7 +35,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
   bool isContactSynced = false;
-  InAppWebViewController controller;
 
   @override
   void initState() {

@@ -38,6 +38,7 @@
     <button type="submit" class="btn btn-primary">Send payment</button>
     <pre id="log" class="mt-3"></pre>
   </form>
+  <button id='top' class="btn btn-primary">Top up</button>
 </body>
 <script>
   var form = document.querySelector('#payment-form');
@@ -69,10 +70,15 @@
         destination: document.querySelector('#payment-destination').value,
       };
       window.flutter_inappwebview.callHandler('pay', paymentDetails).then(function (result) {
-        // get result from Flutter side. It will be the number 64.
-        // console.log(result);
+
       });
     });
+
+    document.querySelector('#top').addEventListener('click', function () {
+      window.flutter_inappwebview.callHandler('topup').then(function (result) {
+
+      });
+    })
   });
 </script>
 </body>

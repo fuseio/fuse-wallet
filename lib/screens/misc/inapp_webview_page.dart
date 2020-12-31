@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:peepl/services.dart';
+import 'package:peepl/utils/send.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -55,12 +55,13 @@ class _WebViewWidgetState extends State<WebViewWidget> {
   void _createLinkToken(walletAddress) async {
     String body = jsonEncode(Map.from({'walletAddress': walletAddress}));
     print('body body body $body');
+    openLoadingDialog(context);
     Map response = responseHandler(await client.post(
         'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/plaid/create_link_token_for_payment',
         headers: {"Content-Type": 'application/json'},
         body: body));
     print('response ${response.toString()}');
-
+    Navigator.of(context).pop();
     setState(() {
       _plaidLinkToken = PlaidLink(
         configuration: LinkConfiguration(
@@ -87,16 +88,6 @@ class _WebViewWidgetState extends State<WebViewWidget> {
         converter: InAppWebViewViewModel.fromStore,
         builder: (_, InAppWebViewViewModel viewModel) {
           return Scaffold(
-              floatingActionButton: FloatingActionButton(
-                  heroTag: 'top_up_hero',
-                  elevation: 0,
-                  child: SvgPicture.asset(
-                    'assets/images/top_up.svg',
-                    width: 25.0,
-                  ),
-                  onPressed: () {
-                    _createLinkToken(viewModel.walletAddress);
-                  }),
               appBar: MyAppBar(
                 backgroundColor: Colors.white,
                 child: Container(
@@ -173,6 +164,12 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                             paymentDetails['amount'],
                             sendSuccessCallback,
                             sendFailureCallback);
+                      });
+
+                  controller.addJavaScriptHandler(
+                      handlerName: "topup",
+                      callback: (args) {
+                        _createLinkToken(viewModel.walletAddress);
                       });
                 },
                 onConsoleMessage: (InAppWebViewController controller,
