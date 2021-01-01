@@ -11,7 +11,7 @@ import 'package:fusecash/models/views/contacts.dart';
 import 'package:fusecash/screens/contacts/screens/send_to_account.dart';
 import 'package:fusecash/screens/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/screens/contacts/widgets/list_header.dart';
-import 'package:fusecash/screens/contacts/widgets/recent_contacts.dart';
+// import 'package:fusecash/screens/contacts/widgets/recent_contacts.dart';
 import 'package:fusecash/screens/contacts/widgets/search_panel.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/phone.dart';
@@ -157,9 +157,10 @@ class _ContactsListState extends State<ContactsList> {
       searchController: searchController,
     ));
 
-    if (searchController.text.isEmpty) {
-      listItems.add(RecentContacts());
-    } else if (isValidEthereumAddress(searchController.text)) {
+    // if (searchController.text.isEmpty) {
+    // listItems.add(RecentContacts());
+    // } else
+    if (isValidEthereumAddress(searchController.text)) {
       listItems.add(SendToAccount(
         accountAddress: searchController.text,
         resetSearch: resetSearch,
