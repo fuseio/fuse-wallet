@@ -1130,7 +1130,6 @@ Future<Token> fetchToken(
       name: formatTokenName(tokenInfo['name']),
       symbol: tokenInfo['symbol'],
       timestamp: 0,
-      communityAddress: community.address,
     );
   } else if (community.isMultiBridge) {
     dynamic token = await graph.getHomeBridgedToken(
@@ -1141,7 +1140,6 @@ Future<Token> fetchToken(
         name: formatTokenName(token["name"]),
         symbol: token["symbol"],
         timestamp: 0,
-        communityAddress: community.address,
         decimals: token["decimals"]);
   } else {
     dynamic token = await graph.getTokenOfCommunity(community.address);
@@ -1152,7 +1150,6 @@ Future<Token> fetchToken(
         name: token["name"],
         symbol: token["symbol"],
         timestamp: 0,
-        communityAddress: community.address,
         decimals: token["decimals"]);
   }
 }
@@ -1177,9 +1174,10 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       final String bridgeDirection = communityData['bridgeDirection'];
       final String bridgeType = communityData['bridgeType'];
       final String webUrl = communityData['webUrl'];
+      final String name = communityData["name"];
       Community newCommunity = Community.initial().copyWith(
         address: communityAddress,
-        name: communityData["name"],
+        name: name,
         bridgeDirection: bridgeDirection,
         bridgeType: bridgeType,
         foreignTokenAddress: foreignTokenAddress,
@@ -1196,12 +1194,10 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       String originNetwork = communityData['originNetwork'];
       Token communityToken =
           await fetchToken(newCommunity, isRopsten, originNetwork);
-      if (newCommunity.homeTokenAddress == null ||
-          newCommunity.homeTokenAddress.isEmpty) {
-        newCommunity = newCommunity.copyWith(
-          homeTokenAddress: communityToken.address,
-        );
-      }
+      newCommunity =
+          newCommunity.copyWith(homeTokenAddress: communityToken.address);
+      store.dispatch(AddCashToken(
+          token: communityToken.copyWith(communityAddress: communityAddress)));
       store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
@@ -1247,6 +1243,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       String homeBridgeAddress = communityData['homeBridgeAddress'];
       String foreignBridgeAddress = communityData['foreignBridgeAddress'];
       String description = communityData['description'];
+      String name = communityData['name'];
       String webUrl = communityData['webUrl'];
       final String bridgeDirection =
           communityData.containsKey('bridgeDirection')
@@ -1257,7 +1254,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           : null;
       Community newCommunity = Community.initial().copyWith(
         address: communityAddress,
-        name: communityData["name"],
+        name: name,
         bridgeDirection: bridgeDirection,
         bridgeType: bridgeType,
         foreignTokenAddress: foreignTokenAddress,
@@ -1270,11 +1267,12 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
         isClosed: communityData['isClosed'],
       );
       bool isRopsten = communityData['isRopsten'];
-      Token communityToken = await fetchToken(
-          newCommunity, isRopsten, communityData['originNetwork']);
+      String originNetwork = communityData['originNetwork'];
+      Token communityToken =
+          await fetchToken(newCommunity, isRopsten, originNetwork);
       store.dispatch(AddCashToken(
           token: communityToken.copyWith(
-              timestamp: 0, communityAddress: communityAddress.toLowerCase())));
+              communityAddress: communityAddress.toLowerCase())));
       newCommunity =
           newCommunity.copyWith(homeTokenAddress: communityToken?.address);
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
