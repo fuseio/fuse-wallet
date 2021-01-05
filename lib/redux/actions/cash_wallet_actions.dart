@@ -714,12 +714,12 @@ ThunkAction inviteAndSendSuccessCall(
     VoidCallback sendFailureCallback,
     String communityAddress) {
   return (Store store) async {
-    Community community =
-        store.state.cashWalletState.communities[communityAddress];
     Token token =
-        store.state.cashWalletState.tokens[community?.homeTokenAddress];
+        store.state.cashWalletState.tokens[inviteTransfer.tokenAddress];
     VoidCallback successCallBack = () {
       sendSuccessCallback();
+      Community community = store
+          .state.cashWalletState.communities[communityAddress.toLowerCase()];
       if (community.plugins.inviteBonus != null &&
           community.plugins.inviteBonus.isActive &&
           job.data['bonusInfo'] != null) {
@@ -893,7 +893,7 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
 
       BigInt value;
       dynamic response;
-      if (![null, ''].contains(token.communityAddress) &&
+      if (![null, ''].contains(token?.communityAddress) &&
           receiverAddress?.toLowerCase() ==
               community?.homeBridgeAddress?.toLowerCase()) {
         num feeAmount = 20;
@@ -936,7 +936,9 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
 
       if (inviteTransfer != null) {
         store.dispatch(ReplaceTransaction(
-            transaction: inviteTransfer, transactionToReplace: transfer));
+            transaction: inviteTransfer,
+            transactionToReplace: transfer,
+            tokenAddress: tokenAddress));
       } else {
         store.dispatch(
             AddTransaction(transaction: transfer, tokenAddress: tokenAddress));
