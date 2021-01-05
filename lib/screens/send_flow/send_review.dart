@@ -101,6 +101,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             args.amount,
             sendSuccessCallback,
             sendFailureCallback,
+            receiverName: args.name,
             transferNote: transferNote,
           );
         } else {
