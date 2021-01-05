@@ -1158,14 +1158,12 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      String walletAddress = store.state.userState.walletAddress;
+      String walletAddress =
+          checksumEthereumAddress(store.state.userState.walletAddress);
       dynamic community = await graph.getCommunityByAddress(communityAddress);
       Map<String, dynamic> communityData = await getCommunityData(
-          checksumEthereumAddress(communityAddress),
-          checksumEthereumAddress(walletAddress));
-      final bool isMultiBridge = communityData.containsKey('isMultiBridge')
-          ? communityData['isMultiBridge']
-          : false;
+          checksumEthereumAddress(communityAddress), walletAddress);
+      final bool isMultiBridge = communityData['isMultiBridge'] ?? false;
       final String description = communityData['description'];
       final String homeBridgeAddress = communityData['homeBridgeAddress'];
       final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
@@ -1232,26 +1230,19 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      String walletAddress = store.state.userState.walletAddress;
+      String walletAddress =
+          checksumEthereumAddress(store.state.userState.walletAddress);
       Map<String, dynamic> communityData = await getCommunityData(
-          checksumEthereumAddress(communityAddress),
-          checksumEthereumAddress(walletAddress));
-      final bool isMultiBridge = communityData.containsKey('isMultiBridge')
-          ? communityData['isMultiBridge']
-          : false;
-      String foreignTokenAddress = communityData['foreignTokenAddress'];
-      String homeBridgeAddress = communityData['homeBridgeAddress'];
-      String foreignBridgeAddress = communityData['foreignBridgeAddress'];
-      String description = communityData['description'];
-      String name = communityData['name'];
-      String webUrl = communityData['webUrl'];
-      final String bridgeDirection =
-          communityData.containsKey('bridgeDirection')
-              ? communityData['bridgeDirection']
-              : null;
-      final String bridgeType = communityData.containsKey('bridgeType')
-          ? communityData['bridgeType']
-          : null;
+          checksumEthereumAddress(communityAddress), walletAddress);
+      final bool isMultiBridge = communityData['isMultiBridge'] ?? false;
+      final String bridgeDirection = communityData['bridgeDirection'];
+      final String bridgeType = communityData['bridgeType'];
+      final String foreignTokenAddress = communityData['foreignTokenAddress'];
+      final String homeBridgeAddress = communityData['homeBridgeAddress'];
+      final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
+      final String description = communityData['description'];
+      final String name = communityData['name'];
+      final String webUrl = communityData['webUrl'];
       Community newCommunity = Community.initial().copyWith(
         address: communityAddress,
         name: name,
