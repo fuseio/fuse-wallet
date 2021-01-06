@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                   WebViewWidget(
                       withBack: false,
                       url:
-                          'https://app.itsaboutpeepl.com/menu-bar?wallet=${vm.walletAddress}',
+                          'https://app.itsaboutpeepl.com/topup?wallet=${vm.walletAddress}',
                       title: I18n.of(context).topup),
                   WebViewPage(
                       withBack: false,
