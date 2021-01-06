@@ -146,16 +146,20 @@ class _HomePageState extends State<HomePage> {
                     name: 'homeRouter',
                     observers: [SegmentObserver()],
                   ),
-                  WebViewWidget(
-                      withBack: false,
-                      url:
-                          'https://app.itsaboutpeepl.com/topup?wallet=${vm.walletAddress}',
-                      title: I18n.of(context).topup),
-                  WebViewPage(
-                      withBack: false,
-                      url:
-                          'https://app.itsaboutpeepl.com/vendors?wallet=${vm.walletAddress}',
-                      title: I18n.of(context).order),
+                  vm?.walletAddress == null
+                      ? Container()
+                      : WebViewWidget(
+                          withBack: false,
+                          url:
+                              'https://app.itsaboutpeepl.com/topup?wallet=${vm?.walletAddress}',
+                          title: I18n.of(context).topup),
+                  vm?.walletAddress == null
+                      ? Container()
+                      : WebViewPage(
+                          withBack: false,
+                          url:
+                              'https://app.itsaboutpeepl.com/vendors?wallet=${vm?.walletAddress}',
+                          title: I18n.of(context).order),
                   WebViewPage(
                       withBack: false,
                       url: 'https://app.itsaboutpeepl.com/help',
