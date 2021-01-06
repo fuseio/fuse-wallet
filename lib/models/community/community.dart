@@ -22,6 +22,8 @@ class Community extends Equatable {
   final String foreignTokenAddress;
   final String secondaryTokenAddress;
   final String description;
+  final String bridgeType;
+  final String bridgeDirection;
   final bool isMultiBridge;
 
   @override
@@ -37,6 +39,8 @@ class Community extends Equatable {
 
   Community(
       {this.name,
+      this.bridgeType,
+      this.bridgeDirection,
       this.isMultiBridge,
       this.isClosed,
       this.isMember,
@@ -68,6 +72,8 @@ class Community extends Equatable {
 
   Community copyWith(
       {String name,
+      String bridgeType,
+      String bridgeDirection,
       String address,
       String foreignBridgeAddress,
       String homeBridgeAddress,
@@ -83,6 +89,8 @@ class Community extends Equatable {
       String description,
       bool isMultiBridge}) {
     return Community(
+        bridgeType: bridgeType ?? this.bridgeType,
+        bridgeDirection: bridgeDirection ?? this.bridgeDirection,
         isMultiBridge: isMultiBridge ?? this.isMultiBridge,
         description: description ?? this.description,
         isClosed: isClosed ?? this.isClosed,

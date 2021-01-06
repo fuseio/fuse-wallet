@@ -11,7 +11,7 @@ import 'package:peepl/models/views/contacts.dart';
 import 'package:peepl/screens/contacts/screens/send_to_account.dart';
 import 'package:peepl/screens/contacts/widgets/contact_tile.dart';
 import 'package:peepl/screens/contacts/widgets/list_header.dart';
-import 'package:peepl/screens/contacts/widgets/recent_contacts.dart';
+// import 'package:peepl/screens/contacts/widgets/recent_contacts.dart';
 import 'package:peepl/screens/contacts/widgets/search_panel.dart';
 import 'package:peepl/utils/contacts.dart';
 import 'package:peepl/utils/phone.dart';
@@ -157,9 +157,10 @@ class _ContactsListState extends State<ContactsList> {
       searchController: searchController,
     ));
 
-    if (searchController.text.isEmpty) {
-      listItems.add(RecentContacts());
-    } else if (isValidEthereumAddress(searchController.text)) {
+    // if (searchController.text.isEmpty) {
+    // listItems.add(RecentContacts());
+    // } else
+    if (isValidEthereumAddress(searchController.text)) {
       listItems.add(SendToAccount(
         accountAddress: searchController.text,
         resetSearch: resetSearch,

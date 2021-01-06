@@ -465,13 +465,13 @@ ThunkAction setDisplayNameCall(String displayName) {
   };
 }
 
-ThunkAction create3boxAccountCall(accountAddress) {
+ThunkAction create3boxAccountCall(walletAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     String displayName = store.state.userState.displayName;
     try {
       Map user = {
-        "accountAddress": accountAddress,
+        "accountAddress": walletAddress,
         "email": 'wallet-user@fuse.io',
         "provider": 'HDWallet',
         "subscribe": false,
@@ -479,9 +479,9 @@ ThunkAction create3boxAccountCall(accountAddress) {
         "displayName": displayName
       };
       await api.saveUserToDb(user);
-      logger.info('save user $accountAddress');
+      logger.info('save user $walletAddress');
     } catch (e) {
-      logger.severe('user $accountAddress already saved');
+      logger.severe('user $walletAddress already saved');
     }
   };
 }
