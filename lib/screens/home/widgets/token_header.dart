@@ -179,12 +179,18 @@ class TokenHeader extends StatelessWidget {
                                                   }),
                                             )
                                           : SizedBox.shrink(),
-                                  community != null
+                                  community != null &&
+                                          community.bridgeDirection != null &&
+                                          community.bridgeDirection ==
+                                              'foreign-to-home'
                                       ? SizedBox(
                                           width: 10,
                                         )
                                       : SizedBox.shrink(),
-                                  community != null
+                                  community != null &&
+                                          community.bridgeDirection != null &&
+                                          community.bridgeDirection ==
+                                              'foreign-to-home'
                                       ? Container(
                                           width: 45,
                                           height: 45,

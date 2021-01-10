@@ -97,10 +97,11 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             args.accountAddress == '' && args.phoneNumber != null) {
           viewModel.sendToContact(
             args.tokenToSend,
-            args.accountAddress,
+            args.phoneNumber,
             args.amount,
             sendSuccessCallback,
             sendFailureCallback,
+            receiverName: args.name,
             transferNote: transferNote,
           );
         } else {
@@ -132,12 +133,15 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             (fees.containsKey(symbol) &&
                 args.tokenToSend.originNetwork == null) ||
             (viewModel.communities.any((element) =>
-                (args?.accountAddress?.toLowerCase() ==
-                    element?.homeBridgeAddress?.toLowerCase()) ||
-                (args?.accountAddress?.toLowerCase() ==
-                    element?.foreignBridgeAddress?.toLowerCase()) ||
-                args?.tokenToSend?.address?.toLowerCase() ==
-                    element?.foreignTokenAddress?.toLowerCase()));
+                (args?.accountAddress != null &&
+                    args?.accountAddress?.toLowerCase() ==
+                        element?.homeBridgeAddress?.toLowerCase()) ||
+                (args?.accountAddress != null &&
+                    args?.accountAddress?.toLowerCase() ==
+                        element?.foreignBridgeAddress?.toLowerCase()) ||
+                args?.tokenToSend?.address != null &&
+                    args?.tokenToSend?.address?.toLowerCase() ==
+                        element?.foreignTokenAddress?.toLowerCase()));
         final num feeAmount =
             withFee ? (fees.containsKey(symbol) ? fees[symbol] : 20) : 0;
         final num currentTokenBalance =
