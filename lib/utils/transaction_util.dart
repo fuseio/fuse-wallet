@@ -108,13 +108,15 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
 }
 
 dynamic getTransferImage(
-    Transfer transfer, Contact contact, Community community,
-    {bool isZeroAddress}) {
-  if (isZeroAddress != null && isZeroAddress) {
-    AssetImage(
-      'assets/images/ethereume_icon.png',
-    );
-  }
+  Transfer transfer,
+  Contact contact,
+  Community community,
+) {
+  // if (isZeroAddress != null && isZeroAddress) {
+  //   AssetImage(
+  //     'assets/images/ethereume_icon.png',
+  //   );
+  // }
   if (transfer.isJoinCommunity() &&
       ![null, ''].contains(community?.metadata?.image)) {
     return new NetworkImage(community?.metadata?.getImageUri());

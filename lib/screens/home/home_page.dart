@@ -9,6 +9,7 @@ import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/redux/actions/user_actions.dart';
 import 'package:peepl/screens/buy/router/buy_router.gr.dart';
 import 'package:peepl/screens/home/router/home_router.gr.dart';
+import 'package:peepl/screens/home/screens/topup.dart';
 import 'package:peepl/screens/misc/inapp_webview_page.dart';
 import 'package:peepl/screens/home/widgets/drawer.dart';
 import 'package:peepl/screens/misc/webview_page.dart';
@@ -148,14 +149,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                   vm?.walletAddress == null
                       ? Container()
-                      : WebViewWidget(
-                          withBack: false,
-                          url:
-                              'https://app.itsaboutpeepl.com/topup?wallet=${vm?.walletAddress}',
-                          title: I18n.of(context).topup),
+                      : TopupScreen(walletAddress: vm?.walletAddress),
                   vm?.walletAddress == null
                       ? Container()
-                      : WebViewPage(
+                      : WebViewWidget(
                           withBack: false,
                           url:
                               'https://app.itsaboutpeepl.com/vendors?wallet=${vm?.walletAddress}',

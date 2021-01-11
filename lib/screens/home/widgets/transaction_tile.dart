@@ -6,12 +6,12 @@ import 'package:peepl/models/tokens/token.dart';
 import 'package:peepl/screens/home/router/home_router.gr.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:peepl/generated/i18n.dart';
 import 'package:peepl/models/app_state.dart';
 import 'package:peepl/models/community/community.dart';
 import 'package:peepl/models/transactions/transfer.dart';
-import 'package:peepl/utils/addresses.dart';
+// import 'package:peepl/utils/addresses.dart';
 import 'package:peepl/utils/transaction_util.dart';
 import 'package:peepl/utils/format.dart';
 
@@ -44,16 +44,18 @@ class _TransactionTileState extends State<TransactionTile> {
               viewModel.communitiesMap[widget.transfer?.tokenAddress];
           Token token = widget.token ??
               viewModel.tokens[widget.transfer?.tokenAddress?.toLowerCase()];
-          bool isSendingToForeign = (community?.homeBridgeAddress != null &&
-                  widget.transfer.to != null &&
-                  widget.transfer.to?.toLowerCase() ==
-                      community?.homeBridgeAddress?.toLowerCase()) ??
-              false;
+          // bool isSendingToForeign = (community?.homeBridgeAddress != null &&
+          //         widget.transfer.to != null &&
+          //         widget.transfer.to?.toLowerCase() ==
+          //             community?.homeBridgeAddress?.toLowerCase()) ??
+          //     false;
           bool isWalletCreated = 'created' == viewModel.walletStatus;
-          bool isZeroAddress = widget.transfer.from == zeroAddress;
+          // bool isZeroAddress = widget.transfer.from == zeroAddress;
           ImageProvider<dynamic> image = getTransferImage(
-              widget.transfer, contact, community,
-              isZeroAddress: isZeroAddress);
+            widget.transfer,
+            contact,
+            community,
+          ); //isZeroAddress: isZeroAddress
           String displayName = widget.transfer.isJoinBonus()
               ? (widget.transfer.text ?? I18n.of(context).join_bonus)
               : ![null, ''].contains(widget.transfer.receiverName)
@@ -98,13 +100,14 @@ class _TransactionTileState extends State<TransactionTile> {
                               SizedBox(
                                 width: 5,
                               ),
-                              isZeroAddress || isSendingToForeign
-                                  ? SvgPicture.asset(
-                                      'assets/images/bridge_icon.svg',
-                                      width: 8,
-                                      height: 8,
-                                    )
-                                  : deduceTransferIcon(widget.transfer),
+                              // isZeroAddress || isSendingToForeign
+                              //     ? SvgPicture.asset(
+                              //         'assets/images/bridge_icon.svg',
+                              //         width: 8,
+                              //         height: 8,
+                              //       )
+                              //     :
+                              deduceTransferIcon(widget.transfer),
                             ],
                           ),
                           Positioned(
@@ -241,14 +244,7 @@ class _TransactionTileState extends State<TransactionTile> {
                                             ],
                                           ),
                                         )
-                                      : Text(
-                                          isZeroAddress
-                                              ? I18n.of(context)
-                                                  .received_from_ethereum
-                                              : isSendingToForeign
-                                                  ? I18n.of(context)
-                                                      .sent_to_ethereum
-                                                  : displayName,
+                                      : Text(displayName,
                                           style: TextStyle(
                                               color: Color(0xFF333333),
                                               fontSize: 15)),
