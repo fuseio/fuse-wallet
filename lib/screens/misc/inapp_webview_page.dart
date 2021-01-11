@@ -52,8 +52,11 @@ class _WebViewWidgetState extends State<WebViewWidget> {
     print("onExit: $error, metadata: ${metadata.description()}");
   }
 
-  void _createLinkToken(walletAddress) async {
-    String body = jsonEncode(Map.from({'walletAddress': walletAddress}));
+  void _createLinkToken(walletAddress, amount) async {
+    String body = jsonEncode(Map.from({
+      'walletAddress': walletAddress,
+      'value': num.parse(amount),
+    }));
     print('body body body $body');
     openLoadingDialog(context);
     Map response = responseHandler(await client.post(
@@ -169,7 +172,9 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                   controller.addJavaScriptHandler(
                       handlerName: "topup",
                       callback: (args) {
-                        _createLinkToken(viewModel.walletAddress);
+                        Map<String, dynamic> data = Map.from(args[0]);
+                        _createLinkToken(
+                            viewModel.walletAddress, data['amount']);
                       });
                 },
                 onConsoleMessage: (InAppWebViewController controller,
