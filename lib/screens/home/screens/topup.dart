@@ -78,16 +78,16 @@ class _TopupScreenState extends State<TopupScreen>
         body: body));
     Navigator.of(context).pop();
     print('response ${response.toString()}');
-    _plaidLinkToken = PlaidLink(
-      configuration: LinkConfiguration(
-        linkToken: response['link_token'],
-      ),
-      onSuccess: _onSuccessCallback,
-      onEvent: _onEventCallback,
-      onExit: _onExitCallback,
-    );
 
-    if (_plaidLinkToken != null && response['link_token'] != null) {
+    if (response['link_token'] != null) {
+      _plaidLinkToken = PlaidLink(
+        configuration: LinkConfiguration(
+          linkToken: response['link_token'],
+        ),
+        onSuccess: _onSuccessCallback,
+        onEvent: _onEventCallback,
+        onExit: _onExitCallback,
+      );
       _plaidLinkToken.open();
     }
   }

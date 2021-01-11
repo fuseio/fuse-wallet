@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_offline/flutter_offline.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -147,16 +148,18 @@ class _HomePageState extends State<HomePage> {
                     name: 'homeRouter',
                     observers: [SegmentObserver()],
                   ),
-                  vm?.walletAddress == null
-                      ? Container()
-                      : TopupScreen(walletAddress: vm?.walletAddress),
-                  vm?.walletAddress == null
-                      ? Container()
-                      : WebViewWidget(
+                  vm?.walletAddress != null &&
+                          isValidEthereumAddress(vm?.walletAddress)
+                      ? TopupScreen(walletAddress: vm?.walletAddress)
+                      : Container(),
+                  vm?.walletAddress != null &&
+                          isValidEthereumAddress(vm?.walletAddress)
+                      ? WebViewWidget(
                           withBack: false,
                           url:
                               'https://app.itsaboutpeepl.com/vendors?wallet=${vm?.walletAddress}',
-                          title: I18n.of(context).order),
+                          title: I18n.of(context).order)
+                      : Container(),
                   WebViewPage(
                       withBack: false,
                       url: 'https://app.itsaboutpeepl.com/help',
@@ -200,7 +203,6 @@ class _HomePageState extends State<HomePage> {
 
 class _HomePageViewModel extends Equatable {
   final Community community;
-  final bool isDefaultCommunity;
   final bool isContactsSynced;
   final bool backup;
   final bool isBackupDialogShowed;
@@ -209,7 +211,6 @@ class _HomePageViewModel extends Equatable {
 
   _HomePageViewModel({
     this.isContactsSynced,
-    this.isDefaultCommunity,
     this.community,
     this.backup,
     this.isBackupDialogShowed,
@@ -226,7 +227,6 @@ class _HomePageViewModel extends Equatable {
       walletAddress: store.state.userState.walletAddress,
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
       backup: store.state.userState.backup,
       isBackupDialogShowed:
           store.state.userState?.receiveBackupDialogShowed ?? false,
@@ -237,5 +237,11 @@ class _HomePageViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [isDefaultCommunity, community, isContactsSynced];
+  List<Object> get props => [
+        isBackupDialogShowed,
+        backup,
+        community,
+        walletAddress,
+        isContactsSynced
+      ];
 }
