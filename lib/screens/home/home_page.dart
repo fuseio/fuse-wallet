@@ -22,7 +22,7 @@ import 'package:peepl/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:peepl/models/community/community.dart';
-import 'package:peepl/utils/addresses.dart' as util;
+// import 'package:peepl/utils/addresses.dart' as util;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
