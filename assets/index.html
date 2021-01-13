@@ -75,7 +75,7 @@
     });
 
     document.querySelector('#top').addEventListener('click', function () {
-      var paymentDetails = { amount: 10 };
+      var paymentDetails = { amount: '10' };
       window.flutter_inappwebview.callHandler('topup', paymentDetails).then(function (result) {
 
       });

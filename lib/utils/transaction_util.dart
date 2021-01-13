@@ -108,15 +108,13 @@ String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
 }
 
 dynamic getTransferImage(
-  Transfer transfer,
-  Contact contact,
-  Community community,
-) {
-  // if (isZeroAddress != null && isZeroAddress) {
-  //   AssetImage(
-  //     'assets/images/ethereume_icon.png',
-  //   );
-  // }
+    Transfer transfer, Contact contact, Community community,
+    {bool isZeroAddress}) {
+  if (isZeroAddress != null && isZeroAddress) {
+    return new NetworkImage(
+      'https://ipfs-proxy.fuse.io/api/image/QmSao9HW9CgLCApHnNnBfNhCtZx6SoCe3LcDAXavjbYifj',
+    );
+  }
   if (transfer.isJoinCommunity() &&
       ![null, ''].contains(community?.metadata?.image)) {
     return new NetworkImage(community?.metadata?.getImageUri());
@@ -139,7 +137,6 @@ dynamic getTransferImage(
       'assets/images/ethereume_icon.png',
     );
   }
-
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   Business business = community?.businesses?.firstWhere(
       (business) => business.account == accountAddress,

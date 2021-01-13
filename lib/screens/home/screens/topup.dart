@@ -124,9 +124,10 @@ class _TopupScreenState extends State<TopupScreen>
     return MainScaffold(
         withPadding: true,
         title: I18n.of(context).top_up,
+        automaticallyImplyLeading: false,
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height * 0.7,
+            height: MediaQuery.of(context).size.height * 0.6,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.stretch,

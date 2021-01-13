@@ -17,11 +17,8 @@ import 'package:peepl/widgets/my_app_bar.dart';
 
 class WebViewWidget extends StatefulWidget {
   final String url;
-  final String title;
-  final bool withBack;
-  final InAppWebViewController controller;
 
-  WebViewWidget({this.url, this.title, this.withBack = false, this.controller});
+  WebViewWidget({this.url});
 
   @override
   _WebViewWidgetState createState() => _WebViewWidgetState();
@@ -29,6 +26,8 @@ class WebViewWidget extends StatefulWidget {
 
 class _WebViewWidgetState extends State<WebViewWidget> {
   PlaidLink _plaidLinkToken;
+  ContextMenu contextMenu;
+  InAppWebViewController webView;
 
   void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata,
       String walletAddress) async {
@@ -91,65 +90,58 @@ class _WebViewWidgetState extends State<WebViewWidget> {
         converter: InAppWebViewViewModel.fromStore,
         builder: (_, InAppWebViewViewModel viewModel) {
           return Scaffold(
-              appBar: MyAppBar(
-                backgroundColor: Colors.white,
-                child: Container(
-                  height: 120,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).primaryColor.withAlpha(20),
-                        blurRadius: 5.0,
-                        spreadRadius: 0.0,
-                        offset: Offset(
-                          0.0,
-                          3.0,
-                        ),
-                      )
-                    ],
-                    color: Color(0xFFF5F5F5),
-                  ),
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 20),
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: <Widget>[
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(widget.title,
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800))
-                            ]),
-                        widget.withBack
-                            ? Positioned(
-                                top: 60,
-                                left: 20,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Icon(PlatformIcons(context).back),
-                                ))
-                            : SizedBox.shrink(),
-                      ],
+            appBar: MyAppBar(
+              height: MediaQuery.of(context).size.height / 20,
+              backgroundColor: Colors.white,
+              child: Container(
+                height: 120,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Theme.of(context).primaryColor.withAlpha(20),
+                      blurRadius: 5.0,
+                      spreadRadius: 0.0,
+                      offset: Offset(
+                        0.0,
+                        3.0,
+                      ),
+                    )
+                  ],
+                  color: Color(0xFFF5F5F5),
+                ),
+                width: MediaQuery.of(context).size.width,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              icon: Icon(PlatformIcons(context).back),
+                              onPressed: () {
+                                if (webView != null) {
+                                  webView.goBack();
+                                }
+                              },
+                            )
+                          ]),
                     ),
-                  ),
+                  ],
                 ),
               ),
-              body: InAppWebView(
+            ),
+            body: InAppWebView(
                 initialUrl: widget.url,
                 // initialFile: "assets/index.html",
                 onWebViewCreated: (InAppWebViewController controller) {
-                  controller = controller;
-                  controller.addJavaScriptHandler(
+                  webView = controller;
+                  webView.addJavaScriptHandler(
                       handlerName: "pay",
                       callback: (args) {
-                        print("From the JavaScript side:");
                         Map<String, dynamic> paymentDetails = Map.from(args[0]);
                         print(
                             'paymentDetails ${paymentDetails.toString()} ${paymentDetails['amount']} ${paymentDetails['destination']} ${paymentDetails['currency']}');
@@ -163,25 +155,22 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                         VoidCallback sendFailureCallback() {}
                         viewModel.sendTokenFromWebView(
                             token,
+                            paymentDetails['orderId'],
                             paymentDetails['destination'],
                             paymentDetails['amount'],
                             sendSuccessCallback,
                             sendFailureCallback);
                       });
 
-                  controller.addJavaScriptHandler(
+                  webView.addJavaScriptHandler(
                       handlerName: "topup",
                       callback: (args) {
                         Map<String, dynamic> data = Map.from(args[0]);
                         _createLinkToken(
                             viewModel.walletAddress, data['amount']);
                       });
-                },
-                onConsoleMessage: (InAppWebViewController controller,
-                    ConsoleMessage consoleMessage) {
-                  print("console message: ${consoleMessage.message}");
-                },
-              ));
+                }),
+          );
         });
   }
 }
@@ -191,6 +180,7 @@ class InAppWebViewViewModel extends Equatable {
   final String walletAddress;
   final Function(
     Token token,
+    String orderId,
     String recieverAddress,
     num amount,
     Function(dynamic) sendSuccessCallback,
@@ -239,6 +229,7 @@ class InAppWebViewViewModel extends Equatable {
               ?.compareTo(tokenA?.amount ?? BigInt.zero)),
       sendTokenFromWebView: (
         Token token,
+        String orderId,
         String recieverAddress,
         num amount,
         Function(dynamic) sendSuccessCallback,
@@ -246,6 +237,7 @@ class InAppWebViewViewModel extends Equatable {
       ) {
         store.dispatch(sendTokenFromWebViewCall(
           token,
+          orderId,
           recieverAddress,
           amount,
           sendSuccessCallback,
