@@ -1285,7 +1285,8 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       final String foreignTokenAddress = communityData['foreignTokenAddress'];
       final String homeBridgeAddress = communityData['homeBridgeAddress'];
       final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
-      final String secondaryTokenAddress = communityData['secondaryTokenAddress'];
+      final String secondaryTokenAddress =
+          communityData['secondaryTokenAddress'];
       final String description = communityData['description'];
       final String name = communityData['name'];
       final String webUrl = communityData['webUrl'];
@@ -1544,6 +1545,7 @@ ThunkAction sendTokenToContactCall(
 ThunkAction sendTokenFromWebViewCall(
     Token token,
     String receiverAddress,
+    String orderId,
     num tokensAmount,
     Function(dynamic) sendSuccessCallback,
     VoidCallback sendFailureCallback,
@@ -1574,6 +1576,9 @@ ThunkAction sendTokenFromWebViewCall(
 
       dynamic jobId = response['job']['_id'];
       logger.info('Job $jobId for sending token sent to the relay service');
+      Response res = await client.post(
+          'https://app.itsaboutpeepl.com/api/v1/orders/payment-submitted',
+          body: jsonEncode(Map.from({'orderId': orderId, 'jobId': jobId})));
 
       sendSuccessCallback(response);
       Transfer transfer = Transfer(

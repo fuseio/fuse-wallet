@@ -108,7 +108,7 @@ class CashHeader extends StatelessWidget {
                               text: TextSpan(
                                 style: TextStyle(
                                     color: Theme.of(context).splashColor),
-                                children: viewModel.token == null
+                                children: viewModel.secondaryToken == null
                                     ? <TextSpan>[
                                         TextSpan(
                                             text: '0',
@@ -121,8 +121,9 @@ class CashHeader extends StatelessWidget {
                                     : <TextSpan>[
                                         TextSpan(
                                             text: formatValue(
-                                                viewModel.token.amount,
-                                                viewModel.token.decimals),
+                                                viewModel.secondaryToken.amount,
+                                                viewModel
+                                                    .secondaryToken.decimals),
                                             style: TextStyle(
                                                 fontSize: 32,
                                                 color: Theme.of(context)
@@ -130,32 +131,32 @@ class CashHeader extends StatelessWidget {
                                                 fontWeight: FontWeight.bold)),
                                         TextSpan(
                                             text: ' ' +
-                                                viewModel.token?.symbol
+                                                viewModel.secondaryToken?.symbol
                                                     .toString(),
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Theme.of(context)
                                                     .splashColor,
                                                 fontWeight: FontWeight.normal,
-                                                height: 0.0))
+                                                height: 0.0)),
                                       ],
                               ),
                             ),
                           ],
                         ),
-                        viewModel.secondaryToken == null
+                        viewModel.token == null
                             ? SizedBox.shrink()
                             : SizedBox(
                                 width: 30,
                               ),
-                        viewModel.secondaryToken == null
+                        viewModel.token == null
                             ? SizedBox.shrink()
                             : Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    child: Text('Secondary token',
+                                    child: Text('Rewards',
                                         style: TextStyle(
                                             color:
                                                 Theme.of(context).splashColor,
@@ -173,10 +174,8 @@ class CashHeader extends StatelessWidget {
                                             children: <TextSpan>[
                                               TextSpan(
                                                   text: formatValue(
-                                                      viewModel.secondaryToken
-                                                          .amount,
-                                                      viewModel.secondaryToken
-                                                          .decimals),
+                                                      viewModel.token.amount,
+                                                      viewModel.token.decimals),
                                                   style: TextStyle(
                                                       fontSize: 32,
                                                       color: Theme.of(context)
@@ -185,8 +184,7 @@ class CashHeader extends StatelessWidget {
                                                           FontWeight.bold)),
                                               TextSpan(
                                                   text: ' ' +
-                                                      viewModel.secondaryToken
-                                                          ?.symbol
+                                                      viewModel.token?.symbol
                                                           .toString(),
                                                   style: TextStyle(
                                                       fontSize: 18,
@@ -194,7 +192,7 @@ class CashHeader extends StatelessWidget {
                                                           .splashColor,
                                                       fontWeight:
                                                           FontWeight.normal,
-                                                      height: 0.0)),
+                                                      height: 0.0))
                                             ],
                                           ),
                                         ),
