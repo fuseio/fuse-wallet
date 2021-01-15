@@ -10,6 +10,7 @@ import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/redux/actions/user_actions.dart';
 import 'package:peepl/screens/buy/router/buy_router.gr.dart';
 import 'package:peepl/screens/home/router/home_router.gr.dart';
+import 'package:peepl/screens/home/screens/help.dart';
 import 'package:peepl/screens/home/screens/topup.dart';
 import 'package:peepl/screens/misc/inapp_webview_page.dart';
 import 'package:peepl/screens/home/widgets/drawer.dart';
@@ -159,10 +160,7 @@ class _HomePageState extends State<HomePage> {
                               'https://app.itsaboutpeepl.com/vendors?wallet=${vm?.walletAddress}',
                         )
                       : Container(),
-                  WebViewPage(
-                      withBack: false,
-                      url: 'https://app.itsaboutpeepl.com/help',
-                      title: I18n.of(context).help),
+                  HelpScreen(),
                   ExtendedNavigator(
                     name: 'buyRouter',
                     router: BuyRouter(),
