@@ -3,7 +3,7 @@ import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
-import 'package:fusecash/presentation/routes.gr.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 
 class SmsStrategy extends IOnBoardStrategy {
   SmsStrategy({strategy}) : super(strategy: strategy ?? OnboardStatergy.sms);

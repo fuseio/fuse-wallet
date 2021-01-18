@@ -6,7 +6,6 @@ import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/services/apis/market.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/utils/log/log.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';

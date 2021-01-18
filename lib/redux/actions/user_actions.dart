@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:fusecash/presentation/routes.gr.dart';
+import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:decimal/decimal.dart';
