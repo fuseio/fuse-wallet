@@ -49,8 +49,8 @@ class HomeViewModel extends Equatable {
             imageUrl: store.state.cashWalletState.communities
                     .containsKey(token.communityAddress)
                 ? store.state.cashWalletState
-                    .communities[token.communityAddress].metadata
-                    .getImageUri()
+                    .communities[token.communityAddress]?.metadata
+                    ?.getImageUri()
                 : null))
         .toList();
     List<Token> tokens = [...homeTokens, ...erc20Tokens]

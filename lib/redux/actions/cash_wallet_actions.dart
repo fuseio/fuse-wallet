@@ -524,14 +524,23 @@ ThunkAction getTokenBalanceCall(Token token) {
         logger.info('${token.name} balance updated');
         store.dispatch(GetTokenBalanceSuccess(
             tokenBalance: balance, tokenAddress: token.address));
-        store.dispatch(UpdateDisplayBalance(
-            int.tryParse(formatValue(balance, token.decimals))));
-        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-          '${token?.name} Balance':
-              formatValue(balance, token.decimals, withPrecision: true),
-          "DisplayBalance":
-              formatValue(balance, token.decimals, withPrecision: true)
-        })));
+        store.dispatch(
+          UpdateDisplayBalance(
+            int.tryParse(
+              formatValue(balance, token.decimals),
+            ),
+          ),
+        );
+        store.dispatch(
+          segmentIdentifyCall(
+            Map<String, dynamic>.from({
+              '${token?.name} Balance':
+                  formatValue(balance, token.decimals, withPrecision: true),
+              "DisplayBalance":
+                  formatValue(balance, token.decimals, withPrecision: true)
+            }),
+          ),
+        );
       };
       void Function(Object error, StackTrace stackTrace) onError =
           (Object error, StackTrace stackTrace) async {
@@ -1080,7 +1089,10 @@ ThunkAction joinBonusSuccessCall(communiyAddress) {
 }
 
 ThunkAction fetchCommunityMetadataCall(
-    String communityAddress, String communityURI, bool isRopsten) {
+  String communityAddress,
+  String communityURI,
+  bool isRopsten,
+) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
@@ -1094,15 +1106,19 @@ ThunkAction fetchCommunityMetadataCall(
           isRopsten: isRopsten,
         );
         communityMetadata = communityMetadata.copyWith(
-            image: metadata['image'],
-            coverPhoto: metadata['coverPhoto'],
-            imageUri: metadata['imageUri'] ?? null,
-            coverPhotoUri: metadata['coverPhotoUri'] ?? null,
-            isDefaultImage: metadata['isDefault'] ?? false);
+          image: metadata['image'],
+          coverPhoto: metadata['coverPhoto'],
+          imageUri: metadata['imageUri'] ?? null,
+          coverPhotoUri: metadata['coverPhotoUri'] ?? null,
+          isDefaultImage: metadata['isDefault'] ?? false,
+        );
       }
-      store.dispatch(FetchCommunityMetadataSuccess(
+      store.dispatch(
+        FetchCommunityMetadataSuccess(
           metadata: communityMetadata,
-          communityAddress: communityAddress.toLowerCase()));
+          communityAddress: communityAddress.toLowerCase(),
+        ),
+      );
     } catch (e, s) {
       logger.severe('ERROR - fetchCommunityMetadataCall $e');
       await AppFactory().reportError(e, stackTrace: s);
@@ -1120,11 +1136,17 @@ Future<Map<String, dynamic>> getCommunityData(
   if (communityData == null) {
     communityData = await api.getCommunityData(communityAddress,
         walletAddress: walletAddress);
-    return Map.from(
-        {...communityData, 'isRopsten': false, 'originNetwork': 'mainnet'});
+    return Map.from({
+      ...communityData,
+      'isRopsten': false,
+      'originNetwork': 'mainnet',
+    });
   }
-  return Map.from(
-      {...communityData, 'isRopsten': true, 'originNetwork': 'ropsten'});
+  return Map.from({
+    ...communityData,
+    'isRopsten': true,
+    'originNetwork': 'ropsten',
+  });
 }
 
 Future<Token> fetchToken(
@@ -1198,23 +1220,37 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       }
       store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
-      store.dispatch(segmentTrackCall("Wallet: Switch Community",
+      store.dispatch(
+        segmentTrackCall(
+          "Wallet: Switch Community",
           properties: Map<String, dynamic>.from({
             "Community Name": newCommunity.name,
             "Community Address": communityAddress,
             "Token Address": communityToken.address,
             "Token Symbol": communityToken.symbol,
             "Origin Network": originNetwork
-          })));
-      store.dispatch(fetchCommunityMetadataCall(
-          communityAddress, communityData['communityURI'], isRopsten));
-      store.dispatch(getBusinessListCall(
-          communityAddress: communityAddress.toLowerCase(),
-          isRopsten: isRopsten));
-      store.dispatch(joinCommunityCall(
-        token: communityToken,
-        community: newCommunity,
-      ));
+          }),
+        ),
+      );
+      store.dispatch(
+        fetchCommunityMetadataCall(
+          communityAddress,
+          communityData['communityURI'],
+          isRopsten,
+        ),
+      );
+      store.dispatch(
+        getBusinessListCall(
+          communityAddress: communityAddress,
+          isRopsten: isRopsten,
+        ),
+      );
+      store.dispatch(
+        joinCommunityCall(
+          token: communityToken,
+          community: newCommunity,
+        ),
+      );
     } catch (e, s) {
       logger.severe('ERROR - switchToNewCommunityCall $e');
       store.dispatch(ErrorAction('Could not switch community'));
@@ -1252,22 +1288,28 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       }
       store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
-      store.dispatch(getBusinessListCall(
-        communityAddress: communityAddress.toLowerCase(),
-        isRopsten: isRopsten,
-      ));
-      store.dispatch(fetchCommunityMetadataCall(
-        communityAddress.toLowerCase(),
-        communityData['communityURI'],
-        isRopsten,
-      ));
+      store.dispatch(
+        getBusinessListCall(
+          communityAddress: communityAddress,
+          isRopsten: isRopsten,
+        ),
+      );
+      store.dispatch(
+        fetchCommunityMetadataCall(
+          communityAddress,
+          communityData['communityURI'],
+          isRopsten,
+        ),
+      );
     } catch (e, s) {
       logger.severe('ERROR - switchToExisitingCommunityCall $e');
       await AppFactory().reportError(e, stackTrace: s);
       store.dispatch(ErrorAction('Could not switch community'));
-      store.dispatch(SwitchCommunityFailed(
-        communityAddress: communityAddress.toLowerCase(),
-      ));
+      store.dispatch(
+        SwitchCommunityFailed(
+          communityAddress: communityAddress.toLowerCase(),
+        ),
+      );
     }
   };
 }
@@ -1341,8 +1383,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
       logger.info('ERROR - switchCommunityCall $e');
       await AppFactory().reportError(e, stackTrace: s);
       store.dispatch(ErrorAction('Could not switch community'));
-      store.dispatch(SwitchCommunityFailed(
-          communityAddress: communityAddress.toLowerCase()));
+      store.dispatch(SwitchCommunityFailed(communityAddress: communityAddress));
     }
   };
 }
