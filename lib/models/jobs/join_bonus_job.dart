@@ -1,9 +1,10 @@
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/services/apis/funder.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 part 'join_bonus_job.g.dart';
 
@@ -25,14 +26,13 @@ class JoinBonusJob extends Job {
   @override
   fetch() async {
     if (this.isFunderJob == true) {
-      return api.getFunderJob(this.id);
+      return funderApi.getJob(this.id);
     }
     return api.getJob(this.id);
   }
 
   @override
   onDone(store, dynamic fetchedData) async {
-    final logger = await AppFactory().getLogger('Job');
     int current = DateTime.now().millisecondsSinceEpoch;
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
@@ -49,7 +49,7 @@ class JoinBonusJob extends Job {
       String txHash = data['txHash'];
       Transfer confirmedTx = transfer.copyWith(txHash: txHash);
       if (![null, ''].contains(txHash)) {
-        logger.info('isFunderJob JoinBonusJob txHash txHash txHash $txHash');
+        log.info('isFunderJob JoinBonusJob txHash txHash txHash $txHash');
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx,
@@ -65,11 +65,11 @@ class JoinBonusJob extends Job {
         store.dispatch(joinBonusSuccessCall(arguments['communityAddress']));
         store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
-        logger.info('JoinBonusJob SUCCEEDED');
+        log.info('JoinBonusJob SUCCEEDED');
         return;
       } else if (responseStatus == 'FAILED') {
         this.status = 'FAILED';
-        logger.info('JoinBonusJob FAILED');
+        log.info('JoinBonusJob FAILED');
         store.dispatch(transactionFailed(confirmedTx, fetchedData['failReason']));
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id })));
         store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
@@ -78,14 +78,14 @@ class JoinBonusJob extends Job {
     } else {
       if (fetchedData['data']['funderJobId'] != null) {
         String funderJobId = fetchedData['data']['funderJobId'];
-        dynamic response = await api.getFunderJob(funderJobId);
+        dynamic response = await funderApi.getJob(funderJobId);
         dynamic data = response['data'];
         String responseStatus = data['status'];
         Transfer transfer = arguments['joinBonus'];
         String txHash = data['txHash'];
         Transfer confirmedTx = transfer.copyWith(txHash: txHash);
         if (![null, ''].contains(txHash)) {
-          logger.info('JoinBonusJob txHash txHash txHash $txHash');
+          log.info('JoinBonusJob txHash txHash txHash $txHash');
           store.dispatch(new ReplaceTransaction(
               transaction: transfer,
               transactionToReplace: confirmedTx,
@@ -100,19 +100,19 @@ class JoinBonusJob extends Job {
             tokenAddress: transfer.tokenAddress));
           store.dispatch(joinBonusSuccessCall(arguments['communityAddress']));
           store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
-          logger.info('JoinBonusJob SUCCEEDED');
+          log.info('JoinBonusJob SUCCEEDED');
           store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
           return;
         } else if (responseStatus == 'FAILED') {
           this.status = 'FAILED';
-          logger.info('JoinBonusJob FAILED');
+          log.info('JoinBonusJob FAILED');
           store.dispatch(transactionFailed(transfer, response['failReason']));
           store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
           return;
         }
       } else {
         this.status = 'FAILED';
-        logger.info('JoinBonusJob FAILED');
+        log.info('JoinBonusJob FAILED');
         store.dispatch(UpdateJob(tokenAddress: arguments['joinBonus'].tokenAddress, job: this));
         return;
       }

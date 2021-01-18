@@ -2,18 +2,19 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
-  PrimaryButton(
-      {this.fontSize,
-      this.labelFontWeight,
-      this.onPressed,
-      this.label,
-      this.width,
-      this.height,
-      this.preload,
-      this.colors,
-      this.opacity = 0.4,
-      this.disabled = false,
-      this.labalColor});
+  PrimaryButton({
+    this.fontSize,
+    this.labelFontWeight,
+    this.onPressed,
+    this.label,
+    this.width,
+    this.height,
+    this.preload,
+    this.colors,
+    this.opacity = 0.4,
+    this.disabled = false,
+    this.labalColor,
+  });
   final double opacity;
   final GestureTapCallback onPressed;
   final String label;

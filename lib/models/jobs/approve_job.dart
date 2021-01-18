@@ -2,9 +2,9 @@ import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 part 'approve_job.g.dart';
 
@@ -30,10 +30,9 @@ class ApproveJob extends Job {
 
   @override
   onDone(store, dynamic fetchedData) async {
-    final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
       this.status = 'FAILED';
-      logger.info('ApproveJob FAILED');
+      log.info('ApproveJob FAILED');
       store.dispatch(proTransactionFailed(arguments['tokenAddress'], arguments['transfer']));
       store.dispatch(segmentTrackCall('Wallet: ApproveJob FAILED', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       return;
@@ -48,7 +47,7 @@ class ApproveJob extends Job {
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-      logger.info('ApproveJob FAILED');
+      log.info('ApproveJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       store.dispatch(proTransactionFailed(arguments['tokenAddress'], arguments['transfer']));
@@ -57,7 +56,7 @@ class ApproveJob extends Job {
     }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.info('ApproveJob not done');
+      log.info('ApproveJob not done');
       return;
     }
 
@@ -67,7 +66,7 @@ class ApproveJob extends Job {
       dynamic data = response['data'];
 
       if (response['failReason'] != null && response['failedAt'] != null) {
-        logger.info('ApproveJob FAILED');
+        log.info('ApproveJob FAILED');
         this.status = 'FAILED';
         String failReason = response['failReason'];
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
@@ -76,7 +75,7 @@ class ApproveJob extends Job {
       }
 
       if (response['lastFinishedAt'] == null || response['lastFinishedAt'].isEmpty) {
-        logger.info('ApproveJob not done');
+        log.info('ApproveJob not done');
         return;
       }
 

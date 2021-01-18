@@ -1,19 +1,7 @@
-import 'package:fusecash/utils/transaction_util.dart';
+import 'package:fusecash/utils/images.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business_metadata.g.dart';
-
-bool isIpfsHash(String hash) => hash != null && hash.length == 46;
-bool isS3Hash(String hash) => hash != null && hash.length == 64;
-
-String getImage(hash) {
-  if (isIpfsHash(hash)) {
-    return getIPFSImageUrl(hash);
-  } else if (isS3Hash(hash)) {
-    return getS3ImageUrl(hash);
-  }
-  return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
-}
 
 @JsonSerializable(explicitToJson: true)
 class BusinessMetadata {
@@ -26,9 +14,9 @@ class BusinessMetadata {
   final String website;
   final List<double> latLng;
 
-  String getImageUri() => getImage(image);
+  String getImageUri() => ImageUrl.getLink(image);
 
-  String getCoverPhotoUri() => getImage(coverPhoto);
+  String getCoverPhotoUri() => ImageUrl.getLink(coverPhoto);
 
   BusinessMetadata(
       {this.address = '',

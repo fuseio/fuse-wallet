@@ -1,16 +1,16 @@
 import 'package:ethereum_address/ethereum_address.dart';
-import 'package:fusecash/constans/exchangable_tokens.dart';
+import 'package:fusecash/constants/addresses.dart';
+import 'package:fusecash/constants/exchangable_tokens.dart';
 import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
+import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 part 'swap_token_job.g.dart';
 
@@ -50,10 +50,9 @@ class SwapTokenJob extends Job {
 
   @override
   onDone(store, dynamic fetchedData) async {
-    final logger = await AppFactory().getLogger('Job');
-    logger.info('perform SwapTokenJob - $id');
+    log.info('perform SwapTokenJob - $id');
     if (isReported == true) {
-      logger.info('SwapTokenJob FAILED');
+      log.info('SwapTokenJob FAILED');
       store.dispatch(segmentTrackCall('Wallet: SwapTokenJob FAILED'));
       return;
     }
@@ -70,9 +69,9 @@ class SwapTokenJob extends Job {
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-      logger.info('SwapTokenJob FAILED');
+      log.info('SwapTokenJob FAILED');
       String failReason = fetchedData['failReason'];
-      transactionFailedSnack(failReason);
+      showErrorSnack(message: failReason);
       store.dispatch(proTransactionFailed(
           arguments['fromToken'].address, arguments['transfer']));
       store.dispatch(segmentTrackCall('Wallet: job failed',
@@ -84,20 +83,20 @@ class SwapTokenJob extends Job {
     }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.info('SwapTokenJob not done');
+      log.info('SwapTokenJob not done');
       return;
     }
 
     if (fetchedData['data']['nextRealyJobId'] != null) {
       String nextRealyJobId = fetchedData['data']['nextRealyJobId'];
-      logger.info('SwapTokenJob - nextRealyJobId - $nextRealyJobId');
+      log.info('SwapTokenJob - nextRealyJobId - $nextRealyJobId');
       dynamic nextRealyJobResponse = await api.getJob(nextRealyJobId);
 
       if (nextRealyJobResponse['failReason'] != null &&
           nextRealyJobResponse['failedAt'] != null) {
-        logger.info('SwapTokenJob FAILED');
+        log.info('SwapTokenJob FAILED');
         String failReason = nextRealyJobResponse['failReason'];
-        transactionFailedSnack(failReason);
+        showErrorSnack(message: failReason);
         store.dispatch(proTransactionFailed(
             arguments['fromToken'].address, arguments['transfer']));
         store.dispatch(ProJobDone(
@@ -110,7 +109,7 @@ class SwapTokenJob extends Job {
 
       if (nextRealyJobResponse['lastFinishedAt'] == null ||
           nextRealyJobResponse['lastFinishedAt'].isEmpty) {
-        logger.info('SwapTokenJob not done');
+        log.info('SwapTokenJob not done');
         return;
       }
 
@@ -120,7 +119,7 @@ class SwapTokenJob extends Job {
           txHash, arguments['fromToken'].address, arguments['transfer']));
       ProWalletState proWalletState = store.state.proWalletState;
       String tokenAddress = arguments['toToken'].address.toLowerCase();
-      if (tokenAddress != zeroAddress.toLowerCase()) {
+      if (tokenAddress != Addresses.ZERO_ADDRESS.toLowerCase()) {
         Token newToken = proWalletState.erc20Tokens[tokenAddress] ??
             exchangableTokens[checksumEthereumAddress(tokenAddress)];
         store.dispatch(AddNewToken(

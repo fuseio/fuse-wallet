@@ -6,10 +6,9 @@ The Fuse Wallet is a cross platform Ethereum wallet written in Dart and built on
 
 The Fuse Wallet built upon the [wallet-core SDK](https://github.com/fuseio/wallet_core), which provides a set of API's for the Fuse platform and its auxiliary services. Those services include:
 - The Fuse Network and the networks' smart contracts, via the [web3dart](https://github.com/simolus3/web3dart) package
-- The [graphql API](https://graph.fuse.io/subgraphs/name/fuseio/fuse/graphql) (provided by [theraph's node](https://thegraph.com/)) provides a convinient API for reading from the network. More info about the API can be found [here](https://github.com/fuseio/fuse-graph)
+- The [graphql API](https://graph.fuse.io/subgraphs/name/fuseio/fuse/graphql) (provided by [theraph's node](https://thegraph.com/)) provides a convenient API for reading from the network. More info about the API can be found [here](https://github.com/fuseio/fuse-graph)
 - The relayer service for fee abstraction
 - The [fuse-studio](https://github.com/fuseio/fuse-studio) backend API for business logic and data
-- [IPFS](https://ipfs.io/) to store other public data, e.g. businesses data and images.
 
 ## Smart Contracts
 

@@ -1,10 +1,7 @@
+import 'package:fusecash/constants/enums.dart';
 import 'package:local_auth/local_auth.dart';
 
-//local auth
-enum BiometricAuth { faceID, touchID, pincode, none }
-
 class BiometricUtils {
-  //local authentication
   static Future<BiometricAuth> getAvailableBiometrics(
       {BiometricType type = BiometricType.fingerprint}) async {
     final List<BiometricType> availableBiometrics =

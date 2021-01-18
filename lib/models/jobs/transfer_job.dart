@@ -1,10 +1,11 @@
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/services/apis/funder.dart';
 import 'package:fusecash/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 part 'transfer_job.g.dart';
 
@@ -26,17 +27,16 @@ class TransferJob extends Job {
   @override
   fetch() async {
     if (this.isFunderJob == true) {
-      return api.getFunderJob(this.id);  
+      return funderApi.getJob(this.id);  
     }
     return api.getJob(this.id);
   }
 
   @override
   onDone(store, dynamic fetchedData) async {
-    final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
       this.status = 'FAILED';
-      logger.info('TransferJob FAILED');
+      log.info('TransferJob FAILED');
       store.dispatch(segmentTrackCall('Wallet: TransferJob FAILED'));
       return;
     }
@@ -47,7 +47,7 @@ class TransferJob extends Job {
     Transfer transfer = arguments['transfer'];
     Transfer confirmedTx = transfer.copyWith(txHash: txHash);
     if (![null, ''].contains(txHash)) {
-      logger.info('TransferJob txHash txHash txHash $txHash');
+      log.info('TransferJob txHash txHash txHash $txHash');
       store.dispatch(new ReplaceTransaction(
           transaction: transfer,
           transactionToReplace: confirmedTx,
@@ -63,10 +63,10 @@ class TransferJob extends Job {
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-      logger.info('TransferJob FAILED');
+      log.info('TransferJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      transactionFailedSnack(failReason);
+      showErrorSnack(message: failReason);
       store.dispatch(transactionFailed(transfer, failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
@@ -74,7 +74,7 @@ class TransferJob extends Job {
     }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.info('TransferJob not done');
+      log.info('TransferJob not done');
       return;
     }
     this.status = 'DONE';

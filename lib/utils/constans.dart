@@ -1,7 +1,4 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
-
-final int intervalSeconds = int.parse(DotEnv().env['INTERVAL_SECONDS']);
+import 'package:fusecash/utils/string.dart';
 
 String toShortName(networkType) =>
     networkType == 'mainnet' ? 'main' : networkType;
@@ -11,7 +8,7 @@ String getBridgeMediator(
   return bridgeType == 'foreign'
       ? bridgeAddresses['${toShortName(networkType)}']['MultiBridgeMediator}']
       : bridgeAddresses['fuse']
-          ['MultiBridgeMediator${capitalize(toShortName(networkType))}'];
+          ['MultiBridgeMediator${toShortName(networkType).capitalize()}'];
 }
 
 Map<String, dynamic> bridgeAddresses = Map.from({

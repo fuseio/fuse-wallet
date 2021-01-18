@@ -1,48 +1,64 @@
 import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/constants/env.dart';
+import 'package:fusecash/constants/strings.dart';
+import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/route_guards.dart';
-import 'package:fusecash/screens/routes.gr.dart' as router;
+import 'package:fusecash/presentation/route_guards.dart';
+import 'package:fusecash/presentation/routes.gr.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/themes/app_theme.dart';
-import 'package:fusecash/themes/custom_theme.dart';
-import 'package:fusecash/utils/jwt.dart';
+import 'package:fusecash/utils/log/log.dart';
+import 'package:fusecash/common/di/di.dart';
+// import 'package:fusecash/utils/jwt.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  Env.init();
   await DotEnv().load('environment/.env');
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  configureDependencies();
+  await Firebase.initializeApp();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   Store<AppState> store = await AppFactory().getStore();
-  runZonedGuarded<Future<void>>(
-      () async => runApp(CustomTheme(
-            initialThemeKey: MyThemeKeys.DEFAULT,
-            child: new MyApp(store: store),
-          )), (Object error, StackTrace stackTrace) async {
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = UrlConstants.SENTRY_DSN;
+      options.serverName = UrlConstants.API_BASE_URL;
+      options.environment = Env.IS_DEBUG ? 'production' : 'development';
+    },
+  );
+  runZonedGuarded<Future<void>>(() async => runApp(MyApp(store: store)), (
+    Object error,
+    StackTrace stackTrace,
+  ) async {
     try {
-      await AppFactory().reportError(error, stackTrace: stackTrace);
+      await Sentry.captureException(error, stackTrace: stackTrace);
     } catch (e) {
-      print('Sending report to sentry.io failed: $e');
-      print('Original error: $error');
+      log.error('Sending report to sentry.io failed: $e');
+      log.error('Original error: $error');
     }
   });
 
   FlutterError.onError = (FlutterErrorDetails details) {
-    if (AppFactory().isInDebugMode) {
+    if (Env.IS_DEBUG) {
       FlutterError.dumpErrorToConsole(details);
     } else {
       Zone.current.handleUncaughtError(details.exception, details.stack);
@@ -69,40 +85,39 @@ class _MyAppState extends State<MyApp> {
   }
 
   void refreshToken(Store<AppState> store) async {
-    final logger = await AppFactory().getLogger('action');
     String jwtToken = store?.state?.userState?.jwtToken;
-    final accoutAddress = store?.state?.userState?.accountAddress;
-    final identifier = store?.state?.userState?.identifier;
+    // final accoutAddress = store?.state?.userState?.accountAddress;
+    // final identifier = store?.state?.userState?.identifier;
     if (![null, ''].contains(jwtToken)) {
-      Map<String, dynamic> tokenData = parseJwt(jwtToken);
-      DateTime exp =
-          DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
-      DateTime now = DateTime.now();
-      Duration diff = exp.difference(now);
-      if (diff.inDays <= 1) {
-        String token = await firebaseAuth.currentUser.getIdToken(true);
-        logger.info('forceRefreshJWT: $jwtToken');
-        jwtToken = await api.login(token, accoutAddress, identifier);
-      }
+      // Map<String, dynamic> tokenData = parseJwt(jwtToken);
+      // DateTime exp =
+      //     DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
+      // DateTime now = DateTime.now();
+      // Duration diff = exp.difference(now);
+      // if (diff.inDays <= 1) {
+      //   String token = await firebaseAuth.currentUser.getIdToken(true);
+      //   log.info('forceRefreshJWT: $jwtToken');
+      //   jwtToken =
+      //       await api.loginwithFirebase(token, accoutAddress, identifier);
+      // }
 
-      logger.info('JWT: $jwtToken');
+      log.info('JWT: $jwtToken');
       api.setJwtToken(jwtToken);
       store.dispatch(LoginVerifySuccess(jwtToken));
     } else {
-      logger.info('no JWT');
+      log.info('no JWT');
     }
   }
 
   void listenDynamicLinks(Store<AppState> store) async {
-    final logger = await AppFactory().getLogger('action');
-    logger.info("branch listening.");
-    store.dispatch(BranchListening());
     streamSubscription =
         FlutterBranchSdk.initSession().listen((linkData) async {
-      logger.info("Got link data: ${linkData.toString()}");
+      log.info("branch listening.");
+      store.dispatch(BranchListening());
+      log.info("Got link data: ${linkData.toString()}");
       if (linkData["~feature"] == "switch_community") {
         var communityAddress = linkData["community_address"];
-        logger.info("communityAddress $communityAddress");
+        log.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
         store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
           'Referral': linkData["~feature"],
@@ -113,7 +128,6 @@ class _MyAppState extends State<MyApp> {
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
-        logger.info("community_address $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
         store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
           'Referral': linkData["~feature"],
@@ -122,13 +136,7 @@ class _MyAppState extends State<MyApp> {
         store.dispatch(segmentTrackCall("Wallet: Branch: User Invite",
             properties: new Map<String, dynamic>.from(linkData)));
       }
-    }, onError: (error) {
-      PlatformException platformException = error as PlatformException;
-      print(
-          'InitSession error: ${platformException.code} - ${platformException.message}');
-      logger.severe('ERROR - FlutterBranchSdk initSession $error');
-      store.dispatch(BranchListeningStopped());
-    }, cancelOnError: true);
+    });
   }
 
   @override
@@ -148,28 +156,34 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
-        store: widget.store,
-        child: MaterialApp(
-          title: 'Fuse Cash',
-          builder: ExtendedNavigator.builder(
-            router: router.Router(),
-            initialRoute: "/",
-            guards: [AuthGuard()],
-            builder: (_, extendedNav) => Theme(
-              data: CustomTheme.of(context),
-              child: extendedNav,
-            ),
-          ),
-          localizationsDelegates: [
-            i18n,
-            CountryLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
+      store: widget.store,
+      child: MaterialApp(
+        title: Strings.APP_NAME,
+        builder: ExtendedNavigator.builder(
+          observers: [
+            SegmentObserver(),
+            SentryNavigatorObserver(),
           ],
-          supportedLocales: i18n.supportedLocales,
-          localeResolutionCallback:
-              i18n.resolution(fallback: new Locale("en", "US")),
-        ));
+          router: Router(),
+          initialRoute: "/",
+          guards: [AuthGuard()],
+          builder: (_, extendedNav) => Theme(
+            data: AppTheme.themeData,
+            child: extendedNav,
+          ),
+        ),
+        localizationsDelegates: [
+          i18n,
+          CountryLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: i18n.supportedLocales,
+        localeResolutionCallback: i18n.resolution(
+          fallback: new Locale("en", "US"),
+        ),
+      ),
+    );
   }
 }

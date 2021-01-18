@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 
-void transactionFailedSnack(message,
-    {BuildContext context,
-    String title,
-    Duration duration,
-    EdgeInsets margin}) {
+void showErrorSnack({
+  BuildContext context,
+  String title,
+  Duration duration,
+  EdgeInsets margin,
+  message,
+}) {
   Flushbar(
       boxShadows: [
         BoxShadow(

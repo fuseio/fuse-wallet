@@ -2,10 +2,10 @@ import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 part 'invite_job.g.dart';
 
@@ -31,9 +31,8 @@ class InviteJob extends Job {
 
   @override
   onDone(store, dynamic fetchedData) async {
-    final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
-      logger.info('InviteJob FAILED');
+      log.info('InviteJob FAILED');
       // store.dispatch(transactionFailed(arguments['inviteTransfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: InviteJob FAILED'));
       return;
@@ -47,9 +46,9 @@ class InviteJob extends Job {
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-      logger.info('InviteJob FAILED');
+      log.info('InviteJob FAILED');
       String failReason = fetchedData['failReason'];
-      transactionFailedSnack(failReason);
+      showErrorSnack(message: failReason);
       store.dispatch(transactionFailed(arguments['inviteTransfer'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
@@ -57,8 +56,7 @@ class InviteJob extends Job {
 
     Job job = JobFactory.create(fetchedData);
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      final logger = await AppFactory().getLogger('Job');
-      logger.info('InviteJob job not done');
+      log.info('InviteJob job not done');
       return;
     }
     if (arguments['tokenAddress'] != null) {

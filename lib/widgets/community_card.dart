@@ -5,8 +5,8 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 
-class CommunitySelectedCardScreen extends StatefulWidget {
-  CommunitySelectedCardScreen(
+class SelectedCommunityCard extends StatefulWidget {
+  SelectedCommunityCard(
       {Key key, this.title, this.community, this.token, this.switchCommunity})
       : super(key: key);
 
@@ -19,7 +19,7 @@ class CommunitySelectedCardScreen extends StatefulWidget {
   _CommunityCardScreenState createState() => _CommunityCardScreenState();
 }
 
-class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
+class _CommunityCardScreenState extends State<SelectedCommunityCard> {
   @override
   void initState() {
     super.initState();

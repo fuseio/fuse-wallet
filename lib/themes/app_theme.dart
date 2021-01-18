@@ -1,92 +1,101 @@
 import 'package:flutter/material.dart';
 
-enum MyThemeKeys { DEFAULT, PAYWISE, OPEN_MONEY, GOOD_DOLLAR, WEPY }
-
-class MyThemes {
-  static final ThemeData defaultTheme = getTheme();
-
-  static final ThemeData paywiseTheme = getTheme().copyWith(
-      primaryColorLight: const Color(0xFF8AD57F),
-      primaryColorDark: const Color(0xFF1876B5),
-      buttonColor: const Color(0xFF8AD57F),
-      textTheme: TextTheme(button: new TextStyle(color: Colors.white)));
-
-  static final ThemeData openMoneyTheme = getTheme().copyWith(
-      primaryColorLight: const Color(0xFF65944A),
-      primaryColorDark: const Color(0xFF2C4514),
-      textTheme: TextTheme(button: new TextStyle(color: Colors.white)));
-
-  static final ThemeData goodDollarTheme = getTheme().copyWith(
-      primaryColorLight: const Color(0xFF02B0FF),
-      primaryColorDark: const Color(0xFF00B247),
-      textTheme: TextTheme(button: new TextStyle(color: Colors.white)));
-
-  static final ThemeData wepyTheme = getTheme().copyWith(
-      primaryColorLight: const Color(0xFF06DEA4),
-      primaryColorDark: const Color(0xFF1077D8),
-      textTheme: TextTheme(button: new TextStyle(color: Colors.white)));
-
-  static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
-    switch (themeKey) {
-      case MyThemeKeys.DEFAULT:
-        return defaultTheme;
-      case MyThemeKeys.PAYWISE:
-        return paywiseTheme;
-      case MyThemeKeys.OPEN_MONEY:
-        return openMoneyTheme;
-      case MyThemeKeys.GOOD_DOLLAR:
-        return goodDollarTheme;
-      case MyThemeKeys.WEPY:
-        return wepyTheme;
-      default:
-        return defaultTheme;
-    }
-  }
-}
-
-ThemeData getTheme() {
-  ColorScheme myScheme = new ColorScheme.light().copyWith(
-      background: Color(0xFFF5F5F5),
-      primary: Colors.black,
-      secondary: Color(0xFF808080),
-      secondaryVariant: Color(0xFFF5F5F5));
-  return ThemeData(
-    colorScheme: myScheme,
-    backgroundColor: Color(0xFFF5F5F5),
-    bottomAppBarColor: const Color(0xFFF8F8F8),
-    fontFamily: 'Europa', //'Source',  //'Gotham',
+class AppTheme {
+  static final ThemeData themeData = ThemeData(
+    backgroundColor: _backgroundColor,
+    bottomAppBarColor: _bottomAppBarColor,
+    fontFamily: 'Europa',
+    textSelectionHandleColor: _textSelectionHandleColor,
     brightness: Brightness.light,
-    primaryColor: Colors.black,
-    accentColor: const Color(0xFFA5A5A5),
-    canvasColor: const Color(0xFFF8F8F8),
-    scaffoldBackgroundColor: Colors.white,
-    textSelectionHandleColor: const Color(0xFF05283e),
-    textSelectionColor: Colors.black12,
-    cursorColor: const Color(0xFF05283e),
-    toggleableActiveColor: const Color(0xFF05283e),
-    primaryColorLight: const Color(0xFFFEFD86),
-    primaryColorDark: const Color(0xFFB1FDC0),
-    buttonColor: const Color(0xFFB1FDC0),
-    splashColor: Colors.white,
-    textTheme: TextTheme(button: new TextStyle(color: const Color(0xFF333333))),
-    inputDecorationTheme: InputDecorationTheme(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: const Color(0xFF05283e)),
+    primaryColor: _primaryColor,
+    hintColor: _hintColor,
+    textTheme: _textTheme,
+    cursorColor: _cursorColor,
+    scaffoldBackgroundColor: _scaffoldBackgroundColor,
+    unselectedWidgetColor: _unselectedWidgetColor,
+    toggleableActiveColor: _toggleableActiveColor,
+    primaryColorLight: _primaryColorLight,
+    primaryColorDark: _primaryColorDark,
+    buttonColor: _buttonColor,
+    accentColor: _accentColor,
+    splashColor: _splashColor,
+    colorScheme: _colorScheme,
+    canvasColor: _canvasColor,
+    inputDecorationTheme: _inputDecorationTheme,
+  );
+
+  static const Color _primaryColor = Colors.black;
+  static const Color _hintColor = Color(0xffaaaaaa);
+  static const Color _canvasColor = Color(0xFFF8F8F8);
+  static const Color _accentColor = Color(0xFFA5A5A5);
+  static const Color _unselectedWidgetColor = Color(0xffcccccc);
+  static const Color _scaffoldBackgroundColor = Colors.white;
+  static const Color _toggleableActiveColor = Color(0xFF05283e);
+  static const Color _cursorColor = Color(0xFFA5A5A5);
+  static const Color _primaryColorLight = Color(0xFFFEFD86);
+  static const Color _primaryColorDark = Color(0xFFB1FDC0);
+  static const Color _buttonColor = Color(0xFFB1FDC0);
+  static const Color _splashColor = Colors.white;
+  static const Color _textSelectionHandleColor = Color(0xFF05283e);
+  static const Color _bottomAppBarColor = Color(0xFFF8F8F8);
+  static const Color _backgroundColor = Color(0xFFF5F5F5);
+
+  static final InputDecorationTheme _inputDecorationTheme =
+      InputDecorationTheme(
+    border: OutlineInputBorder(
+      borderSide: BorderSide(
+          color: Color(
+        0xFF05283e,
+      )),
+    ),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.black.withOpacity(
+          0.1,
         ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide:
-              BorderSide(color: Colors.black.withOpacity(0.1), width: 2),
-        ),
-        focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: const Color(0xFF05283e)),
-            borderRadius: BorderRadius.all(Radius.circular(26.0))),
-        errorBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-            borderRadius: BorderRadius.all(Radius.circular(26.0))),
-        focusedErrorBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.red),
-            borderRadius: BorderRadius.all(Radius.circular(26.0))),
-        contentPadding: EdgeInsets.symmetric(vertical: 18, horizontal: 30)),
-    bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent),
+        width: 2,
+      ),
+    ),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Color(0xFF05283e),
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(26.0),
+      ),
+    ),
+    errorBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.red,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(26.0),
+      ),
+    ),
+    focusedErrorBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.red,
+      ),
+      borderRadius: BorderRadius.all(
+        Radius.circular(26.0),
+      ),
+    ),
+    contentPadding: EdgeInsets.symmetric(
+      vertical: 18,
+      horizontal: 30,
+    ),
+  );
+
+  static final TextTheme _textTheme = TextTheme(
+    button: new TextStyle(
+      color: const Color(0xFF333333),
+    ),
+  );
+
+  static final ColorScheme _colorScheme = ColorScheme.light().copyWith(
+    background: Color(0xFFF5F5F5),
+    primary: Colors.black,
+    secondary: Color(0xFF808080),
+    secondaryVariant: Color(0xFFF5F5F5),
   );
 }

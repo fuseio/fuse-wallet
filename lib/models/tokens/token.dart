@@ -1,9 +1,12 @@
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/models/jobs/base.dart';
-import 'package:fusecash/models/pro/price.dart';
+import 'package:fusecash/models/tokens/price.dart';
 import 'package:fusecash/models/tokens/base.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/services/apis/market.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';
@@ -122,8 +125,8 @@ class Token extends ERC20Token {
       {String currency = 'usd',
       void Function(Price) onDone,
       Function onError}) async {
-    // final logger = await AppFactory().getLogger('action');
     try {
+      final Market marketApi = getIt<Market>();
       final Map<String, dynamic> response =
           await marketApi.getCurrentPriceOfTokens(this.address, currency);
       double price = response[this.address.toLowerCase()][currency];

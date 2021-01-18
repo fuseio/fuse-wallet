@@ -1,5 +1,5 @@
 import 'dart:core';
-import 'package:fusecash/screens/home/widgets/drawer.dart';
+import 'package:fusecash/utils/string.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -70,7 +70,7 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              '''This page shows your assets on the ${widget.network == 'fuse' ? capitalize(widget.network) : 'Ethereum'} network''',
+                              '''This page shows your assets on the ${widget.network == 'fuse' ? widget.network.capitalize() : 'Ethereum'} network''',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 15,

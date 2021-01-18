@@ -1,4 +1,4 @@
-import 'package:fusecash/utils/transaction_util.dart';
+import 'package:fusecash/utils/images.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'community_metadata.g.dart';
@@ -35,7 +35,7 @@ class CommunityMetadata {
     if (![null, ''].contains(imageUri)) {
       return imageUri;
     } else if (![null, ''].contains(image)) {
-      return getIPFSImageUrl(image);
+      return ImageUrl.getLink(image);
     }
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
   }
@@ -44,7 +44,7 @@ class CommunityMetadata {
     if (![null, ''].contains(coverPhotoUri)) {
       return coverPhotoUri;
     } else if (![null, ''].contains(coverPhoto)) {
-      return getIPFSImageUrl(coverPhoto);
+      return ImageUrl.getLink(coverPhoto);
     }
     return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
   }

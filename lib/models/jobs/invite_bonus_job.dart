@@ -1,9 +1,10 @@
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/services/apis/funder.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 part 'invite_bonus_job.g.dart';
 
@@ -27,15 +28,14 @@ class InviteBonusJob extends Job {
     if (this.isFunderJob == null || !this.isFunderJob) {
       return api.getJob(this.id);
     } else {
-      return api.getFunderJob(this.id);
+      return funderApi.getJob(this.id);
     }
   }
 
   @override
   onDone(store, dynamic fetchedData) async {
-    final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
-      logger.info('InviteBonusJob FAILED');
+      log.info('InviteBonusJob FAILED');
       // store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['']));
       store.dispatch(segmentTrackCall('Wallet: InviteBonusJob FAILED'));
       return;
@@ -49,7 +49,7 @@ class InviteBonusJob extends Job {
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-      logger.info('InviteBonusJob FAILED');
+      log.info('InviteBonusJob FAILED');
       String failReason = fetchedData['failReason'];
       store.dispatch(transactionFailed(arguments['inviteBonus'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
@@ -58,13 +58,13 @@ class InviteBonusJob extends Job {
 
     if (fetchedData['data']['funderJobId'] != null) {
       String funderJobId = fetchedData['data']['funderJobId'];
-      dynamic response = await api.getFunderJob(funderJobId);
+      dynamic response = await funderApi.getJob(funderJobId);
       dynamic data = response['data'];
       String txHash = data['txHash'];
       Transfer transfer = arguments['inviteBonus'];
       Transfer confirmedTx = transfer.copyWith(txHash: txHash);
       if (![null, ''].contains(txHash)) {
-        logger.info('InviteBonusJob txHash txHash txHash $txHash');
+        log.info('InviteBonusJob txHash txHash txHash $txHash');
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx,
@@ -73,7 +73,7 @@ class InviteBonusJob extends Job {
       }
       String responseStatus = data['status'];
       if (responseStatus == 'SUCCEEDED') {
-        logger.info('InviteBonusJob SUCCEEDED');
+        log.info('InviteBonusJob SUCCEEDED');
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED'),
@@ -83,7 +83,7 @@ class InviteBonusJob extends Job {
         store.dispatch(JobDone(tokenAddress: transfer.tokenAddress, job: this));
         return;
       } else if (responseStatus == 'FAILED') {
-        logger.info('InviteBonusJob FAILED');
+        log.info('InviteBonusJob FAILED');
         String failReason = fetchedData['failReason'];
         store.dispatch(transactionFailed(confirmedTx, failReason));
         store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));

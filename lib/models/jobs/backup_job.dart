@@ -2,15 +2,26 @@ import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
+import 'package:fusecash/services/apis/funder.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 part 'backup_job.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: false)
 class BackupJob extends Job {
-  BackupJob({id, jobType, name, status, data, arguments, lastFinishedAt, timeStart, isReported, isFunderJob})
+  BackupJob(
+      {id,
+      jobType,
+      name,
+      status,
+      data,
+      arguments,
+      lastFinishedAt,
+      timeStart,
+      isReported,
+      isFunderJob})
       : super(
             id: id,
             jobType: jobType,
@@ -30,10 +41,9 @@ class BackupJob extends Job {
 
   @override
   onDone(store, dynamic fetchedData) async {
-    final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
       this.status = 'FAILED';
-      logger.info('BackupJob FAILED');
+      log.info('BackupJob FAILED');
       // store.dispatch(transactionFailed(arguments['backupBonus'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: BackupJob FAILED'));
       return;
@@ -41,53 +51,62 @@ class BackupJob extends Job {
     int current = DateTime.now().millisecondsSinceEpoch;
     int jobTime = this.timeStart;
     final int millisecondsIntoMin = 2 * 60 * 1000;
-    if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
-      store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+    if ((current - jobTime) > millisecondsIntoMin &&
+        isReported != null &&
+        !isReported) {
+      store.dispatch(segmentTrackCall('Wallet: pending job',
+          properties: new Map<String, dynamic>.from({'id': id, 'name': name})));
       this.isReported = true;
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-      logger.info('BackupJob FAILED');
+      log.info('BackupJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
       store.dispatch(transactionFailed(arguments['backupBonus'], failReason));
-      store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+      store.dispatch(segmentTrackCall('Wallet: job failed',
+          properties: new Map<String, dynamic>.from(
+              {'id': id, 'failReason': failReason, 'name': name})));
       return;
     }
 
     if (fetchedData['data']['funderJobId'] != null) {
       String funderJobId = fetchedData['data']['funderJobId'];
-      dynamic response = await api.getFunderJob(funderJobId);
+      dynamic response = await funderApi.getJob(funderJobId);
       dynamic data = response['data'];
       Transfer transfer = arguments['backupBonus'];
       String txHash = data['txHash'];
       Transfer confirmedTx = transfer.copyWith(txHash: txHash);
       if (![null, ''].contains(txHash)) {
-        logger.info('BackupJob txHash txHash txHash $txHash');
+        log.info('BackupJob txHash txHash txHash $txHash');
         store.dispatch(new ReplaceTransaction(
             transaction: transfer,
             transactionToReplace: confirmedTx,
             tokenAddress: transfer.tokenAddress));
-        store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
+        store.dispatch(
+            UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
       }
       if (data['status'] == 'SUCCEEDED') {
         store.dispatch(backupSuccessCall(confirmedTx));
-        store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+        store.dispatch(segmentTrackCall('Wallet: job succeeded',
+            properties:
+                new Map<String, dynamic>.from({'id': id, 'name': name})));
         return;
       } else if (status == 'FAILED') {
         dynamic failReason = response['failReason'];
         store.dispatch(transactionFailed(arguments['backupBonus'], failReason));
-        store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id })));
+        store.dispatch(segmentTrackCall('Wallet: job failed',
+            properties: new Map<String, dynamic>.from({'id': id})));
       }
     }
   }
 
   @override
   dynamic argumentsToJson() => {
-      'backupBonus': arguments['backupBonus'],
-      'jobType': arguments['jobType'],
-      'communityAddress': arguments['communityAddress']
-    };
+        'backupBonus': arguments['backupBonus'],
+        'jobType': arguments['jobType'],
+        'communityAddress': arguments['communityAddress']
+      };
 
   @override
   Map<String, dynamic> argumentsFromJson(arguments) {
@@ -97,7 +116,8 @@ class BackupJob extends Job {
     if (arguments.containsKey('backupBonus')) {
       if (arguments['backupBonus'] is Map) {
         Map<String, dynamic> nArgs = Map<String, dynamic>.from(arguments);
-        nArgs['backupBonus'] = TransactionFactory.fromJson(arguments['backupBonus']);
+        nArgs['backupBonus'] =
+            TransactionFactory.fromJson(arguments['backupBonus']);
         return nArgs;
       }
     }

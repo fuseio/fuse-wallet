@@ -1,6 +1,6 @@
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
-import 'package:fusecash/models/pro/pro_wallet_state.dart';
+import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'app_state.g.dart';
@@ -15,13 +15,18 @@ class AppState {
   static ProWalletState _proStateFromJson(Map<String, dynamic> json) =>
       json == null ? ProWalletState.initial() : ProWalletState.fromJson(json);
 
-  AppState({this.userState, this.cashWalletState, this.proWalletState});
+  AppState({
+    this.userState,
+    this.cashWalletState,
+    this.proWalletState,
+  });
 
   factory AppState.initial() {
     return AppState(
-        userState: UserState.initial(),
-        cashWalletState: CashWalletState.initial(),
-        proWalletState: ProWalletState.initial());
+      userState: UserState.initial(),
+      cashWalletState: CashWalletState.initial(),
+      proWalletState: ProWalletState.initial(),
+    );
   }
 
   AppState copyWith(UserState userState, CashWalletState cashWalletState,

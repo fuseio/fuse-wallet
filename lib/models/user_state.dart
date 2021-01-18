@@ -2,7 +2,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:fusecash/utils/biometric_local_auth.dart';
+import 'package:fusecash/constants/enums.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_state.g.dart';
@@ -32,8 +32,6 @@ class UserState {
   final String email;
   final String verificationId;
   final String identifier;
-  final bool loginRequestSuccess;
-  final bool loginVerifySuccess;
   final bool isLoggedOut;
   final bool isContactsSynced;
   final bool backup;
@@ -48,9 +46,9 @@ class UserState {
   final num totalBalance;
 
   @JsonKey(ignore: true)
-  final dynamic signupException;
+  final dynamic signupErrorMessage;
   @JsonKey(ignore: true)
-  final dynamic verifyException;
+  final dynamic verifyErrorMessage;
   @JsonKey(ignore: true)
   final bool isLoginRequest;
   @JsonKey(ignore: true)
@@ -85,8 +83,6 @@ class UserState {
       this.email,
       this.verificationId,
       this.identifier,
-      this.loginRequestSuccess,
-      this.loginVerifySuccess,
       this.isLoggedOut,
       this.isContactsSynced,
       this.backup,
@@ -99,8 +95,8 @@ class UserState {
       this.receiveBackupDialogShowed,
       this.currency,
       this.totalBalance,
-      this.signupException,
-      this.verifyException});
+      this.signupErrorMessage,
+      this.verifyErrorMessage});
 
   factory UserState.initial() {
     return new UserState(
@@ -126,8 +122,6 @@ class UserState {
         email: "",
         verificationId: "",
         identifier: "",
-        loginRequestSuccess: false,
-        loginVerifySuccess: false,
         isLoggedOut: false,
         isContactsSynced: null,
         backup: false,
@@ -167,8 +161,6 @@ class UserState {
       String email,
       String verificationId,
       String identifier,
-      bool loginRequestSuccess,
-      bool loginVerifySuccess,
       bool isLoggedOut,
       bool isContactsSynced,
       bool backup,
@@ -182,11 +174,11 @@ class UserState {
       bool homeBackupDialogShowed,
       String currency,
       num totalBalance,
-      dynamic verifyException,
-      dynamic signupException}) {
+      dynamic verifyErrorMessage,
+      dynamic signupErrorMessage}) {
     return UserState(
-        verifyException: verifyException ?? this.verifyException,
-        signupException: signupException ?? this.signupException,
+        verifyErrorMessage: verifyErrorMessage ?? this.verifyErrorMessage,
+        signupErrorMessage: signupErrorMessage ?? this.signupErrorMessage,
         authType: authType ?? this.authType,
         walletAddress: walletAddress ?? this.walletAddress,
         communityManagerAddress:
@@ -213,8 +205,6 @@ class UserState {
         email: email ?? this.email,
         verificationId: verificationId ?? this.verificationId,
         identifier: identifier ?? this.identifier,
-        loginRequestSuccess: loginRequestSuccess ?? this.loginRequestSuccess,
-        loginVerifySuccess: loginVerifySuccess ?? this.loginVerifySuccess,
         isLoggedOut: isLoggedOut ?? this.isLoggedOut,
         isContactsSynced: isContactsSynced ?? this.isContactsSynced,
         backup: backup ?? this.backup,

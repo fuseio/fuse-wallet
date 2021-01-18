@@ -3,10 +3,10 @@ import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:fusecash/utils/log/log.dart';
 
 part 'join_community_job.g.dart';
 
@@ -32,11 +32,10 @@ class JoinCommunityJob extends Job {
 
   @override
   onDone(store, dynamic fetchedData) async {
-    final logger = await AppFactory().getLogger('Job');
     final Community community = (arguments['community'] as Community);
     final String communityAddress = community.address;
     if (isReported == true) {
-      logger.info('JoinCommunityJob FAILED');
+      log.info('JoinCommunityJob FAILED');
       // store.dispatch(transactionFailed(confirmedTx, communityAddress, fetchedData['failReason']));
       store.dispatch(segmentTrackCall('Wallet: JoinCommunityJob FAILED'));
       store.dispatch(UpdateJob(tokenAddress: arguments['transfer'].tokenAddress, job: this));
@@ -58,10 +57,10 @@ class JoinCommunityJob extends Job {
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
-      logger.info('JoinCommunityJob FAILED');
+      log.info('JoinCommunityJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      transactionFailedSnack(failReason);
+      showErrorSnack(message: failReason);
       store.dispatch(transactionFailed(confirmedTx, failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       store.dispatch(UpdateJob(tokenAddress: transfer.tokenAddress, job: this));
@@ -69,7 +68,7 @@ class JoinCommunityJob extends Job {
     }
 
     if (![null, ''].contains(txHash)) {
-      logger.info('JoinCommunityJob txHash txHash txHash $txHash');
+      log.info('JoinCommunityJob txHash txHash txHash $txHash');
       store.dispatch(new ReplaceTransaction(
           transaction: transfer,
           transactionToReplace: confirmedTx,
@@ -78,7 +77,7 @@ class JoinCommunityJob extends Job {
     }
 
     if (job.lastFinishedAt == null || job.lastFinishedAt.isEmpty) {
-      logger.info('JoinCommunityJob not done');
+      log.info('JoinCommunityJob not done');
       return;
     }
     this.status = 'DONE';
