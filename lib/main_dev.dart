@@ -17,7 +17,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Env.init();
-  await DotEnv().load('environment/.env');
+  await DotEnv().load('environment/.env_qa');
   configureDependencies();
   await Firebase.initializeApp();
   await SystemChrome.setPreferredOrientations([
