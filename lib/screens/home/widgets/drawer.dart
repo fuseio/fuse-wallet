@@ -100,7 +100,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ),
         onTap: () {
           ExtendedNavigator.root.pop();
-          dynamic url = depositPlugins[0].generateUrl();
+          dynamic url = depositPlugins[0].generateUrl() + '&externalCustomerId=0x2D6444D9Ff0f3439e651803b6765D61358DdF968_0x5EefE495463858d078d0d68eB10E946a9a0AD6Be';
+          print('url url $url');
           ExtendedNavigator.root.pushWebview(
             withBack: true,
             url: url,
