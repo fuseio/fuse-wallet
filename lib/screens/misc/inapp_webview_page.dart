@@ -12,7 +12,6 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:peepl/models/app_state.dart';
 import 'package:peepl/models/tokens/token.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
-import 'package:peepl/utils/format.dart';
 import 'package:peepl/widgets/my_app_bar.dart';
 
 class WebViewWidget extends StatefulWidget {
@@ -139,30 +138,32 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                 // initialFile: "assets/index.html",
                 onWebViewCreated: (InAppWebViewController controller) {
                   webView = controller;
-                  webView.addJavaScriptHandler(
-                      handlerName: "pay",
-                      callback: (args) {
-                        Map<String, dynamic> paymentDetails = Map.from(args[0]);
-                        print(
-                            'paymentDetails ${paymentDetails.toString()} ${paymentDetails['amount']} ${paymentDetails['destination']} ${paymentDetails['currency']}');
-                        Token token = viewModel.tokens.firstWhere((token) =>
-                            token.symbol.contains(paymentDetails['currency']));
-                        VoidCallback sendSuccessCallback(jobReponse) {
-                          // here you you use the job id. under the job data you can find the transction hash.
-                          // or you can track the job status by the job id from our server
-                        }
-                        ;
-                        VoidCallback sendFailureCallback() {}
-                        viewModel.sendTokenFromWebView(
-                            token,
-                            paymentDetails['orderId'],
-                            paymentDetails['destination'],
-                            paymentDetails['amount'],
-                            sendSuccessCallback,
-                            sendFailureCallback);
-                      });
+                  controller.addJavaScriptHandler(
+                    handlerName: "pay",
+                    callback: (args) {
+                      Map<String, dynamic> paymentDetails = Map.from(args[0]);
+                      sendSuccessCallback(jobReponse) async {
+                        dynamic jobId = jobReponse['job']['_id'];
+                        await client.post(
+                            'https://app.itsaboutpeepl.com/api/v1/orders/payment-submitted',
+                            body: jsonEncode(Map.from({
+                              'orderId': paymentDetails['orderId'],
+                              'jobId': jobId
+                            })));
+                      }
 
-                  webView.addJavaScriptHandler(
+                      VoidCallback sendFailureCallback() {}
+                      viewModel.sendTokenFromWebView(
+                        paymentDetails['currency'],
+                        paymentDetails['destination'],
+                        paymentDetails['amount'],
+                        sendSuccessCallback,
+                        sendFailureCallback,
+                      );
+                    },
+                  );
+
+                  controller.addJavaScriptHandler(
                       handlerName: "topup",
                       callback: (args) {
                         Map<String, dynamic> data = Map.from(args[0]);
@@ -176,11 +177,10 @@ class _WebViewWidgetState extends State<WebViewWidget> {
 }
 
 class InAppWebViewViewModel extends Equatable {
-  final List<Token> tokens;
+  final Map<String, Token> tokens;
   final String walletAddress;
   final Function(
     Token token,
-    String orderId,
     String recieverAddress,
     num amount,
     Function(dynamic) sendSuccessCallback,
@@ -200,36 +200,11 @@ class InAppWebViewViewModel extends Equatable {
   });
 
   static InAppWebViewViewModel fromStore(Store<AppState> store) {
-    List<Token> foreignTokens = List<Token>.from(
-            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
-        .toList();
-
-    List<Token> homeTokens = store.state.cashWalletState.tokens.values
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals, withPrecision: true))
-                .compareTo(0) ==
-            1)
-        .map((Token token) => token?.copyWith(
-            imageUrl: store.state.cashWalletState.communities
-                    .containsKey(token.communityAddress)
-                ? store.state.cashWalletState
-                    .communities[token.communityAddress].metadata
-                    .getImageUri()
-                : null))
-        .toList();
     return InAppWebViewViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
-          (tokenB?.amount ?? BigInt.zero)
-              ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+      tokens: store.state.cashWalletState.tokens,
       sendTokenFromWebView: (
         Token token,
-        String orderId,
         String recieverAddress,
         num amount,
         Function(dynamic) sendSuccessCallback,
@@ -237,7 +212,6 @@ class InAppWebViewViewModel extends Equatable {
       ) {
         store.dispatch(sendTokenFromWebViewCall(
           token,
-          orderId,
           recieverAddress,
           amount,
           sendSuccessCallback,

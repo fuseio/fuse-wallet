@@ -14,7 +14,6 @@ import 'package:peepl/screens/home/screens/help.dart';
 import 'package:peepl/screens/home/screens/topup.dart';
 import 'package:peepl/screens/misc/inapp_webview_page.dart';
 import 'package:peepl/screens/home/widgets/drawer.dart';
-import 'package:peepl/screens/misc/webview_page.dart';
 import 'package:peepl/utils/contacts.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';

@@ -1545,7 +1545,6 @@ ThunkAction sendTokenToContactCall(
 ThunkAction sendTokenFromWebViewCall(
     Token token,
     String receiverAddress,
-    String orderId,
     num tokensAmount,
     Function(dynamic) sendSuccessCallback,
     VoidCallback sendFailureCallback,
@@ -1576,9 +1575,6 @@ ThunkAction sendTokenFromWebViewCall(
 
       dynamic jobId = response['job']['_id'];
       logger.info('Job $jobId for sending token sent to the relay service');
-      Response res = await client.post(
-          'https://app.itsaboutpeepl.com/api/v1/orders/payment-submitted',
-          body: jsonEncode(Map.from({'orderId': orderId, 'jobId': jobId})));
 
       sendSuccessCallback(response);
       Transfer transfer = Transfer(
