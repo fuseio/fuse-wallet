@@ -150,7 +150,7 @@ ThunkAction initWeb3ProMode() {
     wallet_core.Web3 web3 = wallet_core.Web3(
       approvalCallback,
       url: DotEnv().env['FOREIGN_PROVIDER_URL'],
-      networkId: Variables.ETHEREUM_NETWORK_ID,
+      networkId: int.parse(DotEnv().env['FOREIGN_NETWORK_ID']),
       transferManagerAddress: userState.transferManagerAddress,
       daiPointsManagerAddress: userState.daiPointsManagerAddress,
       communityManagerAddress: userState.communityManagerAddress,
@@ -499,16 +499,27 @@ ThunkAction sendErc20TokenCall(
       }
       log.info(
           'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
-      Map<String, dynamic> approveTokenData = await web3.approveTokenOffChain(
-          walletAddress, token.address, tokensAmount,
-          network: foreignNetwork);
-      Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
-          walletAddress, token.address, receiverAddress, tokensAmount,
-          network: foreignNetwork);
       num feeAmount = fees[token.symbol] ?? 1;
+      Map<String, dynamic> approveTokenData = await web3.approveTokenOffChain(
+        walletAddress,
+        token.address,
+        tokensAmount,
+        network: foreignNetwork,
+      );
+      Map<String, dynamic> transferTokenData = await web3.transferTokenOffChain(
+        walletAddress,
+        token.address,
+        receiverAddress,
+        tokensAmount,
+        network: foreignNetwork,
+      );
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress, token.address, feeReceiverAddress, feeAmount,
-          network: foreignNetwork);
+        walletAddress,
+        token.address,
+        Addresses.FEE_ADDRESS,
+        feeAmount,
+        network: foreignNetwork,
+      );
       dynamic approveTrasfer = await api
           .multiRelay([approveTokenData, transferTokenData, feeTrasnferData]);
       sendSuccessCallback();
@@ -581,7 +592,11 @@ ThunkAction sendTokenToHomeMultiBridge(
           receiverAddress, tokenAddress, tokensAmount, token.decimals,
           network: token.originNetwork);
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+        walletAddress,
+        tokenAddress,
+        Addresses.FEE_ADDRESS,
+        feeAmount,
+      );
       response = await api.multiRelay([...trasnferData, feeTrasnferData]);
 
       dynamic jobId = response['job']['_id'];
@@ -810,7 +825,11 @@ ThunkAction swapHandler(
           swapData.replaceFirst('0x', ''),
           network: foreignNetwork);
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+        walletAddress,
+        tokenAddress,
+        Addresses.FEE_ADDRESS,
+        feeAmount,
+      );
 
       Map<String, dynamic> response = await api
           .multiRelay([signedApprovalData, signedSwapData, feeTrasnferData]);

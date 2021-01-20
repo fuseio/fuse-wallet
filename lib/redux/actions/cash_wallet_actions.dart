@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/urls.dart';
@@ -21,7 +22,6 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
@@ -380,13 +380,14 @@ ThunkAction initWeb3Call({
         approvalCallback,
         url: UrlConstants.FUSE_RPC_URL,
         networkId: Variables.FUSE_CHAIN_ID,
-        defaultCommunityAddress: Addresses.DEFAULT_COMMUNITY_CONTRACT_ADDRESS,
+        defaultCommunityAddress:
+            DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
         communityManagerAddress: communityManagerAddress ??
-            Addresses.COMMUNITY_MANAGER_CONTRACT_ADDRESS,
+            DotEnv().env['COMMUNITY_MANAGER_CONTRACT_ADDRESS'],
         transferManagerAddress: transferManagerAddress ??
-            Addresses.TRANSFER_MANAGER_CONTRACT_ADDRESS,
+            DotEnv().env['TRANSFER_MANAGER_CONTRACT_ADDRESS'],
         daiPointsManagerAddress: dAIPointsManagerAddress ??
-            Addresses.DAI_POINTS_MANAGER_CONTRACT_ADDRESS,
+            DotEnv().env['DAI_POINTS_MANAGER_CONTRACT_ADDRESS'],
       );
       final String branchAddress = store.state.cashWalletState.branchAddress;
       final String communityAddress =
@@ -455,7 +456,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
     try {
       final String communityAddress =
           store.state?.cashWalletState?.communityAddress ??
-              Addresses.DEFAULT_COMMUNITY_CONTRACT_ADDRESS;
+              DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'];
       Map<String, dynamic> response =
           await api.createWallet(communityAddress: communityAddress);
       if (!response.containsKey('job')) {
@@ -476,9 +477,6 @@ ThunkAction createAccountWalletCall(String accountAddress) {
           store.dispatch(CreateAccountWalletSuccess());
           final response = await api.getWallet();
           store.dispatch(generateWalletSuccessCall(response, accountAddress));
-          final String communityAddress =
-              store.state.cashWalletState.communityAddress ??
-                  Addresses.DEFAULT_COMMUNITY_CONTRACT_ADDRESS;
           store.dispatch(switchCommunityCall(communityAddress));
         }));
       }
@@ -741,7 +739,7 @@ ThunkAction inviteBonusCall(token, dynamic data, Community community) {
     String walletAddress = store.state.userState.walletAddress;
     String bonusJobId = data['bonusJob']['_id'];
     Transfer inviteBonus = new Transfer(
-        from: Addresses.FUNDER_ADDRESS,
+        from: DotEnv().env['FUNDER_ADDRESS'],
         to: walletAddress,
         tokenAddress: token.address,
         text: 'You got a invite bonus!',
@@ -829,7 +827,11 @@ ThunkAction sendTokenToForeignMultiBridge(
           token.decimals,
           network: 'fuse');
       Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-          walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+        walletAddress,
+        tokenAddress,
+        Addresses.FEE_ADDRESS,
+        feeAmount,
+      );
       response = await api.multiRelay([...trasnferData, feeTrasnferData]);
 
       dynamic jobId = response['job']['_id'];
@@ -895,7 +897,11 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
         Map<String, dynamic> trasnferData = await web3.transferTokenOffChain(
             walletAddress, tokenAddress, receiverAddress, tokensAmount);
         Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
-            walletAddress, tokenAddress, feeReceiverAddress, feeAmount);
+          walletAddress,
+          tokenAddress,
+          Addresses.FEE_ADDRESS,
+          feeAmount,
+        );
         response = await api.multiRelay([trasnferData, feeTrasnferData]);
       } else {
         value = toBigInt(tokensAmount, token.decimals);
@@ -1021,7 +1027,7 @@ ThunkAction joinCommunitySuccessCall(
     if (joinBonusPlugin != null && joinBonusPlugin.isActive) {
       BigInt value = toBigInt(joinBonusPlugin.amount, token.decimals);
       Transfer joinBonus = new Transfer(
-        from: Addresses.FUNDER_ADDRESS,
+        from: DotEnv().env['FUNDER_ADDRESS'],
         type: 'RECEIVE',
         value: value,
         timestamp: DateTime.now().millisecondsSinceEpoch,

@@ -1,5 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer.g.dart';
@@ -40,9 +40,12 @@ class Transfer extends Transaction {
             isSwap: isSwap ?? false);
 
   bool isJoinBonus() =>
-      this.from != null && funderAddresses.containsValue(this.from);
+      this.from != null &&
+      this.from?.toLowerCase() == DotEnv().env['FUNDER_ADDRESS'];
+
   bool isGenerateWallet() =>
       this.jobId != null && this.jobId == 'generateWallet';
+
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');
 
   Transfer copyWith(

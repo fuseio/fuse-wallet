@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/common/di/di.dart';
-import 'package:fusecash/constants/env.dart';
-import 'package:fusecash/constants/urls.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -11,10 +11,10 @@ class Funder {
   final Dio dio;
 
   Funder(this.dio) {
-    dio.options.baseUrl = UrlConstants.FUNDER_BASE_URL;
+    dio.options.baseUrl = DotEnv().env['FUNDER_BASE_URL'];
     dio.options.headers = Map.from({"Content-Type": 'application/json'});
 
-    if (Env.data.debugApiClient) {
+    if (kDebugMode) {
       dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
-import 'package:fusecash/constants/env.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -13,7 +13,7 @@ class Exchange {
     dio.options.baseUrl = UrlConstants.TOTLE_EXCHANGE_API;
     dio.options.headers = Map.from({"Content-Type": 'application/json'});
 
-    if (Env.data.debugApiClient) {
+    if (kDebugMode) {
       dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,

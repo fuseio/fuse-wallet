@@ -1,11 +1,11 @@
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/models/community/community.dart';
@@ -268,7 +268,7 @@ ThunkAction backupWalletCall() {
         Transfer backupBonus = new Transfer(
           tokenAddress: token.address,
           timestamp: DateTime.now().millisecondsSinceEpoch,
-          from: Addresses.FUNDER_ADDRESS,
+          from: DotEnv().env['FUNDER_ADDRESS'],
           to: walletAddress,
           text: 'You got a backup bonus!',
           type: 'RECEIVE',
@@ -589,33 +589,6 @@ ThunkAction createForiegnWalletOnlyIfNeeded() {
       }
     } catch (e) {
       log.error('ERROR - createForiegnWallet $e');
-    }
-  };
-}
-
-ThunkAction activateProModeCall() {
-  return (Store store) async {
-    try {
-      bool deployForeignToken =
-          store.state.userState.networks.contains(foreignNetwork);
-      if (!deployForeignToken) {
-        dynamic response = await api.createWalletOnForeign();
-        store.dispatch(initWeb3ProMode());
-        String jobId = response['job']['_id'];
-        log.info('Create wallet on foreign jobId - $jobId');
-        store.dispatch(segmentTrackCall('Activate pro mode clicked'));
-        store.dispatch(startListenToTransferEvents());
-        store.dispatch(startFetchBalancesOnForeign());
-        store.dispatch(fetchTokensBalances());
-        store.dispatch(startFetchTransferEventsCall());
-        store.dispatch(startFetchTokensLastestPrices());
-        store.dispatch(startProcessingTokensJobsCall());
-        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-          "Pro mode active": true,
-        })));
-      }
-    } catch (error) {
-      log.error('Error createWalletOnForeign ${error.toString()}');
     }
   };
 }

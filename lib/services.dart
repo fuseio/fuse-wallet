@@ -10,7 +10,7 @@ import 'package:wallet_core/wallet_core.dart';
 final Explorer fuseExplorerApi = Explorer(base: UrlConstants.FUSE_EXPLORER_URL);
 
 final Explorer ethereumExplorerApi = Explorer(
-  base: UrlConstants.ETHERSCAN_BASE_URL,
+  base: DotEnv().env['ETHERSCAN_BASE_URL'],
   apiKey: DotEnv().env['ETHERSCAN_API_KEY'],
 );
 

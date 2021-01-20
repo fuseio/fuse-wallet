@@ -5,6 +5,7 @@
 // **************************************************************************
 
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -16,7 +17,7 @@ import 'package:phone_number/phone_number.dart';
 
 import 'dio.dart';
 import '../../services/apis/exchange.dart';
-import '../../infrastructure/firebase_injectable_module.dart';
+import 'firebase.dart';
 import 'storage.dart';
 import '../../services/apis/funder.dart';
 import '../../utils/onboard/Istrategy.dart';
@@ -25,7 +26,6 @@ import 'logger_di.dart';
 import '../../services/apis/market.dart';
 import 'onboard.dart';
 import 'phone.dart';
-import '../../redux/state/secure_storage.dart';
 
 /// adds generated dependencies
 /// to the provided [GetIt] instance
@@ -45,6 +45,8 @@ Future<GetIt> $initGetIt(
   final phone = _$Phone();
   gh.lazySingleton<Dio>(() => dioDi.dio);
   gh.lazySingleton<Exchange>(() => Exchange(get<Dio>()));
+  final resolvedFirebaseApp = await firebaseInjectableModule.firebaseApp;
+  gh.factory<FirebaseApp>(() => resolvedFirebaseApp);
   gh.lazySingleton<FirebaseAuth>(() => firebaseInjectableModule.firebaseAuth);
   gh.lazySingleton<FlutterSecureStorage>(
       () => flutterSecureStorageDi.flutterSecureStorage);
@@ -56,9 +58,6 @@ Future<GetIt> $initGetIt(
   gh.factory<PackageInfo>(() => resolvedPackageInfo);
   gh.lazySingleton<PhoneNumberUtil>(() => phone.phoneNumberUtil);
   gh.lazySingleton<LogIt>(() => LogIt(get<Logger>()));
-
-  // Eager singletons must be registered in the right order
-  gh.singleton<SecureStorage>(SecureStorage(get<FlutterSecureStorage>()));
   return get;
 }
 

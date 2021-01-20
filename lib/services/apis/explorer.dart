@@ -1,29 +1,11 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
-import 'package:fusecash/constants/env.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class Explorer {
   Dio dio;
 
-  // Explorer(this.dio, String base, {String apiKey}) {
-  //   dio.options.baseUrl = base;
-  //   dio.options.headers = Map.from({"Content-Type": 'application/json'});
-  //   if (apiKey != null) {
-  //     dio.options.queryParameters = Map.from({"apiKey": apiKey});
-  //   }
-
-  //   if (Env.data.debugApiClient) {
-  //     dio.interceptors.add(PrettyDioLogger(
-  //       requestHeader: true,
-  //       requestBody: true,
-  //       responseHeader: true,
-  //       responseBody: true,
-  //       error: true,
-  //       compact: true,
-  //     ));
-  //   }
-  // }
   Explorer({String base, String apiKey}) {
     dio = new Dio(
       BaseOptions(
@@ -32,7 +14,7 @@ class Explorer {
         headers: {"Content-Type": 'application/json'},
       ),
     );
-    if (Env.data.debugApiClient) {
+    if (kDebugMode) {
       dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
         requestBody: true,

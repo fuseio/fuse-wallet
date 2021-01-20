@@ -1,4 +1,5 @@
-import 'package:fusecash/constants/env.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/secure_storage.dart';
@@ -24,9 +25,10 @@ class AppFactory {
   Future<Store<AppState>> getStore() async {
     if (_store == null) {
       final persistor = Persistor<AppState>(
-          storage: secureStorage,
-          serializer: JsonSerializer<AppState>(AppState.fromJson),
-          debug: Env.IS_DEBUG);
+        storage: SecureStorage(new FlutterSecureStorage()),
+        serializer: JsonSerializer<AppState>(AppState.fromJson),
+        debug: kDebugMode,
+      );
 
       AppState initialState;
       try {
@@ -41,7 +43,7 @@ class AppFactory {
         persistor.createMiddleware(),
       ];
 
-      if (Env.IS_DEBUG) {
+      if (kDebugMode) {
         wms.add(LoggingMiddleware.printer());
       }
 

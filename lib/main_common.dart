@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/app.dart';
-import 'package:fusecash/constants/env.dart';
-import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/log/log.dart';
@@ -11,27 +9,30 @@ import 'package:fusecash/common/di/di.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-void main() async {
+Future<void> mainCommon(String env) async {
   WidgetsFlutterBinding.ensureInitialized();
-  Env.init();
-  await DotEnv().load('environment/.env');
-  configureDependencies();
-  await Firebase.initializeApp();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  final envFile = env == 'prod' ? '.env' : '.env_qa';
+  await DotEnv().load('environment/$envFile');
+  configureDependencies(environment: env);
   Store<AppState> store = await AppFactory().getStore();
   await SentryFlutter.init(
     (options) {
-      options.dsn = UrlConstants.SENTRY_DSN;
-      options.serverName = UrlConstants.API_BASE_URL;
-      options.environment = Env.IS_DEBUG ? 'production' : 'development';
+      options.dsn = DotEnv().env['SENTRY_DSN'];
+      options.serverName = DotEnv().env['API_BASE_URL'];
+      options.environment = env;
     },
   );
-  runZonedGuarded<Future<void>>(() async => runApp(MyApp(store: store)), (
+  runZonedGuarded<Future<void>>(
+      () async => runApp(
+            MyApp(
+              store: store,
+            ),
+          ), (
     Object error,
     StackTrace stackTrace,
   ) async {
@@ -44,7 +45,7 @@ void main() async {
   });
 
   FlutterError.onError = (FlutterErrorDetails details) {
-    if (Env.IS_DEBUG) {
+    if (!kReleaseMode) {
       FlutterError.dumpErrorToConsole(details);
     } else {
       Zone.current.handleUncaughtError(details.exception, details.stack);

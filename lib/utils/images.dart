@@ -1,7 +1,7 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/constants/addresses.dart';
-import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
@@ -23,14 +23,14 @@ class ImageUrl {
     if (image == null) {
       return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
     }
-    return UrlConstants.IPFS_BASE_URL + '/image/' + image;
+    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;
   }
 
   static String getS3ImageUrl(String image) {
     if (image == null) {
       return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
     }
-    return '${UrlConstants.FUSE_S3_BUCKET}/$image';
+    return '${DotEnv().env['FUSE_S3_BUCKET']}/$image';
   }
 
   static String getTokenUrl(tokenAddress) {

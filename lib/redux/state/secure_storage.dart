@@ -1,10 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:fusecash/common/di/di.dart';
-import 'package:injectable/injectable.dart';
 import 'package:redux_persist/redux_persist.dart';
 
-@singleton
 class SecureStorage implements StorageEngine {
   FlutterSecureStorage storage;
 
@@ -21,5 +18,3 @@ class SecureStorage implements StorageEngine {
     await storage.write(key: "data", value: uint8ListToString(data));
   }
 }
-
-final SecureStorage secureStorage = getIt<SecureStorage>();
