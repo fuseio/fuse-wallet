@@ -146,6 +146,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                         dynamic jobId = jobReponse['job']['_id'];
                         await client.post(
                             'https://app.itsaboutpeepl.com/api/v1/orders/payment-submitted',
+                            headers: {"Content-Type": 'application/json'},
                             body: jsonEncode(Map.from({
                               'orderId': paymentDetails['orderId'],
                               'jobId': jobId
