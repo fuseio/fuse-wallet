@@ -138,10 +138,16 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                 // initialFile: "assets/index.html",
                 onWebViewCreated: (InAppWebViewController controller) {
                   webView = controller;
-                  controller.addJavaScriptHandler(
+                  webView.addJavaScriptHandler(
                     handlerName: "pay",
                     callback: (args) {
                       Map<String, dynamic> paymentDetails = Map.from(args[0]);
+                      Token token = viewModel.tokens.values.firstWhere(
+                          (token) =>
+                              token.symbol.toLowerCase() ==
+                              paymentDetails['currency']
+                                  .toString()
+                                  .toLowerCase());
                       sendSuccessCallback(jobReponse) async {
                         dynamic jobId = jobReponse['job']['_id'];
                         await client.post(
@@ -155,7 +161,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
 
                       VoidCallback sendFailureCallback() {}
                       viewModel.sendTokenFromWebView(
-                        paymentDetails['currency'],
+                        token,
                         paymentDetails['destination'],
                         paymentDetails['amount'],
                         sendSuccessCallback,
@@ -164,7 +170,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                     },
                   );
 
-                  controller.addJavaScriptHandler(
+                  webView.addJavaScriptHandler(
                       handlerName: "topup",
                       callback: (args) {
                         Map<String, dynamic> data = Map.from(args[0]);

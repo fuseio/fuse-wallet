@@ -1158,38 +1158,42 @@ Future<Map<String, dynamic>> getCommunityData(
 
 Future<Token> fetchToken(
     Community community, bool isRopsten, String originNetwork) async {
-  if (community.homeTokenAddress != null &&
-      community.homeTokenAddress.isNotEmpty) {
+  if (community?.homeTokenAddress != null) {
     Map tokenInfo =
         await fuseExplorerApi.getTokenInfo(community.homeTokenAddress);
     return Token.initial().copyWith(
       originNetwork: originNetwork,
-      address: tokenInfo['contractAddress'],
+      address: tokenInfo['contractAddress'].toLowerCase(),
       decimals: tokenInfo['decimals'],
       name: formatTokenName(tokenInfo['name']),
       symbol: tokenInfo['symbol'],
       timestamp: 0,
+      communityAddress: community.address.toLowerCase(),
     );
   } else if (community.isMultiBridge) {
     dynamic token = await graph.getHomeBridgedToken(
         community.foreignTokenAddress, isRopsten);
     return Token.initial().copyWith(
-        originNetwork: originNetwork,
-        address: token['address'].toString(),
-        name: formatTokenName(token["name"]),
-        symbol: token["symbol"],
-        timestamp: 0,
-        decimals: token["decimals"]);
+      originNetwork: originNetwork,
+      address: token['address'].toString().toLowerCase(),
+      name: formatTokenName(token["name"]),
+      symbol: token["symbol"],
+      timestamp: 0,
+      decimals: token["decimals"],
+      communityAddress: community.address.toLowerCase(),
+    );
   } else {
     dynamic token = await graph.getTokenOfCommunity(community.address);
-    final String tokenAddress = token["address"].toString();
+    final String tokenAddress = token["address"].toString().toLowerCase();
     return Token.initial().copyWith(
-        originNetwork: originNetwork,
-        address: tokenAddress,
-        name: token["name"],
-        symbol: token["symbol"],
-        timestamp: 0,
-        decimals: token["decimals"]);
+      originNetwork: originNetwork,
+      address: tokenAddress,
+      name: token["name"],
+      symbol: token["symbol"],
+      timestamp: 0,
+      decimals: token["decimals"],
+      communityAddress: community.address.toLowerCase(),
+    );
   }
 }
 
@@ -1231,12 +1235,16 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       );
       bool isRopsten = communityData['isRopsten'];
       String originNetwork = communityData['originNetwork'];
-      Token communityToken =
-          await fetchToken(newCommunity, isRopsten, originNetwork);
-      newCommunity =
-          newCommunity.copyWith(homeTokenAddress: communityToken.address);
-      store.dispatch(AddCashToken(
-          token: communityToken.copyWith(communityAddress: communityAddress)));
+      Token communityToken = await fetchToken(
+        newCommunity,
+        isRopsten,
+        originNetwork,
+      );
+      if (newCommunity?.homeTokenAddress == null) {
+        newCommunity = newCommunity.copyWith(
+          homeTokenAddress: communityToken.address.toLowerCase(),
+        );
+      }
       store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
       store.dispatch(segmentTrackCall("Wallet: Switch Community",
@@ -1307,13 +1315,17 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       );
       bool isRopsten = communityData['isRopsten'];
       String originNetwork = communityData['originNetwork'];
-      Token communityToken =
-          await fetchToken(newCommunity, isRopsten, originNetwork);
-      store.dispatch(AddCashToken(
-          token: communityToken.copyWith(
-              communityAddress: communityAddress.toLowerCase())));
-      newCommunity =
-          newCommunity.copyWith(homeTokenAddress: communityToken?.address);
+      Token communityToken = await fetchToken(
+        newCommunity,
+        isRopsten,
+        originNetwork,
+      );
+      if (newCommunity?.homeTokenAddress == null) {
+        newCommunity = newCommunity.copyWith(
+          homeTokenAddress: communityToken.address,
+        );
+      }
+      store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
       store.dispatch(getBusinessListCall(
           communityAddress: communityAddress.toLowerCase(),
