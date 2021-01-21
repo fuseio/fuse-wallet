@@ -13,12 +13,14 @@ Business _$BusinessFromJson(Map<String, dynamic> json) {
     metadata: Business._businessMetadataFromJson(
         json['metadata'] as Map<String, dynamic>),
     name: json['name'] as String,
+    area: json['area'] as int,
   );
 }
 
 Map<String, dynamic> _$BusinessToJson(Business instance) => <String, dynamic>{
       'account': instance.account,
       'id': instance.id,
+      'area': instance.area,
       'name': instance.name,
       'metadata': Business._businessMetadataToJson(instance.metadata),
     };

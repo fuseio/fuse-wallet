@@ -2,18 +2,15 @@ import 'package:supervecina/models/community/business.dart';
 import 'package:supervecina/models/community/community.dart';
 import 'package:supervecina/models/plugins/wallet_banner.dart';
 import 'package:supervecina/models/tokens/token.dart';
-import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:supervecina/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 
 class BuyViewModel extends Equatable {
   final List<Business> businesses;
-  final Function() loadBusinesses;
   final bool isCommunityBusinessesFetched;
   final Token token;
   final String communityAddress;
-  final WalletBannerPlugin walletBanner;
 
   @override
   List<Object> get props => [
@@ -21,16 +18,14 @@ class BuyViewModel extends Equatable {
         businesses,
         isCommunityBusinessesFetched,
         businesses,
-        walletBanner
       ];
 
-  BuyViewModel(
-      {this.communityAddress,
-      this.businesses,
-      this.loadBusinesses,
-      this.token,
-      this.isCommunityBusinessesFetched,
-      this.walletBanner});
+  BuyViewModel({
+    this.communityAddress,
+    this.businesses,
+    this.token,
+    this.isCommunityBusinessesFetched,
+  });
 
   static BuyViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
@@ -40,14 +35,32 @@ class BuyViewModel extends Equatable {
     Token token =
         store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return BuyViewModel(
-        communityAddress: communityAddress,
-        token: token,
-        businesses: community?.businesses ?? [],
-        walletBanner: community.plugins.walletBanner,
-        isCommunityBusinessesFetched:
-            store.state.cashWalletState.isCommunityBusinessesFetched,
-        loadBusinesses: () {
-          store.dispatch(getBusinessListCall());
-        });
+      communityAddress: communityAddress,
+      token: token,
+      businesses: community?.businesses ?? [],
+      isCommunityBusinessesFetched:
+          store.state.cashWalletState.isCommunityBusinessesFetched,
+    );
+  }
+}
+
+class BannerViewModel extends Equatable {
+  final WalletBannerPlugin walletBanner;
+
+  @override
+  List<Object> get props => [walletBanner];
+
+  BannerViewModel({
+    this.walletBanner,
+  });
+
+  static BannerViewModel fromStore(Store<AppState> store) {
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress] ??
+            Community.initial();
+    return BannerViewModel(
+      walletBanner: community.plugins.walletBanner,
+    );
   }
 }

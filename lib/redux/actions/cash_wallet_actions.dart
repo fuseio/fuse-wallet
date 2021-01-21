@@ -1386,6 +1386,7 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
             Map<String, dynamic> business = Map.from({
               'name': data['name'] ?? '',
               'account': data['account'] ?? '',
+              'area': num.parse(data['area'], (s) => data['area']),
               'metadata': {
                 'image': data['image'][0]['url'] ?? '',
                 "coverPhoto": data['coverPhoto'][0]['url'] ?? '',

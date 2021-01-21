@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:supervecina/utils/transaction_util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -16,7 +17,7 @@ String getImage(hash) {
 }
 
 @JsonSerializable(explicitToJson: true)
-class BusinessMetadata {
+class BusinessMetadata extends Equatable {
   final String address;
   final String coverPhoto;
   final String description;
@@ -25,6 +26,9 @@ class BusinessMetadata {
   final String phoneNumber;
   final String website;
   final List<double> latLng;
+
+  @override
+  List get props => [address];
 
   String getImageUri() => getImage(image);
 

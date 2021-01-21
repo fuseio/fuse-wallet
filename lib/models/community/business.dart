@@ -1,12 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:supervecina/models/community/business_metadata.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'business.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Business {
+class Business extends Equatable {
   final String account;
   final String id;
+  final int area;
   final String name;
   @JsonKey(
       name: 'metadata',
@@ -14,11 +16,15 @@ class Business {
       toJson: _businessMetadataToJson)
   final BusinessMetadata metadata;
 
+  @override
+  List get props => [metadata, account, area];
+
   Business({
     this.account = '',
     this.id = '',
     this.metadata,
     this.name = '',
+    this.area,
   });
 
   Business copyWith({
@@ -26,18 +32,25 @@ class Business {
     String account,
     String name,
     String id,
+    String area,
   }) {
     return Business(
       metadata: metadata ?? this.metadata,
       id: id ?? this.id,
       name: name ?? this.name,
       account: account ?? this.account,
+      area: area ?? this.area,
     );
   }
 
   factory Business.initial() {
     return new Business(
-        account: '', metadata: BusinessMetadata.initial(), name: '', id: '');
+      account: '',
+      metadata: BusinessMetadata.initial(),
+      name: '',
+      id: '',
+      area: 0,
+    );
   }
 
   static BusinessMetadata _businessMetadataFromJson(
