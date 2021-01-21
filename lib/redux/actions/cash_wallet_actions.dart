@@ -808,7 +808,7 @@ ThunkAction fetchListOfTokensByAddress() {
                     .compareTo(0) ==
                 1) {
           logger.info('newToken newToken ${token.name}');
-          previousValue[token.address] = token;
+          previousValue[checksumEthereumAddress(token.address)] = token;
         }
         return previousValue;
       }));
@@ -1006,8 +1006,12 @@ ThunkAction joinCommunityCall({
         store.dispatch(AlreadyJoinedCommunity(community.address));
       } else {
         dynamic response = await api.joinCommunity(
-            web3, walletAddress, community.address,
-            tokenAddress: token.address, originNetwork: token.originNetwork);
+          web3,
+          walletAddress,
+          community.address,
+          tokenAddress: token.address,
+          originNetwork: token.originNetwork,
+        );
 
         dynamic jobId = response['job']['_id'];
         Transfer transfer = new Transfer(
