@@ -94,7 +94,7 @@ class BusinessesListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainScaffold(
         automaticallyImplyLeading: false,
-        title: I18n.of(context).buy + 'en' + title,
+        title: I18n.of(context).buy + ' en ' + title,
         children: <Widget>[
           Container(
             child: Column(

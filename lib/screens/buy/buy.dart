@@ -77,41 +77,68 @@ class _BusinessesListViewState extends State<BusinessesListView> {
                 physics: ScrollPhysics(),
                 itemCount: areas?.length,
                 itemBuilder: (context, index) => ListTile(
-                    contentPadding: EdgeInsets.only(left: 20, right: 20),
-                    // leading: Container(
-                    //   width: 50,
-                    //   height: 50,
-                    //   decoration: BoxDecoration(),
-                    //   child: ClipOval(
-                    //     child: CachedNetworkImage(
-                    //       imageUrl: business.metadata.image,
-                    //       placeholder: (context, url) => CircularProgressIndicator(),
-                    //       errorWidget: (context, url, error) => Icon(Icons.error),
-                    //       imageBuilder: (context, imageProvider) => Image(
-                    //         image: imageProvider,
-                    //         fit: BoxFit.cover,
-                    //         width: 50.0,
-                    //         height: 50.0,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    title: Text(
-                      areas[index],
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    onTap: () {
-                      ExtendedNavigator.named('buyRouter')
-                          .pushBusinessesListScreen(
-                        businesses: businessesMap[index],
-                        communityAddress: vm.communityAddress,
-                        token: vm.token,
-                        title: areas[index],
-                      );
-                    }),
+                  contentPadding: EdgeInsets.only(left: 20, right: 20),
+                  // leading: Container(
+                  //   width: 50,
+                  //   height: 50,
+                  //   decoration: BoxDecoration(),
+                  //   child: ClipOval(
+                  //     child: CachedNetworkImage(
+                  //       imageUrl: business.metadata.image,
+                  //       placeholder: (context, url) => CircularProgressIndicator(),
+                  //       errorWidget: (context, url, error) => Icon(Icons.error),
+                  //       imageBuilder: (context, imageProvider) => Image(
+                  //         image: imageProvider,
+                  //         fit: BoxFit.cover,
+                  //         width: 50.0,
+                  //         height: 50.0,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  title: Text(
+                    areas[index],
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  onTap: () {
+                    ExtendedNavigator.named('buyRouter')
+                        .pushBusinessesListScreen(
+                      businesses: businessesMap[index],
+                      communityAddress: vm.communityAddress,
+                      token: vm.token,
+                      title: areas[index],
+                    );
+                  },
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      InkWell(
+                        child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Image.asset(
+                              'assets/images/go.png',
+                              fit: BoxFit.fill,
+                              width: 25,
+                              height: 25,
+                            )),
+                        onTap: () {
+                          ExtendedNavigator.named('buyRouter')
+                              .pushBusinessesListScreen(
+                            businesses: businessesMap[index],
+                            communityAddress: vm.communityAddress,
+                            token: vm.token,
+                            title: areas[index],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           )
