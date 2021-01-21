@@ -10,7 +10,6 @@ import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:peepl/models/app_state.dart';
-import 'package:peepl/models/tokens/token.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/widgets/my_app_bar.dart';
 
@@ -142,28 +141,82 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                     handlerName: "pay",
                     callback: (args) {
                       Map<String, dynamic> paymentDetails = Map.from(args[0]);
-                      Token token = viewModel.tokens.values.firstWhere(
-                          (token) =>
-                              token.symbol.toLowerCase() ==
-                              paymentDetails['currency']
-                                  .toString()
-                                  .toLowerCase());
-                      sendSuccessCallback(jobReponse) async {
-                        dynamic jobId = jobReponse['job']['_id'];
-                        await client.post(
-                            'https://app.itsaboutpeepl.com/api/v1/orders/payment-submitted',
-                            headers: {"Content-Type": 'application/json'},
-                            body: jsonEncode(Map.from({
-                              'orderId': paymentDetails['orderId'],
-                              'jobId': jobId
-                            })));
+                      sendSuccessCallback(jobId) async {
+                        // Flushbar(
+                        //   boxShadows: [
+                        //     BoxShadow(
+                        //       color: Colors.grey[500],
+                        //       offset: Offset(0.5, 0.5),
+                        //       blurRadius: 5,
+                        //     ),
+                        //   ],
+                        //   titleText: Text(
+                        //     'Payment sent',
+                        //     style: TextStyle(
+                        //         fontSize: 16.0,
+                        //         color: Colors.black,
+                        //         fontWeight: FontWeight.bold),
+                        //   ),
+                        //   messageText: Text(
+                        //     'Go back to home page to track the transction status',
+                        //     style:
+                        //         TextStyle(fontSize: 14.0, color: Colors.black),
+                        //   ),
+                        //   backgroundColor:
+                        //       Theme.of(ExtendedNavigator.root.context)
+                        //           .bottomAppBarColor,
+                        //   margin: EdgeInsets.only(
+                        //       top: 8, right: 8, left: 8, bottom: 80),
+                        //   borderRadius: 8,
+                        //   icon: SvgPicture.asset(
+                        //     'assets/images/receive_icon.svg',
+                        //     width: 20,
+                        //     height: 20,
+                        //   ),
+                        // )..show(context);
                       }
 
-                      VoidCallback sendFailureCallback() {}
+                      sendFailureCallback() {
+                        // Flushbar(
+                        //     boxShadows: [
+                        //       BoxShadow(
+                        //         color: Colors.grey[500],
+                        //         offset: Offset(0.5, 0.5),
+                        //         blurRadius: 5,
+                        //       ),
+                        //     ],
+                        //     titleText: Text(
+                        //       I18n.of(ExtendedNavigator.root.context).oops,
+                        //       style: TextStyle(
+                        //           fontSize: 16.0,
+                        //           color: Colors.black,
+                        //           fontWeight: FontWeight.bold),
+                        //     ),
+                        //     messageText: Text(
+                        //       I18n.of(ExtendedNavigator.root.context)
+                        //           .something_went_wrong,
+                        //       style: TextStyle(
+                        //           fontSize: 14.0, color: Colors.black),
+                        //     ),
+                        //     backgroundColor:
+                        //         Theme.of(ExtendedNavigator.root.context)
+                        //             .bottomAppBarColor,
+                        //     margin: EdgeInsets.only(
+                        //         top: 8, right: 8, left: 8, bottom: 80),
+                        //     borderRadius: 8,
+                        //     icon: SvgPicture.asset(
+                        //       'assets/images/failed_icon.svg',
+                        //       width: 20,
+                        //       height: 20,
+                        //     ))
+                        //   ..show(context);
+                      }
+
                       viewModel.sendTokenFromWebView(
-                        token,
+                        paymentDetails['currency'],
                         paymentDetails['destination'],
                         paymentDetails['amount'],
+                        paymentDetails['orderId'],
                         sendSuccessCallback,
                         sendFailureCallback,
                       );
@@ -184,24 +237,22 @@ class _WebViewWidgetState extends State<WebViewWidget> {
 }
 
 class InAppWebViewViewModel extends Equatable {
-  final Map<String, Token> tokens;
   final String walletAddress;
   final Function(
-    Token token,
+    String currency,
     String recieverAddress,
     num amount,
+    dynamic orderId,
     Function(dynamic) sendSuccessCallback,
     VoidCallback sendFailureCallback,
   ) sendTokenFromWebView;
 
   @override
   List<Object> get props => [
-        tokens,
         walletAddress,
       ];
 
   InAppWebViewViewModel({
-    this.tokens,
     this.sendTokenFromWebView,
     this.walletAddress,
   });
@@ -209,18 +260,19 @@ class InAppWebViewViewModel extends Equatable {
   static InAppWebViewViewModel fromStore(Store<AppState> store) {
     return InAppWebViewViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: store.state.cashWalletState.tokens,
       sendTokenFromWebView: (
-        Token token,
+        String currency,
         String recieverAddress,
         num amount,
+        dynamic orderId,
         Function(dynamic) sendSuccessCallback,
         VoidCallback sendFailureCallback,
       ) {
         store.dispatch(sendTokenFromWebViewCall(
-          token,
+          currency,
           recieverAddress,
           amount,
+          orderId,
           sendSuccessCallback,
           sendFailureCallback,
         ));

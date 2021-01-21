@@ -1474,8 +1474,10 @@ ThunkAction getTokenTransfersListCall(Token token) {
       String tokenAddress = token?.address;
       num lastBlockNumber = token?.transactions?.blockNumber;
       dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
-          walletAddress, tokenAddress,
-          startblock: lastBlockNumber ?? 0);
+        walletAddress,
+        tokenAddress,
+        startblock: lastBlockNumber,
+      );
       List<Transfer> transfers = List<Transfer>.from(
           tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       store.dispatch(GetTokenTransfersListSuccess(
@@ -1495,8 +1497,10 @@ ThunkAction getReceivedTokenTransfersListCall(Token token) {
       num lastBlockNumber = token?.transactions?.blockNumber;
       final String tokenAddress = token?.address;
       dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
-          walletAddress, tokenAddress,
-          startblock: lastBlockNumber ?? 0);
+        walletAddress,
+        tokenAddress,
+        startblock: lastBlockNumber,
+      );
       List<Transfer> transfers = List<Transfer>.from(
           tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
       if (transfers.isNotEmpty) {
@@ -1527,9 +1531,16 @@ ThunkAction sendTokenToContactCall(
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       logger.info("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
-        store.dispatch(inviteAndSendCall(token, contactPhoneNumber,
-            tokensAmount, sendSuccessCallback, sendFailureCallback,
-            receiverName: receiverName));
+        store.dispatch(
+          inviteAndSendCall(
+            token,
+            contactPhoneNumber,
+            tokensAmount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+          ),
+        );
         return;
       }
       store.dispatch(sendTokenCall(token, walletAddress, tokensAmount,
@@ -1543,9 +1554,10 @@ ThunkAction sendTokenToContactCall(
 }
 
 ThunkAction sendTokenFromWebViewCall(
-    Token token,
+    String currency,
     String receiverAddress,
     num tokensAmount,
+    dynamic orderId,
     Function(dynamic) sendSuccessCallback,
     VoidCallback sendFailureCallback,
     {String receiverName,
@@ -1555,16 +1567,16 @@ ThunkAction sendTokenFromWebViewCall(
     final logger = await AppFactory().getLogger('action');
     try {
       wallet_core.Web3 web3 = store.state.cashWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
+      Token token = store.state.cashWalletState.tokens.values.firstWhere(
+        (token) =>
+            token.symbol.toLowerCase() == currency.toString().toLowerCase(),
+      );
+      if (web3 == null || orderId == null || token == null) {
+        throw "Web3 / orderId / token is empty";
       }
       String walletAddress = store.state.userState.walletAddress;
-
       String tokenAddress = token?.address;
-
       BigInt value = toBigInt(tokensAmount, token.decimals);
-      logger.info(
-          'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
       dynamic response = await api.tokenTransfer(
         web3,
         walletAddress,
@@ -1572,10 +1584,19 @@ ThunkAction sendTokenFromWebViewCall(
         receiverAddress,
         tokensAmount,
       );
-
       dynamic jobId = response['job']['_id'];
       logger.info('Job $jobId for sending token sent to the relay service');
-
+      Response responseSubmitted = await client.post(
+        'https://app.itsaboutpeepl.com/api/v1/orders/payment-submitted',
+        headers: {"Content-Type": 'application/json'},
+        body: jsonEncode(
+          Map.from({
+            'orderId': orderId,
+            'jobId': jobId,
+          }),
+        ),
+      );
+      logger.info('responseSubmitted ${responseSubmitted.body.toString()}');
       sendSuccessCallback(response);
       Transfer transfer = Transfer(
           from: walletAddress,
@@ -1603,10 +1624,11 @@ ThunkAction sendTokenFromWebViewCall(
       };
       Job job = JobFactory.create(response['job']);
       store.dispatch(AddJob(job: job, tokenAddress: token.address));
-    } catch (e) {
+    } catch (e, s) {
       logger.severe('ERROR - sendTokenCall $e');
       sendFailureCallback();
       store.dispatch(ErrorAction('Could not send token'));
+      await AppFactory().reportError(e, stackTrace: s);
     }
   };
 }
