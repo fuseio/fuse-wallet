@@ -1,30 +1,50 @@
+import 'package:supervecina/utils/format.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/models/community.dart';
-import 'package:bit2c/models/pro/token.dart' as erc20Token;
-import 'package:bit2c/models/token.dart';
-import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
-import 'package:bit2c/redux/actions/pro_mode_wallet_actions.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {
-  final BigInt balance;
-  final Token token;
-  final bool isProMode;
   final String myCountryCode;
-  final Community community;
-  final Function(String name, String phoneNumber, num, String receiverName,
-      String transferNote, VoidCallback, VoidCallback) sendToContact;
-  final Function(String, num, String receiverName, String transferNote,
-      VoidCallback, VoidCallback) sendToAccountAddress;
+  final List<Token> tokens;
+  final List<Community> communities;
+  final Function(
+      Token token,
+      String name,
+      String phoneNumber,
+      num,
+      String receiverName,
+      String transferNote,
+      VoidCallback,
+      VoidCallback) sendToContact;
+  final Function(
+      Token token,
+      String name,
+      String phoneNumber,
+      num,
+      String receiverName,
+      String transferNote,
+      VoidCallback,
+      VoidCallback) sendERC20ToContact;
+  final Function(
+    Token token,
+    String recieverAddress,
+    num amount,
+    String receiverName,
+    String transferNote,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+  ) sendToAccountAddress;
   final Function(String eventName, {Map<String, dynamic> properties})
       trackTransferCall;
   final Function(Map<String, dynamic> traits) idenyifyCall;
-  final Function(num tokensAmount, VoidCallback sendSuccessCallback,
-      VoidCallback sendFailureCallback) sendToCashMode;
+
   final Function(
-    erc20Token.Token token,
+    Token token,
     String recieverAddress,
     num amount,
     VoidCallback,
@@ -34,35 +54,44 @@ class SendAmountViewModel extends Equatable {
   }) sendToErc20Token;
 
   @override
-  List<Object> get props =>
-      [token, balance, isProMode, myCountryCode, community];
+  List<Object> get props => [tokens, myCountryCode, communities];
 
   SendAmountViewModel({
-    this.token,
-    this.balance,
+    this.tokens,
+    this.communities,
     this.myCountryCode,
     this.sendToContact,
     this.sendToAccountAddress,
     this.trackTransferCall,
     this.idenyifyCall,
-    this.isProMode,
-    this.community,
-    this.sendToCashMode,
     this.sendToErc20Token,
+    this.sendERC20ToContact,
   });
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
-    Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
-            new Community.initial();
+    List<Community> communities =
+        store.state.cashWalletState.communities.values.toList();
+    List<Token> foreignTokens = List<Token>.from(
+            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
+        .where((Token token) =>
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: true))
+                .compareTo(0) ==
+            1)
+        .toList();
+
+    List<Token> homeTokens = communities
+        .map((Community community) => community.token
+            .copyWith(imageUrl: community.metadata.getImageUri()))
+        .toList();
     return SendAmountViewModel(
-        isProMode: store.state.userState.isProMode ?? false,
-        token: community.token,
-        community: community,
-        balance: community.tokenBalance,
+        tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
+            (tokenB?.amount ?? BigInt.zero)
+                ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+        communities: communities,
         myCountryCode: store.state.userState.countryCode,
         sendToContact: (
+          Token token,
           String name,
           String phoneNumber,
           num amount,
@@ -71,11 +100,26 @@ class SendAmountViewModel extends Equatable {
           VoidCallback sendSuccessCallback,
           VoidCallback sendFailureCallback,
         ) {
-          store.dispatch(sendTokenToContactCall(name, phoneNumber, amount,
-              sendSuccessCallback, sendFailureCallback,
+          store.dispatch(sendTokenToContactCall(token, name, phoneNumber,
+              amount, sendSuccessCallback, sendFailureCallback,
+              receiverName: receiverName));
+        },
+        sendERC20ToContact: (
+          Token token,
+          String name,
+          String phoneNumber,
+          num amount,
+          String receiverName,
+          String transferNote,
+          VoidCallback sendSuccessCallback,
+          VoidCallback sendFailureCallback,
+        ) {
+          store.dispatch(sendErc20TokenToContactCall(token, name, phoneNumber,
+              amount, sendSuccessCallback, sendFailureCallback,
               receiverName: receiverName));
         },
         sendToAccountAddress: (
+          Token token,
           String recieverAddress,
           num amount,
           String receiverName,
@@ -84,6 +128,7 @@ class SendAmountViewModel extends Equatable {
           VoidCallback sendFailureCallback,
         ) {
           store.dispatch(sendTokenCall(
+            token,
             recieverAddress,
             amount,
             sendSuccessCallback,
@@ -91,16 +136,8 @@ class SendAmountViewModel extends Equatable {
             receiverName: receiverName,
           ));
         },
-        sendToCashMode: (
-          num tokensAmount,
-          VoidCallback sendSuccessCallback,
-          VoidCallback sendFailureCallback,
-        ) {
-          store.dispatch(sendDaiToDaiPointsCall(
-              tokensAmount, sendSuccessCallback, sendFailureCallback));
-        },
         sendToErc20Token: (
-          erc20Token.Token token,
+          Token token,
           String recieverAddress,
           num amount,
           VoidCallback sendSuccessCallback,

@@ -11,6 +11,7 @@ class MainScaffold extends StatelessWidget {
       bool automaticallyImplyLeading,
       Widget footer,
       bool withPadding,
+      double padding,
       this.key,
       this.backgroundColor,
       this.expandedHeight})
@@ -19,6 +20,7 @@ class MainScaffold extends StatelessWidget {
         titleFontSize = titleFontSize ?? 15,
         automaticallyImplyLeading = automaticallyImplyLeading ?? true,
         footer = footer ?? Container(),
+        padding = padding ?? 40.0,
         withPadding = withPadding ?? false,
         actions = actions ?? new List<Widget>();
 
@@ -27,6 +29,7 @@ class MainScaffold extends StatelessWidget {
   final List<Widget> sliverList;
   final Widget footer;
   final bool withPadding;
+  final double padding;
   final Key key;
   final Color backgroundColor;
   final double expandedHeight;
@@ -37,7 +40,8 @@ class MainScaffold extends StatelessWidget {
   SliverAppBar appBar(BuildContext context) {
     return SliverAppBar(
       automaticallyImplyLeading: automaticallyImplyLeading,
-      expandedHeight: expandedHeight ?? MediaQuery.of(context).size.height / 9.5,
+      expandedHeight:
+          expandedHeight ?? MediaQuery.of(context).size.height / 9.5,
       pinned: true,
       actions: actions,
       flexibleSpace: FlexibleSpaceBar(
@@ -72,20 +76,32 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: key,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(child: scrollView(context)),
-          Padding(
-              padding: withPadding
-                  ? EdgeInsets.only(top: 0.0, bottom: 40)
-                  : EdgeInsets.all(0),
-              child: footer)
-        ],
+    return Container(
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: Scaffold(
+          body: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Expanded(child: scrollView(context)),
+                ],
+              ),
+              Positioned(
+                bottom: withPadding ? padding : 0,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: footer,
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

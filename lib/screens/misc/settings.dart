@@ -1,18 +1,18 @@
 import 'dart:core';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:bit2c/generated/i18n.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/models/views/drawer.dart';
-import 'package:bit2c/screens/misc/about.dart';
-import 'package:bit2c/screens/splash/splash.dart';
-import 'package:bit2c/utils/forks.dart';
-import 'package:bit2c/widgets/language_selector.dart';
-import 'package:bit2c/widgets/main_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/drawer.dart';
+import 'package:supervecina/screens/home/router/home_router.gr.dart';
+import 'package:supervecina/widgets/language_selector.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:supervecina/screens/routes.gr.dart';
 
 class SettingsScreen extends StatelessWidget {
-  Widget getListTile(context, label, onTap) {
+  Widget getListTile(
+      BuildContext context, String label, void Function() onTap) {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, right: 30, left: 30),
       title: Text(
@@ -23,40 +23,34 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> menuItem(context, DrawerViewModel viewModel) {
-    if (isFork()) {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => AboutScreen()));
-        }),
-      ];
-    } else {
-      return [
-        getListTile(context, I18n.of(context).about, () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => AboutScreen()));
-        }),
-        new Divider(),
-        // getListTile(context, I18n.of(context).protect_wallet, () {}),
-        // new Divider(),
-        new LanguageSelector(),
-        new Divider(),
-        getListTile(context, I18n.of(context).logout, () {
-          viewModel.logout();
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => SplashScreen()));
-        })
-      ];
-    }
+  List<Widget> menuItem(BuildContext context, DrawerViewModel viewModel) {
+    return [
+      getListTile(context, I18n.of(context).about, () {
+        ExtendedNavigator.named('homeRouter').pushAboutScreen();
+      }),
+      Divider(
+        color: Color(0xFFE8E8E8),
+      ),
+      getListTile(context, I18n.of(context).protect_wallet, () {
+        ExtendedNavigator.named('homeRouter').pushProtectYourWallet();
+      }),
+      Divider(
+        color: Color(0xFFE8E8E8),
+      ),
+      LanguageSelector(),
+      Divider(
+        color: Color(0xFFE8E8E8),
+      ),
+      getListTile(context, I18n.of(context).logout, () {
+        viewModel.logout();
+        ExtendedNavigator.root.replace(Routes.splashScreen);
+      })
+    ];
   }
 
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, DrawerViewModel>(
+    return StoreConnector<AppState, DrawerViewModel>(
         distinct: true,
-        onInit: (store) {
-          Segment.screen(screenName: '/settings-screen');
-        },
         converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
           return MainScaffold(

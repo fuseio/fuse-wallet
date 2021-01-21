@@ -1,14 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:bit2c/models/community.dart';
-import 'dart:core';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/community/community.dart';
 
-import 'package:bit2c/screens/routes.gr.dart';
-import 'package:bit2c/utils/transaction_row.dart';
-
-class CommunityCardScreen extends StatefulWidget {
-  CommunityCardScreen(
+class CommunitySelectedCardScreen extends StatefulWidget {
+  CommunitySelectedCardScreen(
       {Key key, this.title, this.community, this.switchCommunity})
       : super(key: key);
 
@@ -20,7 +17,7 @@ class CommunityCardScreen extends StatefulWidget {
   _CommunityCardScreenState createState() => _CommunityCardScreenState();
 }
 
-class _CommunityCardScreenState extends State<CommunityCardScreen> {
+class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
   @override
   void initState() {
     super.initState();
@@ -30,9 +27,8 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          widget.switchCommunity(widget.community.address);
-          Router.navigator.pushNamedAndRemoveUntil(
-              Router.cashHomeScreen, (Route<dynamic> route) => false);
+          widget.switchCommunity(widget?.community?.address);
+          Navigator.of(context).pop();
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -40,18 +36,15 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
             boxShadow: [
               BoxShadow(
                 color: Theme.of(context).primaryColor.withAlpha(15),
-                blurRadius: 10.0,
-                spreadRadius: 0.0,
-                offset: Offset(
-                  2.0,
-                  2.0,
-                ),
+                offset: Offset(0.0, 1.5),
+                blurRadius: 30,
+                spreadRadius: 1.0,
               )
             ],
           ),
           child: Card(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0))),
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,8 +59,8 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                             topLeft: Radius.circular(12.0),
                             topRight: Radius.circular(12.0)),
                         child: CachedNetworkImage(
-                          imageUrl: getIPFSImageUrl(
-                              widget.community.metadata.coverPhoto),
+                          imageUrl:
+                              widget?.community?.metadata?.getCoverPhotoUri(),
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
                           errorWidget: (context, url, error) => const Icon(
@@ -99,18 +92,18 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(50),
                                     child: CachedNetworkImage(
-                                      imageUrl: getIPFSImageUrl(
-                                          widget.community.metadata.image),
+                                      imageUrl: widget?.community?.metadata
+                                          ?.getImageUri(),
                                       placeholder: (context, url) =>
                                           CircularProgressIndicator(),
                                       errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error),
+                                          Icon(Icons.error),
                                       imageBuilder: (context, imageProvider) =>
                                           Image(
                                         image: imageProvider,
                                         fit: BoxFit.cover,
-                                        height: 50.0,
-                                        width: 50.0,
+                                        height: 60.0,
+                                        width: 60.0,
                                       ),
                                     ),
                                   ),
@@ -119,7 +112,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                                           widget
                                               .community.metadata.isDefaultImage
                                       ? Text(
-                                          widget.community.token.symbol,
+                                          widget.community?.token?.symbol ?? '',
                                           style: TextStyle(
                                             fontSize: 13,
                                             fontWeight: FontWeight.bold,
@@ -140,7 +133,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Text(widget.community.name,
+                      Text(widget?.community?.name ?? '',
                           style: TextStyle(
                             fontSize: 15,
                             color: Theme.of(context).primaryColor,
@@ -150,7 +143,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                                (widget.community.isClosed != null &&
+                                (widget?.community?.isClosed != null &&
                                             widget.community.isClosed
                                         ? 'Closed'
                                         : 'Open') +
@@ -168,7 +161,7 @@ class _CommunityCardScreenState extends State<CommunityCardScreen> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Text('Joined',
+                                  Text(I18n.of(context).selected,
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.bold)),

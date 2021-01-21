@@ -1,6 +1,6 @@
-import 'package:bit2c/models/user_state.dart';
-import 'package:bit2c/models/cash_wallet_state.dart';
-import 'package:bit2c/models/pro/pro_wallet_state.dart';
+import 'package:supervecina/models/user_state.dart';
+import 'package:supervecina/models/cash_wallet_state.dart';
+import 'package:supervecina/models/pro/pro_wallet_state.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'app_state.g.dart';

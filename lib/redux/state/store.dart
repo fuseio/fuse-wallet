@@ -1,16 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:bit2c/redux/middlewares/auth_middleware.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/redux/reducers/app_reducer.dart';
-import 'package:bit2c/redux/state/state_secure_storage.dart';
-import 'package:bit2c/utils/jwt.dart';
+import 'package:supervecina/redux/middlewares/auth_middleware.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/reducers/app_reducer.dart';
+import 'package:supervecina/redux/state/state_secure_storage.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
-import 'package:bit2c/services.dart';
 import 'package:logging/logging.dart';
 import 'package:logger/logger.dart' as logger_package;
 import 'dart:io';
@@ -55,14 +52,8 @@ class AppFactory {
   }
 
   bool get isInDebugMode {
-    // Assume you're in production mode.
     bool inDebugMode = false;
-
-    // Assert expressions are only evaluated during development. They are ignored
-    // in production. Therefore, this code only sets `inDebugMode` to true
-    // in a development environment.
     assert(inDebugMode = true);
-
     return inDebugMode;
   }
 
@@ -79,33 +70,6 @@ class AppFactory {
       AppState initialState;
       try {
         initialState = await persistor.load();
-        if (initialState?.userState?.jwtToken != '') {
-          String jwtToken = initialState.userState.jwtToken;
-          Map<String, dynamic> tokenData = parseJwt(jwtToken);
-          DateTime exp =
-              new DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
-          DateTime now = DateTime.now();
-          Duration diff = exp.difference(now);
-          logger.info('diff', diff);
-
-          if (diff.inDays <= 1) {
-            logger.info('relogin');
-            final FirebaseUser currentUser = await firebaseAuth.currentUser();
-            IdTokenResult token = await currentUser.getIdToken();
-            jwtToken = await api.login(
-                token.token,
-                initialState.userState.accountAddress,
-                initialState.userState.identifier,
-                appName: 'Bit2C');
-          }
-
-          logger.info('jwt: $jwtToken');
-          logger
-              .info('accountAddress: ${initialState.userState.accountAddress}');
-          api.setJwtToken(jwtToken);
-        } else {
-          logger.info('no JWT');
-        }
       } catch (e) {
         logger.severe('ERROR - getStore $e');
         initialState = new AppState.initial();
@@ -227,20 +191,20 @@ class AppFactory {
 
     final SentryClient sentry = new SentryClient(
         dsn: DotEnv().env['SENTRY_DSN'],
-        environmentAttributes: new Event(
+        environmentAttributes: Event(
             serverName: DotEnv().env['API_BASE_URL'],
             release: versionName + ":" + versionCode,
             environment: DotEnv().env['MODE'],
             contexts: new Contexts(
                 device: device,
-                app: App(name: 'Fuse Wallet'),
+                app: App(name: 'WikiBank'),
                 operatingSystem: operatingSystem),
             userContext: user));
 
     return sentry;
   }
 
-  Future<void> reportError(dynamic error, dynamic stackTrace) async {
+  Future<void> reportError(dynamic error, {dynamic stackTrace}) async {
     _sentry = await getSentry();
     _sentry.captureException(
       exception: error,

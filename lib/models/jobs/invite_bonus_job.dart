@@ -1,8 +1,8 @@
-import 'package:bit2c/models/jobs/base.dart';
-import 'package:bit2c/models/transactions/transfer.dart';
-import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
-import 'package:bit2c/redux/state/store.dart';
-import 'package:bit2c/services.dart';
+import 'package:supervecina/models/jobs/base.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/state/store.dart';
+import 'package:supervecina/services.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'invite_bonus_job.g.dart';
@@ -35,9 +35,8 @@ class InviteBonusJob extends Job {
   onDone(store, dynamic fetchedData) async {
     final logger = await AppFactory().getLogger('Job');
     if (isReported == true) {
-      this.status = 'FAILED';
       logger.info('InviteBonusJob FAILED');
-      store.dispatch(transactionFailed(arguments['inviteBonus']));
+      // store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['']));
       store.dispatch(segmentTrackCall('Wallet: InviteBonusJob FAILED'));
       return;
     }
@@ -51,9 +50,8 @@ class InviteBonusJob extends Job {
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('InviteBonusJob FAILED');
-      this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['inviteBonus']));
+      store.dispatch(transactionFailed(arguments['inviteBonus'], arguments['communityAddress'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
       return;
     }
@@ -62,16 +60,34 @@ class InviteBonusJob extends Job {
       String funderJobId = fetchedData['data']['funderJobId'];
       dynamic response = await api.getFunderJob(funderJobId);
       dynamic data = response['data'];
+      String txHash = data['txHash'];
+      Transfer transfer = arguments['inviteBonus'];
+      Transfer confirmedTx = transfer.copyWith(txHash: txHash);
+      if (![null, ''].contains(txHash)) {
+        logger.info('InviteBonusJob txHash txHash txHash $txHash');
+        store.dispatch(new ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx,
+            communityAddress: arguments['communityAddress']));
+        store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+      }
       String responseStatus = data['status'];
       if (responseStatus == 'SUCCEEDED') {
-        this.status = 'DONE';
-        store.dispatch(inviteBonusSuccessCall(data['txHash'], arguments['inviteBonus']));
-        store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
         logger.info('InviteBonusJob SUCCEEDED');
+        store.dispatch(new ReplaceTransaction(
+            transaction: transfer,
+            transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED'),
+            communityAddress: arguments['communityAddress']));
+        store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+        store.dispatch(segmentTrackCall('Wallet: invite bonus success'));
+        store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
         return;
       } else if (responseStatus == 'FAILED') {
-        this.status = 'FAILED';
         logger.info('InviteBonusJob FAILED');
+        String failReason = fetchedData['failReason'];
+        store.dispatch(transactionFailed(confirmedTx, arguments['communityAddress'], failReason));
+        store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+        store.dispatch(JobDone(communityAddress: arguments['communityAddress'], job: this));
       }
     }
   }
@@ -79,7 +95,8 @@ class InviteBonusJob extends Job {
   @override
   dynamic argumentsToJson() => {
       'inviteBonus': arguments['inviteBonus'].toJson(),
-      'jobType': arguments['jobType']
+      'jobType': arguments['jobType'],
+      'communityAddress': arguments['communityAddress']
     };
 
   @override

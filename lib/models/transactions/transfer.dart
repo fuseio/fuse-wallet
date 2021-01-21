@@ -1,6 +1,5 @@
-
-import 'package:bit2c/models/transactions/transaction.dart';
-import 'package:bit2c/utils/addresses.dart';
+import 'package:supervecina/models/transactions/transaction.dart';
+import 'package:supervecina/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer.g.dart';
@@ -14,36 +13,47 @@ class Transfer extends Transaction {
   final String receiverName;
   final String note;
 
-  Transfer({
-    String txHash,
-    String type,
-    String status,
-    String text,
-    String jobId,
-    int blockNumber,
-    int timestamp,
-    this.to,
-    this.from,
-    this.value,
-    this.tokenAddress,
-    this.receiverName,
-    this.note
-  }) : super(
+  Transfer(
+      {String txHash,
+      String type,
+      String status,
+      String text,
+      String jobId,
+      int blockNumber,
+      String failReason,
+      int timestamp,
+      bool isSwap,
+      this.to,
+      this.from,
+      this.value,
+      this.tokenAddress,
+      this.receiverName,
+      this.note})
+      : super(
             timestamp: timestamp,
             txHash: txHash,
             type: type,
             status: status,
             text: text,
             jobId: jobId,
-            blockNumber: blockNumber);
+            blockNumber: blockNumber,
+            isSwap: isSwap ?? false);
 
-  bool isJoinBonus() => this.from != null && funderAddresses.containsValue(this.from);
-  bool isGenerateWallet() => this.jobId != null && this.jobId == 'generateWallet';
+  bool isJoinBonus() =>
+      this.from != null && funderAddresses.containsValue(this.from);
+  bool isGenerateWallet() =>
+      this.jobId != null && this.jobId == 'generateWallet';
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');
 
-  Transfer copyWith({
-    String status, String txHash, String text}) {
+  Transfer copyWith(
+      {String status,
+      String txHash,
+      String text,
+      int timestamp,
+      String failReason}) {
     return Transfer(
+        failReason: failReason ?? this.failReason,
+        isSwap: this.isSwap,
         note: note ?? this.note,
         receiverName: receiverName ?? this.receiverName,
         txHash: txHash ?? this.txHash,
@@ -52,7 +62,7 @@ class Transfer extends Transaction {
         text: text ?? this.text,
         jobId: this.jobId,
         blockNumber: this.blockNumber,
-        timestamp: this.timestamp,
+        timestamp: timestamp ?? this.timestamp,
         to: this.to,
         from: this.from,
         value: this.value,
@@ -64,7 +74,6 @@ class Transfer extends Transaction {
 
   Map<String, dynamic> toJson() => _$TransferToJson(this);
 }
-
 
 class TransactionFactory {
   static fromJson(Map<String, dynamic> json) {

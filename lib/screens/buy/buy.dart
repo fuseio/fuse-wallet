@@ -2,26 +2,32 @@ import 'dart:core';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:bit2c/generated/i18n.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/models/business.dart';
-import 'package:bit2c/models/views/buy_page.dart';
-import 'package:bit2c/screens/buy/business.dart';
-import 'package:bit2c/screens/cash_home/webview_page.dart';
-import 'package:bit2c/screens/routes.gr.dart';
-import 'package:bit2c/screens/send/send_amount.dart';
-import 'package:bit2c/screens/send/send_amount_arguments.dart';
-import 'package:bit2c/utils/transaction_row.dart';
-import 'package:bit2c/widgets/main_scaffold.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/models/community/business_metadata.dart';
+import 'package:supervecina/models/views/buy_page.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/screens/buy/buymain.dart';
+import 'package:supervecina/screens/buy/buysub.dart';
+import 'package:supervecina/screens/buy/router/buy_router.gr.dart';
+import 'package:supervecina/screens/contacts/send_amount_arguments.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:auto_route/auto_route.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, BuyViewModel>(
+    return StoreConnector<AppState, BuyViewModel>(
         distinct: true,
         converter: BuyViewModel.fromStore,
+        onInit: (store) {
+          store.dispatch(getBusinessListCall());
+        },
         onInitialBuild: (viewModel) {
-          viewModel.loadBusinesses();
+          Segment.screen(screenName: '/buy-screen');
         },
         builder: (_, viewModel) {
           return MainScaffold(
@@ -46,66 +52,79 @@ class BuyScreen extends StatelessWidget {
               // ],
               automaticallyImplyLeading: false,
               title: I18n.of(context).buy,
-              children: <Widget>[BusinessesListView()]);
+              children: <Widget>[BussinessListView()]);
         });
   }
 }
 
-class BusinessesListView extends StatelessWidget {
+class BussinessListView extends StatefulWidget {
+  @override
+  _BussinessListViewState createState() => _BussinessListViewState();
+}
+
+class _BussinessListViewState extends State<BussinessListView> {
   Widget banner(BuildContext context, BuyViewModel vm) {
     return vm.walletBanner != null &&
-            vm.walletBanner.walletBannerHash != null &&
-            vm.walletBanner.walletBannerHash.isNotEmpty
-        ? new Container(
-            padding: EdgeInsets.all(10),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => WebViewPage(
-                              pageArgs: WebViewPageArguments(
-                                  url: vm.walletBanner.link, title: ''),
-                            )));
-              },
-              child: CachedNetworkImage(
-                imageUrl: getIPFSImageUrl(vm.walletBanner.walletBannerHash),
-                imageBuilder: (context, imageProvider) => new Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 140,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover, image: imageProvider))),
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            ))
-        : Container();
+        vm.walletBanner.walletBannerHash != null &&
+        vm.walletBanner.walletBannerHash.isNotEmpty
+        ? Container(
+        constraints: BoxConstraints(maxHeight: 140),
+        padding: EdgeInsets.all(10),
+        child: InkWell(
+          onTap: () {
+
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=>BuyScreenMain()));
+
+          },
+          child: CachedNetworkImage(
+            imageUrl: getImage(vm.walletBanner.walletBannerHash),
+            imageBuilder: (context, imageProvider) => Container(
+                width: MediaQuery.of(context).size.width,
+                height: 140,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover, image: imageProvider))),
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+        ))
+        : SizedBox.shrink();
   }
 
-  Widget businessList(BuyViewModel vm) {
-    return new Row(
+  Widget businessList(context, BuyViewModel vm) {
+    return dataList.isEmpty
+        ? Container(
+      padding: EdgeInsets.all(40.0),
+      child: Center(
+        child: Text(I18n.of(context).no_businesses),
+      ),
+    )
+        : Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          new Expanded(
-              child: new Padding(
-                  padding: new EdgeInsets.only(left: 10, bottom: 5.0),
+          Expanded(
+              child: Padding(
+                  padding: EdgeInsets.only(left: 10, bottom: 5.0),
                   child: ListView.separated(
                     separatorBuilder: (BuildContext context, int index) =>
-                        new Divider(),
+                        Divider(
+                          color: Color(0xFFE8E8E8),
+                        ),
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
-                    itemCount: vm.businesses?.length ?? 0,
-                    itemBuilder: (context, index) => businessTile(context,
-                        vm.businesses[index], vm.communityAddres, vm.token),
+                    itemCount: dataList?.length ?? 0,
+                    itemBuilder: (context, index) => businessTile(
+                        context,
+                        vm.businesses[index],
+                        vm.communityAddress,
+                        vm.token, vm, dataList[index]),
                   )))
         ]);
   }
 
   ListTile businessTile(
-      context, Business business, String communityAddres, token) {
-    var image = getImageUrl(business, communityAddres);
+      context, Business business, String communityAddres, token, BuyViewModel vm, ListData data) {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       leading: Container(
@@ -113,64 +132,50 @@ class BusinessesListView extends StatelessWidget {
           height: 50,
           decoration: BoxDecoration(),
           child: ClipOval(
-              child: CachedNetworkImage(
-            imageUrl: image,
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
-            imageBuilder: (context, imageProvider) => Image(
-              image: imageProvider,
-              fit: BoxFit.cover,
-              width: 50.0,
-              height: 50.0,
-            ),
-          ))),
+            child: Image.asset("assets/images/"+data.image)
+          )),
       title: Text(
-        business.name ?? '',
+        data.title ?? '',
         style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontSize: 14,
             fontWeight: FontWeight.normal),
       ),
       subtitle: Text(
-        business.metadata.description ?? '',
+        data.subTitle ?? '',
         style: TextStyle(
             color: Theme.of(context).accentColor,
             fontSize: 12,
             fontWeight: FontWeight.normal),
       ),
-      onTap: () {
-        Router.navigator.pushNamed(Router.businessPage,
-            arguments: BusinessPageArguments(
-                communityAddress: communityAddres,
-                token: token,
-                business: business));
+      onTap: () async {
+        var result = await Navigator.push(context, MaterialPageRoute(builder: (context)=>BuyScreenMain()));
+        vm.loadBusinesses();
+        setState(() {
+
+        });
       },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-            padding: EdgeInsets.all(10),
-            shape: CircleBorder(),
-            color: Theme.of(context).buttonColor,
-            child: Text(
-              I18n.of(context).pay,
-              style: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => SendAmountScreen(
-                          pageArgs: SendAmountArguments(
-                              sendType: SendType.BUSINESS,
-                              avatar: NetworkImage(image),
-                              name: business.name ?? '',
-                              accountAddress: business.account))));
+          InkWell(
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Image.asset(
+                  'assets/images/go.png',
+                  fit: BoxFit.fill,
+                  width: 25,
+                  height: 25,
+                )),
+            onTap: () {
+              ExtendedNavigator.root.pushSendAmountScreen(
+                  pageArgs: SendAmountArguments(
+                      tokenToSend: token,
+                      name: business.name ?? '',
+                      accountAddress: business.account,
+                      avatar: NetworkImage(business.metadata.getImageUri())));
             },
           ),
         ],
@@ -178,29 +183,49 @@ class BusinessesListView extends StatelessWidget {
     );
   }
 
+  List<ListData> dataList = List<ListData>();
+  
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, BuyViewModel>(
+
+    dataList.clear();
+    
+    dataList.add(ListData("La Oliva", "Sevilla", "wikibank_logo.png"));
+    dataList.add(ListData("Los Pajaritos", "Sevilla", "wikibank_logo.png"));
+    
+    return StoreConnector<AppState, BuyViewModel>(
         distinct: true,
         converter: BuyViewModel.fromStore,
         onInitialBuild: (vm) {
           vm.loadBusinesses();
         },
         builder: (_, vm) {
-          return vm.businesses.isEmpty
-              ? Container(
-                  padding: const EdgeInsets.all(40.0),
-                  child: Center(
-                    child: Text(I18n.of(context).no_businesses),
-                  ),
-                )
-              : new Container(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[banner(context, vm), businessList(vm)],
-                  ),
-                );
+          return Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                banner(context, vm),
+                businessList(context, vm)
+              ],
+            ),
+          );
         });
   }
+
+}
+
+class ListData {
+  String title;
+  String subTitle;
+  String image;
+
+  ListData(this.title, this.subTitle, this.image);
+
+  ListData.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    subTitle = json['subTitle'];
+    image = json['image'];
+  }
+
 }

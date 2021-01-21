@@ -1,12 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
-import 'package:bit2c/redux/actions/error_actions.dart';
-import 'package:bit2c/redux/actions/user_actions.dart';
-import 'package:bit2c/redux/state/store.dart';
-import 'package:bit2c/screens/routes.gr.dart';
-import 'package:bit2c/services.dart';
-import 'package:bit2c/utils/phone.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/error_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/redux/state/store.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/utils/phone.dart';
 import 'package:redux/redux.dart';
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 
@@ -26,7 +27,8 @@ Middleware<AppState> _createLoginRequestMiddleware() {
     if (action is LoginRequest) {
       try {
         store.dispatch(SetIsLoginRequest(isLoading: true));
-        String normalizedPhoneNumber = await PhoneService.getNormalizedPhoneNumber(formatPhoneNumber(action.phoneNumber, action.countryCode.dialCode), action.countryCode.code);
+        String phoneNumber = '${action.countryCode.dialCode}${action.phoneNumber}';
+        String normalizedPhoneNumber = await PhoneService.getNormalizedPhoneNumber(phoneNumber, action.countryCode.code);
         await firebaseAuth.verifyPhoneNumber(
           phoneNumber: normalizedPhoneNumber,
           codeAutoRetrievalTimeout: action.codeAutoRetrievalTimeout,
@@ -48,7 +50,7 @@ Middleware<AppState> _createLoginRequestMiddleware() {
       catch (e, s) {
         store.dispatch(SetIsLoginRequest(isLoading: false));
         logger.severe('ERROR - LoginRequest $e');
-        await AppFactory().reportError(e, s);
+        await AppFactory().reportError(e, stackTrace: s);
         store.dispatch(new ErrorAction(e.toString()));
         store.dispatch(segmentTrackCall("ERROR in LoginRequest", properties: new Map.from({ "error": e.toString() })));
       }
@@ -66,29 +68,30 @@ Middleware<AppState> _createVerifyPhoneNumberMiddleware() {
         store.dispatch(setDeviceId(false));
         PhoneAuthCredential credential = store.state.userState.credentials;
         if (credential == null) {
-          credential = PhoneAuthProvider.getCredential(
+          credential = PhoneAuthProvider.credential(
             verificationId: action.verificationId,
-            smsCode: action.verificationCode,
+            smsCode: action.verificationCode
           );
         }
-        final FirebaseUser user = (await firebaseAuth.signInWithCredential(credential)).user;
-        final FirebaseUser currentUser = await firebaseAuth.currentUser();
+        final User user = (await firebaseAuth.signInWithCredential(credential)).user;
+        final User currentUser = firebaseAuth.currentUser;
         assert(user.uid == currentUser.uid);
         final String accountAddress = store.state.userState.accountAddress;
         final String identifier = store.state.userState.identifier;
-        IdTokenResult token = await user.getIdToken();
-        String jwtToken = await api.login(token.token, accountAddress, identifier, appName: 'Bit2C');
+        String token = await user.getIdToken();
+        String jwtToken = await api.login(token, accountAddress, identifier, appName: 'Supervecina');
         store.dispatch(new LoginVerifySuccess(jwtToken));
         store.dispatch(SetIsVerifyRequest(isLoading: false));
         store.dispatch(segmentTrackCall("Wallet: verified phone number"));
-        Router.navigator.pushReplacementNamed(Router.userNameScreen);
+        ExtendedNavigator.root.pushUserNameScreen();
       }
-      catch (e, s) {
-        store.dispatch(SetIsVerifyRequest(isLoading: false));
-        logger.severe('ERROR - Verification failed $e');
-        await AppFactory().reportError(e, s);
-        store.dispatch(new ErrorAction(e.toString()));
-        store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": e.toString() })));
+      catch (error, s) {
+        FirebaseAuthException firebaseAuthException = error as FirebaseAuthException;
+        store.dispatch(SetIsVerifyRequest(isLoading: false, message: firebaseAuthException));
+        logger.severe('ERROR - Verification failed ${firebaseAuthException.code} - ${firebaseAuthException.message}');
+        await AppFactory().reportError(firebaseAuthException.message, stackTrace: s);
+        store.dispatch(new ErrorAction(firebaseAuthException.message));
+        store.dispatch(segmentTrackCall("ERROR in VerifyRequest", properties: new Map.from({ "error": firebaseAuthException.message })));
       }
     }
     next(action);

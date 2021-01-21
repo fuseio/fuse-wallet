@@ -1,32 +1,40 @@
 import 'dart:async';
-import 'dart:core';
+import 'package:auto_route/auto_route.dart';
+import 'package:country_code_picker/country_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/models/views/splash.dart';
-import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
-import 'package:bit2c/redux/actions/user_actions.dart';
-import 'package:bit2c/redux/state/store.dart';
-import 'package:bit2c/screens/pro_routes.gr.dart';
-import 'package:bit2c/screens/routes.gr.dart';
-import 'package:bit2c/themes/app_theme.dart';
-import 'package:bit2c/themes/custom_theme.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
+import 'package:supervecina/redux/state/store.dart';
+import 'package:supervecina/screens/route_guards.dart';
+import 'package:supervecina/screens/routes.gr.dart' as router;
+import 'package:supervecina/services.dart';
+import 'package:supervecina/themes/app_theme.dart';
+import 'package:supervecina/themes/custom_theme.dart';
+import 'package:supervecina/utils/jwt.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
-import 'package:bit2c/generated/i18n.dart';
+import 'package:supervecina/generated/i18n.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DotEnv().load('.env_bit2c');
+  await Firebase.initializeApp();
+  await DotEnv().load('environment/.env');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runZonedGuarded<Future<void>>(() async => runApp(await customThemeApp()),
-      (Object error, StackTrace stackTrace) async {
+  Store<AppState> store = await AppFactory().getStore();
+  runZonedGuarded<Future<void>>(
+      () async => runApp(CustomTheme(
+            initialThemeKey: MyThemeKeys.DEFAULT,
+            child: new MyApp(store: store),
+          )), (Object error, StackTrace stackTrace) async {
     try {
-      await AppFactory().reportError(error, stackTrace);
+      await AppFactory().reportError(error, stackTrace: stackTrace);
     } catch (e) {
       print('Sending report to sentry.io failed: $e');
       print('Original error: $error');
@@ -42,31 +50,9 @@ void main() async {
   };
 }
 
-bool checkIsLoggedIn(Store<AppState> store) {
-  String privateKey = store.state.userState.privateKey;
-  String jwtToken = store.state.userState.jwtToken;
-  bool isLoggedOut = store.state.userState.isLoggedOut;
-  if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-    return true;
-  }
-  return false;
-}
-
-Future<CustomTheme> customThemeApp() async {
-  Store<AppState> store = await AppFactory().getStore();
-
-  String initialRoute = checkIsLoggedIn(store) ? Router.cashHomeScreen : Router.splashScreen;
-
-  return CustomTheme(
-    initialThemeKey: MyThemeKeys.DEFAULT,
-    child: new MyApp(store: store, initialRoute: initialRoute),
-  );
-}
-
 class MyApp extends StatefulWidget {
   final Store<AppState> store;
-  final String initialRoute;
-  MyApp({Key key, this.store, this.initialRoute}) : super(key: key);
+  MyApp({Key key, this.store}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -74,7 +60,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final i18n = I18n.delegate;
-  bool isProMode = false;
+  StreamSubscription<Map> streamSubscription;
 
   void onLocaleChange(Locale locale) {
     setState(() {
@@ -82,66 +68,108 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void refreshToken(Store<AppState> store) async {
+    final logger = await AppFactory().getLogger('action');
+    String jwtToken = store?.state?.userState?.jwtToken;
+    final accoutAddress = store?.state?.userState?.accountAddress;
+    final identifier = store?.state?.userState?.identifier;
+    if (![null, ''].contains(jwtToken)) {
+      Map<String, dynamic> tokenData = parseJwt(jwtToken);
+      DateTime exp =
+          DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
+      DateTime now = DateTime.now();
+      Duration diff = exp.difference(now);
+      if (diff.inDays <= 1) {
+        String token = await firebaseAuth.currentUser.getIdToken(true);
+        jwtToken = await api.login(token, accoutAddress, identifier, appName: 'Supervecina');
+      }
+
+      logger.info('JWT: $jwtToken');
+      api.setJwtToken(jwtToken);
+      store.dispatch(LoginVerifySuccess(jwtToken));
+    } else {
+      logger.info('no JWT');
+    }
+  }
+
+  void listenDynamicLinks(Store<AppState> store) async {
+    final logger = await AppFactory().getLogger('action');
+    logger.info("branch listening.");
+    store.dispatch(BranchListening());
+    streamSubscription =
+        FlutterBranchSdk.initSession().listen((linkData) async {
+      logger.info("Got link data: ${linkData.toString()}");
+      if (linkData["~feature"] == "switch_community") {
+        var communityAddress = linkData["community_address"];
+        logger.info("communityAddress $communityAddress");
+        store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          'Referral': linkData["~feature"],
+          'Referral link': linkData['~referring_link']
+        })));
+        store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite",
+            properties: new Map<String, dynamic>.from(linkData)));
+      }
+      if (linkData["~feature"] == "invite_user") {
+        var communityAddress = linkData["community_address"];
+        logger.info("community_address $communityAddress");
+        store.dispatch(BranchCommunityToUpdate(communityAddress));
+        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
+          'Referral': linkData["~feature"],
+          'Referral link': linkData['~referring_link']
+        })));
+        store.dispatch(segmentTrackCall("Wallet: Branch: User Invite",
+            properties: new Map<String, dynamic>.from(linkData)));
+      }
+    }, onError: (error) {
+      PlatformException platformException = error as PlatformException;
+      print(
+          'InitSession error: ${platformException.code} - ${platformException.message}');
+      logger.severe('ERROR - FlutterBranchSdk initSession $error');
+      store.dispatch(BranchListeningStopped());
+    }, cancelOnError: true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    streamSubscription.cancel();
+  }
+
   @override
   void initState() {
     super.initState();
+    refreshToken(widget.store);
+    listenDynamicLinks(widget.store);
     I18n.onLocaleChanged = onLocaleChange;
-  }
-
-  onWillChange(prevVM, nextVM) {
-    if (prevVM.isProMode != nextVM.isProMode) {
-      setState(() {
-        isProMode = nextVM.isProMode;
-      });
-    }
-  }
-
-  onInit(Store<AppState> store) {
-    String privateKey = store.state.userState.privateKey;
-    String jwtToken = store.state.userState.jwtToken;
-    bool isLoggedOut = store.state.userState.isLoggedOut;
-    if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-      store.dispatch(getWalletAddressessCall());
-      store.dispatch(identifyCall());
-      store.dispatch(loadContacts());
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return new StoreProvider<AppState>(
-      store: widget.store,
-      child: new StoreConnector<AppState, SplashViewModel>(
-          converter: SplashViewModel.fromStore,
-          onWillChange: onWillChange,
-          onInit: onInit,
-          builder: (_, vm) {
-            return new Column(children: <Widget>[
-              Expanded(
-                  child: MaterialApp(
-                title: 'Bit2c wallet',
-                initialRoute: isProMode
-                    ? ProRouter.proModeHomeScreen
-                    : widget.initialRoute,
-                navigatorKey:
-                    isProMode ? ProRouter.navigator.key : Router.navigator.key,
-                onGenerateRoute: isProMode
-                    ? ProRouter.onGenerateRoute
-                    : Router.onGenerateRoute,
-                theme: CustomTheme.of(context),
-                localizationsDelegates: [
-                  i18n,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: i18n.supportedLocales,
-                localeResolutionCallback:
-                    i18n.resolution(fallback: new Locale("en", "US")),
-                navigatorObservers: [SegmentObserver()],
-              ))
-            ]);
-          }),
-    );
+    return StoreProvider<AppState>(
+        store: widget.store,
+        child: MaterialApp(
+          title: 'Wiki Bank',
+          builder: ExtendedNavigator.builder(
+            router: router.Router(),
+            initialRoute: "/",
+            guards: [AuthGuard()],
+            builder: (_, extendedNav) => Theme(
+              data: CustomTheme.of(context),
+              child: extendedNav,
+            ),
+          ),
+          locale: Locale('es', 'ES'),
+          localizationsDelegates: [
+            i18n,
+            CountryLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: i18n.supportedLocales,
+          localeResolutionCallback:
+              i18n.resolution(fallback: new Locale("en", "US")),
+        ));
   }
 }

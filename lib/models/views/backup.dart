@@ -1,26 +1,41 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/models/user_state.dart';
-import 'package:bit2c/redux/actions/user_actions.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/user_state.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 import 'package:redux/redux.dart';
 
 class BackupViewModel extends Equatable {
   final UserState user;
-  final bool isProMode;
-  final Function(VoidCallback successCb) backupWallet;
+  final Function() backupWallet;
 
-  BackupViewModel({this.user, this.backupWallet, this.isProMode});
+  BackupViewModel({
+    this.user,
+    this.backupWallet,
+  });
 
   static BackupViewModel fromStore(Store<AppState> store) {
     return BackupViewModel(
-        isProMode: store.state.userState.isProMode ?? false,
         user: store.state.userState,
-        backupWallet: (successCb) {
-          store.dispatch(backupWalletCall(successCb));
+        backupWallet: () {
+          store.dispatch(backupWalletCall());
         });
   }
 
   @override
-  List<Object> get props => [user, isProMode];
+  List<Object> get props => [user];
+}
+
+class LockScreenViewModel extends Equatable {
+  final String pincode;
+
+  LockScreenViewModel({this.pincode});
+
+  static LockScreenViewModel fromStore(Store<AppState> store) {
+    return LockScreenViewModel(
+      pincode: store.state.userState.pincode,
+    );
+  }
+
+  @override
+  List<Object> get props => [pincode];
 }

@@ -1,7 +1,7 @@
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/redux/reducers/pro_mode_reducer.dart';
-import 'package:bit2c/redux/reducers/user_reducer.dart';
-import 'package:bit2c/redux/reducers/cash_wallet_reducer.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/redux/reducers/pro_mode_reducer.dart';
+import 'package:supervecina/redux/reducers/user_reducer.dart';
+import 'package:supervecina/redux/reducers/cash_wallet_reducer.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   return AppState(

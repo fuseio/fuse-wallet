@@ -1,15 +1,15 @@
 import 'dart:core';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:bit2c/generated/i18n.dart';
-import 'package:bit2c/models/views/backup.dart';
-import 'package:bit2c/screens/backup/verify_mnemonic.dart';
-import 'package:bit2c/widgets/main_scaffold.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/views/backup.dart';
+import 'package:supervecina/screens/home/router/home_router.gr.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/widgets/copy.dart';
-import 'package:bit2c/widgets/preloader.dart';
-import 'package:bit2c/widgets/primary_button.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/widgets/copy.dart';
+import 'package:supervecina/widgets/preloader.dart';
+import 'package:supervecina/widgets/primary_button.dart';
 
 class ShowMnemonic extends StatelessWidget {
   @override
@@ -27,8 +27,10 @@ class ShowMnemonic extends StatelessWidget {
                   padding: EdgeInsets.only(top: 20),
                   child: RichText(
                       textAlign: TextAlign.center,
-                      text: new TextSpan(
-                          style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 16),
+                      text: TextSpan(
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 16),
                           children: <InlineSpan>[
                             TextSpan(
                               text: I18n.of(context).important + ' ',
@@ -45,11 +47,8 @@ class ShowMnemonic extends StatelessWidget {
               ],
             ),
           ),
-          new StoreConnector<AppState, BackupViewModel>(
+          StoreConnector<AppState, BackupViewModel>(
               distinct: true,
-              onInit: (store) {
-                Segment.screen(screenName: '/show-mnemonic');
-              },
               converter: BackupViewModel.fromStore,
               builder: (_, viewModel) {
                 return (viewModel.user != null &&
@@ -144,10 +143,8 @@ class ShowMnemonic extends StatelessWidget {
                             label: I18n.of(context).next_button,
                             labelFontWeight: FontWeight.normal,
                             onPressed: () async {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) => VerifyMnemonic()));
+                              ExtendedNavigator.named('homeRouter')
+                                  .replace(HomeRoutes.verifyMnemonic);
                             },
                           )),
                         ],

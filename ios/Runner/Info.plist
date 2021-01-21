@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Bit2c wallet</string>
+	<string>Wiki Bank</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -35,16 +35,18 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.57975489080-8ucfr8v5tn1l54mjnkmsjb2jk5phmilf</string>
+				<string>com.googleusercontent.apps.909520260586-iimbgveoamhqd8uq9flaakjd0v55ck5h</string>
 			</array>
 		</dict>
 	</array>
 	<key>FirebaseAppDelegateProxyEnabled</key>
-	<string>NO</string>
+	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library.</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Not in use right now</string>
 	<key>NSCalendarsUsageDescription</key>
@@ -53,6 +55,8 @@
 	<string>Camera permission is required for barcode scanning.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Please enable contacts sync for easy access your phone contacts when sending money.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>FaceId permission is required for protect your wallet.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

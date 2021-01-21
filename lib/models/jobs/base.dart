@@ -1,13 +1,14 @@
 import 'dart:convert';
 
-import 'package:bit2c/models/jobs/approve_job.dart';
-import 'package:bit2c/models/jobs/backup_job.dart';
-import 'package:bit2c/models/jobs/generate_wallet_job.dart';
-import 'package:bit2c/models/jobs/invite_bonus_job.dart';
-import 'package:bit2c/models/jobs/invite_job.dart';
-import 'package:bit2c/models/jobs/join_bonus_job.dart';
-import 'package:bit2c/models/jobs/join_community_job.dart';
-import 'package:bit2c/models/jobs/transfer_job.dart';
+import 'package:supervecina/models/jobs/approve_job.dart';
+import 'package:supervecina/models/jobs/backup_job.dart';
+import 'package:supervecina/models/jobs/generate_wallet_job.dart';
+import 'package:supervecina/models/jobs/invite_bonus_job.dart';
+import 'package:supervecina/models/jobs/invite_job.dart';
+import 'package:supervecina/models/jobs/join_bonus_job.dart';
+import 'package:supervecina/models/jobs/join_community_job.dart';
+import 'package:supervecina/models/jobs/swap_token_job.dart';
+import 'package:supervecina/models/jobs/transfer_job.dart';
 
 abstract class Job {
   static const String RELAY = "relay";
@@ -20,8 +21,8 @@ abstract class Job {
   String status;
   dynamic arguments;
   bool isReported;
-  final bool isFunderJob;
-  final String id;
+  bool isFunderJob;
+  String id;
   final String jobType;
   final String name;
   final dynamic data;
@@ -69,7 +70,7 @@ abstract class Job {
     return jsonEncode(arguments);
   }
 
-  dynamic argumentsFromJson(arguments) {
+  Map<String, dynamic> argumentsFromJson(arguments) {
     return arguments;
   }
 }
@@ -83,7 +84,8 @@ class JobFactory {
       if (job['data']['walletModule'] == Job.COMMUNITY_MANAGER) {
         return 'joinCommunity';
       } else if (job['data']['walletModule'] == Job.TRANSFER_MANAGER &&
-          (job['data']['methodName'] != null && job['data']['methodName'] == 'approveToken')) {
+          (job['data']['methodName'] != null &&
+              job['data']['methodName'] == 'approveToken')) {
         return 'approveToken';
       } else if (job['data']['walletModule'] == Job.TRANSFER_MANAGER) {
         return 'transfer';
@@ -180,6 +182,15 @@ class JobFactory {
             arguments: json['arguments']);
       case 'approveToken':
         return new ApproveJob(
+            id: id,
+            jobType: jobType,
+            name: json['name'],
+            status: status,
+            data: json['data'],
+            lastFinishedAt: json['lastFinishedAt'],
+            arguments: json['arguments']);
+      case 'swapToken':
+        return new SwapTokenJob(
             id: id,
             jobType: jobType,
             name: json['name'],

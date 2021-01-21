@@ -1,8 +1,9 @@
-import 'package:bit2c/models/jobs/base.dart';
-import 'package:bit2c/models/transactions/transfer.dart';
-import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
-import 'package:bit2c/redux/state/store.dart';
-import 'package:bit2c/services.dart';
+import 'package:supervecina/models/jobs/base.dart';
+import 'package:supervecina/models/transactions/transfer.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/redux/state/store.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/widgets/snackbars.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer_job.g.dart';
@@ -36,25 +37,40 @@ class TransferJob extends Job {
     if (isReported == true) {
       this.status = 'FAILED';
       logger.info('TransferJob FAILED');
-      store.dispatch(transactionFailed(arguments['transfer']));
+      // store.dispatch(transactionFailed(arguments['transfer'], arguments['communityAddress']));
       store.dispatch(segmentTrackCall('Wallet: TransferJob FAILED'));
       return;
     }
     Job job = JobFactory.create(fetchedData);
     int current = DateTime.now().millisecondsSinceEpoch;
     int jobTime = this.timeStart;
+    String txHash = job?.data['txHash'];
+    Transfer transfer = arguments['transfer'];
+    Transfer confirmedTx = transfer.copyWith(txHash: txHash);
+    if (![null, ''].contains(txHash)) {
+      logger.info('TransferJob txHash txHash txHash $txHash');
+      store.dispatch(new ReplaceTransaction(
+          transaction: transfer,
+          transactionToReplace: confirmedTx,
+          communityAddress: arguments['communityAddress']));
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
+    }
+
     final int millisecondsIntoMin = 2 * 60 * 1000;
     if ((current - jobTime) > millisecondsIntoMin && isReported != null && !isReported) {
       store.dispatch(segmentTrackCall('Wallet: pending job', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
       this.isReported = true;
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
     }
 
     if (fetchedData['failReason'] != null && fetchedData['failedAt'] != null) {
       logger.info('TransferJob FAILED');
       this.status = 'FAILED';
       String failReason = fetchedData['failReason'];
-      store.dispatch(transactionFailed(arguments['transfer']));
+      transactionFailedSnack(failReason);
+      store.dispatch(transactionFailed(transfer, arguments['communityAddress'], failReason));
       store.dispatch(segmentTrackCall('Wallet: job failed', properties: new Map<String, dynamic>.from({ 'id': id, 'failReason': failReason, 'name': name })));
+      store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
       return;
     }
 
@@ -63,13 +79,18 @@ class TransferJob extends Job {
       return;
     }
     this.status = 'DONE';
-    store.dispatch(sendTokenSuccessCall(job, arguments['transfer']));
+    store.dispatch(new ReplaceTransaction(
+        transaction: transfer,
+        transactionToReplace: confirmedTx.copyWith(status: 'CONFIRMED'),
+        communityAddress: arguments['communityAddress']));
     store.dispatch(segmentTrackCall('Wallet: job succeeded', properties: new Map<String, dynamic>.from({ 'id': id, 'name': name })));
+    store.dispatch(UpdateJob(communityAddress: arguments['communityAddress'], job: this));
   }
 
   @override
   dynamic argumentsToJson() => {
-    'transfer': arguments['transfer'].toJson()
+    'transfer': arguments['transfer'].toJson(),
+    'communityAddress': arguments['communityAddress']
   };
 
   @override

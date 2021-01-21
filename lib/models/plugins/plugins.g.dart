@@ -19,6 +19,7 @@ Map<String, dynamic> _$PluginsToJson(Plugins instance) {
       Plugins._foreignTransfersToJson(instance.foreignTransfers));
   writeNotNull('bridgeToForeign',
       Plugins._bridgeToForeignToJson(instance.bridgeToForeign));
+  writeNotNull('rampInstant', Plugins._rampInstantToJson(instance.rampInstant));
   writeNotNull('moonpay', Plugins._moonpayToJson(instance.moonpay));
   writeNotNull('transak', Plugins._transakToJson(instance.transak));
   writeNotNull('joinBonus', Plugins._joinBonusToJson(instance.joinBonus));

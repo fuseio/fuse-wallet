@@ -1,109 +1,76 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/models/views/splash.dart';
-import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
-import 'package:bit2c/redux/actions/user_actions.dart';
-import 'package:bit2c/screens/routes.gr.dart';
-import 'package:bit2c/widgets/on_boarding_pages.dart';
-import 'package:redux/redux.dart';
+import 'package:flutter_segment/flutter_segment.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/splash.dart';
+import 'package:supervecina/screens/splash/create_wallet.dart';
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  PageController _pageController = new PageController();
-  static const _kDuration = const Duration(milliseconds: 2000);
-  static const _kCurve = Curves.ease;
-  bool isOpen = false;
-  PageController _slideController;
-  ValueNotifier<double> notifier;
-  int _previousPage;
-  final _controller = new PageController();
-
-  void _onScroll() {
-    if (_pageController.page.toInt() == _pageController.page) {
-      _previousPage = _pageController.page.toInt();
-    }
-    notifier?.value = _pageController.page - _previousPage;
-
-    _slideController.animateToPage(_pageController.page.toInt(),
-        duration: null, curve: null);
-  }
-
-  @override
-  void initState() {
-    _pageController = PageController(
-      initialPage: 0,
-      viewportFraction: 0.9,
-    )..addListener(_onScroll);
-
-    notifier = ValueNotifier<double>(0);
-
-    _previousPage = _pageController.initialPage;
-    super.initState();
-  }
-
-  void gotoPage(page) {
-    _pageController.animateToPage(
-      page,
-      duration: _kDuration,
-      curve: _kCurve,
-    );
-  }
-
-  onInit(Store<AppState> store) {
-    String privateKey = store.state.userState.privateKey;
-    String jwtToken = store.state.userState.jwtToken;
-    bool isLoggedOut = store.state.userState.isLoggedOut;
-    if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-      store.dispatch(getWalletAddressessCall());
-      store.dispatch(identifyCall());
-      Router.navigator.pushNamedAndRemoveUntil(
-          Router.cashHomeScreen, (Route<dynamic> route) => false);
-    }
-  }
-
+class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Drawer drawer = Drawer();
-    return new StoreConnector<AppState, SplashViewModel>(
+    Segment.screen(screenName: '/splash-screen');
+    return StoreConnector<AppState, SplashViewModel>(
         distinct: true,
-        onInit: onInit,
         converter: SplashViewModel.fromStore,
         builder: (_, viewModel) {
-          List pages = getPages(context);
-          return Scaffold(
-              drawer: drawer,
-              body: Container(
-                  child: Column(
+          return WillPopScope(
+              onWillPop: () async {
+                ExtendedNavigator.root.pop<bool>(false);
+                return false;
+              },
+              child: Scaffold(
+                  body: Container(
+                      child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
-                    flex: 20,
-                    child: Container(
-                        child: Column(
-                      children: <Widget>[
-                        Expanded(
-                          child: new Stack(
-                            children: <Widget>[
-                              new PageView.builder(
-                                physics: new AlwaysScrollableScrollPhysics(),
-                                controller: _controller,
-                                itemCount: pages.length,
-                                itemBuilder:
-                                    (BuildContext context, int index) =>
-                                        pages[index % 4],
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    )),
+                  Flexible(
+                    flex: 4,
+                    child: Image.asset(
+                      'assets/images/wikibank_logo.png',
+                      width: 350,
+                      // height: 300,
+                    ),
                   ),
+                  Flexible(
+                    child: Center(
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'Caja de Ahorros Digitales',
+                            style: TextStyle(
+                                fontFamily: 'Eras',
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColorDark,
+                                fontSize: 18),
+                          ),
+                          Text(
+                            '\nde Sevilla',
+                            style: TextStyle(
+                                fontFamily: 'Eras',
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColorLight,
+                                fontSize: 18),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset('assets/images/2.png',
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            height: 100),
+                      ],
+                    ),
+                  ),
+                  Flexible(flex: 2, child: CreateWallet()),
                 ],
-              )));
+              ))));
         });
   }
 }

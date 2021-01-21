@@ -1,93 +1,100 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:bit2c/models/plugins/fee_base.dart';
-import 'package:bit2c/models/views/contacts.dart';
-import 'package:bit2c/screens/send/send_amount.dart';
-import 'package:bit2c/screens/send/send_amount_arguments.dart';
-import 'package:bit2c/services.dart';
-import 'package:bit2c/utils/format.dart';
-import 'package:bit2c/utils/phone.dart';
-import 'package:bit2c/widgets/preloader.dart';
+import 'package:supervecina/screens/routes.gr.dart';
+import 'package:supervecina/screens/contacts/send_amount_arguments.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/utils/format.dart';
+import 'package:supervecina/utils/phone.dart';
+import 'package:supervecina/widgets/preloader.dart';
+
+Future<Map> fetchWalletByPhone(phone, countryCode, isoCode) async {
+  try {
+    Map<String, dynamic> response = await phoneNumberUtil.parse(phone);
+    String phoneNumber = response['e164'];
+    Map wallet = await api.getWalletByPhoneNumber(response['e164']);
+    String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
+
+    return {
+      'phoneNumber': phoneNumber,
+      'walletAddress': walletAddress,
+    };
+  } catch (e) {
+    String formatted = formatPhoneNumber(phone, countryCode);
+    bool isValid = await PhoneService.isValid(formatted, isoCode);
+    if (isValid) {
+      Map wallet = await api.getWalletByPhoneNumber(formatted);
+      String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
+      return {
+        'phoneNumber': formatted,
+        'walletAddress': walletAddress,
+      };
+    } else {
+      throw '[ERROR] Fetch Wallet By Phone - $e';
+    }
+  }
+}
 
 void _openLoadingDialog(BuildContext context) {
   showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (BuildContext context) {
-      return Preloader();
-    },
+    builder: (BuildContext context) => Preloader(),
   );
 }
 
-void navigateToSendAmountScreen(
-    BuildContext context,
-    ContactsViewModel viewModel,
-    String accountAddress,
-    String displayName,
-    String phoneNumber,
-    {ImageProvider<dynamic> avatar,
-    FeePlugin feePlugin}) {
-  Navigator.push(
-      context,
-      new MaterialPageRoute(
-          builder: (context) => SendAmountScreen(
-              pageArgs: SendAmountArguments(
-                  feePlugin: viewModel.feePlugin,
-                  erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
-                  sendType: viewModel.isProMode
-                      ? SendType.ETHEREUM_ADDRESS
-                      : accountAddress != null
-                          ? SendType.FUSE_ADDRESS
-                          : SendType.CONTACT,
-                  name: displayName,
-                  accountAddress: accountAddress,
-                  avatar: avatar,
-                  phoneNumber: phoneNumber))));
-}
-
-void sendToContact(BuildContext context, ContactsViewModel viewModel,
-    String displayName, String phone,
-    {ImageProvider avatar, String address}) async {
+void sendToContact(BuildContext context, String displayName, String phone,
+    {ImageProvider avatar,
+    String address,
+    String countryCode,
+    String isoCode}) async {
   if (address != null && address.isNotEmpty) {
-    navigateToSendAmountScreen(context, viewModel, address, displayName, null,
-        avatar: avatar);
+    ExtendedNavigator.root.pushSendAmountScreen(
+        pageArgs: SendAmountArguments(
+            accountAddress: address, name: displayName, avatar: avatar));
     return;
   }
   try {
     _openLoadingDialog(context);
-    Map<String, dynamic> response = await phoneNumberUtil.parse(phone);
-    String phoneNumber = response['e164'];
-    Map wallet = await api.getWalletByPhoneNumber(response['e164']);
-    Navigator.pop(context);
-    String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
-    navigateToSendAmountScreen(
-        context, viewModel, accountAddress, displayName, phoneNumber,
-        avatar: avatar);
+    Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
+    Navigator.of(context).pop();
+    ExtendedNavigator.root.pushSendAmountScreen(
+        pageArgs: SendAmountArguments(
+            phoneNumber: res['phoneNumber'],
+            accountAddress: res['walletAddress'],
+            name: displayName,
+            avatar: avatar));
   } catch (e) {
-    String formatted = formatPhoneNumber(phone, viewModel.countryCode);
-    bool isValid = await PhoneService.isValid(formatted, viewModel.isoCode);
-    if (isValid) {
-      Map wallet = await api.getWalletByPhoneNumber(formatted);
-      String accountAddress = (wallet != null) ? wallet["walletAddress"] : null;
-      Navigator.pop(context);
-      navigateToSendAmountScreen(
-          context, viewModel, accountAddress, displayName, formatted,
-          avatar: avatar);
-    }
+    Navigator.of(context).pop();
+    throw '$e';
   }
 }
 
-void sendToPastedAddress(
-    BuildContext context, ContactsViewModel viewModel, accountAddress) {
-  Navigator.push(
-      context,
-      new MaterialPageRoute(
-          builder: (context) => SendAmountScreen(
-              pageArgs: SendAmountArguments(
-                  erc20Token: viewModel.isProMode ? viewModel.daiToken : null,
-                  sendType: viewModel.isProMode
-                      ? SendType.ETHEREUM_ADDRESS
-                      : SendType.PASTED_ADDRESS,
-                  accountAddress: accountAddress,
-                  name: formatAddress(accountAddress),
-                  avatar: new AssetImage('assets/images/anom.png')))));
+void sendToPastedAddress(accountAddress) {
+  ExtendedNavigator.root.pushSendAmountScreen(
+      pageArgs: SendAmountArguments(
+          accountAddress: accountAddress,
+          name: formatAddress(accountAddress),
+          avatar: new AssetImage('assets/images/anom.png')));
+}
+
+bracodeScannerHandler() async {
+  try {
+    ScanResult scanResult = await BarcodeScanner.scan();
+    if (isValidEthereumAddress(scanResult.rawContent)) {
+      sendToPastedAddress(scanResult.rawContent);
+    } else {
+      List<String> parts = scanResult.rawContent.split(':');
+      bool expression = parts.length == 2 && parts[0] == 'ethereum';
+      if (expression) {
+        final String accountAddress = parts[1];
+        sendToPastedAddress(accountAddress);
+      } else {
+        print('Account address is not on Fuse');
+      }
+    }
+  } catch (e) {
+    print('ERROR - BarcodeScanner');
+  }
 }

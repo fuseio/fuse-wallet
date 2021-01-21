@@ -1,54 +1,47 @@
 import 'package:equatable/equatable.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/models/plugins/plugins.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/plugins/plugins.dart';
 import 'package:redux/redux.dart';
-import 'package:bit2c/models/community.dart';
-import 'package:bit2c/redux/actions/user_actions.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/redux/actions/user_actions.dart';
 
 class DrawerViewModel extends Equatable {
   final Function() logout;
   final String walletStatus;
   final String walletAddress;
-  final String communityAddress;
-  final bool isProModeActivate;
+  final String avatarUrl;
+  final bool isBackup;
   final Plugins plugins;
   final Function() firstName;
-  final Function(bool isProMode) replaceNavigator;
 
   DrawerViewModel(
       {this.logout,
       this.walletStatus,
       this.plugins,
+      this.isBackup,
       this.walletAddress,
-      this.firstName,
-      this.communityAddress,
-      this.replaceNavigator,
-      this.isProModeActivate});
+      this.avatarUrl,
+      this.firstName});
 
   static DrawerViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[communityAddress] ??
-            new Community.initial();
+        store.state.cashWalletState.communities[communityAddress];
     return DrawerViewModel(
-        isProModeActivate: store.state.userState.isProModeActivated ?? false,
-        communityAddress: communityAddress,
-        walletAddress: store.state.cashWalletState.walletAddress,
-        plugins: community?.plugins,
-        walletStatus: store.state.cashWalletState.walletStatus,
+        isBackup: store.state.userState.backup ?? false,
+        walletAddress: store.state.userState.walletAddress,
+        plugins: community?.plugins ?? Plugins(),
+        walletStatus: store.state.userState.walletStatus,
+        avatarUrl: store.state.userState.avatarUrl,
         logout: () {
           store.dispatch(logoutCall());
         },
         firstName: () {
           String fullName = store.state.userState.displayName ?? '';
           return fullName.split(' ')[0];
-        },
-        replaceNavigator: (isProMode) {
-          store.dispatch(SwitchWalletMode(isProMode: isProMode));
         });
   }
 
   @override
-  List get props =>
-      [walletStatus, walletAddress, communityAddress, isProModeActivate];
+  List get props => [walletStatus, walletAddress, plugins];
 }

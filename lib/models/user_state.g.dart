@@ -15,6 +15,7 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     daiPointsManagerAddress: json['daiPointsManagerAddress'] as String,
     networks: (json['networks'] as List)?.map((e) => e as String)?.toList(),
     mnemonic: (json['mnemonic'] as List)?.map((e) => e as String)?.toList(),
+    authType: UserState._authTypeFromJson(json['authType'] as String),
     privateKey: json['privateKey'] as String,
     pincode: json['pincode'] as String,
     accountAddress: json['accountAddress'] as String,
@@ -29,6 +30,7 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
         (json['syncedContacts'] as List)?.map((e) => e as String)?.toList(),
     jwtToken: json['jwtToken'] as String,
     displayName: json['displayName'] as String,
+    avatarUrl: json['avatarUrl'] as String,
     email: json['email'] as String,
     verificationId: json['verificationId'] as String,
     identifier: json['identifier'] as String,
@@ -41,7 +43,10 @@ UserState _$UserStateFromJson(Map<String, dynamic> json) {
     installedAt: json['installedAt'] == null
         ? null
         : DateTime.parse(json['installedAt'] as String),
-    isProModeActivated: json['isProModeActivated'] as bool,
+    homeBackupDialogShowed: json['homeBackupDialogShowed'] as bool,
+    receiveBackupDialogShowed: json['receiveBackupDialogShowed'] as bool,
+    currency: UserState._currencyJson(json['currency'] as String),
+    totalBalance: json['totalBalance'] as num,
   );
 }
 
@@ -64,6 +69,7 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'reverseContacts': instance.reverseContacts,
       'jwtToken': instance.jwtToken,
       'displayName': instance.displayName,
+      'avatarUrl': instance.avatarUrl,
       'email': instance.email,
       'verificationId': instance.verificationId,
       'identifier': instance.identifier,
@@ -74,5 +80,9 @@ Map<String, dynamic> _$UserStateToJson(UserState instance) => <String, dynamic>{
       'backup': instance.backup,
       'displayBalance': instance.displayBalance,
       'installedAt': instance.installedAt?.toIso8601String(),
-      'isProModeActivated': instance.isProModeActivated,
+      'authType': EnumToString.convertToString(instance.authType),
+      'homeBackupDialogShowed': instance.homeBackupDialogShowed,
+      'receiveBackupDialogShowed': instance.receiveBackupDialogShowed,
+      'currency': instance.currency,
+      'totalBalance': instance.totalBalance,
     };

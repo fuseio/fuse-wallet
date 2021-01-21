@@ -1,12 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:bit2c/generated/i18n.dart';
-import 'package:bit2c/models/app_state.dart';
-import 'package:bit2c/models/views/backup.dart';
-import 'package:bit2c/screens/backup/done_backup.dart';
-import 'package:bit2c/widgets/main_scaffold.dart';
-import 'package:bit2c/widgets/primary_button.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
+import 'package:supervecina/models/views/backup.dart';
+import 'package:supervecina/screens/home/router/home_router.gr.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:supervecina/widgets/primary_button.dart';
 
 class VerifyMnemonic extends StatefulWidget {
   @override
@@ -36,9 +36,6 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BackupViewModel>(
         converter: BackupViewModel.fromStore,
-        onInit: (store) {
-          Segment.screen(screenName: '/verify-mnemonic');
-        },
         builder: (_, viewModel) {
           return MainScaffold(
               withPadding: true,
@@ -88,7 +85,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 16.0),
+                                SizedBox(height: 16.0),
                                 TextFormField(
                                   autofocus: false,
                                   decoration: InputDecoration(
@@ -104,7 +101,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 16.0),
+                                SizedBox(height: 16.0),
                                 TextFormField(
                                   autofocus: false,
                                   decoration: InputDecoration(
@@ -126,7 +123,7 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16.0),
+                SizedBox(height: 16.0),
                 Padding(
                   padding: EdgeInsets.only(top: 40),
                   child: Center(
@@ -137,15 +134,13 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                     width: 160,
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => DoneBackup()));
+                        ExtendedNavigator.named('homeRouter')
+                            .replace(HomeRoutes.doneBackup);
                       }
                     },
                   )),
                 ),
-                const SizedBox(height: 30.0),
+                SizedBox(height: 30.0),
               ]);
         });
   }

@@ -1,18 +1,18 @@
-import 'package:bit2c/models/business.dart';
-import 'package:bit2c/models/community.dart';
-import 'package:bit2c/models/plugins/wallet_banner.dart';
-import 'package:bit2c/models/token.dart';
-import 'package:bit2c/redux/actions/cash_wallet_actions.dart';
+import 'package:supervecina/models/community/business.dart';
+import 'package:supervecina/models/community/community.dart';
+import 'package:supervecina/models/plugins/wallet_banner.dart';
+import 'package:supervecina/models/tokens/token.dart';
+import 'package:supervecina/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
-import 'package:bit2c/models/app_state.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 
 class BuyViewModel extends Equatable {
-  final List<Business> businesses;
+  List<Business> businesses;
   final Function() loadBusinesses;
   final bool isCommunityBusinessesFetched;
   final Token token;
-  final String communityAddres;
+  final String communityAddress;
   final WalletBannerPlugin walletBanner;
 
   @override
@@ -25,7 +25,7 @@ class BuyViewModel extends Equatable {
       ];
 
   BuyViewModel(
-      {this.communityAddres,
+      {this.communityAddress,
       this.businesses,
       this.loadBusinesses,
       this.token,
@@ -33,19 +33,60 @@ class BuyViewModel extends Equatable {
       this.walletBanner});
 
   static BuyViewModel fromStore(Store<AppState> store) {
-    String communityAddres = store.state.cashWalletState.communityAddress;
+    String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
+        store.state.cashWalletState.communities[communityAddress] ??
             new Community.initial();
     return BuyViewModel(
-        communityAddres: communityAddres,
+        communityAddress: communityAddress,
         token: community?.token,
         businesses: community?.businesses ?? [],
         walletBanner: community.plugins.walletBanner,
-        isCommunityBusinessesFetched:
-            store.state.cashWalletState.isCommunityBusinessesFetched,
+        isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,
         loadBusinesses: () {
           store.dispatch(getBusinessListCall());
+        });
+  }
+}
+
+class SubBuyViewModel extends Equatable {
+  List<Business> businesses;
+  final Function() loadBusinesses;
+  final bool isCommunityBusinessesFetched;
+  final Token token;
+  final String communityAddress;
+  final WalletBannerPlugin walletBanner;
+
+  @override
+  List<Object> get props => [
+    token,
+    businesses,
+    isCommunityBusinessesFetched,
+    businesses,
+    walletBanner
+  ];
+
+  SubBuyViewModel(
+      {this.communityAddress,
+        this.businesses,
+        this.loadBusinesses,
+        this.token,
+        this.isCommunityBusinessesFetched,
+        this.walletBanner});
+
+  static SubBuyViewModel fromStore(Store<AppState> store) {
+    String communityAddress = store.state.cashWalletState.communityAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress] ??
+            new Community.initial();
+    return SubBuyViewModel(
+        communityAddress: communityAddress,
+        token: community?.token,
+        businesses: community?.businesses ?? [],
+        walletBanner: community.plugins.walletBanner,
+        isCommunityBusinessesFetched: store.state.cashWalletState.isCommunityBusinessesFetched,
+        loadBusinesses: () {
+          store.dispatch(getSubBusinessListCall());
         });
   }
 }

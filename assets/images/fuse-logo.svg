@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="74" height="74" viewBox="0 0 74 74">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#203d5f"/>
+      <stop offset="1" stop-color="#001731"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.208" y1="0.892" x2="0.786" y2="0.105" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="0.5" y1="-0.261" x2="0.5" y2="0.767" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#b1fdc0"/>
+      <stop offset="1" stop-color="#fefd86"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_3800" data-name="Group 3800" transform="translate(-151 -143)">
+    <circle id="Ellipse_389" data-name="Ellipse 389" cx="37" cy="37" r="37" transform="translate(151 143)" fill="url(#linear-gradient)"/>
+    <circle id="Ellipse_390" data-name="Ellipse 390" cx="31" cy="31" r="31" transform="translate(157 149)" fill="url(#linear-gradient-2)"/>
+    <path id="icons8-lightning-bolt" d="M15.688,42.188a.8.8,0,0,1-.366-.086.845.845,0,0,1-.435-1.025l6.381-19.139H14.844a.846.846,0,0,1-.7-.376.835.835,0,0,1-.076-.791L22.5.521A.839.839,0,0,1,23.281,0H31.3a.844.844,0,0,1,.771,1.187L25.427,16.031h6.292a.848.848,0,0,1,.742.442.838.838,0,0,1-.036.864L16.393,41.805A.839.839,0,0,1,15.688,42.188Z" transform="translate(165.017 159.473)" fill="url(#linear-gradient-3)"/>
+    <g id="Group_3799" data-name="Group 3799" transform="translate(-778.819 -360.5)">
+      <path id="Path_3920" data-name="Path 3920" d="M966.819,571.5a31,31,0,1,1,31-31A31.035,31.035,0,0,1,966.819,571.5Zm0-61a30,30,0,1,0,30,30A30.034,30.034,0,0,0,966.819,510.5Z" fill="#5e7da2"/>
+    </g>
+  </g>
+</svg>

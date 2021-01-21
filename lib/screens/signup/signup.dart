@@ -1,16 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:bit2c/generated/i18n.dart';
-import 'package:bit2c/models/app_state.dart';
+import 'package:supervecina/generated/i18n.dart';
+import 'package:supervecina/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:country_code_picker/country_codes.dart';
-import 'package:bit2c/utils/phone.dart';
-import 'package:bit2c/widgets/main_scaffold.dart';
-import 'package:bit2c/widgets/primary_button.dart';
-import 'package:bit2c/widgets/signup_dialog.dart';
-import 'package:bit2c/models/views/onboard.dart';
+import 'package:supervecina/services.dart';
+import 'package:supervecina/utils/constans.dart';
+import 'package:supervecina/widgets/main_scaffold.dart';
+import 'package:supervecina/widgets/primary_button.dart';
+import 'package:supervecina/widgets/signup_dialog.dart';
+import 'package:supervecina/models/views/onboard.dart';
+import 'package:supervecina/widgets/snackbars.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -22,29 +25,46 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  bool isvalidPhone = true;
-  CountryCode countryCode = new CountryCode(dialCode: '‎+1');
+  CountryCode countryCode = new CountryCode(dialCode: '‎+34', code: 'ES');
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
     super.initState();
   }
 
-  _updateCountryCode(Locale myLocale) {
+  _updateCountryCode(_) {
+    Locale myLocale = Localizations.localeOf(context);
     if (myLocale.countryCode != null) {
-      Map localeData = codes.firstWhere((Map code) => code['code'] == myLocale.countryCode, orElse: () => null);
+      Map localeData = codes.firstWhere(
+          (Map code) => code['code'] == myLocale.countryCode,
+          orElse: () => null);
       if (mounted && localeData != null) {
         setState(() {
-          countryCode = CountryCode(dialCode: localeData['dial_code'], code: localeData['code']);
+          countryCode = CountryCode(
+              dialCode: localeData['dial_code'], code: localeData['code']);
         });
       }
     }
   }
 
+  void onPressed(Function(CountryCode, String) signUp) {
+    phoneNumberUtil
+        .parse('${countryCode.dialCode}${phoneController.text}')
+        .then((value) {
+      signUp(countryCode, phoneController.text);
+    }, onError: (e) {
+      transactionFailedSnack(I18n.of(context).invalid_number,
+          title: I18n.of(context).something_went_wrong,
+          duration: Duration(seconds: 3),
+          context: context,
+          margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
-    _updateCountryCode(myLocale);
+    Segment.screen(screenName: '/signup-screen');
     return MainScaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         withPadding: true,
@@ -70,8 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   height: 35.0,
                   decoration: BoxDecoration(
                     color: Color(0xFFeaeaea),
-                    borderRadius:
-                        new BorderRadius.all(new Radius.circular(30.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
                   ),
                   child: Material(
                     color: Colors.transparent,
@@ -82,14 +101,16 @@ class _SignupScreenState extends State<SignupScreen> {
                               builder: (BuildContext context) {
                                 return SignupDialog();
                               });
-                          Segment.track(eventName: "Wallet: opened modal - why do we need this");
+                          Segment.track(
+                              eventName:
+                                  "Wallet: opened modal - why do we need this");
                         },
                         child: Center(
                           child: Text(
                             I18n.of(context).why_do_we_need_this,
                             style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 11,
+                                color: Theme.of(context).colorScheme.secondary,
+                                fontSize: 15,
                                 fontWeight: FontWeight.normal),
                           ),
                         )),
@@ -109,14 +130,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 Center(
                   child: Container(
                     width: 280,
-                    decoration: new BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(
-                              color: isvalidPhone
-                                  ? Theme.of(context)
-                                      .primaryColor
-                                      .withOpacity(0.1)
-                                  : Colors.red,
+                              color: Theme.of(context)
+                                  .primaryColor
+                                  .withOpacity(0.1),
                               width: 2.0)),
                     ),
                     child: Row(
@@ -124,78 +143,87 @@ class _SignupScreenState extends State<SignupScreen> {
                         Container(
                           child: CountryCodePicker(
                             onChanged: (_countryCode) {
-                              countryCode = _countryCode;
-                              Segment.track(eventName: 'Wallet: country code selected', properties: new Map.from({
-                                'Dial code': _countryCode.dialCode,
-                                'County code': _countryCode.code,
-                              }));
+                              setState(() {
+                                countryCode = _countryCode;
+                              });
+                              Segment.track(
+                                  eventName: 'Wallet: country code selected',
+                                  properties: Map.from({
+                                    'Dial code': _countryCode.dialCode,
+                                    'County code': _countryCode.code,
+                                  }));
                             },
+                            searchStyle: TextStyle(fontSize: 18),
+                            showFlag: true,
                             initialSelection: countryCode.code,
-                            favorite: [],
                             showCountryOnly: false,
-                            showFlag: false,
-                            textStyle: const TextStyle(fontSize: 16),
+                            textStyle: TextStyle(fontSize: 18),
                             alignLeft: false,
                           ),
-                          width: 50,
                         ),
                         Icon(Icons.arrow_drop_down),
-                        new Container(
+                        Container(
                           height: 35,
                           width: 1,
-                          color: const Color(0xFFc1c1c1),
-                          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                          color: Color(0xFFc1c1c1),
+                          margin: EdgeInsets.only(left: 5.0, right: 5.0),
                         ),
                         Expanded(
                           child: TextFormField(
                             controller: phoneController,
                             keyboardType: TextInputType.number,
                             autofocus: true,
-                            validator: (String value) => value.isEmpty ? "Please enter mobile number" : null,
-                            style: TextStyle(fontSize: 16, color: Colors.black),
+                            validator: (String value) => value.isEmpty
+                                ? "Please enter mobile number"
+                                : null,
+                            style: TextStyle(fontSize: 18, color: Colors.black),
                             decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 10),
                                 hintText: I18n.of(context).phoneNumber,
                                 border: InputBorder.none,
-                                focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
-                                enabledBorder: OutlineInputBorder(borderSide: BorderSide.none)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none)),
                           ),
                         )
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 40.0),
-                new StoreConnector<AppState, OnboardViewModel>(
+                SizedBox(height: 40.0),
+                StoreConnector<AppState, OnboardViewModel>(
                     distinct: true,
+                    onWillChange: (previousViewModel, newViewModel) {
+                      if (previousViewModel.signupException !=
+                              newViewModel.signupException &&
+                          newViewModel.signupException.runtimeType ==
+                              FirebaseAuthException) {
+                        transactionFailedSnack(
+                            newViewModel.signupException.message,
+                            title: newViewModel.signupException.code,
+                            duration: Duration(seconds: 3),
+                            context: context,
+                            margin: EdgeInsets.only(
+                                top: 8, right: 8, left: 8, bottom: 120));
+                        Future.delayed(Duration(seconds: intervalSeconds), () {
+                          newViewModel.resetErrors();
+                        });
+                      }
+                    },
                     converter: OnboardViewModel.fromStore,
-                    builder: (_, viewModel) {
-                      return Center(
-                        child: PrimaryButton(
-                          label: I18n.of(context).next_button,
-                          fontSize: 16,
-                          labelFontWeight: FontWeight.normal,
-                          onPressed: () async {
-                            try {
-                              bool isValid = await PhoneService.isValid(phoneController.text, countryCode.code);
-                              if (isValid) {
-                                viewModel.signUp(countryCode, phoneController.text);
-                              } else {
-                                setState(() {
-                                  isvalidPhone = false;
-                              });
-                              }
-                            } on PlatformException catch (e) {
-                              print(e);
-                              setState(() {
-                                isvalidPhone = false;
-                              });
-                            }
-                          },
-                          preload: viewModel.isLoginRequest,
-                        ),
-                      );
-                    })
+                    builder: (_, viewModel) => Center(
+                          child: PrimaryButton(
+                            label: I18n.of(context).next_button,
+                            fontSize: 16,
+                            labelFontWeight: FontWeight.normal,
+                            onPressed: () {
+                              onPressed(viewModel.signUp);
+                            },
+                            preload: viewModel.isLoginRequest,
+                          ),
+                        ))
               ],
             ),
           ),
