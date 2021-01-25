@@ -63,7 +63,7 @@ class _WebViewPageState extends State<WebViewPage> {
                     ]),
                 widget.withBack
                     ? Positioned(
-                        top: 60,
+                        top: 80,
                         left: 20,
                         child: InkWell(
                           onTap: () {
