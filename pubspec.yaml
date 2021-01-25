@@ -82,7 +82,7 @@ flutter_icons:
   adaptive_icon_foreground: assets/images/icon-android-adaptive-foreground.png
 flutter:
   assets:
-    - environment/.env
+    - environment/env_peepl
     - environment/.env_prod
     - environment/.env_qa
     - assets/
