@@ -1174,6 +1174,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
+      store.dispatch(SwitchToNewCommunity(communityAddress));
       String walletAddress =
           checksumEthereumAddress(store.state.userState.walletAddress);
       Map<String, dynamic> communityData = await getCommunityData(
@@ -1227,6 +1228,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
+      store.dispatch(SwitchCommunityRequested(communityAddress));
       String walletAddress =
           checksumEthereumAddress(store.state.userState.walletAddress);
       Map<String, dynamic> communityData = await getCommunityData(
@@ -1234,7 +1236,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
         walletAddress,
       );
       Community newCommunity = Community.fromJson(communityData).copyWith(
-        address: communityAddress,
+        address: communityAddress.toLowerCase(),
       );
       bool isRopsten = communityData['isRopsten'];
       String originNetwork = communityData['originNetwork'];
@@ -1251,16 +1253,21 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
       store.dispatch(getBusinessListCall(
-          communityAddress: communityAddress.toLowerCase(),
-          isRopsten: isRopsten));
-      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
-          communityData['communityURI'], isRopsten));
+        communityAddress: communityAddress.toLowerCase(),
+        isRopsten: isRopsten,
+      ));
+      store.dispatch(fetchCommunityMetadataCall(
+        communityAddress.toLowerCase(),
+        communityData['communityURI'],
+        isRopsten,
+      ));
     } catch (e, s) {
       logger.severe('ERROR - switchToExisitingCommunityCall $e');
       await AppFactory().reportError(e, stackTrace: s);
       store.dispatch(ErrorAction('Could not switch community'));
       store.dispatch(SwitchCommunityFailed(
-          communityAddress: communityAddress.toLowerCase()));
+        communityAddress: communityAddress.toLowerCase(),
+      ));
     }
   };
 }
@@ -1326,10 +1333,8 @@ ThunkAction switchCommunityCall(String communityAddress) {
           current.name != null &&
           current.isMember != null &&
           current.isMember) {
-        store.dispatch(SwitchCommunityRequested(communityAddress));
         store.dispatch(switchToExisitingCommunityCall(communityAddress));
       } else {
-        store.dispatch(SwitchToNewCommunity(communityAddress));
         store.dispatch(switchToNewCommunityCall(communityAddress));
       }
     } catch (e, s) {
