@@ -14,22 +14,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
-class SwitchCommunityScreen extends StatefulWidget {
-  @override
-  _SwitchCommunityScreenState createState() => _SwitchCommunityScreenState();
-}
-
-class _SwitchCommunityScreenState extends State<SwitchCommunityScreen> {
-  GlobalKey<ScaffoldState> scaffoldState;
-  bool isLoading = false;
-  final assetIdController = TextEditingController(text: "");
-  bool isValid = true;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class SwitchCommunityScreen extends StatelessWidget {
   Widget scanQRButton(BuildContext context, Function switchCommunity) {
     return Container(
         width: 260.0,
@@ -147,11 +132,12 @@ class _SwitchCommunityViewModel extends Equatable {
   final Community currentCommunity;
   final Function(String) switchCommunity;
 
-  _SwitchCommunityViewModel(
-      {this.communities,
-      this.switchCommunity,
-      this.currentCommunity,
-      this.tokens});
+  _SwitchCommunityViewModel({
+    this.communities,
+    this.switchCommunity,
+    this.currentCommunity,
+    this.tokens,
+  });
 
   static _SwitchCommunityViewModel fromStore(Store<AppState> store) {
     String communityAddres = store.state.cashWalletState.communityAddress;
@@ -166,7 +152,7 @@ class _SwitchCommunityViewModel extends Equatable {
             [null, ''].contains(community.address) ||
             [null, ''].contains(community.name)),
       switchCommunity: (String communityAddress) {
-        store.dispatch(switchCommunityCall(communityAddress));
+        store.dispatch(switchToExisitingCommunityCall(communityAddress));
       },
     );
   }
