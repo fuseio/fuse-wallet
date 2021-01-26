@@ -89,7 +89,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
         builder: (_, InAppWebViewViewModel viewModel) {
           return Scaffold(
             appBar: MyAppBar(
-              height: MediaQuery.of(context).size.height / 20,
+              height: MediaQuery.of(context).size.height / 17,
               backgroundColor: Colors.white,
               child: Container(
                 height: 120,
@@ -113,7 +113,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(
-                          left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
+                          left: 20.0, right: 20.0, top: 26.0, bottom: 20.0),
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
