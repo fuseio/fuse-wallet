@@ -1,5 +1,5 @@
 name: peepl
-version: 1.0.3+27
+version: 1.0.4+28
 description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -82,7 +82,8 @@ flutter_icons:
   adaptive_icon_foreground: assets/images/icon-android-adaptive-foreground.png
 flutter:
   assets:
-    - environment/env_peepl
+    # - environment/env_peepl
+    - environment/.env
     - environment/.env_prod
     - environment/.env_qa
     - assets/

@@ -1,21 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_segment/flutter_segment.dart';
-import 'package:peepl/constans/keys.dart';
-import 'package:peepl/generated/i18n.dart';
-import 'package:peepl/redux/actions/cash_wallet_actions.dart';
-import 'package:peepl/services.dart';
-import 'package:peepl/utils/send.dart';
 import 'package:peepl/widgets/main_scaffold.dart';
-import 'package:peepl/widgets/primary_button.dart';
-import 'package:plaid_flutter/plaid_flutter.dart';
-import 'package:virtual_keyboard/virtual_keyboard.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:peepl/widgets/main_scaffold.dart';
 
 class HelpScreen extends StatefulWidget {
   HelpScreen();

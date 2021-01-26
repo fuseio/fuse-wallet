@@ -196,6 +196,7 @@ class _TopupScreenState extends State<TopupScreen>
                   VirtualKeyboard(
                       fontSize: 28,
                       alwaysCaps: true,
+                      height: MediaQuery.of(context).size.height * 0.3,
                       textColor: Theme.of(context).primaryColor,
                       type: VirtualKeyboardType.Numeric,
                       onKeyPress: _onKeyPress),
