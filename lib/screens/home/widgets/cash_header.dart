@@ -1,10 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constans/keys.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/views/cash_header.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/send.dart';
 
 class CashHeader extends StatelessWidget {
@@ -14,6 +17,8 @@ class CashHeader extends StatelessWidget {
         distinct: true,
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
+          List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
+          // final String url = depositPlugins[0].generateUrl();
           return Container(
             height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomLeft,
@@ -102,43 +107,84 @@ class CashHeader extends StatelessWidget {
                                       ),
                                     ),
                                   ])
-                            : RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
-                                  children: viewModel.token == null
-                                      ? <TextSpan>[
-                                          TextSpan(
-                                              text: '0',
-                                              style: TextStyle(
-                                                  fontSize: 30,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.bold))
-                                        ]
-                                      : <TextSpan>[
-                                          TextSpan(
-                                              text: formatValue(
-                                                  viewModel.token.amount,
-                                                  viewModel.token.decimals),
-                                              style: TextStyle(
-                                                  fontSize: 32,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.bold)),
-                                          TextSpan(
-                                              text: ' ' +
-                                                  viewModel.token?.symbol
-                                                      .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.normal,
-                                                  height: 0.0))
-                                        ],
+                            : Container(
+                                height: 32,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                        children: viewModel.token == null
+                                            ? <TextSpan>[
+                                                TextSpan(
+                                                  text: '0',
+                                                  style: TextStyle(
+                                                    fontSize: 30,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                )
+                                              ]
+                                            : <TextSpan>[
+                                                TextSpan(
+                                                  text: formatValue(
+                                                      viewModel.token.amount,
+                                                      viewModel.token.decimals),
+                                                  style: TextStyle(
+                                                    fontSize: 32,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: ' ' +
+                                                      viewModel.token?.symbol
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    height: 0.0,
+                                                  ),
+                                                )
+                                              ],
+                                      ),
+                                    ),
+                                    viewModel.isDefaultCommunity &&
+                                            depositPlugins.isNotEmpty
+                                        ? Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  ExtendedNavigator.root
+                                                      .pushTopupScreen();
+                                                },
+                                                child: SvgPicture.asset(
+                                                  'assets/images/topup_black.svg',
+                                                  width: 18,
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        : SizedBox.shrink(),
+                                  ],
                                 ),
-                              ),
+                              )
                       ],
                     ),
                     Container(

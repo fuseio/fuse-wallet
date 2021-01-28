@@ -152,7 +152,7 @@ class _SwitchCommunityViewModel extends Equatable {
             [null, ''].contains(community.address) ||
             [null, ''].contains(community.name)),
       switchCommunity: (String communityAddress) {
-        store.dispatch(switchToExisitingCommunityCall(communityAddress));
+        store.dispatch(switchCommunityCall(communityAddress));
       },
     );
   }

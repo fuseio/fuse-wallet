@@ -876,16 +876,16 @@ ThunkAction swapHandler(
       String swapJobId = response['job']['_id'];
       logger.info('Job $swapJobId for swap');
       Transfer transfer = new Transfer(
-          from: walletAddress,
-          to: walletAddress,
-          tokenAddress: fromToken.address,
-          value: toBigInt(tokensAmount + feeAmount, fromToken.decimals),
-          type: 'SEND',
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          note: '',
-          receiverName: '',
-          status: 'PENDING',
-          jobId: swapJobId);
+        from: walletAddress,
+        to: walletAddress,
+        tokenAddress: fromToken.address,
+        value: toBigInt(tokensAmount + feeAmount, fromToken.decimals),
+        type: 'SEND',
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        note: '',
+        status: 'PENDING',
+        jobId: swapJobId,
+      );
 
       Transfer transferIn = new Transfer(
           from: walletAddress,

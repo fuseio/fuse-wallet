@@ -1,10 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/pro/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/utils/addresses.dart' as util;
 
 class CashHeaderViewModel extends Equatable {
   final Function() firstName;
@@ -12,15 +14,20 @@ class CashHeaderViewModel extends Equatable {
   final String usdValue;
   final bool hasErc20Tokens;
   final Community community;
+  final Plugins plugins;
   final Token token;
+  final bool isDefaultCommunity;
 
-  CashHeaderViewModel(
-      {this.usdValue,
-      this.firstName,
-      this.walletStatus,
-      this.hasErc20Tokens,
-      this.community,
-      this.token});
+  CashHeaderViewModel({
+    this.usdValue,
+    this.firstName,
+    this.walletStatus,
+    this.hasErc20Tokens,
+    this.community,
+    this.token,
+    this.plugins,
+    this.isDefaultCommunity,
+  });
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     ProWalletState proWalletState = store.state.proWalletState;
@@ -32,21 +39,24 @@ class CashHeaderViewModel extends Equatable {
                     .compareTo(0) ==
                 1)
             .toList();
-    String communityAddres = store.state.cashWalletState.communityAddress;
+    String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
+        store.state.cashWalletState.communities[communityAddress] ??
             Community.initial();
     num usdValue = store.state.userState?.totalBalance ?? 0;
     return CashHeaderViewModel(
-        community: community,
-        token: store.state.cashWalletState.tokens[community?.homeTokenAddress],
-        hasErc20Tokens: erc20Tokens.isNotEmpty,
-        usdValue: reduce(usdValue),
-        walletStatus: store.state.userState.walletStatus,
-        firstName: () {
-          String fullName = store.state.userState.displayName ?? '';
-          return fullName.split(' ')[0];
-        });
+      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+      plugins: community?.plugins,
+      community: community,
+      token: store.state.cashWalletState.tokens[community?.homeTokenAddress],
+      hasErc20Tokens: erc20Tokens.isNotEmpty,
+      usdValue: reduce(usdValue),
+      walletStatus: store.state.userState.walletStatus,
+      firstName: () {
+        String fullName = store.state.userState.displayName ?? '';
+        return fullName.split(' ')[0];
+      },
+    );
   }
 
   @override

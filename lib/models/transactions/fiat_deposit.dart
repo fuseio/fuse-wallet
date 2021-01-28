@@ -1,16 +1,11 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'transfer.g.dart';
+part 'fiat_deposit.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Transfer extends Transaction {
-  final String receiverName;
-  final String note;
-
-  Transfer({
+class FiatDeposit extends Transaction {
+  FiatDeposit({
     String txHash,
     String type,
     String status,
@@ -24,8 +19,7 @@ class Transfer extends Transaction {
     String from,
     BigInt value,
     String tokenAddress,
-    this.receiverName,
-    this.note,
+    String actionType,
   }) : super(
           timestamp: timestamp,
           txHash: txHash,
@@ -39,45 +33,48 @@ class Transfer extends Transaction {
           from: from,
           value: value,
           tokenAddress: tokenAddress,
+          actionType: actionType,
           isSwap: isSwap ?? false,
         );
 
-  Transfer copyWith({
+  FiatDeposit copyWith({
     String status,
     String txHash,
     String text,
     int timestamp,
     String failReason,
   }) {
-    return Transfer(
-      failReason: failReason ?? this.failReason,
+    return FiatDeposit(
       isSwap: this.isSwap,
-      note: note ?? this.note,
-      receiverName: receiverName ?? this.receiverName,
       txHash: txHash ?? this.txHash,
       type: this.type,
+      timestamp: timestamp ?? this.timestamp,
+      failReason: failReason ?? this.failReason,
       status: status ?? this.status,
       text: text ?? this.text,
-      jobId: this.jobId,
       blockNumber: this.blockNumber,
-      timestamp: timestamp ?? this.timestamp,
-      to: this.to,
-      from: this.from,
-      value: this.value,
+      jobId: this.jobId,
       tokenAddress: this.tokenAddress,
+      from: this.from,
+      to: this.to,
+      value: this.value,
+      actionType: this.actionType,
     );
   }
 
-  factory Transfer.fromJson(Map<String, dynamic> json) =>
-      _$TransferFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TransferToJson(this);
-
   @override
   String getText() {
-    if (this.isJoinBonus()) {
-      return I18n.of(ExtendedNavigator.root.context).join_bonus ?? text;
+    if (isFailed()) {
+      return 'FUSD - deposit failed';
+    } else if (isConfirmed()) {
+      return 'FUSD - deposit';
+    } else {
+      return 'Waiting for your deposit to arrive';
     }
-    return receiverName ?? text;
   }
+
+  factory FiatDeposit.fromJson(Map<String, dynamic> json) =>
+      _$FiatDepositFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FiatDepositToJson(this);
 }

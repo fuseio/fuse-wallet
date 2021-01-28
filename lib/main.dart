@@ -25,7 +25,7 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await DotEnv().load('environment/.env_qa');
+  await DotEnv().load('environment/.env');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
   runZonedGuarded<Future<void>>(

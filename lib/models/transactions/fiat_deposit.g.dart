@@ -1,31 +1,31 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'transaction.dart';
+part of 'fiat_deposit.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Transaction _$TransactionFromJson(Map<String, dynamic> json) {
-  return Transaction(
+FiatDeposit _$FiatDepositFromJson(Map<String, dynamic> json) {
+  return FiatDeposit(
     txHash: json['txHash'] as String,
     type: json['type'] as String,
-    isSwap: json['isSwap'] as bool,
     status: json['status'] as String,
     text: json['text'] as String,
-    blockNumber: json['blockNumber'] as int,
-    timestamp: json['timestamp'] as int,
     jobId: json['jobId'] as String,
+    blockNumber: json['blockNumber'] as int,
     failReason: json['failReason'] as String,
-    tokenAddress: json['tokenAddress'] as String,
-    from: json['from'] as String,
+    timestamp: json['timestamp'] as int,
+    isSwap: json['isSwap'] as bool,
     to: json['to'] as String,
+    from: json['from'] as String,
     value: json['value'] == null ? null : BigInt.parse(json['value'] as String),
+    tokenAddress: json['tokenAddress'] as String,
     actionType: json['actionType'] as String,
   );
 }
 
-Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
+Map<String, dynamic> _$FiatDepositToJson(FiatDeposit instance) =>
     <String, dynamic>{
       'tokenAddress': instance.tokenAddress,
       'txHash': instance.txHash,
