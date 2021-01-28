@@ -133,7 +133,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   : Feed(),
               viewModel.isDefaultCommunity &&
                       (viewModel.token != null &&
-                          viewModel.token.transactions.list.isEmpty)
+                          (viewModel.token.transactions.list.isEmpty ||
+                              viewModel.token.transactions.list.length < 2))
                   ? Positioned(
                       bottom: 0,
                       width: MediaQuery.of(context).size.width * .95,
