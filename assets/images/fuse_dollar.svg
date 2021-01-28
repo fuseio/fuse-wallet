@@ -1,0 +1,17 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+  <mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="48" height="48">
+    <circle cx="24" cy="24" r="24" fill="white"/>
+  </mask>
+  <g mask="url(#mask0)">
+    <circle cx="24" cy="24" r="24" fill="url(#paint0_linear)"/>
+    <circle cx="24" cy="24" r="22.5" stroke="#292929" stroke-width="3"/>
+  </g>
+  <path d="M17.75 27.75H20.25C20.25 29.1 21.9625 30.25 24 30.25C26.0375 30.25 27.75 29.1 27.75 27.75C27.75 26.375 26.45 25.875 23.7 25.2125C21.05 24.55 17.75 23.725 17.75 20.25C17.75 18.0125 19.5875 16.1125 22.125 15.475V12.75H25.875V15.475C28.4125 16.1125 30.25 18.0125 30.25 20.25H27.75C27.75 18.9 26.0375 17.75 24 17.75C21.9625 17.75 20.25 18.9 20.25 20.25C20.25 21.625 21.55 22.125 24.3 22.7875C26.95 23.45 30.25 24.275 30.25 27.75C30.25 29.9875 28.4125 31.8875 25.875 32.525V35.25H22.125V32.525C19.5875 31.8875 17.75 29.9875 17.75 27.75Z" fill="#292929"/>
+  <defs>
+    <linearGradient id="paint0_linear" x1="24" y1="0" x2="24" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B7FDBC"/>
+      <stop offset="1" stop-color="#FAFD89"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -52,21 +52,24 @@ class CashHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 InkWell(
-                    onTap: () {
-                      AppKeys.homePageKey.currentState.openDrawer();
-                    },
-                    child: Padding(
-                        padding:
-                            EdgeInsets.only(top: 35, bottom: 35, right: 35),
-                        child: Image.asset(
-                          'assets/images/menu.png',
-                          width: 20,
-                        ))),
-                Text('${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 25,
-                    )),
+                  onTap: () {
+                    AppKeys.homePageKey.currentState.openDrawer();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
+                    child: Image.asset(
+                      'assets/images/menu.png',
+                      width: 20,
+                    ),
+                  ),
+                ),
+                Text(
+                  '${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 25,
+                  ),
+                ),
                 SizedBox(
                   height: 10,
                 ),
@@ -79,13 +82,17 @@ class CashHeader extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Container(
-                          child: Text(I18n.of(context).balance,
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .primaryColor
-                                      .withAlpha(150),
-                                  fontSize: 12.0)),
-                          padding: EdgeInsets.only(bottom: 6.0),
+                          child: Text(
+                            I18n.of(context).balance,
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).primaryColor.withAlpha(150),
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          padding: EdgeInsets.only(
+                            bottom: 6.0,
+                          ),
                         ),
                         viewModel.hasErc20Tokens
                             ? Row(
@@ -96,13 +103,15 @@ class CashHeader extends StatelessWidget {
                                       text: TextSpan(
                                         children: <TextSpan>[
                                           TextSpan(
-                                              text:
-                                                  '\$${viewModel?.usdValue ?? '0'}',
-                                              style: TextStyle(
-                                                  fontSize: 30,
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontWeight: FontWeight.bold)),
+                                            text:
+                                                '\$${viewModel?.usdValue ?? '0'}',
+                                            style: TextStyle(
+                                              fontSize: 30,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -171,8 +180,17 @@ class CashHeader extends StatelessWidget {
                                               ),
                                               InkWell(
                                                 onTap: () {
+                                                  final String url =
+                                                      depositPlugins[0]
+                                                          .generateUrl();
                                                   ExtendedNavigator.root
-                                                      .pushTopupScreen();
+                                                      .pushWebview(
+                                                    withBack: true,
+                                                    url:
+                                                        '$url&finalUrl=https://fuse.io',
+                                                    title: I18n.of(context)
+                                                        .deposit_your_first_dollars,
+                                                  );
                                                 },
                                                 child: SvgPicture.asset(
                                                   'assets/images/topup_black.svg',

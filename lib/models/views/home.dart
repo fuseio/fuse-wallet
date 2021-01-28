@@ -6,6 +6,7 @@ import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
+import 'package:fusecash/utils/addresses.dart' as util;
 
 class HomeViewModel extends Equatable {
   final List<Token> tokens;
@@ -22,6 +23,8 @@ class HomeViewModel extends Equatable {
   final bool isBranchDataReceived;
   final Function(bool initial) onReceiveBranchData;
   final Function() refreshFeed;
+  final bool isDefaultCommunity;
+  final Token token;
 
   HomeViewModel({
     this.onReceiveBranchData,
@@ -38,6 +41,8 @@ class HomeViewModel extends Equatable {
     this.tokens,
     this.communities,
     this.refreshFeed,
+    this.token,
+    this.isDefaultCommunity,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
@@ -73,8 +78,15 @@ class HomeViewModel extends Equatable {
     final bool isCommunityFetched =
         store.state.cashWalletState.isCommunityFetched ?? false;
     final String walletAddress = store.state.userState.walletAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress] ??
+            Community.initial();
+    Token token =
+        store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return HomeViewModel(
+        token: token,
         communities: store.state.cashWalletState.communities,
+        isDefaultCommunity: util.isDefaultCommunity(communityAddress),
         tokens: tokens,
         isoCode: store.state.userState.isoCode,
         accountAddress: store.state.userState.accountAddress,
@@ -122,6 +134,8 @@ class HomeViewModel extends Equatable {
         isCommunityLoading,
         isBranchDataReceived,
         isoCode,
+        isDefaultCommunity,
+        token,
         isCommunityFetched
       ];
 }
