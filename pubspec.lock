@@ -1233,9 +1233,9 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
+      name: wallet_core
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.2.4+22"
   watcher:
     dependency: transitive
