@@ -26,13 +26,11 @@ import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/constans.dart';
 import 'package:fusecash/utils/firebase.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:http/http.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:fusecash/services.dart';
 import 'dart:async';
-import 'dart:convert';
 
 class AddCashTokens {
   Map<String, Token> tokens;
