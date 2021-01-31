@@ -94,7 +94,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ExtendedNavigator.root.pop();
           dynamic url = depositPlugins[0].generateUrl();
           ExtendedNavigator.root.pushWebview(
-              withBack: true, url: url, title: I18n.of(context).top_up);
+            withBack: true,
+            url: url,
+            title: I18n.of(context).top_up,
+          );
           Segment.track(eventName: 'User clicked on top up');
         },
       ));

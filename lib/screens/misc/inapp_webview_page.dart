@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -14,30 +13,32 @@ import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 
 class WebViewWidget extends StatefulWidget {
   final String url;
+  final String walletAddress;
 
-  WebViewWidget({this.url});
+  WebViewWidget({
+    this.url,
+    this.walletAddress,
+  });
 
   @override
   _WebViewWidgetState createState() => _WebViewWidgetState();
 }
 
 class _WebViewWidgetState extends State<WebViewWidget> {
-  PlaidLink _plaidLinkToken;
-  ContextMenu contextMenu;
   InAppWebViewController webView;
 
-  void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata,
-      String walletAddress) async {
+  void _onSuccessCallback(
+    String publicToken,
+    LinkSuccessMetadata metadata,
+  ) async {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
-    String body = jsonEncode(
-        Map.from({'walletAddress': walletAddress, 'publicToken': publicToken}));
-    print('body body body $body');
-    Map res = responseHandler(await client.post(
+    String body = jsonEncode(Map.from(
+        {'walletAddress': widget.walletAddress, 'publicToken': publicToken}));
+    responseHandler(await client.post(
       'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/plaid/set_access_token',
       body: body,
       headers: {"Content-Type": 'application/json'},
     ));
-    print('res res res ${res.toString()}');
   }
 
   void _onEventCallback(String event, LinkEventMetadata metadata) {
@@ -53,31 +54,20 @@ class _WebViewWidgetState extends State<WebViewWidget> {
       'walletAddress': walletAddress,
       'value': num.parse(amount),
     }));
-    print('body body body $body');
     openLoadingDialog(context);
     Map response = responseHandler(await client.post(
         'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/plaid/create_link_token_for_payment',
         headers: {"Content-Type": 'application/json'},
         body: body));
-    print('response ${response.toString()}');
     Navigator.of(context).pop();
-    setState(() {
-      _plaidLinkToken = PlaidLink(
-        configuration: LinkConfiguration(
-          linkToken: response['link_token'],
-        ),
-        onSuccess: (String publicToken, LinkSuccessMetadata metadata) {
-          print("onSuccess: $publicToken, metadata: ${metadata.description()}");
-          _onSuccessCallback(publicToken, metadata, walletAddress);
-        },
-        onEvent: _onEventCallback,
-        onExit: _onExitCallback,
-      );
-    });
-
-    if (_plaidLinkToken != null) {
-      _plaidLinkToken.open();
-    }
+    PlaidLink(
+      configuration: LinkConfiguration(
+        linkToken: response['link_token'],
+      ),
+      onSuccess: _onSuccessCallback,
+      onEvent: _onEventCallback,
+      onExit: _onExitCallback,
+    )..open();
   }
 
   @override
@@ -87,6 +77,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
         converter: InAppWebViewViewModel.fromStore,
         builder: (_, InAppWebViewViewModel viewModel) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               backgroundColor: Theme.of(context).splashColor,
               toolbarHeight: MediaQuery.of(context).size.height / 17,
@@ -201,8 +192,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                       handlerName: "topup",
                       callback: (args) {
                         Map<String, dynamic> data = Map.from(args[0]);
-                        _createLinkToken(
-                            viewModel.walletAddress, data['amount']);
+                        _createLinkToken(widget.walletAddress, data['amount']);
                       });
                 }),
           );
@@ -210,8 +200,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
   }
 }
 
-class InAppWebViewViewModel extends Equatable {
-  final String walletAddress;
+class InAppWebViewViewModel {
   final Function(
     String currency,
     String recieverAddress,
@@ -221,19 +210,12 @@ class InAppWebViewViewModel extends Equatable {
     VoidCallback sendFailureCallback,
   ) sendTokenFromWebView;
 
-  @override
-  List<Object> get props => [
-        walletAddress,
-      ];
-
   InAppWebViewViewModel({
     this.sendTokenFromWebView,
-    this.walletAddress,
   });
 
   static InAppWebViewViewModel fromStore(Store<AppState> store) {
     return InAppWebViewViewModel(
-      walletAddress: store.state.userState.walletAddress,
       sendTokenFromWebView: (
         String currency,
         String recieverAddress,

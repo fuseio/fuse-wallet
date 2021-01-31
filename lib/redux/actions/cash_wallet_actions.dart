@@ -1305,10 +1305,14 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       store.dispatch(AddCashToken(token: communityToken));
       store.dispatch(SwitchCommunitySuccess(community: newCommunity));
       store.dispatch(getBusinessListCall(
-          communityAddress: communityAddress.toLowerCase(),
-          isRopsten: isRopsten));
-      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
-          communityData['communityURI'], isRopsten));
+        communityAddress: communityAddress.toLowerCase(),
+        isRopsten: isRopsten,
+      ));
+      store.dispatch(fetchCommunityMetadataCall(
+        communityAddress.toLowerCase(),
+        communityData['communityURI'],
+        isRopsten,
+      ));
       if (![null, ''].contains(newCommunity?.secondaryTokenAddress)) {
         store.dispatch(fetchSecondaryTokenCall(
           newCommunity?.secondaryTokenAddress,
@@ -1320,7 +1324,8 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       await AppFactory().reportError(e, stackTrace: s);
       store.dispatch(ErrorAction('Could not switch community'));
       store.dispatch(SwitchCommunityFailed(
-          communityAddress: communityAddress.toLowerCase()));
+        communityAddress: communityAddress.toLowerCase(),
+      ));
     }
   };
 }

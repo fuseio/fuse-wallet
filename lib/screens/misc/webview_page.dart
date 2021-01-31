@@ -27,6 +27,7 @@ class _WebViewPageState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     Segment.screen(screenName: '/web-view-screen');
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
         backgroundColor: Colors.white,
         child: Container(

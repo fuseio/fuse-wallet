@@ -155,6 +155,7 @@ class _HomePageState extends State<HomePage> {
                   vm?.walletAddress != null &&
                           isValidEthereumAddress(vm?.walletAddress)
                       ? WebViewWidget(
+                          walletAddress: vm?.walletAddress,
                           url:
                               'https://app.itsaboutpeepl.com/vendors?wallet=${vm?.walletAddress}',
                         )
