@@ -11,7 +11,6 @@ import 'package:redux/redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:peepl/models/app_state.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
-import 'package:peepl/widgets/my_app_bar.dart';
 
 class WebViewWidget extends StatefulWidget {
   final String url;
@@ -88,48 +87,23 @@ class _WebViewWidgetState extends State<WebViewWidget> {
         converter: InAppWebViewViewModel.fromStore,
         builder: (_, InAppWebViewViewModel viewModel) {
           return Scaffold(
-            appBar: MyAppBar(
-              height: MediaQuery.of(context).size.height / 17,
-              backgroundColor: Colors.white,
-              child: Container(
-                height: 120,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(context).primaryColor.withAlpha(20),
-                      blurRadius: 5.0,
-                      spreadRadius: 0.0,
-                      offset: Offset(
-                        0.0,
-                        3.0,
-                      ),
-                    )
-                  ],
-                  color: Color(0xFFF5F5F5),
-                ),
-                width: MediaQuery.of(context).size.width,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 20.0, right: 20.0, top: 26.0, bottom: 20.0),
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              icon: Icon(PlatformIcons(context).back),
-                              onPressed: () {
-                                if (webView != null) {
-                                  webView.goBack();
-                                }
-                              },
-                            )
-                          ]),
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).splashColor,
+              toolbarHeight: MediaQuery.of(context).size.height / 17,
+              leading: Builder(
+                builder: (_) {
+                  return IconButton(
+                    icon: Icon(
+                      PlatformIcons(context).back,
+                      color: Colors.black,
                     ),
-                  ],
-                ),
+                    onPressed: () {
+                      if (webView != null) {
+                        webView.goBack();
+                      }
+                    },
+                  );
+                },
               ),
             ),
             body: InAppWebView(
