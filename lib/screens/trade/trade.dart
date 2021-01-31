@@ -2,8 +2,9 @@ import 'dart:core';
 import 'package:auto_route/auto_route.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/constans/swappable_tokens.dart';
 import 'package:fusecash/redux/state/store.dart';
-import 'package:fusecash/screens/home/router/home_router.gr.dart';
+import 'package:fusecash/screens/trade/trade_router.gr.dart';
 import 'package:fusecash/screens/home/widgets/token_tile.dart';
 import 'package:fusecash/services.dart';
 import 'package:redux/redux.dart';
@@ -26,10 +27,10 @@ class TradeScreen extends StatefulWidget {
   const TradeScreen({Key key, this.primaryToken}) : super(key: key);
 
   @override
-  _ExchangeState createState() => _ExchangeState();
+  _TradeState createState() => _TradeState();
 }
 
-class _ExchangeState extends State<TradeScreen> {
+class _TradeState extends State<TradeScreen> {
   TextEditingController receiveController = TextEditingController();
   TextEditingController payWithController = TextEditingController();
   Token tokenToPayWith;
@@ -41,7 +42,7 @@ class _ExchangeState extends State<TradeScreen> {
   Map transactionsResponse;
   bool isFetchingReceive = false;
   bool isSwap = false;
-  bool isFetchingPrice = true;
+  bool isFetchingPrice = false;
   String fromTokenAmountPay;
   String fromTokenAmountReceive;
   String toTokenAmountPay;
@@ -73,7 +74,7 @@ class _ExchangeState extends State<TradeScreen> {
     fetchPrices(walletAddress, token, tokenToPayWith);
   }
 
-  void getQuateForPayWith(String value, String walletAddress) async {
+  void fetchSwapParameters(String amount, walletAddress) async {
     try {
       if (this.mounted) {
         setState(() {
@@ -81,7 +82,7 @@ class _ExchangeState extends State<TradeScreen> {
           isFetchingPayWith = true;
         });
       }
-      if (value.isEmpty) {
+      if (amount.isEmpty) {
         if (this.mounted) {
           setState(() {
             swapResponse = null;
@@ -91,83 +92,25 @@ class _ExchangeState extends State<TradeScreen> {
         }
         return;
       }
-      dynamic response = await fetchSwap(
-          walletAddress, tokenToPayWith.address, tokenToReceive.address,
-          sourceAmount: toBigInt(value, tokenToPayWith.decimals).toString(),
-          transactions: true,
-          skipBalanceChecks: false,
-          context: context);
-      String toTokenAmount = formatValue(
-          BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToReceive.decimals,
-          withPrecision: true);
-      if (this.mounted) {
-        response['amount'] = num.parse(value);
-        response['amountIn'] = num.parse(formatValue(
-            BigInt.from(num.parse(response['destinationAmount'])),
-            tokenToReceive.decimals,
-            withPrecision: true));
-        setState(() {
-          receiveController.text = toTokenAmount;
-          isFetchingPayWith = false;
-          swapResponse = response;
-        });
-      }
-    } catch (error) {
-      if (this.mounted) {
-        setState(() {
-          swapResponse = null;
-          isFetchingPayWith = false;
-        });
-      }
-    }
-  }
 
-  void getQuateForReceive(String value, String walletAddress) async {
-    try {
+      dynamic response = await swapService.swapCallParameters(
+        tokenToPayWith.address, 
+        tokenToReceive.address, 
+        amount, 
+        walletAddress);
+      
       if (this.mounted) {
         setState(() {
-          swapResponse = null;
-          isFetchingReceive = true;
-        });
-      }
-      if (value.isEmpty) {
-        if (this.mounted) {
-          setState(() {
-            swapResponse = null;
-            payWithController.text = '';
-            isFetchingReceive = false;
-          });
-        }
-        return;
-      }
-      dynamic response = await fetchSwap(
-          walletAddress, tokenToReceive.address, tokenToPayWith.address,
-          sourceAmount: toBigInt(value, tokenToReceive.decimals).toString(),
-          transactions: true,
-          skipBalanceChecks: false,
-          context: context);
-      response['amount'] = num.parse(value);
-      response['amountIn'] = num.parse(formatValue(
-          BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToReceive.decimals,
-          withPrecision: true));
-      String fromTokenAmount = formatValue(
-          BigInt.from(num.parse(response['destinationAmount'])),
-          tokenToPayWith.decimals,
-          withPrecision: true);
-      if (this.mounted) {
-        setState(() {
+          receiveController.text = '0.0';
+          isFetchingPayWith = false;
           swapResponse = response;
-          payWithController.text = fromTokenAmount;
-          isFetchingReceive = false;
         });
       }
     } catch (error) {
       if (this.mounted) {
         setState(() {
           swapResponse = null;
-          isFetchingReceive = false;
+          isFetchingPayWith = false;
         });
       }
     }
@@ -233,87 +176,28 @@ class _ExchangeState extends State<TradeScreen> {
     }
   }
 
-  void fetchPrices(
-      String walletAddress, Token soureToken, Token destinationToken) async {
-    try {
-      if (this.mounted) {
-        setState(() {
-          swapResponse = null;
-          payWithController.text = '';
-          receiveController.text = '';
-          fromTokenAmountPay = null;
-          toTokenAmountPay = null;
-          fromTokenAmountReceive = null;
-          toTokenAmountReceive = null;
-          isFetchingPrice = true;
-        });
-      }
-      List<Future> futures = <Future>[];
-      futures.add(fetchSwap(
-          walletAddress, soureToken.address, destinationToken.address,
-          sourceAmount:
-              toBigInt(num.parse('1'), soureToken.decimals).toString()));
-      futures.add(fetchSwap(
-          walletAddress, destinationToken.address, soureToken.address,
-          sourceAmount:
-              toBigInt(num.parse('1'), destinationToken.decimals).toString()));
-      List res = await Future.wait(futures);
-      Map paywithResponse = res[0];
-      Map receiceResponse = res[1];
-      String fromTokenPay = formatValue(
-          BigInt.from(num.parse(paywithResponse['sourceAmount'])),
-          soureToken.decimals);
-      String toTokenPay = formatValue(
-          BigInt.from(num.parse(paywithResponse['destinationAmount'])),
-          destinationToken.decimals);
-      String fromTokenReceive = formatValue(
-          BigInt.from(num.parse(receiceResponse['sourceAmount'])),
-          destinationToken.decimals);
-      String toTokenReceive = formatValue(
-          BigInt.from(num.parse(receiceResponse['destinationAmount'])),
-          soureToken.decimals);
-      if (this.mounted) {
-        setState(() {
-          fromTokenAmountPay = fromTokenPay;
-          toTokenAmountPay = toTokenPay;
-          isFetchingPrice = false;
-          fromTokenAmountReceive = fromTokenReceive;
-          toTokenAmountReceive = toTokenReceive;
-        });
-      }
-    } catch (e) {
-      if (this.mounted) {
-        setState(() {
-          swapResponse = null;
-          fromTokenAmountPay = null;
-          toTokenAmountPay = null;
-          isFetchingPrice = false;
-          fromTokenAmountReceive = null;
-          toTokenAmountReceive = null;
-        });
-      }
-    }
+  void fetchPrices(String walletAddress, Token sourceToken, Token destinationToken) async {
+    // TODO: fetch prices using SwapService
   }
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, _ExchangeViewModel>(
-        converter: _ExchangeViewModel.fromStore,
+    return new StoreConnector<AppState, _TradeViewModel>(
+        converter: _TradeViewModel.fromStore,
         onInitialBuild: (viewModel) {
-          final Token ethToken =
-              viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
-          final Token payWithToken = widget.primaryToken ?? viewModel.tokens[0];
-          fetchPrices(viewModel.walletAddress, payWithToken, ethToken);
+          final Token wethToken = viewModel.tokens['WETH'];
+          final Token daiToken = viewModel.tokens['DAI'];              
+          final Token payWithToken = widget.primaryToken ?? daiToken;
+          fetchPrices(viewModel.walletAddress, payWithToken, wethToken);
           setState(() {
             tokenToPayWith = payWithToken;
-            tokenToReceive = ethToken;
+            tokenToReceive = wethToken;
           });
         },
         builder: (_, viewModel) {
           final Token payWithToken =
-              tokenToPayWith ?? widget.primaryToken ?? viewModel.tokens[0];
-          final Token receiveToken = tokenToReceive ??
-              viewModel.tokens.firstWhere((element) => element.symbol == 'ETH');
+              tokenToPayWith ?? widget.primaryToken ?? viewModel.tokens['DAI'];
+          final Token receiveToken = tokenToReceive ?? viewModel.tokens['WETH'];
           num value = num.parse(formatValue(
               payWithToken.amount, payWithToken.decimals,
               withPrecision: true));
@@ -346,9 +230,8 @@ class _ExchangeState extends State<TradeScreen> {
                         children: <Widget>[
                           TradeCard(
                             onTap: () {
-                              showBottomMenu(viewModel.tokens, (token) {
-                                onPayWithDropDownChanged(
-                                    token, viewModel.walletAddress);
+                              showBottomMenu([... viewModel.tokens.values], (token) {
+                                onPayWithDropDownChanged(token, viewModel.walletAddress);
                               });
                             },
                             useMaxWidget: Container(
@@ -368,9 +251,8 @@ class _ExchangeState extends State<TradeScreen> {
                                     setState(() {
                                       payWithController.text = max;
                                     });
-                                    _payWithDebouncer.run(() =>
-                                        getQuateForPayWith(
-                                            max, viewModel.walletAddress));
+                                    _payWithDebouncer.run(() => {
+                                    });
                                   },
                                   child: Text(
                                     I18n.of(context).use_max,
@@ -397,8 +279,9 @@ class _ExchangeState extends State<TradeScreen> {
                             //       token, viewModel.walletAddress);
                             // },
                             onChanged: (value) {
-                              _payWithDebouncer.run(() => getQuateForPayWith(
-                                  value, viewModel.walletAddress));
+                              _payWithDebouncer.run(() => {
+                                fetchSwapParameters(value, viewModel.walletAddress)
+                              });
                             },
                             walletAddress: viewModel.walletAddress,
                             textEditingController: payWithController,
@@ -432,7 +315,7 @@ class _ExchangeState extends State<TradeScreen> {
                           ),
                           TradeCard(
                             onTap: () {
-                              showBottomMenu(viewModel.tokens, (token) {
+                              showBottomMenu([... viewModel.tokens.values], (token) {
                                 onReceiveDropDownChanged(
                                     token, viewModel.walletAddress);
                               });
@@ -450,8 +333,9 @@ class _ExchangeState extends State<TradeScreen> {
                             //         ? receiveHasBalance
                             //         : payWithHasBalance),
                             onChanged: (value) {
-                              _receiveDebouncer.run(() => getQuateForReceive(
-                                  value, viewModel.walletAddress));
+                              _receiveDebouncer.run(() => {
+                                
+                              });
                             },
                             walletAddress: viewModel.walletAddress,
                             textEditingController: receiveController,
@@ -472,13 +356,15 @@ class _ExchangeState extends State<TradeScreen> {
                 labelFontWeight: FontWeight.normal,
                 label: I18n.of(context).trade,
                 fontSize: 15,
-                disabled: swapResponse == null,
+                disabled: swapResponse == null, 
                 onPressed: () async {
-                  if (swapResponse != null && swapResponse['tx'] != null) {
-                    ExtendedNavigator.named('homeRouter').pushReviewTradeScreen(
-                      fromToken: tokenToPayWith.copyWith(),
-                      toToken: tokenToReceive.copyWith(),
-                      exchangeSummry: swapResponse,
+                  if (swapResponse != null && swapResponse['rawTxn'] != null) {
+                    ExtendedNavigator.named('tradeRouter').pushReviewTradeScreen(
+                      swapObject: swapResponse,
+                      fromToken: tokenToPayWith,
+                      toToken: tokenToReceive,
+                      amountIn: payWithController.text,
+                      amountOut: '0.0',
                     );
                   }
                 },
@@ -489,132 +375,22 @@ class _ExchangeState extends State<TradeScreen> {
   }
 }
 
-class _ExchangeViewModel extends Equatable {
+class _TradeViewModel extends Equatable {
   final String walletAddress;
-  final List<Token> tokens;
+  final Map<String, Token> tokens;
 
-  _ExchangeViewModel({
+  _TradeViewModel({
     this.walletAddress,
     this.tokens,
   });
 
-  static _ExchangeViewModel fromStore(Store<AppState> store) {
-    final List<Token> tokens = List<Token>.from(
-            store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
-        .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals,
-                    withPrecision: true))
-                .compareTo(0) ==
-            1)
-        .toList()
-        .reversed
-        .toList();
-    final List<Token> exchangable = exchangableTokens.values.toList()
-      ..removeWhere((Token token) {
-        dynamic foundToken = tokens.firstWhere(
-            (element) =>
-                element.address.toLowerCase() == token.address.toLowerCase(),
-            orElse: () => null);
-        if (foundToken != null) {
-          return true;
-        } else
-          return false;
-      });
-    return _ExchangeViewModel(
+  static _TradeViewModel fromStore(Store<AppState> store) {
+    return _TradeViewModel(
       walletAddress: store.state.userState.walletAddress,
-      tokens: [...tokens, ...exchangable].toSet().toList(),
+      tokens: swappableTokens,
     );
   }
 
   @override
   List<Object> get props => [walletAddress, tokens];
-}
-
-Future<dynamic> fetchSwap(
-    String walletAddress, String fromTokenAddress, String toTokenAddress,
-    {String sourceAmount,
-    String destinationAmount,
-    bool transactions = false,
-    bool skipBalanceChecks = true,
-    BuildContext context}) async {
-  final logger = await AppFactory().getLogger('action');
-  try {
-    if (fromTokenAddress != null &&
-        fromTokenAddress.isNotEmpty &&
-        toTokenAddress != null &&
-        toTokenAddress.isNotEmpty) {
-      Map apiOptions = Map.from({
-        'apiKey': DotEnv().env['TOTLE_API_KEY'],
-        'swap': {
-          'sourceAsset': fromTokenAddress,
-          'destinationAsset': toTokenAddress,
-        },
-        'config': {
-          'transactions': transactions,
-          'skipBalanceChecks': skipBalanceChecks
-        }
-      });
-      if (sourceAmount != null && sourceAmount.isNotEmpty) {
-        apiOptions['swap']['sourceAmount'] = sourceAmount;
-      }
-      if (destinationAmount != null && destinationAmount.isNotEmpty) {
-        apiOptions['swap']['destinationAmount'] = destinationAmount;
-      }
-      Map<String, dynamic> response =
-          await exchangeApi.swap(walletAddress, options: apiOptions);
-      bool success = response['success'] ?? false;
-      if (success) {
-        if (response['response'].containsKey('transactions')) {
-          dynamic swapData = List.from(response['response']['transactions'])
-              .firstWhere((element) => element['type'] == 'swap', orElse: null);
-          if (swapData != null) {
-            return Map.from(
-                {...response['response']['summary'][0], 'tx': swapData['tx']});
-          } else {
-            return Map.from({...response['response']['summary'][0]});
-          }
-        } else {
-          return Map.from({...response['response']['summary'][0]});
-        }
-      } else {
-        if (context != null) {
-          Flushbar(
-              boxShadows: [
-                BoxShadow(
-                  color: Colors.grey[500],
-                  offset: Offset(0.5, 0.5),
-                  blurRadius: 5,
-                ),
-              ],
-              titleText: Text(
-                I18n.of(context).something_went_wrong,
-                style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold),
-              ),
-              messageText: Text(
-                response['message'] ??
-                    response['response']['message'] ??
-                    response['info'] ??
-                    response['response']['info'] ??
-                    I18n.of(context).something_went_wrong,
-                style: TextStyle(fontSize: 14.0, color: Colors.black),
-              ),
-              backgroundColor: Theme.of(context).bottomAppBarColor,
-              margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),
-              borderRadius: 8,
-              icon: SvgPicture.asset(
-                'assets/images/failed_icon.svg',
-                width: 20,
-                height: 20,
-              ))
-            ..show(context);
-        }
-        throw response;
-      }
-    }
-  } catch (error) {
-    logger.severe('ERROR in fetchSwap - ${error.toString()}');
-  }
 }

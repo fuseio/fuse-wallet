@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/services/swap_service.dart';
 import 'package:http/http.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:wallet_core/wallet_core.dart';
+
+final SwapService swapService = SwapService();
 
 final Exchange exchangeApi = Exchange();
 

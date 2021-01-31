@@ -1,10 +1,8 @@
 import 'dart:core';
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
-import 'package:fusecash/screens/routes.gr.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:equatable/equatable.dart';
@@ -18,9 +16,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 class ReviewTradeScreen extends StatefulWidget {
   final Token fromToken;
   final Token toToken;
-  final Map exchangeSummry;
+  final String amountIn;
+  final String amountOut;
+  final Map swapObject;
+
   const ReviewTradeScreen(
-      {Key key, this.exchangeSummry, this.fromToken, this.toToken})
+      {Key key, this.swapObject, this.fromToken, this.toToken, this.amountIn, this.amountOut})
       : super(key: key);
 
   @override
@@ -36,21 +37,13 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final num amount = widget.exchangeSummry['amount'];
-    final bool withFee = fees.containsKey(widget.fromToken.symbol);
-    final num feeAmount = withFee ? fees[widget.fromToken.symbol] : 0;
-    final amountToSwap = formatValue(
-        BigInt.from(num.parse(widget.exchangeSummry['sourceAmount'])),
-        int.parse(widget.exchangeSummry['sourceAsset']['decimals']),
-        withPrecision: true);
-    final amountToReceive = formatValue(
-        BigInt.from(num.parse(widget.exchangeSummry['destinationAmount'])),
-        int.parse(widget.exchangeSummry['destinationAsset']['decimals']),
-        withPrecision: true);
-    final num tokenBalance = num.parse(formatValue(
-        widget.fromToken.amount, widget.fromToken.decimals,
-        withPrecision: true));
-    final bool hasFund = (amount + feeAmount).compareTo(tokenBalance) <= 0;
+    final num amount = num.parse(widget.amountIn);
+    final amountToSwap = num.parse(widget.amountIn);
+    final amountToReceive = num.parse(widget.amountOut);
+    // final num tokenBalance = num.parse(formatValue(
+    //     widget.fromToken.amount, widget.fromToken.decimals,
+    //     withPrecision: true));
+    // final bool hasFund = amount.compareTo(tokenBalance) <= 0;
     return MainScaffold(
         withPadding: true,
         title: I18n.of(context).review_trade,
@@ -94,8 +87,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                                 style: TextStyle(fontSize: 40),
                               ),
                               TextSpan(
-                                text: widget.exchangeSummry['sourceAsset']
-                                    ['symbol'],
+                                text: widget.fromToken.symbol,
                                 style: TextStyle(fontSize: 20),
                               ),
                             ]))
@@ -130,8 +122,7 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                                 style: TextStyle(fontSize: 40),
                               ),
                               TextSpan(
-                                text: widget.exchangeSummry['destinationAsset']
-                                    ['symbol'],
+                                text: widget.toToken.symbol,
                                 style: TextStyle(fontSize: 20),
                               ),
                             ]))
@@ -141,56 +132,57 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                     ],
                   ),
                 ),
-                withFee
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                              I18n.of(context).fee_amount +
-                                  ' $feeAmount ${widget.fromToken.symbol}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 12, color: Color(0xFF777777))),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                              I18n.of(context).total_amount +
-                                  ' ${(num.parse(amountToSwap) + feeAmount)} ${widget.fromToken.symbol}',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 14)),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          !hasFund
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.error,
-                                      color: Colors.red,
-                                      size: 16,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 7),
-                                      child: Text(
-                                          I18n.of(context).not_enough_balance,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 14, color: Colors.red)),
-                                    ),
-                                  ],
-                                )
-                              : SizedBox.shrink(),
-                        ],
-                      )
-                    : SizedBox.shrink(),
+                // withFee
+                //     ? Column(
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         mainAxisSize: MainAxisSize.min,
+                //         children: <Widget>[
+                //           SizedBox(
+                //             height: 10,
+                //           ),
+                //           Text(
+                //               I18n.of(context).fee_amount +
+                //                   ' $feeAmount ${widget.fromToken.symbol}',
+                //               textAlign: TextAlign.center,
+                //               style: TextStyle(
+                //                   fontSize: 12, color: Color(0xFF777777))),
+                //           SizedBox(
+                //             height: 10,
+                //           ),
+                //           Text(
+                //               I18n.of(context).total_amount +
+                //                   ' ${(num.parse(amountToSwap) + feeAmount)} ${widget.fromToken.symbol}',
+                //               textAlign: TextAlign.center,
+                //               style: TextStyle(
+                //                   fontWeight: FontWeight.bold, fontSize: 14)),
+                //           SizedBox(
+                //             height: 10,
+                //           ),
+                //           !hasFund
+                //               ? Row(
+                //                   mainAxisAlignment: MainAxisAlignment.center,
+                //                   crossAxisAlignment: CrossAxisAlignment.center,
+                //                   children: <Widget>[
+                //                     Icon(
+                //                       Icons.error,
+                //                       color: Colors.red,
+                //                       size: 16,
+                //                     ),
+                //                     Padding(
+                //                       padding: EdgeInsets.only(left: 7),
+                //                       child: Text(
+                //                           I18n.of(context).not_enough_balance,
+                //                           textAlign: TextAlign.center,
+                //                           style: TextStyle(
+                //                               fontSize: 14, color: Colors.red)),
+                //                     ),
+                //                   ],
+                //                 )
+                //               : SizedBox.shrink(),
+                //         ],
+                //       )
+                //     : 
+                SizedBox.shrink(),
               ],
             ),
           )
@@ -203,26 +195,27 @@ class _ReviewTradeScreenState extends State<ReviewTradeScreen> {
                     labelFontWeight: FontWeight.normal,
                     label: I18n.of(context).trade,
                     fontSize: 15,
-                    disabled: isPreloading || !hasFund,
+                    // disabled: isPreloading || !hasFund,
                     preload: isPreloading,
                     onPressed: () {
                       setState(() {
                         isPreloading = true;
+                        // isPreloading = false;
                       });
-                      viewModel.swap(
-                          widget.fromToken,
-                          widget.toToken,
-                          widget.exchangeSummry['sourceAsset']['address'],
-                          widget.exchangeSummry['amount'],
-                          widget.exchangeSummry['amountIn'],
-                          widget.exchangeSummry['tx']['to'],
-                          widget.exchangeSummry['tx']['data'], () {
-                        ExtendedNavigator.root.replace(Routes.homePage);
-                      }, () {
-                        setState(() {
-                          isPreloading = false;
-                        });
-                      });
+                      // viewModel.swap(
+                      //     widget.fromToken,
+                      //     widget.toToken,
+                      //     widget.exchangeSummry['sourceAsset']['address'],
+                      //     widget.exchangeSummry['amount'],
+                      //     widget.exchangeSummry['amountIn'],
+                      //     widget.exchangeSummry['tx']['to'],
+                      //     widget.exchangeSummry['tx']['data'], () {
+                      //   ExtendedNavigator.root.replace(Routes.homePage);
+                      // }, () {
+                      //   setState(() {
+                      //     isPreloading = false;
+                      //   });
+                      // });
                     },
                   ),
                 )));

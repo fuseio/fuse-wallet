@@ -49,6 +49,7 @@ class BottomBar extends StatelessWidget {
                       I18n.of(context).fuse_volts, 'fuse_points_tab')
                   : bottomBarItem(I18n.of(context).buy, 'buy'),
               bottomBarItem(I18n.of(context).receive, 'receive'),
+              bottomBarItem(I18n.of(context).trade, 'trade')
             ],
             onTap: onTap,
           );

@@ -12,9 +12,12 @@ import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
 import 'package:fusecash/screens/home/router/home_router.gr.dart';
 import 'package:fusecash/screens/home/screens/fuse_points_explained.dart';
 import 'package:fusecash/screens/home/screens/receive.dart';
+import 'package:fusecash/screens/home/screens/swap.dart';
 import 'package:fusecash/screens/misc/webview_page.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/screens/home/widgets/drawer.dart';
+import 'package:fusecash/screens/trade/trade.dart';
+import 'package:fusecash/screens/trade/trade_router.gr.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/widgets/back_up_dialog.dart';
 import 'package:redux/redux.dart';
@@ -171,7 +174,12 @@ class _HomePageState extends State<HomePage> {
                               router: BuyRouter(),
                               observers: [SegmentObserver()],
                             ),
-                  ReceiveScreen()
+                  ReceiveScreen(),
+                  ExtendedNavigator(
+                    router: TradeRouter(),
+                    name: 'tradeRouter',
+                    observers: [SegmentObserver()],
+                  ),
                 ]),
                 bottomNavigationBar: BottomBar(
                   onTap: (index) {

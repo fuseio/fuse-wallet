@@ -135,9 +135,11 @@ class HomeRouter extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ReviewTradeScreen(
           key: args.key,
-          exchangeSummry: args.exchangeSummry,
+          swapObject: args.swapObject,
           fromToken: args.fromToken,
           toToken: args.toToken,
+          amountIn: args.amountIn,
+          amountOut: args.amountOut,
         ),
         settings: data,
       );
@@ -248,17 +250,21 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushReviewTradeScreen({
     Key key,
-    Map<dynamic, dynamic> exchangeSummry,
+    Map<dynamic, dynamic> swapObject,
     Token fromToken,
     Token toToken,
+    String amountIn,
+    String amountOut,
   }) =>
       push<dynamic>(
         HomeRoutes.reviewTradeScreen,
         arguments: ReviewTradeScreenArguments(
             key: key,
-            exchangeSummry: exchangeSummry,
+            swapObject: swapObject,
             fromToken: fromToken,
-            toToken: toToken),
+            toToken: toToken,
+            amountIn: amountIn,
+            amountOut: amountOut),
       );
 
   Future<dynamic> pushAboutScreen() => push<dynamic>(HomeRoutes.aboutScreen);
@@ -332,11 +338,18 @@ class TradeScreenArguments {
 /// ReviewTradeScreen arguments holder class
 class ReviewTradeScreenArguments {
   final Key key;
-  final Map<dynamic, dynamic> exchangeSummry;
+  final Map<dynamic, dynamic> swapObject;
   final Token fromToken;
   final Token toToken;
+  final String amountIn;
+  final String amountOut;
   ReviewTradeScreenArguments(
-      {this.key, this.exchangeSummry, this.fromToken, this.toToken});
+      {this.key,
+      this.swapObject,
+      this.fromToken,
+      this.toToken,
+      this.amountIn,
+      this.amountOut});
 }
 
 /// ProfileScreen arguments holder class
