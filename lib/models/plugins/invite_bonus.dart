@@ -17,7 +17,7 @@ class InviteBonusPlugin extends Plugin {
           amount: json.containsKey('inviteInfo')
               ? json['inviteInfo']['amount']
               : json['amount'],
-          isActive: json["isActive"] || false,
+          isActive: json["isActive"] ?? false,
         )
       : null;
 }

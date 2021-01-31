@@ -103,8 +103,8 @@ class SendAmountViewModel extends Equatable {
             imageUrl: store.state.cashWalletState.communities
                     .containsKey(token.communityAddress)
                 ? store.state.cashWalletState
-                    .communities[token.communityAddress].metadata
-                    .getImageUri()
+                    ?.communities[token.communityAddress]?.metadata
+                    ?.getImageUri()
                 : null))
         .where((Token token) =>
             num.parse(

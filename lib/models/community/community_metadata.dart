@@ -5,31 +5,39 @@ part 'community_metadata.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class CommunityMetadata {
+  @JsonKey(defaultValue: '')
   final String image;
+  @JsonKey(defaultValue: '')
   final String coverPhoto;
+  @JsonKey(defaultValue: false)
   final bool isDefaultImage;
+  @JsonKey(defaultValue: '')
   final String imageUri;
+  @JsonKey(defaultValue: '')
   final String coverPhotoUri;
 
-  CommunityMetadata(
-      {this.isDefaultImage = false,
-      this.image = '',
-      this.coverPhoto = '',
-      this.coverPhotoUri = '',
-      this.imageUri = ''});
+  CommunityMetadata({
+    this.isDefaultImage,
+    this.image,
+    this.coverPhoto,
+    this.coverPhotoUri,
+    this.imageUri,
+  });
 
-  CommunityMetadata copyWith(
-          {bool isDefaultImage,
-          String coverPhoto,
-          String image,
-          String coverPhotoUri,
-          String imageUri}) =>
+  CommunityMetadata copyWith({
+    bool isDefaultImage,
+    String coverPhoto,
+    String image,
+    String coverPhotoUri,
+    String imageUri,
+  }) =>
       CommunityMetadata(
-          image: image,
-          imageUri: imageUri,
-          coverPhoto: coverPhoto,
-          coverPhotoUri: coverPhotoUri,
-          isDefaultImage: isDefaultImage);
+        image: image,
+        imageUri: imageUri,
+        coverPhoto: coverPhoto,
+        coverPhotoUri: coverPhotoUri,
+        isDefaultImage: isDefaultImage,
+      );
 
   String getImageUri() {
     if (![null, ''].contains(imageUri)) {

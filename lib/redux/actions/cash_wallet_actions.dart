@@ -1207,7 +1207,6 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      store.dispatch(SwitchToNewCommunity(communityAddress));
       String walletAddress =
           checksumEthereumAddress(store.state.userState.walletAddress);
       Map<String, dynamic> communityData = await getCommunityData(
@@ -1274,7 +1273,6 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {
-      store.dispatch(SwitchCommunityRequested(communityAddress));
       String walletAddress =
           checksumEthereumAddress(store.state.userState.walletAddress);
       Map<String, dynamic> communityData = await getCommunityData(
@@ -1384,8 +1382,10 @@ ThunkAction switchCommunityCall(String communityAddress) {
           current.name != null &&
           current.isMember != null &&
           current.isMember) {
+        store.dispatch(SwitchCommunityRequested(communityAddress));
         store.dispatch(switchToExisitingCommunityCall(communityAddress));
       } else {
+        store.dispatch(SwitchToNewCommunity(communityAddress));
         store.dispatch(switchToNewCommunityCall(communityAddress));
       }
     } catch (e, s) {
@@ -1395,17 +1395,6 @@ ThunkAction switchCommunityCall(String communityAddress) {
       store.dispatch(SwitchCommunityFailed(communityAddress: communityAddress));
     }
   };
-}
-
-Map<String, dynamic> responseHandler(Response response) {
-  switch (response.statusCode) {
-    case 200:
-      Map<String, dynamic> obj = json.decode(response.body);
-      return obj;
-      break;
-    default:
-      throw 'Error! status: ${response.statusCode}, reason: ${response.reasonPhrase}';
-  }
 }
 
 ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
@@ -1428,24 +1417,27 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
           await graph.getCommunityBusinesses(communityAddress);
       if (communityEntities != null) {
         List<dynamic> entities = List.from(communityEntities);
-        Future<List<Business>> businesses =
-            Future.wait(entities.map((dynamic entity) async {
-          try {
-            dynamic metadata = await api.getEntityMetadata(
-                communityAddress, entity['address'],
-                isRopsten: isOriginRopsten);
-            return Business.initial().copyWith(
-                account: entity['address'],
-                name: metadata['name'] ?? '',
-                metadata: BusinessMetadata.fromJson(metadata ?? {}));
-          } catch (e) {
-            return Business.initial().copyWith(
-                account: entity['address'],
-                name: formatAddress(entity['address']),
-                metadata: BusinessMetadata.initial()
-                    .copyWith(address: entity['address']));
-          }
-        }));
+        Future<List<Business>> businesses = Future.wait(
+          entities.map(
+            (dynamic entity) async {
+              try {
+                dynamic metadata = await api.getEntityMetadata(
+                    communityAddress, entity['address'],
+                    isRopsten: isOriginRopsten);
+                return Business.initial().copyWith(
+                    account: entity['address'],
+                    name: metadata['name'] ?? '',
+                    metadata: BusinessMetadata.fromJson(metadata ?? {}));
+              } catch (e) {
+                return Business.initial().copyWith(
+                    account: entity['address'],
+                    name: formatAddress(entity['address']),
+                    metadata: BusinessMetadata.initial()
+                        .copyWith(address: entity['address']));
+              }
+            },
+          ),
+        );
         List<Business> result = await businesses;
         result..toList();
         store.dispatch(GetBusinessListSuccess(
@@ -1523,13 +1515,14 @@ ThunkAction getReceivedTokenTransfersListCall(Token token) {
 }
 
 ThunkAction sendTokenToContactCall(
-    Token token,
-    String contactPhoneNumber,
-    num tokensAmount,
-    VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback,
-    {String receiverName,
-    String transferNote}) {
+  Token token,
+  String contactPhoneNumber,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback, {
+  String receiverName,
+  String transferNote,
+}) {
   return (Store store) async {
     final logger = await AppFactory().getLogger('action');
     try {

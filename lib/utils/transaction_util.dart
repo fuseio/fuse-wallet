@@ -92,27 +92,22 @@ Contact getContact(
 String deducePhoneNumber(
   Transaction transfer,
   Map<String, String> reverseContacts, {
-  bool format = true,
   List<Business> businesses,
-  bool getReverseContact = true,
 }) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (businesses != null && businesses.isNotEmpty) {
     Business business = businesses.firstWhere(
-        (business) => business.account == accountAddress,
-        orElse: () => null);
+      (business) => business.account == accountAddress,
+      orElse: () => null,
+    );
     if (business != null) {
       return business.name;
     }
   }
-  if (reverseContacts.containsKey(accountAddress.toLowerCase()) &&
-      getReverseContact) {
+  if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
     return reverseContacts[accountAddress.toLowerCase()];
-  }
-  if (format) {
-    return formatAddress(accountAddress);
   } else {
-    return accountAddress;
+    return formatAddress(accountAddress);
   }
 }
 

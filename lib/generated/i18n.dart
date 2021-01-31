@@ -340,6 +340,10 @@ class I18n implements WidgetsLocalizations {
   String get stores_private => "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.";
   /// "Deposit your first Dollars"
   String get deposit_your_first_dollars => "Deposit your first Dollars";
+  /// "Swap"
+  String get swap => "Swap";
+  /// "Coming soon"
+  String get coming_soon => "Coming soon";
 }
 
 class _I18n_en_US extends I18n {
