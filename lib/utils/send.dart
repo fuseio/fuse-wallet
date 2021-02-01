@@ -93,9 +93,9 @@ void bracodeScannerHandler(context) async {
       final bool hasColon = rawData.contains(':');
       if (hasColon) {
         List<String> parts = scanResult.rawContent.split(':');
-        bool expression = parts.length == 2 && parts[0] == 'fuse';
+        bool expression = parts.length == 2 && (parts[0] == 'fuse' || parts[0] == 'ethereum');
         if (expression) {
-          final String accountAddress = parts[1].replaceFirst('f', 'x');
+          final String accountAddress = parts[0] == 'fuse' ? parts[1].replaceFirst('f', 'x') : parts[1];
           if (isValidEthereumAddress(accountAddress)) {
             sendToPastedAddress(accountAddress);
           } else {
