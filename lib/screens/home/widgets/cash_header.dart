@@ -18,7 +18,6 @@ class CashHeader extends StatelessWidget {
         converter: CashHeaderViewModel.fromStore,
         builder: (_, viewModel) {
           List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
-          // final String url = depositPlugins[0].generateUrl();
           return Container(
             height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomLeft,
