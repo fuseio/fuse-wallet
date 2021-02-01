@@ -18,6 +18,8 @@ class DepositBanner extends StatelessWidget {
         builder: (_, viewModel) {
           final String url = viewModel.getTopupUrl();
           return InkWell(
+            focusColor: Theme.of(context).splashColor,
+            highlightColor: Theme.of(context).splashColor,
             onTap: () {
               ExtendedNavigator.root.pushWebview(
                 withBack: true,
@@ -28,6 +30,10 @@ class DepositBanner extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).primaryColor.withOpacity(.1),
+                  width: 1,
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Theme.of(context).primaryColor.withAlpha(20),

@@ -154,5 +154,7 @@
     "stores_private": "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
     "deposit_your_first_dollars": "Deposit your first Dollars",
     "swap": "Swap",
-    "coming_soon": "Coming soon"
+    "coming_soon": "Coming soon",
+    "invalid_qa_code": "Invalid QA Code",
+    "error": "Error"
 }

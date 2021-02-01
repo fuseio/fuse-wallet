@@ -136,7 +136,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                           (viewModel.token.transactions.list.isEmpty ||
                               viewModel.token.transactions.list.length < 2))
                   ? Positioned(
-                      bottom: 0,
+                      bottom: 15,
                       width: MediaQuery.of(context).size.width * .95,
                       child: DepositBanner(),
                     )

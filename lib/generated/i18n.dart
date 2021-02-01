@@ -344,6 +344,10 @@ class I18n implements WidgetsLocalizations {
   String get swap => "Swap";
   /// "Coming soon"
   String get coming_soon => "Coming soon";
+  /// "Invalid QA Code"
+  String get invalid_qa_code => "Invalid QA Code";
+  /// "Error"
+  String get error => "Error";
 }
 
 class _I18n_en_US extends I18n {
