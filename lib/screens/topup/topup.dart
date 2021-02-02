@@ -227,7 +227,8 @@ class _TopupScreenState extends State<TopupScreen>
         distinct: true,
         converter: TopupViewModel.fromStore,
         builder: (_, viewModel) {
-          final String url = viewModel.getTopupUrl();
+          List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
+          dynamic url = depositPlugins[0]?.generateUrl() ?? '';
           return Center(
             child: PrimaryButton(
               opacity: 1,
@@ -235,8 +236,6 @@ class _TopupScreenState extends State<TopupScreen>
               label: I18n.of(context).continue_with +
                   ' $amountText ${selectedToken?.value}',
               onPressed: () {
-                print(
-                    '$url&fiatCurrency=${selectedToken?.value}&fiatValue=$amountText');
                 ExtendedNavigator.root.pushWebview(
                   withBack: true,
                   url:

@@ -16,17 +16,20 @@ class DepositBanner extends StatelessWidget {
         distinct: true,
         converter: TopupViewModel.fromStore,
         builder: (_, viewModel) {
-          final String url = viewModel.getTopupUrl();
+          List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
           return InkWell(
             focusColor: Theme.of(context).splashColor,
             highlightColor: Theme.of(context).splashColor,
             onTap: () {
-              viewModel.setDepositBanner();
-              ExtendedNavigator.root.pushWebview(
-                withBack: true,
-                url: '$url&finalUrl=https://fuse.io',
-                title: I18n.of(context).deposit_your_first_dollars,
-              );
+              if (depositPlugins.isNotEmpty) {
+                dynamic url = depositPlugins[0].generateUrl();
+                viewModel.setDepositBanner();
+                ExtendedNavigator.root.pushWebview(
+                  withBack: true,
+                  url: '$url&finalUrl=https://fuse.io',
+                  title: I18n.of(context).deposit_your_first_dollars,
+                );
+              }
             },
             child: Container(
               padding: EdgeInsets.all(20),
