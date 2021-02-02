@@ -44,11 +44,16 @@ class CashHeaderViewModel extends Equatable {
         store.state.cashWalletState.communities[communityAddress] ??
             Community.initial();
     num usdValue = store.state.userState?.totalBalance ?? 0;
+    final bool isDefaultCommunity = util.isDefaultCommunity(communityAddress);
+    final Token token = isDefaultCommunity
+        ? store.state.cashWalletState.tokens[community?.homeTokenAddress]
+            ?.copyWith(symbol: '\$')
+        : store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return CashHeaderViewModel(
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+      isDefaultCommunity: isDefaultCommunity,
       plugins: community?.plugins,
       community: community,
-      token: store.state.cashWalletState.tokens[community?.homeTokenAddress],
+      token: token,
       hasErc20Tokens: erc20Tokens.isNotEmpty,
       usdValue: reduce(usdValue),
       walletStatus: store.state.userState.walletStatus,
@@ -60,5 +65,13 @@ class CashHeaderViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [community, walletStatus, usdValue, hasErc20Tokens];
+  List<Object> get props => [
+        community,
+        walletStatus,
+        plugins,
+        usdValue,
+        hasErc20Tokens,
+        token,
+        isDefaultCommunity,
+      ];
 }
