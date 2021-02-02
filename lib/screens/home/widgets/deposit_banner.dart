@@ -21,6 +21,7 @@ class DepositBanner extends StatelessWidget {
             focusColor: Theme.of(context).splashColor,
             highlightColor: Theme.of(context).splashColor,
             onTap: () {
+              viewModel.setDepositBanner();
               ExtendedNavigator.root.pushWebview(
                 withBack: true,
                 url: '$url&finalUrl=https://fuse.io',

@@ -29,6 +29,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetSecurityType>(_setSecurityType),
   TypedReducer<UserState, ReceiveBackupDialogShowed>(
       _receiveBackupDialogShowed),
+  TypedReducer<UserState, DepositBannerShowed>(_depositBannerShowed),
   TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
   TypedReducer<UserState, UpdateCurrency>(_updateCurrency),
   TypedReducer<UserState, UpdateTotalBalance>(_updateTotalBalance),
@@ -59,6 +60,10 @@ UserState _updateTotalBalance(UserState state, UpdateTotalBalance action) {
 UserState _receiveBackupDialogShowed(
     UserState state, ReceiveBackupDialogShowed action) {
   return state.copyWith(receiveBackupDialogShowed: true);
+}
+
+UserState _depositBannerShowed(UserState state, DepositBannerShowed action) {
+  return state.copyWith(depositBannerShowed: true);
 }
 
 UserState _homeBackupDialogShowed(
@@ -179,11 +184,13 @@ UserState _justInstalled(UserState state, JustInstalled action) {
 }
 
 UserState _setIsLoginRequest(UserState state, SetIsLoginRequest action) {
-  return state.copyWith(isLoginRequest: action.isLoading, signupException: action.message);
+  return state.copyWith(
+      isLoginRequest: action.isLoading, signupException: action.message);
 }
 
 UserState _setIsVerifyRequest(UserState state, SetIsVerifyRequest action) {
-  return state.copyWith(isVerifyRequest: action.isLoading, verifyException: action.message);
+  return state.copyWith(
+      isVerifyRequest: action.isLoading, verifyException: action.message);
 }
 
 UserState _deviceIdSuccess(UserState state, DeviceIdSuccess action) {

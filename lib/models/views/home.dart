@@ -25,6 +25,7 @@ class HomeViewModel extends Equatable {
   final Function() refreshFeed;
   final bool isDefaultCommunity;
   final Token token;
+  final bool depositBannerShowed;
 
   HomeViewModel({
     this.onReceiveBranchData,
@@ -43,6 +44,7 @@ class HomeViewModel extends Equatable {
     this.refreshFeed,
     this.token,
     this.isDefaultCommunity,
+    this.depositBannerShowed,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
@@ -85,6 +87,8 @@ class HomeViewModel extends Equatable {
         store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return HomeViewModel(
         token: token,
+        depositBannerShowed:
+            store?.state?.userState?.depositBannerShowed ?? false,
         communities: store.state.cashWalletState.communities,
         isDefaultCommunity: util.isDefaultCommunity(communityAddress),
         tokens: tokens,

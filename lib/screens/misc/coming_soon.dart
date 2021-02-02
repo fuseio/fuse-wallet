@@ -10,17 +10,17 @@ class SwapScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: I18n.of(context).swap,
         children: <Widget>[
+          Image.asset(
+            'assets/images/swap-illustr.png',
+          ),
           Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(40.0),
-                  child: Center(
-                    child: Text(
-                      I18n.of(context).coming_soon,
-                    ),
+                Text(
+                  I18n.of(context).coming_soon,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
                   ),
                 )
               ],

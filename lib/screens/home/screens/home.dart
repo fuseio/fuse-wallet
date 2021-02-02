@@ -131,10 +131,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                       viewModel.communities.length > 1
                   ? refreshIndicator(viewModel)
                   : Feed(),
-              viewModel.isDefaultCommunity &&
-                      (viewModel.token != null &&
-                          (viewModel.token.transactions.list.isEmpty ||
-                              viewModel.token.transactions.list.length < 2))
+              viewModel.isDefaultCommunity && !viewModel.depositBannerShowed
                   ? Positioned(
                       bottom: 15,
                       width: MediaQuery.of(context).size.width * .95,
