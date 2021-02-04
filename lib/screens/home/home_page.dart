@@ -11,7 +11,7 @@ import 'package:peepl/redux/actions/user_actions.dart';
 import 'package:peepl/screens/buy/router/buy_router.gr.dart';
 import 'package:peepl/screens/home/router/home_router.gr.dart';
 import 'package:peepl/screens/home/screens/help.dart';
-import 'package:peepl/screens/home/screens/topup.dart';
+import 'package:peepl/screens/topup/router/topup_router.gr.dart';
 import 'package:peepl/screens/misc/inapp_webview_page.dart';
 import 'package:peepl/screens/home/widgets/drawer.dart';
 import 'package:peepl/utils/contacts.dart';
@@ -150,7 +150,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                   vm?.walletAddress != null &&
                           isValidEthereumAddress(vm?.walletAddress)
-                      ? TopupScreen(walletAddress: vm?.walletAddress)
+                      ? ExtendedNavigator(
+                          router: TopupRouter(),
+                          name: 'topupRouter',
+                          observers: [SegmentObserver()],
+                        )
                       : Container(),
                   vm?.walletAddress != null &&
                           isValidEthereumAddress(vm?.walletAddress)

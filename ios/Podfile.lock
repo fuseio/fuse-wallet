@@ -147,6 +147,10 @@ PODS:
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
+  - Stripe (19.4.0)
+  - stripe_payment (1.0.0):
+    - Flutter
+    - Stripe (~> 19.4.0)
   - SwiftProtobuf (1.13.0)
   - url_launcher (0.0.1):
     - Flutter
@@ -177,6 +181,7 @@ DEPENDENCIES:
   - plaid_flutter (from `.symlinks/plugins/plaid_flutter/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
+  - stripe_payment (from `.symlinks/plugins/stripe_payment/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
@@ -205,6 +210,7 @@ SPEC REPOS:
     - Reachability
     - SAMKeychain
     - Segment-Branch
+    - Stripe
     - SwiftProtobuf
 
 EXTERNAL SOURCES:
@@ -254,6 +260,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
+  stripe_payment:
+    :path: ".symlinks/plugins/stripe_payment/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
   webview_flutter:
@@ -306,10 +314,12 @@ SPEC CHECKSUMS:
   Segment-Branch: 5e91faad404e1af9998f5a2bbd44522a0f071786
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  Stripe: 92f1c73a9dbd3c54277ed06a1fea6e08f20414c6
+  stripe_payment: 1cbe9c339c21b5ecf01035e80eea351067c67c56
   SwiftProtobuf: fd4693388a96c8c2df35d3b063272b0e7c499d00
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
-PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
 
 COCOAPODS: 1.9.3

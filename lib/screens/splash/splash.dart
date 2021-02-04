@@ -46,27 +46,22 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List pages = getPages(context);
     return StoreConnector<AppState, SplashViewModel>(
-        onInitialBuild: (viewModel) {
-          Segment.screen(screenName: '/splash-screen');
-        },
-        distinct: true,
-        converter: SplashViewModel.fromStore,
-        builder: (_, viewModel) {
-          List pages = getPages(context);
-          return WillPopScope(
-              onWillPop: () async {
-                ExtendedNavigator.root.pop<bool>(false);
-                return false;
-              },
-              child: Scaffold(
-                  body: Container(
-                      child: Column(
-                children: <Widget>[
-                  Expanded(
-                    flex: 20,
-                    child: Container(
-                        child: Column(
+      onInitialBuild: (viewModel) {
+        Segment.screen(screenName: '/splash-screen');
+      },
+      distinct: true,
+      converter: SplashViewModel.fromStore,
+      builder: (_, viewModel) {
+        return Scaffold(
+          body: Container(
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  flex: 20,
+                  child: Container(
+                    child: Column(
                       children: <Widget>[
                         Expanded(
                           child: Stack(
@@ -90,9 +85,10 @@ class _SplashScreenState extends State<SplashScreen> {
                                       controller: _pageController,
                                       count: pages.length,
                                       effect: JumpingDotEffect(
-                                          dotWidth: 9.0,
-                                          dotHeight: 9.0,
-                                          activeDotColor: Color(0xFF696B6D)),
+                                        dotWidth: 9.0,
+                                        dotHeight: 9.0,
+                                        activeDotColor: Color(0xFF696B6D),
+                                      ),
                                       onDotClicked: gotoPage,
                                     ),
                                   ),
@@ -102,10 +98,14 @@ class _SplashScreenState extends State<SplashScreen> {
                           ),
                         ),
                       ],
-                    )),
+                    ),
                   ),
-                ],
-              ))));
-        });
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

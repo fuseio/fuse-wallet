@@ -1,9 +1,10 @@
 name: peepl
-version: 1.0.5+29
+version: 1.0.6+30
 description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  stripe_payment: ^1.0.10
   plaid_flutter: ^1.1.6
   flutter_offline: ^0.3.0
   smooth_page_indicator: ^0.2.0

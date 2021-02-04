@@ -16,6 +16,7 @@ import 'package:peepl/services.dart';
 import 'package:peepl/themes/app_theme.dart';
 import 'package:peepl/themes/custom_theme.dart';
 import 'package:peepl/utils/jwt.dart';
+import 'package:peepl/utils/stripe.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:peepl/generated/i18n.dart';
@@ -25,6 +26,7 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  new StripeService()..init();
   await DotEnv().load('environment/.env');
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
