@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:curadai/models/community/community.dart';
 import 'package:curadai/screens/home/router/home_router.gr.dart';
-import 'package:curadai/screens/home/widgets/community_description.dart';
+// import 'package:curadai/screens/home/widgets/community_description.dart';
 import 'package:curadai/widgets/bridge_dialog.dart';
 import 'package:curadai/widgets/network_explained.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -154,40 +154,19 @@ class TokenHeader extends StatelessWidget {
                                                         primaryToken: token);
                                               }),
                                         )
-                                      : isFuseToken && community != null
-                                          ? Container(
-                                              width: 45,
-                                              height: 45,
-                                              child: FloatingActionButton(
-                                                  heroTag:
-                                                      'CommunityDescription',
-                                                  elevation: 0,
-                                                  backgroundColor:
-                                                      Theme.of(context)
-                                                          .primaryColor,
-                                                  child: Icon(
-                                                    Icons.info,
-                                                    color: Theme.of(context)
-                                                        .splashColor,
-                                                  ),
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            CommunityDescription(
-                                                                token: token,
-                                                                community:
-                                                                    community));
-                                                  }),
-                                            )
-                                          : SizedBox.shrink(),
-                                  community != null
+                                      : SizedBox.shrink(),
+                                  community != null &&
+                                          community.bridgeDirection != null &&
+                                          community.bridgeDirection ==
+                                              'foreign-to-home'
                                       ? SizedBox(
                                           width: 10,
                                         )
                                       : SizedBox.shrink(),
-                                  community != null
+                                  community != null &&
+                                          community.bridgeDirection != null &&
+                                          community.bridgeDirection ==
+                                              'foreign-to-home'
                                       ? Container(
                                           width: 45,
                                           height: 45,

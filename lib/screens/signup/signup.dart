@@ -6,7 +6,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:curadai/generated/i18n.dart';
 import 'package:curadai/models/app_state.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:country_code_picker/country_codes.dart';
+// import 'package:country_code_picker/country_codes.dart';
 import 'package:curadai/services.dart';
 import 'package:curadai/utils/constans.dart';
 import 'package:curadai/widgets/main_scaffold.dart';
@@ -26,28 +26,28 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  CountryCode countryCode = CountryCode(dialCode: '‎+1', code: 'US');
+  CountryCode countryCode = CountryCode(dialCode: '‎+599', code: 'AN');
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
+    // WidgetsBinding.instance.addPostFrameCallback(_updateCountryCode);
     super.initState();
   }
 
-  _updateCountryCode(_) {
-    Locale myLocale = Localizations.localeOf(context);
-    if (myLocale.countryCode != null) {
-      Map localeData = codes.firstWhere(
-          (Map code) => code['code'] == myLocale.countryCode,
-          orElse: () => null);
-      if (mounted && localeData != null) {
-        setState(() {
-          countryCode = CountryCode(
-              dialCode: localeData['dial_code'], code: localeData['code']);
-        });
-      }
-    }
-  }
+  // _updateCountryCode(_) {
+  //   Locale myLocale = Localizations.localeOf(context);
+  //   if (myLocale.countryCode != null) {
+  //     Map localeData = codes.firstWhere(
+  //         (Map code) => code['code'] == myLocale.countryCode,
+  //         orElse: () => null);
+  //     if (mounted && localeData != null) {
+  //       setState(() {
+  //         countryCode = CountryCode(
+  //             dialCode: localeData['dial_code'], code: localeData['code']);
+  //       });
+  //     }
+  //   }
+  // }
 
   void onPressed(Function(CountryCode, PhoneNumber) signUp) {
     final String phoneNumber = '${countryCode.dialCode}${phoneController.text}';

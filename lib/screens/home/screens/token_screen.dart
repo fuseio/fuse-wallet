@@ -54,7 +54,12 @@ class TokenScreen extends StatelessWidget {
                         ),
                       )
                     : Expanded(
-                        child: ListView(children: [TransfersList(list: list)])),
+                        child: ListView(
+                          children: [
+                            TransfersList(list: list),
+                          ],
+                        ),
+                      ),
               ]));
         });
   }
@@ -76,11 +81,13 @@ class TransfersList extends StatelessWidget {
                       fontSize: 13.0,
                       fontWeight: FontWeight.normal))),
           ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: list?.length,
-              itemBuilder: (BuildContext ctxt, int index) =>
-                  TransactionTile(transfer: list[index]))
+            shrinkWrap: true,
+            primary: false,
+            itemCount: list?.length,
+            itemBuilder: (BuildContext ctxt, int index) => TransactionTile(
+              transfer: list[index],
+            ),
+          )
         ]);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:curadai/constans/keys.dart';
 import 'package:curadai/models/tokens/token.dart';
+import 'package:curadai/utils/format.dart';
 import 'package:flutter/material.dart';
 import 'package:curadai/generated/i18n.dart';
 import 'package:curadai/models/community/community.dart';
@@ -10,6 +11,67 @@ import 'package:curadai/screens/routes.gr.dart';
 import 'dart:core';
 
 import 'package:curadai/utils/constans.dart';
+
+class AddMoreCuraDialog extends StatefulWidget {
+  @override
+  _AddMoreCuraDialogState createState() => _AddMoreCuraDialogState();
+}
+
+class _AddMoreCuraDialogState extends State<AddMoreCuraDialog>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+  Animation<double> scaleAnimatoin;
+  bool isPreloading = false;
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    scaleAnimatoin =
+        CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
+
+    controller.addListener(() {
+      setState(() {});
+    });
+
+    controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext _context) {
+    return ScaleTransition(
+        scale: scaleAnimatoin,
+        child: AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20.0),
+            ),
+          ),
+          title: Center(
+            child: Text('Add more CURA'),
+          ),
+          content:
+              Text('There is a minimum of 100 CURA in order to use the bridge'),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: Text(I18n.of(context).ok, style: TextStyle(fontSize: 16)),
+            ),
+          ],
+        ));
+  }
+}
 
 class TokenActionsDialog extends StatefulWidget {
   TokenActionsDialog({this.token, this.community, this.logo});
@@ -109,19 +171,31 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                     ),
                                   ),
                                 ),
-                                onTap: () {
-                                  ExtendedNavigator.root.pushSendAmountScreen(
+                                onTap: () async {
+                                  if (num.parse(formatValue(widget.token.amount,
+                                              widget.token.decimals,
+                                              withPrecision: false))
+                                          .compareTo(100) ==
+                                      1) {
+                                    ExtendedNavigator.root.pushSendAmountScreen(
                                       pageArgs: SendAmountArguments(
-                                          tokenToSend: widget.token,
-                                          isMultiBridge:
-                                              widget.community.isMultiBridge,
-                                          accountAddress: accountAddress,
-                                          useBridge: true,
-                                          name:
-                                              isFuseToken ? 'Ethereum' : 'Fuse',
-                                          avatar: AssetImage(
-                                            'assets/images/ethereume_icon.png',
-                                          )));
+                                        tokenToSend: widget.token,
+                                        isMultiBridge:
+                                            widget.community.isMultiBridge,
+                                        accountAddress: accountAddress,
+                                        useBridge: true,
+                                        name: isFuseToken ? 'Ethereum' : 'Fuse',
+                                        avatar: AssetImage(
+                                          'assets/images/ethereume_icon.png',
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            AddMoreCuraDialog());
+                                  }
                                 },
                               ),
                         widget.community == null
