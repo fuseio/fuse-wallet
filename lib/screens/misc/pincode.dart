@@ -67,65 +67,65 @@ class _PincodeScreenState extends State<PincodeScreen> {
                           height: 50,
                         ),
                         Theme(
-                            data: ThemeData(
-                                hintColor:
-                                    Theme.of(context).scaffoldBackgroundColor),
-                            child: StoreConnector<AppState, OnboardViewModel>(
-                                converter: OnboardViewModel.fromStore,
-                                builder: (_, viewModel) => Container(
-                                      width: 250,
-                                      child: PinInputTextField(
-                                        pinLength: 6,
-                                        decoration: UnderlineDecoration(
-                                            textStyle: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ),
-                                            hintTextStyle: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                            colorBuilder:
-                                                FixedColorListBuilder([
-                                              Theme.of(context).primaryColor,
-                                              Theme.of(context).primaryColor,
-                                              Theme.of(context).primaryColor,
-                                              Theme.of(context).primaryColor,
-                                              Theme.of(context).primaryColor,
-                                              Theme.of(context).primaryColor,
-                                            ]),
-                                            obscureStyle: ObscureStyle(
-                                                isTextObscure: true,
-                                                obscureText: '●')),
-                                        controller: pincodeController,
-                                        autoFocus: true,
-                                        onSubmit: (String pin) {
-                                          if (pin == this.lastPincode) {
-                                            viewModel.setSecurityType(
-                                                BiometricAuth.pincode);
-                                            viewModel
-                                                .setPincode(this.lastPincode);
-                                            widget.onSuccess();
-                                          } else {
-                                            transactionFailedSnack(
-                                                I18n.of(context)
-                                                    .pincode_dont_match,
-                                                title: I18n.of(context).oops,
-                                                duration: Duration(seconds: 3),
-                                                context: context);
-                                          }
-                                        },
-                                        onChanged: (String pin) {
-                                          if (pin.length == 6 &&
-                                              !this.isRetype) {
-                                            pincodeController.text = '';
-                                            setState(() {
-                                              isRetype = true;
-                                              lastPincode = pin;
-                                            });
-                                          }
-                                        },
-                                      ),
-                                    )))
+                          data: ThemeData(
+                              hintColor:
+                                  Theme.of(context).scaffoldBackgroundColor),
+                          child: StoreConnector<AppState, OnboardViewModel>(
+                            converter: OnboardViewModel.fromStore,
+                            builder: (_, viewModel) => Container(
+                              width: 250,
+                              child: PinInputTextField(
+                                pinLength: 6,
+                                keyboardType: TextInputType.numberWithOptions(
+                                  signed: true,
+                                  decimal: true,
+                                ),
+                                decoration: UnderlineDecoration(
+                                    textStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    hintTextStyle:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                    colorBuilder: FixedColorListBuilder([
+                                      Theme.of(context).primaryColor,
+                                      Theme.of(context).primaryColor,
+                                      Theme.of(context).primaryColor,
+                                      Theme.of(context).primaryColor,
+                                      Theme.of(context).primaryColor,
+                                      Theme.of(context).primaryColor,
+                                    ]),
+                                    obscureStyle: ObscureStyle(
+                                        isTextObscure: true, obscureText: '●')),
+                                controller: pincodeController,
+                                autoFocus: true,
+                                onSubmit: (String pin) {
+                                  if (pin == this.lastPincode) {
+                                    viewModel
+                                        .setSecurityType(BiometricAuth.pincode);
+                                    viewModel.setPincode(this.lastPincode);
+                                    widget.onSuccess();
+                                  } else {
+                                    transactionFailedSnack(
+                                        I18n.of(context).pincode_dont_match,
+                                        title: I18n.of(context).oops,
+                                        duration: Duration(seconds: 3),
+                                        context: context);
+                                  }
+                                },
+                                onChanged: (String pin) {
+                                  if (pin.length == 6 && !this.isRetype) {
+                                    pincodeController.text = '';
+                                    setState(() {
+                                      isRetype = true;
+                                      lastPincode = pin;
+                                    });
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     )
                   ],
