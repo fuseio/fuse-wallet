@@ -19,6 +19,7 @@ class _PincodeScreenState extends State<PincodeScreen> {
   final pincodeController = TextEditingController(text: "");
   String lastPincode;
   bool isRetype = false;
+  bool showError = false;
 
   @override
   void initState() {
@@ -76,10 +77,6 @@ class _PincodeScreenState extends State<PincodeScreen> {
                               width: 250,
                               child: PinInputTextField(
                                 pinLength: 6,
-                                keyboardType: TextInputType.numberWithOptions(
-                                  signed: true,
-                                  decimal: true,
-                                ),
                                 decoration: UnderlineDecoration(
                                     textStyle: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -99,20 +96,6 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                         isTextObscure: true, obscureText: '●')),
                                 controller: pincodeController,
                                 autoFocus: true,
-                                onSubmit: (String pin) {
-                                  if (pin == this.lastPincode) {
-                                    viewModel
-                                        .setSecurityType(BiometricAuth.pincode);
-                                    viewModel.setPincode(this.lastPincode);
-                                    widget.onSuccess();
-                                  } else {
-                                    transactionFailedSnack(
-                                        I18n.of(context).pincode_dont_match,
-                                        title: I18n.of(context).oops,
-                                        duration: Duration(seconds: 3),
-                                        context: context);
-                                  }
-                                },
                                 onChanged: (String pin) {
                                   if (pin.length == 6 && !this.isRetype) {
                                     pincodeController.text = '';
@@ -120,6 +103,27 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                       isRetype = true;
                                       lastPincode = pin;
                                     });
+                                  } else if (pin.length == 6 && this.isRetype) {
+                                    if (pin == this.lastPincode) {
+                                      viewModel.setSecurityType(
+                                          BiometricAuth.pincode);
+                                      viewModel.setPincode(this.lastPincode);
+                                      widget.onSuccess();
+                                    } else {
+                                      if (!showError) {
+                                        transactionFailedSnack(
+                                            I18n.of(context).pincode_dont_match,
+                                            title: I18n.of(context).oops,
+                                            duration: Duration(seconds: 3),
+                                            context: context);
+                                      }
+                                      Future.delayed(
+                                          Duration(milliseconds: 2500), () {
+                                        setState(() {
+                                          showError = false;
+                                        });
+                                      });
+                                    }
                                   }
                                 },
                               ),
