@@ -15,7 +15,7 @@ class StripeService {
   String _paymentApiUrl =
       'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/stripe/pay';
   String _apiKey =
-      'pk_test_51IFlGaF8mk2quJk5flt3T1QwFcGzY7DjUk0YJaWe5nxmSMPNUegWZ3Fox9H99PVfMzKJjovk9Prc3g9eMKM0rOHy00iZJddxqk';
+      'pk_live_51IFlGaF8mk2quJk5QOqANlJXwIUjSwOiDFouybqMdPuwrZ8FGi9sUnvxwUrbklBjY7yNukf2IKqFdTpyk9BpU84g00iFzHPy60';
 
   void init() {
     StripePayment.setOptions(
