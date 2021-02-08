@@ -149,7 +149,7 @@ class StripeService {
         body: body,
       );
       final Map data = responseHandler(response);
-      return data['data']['paymentIntent'];
+      return data['data'];
     } catch (e) {
       print('Error _crearPaymentIntent ${e.toString()}');
       return {'error': e.toString()};
@@ -163,28 +163,34 @@ class StripeService {
     @required String walletAddress,
   }) async {
     try {
-      final paymentIntent = await this._crearPaymentIntent(
+      final response = await this._crearPaymentIntent(
         amount: amount,
         currency: currency,
         paymentMethodId: paymentMethod.id,
         walletAddress: walletAddress,
       );
-
-      final PaymentIntentResult paymentResult =
-          await StripePayment.confirmPaymentIntent(
-        PaymentIntent(
-          clientSecret: paymentIntent['clientSecret'],
-          paymentMethodId: paymentMethod.id,
-        ),
-      );
-
-      if (paymentResult.status == 'succeeded') {
-        return StripeCustomResponse(ok: true);
-      } else {
-        return StripeCustomResponse(
-          ok: false,
-          msg: 'Failed ${paymentResult.status}',
+      final bool requiresAction =
+          response['paymentIntent']['requiresAction'] ?? false;
+      if (requiresAction) {
+        final String clientSecret = response['paymentIntent']['clientSecret'];
+        final PaymentIntentResult paymentResult =
+            await StripePayment.confirmPaymentIntent(
+          PaymentIntent(
+            clientSecret: clientSecret,
+            paymentMethodId: paymentMethod.id,
+          ),
         );
+
+        if (paymentResult.status == 'succeeded') {
+          return StripeCustomResponse(ok: true);
+        } else {
+          return StripeCustomResponse(
+            ok: false,
+            msg: 'Failed ${paymentResult.status}',
+          );
+        }
+      } else {
+        return StripeCustomResponse(ok: true);
       }
     } catch (e) {
       print('Error _makePayment: ${e.toString()}');
