@@ -1243,7 +1243,7 @@ packages:
       path: "../wallet_core"
       relative: true
     source: path
-    version: "0.2.4+21"
+    version: "0.2.5+1"
   watcher:
     dependency: transitive
     description:
