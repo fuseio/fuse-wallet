@@ -13,8 +13,8 @@ import '../screens/topup.dart';
 import '../screens/topup_explained.dart';
 
 class TopupRoutes {
-  static const String topupExplained = '/';
-  static const String topupScreen = '/topup-screen';
+  static const String topupExplained = '/topup-explained';
+  static const String topupScreen = '/';
   static const all = <String>{
     topupExplained,
     topupScreen,
@@ -70,7 +70,7 @@ extension TopupRouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushTopupScreen({
     String walletAddress,
-    TopupType topupType,
+    TopupType topupType = TopupType.STRIPE,
   }) =>
       push<dynamic>(
         TopupRoutes.topupScreen,
@@ -93,5 +93,5 @@ class TopupExplainedArguments {
 class TopupScreenArguments {
   final String walletAddress;
   final TopupType topupType;
-  TopupScreenArguments({this.walletAddress, this.topupType});
+  TopupScreenArguments({this.walletAddress, this.topupType = TopupType.STRIPE});
 }
