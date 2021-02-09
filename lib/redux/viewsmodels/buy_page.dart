@@ -36,7 +36,7 @@ class BuyViewModel extends Equatable {
     String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddress] ??
-            Community.initial();
+            Community();
     Token token =
         store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return BuyViewModel(

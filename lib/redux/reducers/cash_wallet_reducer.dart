@@ -1,9 +1,9 @@
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
@@ -86,11 +86,17 @@ CashWalletState _addCashToken(CashWalletState state, AddCashToken action) {
 
 CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  for (String communityAddress in newOne.keys) {
-    newOne[communityAddress] =
-        newOne[communityAddress].copyWith(transactions: Transactions.initial());
+  Map<String, Token> tokens = Map<String, Token>();
+  final List<String> tokenAddresses = List<String>.from(
+      newOne.keys.map((e) => e.toLowerCase()).toSet().toList());
+  for (String tokenAddress in tokenAddresses) {
+    final Token token =
+        newOne.containsKey(checksumEthereumAddress(tokenAddress))
+            ? newOne[checksumEthereumAddress(tokenAddress)]
+            : newOne[tokenAddress];
+    tokens[tokenAddress] = token.copyWith(transactions: Transactions());
   }
-  return state.copyWith(tokens: newOne);
+  return state.copyWith(tokens: tokens);
 }
 
 CashWalletState _refreshCommunityData(
@@ -107,7 +113,7 @@ CashWalletState _refreshCommunityData(
 CashWalletState _fetchCommunityMetadataSuccess(
     CashWalletState state, FetchCommunityMetadataSuccess action) {
   Community current = state.communities[action.communityAddress] ??
-      Community.initial().copyWith(address: action.communityAddress);
+      Community(address: action.communityAddress);
   Community newCommunity = current?.copyWith(metadata: action.metadata);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
@@ -117,7 +123,7 @@ CashWalletState _fetchCommunityMetadataSuccess(
 
 CashWalletState _setDefaultCommunity(
     CashWalletState state, SetDefaultCommunity action) {
-  Community current = new Community.initial();
+  Community current = new Community();
   Community defaultCom = current.copyWith(address: action.defaultCommunity);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
@@ -147,7 +153,7 @@ CashWalletState _alreadyJoinedCommunity(
     CashWalletState state, AlreadyJoinedCommunity action) {
   String communityAddress = action.communityAddress.toLowerCase();
   Community current = state.communities[communityAddress] ??
-      Community.initial().copyWith(address: communityAddress);
+      Community(address: communityAddress);
   if (state.communities.containsKey(communityAddress) && !current.isMember) {
     Community newCommunity = current?.copyWith(isMember: true);
     Map<String, Community> newOne =
@@ -188,7 +194,7 @@ CashWalletState _getBusinessListSuccess(
     CashWalletState state, GetBusinessListSuccess action) {
   final String communityAddress = action.communityAddress;
   Community current = state.communities[communityAddress] ??
-      Community.initial().copyWith(address: action.communityAddress);
+      Community(address: communityAddress);
   Community newCommunity = current?.copyWith(businesses: action?.businessList);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
@@ -209,28 +215,33 @@ CashWalletState _fetchingBusinessListFailed(
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
   final String tokenAddress = action.tokenAddress;
-  if (action.tokenTransfers.length > 0) {
+  if (action.tokenTransfers.isEmpty) {
+    return state;
+  } else {
     dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
-            0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
+            0,
+            (max, e) =>
+                (e.blockNumber ?? 0) > max ? (e.blockNumber ?? 0) : max) +
         1;
     Token currentToken = state.tokens[tokenAddress];
-    for (Transfer tx in action.tokenTransfers.reversed) {
-      Transfer saved = currentToken.transactions?.list
+    for (Transaction tx in action.tokenTransfers.reversed) {
+      Transaction saved = currentToken?.transactions?.list
           ?.firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
         int index = currentToken.transactions.list.indexOf(saved);
-        currentToken.transactions.list[index] = tx.copyWith();
+        currentToken.transactions.list[index] = tx;
       } else {
-        currentToken.transactions.list.add(tx);
+        currentToken?.transactions?.list?.add(tx);
       }
     }
     Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
     newOne[tokenAddress] = currentToken.copyWith(
-        transactions: currentToken.transactions.copyWith(
-            list: currentToken.transactions.list, blockNumber: maxBlockNumber));
+      transactions: currentToken.transactions.copyWith(
+        list: currentToken?.transactions?.list ?? [],
+        blockNumber: maxBlockNumber,
+      ),
+    );
     return state.copyWith(tokens: newOne);
-  } else {
-    return state;
   }
 }
 
@@ -246,8 +257,7 @@ CashWalletState _switchCommunityRequest(
 CashWalletState _switchToNewCommunity(
     CashWalletState state, SwitchToNewCommunity action) {
   String communityAddress = action.communityAddress.toLowerCase();
-  Community newCommunity =
-      new Community.initial().copyWith(address: communityAddress);
+  Community newCommunity = Community(address: communityAddress);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
   newOne[communityAddress] = newCommunity;
@@ -281,8 +291,7 @@ CashWalletState _setIsTransfersFetching(
 
 CashWalletState _addTransaction(CashWalletState state, AddTransaction action) {
   final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[tokenAddress] ??
-      Token.initial().copyWith(address: tokenAddress);
+  Token current = state.tokens[tokenAddress] ?? Token(address: tokenAddress);
 
   Transaction saved = current?.transactions?.list?.firstWhere(
       (tx) => tx.jobId != null && tx.jobId == action.transaction.jobId,
@@ -320,9 +329,10 @@ CashWalletState _inviteSendSuccess(
 
 CashWalletState _createNewWalletSuccess(
     CashWalletState state, CreateLocalAccountSuccess action) {
-  return CashWalletState.initial().copyWith(
-      isBranchDataReceived: state.isBranchDataReceived,
-      branchAddress: state.branchAddress);
+  return CashWalletState(
+    isBranchDataReceived: state.isBranchDataReceived,
+    branchAddress: state.branchAddress,
+  );
 }
 
 CashWalletState _replaceTransfer(

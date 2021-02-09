@@ -59,6 +59,10 @@ class ReceiveBackupDialogShowed {
   ReceiveBackupDialogShowed();
 }
 
+class DepositBannerShowed {
+  DepositBannerShowed();
+}
+
 class SetSecurityType {
   BiometricAuth biometricAuth;
   SetSecurityType({this.biometricAuth});

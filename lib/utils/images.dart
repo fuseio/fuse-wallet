@@ -4,6 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
+import 'package:fusecash/models/transactions/fiat_deposit.dart';
+import 'package:fusecash/models/transactions/fiat_process.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
 
 class ImageUrl {
@@ -53,7 +55,7 @@ class ImageUrl {
           (business) => business.account == accountAddress,
           orElse: () => null);
       if (business != null) {
-        return NetworkImage(business?.metadata?.getImageUri());
+        return NetworkImage(ImageUrl.getLink(business.metadata.image));
       }
     }
     return new AssetImage('assets/images/anom.png');
@@ -62,17 +64,13 @@ class ImageUrl {
   static ImageProvider getTransferImage(
     Transfer transfer,
     Contact contact,
-    Community community, {
-    bool isZeroAddress,
-  }) {
-    if (isZeroAddress != null && isZeroAddress) {
-      return AssetImage(
-        'assets/images/ethereume_icon.png',
-      );
-    }
-    if (transfer.isJoinCommunity() &&
+    Community community,
+  ) {
+    if ((transfer.isJoinCommunity() ||
+            transfer is FiatDeposit ||
+            transfer is FiatProcess) &&
         ![null, ''].contains(community?.metadata?.image)) {
-      return new NetworkImage(community?.metadata?.getImageUri());
+      return new NetworkImage(ImageUrl.getLink(community?.metadata?.image));
     } else if (transfer.isGenerateWallet()) {
       return new AssetImage(
         'assets/images/generate_wallet.png',
@@ -96,10 +94,15 @@ class ImageUrl {
     String accountAddress =
         transfer.type == 'SEND' ? transfer.to : transfer.from;
     Business business = community?.businesses?.firstWhere(
-        (business) => business.account == accountAddress,
-        orElse: () => null);
+      (business) => business.account == accountAddress,
+      orElse: () => null,
+    );
     if (business != null) {
-      return NetworkImage(business?.metadata?.getImageUri());
+      return NetworkImage(
+        ImageUrl.getLink(
+          business.metadata.image,
+        ),
+      );
     }
     return new AssetImage('assets/images/anom.png');
   }

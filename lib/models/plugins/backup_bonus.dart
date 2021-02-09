@@ -1,23 +1,28 @@
-import 'plugin_base.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/models/plugins/plugin_base.dart';
 
-class BackupBonusPlugin extends Plugin {
-  final String type = 'backupBonus';
-  String amount;
+part 'backup_bonus.freezed.dart';
+part 'backup_bonus.g.dart';
 
-  BackupBonusPlugin({name, isActive, this.amount})
-      : super(name: name, isActive: isActive);
+@immutable
+@freezed
+abstract class BackupBonusPlugin with _$BackupBonusPlugin {
+  @Implements(Plugin)
+  @JsonSerializable(createFactory: false)
+  factory BackupBonusPlugin({
+    @Default('backupBonus') String type,
+    String amount,
+    String name,
+    bool isActive,
+  }) = _BackupBonusPlugin;
 
-  @override
-  dynamic toJson() =>
-      {'name': name, 'isActive': isActive, 'type': type, 'amount': amount};
-
-  static BackupBonusPlugin fromJson(dynamic json) => json != null
+  factory BackupBonusPlugin.fromJson(dynamic json) => json != null
       ? BackupBonusPlugin(
           name: json['name'],
-          amount: json.containsKey('backupInfo')
-              ? json['backupInfo']['amount']
+          amount: json.containsKey('joinInfo')
+              ? json['joinInfo']['amount']
               : json['amount'],
-          isActive: json["isActive"] || false,
+          isActive: json["isActive"] ?? false,
         )
       : null;
 }

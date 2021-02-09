@@ -10,7 +10,8 @@ class ReceiveModel extends Equatable {
 
   static ReceiveModel fromStore(Store<AppState> store) {
     return ReceiveModel(
-      walletAddress: store.state.userState?.walletAddress ?? '',
+      walletAddress:
+          store.state.userState?.walletAddress?.replaceFirst('x', 'f') ?? '',
     );
   }
 

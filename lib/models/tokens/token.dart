@@ -1,98 +1,51 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/tokens/price.dart';
-import 'package:fusecash/models/tokens/base.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/services/apis/market.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'token.freezed.dart';
 part 'token.g.dart';
 
-@JsonSerializable(explicitToJson: true)
-class Token extends ERC20Token {
-  final String imageUrl;
-  final String communityAddress;
-  final String originNetwork;
-  final int timestamp;
-  final Price priceInfo;
-  @JsonKey(fromJson: _transactionsFromJson)
-  final Transactions transactions;
-  @JsonKey(name: 'jobs', fromJson: _jobsFromJson, toJson: _jobsToJson)
-  final List<Job> jobs;
-  @JsonKey(ignore: true)
-  final String subtitle;
+Transactions transactionsFromJson(Map<String, dynamic> json) =>
+    json == null ? Transactions() : Transactions.fromJson(json);
 
-  @override
-  toString() => 'Token info - $name $symbol $address';
+List<Job> jobsFromJson(Map<String, dynamic> json) => json == null
+    ? List<Job>()
+    : List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
 
-  @override
-  List<Object> get props =>
-      [amount, name, symbol, transactions?.list, communityAddress];
+Map<String, dynamic> jobsToJson(List<dynamic> jobs) =>
+    new Map.from({"jobs": jobs.map((job) => job.toJson()).toList()});
 
-  static Transactions _transactionsFromJson(Map<String, dynamic> json) =>
-      json == null ? Transactions.initial() : Transactions.fromJson(json);
+@immutable
+@freezed
+abstract class Token implements _$Token {
+  const Token._();
 
-  static List<Job> _jobsFromJson(Map<String, dynamic> json) => json == null
-      ? List<Job>()
-      : List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
+  @JsonSerializable()
+  factory Token({
+    String address,
+    String name,
+    String symbol,
+    String imageUrl,
+    int decimals,
+    BigInt amount,
+    @JsonKey(ignore: true) String subtitle,
+    int timestamp,
+    Price priceInfo,
+    @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
+    @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
+        List<Job> jobs,
+    String communityAddress,
+    String originNetwork,
+  }) = _Token;
 
-  static Map<String, dynamic> _jobsToJson(List<dynamic> jobs) =>
-      new Map.from({"jobs": jobs.map((job) => job.toJson()).toList()});
+  String getBalance() => formatValue(amount, decimals);
 
-  Token(
-      {String address,
-      String name,
-      String symbol,
-      int decimals,
-      BigInt amount,
-      this.priceInfo,
-      this.imageUrl,
-      this.subtitle,
-      this.timestamp = 0,
-      this.transactions,
-      this.jobs,
-      this.communityAddress,
-      this.originNetwork})
-      : super(
-            address: address,
-            name: name,
-            symbol: symbol,
-            decimals: decimals,
-            amount: amount);
-
-  Token copyWith(
-      {String address,
-      String name,
-      String symbol,
-      String imageUrl,
-      int decimals,
-      BigInt amount,
-      String subtitle,
-      int timestamp,
-      Price priceInfo,
-      String originNetwork,
-      Transactions transactions,
-      List<Job> jobs,
-      String communityAddress}) {
-    return Token(
-        priceInfo: priceInfo ?? this.priceInfo,
-        subtitle: subtitle,
-        address: address ?? this.address,
-        name: name ?? this.name,
-        originNetwork: originNetwork ?? this.originNetwork,
-        symbol: symbol ?? this.symbol,
-        imageUrl: imageUrl ?? this.imageUrl,
-        decimals: decimals ?? this.decimals,
-        amount: amount ?? this.amount,
-        timestamp: timestamp ?? this.timestamp,
-        transactions: transactions ?? this.transactions,
-        communityAddress: communityAddress ?? this.communityAddress,
-        jobs: jobs ?? this.jobs);
-  }
-
-  @override
   Future<dynamic> fetchTokenBalance(String accountAddress,
       {void Function(BigInt) onDone, Function onError}) async {
     if ([null, ''].contains(accountAddress) ||
@@ -120,10 +73,11 @@ class Token extends ERC20Token {
     }
   }
 
-  Future<dynamic> fetchTokenLastestPrice(
-      {String currency = 'usd',
-      void Function(Price) onDone,
-      Function onError}) async {
+  Future<dynamic> fetchTokenLastestPrice({
+    String currency = 'usd',
+    void Function(Price) onDone,
+    Function onError,
+  }) async {
     try {
       final Market marketApi = getIt<Market>();
       final Map<String, dynamic> response =
@@ -146,21 +100,5 @@ class Token extends ERC20Token {
     }
   }
 
-  factory Token.initial() {
-    return new Token(
-        address: '',
-        imageUrl: null,
-        name: '',
-        amount: BigInt.zero,
-        decimals: 0,
-        symbol: '',
-        timestamp: 0,
-        transactions: Transactions.initial(),
-        jobs: new List<Job>());
-  }
-
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$TokenToJson(this);
 }

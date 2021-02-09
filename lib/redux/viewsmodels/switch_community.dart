@@ -25,7 +25,7 @@ class SwitchCommunityViewModel extends Equatable {
       currentCommunity:
           store.state.cashWalletState.communities.containsKey(communityAddres)
               ? store.state.cashWalletState.communities[communityAddres]
-              : Community.initial(),
+              : Community(),
       communities: store.state.cashWalletState.communities
         ..removeWhere((key, community) =>
             [null, ''].contains(community.address) ||

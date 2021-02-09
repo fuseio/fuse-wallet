@@ -13,14 +13,17 @@ class TransferTileViewModel extends Equatable {
   final Map<String, Token> erc20Tokens;
   final Map<String, Token> tokens;
   final Map<String, Community> communitiesMap;
-  TransferTileViewModel(
-      {this.reverseContacts,
-      this.walletStatus,
-      this.countryCode,
-      this.erc20Tokens,
-      this.tokens,
-      this.contacts,
-      this.communitiesMap});
+  final bool isWalletCreated;
+  TransferTileViewModel({
+    this.reverseContacts,
+    this.walletStatus,
+    this.isWalletCreated,
+    this.countryCode,
+    this.erc20Tokens,
+    this.tokens,
+    this.contacts,
+    this.communitiesMap,
+  });
 
   static TransferTileViewModel fromStore(Store<AppState> store) {
     List<Community> communities =
@@ -28,13 +31,15 @@ class TransferTileViewModel extends Equatable {
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .toList();
+    final bool isWalletCreated = store.state.userState.walletStatus != null &&
+        store.state.userState.walletStatus == 'created';
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
         .map((Token token) => token?.copyWith(
             imageUrl: store.state.cashWalletState.communities
                     .containsKey(token.communityAddress)
                 ? store.state.cashWalletState
-                    .communities[token.communityAddress].metadata
-                    .getImageUri()
+                    .communities[token.communityAddress]?.metadata
+                    ?.getImageUri()
                 : null))
         .toList();
     Map<String, Token> tokens =
@@ -49,19 +54,22 @@ class TransferTileViewModel extends Equatable {
       return previousValue;
     });
     return TransferTileViewModel(
-        tokens: tokens,
-        reverseContacts: store.state.userState.reverseContacts,
-        contacts: store.state.userState.contacts,
-        walletStatus: store.state.userState.walletStatus,
-        countryCode: store.state.userState.countryCode,
-        erc20Tokens: store.state.proWalletState.erc20Tokens,
-        communitiesMap: communitiesMap);
+      isWalletCreated: isWalletCreated,
+      tokens: tokens,
+      reverseContacts: store.state.userState.reverseContacts,
+      contacts: store.state.userState.contacts,
+      walletStatus: store.state.userState.walletStatus,
+      countryCode: store.state.userState.countryCode,
+      erc20Tokens: store.state.proWalletState.erc20Tokens,
+      communitiesMap: communitiesMap,
+    );
   }
 
   @override
   List<Object> get props => [
         reverseContacts,
         walletStatus,
+        isWalletCreated,
         countryCode,
         contacts,
         erc20Tokens,

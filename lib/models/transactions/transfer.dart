@@ -77,12 +77,3 @@ class Transfer extends Transaction {
 
   Map<String, dynamic> toJson() => _$TransferToJson(this);
 }
-
-class TransactionFactory {
-  static fromJson(Map<String, dynamic> json) {
-    if (json['type'] == 'RECEIVE' || json['type'] == 'SEND') {
-      return Transfer.fromJson(json);
-    }
-    return Transaction.fromJson(json);
-  }
-}

@@ -16,6 +16,7 @@ import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/plugins/join_bonus.dart';
 import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/tokens/token.dart';
+import 'package:fusecash/models/transactions/factory.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
@@ -153,7 +154,7 @@ class GetBusinessListSuccess {
 
 class GetTokenTransfersListSuccess {
   final String tokenAddress;
-  final List<Transfer> tokenTransfers;
+  final List<Transaction> tokenTransfers;
   GetTokenTransfersListSuccess({this.tokenAddress, this.tokenTransfers});
 }
 
@@ -516,14 +517,21 @@ ThunkAction getTokenBalanceCall(Token token) {
         log.info('${token.name} balance updated');
         store.dispatch(GetTokenBalanceSuccess(
             tokenBalance: balance, tokenAddress: token.address));
-        store.dispatch(UpdateDisplayBalance(
-            int.tryParse(formatValue(balance, token.decimals))));
-        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-          '${token?.name} Balance':
-              formatValue(balance, token.decimals, withPrecision: true),
-          "DisplayBalance":
-              formatValue(balance, token.decimals, withPrecision: true)
-        })));
+        store.dispatch(
+          UpdateDisplayBalance(int.tryParse(
+            formatValue(balance, token.decimals),
+          )),
+        );
+        store.dispatch(
+          segmentIdentifyCall(
+            Map<String, dynamic>.from({
+              '${token?.name} Balance':
+                  formatValue(balance, token.decimals, withPrecision: true),
+              "DisplayBalance":
+                  formatValue(balance, token.decimals, withPrecision: true)
+            }),
+          ),
+        );
       };
       void Function(Object error, StackTrace stackTrace) onError =
           (Object e, StackTrace s) async {
@@ -777,7 +785,7 @@ ThunkAction fetchListOfTokensByAddress() {
       Map<String, Token> newTokens =
           Map<String, Token>.from(response.fold({}, (previousValue, element) {
         Token token = Token.fromJson(element).copyWith(
-            transactions: Transactions.initial(),
+            transactions: Transactions(),
             jobs: List<Job>(),
             name: formatTokenName(element["name"]));
         if (!cashWalletState.tokens.containsKey(token.address) &&
@@ -1076,7 +1084,7 @@ ThunkAction fetchCommunityMetadataCall(
     String communityAddress, String communityURI, bool isRopsten) {
   return (Store store) async {
     try {
-      CommunityMetadata communityMetadata = CommunityMetadata.initial();
+      CommunityMetadata communityMetadata = CommunityMetadata();
       if (communityURI != null) {
         String hash = communityURI.startsWith('ipfs://')
             ? communityURI.split('://').last
@@ -1124,20 +1132,24 @@ Future<Token> fetchToken(
       community.homeTokenAddress.isNotEmpty) {
     Map tokenInfo =
         await fuseExplorerApi.getTokenInfo(community.homeTokenAddress);
-    return Token.initial().copyWith(
-        originNetwork: originNetwork,
-        address: tokenInfo['contractAddress'],
-        decimals: tokenInfo['decimals'],
-        name: formatTokenName(tokenInfo['name']),
-        symbol: tokenInfo['symbol'],
-        timestamp: 0,
-        communityAddress: community.address.toLowerCase());
+    return Token(
+      originNetwork: originNetwork,
+      address: community.homeTokenAddress.toLowerCase(),
+      decimals: tokenInfo['decimals'],
+      name: formatTokenName(tokenInfo['name']),
+      symbol: tokenInfo['symbol'],
+      timestamp: 0,
+      communityAddress: community.address.toLowerCase(),
+    );
   } else {
     dynamic token = await graph.getHomeBridgedToken(
-        community.foreignTokenAddress, isRopsten);
-    return Token.initial().copyWith(
+      community.foreignTokenAddress,
+      isRopsten,
+    );
+    final String tokenAddress = token['address'].toLowerCase();
+    return Token(
       originNetwork: originNetwork,
-      address: token['address'].toString(),
+      address: tokenAddress,
       name: formatTokenName(token["name"]),
       symbol: token["symbol"],
       timestamp: 0,
@@ -1152,62 +1164,57 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
     try {
       String walletAddress =
           checksumEthereumAddress(store.state.userState.walletAddress);
-      dynamic community = await graph.getCommunityByAddress(communityAddress);
       Map<String, dynamic> communityData = await getCommunityData(
-          checksumEthereumAddress(communityAddress), walletAddress);
-      final bool isMultiBridge = communityData['isMultiBridge'] ?? false;
-      final String description = communityData['description'];
-      final String homeBridgeAddress = communityData['homeBridgeAddress'];
-      final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
-      final String homeTokenAddress = communityData['homeTokenAddress'];
-      final String foreignTokenAddress = communityData['foreignTokenAddress'];
-      final String bridgeDirection = communityData['bridgeDirection'];
-      final String bridgeType = communityData['bridgeType'];
-      final String webUrl = communityData['webUrl'];
-      final String name = communityData["name"];
-      Community newCommunity = Community.initial().copyWith(
+        checksumEthereumAddress(communityAddress),
+        walletAddress,
+      );
+      Community newCommunity = Community.fromJson(communityData).copyWith(
         address: communityAddress,
-        name: name,
-        bridgeDirection: bridgeDirection,
-        bridgeType: bridgeType,
-        foreignTokenAddress: foreignTokenAddress,
-        homeTokenAddress: homeTokenAddress,
-        webUrl: webUrl,
-        homeBridgeAddress: homeBridgeAddress,
-        foreignBridgeAddress: foreignBridgeAddress,
-        description: description,
-        plugins: Plugins.fromJson(communityData['plugins']),
-        isMultiBridge: isMultiBridge,
-        isClosed: communityData['isClosed'],
       );
       bool isRopsten = communityData['isRopsten'];
       String originNetwork = communityData['originNetwork'];
-      Token communityToken =
-          await fetchToken(newCommunity, isRopsten, originNetwork);
-      newCommunity = newCommunity.copyWith(
-        homeTokenAddress: communityToken.address,
+      Token communityToken = await fetchToken(
+        newCommunity,
+        isRopsten,
+        originNetwork,
       );
       store.dispatch(AddCashToken(token: communityToken));
-      store.dispatch(SwitchCommunitySuccess(community: newCommunity));
-      store.dispatch(segmentTrackCall("Wallet: Switch Community",
+      store.dispatch(SwitchCommunitySuccess(
+        community: newCommunity.copyWith(
+          homeTokenAddress: communityToken.address,
+        ),
+      ));
+      store.dispatch(
+        segmentTrackCall(
+          "Wallet: Switch Community",
           properties: Map<String, dynamic>.from({
             "Community Name": newCommunity.name,
             "Community Address": communityAddress,
             "Token Address": communityToken.address,
             "Token Symbol": communityToken.symbol,
             "Origin Network": originNetwork
-          })));
-      final String entitiesListAddress = community["entitiesList"]["address"];
-      store.dispatch(fetchCommunityMetadataCall(
-          communityAddress, communityData['communityURI'], isRopsten));
-      store.dispatch(getBusinessListCall(
-          communityAddress: communityAddress.toLowerCase(),
-          isRopsten: isRopsten));
-      store.dispatch(joinCommunityCall(
-        token: communityToken,
-        community: newCommunity,
-        entitiesListAddress: entitiesListAddress,
-      ));
+          }),
+        ),
+      );
+      store.dispatch(
+        fetchCommunityMetadataCall(
+          communityAddress,
+          communityData['communityURI'],
+          isRopsten,
+        ),
+      );
+      store.dispatch(
+        getBusinessListCall(
+          communityAddress: communityAddress,
+          isRopsten: isRopsten,
+        ),
+      );
+      store.dispatch(
+        joinCommunityCall(
+          token: communityToken,
+          community: newCommunity,
+        ),
+      );
     } catch (e, s) {
       log.error('ERROR - switchToNewCommunityCall $e');
       store.dispatch(SwitchCommunityFailed(communityAddress: communityAddress));
@@ -1222,45 +1229,38 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       String walletAddress =
           checksumEthereumAddress(store.state.userState.walletAddress);
       Map<String, dynamic> communityData = await getCommunityData(
-          checksumEthereumAddress(communityAddress), walletAddress);
-      final bool isMultiBridge = communityData['isMultiBridge'] ?? false;
-      final String bridgeDirection = communityData['bridgeDirection'];
-      final String bridgeType = communityData['bridgeType'];
-      final String foreignTokenAddress = communityData['foreignTokenAddress'];
-      final String homeBridgeAddress = communityData['homeBridgeAddress'];
-      final String foreignBridgeAddress = communityData['foreignBridgeAddress'];
-      final String description = communityData['description'];
-      final String name = communityData['name'];
-      final String webUrl = communityData['webUrl'];
-      Community newCommunity = Community.initial().copyWith(
-        address: communityAddress,
-        name: name,
-        bridgeDirection: bridgeDirection,
-        bridgeType: bridgeType,
-        foreignTokenAddress: foreignTokenAddress,
-        webUrl: webUrl,
-        homeBridgeAddress: homeBridgeAddress,
-        foreignBridgeAddress: foreignBridgeAddress,
-        description: description,
-        plugins: Plugins.fromJson(communityData['plugins']),
-        isMultiBridge: isMultiBridge,
-        isClosed: communityData['isClosed'],
+        checksumEthereumAddress(communityAddress),
+        walletAddress,
+      );
+      Community newCommunity = Community.fromJson(communityData).copyWith(
+        address: communityAddress.toLowerCase(),
       );
       bool isRopsten = communityData['isRopsten'];
       String originNetwork = communityData['originNetwork'];
-      Token communityToken =
-          await fetchToken(newCommunity, isRopsten, originNetwork);
-      store.dispatch(AddCashToken(
-          token: communityToken.copyWith(
-              communityAddress: communityAddress.toLowerCase())));
-      newCommunity =
-          newCommunity.copyWith(homeTokenAddress: communityToken?.address);
-      store.dispatch(SwitchCommunitySuccess(community: newCommunity));
-      store.dispatch(getBusinessListCall(
-          communityAddress: communityAddress.toLowerCase(),
-          isRopsten: isRopsten));
-      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
-          communityData['communityURI'], isRopsten));
+      Token communityToken = await fetchToken(
+        newCommunity,
+        isRopsten,
+        originNetwork,
+      );
+      store.dispatch(AddCashToken(token: communityToken));
+      store.dispatch(SwitchCommunitySuccess(
+        community: newCommunity.copyWith(
+          homeTokenAddress: communityToken.address,
+        ),
+      ));
+      store.dispatch(
+        getBusinessListCall(
+          communityAddress: communityAddress,
+          isRopsten: isRopsten,
+        ),
+      );
+      store.dispatch(
+        fetchCommunityMetadataCall(
+          communityAddress,
+          communityData['communityURI'],
+          isRopsten,
+        ),
+      );
     } catch (e, s) {
       log.error('ERROR - switchToExisitingCommunityCall $e');
       await Sentry.captureException(e, stackTrace: s);
@@ -1371,16 +1371,21 @@ ThunkAction getBusinessListCall({String communityAddress, bool isRopsten}) {
             dynamic metadata = await api.getEntityMetadata(
                 communityAddress, entity['address'],
                 isRopsten: isOriginRopsten);
-            return Business.initial().copyWith(
-                account: entity['address'],
-                name: metadata['name'] ?? '',
-                metadata: BusinessMetadata.fromJson(metadata ?? {}));
+            return Business(
+              account: entity['address'],
+              name: metadata['name'] ?? '',
+              metadata: BusinessMetadata.fromJson(
+                metadata ?? {},
+              ),
+            );
           } catch (e) {
-            return Business.initial().copyWith(
-                account: entity['address'],
-                name: formatAddress(entity['address']),
-                metadata: BusinessMetadata.initial()
-                    .copyWith(address: entity['address']));
+            return Business(
+              account: entity['address'],
+              name: formatAddress(entity['address']),
+              metadata: BusinessMetadata().copyWith(
+                address: entity['address'],
+              ),
+            );
           }
         }));
         List<Business> result = await businesses;
@@ -1401,14 +1406,23 @@ ThunkAction getTokenTransfersListCall(Token token) {
     try {
       String walletAddress = store.state.userState.walletAddress;
       String tokenAddress = token?.address;
-      num lastBlockNumber = token?.transactions?.blockNumber;
+      num lastBlockNumber = token?.transactions?.blockNumber ?? 0;
       dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
-          walletAddress, tokenAddress,
-          startblock: lastBlockNumber ?? 0);
-      List<Transfer> transfers = List<Transfer>.from(
-          tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
-      store.dispatch(GetTokenTransfersListSuccess(
-          tokenTransfers: transfers, tokenAddress: tokenAddress));
+        walletAddress,
+        tokenAddress,
+        startblock: lastBlockNumber,
+      );
+      List<Transaction> transfers = List<Transaction>.from(
+        tokensTransferEvents.map(
+          (transaction) => TransactionFactory.fromJson(transaction),
+        ),
+      );
+      if (transfers.isNotEmpty) {
+        store.dispatch(GetTokenTransfersListSuccess(
+          tokenTransfers: transfers,
+          tokenAddress: tokenAddress,
+        ));
+      }
     } catch (e) {
       log.error('ERROR - getTokenTransfersListCall $e');
     }
@@ -1419,16 +1433,24 @@ ThunkAction getReceivedTokenTransfersListCall(Token token) {
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
-      num lastBlockNumber = token?.transactions?.blockNumber;
+      num lastBlockNumber = token?.transactions?.blockNumber ?? 0;
       final String tokenAddress = token?.address;
       dynamic tokensTransferEvents = await api.fetchTokenTxByAddress(
-          walletAddress, tokenAddress,
-          startblock: lastBlockNumber ?? 0);
-      List<Transfer> transfers = List<Transfer>.from(
-          tokensTransferEvents.map((json) => Transfer.fromJson(json)).toList());
+        walletAddress,
+        tokenAddress,
+        startblock: lastBlockNumber,
+      );
+
+      List<Transaction> transfers = List<Transaction>.from(
+        tokensTransferEvents.map(
+          (json) => TransactionFactory.fromJson(json),
+        ),
+      );
       if (transfers.isNotEmpty) {
         store.dispatch(GetTokenTransfersListSuccess(
-            tokenTransfers: transfers, tokenAddress: token.address));
+          tokenTransfers: transfers,
+          tokenAddress: token.address,
+        ));
       }
     } catch (e) {
       log.error('ERROR - getReceivedTokenTransfersListCall $e');
@@ -1437,29 +1459,39 @@ ThunkAction getReceivedTokenTransfersListCall(Token token) {
 }
 
 ThunkAction sendTokenToContactCall(
-    Token token,
-    String contactPhoneNumber,
-    num tokensAmount,
-    VoidCallback sendSuccessCallback,
-    VoidCallback sendFailureCallback,
-    {String receiverName,
-    String transferNote}) {
+  Token token,
+  String contactPhoneNumber,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback, {
+  String receiverName,
+  String transferNote,
+}) {
   return (Store store) async {
     try {
-      log.info('Trying to send $tokensAmount to phone $contactPhoneNumber');
       Map wallet = await api.getWalletByPhoneNumber(contactPhoneNumber);
-      log.info("wallet $wallet");
+      log.info('Trying to send $tokensAmount to phone $contactPhoneNumber');
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
-      log.info("walletAddress $walletAddress");
       if (walletAddress == null || walletAddress.isEmpty) {
-        store.dispatch(inviteAndSendCall(token, contactPhoneNumber,
-            tokensAmount, sendSuccessCallback, sendFailureCallback,
-            receiverName: receiverName));
-        return;
+        store.dispatch(inviteAndSendCall(
+          token,
+          contactPhoneNumber,
+          tokensAmount,
+          sendSuccessCallback,
+          sendFailureCallback,
+          receiverName: receiverName,
+        ));
+      } else {
+        store.dispatch(sendTokenCall(
+          token,
+          walletAddress,
+          tokensAmount,
+          sendSuccessCallback,
+          sendFailureCallback,
+          receiverName: receiverName,
+          transferNote: transferNote,
+        ));
       }
-      store.dispatch(sendTokenCall(token, walletAddress, tokensAmount,
-          sendSuccessCallback, sendFailureCallback,
-          receiverName: receiverName, transferNote: transferNote));
     } catch (e) {
       log.error('ERROR - sendTokenToContactCall $e');
     }

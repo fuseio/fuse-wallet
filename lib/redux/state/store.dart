@@ -26,7 +26,7 @@ class AppFactory {
     if (_store == null) {
       final persistor = Persistor<AppState>(
         storage: SecureStorage(new FlutterSecureStorage()),
-        serializer: JsonSerializer<AppState>(AppState.fromJson),
+        serializer: JsonSerializer<AppState>(AppState.serializer),
         debug: kDebugMode,
       );
 
@@ -35,7 +35,7 @@ class AppFactory {
         initialState = await persistor.load();
       } catch (e) {
         log.error('ERROR - getStore $e');
-        initialState = AppState.initial();
+        initialState = AppState();
       }
 
       final List<Middleware<AppState>> wms = [

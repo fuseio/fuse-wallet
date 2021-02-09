@@ -29,6 +29,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, SetSecurityType>(_setSecurityType),
   TypedReducer<UserState, ReceiveBackupDialogShowed>(
       _receiveBackupDialogShowed),
+  TypedReducer<UserState, DepositBannerShowed>(_depositBannerShowed),
   TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
   TypedReducer<UserState, UpdateCurrency>(_updateCurrency),
   TypedReducer<UserState, UpdateTotalBalance>(_updateTotalBalance),
@@ -59,6 +60,10 @@ UserState _updateTotalBalance(UserState state, UpdateTotalBalance action) {
 UserState _receiveBackupDialogShowed(
     UserState state, ReceiveBackupDialogShowed action) {
   return state.copyWith(receiveBackupDialogShowed: true);
+}
+
+UserState _depositBannerShowed(UserState state, DepositBannerShowed action) {
+  return state.copyWith(depositBannerShowed: true);
 }
 
 UserState _homeBackupDialogShowed(
@@ -103,8 +108,7 @@ UserState _reLoginUser(UserState state, ReLogin action) {
 
 UserState _createNewWalletSuccess(
     UserState state, CreateLocalAccountSuccess action) {
-  UserState newState = UserState.initial();
-  return newState.copyWith(
+  return UserState(
     isLoggedOut: false,
     mnemonic: action.mnemonic,
     privateKey: action.privateKey,

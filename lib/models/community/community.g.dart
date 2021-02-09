@@ -6,21 +6,21 @@ part of 'community.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Community _$CommunityFromJson(Map<String, dynamic> json) {
-  return Community(
+_$_Community _$_$_CommunityFromJson(Map<String, dynamic> json) {
+  return _$_Community(
     name: json['name'] as String,
-    bridgeType: json['bridgeType'] as String,
-    bridgeDirection: json['bridgeDirection'] as String,
-    isMultiBridge: json['isMultiBridge'] as bool,
-    isClosed: json['isClosed'] as bool,
-    isMember: json['isMember'] as bool,
     address: json['address'] as String,
     plugins: json['plugins'] == null ? null : Plugins.fromJson(json['plugins']),
-    homeTokenAddress: json['homeTokenAddress'] as String,
     businesses: (json['businesses'] as List)
         ?.map((e) =>
             e == null ? null : Business.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    isMultiBridge: json['isMultiBridge'] as bool ?? false,
+    isClosed: json['isClosed'] as bool ?? false,
+    isMember: json['isMember'] as bool ?? false,
+    bridgeType: json['bridgeType'] as String,
+    bridgeDirection: json['bridgeDirection'] as String,
+    homeTokenAddress: json['homeTokenAddress'] as String,
     metadata: json['metadata'] == null
         ? null
         : CommunityMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
@@ -32,21 +32,22 @@ Community _$CommunityFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CommunityToJson(Community instance) => <String, dynamic>{
+Map<String, dynamic> _$_$_CommunityToJson(_$_Community instance) =>
+    <String, dynamic>{
       'name': instance.name,
       'address': instance.address,
-      'homeBridgeAddress': instance.homeBridgeAddress,
-      'foreignBridgeAddress': instance.foreignBridgeAddress,
-      'isMember': instance.isMember,
-      'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
-      'homeTokenAddress': instance.homeTokenAddress,
       'plugins': instance.plugins?.toJson(),
-      'metadata': instance.metadata?.toJson(),
+      'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
+      'isMultiBridge': instance.isMultiBridge,
       'isClosed': instance.isClosed,
-      'webUrl': instance.webUrl,
-      'foreignTokenAddress': instance.foreignTokenAddress,
-      'description': instance.description,
+      'isMember': instance.isMember,
       'bridgeType': instance.bridgeType,
       'bridgeDirection': instance.bridgeDirection,
-      'isMultiBridge': instance.isMultiBridge,
+      'homeTokenAddress': instance.homeTokenAddress,
+      'metadata': instance.metadata?.toJson(),
+      'homeBridgeAddress': instance.homeBridgeAddress,
+      'webUrl': instance.webUrl,
+      'foreignBridgeAddress': instance.foreignBridgeAddress,
+      'foreignTokenAddress': instance.foreignTokenAddress,
+      'description': instance.description,
     };

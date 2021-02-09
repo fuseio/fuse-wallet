@@ -71,15 +71,20 @@ class BusinessesListView extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: ImageUrl.getLink(vm.walletBanner.walletBannerHash),
                 imageBuilder: (context, imageProvider) => Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 140,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.cover, image: imageProvider))),
+                  width: MediaQuery.of(context).size.width,
+                  height: 140,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: imageProvider,
+                    ),
+                  ),
+                ),
                 placeholder: (context, url) => CircularProgressIndicator(),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-            ))
+            ),
+          )
         : SizedBox.shrink();
   }
 
@@ -95,24 +100,28 @@ class BusinessesListView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-                Expanded(
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 10, bottom: 5.0),
-                        child: ListView.separated(
-                          separatorBuilder: (BuildContext context, int index) =>
-                              Divider(
-                            color: Color(0xFFE8E8E8),
-                          ),
-                          shrinkWrap: true,
-                          physics: ScrollPhysics(),
-                          itemCount: vm.businesses?.length ?? 0,
-                          itemBuilder: (context, index) => businessTile(
-                              context,
-                              vm.businesses[index],
-                              vm.communityAddress,
-                              vm.token),
-                        )))
-              ]);
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 10, bottom: 5.0),
+                  child: ListView.separated(
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Divider(
+                      color: Color(0xFFE8E8E8),
+                    ),
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    itemCount: vm.businesses?.length ?? 0,
+                    itemBuilder: (context, index) => businessTile(
+                      context,
+                      vm.businesses[index],
+                      vm.communityAddress,
+                      vm.token,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
   }
 
   ListTile businessTile(
@@ -120,12 +129,12 @@ class BusinessesListView extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.all(0),
       leading: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(),
-          child: ClipOval(
-              child: CachedNetworkImage(
-            imageUrl: business.metadata.getImageUri(),
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(),
+        child: ClipOval(
+          child: CachedNetworkImage(
+            imageUrl: ImageUrl.getLink(business.metadata.image),
             placeholder: (context, url) => CircularProgressIndicator(),
             errorWidget: (context, url, error) => Icon(Icons.error),
             imageBuilder: (context, imageProvider) => Image(
@@ -134,20 +143,24 @@ class BusinessesListView extends StatelessWidget {
               width: 50.0,
               height: 50.0,
             ),
-          ))),
+          ),
+        ),
+      ),
       title: Text(
         business.name ?? '',
         style: TextStyle(
-            color: Theme.of(context).primaryColor,
-            fontSize: 14,
-            fontWeight: FontWeight.normal),
+          color: Theme.of(context).primaryColor,
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+        ),
       ),
       subtitle: Text(
         business.metadata.description ?? '',
         style: TextStyle(
-            color: Theme.of(context).accentColor,
-            fontSize: 12,
-            fontWeight: FontWeight.normal),
+          color: Theme.of(context).accentColor,
+          fontSize: 12,
+          fontWeight: FontWeight.normal,
+        ),
       ),
       onTap: () {
         ExtendedNavigator.named('buyRouter').pushBusinessPage(
@@ -173,11 +186,15 @@ class BusinessesListView extends StatelessWidget {
             ),
             onPressed: () {
               ExtendedNavigator.root.pushSendAmountScreen(
-                  pageArgs: SendAmountArguments(
-                      tokenToSend: token,
-                      name: business.name ?? '',
-                      accountAddress: business.account,
-                      avatar: NetworkImage(business.metadata.getImageUri())));
+                pageArgs: SendAmountArguments(
+                  tokenToSend: token,
+                  name: business.name ?? '',
+                  accountAddress: business.account,
+                  avatar: NetworkImage(
+                    ImageUrl.getLink(business.metadata.image),
+                  ),
+                ),
+              );
             },
           ),
         ],

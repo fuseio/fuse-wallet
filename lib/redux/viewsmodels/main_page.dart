@@ -23,7 +23,7 @@ class HomeScreenViewModel extends Equatable {
     String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
         store.state.cashWalletState.communities[communityAddress] ??
-            new Community.initial();
+            Community();
     return HomeScreenViewModel(
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
@@ -37,5 +37,10 @@ class HomeScreenViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [community, isContactsSynced];
+  List<Object> get props => [
+        community,
+        isContactsSynced,
+        backup,
+        isContactsSynced,
+      ];
 }

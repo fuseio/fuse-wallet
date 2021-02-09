@@ -26,11 +26,15 @@ class ContactsList extends StatefulWidget {
 }
 
 class _ContactsListState extends State<ContactsList> {
-  List<Contact> userList = [];
   List<Contact> filteredUsers = [];
-  bool hasSynced = false;
   TextEditingController searchController = TextEditingController();
   List<Contact> _contacts;
+
+  @override
+  void initState() {
+    super.initState();
+    refreshContacts();
+  }
 
   @override
   void dispose() {
@@ -41,22 +45,23 @@ class _ContactsListState extends State<ContactsList> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
-        distinct: true,
-        onInitialBuild: (viewModel) {
-          Segment.screen(screenName: '/contacts-screen');
-        },
-        converter: ContactsViewModel.fromStore,
-        builder: (_, viewModel) {
-          return _contacts != null
-              ? MainScaffold(
-                  automaticallyImplyLeading: false,
-                  title: I18n.of(context).send_to,
-                  sliverList: _buildPageList(viewModel),
-                )
-              : Center(
-                  child: Preloader(),
-                );
-        });
+      distinct: true,
+      onInitialBuild: (viewModel) {
+        Segment.screen(screenName: '/contacts-screen');
+      },
+      converter: ContactsViewModel.fromStore,
+      builder: (_, viewModel) {
+        return _contacts != null
+            ? MainScaffold(
+                automaticallyImplyLeading: false,
+                title: I18n.of(context).send_to,
+                sliverList: _buildPageList(viewModel),
+              )
+            : Center(
+                child: Preloader(),
+              );
+      },
+    );
   }
 
   Future<void> refreshContacts() async {
@@ -80,12 +85,6 @@ class _ContactsListState extends State<ContactsList> {
         });
       }
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    refreshContacts();
   }
 
   filterList() {
@@ -122,7 +121,8 @@ class _ContactsListState extends State<ContactsList> {
           .toSet()
           .toList();
       for (Item phone in phones) {
-        listItems.add(ContactTile(
+        listItems.add(
+          ContactTile(
             image: user.avatar != null && user.avatar.isNotEmpty
                 ? MemoryImage(user.avatar)
                 : null,
@@ -130,19 +130,24 @@ class _ContactsListState extends State<ContactsList> {
             phoneNumber: phone.value,
             onTap: () {
               resetSearch();
-              sendToContact(ExtendedNavigator.named('contactsRouter').context,
-                  user.displayName, phone.value,
-                  isoCode: viewModel.isoCode,
-                  countryCode: viewModel.countryCode,
-                  avatar: user.avatar != null && user.avatar.isNotEmpty
-                      ? MemoryImage(user.avatar)
-                      : new AssetImage('assets/images/anom.png'));
+              sendToContact(
+                ExtendedNavigator.named('contactsRouter').context,
+                user.displayName,
+                phone.value,
+                isoCode: viewModel.isoCode,
+                countryCode: viewModel.countryCode,
+                avatar: user.avatar != null && user.avatar.isNotEmpty
+                    ? MemoryImage(user.avatar)
+                    : new AssetImage('assets/images/anom.png'),
+              );
             },
             trailing: Text(
               phone.value,
               style: TextStyle(
                   fontSize: 13, color: Theme.of(context).primaryColor),
-            )));
+            ),
+          ),
+        );
       }
     }
     return SliverList(

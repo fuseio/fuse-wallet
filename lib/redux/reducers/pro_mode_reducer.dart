@@ -21,7 +21,7 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, SetIsListenToTransferEvents>(
       _startListenToTransferEventsSuccess),
   TypedReducer<ProWalletState, UpdateToken>(_updateToken),
-  TypedReducer<ProWalletState, UpadteBlockNumber>(_updateBlockNumber),
+  // TypedReducer<ProWalletState, UpadteBlockNumber>(_updateBlockNumber),
   TypedReducer<ProWalletState, SetIsProcessingTokensJobs>(
       _startProcessingTokensJobs),
   TypedReducer<ProWalletState, SetIsFetchTransferEvents>(
@@ -80,7 +80,7 @@ ProWalletState _resetTokensTxs(ProWalletState state, ResetTokenTxs action) {
   Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
   for (String tokenAddress in newOne.keys) {
     newOne[tokenAddress] =
-        newOne[tokenAddress].copyWith(transactions: Transactions.initial());
+        newOne[tokenAddress].copyWith(transactions: Transactions());
   }
   return state.copyWith(erc20Tokens: newOne);
 }
@@ -188,7 +188,7 @@ ProWalletState _addProJob(ProWalletState state, AddProJob action) {
 
 ProWalletState _createNewWalletSuccess(
     ProWalletState state, CreateLocalAccountSuccess action) {
-  return ProWalletState.initial();
+  return ProWalletState();
 }
 
 ProWalletState _startProcessingTokensJobs(
@@ -216,10 +216,10 @@ ProWalletState _initWeb3ProModeSuccess(
   return state.copyWith(web3: action.web3);
 }
 
-ProWalletState _updateBlockNumber(
-    ProWalletState state, UpadteBlockNumber action) {
-  return state.copyWith(blockNumber: action.blockNumber);
-}
+// ProWalletState _updateBlockNumber(
+//     ProWalletState state, UpadteBlockNumber action) {
+//   return state.copyWith(blockNumber: action.blockNumber);
+// }
 
 ProWalletState _startListenToTransferEventsSuccess(
     ProWalletState state, SetIsListenToTransferEvents action) {

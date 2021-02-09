@@ -1,13 +1,21 @@
-import 'deposit_base.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/models/plugins/plugin_base.dart';
 
-class RampInstantPlugin extends DepositPlugin {
-  RampInstantPlugin({name, isActive, widgetUrl}) : super(name, isActive, widgetUrl);
+part 'rampInstant.freezed.dart';
+part 'rampInstant.g.dart';
 
-  static RampInstantPlugin fromJson(dynamic json) => json != null
-      ? RampInstantPlugin(
-          name: json['name'],
-          widgetUrl: json['widgetUrl'],
-          isActive: json["isActive"] || false,
-        )
-      : null;
+@immutable
+@freezed
+abstract class RampInstantPlugin with _$RampInstantPlugin {
+  @Implements(Plugin)
+  @JsonSerializable()
+  factory RampInstantPlugin({
+    String name,
+    String widgetUrl,
+    @Default('deposit') String type,
+    @Default(false) bool isActive,
+  }) = _RampInstantPlugin;
+
+  factory RampInstantPlugin.fromJson(Map<String, dynamic> json) =>
+      _$RampInstantPluginFromJson(json);
 }

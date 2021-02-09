@@ -9,7 +9,6 @@ import 'package:fusecash/models/jobs/join_bonus_job.dart';
 import 'package:fusecash/models/jobs/join_community_job.dart';
 import 'package:fusecash/models/jobs/swap_token_job.dart';
 import 'package:fusecash/models/jobs/transfer_job.dart';
-import 'package:fusecash/utils/log/log.dart';
 
 abstract class Job {
   static const String RELAY = "relay";
@@ -200,7 +199,7 @@ class JobFactory {
             lastFinishedAt: json['lastFinishedAt'],
             arguments: json['arguments']);
     }
-    log.error('ERROR: $jobType not supported');
+    print('ERROR: $jobType not supported');
     return null;
   }
 }

@@ -6,8 +6,8 @@ part of 'community_metadata.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CommunityMetadata _$CommunityMetadataFromJson(Map<String, dynamic> json) {
-  return CommunityMetadata(
+_$_CommunityMetadata _$_$_CommunityMetadataFromJson(Map<String, dynamic> json) {
+  return _$_CommunityMetadata(
     isDefaultImage: json['isDefaultImage'] as bool,
     image: json['image'] as String,
     coverPhoto: json['coverPhoto'] as String,
@@ -16,11 +16,12 @@ CommunityMetadata _$CommunityMetadataFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CommunityMetadataToJson(CommunityMetadata instance) =>
+Map<String, dynamic> _$_$_CommunityMetadataToJson(
+        _$_CommunityMetadata instance) =>
     <String, dynamic>{
+      'isDefaultImage': instance.isDefaultImage,
       'image': instance.image,
       'coverPhoto': instance.coverPhoto,
-      'isDefaultImage': instance.isDefaultImage,
-      'imageUri': instance.imageUri,
       'coverPhotoUri': instance.coverPhotoUri,
+      'imageUri': instance.imageUri,
     };

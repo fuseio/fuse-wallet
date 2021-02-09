@@ -19,6 +19,7 @@ import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/format.dart';
+import 'package:fusecash/utils/images.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:wallet_core/wallet_core.dart' as wallet_core;
@@ -64,11 +65,6 @@ class AddProTransaction {
   final String tokenAddress;
   final Transaction transaction;
   AddProTransaction({this.transaction, this.tokenAddress});
-}
-
-class UpadteBlockNumber {
-  final num blockNumber;
-  UpadteBlockNumber({this.blockNumber});
 }
 
 class UpdateToken {
@@ -377,22 +373,25 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
         if (community != null) {
           Token token =
               store.state.cashWalletState.tokens[community?.homeTokenAddress];
-          Token newToken = Token.initial().copyWith(
-              address: tokenAddress,
-              name: token.name,
-              symbol: token.symbol,
-              decimals: token.decimals,
-              timestamp: 0,
-              amount: BigInt.zero,
-              originNetwork: null,
-              imageUrl: community.metadata.getImageUri());
+          Token newToken = Token(
+            address: tokenAddress,
+            name: token.name,
+            symbol: token.symbol,
+            decimals: token.decimals,
+            timestamp: 0,
+            amount: BigInt.zero,
+            originNetwork: null,
+            imageUrl: ImageUrl.getLink(
+              community.metadata.imageUri,
+            ),
+          );
           log.info('ADDED - new token $tokenAddress');
           store.dispatch(AddNewToken(
               token: newToken.copyWith(address: tokenAddress.toLowerCase())));
           return;
         }
         dynamic tokenDetails = await web3.getTokenDetails(tokenAddress);
-        Token newToken = Token.initial().copyWith(
+        Token newToken = Token(
           address: tokenAddress.toLowerCase(),
           name: tokenDetails['name'],
           decimals: tokenDetails['decimals'],

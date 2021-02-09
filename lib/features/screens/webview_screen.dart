@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -27,6 +28,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     Segment.screen(screenName: '/web-view-screen');
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: MyAppBar(
         backgroundColor: Colors.white,
         child: Container(
@@ -80,6 +82,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
         initialUrl: widget.url,
+        onPageStarted: (String url) {
+          if (url.contains('https://fuse.io/')) {
+            ExtendedNavigator.root.popUntilRoot();
+          }
+        },
       ),
     );
   }

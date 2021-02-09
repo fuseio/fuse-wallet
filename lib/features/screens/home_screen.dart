@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/keys.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/features/screens/webview_screen.dart';
+import 'package:fusecash/features/screens/coming_soon.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/features/buy/router/buy_router.gr.dart';
 import 'package:fusecash/features/contacts/widgets/enable_contacts.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:fusecash/features/home/screens/receive.dart';
@@ -74,77 +72,78 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, HomeScreenViewModel>(
-        distinct: true,
-        converter: HomeScreenViewModel.fromStore,
-        onInit: onInit,
-        builder: (_, vm) {
-          return Scaffold(
-              key: AppKeys.homePageKey,
-              drawer: DrawerWidget(),
-              drawerEdgeDragWidth: 0,
-              drawerEnableOpenDragGesture: false,
-              body: IndexedStack(index: currentIndex, children: <Widget>[
-                ExtendedNavigator(
-                  router: HomeRouter(),
-                  name: 'homeRouter',
-                  observers: [
-                    SegmentObserver(),
-                    SentryNavigatorObserver(),
-                  ],
-                ),
-                ExtendedNavigator(
-                  observers: [
-                    SegmentObserver(),
-                    SentryNavigatorObserver(),
-                  ],
-                  router: ContactsRouter(),
-                  name: 'contactsRouter',
-                  initialRoute:
-                      vm.isContactsSynced != null && vm.isContactsSynced
-                          ? ContactsRoutes.contactsList
-                          : ContactsRoutes.emptyContacts,
-                ),
-                !['', null].contains(vm.community.webUrl)
-                    ? WebViewScreen(
-                        url: vm.community.webUrl,
-                        withBack: false,
-                        title: I18n.of(context).community_webpage)
-                    : ExtendedNavigator(
-                        name: 'buyRouter',
-                        router: BuyRouter(),
-                        observers: [
-                          SegmentObserver(),
-                          SentryNavigatorObserver(),
-                        ],
-                      ),
-                ReceiveScreen()
-              ]),
-              bottomNavigationBar: BottomBar(
-                onTap: (index) {
-                  _onTap(index);
-                  if (vm.isContactsSynced == null &&
-                      index == 1 &&
-                      !isContactSynced) {
-                    Future.delayed(
-                        Duration.zero,
-                        () => showDialog(
-                            context: context,
-                            child: ContactsConfirmationScreen()));
-                  }
+      distinct: true,
+      converter: HomeScreenViewModel.fromStore,
+      onInit: onInit,
+      builder: (_, vm) {
+        return Scaffold(
+          key: AppKeys.homePageKey,
+          drawer: DrawerWidget(),
+          drawerEdgeDragWidth: 0,
+          drawerEnableOpenDragGesture: false,
+          body: IndexedStack(index: currentIndex, children: <Widget>[
+            ExtendedNavigator(
+              router: HomeRouter(),
+              name: 'homeRouter',
+              observers: [
+                SegmentObserver(),
+                SentryNavigatorObserver(),
+              ],
+            ),
+            ExtendedNavigator(
+              observers: [
+                SegmentObserver(),
+                SentryNavigatorObserver(),
+              ],
+              router: ContactsRouter(),
+              name: 'contactsRouter',
+              initialRoute: vm.isContactsSynced != null && vm.isContactsSynced
+                  ? ContactsRoutes.contactsList
+                  : ContactsRoutes.emptyContacts,
+            ),
+            SwapScreen(),
+            // !['', null].contains(vm.community.webUrl)
+            //     ? WebViewScreen(
+            //         url: vm.community.webUrl,
+            //         withBack: false,
+            //         title: I18n.of(context).community_webpage)
+            //     : ExtendedNavigator(
+            //         name: 'buyRouter',
+            //         router: BuyRouter(),
+            //         observers: [
+            //           SegmentObserver(),
+            //           SentryNavigatorObserver(),
+            //         ],
+            //       ),
+            ReceiveScreen()
+          ]),
+          bottomNavigationBar: BottomBar(
+            onTap: (index) {
+              _onTap(index);
+              if (vm.isContactsSynced == null &&
+                  index == 1 &&
+                  !isContactSynced) {
+                Future.delayed(
+                    Duration.zero,
+                    () => showDialog(
+                        context: context, child: ContactsConfirmationScreen()));
+              }
 
-                  if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
-                    Future.delayed(Duration.zero, () {
-                      vm.setShowDialog();
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return BackUpDialog();
-                          });
-                    });
-                  }
-                },
-                tabIndex: currentIndex,
-              ));
-        });
+              if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
+                Future.delayed(Duration.zero, () {
+                  vm.setShowDialog();
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return BackUpDialog();
+                      });
+                });
+              }
+            },
+            tabIndex: currentIndex,
+          ),
+        );
+      },
+    );
   }
 }

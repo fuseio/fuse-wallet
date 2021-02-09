@@ -6,9 +6,13 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 
 class SelectedCommunityCard extends StatefulWidget {
-  SelectedCommunityCard(
-      {Key key, this.title, this.community, this.token, this.switchCommunity})
-      : super(key: key);
+  SelectedCommunityCard({
+    Key key,
+    this.title,
+    this.community,
+    this.token,
+    this.switchCommunity,
+  }) : super(key: key);
 
   final Community community;
   final Token token;

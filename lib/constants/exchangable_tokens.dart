@@ -2,7 +2,7 @@ import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/images.dart';
 
-final Token daiToken = Token.initial().copyWith(
+final Token daiToken = Token(
   address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
   decimals: 18,
   imageUrl: ImageUrl.getTokenUrl('0x6B175474E89094C44Da98b954EedeAC495271d0F'),
@@ -12,7 +12,7 @@ final Token daiToken = Token.initial().copyWith(
   symbol: "DAI",
 );
 
-final _dzarToken = Token.initial().copyWith(
+final _dzarToken = Token(
   symbol: "DZAR",
   name: "Digital Rand",
   amount: BigInt.zero,
@@ -22,7 +22,7 @@ final _dzarToken = Token.initial().copyWith(
   address: "0x9Cb2f26A23b8d89973F08c957C4d7cdf75CD341c",
 );
 
-final _usdcToken = Token.initial().copyWith(
+final _usdcToken = Token(
   symbol: "USDC",
   name: "USD Coin",
   decimals: 6,
@@ -31,7 +31,7 @@ final _usdcToken = Token.initial().copyWith(
   address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
 );
 
-final _tetherToken = Token.initial().copyWith(
+final _tetherToken = Token(
   symbol: "USDT",
   name: "Tether USD",
   amount: BigInt.zero,
@@ -41,7 +41,7 @@ final _tetherToken = Token.initial().copyWith(
   address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
 );
 
-final _trueUSDToken = Token.initial().copyWith(
+final _trueUSDToken = Token(
   symbol: "TUSD",
   name: "TrueUSD",
   amount: BigInt.zero,
@@ -51,7 +51,7 @@ final _trueUSDToken = Token.initial().copyWith(
   address: "0x0000000000085d4780B73119b644AE5ecd22b376",
 );
 
-final _eursToken = Token.initial().copyWith(
+final _eursToken = Token(
   symbol: "EURS",
   name: "STASIS EURS Token",
   amount: BigInt.zero,
@@ -61,7 +61,7 @@ final _eursToken = Token.initial().copyWith(
   address: "0xdB25f211AB05b1c97D595516F45794528a807ad8",
 );
 
-final _rupiahToken = Token.initial().copyWith(
+final _rupiahToken = Token(
   symbol: "IDRT",
   name: "Rupiah Token",
   amount: BigInt.zero,
@@ -71,7 +71,7 @@ final _rupiahToken = Token.initial().copyWith(
   address: "0x998FFE1E43fAcffb941dc337dD0468d52bA5b48A",
 );
 
-final _etherToken = Token.initial().copyWith(
+final _etherToken = Token(
   symbol: "ETH",
   amount: BigInt.zero,
   name: "Ether",
@@ -80,7 +80,7 @@ final _etherToken = Token.initial().copyWith(
   address: Addresses.ZERO_ADDRESS,
 );
 
-// final Token _wbtcToken = Token.initial().copyWith(
+// final Token _wbtcToken = Token(
 //     address: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 //     decimals: 8,
 //     imageUrl: ImageUrl.getTokenUrl('0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'),

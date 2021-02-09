@@ -11,6 +11,7 @@ import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/string.dart';
 import 'package:fusecash/utils/url.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -59,8 +60,9 @@ class _BusinessPageState extends State<BusinessPage> {
                               padding: EdgeInsets.only(bottom: 20),
                               child: SizedBox.expand(
                                   child: CachedNetworkImage(
-                                imageUrl:
-                                    widget.business.metadata.getCoverPhotoUri(),
+                                imageUrl: ImageUrl.getLink(
+                                  widget.business.metadata.coverPhoto,
+                                ), // widget.business.metadata.getCoverPhotoUri(),
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
@@ -90,7 +92,9 @@ class _BusinessPageState extends State<BusinessPage> {
                             padding: EdgeInsets.only(left: 20, right: 10),
                             child: ClipOval(
                                 child: CachedNetworkImage(
-                              imageUrl: widget.business.metadata.getImageUri(),
+                              imageUrl: ImageUrl.getLink(
+                                widget.business.metadata.image,
+                              ),
                               placeholder: (context, url) =>
                                   CircularProgressIndicator(),
                               errorWidget: (context, url, error) =>
@@ -129,7 +133,8 @@ class _BusinessPageState extends State<BusinessPage> {
                                       .contains(widget.business.metadata.type)
                                   ? Text(
                                       '#' +
-                                          widget.business.metadata.type.capitalize(),
+                                          widget.business.metadata.type
+                                              .capitalize(),
                                       overflow: TextOverflow.fade,
                                       style: TextStyle(
                                         fontSize: 12,
@@ -301,13 +306,17 @@ class _BusinessPageState extends State<BusinessPage> {
                               ),
                               onPressed: () {
                                 ExtendedNavigator.root.pushSendAmountScreen(
-                                    pageArgs: SendAmountArguments(
-                                        tokenToSend: widget.token,
-                                        name: widget.business.name ?? '',
-                                        accountAddress: widget.business.account,
-                                        avatar: NetworkImage(widget
-                                            .business.metadata
-                                            .getImageUri())));
+                                  pageArgs: SendAmountArguments(
+                                    tokenToSend: widget.token,
+                                    name: widget.business.name ?? '',
+                                    accountAddress: widget.business.account,
+                                    avatar: NetworkImage(
+                                      ImageUrl.getLink(
+                                        widget.business.metadata.image,
+                                      ),
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           )

@@ -2,11 +2,11 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/community/business.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 
-Widget deduceTransferIcon(Transfer transfer) {
+Widget deduceTransferIcon(Transaction transfer) {
   if (transfer.isFailed()) {
     return SvgPicture.asset(
       'assets/images/failed_icon.svg',
@@ -43,7 +43,7 @@ Widget deduceTransferIcon(Transfer transfer) {
 }
 
 Contact getContact(
-  Transfer transfer,
+  Transaction transfer,
   Map<String, String> reverseContacts,
   List<Contact> contacts,
   String countryCode,
@@ -72,7 +72,7 @@ Contact getContact(
 }
 
 String deducePhoneNumber(
-  Transfer transfer,
+  Transaction transfer,
   Map<String, String> reverseContacts, {
   bool format = true,
   List<Business> businesses,
