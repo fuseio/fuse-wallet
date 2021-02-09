@@ -403,10 +403,13 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
           return;
         }
         dynamic tokenDetails = await web3.getTokenDetails(tokenAddress);
+        final int decimals = tokenDetails['decimals'].toInt();
         Token newToken = Token.initial().copyWith(
+          timestamp: 0,
+          amount: BigInt.zero,
           address: tokenAddress.toLowerCase(),
           name: tokenDetails['name'],
-          decimals: tokenDetails['decimals'],
+          decimals: decimals,
           symbol: tokenDetails['symbol'],
         );
         logger.info('ADDED - new token $tokenAddress');
