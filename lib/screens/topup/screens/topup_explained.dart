@@ -28,9 +28,9 @@ class _TopupExplainedState extends State<TopupExplained> {
   }
 
   final List<String> texts = [
-    "Top up with Plaid, who use \n the UK's Open Banking API",
+    "Top up with Stripe, who use \n the UK's Open Banking API",
     "This is much cheaper for the \n restaurants in your \n community compared to \n Debit and Credit Card",
-    "Plaid Are fully regulated \n by the FCA, and only connect \n to your bank account to make \n initiating a payment easier"
+    "Stripe Are fully regulated \n by the FCA, and only connect \n to your bank account to make \n initiating a payment easier"
   ];
 
   @override
@@ -41,7 +41,7 @@ class _TopupExplainedState extends State<TopupExplained> {
       builder: (_, viewModel) {
         return Scaffold(
           appBar: MyAppBar(
-            height: MediaQuery.of(context).size.height * .13,
+            height: 100,
             child: Container(
               padding: EdgeInsets.only(
                 top: 20.0,
@@ -127,12 +127,12 @@ class _TopupExplainedState extends State<TopupExplained> {
                   flex: 1,
                   child: Center(
                     child: PrimaryButton(
-                      label: 'Top up Using Plaid',
+                      label: 'Top up Using Stripe',
                       fontSize: 16,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () {
                         ExtendedNavigator.named('topupRouter').pushTopupScreen(
-                          topupType: TopupType.PLAID,
+                          topupType: TopupType.STRIPE,
                           walletAddress: viewModel.walletAddress,
                         );
                       },
@@ -147,7 +147,7 @@ class _TopupExplainedState extends State<TopupExplained> {
                       children: <TextSpan>[
                         TextSpan(
                           text:
-                              'If you had problems with Plaid you can top up \n using debit or credit card ',
+                              'If you had problems with Stripe you can top up \n using debit or credit card ',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).primaryColor,
@@ -164,7 +164,7 @@ class _TopupExplainedState extends State<TopupExplained> {
                               ..onTap = () {
                                 ExtendedNavigator.named('topupRouter')
                                     .pushTopupScreen(
-                                  topupType: TopupType.STRIPE,
+                                  topupType: TopupType.PLAID,
                                   walletAddress: viewModel.walletAddress,
                                 );
                               }),
