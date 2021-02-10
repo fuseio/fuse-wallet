@@ -74,26 +74,17 @@ class PluginsConverter implements JsonConverter<Plugins, Map<String, dynamic>> {
 
       dynamic services = getServicesMap(json);
       return Plugins(
-        moonpay: MoonpayPlugin.fromJson(services["moonpay"]),
-        rampInstant: RampInstantPlugin.fromJson(services["rampInstant"]),
-        transak: TransakPlugin.fromJson(services["transak"]),
-        joinBonus: JoinBonusPlugin.fromJson(json['joinBonus']),
-        walletBanner: WalletBannerPlugin.fromJson(json['walletBanner']),
-        backupBonus: BackupBonusPlugin.fromJson(json['backupBonus']),
-        inviteBonus: InviteBonusPlugin.fromJson(json['inviteBonus']),
+        moonpay: MoonpayPlugin.fromJson(services["moonpay"] ?? {}),
+        rampInstant: RampInstantPlugin.fromJson(services["rampInstant"] ?? {}),
+        transak: TransakPlugin.fromJson(services["transak"] ?? {}),
+        joinBonus: JoinBonusPluginConverter().fromJson(json['joinBonus']),
+        walletBanner: WalletBannerPluginConverter().fromJson(json['walletBanner']),
+        backupBonus: BackupBonusPluginConverter().fromJson(json['backupBonus']),
+        inviteBonus: InviteBonusPluginConverter().fromJson(json['inviteBonus']),
       );
     }
   }
 
   @override
-  Map<String, dynamic> toJson(Plugins instance) => <String, dynamic>{
-        'rampInstant': instance.rampInstant?.toJson(),
-        'moonpay': instance.moonpay?.toJson(),
-        'transak': instance.transak?.toJson(),
-        'joinBonus': instance.joinBonus?.toJson(),
-        'walletBanner': instance.walletBanner?.toJson(),
-        'backupBonus': instance.backupBonus?.toJson(),
-        'inviteBonus': instance.inviteBonus?.toJson(),
-        'hashCode': instance.hashCode,
-      };
+  Map<String, dynamic> toJson(Plugins instance) => instance?.toJson();
 }

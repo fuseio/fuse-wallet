@@ -39,6 +39,7 @@ abstract class Token implements _$Token {
     Price priceInfo,
     @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
     @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
+    @Default([])
         List<Job> jobs,
     String communityAddress,
     String originNetwork,

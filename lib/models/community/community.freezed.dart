@@ -20,11 +20,11 @@ class _$CommunityTearOff {
   _Community call(
       {String name,
       String address,
-      @PluginsConverter() Plugins plugins,
-      List<Business> businesses,
       bool isMultiBridge = false,
       bool isClosed = false,
       bool isMember = false,
+      @nullable @JsonKey(fromJson: pluginsFromJson) Plugins plugins,
+      @nullable List<Business> businesses = const [],
       @nullable String bridgeType,
       @nullable String bridgeDirection,
       @nullable String homeTokenAddress,
@@ -37,11 +37,11 @@ class _$CommunityTearOff {
     return _Community(
       name: name,
       address: address,
-      plugins: plugins,
-      businesses: businesses,
       isMultiBridge: isMultiBridge,
       isClosed: isClosed,
       isMember: isMember,
+      plugins: plugins,
+      businesses: businesses,
       bridgeType: bridgeType,
       bridgeDirection: bridgeDirection,
       homeTokenAddress: homeTokenAddress,
@@ -68,12 +68,14 @@ const $Community = _$CommunityTearOff();
 mixin _$Community {
   String get name;
   String get address;
-  @PluginsConverter()
-  Plugins get plugins;
-  List<Business> get businesses;
   bool get isMultiBridge;
   bool get isClosed;
   bool get isMember;
+  @nullable
+  @JsonKey(fromJson: pluginsFromJson)
+  Plugins get plugins;
+  @nullable
+  List<Business> get businesses;
   @nullable
   String get bridgeType;
   @nullable
@@ -105,11 +107,11 @@ abstract class $CommunityCopyWith<$Res> {
   $Res call(
       {String name,
       String address,
-      @PluginsConverter() Plugins plugins,
-      List<Business> businesses,
       bool isMultiBridge,
       bool isClosed,
       bool isMember,
+      @nullable @JsonKey(fromJson: pluginsFromJson) Plugins plugins,
+      @nullable List<Business> businesses,
       @nullable String bridgeType,
       @nullable String bridgeDirection,
       @nullable String homeTokenAddress,
@@ -136,11 +138,11 @@ class _$CommunityCopyWithImpl<$Res> implements $CommunityCopyWith<$Res> {
   $Res call({
     Object name = freezed,
     Object address = freezed,
-    Object plugins = freezed,
-    Object businesses = freezed,
     Object isMultiBridge = freezed,
     Object isClosed = freezed,
     Object isMember = freezed,
+    Object plugins = freezed,
+    Object businesses = freezed,
     Object bridgeType = freezed,
     Object bridgeDirection = freezed,
     Object homeTokenAddress = freezed,
@@ -154,15 +156,15 @@ class _$CommunityCopyWithImpl<$Res> implements $CommunityCopyWith<$Res> {
     return _then(_value.copyWith(
       name: name == freezed ? _value.name : name as String,
       address: address == freezed ? _value.address : address as String,
-      plugins: plugins == freezed ? _value.plugins : plugins as Plugins,
-      businesses: businesses == freezed
-          ? _value.businesses
-          : businesses as List<Business>,
       isMultiBridge: isMultiBridge == freezed
           ? _value.isMultiBridge
           : isMultiBridge as bool,
       isClosed: isClosed == freezed ? _value.isClosed : isClosed as bool,
       isMember: isMember == freezed ? _value.isMember : isMember as bool,
+      plugins: plugins == freezed ? _value.plugins : plugins as Plugins,
+      businesses: businesses == freezed
+          ? _value.businesses
+          : businesses as List<Business>,
       bridgeType:
           bridgeType == freezed ? _value.bridgeType : bridgeType as String,
       bridgeDirection: bridgeDirection == freezed
@@ -218,11 +220,11 @@ abstract class _$CommunityCopyWith<$Res> implements $CommunityCopyWith<$Res> {
   $Res call(
       {String name,
       String address,
-      @PluginsConverter() Plugins plugins,
-      List<Business> businesses,
       bool isMultiBridge,
       bool isClosed,
       bool isMember,
+      @nullable @JsonKey(fromJson: pluginsFromJson) Plugins plugins,
+      @nullable List<Business> businesses,
       @nullable String bridgeType,
       @nullable String bridgeDirection,
       @nullable String homeTokenAddress,
@@ -252,11 +254,11 @@ class __$CommunityCopyWithImpl<$Res> extends _$CommunityCopyWithImpl<$Res>
   $Res call({
     Object name = freezed,
     Object address = freezed,
-    Object plugins = freezed,
-    Object businesses = freezed,
     Object isMultiBridge = freezed,
     Object isClosed = freezed,
     Object isMember = freezed,
+    Object plugins = freezed,
+    Object businesses = freezed,
     Object bridgeType = freezed,
     Object bridgeDirection = freezed,
     Object homeTokenAddress = freezed,
@@ -270,15 +272,15 @@ class __$CommunityCopyWithImpl<$Res> extends _$CommunityCopyWithImpl<$Res>
     return _then(_Community(
       name: name == freezed ? _value.name : name as String,
       address: address == freezed ? _value.address : address as String,
-      plugins: plugins == freezed ? _value.plugins : plugins as Plugins,
-      businesses: businesses == freezed
-          ? _value.businesses
-          : businesses as List<Business>,
       isMultiBridge: isMultiBridge == freezed
           ? _value.isMultiBridge
           : isMultiBridge as bool,
       isClosed: isClosed == freezed ? _value.isClosed : isClosed as bool,
       isMember: isMember == freezed ? _value.isMember : isMember as bool,
+      plugins: plugins == freezed ? _value.plugins : plugins as Plugins,
+      businesses: businesses == freezed
+          ? _value.businesses
+          : businesses as List<Business>,
       bridgeType:
           bridgeType == freezed ? _value.bridgeType : bridgeType as String,
       bridgeDirection: bridgeDirection == freezed
@@ -312,11 +314,11 @@ class _$_Community implements _Community {
   _$_Community(
       {this.name,
       this.address,
-      @PluginsConverter() this.plugins,
-      this.businesses,
       this.isMultiBridge = false,
       this.isClosed = false,
       this.isMember = false,
+      @nullable @JsonKey(fromJson: pluginsFromJson) this.plugins,
+      @nullable this.businesses = const [],
       @nullable this.bridgeType,
       @nullable this.bridgeDirection,
       @nullable this.homeTokenAddress,
@@ -337,11 +339,6 @@ class _$_Community implements _Community {
   final String name;
   @override
   final String address;
-  @override
-  @PluginsConverter()
-  final Plugins plugins;
-  @override
-  final List<Business> businesses;
   @JsonKey(defaultValue: false)
   @override
   final bool isMultiBridge;
@@ -351,6 +348,14 @@ class _$_Community implements _Community {
   @JsonKey(defaultValue: false)
   @override
   final bool isMember;
+  @override
+  @nullable
+  @JsonKey(fromJson: pluginsFromJson)
+  final Plugins plugins;
+  @JsonKey(defaultValue: const [])
+  @override
+  @nullable
+  final List<Business> businesses;
   @override
   @nullable
   final String bridgeType;
@@ -381,7 +386,7 @@ class _$_Community implements _Community {
 
   @override
   String toString() {
-    return 'Community(name: $name, address: $address, plugins: $plugins, businesses: $businesses, isMultiBridge: $isMultiBridge, isClosed: $isClosed, isMember: $isMember, bridgeType: $bridgeType, bridgeDirection: $bridgeDirection, homeTokenAddress: $homeTokenAddress, metadata: $metadata, homeBridgeAddress: $homeBridgeAddress, webUrl: $webUrl, foreignBridgeAddress: $foreignBridgeAddress, foreignTokenAddress: $foreignTokenAddress, description: $description)';
+    return 'Community(name: $name, address: $address, isMultiBridge: $isMultiBridge, isClosed: $isClosed, isMember: $isMember, plugins: $plugins, businesses: $businesses, bridgeType: $bridgeType, bridgeDirection: $bridgeDirection, homeTokenAddress: $homeTokenAddress, metadata: $metadata, homeBridgeAddress: $homeBridgeAddress, webUrl: $webUrl, foreignBridgeAddress: $foreignBridgeAddress, foreignTokenAddress: $foreignTokenAddress, description: $description)';
   }
 
   @override
@@ -393,12 +398,6 @@ class _$_Community implements _Community {
             (identical(other.address, address) ||
                 const DeepCollectionEquality()
                     .equals(other.address, address)) &&
-            (identical(other.plugins, plugins) ||
-                const DeepCollectionEquality()
-                    .equals(other.plugins, plugins)) &&
-            (identical(other.businesses, businesses) ||
-                const DeepCollectionEquality()
-                    .equals(other.businesses, businesses)) &&
             (identical(other.isMultiBridge, isMultiBridge) ||
                 const DeepCollectionEquality()
                     .equals(other.isMultiBridge, isMultiBridge)) &&
@@ -408,6 +407,12 @@ class _$_Community implements _Community {
             (identical(other.isMember, isMember) ||
                 const DeepCollectionEquality()
                     .equals(other.isMember, isMember)) &&
+            (identical(other.plugins, plugins) ||
+                const DeepCollectionEquality()
+                    .equals(other.plugins, plugins)) &&
+            (identical(other.businesses, businesses) ||
+                const DeepCollectionEquality()
+                    .equals(other.businesses, businesses)) &&
             (identical(other.bridgeType, bridgeType) ||
                 const DeepCollectionEquality()
                     .equals(other.bridgeType, bridgeType)) &&
@@ -441,11 +446,11 @@ class _$_Community implements _Community {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(plugins) ^
-      const DeepCollectionEquality().hash(businesses) ^
       const DeepCollectionEquality().hash(isMultiBridge) ^
       const DeepCollectionEquality().hash(isClosed) ^
       const DeepCollectionEquality().hash(isMember) ^
+      const DeepCollectionEquality().hash(plugins) ^
+      const DeepCollectionEquality().hash(businesses) ^
       const DeepCollectionEquality().hash(bridgeType) ^
       const DeepCollectionEquality().hash(bridgeDirection) ^
       const DeepCollectionEquality().hash(homeTokenAddress) ^
@@ -471,11 +476,11 @@ abstract class _Community implements Community {
   factory _Community(
       {String name,
       String address,
-      @PluginsConverter() Plugins plugins,
-      List<Business> businesses,
       bool isMultiBridge,
       bool isClosed,
       bool isMember,
+      @nullable @JsonKey(fromJson: pluginsFromJson) Plugins plugins,
+      @nullable List<Business> businesses,
       @nullable String bridgeType,
       @nullable String bridgeDirection,
       @nullable String homeTokenAddress,
@@ -494,16 +499,18 @@ abstract class _Community implements Community {
   @override
   String get address;
   @override
-  @PluginsConverter()
-  Plugins get plugins;
-  @override
-  List<Business> get businesses;
-  @override
   bool get isMultiBridge;
   @override
   bool get isClosed;
   @override
   bool get isMember;
+  @override
+  @nullable
+  @JsonKey(fromJson: pluginsFromJson)
+  Plugins get plugins;
+  @override
+  @nullable
+  List<Business> get businesses;
   @override
   @nullable
   String get bridgeType;

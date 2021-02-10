@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:wallet_core/wallet_core.dart' show Web3;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cash_wallet_state.freezed.dart';
@@ -42,10 +41,13 @@ abstract class CashWalletState implements _$CashWalletState {
   @JsonSerializable()
   factory CashWalletState({
     String communityAddress,
-    @JsonKey(fromJson: tokensFromJson) Map<String, Token> tokens,
-    @JsonKey(name: 'communities', fromJson: communitiesFromJson, toJson: communitiesToJson)
+    @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
+    @JsonKey(
+        name: 'communities',
+        fromJson: communitiesFromJson,
+        toJson: communitiesToJson)
+    @Default({})
         Map<String, Community> communities,
-    // @JsonKey(ignore: true) Web3 web3,
     @JsonKey(ignore: true) String branchAddress,
     @JsonKey(ignore: true) @Default(false) bool isCommunityLoading,
     @JsonKey(ignore: true) @Default(false) bool isCommunityFetched,

@@ -213,7 +213,8 @@ ProWalletState _startFetchTransferEvents(
 
 ProWalletState _initWeb3ProModeSuccess(
     ProWalletState state, InitWeb3ProModeSuccess action) {
-  return state.copyWith(web3: action.web3);
+  // web3: action.web3
+  return state.copyWith();
 }
 
 // ProWalletState _updateBlockNumber(

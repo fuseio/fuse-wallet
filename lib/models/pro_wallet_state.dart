@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:wallet_core/wallet_core.dart' show Web3;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pro_wallet_state.freezed.dart';
@@ -23,9 +22,10 @@ abstract class ProWalletState implements _$ProWalletState {
 
   @JsonSerializable()
   factory ProWalletState({
-    // @JsonKey(ignore: true) Web3 web3,
     @JsonKey(fromJson: etherBalanceFromJson) BigInt etherBalance,
-    @JsonKey(fromJson: erc20TokensFromJson) Map<String, Token> erc20Tokens,
+    @JsonKey(fromJson: erc20TokensFromJson)
+    @Default({})
+        Map<String, Token> erc20Tokens,
     @JsonKey(ignore: true) @Default(false) bool isFetchTransferEvents,
     @JsonKey(ignore: true) @Default(false) bool isListenToTransferEvents,
     @JsonKey(ignore: true) @Default(false) bool isProcessingTokensJobs,
@@ -37,7 +37,7 @@ abstract class ProWalletState implements _$ProWalletState {
 
   factory ProWalletState.initial() {
     return ProWalletState(
-      erc20Tokens: Map(),
+      erc20Tokens: Map<String, Token>(),
       etherBalance: BigInt.zero,
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/secure_storage.dart';
@@ -10,7 +11,7 @@ import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 
 final Persistor<AppState> persistor = Persistor<AppState>(
-  storage: SecureStorage(new FlutterSecureStorage()),
+  storage: getIt<SecureStorage>(),
   serializer: JsonSerializer<AppState>((json) => AppState.fromJson(json)),
   debug: kDebugMode,
 );

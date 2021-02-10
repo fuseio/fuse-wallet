@@ -10,15 +10,15 @@ _$_Community _$_$_CommunityFromJson(Map<String, dynamic> json) {
   return _$_Community(
     name: json['name'] as String,
     address: json['address'] as String,
-    plugins: const PluginsConverter()
-        .fromJson(json['plugins'] as Map<String, dynamic>),
-    businesses: (json['businesses'] as List)
-        ?.map((e) =>
-            e == null ? null : Business.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
     isMultiBridge: json['isMultiBridge'] as bool ?? false,
     isClosed: json['isClosed'] as bool ?? false,
     isMember: json['isMember'] as bool ?? false,
+    plugins: pluginsFromJson(json['plugins']),
+    businesses: (json['businesses'] as List)
+            ?.map((e) =>
+                e == null ? null : Business.fromJson(e as Map<String, dynamic>))
+            ?.toList() ??
+        [],
     bridgeType: json['bridgeType'] as String,
     bridgeDirection: json['bridgeDirection'] as String,
     homeTokenAddress: json['homeTokenAddress'] as String,
@@ -37,11 +37,11 @@ Map<String, dynamic> _$_$_CommunityToJson(_$_Community instance) =>
     <String, dynamic>{
       'name': instance.name,
       'address': instance.address,
-      'plugins': const PluginsConverter().toJson(instance.plugins),
-      'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
       'isMultiBridge': instance.isMultiBridge,
       'isClosed': instance.isClosed,
       'isMember': instance.isMember,
+      'plugins': instance.plugins?.toJson(),
+      'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
       'bridgeType': instance.bridgeType,
       'bridgeDirection': instance.bridgeDirection,
       'homeTokenAddress': instance.homeTokenAddress,

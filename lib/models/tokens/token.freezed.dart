@@ -31,7 +31,7 @@ class _$TokenTearOff {
       @JsonKey(fromJson: transactionsFromJson)
           Transactions transactions,
       @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-          List<Job> jobs,
+          List<Job> jobs = const [],
       String communityAddress,
       String originNetwork}) {
     return _Token(
@@ -262,10 +262,11 @@ class _$_Token extends _Token {
       @JsonKey(fromJson: transactionsFromJson)
           this.transactions,
       @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-          this.jobs,
+          this.jobs = const [],
       this.communityAddress,
       this.originNetwork})
-      : super._();
+      : assert(jobs != null),
+        super._();
 
   factory _$_Token.fromJson(Map<String, dynamic> json) =>
       _$_$_TokenFromJson(json);

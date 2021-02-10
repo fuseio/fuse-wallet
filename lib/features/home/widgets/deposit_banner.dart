@@ -22,7 +22,7 @@ class DepositBanner extends StatelessWidget {
             highlightColor: Theme.of(context).splashColor,
             onTap: () {
               if (depositPlugins.isNotEmpty) {
-                dynamic url = depositPlugins[0].generateUrl();
+                dynamic url = depositPlugins[0].widgetUrl;
                 viewModel.setDepositBanner();
                 ExtendedNavigator.root.pushWebview(
                   withBack: true,

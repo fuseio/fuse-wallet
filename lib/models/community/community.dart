@@ -7,6 +7,9 @@ import 'package:json_annotation/json_annotation.dart';
 part 'community.freezed.dart';
 part 'community.g.dart';
 
+Plugins pluginsFromJson(json) =>
+    json == null ? null : PluginsConverter().fromJson(json);
+
 @immutable
 @freezed
 abstract class Community with _$Community {
@@ -14,11 +17,11 @@ abstract class Community with _$Community {
   factory Community({
     String name,
     String address,
-    @PluginsConverter() Plugins plugins,
-    List<Business> businesses,
     @Default(false) bool isMultiBridge,
     @Default(false) bool isClosed,
     @Default(false) bool isMember,
+    @nullable @JsonKey(fromJson: pluginsFromJson) Plugins plugins,
+    @nullable @Default([]) List<Business> businesses,
     @nullable String bridgeType,
     @nullable String bridgeDirection,
     @nullable String homeTokenAddress,

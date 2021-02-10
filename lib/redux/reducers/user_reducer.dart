@@ -91,9 +91,6 @@ UserState _getWalletAddressesSuccess(
     backup: action.backup,
     networks: action.networks,
     walletAddress: action.walletAddress,
-    transferManagerAddress: action.transferManagerAddress,
-    communityManagerAddress: action.communityManagerAddress,
-    daiPointsManagerAddress: action.daiPointsManagerAddress,
     walletStatus: 'created',
   );
 }

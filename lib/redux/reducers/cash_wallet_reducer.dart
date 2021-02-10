@@ -123,7 +123,6 @@ CashWalletState _fetchCommunityMetadataSuccess(
 
 CashWalletState _setDefaultCommunity(
     CashWalletState state, SetDefaultCommunity action) {
-  // Community defaultCom = Community(address: action.defaultCommunity);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
   newOne[action.defaultCommunity] = Community(address: action.defaultCommunity);
@@ -136,7 +135,8 @@ CashWalletState _setDefaultCommunity(
 
 CashWalletState _initWeb3Success(
     CashWalletState state, InitWeb3Success action) {
-  return state.copyWith(web3: action.web3);
+  // web3: action.web3
+  return state.copyWith();
 }
 
 CashWalletState _getTokenBalanceSuccess(

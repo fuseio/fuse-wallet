@@ -18,26 +18,22 @@ class _$UserStateTearOff {
 
 // ignore: unused_element
   _UserState call(
-      {String walletStatus = '',
+      {List<String> syncedContacts = const [],
+      DateTime installedAt,
+      int displayBalance = 0,
+      String walletStatus = '',
       String walletAddress = '',
-      String communityManagerAddress = '',
-      String transferManagerAddress = '',
-      String daiPointsManagerAddress = '',
-      List<String> networks,
-      List<String> mnemonic,
-      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
-          BiometricAuth authType,
+      List<String> networks = const [],
+      List<String> mnemonic = const [],
       String privateKey = '',
       String pincode = '',
       String accountAddress = '',
       String countryCode = '',
       String phoneNumber = '',
       String normalizedPhoneNumber = '',
+      bool receiveBackupDialogShowed = false,
       String isoCode = '',
-      @JsonKey(ignore: true)
-          List<Contact> contacts,
       Map<String, String> reverseContacts = const {},
-      List<String> syncedContacts,
       String jwtToken = '',
       String displayName = 'Anom',
       String avatarUrl = '',
@@ -47,45 +43,42 @@ class _$UserStateTearOff {
       bool isLoggedOut = false,
       bool isContactsSynced = false,
       bool backup = false,
-      @JsonKey(ignore: true)
-          PhoneAuthCredential credentials,
-      int displayBalance,
-      DateTime installedAt,
-      @JsonKey(fromJson: currencyJson)
-          String currency = 'usd',
+      bool depositBannerShowed = false,
       num totalBalance = 0,
+      bool homeBackupDialogShowed = false,
       @JsonKey(ignore: true)
           dynamic signupErrorMessage,
       @JsonKey(ignore: true)
           dynamic verifyErrorMessage,
-      bool depositBannerShowed = false,
+      @JsonKey(fromJson: currencyJson)
+          String currency = 'usd',
       @JsonKey(ignore: true)
           bool isLoginRequest = false,
       @JsonKey(ignore: true)
           bool isVerifyRequest = false,
+      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
+          BiometricAuth authType,
       @JsonKey(ignore: true)
-          bool homeBackupDialogShowed = false,
+          List<Contact> contacts = const [],
       @JsonKey(ignore: true)
-          bool receiveBackupDialogShowed = false}) {
+          PhoneAuthCredential credentials}) {
     return _UserState(
+      syncedContacts: syncedContacts,
+      installedAt: installedAt,
+      displayBalance: displayBalance,
       walletStatus: walletStatus,
       walletAddress: walletAddress,
-      communityManagerAddress: communityManagerAddress,
-      transferManagerAddress: transferManagerAddress,
-      daiPointsManagerAddress: daiPointsManagerAddress,
       networks: networks,
       mnemonic: mnemonic,
-      authType: authType,
       privateKey: privateKey,
       pincode: pincode,
       accountAddress: accountAddress,
       countryCode: countryCode,
       phoneNumber: phoneNumber,
       normalizedPhoneNumber: normalizedPhoneNumber,
+      receiveBackupDialogShowed: receiveBackupDialogShowed,
       isoCode: isoCode,
-      contacts: contacts,
       reverseContacts: reverseContacts,
-      syncedContacts: syncedContacts,
       jwtToken: jwtToken,
       displayName: displayName,
       avatarUrl: avatarUrl,
@@ -95,18 +88,17 @@ class _$UserStateTearOff {
       isLoggedOut: isLoggedOut,
       isContactsSynced: isContactsSynced,
       backup: backup,
-      credentials: credentials,
-      displayBalance: displayBalance,
-      installedAt: installedAt,
-      currency: currency,
+      depositBannerShowed: depositBannerShowed,
       totalBalance: totalBalance,
+      homeBackupDialogShowed: homeBackupDialogShowed,
       signupErrorMessage: signupErrorMessage,
       verifyErrorMessage: verifyErrorMessage,
-      depositBannerShowed: depositBannerShowed,
+      currency: currency,
       isLoginRequest: isLoginRequest,
       isVerifyRequest: isVerifyRequest,
-      homeBackupDialogShowed: homeBackupDialogShowed,
-      receiveBackupDialogShowed: receiveBackupDialogShowed,
+      authType: authType,
+      contacts: contacts,
+      credentials: credentials,
     );
   }
 
@@ -122,26 +114,22 @@ const $UserState = _$UserStateTearOff();
 
 /// @nodoc
 mixin _$UserState {
+  List<String> get syncedContacts;
+  DateTime get installedAt;
+  int get displayBalance;
   String get walletStatus;
   String get walletAddress;
-  String get communityManagerAddress;
-  String get transferManagerAddress;
-  String get daiPointsManagerAddress;
   List<String> get networks;
   List<String> get mnemonic;
-  @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
-  BiometricAuth get authType;
   String get privateKey;
   String get pincode;
   String get accountAddress;
   String get countryCode;
   String get phoneNumber;
   String get normalizedPhoneNumber;
+  bool get receiveBackupDialogShowed;
   String get isoCode;
-  @JsonKey(ignore: true)
-  List<Contact> get contacts;
   Map<String, String> get reverseContacts;
-  List<String> get syncedContacts;
   String get jwtToken;
   String get displayName;
   String get avatarUrl;
@@ -151,26 +139,25 @@ mixin _$UserState {
   bool get isLoggedOut;
   bool get isContactsSynced;
   bool get backup;
-  @JsonKey(ignore: true)
-  PhoneAuthCredential get credentials;
-  int get displayBalance;
-  DateTime get installedAt;
-  @JsonKey(fromJson: currencyJson)
-  String get currency;
+  bool get depositBannerShowed;
   num get totalBalance;
+  bool get homeBackupDialogShowed;
   @JsonKey(ignore: true)
   dynamic get signupErrorMessage;
   @JsonKey(ignore: true)
   dynamic get verifyErrorMessage;
-  bool get depositBannerShowed;
+  @JsonKey(fromJson: currencyJson)
+  String get currency;
   @JsonKey(ignore: true)
   bool get isLoginRequest;
   @JsonKey(ignore: true)
   bool get isVerifyRequest;
+  @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
+  BiometricAuth get authType;
   @JsonKey(ignore: true)
-  bool get homeBackupDialogShowed;
+  List<Contact> get contacts;
   @JsonKey(ignore: true)
-  bool get receiveBackupDialogShowed;
+  PhoneAuthCredential get credentials;
 
   Map<String, dynamic> toJson();
   @JsonKey(ignore: true)
@@ -182,26 +169,22 @@ abstract class $UserStateCopyWith<$Res> {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
       _$UserStateCopyWithImpl<$Res>;
   $Res call(
-      {String walletStatus,
+      {List<String> syncedContacts,
+      DateTime installedAt,
+      int displayBalance,
+      String walletStatus,
       String walletAddress,
-      String communityManagerAddress,
-      String transferManagerAddress,
-      String daiPointsManagerAddress,
       List<String> networks,
       List<String> mnemonic,
-      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
-          BiometricAuth authType,
       String privateKey,
       String pincode,
       String accountAddress,
       String countryCode,
       String phoneNumber,
       String normalizedPhoneNumber,
+      bool receiveBackupDialogShowed,
       String isoCode,
-      @JsonKey(ignore: true)
-          List<Contact> contacts,
       Map<String, String> reverseContacts,
-      List<String> syncedContacts,
       String jwtToken,
       String displayName,
       String avatarUrl,
@@ -211,26 +194,25 @@ abstract class $UserStateCopyWith<$Res> {
       bool isLoggedOut,
       bool isContactsSynced,
       bool backup,
-      @JsonKey(ignore: true)
-          PhoneAuthCredential credentials,
-      int displayBalance,
-      DateTime installedAt,
-      @JsonKey(fromJson: currencyJson)
-          String currency,
+      bool depositBannerShowed,
       num totalBalance,
+      bool homeBackupDialogShowed,
       @JsonKey(ignore: true)
           dynamic signupErrorMessage,
       @JsonKey(ignore: true)
           dynamic verifyErrorMessage,
-      bool depositBannerShowed,
+      @JsonKey(fromJson: currencyJson)
+          String currency,
       @JsonKey(ignore: true)
           bool isLoginRequest,
       @JsonKey(ignore: true)
           bool isVerifyRequest,
+      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
+          BiometricAuth authType,
       @JsonKey(ignore: true)
-          bool homeBackupDialogShowed,
+          List<Contact> contacts,
       @JsonKey(ignore: true)
-          bool receiveBackupDialogShowed});
+          PhoneAuthCredential credentials});
 }
 
 /// @nodoc
@@ -243,24 +225,22 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
 
   @override
   $Res call({
+    Object syncedContacts = freezed,
+    Object installedAt = freezed,
+    Object displayBalance = freezed,
     Object walletStatus = freezed,
     Object walletAddress = freezed,
-    Object communityManagerAddress = freezed,
-    Object transferManagerAddress = freezed,
-    Object daiPointsManagerAddress = freezed,
     Object networks = freezed,
     Object mnemonic = freezed,
-    Object authType = freezed,
     Object privateKey = freezed,
     Object pincode = freezed,
     Object accountAddress = freezed,
     Object countryCode = freezed,
     Object phoneNumber = freezed,
     Object normalizedPhoneNumber = freezed,
+    Object receiveBackupDialogShowed = freezed,
     Object isoCode = freezed,
-    Object contacts = freezed,
     Object reverseContacts = freezed,
-    Object syncedContacts = freezed,
     Object jwtToken = freezed,
     Object displayName = freezed,
     Object avatarUrl = freezed,
@@ -270,41 +250,37 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
     Object isLoggedOut = freezed,
     Object isContactsSynced = freezed,
     Object backup = freezed,
-    Object credentials = freezed,
-    Object displayBalance = freezed,
-    Object installedAt = freezed,
-    Object currency = freezed,
+    Object depositBannerShowed = freezed,
     Object totalBalance = freezed,
+    Object homeBackupDialogShowed = freezed,
     Object signupErrorMessage = freezed,
     Object verifyErrorMessage = freezed,
-    Object depositBannerShowed = freezed,
+    Object currency = freezed,
     Object isLoginRequest = freezed,
     Object isVerifyRequest = freezed,
-    Object homeBackupDialogShowed = freezed,
-    Object receiveBackupDialogShowed = freezed,
+    Object authType = freezed,
+    Object contacts = freezed,
+    Object credentials = freezed,
   }) {
     return _then(_value.copyWith(
+      syncedContacts: syncedContacts == freezed
+          ? _value.syncedContacts
+          : syncedContacts as List<String>,
+      installedAt:
+          installedAt == freezed ? _value.installedAt : installedAt as DateTime,
+      displayBalance: displayBalance == freezed
+          ? _value.displayBalance
+          : displayBalance as int,
       walletStatus: walletStatus == freezed
           ? _value.walletStatus
           : walletStatus as String,
       walletAddress: walletAddress == freezed
           ? _value.walletAddress
           : walletAddress as String,
-      communityManagerAddress: communityManagerAddress == freezed
-          ? _value.communityManagerAddress
-          : communityManagerAddress as String,
-      transferManagerAddress: transferManagerAddress == freezed
-          ? _value.transferManagerAddress
-          : transferManagerAddress as String,
-      daiPointsManagerAddress: daiPointsManagerAddress == freezed
-          ? _value.daiPointsManagerAddress
-          : daiPointsManagerAddress as String,
       networks:
           networks == freezed ? _value.networks : networks as List<String>,
       mnemonic:
           mnemonic == freezed ? _value.mnemonic : mnemonic as List<String>,
-      authType:
-          authType == freezed ? _value.authType : authType as BiometricAuth,
       privateKey:
           privateKey == freezed ? _value.privateKey : privateKey as String,
       pincode: pincode == freezed ? _value.pincode : pincode as String,
@@ -318,15 +294,13 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
       normalizedPhoneNumber: normalizedPhoneNumber == freezed
           ? _value.normalizedPhoneNumber
           : normalizedPhoneNumber as String,
+      receiveBackupDialogShowed: receiveBackupDialogShowed == freezed
+          ? _value.receiveBackupDialogShowed
+          : receiveBackupDialogShowed as bool,
       isoCode: isoCode == freezed ? _value.isoCode : isoCode as String,
-      contacts:
-          contacts == freezed ? _value.contacts : contacts as List<Contact>,
       reverseContacts: reverseContacts == freezed
           ? _value.reverseContacts
           : reverseContacts as Map<String, String>,
-      syncedContacts: syncedContacts == freezed
-          ? _value.syncedContacts
-          : syncedContacts as List<String>,
       jwtToken: jwtToken == freezed ? _value.jwtToken : jwtToken as String,
       displayName:
           displayName == freezed ? _value.displayName : displayName as String,
@@ -343,38 +317,34 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
           ? _value.isContactsSynced
           : isContactsSynced as bool,
       backup: backup == freezed ? _value.backup : backup as bool,
-      credentials: credentials == freezed
-          ? _value.credentials
-          : credentials as PhoneAuthCredential,
-      displayBalance: displayBalance == freezed
-          ? _value.displayBalance
-          : displayBalance as int,
-      installedAt:
-          installedAt == freezed ? _value.installedAt : installedAt as DateTime,
-      currency: currency == freezed ? _value.currency : currency as String,
+      depositBannerShowed: depositBannerShowed == freezed
+          ? _value.depositBannerShowed
+          : depositBannerShowed as bool,
       totalBalance:
           totalBalance == freezed ? _value.totalBalance : totalBalance as num,
+      homeBackupDialogShowed: homeBackupDialogShowed == freezed
+          ? _value.homeBackupDialogShowed
+          : homeBackupDialogShowed as bool,
       signupErrorMessage: signupErrorMessage == freezed
           ? _value.signupErrorMessage
           : signupErrorMessage as dynamic,
       verifyErrorMessage: verifyErrorMessage == freezed
           ? _value.verifyErrorMessage
           : verifyErrorMessage as dynamic,
-      depositBannerShowed: depositBannerShowed == freezed
-          ? _value.depositBannerShowed
-          : depositBannerShowed as bool,
+      currency: currency == freezed ? _value.currency : currency as String,
       isLoginRequest: isLoginRequest == freezed
           ? _value.isLoginRequest
           : isLoginRequest as bool,
       isVerifyRequest: isVerifyRequest == freezed
           ? _value.isVerifyRequest
           : isVerifyRequest as bool,
-      homeBackupDialogShowed: homeBackupDialogShowed == freezed
-          ? _value.homeBackupDialogShowed
-          : homeBackupDialogShowed as bool,
-      receiveBackupDialogShowed: receiveBackupDialogShowed == freezed
-          ? _value.receiveBackupDialogShowed
-          : receiveBackupDialogShowed as bool,
+      authType:
+          authType == freezed ? _value.authType : authType as BiometricAuth,
+      contacts:
+          contacts == freezed ? _value.contacts : contacts as List<Contact>,
+      credentials: credentials == freezed
+          ? _value.credentials
+          : credentials as PhoneAuthCredential,
     ));
   }
 }
@@ -386,26 +356,22 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       __$UserStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String walletStatus,
+      {List<String> syncedContacts,
+      DateTime installedAt,
+      int displayBalance,
+      String walletStatus,
       String walletAddress,
-      String communityManagerAddress,
-      String transferManagerAddress,
-      String daiPointsManagerAddress,
       List<String> networks,
       List<String> mnemonic,
-      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
-          BiometricAuth authType,
       String privateKey,
       String pincode,
       String accountAddress,
       String countryCode,
       String phoneNumber,
       String normalizedPhoneNumber,
+      bool receiveBackupDialogShowed,
       String isoCode,
-      @JsonKey(ignore: true)
-          List<Contact> contacts,
       Map<String, String> reverseContacts,
-      List<String> syncedContacts,
       String jwtToken,
       String displayName,
       String avatarUrl,
@@ -415,26 +381,25 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       bool isLoggedOut,
       bool isContactsSynced,
       bool backup,
-      @JsonKey(ignore: true)
-          PhoneAuthCredential credentials,
-      int displayBalance,
-      DateTime installedAt,
-      @JsonKey(fromJson: currencyJson)
-          String currency,
+      bool depositBannerShowed,
       num totalBalance,
+      bool homeBackupDialogShowed,
       @JsonKey(ignore: true)
           dynamic signupErrorMessage,
       @JsonKey(ignore: true)
           dynamic verifyErrorMessage,
-      bool depositBannerShowed,
+      @JsonKey(fromJson: currencyJson)
+          String currency,
       @JsonKey(ignore: true)
           bool isLoginRequest,
       @JsonKey(ignore: true)
           bool isVerifyRequest,
+      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
+          BiometricAuth authType,
       @JsonKey(ignore: true)
-          bool homeBackupDialogShowed,
+          List<Contact> contacts,
       @JsonKey(ignore: true)
-          bool receiveBackupDialogShowed});
+          PhoneAuthCredential credentials});
 }
 
 /// @nodoc
@@ -448,24 +413,22 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object syncedContacts = freezed,
+    Object installedAt = freezed,
+    Object displayBalance = freezed,
     Object walletStatus = freezed,
     Object walletAddress = freezed,
-    Object communityManagerAddress = freezed,
-    Object transferManagerAddress = freezed,
-    Object daiPointsManagerAddress = freezed,
     Object networks = freezed,
     Object mnemonic = freezed,
-    Object authType = freezed,
     Object privateKey = freezed,
     Object pincode = freezed,
     Object accountAddress = freezed,
     Object countryCode = freezed,
     Object phoneNumber = freezed,
     Object normalizedPhoneNumber = freezed,
+    Object receiveBackupDialogShowed = freezed,
     Object isoCode = freezed,
-    Object contacts = freezed,
     Object reverseContacts = freezed,
-    Object syncedContacts = freezed,
     Object jwtToken = freezed,
     Object displayName = freezed,
     Object avatarUrl = freezed,
@@ -475,41 +438,37 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
     Object isLoggedOut = freezed,
     Object isContactsSynced = freezed,
     Object backup = freezed,
-    Object credentials = freezed,
-    Object displayBalance = freezed,
-    Object installedAt = freezed,
-    Object currency = freezed,
+    Object depositBannerShowed = freezed,
     Object totalBalance = freezed,
+    Object homeBackupDialogShowed = freezed,
     Object signupErrorMessage = freezed,
     Object verifyErrorMessage = freezed,
-    Object depositBannerShowed = freezed,
+    Object currency = freezed,
     Object isLoginRequest = freezed,
     Object isVerifyRequest = freezed,
-    Object homeBackupDialogShowed = freezed,
-    Object receiveBackupDialogShowed = freezed,
+    Object authType = freezed,
+    Object contacts = freezed,
+    Object credentials = freezed,
   }) {
     return _then(_UserState(
+      syncedContacts: syncedContacts == freezed
+          ? _value.syncedContacts
+          : syncedContacts as List<String>,
+      installedAt:
+          installedAt == freezed ? _value.installedAt : installedAt as DateTime,
+      displayBalance: displayBalance == freezed
+          ? _value.displayBalance
+          : displayBalance as int,
       walletStatus: walletStatus == freezed
           ? _value.walletStatus
           : walletStatus as String,
       walletAddress: walletAddress == freezed
           ? _value.walletAddress
           : walletAddress as String,
-      communityManagerAddress: communityManagerAddress == freezed
-          ? _value.communityManagerAddress
-          : communityManagerAddress as String,
-      transferManagerAddress: transferManagerAddress == freezed
-          ? _value.transferManagerAddress
-          : transferManagerAddress as String,
-      daiPointsManagerAddress: daiPointsManagerAddress == freezed
-          ? _value.daiPointsManagerAddress
-          : daiPointsManagerAddress as String,
       networks:
           networks == freezed ? _value.networks : networks as List<String>,
       mnemonic:
           mnemonic == freezed ? _value.mnemonic : mnemonic as List<String>,
-      authType:
-          authType == freezed ? _value.authType : authType as BiometricAuth,
       privateKey:
           privateKey == freezed ? _value.privateKey : privateKey as String,
       pincode: pincode == freezed ? _value.pincode : pincode as String,
@@ -523,15 +482,13 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
       normalizedPhoneNumber: normalizedPhoneNumber == freezed
           ? _value.normalizedPhoneNumber
           : normalizedPhoneNumber as String,
+      receiveBackupDialogShowed: receiveBackupDialogShowed == freezed
+          ? _value.receiveBackupDialogShowed
+          : receiveBackupDialogShowed as bool,
       isoCode: isoCode == freezed ? _value.isoCode : isoCode as String,
-      contacts:
-          contacts == freezed ? _value.contacts : contacts as List<Contact>,
       reverseContacts: reverseContacts == freezed
           ? _value.reverseContacts
           : reverseContacts as Map<String, String>,
-      syncedContacts: syncedContacts == freezed
-          ? _value.syncedContacts
-          : syncedContacts as List<String>,
       jwtToken: jwtToken == freezed ? _value.jwtToken : jwtToken as String,
       displayName:
           displayName == freezed ? _value.displayName : displayName as String,
@@ -548,38 +505,34 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
           ? _value.isContactsSynced
           : isContactsSynced as bool,
       backup: backup == freezed ? _value.backup : backup as bool,
-      credentials: credentials == freezed
-          ? _value.credentials
-          : credentials as PhoneAuthCredential,
-      displayBalance: displayBalance == freezed
-          ? _value.displayBalance
-          : displayBalance as int,
-      installedAt:
-          installedAt == freezed ? _value.installedAt : installedAt as DateTime,
-      currency: currency == freezed ? _value.currency : currency as String,
+      depositBannerShowed: depositBannerShowed == freezed
+          ? _value.depositBannerShowed
+          : depositBannerShowed as bool,
       totalBalance:
           totalBalance == freezed ? _value.totalBalance : totalBalance as num,
+      homeBackupDialogShowed: homeBackupDialogShowed == freezed
+          ? _value.homeBackupDialogShowed
+          : homeBackupDialogShowed as bool,
       signupErrorMessage: signupErrorMessage == freezed
           ? _value.signupErrorMessage
           : signupErrorMessage as dynamic,
       verifyErrorMessage: verifyErrorMessage == freezed
           ? _value.verifyErrorMessage
           : verifyErrorMessage as dynamic,
-      depositBannerShowed: depositBannerShowed == freezed
-          ? _value.depositBannerShowed
-          : depositBannerShowed as bool,
+      currency: currency == freezed ? _value.currency : currency as String,
       isLoginRequest: isLoginRequest == freezed
           ? _value.isLoginRequest
           : isLoginRequest as bool,
       isVerifyRequest: isVerifyRequest == freezed
           ? _value.isVerifyRequest
           : isVerifyRequest as bool,
-      homeBackupDialogShowed: homeBackupDialogShowed == freezed
-          ? _value.homeBackupDialogShowed
-          : homeBackupDialogShowed as bool,
-      receiveBackupDialogShowed: receiveBackupDialogShowed == freezed
-          ? _value.receiveBackupDialogShowed
-          : receiveBackupDialogShowed as bool,
+      authType:
+          authType == freezed ? _value.authType : authType as BiometricAuth,
+      contacts:
+          contacts == freezed ? _value.contacts : contacts as List<Contact>,
+      credentials: credentials == freezed
+          ? _value.credentials
+          : credentials as PhoneAuthCredential,
     ));
   }
 }
@@ -589,26 +542,22 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_UserState implements _UserState {
   _$_UserState(
-      {this.walletStatus = '',
+      {this.syncedContacts = const [],
+      this.installedAt,
+      this.displayBalance = 0,
+      this.walletStatus = '',
       this.walletAddress = '',
-      this.communityManagerAddress = '',
-      this.transferManagerAddress = '',
-      this.daiPointsManagerAddress = '',
-      this.networks,
-      this.mnemonic,
-      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
-          this.authType,
+      this.networks = const [],
+      this.mnemonic = const [],
       this.privateKey = '',
       this.pincode = '',
       this.accountAddress = '',
       this.countryCode = '',
       this.phoneNumber = '',
       this.normalizedPhoneNumber = '',
+      this.receiveBackupDialogShowed = false,
       this.isoCode = '',
-      @JsonKey(ignore: true)
-          this.contacts,
       this.reverseContacts = const {},
-      this.syncedContacts,
       this.jwtToken = '',
       this.displayName = 'Anom',
       this.avatarUrl = '',
@@ -618,37 +567,38 @@ class _$_UserState implements _UserState {
       this.isLoggedOut = false,
       this.isContactsSynced = false,
       this.backup = false,
-      @JsonKey(ignore: true)
-          this.credentials,
-      this.displayBalance,
-      this.installedAt,
-      @JsonKey(fromJson: currencyJson)
-          this.currency = 'usd',
+      this.depositBannerShowed = false,
       this.totalBalance = 0,
+      this.homeBackupDialogShowed = false,
       @JsonKey(ignore: true)
           this.signupErrorMessage,
       @JsonKey(ignore: true)
           this.verifyErrorMessage,
-      this.depositBannerShowed = false,
+      @JsonKey(fromJson: currencyJson)
+          this.currency = 'usd',
       @JsonKey(ignore: true)
           this.isLoginRequest = false,
       @JsonKey(ignore: true)
           this.isVerifyRequest = false,
+      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
+          this.authType,
       @JsonKey(ignore: true)
-          this.homeBackupDialogShowed = false,
+          this.contacts = const [],
       @JsonKey(ignore: true)
-          this.receiveBackupDialogShowed = false})
-      : assert(walletStatus != null),
+          this.credentials})
+      : assert(syncedContacts != null),
+        assert(displayBalance != null),
+        assert(walletStatus != null),
         assert(walletAddress != null),
-        assert(communityManagerAddress != null),
-        assert(transferManagerAddress != null),
-        assert(daiPointsManagerAddress != null),
+        assert(networks != null),
+        assert(mnemonic != null),
         assert(privateKey != null),
         assert(pincode != null),
         assert(accountAddress != null),
         assert(countryCode != null),
         assert(phoneNumber != null),
         assert(normalizedPhoneNumber != null),
+        assert(receiveBackupDialogShowed != null),
         assert(isoCode != null),
         assert(reverseContacts != null),
         assert(jwtToken != null),
@@ -660,39 +610,37 @@ class _$_UserState implements _UserState {
         assert(isLoggedOut != null),
         assert(isContactsSynced != null),
         assert(backup != null),
-        assert(currency != null),
-        assert(totalBalance != null),
         assert(depositBannerShowed != null),
+        assert(totalBalance != null),
+        assert(homeBackupDialogShowed != null),
+        assert(currency != null),
         assert(isLoginRequest != null),
         assert(isVerifyRequest != null),
-        assert(homeBackupDialogShowed != null),
-        assert(receiveBackupDialogShowed != null);
+        assert(contacts != null);
 
   factory _$_UserState.fromJson(Map<String, dynamic> json) =>
       _$_$_UserStateFromJson(json);
 
+  @JsonKey(defaultValue: const [])
+  @override
+  final List<String> syncedContacts;
+  @override
+  final DateTime installedAt;
+  @JsonKey(defaultValue: 0)
+  @override
+  final int displayBalance;
   @JsonKey(defaultValue: '')
   @override
   final String walletStatus;
   @JsonKey(defaultValue: '')
   @override
   final String walletAddress;
-  @JsonKey(defaultValue: '')
-  @override
-  final String communityManagerAddress;
-  @JsonKey(defaultValue: '')
-  @override
-  final String transferManagerAddress;
-  @JsonKey(defaultValue: '')
-  @override
-  final String daiPointsManagerAddress;
+  @JsonKey(defaultValue: const [])
   @override
   final List<String> networks;
+  @JsonKey(defaultValue: const [])
   @override
   final List<String> mnemonic;
-  @override
-  @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
-  final BiometricAuth authType;
   @JsonKey(defaultValue: '')
   @override
   final String privateKey;
@@ -711,17 +659,15 @@ class _$_UserState implements _UserState {
   @JsonKey(defaultValue: '')
   @override
   final String normalizedPhoneNumber;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool receiveBackupDialogShowed;
   @JsonKey(defaultValue: '')
   @override
   final String isoCode;
-  @override
-  @JsonKey(ignore: true)
-  final List<Contact> contacts;
   @JsonKey(defaultValue: const {})
   @override
   final Map<String, String> reverseContacts;
-  @override
-  final List<String> syncedContacts;
   @JsonKey(defaultValue: '')
   @override
   final String jwtToken;
@@ -749,28 +695,24 @@ class _$_UserState implements _UserState {
   @JsonKey(defaultValue: false)
   @override
   final bool backup;
+  @JsonKey(defaultValue: false)
   @override
-  @JsonKey(ignore: true)
-  final PhoneAuthCredential credentials;
-  @override
-  final int displayBalance;
-  @override
-  final DateTime installedAt;
-  @override
-  @JsonKey(fromJson: currencyJson)
-  final String currency;
+  final bool depositBannerShowed;
   @JsonKey(defaultValue: 0)
   @override
   final num totalBalance;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool homeBackupDialogShowed;
   @override
   @JsonKey(ignore: true)
   final dynamic signupErrorMessage;
   @override
   @JsonKey(ignore: true)
   final dynamic verifyErrorMessage;
-  @JsonKey(defaultValue: false)
   @override
-  final bool depositBannerShowed;
+  @JsonKey(fromJson: currencyJson)
+  final String currency;
   @override
   @JsonKey(ignore: true)
   final bool isLoginRequest;
@@ -778,45 +720,45 @@ class _$_UserState implements _UserState {
   @JsonKey(ignore: true)
   final bool isVerifyRequest;
   @override
-  @JsonKey(ignore: true)
-  final bool homeBackupDialogShowed;
+  @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
+  final BiometricAuth authType;
   @override
   @JsonKey(ignore: true)
-  final bool receiveBackupDialogShowed;
+  final List<Contact> contacts;
+  @override
+  @JsonKey(ignore: true)
+  final PhoneAuthCredential credentials;
 
   @override
   String toString() {
-    return 'UserState(walletStatus: $walletStatus, walletAddress: $walletAddress, communityManagerAddress: $communityManagerAddress, transferManagerAddress: $transferManagerAddress, daiPointsManagerAddress: $daiPointsManagerAddress, networks: $networks, mnemonic: $mnemonic, authType: $authType, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, normalizedPhoneNumber: $normalizedPhoneNumber, isoCode: $isoCode, contacts: $contacts, reverseContacts: $reverseContacts, syncedContacts: $syncedContacts, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, isLoggedOut: $isLoggedOut, isContactsSynced: $isContactsSynced, backup: $backup, credentials: $credentials, displayBalance: $displayBalance, installedAt: $installedAt, currency: $currency, totalBalance: $totalBalance, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, depositBannerShowed: $depositBannerShowed, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, homeBackupDialogShowed: $homeBackupDialogShowed, receiveBackupDialogShowed: $receiveBackupDialogShowed)';
+    return 'UserState(syncedContacts: $syncedContacts, installedAt: $installedAt, displayBalance: $displayBalance, walletStatus: $walletStatus, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, normalizedPhoneNumber: $normalizedPhoneNumber, receiveBackupDialogShowed: $receiveBackupDialogShowed, isoCode: $isoCode, reverseContacts: $reverseContacts, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, isLoggedOut: $isLoggedOut, isContactsSynced: $isContactsSynced, backup: $backup, depositBannerShowed: $depositBannerShowed, totalBalance: $totalBalance, homeBackupDialogShowed: $homeBackupDialogShowed, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, currency: $currency, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, authType: $authType, contacts: $contacts, credentials: $credentials)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _UserState &&
+            (identical(other.syncedContacts, syncedContacts) ||
+                const DeepCollectionEquality()
+                    .equals(other.syncedContacts, syncedContacts)) &&
+            (identical(other.installedAt, installedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.installedAt, installedAt)) &&
+            (identical(other.displayBalance, displayBalance) ||
+                const DeepCollectionEquality()
+                    .equals(other.displayBalance, displayBalance)) &&
             (identical(other.walletStatus, walletStatus) ||
                 const DeepCollectionEquality()
                     .equals(other.walletStatus, walletStatus)) &&
             (identical(other.walletAddress, walletAddress) ||
                 const DeepCollectionEquality()
                     .equals(other.walletAddress, walletAddress)) &&
-            (identical(other.communityManagerAddress, communityManagerAddress) ||
-                const DeepCollectionEquality().equals(
-                    other.communityManagerAddress, communityManagerAddress)) &&
-            (identical(other.transferManagerAddress, transferManagerAddress) ||
-                const DeepCollectionEquality().equals(
-                    other.transferManagerAddress, transferManagerAddress)) &&
-            (identical(other.daiPointsManagerAddress, daiPointsManagerAddress) ||
-                const DeepCollectionEquality().equals(
-                    other.daiPointsManagerAddress, daiPointsManagerAddress)) &&
             (identical(other.networks, networks) ||
                 const DeepCollectionEquality()
                     .equals(other.networks, networks)) &&
             (identical(other.mnemonic, mnemonic) ||
                 const DeepCollectionEquality()
                     .equals(other.mnemonic, mnemonic)) &&
-            (identical(other.authType, authType) ||
-                const DeepCollectionEquality()
-                    .equals(other.authType, authType)) &&
             (identical(other.privateKey, privateKey) ||
                 const DeepCollectionEquality()
                     .equals(other.privateKey, privateKey)) &&
@@ -835,54 +777,65 @@ class _$_UserState implements _UserState {
             (identical(other.normalizedPhoneNumber, normalizedPhoneNumber) ||
                 const DeepCollectionEquality().equals(
                     other.normalizedPhoneNumber, normalizedPhoneNumber)) &&
-            (identical(other.isoCode, isoCode) || const DeepCollectionEquality().equals(other.isoCode, isoCode)) &&
-            (identical(other.contacts, contacts) || const DeepCollectionEquality().equals(other.contacts, contacts)) &&
-            (identical(other.reverseContacts, reverseContacts) || const DeepCollectionEquality().equals(other.reverseContacts, reverseContacts)) &&
-            (identical(other.syncedContacts, syncedContacts) || const DeepCollectionEquality().equals(other.syncedContacts, syncedContacts)) &&
-            (identical(other.jwtToken, jwtToken) || const DeepCollectionEquality().equals(other.jwtToken, jwtToken)) &&
-            (identical(other.displayName, displayName) || const DeepCollectionEquality().equals(other.displayName, displayName)) &&
-            (identical(other.avatarUrl, avatarUrl) || const DeepCollectionEquality().equals(other.avatarUrl, avatarUrl)) &&
-            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.verificationId, verificationId) || const DeepCollectionEquality().equals(other.verificationId, verificationId)) &&
+            (identical(other.receiveBackupDialogShowed, receiveBackupDialogShowed) ||
+                const DeepCollectionEquality().equals(
+                    other.receiveBackupDialogShowed,
+                    receiveBackupDialogShowed)) &&
+            (identical(other.isoCode, isoCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.isoCode, isoCode)) &&
+            (identical(other.reverseContacts, reverseContacts) ||
+                const DeepCollectionEquality()
+                    .equals(other.reverseContacts, reverseContacts)) &&
+            (identical(other.jwtToken, jwtToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.jwtToken, jwtToken)) &&
+            (identical(other.displayName, displayName) ||
+                const DeepCollectionEquality()
+                    .equals(other.displayName, displayName)) &&
+            (identical(other.avatarUrl, avatarUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.avatarUrl, avatarUrl)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.verificationId, verificationId) ||
+                const DeepCollectionEquality().equals(other.verificationId, verificationId)) &&
             (identical(other.identifier, identifier) || const DeepCollectionEquality().equals(other.identifier, identifier)) &&
             (identical(other.isLoggedOut, isLoggedOut) || const DeepCollectionEquality().equals(other.isLoggedOut, isLoggedOut)) &&
             (identical(other.isContactsSynced, isContactsSynced) || const DeepCollectionEquality().equals(other.isContactsSynced, isContactsSynced)) &&
             (identical(other.backup, backup) || const DeepCollectionEquality().equals(other.backup, backup)) &&
-            (identical(other.credentials, credentials) || const DeepCollectionEquality().equals(other.credentials, credentials)) &&
-            (identical(other.displayBalance, displayBalance) || const DeepCollectionEquality().equals(other.displayBalance, displayBalance)) &&
-            (identical(other.installedAt, installedAt) || const DeepCollectionEquality().equals(other.installedAt, installedAt)) &&
-            (identical(other.currency, currency) || const DeepCollectionEquality().equals(other.currency, currency)) &&
+            (identical(other.depositBannerShowed, depositBannerShowed) || const DeepCollectionEquality().equals(other.depositBannerShowed, depositBannerShowed)) &&
             (identical(other.totalBalance, totalBalance) || const DeepCollectionEquality().equals(other.totalBalance, totalBalance)) &&
+            (identical(other.homeBackupDialogShowed, homeBackupDialogShowed) || const DeepCollectionEquality().equals(other.homeBackupDialogShowed, homeBackupDialogShowed)) &&
             (identical(other.signupErrorMessage, signupErrorMessage) || const DeepCollectionEquality().equals(other.signupErrorMessage, signupErrorMessage)) &&
             (identical(other.verifyErrorMessage, verifyErrorMessage) || const DeepCollectionEquality().equals(other.verifyErrorMessage, verifyErrorMessage)) &&
-            (identical(other.depositBannerShowed, depositBannerShowed) || const DeepCollectionEquality().equals(other.depositBannerShowed, depositBannerShowed)) &&
+            (identical(other.currency, currency) || const DeepCollectionEquality().equals(other.currency, currency)) &&
             (identical(other.isLoginRequest, isLoginRequest) || const DeepCollectionEquality().equals(other.isLoginRequest, isLoginRequest)) &&
             (identical(other.isVerifyRequest, isVerifyRequest) || const DeepCollectionEquality().equals(other.isVerifyRequest, isVerifyRequest)) &&
-            (identical(other.homeBackupDialogShowed, homeBackupDialogShowed) || const DeepCollectionEquality().equals(other.homeBackupDialogShowed, homeBackupDialogShowed)) &&
-            (identical(other.receiveBackupDialogShowed, receiveBackupDialogShowed) || const DeepCollectionEquality().equals(other.receiveBackupDialogShowed, receiveBackupDialogShowed)));
+            (identical(other.authType, authType) || const DeepCollectionEquality().equals(other.authType, authType)) &&
+            (identical(other.contacts, contacts) || const DeepCollectionEquality().equals(other.contacts, contacts)) &&
+            (identical(other.credentials, credentials) || const DeepCollectionEquality().equals(other.credentials, credentials)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(syncedContacts) ^
+      const DeepCollectionEquality().hash(installedAt) ^
+      const DeepCollectionEquality().hash(displayBalance) ^
       const DeepCollectionEquality().hash(walletStatus) ^
       const DeepCollectionEquality().hash(walletAddress) ^
-      const DeepCollectionEquality().hash(communityManagerAddress) ^
-      const DeepCollectionEquality().hash(transferManagerAddress) ^
-      const DeepCollectionEquality().hash(daiPointsManagerAddress) ^
       const DeepCollectionEquality().hash(networks) ^
       const DeepCollectionEquality().hash(mnemonic) ^
-      const DeepCollectionEquality().hash(authType) ^
       const DeepCollectionEquality().hash(privateKey) ^
       const DeepCollectionEquality().hash(pincode) ^
       const DeepCollectionEquality().hash(accountAddress) ^
       const DeepCollectionEquality().hash(countryCode) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
       const DeepCollectionEquality().hash(normalizedPhoneNumber) ^
+      const DeepCollectionEquality().hash(receiveBackupDialogShowed) ^
       const DeepCollectionEquality().hash(isoCode) ^
-      const DeepCollectionEquality().hash(contacts) ^
       const DeepCollectionEquality().hash(reverseContacts) ^
-      const DeepCollectionEquality().hash(syncedContacts) ^
       const DeepCollectionEquality().hash(jwtToken) ^
       const DeepCollectionEquality().hash(displayName) ^
       const DeepCollectionEquality().hash(avatarUrl) ^
@@ -892,18 +845,17 @@ class _$_UserState implements _UserState {
       const DeepCollectionEquality().hash(isLoggedOut) ^
       const DeepCollectionEquality().hash(isContactsSynced) ^
       const DeepCollectionEquality().hash(backup) ^
-      const DeepCollectionEquality().hash(credentials) ^
-      const DeepCollectionEquality().hash(displayBalance) ^
-      const DeepCollectionEquality().hash(installedAt) ^
-      const DeepCollectionEquality().hash(currency) ^
+      const DeepCollectionEquality().hash(depositBannerShowed) ^
       const DeepCollectionEquality().hash(totalBalance) ^
+      const DeepCollectionEquality().hash(homeBackupDialogShowed) ^
       const DeepCollectionEquality().hash(signupErrorMessage) ^
       const DeepCollectionEquality().hash(verifyErrorMessage) ^
-      const DeepCollectionEquality().hash(depositBannerShowed) ^
+      const DeepCollectionEquality().hash(currency) ^
       const DeepCollectionEquality().hash(isLoginRequest) ^
       const DeepCollectionEquality().hash(isVerifyRequest) ^
-      const DeepCollectionEquality().hash(homeBackupDialogShowed) ^
-      const DeepCollectionEquality().hash(receiveBackupDialogShowed);
+      const DeepCollectionEquality().hash(authType) ^
+      const DeepCollectionEquality().hash(contacts) ^
+      const DeepCollectionEquality().hash(credentials);
 
   @JsonKey(ignore: true)
   @override
@@ -918,26 +870,22 @@ class _$_UserState implements _UserState {
 
 abstract class _UserState implements UserState {
   factory _UserState(
-      {String walletStatus,
+      {List<String> syncedContacts,
+      DateTime installedAt,
+      int displayBalance,
+      String walletStatus,
       String walletAddress,
-      String communityManagerAddress,
-      String transferManagerAddress,
-      String daiPointsManagerAddress,
       List<String> networks,
       List<String> mnemonic,
-      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
-          BiometricAuth authType,
       String privateKey,
       String pincode,
       String accountAddress,
       String countryCode,
       String phoneNumber,
       String normalizedPhoneNumber,
+      bool receiveBackupDialogShowed,
       String isoCode,
-      @JsonKey(ignore: true)
-          List<Contact> contacts,
       Map<String, String> reverseContacts,
-      List<String> syncedContacts,
       String jwtToken,
       String displayName,
       String avatarUrl,
@@ -947,47 +895,43 @@ abstract class _UserState implements UserState {
       bool isLoggedOut,
       bool isContactsSynced,
       bool backup,
-      @JsonKey(ignore: true)
-          PhoneAuthCredential credentials,
-      int displayBalance,
-      DateTime installedAt,
-      @JsonKey(fromJson: currencyJson)
-          String currency,
+      bool depositBannerShowed,
       num totalBalance,
+      bool homeBackupDialogShowed,
       @JsonKey(ignore: true)
           dynamic signupErrorMessage,
       @JsonKey(ignore: true)
           dynamic verifyErrorMessage,
-      bool depositBannerShowed,
+      @JsonKey(fromJson: currencyJson)
+          String currency,
       @JsonKey(ignore: true)
           bool isLoginRequest,
       @JsonKey(ignore: true)
           bool isVerifyRequest,
+      @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
+          BiometricAuth authType,
       @JsonKey(ignore: true)
-          bool homeBackupDialogShowed,
+          List<Contact> contacts,
       @JsonKey(ignore: true)
-          bool receiveBackupDialogShowed}) = _$_UserState;
+          PhoneAuthCredential credentials}) = _$_UserState;
 
   factory _UserState.fromJson(Map<String, dynamic> json) =
       _$_UserState.fromJson;
 
   @override
+  List<String> get syncedContacts;
+  @override
+  DateTime get installedAt;
+  @override
+  int get displayBalance;
+  @override
   String get walletStatus;
   @override
   String get walletAddress;
   @override
-  String get communityManagerAddress;
-  @override
-  String get transferManagerAddress;
-  @override
-  String get daiPointsManagerAddress;
-  @override
   List<String> get networks;
   @override
   List<String> get mnemonic;
-  @override
-  @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
-  BiometricAuth get authType;
   @override
   String get privateKey;
   @override
@@ -1001,14 +945,11 @@ abstract class _UserState implements UserState {
   @override
   String get normalizedPhoneNumber;
   @override
+  bool get receiveBackupDialogShowed;
+  @override
   String get isoCode;
   @override
-  @JsonKey(ignore: true)
-  List<Contact> get contacts;
-  @override
   Map<String, String> get reverseContacts;
-  @override
-  List<String> get syncedContacts;
   @override
   String get jwtToken;
   @override
@@ -1028,17 +969,11 @@ abstract class _UserState implements UserState {
   @override
   bool get backup;
   @override
-  @JsonKey(ignore: true)
-  PhoneAuthCredential get credentials;
-  @override
-  int get displayBalance;
-  @override
-  DateTime get installedAt;
-  @override
-  @JsonKey(fromJson: currencyJson)
-  String get currency;
+  bool get depositBannerShowed;
   @override
   num get totalBalance;
+  @override
+  bool get homeBackupDialogShowed;
   @override
   @JsonKey(ignore: true)
   dynamic get signupErrorMessage;
@@ -1046,7 +981,8 @@ abstract class _UserState implements UserState {
   @JsonKey(ignore: true)
   dynamic get verifyErrorMessage;
   @override
-  bool get depositBannerShowed;
+  @JsonKey(fromJson: currencyJson)
+  String get currency;
   @override
   @JsonKey(ignore: true)
   bool get isLoginRequest;
@@ -1054,11 +990,14 @@ abstract class _UserState implements UserState {
   @JsonKey(ignore: true)
   bool get isVerifyRequest;
   @override
-  @JsonKey(ignore: true)
-  bool get homeBackupDialogShowed;
+  @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
+  BiometricAuth get authType;
   @override
   @JsonKey(ignore: true)
-  bool get receiveBackupDialogShowed;
+  List<Contact> get contacts;
+  @override
+  @JsonKey(ignore: true)
+  PhoneAuthCredential get credentials;
   @override
   @JsonKey(ignore: true)
   _$UserStateCopyWith<_UserState> get copyWith;

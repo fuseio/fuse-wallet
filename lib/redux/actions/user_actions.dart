@@ -521,7 +521,7 @@ ThunkAction setupWalletCall(walletData) {
     try {
       List<String> networks = List<String>.from(walletData['networks']);
       String walletAddress = walletData['walletAddress'];
-      bool backup = walletData['backup'];
+      bool backup = walletData['backup'] ?? false;
       String communityManagerAddress = walletData['communityManager'];
       String transferManagerAddress = walletData['transferManager'];
       String dAIPointsManagerAddress = walletData['dAIPointsManager'];
@@ -533,11 +533,7 @@ ThunkAction setupWalletCall(walletData) {
         transferManagerAddress: transferManagerAddress,
         networks: networks,
       ));
-      store.dispatch(initWeb3Call(
-        communityManagerAddress: communityManagerAddress,
-        transferManagerAddress: transferManagerAddress,
-        dAIPointsManagerAddress: dAIPointsManagerAddress,
-      ));
+      store.dispatch(initWeb3Call());
       if (networks.contains(foreignNetwork)) {
         store.dispatch(initWeb3ProMode());
         Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
@@ -552,7 +548,7 @@ ThunkAction setupWalletCall(walletData) {
         store.dispatch(createForiegnWalletOnlyIfNeeded());
       }
     } catch (e) {
-      log.error('ERROR - getWalletAddressCall $e');
+      log.error('ERROR - setupWalletCall $e');
     }
   };
 }

@@ -2,7 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:injectable/injectable.dart';
-import 'package:wallet_core/wallet_core.dart' show Web3;
+import 'package:wallet_core/wallet_core.dart' show Web3, API, Graph;
 
 Future<bool> approvalCallback() async {
   return true;
@@ -69,5 +69,15 @@ abstract class Web3Module {
         communityManagerAddress: communityManagerAddress,
         transferManagerAddress: transferManagerAddress,
         daiPointsManagerAddress: daiPointsManagerAddress,
+      );
+
+  @lazySingleton
+  API get api => API(
+        base: DotEnv().env['API_BASE_URL'],
+      );
+
+  @lazySingleton
+  Graph get graph => Graph(
+        baseUrl: DotEnv().env['GRAPH_BASE_URL'],
       );
 }

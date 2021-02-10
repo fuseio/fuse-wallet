@@ -12,7 +12,7 @@ class AuthGuard extends RouteGuard {
     String routeName,
     Object arguments,
   ) async {
-    Store<AppState> store = await createStore();
+    Store<AppState> store = await AppFactory().getStore();
     final bool isAuthenticated = !store.state.userState.isLoggedOut;
     log.info('isAuthenticated isAuthenticated $isAuthenticated');
     if (isAuthenticated) {

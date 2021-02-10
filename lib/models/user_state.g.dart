@@ -8,27 +8,32 @@ part of 'user_state.dart';
 
 _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
   return _$_UserState(
+    syncedContacts:
+        (json['syncedContacts'] as List)?.map((e) => e as String)?.toList() ??
+            [],
+    installedAt: json['installedAt'] == null
+        ? null
+        : DateTime.parse(json['installedAt'] as String),
+    displayBalance: json['displayBalance'] as int ?? 0,
     walletStatus: json['walletStatus'] as String ?? '',
     walletAddress: json['walletAddress'] as String ?? '',
-    communityManagerAddress: json['communityManagerAddress'] as String ?? '',
-    transferManagerAddress: json['transferManagerAddress'] as String ?? '',
-    daiPointsManagerAddress: json['daiPointsManagerAddress'] as String ?? '',
-    networks: (json['networks'] as List)?.map((e) => e as String)?.toList(),
-    mnemonic: (json['mnemonic'] as List)?.map((e) => e as String)?.toList(),
-    authType: authTypeFromJson(json['authType'] as String),
+    networks:
+        (json['networks'] as List)?.map((e) => e as String)?.toList() ?? [],
+    mnemonic:
+        (json['mnemonic'] as List)?.map((e) => e as String)?.toList() ?? [],
     privateKey: json['privateKey'] as String ?? '',
     pincode: json['pincode'] as String ?? '',
     accountAddress: json['accountAddress'] as String ?? '',
     countryCode: json['countryCode'] as String ?? '',
     phoneNumber: json['phoneNumber'] as String ?? '',
     normalizedPhoneNumber: json['normalizedPhoneNumber'] as String ?? '',
+    receiveBackupDialogShowed:
+        json['receiveBackupDialogShowed'] as bool ?? false,
     isoCode: json['isoCode'] as String ?? '',
     reverseContacts: (json['reverseContacts'] as Map<String, dynamic>)?.map(
           (k, e) => MapEntry(k, e as String),
         ) ??
         {},
-    syncedContacts:
-        (json['syncedContacts'] as List)?.map((e) => e as String)?.toList(),
     jwtToken: json['jwtToken'] as String ?? '',
     displayName: json['displayName'] as String ?? 'Anom',
     avatarUrl: json['avatarUrl'] as String ?? '',
@@ -38,35 +43,32 @@ _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
     isLoggedOut: json['isLoggedOut'] as bool ?? false,
     isContactsSynced: json['isContactsSynced'] as bool ?? false,
     backup: json['backup'] as bool ?? false,
-    displayBalance: json['displayBalance'] as int,
-    installedAt: json['installedAt'] == null
-        ? null
-        : DateTime.parse(json['installedAt'] as String),
-    currency: currencyJson(json['currency'] as String),
-    totalBalance: json['totalBalance'] as num ?? 0,
     depositBannerShowed: json['depositBannerShowed'] as bool ?? false,
+    totalBalance: json['totalBalance'] as num ?? 0,
+    homeBackupDialogShowed: json['homeBackupDialogShowed'] as bool ?? false,
+    currency: currencyJson(json['currency'] as String),
+    authType: authTypeFromJson(json['authType'] as String),
   );
 }
 
 Map<String, dynamic> _$_$_UserStateToJson(_$_UserState instance) =>
     <String, dynamic>{
+      'syncedContacts': instance.syncedContacts,
+      'installedAt': instance.installedAt?.toIso8601String(),
+      'displayBalance': instance.displayBalance,
       'walletStatus': instance.walletStatus,
       'walletAddress': instance.walletAddress,
-      'communityManagerAddress': instance.communityManagerAddress,
-      'transferManagerAddress': instance.transferManagerAddress,
-      'daiPointsManagerAddress': instance.daiPointsManagerAddress,
       'networks': instance.networks,
       'mnemonic': instance.mnemonic,
-      'authType': EnumToString.convertToString(instance.authType),
       'privateKey': instance.privateKey,
       'pincode': instance.pincode,
       'accountAddress': instance.accountAddress,
       'countryCode': instance.countryCode,
       'phoneNumber': instance.phoneNumber,
       'normalizedPhoneNumber': instance.normalizedPhoneNumber,
+      'receiveBackupDialogShowed': instance.receiveBackupDialogShowed,
       'isoCode': instance.isoCode,
       'reverseContacts': instance.reverseContacts,
-      'syncedContacts': instance.syncedContacts,
       'jwtToken': instance.jwtToken,
       'displayName': instance.displayName,
       'avatarUrl': instance.avatarUrl,
@@ -76,9 +78,9 @@ Map<String, dynamic> _$_$_UserStateToJson(_$_UserState instance) =>
       'isLoggedOut': instance.isLoggedOut,
       'isContactsSynced': instance.isContactsSynced,
       'backup': instance.backup,
-      'displayBalance': instance.displayBalance,
-      'installedAt': instance.installedAt?.toIso8601String(),
-      'currency': instance.currency,
-      'totalBalance': instance.totalBalance,
       'depositBannerShowed': instance.depositBannerShowed,
+      'totalBalance': instance.totalBalance,
+      'homeBackupDialogShowed': instance.homeBackupDialogShowed,
+      'currency': instance.currency,
+      'authType': EnumToString.convertToString(instance.authType),
     };

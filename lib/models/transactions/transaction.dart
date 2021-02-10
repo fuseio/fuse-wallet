@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:fusecash/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transaction.g.dart';

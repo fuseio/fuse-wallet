@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/exchangable_tokens.dart';
 import 'package:fusecash/constants/variables.dart';
@@ -141,18 +141,9 @@ ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddrees, transfer) {
 
 ThunkAction initWeb3ProMode() {
   return (Store store) async {
-    UserState userState = store.state.userState;
-    String pk = userState.privateKey;
-    wallet_core.Web3 web3 = wallet_core.Web3(
-      approvalCallback,
-      url: DotEnv().env['FOREIGN_PROVIDER_URL'],
-      networkId: int.parse(DotEnv().env['FOREIGN_NETWORK_ID']),
-      transferManagerAddress: userState.transferManagerAddress,
-      daiPointsManagerAddress: userState.daiPointsManagerAddress,
-      communityManagerAddress: userState.communityManagerAddress,
-    );
-    web3.setCredentials(pk);
-    store.dispatch(InitWeb3ProModeSuccess(web3: web3));
+    wallet_core.Web3 web3 =
+        getIt<wallet_core.Web3>(instanceName: 'foreignWeb3');
+    web3.setCredentials(store.state.userState.privateKey);
   };
 }
 
@@ -349,11 +340,8 @@ ThunkAction addTokens({List<String> contractAddresses = const []}) {
 ThunkAction fetchTokenByAddress(String tokenAddress) {
   return (Store store) async {
     log.info('new token to add $tokenAddress');
-    ProWalletState proWalletState = store.state.proWalletState;
-    wallet_core.Web3 web3 = proWalletState.web3;
-    if (web3 == null) {
-      throw "Web3 is empty";
-    }
+    wallet_core.Web3 web3 =
+        getIt<wallet_core.Web3>(instanceName: 'foreignWeb3');
     if (exchangableTokens.containsKey(checksumEthereumAddress(tokenAddress))) {
       Token newToken = exchangableTokens[checksumEthereumAddress(tokenAddress)];
       log.info('ADDED - new token $tokenAddress');
@@ -412,10 +400,8 @@ ThunkAction getEtherBalabnce() {
     try {
       BigInt etherBalance =
           store.state.proWalletState.etherBalance ?? BigInt.zero;
-      wallet_core.Web3 web3 = store.state.proWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
+      wallet_core.Web3 web3 =
+          getIt<wallet_core.Web3>(instanceName: 'foreignWeb3');
       EtherAmount balance = await web3.getBalance();
       if (etherBalance.compareTo(balance.getInWei) != 0) {
         store.dispatch(UpdateEtherBalabnce(balance: balance.getInWei));
@@ -492,10 +478,8 @@ ThunkAction sendErc20TokenCall(
     try {
       UserState userState = store.state.userState;
       String walletAddress = userState.walletAddress;
-      wallet_core.Web3 web3 = store.state.proWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
+      wallet_core.Web3 web3 =
+          getIt<wallet_core.Web3>(instanceName: 'foreignWeb3');
       log.info(
           'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
       num feeAmount = fees[token.symbol] ?? 1;
@@ -577,10 +561,8 @@ ThunkAction sendTokenToHomeMultiBridge(
     try {
       UserState userState = store.state.userState;
       String walletAddress = userState.walletAddress;
-      wallet_core.Web3 web3 = store.state.proWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
+      wallet_core.Web3 web3 =
+          getIt<wallet_core.Web3>(instanceName: 'foreignWeb3');
       String tokenAddress = token?.address;
       BigInt value = toBigInt(tokensAmount, token.decimals);
       dynamic response;
@@ -804,10 +786,8 @@ ThunkAction swapHandler(
   return (Store store) async {
     UserState userState = store.state.userState;
     String walletAddress = userState.walletAddress;
-    wallet_core.Web3 web3 = store.state.proWalletState.web3;
-    if (web3 == null) {
-      throw "Web3 is empty";
-    }
+    wallet_core.Web3 web3 =
+        getIt<wallet_core.Web3>(instanceName: 'foreignWeb3');
     try {
       num feeAmount = fees[fromToken.symbol] ?? 0;
       Map<String, dynamic> signedApprovalData = await web3.approveTokenOffChain(

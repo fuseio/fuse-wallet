@@ -227,7 +227,7 @@ class _TopupScreenState extends State<TopupScreen>
         converter: TopupViewModel.fromStore,
         builder: (_, viewModel) {
           List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
-          dynamic url = depositPlugins[0]?.generateUrl() ?? '';
+          dynamic url = depositPlugins[0].widgetUrl;
           return Center(
             child: PrimaryButton(
               opacity: 1,

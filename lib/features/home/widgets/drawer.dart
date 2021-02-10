@@ -12,7 +12,6 @@ import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/utils/format.dart';
 
-
 class DrawerWidget extends StatefulWidget {
   @override
   _DrawerWidgetState createState() => _DrawerWidgetState();
@@ -95,7 +94,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ),
         onTap: () {
           ExtendedNavigator.root.pop();
-          dynamic url = depositPlugins[0].generateUrl();
+          dynamic url = depositPlugins[0].widgetUrl;
           ExtendedNavigator.root.pushWebview(
               withBack: true, url: url, title: I18n.of(context).top_up);
           Segment.track(eventName: 'User clicked on top up');

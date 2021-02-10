@@ -178,7 +178,7 @@ class CashHeader extends StatelessWidget {
                                                 onTap: () {
                                                   final String url =
                                                       depositPlugins[0]
-                                                          .generateUrl();
+                                                          .widgetUrl;
                                                   ExtendedNavigator.root
                                                       .pushWebview(
                                                     withBack: true,
