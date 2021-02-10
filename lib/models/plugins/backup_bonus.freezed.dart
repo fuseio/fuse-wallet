@@ -123,7 +123,7 @@ class __$BackupBonusPluginCopyWithImpl<$Res>
 }
 
 @Implements(Plugin)
-@JsonSerializable(createFactory: false)
+@JsonSerializable()
 
 /// @nodoc
 class _$_BackupBonusPlugin implements _BackupBonusPlugin {

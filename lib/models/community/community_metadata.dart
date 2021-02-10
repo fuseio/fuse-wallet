@@ -17,7 +17,7 @@ abstract class CommunityMetadata implements _$CommunityMetadata {
     String imageUri,
   }) = _CommunityMetadata;
 
-  const CommunityMetadata._(); // Added constructor
+  const CommunityMetadata._();
 
   String getImageUri() {
     if (![null, ''].contains(imageUri)) {

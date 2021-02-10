@@ -10,8 +10,9 @@ final GetIt getIt = GetIt.instance;
 void configureDependencies({
   String environment,
 }) {
-  getIt.registerFactory<API>(() => API(base: DotEnv().env['API_BASE_URL']));
-  getIt.registerFactory<Graph>(
-      () => Graph(baseUrl: DotEnv().env['GRAPH_BASE_URL']));
+  getIt.registerLazySingleton<API>(
+      () => API(base: 'https://studio.fuse.io/api'));
+  getIt.registerLazySingleton<Graph>(
+      () => Graph(baseUrl: 'https://graph.fuse.io/subgraphs/name/fuseio'));
   $initGetIt(getIt, environment: environment);
 }

@@ -123,11 +123,10 @@ CashWalletState _fetchCommunityMetadataSuccess(
 
 CashWalletState _setDefaultCommunity(
     CashWalletState state, SetDefaultCommunity action) {
-  Community current = new Community();
-  Community defaultCom = current.copyWith(address: action.defaultCommunity);
+  // Community defaultCom = Community(address: action.defaultCommunity);
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
-  newOne[action.defaultCommunity] = defaultCom;
+  newOne[action.defaultCommunity] = Community(address: action.defaultCommunity);
   return state.copyWith(
       communityAddress: action.defaultCommunity,
       communities: newOne,

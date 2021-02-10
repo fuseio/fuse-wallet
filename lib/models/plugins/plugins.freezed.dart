@@ -8,6 +8,9 @@ part of 'plugins.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+Plugins _$PluginsFromJson(Map<String, dynamic> json) {
+  return _Plugins.fromJson(json);
+}
 
 /// @nodoc
 class _$PluginsTearOff {
@@ -18,19 +21,32 @@ class _$PluginsTearOff {
       {RampInstantPlugin rampInstant,
       MoonpayPlugin moonpay,
       TransakPlugin transak,
-      JoinBonusPlugin joinBonus,
-      WalletBannerPlugin walletBanner,
-      BackupBonusPlugin backupBonus,
-      InviteBonusPlugin inviteBonus}) {
+      @JsonKey(includeIfNull: false)
+      @WalletBannerPluginConverter()
+          WalletBannerPlugin walletBanner,
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
+          JoinBonusPlugin joinBonus,
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
+          BackupBonusPlugin backupBonus,
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
+          InviteBonusPlugin inviteBonus}) {
     return _Plugins(
       rampInstant: rampInstant,
       moonpay: moonpay,
       transak: transak,
-      joinBonus: joinBonus,
       walletBanner: walletBanner,
+      joinBonus: joinBonus,
       backupBonus: backupBonus,
       inviteBonus: inviteBonus,
     );
+  }
+
+// ignore: unused_element
+  Plugins fromJson(Map<String, Object> json) {
+    return Plugins.fromJson(json);
   }
 }
 
@@ -43,11 +59,20 @@ mixin _$Plugins {
   RampInstantPlugin get rampInstant;
   MoonpayPlugin get moonpay;
   TransakPlugin get transak;
-  JoinBonusPlugin get joinBonus;
+  @JsonKey(includeIfNull: false)
+  @WalletBannerPluginConverter()
   WalletBannerPlugin get walletBanner;
+  @JsonKey(includeIfNull: false)
+  @JoinBonusPluginConverter()
+  JoinBonusPlugin get joinBonus;
+  @JsonKey(includeIfNull: false)
+  @BackupBonusPluginConverter()
   BackupBonusPlugin get backupBonus;
+  @JsonKey(includeIfNull: false)
+  @InviteBonusPluginConverter()
   InviteBonusPlugin get inviteBonus;
 
+  Map<String, dynamic> toJson();
   @JsonKey(ignore: true)
   $PluginsCopyWith<Plugins> get copyWith;
 }
@@ -60,16 +85,24 @@ abstract class $PluginsCopyWith<$Res> {
       {RampInstantPlugin rampInstant,
       MoonpayPlugin moonpay,
       TransakPlugin transak,
-      JoinBonusPlugin joinBonus,
-      WalletBannerPlugin walletBanner,
-      BackupBonusPlugin backupBonus,
-      InviteBonusPlugin inviteBonus});
+      @JsonKey(includeIfNull: false)
+      @WalletBannerPluginConverter()
+          WalletBannerPlugin walletBanner,
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
+          JoinBonusPlugin joinBonus,
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
+          BackupBonusPlugin backupBonus,
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
+          InviteBonusPlugin inviteBonus});
 
   $RampInstantPluginCopyWith<$Res> get rampInstant;
   $MoonpayPluginCopyWith<$Res> get moonpay;
   $TransakPluginCopyWith<$Res> get transak;
-  $JoinBonusPluginCopyWith<$Res> get joinBonus;
   $WalletBannerPluginCopyWith<$Res> get walletBanner;
+  $JoinBonusPluginCopyWith<$Res> get joinBonus;
   $BackupBonusPluginCopyWith<$Res> get backupBonus;
   $InviteBonusPluginCopyWith<$Res> get inviteBonus;
 }
@@ -87,8 +120,8 @@ class _$PluginsCopyWithImpl<$Res> implements $PluginsCopyWith<$Res> {
     Object rampInstant = freezed,
     Object moonpay = freezed,
     Object transak = freezed,
-    Object joinBonus = freezed,
     Object walletBanner = freezed,
+    Object joinBonus = freezed,
     Object backupBonus = freezed,
     Object inviteBonus = freezed,
   }) {
@@ -98,12 +131,12 @@ class _$PluginsCopyWithImpl<$Res> implements $PluginsCopyWith<$Res> {
           : rampInstant as RampInstantPlugin,
       moonpay: moonpay == freezed ? _value.moonpay : moonpay as MoonpayPlugin,
       transak: transak == freezed ? _value.transak : transak as TransakPlugin,
-      joinBonus: joinBonus == freezed
-          ? _value.joinBonus
-          : joinBonus as JoinBonusPlugin,
       walletBanner: walletBanner == freezed
           ? _value.walletBanner
           : walletBanner as WalletBannerPlugin,
+      joinBonus: joinBonus == freezed
+          ? _value.joinBonus
+          : joinBonus as JoinBonusPlugin,
       backupBonus: backupBonus == freezed
           ? _value.backupBonus
           : backupBonus as BackupBonusPlugin,
@@ -144,22 +177,22 @@ class _$PluginsCopyWithImpl<$Res> implements $PluginsCopyWith<$Res> {
   }
 
   @override
-  $JoinBonusPluginCopyWith<$Res> get joinBonus {
-    if (_value.joinBonus == null) {
-      return null;
-    }
-    return $JoinBonusPluginCopyWith<$Res>(_value.joinBonus, (value) {
-      return _then(_value.copyWith(joinBonus: value));
-    });
-  }
-
-  @override
   $WalletBannerPluginCopyWith<$Res> get walletBanner {
     if (_value.walletBanner == null) {
       return null;
     }
     return $WalletBannerPluginCopyWith<$Res>(_value.walletBanner, (value) {
       return _then(_value.copyWith(walletBanner: value));
+    });
+  }
+
+  @override
+  $JoinBonusPluginCopyWith<$Res> get joinBonus {
+    if (_value.joinBonus == null) {
+      return null;
+    }
+    return $JoinBonusPluginCopyWith<$Res>(_value.joinBonus, (value) {
+      return _then(_value.copyWith(joinBonus: value));
     });
   }
 
@@ -193,10 +226,18 @@ abstract class _$PluginsCopyWith<$Res> implements $PluginsCopyWith<$Res> {
       {RampInstantPlugin rampInstant,
       MoonpayPlugin moonpay,
       TransakPlugin transak,
-      JoinBonusPlugin joinBonus,
-      WalletBannerPlugin walletBanner,
-      BackupBonusPlugin backupBonus,
-      InviteBonusPlugin inviteBonus});
+      @JsonKey(includeIfNull: false)
+      @WalletBannerPluginConverter()
+          WalletBannerPlugin walletBanner,
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
+          JoinBonusPlugin joinBonus,
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
+          BackupBonusPlugin backupBonus,
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
+          InviteBonusPlugin inviteBonus});
 
   @override
   $RampInstantPluginCopyWith<$Res> get rampInstant;
@@ -205,9 +246,9 @@ abstract class _$PluginsCopyWith<$Res> implements $PluginsCopyWith<$Res> {
   @override
   $TransakPluginCopyWith<$Res> get transak;
   @override
-  $JoinBonusPluginCopyWith<$Res> get joinBonus;
-  @override
   $WalletBannerPluginCopyWith<$Res> get walletBanner;
+  @override
+  $JoinBonusPluginCopyWith<$Res> get joinBonus;
   @override
   $BackupBonusPluginCopyWith<$Res> get backupBonus;
   @override
@@ -228,8 +269,8 @@ class __$PluginsCopyWithImpl<$Res> extends _$PluginsCopyWithImpl<$Res>
     Object rampInstant = freezed,
     Object moonpay = freezed,
     Object transak = freezed,
-    Object joinBonus = freezed,
     Object walletBanner = freezed,
+    Object joinBonus = freezed,
     Object backupBonus = freezed,
     Object inviteBonus = freezed,
   }) {
@@ -239,12 +280,12 @@ class __$PluginsCopyWithImpl<$Res> extends _$PluginsCopyWithImpl<$Res>
           : rampInstant as RampInstantPlugin,
       moonpay: moonpay == freezed ? _value.moonpay : moonpay as MoonpayPlugin,
       transak: transak == freezed ? _value.transak : transak as TransakPlugin,
-      joinBonus: joinBonus == freezed
-          ? _value.joinBonus
-          : joinBonus as JoinBonusPlugin,
       walletBanner: walletBanner == freezed
           ? _value.walletBanner
           : walletBanner as WalletBannerPlugin,
+      joinBonus: joinBonus == freezed
+          ? _value.joinBonus
+          : joinBonus as JoinBonusPlugin,
       backupBonus: backupBonus == freezed
           ? _value.backupBonus
           : backupBonus as BackupBonusPlugin,
@@ -255,17 +296,30 @@ class __$PluginsCopyWithImpl<$Res> extends _$PluginsCopyWithImpl<$Res>
   }
 }
 
+@JsonSerializable()
+
 /// @nodoc
 class _$_Plugins extends _Plugins {
   _$_Plugins(
       {this.rampInstant,
       this.moonpay,
       this.transak,
-      this.joinBonus,
-      this.walletBanner,
-      this.backupBonus,
-      this.inviteBonus})
+      @JsonKey(includeIfNull: false)
+      @WalletBannerPluginConverter()
+          this.walletBanner,
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
+          this.joinBonus,
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
+          this.backupBonus,
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
+          this.inviteBonus})
       : super._();
+
+  factory _$_Plugins.fromJson(Map<String, dynamic> json) =>
+      _$_$_PluginsFromJson(json);
 
   @override
   final RampInstantPlugin rampInstant;
@@ -274,17 +328,25 @@ class _$_Plugins extends _Plugins {
   @override
   final TransakPlugin transak;
   @override
-  final JoinBonusPlugin joinBonus;
-  @override
+  @JsonKey(includeIfNull: false)
+  @WalletBannerPluginConverter()
   final WalletBannerPlugin walletBanner;
   @override
+  @JsonKey(includeIfNull: false)
+  @JoinBonusPluginConverter()
+  final JoinBonusPlugin joinBonus;
+  @override
+  @JsonKey(includeIfNull: false)
+  @BackupBonusPluginConverter()
   final BackupBonusPlugin backupBonus;
   @override
+  @JsonKey(includeIfNull: false)
+  @InviteBonusPluginConverter()
   final InviteBonusPlugin inviteBonus;
 
   @override
   String toString() {
-    return 'Plugins(rampInstant: $rampInstant, moonpay: $moonpay, transak: $transak, joinBonus: $joinBonus, walletBanner: $walletBanner, backupBonus: $backupBonus, inviteBonus: $inviteBonus)';
+    return 'Plugins(rampInstant: $rampInstant, moonpay: $moonpay, transak: $transak, walletBanner: $walletBanner, joinBonus: $joinBonus, backupBonus: $backupBonus, inviteBonus: $inviteBonus)';
   }
 
   @override
@@ -300,12 +362,12 @@ class _$_Plugins extends _Plugins {
             (identical(other.transak, transak) ||
                 const DeepCollectionEquality()
                     .equals(other.transak, transak)) &&
-            (identical(other.joinBonus, joinBonus) ||
-                const DeepCollectionEquality()
-                    .equals(other.joinBonus, joinBonus)) &&
             (identical(other.walletBanner, walletBanner) ||
                 const DeepCollectionEquality()
                     .equals(other.walletBanner, walletBanner)) &&
+            (identical(other.joinBonus, joinBonus) ||
+                const DeepCollectionEquality()
+                    .equals(other.joinBonus, joinBonus)) &&
             (identical(other.backupBonus, backupBonus) ||
                 const DeepCollectionEquality()
                     .equals(other.backupBonus, backupBonus)) &&
@@ -320,8 +382,8 @@ class _$_Plugins extends _Plugins {
       const DeepCollectionEquality().hash(rampInstant) ^
       const DeepCollectionEquality().hash(moonpay) ^
       const DeepCollectionEquality().hash(transak) ^
-      const DeepCollectionEquality().hash(joinBonus) ^
       const DeepCollectionEquality().hash(walletBanner) ^
+      const DeepCollectionEquality().hash(joinBonus) ^
       const DeepCollectionEquality().hash(backupBonus) ^
       const DeepCollectionEquality().hash(inviteBonus);
 
@@ -329,6 +391,11 @@ class _$_Plugins extends _Plugins {
   @override
   _$PluginsCopyWith<_Plugins> get copyWith =>
       __$PluginsCopyWithImpl<_Plugins>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_PluginsToJson(this);
+  }
 }
 
 abstract class _Plugins extends Plugins {
@@ -337,10 +404,20 @@ abstract class _Plugins extends Plugins {
       {RampInstantPlugin rampInstant,
       MoonpayPlugin moonpay,
       TransakPlugin transak,
-      JoinBonusPlugin joinBonus,
-      WalletBannerPlugin walletBanner,
-      BackupBonusPlugin backupBonus,
-      InviteBonusPlugin inviteBonus}) = _$_Plugins;
+      @JsonKey(includeIfNull: false)
+      @WalletBannerPluginConverter()
+          WalletBannerPlugin walletBanner,
+      @JsonKey(includeIfNull: false)
+      @JoinBonusPluginConverter()
+          JoinBonusPlugin joinBonus,
+      @JsonKey(includeIfNull: false)
+      @BackupBonusPluginConverter()
+          BackupBonusPlugin backupBonus,
+      @JsonKey(includeIfNull: false)
+      @InviteBonusPluginConverter()
+          InviteBonusPlugin inviteBonus}) = _$_Plugins;
+
+  factory _Plugins.fromJson(Map<String, dynamic> json) = _$_Plugins.fromJson;
 
   @override
   RampInstantPlugin get rampInstant;
@@ -349,12 +426,20 @@ abstract class _Plugins extends Plugins {
   @override
   TransakPlugin get transak;
   @override
-  JoinBonusPlugin get joinBonus;
-  @override
+  @JsonKey(includeIfNull: false)
+  @WalletBannerPluginConverter()
   WalletBannerPlugin get walletBanner;
   @override
+  @JsonKey(includeIfNull: false)
+  @JoinBonusPluginConverter()
+  JoinBonusPlugin get joinBonus;
+  @override
+  @JsonKey(includeIfNull: false)
+  @BackupBonusPluginConverter()
   BackupBonusPlugin get backupBonus;
   @override
+  @JsonKey(includeIfNull: false)
+  @InviteBonusPluginConverter()
   InviteBonusPlugin get inviteBonus;
   @override
   @JsonKey(ignore: true)

@@ -8,7 +8,7 @@ part 'moonpay.g.dart';
 @freezed
 abstract class MoonpayPlugin with _$MoonpayPlugin {
   @Implements(Plugin)
-  @JsonSerializable(createFactory: false)
+  @JsonSerializable()
   factory MoonpayPlugin({
     String name,
     String widgetUrl,

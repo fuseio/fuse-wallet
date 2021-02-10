@@ -6,6 +6,17 @@ part of 'wallet_banner.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$_WalletBannerPlugin _$_$_WalletBannerPluginFromJson(
+    Map<String, dynamic> json) {
+  return _$_WalletBannerPlugin(
+    type: json['type'] as String ?? 'walletBanner',
+    walletBannerHash: json['walletBannerHash'] as String,
+    name: json['name'] as String,
+    link: json['link'] as String,
+    isActive: json['isActive'] as bool,
+  );
+}
+
 Map<String, dynamic> _$_$_WalletBannerPluginToJson(
         _$_WalletBannerPlugin instance) =>
     <String, dynamic>{
@@ -14,5 +25,4 @@ Map<String, dynamic> _$_$_WalletBannerPluginToJson(
       'name': instance.name,
       'link': instance.link,
       'isActive': instance.isActive,
-      'hashCode': instance.hashCode,
     };

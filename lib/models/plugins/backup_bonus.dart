@@ -8,7 +8,7 @@ part 'backup_bonus.g.dart';
 @freezed
 abstract class BackupBonusPlugin with _$BackupBonusPlugin {
   @Implements(Plugin)
-  @JsonSerializable(createFactory: false)
+  @JsonSerializable()
   factory BackupBonusPlugin({
     @Default('backupBonus') String type,
     String amount,
@@ -16,13 +16,25 @@ abstract class BackupBonusPlugin with _$BackupBonusPlugin {
     bool isActive,
   }) = _BackupBonusPlugin;
 
-  factory BackupBonusPlugin.fromJson(dynamic json) => json != null
+  factory BackupBonusPlugin.fromJson(dynamic json) =>
+      _$BackupBonusPluginFromJson(json);
+}
+
+class BackupBonusPluginConverter
+    implements JsonConverter<BackupBonusPlugin, Map<String, dynamic>> {
+  const BackupBonusPluginConverter();
+
+  @override
+  BackupBonusPlugin fromJson(Map<String, dynamic> json) => json != null
       ? BackupBonusPlugin(
           name: json['name'],
-          amount: json.containsKey('joinInfo')
-              ? json['joinInfo']['amount']
+          amount: json.containsKey('backupInfo')
+              ? json['backupInfo']['amount']
               : json['amount'],
           isActive: json["isActive"] ?? false,
         )
       : null;
+
+  @override
+  Map<String, dynamic> toJson(BackupBonusPlugin instance) => instance?.toJson();
 }

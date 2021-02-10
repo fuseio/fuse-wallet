@@ -8,7 +8,7 @@ part 'invite_bonus.g.dart';
 @freezed
 abstract class InviteBonusPlugin with _$InviteBonusPlugin {
   @Implements(Plugin)
-  @JsonSerializable(createFactory: false)
+  @JsonSerializable()
   factory InviteBonusPlugin({
     @Default('inviteBonus') String type,
     String amount,
@@ -16,7 +16,16 @@ abstract class InviteBonusPlugin with _$InviteBonusPlugin {
     bool isActive,
   }) = _InviteBonusPlugin;
 
-  factory InviteBonusPlugin.fromJson(dynamic json) => json != null
+  factory InviteBonusPlugin.fromJson(dynamic json) =>
+      _$InviteBonusPluginFromJson(json);
+}
+
+class InviteBonusPluginConverter
+    implements JsonConverter<InviteBonusPlugin, Map<String, dynamic>> {
+  const InviteBonusPluginConverter();
+
+  @override
+  InviteBonusPlugin fromJson(Map<String, dynamic> json) => json != null
       ? InviteBonusPlugin(
           name: json['name'],
           amount: json.containsKey('inviteInfo')
@@ -25,4 +34,7 @@ abstract class InviteBonusPlugin with _$InviteBonusPlugin {
           isActive: json["isActive"] ?? false,
         )
       : null;
+
+  @override
+  Map<String, dynamic> toJson(InviteBonusPlugin instance) => instance?.toJson();
 }

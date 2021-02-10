@@ -8,21 +8,20 @@ part of 'app_state.dart';
 
 _$_AppState _$_$_AppStateFromJson(Map<String, dynamic> json) {
   return _$_AppState(
-    userState: json['userState'] == null
-        ? null
-        : UserState.fromJson(json['userState']),
-    cashWalletState: json['cashWalletState'] == null
-        ? null
-        : CashWalletState.fromJson(json['cashWalletState']),
-    proWalletState: json['proWalletState'] == null
-        ? null
-        : ProWalletState.fromJson(json['proWalletState']),
+    userState: const UserStateConverter()
+        .fromJson(json['userState'] as Map<String, dynamic>),
+    cashWalletState: const CashWalletStateConverter()
+        .fromJson(json['cashWalletState'] as Map<String, dynamic>),
+    proWalletState: const ProWalletStateConverter()
+        .fromJson(json['proWalletState'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$_$_AppStateToJson(_$_AppState instance) =>
     <String, dynamic>{
-      'userState': instance.userState?.toJson(),
-      'cashWalletState': instance.cashWalletState?.toJson(),
-      'proWalletState': instance.proWalletState?.toJson(),
+      'userState': const UserStateConverter().toJson(instance.userState),
+      'cashWalletState':
+          const CashWalletStateConverter().toJson(instance.cashWalletState),
+      'proWalletState':
+          const ProWalletStateConverter().toJson(instance.proWalletState),
     };

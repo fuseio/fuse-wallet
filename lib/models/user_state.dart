@@ -25,8 +25,8 @@ abstract class UserState with _$UserState {
     @Default('') String communityManagerAddress,
     @Default('') String transferManagerAddress,
     @Default('') String daiPointsManagerAddress,
-    List<String> networks,
-    List<String> mnemonic,
+    @Default([]) List<String> networks,
+    @Default([]) List<String> mnemonic,
     @JsonKey(fromJson: authTypeFromJson, toJson: EnumToString.convertToString)
         BiometricAuth authType,
     @Default('') String privateKey,
@@ -63,4 +63,16 @@ abstract class UserState with _$UserState {
   }) = _UserState;
 
   factory UserState.fromJson(dynamic json) => _$UserStateFromJson(json);
+}
+
+class UserStateConverter
+    implements JsonConverter<UserState, Map<String, dynamic>> {
+  const UserStateConverter();
+
+  @override
+  UserState fromJson(Map<String, dynamic> json) =>
+      json != null ? UserState.fromJson(json) : UserState();
+
+  @override
+  Map<String, dynamic> toJson(UserState instance) => instance?.toJson();
 }

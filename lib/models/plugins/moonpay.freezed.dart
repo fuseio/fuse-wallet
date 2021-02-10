@@ -123,7 +123,7 @@ class __$MoonpayPluginCopyWithImpl<$Res>
 }
 
 @Implements(Plugin)
-@JsonSerializable(createFactory: false)
+@JsonSerializable()
 
 /// @nodoc
 class _$_MoonpayPlugin implements _MoonpayPlugin {

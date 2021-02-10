@@ -65,56 +65,53 @@ class _LockScreenState extends State<LockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          ExtendedNavigator.root.pop<bool>(false);
-          return false;
-        },
-        child: StoreConnector<AppState, LockScreenViewModel>(
-            distinct: true,
-            onInit: (store) {
-              _handleLocalAuh(store);
-            },
-            converter: LockScreenViewModel.fromStore,
-            builder: (_, viewModel) {
-              return Scaffold(
-                  body: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Color(0xFFB1FDC0),
-                    Color(0xFFE6FD99),
-                    Color(0xFFFEFD86)
-                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height * .5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 100,
-                          ),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Image.asset('assets/images/pincode_logo.png',
-                                    width: 71, height: 61),
-                              ],
-                            ),
-                          ),
-                        ],
+    return StoreConnector<AppState, LockScreenViewModel>(
+      distinct: true,
+      onInit: (store) {
+        _handleLocalAuh(store);
+      },
+      converter: LockScreenViewModel.fromStore,
+      builder: (_, viewModel) {
+        return Scaffold(
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                Color(0xFFB1FDC0),
+                Color(0xFFE6FD99),
+                Color(0xFFFEFD86)
+              ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height * .5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 100,
                       ),
-                    )
-                  ],
-                ),
-              ));
-            }));
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.asset('assets/images/pincode_logo.png',
+                                width: 71, height: 61),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

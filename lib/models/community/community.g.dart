@@ -10,7 +10,8 @@ _$_Community _$_$_CommunityFromJson(Map<String, dynamic> json) {
   return _$_Community(
     name: json['name'] as String,
     address: json['address'] as String,
-    plugins: json['plugins'] == null ? null : Plugins.fromJson(json['plugins']),
+    plugins: const PluginsConverter()
+        .fromJson(json['plugins'] as Map<String, dynamic>),
     businesses: (json['businesses'] as List)
         ?.map((e) =>
             e == null ? null : Business.fromJson(e as Map<String, dynamic>))
@@ -36,7 +37,7 @@ Map<String, dynamic> _$_$_CommunityToJson(_$_Community instance) =>
     <String, dynamic>{
       'name': instance.name,
       'address': instance.address,
-      'plugins': instance.plugins?.toJson(),
+      'plugins': const PluginsConverter().toJson(instance.plugins),
       'businesses': instance.businesses?.map((e) => e?.toJson())?.toList(),
       'isMultiBridge': instance.isMultiBridge,
       'isClosed': instance.isClosed,

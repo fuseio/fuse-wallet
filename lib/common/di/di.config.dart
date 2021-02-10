@@ -14,6 +14,7 @@ import 'package:logger/logger.dart';
 import 'package:package_info/package_info.dart';
 import 'package_info.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:wallet_core/wallet_core.dart';
 
 import 'dio.dart';
 import '../../services/apis/exchange.dart';
@@ -26,6 +27,7 @@ import 'logger_di.dart';
 import '../../services/apis/market.dart';
 import 'onboard.dart';
 import 'phone.dart';
+import '../network/web3/onboard.dart';
 
 /// adds generated dependencies
 /// to the provided [GetIt] instance
@@ -43,6 +45,7 @@ Future<GetIt> $initGetIt(
   final loggerDi = _$LoggerDi();
   final packageInfoDi = _$PackageInfoDi();
   final phone = _$Phone();
+  final web3Module = _$Web3Module();
   gh.lazySingleton<Dio>(() => dioDi.dio);
   gh.lazySingleton<Exchange>(() => Exchange(get<Dio>()));
   final resolvedFirebaseApp = await firebaseInjectableModule.firebaseApp;
@@ -57,7 +60,42 @@ Future<GetIt> $initGetIt(
   final resolvedPackageInfo = await packageInfoDi.packageInfo;
   gh.factory<PackageInfo>(() => resolvedPackageInfo);
   gh.lazySingleton<PhoneNumberUtil>(() => phone.phoneNumberUtil);
+  gh.factory<String>(() => web3Module.fuseRpcUrl, instanceName: 'fuseRpcUrl');
+  gh.factory<String>(() => web3Module.ethereumRpcUrl,
+      instanceName: 'ethereumRpcUrl');
+  gh.factory<String>(() => web3Module.defaultCommunityAddress,
+      instanceName: 'defaultCommunityAddress');
+  gh.factory<String>(() => web3Module.communityManagerAddress,
+      instanceName: 'communityManagerAddress');
+  gh.factory<String>(() => web3Module.transferManagerAddress,
+      instanceName: 'transferManagerAddress');
+  gh.factory<String>(() => web3Module.daiPointsManagerAddress,
+      instanceName: 'daiPointsManagerAddress');
+  gh.factory<int>(() => web3Module.fuseNetworkId,
+      instanceName: 'fuseNetworkId');
+  gh.factory<int>(() => web3Module.ethereumNetworkId,
+      instanceName: 'ethereumNetworkId');
   gh.lazySingleton<LogIt>(() => LogIt(get<Logger>()));
+  gh.lazySingleton<Web3>(
+      () => web3Module.homeWeb3(
+            get<String>(instanceName: 'fuseRpcUrl'),
+            get<int>(instanceName: 'fuseNetworkId'),
+            get<String>(instanceName: 'defaultCommunityAddress'),
+            get<String>(instanceName: 'communityManagerAddress'),
+            get<String>(instanceName: 'transferManagerAddress'),
+            get<String>(instanceName: 'daiPointsManagerAddress'),
+          ),
+      instanceName: 'homeWeb3');
+  gh.lazySingleton<Web3>(
+      () => web3Module.foreignWeb3(
+            get<String>(instanceName: 'ethereumRpcUrl'),
+            get<int>(instanceName: 'ethereumNetworkId'),
+            get<String>(instanceName: 'defaultCommunityAddress'),
+            get<String>(instanceName: 'communityManagerAddress'),
+            get<String>(instanceName: 'transferManagerAddress'),
+            get<String>(instanceName: 'daiPointsManagerAddress'),
+          ),
+      instanceName: 'foreignWeb3');
   return get;
 }
 
@@ -74,3 +112,5 @@ class _$LoggerDi extends LoggerDi {}
 class _$PackageInfoDi extends PackageInfoDi {}
 
 class _$Phone extends Phone {}
+
+class _$Web3Module extends Web3Module {}

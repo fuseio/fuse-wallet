@@ -16,29 +16,47 @@ part 'plugins.g.dart';
 abstract class Plugins implements _$Plugins {
   const Plugins._();
 
-  // @JsonSerializable(createFactory: false)
+  @JsonSerializable()
   factory Plugins({
     RampInstantPlugin rampInstant,
     MoonpayPlugin moonpay,
     TransakPlugin transak,
-    JoinBonusPlugin joinBonus,
-    WalletBannerPlugin walletBanner,
-    BackupBonusPlugin backupBonus,
-    InviteBonusPlugin inviteBonus,
+    @JsonKey(includeIfNull: false)
+    @WalletBannerPluginConverter()
+        WalletBannerPlugin walletBanner,
+    @JsonKey(includeIfNull: false)
+    @JoinBonusPluginConverter()
+        JoinBonusPlugin joinBonus,
+    @JsonKey(includeIfNull: false)
+    @BackupBonusPluginConverter()
+        BackupBonusPlugin backupBonus,
+    @JsonKey(includeIfNull: false)
+    @InviteBonusPluginConverter()
+        InviteBonusPlugin inviteBonus,
   }) = _Plugins;
 
-  dynamic toJson() => <String, dynamic>{
-        'rampInstant': this.rampInstant?.toJson(),
-        'moonpay': this.moonpay?.toJson(),
-        'transak': this.transak?.toJson(),
-        'joinBonus': this.joinBonus?.toJson(),
-        'walletBanner': this.walletBanner?.toJson(),
-        'backupBonus': this.backupBonus?.toJson(),
-        'inviteBonus': this.inviteBonus?.toJson(),
-        'hashCode': this.hashCode,
-      };
+  factory Plugins.fromJson(dynamic json) => _$PluginsFromJson(json);
 
-  factory Plugins.fromJson(dynamic json) {
+  List getDepositPlugins() {
+    List depositPlugins = [];
+    if (this.rampInstant != null && this.rampInstant.isActive) {
+      depositPlugins.add(this.rampInstant);
+    }
+    if (this.transak != null && this.transak.isActive) {
+      depositPlugins.add(this.transak);
+    }
+    if (this.moonpay != null && this.moonpay.isActive) {
+      depositPlugins.add(this.moonpay);
+    }
+    return depositPlugins;
+  }
+}
+
+class PluginsConverter implements JsonConverter<Plugins, Map<String, dynamic>> {
+  const PluginsConverter();
+
+  @override
+  Plugins fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return Plugins();
     } else {
@@ -67,17 +85,15 @@ abstract class Plugins implements _$Plugins {
     }
   }
 
-  List getDepositPlugins() {
-    List depositPlugins = [];
-    if (this.rampInstant != null && this.rampInstant.isActive) {
-      depositPlugins.add(this.rampInstant);
-    }
-    if (this.transak != null && this.transak.isActive) {
-      depositPlugins.add(this.transak);
-    }
-    if (this.moonpay != null && this.moonpay.isActive) {
-      depositPlugins.add(this.moonpay);
-    }
-    return depositPlugins;
-  }
+  @override
+  Map<String, dynamic> toJson(Plugins instance) => <String, dynamic>{
+        'rampInstant': instance.rampInstant?.toJson(),
+        'moonpay': instance.moonpay?.toJson(),
+        'transak': instance.transak?.toJson(),
+        'joinBonus': instance.joinBonus?.toJson(),
+        'walletBanner': instance.walletBanner?.toJson(),
+        'backupBonus': instance.backupBonus?.toJson(),
+        'inviteBonus': instance.inviteBonus?.toJson(),
+        'hashCode': instance.hashCode,
+      };
 }

@@ -18,10 +18,12 @@ Map<String, Token> erc20TokensFromJson(Map<String, dynamic> json) =>
 
 @immutable
 @freezed
-abstract class ProWalletState with _$ProWalletState {
+abstract class ProWalletState implements _$ProWalletState {
+  const ProWalletState._();
+
   @JsonSerializable()
   factory ProWalletState({
-    @JsonKey(ignore: true) Web3 web3,
+    // @JsonKey(ignore: true) Web3 web3,
     @JsonKey(fromJson: etherBalanceFromJson) BigInt etherBalance,
     @JsonKey(fromJson: erc20TokensFromJson) Map<String, Token> erc20Tokens,
     @JsonKey(ignore: true) @Default(false) bool isFetchTransferEvents,
@@ -33,6 +35,25 @@ abstract class ProWalletState with _$ProWalletState {
     @JsonKey(ignore: true) @Default(false) bool isFetchNewTokens,
   }) = _ProWalletState;
 
+  factory ProWalletState.initial() {
+    return ProWalletState(
+      erc20Tokens: Map(),
+      etherBalance: BigInt.zero,
+    );
+  }
+
   factory ProWalletState.fromJson(dynamic json) =>
       _$ProWalletStateFromJson(json);
+}
+
+class ProWalletStateConverter
+    implements JsonConverter<ProWalletState, Map<String, dynamic>> {
+  const ProWalletStateConverter();
+
+  @override
+  ProWalletState fromJson(Map<String, dynamic> json) =>
+      json != null ? ProWalletState.fromJson(json) : ProWalletState();
+
+  @override
+  Map<String, dynamic> toJson(ProWalletState instance) => instance?.toJson();
 }

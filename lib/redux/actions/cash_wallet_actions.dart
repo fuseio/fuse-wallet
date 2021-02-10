@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:fusecash/constants/variables.dart';
@@ -25,6 +26,7 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:http/http.dart';
+import 'package:injectable/injectable.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -377,19 +379,20 @@ ThunkAction initWeb3Call({
       String pk = privateKey ?? store.state.userState.privateKey;
       log.info('initWeb3. privateKey: $pk');
       log.info('mnemonic : ${store.state.userState.mnemonic.toString()}');
-      wallet_core.Web3 web3 = wallet_core.Web3(
-        approvalCallback,
-        url: UrlConstants.FUSE_RPC_URL,
-        networkId: Variables.FUSE_CHAIN_ID,
-        defaultCommunityAddress:
-            DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
-        communityManagerAddress: communityManagerAddress ??
-            DotEnv().env['COMMUNITY_MANAGER_CONTRACT_ADDRESS'],
-        transferManagerAddress: transferManagerAddress ??
-            DotEnv().env['TRANSFER_MANAGER_CONTRACT_ADDRESS'],
-        daiPointsManagerAddress: dAIPointsManagerAddress ??
-            DotEnv().env['DAI_POINTS_MANAGER_CONTRACT_ADDRESS'],
-      );
+      wallet_core.Web3 web3 = getIt<wallet_core.Web3>(instanceName: 'homeWeb3');
+      // wallet_core.Web3 web3 = wallet_core.Web3(
+      //   approvalCallback,
+      //   url: UrlConstants.FUSE_RPC_URL,
+      //   networkId: Variables.FUSE_CHAIN_ID,
+      //   defaultCommunityAddress:
+      //       DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'],
+      //   communityManagerAddress: communityManagerAddress ??
+      //       DotEnv().env['COMMUNITY_MANAGER_CONTRACT_ADDRESS'],
+      //   transferManagerAddress: transferManagerAddress ??
+      //       DotEnv().env['TRANSFER_MANAGER_CONTRACT_ADDRESS'],
+      //   daiPointsManagerAddress: dAIPointsManagerAddress ??
+      //       DotEnv().env['DAI_POINTS_MANAGER_CONTRACT_ADDRESS'],
+      // );
       final String branchAddress = store.state.cashWalletState.branchAddress;
       final String communityAddress =
           store.state.cashWalletState.communityAddress;
@@ -402,7 +405,7 @@ ThunkAction initWeb3Call({
         }
       }
       web3.setCredentials(pk);
-      store.dispatch(new InitWeb3Success(web3));
+      // store.dispatch(new InitWeb3Success(web3));
     } catch (e) {
       log.error('ERROR - initWeb3Call $e');
     }
@@ -816,10 +819,11 @@ ThunkAction sendTokenToForeignMultiBridge(
     String transferNote}) {
   return (Store store) async {
     try {
-      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
+      // wallet_core.Web3 web3 = store.state.cashWalletState.web3;
+      // if (web3 == null) {
+      //   throw "Web3 is empty";
+      // }
+      wallet_core.Web3 web3 = getIt<wallet_core.Web3>(instanceName: 'homeWeb3');
       String walletAddress = store.state.userState.walletAddress;
       String tokenAddress = token?.address;
       BigInt value = toBigInt(tokensAmount, token.decimals);
@@ -879,10 +883,12 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
     {String receiverName, String transferNote, Transfer inviteTransfer}) {
   return (Store store) async {
     try {
-      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
+      wallet_core.Web3 web3 = getIt<wallet_core.Web3>(instanceName: 'homeWeb3');
+
+      // wallet_core.Web3 web3 = store.state.cashWalletState.web3;
+      // if (web3 == null) {
+      //   throw "Web3 is empty";
+      // }
       String walletAddress = store.state.userState.walletAddress;
       Map<String, Community> communities =
           store.state.cashWalletState.communities;
@@ -978,10 +984,12 @@ ThunkAction joinCommunityCall(
     {String entitiesListAddress, Community community, Token token}) {
   return (Store store) async {
     try {
-      wallet_core.Web3 web3 = store.state.cashWalletState.web3;
-      if (web3 == null) {
-        throw "Web3 is empty";
-      }
+      wallet_core.Web3 web3 = getIt<wallet_core.Web3>(instanceName: 'homeWeb3');
+
+      // wallet_core.Web3 web3 = store.state.cashWalletState.web3;
+      // if (web3 == null) {
+      //   throw "Web3 is empty";
+      // }
       String walletAddress = store.state.userState.walletAddress;
       bool isMember =
           await graph.isCommunityMember(walletAddress, entitiesListAddress);

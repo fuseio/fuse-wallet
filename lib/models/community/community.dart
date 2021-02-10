@@ -14,7 +14,7 @@ abstract class Community with _$Community {
   factory Community({
     String name,
     String address,
-    Plugins plugins,
+    @PluginsConverter() Plugins plugins,
     List<Business> businesses,
     @Default(false) bool isMultiBridge,
     @Default(false) bool isClosed,

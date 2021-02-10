@@ -9,15 +9,23 @@ part 'app_state.g.dart';
 
 @immutable
 @freezed
-abstract class AppState with _$AppState {
+abstract class AppState implements _$AppState {
+  const AppState._();
+
   @JsonSerializable()
   factory AppState({
-    UserState userState,
-    CashWalletState cashWalletState,
-    ProWalletState proWalletState,
+    @UserStateConverter() UserState userState,
+    @CashWalletStateConverter() CashWalletState cashWalletState,
+    @ProWalletStateConverter() ProWalletState proWalletState,
   }) = _AppState;
 
-  factory AppState.fromJson(dynamic json) => _$AppStateFromJson(json);
+  factory AppState.initial() {
+    return AppState(
+      userState: UserState(),
+      cashWalletState: CashWalletState.initial(),
+      proWalletState: ProWalletState.initial(),
+    );
+  }
 
-  static AppState serializer(dynamic json) => _$AppStateFromJson(json);
+  factory AppState.fromJson(dynamic json) => _$AppStateFromJson(json);
 }

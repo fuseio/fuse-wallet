@@ -6,6 +6,4 @@ abstract class Plugin {
     this.name,
     this.isActive,
   });
-
-  dynamic toJson() => {'name': name, 'isActive': isActive};
 }

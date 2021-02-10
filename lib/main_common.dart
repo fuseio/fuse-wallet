@@ -19,14 +19,15 @@ Future<void> mainCommon(String env) async {
   final envFile = env == 'prod' ? '.env' : '.env_qa';
   await DotEnv().load('environment/$envFile');
   configureDependencies(environment: env);
-  Store<AppState> store = await AppFactory().getStore();
-  await SentryFlutter.init(
-    (options) {
-      options.dsn = DotEnv().env['SENTRY_DSN'];
-      options.serverName = DotEnv().env['API_BASE_URL'];
-      options.environment = env;
-    },
-  );
+  // Store<AppState> store = await AppFactory().getStore();
+  // await SentryFlutter.init(
+  //   (options) {
+  //     options.dsn = DotEnv().env['SENTRY_DSN'];
+  //     options.serverName = DotEnv().env['API_BASE_URL'];
+  //     options.environment = env;
+  //   },
+  // );
+  final store = await createStore();
   runZonedGuarded<Future<void>>(
       () async => runApp(
             MyApp(
@@ -37,7 +38,7 @@ Future<void> mainCommon(String env) async {
     StackTrace stackTrace,
   ) async {
     try {
-      await Sentry.captureException(error, stackTrace: stackTrace);
+      // await Sentry.captureException(error, stackTrace: stackTrace);
     } catch (e) {
       log.error('Sending report to sentry.io failed: $e');
       log.error('Original error: $error');

@@ -36,14 +36,16 @@ Map<String, Community> communitiesFromJson(Map<String, dynamic> list) {
 
 @immutable
 @freezed
-abstract class CashWalletState with _$CashWalletState {
+abstract class CashWalletState implements _$CashWalletState {
+  const CashWalletState._();
+
   @JsonSerializable()
   factory CashWalletState({
     String communityAddress,
     @JsonKey(fromJson: tokensFromJson) Map<String, Token> tokens,
     @JsonKey(name: 'communities', fromJson: communitiesFromJson, toJson: communitiesToJson)
         Map<String, Community> communities,
-    @JsonKey(ignore: true) Web3 web3,
+    // @JsonKey(ignore: true) Web3 web3,
     @JsonKey(ignore: true) String branchAddress,
     @JsonKey(ignore: true) @Default(false) bool isCommunityLoading,
     @JsonKey(ignore: true) @Default(false) bool isCommunityFetched,
@@ -52,9 +54,28 @@ abstract class CashWalletState with _$CashWalletState {
     @JsonKey(ignore: true) @Default(false) bool isListeningToBranch,
     @JsonKey(ignore: true) @Default(false) bool isBranchDataReceived,
     @JsonKey(ignore: true) @Default(false) bool isCommunityBusinessesFetched,
-    @JsonKey(ignore: true, defaultValue: false) bool isJobProcessingStarted,
+    @JsonKey(ignore: true) @Default(false) bool isJobProcessingStarted,
   }) = _CashWalletState;
+
+  factory CashWalletState.initial() {
+    return CashWalletState(
+      communities: Map<String, Community>(),
+      tokens: Map<String, Token>(),
+    );
+  }
 
   factory CashWalletState.fromJson(dynamic json) =>
       _$CashWalletStateFromJson(json);
+}
+
+class CashWalletStateConverter
+    implements JsonConverter<CashWalletState, Map<String, dynamic>> {
+  const CashWalletStateConverter();
+
+  @override
+  CashWalletState fromJson(Map<String, dynamic> json) =>
+      json != null ? CashWalletState.fromJson(json) : CashWalletState();
+
+  @override
+  Map<String, dynamic> toJson(CashWalletState instance) => instance?.toJson();
 }

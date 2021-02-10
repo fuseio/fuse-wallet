@@ -20,7 +20,7 @@ class _$CommunityTearOff {
   _Community call(
       {String name,
       String address,
-      Plugins plugins,
+      @PluginsConverter() Plugins plugins,
       List<Business> businesses,
       bool isMultiBridge = false,
       bool isClosed = false,
@@ -68,6 +68,7 @@ const $Community = _$CommunityTearOff();
 mixin _$Community {
   String get name;
   String get address;
+  @PluginsConverter()
   Plugins get plugins;
   List<Business> get businesses;
   bool get isMultiBridge;
@@ -104,7 +105,7 @@ abstract class $CommunityCopyWith<$Res> {
   $Res call(
       {String name,
       String address,
-      Plugins plugins,
+      @PluginsConverter() Plugins plugins,
       List<Business> businesses,
       bool isMultiBridge,
       bool isClosed,
@@ -217,7 +218,7 @@ abstract class _$CommunityCopyWith<$Res> implements $CommunityCopyWith<$Res> {
   $Res call(
       {String name,
       String address,
-      Plugins plugins,
+      @PluginsConverter() Plugins plugins,
       List<Business> businesses,
       bool isMultiBridge,
       bool isClosed,
@@ -311,7 +312,7 @@ class _$_Community implements _Community {
   _$_Community(
       {this.name,
       this.address,
-      this.plugins,
+      @PluginsConverter() this.plugins,
       this.businesses,
       this.isMultiBridge = false,
       this.isClosed = false,
@@ -337,6 +338,7 @@ class _$_Community implements _Community {
   @override
   final String address;
   @override
+  @PluginsConverter()
   final Plugins plugins;
   @override
   final List<Business> businesses;
@@ -469,7 +471,7 @@ abstract class _Community implements Community {
   factory _Community(
       {String name,
       String address,
-      Plugins plugins,
+      @PluginsConverter() Plugins plugins,
       List<Business> businesses,
       bool isMultiBridge,
       bool isClosed,
@@ -492,6 +494,7 @@ abstract class _Community implements Community {
   @override
   String get address;
   @override
+  @PluginsConverter()
   Plugins get plugins;
   @override
   List<Business> get businesses;

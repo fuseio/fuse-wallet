@@ -8,7 +8,7 @@ part 'join_bonus.g.dart';
 @freezed
 abstract class JoinBonusPlugin with _$JoinBonusPlugin {
   @Implements(Plugin)
-  @JsonSerializable(createFactory: false)
+  @JsonSerializable()
   factory JoinBonusPlugin({
     @Default('joinBonus') String type,
     String amount,
@@ -16,7 +16,16 @@ abstract class JoinBonusPlugin with _$JoinBonusPlugin {
     bool isActive,
   }) = _JoinBonusPlugin;
 
-  factory JoinBonusPlugin.fromJson(dynamic json) => json != null
+  factory JoinBonusPlugin.fromJson(dynamic json) =>
+      _$JoinBonusPluginFromJson(json);
+}
+
+class JoinBonusPluginConverter
+    implements JsonConverter<JoinBonusPlugin, Map<String, dynamic>> {
+  const JoinBonusPluginConverter();
+
+  @override
+  JoinBonusPlugin fromJson(Map<String, dynamic> json) => json != null
       ? JoinBonusPlugin(
           name: json['name'],
           amount: json.containsKey('joinInfo')
@@ -25,4 +34,7 @@ abstract class JoinBonusPlugin with _$JoinBonusPlugin {
           isActive: json["isActive"] ?? false,
         )
       : null;
+
+  @override
+  Map<String, dynamic> toJson(JoinBonusPlugin instance) => instance?.toJson();
 }

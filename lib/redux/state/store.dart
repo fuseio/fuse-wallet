@@ -9,6 +9,38 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 
+final Persistor<AppState> persistor = Persistor<AppState>(
+  storage: SecureStorage(new FlutterSecureStorage()),
+  serializer: JsonSerializer<AppState>((json) => AppState.fromJson(json)),
+  debug: kDebugMode,
+);
+
+List<Middleware<AppState>> createMiddleware() => <Middleware<AppState>>[
+      thunkMiddleware,
+      persistor.createMiddleware(),
+      kDebugMode ? LoggingMiddleware.printer() : null,
+    ]..where((element) => element != null);
+
+Future<Store<AppState>> createStore() async {
+  final _initialState = await _loadState();
+  Store<AppState> store = Store(
+    appReducer,
+    initialState: _initialState,
+    middleware: createMiddleware(),
+  );
+  return store;
+}
+
+Future<AppState> _loadState() async {
+  try {
+    final initialState = await persistor.load();
+    return initialState;
+  } on Exception {
+    // Re-hydration error
+    return AppState.initial();
+  }
+}
+
 class AppFactory {
   static AppFactory _singleton;
   Store<AppState> _store;
@@ -24,12 +56,12 @@ class AppFactory {
 
   Future<Store<AppState>> getStore() async {
     if (_store == null) {
-      final persistor = Persistor<AppState>(
-        storage: SecureStorage(new FlutterSecureStorage()),
-        serializer: JsonSerializer<AppState>(AppState.serializer),
+      FlutterSecureStorage storage = new FlutterSecureStorage();
+      final Persistor<AppState> persistor = Persistor<AppState>(
+        storage: SecureStorage(storage = storage),
+        serializer: JsonSerializer<AppState>((json) => AppState.fromJson(json)),
         debug: kDebugMode,
       );
-
       AppState initialState;
       try {
         initialState = await persistor.load();

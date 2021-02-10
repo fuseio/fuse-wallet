@@ -6,6 +6,15 @@ part of 'backup_bonus.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$_BackupBonusPlugin _$_$_BackupBonusPluginFromJson(Map<String, dynamic> json) {
+  return _$_BackupBonusPlugin(
+    type: json['type'] as String ?? 'backupBonus',
+    amount: json['amount'] as String,
+    name: json['name'] as String,
+    isActive: json['isActive'] as bool,
+  );
+}
+
 Map<String, dynamic> _$_$_BackupBonusPluginToJson(
         _$_BackupBonusPlugin instance) =>
     <String, dynamic>{
@@ -13,5 +22,4 @@ Map<String, dynamic> _$_$_BackupBonusPluginToJson(
       'amount': instance.amount,
       'name': instance.name,
       'isActive': instance.isActive,
-      'hashCode': instance.hashCode,
     };

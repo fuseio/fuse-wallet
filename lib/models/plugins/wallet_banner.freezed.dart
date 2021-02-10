@@ -144,7 +144,7 @@ class __$WalletBannerPluginCopyWithImpl<$Res>
 }
 
 @Implements(Plugin)
-@JsonSerializable(createFactory: false)
+@JsonSerializable()
 
 /// @nodoc
 class _$_WalletBannerPlugin implements _WalletBannerPlugin {

@@ -18,9 +18,9 @@ class _$AppStateTearOff {
 
 // ignore: unused_element
   _AppState call(
-      {UserState userState,
-      CashWalletState cashWalletState,
-      ProWalletState proWalletState}) {
+      {@UserStateConverter() UserState userState,
+      @CashWalletStateConverter() CashWalletState cashWalletState,
+      @ProWalletStateConverter() ProWalletState proWalletState}) {
     return _AppState(
       userState: userState,
       cashWalletState: cashWalletState,
@@ -40,8 +40,11 @@ const $AppState = _$AppStateTearOff();
 
 /// @nodoc
 mixin _$AppState {
+  @UserStateConverter()
   UserState get userState;
+  @CashWalletStateConverter()
   CashWalletState get cashWalletState;
+  @ProWalletStateConverter()
   ProWalletState get proWalletState;
 
   Map<String, dynamic> toJson();
@@ -54,9 +57,9 @@ abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res>;
   $Res call(
-      {UserState userState,
-      CashWalletState cashWalletState,
-      ProWalletState proWalletState});
+      {@UserStateConverter() UserState userState,
+      @CashWalletStateConverter() CashWalletState cashWalletState,
+      @ProWalletStateConverter() ProWalletState proWalletState});
 
   $UserStateCopyWith<$Res> get userState;
   $CashWalletStateCopyWith<$Res> get cashWalletState;
@@ -126,9 +129,9 @@ abstract class _$AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
       __$AppStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {UserState userState,
-      CashWalletState cashWalletState,
-      ProWalletState proWalletState});
+      {@UserStateConverter() UserState userState,
+      @CashWalletStateConverter() CashWalletState cashWalletState,
+      @ProWalletStateConverter() ProWalletState proWalletState});
 
   @override
   $UserStateCopyWith<$Res> get userState;
@@ -169,17 +172,24 @@ class __$AppStateCopyWithImpl<$Res> extends _$AppStateCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_AppState implements _AppState {
-  _$_AppState({this.userState, this.cashWalletState, this.proWalletState});
+class _$_AppState extends _AppState {
+  _$_AppState(
+      {@UserStateConverter() this.userState,
+      @CashWalletStateConverter() this.cashWalletState,
+      @ProWalletStateConverter() this.proWalletState})
+      : super._();
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
       _$_$_AppStateFromJson(json);
 
   @override
+  @UserStateConverter()
   final UserState userState;
   @override
+  @CashWalletStateConverter()
   final CashWalletState cashWalletState;
   @override
+  @ProWalletStateConverter()
   final ProWalletState proWalletState;
 
   @override
@@ -220,19 +230,23 @@ class _$_AppState implements _AppState {
   }
 }
 
-abstract class _AppState implements AppState {
+abstract class _AppState extends AppState {
+  _AppState._() : super._();
   factory _AppState(
-      {UserState userState,
-      CashWalletState cashWalletState,
-      ProWalletState proWalletState}) = _$_AppState;
+      {@UserStateConverter() UserState userState,
+      @CashWalletStateConverter() CashWalletState cashWalletState,
+      @ProWalletStateConverter() ProWalletState proWalletState}) = _$_AppState;
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;
 
   @override
+  @UserStateConverter()
   UserState get userState;
   @override
+  @CashWalletStateConverter()
   CashWalletState get cashWalletState;
   @override
+  @ProWalletStateConverter()
   ProWalletState get proWalletState;
   @override
   @JsonKey(ignore: true)

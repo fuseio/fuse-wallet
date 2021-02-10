@@ -120,7 +120,7 @@ class __$JoinBonusPluginCopyWithImpl<$Res>
 }
 
 @Implements(Plugin)
-@JsonSerializable(createFactory: false)
+@JsonSerializable()
 
 /// @nodoc
 class _$_JoinBonusPlugin implements _JoinBonusPlugin {

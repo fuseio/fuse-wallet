@@ -32,7 +32,7 @@ class LockScreenViewModel extends Equatable {
 
   static LockScreenViewModel fromStore(Store<AppState> store) {
     return LockScreenViewModel(
-      pincode: store.state.userState.pincode,
+      pincode: store.state?.userState?.pincode,
     );
   }
 
