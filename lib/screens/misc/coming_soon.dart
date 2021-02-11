@@ -38,7 +38,10 @@ class SwapScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('assets/images/fuseswap_logo.png'),
+                      Image.asset(
+                        'assets/images/fuseswap_logo.png',
+                        width: 181,
+                      ),
                       SizedBox(
                         height: 10,
                       ),
