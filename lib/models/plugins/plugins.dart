@@ -11,6 +11,18 @@ import 'package:json_annotation/json_annotation.dart';
 part 'plugins.freezed.dart';
 part 'plugins.g.dart';
 
+WalletBannerPlugin walletBannerFromJson(json) =>
+    json == null ? null : WalletBannerPluginConverter().fromJson(json);
+
+JoinBonusPlugin joinBonusPluginFromJson(json) =>
+    json == null ? null : JoinBonusPluginConverter().fromJson(json);
+
+BackupBonusPlugin backupBonusPluginFromJson(json) =>
+    json == null ? null : BackupBonusPluginConverter().fromJson(json);
+
+InviteBonusPlugin inviteBonusPluginFromJson(json) =>
+    json == null ? null : InviteBonusPluginConverter().fromJson(json);
+
 @immutable
 @freezed
 abstract class Plugins implements _$Plugins {
@@ -18,20 +30,20 @@ abstract class Plugins implements _$Plugins {
 
   @JsonSerializable()
   factory Plugins({
-    RampInstantPlugin rampInstant,
-    MoonpayPlugin moonpay,
-    TransakPlugin transak,
-    @JsonKey(includeIfNull: false)
-    @WalletBannerPluginConverter()
+    @nullable @JsonKey(includeIfNull: false) RampInstantPlugin rampInstant,
+    @nullable @JsonKey(includeIfNull: false) MoonpayPlugin moonpay,
+    @nullable @JsonKey(includeIfNull: false) TransakPlugin transak,
+    @nullable
+    @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
         WalletBannerPlugin walletBanner,
-    @JsonKey(includeIfNull: false)
-    @JoinBonusPluginConverter()
+    @nullable
+    @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
         JoinBonusPlugin joinBonus,
-    @JsonKey(includeIfNull: false)
-    @BackupBonusPluginConverter()
+    @nullable
+    @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
         BackupBonusPlugin backupBonus,
-    @JsonKey(includeIfNull: false)
-    @InviteBonusPluginConverter()
+    @nullable
+    @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
         InviteBonusPlugin inviteBonus,
   }) = _Plugins;
 
@@ -77,10 +89,12 @@ class PluginsConverter implements JsonConverter<Plugins, Map<String, dynamic>> {
         moonpay: MoonpayPlugin.fromJson(services["moonpay"] ?? {}),
         rampInstant: RampInstantPlugin.fromJson(services["rampInstant"] ?? {}),
         transak: TransakPlugin.fromJson(services["transak"] ?? {}),
-        joinBonus: JoinBonusPluginConverter().fromJson(json['joinBonus']),
-        walletBanner: WalletBannerPluginConverter().fromJson(json['walletBanner']),
+        joinBonus: JoinBonusPluginConverter().fromJson(json['joinBonus'] ?? {}),
+        walletBanner:
+            WalletBannerPluginConverter().fromJson(json['walletBanner']),
         backupBonus: BackupBonusPluginConverter().fromJson(json['backupBonus']),
-        inviteBonus: InviteBonusPluginConverter().fromJson(json['inviteBonus']),
+        inviteBonus:
+            InviteBonusPluginConverter().fromJson(json['inviteBonus'] ?? {}),
       );
     }
   }

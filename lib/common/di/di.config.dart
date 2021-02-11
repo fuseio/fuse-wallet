@@ -4,7 +4,6 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-import 'package:wallet_core/wallet_core.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,6 +14,7 @@ import 'package:logger/logger.dart';
 import 'package:package_info/package_info.dart';
 import 'package_info.dart';
 import 'package:phone_number/phone_number.dart';
+import 'package:wallet_core/wallet_core.dart';
 
 import 'dio.dart';
 import '../../services/apis/exchange.dart';
@@ -28,6 +28,7 @@ import '../../services/apis/market.dart';
 import 'onboard.dart';
 import 'phone.dart';
 import '../../redux/state/secure_storage.dart';
+import '../network/services.dart';
 import '../network/web3.dart';
 
 /// adds generated dependencies
@@ -39,7 +40,7 @@ Future<GetIt> $initGetIt(
   EnvironmentFilter environmentFilter,
 }) async {
   final gh = GetItHelper(get, environment, environmentFilter);
-  final web3Module = _$Web3Module();
+  final servicesModule = _$ServicesModule();
   final dioDi = _$DioDi();
   final firebaseInjectableModule = _$FirebaseInjectableModule();
   final flutterSecureStorageDi = _$FlutterSecureStorageDi();
@@ -47,7 +48,8 @@ Future<GetIt> $initGetIt(
   final loggerDi = _$LoggerDi();
   final packageInfoDi = _$PackageInfoDi();
   final phone = _$Phone();
-  gh.lazySingleton<API>(() => web3Module.api);
+  final web3Module = _$Web3Module();
+  gh.lazySingleton<API>(() => servicesModule.api);
   gh.lazySingleton<Dio>(() => dioDi.dio);
   gh.lazySingleton<Exchange>(() => Exchange(get<Dio>()));
   final resolvedFirebaseApp = await firebaseInjectableModule.firebaseApp;
@@ -57,7 +59,7 @@ Future<GetIt> $initGetIt(
       () => flutterSecureStorageDi.flutterSecureStorage,
       instanceName: 'flutterSecureStorage');
   gh.lazySingleton<Funder>(() => Funder(get<Dio>()));
-  gh.lazySingleton<Graph>(() => web3Module.graph);
+  gh.lazySingleton<Graph>(() => servicesModule.graph);
   gh.lazySingleton<IOnBoardStrategy>(() => onBoardStrategy.onBoardStrategy);
   gh.lazySingleton<Logger>(() => loggerDi.logger);
   gh.lazySingleton<Market>(() => Market(get<Dio>()));
@@ -105,7 +107,7 @@ Future<GetIt> $initGetIt(
   return get;
 }
 
-class _$Web3Module extends Web3Module {}
+class _$ServicesModule extends ServicesModule {}
 
 class _$DioDi extends DioDi {}
 
@@ -120,3 +122,5 @@ class _$LoggerDi extends LoggerDi {}
 class _$PackageInfoDi extends PackageInfoDi {}
 
 class _$Phone extends Phone {}
+
+class _$Web3Module extends Web3Module {}

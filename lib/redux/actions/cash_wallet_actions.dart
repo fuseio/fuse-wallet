@@ -442,7 +442,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
     try {
       final String communityAddress =
           store.state?.cashWalletState?.communityAddress ??
-              DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'];
+              getIt<String>(instanceName: 'defaultCommunityAddress');
       Map<String, dynamic> response =
           await api.createWallet(communityAddress: communityAddress);
       if (!response.containsKey('job')) {
@@ -953,14 +953,19 @@ ThunkAction transactionFailed(transfer, String failReason) {
   };
 }
 
-ThunkAction joinCommunityCall(
-    {String entitiesListAddress, Community community, Token token}) {
+ThunkAction joinCommunityCall({Community community, Token token}) {
   return (Store store) async {
     try {
       wallet_core.Web3 web3 = getIt<wallet_core.Web3>(instanceName: 'homeWeb3');
       String walletAddress = store.state.userState.walletAddress;
+      dynamic communityData =
+          await graph.getCommunityByAddress(community.address);
+      final String entitiesListAddress =
+          communityData["entitiesList"]["address"];
       bool isMember =
           await graph.isCommunityMember(walletAddress, entitiesListAddress);
+      log.info(
+          'joinCommunityCall isMember - $isMember entitiesListAddress - $entitiesListAddress');
       if (isMember) {
         store.dispatch(AlreadyJoinedCommunity(community.address));
       } else {
@@ -1108,30 +1113,29 @@ Future<Token> fetchToken(
       community.homeTokenAddress.isNotEmpty) {
     Map tokenInfo =
         await fuseExplorerApi.getTokenInfo(community.homeTokenAddress);
-    return Token(
+    final token = Token.fromJson(tokenInfo).copyWith(
       originNetwork: originNetwork,
       address: community.homeTokenAddress.toLowerCase(),
-      decimals: tokenInfo['decimals'],
-      name: formatTokenName(tokenInfo['name']),
-      symbol: tokenInfo['symbol'],
       timestamp: 0,
+      amount: BigInt.zero,
       communityAddress: community.address.toLowerCase(),
+      name: formatTokenName(tokenInfo['name']),
     );
+    return token;
   } else {
-    dynamic token = await graph.getHomeBridgedToken(
+    dynamic tokenInfo = await graph.getHomeBridgedToken(
       community.foreignTokenAddress,
       isRopsten,
     );
-    final String tokenAddress = token['address'].toLowerCase();
-    return Token(
+    final token = Token.fromJson(tokenInfo).copyWith(
       originNetwork: originNetwork,
-      address: tokenAddress,
-      name: formatTokenName(token["name"]),
-      symbol: token["symbol"],
+      address: tokenInfo['address'].toLowerCase(),
       timestamp: 0,
-      decimals: token["decimals"],
+      amount: BigInt.zero,
       communityAddress: community.address.toLowerCase(),
+      name: formatTokenName(tokenInfo['name']),
     );
+    return token;
   }
 }
 

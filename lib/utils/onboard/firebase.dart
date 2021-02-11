@@ -32,8 +32,8 @@ class FirebaseStrategy extends IOnBoardStrategy {
         accountAddress,
         identifier,
       );
-      store.dispatch(SetIsVerifyRequest(isLoading: false, message: ''));
-      store.dispatch(SetIsLoginRequest(isLoading: false, message: ''));
+      store.dispatch(SetIsVerifyRequest(isLoading: false));
+      store.dispatch(SetIsLoginRequest(isLoading: false));
       log.info('jwtToken $jwtToken');
       store.dispatch(LoginVerifySuccess(jwtToken));
       store.dispatch(segmentTrackCall("Wallet: verified phone number"));
@@ -66,7 +66,7 @@ class FirebaseStrategy extends IOnBoardStrategy {
       int forceResendingToken,
     ]) {
       log.info("PhoneCodeSent " + verificationId);
-      store.dispatch(SetIsLoginRequest(isLoading: false, message: ''));
+      store.dispatch(SetIsLoginRequest(isLoading: false));
       store.dispatch(SetCredentials(null));
       store.dispatch(SetVerificationId(verificationId));
       ExtendedNavigator.root.pushVerifyScreen(verificationId: verificationId);

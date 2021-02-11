@@ -12,7 +12,7 @@ part 'token.freezed.dart';
 part 'token.g.dart';
 
 Transactions transactionsFromJson(Map<String, dynamic> json) =>
-    json == null ? Transactions() : Transactions.fromJson(json);
+    json == null ? Transactions.initial() : Transactions.fromJson(json);
 
 List<Job> jobsFromJson(Map<String, dynamic> json) => json == null
     ? List<Job>()

@@ -58,14 +58,14 @@ final cashWalletReducers = combineReducers<CashWalletState>([
 ]);
 
 CashWalletState _addCashTokens(CashWalletState state, AddCashTokens action) {
-  Map<String, Token> newOne =
-      Map<String, Token>.from(state.tokens..removeWhere(clearTokensWithZero));
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne.removeWhere(clearTokensWithZero);
   for (String tokenAddress in action.tokens.keys) {
     if (newOne.containsKey(tokenAddress)) {
       newOne[tokenAddress] = newOne[tokenAddress]
           .copyWith(amount: action.tokens[tokenAddress].amount);
     } else {
-      newOne[tokenAddress] = action.tokens[tokenAddress].copyWith();
+      newOne[tokenAddress] = action.tokens[tokenAddress];
     }
   }
   return state.copyWith(tokens: newOne);
@@ -73,8 +73,8 @@ CashWalletState _addCashTokens(CashWalletState state, AddCashTokens action) {
 
 CashWalletState _addCashToken(CashWalletState state, AddCashToken action) {
   Token token = action.token;
-  Map<String, Token> newOne =
-      Map<String, Token>.from(state.tokens..removeWhere(clearTokensWithZero));
+  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+  newOne.removeWhere(clearTokensWithZero);
   if (!newOne.containsKey(token.address)) {
     newOne[token.address] = token;
   } else {
@@ -94,7 +94,8 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
         newOne.containsKey(checksumEthereumAddress(tokenAddress))
             ? newOne[checksumEthereumAddress(tokenAddress)]
             : newOne[tokenAddress];
-    tokens[tokenAddress] = token.copyWith(transactions: Transactions());
+    tokens[tokenAddress] =
+        token.copyWith(transactions: Transactions(blockNumber: 0, list: []));
   }
   return state.copyWith(tokens: tokens);
 }
@@ -222,24 +223,20 @@ CashWalletState _getTokenTransfersListSuccess(
             (max, e) =>
                 (e.blockNumber ?? 0) > max ? (e.blockNumber ?? 0) : max) +
         1;
-    Token currentToken = state.tokens[tokenAddress];
+    Token currentToken = state.tokens[tokenAddress].copyWith();
     for (Transaction tx in action.tokenTransfers.reversed) {
       Transaction saved = currentToken?.transactions?.list
           ?.firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
         int index = currentToken.transactions.list.indexOf(saved);
-        currentToken.transactions.list[index] = tx;
+        currentToken?.transactions?.list[index] = tx;
       } else {
         currentToken?.transactions?.list?.add(tx);
       }
     }
     Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-    newOne[tokenAddress] = currentToken.copyWith(
-      transactions: currentToken.transactions.copyWith(
-        list: currentToken?.transactions?.list ?? [],
-        blockNumber: maxBlockNumber,
-      ),
-    );
+    newOne[tokenAddress] = currentToken
+      ..transactions.copyWith(blockNumber: maxBlockNumber);
     return state.copyWith(tokens: newOne);
   }
 }

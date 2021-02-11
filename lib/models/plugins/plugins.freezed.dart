@@ -18,20 +18,26 @@ class _$PluginsTearOff {
 
 // ignore: unused_element
   _Plugins call(
-      {RampInstantPlugin rampInstant,
-      MoonpayPlugin moonpay,
-      TransakPlugin transak,
+      {@nullable
       @JsonKey(includeIfNull: false)
-      @WalletBannerPluginConverter()
+          RampInstantPlugin rampInstant,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          MoonpayPlugin moonpay,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          TransakPlugin transak,
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
           WalletBannerPlugin walletBanner,
-      @JsonKey(includeIfNull: false)
-      @JoinBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           JoinBonusPlugin joinBonus,
-      @JsonKey(includeIfNull: false)
-      @BackupBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
           BackupBonusPlugin backupBonus,
-      @JsonKey(includeIfNull: false)
-      @InviteBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
           InviteBonusPlugin inviteBonus}) {
     return _Plugins(
       rampInstant: rampInstant,
@@ -56,20 +62,26 @@ const $Plugins = _$PluginsTearOff();
 
 /// @nodoc
 mixin _$Plugins {
+  @nullable
+  @JsonKey(includeIfNull: false)
   RampInstantPlugin get rampInstant;
+  @nullable
+  @JsonKey(includeIfNull: false)
   MoonpayPlugin get moonpay;
+  @nullable
+  @JsonKey(includeIfNull: false)
   TransakPlugin get transak;
-  @JsonKey(includeIfNull: false)
-  @WalletBannerPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
   WalletBannerPlugin get walletBanner;
-  @JsonKey(includeIfNull: false)
-  @JoinBonusPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
   JoinBonusPlugin get joinBonus;
-  @JsonKey(includeIfNull: false)
-  @BackupBonusPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
   BackupBonusPlugin get backupBonus;
-  @JsonKey(includeIfNull: false)
-  @InviteBonusPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
   InviteBonusPlugin get inviteBonus;
 
   Map<String, dynamic> toJson();
@@ -82,20 +94,26 @@ abstract class $PluginsCopyWith<$Res> {
   factory $PluginsCopyWith(Plugins value, $Res Function(Plugins) then) =
       _$PluginsCopyWithImpl<$Res>;
   $Res call(
-      {RampInstantPlugin rampInstant,
-      MoonpayPlugin moonpay,
-      TransakPlugin transak,
+      {@nullable
       @JsonKey(includeIfNull: false)
-      @WalletBannerPluginConverter()
+          RampInstantPlugin rampInstant,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          MoonpayPlugin moonpay,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          TransakPlugin transak,
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
           WalletBannerPlugin walletBanner,
-      @JsonKey(includeIfNull: false)
-      @JoinBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           JoinBonusPlugin joinBonus,
-      @JsonKey(includeIfNull: false)
-      @BackupBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
           BackupBonusPlugin backupBonus,
-      @JsonKey(includeIfNull: false)
-      @InviteBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
           InviteBonusPlugin inviteBonus});
 
   $RampInstantPluginCopyWith<$Res> get rampInstant;
@@ -223,20 +241,26 @@ abstract class _$PluginsCopyWith<$Res> implements $PluginsCopyWith<$Res> {
       __$PluginsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {RampInstantPlugin rampInstant,
-      MoonpayPlugin moonpay,
-      TransakPlugin transak,
+      {@nullable
       @JsonKey(includeIfNull: false)
-      @WalletBannerPluginConverter()
+          RampInstantPlugin rampInstant,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          MoonpayPlugin moonpay,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          TransakPlugin transak,
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
           WalletBannerPlugin walletBanner,
-      @JsonKey(includeIfNull: false)
-      @JoinBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           JoinBonusPlugin joinBonus,
-      @JsonKey(includeIfNull: false)
-      @BackupBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
           BackupBonusPlugin backupBonus,
-      @JsonKey(includeIfNull: false)
-      @InviteBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
           InviteBonusPlugin inviteBonus});
 
   @override
@@ -301,20 +325,26 @@ class __$PluginsCopyWithImpl<$Res> extends _$PluginsCopyWithImpl<$Res>
 /// @nodoc
 class _$_Plugins extends _Plugins {
   _$_Plugins(
-      {this.rampInstant,
-      this.moonpay,
-      this.transak,
+      {@nullable
       @JsonKey(includeIfNull: false)
-      @WalletBannerPluginConverter()
+          this.rampInstant,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          this.moonpay,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          this.transak,
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
           this.walletBanner,
-      @JsonKey(includeIfNull: false)
-      @JoinBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           this.joinBonus,
-      @JsonKey(includeIfNull: false)
-      @BackupBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
           this.backupBonus,
-      @JsonKey(includeIfNull: false)
-      @InviteBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
           this.inviteBonus})
       : super._();
 
@@ -322,26 +352,32 @@ class _$_Plugins extends _Plugins {
       _$_$_PluginsFromJson(json);
 
   @override
+  @nullable
+  @JsonKey(includeIfNull: false)
   final RampInstantPlugin rampInstant;
   @override
+  @nullable
+  @JsonKey(includeIfNull: false)
   final MoonpayPlugin moonpay;
   @override
+  @nullable
+  @JsonKey(includeIfNull: false)
   final TransakPlugin transak;
   @override
-  @JsonKey(includeIfNull: false)
-  @WalletBannerPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
   final WalletBannerPlugin walletBanner;
   @override
-  @JsonKey(includeIfNull: false)
-  @JoinBonusPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
   final JoinBonusPlugin joinBonus;
   @override
-  @JsonKey(includeIfNull: false)
-  @BackupBonusPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
   final BackupBonusPlugin backupBonus;
   @override
-  @JsonKey(includeIfNull: false)
-  @InviteBonusPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
   final InviteBonusPlugin inviteBonus;
 
   @override
@@ -401,45 +437,57 @@ class _$_Plugins extends _Plugins {
 abstract class _Plugins extends Plugins {
   _Plugins._() : super._();
   factory _Plugins(
-      {RampInstantPlugin rampInstant,
-      MoonpayPlugin moonpay,
-      TransakPlugin transak,
+      {@nullable
       @JsonKey(includeIfNull: false)
-      @WalletBannerPluginConverter()
+          RampInstantPlugin rampInstant,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          MoonpayPlugin moonpay,
+      @nullable
+      @JsonKey(includeIfNull: false)
+          TransakPlugin transak,
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
           WalletBannerPlugin walletBanner,
-      @JsonKey(includeIfNull: false)
-      @JoinBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
           JoinBonusPlugin joinBonus,
-      @JsonKey(includeIfNull: false)
-      @BackupBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
           BackupBonusPlugin backupBonus,
-      @JsonKey(includeIfNull: false)
-      @InviteBonusPluginConverter()
+      @nullable
+      @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
           InviteBonusPlugin inviteBonus}) = _$_Plugins;
 
   factory _Plugins.fromJson(Map<String, dynamic> json) = _$_Plugins.fromJson;
 
   @override
+  @nullable
+  @JsonKey(includeIfNull: false)
   RampInstantPlugin get rampInstant;
   @override
+  @nullable
+  @JsonKey(includeIfNull: false)
   MoonpayPlugin get moonpay;
   @override
+  @nullable
+  @JsonKey(includeIfNull: false)
   TransakPlugin get transak;
   @override
-  @JsonKey(includeIfNull: false)
-  @WalletBannerPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: walletBannerFromJson)
   WalletBannerPlugin get walletBanner;
   @override
-  @JsonKey(includeIfNull: false)
-  @JoinBonusPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: joinBonusPluginFromJson)
   JoinBonusPlugin get joinBonus;
   @override
-  @JsonKey(includeIfNull: false)
-  @BackupBonusPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: backupBonusPluginFromJson)
   BackupBonusPlugin get backupBonus;
   @override
-  @JsonKey(includeIfNull: false)
-  @InviteBonusPluginConverter()
+  @nullable
+  @JsonKey(includeIfNull: false, fromJson: inviteBonusPluginFromJson)
   InviteBonusPlugin get inviteBonus;
   @override
   @JsonKey(ignore: true)

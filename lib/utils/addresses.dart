@@ -1,4 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/common/di/di.dart';
 
 final String foreignNetwork =
     int.parse(DotEnv().env['FOREIGN_PROVIDER_URL']) == 1
@@ -7,7 +8,7 @@ final String foreignNetwork =
 
 bool isDefaultCommunity(String communityAddress) {
   return (communityAddress != null &&
-          DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'] != null) &&
-      DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'].toLowerCase() ==
+          getIt<String>(instanceName: 'defaultCommunityAddress') != null) &&
+      getIt<String>(instanceName: 'defaultCommunityAddress').toLowerCase() ==
           communityAddress.toLowerCase();
 }

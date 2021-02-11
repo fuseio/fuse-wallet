@@ -31,7 +31,7 @@ class WalletBannerPluginConverter
           name: json['name'],
           walletBannerHash: json['walletBannerHash'],
           link: json['link'],
-          isActive: json["isActive"] || false,
+          isActive: json["isActive"] ?? false,
         )
       : null;
 

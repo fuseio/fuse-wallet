@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/app.dart';
-// import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/state/store.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/common/di/di.dart';
-// import 'package:redux/redux.dart';
+import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -19,7 +19,6 @@ Future<void> mainCommon(String env) async {
   final envFile = env == 'prod' ? '.env' : '.env_qa';
   await DotEnv().load('environment/$envFile');
   configureDependencies(environment: env);
-  // Store<AppState> store = await AppFactory().getStore();
   await SentryFlutter.init(
     (options) {
       options.dsn = DotEnv().env['SENTRY_DSN'];
@@ -27,7 +26,7 @@ Future<void> mainCommon(String env) async {
       options.environment = env;
     },
   );
-  final store = await createStore();
+  final Store<AppState> store = await createStore();
   runZonedGuarded<Future<void>>(
       () async => runApp(
             MyApp(
