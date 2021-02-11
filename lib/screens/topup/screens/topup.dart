@@ -5,10 +5,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:peepl/constans/keys.dart';
 import 'package:peepl/generated/i18n.dart';
+import 'package:peepl/models/app_state.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/services.dart';
 import 'package:peepl/utils/stripe.dart';
@@ -17,13 +19,31 @@ import 'package:peepl/widgets/main_scaffold.dart';
 import 'package:peepl/widgets/primary_button.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
+import 'package:equatable/equatable.dart';
+import 'package:redux/redux.dart';
+
+class _TopupViewModel extends Equatable {
+  final String walletAddress;
+
+  _TopupViewModel({
+    this.walletAddress,
+  });
+
+  static _TopupViewModel fromStore(Store<AppState> store) {
+    return _TopupViewModel(
+      walletAddress: store.state.userState.walletAddress,
+    );
+  }
+
+  @override
+  List<Object> get props => [walletAddress];
+}
 
 enum TopupType { STRIPE, PLAID }
 
 class TopupScreen extends StatefulWidget {
-  final String walletAddress;
   final TopupType topupType;
-  TopupScreen({this.walletAddress, this.topupType = TopupType.STRIPE});
+  TopupScreen({this.topupType = TopupType.STRIPE});
   @override
   _TopupScreenState createState() => _TopupScreenState();
 }
@@ -36,12 +56,13 @@ class _TopupScreenState extends State<TopupScreen>
   void _onSuccessCallback(
     String publicToken,
     LinkSuccessMetadata metadata,
+    String walletAddress,
   ) async {
     final BottomNavigationBar navigationBar =
         AppKeys.bottomBarKey.currentWidget;
     navigationBar.onTap(0);
-    String body = jsonEncode(Map.from(
-        {'walletAddress': widget.walletAddress, 'publicToken': publicToken}));
+    String body = jsonEncode(
+        Map.from({'walletAddress': walletAddress, 'publicToken': publicToken}));
     responseHandler(await client.post(
       'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/plaid/set_access_token',
       body: body,
@@ -68,10 +89,10 @@ class _TopupScreenState extends State<TopupScreen>
     Segment.screen(screenName: '/topup-screen');
   }
 
-  void _handlePlaid() async {
+  void _handlePlaid(String walletAddress) async {
     PlaidLink _plaidLinkToken;
     String body = jsonEncode(Map.from({
-      'walletAddress': widget.walletAddress,
+      'walletAddress': walletAddress,
       'value': num.parse(amountText),
       'reference': 'Top up',
       'isAndroid': Platform.isAndroid
@@ -89,7 +110,11 @@ class _TopupScreenState extends State<TopupScreen>
         configuration: LinkConfiguration(
           linkToken: response['link_token'],
         ),
-        onSuccess: _onSuccessCallback,
+        onSuccess: (
+          String publicToken,
+          LinkSuccessMetadata metadata,
+        ) =>
+            _onSuccessCallback(publicToken, metadata, walletAddress),
         onEvent: _onEventCallback,
         onExit: _onExitCallback,
       );
@@ -97,10 +122,10 @@ class _TopupScreenState extends State<TopupScreen>
     }
   }
 
-  void _handleStripe() async {
+  void _handleStripe(String walletAddress) async {
     final StripeCustomResponse response = await StripeService().payWithNewCard(
       amount: amountText,
-      walletAddress: widget.walletAddress,
+      walletAddress: walletAddress,
       currency: 'GBP',
     );
     if (response.ok) {
@@ -169,11 +194,11 @@ class _TopupScreenState extends State<TopupScreen>
     }
   }
 
-  _onPress() async {
+  _onPress(String walletAddress) async {
     if (widget.topupType == TopupType.PLAID) {
-      _handlePlaid();
+      _handlePlaid(walletAddress);
     } else if (widget.topupType == TopupType.STRIPE) {
-      _handleStripe();
+      _handleStripe(walletAddress);
     }
   }
 
@@ -283,15 +308,19 @@ class _TopupScreenState extends State<TopupScreen>
               ]),
         )
       ],
-      footer: Center(
-        child: PrimaryButton(
-          opacity: 1,
-          labelFontWeight: FontWeight.normal,
-          label: I18n.of(context).next_button,
-          onPressed: _onPress,
-          preload: isPreloading,
-          disabled: isPreloading,
-          width: 300,
+      footer: StoreConnector<AppState, _TopupViewModel>(
+        distinct: true,
+        converter: _TopupViewModel.fromStore,
+        builder: (_, viewModel) => Center(
+          child: PrimaryButton(
+            opacity: 1,
+            labelFontWeight: FontWeight.normal,
+            label: I18n.of(context).next_button,
+            onPressed: () => _onPress(viewModel.walletAddress),
+            preload: isPreloading,
+            disabled: isPreloading,
+            width: 300,
+          ),
         ),
       ),
     );
