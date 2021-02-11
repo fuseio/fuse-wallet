@@ -14,7 +14,6 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, AddCashTokens>(_addCashTokens),
   TypedReducer<CashWalletState, AddCashToken>(_addCashToken),
   TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
-  TypedReducer<CashWalletState, InitWeb3Success>(_initWeb3Success),
   TypedReducer<CashWalletState, GetTokenBalanceSuccess>(
       _getTokenBalanceSuccess),
   TypedReducer<CashWalletState, FetchCommunityMetadataSuccess>(
@@ -132,12 +131,6 @@ CashWalletState _setDefaultCommunity(
       communities: newOne,
       branchAddress: '',
       isBranchDataReceived: false);
-}
-
-CashWalletState _initWeb3Success(
-    CashWalletState state, InitWeb3Success action) {
-  // web3: action.web3
-  return state.copyWith();
 }
 
 CashWalletState _getTokenBalanceSuccess(

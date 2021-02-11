@@ -54,11 +54,6 @@ class AddCommunities {
   AddCommunities({this.communities});
 }
 
-class InitWeb3Success {
-  final wallet_core.Web3 web3;
-  InitWeb3Success(this.web3);
-}
-
 class GetWalletAddressesSuccess {
   final List<String> networks;
   final String walletAddress;
@@ -369,7 +364,6 @@ ThunkAction initWeb3Call({
       String pk = privateKey ?? store.state.userState.privateKey;
       log.info('initWeb3. privateKey: $pk');
       log.info('mnemonic : ${store.state.userState.mnemonic.toString()}');
-      wallet_core.Web3 web3 = getIt<wallet_core.Web3>(instanceName: 'homeWeb3');
       final String branchAddress = store.state.cashWalletState.branchAddress;
       final String communityAddress =
           store.state.cashWalletState.communityAddress;
@@ -377,12 +371,11 @@ ThunkAction initWeb3Call({
         if (![null, ''].contains(branchAddress)) {
           store.dispatch(SetDefaultCommunity(branchAddress));
         } else {
-          final communityAddress = web3.getDefaultCommunity().toLowerCase();
+          final communityAddress = homeWeb3.getDefaultCommunity().toLowerCase();
           store.dispatch(SetDefaultCommunity(communityAddress));
         }
       }
-      web3.setCredentials(pk);
-      // store.dispatch(new InitWeb3Success(web3));
+      homeWeb3.setCredentials(pk);
     } catch (e) {
       log.error('ERROR - initWeb3Call $e');
     }
@@ -796,7 +789,6 @@ ThunkAction sendTokenToForeignMultiBridge(
     String transferNote}) {
   return (Store store) async {
     try {
-      wallet_core.Web3 web3 = getIt<wallet_core.Web3>(instanceName: 'homeWeb3');
       String walletAddress = store.state.userState.walletAddress;
       String tokenAddress = token?.address;
       BigInt value = toBigInt(tokensAmount, token.decimals);
@@ -804,14 +796,14 @@ ThunkAction sendTokenToForeignMultiBridge(
       num feeAmount = 20;
       log.info(
           'Multi bridge - Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
-      List trasnferData = await web3.transferTokenToForeign(
+      List trasnferData = await homeWeb3.transferTokenToForeign(
           walletAddress,
           receiverAddress,
           checksumEthereumAddress(tokenAddress),
           tokensAmount,
           token.decimals,
           network: 'fuse');
-      Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+      Map<String, dynamic> feeTrasnferData = await homeWeb3.transferTokenOffChain(
         walletAddress,
         tokenAddress,
         Addresses.FEE_ADDRESS,
@@ -856,7 +848,6 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
     {String receiverName, String transferNote, Transfer inviteTransfer}) {
   return (Store store) async {
     try {
-      wallet_core.Web3 web3 = getIt<wallet_core.Web3>(instanceName: 'homeWeb3');
       String walletAddress = store.state.userState.walletAddress;
       Map<String, Community> communities =
           store.state.cashWalletState.communities;
@@ -876,9 +867,9 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
         value = toBigInt(tokensAmount, token.decimals);
         log.info(
             'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
-        Map<String, dynamic> trasnferData = await web3.transferTokenOffChain(
+        Map<String, dynamic> trasnferData = await homeWeb3.transferTokenOffChain(
             walletAddress, tokenAddress, receiverAddress, tokensAmount);
-        Map<String, dynamic> feeTrasnferData = await web3.transferTokenOffChain(
+        Map<String, dynamic> feeTrasnferData = await homeWeb3.transferTokenOffChain(
           walletAddress,
           tokenAddress,
           Addresses.FEE_ADDRESS,
@@ -890,7 +881,7 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
         log.info(
             'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
         response = await api.tokenTransfer(
-          web3,
+          homeWeb3,
           walletAddress,
           tokenAddress,
           receiverAddress,
@@ -951,7 +942,6 @@ ThunkAction transactionFailed(transfer, String failReason) {
 ThunkAction joinCommunityCall({Community community, Token token}) {
   return (Store store) async {
     try {
-      wallet_core.Web3 web3 = getIt<wallet_core.Web3>(instanceName: 'homeWeb3');
       String walletAddress = store.state.userState.walletAddress;
       dynamic communityData =
           await graph.getCommunityByAddress(community.address);
@@ -965,7 +955,7 @@ ThunkAction joinCommunityCall({Community community, Token token}) {
         store.dispatch(AlreadyJoinedCommunity(community.address));
       } else {
         dynamic response = await api.joinCommunity(
-          web3,
+          homeWeb3,
           walletAddress,
           community.address,
           tokenAddress: token.address,

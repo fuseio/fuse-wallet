@@ -7,16 +7,16 @@ import 'package:fusecash/utils/onboard/Istrategy.dart';
 import 'package:phone_number/phone_number.dart';
 import 'package:wallet_core/wallet_core.dart';
 
-final Explorer fuseExplorerApi = Explorer(base: UrlConstants.FUSE_EXPLORER_URL);
+Web3 homeWeb3;
+Web3 foreignWeb3;
 
-final Explorer ethereumExplorerApi = Explorer(
-  base: DotEnv().env['ETHERSCAN_BASE_URL'],
-  apiKey: DotEnv().env['ETHERSCAN_API_KEY'],
+final Explorer fuseExplorerApi = getIt<Explorer>(
+  param1: UrlConstants.FUSE_EXPLORER_URL,
 );
-
-// final Explorer fuseExplorerApi = getIt.get(instanceName: 'FuseExplorer');
-// final Explorer ethereumExplorerApi =
-//     getIt.get(instanceName: 'EthereumExplorer');
+final Explorer ethereumExplorerApi = getIt<Explorer>(
+  param1: UrlConstants.FUSE_EXPLORER_URL,
+  param2: DotEnv().env['ETHERSCAN_API_KEY'],
+);
 
 final API api = getIt<API>();
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_code.dart';
@@ -32,6 +33,7 @@ import 'package:firebase_auth_platform_interface/firebase_auth_platform_interfac
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:fusecash/utils/log/log.dart';
+import 'package:wallet_core/wallet_core.dart' show Web3;
 
 class CreateAccountWalletRequest {
   CreateAccountWalletRequest();
@@ -535,9 +537,7 @@ ThunkAction setupWalletCall(walletData) {
       List<String> networks = List<String>.from(walletData['networks']);
       String walletAddress = walletData['walletAddress'];
       bool backup = walletData['backup'] ?? false;
-      // String communityManagerAddress = walletData['communityManager'];
-      // String transferManagerAddress = walletData['transferManager'];
-      // String dAIPointsManagerAddress = walletData['dAIPointsManager'];
+      homeWeb3 = getIt<Web3>(instanceName: 'homeWeb3', param1: walletData);
       store.dispatch(GetWalletAddressesSuccess(
         backup: backup,
         walletAddress: walletAddress,
@@ -545,6 +545,8 @@ ThunkAction setupWalletCall(walletData) {
       ));
       store.dispatch(initWeb3Call());
       if (networks.contains(foreignNetwork)) {
+        foreignWeb3 =
+            getIt<Web3>(instanceName: 'foreignWeb3', param1: walletData);
         store.dispatch(initWeb3ProMode());
         Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
           store.dispatch(startListenToTransferEvents());

@@ -21,12 +21,10 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, SetIsListenToTransferEvents>(
       _startListenToTransferEventsSuccess),
   TypedReducer<ProWalletState, UpdateToken>(_updateToken),
-  // TypedReducer<ProWalletState, UpadteBlockNumber>(_updateBlockNumber),
   TypedReducer<ProWalletState, SetIsProcessingTokensJobs>(
       _startProcessingTokensJobs),
   TypedReducer<ProWalletState, SetIsFetchTransferEvents>(
       _startFetchTransferEvents),
-  TypedReducer<ProWalletState, InitWeb3ProModeSuccess>(_initWeb3ProModeSuccess),
   TypedReducer<ProWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
   TypedReducer<ProWalletState, AddProJob>(_addProJob),
@@ -41,40 +39,7 @@ final proWalletReducers = combineReducers<ProWalletState>([
   TypedReducer<ProWalletState, AddNewToken>(_addNewToken),
   TypedReducer<ProWalletState, SetIsFetchNewTokens>(_startFetchNewTokens),
   TypedReducer<ProWalletState, ClearTokenList>(_clearTokenList),
-
-  // TypedReducer<ProWalletState, GetTokenTransfersEventsListSuccess>(
-  //     _getTokenTransfersEventsListSuccess),
 ]);
-
-// ProWalletState _getTokenTransfersEventsListSuccess(
-//     ProWalletState state, GetTokenTransfersEventsListSuccess action) {
-//   if (action.tokenTransfers.isNotEmpty) {
-//     Token current = state.erc20Tokens[action.tokenAddress];
-//     // List<Transfer> tokenTransfers = action.tokenTransfers
-//     //   ..removeWhere((t) => (t.txHash ==
-//     //       current.transactions.list
-//     //           .firstWhere((element) => element.txHash == t.txHash)
-//     //           ?.txHash));
-//     for (Transfer tx in action.tokenTransfers.reversed) {
-//       Transfer saved = current.transactions.list
-//           .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
-//       if (saved != null) {
-//         if (saved.isPending()) {
-//           saved.status = 'CONFIRMED';
-//         }
-//       } else {
-//         current.transactions.list.add(tx);
-//       }
-//     }
-//     Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
-//     newOne[action.tokenAddress] = current.copyWith(
-//         transactions:
-//             current.transactions.copyWith(list: current.transactions.list));
-//     return state.copyWith(erc20Tokens: newOne);
-//   } else {
-//     return state;
-//   }
-// }
 
 ProWalletState _resetTokensTxs(ProWalletState state, ResetTokenTxs action) {
   Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
@@ -118,38 +83,6 @@ ProWalletState _replaceProTransaction(
   newOne[action.tokenAddress] = newToken;
   return state.copyWith(erc20Tokens: newOne);
 }
-
-// ProWalletState _getTokenTransfersEventsListSuccess(
-//     ProWalletState state, GetTokenTransfersEventsListSuccess action) {
-//   print('Found ${action.tokenTransfers.length} token transfers');
-//   if (action.tokenTransfers.isNotEmpty) {
-//     Token current = state.erc20Tokens[action.tokenAddress];
-//     List<Transfer> tokenTransfers = action.tokenTransfers
-//       ..removeWhere((t) =>
-//           t.txHash ==
-//           current.transactions.list
-//               .firstWhere((element) => element.txHash == t.txHash)
-//               ?.txHash);
-//     for (Transfer tx in tokenTransfers.reversed) {
-//       Transfer saved = current.transactions.list
-//           .firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
-//       if (saved != null) {
-//         if (saved.isPending()) {
-//           saved.status = 'CONFIRMED';
-//         }
-//       } else {
-//         current.transactions.list.add(tx);
-//       }
-//     }
-//     Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
-//     newOne[action.tokenAddress] = current.copyWith(
-//         transactions:
-//             current.transactions.copyWith(list: current.transactions.list));
-//     return state.copyWith(erc20Tokens: newOne);
-//   } else {
-//     return state;
-//   }
-// }
 
 ProWalletState _addProTransaction(
     ProWalletState state, AddProTransaction action) {
@@ -210,17 +143,6 @@ ProWalletState _startFetchTransferEvents(
     ProWalletState state, SetIsFetchTransferEvents action) {
   return state.copyWith(isFetchTransferEvents: action.isFetching);
 }
-
-ProWalletState _initWeb3ProModeSuccess(
-    ProWalletState state, InitWeb3ProModeSuccess action) {
-  // web3: action.web3
-  return state.copyWith();
-}
-
-// ProWalletState _updateBlockNumber(
-//     ProWalletState state, UpadteBlockNumber action) {
-//   return state.copyWith(blockNumber: action.blockNumber);
-// }
 
 ProWalletState _startListenToTransferEventsSuccess(
     ProWalletState state, SetIsListenToTransferEvents action) {

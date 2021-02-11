@@ -9,65 +9,40 @@ Future<bool> approvalCallback() async {
 }
 
 @module
-abstract class Web3Module {
-  @Named('fuseNetworkId')
-  int get fuseNetworkId => Variables.FUSE_CHAIN_ID;
-  @Named('ethereumNetworkId')
-  int get ethereumNetworkId => int.parse(DotEnv().env['FOREIGN_NETWORK_ID']);
-  @Named('fuseRpcUrl')
-  String get fuseRpcUrl => UrlConstants.FUSE_RPC_URL;
-  @Named('ethereumRpcUrl')
-  String get ethereumRpcUrl => DotEnv().env['FOREIGN_PROVIDER_URL'];
+abstract class Web3Di {
   @Named('defaultCommunityAddress')
   String get defaultCommunityAddress =>
       DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'];
-  @Named('communityManagerAddress')
-  String get communityManagerAddress =>
-      DotEnv().env['COMMUNITY_MANAGER_CONTRACT_ADDRESS'];
-  @Named('transferManagerAddress')
-  String get transferManagerAddress =>
-      DotEnv().env['TRANSFER_MANAGER_CONTRACT_ADDRESS'];
-  @Named('daiPointsManagerAddress')
-  String get daiPointsManagerAddress =>
-      DotEnv().env['DAI_POINTS_MANAGER_CONTRACT_ADDRESS'];
 
   @Named('homeWeb3')
-  @lazySingleton
+  @injectable
   Web3 homeWeb3(
-    @Named('fuseRpcUrl') String url,
-    @Named('fuseNetworkId') int networkId,
     @Named('defaultCommunityAddress') String defaultCommunityAddress,
-    @Named('communityManagerAddress') String communityManagerAddress,
-    @Named('transferManagerAddress') String transferManagerAddress,
-    @Named('daiPointsManagerAddress') String daiPointsManagerAddress,
+    @factoryParam Map walletModules,
   ) =>
       Web3(
         approvalCallback,
-        url: url,
-        networkId: networkId,
+        url: UrlConstants.FUSE_RPC_URL,
+        networkId: Variables.FUSE_CHAIN_ID,
         defaultCommunityAddress: defaultCommunityAddress,
-        communityManagerAddress: communityManagerAddress,
-        transferManagerAddress: transferManagerAddress,
-        daiPointsManagerAddress: daiPointsManagerAddress,
+        communityManagerAddress: walletModules['communityManager'],
+        transferManagerAddress: walletModules['transferManager'],
+        daiPointsManagerAddress: walletModules['dAIPointsManager'],
       );
 
   @Named('foreignWeb3')
-  @lazySingleton
+  @injectable
   Web3 foreignWeb3(
-    @Named('ethereumRpcUrl') String url,
-    @Named('ethereumNetworkId') int networkId,
     @Named('defaultCommunityAddress') String defaultCommunityAddress,
-    @Named('communityManagerAddress') String communityManagerAddress,
-    @Named('transferManagerAddress') String transferManagerAddress,
-    @Named('daiPointsManagerAddress') String daiPointsManagerAddress,
+    @factoryParam Map walletModules,
   ) =>
       Web3(
         approvalCallback,
-        url: url,
-        networkId: networkId,
+        url: DotEnv().env['FOREIGN_PROVIDER_URL'],
+        networkId: int.parse(DotEnv().env['FOREIGN_NETWORK_ID']),
         defaultCommunityAddress: defaultCommunityAddress,
-        communityManagerAddress: communityManagerAddress,
-        transferManagerAddress: transferManagerAddress,
-        daiPointsManagerAddress: daiPointsManagerAddress,
+        communityManagerAddress: walletModules['communityManager'],
+        transferManagerAddress: walletModules['transferManager'],
+        daiPointsManagerAddress: walletModules['dAIPointsManager'],
       );
 }

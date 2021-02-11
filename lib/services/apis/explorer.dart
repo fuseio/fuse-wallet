@@ -1,19 +1,20 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
+@injectable
 class Explorer {
   Dio dio;
 
-  Explorer({String base, String apiKey}) {
-    dio = new Dio(
-      BaseOptions(
-        baseUrl: base,
-        queryParameters: {'apiKey': apiKey},
-        headers: {"Content-Type": 'application/json'},
-      ),
-    );
+  Explorer(this.dio, @factoryParam String base, @factoryParam String apiKey) {
+    if (apiKey != null) {
+      dio.options.queryParameters ={'apiKey': apiKey};
+    }
+    dio.options.baseUrl = base;
+    dio.options.headers = Map.from({"Content-Type": 'application/json'});
+
     if (kDebugMode) {
       dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
