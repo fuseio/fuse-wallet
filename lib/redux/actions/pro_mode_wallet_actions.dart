@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:ethereum_address/ethereum_address.dart';
 import 'package:flutter/material.dart';
-import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/exchangable_tokens.dart';
 import 'package:fusecash/constants/variables.dart';
@@ -22,7 +21,6 @@ import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
-import 'package:wallet_core/wallet_core.dart' as wallet_core;
 import 'package:wallet_core/wallet_core.dart' show EtherAmount;
 import 'package:fusecash/utils/log/log.dart';
 
