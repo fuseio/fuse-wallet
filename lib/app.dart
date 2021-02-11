@@ -9,9 +9,9 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/strings.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/utils/log/log.dart';
@@ -36,6 +36,17 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       I18n.locale = locale;
     });
+  }
+
+  void refreshToken(Store<AppState> store) async {
+    String jwtToken = store?.state?.userState?.jwtToken;
+    if (![null, ''].contains(jwtToken)) {
+      log.info('JWT: $jwtToken');
+      api.setJwtToken(jwtToken);
+      store.dispatch(LoginVerifySuccess(jwtToken));
+    } else {
+      log.info('no JWT');
+    }
   }
 
   void listenDynamicLinks(Store<AppState> store) async {
@@ -77,6 +88,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    refreshToken(widget.store);
     listenDynamicLinks(widget.store);
     I18n.onLocaleChanged = onLocaleChange;
   }

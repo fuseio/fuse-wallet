@@ -5,8 +5,9 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/onboard/Istrategy.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 
-class SmsStrategy extends IOnBoardStrategy {
-  SmsStrategy({strategy}) : super(strategy: strategy ?? OnboardStatergy.sms);
+class SmsStrategy implements IOnBoardStrategy {
+  final OnboardStatergy strategy;
+  SmsStrategy({this.strategy = OnboardStatergy.sms});
 
   @override
   Future login(store, phoneNumber) async {

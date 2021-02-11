@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
+import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
@@ -30,10 +31,10 @@ class _LockScreenState extends State<LockScreen> {
     }
   }
 
-  _handleLocalAuh(store) async {
-    String privateKey = store.state.userState.privateKey;
-    String jwtToken = store.state.userState.jwtToken;
-    bool isLoggedOut = store.state.userState.isLoggedOut;
+  _handleLocalAuh(Store<AppState> store) async {
+    String privateKey = store?.state?.userState?.privateKey ?? '';
+    String jwtToken = store?.state?.userState?.jwtToken ?? '';
+    bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
     if (privateKey.isEmpty || jwtToken.isEmpty || isLoggedOut) {
       ExtendedNavigator.root.replace(Routes.splashScreen);
     } else {
@@ -43,7 +44,7 @@ class _LockScreenState extends State<LockScreen> {
         await _showLocalAuthPopup(
           BiometricUtils.getBiometricString(_biometricType),
         );
-      } else if (userState.authType == BiometricAuth.pincode) {
+      } else if (userState?.authType == BiometricAuth.pincode) {
         ExtendedNavigator.root.replace(Routes.pincode);
       } else {
         ExtendedNavigator.root.replace(Routes.homeScreen);
@@ -67,7 +68,7 @@ class _LockScreenState extends State<LockScreen> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LockScreenViewModel>(
       distinct: true,
-      onInit: (store) {
+      onInit: (Store<AppState> store) {
         _handleLocalAuh(store);
       },
       converter: LockScreenViewModel.fromStore,

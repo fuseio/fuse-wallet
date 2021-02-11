@@ -1247,9 +1247,11 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
+      path: "."
+      ref: "feature/refactor"
+      resolved-ref: "579328b935fa5761c25559661fa907c835a1aac9"
+      url: "https://github.com/fuseio/wallet_core.git"
+    source: git
     version: "0.2.5+1"
   watcher:
     dependency: transitive

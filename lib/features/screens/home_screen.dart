@@ -124,9 +124,12 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   index == 1 &&
                   !isContactSynced) {
                 Future.delayed(
-                    Duration.zero,
-                    () => showDialog(
-                        context: context, child: ContactsConfirmationScreen()));
+                  Duration.zero,
+                  () => showDialog(
+                    context: context,
+                    builder: (_) => ContactsConfirmationScreen(),
+                  ),
+                );
               }
 
               if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {

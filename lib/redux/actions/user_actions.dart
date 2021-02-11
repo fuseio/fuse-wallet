@@ -458,6 +458,7 @@ ThunkAction identifyCall() {
 ThunkAction saveUserInDB(walletAddress) {
   return (Store store) async {
     String displayName = store.state.userState.displayName;
+    String phoneNumber = store.state.userState.phoneNumber;
     try {
       Map user = {
         "accountAddress": walletAddress,
@@ -468,9 +469,19 @@ ThunkAction saveUserInDB(walletAddress) {
         "displayName": displayName
       };
       await api.saveUserToDb(user);
+      Sentry.configureScope((scope) {
+        scope.setContexts(
+            'user',
+            Map.from({
+              'id': phoneNumber,
+              'walletAddress': walletAddress,
+              'userName': displayName
+            }));
+      });
       log.info('save user $walletAddress');
-    } catch (e) {
+    } catch (e, s) {
       log.error('user $walletAddress already saved');
+      await Sentry.captureException(e, stackTrace: s);
     }
   };
 }
@@ -485,8 +496,9 @@ ThunkAction loadContacts() {
         log.info('Done - load contacts');
         store.dispatch(syncContactsCall(contacts));
       }
-    } catch (error) {
-      log.error('ERROR - load contacts $error');
+    } catch (e, s) {
+      log.error('ERROR - load contacts $e');
+      await Sentry.captureException(e, stackTrace: s);
     }
   };
 }
@@ -510,8 +522,9 @@ ThunkAction updateTotalBalance() {
       List<Token> allTokens = [...foreignTokens];
       num value = allTokens.fold<num>(0, combiner);
       store.dispatch(UpdateTotalBalance(totalBalance: value));
-    } catch (error) {
-      log.error('ERROR while update total balance $error');
+    } catch (e, s) {
+      log.error('ERROR while update total balance $e');
+      await Sentry.captureException(e, stackTrace: s);
     }
   };
 }
@@ -547,8 +560,9 @@ ThunkAction setupWalletCall(walletData) {
       } else {
         store.dispatch(createForiegnWalletOnlyIfNeeded());
       }
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - setupWalletCall $e');
+      await Sentry.captureException(e, stackTrace: s);
     }
   };
 }
@@ -558,8 +572,9 @@ ThunkAction getWalletAddressessCall() {
     try {
       dynamic walletData = await api.getWallet();
       store.dispatch(setupWalletCall(walletData));
-    } catch (e) {
+    } catch (e, s) {
       log.error('ERROR - getWalletAddressCall $e');
+      await Sentry.captureException(e, stackTrace: s);
     }
   };
 }

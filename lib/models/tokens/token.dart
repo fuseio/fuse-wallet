@@ -15,7 +15,7 @@ Transactions transactionsFromJson(Map<String, dynamic> json) =>
     json == null ? Transactions.initial() : Transactions.fromJson(json);
 
 List<Job> jobsFromJson(Map<String, dynamic> json) => json == null
-    ? List<Job>()
+    ? <Job>[]
     : List<Job>.from(json['jobs'].map((job) => JobFactory.create(job)));
 
 Map<String, dynamic> jobsToJson(List<dynamic> jobs) =>

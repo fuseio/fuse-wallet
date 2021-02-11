@@ -1262,26 +1262,28 @@ ThunkAction refetchCommunityData() {
         current.isMember != null &&
         current.isMember) {
       Map<String, dynamic> communityData = await getCommunityData(
-          checksumEthereumAddress(communityAddress),
-          checksumEthereumAddress(walletAddress));
+        checksumEthereumAddress(communityAddress),
+        checksumEthereumAddress(walletAddress),
+      );
       bool isRopsten = communityData['isRopsten'];
-      final String bridgeDirection =
-          communityData.containsKey('bridgeDirection')
-              ? communityData['bridgeDirection']
-              : null;
-      final String bridgeType = communityData.containsKey('bridgeType')
-          ? communityData['bridgeType']
-          : null;
-      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
-          communityData['communityURI'], isRopsten));
-      store.dispatch(RefreshCommunityData(
+      final String bridgeDirection = communityData['bridgeDirection'] ?? null;
+      final String bridgeType = communityData['bridgeType'] ?? null;
+      store.dispatch(
+        RefreshCommunityData(
           bridgeType: bridgeType,
           bridgeDirection: bridgeDirection,
           communityAddress: communityAddress,
-          plugins: Plugins.fromJson(communityData['plugins']),
-          webUrl: communityData['webUrl']));
-      store.dispatch(fetchCommunityMetadataCall(communityAddress.toLowerCase(),
-          communityData['communityURI'], isRopsten));
+          plugins: PluginsConverter().fromJson(communityData['plugins']),
+          webUrl: communityData['webUrl'],
+        ),
+      );
+      store.dispatch(
+        fetchCommunityMetadataCall(
+          communityAddress.toLowerCase(),
+          communityData['communityURI'],
+          isRopsten,
+        ),
+      );
     } else {
       store.dispatch(switchCommunityCall(communityAddress));
     }

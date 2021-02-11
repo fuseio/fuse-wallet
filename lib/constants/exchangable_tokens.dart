@@ -2,7 +2,7 @@ import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/images.dart';
 
-final Token daiToken = Token(
+final Token _daiToken = Token(
   address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
   decimals: 18,
   imageUrl: ImageUrl.getTokenUrl('0x6B175474E89094C44Da98b954EedeAC495271d0F'),
@@ -90,7 +90,7 @@ final _etherToken = Token(
 
 final Map<String, Token> exchangableTokens = new Map<String, Token>.from({
   _etherToken.address: _etherToken,
-  daiToken.address: daiToken,
+  _daiToken.address: _daiToken,
   _usdcToken.address: _usdcToken,
   _tetherToken.address: _tetherToken,
   _trueUSDToken.address: _trueUSDToken,
@@ -101,7 +101,7 @@ final Map<String, Token> exchangableTokens = new Map<String, Token>.from({
 });
 
 final dollarPeggedToken = [
-  daiToken.address.toLowerCase(),
+  _daiToken.address.toLowerCase(),
   _usdcToken.address.toLowerCase(),
   _tetherToken.address.toLowerCase(),
   _trueUSDToken.address.toLowerCase(),

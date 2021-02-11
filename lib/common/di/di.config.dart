@@ -7,7 +7,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
@@ -19,7 +18,6 @@ import 'package:wallet_core/wallet_core.dart';
 import 'dio.dart';
 import '../../services/apis/exchange.dart';
 import 'firebase.dart';
-import 'storage.dart';
 import '../../services/apis/funder.dart';
 import '../../utils/onboard/Istrategy.dart';
 import '../../utils/log/log_it.dart';
@@ -27,7 +25,6 @@ import 'logger_di.dart';
 import '../../services/apis/market.dart';
 import 'onboard.dart';
 import 'phone.dart';
-import '../../redux/state/secure_storage.dart';
 import '../network/services.dart';
 import '../network/web3.dart';
 
@@ -43,7 +40,6 @@ Future<GetIt> $initGetIt(
   final servicesModule = _$ServicesModule();
   final dioDi = _$DioDi();
   final firebaseInjectableModule = _$FirebaseInjectableModule();
-  final flutterSecureStorageDi = _$FlutterSecureStorageDi();
   final onBoardStrategy = _$OnBoardStrategy();
   final loggerDi = _$LoggerDi();
   final packageInfoDi = _$PackageInfoDi();
@@ -55,9 +51,6 @@ Future<GetIt> $initGetIt(
   final resolvedFirebaseApp = await firebaseInjectableModule.firebaseApp;
   gh.factory<FirebaseApp>(() => resolvedFirebaseApp);
   gh.lazySingleton<FirebaseAuth>(() => firebaseInjectableModule.firebaseAuth);
-  gh.factory<FlutterSecureStorage>(
-      () => flutterSecureStorageDi.flutterSecureStorage,
-      instanceName: 'flutterSecureStorage');
   gh.lazySingleton<Funder>(() => Funder(get<Dio>()));
   gh.lazySingleton<Graph>(() => servicesModule.graph);
   gh.lazySingleton<IOnBoardStrategy>(() => onBoardStrategy.onBoardStrategy);
@@ -66,8 +59,6 @@ Future<GetIt> $initGetIt(
   final resolvedPackageInfo = await packageInfoDi.packageInfo;
   gh.factory<PackageInfo>(() => resolvedPackageInfo);
   gh.lazySingleton<PhoneNumberUtil>(() => phone.phoneNumberUtil);
-  gh.lazySingleton<SecureStorage>(() => flutterSecureStorageDi.secureStorage(
-      get<FlutterSecureStorage>(instanceName: 'flutterSecureStorage')));
   gh.factory<String>(() => web3Module.fuseRpcUrl, instanceName: 'fuseRpcUrl');
   gh.factory<String>(() => web3Module.ethereumRpcUrl,
       instanceName: 'ethereumRpcUrl');
@@ -112,8 +103,6 @@ class _$ServicesModule extends ServicesModule {}
 class _$DioDi extends DioDi {}
 
 class _$FirebaseInjectableModule extends FirebaseInjectableModule {}
-
-class _$FlutterSecureStorageDi extends FlutterSecureStorageDi {}
 
 class _$OnBoardStrategy extends OnBoardStrategy {}
 

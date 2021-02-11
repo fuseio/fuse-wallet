@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:fusecash/common/di/di.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/reducers/app_reducer.dart';
 import 'package:fusecash/redux/state/secure_storage.dart';
@@ -8,34 +8,53 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_logging/redux_logging.dart';
 
-final Persistor<AppState> persistor = Persistor<AppState>(
-  storage: getIt<SecureStorage>(),
-  serializer: JsonSerializer<AppState>((json) => AppState.fromJson(json)),
-  debug: kDebugMode,
-);
+class AppFactory {
+  static AppFactory _singleton;
+  Store<AppState> _store;
 
-List<Middleware<AppState>> createMiddleware() => <Middleware<AppState>>[
-      thunkMiddleware,
-      persistor.createMiddleware(),
-      kDebugMode ? LoggingMiddleware.printer() : null,
-    ]..where((element) => element != null);
+  AppFactory._();
 
-Future<Store<AppState>> createStore() async {
-  final _initialState = await _loadState();
-  Store<AppState> store = Store(
-    appReducer,
-    initialState: _initialState,
-    middleware: createMiddleware(),
-  );
-  return store;
-}
+  factory AppFactory() {
+    if (_singleton == null) {
+      _singleton = AppFactory._();
+    }
+    return _singleton;
+  }
 
-Future<AppState> _loadState() async {
-  try {
-    final initialState = await persistor.load();
-    return initialState;
-  } on Exception {
-    // Re-hydration error
-    return AppState.initial();
+  Future<AppState> _loadState(persistor) async {
+    try {
+      final initialState = await persistor.load();
+      return initialState;
+    } on Exception {
+      return AppState.initial();
+    }
+  }
+
+  Future<Store<AppState>> getStore() async {
+    if (_store == null) {
+      FlutterSecureStorage storage = new FlutterSecureStorage();
+      final Persistor<AppState> persistor = Persistor<AppState>(
+        storage: SecureStorage(storage = storage),
+        serializer: JsonSerializer<AppState>((json) => AppState.fromJson(json)),
+        debug: kDebugMode,
+      );
+      AppState initialState = await _loadState(persistor);
+      final List<Middleware<AppState>> wms = [
+        thunkMiddleware,
+        persistor.createMiddleware(),
+      ];
+
+      if (kDebugMode) {
+        wms.add(LoggingMiddleware.printer());
+      }
+
+      _store = Store<AppState>(
+        appReducer,
+        initialState: initialState,
+        middleware: wms,
+      );
+    }
+
+    return _store;
   }
 }

@@ -91,7 +91,8 @@ class _EmptyContactsState extends State<EmptyContacts> {
                   child: Text(I18n.of(context).learn_more),
                   onTap: () {
                     showDialog(
-                        child: ContactsConfirmationScreen(), context: context);
+                        builder: (_) => ContactsConfirmationScreen(),
+                        context: context);
                   },
                 ),
                 SizedBox(
