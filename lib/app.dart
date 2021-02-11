@@ -38,31 +38,6 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void refreshToken(Store<AppState> store) async {
-    String jwtToken = store?.state?.userState?.jwtToken;
-    // final accoutAddress = store?.state?.userState?.accountAddress;
-    // final identifier = store?.state?.userState?.identifier;
-    if (![null, ''].contains(jwtToken)) {
-      // Map<String, dynamic> tokenData = parseJwt(jwtToken);
-      // DateTime exp =
-      //     DateTime.fromMillisecondsSinceEpoch(tokenData['exp'] * 1000);
-      // DateTime now = DateTime.now();
-      // Duration diff = exp.difference(now);
-      // if (diff.inDays <= 1) {
-      //   String token = await firebaseAuth.currentUser.getIdToken(true);
-      //   log.info('forceRefreshJWT: $jwtToken');
-      //   jwtToken =
-      //       await api.loginwithFirebase(token, accoutAddress, identifier);
-      // }
-
-      log.info('JWT: $jwtToken');
-      api.setJwtToken(jwtToken);
-      store.dispatch(LoginVerifySuccess(jwtToken));
-    } else {
-      log.info('no JWT');
-    }
-  }
-
   void listenDynamicLinks(Store<AppState> store) async {
     streamSubscription =
         FlutterBranchSdk.initSession().listen((linkData) async {
@@ -102,7 +77,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    refreshToken(widget.store);
     listenDynamicLinks(widget.store);
     I18n.onLocaleChanged = onLocaleChange;
   }
