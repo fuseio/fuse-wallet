@@ -63,16 +63,11 @@ class GetWalletAddressesSuccess {
   final List<String> networks;
   final String walletAddress;
   final bool backup;
-  final String communityManagerAddress;
-  final String transferManagerAddress;
-  final String daiPointsManagerAddress;
-  GetWalletAddressesSuccess(
-      {this.backup,
-      this.networks,
-      this.daiPointsManagerAddress,
-      this.walletAddress,
-      this.communityManagerAddress,
-      this.transferManagerAddress});
+  GetWalletAddressesSuccess({
+    this.backup,
+    this.networks,
+    this.walletAddress,
+  });
 }
 
 class GetTokenBalanceSuccess {

@@ -535,15 +535,12 @@ ThunkAction setupWalletCall(walletData) {
       List<String> networks = List<String>.from(walletData['networks']);
       String walletAddress = walletData['walletAddress'];
       bool backup = walletData['backup'] ?? false;
-      String communityManagerAddress = walletData['communityManager'];
-      String transferManagerAddress = walletData['transferManager'];
-      String dAIPointsManagerAddress = walletData['dAIPointsManager'];
+      // String communityManagerAddress = walletData['communityManager'];
+      // String transferManagerAddress = walletData['transferManager'];
+      // String dAIPointsManagerAddress = walletData['dAIPointsManager'];
       store.dispatch(GetWalletAddressesSuccess(
         backup: backup,
         walletAddress: walletAddress,
-        daiPointsManagerAddress: dAIPointsManagerAddress,
-        communityManagerAddress: communityManagerAddress,
-        transferManagerAddress: transferManagerAddress,
         networks: networks,
       ));
       store.dispatch(initWeb3Call());
