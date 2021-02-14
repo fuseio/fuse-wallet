@@ -23,9 +23,10 @@ class HomeViewModel extends Equatable {
   final bool isBranchDataReceived;
   final Function(bool initial) onReceiveBranchData;
   final Function() refreshFeed;
-  final bool isDefaultCommunity;
   final Token token;
   final bool depositBannerShowed;
+  final bool showTabs;
+  final bool showDepositBanner;
 
   HomeViewModel({
     this.onReceiveBranchData,
@@ -43,8 +44,9 @@ class HomeViewModel extends Equatable {
     this.communities,
     this.refreshFeed,
     this.token,
-    this.isDefaultCommunity,
     this.depositBannerShowed,
+    this.showTabs,
+    this.showDepositBanner,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
@@ -80,16 +82,26 @@ class HomeViewModel extends Equatable {
     final bool isCommunityFetched =
         store.state.cashWalletState.isCommunityFetched ?? false;
     final String walletAddress = store.state.userState.walletAddress;
+    final Map<String, Community> communities =
+        store.state.cashWalletState.communities;
     Community community =
         store.state.cashWalletState.communities[communityAddress];
     Token token =
         store.state.cashWalletState.tokens[community?.homeTokenAddress];
+    final bool showTabs =
+        tokens.any((element) => element.originNetwork == null) ||
+            communities.length > 1;
+    final bool showDepositBanner =
+        (store?.state?.userState?.depositBannerShowed ?? false) &&
+            util.isDefaultCommunity(communityAddress) &&
+            token != null;
     return HomeViewModel(
+        showDepositBanner: showDepositBanner,
+        showTabs: showTabs,
         token: token,
         depositBannerShowed:
             store?.state?.userState?.depositBannerShowed ?? false,
-        communities: store.state.cashWalletState.communities,
-        isDefaultCommunity: util.isDefaultCommunity(communityAddress),
+        communities: communities,
         tokens: tokens,
         isoCode: store.state.userState.isoCode,
         accountAddress: store.state.userState.accountAddress,
@@ -129,6 +141,8 @@ class HomeViewModel extends Equatable {
 
   @override
   List<Object> get props => [
+        showDepositBanner,
+        showTabs,
         accountAddress,
         walletAddress,
         tokens,
@@ -137,7 +151,6 @@ class HomeViewModel extends Equatable {
         isCommunityLoading,
         isBranchDataReceived,
         isoCode,
-        isDefaultCommunity,
         token,
         isCommunityFetched
       ];

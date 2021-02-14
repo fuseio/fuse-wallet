@@ -11,7 +11,6 @@ import 'package:fusecash/redux/viewsmodels/contacts.dart';
 import 'package:fusecash/features/contacts/screens/send_to_account.dart';
 import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/features/contacts/widgets/list_header.dart';
-// import 'package:fusecash/features/contacts/widgets/recent_contacts.dart';
 import 'package:fusecash/features/contacts/widgets/search_panel.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/phone.dart';

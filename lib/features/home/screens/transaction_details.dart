@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 
@@ -14,16 +14,17 @@ class TransactionDetailsScreen extends StatelessWidget {
   final String displayName;
   final ImageProvider<dynamic> image;
   final Contact contact;
-  final Transfer transfer;
+  final Transaction transfer;
   final Token token;
 
-  TransactionDetailsScreen(
-      {this.image,
-      this.displayName,
-      this.status,
-      this.token,
-      this.contact,
-      this.transfer});
+  TransactionDetailsScreen({
+    this.image,
+    this.displayName,
+    this.status,
+    this.token,
+    this.contact,
+    this.transfer,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -261,8 +262,13 @@ class TransactionDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget rowItem(BuildContext context, String title, String value,
-      {void Function() onTap, bool withCopy = false}) {
+  Widget rowItem(
+    BuildContext context,
+    String title,
+    String value, {
+    void Function() onTap,
+    bool withCopy = false,
+  }) {
     if (withCopy) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,

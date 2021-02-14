@@ -13,9 +13,11 @@ class FeedViewModel extends Equatable {
   final Function() startProcessingJobs;
   final Function() refreshFeed;
   final List<Community> communities;
+  final bool isWalletCreated;
 
   FeedViewModel({
     this.feedList,
+    this.isWalletCreated,
     this.walletStatus,
     this.startTransfersFetching,
     this.startProcessingJobs,
@@ -43,7 +45,10 @@ class FeedViewModel extends Equatable {
     );
     List<Transaction> feedList = [...tokensTxs, ...erc20TokensTxs]
       ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
+    final bool isWalletCreated = store.state.userState.walletStatus != null &&
+        store.state.userState.walletStatus == 'created';
     return FeedViewModel(
+        isWalletCreated: isWalletCreated,
         feedList: feedList,
         walletStatus: store.state.userState.walletStatus,
         communities: store.state.cashWalletState.communities.values.toList(),
@@ -60,5 +65,10 @@ class FeedViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [feedList, communities, walletStatus];
+  List<Object> get props => [
+        feedList,
+        communities,
+        walletStatus,
+        isWalletCreated,
+      ];
 }

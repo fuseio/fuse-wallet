@@ -7,21 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:fusecash/features/home/widgets/transfer_tile.dart';
 import 'package:fusecash/redux/viewsmodels/feed.dart';
 
-class Feed extends StatefulWidget {
+class Feed extends StatelessWidget {
   Feed({this.withTitle = true});
   final bool withTitle;
-  @override
-  createState() => new FeedState();
-}
-
-class FeedState extends State<Feed> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
-  Widget build(BuildContext _context) {
+  Widget build(BuildContext context) {
     return new StoreConnector<AppState, FeedViewModel>(
         converter: FeedViewModel.fromStore,
         distinct: true,
@@ -34,14 +25,14 @@ class FeedState extends State<Feed> {
           nextViewModel.startTransfersFetching();
         },
         builder: (_, viewModel) {
-          final bool isWalletCreated = 'created' == viewModel.walletStatus;
           final Transfer generateWallet = Transfer(
-              type: 'RECEIVE',
-              text: !isWalletCreated
-                  ? I18n.of(context).generating_wallet
-                  : I18n.of(context).generated_wallet,
-              status: !isWalletCreated ? 'PENDING' : 'CONFIRMED',
-              jobId: 'generateWallet');
+            type: 'RECEIVE',
+            text: !viewModel.isWalletCreated
+                ? I18n.of(context).generating_wallet
+                : I18n.of(context).generated_wallet,
+            status: !viewModel.isWalletCreated ? 'PENDING' : 'CONFIRMED',
+            jobId: 'generateWallet',
+          );
           final List<Transaction> feedList = [
             ...viewModel.feedList,
             generateWallet,
@@ -58,7 +49,7 @@ class FeedState extends State<Feed> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    widget.withTitle
+                    withTitle
                         ? Container(
                             padding: EdgeInsets.only(left: 15, top: 20),
                             child: Text(
@@ -86,7 +77,7 @@ class FeedState extends State<Feed> {
                   ],
                 ),
                 height: MediaQuery.of(context).size.height *
-                    (widget.withTitle ? .66 : .576),
+                    (withTitle ? .66 : .576),
               ),
             ),
           );

@@ -4,7 +4,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_segment/flutter_segment.dart';
-import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/models/community/business.dart';
@@ -23,6 +22,7 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:http/http.dart';
 import 'package:redux/redux.dart';
@@ -429,7 +429,7 @@ ThunkAction createAccountWalletCall(String accountAddress) {
     try {
       final String communityAddress =
           store.state?.cashWalletState?.communityAddress ??
-              getIt<String>(instanceName: 'defaultCommunityAddress');
+              defaultCommunityAddress;
       Map<String, dynamic> response =
           await api.createWallet(communityAddress: communityAddress);
       if (!response.containsKey('job')) {
@@ -751,15 +751,16 @@ ThunkAction fetchListOfTokensByAddress() {
       String walletAddress = store.state.userState.walletAddress;
       List<dynamic> response =
           await fuseExplorerApi.getListOfTokensByAddress(walletAddress);
-      log.info(
-          'fetchListOfTokensByAddress response ${List.from(response).length}');
+      log.info('fetchListOfTokensByAddress ${List.from(response).length}');
       CashWalletState cashWalletState = store.state.cashWalletState;
       Map<String, Token> newTokens =
           Map<String, Token>.from(response.fold({}, (previousValue, element) {
         Token token = Token.fromJson(element).copyWith(
-            transactions: Transactions(),
-            jobs: List<Job>(),
-            name: formatTokenName(element["name"]));
+          transactions: Transactions.initial(),
+          jobs: List<Job>(),
+          name: formatTokenName(element["name"]),
+          timestamp: 0,
+        );
         if (!cashWalletState.tokens.containsKey(token.address) &&
             num.parse(formatValue(token.amount, token.decimals,
                         withPrecision: true))
@@ -802,7 +803,8 @@ ThunkAction sendTokenToForeignMultiBridge(
           tokensAmount,
           token.decimals,
           network: 'fuse');
-      Map<String, dynamic> feeTrasnferData = await homeWeb3.transferTokenOffChain(
+      Map<String, dynamic> feeTrasnferData =
+          await homeWeb3.transferTokenOffChain(
         walletAddress,
         tokenAddress,
         Addresses.FEE_ADDRESS,
@@ -866,9 +868,15 @@ ThunkAction sendTokenCall(Token token, String receiverAddress, num tokensAmount,
         value = toBigInt(tokensAmount, token.decimals);
         log.info(
             'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
-        Map<String, dynamic> trasnferData = await homeWeb3.transferTokenOffChain(
-            walletAddress, tokenAddress, receiverAddress, tokensAmount);
-        Map<String, dynamic> feeTrasnferData = await homeWeb3.transferTokenOffChain(
+        Map<String, dynamic> trasnferData =
+            await homeWeb3.transferTokenOffChain(
+          walletAddress,
+          tokenAddress,
+          receiverAddress,
+          tokensAmount,
+        );
+        Map<String, dynamic> feeTrasnferData =
+            await homeWeb3.transferTokenOffChain(
           walletAddress,
           tokenAddress,
           Addresses.FEE_ADDRESS,
@@ -1099,6 +1107,7 @@ Future<Token> fetchToken(
         await fuseExplorerApi.getTokenInfo(community.homeTokenAddress);
     final token = Token.fromJson(tokenInfo).copyWith(
       originNetwork: originNetwork,
+      transactions: Transactions.initial(),
       address: community.homeTokenAddress.toLowerCase(),
       timestamp: 0,
       amount: BigInt.zero,
@@ -1115,6 +1124,7 @@ Future<Token> fetchToken(
       originNetwork: originNetwork,
       address: tokenInfo['address'].toLowerCase(),
       timestamp: 0,
+      transactions: Transactions.initial(),
       amount: BigInt.zero,
       communityAddress: community.address.toLowerCase(),
       name: formatTokenName(tokenInfo['name']),

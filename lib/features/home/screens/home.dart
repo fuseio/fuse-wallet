@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/features/home/widgets/deposit_banner.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/viewsmodels/home.dart';
 import 'package:fusecash/features/home/widgets/assets_list.dart';
 import 'package:fusecash/features/home/widgets/cash_header.dart';
 import 'package:fusecash/features/home/widgets/feed.dart';
+import 'package:fusecash/utils/addresses.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 
 final List<String> tabsTitles = ['Feed', 'Wallet'];
@@ -106,14 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
       onWillChange: (previousViewModel, newViewModel) {
         newViewModel.onReceiveBranchData(false);
       },
-      // onInit: (store) {
-      //   final communities = store.state.cashWalletState.communities;
-      //   String walletStatus = store.state.userState.walletStatus;
-      //   if (walletStatus == 'created' &&
-      //       !communities.containsKey(defaultCommunityAddress.toLowerCase())) {
-      //     store.dispatch(switchCommunityCall(defaultCommunityAddress));
-      //   }
-      // },
+      onInit: (store) {
+        final communities = store.state.cashWalletState.communities;
+        String walletStatus = store.state.userState.walletStatus;
+        if (walletStatus == 'created' &&
+            !communities.containsKey(defaultCommunityAddress.toLowerCase())) {
+          store.dispatch(switchCommunityCall(defaultCommunityAddress));
+        }
+      },
       builder: (_, viewModel) {
         return Scaffold(
           appBar: MyAppBar(
@@ -124,14 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
           body: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              viewModel.tokens
-                          .any((element) => element.originNetwork == null) ||
-                      viewModel.communities.length > 1
-                  ? refreshIndicator(viewModel)
-                  : Feed(),
-              viewModel.isDefaultCommunity &&
-                      !viewModel.depositBannerShowed &&
-                      viewModel.token != null
+              viewModel.showTabs ? refreshIndicator(viewModel) : Feed(),
+              viewModel.showDepositBanner
                   ? Positioned(
                       bottom: 15,
                       width: MediaQuery.of(context).size.width * .95,

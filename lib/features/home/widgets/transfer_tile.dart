@@ -2,16 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 import 'package:flutter_redux/flutter_redux.dart';
-// import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
-// import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/viewsmodels/transfer_tile.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/transfer.dart';

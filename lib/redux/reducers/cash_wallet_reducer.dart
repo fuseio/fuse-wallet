@@ -93,8 +93,7 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
         newOne.containsKey(checksumEthereumAddress(tokenAddress))
             ? newOne[checksumEthereumAddress(tokenAddress)]
             : newOne[tokenAddress];
-    tokens[tokenAddress] =
-        token.copyWith(transactions: Transactions(blockNumber: 0, list: []));
+    tokens[tokenAddress] = token.copyWith(transactions: Transactions.initial());
   }
   return state.copyWith(tokens: tokens);
 }
@@ -105,8 +104,10 @@ CashWalletState _refreshCommunityData(
   Community current = state.communities[communityAddress];
   Map<String, Community> newOne =
       Map<String, Community>.from(state.communities);
-  newOne[communityAddress] =
-      current?.copyWith(plugins: action.plugins, webUrl: action.webUrl);
+  newOne[communityAddress] = current?.copyWith(
+    plugins: action.plugins,
+    webUrl: action.webUrl,
+  );
   return state.copyWith(communities: newOne);
 }
 
