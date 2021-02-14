@@ -21,16 +21,12 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-  final assetIdController = TextEditingController(text: "");
-  String userName = "";
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget getListTile(String label, void Function() onTap,
-      {String icon, Widget temp}) {
+  Widget getListTile(
+    String label,
+    void Function() onTap, {
+    String icon,
+    Widget temp,
+  }) {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
       title: Padding(

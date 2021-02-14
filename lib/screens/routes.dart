@@ -13,6 +13,7 @@ import 'package:fusecash/screens/splash/splash.dart';
 import 'package:fusecash/screens/send_flow/send_amount.dart';
 import 'package:fusecash/screens/send_flow/send_review.dart';
 import 'package:fusecash/screens/send_flow/send_success.dart';
+import 'package:fusecash/screens/topup/topup.dart';
 import 'package:fusecash/screens/unknown_route.dart';
 
 @MaterialAutoRouter(generateNavigationHelperExtension: true, routes: [
@@ -25,6 +26,7 @@ import 'package:fusecash/screens/unknown_route.dart';
   MaterialRoute(page: VerifyScreen),
   MaterialRoute(page: UserNameScreen),
   MaterialRoute(page: WebViewPage, name: 'webview', fullscreenDialog: true),
+  MaterialRoute(guards: [AuthGuard], page: TopupScreen),
   MaterialRoute(guards: [AuthGuard], page: HomePage),
   MaterialRoute(guards: [AuthGuard], page: SendAmountScreen),
   MaterialRoute(guards: [AuthGuard], page: SendReviewScreen),

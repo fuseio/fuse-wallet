@@ -109,19 +109,28 @@ class _FeedModel extends Equatable {
   });
 
   static _FeedModel fromStore(Store<AppState> store) {
-    List<Transaction> tokensTxs = store.state.cashWalletState.tokens?.values
-        ?.fold(
-            [],
-            (List<Transaction> previousValue, Token token) =>
-                previousValue..addAll(token?.transactions?.list ?? []));
+    List<Transaction> tokensTxs =
+        store.state.cashWalletState.tokens?.values?.fold(
+      [],
+      (List<Transaction> previousValue, Token token) => previousValue
+        ..addAll(
+          token?.transactions?.list ?? [],
+        ),
+    );
 
     List<Transaction> erc20TokensTxs =
         store.state.proWalletState.erc20Tokens?.values?.fold(
-            [],
-            (List<Transaction> previousValue, Token token) =>
-                previousValue..addAll(token?.transactions?.list ?? []));
-    List<Transaction> feedList = [...tokensTxs, ...erc20TokensTxs]
-      ..sort((a, b) => (b?.timestamp ?? 0).compareTo((a?.timestamp ?? 0)));
+      [],
+      (List<Transaction> previousValue, Token token) => previousValue
+        ..addAll(
+          token?.transactions?.list ?? [],
+        ),
+    );
+    List<Transaction> feedList = [...tokensTxs, ...erc20TokensTxs]..sort(
+        (a, b) => (b?.timestamp ?? 0).compareTo(
+          (a?.timestamp ?? 0),
+        ),
+      );
     return _FeedModel(
         feedList: feedList,
         walletStatus: store.state.userState.walletStatus,

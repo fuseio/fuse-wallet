@@ -18,6 +18,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
   final pincodeController = TextEditingController(text: "");
   String lastPincode;
   bool isRetype = false;
+  bool showError = false;
 
   @override
   void initState() {
@@ -85,53 +86,67 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                           height: 50,
                         ),
                         Theme(
-                            data: ThemeData(
-                                hintColor:
-                                    Theme.of(context).scaffoldBackgroundColor),
-                            child: StoreConnector<AppState,
-                                    LockScreenViewModel>(
-                                converter: LockScreenViewModel.fromStore,
-                                builder: (_, viewModel) => Container(
-                                      width: 250,
-                                      child: PinInputTextField(
-                                        pinLength: 6,
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                          signed: true,
-                                          decimal: true,
-                                        ),
-                                        decoration: UnderlineDecoration(
-                                            hintTextStyle: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                            colorBuilder:
-                                                FixedColorListBuilder([
-                                              Color(0xFF575757),
-                                              Color(0xFF575757),
-                                              Color(0xFF575757),
-                                              Color(0xFF575757),
-                                              Color(0xFF575757),
-                                              Color(0xFF575757),
-                                            ]),
-                                            obscureStyle: ObscureStyle(
-                                                isTextObscure: true,
-                                                obscureText: '●')),
-                                        controller: pincodeController,
-                                        autoFocus: true,
-                                        onSubmit: (value) {
-                                          if (value == viewModel.pincode) {
-                                            ExtendedNavigator.root
-                                                .replace(Routes.homePage);
-                                          } else {
-                                            transactionFailedSnack(
-                                                I18n.of(context)
-                                                    .invalid_pincode,
-                                                title: I18n.of(context).oops,
-                                                duration: Duration(seconds: 3),
-                                                context: context);
-                                          }
+                          data: ThemeData(
+                              hintColor:
+                                  Theme.of(context).scaffoldBackgroundColor),
+                          child: StoreConnector<AppState, LockScreenViewModel>(
+                            converter: LockScreenViewModel.fromStore,
+                            builder: (_, viewModel) => Container(
+                              width: 250,
+                              child: PinInputTextField(
+                                pinLength: 6,
+                                decoration: UnderlineDecoration(
+                                  hintTextStyle:
+                                      TextStyle(fontWeight: FontWeight.bold),
+                                  colorBuilder: FixedColorListBuilder(
+                                    [
+                                      Color(0xFF575757),
+                                      Color(0xFF575757),
+                                      Color(0xFF575757),
+                                      Color(0xFF575757),
+                                      Color(0xFF575757),
+                                      Color(0xFF575757),
+                                    ],
+                                  ),
+                                  obscureStyle: ObscureStyle(
+                                    isTextObscure: true,
+                                    obscureText: '●',
+                                  ),
+                                ),
+                                controller: pincodeController,
+                                autoFocus: true,
+                                onChanged: (value) {
+                                  if (value.length == 6) {
+                                    if (value == viewModel.pincode) {
+                                      ExtendedNavigator.root
+                                          .replace(Routes.homePage);
+                                    } else {
+                                      if (!showError) {
+                                        transactionFailedSnack(
+                                          I18n.of(context).invalid_pincode,
+                                          title: I18n.of(context).oops,
+                                          duration: Duration(seconds: 3),
+                                          context: context,
+                                        );
+                                      }
+                                      setState(() {
+                                        showError = true;
+                                      });
+                                      Future.delayed(
+                                        Duration(milliseconds: 2500),
+                                        () {
+                                          setState(() {
+                                            showError = false;
+                                          });
                                         },
-                                      ),
-                                    )))
+                                      );
+                                    }
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     )
                   ],

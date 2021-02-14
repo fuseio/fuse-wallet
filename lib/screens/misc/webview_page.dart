@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -81,6 +81,11 @@ class _WebViewPageState extends State<WebViewPage> {
       ),
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
+        onPageStarted: (String url) {
+          if (url.contains('https://fuse.io/')) {
+            ExtendedNavigator.root.popUntilRoot();
+          }
+        },
         initialUrl: widget.url,
       ),
     );

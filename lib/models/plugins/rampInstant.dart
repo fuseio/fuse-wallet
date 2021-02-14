@@ -7,7 +7,7 @@ class RampInstantPlugin extends DepositPlugin {
       ? RampInstantPlugin(
           name: json['name'],
           widgetUrl: json['widgetUrl'],
-          isActive: json["isActive"] || false,
+          isActive: json["isActive"] ?? false,
         )
       : null;
 }

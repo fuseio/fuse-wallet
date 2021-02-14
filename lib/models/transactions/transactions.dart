@@ -1,5 +1,5 @@
+import 'package:fusecash/models/transactions/factory.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transactions.g.dart';
@@ -29,16 +29,20 @@ class Transactions {
   }
 
   static List<Transaction> _listFromJson(Map<String, dynamic> list) =>
-      List<Transaction>.from(list['list'].map((transaction) {
-        if (transaction['type'] == 'RECEIVE' || transaction['type'] == 'SEND') {
-          return Transfer.fromJson(transaction);
-        }
-        return Transaction.fromJson(transaction);
-      }));
+      List<Transaction>.from(
+        list['list'].map(
+          (transaction) => TransactionFactory.fromJson(transaction),
+        ),
+      );
 
   static Map<String, dynamic> _listToJson(List<Transaction> list) =>
-      new Map.from(
-          {'list': list.map((transaction) => transaction.toJson()).toList()});
+      new Map.from({
+        'list': list
+            .map(
+              (transaction) => transaction.toJson(),
+            )
+            .toList(),
+      });
 
   factory Transactions.fromJson(Map<String, dynamic> json) =>
       _$TransactionsFromJson(json);

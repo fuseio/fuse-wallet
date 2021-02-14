@@ -23,7 +23,7 @@ class ReceiveScreen extends StatelessWidget {
         },
         converter: _ReceiveModel.fromStore,
         builder: (_, viewModel) {
-          final String barcodeData = 'ethereum:${viewModel.walletAddress}';
+          final String barcodeData = 'fuse:${viewModel.walletAddress}';
           return MainScaffold(
             title: I18n.of(context).receive,
             automaticallyImplyLeading: false,
@@ -106,7 +106,7 @@ class _ReceiveModel extends Equatable {
 
   static _ReceiveModel fromStore(Store<AppState> store) {
     return _ReceiveModel(
-      walletAddress: store.state.userState?.walletAddress ?? '',
+      walletAddress: store.state.userState?.walletAddress?.replaceFirst('x', 'f') ?? '',
     );
   }
 

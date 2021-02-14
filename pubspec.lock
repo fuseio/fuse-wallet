@@ -260,6 +260,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  country_currency_pickers:
+    dependency: "direct main"
+    description:
+      name: country_currency_pickers
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   crypto:
     dependency: transitive
     description:
@@ -1229,7 +1236,7 @@ packages:
       name: wallet_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.4+21"
+    version: "0.2.4+23"
   watcher:
     dependency: transitive
     description:

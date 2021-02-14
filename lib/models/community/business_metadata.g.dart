@@ -8,13 +8,13 @@ part of 'business_metadata.dart';
 
 BusinessMetadata _$BusinessMetadataFromJson(Map<String, dynamic> json) {
   return BusinessMetadata(
-    address: json['address'] as String,
-    description: json['description'] as String,
-    image: json['image'] as String,
-    coverPhoto: json['coverPhoto'] as String,
-    type: json['type'] as String,
-    phoneNumber: json['phoneNumber'] as String,
-    website: json['website'] as String,
+    address: json['address'] as String ?? '',
+    description: json['description'] as String ?? '',
+    image: json['image'] as String ?? '',
+    coverPhoto: json['coverPhoto'] as String ?? '',
+    type: json['type'] as String ?? '',
+    phoneNumber: json['phoneNumber'] as String ?? '',
+    website: json['website'] as String ?? '',
     latLng:
         (json['latLng'] as List)?.map((e) => (e as num)?.toDouble())?.toList(),
   );

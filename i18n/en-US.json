@@ -151,5 +151,10 @@
     "for_more_info": "For more information: ",
     "privacy": "Fuse.io/privacy",
     "will_never_share": "Fuse will never share this information with 3rd party.",
-    "stores_private": "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts."
+    "stores_private": "The fuse wallet stores private information locally on the device. Only the phone number is used to be able to verify your identity and reduce friction when sending money to phone contacts.",
+    "deposit_your_first_dollars": "Deposit your first Dollars",
+    "swap": "Swap",
+    "coming_soon": "Coming soon",
+    "invalid_qa_code": "Invalid QA Code",
+    "error": "Error"
 }

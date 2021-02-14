@@ -7,12 +7,10 @@ import 'package:fusecash/constans/keys.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/screens/buy/router/buy_router.gr.dart';
 import 'package:fusecash/screens/contacts/widgets/enable_contacts.dart';
 import 'package:fusecash/screens/home/router/home_router.gr.dart';
-import 'package:fusecash/screens/home/screens/fuse_points_explained.dart';
 import 'package:fusecash/screens/home/screens/receive.dart';
-import 'package:fusecash/screens/misc/webview_page.dart';
+import 'package:fusecash/screens/misc/coming_soon.dart';
 import 'package:fusecash/screens/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/screens/home/widgets/drawer.dart';
 import 'package:fusecash/utils/contacts.dart';
@@ -24,7 +22,6 @@ import 'package:fusecash/screens/home/widgets/bottom_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/utils/addresses.dart' as util;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -135,78 +132,72 @@ class _HomePageState extends State<HomePage> {
       }
     }, builder: (BuildContext context) {
       return new StoreConnector<AppState, _HomePageViewModel>(
-          distinct: true,
-          converter: _HomePageViewModel.fromStore,
-          onInit: onInit,
-          builder: (_, vm) {
-            return Scaffold(
-                key: AppKeys.homePageKey,
-                drawer: DrawerWidget(),
-                drawerEdgeDragWidth: 0,
-                drawerEnableOpenDragGesture: false,
-                body: IndexedStack(index: currentIndex, children: <Widget>[
-                  ExtendedNavigator(
-                    router: HomeRouter(),
-                    name: 'homeRouter',
-                    observers: [SegmentObserver()],
-                  ),
-                  ExtendedNavigator(
-                    observers: [SegmentObserver()],
-                    router: ContactsRouter(),
-                    name: 'contactsRouter',
-                    initialRoute:
-                        vm.isContactsSynced != null && vm.isContactsSynced
-                            ? ContactsRoutes.contactsList
-                            : ContactsRoutes.emptyContacts,
-                  ),
-                  !['', null].contains(vm.community.webUrl)
-                      ? WebViewPage(
-                          url: vm.community.webUrl,
-                          withBack: false,
-                          title: I18n.of(context).community_webpage)
-                      : vm.isDefaultCommunity
-                          ? FusePointsExplainedScreen()
-                          : ExtendedNavigator(
-                              name: 'buyRouter',
-                              router: BuyRouter(),
-                              observers: [SegmentObserver()],
-                            ),
-                  ReceiveScreen()
-                ]),
-                bottomNavigationBar: BottomBar(
-                  onTap: (index) {
-                    _onTap(index);
-                    if (vm.isContactsSynced == null &&
-                        index == 1 &&
-                        !isContactSynced) {
-                      Future.delayed(
-                          Duration.zero,
-                          () => showDialog(
-                              context: context,
-                              child: ContactsConfirmationScreen()));
-                    }
+        distinct: true,
+        converter: _HomePageViewModel.fromStore,
+        onInit: onInit,
+        builder: (_, vm) {
+          return Scaffold(
+            key: AppKeys.homePageKey,
+            drawer: DrawerWidget(),
+            drawerEdgeDragWidth: 0,
+            drawerEnableOpenDragGesture: false,
+            body: IndexedStack(
+              index: currentIndex,
+              children: <Widget>[
+                ExtendedNavigator(
+                  router: HomeRouter(),
+                  name: 'homeRouter',
+                  observers: [SegmentObserver()],
+                ),
+                ExtendedNavigator(
+                  observers: [SegmentObserver()],
+                  router: ContactsRouter(),
+                  name: 'contactsRouter',
+                  initialRoute:
+                      vm.isContactsSynced != null && vm.isContactsSynced
+                          ? ContactsRoutes.contactsList
+                          : ContactsRoutes.emptyContacts,
+                ),
+                SwapScreen(),
+                ReceiveScreen()
+              ],
+            ),
+            bottomNavigationBar: BottomBar(
+              onTap: (index) {
+                _onTap(index);
+                if (vm.isContactsSynced == null &&
+                    index == 1 &&
+                    !isContactSynced) {
+                  Future.delayed(
+                    Duration.zero,
+                    () => showDialog(
+                      context: context,
+                      child: ContactsConfirmationScreen(),
+                    ),
+                  );
+                }
 
-                    if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
-                      Future.delayed(Duration.zero, () {
-                        vm.setShowDialog();
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return BackUpDialog();
-                            });
-                      });
-                    }
-                  },
-                  tabIndex: currentIndex,
-                ));
-          });
+                if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
+                  Future.delayed(Duration.zero, () {
+                    vm.setShowDialog();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) => BackUpDialog(),
+                    );
+                  });
+                }
+              },
+              tabIndex: currentIndex,
+            ),
+          );
+        },
+      );
     });
   }
 }
 
 class _HomePageViewModel extends Equatable {
   final Community community;
-  final bool isDefaultCommunity;
   final bool isContactsSynced;
   final bool backup;
   final bool isBackupDialogShowed;
@@ -214,7 +205,6 @@ class _HomePageViewModel extends Equatable {
 
   _HomePageViewModel({
     this.isContactsSynced,
-    this.isDefaultCommunity,
     this.community,
     this.backup,
     this.isBackupDialogShowed,
@@ -229,7 +219,6 @@ class _HomePageViewModel extends Equatable {
     return _HomePageViewModel(
       isContactsSynced: store.state.userState.isContactsSynced,
       community: community,
-      isDefaultCommunity: util.isDefaultCommunity(communityAddress),
       backup: store.state.userState.backup,
       isBackupDialogShowed:
           store.state.userState?.receiveBackupDialogShowed ?? false,
@@ -240,5 +229,10 @@ class _HomePageViewModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [isDefaultCommunity, community, isContactsSynced];
+  List<Object> get props => [
+        community,
+        isContactsSynced,
+        backup,
+        isContactsSynced,
+      ];
 }

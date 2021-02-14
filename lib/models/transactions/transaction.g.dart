@@ -17,11 +17,17 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
     timestamp: json['timestamp'] as int,
     jobId: json['jobId'] as String,
     failReason: json['failReason'] as String,
+    tokenAddress: json['tokenAddress'] as String,
+    from: json['from'] as String,
+    to: json['to'] as String,
+    value: json['value'] == null ? null : BigInt.parse(json['value'] as String),
+    actionType: json['actionType'] as String,
   );
 }
 
 Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
     <String, dynamic>{
+      'tokenAddress': instance.tokenAddress,
       'txHash': instance.txHash,
       'timestamp': instance.timestamp,
       'type': instance.type,
@@ -29,6 +35,10 @@ Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
       'text': instance.text,
       'blockNumber': instance.blockNumber,
       'jobId': instance.jobId,
+      'to': instance.to,
+      'from': instance.from,
+      'value': instance.value?.toString(),
       'isSwap': instance.isSwap,
       'failReason': instance.failReason,
+      'actionType': instance.actionType,
     };

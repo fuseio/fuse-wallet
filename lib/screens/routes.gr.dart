@@ -24,6 +24,7 @@ import 'signup/signup.dart';
 import 'signup/username.dart';
 import 'signup/verify.dart';
 import 'splash/splash.dart';
+import 'topup/topup.dart';
 import 'unknown_route.dart';
 
 class Routes {
@@ -36,6 +37,7 @@ class Routes {
   static const String verifyScreen = '/verify-screen';
   static const String userNameScreen = '/user-name-screen';
   static const String webview = '/web-view-page';
+  static const String topupScreen = '/topup-screen';
   static const String homePage = '/home-page';
   static const String sendAmountScreen = '/send-amount-screen';
   static const String sendReviewScreen = '/send-review-screen';
@@ -51,6 +53,7 @@ class Routes {
     verifyScreen,
     userNameScreen,
     webview,
+    topupScreen,
     homePage,
     sendAmountScreen,
     sendReviewScreen,
@@ -72,6 +75,7 @@ class Router extends RouterBase {
     RouteDef(Routes.verifyScreen, page: VerifyScreen),
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
     RouteDef(Routes.webview, page: WebViewPage),
+    RouteDef(Routes.topupScreen, page: TopupScreen, guards: [AuthGuard]),
     RouteDef(Routes.homePage, page: HomePage, guards: [AuthGuard]),
     RouteDef(Routes.sendAmountScreen,
         page: SendAmountScreen, guards: [AuthGuard]),
@@ -147,6 +151,15 @@ class Router extends RouterBase {
         ),
         settings: data,
         fullscreenDialog: true,
+      );
+    },
+    TopupScreen: (data) {
+      final args = data.getArgs<TopupScreenArguments>(
+        orElse: () => TopupScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => TopupScreen(walletAddress: args.walletAddress),
+        settings: data,
       );
     },
     HomePage: (data) {
@@ -232,6 +245,14 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
             WebViewPageArguments(url: url, title: title, withBack: withBack),
       );
 
+  Future<dynamic> pushTopupScreen(
+          {String walletAddress, OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.topupScreen,
+        arguments: TopupScreenArguments(walletAddress: walletAddress),
+        onReject: onReject,
+      );
+
   Future<dynamic> pushHomePage({Key key, OnNavigationRejected onReject}) =>
       push<dynamic>(
         Routes.homePage,
@@ -283,6 +304,12 @@ class WebViewPageArguments {
   final String title;
   final bool withBack;
   WebViewPageArguments({this.url, this.title, this.withBack = false});
+}
+
+/// TopupScreen arguments holder class
+class TopupScreenArguments {
+  final String walletAddress;
+  TopupScreenArguments({this.walletAddress});
 }
 
 /// HomePage arguments holder class

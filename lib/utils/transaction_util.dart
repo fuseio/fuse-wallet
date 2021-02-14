@@ -4,7 +4,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
+import 'package:fusecash/models/transactions/fiat_deposit.dart';
+import 'package:fusecash/models/transactions/fiat_process.dart';
+import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/utils/phone.dart';
 
@@ -22,7 +24,7 @@ String getS3ImageUrl(String image) {
   return '${DotEnv().env['FUSE_S3_BUCKET']}/$image';
 }
 
-Widget deduceTransferIcon(Transfer transfer) {
+Widget deduceTransferIcon(Transaction transfer) {
   if (transfer.isFailed()) {
     return SvgPicture.asset(
       'assets/images/failed_icon.svg',
@@ -58,8 +60,12 @@ Widget deduceTransferIcon(Transfer transfer) {
   }
 }
 
-Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
-    List<Contact> contacts, String countryCode) {
+Contact getContact(
+  Transaction transfer,
+  Map<String, String> reverseContacts,
+  List<Contact> contacts,
+  String countryCode,
+) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (accountAddress == null) {
     return null;
@@ -83,39 +89,36 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
   return null;
 }
 
-String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true,
-    List<Business> businesses,
-    bool getReverseContact = true}) {
+String deducePhoneNumber(
+  Transaction transfer,
+  Map<String, String> reverseContacts, {
+  List<Business> businesses,
+}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (businesses != null && businesses.isNotEmpty) {
     Business business = businesses.firstWhere(
-        (business) => business.account == accountAddress,
-        orElse: () => null);
+      (business) => business.account == accountAddress,
+      orElse: () => null,
+    );
     if (business != null) {
       return business.name;
     }
   }
-  if (reverseContacts.containsKey(accountAddress.toLowerCase()) &&
-      getReverseContact) {
+  if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
     return reverseContacts[accountAddress.toLowerCase()];
-  }
-  if (format) {
-    return formatAddress(accountAddress);
   } else {
-    return accountAddress;
+    return formatAddress(accountAddress);
   }
 }
 
 dynamic getTransferImage(
-    Transfer transfer, Contact contact, Community community,
-    {bool isZeroAddress}) {
-  if (isZeroAddress != null && isZeroAddress) {
-    AssetImage(
-      'assets/images/ethereume_icon.png',
-    );
-  }
-  if (transfer.isJoinCommunity() &&
+  Transaction transfer,
+  Contact contact,
+  Community community,
+) {
+  if ((transfer.isJoinCommunity() ||
+          transfer is FiatDeposit ||
+          transfer is FiatProcess) &&
       ![null, ''].contains(community?.metadata?.image)) {
     return new NetworkImage(community?.metadata?.getImageUri());
   } else if (transfer.isGenerateWallet()) {
@@ -148,8 +151,11 @@ dynamic getTransferImage(
   return new AssetImage('assets/images/anom.png');
 }
 
-dynamic getContactImage(Transfer transfer, Contact contact,
-    {List<Business> businesses = const []}) {
+dynamic getContactImage(
+  Transaction transfer,
+  Contact contact, {
+  List<Business> businesses = const [],
+}) {
   if (contact?.avatar != null && contact.avatar.isNotEmpty) {
     return new MemoryImage(contact.avatar);
   } else if (businesses.isNotEmpty) {

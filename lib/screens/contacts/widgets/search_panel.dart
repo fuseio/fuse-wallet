@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/utils/send.dart';
@@ -51,15 +52,19 @@ class SearchPanel extends StatelessWidget {
                 width: 45,
                 height: 45,
                 child: new FloatingActionButton(
-                    heroTag: 'contacts_list',
-                    backgroundColor: const Color(0xFF292929),
-                    elevation: 0,
-                    child: Image.asset(
-                      'assets/images/scan.png',
-                      width: 25.0,
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                    ),
-                    onPressed: bracodeScannerHandler),
+                  heroTag: 'contacts_list',
+                  backgroundColor: const Color(0xFF292929),
+                  elevation: 0,
+                  child: Image.asset(
+                    'assets/images/scan.png',
+                    width: 25.0,
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  onPressed: () {
+                    bracodeScannerHandler(
+                        ExtendedNavigator.named('contactsRouter').context);
+                  },
+                ),
               )
             ],
           ),
