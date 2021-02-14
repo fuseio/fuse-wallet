@@ -456,6 +456,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = QC9255BHMY;
 				ENABLE_BITCODE = NO;
+				FLUTTER_TARGET = lib/main_prod.dart;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -590,6 +591,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = QC9255BHMY;
 				ENABLE_BITCODE = NO;
+				FLUTTER_TARGET = lib/main_prod.dart;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
@@ -620,6 +622,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = QC9255BHMY;
 				ENABLE_BITCODE = NO;
+				FLUTTER_TARGET = lib/main_prod.dart;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",

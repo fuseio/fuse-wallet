@@ -11,7 +11,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/utils/log/log.dart';
@@ -38,14 +37,11 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void refreshToken(Store<AppState> store) async {
+  void setJwtToken(Store<AppState> store) async {
     String jwtToken = store?.state?.userState?.jwtToken;
     if (![null, ''].contains(jwtToken)) {
       log.info('JWT: $jwtToken');
       api.setJwtToken(jwtToken);
-      store.dispatch(LoginVerifySuccess(jwtToken));
-    } else {
-      log.info('no JWT');
     }
   }
 
@@ -59,22 +55,38 @@ class _MyAppState extends State<MyApp> {
         var communityAddress = linkData["community_address"];
         log.info("communityAddress $communityAddress");
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-          'Referral': linkData["~feature"],
-          'Referral link': linkData['~referring_link']
-        })));
-        store.dispatch(segmentTrackCall("Wallet: Branch: Studio Invite",
-            properties: new Map<String, dynamic>.from(linkData)));
+        store.dispatch(
+          segmentIdentifyCall(
+            Map<String, dynamic>.from({
+              'Referral': linkData["~feature"],
+              'Referral link': linkData['~referring_link']
+            }),
+          ),
+        );
+        store.dispatch(
+          segmentTrackCall(
+            "Wallet: Branch: Studio Invite",
+            properties: Map<String, dynamic>.from(linkData),
+          ),
+        );
       }
       if (linkData["~feature"] == "invite_user") {
         var communityAddress = linkData["community_address"];
         store.dispatch(BranchCommunityToUpdate(communityAddress));
-        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-          'Referral': linkData["~feature"],
-          'Referral link': linkData['~referring_link']
-        })));
-        store.dispatch(segmentTrackCall("Wallet: Branch: User Invite",
-            properties: new Map<String, dynamic>.from(linkData)));
+        store.dispatch(
+          segmentIdentifyCall(
+            Map<String, dynamic>.from({
+              'Referral': linkData["~feature"],
+              'Referral link': linkData['~referring_link']
+            }),
+          ),
+        );
+        store.dispatch(
+          segmentTrackCall(
+            "Wallet: Branch: User Invite",
+            properties: Map<String, dynamic>.from(linkData),
+          ),
+        );
       }
     });
   }
@@ -88,7 +100,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    refreshToken(widget.store);
+    setJwtToken(widget.store);
     listenDynamicLinks(widget.store);
     I18n.onLocaleChanged = onLocaleChange;
   }

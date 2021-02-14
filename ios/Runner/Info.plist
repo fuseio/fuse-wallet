@@ -1,100 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>Fuse wallet</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fuse</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
-			</array>
-		</dict>
-	</array>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Not in use right now</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>Not in use right now</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Camera permission is required for barcode scanning.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Please enable contacts sync for easy access your phone contacts when sending money.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>FaceId permission is required for protect your wallet.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>Not in use right now</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Not in use right now</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>branch_app_domain</key>
-	<string>fuseio.app.link</string>
-	<key>branch_key</key>
-	<string>key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr</string>
-	<key>com.claimsforce.segment.WRITE_KEY</key>
-	<string>n2yoAnpD1bpDmAXBhUloLYpS1U5f7W09</string>
-	<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>
-	<false/>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-    <string>itms</string>
-	</array>
-</dict>
+	<dict>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>Fuse wallet</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>fuse</string>
+				</array>
+			</dict>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.googleusercontent.apps.863692183597-dj519lg1gf92k0d41a5pe94bio1k14v8</string>
+				</array>
+			</dict>
+		</array>
+		<key>FirebaseAppDelegateProxyEnabled</key>
+		<false/>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>This app requires access to the photo library.</string>
+		<key>NSAppleMusicUsageDescription</key>
+		<string>Not in use right now</string>
+		<key>NSCalendarsUsageDescription</key>
+		<string>Not in use right now</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Camera permission is required for barcode scanning.</string>
+		<key>NSContactsUsageDescription</key>
+		<string>Please enable contacts sync for easy access your phone contacts when sending money.</string>
+		<key>NSFaceIDUsageDescription</key>
+		<string>FaceId permission is required for protect your wallet.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Let us access your location when your using the app to allow easy sending to people nearby.</string>
+		<key>NSMotionUsageDescription</key>
+		<string>Not in use right now</string>
+		<key>NSSpeechRecognitionUsageDescription</key>
+		<string>Not in use right now</string>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>branch_app_domain</key>
+		<string>fuseio.app.link</string>
+		<key>branch_key</key>
+		<string>key_live_aaSvQXmuELUQfsYeG4UfWemnqEiq04hr</string>
+		<key>com.claimsforce.segment.WRITE_KEY</key>
+		<string>n2yoAnpD1bpDmAXBhUloLYpS1U5f7W09</string>
+		<key>com.claimsforce.segment.TRACK_APPLICATION_LIFECYCLE_EVENTS</key>
+		<false/>
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>itms</string>
+		</array>
+	</dict>
 </plist>
