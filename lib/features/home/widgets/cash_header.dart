@@ -205,7 +205,7 @@ class CashHeader extends StatelessWidget {
                       width: 45,
                       height: 45,
                       child: FloatingActionButton(
-                        heroTag: 'bracodeScanner',
+                        heroTag: 'cash_header',
                         backgroundColor: Color(0xFF292929),
                         elevation: 0,
                         child: Image.asset(

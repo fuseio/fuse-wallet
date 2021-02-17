@@ -44,16 +44,17 @@ class SwitchCommunityScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: FloatingActionButton(
-                  heroTag: 'bracodeScanner',
-                  mini: true,
-                  backgroundColor: Color(0xFF292929),
-                  elevation: 0,
-                  child: Image.asset(
-                    'assets/images/scan.png',
-                    width: 20.0,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                  onPressed: null),
+                heroTag: 'switch_scanner',
+                mini: true,
+                backgroundColor: Color(0xFF292929),
+                elevation: 0,
+                child: Image.asset(
+                  'assets/images/scan.png',
+                  width: 20.0,
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                ),
+                onPressed: null,
+              ),
             )
           ],
         ),
