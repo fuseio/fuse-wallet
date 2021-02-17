@@ -138,31 +138,6 @@ class TransferTile extends StatelessWidget {
                                 radius: 30,
                                 backgroundImage: image,
                               ),
-                              // Positioned(
-                              //   bottom: 0,
-                              //   right: 0,
-                              //   child: SvgPicture.asset(
-                              //     'assets/images/${isFuseTxs ? 'fuse' : 'ethereum'}_network.svg',
-                              //     fit: BoxFit.contain,
-                              //     width: 20,
-                              //     height: 20,
-                              //   ),
-                              // ),
-                              // Hero(
-                              //   child: CircleAvatar(
-                              //     backgroundColor: Color(0xFFE0E0E0),
-                              //     radius: 30,
-                              //     backgroundImage: image,
-                              //   ),
-                              //   tag: transfer.isGenerateWallet()
-                              //       ? 'GenerateWallet'
-                              //       : transfer.isPending()
-                              //           ? "contactSent"
-                              //           : "transaction" +
-                              //               (transfer.txHash ??
-                              //                   transfer?.timestamp
-                              //                       .toString()),
-                              // ),
                               transfer.isPending()
                                   ? Container(
                                       width: 60,

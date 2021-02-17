@@ -51,8 +51,8 @@ class SearchPanel extends StatelessWidget {
               Container(
                 width: 45,
                 height: 45,
-                child: new FloatingActionButton(
-                  heroTag: 'contacts_list',
+                child: FloatingActionButton(
+                  heroTag: 'bracodeScanner',
                   backgroundColor: const Color(0xFF292929),
                   elevation: 0,
                   child: Image.asset(

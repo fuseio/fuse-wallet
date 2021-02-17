@@ -15,48 +15,50 @@ import 'package:auto_route/auto_route.dart';
 class SwitchCommunityScreen extends StatelessWidget {
   Widget scanQRButton(BuildContext context, Function switchCommunity) {
     return Container(
-        width: 260.0,
-        height: 50.0,
-        decoration: BoxDecoration(
-          color: Color(0xFFF2F2F2),
-          borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
+      width: 260.0,
+      height: 50.0,
+      decoration: BoxDecoration(
+        color: Color(0xFFF2F2F2),
+        borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
+      ),
+      child: InkWell(
+        onTap: () async {
+          try {
+            ScanResult scanResult = await BarcodeScanner.scan();
+            Map jsonMap = jsonDecode(scanResult.rawContent);
+            switchCommunity(jsonMap['communityAddress']);
+            ExtendedNavigator.named('homeRouter').popUntilRoot();
+          } catch (e) {
+            log.error('BarcodeScanner scan error');
+          }
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(I18n.of(context).sqan_qr_code,
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.button.color,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500)),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: FloatingActionButton(
+                  heroTag: 'bracodeScanner',
+                  mini: true,
+                  backgroundColor: Color(0xFF292929),
+                  elevation: 0,
+                  child: Image.asset(
+                    'assets/images/scan.png',
+                    width: 20.0,
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                  ),
+                  onPressed: null),
+            )
+          ],
         ),
-        child: InkWell(
-          onTap: () async {
-            try {
-              ScanResult scanResult = await BarcodeScanner.scan();
-              Map jsonMap = jsonDecode(scanResult.rawContent);
-              switchCommunity(jsonMap['communityAddress']);
-              ExtendedNavigator.named('homeRouter').popUntilRoot();
-            } catch (e) {
-              log.error('BarcodeScanner scan error');
-            }
-          },
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(I18n.of(context).sqan_qr_code,
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.button.color,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new FloatingActionButton(
-                      heroTag: 'switch_scanner',
-                      mini: true,
-                      backgroundColor: const Color(0xFF292929),
-                      elevation: 0,
-                      child: Image.asset(
-                        'assets/images/scan.png',
-                        width: 20.0,
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                      ),
-                      onPressed: null),
-                )
-              ]),
-        ));
+      ),
+    );
   }
 
   @override

@@ -146,10 +146,13 @@ class ActionDetailsScreen extends StatelessWidget {
                           width: MediaQuery.of(context).size.width * .3,
                           child: Row(
                             children: <Widget>[
-                              CircleAvatar(
-                                backgroundColor: Color(0xFFE0E0E0),
-                                radius: 22,
-                                backgroundImage: image,
+                              Hero(
+                                child: CircleAvatar(
+                                  backgroundColor: Color(0xFFE0E0E0),
+                                  radius: 22,
+                                  backgroundImage: image,
+                                ),
+                                tag: action.hashCode,
                               ),
                               Expanded(
                                   child: Padding(

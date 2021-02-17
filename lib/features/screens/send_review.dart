@@ -245,17 +245,19 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                           Padding(
                             padding: EdgeInsets.only(right: 20),
                             child: ScaleTransition(
-                                scale: offset,
-                                child: Transform.translate(
-                                    offset: Offset(offset.value * 10, 0),
-                                    child: Hero(
-                                      child: CircleAvatar(
-                                        backgroundColor: Color(0xFFE0E0E0),
-                                        radius: 30,
-                                        backgroundImage: args.avatar,
-                                      ),
-                                      tag: "contactSent",
-                                    ))),
+                              scale: offset,
+                              child: Transform.translate(
+                                offset: Offset(offset.value * 10, 0),
+                                child: Hero(
+                                  child: CircleAvatar(
+                                    backgroundColor: Color(0xFFE0E0E0),
+                                    radius: 30,
+                                    backgroundImage: args.avatar,
+                                  ),
+                                  tag: "contactSent",
+                                ),
+                              ),
+                            ),
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,

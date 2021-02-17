@@ -23,9 +23,8 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
     super.initState();
     Segment.screen(screenName: '/send-success-screen');
 
-    Future.delayed(const Duration(milliseconds: 2500), () {
-      final BottomNavigationBar navigationBar =
-          AppKeys.bottomBarKey.currentWidget;
+    Future.delayed(Duration(milliseconds: 2500), () {
+      BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
       navigationBar.onTap(0);
       ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
     });
@@ -33,19 +32,20 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
 
   @override
   Widget build(BuildContext context) {
+    final SendAmountArguments args = this.widget.pageArgs;
     return MainScaffold(
       withPadding: true,
       title: I18n.of(context).success,
       children: <Widget>[
         Container(
-            padding: EdgeInsets.only(top: 140),
-            child: Center(
-                child: Hero(
+          padding: EdgeInsets.only(top: 140),
+          child: Center(
+            child: Hero(
               child: CircleAvatar(
                 backgroundColor: Color(0xFFE0E0E0),
                 radius: 100,
-                backgroundImage: this.widget.pageArgs?.avatar ??
-                    AssetImage('assets/images/anom.png'),
+                backgroundImage:
+                    args?.avatar ?? AssetImage('assets/images/anom.png'),
                 child: Transform.scale(
                   scale: 6,
                   origin: Offset(-9, 7),
@@ -59,7 +59,9 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
                 ),
               ),
               tag: "contactSent",
-            )))
+            ),
+          ),
+        )
       ],
     );
   }
