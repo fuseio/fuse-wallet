@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  RefreshIndicator refreshIndicator(viewModel) {
+  RefreshIndicator refreshIndicator(HomeViewModel viewModel) {
     return RefreshIndicator(
       onRefresh: () async {
         viewModel.refreshFeed();
@@ -101,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, HomeViewModel>(
+      distinct: true,
       converter: HomeViewModel.fromStore,
       onInitialBuild: (viewModel) {
         viewModel.onReceiveBranchData(true);

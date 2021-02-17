@@ -1,12 +1,9 @@
 import 'dart:convert';
 
 import 'package:fusecash/models/jobs/approve_job.dart';
-import 'package:fusecash/models/jobs/backup_job.dart';
 import 'package:fusecash/models/jobs/generate_wallet_job.dart';
 import 'package:fusecash/models/jobs/invite_bonus_job.dart';
 import 'package:fusecash/models/jobs/invite_job.dart';
-import 'package:fusecash/models/jobs/join_bonus_job.dart';
-import 'package:fusecash/models/jobs/join_community_job.dart';
 import 'package:fusecash/models/jobs/swap_token_job.dart';
 import 'package:fusecash/models/jobs/transfer_job.dart';
 
@@ -126,15 +123,6 @@ class JobFactory {
             data: json['data'],
             lastFinishedAt: json['lastFinishedAt'],
             arguments: json['arguments']);
-      case 'joinCommunity':
-        return new JoinCommunityJob(
-            id: id,
-            jobType: jobType,
-            name: json['name'],
-            status: status,
-            data: json['data'],
-            lastFinishedAt: json['lastFinishedAt'],
-            arguments: json['arguments']);
       case 'transfer':
         return new TransferJob(
             id: id,
@@ -153,15 +141,6 @@ class JobFactory {
             data: json['data'],
             lastFinishedAt: json['lastFinishedAt'],
             arguments: json['arguments']);
-      case 'backup':
-        return new BackupJob(
-            id: id,
-            jobType: jobType,
-            name: json['name'],
-            status: status,
-            data: json['data'],
-            lastFinishedAt: json['lastFinishedAt'],
-            arguments: json['arguments']);
       case 'inviteBonus':
         return new InviteBonusJob(
             id: id,
@@ -170,15 +149,6 @@ class JobFactory {
             status: status,
             data: json['data'],
             lastFinishedAt: json['lastFinishedAt'],
-            arguments: json['arguments']);
-      case 'joinBonus':
-        return new JoinBonusJob(
-            id: id,
-            isFunderJob: json['isFunderJob'],
-            jobType: jobType,
-            name: jobType,
-            status: status,
-            data: json['data'],
             arguments: json['arguments']);
       case 'approveToken':
         return new ApproveJob(

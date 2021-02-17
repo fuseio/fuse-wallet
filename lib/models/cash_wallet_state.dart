@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/models/actions/actions.dart';
+import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cash_wallet_state.freezed.dart';
 part 'cash_wallet_state.g.dart';
+
+WalletActions walletActionsFromJson(Map<String, dynamic> walletActions) =>
+    walletActions == null
+        ? WalletActions.initial()
+        : WalletActions.fromJson(walletActions);
 
 Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens == null
     ? Map<String, Token>()
@@ -49,6 +56,7 @@ abstract class CashWalletState implements _$CashWalletState {
     @Default({})
         Map<String, Community> communities,
     @JsonKey(ignore: true) String branchAddress,
+    @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
     @JsonKey(ignore: true) @Default(false) bool isCommunityLoading,
     @JsonKey(ignore: true) @Default(false) bool isCommunityFetched,
     @JsonKey(ignore: true) @Default(false) bool isBalanceFetchingStarted,
@@ -63,6 +71,10 @@ abstract class CashWalletState implements _$CashWalletState {
     return CashWalletState(
       communities: Map<String, Community>(),
       tokens: Map<String, Token>(),
+      walletActions: WalletActions().copyWith(
+        list: <WalletAction>[],
+        updatedAt: 0,
+      ),
     );
   }
 

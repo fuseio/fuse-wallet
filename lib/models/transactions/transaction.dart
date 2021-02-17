@@ -76,7 +76,7 @@ class Transaction extends Equatable {
 
   bool isJoinBonus() =>
       this.from != null &&
-      this.from?.toLowerCase() == DotEnv().env['FUNDER_ADDRESS'];
+      this.from?.toLowerCase() == DotEnv().env['FUNDER_ADDRESS'].toLowerCase();
   bool isGenerateWallet() =>
       this.jobId != null && this.jobId == 'generateWallet';
   bool isJoinCommunity() => this.text != null && this.text.contains('Join');

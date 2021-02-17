@@ -25,6 +25,8 @@ class _$CashWalletStateTearOff {
           Map<String, Community> communities = const {},
       @JsonKey(ignore: true)
           String branchAddress,
+      @JsonKey(fromJson: walletActionsFromJson)
+          WalletActions walletActions,
       @JsonKey(ignore: true)
           bool isCommunityLoading = false,
       @JsonKey(ignore: true)
@@ -46,6 +48,7 @@ class _$CashWalletStateTearOff {
       tokens: tokens,
       communities: communities,
       branchAddress: branchAddress,
+      walletActions: walletActions,
       isCommunityLoading: isCommunityLoading,
       isCommunityFetched: isCommunityFetched,
       isBalanceFetchingStarted: isBalanceFetchingStarted,
@@ -79,6 +82,8 @@ mixin _$CashWalletState {
   Map<String, Community> get communities;
   @JsonKey(ignore: true)
   String get branchAddress;
+  @JsonKey(fromJson: walletActionsFromJson)
+  WalletActions get walletActions;
   @JsonKey(ignore: true)
   bool get isCommunityLoading;
   @JsonKey(ignore: true)
@@ -114,6 +119,8 @@ abstract class $CashWalletStateCopyWith<$Res> {
           Map<String, Community> communities,
       @JsonKey(ignore: true)
           String branchAddress,
+      @JsonKey(fromJson: walletActionsFromJson)
+          WalletActions walletActions,
       @JsonKey(ignore: true)
           bool isCommunityLoading,
       @JsonKey(ignore: true)
@@ -130,6 +137,8 @@ abstract class $CashWalletStateCopyWith<$Res> {
           bool isCommunityBusinessesFetched,
       @JsonKey(ignore: true)
           bool isJobProcessingStarted});
+
+  $WalletActionsCopyWith<$Res> get walletActions;
 }
 
 /// @nodoc
@@ -147,6 +156,7 @@ class _$CashWalletStateCopyWithImpl<$Res>
     Object tokens = freezed,
     Object communities = freezed,
     Object branchAddress = freezed,
+    Object walletActions = freezed,
     Object isCommunityLoading = freezed,
     Object isCommunityFetched = freezed,
     Object isBalanceFetchingStarted = freezed,
@@ -167,6 +177,9 @@ class _$CashWalletStateCopyWithImpl<$Res>
       branchAddress: branchAddress == freezed
           ? _value.branchAddress
           : branchAddress as String,
+      walletActions: walletActions == freezed
+          ? _value.walletActions
+          : walletActions as WalletActions,
       isCommunityLoading: isCommunityLoading == freezed
           ? _value.isCommunityLoading
           : isCommunityLoading as bool,
@@ -193,6 +206,16 @@ class _$CashWalletStateCopyWithImpl<$Res>
           : isJobProcessingStarted as bool,
     ));
   }
+
+  @override
+  $WalletActionsCopyWith<$Res> get walletActions {
+    if (_value.walletActions == null) {
+      return null;
+    }
+    return $WalletActionsCopyWith<$Res>(_value.walletActions, (value) {
+      return _then(_value.copyWith(walletActions: value));
+    });
+  }
 }
 
 /// @nodoc
@@ -210,6 +233,8 @@ abstract class _$CashWalletStateCopyWith<$Res>
           Map<String, Community> communities,
       @JsonKey(ignore: true)
           String branchAddress,
+      @JsonKey(fromJson: walletActionsFromJson)
+          WalletActions walletActions,
       @JsonKey(ignore: true)
           bool isCommunityLoading,
       @JsonKey(ignore: true)
@@ -226,6 +251,9 @@ abstract class _$CashWalletStateCopyWith<$Res>
           bool isCommunityBusinessesFetched,
       @JsonKey(ignore: true)
           bool isJobProcessingStarted});
+
+  @override
+  $WalletActionsCopyWith<$Res> get walletActions;
 }
 
 /// @nodoc
@@ -245,6 +273,7 @@ class __$CashWalletStateCopyWithImpl<$Res>
     Object tokens = freezed,
     Object communities = freezed,
     Object branchAddress = freezed,
+    Object walletActions = freezed,
     Object isCommunityLoading = freezed,
     Object isCommunityFetched = freezed,
     Object isBalanceFetchingStarted = freezed,
@@ -265,6 +294,9 @@ class __$CashWalletStateCopyWithImpl<$Res>
       branchAddress: branchAddress == freezed
           ? _value.branchAddress
           : branchAddress as String,
+      walletActions: walletActions == freezed
+          ? _value.walletActions
+          : walletActions as WalletActions,
       isCommunityLoading: isCommunityLoading == freezed
           ? _value.isCommunityLoading
           : isCommunityLoading as bool,
@@ -305,6 +337,8 @@ class _$_CashWalletState extends _CashWalletState {
           this.communities = const {},
       @JsonKey(ignore: true)
           this.branchAddress,
+      @JsonKey(fromJson: walletActionsFromJson)
+          this.walletActions,
       @JsonKey(ignore: true)
           this.isCommunityLoading = false,
       @JsonKey(ignore: true)
@@ -351,6 +385,9 @@ class _$_CashWalletState extends _CashWalletState {
   @JsonKey(ignore: true)
   final String branchAddress;
   @override
+  @JsonKey(fromJson: walletActionsFromJson)
+  final WalletActions walletActions;
+  @override
   @JsonKey(ignore: true)
   final bool isCommunityLoading;
   @override
@@ -377,7 +414,7 @@ class _$_CashWalletState extends _CashWalletState {
 
   @override
   String toString() {
-    return 'CashWalletState(communityAddress: $communityAddress, tokens: $tokens, communities: $communities, branchAddress: $branchAddress, isCommunityLoading: $isCommunityLoading, isCommunityFetched: $isCommunityFetched, isBalanceFetchingStarted: $isBalanceFetchingStarted, isTransfersFetchingStarted: $isTransfersFetchingStarted, isListeningToBranch: $isListeningToBranch, isBranchDataReceived: $isBranchDataReceived, isCommunityBusinessesFetched: $isCommunityBusinessesFetched, isJobProcessingStarted: $isJobProcessingStarted)';
+    return 'CashWalletState(communityAddress: $communityAddress, tokens: $tokens, communities: $communities, branchAddress: $branchAddress, walletActions: $walletActions, isCommunityLoading: $isCommunityLoading, isCommunityFetched: $isCommunityFetched, isBalanceFetchingStarted: $isBalanceFetchingStarted, isTransfersFetchingStarted: $isTransfersFetchingStarted, isListeningToBranch: $isListeningToBranch, isBranchDataReceived: $isBranchDataReceived, isCommunityBusinessesFetched: $isCommunityBusinessesFetched, isJobProcessingStarted: $isJobProcessingStarted)';
   }
 
   @override
@@ -395,18 +432,21 @@ class _$_CashWalletState extends _CashWalletState {
             (identical(other.branchAddress, branchAddress) ||
                 const DeepCollectionEquality()
                     .equals(other.branchAddress, branchAddress)) &&
+            (identical(other.walletActions, walletActions) ||
+                const DeepCollectionEquality()
+                    .equals(other.walletActions, walletActions)) &&
             (identical(other.isCommunityLoading, isCommunityLoading) ||
                 const DeepCollectionEquality()
                     .equals(other.isCommunityLoading, isCommunityLoading)) &&
             (identical(other.isCommunityFetched, isCommunityFetched) ||
                 const DeepCollectionEquality()
                     .equals(other.isCommunityFetched, isCommunityFetched)) &&
-            (identical(other.isBalanceFetchingStarted, isBalanceFetchingStarted) ||
+            (identical(
+                    other.isBalanceFetchingStarted, isBalanceFetchingStarted) ||
                 const DeepCollectionEquality().equals(
                     other.isBalanceFetchingStarted,
                     isBalanceFetchingStarted)) &&
-            (identical(other.isTransfersFetchingStarted,
-                    isTransfersFetchingStarted) ||
+            (identical(other.isTransfersFetchingStarted, isTransfersFetchingStarted) ||
                 const DeepCollectionEquality().equals(
                     other.isTransfersFetchingStarted,
                     isTransfersFetchingStarted)) &&
@@ -433,6 +473,7 @@ class _$_CashWalletState extends _CashWalletState {
       const DeepCollectionEquality().hash(tokens) ^
       const DeepCollectionEquality().hash(communities) ^
       const DeepCollectionEquality().hash(branchAddress) ^
+      const DeepCollectionEquality().hash(walletActions) ^
       const DeepCollectionEquality().hash(isCommunityLoading) ^
       const DeepCollectionEquality().hash(isCommunityFetched) ^
       const DeepCollectionEquality().hash(isBalanceFetchingStarted) ^
@@ -463,6 +504,8 @@ abstract class _CashWalletState extends CashWalletState {
           Map<String, Community> communities,
       @JsonKey(ignore: true)
           String branchAddress,
+      @JsonKey(fromJson: walletActionsFromJson)
+          WalletActions walletActions,
       @JsonKey(ignore: true)
           bool isCommunityLoading,
       @JsonKey(ignore: true)
@@ -497,6 +540,9 @@ abstract class _CashWalletState extends CashWalletState {
   @override
   @JsonKey(ignore: true)
   String get branchAddress;
+  @override
+  @JsonKey(fromJson: walletActionsFromJson)
+  WalletActions get walletActions;
   @override
   @JsonKey(ignore: true)
   bool get isCommunityLoading;

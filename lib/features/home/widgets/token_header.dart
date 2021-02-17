@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
-import 'package:fusecash/features/home/widgets/community_description.dart';
+import 'package:fusecash/features/home/dialogs/community_description.dart';
 import 'package:fusecash/features/home/widgets/bridge_dialog.dart';
 import 'package:fusecash/redux/viewsmodels/token_header.dart';
 import 'package:fusecash/widgets/network_explained.dart';
@@ -118,12 +118,12 @@ class TokenHeader extends StatelessWidget {
                               final Community community = viewModel.communities
                                   .firstWhere(
                                       (element) =>
-                                          (element.homeTokenAddress
-                                                  .toLowerCase() ==
+                                          (element?.homeTokenAddress
+                                                  ?.toLowerCase() ==
                                               token.address.toLowerCase()) ||
                                           (element?.foreignTokenAddress
                                                   ?.toLowerCase() ==
-                                              token.address.toLowerCase()),
+                                              token?.address?.toLowerCase()),
                                       orElse: () => null);
                               return Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,

@@ -1,4 +1,6 @@
 import 'package:ethereum_address/ethereum_address.dart';
+import 'package:fusecash/models/actions/actions.dart';
+import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/tokens/token.dart';
@@ -11,6 +13,7 @@ import 'package:fusecash/redux/reducers/pro_mode_reducer.dart';
 import 'package:redux/redux.dart';
 
 final cashWalletReducers = combineReducers<CashWalletState>([
+  TypedReducer<CashWalletState, GetActionsSuccess>(_getActionsSuccess),
   TypedReducer<CashWalletState, AddCashTokens>(_addCashTokens),
   TypedReducer<CashWalletState, AddCashToken>(_addCashToken),
   TypedReducer<CashWalletState, SetDefaultCommunity>(_setDefaultCommunity),
@@ -56,6 +59,31 @@ final cashWalletReducers = combineReducers<CashWalletState>([
   TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
 ]);
 
+CashWalletState _getActionsSuccess(
+  CashWalletState state,
+  GetActionsSuccess action,
+) {
+  List<WalletAction> list = state?.walletActions?.list ?? [];
+  for (WalletAction walletAction in action.walletActions) {
+    int savedIndex = list?.indexWhere(
+      (action) => action.txHash == walletAction.txHash,
+    );
+    if (savedIndex != -1) {
+      list[savedIndex] = walletAction;
+    } else {
+      if (walletAction.txHash != null) {
+        list?.add(walletAction);
+      }
+    }
+  }
+  return state.copyWith(
+    walletActions: WalletActions().copyWith(
+      list: list,
+      updatedAt: action.updateAt + 1,
+    ),
+  );
+}
+
 CashWalletState _addCashTokens(CashWalletState state, AddCashTokens action) {
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
   newOne.removeWhere(clearTokensWithZero);
@@ -95,7 +123,7 @@ CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
             : newOne[tokenAddress];
     tokens[tokenAddress] = token.copyWith(transactions: Transactions.initial());
   }
-  return state.copyWith(tokens: tokens);
+  return state.copyWith(tokens: tokens, walletActions: WalletActions.initial());
 }
 
 CashWalletState _refreshCommunityData(
@@ -128,10 +156,12 @@ CashWalletState _setDefaultCommunity(
       Map<String, Community>.from(state.communities);
   newOne[action.defaultCommunity] = Community(address: action.defaultCommunity);
   return state.copyWith(
-      communityAddress: action.defaultCommunity,
-      communities: newOne,
-      branchAddress: '',
-      isBranchDataReceived: false);
+    communityAddress: action.defaultCommunity,
+    communities: newOne,
+    branchAddress: '',
+    walletActions: WalletActions.initial(),
+    isBranchDataReceived: false,
+  );
 }
 
 CashWalletState _getTokenBalanceSuccess(
@@ -219,11 +249,11 @@ CashWalletState _getTokenTransfersListSuccess(
         1;
     Token currentToken = state.tokens[tokenAddress].copyWith();
     for (Transaction tx in action.tokenTransfers.reversed) {
-      Transaction saved = currentToken?.transactions?.list
-          ?.firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
-      if (saved != null) {
-        int index = currentToken.transactions.list.indexOf(saved);
-        currentToken?.transactions?.list[index] = tx;
+      int savedIndex = currentToken?.transactions?.list?.indexWhere(
+        (t) => t.txHash == tx.txHash,
+      );
+      if (savedIndex != -1) {
+        currentToken?.transactions?.list[savedIndex] = tx.copyWith();
       } else {
         currentToken?.transactions?.list?.add(tx);
       }

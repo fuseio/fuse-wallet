@@ -47,7 +47,7 @@ Future<GetIt> $initGetIt(
   final phone = _$Phone();
   final web3Di = _$Web3Di();
   gh.lazySingleton<API>(() => servicesModule.api);
-  gh.lazySingleton<Dio>(() => dioDi.dio);
+  gh.factory<Dio>(() => dioDi.dio);
   gh.lazySingleton<Exchange>(() => Exchange(get<Dio>()));
   gh.factoryParam<Explorer, String, String>((base, apiKey) => Explorer(
         get<Dio>(),

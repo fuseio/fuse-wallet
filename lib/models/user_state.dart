@@ -17,11 +17,17 @@ BiometricAuth authTypeFromJson(String auth) => auth == null
 
 @immutable
 @freezed
-abstract class UserState with _$UserState {
+abstract class UserState implements _$UserState {
+  const UserState._();
+
   @JsonSerializable()
   factory UserState({
-    @Default([]) List<String> syncedContacts,
+    bool isContactsSynced,
     DateTime installedAt,
+    bool isLoggedOut,
+    bool backup,
+    bool depositBannerShowed,
+    bool homeBackupDialogShowed,
     @Default(0) int displayBalance,
     @Default('') String walletStatus,
     @Default('') String walletAddress,
@@ -35,19 +41,15 @@ abstract class UserState with _$UserState {
     @Default('') String normalizedPhoneNumber,
     @Default(false) bool receiveBackupDialogShowed,
     @Default('') String isoCode,
-    @Default({}) Map<String, String> reverseContacts,
     @Default('') String jwtToken,
     @Default('Anom') String displayName,
     @Default('') String avatarUrl,
     @Default('') String email,
     @Default('') String verificationId,
     @Default('') String identifier,
-    @Default(false) bool isLoggedOut,
-    @Default(false) bool isContactsSynced,
-    @Default(false) bool backup,
-    @Default(false) bool depositBannerShowed,
     @Default(0) num totalBalance,
-    @Default(false) bool homeBackupDialogShowed,
+    @Default([]) List<String> syncedContacts,
+    @Default({}) Map<String, String> reverseContacts,
     @JsonKey(ignore: true) dynamic signupErrorMessage,
     @JsonKey(ignore: true) dynamic verifyErrorMessage,
     @JsonKey(fromJson: currencyJson) @Default('usd') String currency,
@@ -58,6 +60,23 @@ abstract class UserState with _$UserState {
     @JsonKey(ignore: true) @Default([]) List<Contact> contacts,
     @JsonKey(ignore: true) PhoneAuthCredential credentials,
   }) = _UserState;
+
+  factory UserState.inital() => UserState(
+        networks: [],
+        mnemonic: [],
+        contacts: [],
+        syncedContacts: [],
+        reverseContacts: Map<String, String>(),
+        displayName: "Anom",
+        isContactsSynced: null,
+        backup: false,
+        authType: BiometricAuth.none,
+        installedAt: DateTime.now().toUtc(),
+        receiveBackupDialogShowed: false,
+        homeBackupDialogShowed: false,
+        currency: 'usd',
+        totalBalance: 0,
+      );
 
   factory UserState.fromJson(dynamic json) => _$UserStateFromJson(json);
 }

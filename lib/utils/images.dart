@@ -2,11 +2,12 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/constants/addresses.dart';
+import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/transactions/fiat_deposit.dart';
-import 'package:fusecash/models/transactions/fiat_process.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
+import 'package:fusecash/models/transactions/fiat_deposit.dart' as fiatDeposit;
+import 'package:fusecash/models/transactions/fiat_process.dart' as fiatProcess;
+import 'package:fusecash/models/transactions/transaction.dart';
 
 class ImageUrl {
   static bool _isIpfsHash(String hash) => hash != null && hash.length == 46;
@@ -42,7 +43,7 @@ class ImageUrl {
   }
 
   static ImageProvider getContactImage(
-    Transfer transfer,
+    Transaction transfer,
     Contact contact, {
     List<Business> businesses = const [],
   }) {
@@ -62,13 +63,13 @@ class ImageUrl {
   }
 
   static ImageProvider getTransferImage(
-    Transfer transfer,
+    Transaction transfer,
     Contact contact,
     Community community,
   ) {
     if ((transfer.isJoinCommunity() ||
-            transfer is FiatDeposit ||
-            transfer is FiatProcess) &&
+            transfer is fiatDeposit.FiatDeposit ||
+            transfer is fiatProcess.FiatProcess) &&
         ![null, ''].contains(community?.metadata?.image)) {
       return new NetworkImage(ImageUrl.getLink(community?.metadata?.image));
     } else if (transfer.isGenerateWallet()) {
@@ -105,5 +106,33 @@ class ImageUrl {
       );
     }
     return new AssetImage('assets/images/anom.png');
+  }
+
+  static ImageProvider getActionImage(
+    WalletAction action,
+    Contact contact,
+    Community community,
+    String accountAddress,
+  ) {
+    final bool hasAvatar = contact?.avatar != null && contact.avatar.isNotEmpty;
+    if (hasAvatar) {
+      return new MemoryImage(contact.avatar);
+    }
+    return action.map(
+      createWallet: (value) => AssetImage(
+        'assets/images/generate_wallet.png',
+      ),
+      fiatProcess: (value) =>
+          NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
+      joinCommunity: (value) =>
+          NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
+      fiatDeposit: (value) =>
+          NetworkImage(ImageUrl.getLink(community?.metadata?.image)),
+      bonus: (value) => AssetImage(
+        'assets/images/join.png',
+      ),
+      send: (value) => AssetImage('assets/images/anom.png'),
+      receive: (value) => AssetImage('assets/images/anom.png'),
+    );
   }
 }

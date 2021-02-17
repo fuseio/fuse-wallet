@@ -88,6 +88,8 @@ class I18n implements WidgetsLocalizations {
   String get generating_wallet => "Generating wallet";
   /// "Generated wallet"
   String get generated_wallet => "Generated wallet";
+  /// "Generate wallet failed"
+  String get generate_wallet_failed => "Generate wallet failed";
   /// "PENDING"
   String get pending => "PENDING";
   /// "FAILED"
@@ -106,6 +108,10 @@ class I18n implements WidgetsLocalizations {
   String get address => "Address";
   /// "Amount"
   String get amount => "Amount";
+  /// "You got a"
+  String get you_got_a => "You got a";
+  /// "bonus"
+  String get bonus => "bonus";
   /// "You got a join bonus!"
   String get join_bonus => "You got a join bonus!";
   /// "Joining Community"
@@ -348,6 +354,10 @@ class I18n implements WidgetsLocalizations {
   String get invalid_qa_code => "Invalid QA Code";
   /// "Error"
   String get error => "Error";
+  /// "(up to 10 seconds)"
+  String get ten_seconds => "(up to 10 seconds)";
+  /// "Initializing your wallet on Fuse"
+  String get initializing_wallet => "Initializing your wallet on Fuse";
 }
 
 class _I18n_en_US extends I18n {

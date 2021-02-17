@@ -38,17 +38,26 @@ class RecentContacts extends StatelessWidget {
 
         final List<Widget> listItems = uniqueList
             .map((Transfer transfer) {
+              final accountAddress =
+                  transfer.type == 'SEND' ? transfer.to : transfer.from;
               final Contact contact = getContact(
-                  transfer,
-                  viewModel.reverseContacts,
-                  viewModel.contacts,
-                  viewModel.countryCode);
+                accountAddress,
+                viewModel.reverseContacts,
+                viewModel.contacts,
+                viewModel.countryCode,
+              );
               final String displayName = contact != null
                   ? contact.displayName
-                  : deducePhoneNumber(transfer, viewModel.reverseContacts,
-                      businesses: viewModel.businesses);
-              dynamic image = ImageUrl.getContactImage(transfer, contact,
-                  businesses: viewModel.businesses);
+                  : deducePhoneNumber(
+                      accountAddress,
+                      viewModel.reverseContacts,
+                      businesses: viewModel.businesses,
+                    );
+              dynamic image = ImageUrl.getContactImage(
+                transfer,
+                contact,
+                businesses: viewModel.businesses,
+              );
               String phoneNumber =
                   viewModel.reverseContacts[transfer.to.toLowerCase()] ?? '';
               return ContactTile(

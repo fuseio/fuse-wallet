@@ -9,7 +9,6 @@ import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:redux/redux.dart';
 
 class SendAmountViewModel extends Equatable {
-  final String myCountryCode;
   final List<Token> tokens;
   final List<Community> communities;
   final Function(
@@ -71,20 +70,20 @@ class SendAmountViewModel extends Equatable {
   }) sendToErc20Token;
 
   @override
-  List<Object> get props => [tokens, myCountryCode, communities];
+  List<Object> get props => [tokens, communities];
 
-  SendAmountViewModel(
-      {this.tokens,
-      this.communities,
-      this.myCountryCode,
-      this.sendToContact,
-      this.sendToAccountAddress,
-      this.trackTransferCall,
-      this.idenyifyCall,
-      this.sendToErc20Token,
-      this.sendERC20ToContact,
-      this.sendToForeignMultiBridge,
-      this.sendToHomeMultiBridge});
+  SendAmountViewModel({
+    this.tokens,
+    this.communities,
+    this.sendToContact,
+    this.sendToAccountAddress,
+    this.trackTransferCall,
+    this.idenyifyCall,
+    this.sendToErc20Token,
+    this.sendERC20ToContact,
+    this.sendToForeignMultiBridge,
+    this.sendToHomeMultiBridge,
+  });
 
   static SendAmountViewModel fromStore(Store<AppState> store) {
     List<Community> communities =
@@ -113,11 +112,12 @@ class SendAmountViewModel extends Equatable {
             1)
         .toList();
     return SendAmountViewModel(
-        tokens: [...homeTokens, ...foreignTokens]..sort((tokenA, tokenB) =>
-            (tokenB?.amount ?? BigInt.zero)
-                ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+        tokens: [...homeTokens, ...foreignTokens]..sort(
+            (tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)?.compareTo(
+              tokenA?.amount ?? BigInt.zero,
+            ),
+          ),
         communities: communities,
-        myCountryCode: store.state.userState.countryCode,
         sendToContact: (
           Token token,
           String phoneNumber,
@@ -127,9 +127,15 @@ class SendAmountViewModel extends Equatable {
           String receiverName,
           String transferNote,
         }) {
-          store.dispatch(sendTokenToContactCall(token, phoneNumber, amount,
-              sendSuccessCallback, sendFailureCallback,
-              receiverName: receiverName, transferNote: transferNote));
+          store.dispatch(sendTokenToContactCall(
+            token,
+            phoneNumber,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+            transferNote: transferNote,
+          ));
         },
         sendERC20ToContact: (
           Token token,
@@ -141,9 +147,15 @@ class SendAmountViewModel extends Equatable {
           String receiverName,
           String transferNote,
         }) {
-          store.dispatch(sendErc20TokenToContactCall(token, name, phoneNumber,
-              amount, sendSuccessCallback, sendFailureCallback,
-              receiverName: receiverName));
+          store.dispatch(sendErc20TokenToContactCall(
+            token,
+            name,
+            phoneNumber,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+          ));
         },
         sendToAccountAddress: (
           Token token,
@@ -154,9 +166,15 @@ class SendAmountViewModel extends Equatable {
           String receiverName,
           String transferNote,
         }) {
-          store.dispatch(sendTokenCall(token, recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback,
-              receiverName: receiverName, transferNote: transferNote));
+          store.dispatch(sendTokenCall(
+            token,
+            recieverAddress,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+            transferNote: transferNote,
+          ));
         },
         sendToErc20Token: (
           Token token,
@@ -167,9 +185,15 @@ class SendAmountViewModel extends Equatable {
           String receiverName,
           String transferNote,
         }) {
-          store.dispatch(sendErc20TokenCall(token, recieverAddress, amount,
-              sendSuccessCallback, sendFailureCallback,
-              receiverName: receiverName, transferNote: transferNote));
+          store.dispatch(sendErc20TokenCall(
+            token,
+            recieverAddress,
+            amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+            receiverName: receiverName,
+            transferNote: transferNote,
+          ));
         },
         sendToForeignMultiBridge: (
           Token token,
@@ -205,11 +229,18 @@ class SendAmountViewModel extends Equatable {
             receiverName: receiverName,
           ));
         },
-        trackTransferCall: (String eventName,
-            {Map<String, dynamic> properties}) {
-          store.dispatch(segmentTrackCall(eventName, properties: properties));
+        trackTransferCall: (
+          String eventName, {
+          Map<String, dynamic> properties,
+        }) {
+          store.dispatch(segmentTrackCall(
+            eventName,
+            properties: properties,
+          ));
         },
-        idenyifyCall: (Map<String, dynamic> traits) {
+        idenyifyCall: (
+          Map<String, dynamic> traits,
+        ) {
           store.dispatch(segmentIdentifyCall(traits));
         });
   }

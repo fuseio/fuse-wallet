@@ -13,6 +13,7 @@ class TransferTileViewModel extends Equatable {
   final Map<String, Token> erc20Tokens;
   final Map<String, Token> tokens;
   final Map<String, Community> communitiesMap;
+  final Map<String, Community> communities;
   final bool isWalletCreated;
   TransferTileViewModel({
     this.reverseContacts,
@@ -22,6 +23,7 @@ class TransferTileViewModel extends Equatable {
     this.erc20Tokens,
     this.tokens,
     this.contacts,
+    this.communities,
     this.communitiesMap,
   });
 
@@ -62,11 +64,13 @@ class TransferTileViewModel extends Equatable {
       countryCode: store.state.userState.countryCode,
       erc20Tokens: store.state.proWalletState.erc20Tokens,
       communitiesMap: communitiesMap,
+      communities: store.state.cashWalletState.communities,
     );
   }
 
   @override
   List<Object> get props => [
+        communities,
         reverseContacts,
         walletStatus,
         isWalletCreated,

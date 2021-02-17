@@ -68,11 +68,13 @@ void sendToContact(BuildContext context, String displayName, String phone,
     Map res = await fetchWalletByPhone(phone, countryCode, isoCode);
     Navigator.of(context).pop();
     ExtendedNavigator.root.pushSendAmountScreen(
-        pageArgs: SendAmountArguments(
-            phoneNumber: res['phoneNumber'],
-            accountAddress: res['walletAddress'],
-            name: displayName,
-            avatar: avatar));
+      pageArgs: SendAmountArguments(
+        phoneNumber: res['phoneNumber'],
+        accountAddress: res['walletAddress'],
+        name: displayName,
+        avatar: avatar,
+      ),
+    );
   } catch (e) {
     Navigator.of(context).pop();
     throw '$e';
@@ -109,8 +111,6 @@ void bracodeScannerHandler(context) async {
         }
       } else if (isValidEthereumAddress(rawData)) {
         sendToPastedAddress(scanResult.rawContent);
-      } else {
-        throw 'ERROR';
       }
     }
   } catch (e) {

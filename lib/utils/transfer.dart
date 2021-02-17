@@ -43,12 +43,11 @@ Widget deduceTransferIcon(Transaction transfer) {
 }
 
 Contact getContact(
-  Transaction transfer,
+  String accountAddress,
   Map<String, String> reverseContacts,
   List<Contact> contacts,
   String countryCode,
 ) {
-  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (accountAddress == null) {
     return null;
   }
@@ -72,11 +71,13 @@ Contact getContact(
 }
 
 String deducePhoneNumber(
-  Transaction transfer,
+  String accountAddress,
   Map<String, String> reverseContacts, {
   List<Business> businesses,
 }) {
-  String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
+  if (accountAddress == null) {
+    return null;
+  }
   if (businesses != null && businesses.isNotEmpty) {
     Business business = businesses.firstWhere(
       (business) => business.account == accountAddress,

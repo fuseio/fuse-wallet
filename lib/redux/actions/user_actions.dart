@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fusecash/common/di/di.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
@@ -9,8 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transfer.dart';
@@ -94,12 +91,6 @@ class LoginRequestSuccess {
   });
 }
 
-class SetIsoCode {
-  final CountryCode countryCode;
-  final String normalizedPhoneNumber;
-  SetIsoCode({this.countryCode, this.normalizedPhoneNumber});
-}
-
 class LogoutRequestSuccess {
   LogoutRequestSuccess();
 }
@@ -155,11 +146,6 @@ class SetCredentials {
 class SetVerificationId {
   String verificationId;
   SetVerificationId(this.verificationId);
-}
-
-class UpdateDisplayBalance {
-  final int displayBalance;
-  UpdateDisplayBalance(this.displayBalance);
 }
 
 class JustInstalled {
@@ -238,60 +224,14 @@ ThunkAction verifyHandler(String verificationCode) {
   };
 }
 
-ThunkAction setCountryCode(CountryCode countryCode) {
-  return (Store store) async {
-    String phone =
-        '${countryCode.dialCode}${store.state.userState.phoneNumber}';
-    PhoneNumber phoneNumber =
-        await phoneNumberUtil.parse(phone, regionCode: countryCode.code);
-    store.dispatch(SetIsoCode(
-        countryCode: countryCode, normalizedPhoneNumber: phoneNumber.e164));
-  };
-}
-
 ThunkAction backupWalletCall() {
   return (Store store) async {
     if (store.state.userState.backup) return;
     try {
       String communityAddress = store.state.cashWalletState.communityAddress;
       store.dispatch(BackupRequest());
-      dynamic response =
-          await api.backupWallet(communityAddress: communityAddress);
-      dynamic jobId = response['job']['_id'];
-      Community community =
-          store.state.cashWalletState.communities[communityAddress];
-      Token token =
-          store.state.cashWalletState.tokens[community?.homeTokenAddress];
-      if (community.plugins.backupBonus != null &&
-          community.plugins.backupBonus.isActive &&
-          ![null, ''].contains(jobId)) {
-        BigInt value =
-            toBigInt(community.plugins.backupBonus.amount, token.decimals);
-        String walletAddress = store.state.userState.walletAddress;
-        log.info('Job $jobId - sending backup bonus');
-        final String tokenAddress = token.address;
-        Transfer backupBonus = new Transfer(
-          tokenAddress: token.address,
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          from: DotEnv().env['FUNDER_ADDRESS'],
-          to: walletAddress,
-          text: 'You got a backup bonus!',
-          type: 'RECEIVE',
-          value: value,
-          status: 'PENDING',
-          jobId: jobId,
-        );
-        store.dispatch(AddTransaction(
-            transaction: backupBonus, tokenAddress: tokenAddress));
-
-        response['job']['arguments'] = {
-          'backupBonus': backupBonus,
-        };
-        response['job']['jobType'] = 'backup';
-        Job job = JobFactory.create(response['job']);
-        store.dispatch(AddJob(job: job, tokenAddress: tokenAddress));
-        store.dispatch(BackupSuccess());
-      }
+      await api.backupWallet(communityAddress: communityAddress);
+      store.dispatch(BackupSuccess());
     } catch (e) {
       store.dispatch(BackupSuccess());
     }
@@ -327,7 +267,7 @@ ThunkAction restoreWalletCall(
       EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
-      store.dispatch(initWeb3Call(privateKey: privateKey));
+      store.dispatch(setDefaultCommunity());
       store.dispatch(segmentTrackCall("Wallet: restored mnemonic"));
       successCallback();
     } catch (e) {
@@ -358,7 +298,7 @@ ThunkAction createLocalAccountCall(
       EthereumAddress accountAddress = await credentials.extractAddress();
       store.dispatch(CreateLocalAccountSuccess(
           mnemonic.split(' '), privateKey, accountAddress.toString()));
-      store.dispatch(initWeb3Call(privateKey: privateKey));
+      store.dispatch(setDefaultCommunity());
       store.dispatch(segmentTrackCall("Wallet: Create wallet"));
       successCallback();
     } catch (e, s) {
@@ -476,7 +416,7 @@ ThunkAction saveUserInDB(walletAddress) {
             Map.from({
               'id': phoneNumber,
               'walletAddress': walletAddress,
-              'userName': displayName
+              'username': displayName
             }));
       });
       log.info('save user $walletAddress');
@@ -537,16 +477,17 @@ ThunkAction setupWalletCall(walletData) {
       String walletAddress = walletData['walletAddress'];
       bool backup = walletData['backup'] ?? false;
       homeWeb3 = getIt<Web3>(instanceName: 'homeWeb3', param1: walletData);
+      final String privateKey = store.state.userState.privateKey;
+      homeWeb3.setCredentials(privateKey);
       store.dispatch(GetWalletAddressesSuccess(
         backup: backup,
         walletAddress: walletAddress,
         networks: networks,
       ));
-      store.dispatch(initWeb3Call());
       if (networks.contains(foreignNetwork)) {
         foreignWeb3 =
             getIt<Web3>(instanceName: 'foreignWeb3', param1: walletData);
-        store.dispatch(initWeb3ProMode());
+        foreignWeb3.setCredentials(privateKey);
         Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
           store.dispatch(startListenToTransferEvents());
           store.dispatch(startFetchBalancesOnForeign());
@@ -555,8 +496,6 @@ ThunkAction setupWalletCall(walletData) {
           store.dispatch(startFetchTokensLastestPrices());
           store.dispatch(startProcessingTokensJobsCall());
         });
-      } else {
-        store.dispatch(createForiegnWalletOnlyIfNeeded());
       }
     } catch (e, s) {
       log.error('ERROR - setupWalletCall $e');
@@ -573,35 +512,6 @@ ThunkAction getWalletAddressessCall() {
     } catch (e, s) {
       log.error('ERROR - getWalletAddressCall $e');
       await Sentry.captureException(e, stackTrace: s);
-    }
-  };
-}
-
-ThunkAction createForiegnWalletOnlyIfNeeded() {
-  return (Store store) async {
-    try {
-      String walletAddress = store.state.userState.walletAddress;
-      List transfersEvents = await ethereumExplorerApi
-          .getTransferEventsByAccountAddress(walletAddress);
-      if (transfersEvents.isNotEmpty) {
-        dynamic response = await api.createWalletOnForeign(force: true);
-        String jobId = response['job']['_id'];
-        log.info('Create wallet on foreign jobId - $jobId');
-        store.dispatch(initWeb3ProMode());
-        Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
-          store.dispatch(startListenToTransferEvents());
-          store.dispatch(startFetchBalancesOnForeign());
-          store.dispatch(fetchTokensBalances());
-          store.dispatch(startFetchTransferEventsCall());
-          store.dispatch(startFetchTokensLastestPrices());
-          store.dispatch(startProcessingTokensJobsCall());
-        });
-        store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-          "Pro mode active": true,
-        })));
-      }
-    } catch (e) {
-      log.error('ERROR - createForiegnWallet $e');
     }
   };
 }

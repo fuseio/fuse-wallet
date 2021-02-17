@@ -11,15 +11,15 @@ import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
 
 class TokenTile extends StatelessWidget {
-  TokenTile(
-      {Key key,
-      this.token,
-      this.showPending = true,
-      this.onTap,
-      this.quate,
-      this.symbolHeight = 60.0,
-      this.symbolWidth = 60.0})
-      : super(key: key);
+  TokenTile({
+    Key key,
+    this.token,
+    this.showPending = true,
+    this.onTap,
+    this.quate,
+    this.symbolHeight = 60.0,
+    this.symbolWidth = 60.0,
+  }) : super(key: key);
   final Function() onTap;
   final double quate;
   final bool showPending;
@@ -57,6 +57,8 @@ class TokenTile extends StatelessWidget {
                           builder: (_, viewModel) {
                             final bool isCommunityToken = viewModel.communities
                                 .any((element) =>
+                                    element?.homeTokenAddress?.toLowerCase() !=
+                                        null &&
                                     element?.homeTokenAddress?.toLowerCase() ==
                                         token?.address &&
                                     ![false, null].contains(

@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -10,41 +9,15 @@ import 'package:fusecash/utils/addresses.dart' as util;
 
 class HomeViewModel extends Equatable {
   final List<Token> tokens;
-  final List<Transaction> feedList;
-  final Map<String, Community> communities;
-  final String accountAddress;
-  final String walletAddress;
-  final String communityAddress;
-  final String branchAddress;
-  final String isoCode;
-  final bool isCommunityLoading;
-  final bool isCommunityFetched;
-  final bool isBalanceFetchingStarted;
-  final bool isBranchDataReceived;
   final Function(bool initial) onReceiveBranchData;
   final Function() refreshFeed;
-  final Token token;
-  final bool depositBannerShowed;
   final bool showTabs;
   final bool showDepositBanner;
 
   HomeViewModel({
     this.onReceiveBranchData,
-    this.accountAddress,
-    this.walletAddress,
-    this.communityAddress,
-    this.branchAddress,
-    this.isoCode,
-    this.isCommunityLoading,
-    this.isCommunityFetched,
-    this.isBalanceFetchingStarted,
-    this.isBranchDataReceived,
-    this.feedList,
     this.tokens,
-    this.communities,
     this.refreshFeed,
-    this.token,
-    this.depositBannerShowed,
     this.showTabs,
     this.showDepositBanner,
   });
@@ -90,68 +63,45 @@ class HomeViewModel extends Equatable {
         store.state.cashWalletState.tokens[community?.homeTokenAddress];
     final bool showTabs =
         tokens.any((element) => element.originNetwork == null) ||
-            communities.length > 1;
+            communities.length > 1 ||
+            tokens.length > 1;
     final bool showDepositBanner =
-        (store?.state?.userState?.depositBannerShowed ?? false) &&
+        !(store?.state?.userState?.depositBannerShowed ?? false) &&
             util.isDefaultCommunity(communityAddress) &&
             token != null;
     return HomeViewModel(
-        showDepositBanner: showDepositBanner,
-        showTabs: showTabs,
-        token: token,
-        depositBannerShowed:
-            store?.state?.userState?.depositBannerShowed ?? false,
-        communities: communities,
-        tokens: tokens,
-        isoCode: store.state.userState.isoCode,
-        accountAddress: store.state.userState.accountAddress,
-        walletAddress: walletAddress,
-        communityAddress: communityAddress,
-        branchAddress: branchAddress,
-        isCommunityLoading: isCommunityLoading,
-        isCommunityFetched: isCommunityFetched,
-        isBalanceFetchingStarted:
-            store.state.cashWalletState.isBalanceFetchingStarted ?? false,
-        isBranchDataReceived: isBranchDataReceived,
-        onReceiveBranchData: (initial) {
-          if (!isCommunityLoading &&
+      tokens: tokens,
+      showDepositBanner: showDepositBanner,
+      showTabs: showTabs,
+      onReceiveBranchData: (initial) {
+        if (!isCommunityLoading && isCommunityFetched && isBranchDataReceived) {
+          store.dispatch(switchCommunityCall(branchAddress));
+        } else if (initial) {
+          if (store.state.cashWalletState.tokens.isEmpty &&
+              !isCommunityLoading &&
               isCommunityFetched &&
               isBranchDataReceived) {
-            store.dispatch(switchCommunityCall(branchAddress));
-          } else if (initial) {
-            if (store.state.cashWalletState.tokens.isEmpty &&
-                !isCommunityLoading &&
-                isCommunityFetched &&
-                isBranchDataReceived) {
-              store.dispatch(switchCommunityCall(communityAddress));
-            }
-            if (!isCommunityLoading &&
-                !isBranchDataReceived &&
-                !isCommunityFetched &&
-                ![null, ''].contains(walletAddress)) {
-              store.dispatch(refetchCommunityData());
-            }
+            store.dispatch(switchCommunityCall(communityAddress));
           }
-        },
-        refreshFeed: () {
-          store.dispatch(fetchListOfTokensByAddress());
-          store.dispatch(ResetTokenTxs());
-        });
+          if (!isCommunityLoading &&
+              !isBranchDataReceived &&
+              !isCommunityFetched &&
+              ![null, ''].contains(walletAddress)) {
+            store.dispatch(refetchCommunityData());
+          }
+        }
+      },
+      refreshFeed: () {
+        store.dispatch(fetchListOfTokensByAddress());
+        store.dispatch(ResetTokenTxs());
+      },
+    );
   }
 
   @override
   List<Object> get props => [
         showDepositBanner,
         showTabs,
-        accountAddress,
-        walletAddress,
         tokens,
-        communityAddress,
-        branchAddress,
-        isCommunityLoading,
-        isBranchDataReceived,
-        isoCode,
-        token,
-        isCommunityFetched
       ];
 }

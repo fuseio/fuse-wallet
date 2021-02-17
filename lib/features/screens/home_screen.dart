@@ -11,7 +11,7 @@ import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/features/home/widgets/drawer.dart';
 import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/features/home/widgets/back_up_dialog.dart';
+import 'package:fusecash/features/home/dialogs/back_up_dialog.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -81,42 +81,32 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           drawer: DrawerWidget(),
           drawerEdgeDragWidth: 0,
           drawerEnableOpenDragGesture: false,
-          body: IndexedStack(index: currentIndex, children: <Widget>[
-            ExtendedNavigator(
-              router: HomeRouter(),
-              name: 'homeRouter',
-              observers: [
-                SegmentObserver(),
-                SentryNavigatorObserver(),
-              ],
-            ),
-            ExtendedNavigator(
-              observers: [
-                SegmentObserver(),
-                SentryNavigatorObserver(),
-              ],
-              router: ContactsRouter(),
-              name: 'contactsRouter',
-              initialRoute: vm.isContactsSynced != null && vm.isContactsSynced
-                  ? ContactsRoutes.contactsList
-                  : ContactsRoutes.emptyContacts,
-            ),
-            SwapScreen(),
-            // !['', null].contains(vm.community.webUrl)
-            //     ? WebViewScreen(
-            //         url: vm.community.webUrl,
-            //         withBack: false,
-            //         title: I18n.of(context).community_webpage)
-            //     : ExtendedNavigator(
-            //         name: 'buyRouter',
-            //         router: BuyRouter(),
-            //         observers: [
-            //           SegmentObserver(),
-            //           SentryNavigatorObserver(),
-            //         ],
-            //       ),
-            ReceiveScreen()
-          ]),
+          body: IndexedStack(
+            index: currentIndex,
+            children: <Widget>[
+              ExtendedNavigator(
+                router: HomeRouter(),
+                name: 'homeRouter',
+                observers: [
+                  SegmentObserver(),
+                  SentryNavigatorObserver(),
+                ],
+              ),
+              ExtendedNavigator(
+                router: ContactsRouter(),
+                name: 'contactsRouter',
+                initialRoute: vm.isContactsSynced != null && vm.isContactsSynced
+                    ? ContactsRoutes.contactsList
+                    : ContactsRoutes.emptyContacts,
+                observers: [
+                  SegmentObserver(),
+                  SentryNavigatorObserver(),
+                ],
+              ),
+              SwapScreen(),
+              ReceiveScreen()
+            ],
+          ),
           bottomNavigationBar: BottomBar(
             onTap: (index) {
               _onTap(index);
@@ -131,15 +121,15 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   ),
                 );
               }
-
               if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
                 Future.delayed(Duration.zero, () {
                   vm.setShowDialog();
                   showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return BackUpDialog();
-                      });
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BackUpDialog();
+                    },
+                  );
                 });
               }
             },

@@ -89,8 +89,13 @@ class _SendReviewScreenState extends State<SendReviewScreen>
             transferNote: transferNote,
           );
         } else {
-          viewModel.sendToErc20Token(args.tokenToSend, args.accountAddress,
-              args.amount, sendSuccessCallback, sendFailureCallback);
+          viewModel.sendToErc20Token(
+            args.tokenToSend,
+            args.accountAddress,
+            args.amount,
+            sendSuccessCallback,
+            sendFailureCallback,
+          );
         }
       } else {
         if (args.accountAddress == null ||

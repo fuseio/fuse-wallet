@@ -20,12 +20,10 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, BackupSuccess>(_backupSuccess),
   TypedReducer<UserState, SetCredentials>(_setCredentials),
   TypedReducer<UserState, SetVerificationId>(_setVerificationId),
-  TypedReducer<UserState, UpdateDisplayBalance>(_updateDisplayBalance),
   TypedReducer<UserState, JustInstalled>(_justInstalled),
   TypedReducer<UserState, SetIsLoginRequest>(_setIsLoginRequest),
   TypedReducer<UserState, SetIsVerifyRequest>(_setIsVerifyRequest),
   TypedReducer<UserState, DeviceIdSuccess>(_deviceIdSuccess),
-  TypedReducer<UserState, SetIsoCode>(_setIsoCode),
   TypedReducer<UserState, SetSecurityType>(_setSecurityType),
   TypedReducer<UserState, ReceiveBackupDialogShowed>(
       _receiveBackupDialogShowed),
@@ -77,14 +75,6 @@ UserState _setSecurityType(UserState state, SetSecurityType action) {
   );
 }
 
-UserState _setIsoCode(UserState state, SetIsoCode action) {
-  return state.copyWith(
-    normalizedPhoneNumber: action.normalizedPhoneNumber,
-    isoCode: action.countryCode.code,
-    countryCode: action.countryCode.dialCode,
-  );
-}
-
 UserState _getWalletAddressesSuccess(
     UserState state, GetWalletAddressesSuccess action) {
   return state.copyWith(
@@ -104,7 +94,7 @@ UserState _reLoginUser(UserState state, ReLogin action) {
 }
 
 UserState _createNewWalletSuccess(
-    UserState state, CreateLocalAccountSuccess action) {
+    UserState state, CreateLocalAccountSuccess action,) {
   return UserState(
     isLoggedOut: false,
     mnemonic: action.mnemonic,
@@ -183,10 +173,6 @@ UserState _setPincode(UserState state, SetPincodeSuccess action) {
 
 UserState _setCredentials(UserState state, SetCredentials action) {
   return state.copyWith(credentials: action.credentials);
-}
-
-UserState _updateDisplayBalance(UserState state, UpdateDisplayBalance action) {
-  return state.copyWith(displayBalance: action.displayBalance);
 }
 
 UserState _justInstalled(UserState state, JustInstalled action) {

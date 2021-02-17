@@ -1,8 +1,8 @@
 import 'dart:core';
+import 'package:fusecash/features/home/dialogs/move_to_ethereum.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/features/home/widgets/move_to_ethereum.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -53,66 +53,72 @@ class _BridgeDialogState extends State<BridgeDialog>
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
-        scale: scaleAnimatoin,
-        child: AlertDialog(
-            contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            content: Container(
-              child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    SvgPicture.asset(
-                      "assets/images/${widget.logo}",
-                    ),
-                    SizedBox(height: 30.0),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: 0, bottom: 10, left: 10, right: 10),
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              I18n.of(context).bridge_to +
-                                  ' ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                            SizedBox(height: 15.0),
-                            Text(
-                                "This token is held on your account on the $network network. It's possible to use the bridge to move this token to your same account on ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}. The only difference between holding this token on Ethereum and Fuse is the fees to send it are much more expensive on Ethereum."),
-                            SizedBox(height: 30.0),
-                            Center(
-                                child: PrimaryButton(
-                              fontSize: 15,
-                              preload: isPreloading,
-                              labelFontWeight: FontWeight.normal,
-                              label: I18n.of(context).move_to +
-                                  ' ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}',
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        TokenActionsDialog(
-                                            logo: widget.logo,
-                                            token: widget.token,
-                                            community: widget.community));
-                              },
-                            )),
-                          ],
+      scale: scaleAnimatoin,
+      child: AlertDialog(
+        contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        content: Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SvgPicture.asset(
+                "assets/images/${widget.logo}",
+              ),
+              SizedBox(height: 30.0),
+              Padding(
+                padding:
+                    EdgeInsets.only(top: 0, bottom: 10, left: 10, right: 10),
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        I18n.of(context).bridge_to +
+                            ' ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      SizedBox(height: 15.0),
+                      Text(
+                          "This token is held on your account on the $network network. It's possible to use the bridge to move this token to your same account on ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}. The only difference between holding this token on Ethereum and Fuse is the fees to send it are much more expensive on Ethereum."),
+                      SizedBox(height: 30.0),
+                      Center(
+                        child: PrimaryButton(
+                          fontSize: 15,
+                          preload: isPreloading,
+                          labelFontWeight: FontWeight.normal,
+                          label: I18n.of(context).move_to +
+                              ' ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}',
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  TokenActionsDialog(
+                                logo: widget.logo,
+                                token: widget.token,
+                                community: widget.community,
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    ),
-                  ]),
-            )));
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

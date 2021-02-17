@@ -27,6 +27,7 @@
     "no_businesses": "No businesses found",
     "generating_wallet": "Generating wallet",
     "generated_wallet": "Generated wallet",
+    "generate_wallet_failed": "Generate wallet failed",
     "pending": "PENDING",
     "failed": "FAILED",
     "confirmed": "CONFIRMED",
@@ -36,6 +37,8 @@
     "from": "From",
     "address": "Address",
     "amount": "Amount",
+    "you_got_a": "You got a",
+    "bonus": "bonus",
     "join_bonus": "You got a join bonus!",
     "joining_community": "Joining Community",
     "joining": "Joining",
@@ -156,5 +159,7 @@
     "swap": "Swap",
     "coming_soon": "Coming soon",
     "invalid_qa_code": "Invalid QA Code",
-    "error": "Error"
+    "error": "Error",
+    "ten_seconds": "(up to 10 seconds)",
+    "initializing_wallet": "Initializing your wallet on Fuse"
 }

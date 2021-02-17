@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:fusecash/features/home/screens/action_details.dart';
 import 'package:fusecash/features/home/screens/done_backup_screen.dart';
 import 'package:fusecash/features/home/screens/show_mnemonic.dart';
 import 'package:fusecash/features/home/screens/verify_mnemonic.dart';
@@ -22,6 +23,7 @@ import 'package:fusecash/features/home/screens/trade.dart';
       page: HomeScreen,
     ),
     MaterialRoute(page: TransactionDetailsScreen),
+    MaterialRoute(page: ActionDetailsScreen),
     MaterialRoute(page: TokenScreen),
     MaterialRoute(page: TradeScreen),
     MaterialRoute(page: ReviewTradeScreen),

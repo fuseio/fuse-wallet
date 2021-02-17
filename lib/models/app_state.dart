@@ -21,7 +21,7 @@ abstract class AppState implements _$AppState {
 
   factory AppState.initial() {
     return AppState(
-      userState: UserState(),
+      userState: UserState.inital(),
       cashWalletState: CashWalletState.initial(),
       proWalletState: ProWalletState.initial(),
     );

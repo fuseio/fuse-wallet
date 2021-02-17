@@ -10,9 +10,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/actions/wallet_action.dart';
 import '../../../models/tokens/token.dart';
-import '../../../models/transactions/transfer.dart';
+import '../../../models/transactions/transaction.dart';
 import '../screens/about_screen.dart';
+import '../screens/action_details.dart';
 import '../screens/done_backup_screen.dart';
 import '../screens/home.dart';
 import '../screens/profile.dart';
@@ -29,6 +31,7 @@ import '../screens/verify_mnemonic.dart';
 class HomeRoutes {
   static const String homeScreen = '/';
   static const String transactionDetailsScreen = '/transaction-details-screen';
+  static const String actionDetailsScreen = '/action-details-screen';
   static const String tokenScreen = '/token-screen';
   static const String tradeScreen = '/trade-screen';
   static const String reviewTradeScreen = '/review-trade-screen';
@@ -43,6 +46,7 @@ class HomeRoutes {
   static const all = <String>{
     homeScreen,
     transactionDetailsScreen,
+    actionDetailsScreen,
     tokenScreen,
     tradeScreen,
     reviewTradeScreen,
@@ -64,6 +68,7 @@ class HomeRouter extends RouterBase {
     RouteDef(HomeRoutes.homeScreen, page: HomeScreen),
     RouteDef(HomeRoutes.transactionDetailsScreen,
         page: TransactionDetailsScreen),
+    RouteDef(HomeRoutes.actionDetailsScreen, page: ActionDetailsScreen),
     RouteDef(HomeRoutes.tokenScreen, page: TokenScreen),
     RouteDef(HomeRoutes.tradeScreen, page: TradeScreen),
     RouteDef(HomeRoutes.reviewTradeScreen, page: ReviewTradeScreen),
@@ -100,6 +105,23 @@ class HomeRouter extends RouterBase {
           token: args.token,
           contact: args.contact,
           transfer: args.transfer,
+        ),
+        settings: data,
+      );
+    },
+    ActionDetailsScreen: (data) {
+      final args = data.getArgs<ActionDetailsScreenArguments>(
+        orElse: () => ActionDetailsScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ActionDetailsScreen(
+          action: args.action,
+          image: args.image,
+          displayName: args.displayName,
+          accountAddress: args.accountAddress,
+          symbol: args.symbol,
+          amount: args.amount,
+          contact: args.contact,
         ),
         settings: data,
       );
@@ -215,7 +237,7 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
     String status,
     Token token,
     Contact contact,
-    Transfer transfer,
+    Transaction transfer,
   }) =>
       push<dynamic>(
         HomeRoutes.transactionDetailsScreen,
@@ -226,6 +248,27 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
             token: token,
             contact: contact,
             transfer: transfer),
+      );
+
+  Future<dynamic> pushActionDetailsScreen({
+    WalletAction action,
+    ImageProvider<dynamic> image,
+    String displayName,
+    String accountAddress,
+    String symbol,
+    String amount,
+    Contact contact,
+  }) =>
+      push<dynamic>(
+        HomeRoutes.actionDetailsScreen,
+        arguments: ActionDetailsScreenArguments(
+            action: action,
+            image: image,
+            displayName: displayName,
+            accountAddress: accountAddress,
+            symbol: symbol,
+            amount: amount,
+            contact: contact),
       );
 
   Future<dynamic> pushTokenScreen({
@@ -305,7 +348,7 @@ class TransactionDetailsScreenArguments {
   final String status;
   final Token token;
   final Contact contact;
-  final Transfer transfer;
+  final Transaction transfer;
   TransactionDetailsScreenArguments(
       {this.image,
       this.displayName,
@@ -313,6 +356,25 @@ class TransactionDetailsScreenArguments {
       this.token,
       this.contact,
       this.transfer});
+}
+
+/// ActionDetailsScreen arguments holder class
+class ActionDetailsScreenArguments {
+  final WalletAction action;
+  final ImageProvider<dynamic> image;
+  final String displayName;
+  final String accountAddress;
+  final String symbol;
+  final String amount;
+  final Contact contact;
+  ActionDetailsScreenArguments(
+      {this.action,
+      this.image,
+      this.displayName,
+      this.accountAddress,
+      this.symbol,
+      this.amount,
+      this.contact});
 }
 
 /// TokenScreen arguments holder class

@@ -132,12 +132,6 @@ ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddrees, transfer) {
   };
 }
 
-ThunkAction initWeb3ProMode() {
-  return (Store store) async {
-    foreignWeb3.setCredentials(store.state.userState.privateKey);
-  };
-}
-
 ThunkAction startListenToTransferEvents() {
   return (Store store) async {
     bool isListenToTransferEvents =
@@ -330,10 +324,8 @@ ThunkAction addTokens({List<String> contractAddresses = const []}) {
 
 ThunkAction fetchTokenByAddress(String tokenAddress) {
   return (Store store) async {
-    log.info('new token to add $tokenAddress');
     if (exchangableTokens.containsKey(checksumEthereumAddress(tokenAddress))) {
       Token newToken = exchangableTokens[checksumEthereumAddress(tokenAddress)];
-      log.info('ADDED - new token $tokenAddress');
       store.dispatch(AddNewToken(
           token: newToken.copyWith(
         address: tokenAddress.toLowerCase(),
@@ -469,20 +461,23 @@ ThunkAction sendErc20TokenCall(
       log.info(
           'Sending $tokensAmount tokens of ${token.address} from wallet $walletAddress to $receiverAddress');
       num feeAmount = fees[token.symbol] ?? 1;
-      Map<String, dynamic> approveTokenData = await foreignWeb3.approveTokenOffChain(
+      Map<String, dynamic> approveTokenData =
+          await foreignWeb3.approveTokenOffChain(
         walletAddress,
         token.address,
         tokensAmount,
         network: foreignNetwork,
       );
-      Map<String, dynamic> transferTokenData = await foreignWeb3.transferTokenOffChain(
+      Map<String, dynamic> transferTokenData =
+          await foreignWeb3.transferTokenOffChain(
         walletAddress,
         token.address,
         receiverAddress,
         tokensAmount,
         network: foreignNetwork,
       );
-      Map<String, dynamic> feeTrasnferData = await foreignWeb3.transferTokenOffChain(
+      Map<String, dynamic> feeTrasnferData =
+          await foreignWeb3.transferTokenOffChain(
         walletAddress,
         token.address,
         Addresses.FEE_ADDRESS,
@@ -556,7 +551,8 @@ ThunkAction sendTokenToHomeMultiBridge(
       List trasnferData = await foreignWeb3.transferTokenToHome(walletAddress,
           receiverAddress, tokenAddress, tokensAmount, token.decimals,
           network: token.originNetwork);
-      Map<String, dynamic> feeTrasnferData = await foreignWeb3.transferTokenOffChain(
+      Map<String, dynamic> feeTrasnferData =
+          await foreignWeb3.transferTokenOffChain(
         walletAddress,
         tokenAddress,
         Addresses.FEE_ADDRESS,
@@ -772,20 +768,20 @@ ThunkAction swapHandler(
     String walletAddress = userState.walletAddress;
     try {
       num feeAmount = fees[fromToken.symbol] ?? 0;
-      Map<String, dynamic> signedApprovalData = await foreignWeb3.approveTokenOffChain(
+      Map<String, dynamic> signedApprovalData =
+          await foreignWeb3.approveTokenOffChain(
         walletAddress,
         tokenAddress,
         tokensAmount,
         spenderContract: Addresses.TOTLE_APPROVAL_CONTRACT_ADDRESS,
         network: foreignNetwork,
       );
-      Map<String, dynamic> signedSwapData = await foreignWeb3.callContractOffChain(
-          walletAddress,
-          swapContractAddress,
-          0,
-          swapData.replaceFirst('0x', ''),
-          network: foreignNetwork);
-      Map<String, dynamic> feeTrasnferData = await foreignWeb3.transferTokenOffChain(
+      Map<String, dynamic> signedSwapData =
+          await foreignWeb3.callContractOffChain(walletAddress,
+              swapContractAddress, 0, swapData.replaceFirst('0x', ''),
+              network: foreignNetwork);
+      Map<String, dynamic> feeTrasnferData =
+          await foreignWeb3.transferTokenOffChain(
         walletAddress,
         tokenAddress,
         Addresses.FEE_ADDRESS,

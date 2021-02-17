@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.0"
+  ars_progress_dialog:
+    dependency: "direct main"
+    description:
+      name: ars_progress_dialog
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   async:
     dependency: transitive
     description:
@@ -70,7 +77,7 @@ packages:
       name: bip32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.7"
   bip39:
     dependency: transitive
     description:
@@ -580,7 +587,7 @@ packages:
       name: gql
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.3"
+    version: "0.12.4"
   graphql:
     dependency: transitive
     description:
@@ -1242,7 +1249,7 @@ packages:
     description:
       path: "."
       ref: next
-      resolved-ref: "4bc84f723ffe813e6e40780a229d1c597b1e45e5"
+      resolved-ref: d47d4849a9bb872f09865e0480a0bad48a4572bc
       url: "https://github.com/fuseio/wallet_core.git"
     source: git
     version: "0.2.5+1"
