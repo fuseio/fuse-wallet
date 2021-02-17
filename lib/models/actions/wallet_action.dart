@@ -122,15 +122,7 @@ abstract class WalletAction implements _$WalletAction {
           return 'Waiting for payment';
         }
       },
-      joinCommunity: (value) {
-        if (value.isFailed()) {
-          return 'Join community failed';
-        } else if (value.isConfirmed()) {
-          return 'Join community Done';
-        } else {
-          return 'Join community pendinng';
-        }
-      },
+      joinCommunity: (value) => value.communityName,
       fiatDeposit: (value) {
         if (value.isFailed()) {
           return 'FUSD - deposit failed';
@@ -220,6 +212,7 @@ abstract class WalletAction implements _$WalletAction {
     int blockNumber,
     String communityAddress,
     String tokenAddress,
+    String communityName,
   }) = JoinCommunity;
 
   @JsonSerializable()

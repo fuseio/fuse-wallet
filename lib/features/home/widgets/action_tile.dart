@@ -282,14 +282,16 @@ class ActionTile extends StatelessWidget {
                                             color: Colors.black,
                                           ),
                                         ),
-                                        TextSpan(
-                                          text:
-                                              ' \‘${community?.name ?? ''}\’ ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                          ),
-                                        ),
+                                        action.getText() != null
+                                            ? TextSpan(
+                                                text:
+                                                    ' \‘${action.getText()}\’ ',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              )
+                                            : SizedBox.shrink(),
                                         TextSpan(
                                           text: I18n.of(context).community,
                                           style: TextStyle(

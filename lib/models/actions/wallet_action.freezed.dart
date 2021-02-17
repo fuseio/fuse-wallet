@@ -118,7 +118,8 @@ class _$WalletActionTearOff {
       String status,
       int blockNumber,
       String communityAddress,
-      String tokenAddress}) {
+      String tokenAddress,
+      String communityName}) {
     return JoinCommunity(
       timestamp: timestamp,
       name: name,
@@ -127,6 +128,7 @@ class _$WalletActionTearOff {
       blockNumber: blockNumber,
       communityAddress: communityAddress,
       tokenAddress: tokenAddress,
+      communityName: communityName,
     );
   }
 
@@ -281,7 +283,8 @@ mixin _$WalletAction {
             String status,
             int blockNumber,
             String communityAddress,
-            String tokenAddress),
+            String tokenAddress,
+            String communityName),
     @required
         TResult bonus(
             int timestamp,
@@ -363,7 +366,8 @@ mixin _$WalletAction {
         String status,
         int blockNumber,
         String communityAddress,
-        String tokenAddress),
+        String tokenAddress,
+        String communityName),
     TResult bonus(
         int timestamp,
         String name,
@@ -617,7 +621,8 @@ class _$CreateWallet extends CreateWallet {
             String status,
             int blockNumber,
             String communityAddress,
-            String tokenAddress),
+            String tokenAddress,
+            String communityName),
     @required
         TResult bonus(
             int timestamp,
@@ -710,7 +715,8 @@ class _$CreateWallet extends CreateWallet {
         String status,
         int blockNumber,
         String communityAddress,
-        String tokenAddress),
+        String tokenAddress,
+        String communityName),
     TResult bonus(
         int timestamp,
         String name,
@@ -1053,7 +1059,8 @@ class _$FiatProcess extends FiatProcess {
             String status,
             int blockNumber,
             String communityAddress,
-            String tokenAddress),
+            String tokenAddress,
+            String communityName),
     @required
         TResult bonus(
             int timestamp,
@@ -1147,7 +1154,8 @@ class _$FiatProcess extends FiatProcess {
         String status,
         int blockNumber,
         String communityAddress,
-        String tokenAddress),
+        String tokenAddress,
+        String communityName),
     TResult bonus(
         int timestamp,
         String name,
@@ -1505,7 +1513,8 @@ class _$FiatDeposit extends FiatDeposit {
             String status,
             int blockNumber,
             String communityAddress,
-            String tokenAddress),
+            String tokenAddress,
+            String communityName),
     @required
         TResult bonus(
             int timestamp,
@@ -1599,7 +1608,8 @@ class _$FiatDeposit extends FiatDeposit {
         String status,
         int blockNumber,
         String communityAddress,
-        String tokenAddress),
+        String tokenAddress,
+        String communityName),
     TResult bonus(
         int timestamp,
         String name,
@@ -1751,7 +1761,8 @@ abstract class $JoinCommunityCopyWith<$Res>
       String status,
       int blockNumber,
       String communityAddress,
-      String tokenAddress});
+      String tokenAddress,
+      String communityName});
 }
 
 /// @nodoc
@@ -1773,6 +1784,7 @@ class _$JoinCommunityCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
     Object blockNumber = freezed,
     Object communityAddress = freezed,
     Object tokenAddress = freezed,
+    Object communityName = freezed,
   }) {
     return _then(JoinCommunity(
       timestamp: timestamp == freezed ? _value.timestamp : timestamp as int,
@@ -1787,6 +1799,9 @@ class _$JoinCommunityCopyWithImpl<$Res> extends _$WalletActionCopyWithImpl<$Res>
       tokenAddress: tokenAddress == freezed
           ? _value.tokenAddress
           : tokenAddress as String,
+      communityName: communityName == freezed
+          ? _value.communityName
+          : communityName as String,
     ));
   }
 }
@@ -1802,7 +1817,8 @@ class _$JoinCommunity extends JoinCommunity {
       this.status,
       this.blockNumber,
       this.communityAddress,
-      this.tokenAddress})
+      this.tokenAddress,
+      this.communityName})
       : super._();
 
   factory _$JoinCommunity.fromJson(Map<String, dynamic> json) =>
@@ -1822,10 +1838,12 @@ class _$JoinCommunity extends JoinCommunity {
   final String communityAddress;
   @override
   final String tokenAddress;
+  @override
+  final String communityName;
 
   @override
   String toString() {
-    return 'WalletAction.joinCommunity(timestamp: $timestamp, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, communityAddress: $communityAddress, tokenAddress: $tokenAddress)';
+    return 'WalletAction.joinCommunity(timestamp: $timestamp, name: $name, txHash: $txHash, status: $status, blockNumber: $blockNumber, communityAddress: $communityAddress, tokenAddress: $tokenAddress, communityName: $communityName)';
   }
 
   @override
@@ -1849,7 +1867,10 @@ class _$JoinCommunity extends JoinCommunity {
                     .equals(other.communityAddress, communityAddress)) &&
             (identical(other.tokenAddress, tokenAddress) ||
                 const DeepCollectionEquality()
-                    .equals(other.tokenAddress, tokenAddress)));
+                    .equals(other.tokenAddress, tokenAddress)) &&
+            (identical(other.communityName, communityName) ||
+                const DeepCollectionEquality()
+                    .equals(other.communityName, communityName)));
   }
 
   @override
@@ -1861,7 +1882,8 @@ class _$JoinCommunity extends JoinCommunity {
       const DeepCollectionEquality().hash(status) ^
       const DeepCollectionEquality().hash(blockNumber) ^
       const DeepCollectionEquality().hash(communityAddress) ^
-      const DeepCollectionEquality().hash(tokenAddress);
+      const DeepCollectionEquality().hash(tokenAddress) ^
+      const DeepCollectionEquality().hash(communityName);
 
   @JsonKey(ignore: true)
   @override
@@ -1910,7 +1932,8 @@ class _$JoinCommunity extends JoinCommunity {
             String status,
             int blockNumber,
             String communityAddress,
-            String tokenAddress),
+            String tokenAddress,
+            String communityName),
     @required
         TResult bonus(
             int timestamp,
@@ -1963,7 +1986,7 @@ class _$JoinCommunity extends JoinCommunity {
     assert(send != null);
     assert(receive != null);
     return joinCommunity(timestamp, name, txHash, status, blockNumber,
-        communityAddress, tokenAddress);
+        communityAddress, tokenAddress, communityName);
   }
 
   @override
@@ -2004,7 +2027,8 @@ class _$JoinCommunity extends JoinCommunity {
         String status,
         int blockNumber,
         String communityAddress,
-        String tokenAddress),
+        String tokenAddress,
+        String communityName),
     TResult bonus(
         int timestamp,
         String name,
@@ -2050,7 +2074,7 @@ class _$JoinCommunity extends JoinCommunity {
     assert(orElse != null);
     if (joinCommunity != null) {
       return joinCommunity(timestamp, name, txHash, status, blockNumber,
-          communityAddress, tokenAddress);
+          communityAddress, tokenAddress, communityName);
     }
     return orElse();
   }
@@ -2110,7 +2134,8 @@ abstract class JoinCommunity extends WalletAction {
       String status,
       int blockNumber,
       String communityAddress,
-      String tokenAddress}) = _$JoinCommunity;
+      String tokenAddress,
+      String communityName}) = _$JoinCommunity;
 
   factory JoinCommunity.fromJson(Map<String, dynamic> json) =
       _$JoinCommunity.fromJson;
@@ -2127,6 +2152,7 @@ abstract class JoinCommunity extends WalletAction {
   int get blockNumber;
   String get communityAddress;
   String get tokenAddress;
+  String get communityName;
   @override
   @JsonKey(ignore: true)
   $JoinCommunityCopyWith<JoinCommunity> get copyWith;
@@ -2359,7 +2385,8 @@ class _$Bonus extends Bonus {
             String status,
             int blockNumber,
             String communityAddress,
-            String tokenAddress),
+            String tokenAddress,
+            String communityName),
     @required
         TResult bonus(
             int timestamp,
@@ -2453,7 +2480,8 @@ class _$Bonus extends Bonus {
         String status,
         int blockNumber,
         String communityAddress,
-        String tokenAddress),
+        String tokenAddress,
+        String communityName),
     TResult bonus(
         int timestamp,
         String name,
@@ -2808,7 +2836,8 @@ class _$Send extends Send {
             String status,
             int blockNumber,
             String communityAddress,
-            String tokenAddress),
+            String tokenAddress,
+            String communityName),
     @required
         TResult bonus(
             int timestamp,
@@ -2902,7 +2931,8 @@ class _$Send extends Send {
         String status,
         int blockNumber,
         String communityAddress,
-        String tokenAddress),
+        String tokenAddress,
+        String communityName),
     TResult bonus(
         int timestamp,
         String name,
@@ -3256,7 +3286,8 @@ class _$Receive extends Receive {
             String status,
             int blockNumber,
             String communityAddress,
-            String tokenAddress),
+            String tokenAddress,
+            String communityName),
     @required
         TResult bonus(
             int timestamp,
@@ -3350,7 +3381,8 @@ class _$Receive extends Receive {
         String status,
         int blockNumber,
         String communityAddress,
-        String tokenAddress),
+        String tokenAddress,
+        String communityName),
     TResult bonus(
         int timestamp,
         String name,

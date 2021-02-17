@@ -100,6 +100,7 @@ _$JoinCommunity _$_$JoinCommunityFromJson(Map<String, dynamic> json) {
     blockNumber: json['blockNumber'] as int,
     communityAddress: json['communityAddress'] as String,
     tokenAddress: json['tokenAddress'] as String,
+    communityName: json['communityName'] as String,
   );
 }
 
@@ -112,6 +113,7 @@ Map<String, dynamic> _$_$JoinCommunityToJson(_$JoinCommunity instance) =>
       'blockNumber': instance.blockNumber,
       'communityAddress': instance.communityAddress,
       'tokenAddress': instance.tokenAddress,
+      'communityName': instance.communityName,
     };
 
 _$Bonus _$_$BonusFromJson(Map<String, dynamic> json) {

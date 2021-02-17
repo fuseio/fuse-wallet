@@ -379,50 +379,54 @@ ThunkAction createAccountWalletCall(String accountAddress) {
               defaultCommunityAddress;
       Map<String, dynamic> response =
           await api.createWallet(communityAddress: communityAddress);
+      ArsProgressDialog progressDialog = ArsProgressDialog(
+        ExtendedNavigator.named('homeRouter').context,
+        blur: 2,
+        backgroundColor: Color(0x33000000),
+        loadingWidget: Container(
+          height: 100.0,
+          width: 250.0,
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Preloader(
+                width: 10,
+                height: 10,
+              ),
+              Text(
+                I18n.of(ExtendedNavigator.named('homeRouter').context)
+                    .initializing_wallet,
+                style: TextStyle(
+                  color: Theme.of(ExtendedNavigator.named('homeRouter').context)
+                      .primaryColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+        animationDuration: Duration(milliseconds: 500),
+      );
+      progressDialog.show();
       if (!response.containsKey('job')) {
         log.info('Wallet already exists');
         store.dispatch(CreateAccountWalletSuccess());
         store.dispatch(generateWalletSuccessCall(response, accountAddress));
-        store.dispatch(switchCommunityCall(communityAddress));
+        store.dispatch(switchCommunityCall(
+          communityAddress,
+          onSuccess: () {
+            progressDialog.dismiss(); //close dialog
+          },
+        ));
       } else {
-        ArsProgressDialog progressDialog = ArsProgressDialog(
-          ExtendedNavigator.named('homeRouter').context,
-          blur: 2,
-          backgroundColor: Color(0x33000000),
-          loadingWidget: Container(
-            height: 100.0,
-            width: 250.0,
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Preloader(
-                  width: 10,
-                  height: 10,
-                ),
-                Text(
-                  I18n.of(ExtendedNavigator.named('homeRouter').context)
-                      .initializing_wallet,
-                  style: TextStyle(
-                    color:
-                        Theme.of(ExtendedNavigator.named('homeRouter').context)
-                            .primaryColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          animationDuration: Duration(milliseconds: 500),
-        );
-        progressDialog.show();
         CashWalletState cashWalletState = store.state.cashWalletState;
         Community community = cashWalletState.communities[communityAddress];
         if (!cashWalletState.tokens.containsKey(community?.homeTokenAddress)) {
@@ -943,6 +947,7 @@ ThunkAction joinCommunityCall({Community community, Token token, onSuccess}) {
           tokenAddress: token.address,
           originNetwork: token.originNetwork,
           network: 'fuse',
+          communityName: community.name,
         );
         if (onSuccess != null) {
           onSuccess();
