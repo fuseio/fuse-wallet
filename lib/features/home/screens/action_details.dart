@@ -10,7 +10,6 @@ import 'package:fusecash/widgets/main_scaffold.dart';
 
 class ActionDetailsScreen extends StatelessWidget {
   final String accountAddress;
-  final String amount;
   final String displayName;
   final ImageProvider<dynamic> image;
   final Contact contact;
@@ -23,7 +22,6 @@ class ActionDetailsScreen extends StatelessWidget {
     this.displayName,
     this.accountAddress,
     this.symbol,
-    this.amount,
     this.contact,
   });
 
@@ -203,7 +201,10 @@ class ActionDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     rowItem(
-                        context, I18n.of(context).amount, '$amount ${symbol}'),
+                      context,
+                      I18n.of(context).amount,
+                      '${action.getAmount()} ${symbol}',
+                    ),
                     // Padding(
                     //   padding: EdgeInsets.only(top: 25, bottom: 25),
                     //   child: Divider(

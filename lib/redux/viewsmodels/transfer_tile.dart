@@ -7,18 +7,14 @@ import 'package:redux/redux.dart';
 
 class TransferTileViewModel extends Equatable {
   final Map<String, String> reverseContacts;
-  final String walletStatus;
   final List<Contact> contacts;
   final String countryCode;
   final Map<String, Token> erc20Tokens;
   final Map<String, Token> tokens;
   final Map<String, Community> communitiesMap;
   final Map<String, Community> communities;
-  final bool isWalletCreated;
   TransferTileViewModel({
     this.reverseContacts,
-    this.walletStatus,
-    this.isWalletCreated,
     this.countryCode,
     this.erc20Tokens,
     this.tokens,
@@ -33,8 +29,6 @@ class TransferTileViewModel extends Equatable {
     List<Token> foreignTokens = List<Token>.from(
             store.state.proWalletState.erc20Tokens?.values ?? Iterable.empty())
         .toList();
-    final bool isWalletCreated = store.state.userState.walletStatus != null &&
-        store.state.userState.walletStatus == 'created';
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
         .map((Token token) => token?.copyWith(
             imageUrl: store.state.cashWalletState.communities
@@ -56,11 +50,9 @@ class TransferTileViewModel extends Equatable {
       return previousValue;
     });
     return TransferTileViewModel(
-      isWalletCreated: isWalletCreated,
       tokens: tokens,
       reverseContacts: store.state.userState.reverseContacts,
       contacts: store.state.userState.contacts,
-      walletStatus: store.state.userState.walletStatus,
       countryCode: store.state.userState.countryCode,
       erc20Tokens: store.state.proWalletState.erc20Tokens,
       communitiesMap: communitiesMap,
@@ -72,8 +64,6 @@ class TransferTileViewModel extends Equatable {
   List<Object> get props => [
         communities,
         reverseContacts,
-        walletStatus,
-        isWalletCreated,
         countryCode,
         contacts,
         erc20Tokens,

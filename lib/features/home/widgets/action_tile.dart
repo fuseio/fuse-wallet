@@ -9,7 +9,6 @@ import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/redux/viewsmodels/transfer_tile.dart';
 import 'package:fusecash/utils/images.dart';
 import 'package:fusecash/utils/transfer.dart';
-import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
 
 class ActionTile extends StatelessWidget {
@@ -92,16 +91,6 @@ class ActionTile extends StatelessWidget {
                     )
                   : action.getText(),
         );
-        final String value = action.map(
-          createWallet: (value) => '',
-          fiatProcess: (value) => '',
-          fiatDeposit: (value) => '',
-          joinCommunity: (value) => '',
-          bonus: (action) => formatValue(action?.value, action.tokenDecimal),
-          send: (value) => formatValue(value?.value, value.tokenDecimal),
-          receive: (value) => formatValue(value?.value, value.tokenDecimal),
-        );
-
         final String symbol = action.map(
           createWallet: (value) => '',
           fiatProcess: (value) => '',
@@ -141,7 +130,7 @@ class ActionTile extends StatelessWidget {
                                     text: TextSpan(
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: value,
+                                          text: action.getAmount(),
                                           style: TextStyle(
                                             color: Color(0xFF696969),
                                             fontSize: 15.0,
@@ -311,26 +300,6 @@ class ActionTile extends StatelessWidget {
                                       fontSize: 15,
                                     ),
                                   ),
-                            action.isGenerateWallet() &&
-                                    !viewModel.isWalletCreated
-                                ? Positioned(
-                                    bottom: -20,
-                                    child: Padding(
-                                      child: Text(
-                                        I18n.of(context).ten_seconds,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                        ),
-                                      ),
-                                      padding: EdgeInsets.only(
-                                        top: 10,
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox.shrink()
                           ],
                         ),
                       ),
@@ -349,7 +318,6 @@ class ActionTile extends StatelessWidget {
                 action: action,
                 image: image,
                 symbol: symbol,
-                amount: value,
               );
             }
           },

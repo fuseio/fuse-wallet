@@ -17,7 +17,20 @@ abstract class WalletAction implements _$WalletAction {
 
   bool isPending() => this.status == 'PENDING' || this.status == 'STARTED';
   bool isFailed() => this.status == 'FAILED';
-  bool isConfirmed() => this.status == 'CONFIRMED' || this.status == 'SUCCEEDED';
+  bool isConfirmed() =>
+      this.status == 'CONFIRMED' || this.status == 'SUCCEEDED';
+
+  String getAmount() {
+    return this.map(
+      createWallet: (value) => '',
+      fiatProcess: (value) => '',
+      fiatDeposit: (value) => '',
+      joinCommunity: (value) => '',
+      bonus: (value) => formatValue(value?.value, value.tokenDecimal),
+      send: (value) => formatValue(value?.value, value.tokenDecimal),
+      receive: (value) => formatValue(value?.value, value.tokenDecimal),
+    );
+  }
 
   bool isGenerateWallet() {
     return this.map(

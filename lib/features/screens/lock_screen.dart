@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/constants/enums.dart';
+import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
@@ -31,7 +32,7 @@ class _LockScreenState extends State<LockScreen> {
     }
   }
 
-  _handleLocalAuh(Store<AppState> store) async {
+  onInit(Store<AppState> store) async {
     String privateKey = store?.state?.userState?.privateKey ?? '';
     String jwtToken = store?.state?.userState?.jwtToken ?? '';
     bool isLoggedOut = store?.state?.userState?.isLoggedOut ?? false;
@@ -39,6 +40,11 @@ class _LockScreenState extends State<LockScreen> {
       ExtendedNavigator.root.replace(Routes.splashScreen);
     } else {
       UserState userState = store.state.userState;
+      if (userState?.authType != BiometricAuth.none) {
+        store.dispatch(getWalletAddressessCall());
+        store.dispatch(identifyCall());
+        store.dispatch(loadContacts());
+      }
       if (BiometricAuth.faceID == userState.authType ||
           BiometricAuth.touchID == userState.authType) {
         await _showLocalAuthPopup(
@@ -68,9 +74,7 @@ class _LockScreenState extends State<LockScreen> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LockScreenViewModel>(
       distinct: true,
-      onInit: (Store<AppState> store) {
-        _handleLocalAuh(store);
-      },
+      onInit: onInit,
       converter: LockScreenViewModel.fromStore,
       builder: (_, viewModel) {
         return Scaffold(
@@ -78,11 +82,15 @@ class _LockScreenState extends State<LockScreen> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Color(0xFFB1FDC0),
-                Color(0xFFE6FD99),
-                Color(0xFFFEFD86)
-              ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFB1FDC0),
+                  Color(0xFFE6FD99),
+                  Color(0xFFFEFD86)
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -100,8 +108,11 @@ class _LockScreenState extends State<LockScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Image.asset('assets/images/pincode_logo.png',
-                                width: 71, height: 61),
+                            Image.asset(
+                              'assets/images/pincode_logo.png',
+                              width: 71,
+                              height: 61,
+                            ),
                           ],
                         ),
                       ),

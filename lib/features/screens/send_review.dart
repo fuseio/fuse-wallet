@@ -49,11 +49,12 @@ class _SendReviewScreenState extends State<SendReviewScreen>
   }
 
   void send(
-      SendAmountViewModel viewModel,
-      SendAmountArguments args,
-      String transferNote,
-      VoidCallback sendSuccessCallback,
-      VoidCallback sendFailureCallback) {
+    SendAmountViewModel viewModel,
+    SendAmountArguments args,
+    String transferNote,
+    VoidCallback sendSuccessCallback,
+    VoidCallback sendFailureCallback,
+  ) {
     final bool isFuseToken =
         ![null, ''].contains(args?.tokenToSend?.originNetwork) ?? false;
     if (args.useBridge && args.isMultiBridge) {

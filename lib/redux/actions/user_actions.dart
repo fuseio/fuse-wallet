@@ -31,14 +31,6 @@ import 'package:flutter_udid/flutter_udid.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:wallet_core/wallet_core.dart' show Web3;
 
-class CreateAccountWalletRequest {
-  CreateAccountWalletRequest();
-}
-
-class CreateAccountWalletSuccess {
-  CreateAccountWalletSuccess();
-}
-
 class UpdateCurrency {
   final String currency;
   UpdateCurrency({this.currency});
@@ -174,18 +166,17 @@ ThunkAction loginHandler(CountryCode countryCode, PhoneNumber phoneNumber) {
   return (Store store) async {
     try {
       store.dispatch(SetIsLoginRequest(isLoading: true));
-      String normalizedPhoneNumber = phoneNumber.e164;
-      await onBoardStrategy.login(store, normalizedPhoneNumber);
+      await onBoardStrategy.login(store, phoneNumber.e164);
       store.dispatch(LoginRequestSuccess(
         countryCode: countryCode,
         phoneNumber: phoneNumber.e164,
       ));
-      store.dispatch(segmentAliasCall(normalizedPhoneNumber));
+      store.dispatch(segmentAliasCall(phoneNumber.e164));
       store.dispatch(
         segmentTrackCall(
           "Wallet: user insert his phone number",
           properties: Map<String, dynamic>.from({
-            "Phone number": normalizedPhoneNumber,
+            "Phone number": phoneNumber.e164,
           }),
         ),
       );

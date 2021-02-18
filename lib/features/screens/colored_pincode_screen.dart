@@ -96,18 +96,19 @@ class _ColoredPincodeScreenState extends State<ColoredPincodeScreen> {
                               child: PinInputTextField(
                                 pinLength: 6,
                                 decoration: UnderlineDecoration(
-                                    hintTextStyle:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                    colorBuilder: FixedColorListBuilder([
+                                  hintTextStyle:
+                                      TextStyle(fontWeight: FontWeight.bold),
+                                  colorBuilder: FixedColorListBuilder(
+                                    List<Color>.filled(
+                                      6,
                                       Color(0xFF575757),
-                                      Color(0xFF575757),
-                                      Color(0xFF575757),
-                                      Color(0xFF575757),
-                                      Color(0xFF575757),
-                                      Color(0xFF575757),
-                                    ]),
-                                    obscureStyle: ObscureStyle(
-                                        isTextObscure: true, obscureText: '●')),
+                                    ),
+                                  ),
+                                  obscureStyle: ObscureStyle(
+                                    isTextObscure: true,
+                                    obscureText: '●',
+                                  ),
+                                ),
                                 controller: pincodeController,
                                 autoFocus: true,
                                 onChanged: (value) {

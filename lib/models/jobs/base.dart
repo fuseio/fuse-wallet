@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:fusecash/models/jobs/approve_job.dart';
 import 'package:fusecash/models/jobs/generate_wallet_job.dart';
-import 'package:fusecash/models/jobs/invite_bonus_job.dart';
-import 'package:fusecash/models/jobs/invite_job.dart';
 import 'package:fusecash/models/jobs/swap_token_job.dart';
 import 'package:fusecash/models/jobs/transfer_job.dart';
 
@@ -125,24 +123,6 @@ class JobFactory {
             arguments: json['arguments']);
       case 'transfer':
         return new TransferJob(
-            id: id,
-            jobType: jobType,
-            name: json['name'],
-            status: status,
-            data: json['data'],
-            lastFinishedAt: json['lastFinishedAt'],
-            arguments: json['arguments']);
-      case 'invite':
-        return new InviteJob(
-            id: id,
-            jobType: jobType,
-            name: json['name'],
-            status: status,
-            data: json['data'],
-            lastFinishedAt: json['lastFinishedAt'],
-            arguments: json['arguments']);
-      case 'inviteBonus':
-        return new InviteBonusJob(
             id: id,
             jobType: jobType,
             name: json['name'],

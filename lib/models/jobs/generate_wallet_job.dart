@@ -1,6 +1,5 @@
 import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/addresses.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -64,8 +63,7 @@ class GenerateWalletJob extends Job {
 
     String walletAddress = fetchedData["walletAddress"];
     if (walletAddress != null && walletAddress.isNotEmpty) {
-      store.dispatch(CreateAccountWalletSuccess());
-      store.dispatch(generateWalletSuccessCall(fetchedData, arguments['accountAddress']));
+      store.dispatch(generateWalletSuccessCall(fetchedData));
       final String communityAddress = store.state.cashWalletState.communityAddress ?? defaultCommunityAddress;
       store.dispatch(switchCommunityCall(communityAddress));
       this.status = 'DONE';

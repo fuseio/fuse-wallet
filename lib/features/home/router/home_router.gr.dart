@@ -120,7 +120,6 @@ class HomeRouter extends RouterBase {
           displayName: args.displayName,
           accountAddress: args.accountAddress,
           symbol: args.symbol,
-          amount: args.amount,
           contact: args.contact,
         ),
         settings: data,
@@ -256,7 +255,6 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
     String displayName,
     String accountAddress,
     String symbol,
-    String amount,
     Contact contact,
   }) =>
       push<dynamic>(
@@ -267,7 +265,6 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
             displayName: displayName,
             accountAddress: accountAddress,
             symbol: symbol,
-            amount: amount,
             contact: contact),
       );
 
@@ -365,7 +362,6 @@ class ActionDetailsScreenArguments {
   final String displayName;
   final String accountAddress;
   final String symbol;
-  final String amount;
   final Contact contact;
   ActionDetailsScreenArguments(
       {this.action,
@@ -373,7 +369,6 @@ class ActionDetailsScreenArguments {
       this.displayName,
       this.accountAddress,
       this.symbol,
-      this.amount,
       this.contact});
 }
 

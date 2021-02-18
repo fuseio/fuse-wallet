@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import '../../features/contacts/send_amount_arguments.dart';
 import '../../features/onboard/screens/restore_wallet_screen.dart';
+import '../../features/onboard/screens/security_screen.dart';
 import '../../features/onboard/screens/signup_screen.dart';
 import '../../features/onboard/screens/splash_screen.dart';
 import '../../features/onboard/screens/username_screen.dart';
@@ -18,7 +19,6 @@ import '../../features/onboard/screens/verify_screen.dart';
 import '../../features/screens/colored_pincode_screen.dart';
 import '../../features/screens/home_screen.dart';
 import '../../features/screens/lock_screen.dart';
-import '../../features/screens/security_screen.dart';
 import '../../features/screens/send_amount.dart';
 import '../../features/screens/send_review.dart';
 import '../../features/screens/send_success.dart';

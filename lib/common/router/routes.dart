@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route_annotations.dart';
 import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/features/screens/home_screen.dart';
-import 'package:fusecash/features/screens/security_screen.dart';
+import 'package:fusecash/features/onboard/screens/security_screen.dart';
 import 'package:fusecash/features/onboard/screens/restore_wallet_screen.dart';
 import 'package:fusecash/features/onboard/screens/username_screen.dart';
 import 'package:fusecash/features/onboard/screens/signup_screen.dart';

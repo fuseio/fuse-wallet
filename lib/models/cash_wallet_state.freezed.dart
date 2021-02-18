@@ -21,7 +21,7 @@ class _$CashWalletStateTearOff {
       {String communityAddress,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens = const {},
-      @JsonKey(name: 'communities', fromJson: communitiesFromJson, toJson: communitiesToJson)
+      @JsonKey(fromJson: communitiesFromJson)
           Map<String, Community> communities = const {},
       @JsonKey(ignore: true)
           String branchAddress,
@@ -75,10 +75,7 @@ mixin _$CashWalletState {
   String get communityAddress;
   @JsonKey(fromJson: tokensFromJson)
   Map<String, Token> get tokens;
-  @JsonKey(
-      name: 'communities',
-      fromJson: communitiesFromJson,
-      toJson: communitiesToJson)
+  @JsonKey(fromJson: communitiesFromJson)
   Map<String, Community> get communities;
   @JsonKey(ignore: true)
   String get branchAddress;
@@ -115,7 +112,7 @@ abstract class $CashWalletStateCopyWith<$Res> {
       {String communityAddress,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
-      @JsonKey(name: 'communities', fromJson: communitiesFromJson, toJson: communitiesToJson)
+      @JsonKey(fromJson: communitiesFromJson)
           Map<String, Community> communities,
       @JsonKey(ignore: true)
           String branchAddress,
@@ -229,7 +226,7 @@ abstract class _$CashWalletStateCopyWith<$Res>
       {String communityAddress,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
-      @JsonKey(name: 'communities', fromJson: communitiesFromJson, toJson: communitiesToJson)
+      @JsonKey(fromJson: communitiesFromJson)
           Map<String, Community> communities,
       @JsonKey(ignore: true)
           String branchAddress,
@@ -331,30 +328,18 @@ class __$CashWalletStateCopyWithImpl<$Res>
 class _$_CashWalletState extends _CashWalletState {
   _$_CashWalletState(
       {this.communityAddress,
-      @JsonKey(fromJson: tokensFromJson)
-          this.tokens = const {},
-      @JsonKey(name: 'communities', fromJson: communitiesFromJson, toJson: communitiesToJson)
-          this.communities = const {},
-      @JsonKey(ignore: true)
-          this.branchAddress,
-      @JsonKey(fromJson: walletActionsFromJson)
-          this.walletActions,
-      @JsonKey(ignore: true)
-          this.isCommunityLoading = false,
-      @JsonKey(ignore: true)
-          this.isCommunityFetched = false,
-      @JsonKey(ignore: true)
-          this.isBalanceFetchingStarted = false,
-      @JsonKey(ignore: true)
-          this.isTransfersFetchingStarted = false,
-      @JsonKey(ignore: true)
-          this.isListeningToBranch = false,
-      @JsonKey(ignore: true)
-          this.isBranchDataReceived = false,
-      @JsonKey(ignore: true)
-          this.isCommunityBusinessesFetched = false,
-      @JsonKey(ignore: true)
-          this.isJobProcessingStarted = false})
+      @JsonKey(fromJson: tokensFromJson) this.tokens = const {},
+      @JsonKey(fromJson: communitiesFromJson) this.communities = const {},
+      @JsonKey(ignore: true) this.branchAddress,
+      @JsonKey(fromJson: walletActionsFromJson) this.walletActions,
+      @JsonKey(ignore: true) this.isCommunityLoading = false,
+      @JsonKey(ignore: true) this.isCommunityFetched = false,
+      @JsonKey(ignore: true) this.isBalanceFetchingStarted = false,
+      @JsonKey(ignore: true) this.isTransfersFetchingStarted = false,
+      @JsonKey(ignore: true) this.isListeningToBranch = false,
+      @JsonKey(ignore: true) this.isBranchDataReceived = false,
+      @JsonKey(ignore: true) this.isCommunityBusinessesFetched = false,
+      @JsonKey(ignore: true) this.isJobProcessingStarted = false})
       : assert(tokens != null),
         assert(communities != null),
         assert(isCommunityLoading != null),
@@ -376,10 +361,7 @@ class _$_CashWalletState extends _CashWalletState {
   @JsonKey(fromJson: tokensFromJson)
   final Map<String, Token> tokens;
   @override
-  @JsonKey(
-      name: 'communities',
-      fromJson: communitiesFromJson,
-      toJson: communitiesToJson)
+  @JsonKey(fromJson: communitiesFromJson)
   final Map<String, Community> communities;
   @override
   @JsonKey(ignore: true)
@@ -500,7 +482,7 @@ abstract class _CashWalletState extends CashWalletState {
       {String communityAddress,
       @JsonKey(fromJson: tokensFromJson)
           Map<String, Token> tokens,
-      @JsonKey(name: 'communities', fromJson: communitiesFromJson, toJson: communitiesToJson)
+      @JsonKey(fromJson: communitiesFromJson)
           Map<String, Community> communities,
       @JsonKey(ignore: true)
           String branchAddress,
@@ -532,10 +514,7 @@ abstract class _CashWalletState extends CashWalletState {
   @JsonKey(fromJson: tokensFromJson)
   Map<String, Token> get tokens;
   @override
-  @JsonKey(
-      name: 'communities',
-      fromJson: communitiesFromJson,
-      toJson: communitiesToJson)
+  @JsonKey(fromJson: communitiesFromJson)
   Map<String, Community> get communities;
   @override
   @JsonKey(ignore: true)

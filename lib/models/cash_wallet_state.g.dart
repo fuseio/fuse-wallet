@@ -21,6 +21,7 @@ Map<String, dynamic> _$_$_CashWalletStateToJson(_$_CashWalletState instance) =>
     <String, dynamic>{
       'communityAddress': instance.communityAddress,
       'tokens': instance.tokens?.map((k, e) => MapEntry(k, e?.toJson())),
-      'communities': communitiesToJson(instance.communities),
+      'communities':
+          instance.communities?.map((k, e) => MapEntry(k, e?.toJson())),
       'walletActions': instance.walletActions?.toJson(),
     };

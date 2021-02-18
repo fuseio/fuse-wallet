@@ -31,21 +31,7 @@ final userReducers = combineReducers<UserState>([
   TypedReducer<UserState, HomeBackupDialogShowed>(_homeBackupDialogShowed),
   TypedReducer<UserState, UpdateCurrency>(_updateCurrency),
   TypedReducer<UserState, UpdateTotalBalance>(_updateTotalBalance),
-  TypedReducer<UserState, CreateAccountWalletRequest>(
-      _createAccountWalletRequest),
-  TypedReducer<UserState, CreateAccountWalletSuccess>(
-      _createAccountWalletSuccess),
 ]);
-
-UserState _createAccountWalletRequest(
-    UserState state, CreateAccountWalletRequest action) {
-  return state.copyWith(walletStatus: 'requested');
-}
-
-UserState _createAccountWalletSuccess(
-    UserState state, CreateAccountWalletSuccess action) {
-  return state.copyWith(walletStatus: 'deploying');
-}
 
 UserState _updateCurrency(UserState state, UpdateCurrency action) {
   return state.copyWith(currency: action.currency);
@@ -81,7 +67,6 @@ UserState _getWalletAddressesSuccess(
     backup: action.backup,
     networks: action.networks,
     walletAddress: action.walletAddress,
-    walletStatus: 'created',
   );
 }
 

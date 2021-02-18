@@ -26,7 +26,6 @@ class _SecurityScreenState extends State<SecurityScreen> {
     if (_biometricType != BiometricAuth.none) {
       setState(() {
         _biometricType = _biometricType;
-        // _showLocalAuthPopup(BiometricUtils.getBiometricString(_biometricType));
       });
     }
   }

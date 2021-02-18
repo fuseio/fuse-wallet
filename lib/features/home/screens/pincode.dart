@@ -78,22 +78,23 @@ class _PincodeScreenState extends State<PincodeScreen> {
                             child: PinInputTextField(
                               pinLength: 6,
                               decoration: UnderlineDecoration(
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor,
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                hintTextStyle:
+                                    TextStyle(fontWeight: FontWeight.bold),
+                                colorBuilder: FixedColorListBuilder(
+                                  List<Color>.filled(
+                                    6,
+                                    Theme.of(context).primaryColor,
                                   ),
-                                  hintTextStyle:
-                                      TextStyle(fontWeight: FontWeight.bold),
-                                  colorBuilder: FixedColorListBuilder([
-                                    Theme.of(context).primaryColor,
-                                    Theme.of(context).primaryColor,
-                                    Theme.of(context).primaryColor,
-                                    Theme.of(context).primaryColor,
-                                    Theme.of(context).primaryColor,
-                                    Theme.of(context).primaryColor,
-                                  ]),
-                                  obscureStyle: ObscureStyle(
-                                      isTextObscure: true, obscureText: '●')),
+                                ),
+                                obscureStyle: ObscureStyle(
+                                  isTextObscure: true,
+                                  obscureText: '●',
+                                ),
+                              ),
                               controller: pincodeController,
                               autoFocus: true,
                               onChanged: (String pin) {

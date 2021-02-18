@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/features/screens/coming_soon.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
-import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/features/contacts/widgets/enable_contacts.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:fusecash/features/home/screens/receive.dart';
@@ -12,7 +10,6 @@ import 'package:fusecash/features/home/widgets/drawer.dart';
 import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/features/home/dialogs/back_up_dialog.dart';
-import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/widgets/bottom_bar.dart';
@@ -50,31 +47,11 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     });
   }
 
-  onInit(Store<AppState> store) {
-    final String walletStatus = store.state.userState.walletStatus;
-    final String accountAddress = store.state.userState.accountAddress;
-    if (walletStatus != 'deploying' &&
-        walletStatus != 'created' &&
-        accountAddress != '') {
-      store.dispatch(createAccountWalletCall(accountAddress));
-    } else {
-      String privateKey = store.state.userState.privateKey;
-      String jwtToken = store.state.userState.jwtToken;
-      bool isLoggedOut = store.state.userState.isLoggedOut;
-      if (privateKey.isNotEmpty && jwtToken.isNotEmpty && !isLoggedOut) {
-        store.dispatch(getWalletAddressessCall());
-        store.dispatch(identifyCall());
-        store.dispatch(loadContacts());
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, HomeScreenViewModel>(
       distinct: true,
       converter: HomeScreenViewModel.fromStore,
-      onInit: onInit,
       builder: (_, vm) {
         return Scaffold(
           key: AppKeys.homePageKey,

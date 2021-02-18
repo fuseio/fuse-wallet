@@ -204,19 +204,6 @@ class TransferTile extends StatelessWidget {
                                       style: TextStyle(
                                           color: Color(0xFF333333),
                                           fontSize: 15)),
-                              transfer.isGenerateWallet() &&
-                                      !viewModel.isWalletCreated
-                                  ? Positioned(
-                                      bottom: -20,
-                                      child: Padding(
-                                          child: Text('(up to 10 seconds)',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary)),
-                                          padding: EdgeInsets.only(top: 10)))
-                                  : SizedBox.shrink()
                             ],
                           ),
                         ),

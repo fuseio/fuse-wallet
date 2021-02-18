@@ -24,8 +24,6 @@ class _$UserStateTearOff {
       bool backup,
       bool depositBannerShowed,
       bool homeBackupDialogShowed,
-      int displayBalance = 0,
-      String walletStatus = '',
       String walletAddress = '',
       List<String> networks = const [],
       List<String> mnemonic = const [],
@@ -34,7 +32,6 @@ class _$UserStateTearOff {
       String accountAddress = '',
       String countryCode = '',
       String phoneNumber = '',
-      String normalizedPhoneNumber = '',
       bool receiveBackupDialogShowed = false,
       String isoCode = '',
       String jwtToken = '',
@@ -69,8 +66,6 @@ class _$UserStateTearOff {
       backup: backup,
       depositBannerShowed: depositBannerShowed,
       homeBackupDialogShowed: homeBackupDialogShowed,
-      displayBalance: displayBalance,
-      walletStatus: walletStatus,
       walletAddress: walletAddress,
       networks: networks,
       mnemonic: mnemonic,
@@ -79,7 +74,6 @@ class _$UserStateTearOff {
       accountAddress: accountAddress,
       countryCode: countryCode,
       phoneNumber: phoneNumber,
-      normalizedPhoneNumber: normalizedPhoneNumber,
       receiveBackupDialogShowed: receiveBackupDialogShowed,
       isoCode: isoCode,
       jwtToken: jwtToken,
@@ -120,8 +114,6 @@ mixin _$UserState {
   bool get backup;
   bool get depositBannerShowed;
   bool get homeBackupDialogShowed;
-  int get displayBalance;
-  String get walletStatus;
   String get walletAddress;
   List<String> get networks;
   List<String> get mnemonic;
@@ -130,7 +122,6 @@ mixin _$UserState {
   String get accountAddress;
   String get countryCode;
   String get phoneNumber;
-  String get normalizedPhoneNumber;
   bool get receiveBackupDialogShowed;
   String get isoCode;
   String get jwtToken;
@@ -175,8 +166,6 @@ abstract class $UserStateCopyWith<$Res> {
       bool backup,
       bool depositBannerShowed,
       bool homeBackupDialogShowed,
-      int displayBalance,
-      String walletStatus,
       String walletAddress,
       List<String> networks,
       List<String> mnemonic,
@@ -185,7 +174,6 @@ abstract class $UserStateCopyWith<$Res> {
       String accountAddress,
       String countryCode,
       String phoneNumber,
-      String normalizedPhoneNumber,
       bool receiveBackupDialogShowed,
       String isoCode,
       String jwtToken,
@@ -231,8 +219,6 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
     Object backup = freezed,
     Object depositBannerShowed = freezed,
     Object homeBackupDialogShowed = freezed,
-    Object displayBalance = freezed,
-    Object walletStatus = freezed,
     Object walletAddress = freezed,
     Object networks = freezed,
     Object mnemonic = freezed,
@@ -241,7 +227,6 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
     Object accountAddress = freezed,
     Object countryCode = freezed,
     Object phoneNumber = freezed,
-    Object normalizedPhoneNumber = freezed,
     Object receiveBackupDialogShowed = freezed,
     Object isoCode = freezed,
     Object jwtToken = freezed,
@@ -277,12 +262,6 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
       homeBackupDialogShowed: homeBackupDialogShowed == freezed
           ? _value.homeBackupDialogShowed
           : homeBackupDialogShowed as bool,
-      displayBalance: displayBalance == freezed
-          ? _value.displayBalance
-          : displayBalance as int,
-      walletStatus: walletStatus == freezed
-          ? _value.walletStatus
-          : walletStatus as String,
       walletAddress: walletAddress == freezed
           ? _value.walletAddress
           : walletAddress as String,
@@ -300,9 +279,6 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
           countryCode == freezed ? _value.countryCode : countryCode as String,
       phoneNumber:
           phoneNumber == freezed ? _value.phoneNumber : phoneNumber as String,
-      normalizedPhoneNumber: normalizedPhoneNumber == freezed
-          ? _value.normalizedPhoneNumber
-          : normalizedPhoneNumber as String,
       receiveBackupDialogShowed: receiveBackupDialogShowed == freezed
           ? _value.receiveBackupDialogShowed
           : receiveBackupDialogShowed as bool,
@@ -362,8 +338,6 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       bool backup,
       bool depositBannerShowed,
       bool homeBackupDialogShowed,
-      int displayBalance,
-      String walletStatus,
       String walletAddress,
       List<String> networks,
       List<String> mnemonic,
@@ -372,7 +346,6 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       String accountAddress,
       String countryCode,
       String phoneNumber,
-      String normalizedPhoneNumber,
       bool receiveBackupDialogShowed,
       String isoCode,
       String jwtToken,
@@ -419,8 +392,6 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
     Object backup = freezed,
     Object depositBannerShowed = freezed,
     Object homeBackupDialogShowed = freezed,
-    Object displayBalance = freezed,
-    Object walletStatus = freezed,
     Object walletAddress = freezed,
     Object networks = freezed,
     Object mnemonic = freezed,
@@ -429,7 +400,6 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
     Object accountAddress = freezed,
     Object countryCode = freezed,
     Object phoneNumber = freezed,
-    Object normalizedPhoneNumber = freezed,
     Object receiveBackupDialogShowed = freezed,
     Object isoCode = freezed,
     Object jwtToken = freezed,
@@ -465,12 +435,6 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
       homeBackupDialogShowed: homeBackupDialogShowed == freezed
           ? _value.homeBackupDialogShowed
           : homeBackupDialogShowed as bool,
-      displayBalance: displayBalance == freezed
-          ? _value.displayBalance
-          : displayBalance as int,
-      walletStatus: walletStatus == freezed
-          ? _value.walletStatus
-          : walletStatus as String,
       walletAddress: walletAddress == freezed
           ? _value.walletAddress
           : walletAddress as String,
@@ -488,9 +452,6 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
           countryCode == freezed ? _value.countryCode : countryCode as String,
       phoneNumber:
           phoneNumber == freezed ? _value.phoneNumber : phoneNumber as String,
-      normalizedPhoneNumber: normalizedPhoneNumber == freezed
-          ? _value.normalizedPhoneNumber
-          : normalizedPhoneNumber as String,
       receiveBackupDialogShowed: receiveBackupDialogShowed == freezed
           ? _value.receiveBackupDialogShowed
           : receiveBackupDialogShowed as bool,
@@ -548,8 +509,6 @@ class _$_UserState extends _UserState {
       this.backup,
       this.depositBannerShowed,
       this.homeBackupDialogShowed,
-      this.displayBalance = 0,
-      this.walletStatus = '',
       this.walletAddress = '',
       this.networks = const [],
       this.mnemonic = const [],
@@ -558,7 +517,6 @@ class _$_UserState extends _UserState {
       this.accountAddress = '',
       this.countryCode = '',
       this.phoneNumber = '',
-      this.normalizedPhoneNumber = '',
       this.receiveBackupDialogShowed = false,
       this.isoCode = '',
       this.jwtToken = '',
@@ -586,9 +544,7 @@ class _$_UserState extends _UserState {
           this.contacts = const [],
       @JsonKey(ignore: true)
           this.credentials})
-      : assert(displayBalance != null),
-        assert(walletStatus != null),
-        assert(walletAddress != null),
+      : assert(walletAddress != null),
         assert(networks != null),
         assert(mnemonic != null),
         assert(privateKey != null),
@@ -596,7 +552,6 @@ class _$_UserState extends _UserState {
         assert(accountAddress != null),
         assert(countryCode != null),
         assert(phoneNumber != null),
-        assert(normalizedPhoneNumber != null),
         assert(receiveBackupDialogShowed != null),
         assert(isoCode != null),
         assert(jwtToken != null),
@@ -629,12 +584,6 @@ class _$_UserState extends _UserState {
   final bool depositBannerShowed;
   @override
   final bool homeBackupDialogShowed;
-  @JsonKey(defaultValue: 0)
-  @override
-  final int displayBalance;
-  @JsonKey(defaultValue: '')
-  @override
-  final String walletStatus;
   @JsonKey(defaultValue: '')
   @override
   final String walletAddress;
@@ -659,9 +608,6 @@ class _$_UserState extends _UserState {
   @JsonKey(defaultValue: '')
   @override
   final String phoneNumber;
-  @JsonKey(defaultValue: '')
-  @override
-  final String normalizedPhoneNumber;
   @JsonKey(defaultValue: false)
   @override
   final bool receiveBackupDialogShowed;
@@ -722,7 +668,7 @@ class _$_UserState extends _UserState {
 
   @override
   String toString() {
-    return 'UserState(isContactsSynced: $isContactsSynced, installedAt: $installedAt, isLoggedOut: $isLoggedOut, backup: $backup, depositBannerShowed: $depositBannerShowed, homeBackupDialogShowed: $homeBackupDialogShowed, displayBalance: $displayBalance, walletStatus: $walletStatus, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, normalizedPhoneNumber: $normalizedPhoneNumber, receiveBackupDialogShowed: $receiveBackupDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, totalBalance: $totalBalance, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, currency: $currency, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, authType: $authType, contacts: $contacts, credentials: $credentials)';
+    return 'UserState(isContactsSynced: $isContactsSynced, installedAt: $installedAt, isLoggedOut: $isLoggedOut, backup: $backup, depositBannerShowed: $depositBannerShowed, homeBackupDialogShowed: $homeBackupDialogShowed, walletAddress: $walletAddress, networks: $networks, mnemonic: $mnemonic, privateKey: $privateKey, pincode: $pincode, accountAddress: $accountAddress, countryCode: $countryCode, phoneNumber: $phoneNumber, receiveBackupDialogShowed: $receiveBackupDialogShowed, isoCode: $isoCode, jwtToken: $jwtToken, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, verificationId: $verificationId, identifier: $identifier, totalBalance: $totalBalance, syncedContacts: $syncedContacts, reverseContacts: $reverseContacts, signupErrorMessage: $signupErrorMessage, verifyErrorMessage: $verifyErrorMessage, currency: $currency, isLoginRequest: $isLoginRequest, isVerifyRequest: $isVerifyRequest, authType: $authType, contacts: $contacts, credentials: $credentials)';
   }
 
   @override
@@ -746,12 +692,6 @@ class _$_UserState extends _UserState {
             (identical(other.homeBackupDialogShowed, homeBackupDialogShowed) ||
                 const DeepCollectionEquality().equals(
                     other.homeBackupDialogShowed, homeBackupDialogShowed)) &&
-            (identical(other.displayBalance, displayBalance) ||
-                const DeepCollectionEquality()
-                    .equals(other.displayBalance, displayBalance)) &&
-            (identical(other.walletStatus, walletStatus) ||
-                const DeepCollectionEquality()
-                    .equals(other.walletStatus, walletStatus)) &&
             (identical(other.walletAddress, walletAddress) ||
                 const DeepCollectionEquality()
                     .equals(other.walletAddress, walletAddress)) &&
@@ -776,9 +716,6 @@ class _$_UserState extends _UserState {
             (identical(other.phoneNumber, phoneNumber) ||
                 const DeepCollectionEquality()
                     .equals(other.phoneNumber, phoneNumber)) &&
-            (identical(other.normalizedPhoneNumber, normalizedPhoneNumber) ||
-                const DeepCollectionEquality().equals(
-                    other.normalizedPhoneNumber, normalizedPhoneNumber)) &&
             (identical(other.receiveBackupDialogShowed, receiveBackupDialogShowed) ||
                 const DeepCollectionEquality().equals(
                     other.receiveBackupDialogShowed,
@@ -792,9 +729,14 @@ class _$_UserState extends _UserState {
             (identical(other.displayName, displayName) ||
                 const DeepCollectionEquality()
                     .equals(other.displayName, displayName)) &&
-            (identical(other.avatarUrl, avatarUrl) || const DeepCollectionEquality().equals(other.avatarUrl, avatarUrl)) &&
-            (identical(other.email, email) || const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.verificationId, verificationId) || const DeepCollectionEquality().equals(other.verificationId, verificationId)) &&
+            (identical(other.avatarUrl, avatarUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.avatarUrl, avatarUrl)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.verificationId, verificationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.verificationId, verificationId)) &&
             (identical(other.identifier, identifier) || const DeepCollectionEquality().equals(other.identifier, identifier)) &&
             (identical(other.totalBalance, totalBalance) || const DeepCollectionEquality().equals(other.totalBalance, totalBalance)) &&
             (identical(other.syncedContacts, syncedContacts) || const DeepCollectionEquality().equals(other.syncedContacts, syncedContacts)) &&
@@ -818,8 +760,6 @@ class _$_UserState extends _UserState {
       const DeepCollectionEquality().hash(backup) ^
       const DeepCollectionEquality().hash(depositBannerShowed) ^
       const DeepCollectionEquality().hash(homeBackupDialogShowed) ^
-      const DeepCollectionEquality().hash(displayBalance) ^
-      const DeepCollectionEquality().hash(walletStatus) ^
       const DeepCollectionEquality().hash(walletAddress) ^
       const DeepCollectionEquality().hash(networks) ^
       const DeepCollectionEquality().hash(mnemonic) ^
@@ -828,7 +768,6 @@ class _$_UserState extends _UserState {
       const DeepCollectionEquality().hash(accountAddress) ^
       const DeepCollectionEquality().hash(countryCode) ^
       const DeepCollectionEquality().hash(phoneNumber) ^
-      const DeepCollectionEquality().hash(normalizedPhoneNumber) ^
       const DeepCollectionEquality().hash(receiveBackupDialogShowed) ^
       const DeepCollectionEquality().hash(isoCode) ^
       const DeepCollectionEquality().hash(jwtToken) ^
@@ -869,8 +808,6 @@ abstract class _UserState extends UserState {
       bool backup,
       bool depositBannerShowed,
       bool homeBackupDialogShowed,
-      int displayBalance,
-      String walletStatus,
       String walletAddress,
       List<String> networks,
       List<String> mnemonic,
@@ -879,7 +816,6 @@ abstract class _UserState extends UserState {
       String accountAddress,
       String countryCode,
       String phoneNumber,
-      String normalizedPhoneNumber,
       bool receiveBackupDialogShowed,
       String isoCode,
       String jwtToken,
@@ -924,10 +860,6 @@ abstract class _UserState extends UserState {
   @override
   bool get homeBackupDialogShowed;
   @override
-  int get displayBalance;
-  @override
-  String get walletStatus;
-  @override
   String get walletAddress;
   @override
   List<String> get networks;
@@ -943,8 +875,6 @@ abstract class _UserState extends UserState {
   String get countryCode;
   @override
   String get phoneNumber;
-  @override
-  String get normalizedPhoneNumber;
   @override
   bool get receiveBackupDialogShowed;
   @override

@@ -10,7 +10,6 @@ import 'package:fusecash/utils/addresses.dart' as util;
 
 class CashHeaderViewModel extends Equatable {
   final Function() firstName;
-  final String walletStatus;
   final String usdValue;
   final bool hasErc20Tokens;
   final Community community;
@@ -21,7 +20,6 @@ class CashHeaderViewModel extends Equatable {
   CashHeaderViewModel({
     this.usdValue,
     this.firstName,
-    this.walletStatus,
     this.hasErc20Tokens,
     this.community,
     this.token,
@@ -56,7 +54,6 @@ class CashHeaderViewModel extends Equatable {
       token: token,
       hasErc20Tokens: erc20Tokens.isNotEmpty,
       usdValue: reduce(usdValue),
-      walletStatus: store.state.userState.walletStatus,
       firstName: () {
         String fullName = store.state.userState.displayName ?? '';
         return fullName.split(' ')[0];
@@ -67,7 +64,6 @@ class CashHeaderViewModel extends Equatable {
   @override
   List<Object> get props => [
         community,
-        walletStatus,
         plugins,
         usdValue,
         hasErc20Tokens,

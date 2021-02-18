@@ -16,8 +16,6 @@ _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
     backup: json['backup'] as bool,
     depositBannerShowed: json['depositBannerShowed'] as bool,
     homeBackupDialogShowed: json['homeBackupDialogShowed'] as bool,
-    displayBalance: json['displayBalance'] as int ?? 0,
-    walletStatus: json['walletStatus'] as String ?? '',
     walletAddress: json['walletAddress'] as String ?? '',
     networks:
         (json['networks'] as List)?.map((e) => e as String)?.toList() ?? [],
@@ -28,7 +26,6 @@ _$_UserState _$_$_UserStateFromJson(Map<String, dynamic> json) {
     accountAddress: json['accountAddress'] as String ?? '',
     countryCode: json['countryCode'] as String ?? '',
     phoneNumber: json['phoneNumber'] as String ?? '',
-    normalizedPhoneNumber: json['normalizedPhoneNumber'] as String ?? '',
     receiveBackupDialogShowed:
         json['receiveBackupDialogShowed'] as bool ?? false,
     isoCode: json['isoCode'] as String ?? '',
@@ -59,8 +56,6 @@ Map<String, dynamic> _$_$_UserStateToJson(_$_UserState instance) =>
       'backup': instance.backup,
       'depositBannerShowed': instance.depositBannerShowed,
       'homeBackupDialogShowed': instance.homeBackupDialogShowed,
-      'displayBalance': instance.displayBalance,
-      'walletStatus': instance.walletStatus,
       'walletAddress': instance.walletAddress,
       'networks': instance.networks,
       'mnemonic': instance.mnemonic,
@@ -69,7 +64,6 @@ Map<String, dynamic> _$_$_UserStateToJson(_$_UserState instance) =>
       'accountAddress': instance.accountAddress,
       'countryCode': instance.countryCode,
       'phoneNumber': instance.phoneNumber,
-      'normalizedPhoneNumber': instance.normalizedPhoneNumber,
       'receiveBackupDialogShowed': instance.receiveBackupDialogShowed,
       'isoCode': instance.isoCode,
       'jwtToken': instance.jwtToken,

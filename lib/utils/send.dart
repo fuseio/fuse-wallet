@@ -16,7 +16,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:phone_number/phone_number.dart';
 
 Future<Map> fetchWalletByPhone(
-    String phone, String countryCode, String isoCode) async {
+  String phone,
+  String countryCode,
+  String isoCode,
+) async {
   try {
     PhoneNumber phoneNumber = await phoneNumberUtil.parse(phone);
     Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
@@ -52,11 +55,15 @@ void _openLoadingDialog(BuildContext context) {
   );
 }
 
-void sendToContact(BuildContext context, String displayName, String phone,
-    {ImageProvider avatar,
-    String address,
-    String countryCode,
-    String isoCode}) async {
+void sendToContact(
+  BuildContext context,
+  String displayName,
+  String phone, {
+  ImageProvider avatar,
+  String address,
+  String countryCode,
+  String isoCode,
+}) async {
   if (address != null && address.isNotEmpty) {
     ExtendedNavigator.root.pushSendAmountScreen(
         pageArgs: SendAmountArguments(
@@ -83,8 +90,11 @@ void sendToContact(BuildContext context, String displayName, String phone,
 
 void sendToPastedAddress(accountAddress) {
   ExtendedNavigator.root.pushSendAmountScreen(
-      pageArgs: SendAmountArguments(
-          accountAddress: accountAddress, name: formatAddress(accountAddress)));
+    pageArgs: SendAmountArguments(
+      accountAddress: accountAddress,
+      name: formatAddress(accountAddress),
+    ),
+  );
 }
 
 void bracodeScannerHandler(context) async {
