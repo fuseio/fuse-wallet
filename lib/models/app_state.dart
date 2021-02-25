@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/models/swap_state.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/models/cash_wallet_state.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
@@ -17,6 +18,7 @@ abstract class AppState implements _$AppState {
     @UserStateConverter() UserState userState,
     @CashWalletStateConverter() CashWalletState cashWalletState,
     @ProWalletStateConverter() ProWalletState proWalletState,
+    @SwapStateConverter() SwapState swapState,
   }) = _AppState;
 
   factory AppState.initial() {

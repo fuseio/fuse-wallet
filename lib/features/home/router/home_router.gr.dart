@@ -19,12 +19,10 @@ import '../screens/done_backup_screen.dart';
 import '../screens/home.dart';
 import '../screens/profile.dart';
 import '../screens/protect_your_wallet.dart';
-import '../screens/review_trade.dart';
 import '../screens/settings.dart';
 import '../screens/show_mnemonic.dart';
 import '../screens/switch_commmunity.dart';
 import '../screens/token_screen.dart';
-import '../screens/trade.dart';
 import '../screens/transaction_details.dart';
 import '../screens/verify_mnemonic.dart';
 
@@ -33,8 +31,6 @@ class HomeRoutes {
   static const String transactionDetailsScreen = '/transaction-details-screen';
   static const String actionDetailsScreen = '/action-details-screen';
   static const String tokenScreen = '/token-screen';
-  static const String tradeScreen = '/trade-screen';
-  static const String reviewTradeScreen = '/review-trade-screen';
   static const String aboutScreen = '/about-screen';
   static const String showMnemonic = '/show-mnemonic';
   static const String verifyMnemonic = '/verify-mnemonic';
@@ -48,8 +44,6 @@ class HomeRoutes {
     transactionDetailsScreen,
     actionDetailsScreen,
     tokenScreen,
-    tradeScreen,
-    reviewTradeScreen,
     aboutScreen,
     showMnemonic,
     verifyMnemonic,
@@ -70,8 +64,6 @@ class HomeRouter extends RouterBase {
         page: TransactionDetailsScreen),
     RouteDef(HomeRoutes.actionDetailsScreen, page: ActionDetailsScreen),
     RouteDef(HomeRoutes.tokenScreen, page: TokenScreen),
-    RouteDef(HomeRoutes.tradeScreen, page: TradeScreen),
-    RouteDef(HomeRoutes.reviewTradeScreen, page: ReviewTradeScreen),
     RouteDef(HomeRoutes.aboutScreen, page: AboutScreen),
     RouteDef(HomeRoutes.showMnemonic, page: ShowMnemonic),
     RouteDef(HomeRoutes.verifyMnemonic, page: VerifyMnemonic),
@@ -133,32 +125,6 @@ class HomeRouter extends RouterBase {
         builder: (context) => TokenScreen(
           key: args.key,
           tokenAddress: args.tokenAddress,
-        ),
-        settings: data,
-      );
-    },
-    TradeScreen: (data) {
-      final args = data.getArgs<TradeScreenArguments>(
-        orElse: () => TradeScreenArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => TradeScreen(
-          key: args.key,
-          primaryToken: args.primaryToken,
-        ),
-        settings: data,
-      );
-    },
-    ReviewTradeScreen: (data) {
-      final args = data.getArgs<ReviewTradeScreenArguments>(
-        orElse: () => ReviewTradeScreenArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => ReviewTradeScreen(
-          key: args.key,
-          exchangeSummry: args.exchangeSummry,
-          fromToken: args.fromToken,
-          toToken: args.toToken,
         ),
         settings: data,
       );
@@ -277,30 +243,6 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
         arguments: TokenScreenArguments(key: key, tokenAddress: tokenAddress),
       );
 
-  Future<dynamic> pushTradeScreen({
-    Key key,
-    Token primaryToken,
-  }) =>
-      push<dynamic>(
-        HomeRoutes.tradeScreen,
-        arguments: TradeScreenArguments(key: key, primaryToken: primaryToken),
-      );
-
-  Future<dynamic> pushReviewTradeScreen({
-    Key key,
-    Map<dynamic, dynamic> exchangeSummry,
-    Token fromToken,
-    Token toToken,
-  }) =>
-      push<dynamic>(
-        HomeRoutes.reviewTradeScreen,
-        arguments: ReviewTradeScreenArguments(
-            key: key,
-            exchangeSummry: exchangeSummry,
-            fromToken: fromToken,
-            toToken: toToken),
-      );
-
   Future<dynamic> pushAboutScreen() => push<dynamic>(HomeRoutes.aboutScreen);
 
   Future<dynamic> pushShowMnemonic() => push<dynamic>(HomeRoutes.showMnemonic);
@@ -377,23 +319,6 @@ class TokenScreenArguments {
   final Key key;
   final String tokenAddress;
   TokenScreenArguments({this.key, this.tokenAddress});
-}
-
-/// TradeScreen arguments holder class
-class TradeScreenArguments {
-  final Key key;
-  final Token primaryToken;
-  TradeScreenArguments({this.key, this.primaryToken});
-}
-
-/// ReviewTradeScreen arguments holder class
-class ReviewTradeScreenArguments {
-  final Key key;
-  final Map<dynamic, dynamic> exchangeSummry;
-  final Token fromToken;
-  final Token toToken;
-  ReviewTradeScreenArguments(
-      {this.key, this.exchangeSummry, this.fromToken, this.toToken});
 }
 
 /// ProfileScreen arguments holder class

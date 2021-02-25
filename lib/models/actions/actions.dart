@@ -5,21 +5,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'actions.freezed.dart';
 part 'actions.g.dart';
 
-List<WalletAction> listFromJson(Map<String, dynamic> json) => json == null
-    ? <WalletAction>[]
-    : List<WalletAction>.from(
-        json['list'].map((job) => WalletActionFactory.fromJson(job)));
-
-Map<String, dynamic> listToJson(List<dynamic> list) =>
-    new Map.from({"list": list.map((action) => action.toJson()).toList()});
-
 @immutable
 @freezed
 abstract class WalletActions implements _$WalletActions {
   @JsonSerializable()
   factory WalletActions({
-    @JsonKey(name: 'list', fromJson: listFromJson, toJson: listToJson)
-        List<WalletAction> list,
+    List<WalletAction> list,
     @Default(0) num updatedAt,
   }) = _WalletActions;
 
@@ -35,7 +26,12 @@ abstract class WalletActions implements _$WalletActions {
 }
 
 class WalletActionFactory {
-  static WalletAction fromJson(Map<String, dynamic> json) {
+  static WalletAction create(Map<String, dynamic> json) {
+    json =
+        json.containsKey('data') ? Map.from({...json, ...json['data']}) : json;
+    json['timestamp'] =
+        DateTime.parse(json['updatedAt']).millisecondsSinceEpoch;
+    json['status'] = json['status']?.toUpperCase();
     if (json['name'] == 'createWallet') {
       return CreateWallet.fromJson(json);
     } else if (json['name'] == 'tokenBonus') {
@@ -54,4 +50,9 @@ class WalletActionFactory {
       return Receive.fromJson(json);
     }
   }
+
+  static List<WalletAction> actionsFromJson(Iterable<dynamic> docs) =>
+      List<WalletAction>.from(docs.map(
+        (json) => WalletActionFactory.create(json),
+      ));
 }

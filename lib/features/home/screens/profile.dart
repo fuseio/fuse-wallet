@@ -129,6 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 0),
                           child: TextFormField(
+                            autofocus: false,
                             style: TextStyle(fontSize: 20, color: Colors.black),
                             initialValue: viewModel.displayName,
                             keyboardType: TextInputType.text,

@@ -84,7 +84,7 @@ class UserStateConverter
 
   @override
   UserState fromJson(Map<String, dynamic> json) =>
-      json != null ? UserState.fromJson(json) : UserState();
+      json != null ? UserState.fromJson(json) : UserState.inital();
 
   @override
   Map<String, dynamic> toJson(UserState instance) => instance?.toJson();

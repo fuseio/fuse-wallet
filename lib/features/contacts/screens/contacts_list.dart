@@ -8,7 +8,7 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/contacts.dart';
-import 'package:fusecash/features/contacts/screens/send_to_account.dart';
+import 'package:fusecash/features/contacts/widgets/send_to_account.dart';
 import 'package:fusecash/features/contacts/widgets/contact_tile.dart';
 import 'package:fusecash/features/contacts/widgets/list_header.dart';
 import 'package:fusecash/features/contacts/widgets/search_panel.dart';

@@ -27,6 +27,7 @@ import '../../services/apis/market.dart';
 import 'onboard.dart';
 import 'phone.dart';
 import '../network/services.dart';
+import '../../services/apis/swap.dart';
 import '../network/web3.dart';
 
 /// adds generated dependencies
@@ -67,14 +68,15 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<PhoneNumberUtil>(() => phone.phoneNumberUtil);
   gh.factory<String>(() => web3Di.defaultCommunityAddress,
       instanceName: 'defaultCommunityAddress');
+  gh.lazySingleton<SwapService>(() => SwapService(get<Dio>()));
   gh.factoryParam<Web3, Map<dynamic, dynamic>, dynamic>(
-      (walletModules, _) => web3Di.homeWeb3(
+      (walletModules, _) => web3Di.fuseWeb3(
           get<String>(instanceName: 'defaultCommunityAddress'), walletModules),
-      instanceName: 'homeWeb3');
+      instanceName: 'fuseWeb3');
   gh.factoryParam<Web3, Map<dynamic, dynamic>, dynamic>(
-      (walletModules, _) => web3Di.foreignWeb3(
+      (walletModules, _) => web3Di.ethereumWeb3(
           get<String>(instanceName: 'defaultCommunityAddress'), walletModules),
-      instanceName: 'foreignWeb3');
+      instanceName: 'ethereumWeb3');
   gh.lazySingleton<LogIt>(() => LogIt(get<Logger>()));
   return get;
 }

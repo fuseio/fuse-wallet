@@ -6,7 +6,7 @@ import 'package:fusecash/features/onboard/screens/restore_wallet_screen.dart';
 import 'package:fusecash/features/onboard/screens/username_screen.dart';
 import 'package:fusecash/features/onboard/screens/signup_screen.dart';
 import 'package:fusecash/features/onboard/screens/verify_screen.dart';
-import 'package:fusecash/features/onboard/screens/splash_screen.dart';
+import 'package:fusecash/features/screens/splash_screen.dart';
 import 'package:fusecash/features/screens/colored_pincode_screen.dart';
 import 'package:fusecash/features/screens/lock_screen.dart';
 import 'package:fusecash/features/screens/send_amount.dart';

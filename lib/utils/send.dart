@@ -33,8 +33,10 @@ Future<Map> fetchWalletByPhone(
     String formatted = formatPhoneNumber(phone, countryCode);
     bool isValid = await phoneNumberUtil.validate(formatted, isoCode);
     if (isValid) {
-      PhoneNumber phoneNumber =
-          await phoneNumberUtil.parse(formatted, regionCode: isoCode);
+      PhoneNumber phoneNumber = await phoneNumberUtil.parse(
+        formatted,
+        regionCode: isoCode,
+      );
       Map wallet = await api.getWalletByPhoneNumber(phoneNumber.e164);
       String walletAddress = (wallet != null) ? wallet["walletAddress"] : null;
       return {
@@ -42,7 +44,7 @@ Future<Map> fetchWalletByPhone(
         'walletAddress': walletAddress,
       };
     } else {
-      throw '[ERROR] Fetch Wallet By Phone - $e';
+      throw 'Phone number isnt valid - $e';
     }
   }
 }

@@ -52,7 +52,7 @@ class ProWalletStateConverter
 
   @override
   ProWalletState fromJson(Map<String, dynamic> json) =>
-      json != null ? ProWalletState.fromJson(json) : ProWalletState();
+      json != null ? ProWalletState.fromJson(json) : ProWalletState.initial();
 
   @override
   Map<String, dynamic> toJson(ProWalletState instance) => instance?.toJson();

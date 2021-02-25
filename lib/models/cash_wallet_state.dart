@@ -47,44 +47,20 @@ abstract class CashWalletState implements _$CashWalletState {
   @JsonSerializable()
   factory CashWalletState({
     String communityAddress,
-    @JsonKey(fromJson: tokensFromJson)
-    @Default({})
-        Map<String, Token> tokens,
-    @JsonKey(
-      // name: 'communities',
-      fromJson: communitiesFromJson,
-      // toJson: communitiesToJson,
-    )
+    @JsonKey(fromJson: tokensFromJson) @Default({}) Map<String, Token> tokens,
+    @JsonKey(fromJson: communitiesFromJson)
     @Default({})
         Map<String, Community> communities,
-    @JsonKey(ignore: true)
-        String branchAddress,
-    @JsonKey(fromJson: walletActionsFromJson)
-        WalletActions walletActions,
-    @JsonKey(ignore: true)
-    @Default(false)
-        bool isCommunityLoading,
-    @JsonKey(ignore: true)
-    @Default(false)
-        bool isCommunityFetched,
-    @JsonKey(ignore: true)
-    @Default(false)
-        bool isBalanceFetchingStarted,
-    @JsonKey(ignore: true)
-    @Default(false)
-        bool isTransfersFetchingStarted,
-    @JsonKey(ignore: true)
-    @Default(false)
-        bool isListeningToBranch,
-    @JsonKey(ignore: true)
-    @Default(false)
-        bool isBranchDataReceived,
-    @JsonKey(ignore: true)
-    @Default(false)
-        bool isCommunityBusinessesFetched,
-    @JsonKey(ignore: true)
-    @Default(false)
-        bool isJobProcessingStarted,
+    @JsonKey(fromJson: walletActionsFromJson) WalletActions walletActions,
+    @JsonKey(ignore: true) String branchAddress,
+    @JsonKey(ignore: true) @Default(false) bool isCommunityLoading,
+    @JsonKey(ignore: true) @Default(false) bool isCommunityFetched,
+    @JsonKey(ignore: true) @Default(false) bool isTransfersFetchingStarted,
+    @JsonKey(ignore: true) @Default(false) bool isListeningToBranch,
+    @JsonKey(ignore: true) @Default(false) bool isBranchDataReceived,
+    @JsonKey(ignore: true) @Default(false) bool isCommunityBusinessesFetched,
+    @JsonKey(ignore: true) @Default(false) bool isJobProcessingStarted,
+    @JsonKey(ignore: true) bool isFetchingBalances,
   }) = _CashWalletState;
 
   factory CashWalletState.initial() {
@@ -108,7 +84,7 @@ class CashWalletStateConverter
 
   @override
   CashWalletState fromJson(Map<String, dynamic> json) =>
-      json != null ? CashWalletState.fromJson(json) : CashWalletState();
+      json != null ? CashWalletState.fromJson(json) : CashWalletState.initial();
 
   @override
   Map<String, dynamic> toJson(CashWalletState instance) => instance?.toJson();

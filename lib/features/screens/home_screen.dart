@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/keys.dart';
-import 'package:fusecash/features/screens/coming_soon.dart';
 import 'package:fusecash/features/contacts/widgets/enable_contacts.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
-import 'package:fusecash/features/home/screens/receive.dart';
+import 'package:fusecash/features/screens/receive_screen.dart';
 import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/features/home/widgets/drawer.dart';
+import 'package:fusecash/features/swap/router/swap_router.gr.dart';
 import 'package:fusecash/redux/viewsmodels/main_page.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/features/home/dialogs/back_up_dialog.dart';
@@ -80,11 +80,20 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   SentryNavigatorObserver(),
                 ],
               ),
-              SwapScreen(),
+              // SwapScreen(),
+              ExtendedNavigator(
+                router: SwapRouter(),
+                name: 'swapRouter',
+                observers: [
+                  SegmentObserver(),
+                  SentryNavigatorObserver(),
+                ],
+              ),
               ReceiveScreen()
             ],
           ),
           bottomNavigationBar: BottomBar(
+            tabIndex: currentIndex,
             onTap: (index) {
               _onTap(index);
               if (vm.isContactsSynced == null &&
@@ -98,6 +107,9 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   ),
                 );
               }
+              // if (index == 2) {
+              //   vm.getSwapList();
+              // }
               if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
                 Future.delayed(Duration.zero, () {
                   vm.setShowDialog();
@@ -110,7 +122,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                 });
               }
             },
-            tabIndex: currentIndex,
           ),
         );
       },

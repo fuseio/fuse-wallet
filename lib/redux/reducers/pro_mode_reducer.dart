@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
@@ -27,7 +26,6 @@ final proWalletReducers = combineReducers<ProWalletState>([
       _startFetchTransferEvents),
   TypedReducer<ProWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
-  TypedReducer<ProWalletState, AddProJob>(_addProJob),
   TypedReducer<ProWalletState, SetIsFetchTokensBalances>(
       _startFetchTokensBalances),
   TypedReducer<ProWalletState, UpdateEtherBalabnce>(_updateEtherBalabnce),
@@ -35,7 +33,6 @@ final proWalletReducers = combineReducers<ProWalletState>([
       _startFetchTokensLastestPrices),
   TypedReducer<ProWalletState, AddProTransaction>(_addProTransaction),
   TypedReducer<ProWalletState, ReplaceProTransaction>(_replaceProTransaction),
-  TypedReducer<ProWalletState, ProJobDone>(_proJobDone),
   TypedReducer<ProWalletState, AddNewToken>(_addNewToken),
   TypedReducer<ProWalletState, SetIsFetchNewTokens>(_startFetchNewTokens),
   TypedReducer<ProWalletState, ClearTokenList>(_clearTokenList),
@@ -47,15 +44,6 @@ ProWalletState _resetTokensTxs(ProWalletState state, ResetTokenTxs action) {
     newOne[tokenAddress] =
         newOne[tokenAddress].copyWith(transactions: Transactions());
   }
-  return state.copyWith(erc20Tokens: newOne);
-}
-
-ProWalletState _proJobDone(ProWalletState state, ProJobDone action) {
-  Token current = state.erc20Tokens[action.tokenAddress];
-  Token newToken = current.copyWith(
-      jobs: List<Job>.from(current.jobs ?? [])..remove(action.job));
-  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
-  newOne[action.tokenAddress] = newToken;
   return state.copyWith(erc20Tokens: newOne);
 }
 
@@ -108,15 +96,6 @@ ProWalletState _addProTransaction(
 ProWalletState _updateEtherBalabnce(
     ProWalletState state, UpdateEtherBalabnce action) {
   return state.copyWith(etherBalance: action.balance);
-}
-
-ProWalletState _addProJob(ProWalletState state, AddProJob action) {
-  Token currentToken = state.erc20Tokens[action.tokenAddress];
-  Token newToken = currentToken.copyWith(
-      jobs: List<Job>.from(currentToken?.jobs ?? [])..add(action.job));
-  Map<String, Token> newOne = Map<String, Token>.from(state.erc20Tokens);
-  newOne[action.tokenAddress] = newToken;
-  return state.copyWith(erc20Tokens: newOne);
 }
 
 ProWalletState _createNewWalletSuccess(

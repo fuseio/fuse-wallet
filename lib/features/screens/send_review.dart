@@ -155,82 +155,83 @@ class _SendReviewScreenState extends State<SendReviewScreen>
         final bool hasFund =
             (args.amount + feeAmount).compareTo(currentTokenBalance) <= 0;
         return MainScaffold(
-            withPadding: true,
-            title: I18n.of(context).review_transfer,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 50),
-                    child: Text(I18n.of(context).amount,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal)),
+          withPadding: true,
+          title: I18n.of(context).review_transfer,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Text(I18n.of(context).amount,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal)),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 40.0, bottom: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: <Widget>[
+                      AutoSizeText.rich(TextSpan(children: [
+                        TextSpan(
+                          text: '${args.amount} ',
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 50,
+                              fontWeight: FontWeight.w900),
+                        ),
+                        TextSpan(
+                          text: symbol,
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w900),
+                        ),
+                      ])),
+                    ],
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 40.0, bottom: 30),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: <Widget>[
-                        AutoSizeText.rich(TextSpan(children: [
-                          TextSpan(
-                            text: '${args.amount} ',
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 50,
-                                fontWeight: FontWeight.w900),
-                          ),
-                          TextSpan(
-                            text: symbol,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 30,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ])),
-                      ],
-                    ),
-                  ),
-                  // Text('What for?',
-                  //     textAlign: TextAlign.center,
-                  //     style: TextStyle(
-                  //         color: Theme.of(context).primaryColor,
-                  //         fontSize: 16,
-                  //         fontWeight: FontWeight.normal)),
-                  // Container(
-                  //   width: 200,
-                  //   padding: EdgeInsets.only(bottom: 30),
-                  //   child: TextFormField(
-                  //     controller: transferNoteController,
-                  //     keyboardType: TextInputType.text,
-                  //     // maxLength: 10,
-                  //     autofocus: false,
-                  //     decoration: const InputDecoration(
-                  //         border: null, fillColor: Colors.transparent),
-                  //     validator: (String value) {
-                  //       if (value.split(" ").length > 10) {
-                  //         return '10 characters max';
-                  //       }
-                  //       return null;
-                  //     },
-                  //   ),
-                  // ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Text(I18n.of(context).to + ':',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal)),
-                  )
-                ],
-              ),
-              Column(children: <Widget>[
+                ),
+                // Text('What for?',
+                //     textAlign: TextAlign.center,
+                //     style: TextStyle(
+                //         color: Theme.of(context).primaryColor,
+                //         fontSize: 16,
+                //         fontWeight: FontWeight.normal)),
+                // Container(
+                //   width: 200,
+                //   padding: EdgeInsets.only(bottom: 30),
+                //   child: TextFormField(
+                //     controller: transferNoteController,
+                //     keyboardType: TextInputType.text,
+                //     // maxLength: 10,
+                //     autofocus: false,
+                //     decoration: const InputDecoration(
+                //         border: null, fillColor: Colors.transparent),
+                //     validator: (String value) {
+                //       if (value.split(" ").length > 10) {
+                //         return '10 characters max';
+                //       }
+                //       return null;
+                //     },
+                //   ),
+                // ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(I18n.of(context).to + ':',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal)),
+                )
+              ],
+            ),
+            Column(
+              children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(
                       top: 50.0, bottom: 50, left: 40, right: 40),
@@ -339,7 +340,7 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                       size: 16,
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 7),
+                                      padding: EdgeInsets.only(left: 7),
                                       child: Text(
                                           I18n.of(context).not_enough_balance,
                                           textAlign: TextAlign.center,
@@ -368,30 +369,32 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     fontSize: 14)),
                           )
                         : SizedBox.shrink()
-              ])
-            ],
-            footer: Center(
-                child: PrimaryButton(
-                    label: I18n.of(context).send_button,
-                    labelFontWeight: FontWeight.normal,
-                    onPressed: () {
-                      if (withFee && !hasFund) return;
-                      send(viewModel, args, transferNoteController.text, () {
-                        ExtendedNavigator.root.replace(Routes.sendSuccessScreen,
-                            arguments:
-                                SendSuccessScreenArguments(pageArgs: args));
-                      }, () {
-                        setState(() {
-                          isPreloading = false;
-                        });
-                      });
-                      setState(() {
-                        isPreloading = true;
-                      });
-                    },
-                    disabled: isPreloading || !hasFund,
-                    preload: isPreloading,
-                    width: 180)));
+              ],
+            )
+          ],
+          footer: Center(
+            child: PrimaryButton(
+                label: I18n.of(context).send_button,
+                labelFontWeight: FontWeight.normal,
+                onPressed: () {
+                  if (withFee && !hasFund) return;
+                  send(viewModel, args, transferNoteController.text, () {
+                    ExtendedNavigator.root.replace(Routes.sendSuccessScreen,
+                        arguments: SendSuccessScreenArguments(pageArgs: args));
+                  }, () {
+                    setState(() {
+                      isPreloading = false;
+                    });
+                  });
+                  setState(() {
+                    isPreloading = true;
+                  });
+                },
+                disabled: isPreloading || !hasFund,
+                preload: isPreloading,
+                width: 180),
+          ),
+        );
       },
     );
   }

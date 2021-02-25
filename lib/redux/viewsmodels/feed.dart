@@ -22,6 +22,7 @@ class FeedViewModel extends Equatable {
           [],
       startFetching: () {
         store.dispatch(startFetchingCall());
+        store.dispatch(startFetchTokensBalances());
       },
       refreshFeed: () {
         store.dispatch(fetchListOfTokensByAddress());

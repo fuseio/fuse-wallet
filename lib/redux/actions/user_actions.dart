@@ -467,25 +467,24 @@ ThunkAction setupWalletCall(walletData) {
       List<String> networks = List<String>.from(walletData['networks']);
       String walletAddress = walletData['walletAddress'];
       bool backup = walletData['backup'] ?? false;
-      homeWeb3 = getIt<Web3>(instanceName: 'homeWeb3', param1: walletData);
+      fuseWeb3 = getIt<Web3>(instanceName: 'fuseWeb3', param1: walletData);
       final String privateKey = store.state.userState.privateKey;
-      homeWeb3.setCredentials(privateKey);
+      fuseWeb3.setCredentials(privateKey);
       store.dispatch(GetWalletAddressesSuccess(
         backup: backup,
         walletAddress: walletAddress,
         networks: networks,
       ));
       if (networks.contains(foreignNetwork)) {
-        foreignWeb3 =
-            getIt<Web3>(instanceName: 'foreignWeb3', param1: walletData);
-        foreignWeb3.setCredentials(privateKey);
+        ethereumWeb3 =
+            getIt<Web3>(instanceName: 'ethereumWeb3', param1: walletData);
+        ethereumWeb3.setCredentials(privateKey);
         Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
           store.dispatch(startListenToTransferEvents());
           store.dispatch(startFetchBalancesOnForeign());
           store.dispatch(fetchTokensBalances());
           store.dispatch(startFetchTransferEventsCall());
           store.dispatch(startFetchTokensLastestPrices());
-          store.dispatch(startProcessingTokensJobsCall());
         });
       }
     } catch (e, s) {

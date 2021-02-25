@@ -1,7 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:fusecash/features/home/dialogs/community_description.dart';
 import 'package:fusecash/features/home/widgets/bridge_dialog.dart';
 import 'package:fusecash/redux/viewsmodels/token_header.dart';
@@ -130,54 +128,53 @@ class TokenHeader extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  !isFuseToken
+                                  // !isFuseToken
+                                  //     ? Container(
+                                  //         width: 45,
+                                  //         height: 45,
+                                  //         child: FloatingActionButton(
+                                  //             heroTag: 'goto_trade',
+                                  //             elevation: 0,
+                                  //             backgroundColor:
+                                  //                 Color(0xFF002669),
+                                  //             child: SvgPicture.asset(
+                                  //               'assets/images/goto_trade.svg',
+                                  //               fit: BoxFit.cover,
+                                  //             ),
+                                  //             onPressed: () {
+                                  //               ExtendedNavigator.named(
+                                  //                       'homeRouter')
+                                  //                   .pushTradeScreen(
+                                  //                       primaryToken: token);
+                                  //             }),
+                                  //       )
+                                  //     :
+                                  isFuseToken && community != null
                                       ? Container(
                                           width: 45,
                                           height: 45,
                                           child: FloatingActionButton(
-                                              heroTag: 'goto_trade',
+                                              heroTag: 'CommunityDescription',
                                               elevation: 0,
-                                              backgroundColor:
-                                                  Color(0xFF002669),
-                                              child: SvgPicture.asset(
-                                                'assets/images/goto_trade.svg',
-                                                fit: BoxFit.cover,
+                                              backgroundColor: Theme.of(context)
+                                                  .primaryColor,
+                                              child: Icon(
+                                                Icons.info,
+                                                color: Theme.of(context)
+                                                    .splashColor,
                                               ),
                                               onPressed: () {
-                                                ExtendedNavigator.named(
-                                                        'homeRouter')
-                                                    .pushTradeScreen(
-                                                        primaryToken: token);
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        CommunityDescription(
+                                                            token: token,
+                                                            community:
+                                                                community));
                                               }),
                                         )
-                                      : isFuseToken && community != null
-                                          ? Container(
-                                              width: 45,
-                                              height: 45,
-                                              child: FloatingActionButton(
-                                                  heroTag:
-                                                      'CommunityDescription',
-                                                  elevation: 0,
-                                                  backgroundColor:
-                                                      Theme.of(context)
-                                                          .primaryColor,
-                                                  child: Icon(
-                                                    Icons.info,
-                                                    color: Theme.of(context)
-                                                        .splashColor,
-                                                  ),
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            CommunityDescription(
-                                                                token: token,
-                                                                community:
-                                                                    community));
-                                                  }),
-                                            )
-                                          : SizedBox.shrink(),
+                                      : SizedBox.shrink(),
                                   community != null &&
                                           community.bridgeDirection != null &&
                                           community.bridgeDirection ==

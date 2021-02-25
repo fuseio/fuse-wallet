@@ -11,8 +11,6 @@ import 'package:fusecash/features/home/screens/protect_your_wallet.dart';
 import 'package:fusecash/features/home/screens/settings.dart';
 import 'package:fusecash/features/home/screens/switch_commmunity.dart';
 import 'package:fusecash/features/home/screens/profile.dart';
-import 'package:fusecash/features/home/screens/review_trade.dart';
-import 'package:fusecash/features/home/screens/trade.dart';
 
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
@@ -25,8 +23,6 @@ import 'package:fusecash/features/home/screens/trade.dart';
     MaterialRoute(page: TransactionDetailsScreen),
     MaterialRoute(page: ActionDetailsScreen),
     MaterialRoute(page: TokenScreen),
-    MaterialRoute(page: TradeScreen),
-    MaterialRoute(page: ReviewTradeScreen),
     MaterialRoute(page: AboutScreen),
     MaterialRoute(page: ShowMnemonic),
     MaterialRoute(page: VerifyMnemonic),

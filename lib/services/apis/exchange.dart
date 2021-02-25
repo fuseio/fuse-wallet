@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:fusecash/constants/urls.dart';
 import 'package:injectable/injectable.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+// import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 @lazySingleton
 class Exchange {
@@ -13,16 +13,16 @@ class Exchange {
     dio.options.baseUrl = UrlConstants.TOTLE_EXCHANGE_API;
     dio.options.headers = Map.from({"Content-Type": 'application/json'});
 
-    if (kDebugMode) {
-      dio.interceptors.add(PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: true,
-        responseBody: true,
-        error: true,
-        compact: true,
-      ));
-    }
+    // if (kDebugMode) {
+    //   dio.interceptors.add(PrettyDioLogger(
+    //     requestHeader: true,
+    //     requestBody: true,
+    //     responseHeader: true,
+    //     responseBody: true,
+    //     error: true,
+    //     compact: true,
+    //   ));
+    // }
   }
 
   Future<Map<String, dynamic>> swap(String walletAddress, {Map data}) async {

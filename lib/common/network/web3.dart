@@ -14,9 +14,9 @@ abstract class Web3Di {
   String get defaultCommunityAddress =>
       DotEnv().env['DEFAULT_COMMUNITY_CONTRACT_ADDRESS'];
 
-  @Named('homeWeb3')
+  @Named('fuseWeb3')
   @injectable
-  Web3 homeWeb3(
+  Web3 fuseWeb3(
     @Named('defaultCommunityAddress') String defaultCommunityAddress,
     @factoryParam Map walletModules,
   ) =>
@@ -30,9 +30,9 @@ abstract class Web3Di {
         daiPointsManagerAddress: walletModules['dAIPointsManager'],
       );
 
-  @Named('foreignWeb3')
+  @Named('ethereumWeb3')
   @injectable
-  Web3 foreignWeb3(
+  Web3 ethereumWeb3(
     @Named('defaultCommunityAddress') String defaultCommunityAddress,
     @factoryParam Map walletModules,
   ) =>

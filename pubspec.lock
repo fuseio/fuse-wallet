@@ -1240,11 +1240,9 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "."
-      ref: next
-      resolved-ref: fdf9c80093d00c43ca0b27e0c03f72e09327c12d
-      url: "https://github.com/fuseio/wallet_core.git"
-    source: git
+      path: "../wallet_core"
+      relative: true
+    source: path
     version: "0.2.5+1"
   watcher:
     dependency: transitive

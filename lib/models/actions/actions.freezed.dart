@@ -17,10 +17,7 @@ class _$WalletActionsTearOff {
   const _$WalletActionsTearOff();
 
 // ignore: unused_element
-  _WalletActions call(
-      {@JsonKey(name: 'list', fromJson: listFromJson, toJson: listToJson)
-          List<WalletAction> list,
-      num updatedAt = 0}) {
+  _WalletActions call({List<WalletAction> list, num updatedAt = 0}) {
     return _WalletActions(
       list: list,
       updatedAt: updatedAt,
@@ -39,7 +36,6 @@ const $WalletActions = _$WalletActionsTearOff();
 
 /// @nodoc
 mixin _$WalletActions {
-  @JsonKey(name: 'list', fromJson: listFromJson, toJson: listToJson)
   List<WalletAction> get list;
   num get updatedAt;
 
@@ -53,10 +49,7 @@ abstract class $WalletActionsCopyWith<$Res> {
   factory $WalletActionsCopyWith(
           WalletActions value, $Res Function(WalletActions) then) =
       _$WalletActionsCopyWithImpl<$Res>;
-  $Res call(
-      {@JsonKey(name: 'list', fromJson: listFromJson, toJson: listToJson)
-          List<WalletAction> list,
-      num updatedAt});
+  $Res call({List<WalletAction> list, num updatedAt});
 }
 
 /// @nodoc
@@ -87,10 +80,7 @@ abstract class _$WalletActionsCopyWith<$Res>
           _WalletActions value, $Res Function(_WalletActions) then) =
       __$WalletActionsCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {@JsonKey(name: 'list', fromJson: listFromJson, toJson: listToJson)
-          List<WalletAction> list,
-      num updatedAt});
+  $Res call({List<WalletAction> list, num updatedAt});
 }
 
 /// @nodoc
@@ -120,17 +110,12 @@ class __$WalletActionsCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_WalletActions implements _WalletActions {
-  _$_WalletActions(
-      {@JsonKey(name: 'list', fromJson: listFromJson, toJson: listToJson)
-          this.list,
-      this.updatedAt = 0})
-      : assert(updatedAt != null);
+  _$_WalletActions({this.list, this.updatedAt = 0}) : assert(updatedAt != null);
 
   factory _$_WalletActions.fromJson(Map<String, dynamic> json) =>
       _$_$_WalletActionsFromJson(json);
 
   @override
-  @JsonKey(name: 'list', fromJson: listFromJson, toJson: listToJson)
   final List<WalletAction> list;
   @JsonKey(defaultValue: 0)
   @override
@@ -170,16 +155,13 @@ class _$_WalletActions implements _WalletActions {
 }
 
 abstract class _WalletActions implements WalletActions {
-  factory _WalletActions(
-      {@JsonKey(name: 'list', fromJson: listFromJson, toJson: listToJson)
-          List<WalletAction> list,
-      num updatedAt}) = _$_WalletActions;
+  factory _WalletActions({List<WalletAction> list, num updatedAt}) =
+      _$_WalletActions;
 
   factory _WalletActions.fromJson(Map<String, dynamic> json) =
       _$_WalletActions.fromJson;
 
   @override
-  @JsonKey(name: 'list', fromJson: listFromJson, toJson: listToJson)
   List<WalletAction> get list;
   @override
   num get updatedAt;

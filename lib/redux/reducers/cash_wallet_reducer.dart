@@ -2,7 +2,6 @@ import 'package:ethereum_address/ethereum_address.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/jobs/base.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/models/transactions/transactions.dart';
@@ -53,10 +52,8 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _fetchingBusinessListSuccess),
   TypedReducer<CashWalletState, FetchingBusinessListFailed>(
       _fetchingBusinessListFailed),
-  TypedReducer<CashWalletState, AddJob>(_addJob),
-  TypedReducer<CashWalletState, JobDone>(_jobDone),
-  TypedReducer<CashWalletState, UpdateJob>(_updateJob),
-  TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted)
+  TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted),
+  TypedReducer<CashWalletState, SetIsFetchingBalances>(_setIsFetchingBalances)
 ]);
 
 CashWalletState _getActionsSuccess(
@@ -381,39 +378,12 @@ CashWalletState _replaceTransfer(
   return state.copyWith(tokens: newOne);
 }
 
-CashWalletState _addJob(CashWalletState state, AddJob action) {
-  final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[tokenAddress];
-  Token newToken = current.copyWith(
-      jobs: List<Job>.from(current?.jobs ?? [])..add(action.job));
-  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  newOne[tokenAddress] = newToken;
-  return state.copyWith(tokens: newOne);
-}
-
-CashWalletState _jobDone(CashWalletState state, JobDone action) {
-  final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[tokenAddress];
-  Token newCommunity = current.copyWith(
-      jobs: List<Job>.from(current.jobs ?? [])..remove(action.job));
-  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  newOne[tokenAddress] = newCommunity;
-  return state.copyWith(tokens: newOne);
-}
-
-CashWalletState _updateJob(CashWalletState state, UpdateJob action) {
-  final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[tokenAddress];
-  Job job = current.jobs.firstWhere((element) => action.job.id == element.id);
-  int index = current.jobs.indexOf(job);
-  current.jobs[index] = action.job;
-  Token newToken = current.copyWith(jobs: List<Job>.from(current.jobs ?? []));
-  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  newOne[tokenAddress] = newToken;
-  return state.copyWith(tokens: newOne);
-}
-
 CashWalletState _jobProcessingStarted(
     CashWalletState state, SetIsJobProcessing action) {
   return state.copyWith(isJobProcessingStarted: action.isFetching);
+}
+
+CashWalletState _setIsFetchingBalances(
+    CashWalletState state, SetIsFetchingBalances action) {
+  return state.copyWith(isFetchingBalances: action.isFetching);
 }

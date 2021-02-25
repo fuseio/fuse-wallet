@@ -24,14 +24,10 @@ class _$TokenTearOff {
       String imageUrl,
       int decimals,
       BigInt amount,
-      @JsonKey(ignore: true)
-          String subtitle,
+      @JsonKey(ignore: true) String subtitle,
       int timestamp,
       Price priceInfo,
-      @JsonKey(fromJson: transactionsFromJson)
-          Transactions transactions,
-      @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-          List<Job> jobs = const [],
+      @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
       String communityAddress,
       String originNetwork}) {
     return _Token(
@@ -45,7 +41,6 @@ class _$TokenTearOff {
       timestamp: timestamp,
       priceInfo: priceInfo,
       transactions: transactions,
-      jobs: jobs,
       communityAddress: communityAddress,
       originNetwork: originNetwork,
     );
@@ -75,8 +70,6 @@ mixin _$Token {
   Price get priceInfo;
   @JsonKey(fromJson: transactionsFromJson)
   Transactions get transactions;
-  @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-  List<Job> get jobs;
   String get communityAddress;
   String get originNetwork;
 
@@ -96,14 +89,10 @@ abstract class $TokenCopyWith<$Res> {
       String imageUrl,
       int decimals,
       BigInt amount,
-      @JsonKey(ignore: true)
-          String subtitle,
+      @JsonKey(ignore: true) String subtitle,
       int timestamp,
       Price priceInfo,
-      @JsonKey(fromJson: transactionsFromJson)
-          Transactions transactions,
-      @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-          List<Job> jobs,
+      @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
       String communityAddress,
       String originNetwork});
 
@@ -130,7 +119,6 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
     Object timestamp = freezed,
     Object priceInfo = freezed,
     Object transactions = freezed,
-    Object jobs = freezed,
     Object communityAddress = freezed,
     Object originNetwork = freezed,
   }) {
@@ -147,7 +135,6 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
       transactions: transactions == freezed
           ? _value.transactions
           : transactions as Transactions,
-      jobs: jobs == freezed ? _value.jobs : jobs as List<Job>,
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress as String,
@@ -180,14 +167,10 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
       String imageUrl,
       int decimals,
       BigInt amount,
-      @JsonKey(ignore: true)
-          String subtitle,
+      @JsonKey(ignore: true) String subtitle,
       int timestamp,
       Price priceInfo,
-      @JsonKey(fromJson: transactionsFromJson)
-          Transactions transactions,
-      @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-          List<Job> jobs,
+      @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
       String communityAddress,
       String originNetwork});
 
@@ -216,7 +199,6 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
     Object timestamp = freezed,
     Object priceInfo = freezed,
     Object transactions = freezed,
-    Object jobs = freezed,
     Object communityAddress = freezed,
     Object originNetwork = freezed,
   }) {
@@ -233,7 +215,6 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
       transactions: transactions == freezed
           ? _value.transactions
           : transactions as Transactions,
-      jobs: jobs == freezed ? _value.jobs : jobs as List<Job>,
       communityAddress: communityAddress == freezed
           ? _value.communityAddress
           : communityAddress as String,
@@ -255,18 +236,13 @@ class _$_Token extends _Token {
       this.imageUrl,
       this.decimals,
       this.amount,
-      @JsonKey(ignore: true)
-          this.subtitle,
+      @JsonKey(ignore: true) this.subtitle,
       this.timestamp,
       this.priceInfo,
-      @JsonKey(fromJson: transactionsFromJson)
-          this.transactions,
-      @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-          this.jobs = const [],
+      @JsonKey(fromJson: transactionsFromJson) this.transactions,
       this.communityAddress,
       this.originNetwork})
-      : assert(jobs != null),
-        super._();
+      : super._();
 
   factory _$_Token.fromJson(Map<String, dynamic> json) =>
       _$_$_TokenFromJson(json);
@@ -294,16 +270,13 @@ class _$_Token extends _Token {
   @JsonKey(fromJson: transactionsFromJson)
   final Transactions transactions;
   @override
-  @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-  final List<Job> jobs;
-  @override
   final String communityAddress;
   @override
   final String originNetwork;
 
   @override
   String toString() {
-    return 'Token(address: $address, name: $name, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, transactions: $transactions, jobs: $jobs, communityAddress: $communityAddress, originNetwork: $originNetwork)';
+    return 'Token(address: $address, name: $name, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, transactions: $transactions, communityAddress: $communityAddress, originNetwork: $originNetwork)';
   }
 
   @override
@@ -337,8 +310,6 @@ class _$_Token extends _Token {
             (identical(other.transactions, transactions) ||
                 const DeepCollectionEquality()
                     .equals(other.transactions, transactions)) &&
-            (identical(other.jobs, jobs) ||
-                const DeepCollectionEquality().equals(other.jobs, jobs)) &&
             (identical(other.communityAddress, communityAddress) ||
                 const DeepCollectionEquality()
                     .equals(other.communityAddress, communityAddress)) &&
@@ -360,7 +331,6 @@ class _$_Token extends _Token {
       const DeepCollectionEquality().hash(timestamp) ^
       const DeepCollectionEquality().hash(priceInfo) ^
       const DeepCollectionEquality().hash(transactions) ^
-      const DeepCollectionEquality().hash(jobs) ^
       const DeepCollectionEquality().hash(communityAddress) ^
       const DeepCollectionEquality().hash(originNetwork);
 
@@ -384,14 +354,10 @@ abstract class _Token extends Token {
       String imageUrl,
       int decimals,
       BigInt amount,
-      @JsonKey(ignore: true)
-          String subtitle,
+      @JsonKey(ignore: true) String subtitle,
       int timestamp,
       Price priceInfo,
-      @JsonKey(fromJson: transactionsFromJson)
-          Transactions transactions,
-      @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-          List<Job> jobs,
+      @JsonKey(fromJson: transactionsFromJson) Transactions transactions,
       String communityAddress,
       String originNetwork}) = _$_Token;
 
@@ -419,9 +385,6 @@ abstract class _Token extends Token {
   @override
   @JsonKey(fromJson: transactionsFromJson)
   Transactions get transactions;
-  @override
-  @JsonKey(name: 'jobs', fromJson: jobsFromJson, toJson: jobsToJson)
-  List<Job> get jobs;
   @override
   String get communityAddress;
   @override

@@ -29,6 +29,7 @@ class SearchPanel extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: TextFormField(
+                    autofocus: false,
                     controller: searchController,
                     style: TextStyle(fontSize: 18, color: Colors.black),
                     decoration: InputDecoration(
