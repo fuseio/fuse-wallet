@@ -23,7 +23,7 @@ enum TopupType { STRIPE, PLAID }
 class TopupScreen extends StatefulWidget {
   final String walletAddress;
   final TopupType topupType;
-  TopupScreen({this.walletAddress, this.topupType});
+  TopupScreen({this.walletAddress, this.topupType = TopupType.STRIPE});
   @override
   _TopupScreenState createState() => _TopupScreenState();
 }

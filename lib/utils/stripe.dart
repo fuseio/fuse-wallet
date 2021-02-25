@@ -135,7 +135,7 @@ class StripeService {
     @required String walletAddress,
   }) async {
     try {
-      int amountNew = num.tryParse(amount) * 100;
+      final int amountNew = num.tryParse(amount) * 100;
       String body = jsonEncode(
         Map.from({
           'amount': amountNew,

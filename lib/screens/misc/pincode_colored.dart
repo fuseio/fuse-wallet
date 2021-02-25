@@ -18,6 +18,7 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
   final pincodeController = TextEditingController(text: "");
   String lastPincode;
   bool isRetype = false;
+  bool showError = false;
 
   @override
   void initState() {
@@ -122,17 +123,34 @@ class _ColorsPincodeScreenState extends State<ColorsPincodeScreen> {
                                                 obscureText: '●')),
                                         controller: pincodeController,
                                         autoFocus: true,
-                                        onSubmit: (value) {
-                                          if (value == viewModel.pincode) {
-                                            ExtendedNavigator.root
-                                                .replace(Routes.homePage);
-                                          } else {
-                                            transactionFailedSnack(
-                                                I18n.of(context)
-                                                    .invalid_pincode,
-                                                title: I18n.of(context).oops,
-                                                duration: Duration(seconds: 3),
-                                                context: context);
+                                        onChanged: (value) {
+                                          if (value.length == 6) {
+                                            if (value == viewModel.pincode) {
+                                              ExtendedNavigator.root
+                                                  .replace(Routes.homePage);
+                                            } else {
+                                              if (!showError) {
+                                                transactionFailedSnack(
+                                                  I18n.of(context)
+                                                      .invalid_pincode,
+                                                  title: I18n.of(context).oops,
+                                                  duration:
+                                                      Duration(seconds: 3),
+                                                  context: context,
+                                                );
+                                              }
+                                              setState(() {
+                                                showError = true;
+                                              });
+                                              Future.delayed(
+                                                Duration(milliseconds: 2500),
+                                                () {
+                                                  setState(() {
+                                                    showError = false;
+                                                  });
+                                                },
+                                              );
+                                            }
                                           }
                                         },
                                       ),
