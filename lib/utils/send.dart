@@ -99,7 +99,7 @@ void sendToPastedAddress(accountAddress) {
   );
 }
 
-void bracodeScannerHandler(context) async {
+void barcodeScannerHandler(context) async {
   try {
     PermissionStatus permission = await Permission.camera.request();
     if (permission == PermissionStatus.granted) {
@@ -138,11 +138,11 @@ void bracodeScannerHandler(context) async {
       titleText: Text(
         I18n.of(context).error,
         style: TextStyle(
-            fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
+            fontSize: 16.0, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.bold),
       ),
       messageText: Text(
         I18n.of(context).invalid_qa_code,
-        style: TextStyle(fontSize: 14.0, color: Colors.black),
+        style: TextStyle(fontSize: 14.0, color: Theme.of(context).colorScheme.onSurface),
       ),
       backgroundColor: Theme.of(context).bottomAppBarColor,
       margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),

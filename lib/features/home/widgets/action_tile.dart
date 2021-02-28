@@ -271,7 +271,7 @@ class ActionTile extends StatelessWidget {
                                               ? I18n.of(context).joining
                                               : I18n.of(context).joined,
                                           style: TextStyle(
-                                            color: Colors.black,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                           ),
                                         ),
                                         action.getText() != null
@@ -280,14 +280,14 @@ class ActionTile extends StatelessWidget {
                                                     ' \‘${action.getText()}\’ ',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
+                                                  color: Theme.of(context).colorScheme.onSurface,
                                                 ),
                                               )
                                             : SizedBox.shrink(),
                                         TextSpan(
                                           text: I18n.of(context).community,
                                           style: TextStyle(
-                                            color: Colors.black,
+                                            color: Theme.of(context).colorScheme.onSurface,
                                           ),
                                         ),
                                       ],

@@ -23,11 +23,11 @@ void showErrorSnack({
       titleText: Text(
         title ?? I18n.of(ExtendedNavigator.root.context).transaction_failed,
         style: TextStyle(
-            fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
+            fontSize: 16.0, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.bold),
       ),
       messageText: Text(
         message,
-        style: TextStyle(fontSize: 14.0, color: Colors.black),
+        style: TextStyle(fontSize: 14.0, color: Theme.of(context).colorScheme.onSurface),
       ),
       backgroundColor:
           Theme.of(ExtendedNavigator.root.context).bottomAppBarColor,

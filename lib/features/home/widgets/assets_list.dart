@@ -23,7 +23,6 @@ class AssetsList extends StatelessWidget {
                   itemCount: viewModel.tokens?.length,
                   separatorBuilder: (BuildContext context, int index) =>
                       Divider(
-                    color: Color(0xFFE8E8E8),
                     thickness: 1,
                     height: 0,
                   ),

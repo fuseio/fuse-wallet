@@ -1,7 +1,7 @@
 {
-    "intro_text_one": "Use the wallet to send money \n to friends without fees or friction",
-    "intro_text_two": "Pay and get paid using crypto \n and see where you can shop nearby",
-    "intro_text_three": "Hold Ethereum assets and access \n decentralized finance with a few taps",
+    "intro_text_one": "Use the wallet to send money to friends without fees or friction",
+    "intro_text_two": "Pay and get paid using crypto and see where you can shop nearby",
+    "intro_text_three": "Hold Ethereum assets and access decentralized finance with a few taps",
     "hi": "Hello",
     "language": "Language",
     "logout": "Logout",
@@ -91,7 +91,7 @@
     "enter_verification_code": "Please enter 6-digit code from\n that message here",
     "protect_wallet": "Protect your wallet",
     "backup_wallet": "Backup",
-    "top_up": "Top-up your account",
+    "top_up": "Top up",
     "buy": "Buy",
     "map": "Map",
     "approved": "Approved",
@@ -161,5 +161,8 @@
     "invalid_qa_code": "Invalid QA Code",
     "error": "Error",
     "ten_seconds": "(up to 10 seconds)",
-    "initializing_wallet": "Initializing your wallet on Fuse"
+    "initializing_wallet": "Initializing your wallet on Fuse",
+    "feed": "Feed",
+    "wallet": "Wallet",
+    "send": "Send"
 }

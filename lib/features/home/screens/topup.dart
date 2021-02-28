@@ -204,7 +204,6 @@ class _TopupScreenState extends State<TopupScreen>
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                     child: Divider(
-                      color: Color(0xFFE8E8E8),
                       thickness: 1.5,
                     ),
                   ),
@@ -214,7 +213,6 @@ class _TopupScreenState extends State<TopupScreen>
                 fontSize: 28,
                 alwaysCaps: true,
                 height: MediaQuery.of(context).size.height * 0.3,
-                textColor: Theme.of(context).primaryColor,
                 type: VirtualKeyboardType.Numeric,
                 onKeyPress: _onKeyPress,
               ),
@@ -222,9 +220,9 @@ class _TopupScreenState extends State<TopupScreen>
           ),
         )
       ],
-      footer: StoreConnector<AppState, TopupViewModel>(
+      footer: StoreConnector<AppState, TopUpViewModel>(
         distinct: true,
-        converter: TopupViewModel.fromStore,
+        converter: TopUpViewModel.fromStore,
         builder: (_, viewModel) {
           List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
           dynamic url = depositPlugins[0].widgetUrl;

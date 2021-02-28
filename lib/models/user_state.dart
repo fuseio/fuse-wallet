@@ -58,7 +58,7 @@ abstract class UserState implements _$UserState {
     @JsonKey(ignore: true) PhoneAuthCredential credentials,
   }) = _UserState;
 
-  factory UserState.inital() => UserState(
+  factory UserState.initial() => UserState(
         networks: [],
         mnemonic: [],
         contacts: [],
@@ -84,7 +84,7 @@ class UserStateConverter
 
   @override
   UserState fromJson(Map<String, dynamic> json) =>
-      json != null ? UserState.fromJson(json) : UserState.inital();
+      json != null ? UserState.fromJson(json) : UserState.initial();
 
   @override
   Map<String, dynamic> toJson(UserState instance) => instance?.toJson();

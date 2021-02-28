@@ -10,16 +10,17 @@ class ProfileViewModel extends Equatable {
   final String walletAddress;
   final String avatarUrl;
   final String displayName;
-  final void Function(String displayName) updateDisplaName;
+  final void Function(String displayName) updateDisplayName;
   final void Function(ImageSource source) editAvatar;
 
-  ProfileViewModel(
-      {this.phone,
-      this.walletAddress,
-      this.displayName,
-      this.editAvatar,
-      this.avatarUrl,
-      this.updateDisplaName});
+  ProfileViewModel({
+    this.phone,
+    this.walletAddress,
+    this.displayName,
+    this.editAvatar,
+    this.avatarUrl,
+    this.updateDisplayName,
+  });
 
   static ProfileViewModel fromStore(Store<AppState> store) {
     return ProfileViewModel(
@@ -30,7 +31,7 @@ class ProfileViewModel extends Equatable {
         editAvatar: (source) {
           store.dispatch(updateUserAvatarCall(source));
         },
-        updateDisplaName: (displayName) {
+        updateDisplayName: (displayName) {
           store.dispatch(updateDisplayNameCall(displayName));
         });
   }

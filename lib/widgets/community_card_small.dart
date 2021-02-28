@@ -77,7 +77,6 @@ class CommunityCard extends StatelessWidget {
                             Text(community?.name ?? '',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Theme.of(context).primaryColor,
                                 )),
                             SizedBox(
                               width: 3,

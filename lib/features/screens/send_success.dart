@@ -7,7 +7,7 @@ import 'package:fusecash/constants/keys.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 
 class SendSuccessScreen extends StatefulWidget {
   final SendAmountArguments pageArgs;
@@ -33,36 +33,33 @@ class _SendSuccessScreenState extends State<SendSuccessScreen>
   @override
   Widget build(BuildContext context) {
     final SendAmountArguments args = this.widget.pageArgs;
-    return MainScaffold(
-      withPadding: true,
+    return MyScaffold(
       title: I18n.of(context).success,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(top: 140),
-          child: Center(
-            child: Hero(
-              child: CircleAvatar(
-                backgroundColor: Color(0xFFE0E0E0),
-                radius: 100,
-                backgroundImage:
-                    args?.avatar ?? AssetImage('assets/images/anom.png'),
-                child: Transform.scale(
-                  scale: 6,
-                  origin: Offset(-9, 7),
-                  child: FlareActor(
-                    "assets/images/check.flr",
-                    alignment: Alignment.center,
-                    fit: BoxFit.contain,
-                    animation: "Checkmark",
-                    sizeFromArtboard: true,
-                  ),
+      body: Container(
+        height: MediaQuery.of(context).size.height * .6,
+        child: Center(
+          child: Hero(
+            child: CircleAvatar(
+              backgroundColor: Color(0xFFE0E0E0),
+              radius: 100,
+              backgroundImage:
+                  args?.avatar ?? AssetImage('assets/images/anom.png'),
+              child: Transform.scale(
+                scale: 6,
+                origin: Offset(-9, 7),
+                child: FlareActor(
+                  "assets/images/check.flr",
+                  alignment: Alignment.center,
+                  fit: BoxFit.contain,
+                  animation: "Checkmark",
+                  sizeFromArtboard: true,
                 ),
               ),
-              tag: "contactSent",
             ),
+            tag: "contactSent",
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }

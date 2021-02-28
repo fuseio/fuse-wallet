@@ -83,7 +83,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                 width: 70,
                                 height: 70,
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Theme.of(context).canvasColor,
                                     shape: BoxShape.circle),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
@@ -151,7 +151,7 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black),
+                                    color: Theme.of(context).colorScheme.onSurface),
                               ),
                             ),
                             ![null, ''].contains(widget?.community?.description)

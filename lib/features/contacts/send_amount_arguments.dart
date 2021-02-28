@@ -8,19 +8,20 @@ class SendAmountArguments {
   String phoneNumber;
   String accountAddress;
   num amount;
-  ImageProvider avatar = AssetImage('assets/images/anom.png');
+  ImageProvider avatar;
   SendType sendType;
   Token tokenToSend;
   final bool useBridge;
 
-  SendAmountArguments(
-      {this.sendType,
-      this.useBridge = false,
-      this.tokenToSend,
-      this.name,
-      this.phoneNumber,
-      this.isMultiBridge = false,
-      this.accountAddress,
-      this.amount,
-      this.avatar});
+  SendAmountArguments({
+    this.sendType,
+    this.useBridge = false,
+    this.tokenToSend,
+    this.name,
+    this.phoneNumber,
+    this.isMultiBridge = false,
+    this.accountAddress,
+    this.amount,
+    this.avatar,
+  });
 }

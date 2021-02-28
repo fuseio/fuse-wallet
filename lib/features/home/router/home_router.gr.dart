@@ -11,8 +11,6 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/actions/wallet_action.dart';
-import '../../../models/tokens/token.dart';
-import '../../../models/transactions/transaction.dart';
 import '../screens/about_screen.dart';
 import '../screens/action_details.dart';
 import '../screens/done_backup_screen.dart';
@@ -23,12 +21,10 @@ import '../screens/settings.dart';
 import '../screens/show_mnemonic.dart';
 import '../screens/switch_commmunity.dart';
 import '../screens/token_screen.dart';
-import '../screens/transaction_details.dart';
 import '../screens/verify_mnemonic.dart';
 
 class HomeRoutes {
   static const String homeScreen = '/';
-  static const String transactionDetailsScreen = '/transaction-details-screen';
   static const String actionDetailsScreen = '/action-details-screen';
   static const String tokenScreen = '/token-screen';
   static const String aboutScreen = '/about-screen';
@@ -41,7 +37,6 @@ class HomeRoutes {
   static const String profileScreen = '/profile-screen';
   static const all = <String>{
     homeScreen,
-    transactionDetailsScreen,
     actionDetailsScreen,
     tokenScreen,
     aboutScreen,
@@ -60,8 +55,6 @@ class HomeRouter extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(HomeRoutes.homeScreen, page: HomeScreen),
-    RouteDef(HomeRoutes.transactionDetailsScreen,
-        page: TransactionDetailsScreen),
     RouteDef(HomeRoutes.actionDetailsScreen, page: ActionDetailsScreen),
     RouteDef(HomeRoutes.tokenScreen, page: TokenScreen),
     RouteDef(HomeRoutes.aboutScreen, page: AboutScreen),
@@ -82,22 +75,6 @@ class HomeRouter extends RouterBase {
       );
       return MaterialPageRoute<dynamic>(
         builder: (context) => HomeScreen(key: args.key),
-        settings: data,
-      );
-    },
-    TransactionDetailsScreen: (data) {
-      final args = data.getArgs<TransactionDetailsScreenArguments>(
-        orElse: () => TransactionDetailsScreenArguments(),
-      );
-      return MaterialPageRoute<dynamic>(
-        builder: (context) => TransactionDetailsScreen(
-          image: args.image,
-          displayName: args.displayName,
-          status: args.status,
-          token: args.token,
-          contact: args.contact,
-          transfer: args.transfer,
-        ),
         settings: data,
       );
     },
@@ -196,25 +173,6 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
         arguments: HomeScreenArguments(key: key),
       );
 
-  Future<dynamic> pushTransactionDetailsScreen({
-    ImageProvider<dynamic> image,
-    String displayName,
-    String status,
-    Token token,
-    Contact contact,
-    Transaction transfer,
-  }) =>
-      push<dynamic>(
-        HomeRoutes.transactionDetailsScreen,
-        arguments: TransactionDetailsScreenArguments(
-            image: image,
-            displayName: displayName,
-            status: status,
-            token: token,
-            contact: contact,
-            transfer: transfer),
-      );
-
   Future<dynamic> pushActionDetailsScreen({
     WalletAction action,
     ImageProvider<dynamic> image,
@@ -278,23 +236,6 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
 class HomeScreenArguments {
   final Key key;
   HomeScreenArguments({this.key});
-}
-
-/// TransactionDetailsScreen arguments holder class
-class TransactionDetailsScreenArguments {
-  final ImageProvider<dynamic> image;
-  final String displayName;
-  final String status;
-  final Token token;
-  final Contact contact;
-  final Transaction transfer;
-  TransactionDetailsScreenArguments(
-      {this.image,
-      this.displayName,
-      this.status,
-      this.token,
-      this.contact,
-      this.transfer});
 }
 
 /// ActionDetailsScreen arguments holder class

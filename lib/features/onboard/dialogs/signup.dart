@@ -57,52 +57,63 @@ class SignupDialogState extends State<SignupDialog>
               width: 300,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text(I18n.of(context).why_do_we_need_this,
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold)),
+                  Text(
+                    I18n.of(context).why_do_we_need_this,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   SizedBox(height: 20.0),
-                  Text(I18n.of(context).stores_private,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal)),
+                  Text(
+                    I18n.of(context).stores_private,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                   SizedBox(height: 20.0),
-                  Text(I18n.of(context).will_never_share,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal)),
+                  Text(
+                    I18n.of(context).will_never_share,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                   SizedBox(height: 20.0),
-                  Text(I18n.of(context).for_more_info,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal)),
+                  Text(
+                    I18n.of(context).for_more_info,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                   InkWell(
-                      onTap: () {
-                        // TODO - link to privacy policy
-                      },
-                      child: Text(I18n.of(context).privacy,
-                          style: TextStyle(
-                              color: Color(0xFF0076FF),
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal))),
+                    onTap: () {
+                      // TODO - link to privacy policy
+                    },
+                    child: Text(
+                      I18n.of(context).privacy,
+                      style: TextStyle(
+                        color: Color(0xFF0076FF),
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 40.0),
                   Center(
-                      child: PrimaryButton(
-                    label: I18n.of(context).ok_thanks,
-                    fontSize: 16,
-                    width: 120,
-                    labelFontWeight: FontWeight.normal,
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                    },
-                  ))
+                    child: PrimaryButton(
+                      label: I18n.of(context).ok_thanks,
+                      labelFontWeight: FontWeight.normal,
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  )
                 ],
               ),
             )

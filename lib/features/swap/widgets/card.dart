@@ -48,7 +48,6 @@ class TradeCard extends StatelessWidget {
           Container(
             height: 65,
             decoration: BoxDecoration(
-                color: Theme.of(context).splashColor,
                 borderRadius: BorderRadius.all(Radius.circular(11.0)),
                 border: Border.all(color: Color(0xFFE5E5E5), width: 2)),
             child: Row(
@@ -132,6 +131,7 @@ class TradeCard extends StatelessWidget {
                                   fontSize: 16, color: Color(0xFF888888)),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
+                                fillColor: Theme.of(context).canvasColor,
                                 hintText: 'Amount',
                                 hintStyle: TextStyle(color: Color(0xFFC4C4C4)),
                                 focusedBorder: InputBorder.none,

@@ -86,7 +86,7 @@ class _CommunityCardScreenState extends State<SelectedCommunityCard> {
                           width: 70,
                           height: 70,
                           decoration: BoxDecoration(
-                              color: Colors.white, shape: BoxShape.circle),
+                              color: Theme.of(context).canvasColor, shape: BoxShape.circle),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -143,7 +143,6 @@ class _CommunityCardScreenState extends State<SelectedCommunityCard> {
                       Text(widget?.community?.name ?? '',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Theme.of(context).primaryColor,
                           )),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,7 +169,6 @@ class _CommunityCardScreenState extends State<SelectedCommunityCard> {
                                   ),
                                   Text(I18n.of(context).selected,
                                       style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.bold)),
                                 ])
                           ])

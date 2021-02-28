@@ -12,50 +12,60 @@ import 'package:fusecash/features/buy/router/buy_router.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/utils/images.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 
 class BuyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, BuyViewModel>(
-        distinct: true,
-        converter: BuyViewModel.fromStore,
-        onInit: (store) {
-          store.dispatch(getBusinessListCall());
-        },
-        onInitialBuild: (viewModel) {
-          Segment.screen(screenName: '/buy-screen');
-        },
-        builder: (_, viewModel) {
-          return MainScaffold(
-              // TODO - added map with all business
-              // actions: <Widget>[
-              //   IconButton(
-              //     icon: InkWell(
-              //         onTap: () {
-              //           Navigator.pushNamed(context, '/Map');
-              //         },
-              //         child: Padding(
-              //             padding: EdgeInsets.all(0),
-              //             child: Image.asset(
-              //               'assets/images/pin_drop.png',
-              //               width: 30,
-              //               height: 30,
-              //             ))),
-              //     onPressed: () {
-              //       Navigator.pushNamed(context, '/Map');
-              //     },
-              //   ),
-              // ],
-              automaticallyImplyLeading: false,
-              title: I18n.of(context).buy,
-              children: <Widget>[BusinessesListView()]);
-        });
+      distinct: true,
+      converter: BuyViewModel.fromStore,
+      onInit: (store) {
+        store.dispatch(getBusinessListCall());
+      },
+      onInitialBuild: (viewModel) {
+        Segment.screen(screenName: '/buy-screen');
+      },
+      builder: (_, viewModel) {
+        return MyScaffold(
+          title: I18n.of(context).buy,
+          body: Container(
+            child: Column(
+              children: [
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    BusinessesListView(),
+                  ]),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
 class BusinessesListView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, BuyViewModel>(
+      distinct: true,
+      converter: BuyViewModel.fromStore,
+      builder: (_, vm) => Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            banner(context, vm),
+            businessList(context, vm),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget banner(BuildContext context, BuyViewModel vm) {
     return vm.walletBanner != null &&
             vm.walletBanner.walletBannerHash != null &&
@@ -104,10 +114,7 @@ class BusinessesListView extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(left: 10, bottom: 5.0),
                   child: ListView.separated(
-                    separatorBuilder: (BuildContext context, int index) =>
-                        Divider(
-                      color: Color(0xFFE8E8E8),
-                    ),
+                    separatorBuilder: (context, index) => Divider(),
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
                     itemCount: vm.businesses?.length ?? 0,
@@ -149,7 +156,6 @@ class BusinessesListView extends StatelessWidget {
       title: Text(
         business.name ?? '',
         style: TextStyle(
-          color: Theme.of(context).primaryColor,
           fontSize: 14,
           fontWeight: FontWeight.normal,
         ),
@@ -157,7 +163,7 @@ class BusinessesListView extends StatelessWidget {
       subtitle: Text(
         business.metadata.description ?? '',
         style: TextStyle(
-          color: Theme.of(context).accentColor,
+          // color: Theme.of(context).accentColor,
           fontSize: 12,
           fontWeight: FontWeight.normal,
         ),
@@ -200,27 +206,5 @@ class BusinessesListView extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, BuyViewModel>(
-        distinct: true,
-        converter: BuyViewModel.fromStore,
-        onInitialBuild: (vm) {
-          vm.loadBusinesses();
-        },
-        builder: (_, vm) {
-          return Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                banner(context, vm),
-                businessList(context, vm)
-              ],
-            ),
-          );
-        });
   }
 }

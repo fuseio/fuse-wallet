@@ -66,8 +66,7 @@ class RecentContacts extends StatelessWidget {
                   phoneNumber: phoneNumber,
                   trailing: Text(
                     phoneNumber,
-                    style: TextStyle(
-                        fontSize: 13, color: Theme.of(context).primaryColor),
+                    style: TextStyle(fontSize: 13),
                   ),
                   onTap: () {
                     if (transfer.to.toLowerCase() ==

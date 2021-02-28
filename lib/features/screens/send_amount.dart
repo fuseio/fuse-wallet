@@ -10,7 +10,7 @@ import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:virtual_keyboard/virtual_keyboard.dart';
 import 'package:fusecash/models/app_state.dart';
@@ -74,7 +74,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                           padding: EdgeInsets.only(top: 20, bottom: 20),
                           separatorBuilder: (BuildContext context, int index) =>
                               Divider(
-                            color: Color(0xFFE8E8E8),
                             height: 0,
                           ),
                           itemCount: viewModel.tokens?.length ?? 0,
@@ -172,165 +171,196 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         if (!hasFund) {
           controller.forward();
         }
-
-        return MainScaffold(
-            withPadding: true,
-            title: title,
-            children: <Widget>[
-              Container(
-                height: MediaQuery.of(context).size.height * 0.7,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 40),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return MyScaffold(
+          title: title,
+          body: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            Column(
                               children: <Widget>[
-                                Text(
-                                  I18n.of(context).how_much,
-                                  style: TextStyle(color: Color(0xFF898989)),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    String max = formatValue(
-                                        selectedToken.amount,
-                                        selectedToken.decimals,
-                                        withPrecision: true);
-                                    if (num.parse(max)
-                                            .compareTo(num.parse(amountText)) !=
-                                        0) {
-                                      _onKeyPress(
-                                          VirtualKeyboardKey(
-                                              text: max,
-                                              keyType: VirtualKeyboardKeyType
-                                                  .String),
-                                          max: true);
-                                    }
-                                  },
-                                  child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 15),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        I18n.of(context).how_much,
+                                        style:
+                                            TextStyle(color: Color(0xFF898989)),
                                       ),
-                                      child: Text(
-                                        I18n.of(context).use_max,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                      )),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 40),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: AutoSizeText(
-                                    amountText,
-                                    style: TextStyle(
-                                        fontSize: 40.0,
-                                        fontWeight: FontWeight.bold),
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                !args.useBridge
-                                    ? InkWell(
+                                      InkWell(
                                         onTap: () {
-                                          showBottomMenu(viewModel);
+                                          String max = formatValue(
+                                              selectedToken.amount,
+                                              selectedToken.decimals,
+                                              withPrecision: true);
+                                          if (num.parse(max).compareTo(
+                                                  num.parse(amountText)) !=
+                                              0) {
+                                            _onKeyPress(
+                                                VirtualKeyboardKey(
+                                                    text: max,
+                                                    keyType:
+                                                        VirtualKeyboardKeyType
+                                                            .String),
+                                                max: true);
+                                          }
                                         },
                                         child: Container(
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 5),
+                                                vertical: 3, horizontal: 15),
                                             decoration: BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                                color: Theme.of(context)
-                                                    .backgroundColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Text(
-                                                  selectedToken?.symbol ?? '',
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Color(0xFF808080)),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                SvgPicture.asset(
-                                                  'assets/images/dropdown_icon.svg',
-                                                  width: 9,
-                                                  height: 9,
-                                                )
-                                              ],
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                            ),
+                                            child: Text(
+                                              I18n.of(context).use_max,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
                                             )),
                                       )
-                                    : SizedBox.shrink(),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: AutoSizeText(
+                                          amountText,
+                                          style: TextStyle(
+                                              fontSize: 40.0,
+                                              fontWeight: FontWeight.bold),
+                                          maxLines: 1,
+                                        ),
+                                      ),
+                                      !args.useBridge
+                                          ? InkWell(
+                                              onTap: () {
+                                                showBottomMenu(viewModel);
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 5),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.rectangle,
+                                                      color: Theme.of(context)
+                                                          .backgroundColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        selectedToken?.symbol ??
+                                                            '',
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Color(
+                                                                0xFF808080)),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      SvgPicture.asset(
+                                                        'assets/images/dropdown_icon.svg',
+                                                        width: 9,
+                                                        height: 9,
+                                                      )
+                                                    ],
+                                                  )),
+                                            )
+                                          : SizedBox.shrink(),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 40, vertical: 20),
+                                  child: Divider(
+                                    thickness: 1.5,
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 20),
-                            child: Divider(
-                              color: Color(0xFFE8E8E8),
-                              thickness: 1.5,
+                            VirtualKeyboard(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.37,
+                                fontSize: 28,
+                                alwaysCaps: true,
+                                type: VirtualKeyboardType.Numeric,
+                                onKeyPress: _onKeyPress),
+                          ]),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    Center(
+                      child: SlideTransition(
+                        position: offset,
+                        child: Column(
+                          children: [
+                            PrimaryButton(
+                              opacity: 1,
+                              bgColor: hasFund
+                                  ? null
+                                  : Theme.of(context).colorScheme.secondary,
+                              labelFontWeight: FontWeight.normal,
+                              labelColor: hasFund ? null : Color(0xFF797979),
+                              label: hasFund
+                                  ? I18n.of(context).continue_with +
+                                      ' $amountText ${selectedToken?.symbol}'
+                                  : I18n.of(context).insufficient_fund,
+                              onPressed: () {
+                                args.tokenToSend = selectedToken;
+                                args.amount = num.parse(amountText);
+                                ExtendedNavigator.root
+                                    .pushSendReviewScreen(pageArgs: args);
+                              },
+                              preload: isPreloading,
+                              disabled: isPreloading || !hasFund,
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              height: 70,
+                            ),
+                          ],
+                        ),
                       ),
-                      VirtualKeyboard(
-                          height: MediaQuery.of(context).size.height * 0.37,
-                          fontSize: 28,
-                          alwaysCaps: true,
-                          textColor: Theme.of(context).primaryColor,
-                          type: VirtualKeyboardType.Numeric,
-                          onKeyPress: _onKeyPress),
-                    ]),
-              )
-            ],
-            footer: Center(
-                child: SlideTransition(
-              position: offset,
-              child: PrimaryButton(
-                opacity: 1,
-                colors: !hasFund
-                    ? [
-                        Theme.of(context).bottomAppBarColor,
-                        Theme.of(context).bottomAppBarColor,
-                      ]
-                    : null,
-                labelFontWeight: FontWeight.normal,
-                label: hasFund
-                    ? I18n.of(context).continue_with +
-                        ' $amountText ${selectedToken?.symbol}'
-                    : I18n.of(context).insufficient_fund,
-                onPressed: () {
-                  args.tokenToSend = selectedToken;
-                  args.amount = num.parse(amountText);
-                  ExtendedNavigator.root.pushSendReviewScreen(pageArgs: args);
-                },
-                preload: isPreloading,
-                disabled: isPreloading || !hasFund,
-                width: 300,
-              ),
-            )));
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+
+        // return MainScaffold(
+        //     withPadding: true,
+        //     title: title,
+        //     children: <Widget>[],
+        //     footer: );
       },
     );
   }

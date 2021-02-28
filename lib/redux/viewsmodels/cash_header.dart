@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/models/plugins/plugins.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
@@ -13,9 +12,7 @@ class CashHeaderViewModel extends Equatable {
   final String usdValue;
   final bool hasErc20Tokens;
   final Community community;
-  final Plugins plugins;
   final Token token;
-  final bool isDefaultCommunity;
 
   CashHeaderViewModel({
     this.usdValue,
@@ -23,8 +20,6 @@ class CashHeaderViewModel extends Equatable {
     this.hasErc20Tokens,
     this.community,
     this.token,
-    this.plugins,
-    this.isDefaultCommunity,
   });
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
@@ -48,8 +43,6 @@ class CashHeaderViewModel extends Equatable {
             ?.copyWith(symbol: '\$')
         : store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return CashHeaderViewModel(
-      isDefaultCommunity: isDefaultCommunity,
-      plugins: community?.plugins,
       community: community,
       token: token,
       hasErc20Tokens: erc20Tokens.isNotEmpty,
@@ -64,10 +57,8 @@ class CashHeaderViewModel extends Equatable {
   @override
   List<Object> get props => [
         community,
-        plugins,
         usdValue,
         hasErc20Tokens,
         token,
-        isDefaultCommunity,
       ];
 }

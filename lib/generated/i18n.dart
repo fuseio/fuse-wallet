@@ -32,12 +32,12 @@ class I18n implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  /// "Use the wallet to send money \n to friends without fees or friction"
-  String get intro_text_one => "Use the wallet to send money \n to friends without fees or friction";
-  /// "Pay and get paid using crypto \n and see where you can shop nearby"
-  String get intro_text_two => "Pay and get paid using crypto \n and see where you can shop nearby";
-  /// "Hold Ethereum assets and access \n decentralized finance with a few taps"
-  String get intro_text_three => "Hold Ethereum assets and access \n decentralized finance with a few taps";
+  /// "Use the wallet to send money to friends without fees or friction"
+  String get intro_text_one => "Use the wallet to send money to friends without fees or friction";
+  /// "Pay and get paid using crypto and see where you can shop nearby"
+  String get intro_text_two => "Pay and get paid using crypto and see where you can shop nearby";
+  /// "Hold Ethereum assets and access decentralized finance with a few taps"
+  String get intro_text_three => "Hold Ethereum assets and access decentralized finance with a few taps";
   /// "Hello"
   String get hi => "Hello";
   /// "Language"
@@ -216,8 +216,8 @@ class I18n implements WidgetsLocalizations {
   String get protect_wallet => "Protect your wallet";
   /// "Backup"
   String get backup_wallet => "Backup";
-  /// "Top-up your account"
-  String get top_up => "Top-up your account";
+  /// "Top up"
+  String get top_up => "Top up";
   /// "Buy"
   String get buy => "Buy";
   /// "Map"
@@ -358,6 +358,12 @@ class I18n implements WidgetsLocalizations {
   String get ten_seconds => "(up to 10 seconds)";
   /// "Initializing your wallet on Fuse"
   String get initializing_wallet => "Initializing your wallet on Fuse";
+  /// "Feed"
+  String get feed => "Feed";
+  /// "Wallet"
+  String get wallet => "Wallet";
+  /// "Send"
+  String get send => "Send";
 }
 
 class _I18n_en_US extends I18n {

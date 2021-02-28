@@ -12,10 +12,10 @@ class DefaultLogo extends StatelessWidget {
         width: 60,
         height: 60,
         decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).canvasColor,
             shape: BoxShape.circle,
-            border:
-                Border.all(color: Theme.of(context).primaryColor, width: 2)),
+            border: Border.all(
+                color: Theme.of(context).colorScheme.onSurface, width: 2)),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,

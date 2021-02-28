@@ -49,14 +49,12 @@ class MainScaffold extends StatelessWidget {
           child: Text(title,
               softWrap: true,
               style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: titleFontSize,
-                  fontWeight: FontWeight.w800)),
+                  fontSize: titleFontSize, fontWeight: FontWeight.w800)),
         ),
         centerTitle: true,
         collapseMode: CollapseMode.parallax,
       ),
-      iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+      iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
       backgroundColor: backgroundColor ?? Theme.of(context).backgroundColor,
       brightness: Brightness.light,
     );

@@ -84,7 +84,7 @@ class _BridgeDialogState extends State<BridgeDialog>
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                            color: Theme.of(context).colorScheme.onSurface),
                       ),
                       SizedBox(height: 15.0),
                       Text(

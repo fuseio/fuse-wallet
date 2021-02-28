@@ -1,45 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:fusecash/generated/i18n.dart';
-import 'package:fusecash/features/onboard/widegts/create_or_restore.dart';
 
-Widget introPage(BuildContext context, String title, String subTitle) {
-  return Container(
-    color: Colors.transparent,
-    padding: EdgeInsets.only(bottom: 80),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(bottom: 30.0),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+class WelcomeFrame extends StatelessWidget {
+  const WelcomeFrame({
+    Key key,
+    this.title,
+    this.subTitle,
+  }) : super(key: key);
+
+  final String title;
+  final String subTitle;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 80, left: 20, right: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: 30.0),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 18, color: Color(0xFF808080)),
+            ),
           ),
-        ),
-        Align(
+          Align(
             alignment: Alignment.bottomCenter,
             child: Text(
               subTitle,
               style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).colorScheme.secondary,
+                fontSize: 27,
+                fontWeight: FontWeight.bold,
               ),
-              textAlign: TextAlign.center,
-            ))
-      ],
-    ),
-  );
-}
-
-List<Widget> getPages(BuildContext context) {
-  return <Widget>[
-    introPage(
-        context, I18n.of(context).simple, I18n.of(context).intro_text_one),
-    introPage(
-        context, I18n.of(context).useful, I18n.of(context).intro_text_two),
-    introPage(
-        context, I18n.of(context).smart, I18n.of(context).intro_text_three),
-    CreateWallet()
-  ];
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="gradientStart">#FEFD86</color>
-  <color name="gradientCenter">#E6FD99</color>
-  <color name="gradientEnd">#B1FDC0</color>
+	<color name="splash_color">#38D989</color>
 </resources>

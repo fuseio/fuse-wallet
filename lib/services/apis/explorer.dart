@@ -119,12 +119,12 @@ class Explorer {
     Response response = await dio
         .get('?module=token&action=getToken&contractaddress=$tokenAddress');
     if (response.data['message'] == 'OK' && response.data['status'] == '1') {
-      Map tokenInfo = Map.from({
+      return Token.fromJson({
         ...response.data['result'],
         "name": formatTokenName(response.data['result']["name"]),
+        "address": response.data['result']["contractAddress"],
         'decimals': int.parse(response.data['result']['decimals'])
-      });
-      return Token.fromJson(tokenInfo).copyWith(
+      }).copyWith(
         transactions: Transactions.initial(),
         timestamp: 0,
         amount: BigInt.zero,

@@ -63,7 +63,7 @@ class OnboardViewModel extends Equatable {
         setPincode: (pincode) {
           store.dispatch(SetPincodeSuccess(pincode));
         },
-        setDisplayName: (displayName) {
+        setDisplayName: (String displayName) {
           store.dispatch(SetDisplayName(displayName));
           store.dispatch(segmentTrackCall("Wallet: display name added"));
         },

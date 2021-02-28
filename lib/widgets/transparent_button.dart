@@ -28,15 +28,17 @@ class TransparentButton extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                 child: Text(label,
                     style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: this.fontSize ?? 18,
-                        fontWeight: FontWeight.normal)),
+                      fontSize: this.fontSize ?? 18,
+                      fontWeight: FontWeight.normal,
+                    )),
               )
             : Container(
                 child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).primaryColor)),
+                  strokeWidth: 3,
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
                 width: 21.0,
                 height: 21.0,
                 margin: EdgeInsets.only(left: 28, right: 28),

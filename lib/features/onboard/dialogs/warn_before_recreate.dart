@@ -38,33 +38,40 @@ class _WarnBeforeReCreationState extends State<WarnBeforeReCreation>
   @override
   Widget build(BuildContext _context) {
     return ScaleTransition(
-        scale: scaleAnimatoin,
-        child: AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          title: Center(
-            child: SvgPicture.asset(
-              'assets/images/important.svg',
-              width: 35,
-              height: 35,
+      scale: scaleAnimatoin,
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        title: Center(
+          child: SvgPicture.asset(
+            'assets/images/important.svg',
+            width: 35,
+            height: 35,
+          ),
+        ),
+        content: Text(I18n.of(context).reset_account),
+        actions: <Widget>[
+          FlatButton(
+            textColor: Color(0xFF009DFF),
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop(true);
+            },
+            child: Text(I18n.of(context).yes, style: TextStyle(fontSize: 16)),
+          ),
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop(false);
+            },
+            child: Text(
+              I18n.of(context).no,
+              style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
-          content: Text(I18n.of(context).reset_account),
-          actions: <Widget>[
-            FlatButton(
-              textColor: Color(0xFF009DFF),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop(true);
-              },
-              child: Text(I18n.of(context).yes, style: TextStyle(fontSize: 16)),
-            ),
-            FlatButton(
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop(false);
-              },
-              child: Text(I18n.of(context).no, style: TextStyle(fontSize: 16)),
-            ),
-          ],
-        ));
+        ],
+      ),
+    );
   }
 }

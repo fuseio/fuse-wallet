@@ -23,41 +23,45 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     super.initState();
   }
 
-  Widget getListTile(String label, void Function() onTap,
-      {String icon, Widget temp}) {
+  Widget getListTile(
+    String label,
+    void Function() onTap, {
+    String icon,
+    Widget rightIcon,
+  }) {
     return ListTile(
       contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
-      title: Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: Stack(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  SvgPicture.asset(
-                    'assets/images/' '$icon',
-                    width: 20,
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    label,
-                    style: TextStyle(
-                        fontSize: 16, color: Theme.of(context).primaryColor),
-                  ),
-                ],
-              ),
-              temp != null
-                  ? Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: temp,
-                    )
-                  : SizedBox.shrink()
-            ],
-          )),
       onTap: onTap,
+      title: Padding(
+        padding: EdgeInsets.only(left: 10),
+        child: Stack(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                SvgPicture.asset(
+                  'assets/images/' '$icon',
+                  width: 20,
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  label,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+            rightIcon != null
+                ? Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: rightIcon,
+                  )
+                : SizedBox.shrink()
+          ],
+        ),
+      ),
     );
   }
 
@@ -65,9 +69,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     List<Widget> plugins = [];
     List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
     if (depositPlugins.isNotEmpty) {
-      plugins.add(new Divider(
-        color: Color(0xFFE8E8E8),
-      ));
       plugins.add(ListTile(
         contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
         title: Padding(
@@ -85,16 +86,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               Text(
                 I18n.of(context).top_up,
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Theme.of(context).primaryColor),
+                  fontSize: 16,
+                ),
               ),
             ],
           ),
         ),
         onTap: () {
           ExtendedNavigator.root.pop();
-          dynamic url = depositPlugins[0].widgetUrl;
+          dynamic url =
+              depositPlugins[0].widgetUrl + '&finalUrl=https://fuse.io';
           ExtendedNavigator.root.pushWebview(
               withBack: true, url: url, title: I18n.of(context).top_up);
           Segment.track(eventName: 'User clicked on top up');
@@ -107,16 +108,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   List<Widget> menuItem(DrawerViewModel viewModel) {
     return [
-      getListTile(I18n.of(context).switch_community, () {
-        ExtendedNavigator.root.pop();
-        ExtendedNavigator.named('homeRouter').pushSwitchCommunityScreen();
-      }, icon: 'switch_icon.svg'),
+      // getListTile(I18n.of(context).switch_community, () {
+      //   ExtendedNavigator.root.pop();
+      //   ExtendedNavigator.named('homeRouter').pushSwitchCommunityScreen();
+      // }, icon: 'switch_icon.svg'),
       getListTile(I18n.of(context).backup_wallet, () {
         ExtendedNavigator.root.pop();
         ExtendedNavigator.named('homeRouter').pushShowMnemonic();
       },
           icon: 'backup_icon.svg',
-          temp: !viewModel.isBackup
+          rightIcon: !viewModel.isBackup
               ? SvgPicture.asset(
                   'assets/images/back_up_icon.svg',
                   width: 17,
@@ -142,84 +143,85 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ExtendedNavigator.named('homeRouter').pushProfileScreen();
             },
             child: Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 15, left: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          ![null, ''].contains(viewModel.avatarUrl)
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: CachedNetworkImage(
-                                    imageUrl: viewModel.avatarUrl,
-                                    placeholder: (context, url) =>
-                                        CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset('assets/images/anom.png',
-                                            width: 40, height: 40),
-                                    imageBuilder: (context, imageProvider) =>
-                                        Image(
-                                      image: imageProvider,
-                                      fit: BoxFit.fill,
-                                      width: 70,
-                                      height: 70,
-                                    ),
-                                  ),
-                                )
-                              : CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('assets/images/anom.png'),
-                                  radius: 30,
+              padding: EdgeInsets.only(top: 10, bottom: 15, left: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      ![null, ''].contains(viewModel.avatarUrl)
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: CachedNetworkImage(
+                                imageUrl: viewModel.avatarUrl,
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                  'assets/images/anom.png',
                                 ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  (viewModel?.firstName() ?? ''),
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.normal),
+                                imageBuilder: (context, imageProvider) => Image(
+                                  image: imageProvider,
+                                  fit: BoxFit.fill,
+                                  width: 70,
+                                  height: 70,
                                 ),
-                                viewModel.walletAddress != null
-                                    ? Row(
-                                        children: <Widget>[
-                                          Text(
-                                            formatAddress(
-                                                viewModel.walletAddress),
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                        ],
-                                      )
-                                    : SizedBox.shrink()
-                              ],
+                              ),
+                            )
+                          : CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/images/anom.png'),
+                              radius: 30,
                             ),
-                          ),
-                        ]),
-                    SvgPicture.asset(
-                      'assets/images/header_arrow.svg',
-                    )
-                  ],
-                )),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              (viewModel?.firstName() ?? ''),
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            viewModel.walletAddress != null
+                                ? Row(
+                                    children: <Widget>[
+                                      Text(
+                                        formatAddress(viewModel.walletAddress),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                    ],
+                                  )
+                                : SizedBox.shrink()
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SvgPicture.asset(
+                    'assets/images/header_arrow.svg',
+                  )
+                ],
+              ),
+            ),
           )
         ],
       ),
       decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-          border: Border(bottom: BorderSide(color: Color(0xFFE8E8E8)))),
+        color: Theme.of(context).backgroundColor,
+        border: Border(
+          bottom: BorderSide(
+              color: Theme.of(context).colorScheme.onSurface, width: 2),
+        ),
+      ),
     );
   }
 
@@ -240,8 +242,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     padding: EdgeInsets.all(10),
                     children: <Widget>[
                       drawerHeader(viewModel),
-                      ...menuItem(viewModel),
                       ...pluginsItems(viewModel),
+                      ...menuItem(viewModel),
                     ],
                   ),
                 )

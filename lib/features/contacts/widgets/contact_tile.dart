@@ -34,8 +34,7 @@ class ContactTile extends StatelessWidget {
           ),
           title: Text(
             displayName,
-            style:
-                TextStyle(fontSize: 15, color: Theme.of(context).primaryColor),
+            style: TextStyle(fontSize: 15),
           ),
           trailing: trailing,
           onTap: onTap,

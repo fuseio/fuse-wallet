@@ -72,9 +72,7 @@ class BackUpDialogState extends State<BackUpDialog>
                   children: <Widget>[
                     Text(I18n.of(context).protect_wallet,
                         style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold)),
+                            fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20.0),
                     Text(I18n.of(context).we_notice,
                         style: TextStyle(
@@ -125,10 +123,7 @@ class BonusLetter extends StatelessWidget {
           border: new Border.all(color: Colors.black12),
           borderRadius: BorderRadius.circular(5.0)),
       child: Text(_letter,
-          style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontSize: 30,
-              fontWeight: FontWeight.w500)),
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500)),
     );
   }
 }

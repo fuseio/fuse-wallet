@@ -2,14 +2,12 @@ import 'package:fusecash/models/community/business.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/plugins/wallet_banner.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:equatable/equatable.dart';
 
 class BuyViewModel extends Equatable {
   final List<Business> businesses;
-  final Function() loadBusinesses;
   final bool isCommunityBusinessesFetched;
   final Token token;
   final String communityAddress;
@@ -24,13 +22,13 @@ class BuyViewModel extends Equatable {
         walletBanner
       ];
 
-  BuyViewModel(
-      {this.communityAddress,
-      this.businesses,
-      this.loadBusinesses,
-      this.token,
-      this.isCommunityBusinessesFetched,
-      this.walletBanner});
+  BuyViewModel({
+    this.communityAddress,
+    this.businesses,
+    this.token,
+    this.isCommunityBusinessesFetched,
+    this.walletBanner,
+  });
 
   static BuyViewModel fromStore(Store<AppState> store) {
     String communityAddress = store.state.cashWalletState.communityAddress;
@@ -40,14 +38,12 @@ class BuyViewModel extends Equatable {
     Token token =
         store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return BuyViewModel(
-        communityAddress: communityAddress,
-        token: token,
-        businesses: community?.businesses ?? [],
-        walletBanner: community.plugins.walletBanner,
-        isCommunityBusinessesFetched:
-            store.state.cashWalletState.isCommunityBusinessesFetched,
-        loadBusinesses: () {
-          store.dispatch(getBusinessListCall());
-        });
+      communityAddress: communityAddress,
+      token: token,
+      businesses: community?.businesses ?? [],
+      walletBanner: community.plugins.walletBanner,
+      isCommunityBusinessesFetched:
+          store.state.cashWalletState.isCommunityBusinessesFetched,
+    );
   }
 }

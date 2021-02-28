@@ -7,12 +7,12 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/contacts.dart';
 import 'package:fusecash/features/contacts/widgets/send_to_account.dart';
-import 'package:fusecash/features/contacts/widgets/enable_contacts.dart';
+import 'package:fusecash/features/contacts/dialogs/enable_contacts.dart';
 import 'package:fusecash/features/contacts/router/router_contacts.gr.dart';
 import 'package:fusecash/features/contacts/widgets/search_panel.dart';
 import 'package:fusecash/utils/contacts.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
+import 'package:fusecash/widgets/my_scaffold.dart';
 
 class EmptyContacts extends StatefulWidget {
   @override
@@ -146,14 +146,26 @@ class _EmptyContactsState extends State<EmptyContacts> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ContactsViewModel>(
-        distinct: true,
-        converter: ContactsViewModel.fromStore,
-        builder: (_, viewModel) {
-          return MainScaffold(
-            automaticallyImplyLeading: false,
-            title: I18n.of(context).send_to,
-            sliverList: _buildPageList(viewModel),
-          );
-        });
+      distinct: true,
+      converter: ContactsViewModel.fromStore,
+      builder: (_, viewModel) {
+        return MyScaffold(
+          title: I18n.of(context).send_to,
+          body: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  child: CustomScrollView(
+                    slivers: <Widget>[..._buildPageList(viewModel)],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

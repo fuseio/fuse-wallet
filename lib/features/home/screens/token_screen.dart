@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusecash/models/transactions/transaction.dart';
 import 'package:fusecash/features/home/widgets/token_header.dart';
-import 'package:fusecash/features/home/widgets/transfer_tile.dart';
+// import 'package:fusecash/features/home/widgets/transfer_tile.dart';
 import 'package:fusecash/redux/viewsmodels/assets.dart';
 import 'package:fusecash/widgets/my_app_bar.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -25,9 +25,9 @@ class TokenScreen extends StatelessWidget {
         return Scaffold(
           key: key,
           appBar: MyAppBar(
-              height: 170.0,
-              child: TokenHeader(token: token),
-              backgroundColor: Colors.white),
+            height: 170.0,
+            child: TokenHeader(token: token),
+          ),
           drawerEdgeDragWidth: 0,
           body: Column(
             children: <Widget>[
@@ -84,13 +84,13 @@ class TransfersList extends StatelessWidget {
                     color: Color(0xFF979797),
                     fontSize: 13.0,
                     fontWeight: FontWeight.normal))),
-        ListView.builder(
-          shrinkWrap: true,
-          primary: false,
-          itemCount: list?.length,
-          itemBuilder: (BuildContext ctxt, int index) =>
-              TransferTile(transfer: list[index]),
-        )
+        // ListView.builder(
+        //   shrinkWrap: true,
+        //   primary: false,
+        //   itemCount: list?.length,
+        //   itemBuilder: (BuildContext ctxt, int index) =>
+        //       TransferTile(transfer: list[index]),
+        // )
       ],
     );
   }

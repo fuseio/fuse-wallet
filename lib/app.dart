@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:country_code_picker/country_localizations.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,7 +13,7 @@ import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/common/router/route_guards.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:fusecash/services.dart';
-import 'package:fusecash/themes/app_theme.dart';
+// import 'package:fusecash/themes/app_theme.dart';
 import 'package:fusecash/utils/log/log.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter/foundation.dart';
@@ -110,6 +111,7 @@ class _MyAppState extends State<MyApp> {
     return StoreProvider<AppState>(
       store: widget.store,
       child: MaterialApp(
+        themeMode: ThemeMode.system,
         title: Strings.APP_NAME,
         builder: ExtendedNavigator.builder(
           observers: [
@@ -120,7 +122,15 @@ class _MyAppState extends State<MyApp> {
           initialRoute: "/",
           guards: [AuthGuard()],
           builder: (_, extendedNav) => Theme(
-            data: AppTheme.themeData,
+            data: FlexColorScheme.light(
+              fontFamily: 'Europa',
+              colors: FlexSchemeColor.from(
+                secondary: Color(0xFFF5F5F5),
+                secondaryVariant: Color(0xFF777777),
+                primary: Color(0xFF38D989),
+                appBarColor: Theme.of(context).canvasColor,
+              ),
+            ).toTheme,
             child: extendedNav,
           ),
         ),

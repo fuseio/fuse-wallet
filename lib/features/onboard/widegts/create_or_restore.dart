@@ -83,7 +83,9 @@ class _CreateWalletState extends State<CreateWallet> {
                                   }),
                               Text(
                                 I18n.of(context).or,
-                                style: TextStyle(color: Colors.grey[400]),
+                                style: TextStyle(
+                                  color: Color(0xFFB2B2B2),
+                                ),
                               ),
                               TransparentButton(
                                   fontSize: 14,

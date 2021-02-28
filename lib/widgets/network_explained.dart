@@ -94,7 +94,7 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.black),
+                                      color: Theme.of(context).colorScheme.onSurface),
                                 ),
                                 Text(
                                   '''

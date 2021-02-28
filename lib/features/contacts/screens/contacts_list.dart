@@ -15,8 +15,8 @@ import 'package:fusecash/features/contacts/widgets/search_panel.dart';
 import 'package:fusecash/utils/contacts.dart';
 import 'package:fusecash/utils/phone.dart';
 import 'package:fusecash/utils/send.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
 import "package:ethereum_address/ethereum_address.dart";
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 
 class ContactsList extends StatefulWidget {
@@ -51,10 +51,22 @@ class _ContactsListState extends State<ContactsList> {
       converter: ContactsViewModel.fromStore,
       builder: (_, viewModel) {
         return _contacts != null
-            ? MainScaffold(
+            ? MyScaffold(
                 automaticallyImplyLeading: false,
                 title: I18n.of(context).send_to,
-                sliverList: _buildPageList(viewModel),
+                body: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Expanded(
+                        child: CustomScrollView(
+                          slivers: <Widget>[..._buildPageList(viewModel)],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               )
             : Center(
                 child: Preloader(),
@@ -142,8 +154,7 @@ class _ContactsListState extends State<ContactsList> {
             },
             trailing: Text(
               phone.value,
-              style: TextStyle(
-                  fontSize: 13, color: Theme.of(context).primaryColor),
+              style: TextStyle(fontSize: 13),
             ),
           ),
         );
@@ -165,10 +176,12 @@ class _ContactsListState extends State<ContactsList> {
     // listItems.add(RecentContacts());
     // } else
     if (isValidEthereumAddress(searchController.text)) {
-      listItems.add(SendToAccount(
-        accountAddress: searchController.text,
-        resetSearch: resetSearch,
-      ));
+      listItems.add(
+        SendToAccount(
+          accountAddress: searchController.text,
+          resetSearch: resetSearch,
+        ),
+      );
     }
 
     Map<String, List<Contact>> groups = new Map<String, List<Contact>>();

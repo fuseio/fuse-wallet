@@ -193,10 +193,11 @@ CashWalletState _switchCommunitySuccess(
       Map<String, Community>.from(state.communities);
   newOne[communityAddress] = action.community;
   return state.copyWith(
-      isCommunityLoading: false,
-      isCommunityFetched: true,
-      communities: newOne,
-      communityAddress: communityAddress);
+    isCommunityLoading: false,
+    isCommunityFetched: true,
+    communities: newOne,
+    communityAddress: communityAddress,
+  );
 }
 
 CashWalletState _switchCommunityFailed(

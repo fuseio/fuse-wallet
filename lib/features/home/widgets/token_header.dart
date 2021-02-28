@@ -1,11 +1,5 @@
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:fusecash/models/community/community.dart';
-import 'package:fusecash/features/home/dialogs/community_description.dart';
-import 'package:fusecash/features/home/widgets/bridge_dialog.dart';
-import 'package:fusecash/redux/viewsmodels/token_header.dart';
 import 'package:fusecash/widgets/network_explained.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/models/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/generated/i18n.dart';
@@ -23,36 +17,19 @@ class TokenHeader extends StatelessWidget {
         : '0';
     final bool isFuseToken = ![null, ''].contains(token.originNetwork);
     final String logo = isFuseToken ? 'fuse-network.svg' : 'ether-network.svg';
-    final String moveToLogo =
-        !isFuseToken ? 'move_from_fuse.svg' : 'move_to_ethereum.svg';
     return Container(
-        height: MediaQuery.of(context).size.height,
-        alignment: Alignment.bottomLeft,
-        padding: EdgeInsets.all(20.0),
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).primaryColor.withAlpha(20),
-                blurRadius: 30.0,
-                spreadRadius: 0.0,
-                offset: Offset(
-                  0.0,
-                  3.0,
-                ),
-              )
-            ],
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorDark,
-              ],
-            ),
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30.0),
-                bottomRight: Radius.circular(30.0))),
-        child: Stack(children: <Widget>[
+      height: MediaQuery.of(context).size.height,
+      alignment: Alignment.bottomLeft,
+      padding: EdgeInsets.all(20.0),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30.0),
+          bottomRight: Radius.circular(30.0),
+        ),
+      ),
+      child: Stack(
+        children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -64,18 +41,16 @@ class TokenHeader extends StatelessWidget {
                       padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
                       child: Icon(PlatformIcons(context).back))),
               Expanded(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    child: Text('${token.symbol} ${I18n.of(context).balance}',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 12.0)),
-                    padding: EdgeInsets.only(bottom: 6.0),
-                  ),
-                  Row(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      child: Text('${token.symbol} ${I18n.of(context).balance}',
+                          style: TextStyle(fontSize: 12.0)),
+                      padding: EdgeInsets.only(bottom: 6.0),
+                    ),
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -87,9 +62,12 @@ class TokenHeader extends StatelessWidget {
                             RichText(
                                 text: TextSpan(
                                     style: TextStyle(
-                                        fontSize: 27,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.of(context).primaryColor),
+                                      fontSize: 27,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
                                     children: [
                                   TextSpan(text: token.getBalance()),
                                   TextSpan(text: " ${token.symbol}")
@@ -98,128 +76,25 @@ class TokenHeader extends StatelessWidget {
                               width: 10,
                             ),
                             RichText(
-                                text: TextSpan(
-                                    text:
-                                        ![null, ''].contains(token.priceInfo) &&
-                                                token.priceInfo.total.isNotEmpty
-                                            ? '\$$price'
-                                            : "",
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontSize: 18))),
+                              text: TextSpan(
+                                text: ![null, ''].contains(token.priceInfo) &&
+                                        token.priceInfo.total.isNotEmpty
+                                    ? '\$$price'
+                                    : "",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
-                        StoreConnector<AppState, ProTokenHeaderViewModel>(
-                            converter: ProTokenHeaderViewModel.fromStore,
-                            distinct: true,
-                            builder: (_, viewModel) {
-                              final Community community = viewModel.communities
-                                  .firstWhere(
-                                      (element) =>
-                                          (element?.homeTokenAddress
-                                                  ?.toLowerCase() ==
-                                              token.address.toLowerCase()) ||
-                                          (element?.foreignTokenAddress
-                                                  ?.toLowerCase() ==
-                                              token?.address?.toLowerCase()),
-                                      orElse: () => null);
-                              return Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  // !isFuseToken
-                                  //     ? Container(
-                                  //         width: 45,
-                                  //         height: 45,
-                                  //         child: FloatingActionButton(
-                                  //             heroTag: 'goto_trade',
-                                  //             elevation: 0,
-                                  //             backgroundColor:
-                                  //                 Color(0xFF002669),
-                                  //             child: SvgPicture.asset(
-                                  //               'assets/images/goto_trade.svg',
-                                  //               fit: BoxFit.cover,
-                                  //             ),
-                                  //             onPressed: () {
-                                  //               ExtendedNavigator.named(
-                                  //                       'homeRouter')
-                                  //                   .pushTradeScreen(
-                                  //                       primaryToken: token);
-                                  //             }),
-                                  //       )
-                                  //     :
-                                  isFuseToken && community != null
-                                      ? Container(
-                                          width: 45,
-                                          height: 45,
-                                          child: FloatingActionButton(
-                                              heroTag: 'CommunityDescription',
-                                              elevation: 0,
-                                              backgroundColor: Theme.of(context)
-                                                  .primaryColor,
-                                              child: Icon(
-                                                Icons.info,
-                                                color: Theme.of(context)
-                                                    .splashColor,
-                                              ),
-                                              onPressed: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        CommunityDescription(
-                                                            token: token,
-                                                            community:
-                                                                community));
-                                              }),
-                                        )
-                                      : SizedBox.shrink(),
-                                  community != null &&
-                                          community.bridgeDirection != null &&
-                                          community.bridgeDirection ==
-                                              'foreign-to-home'
-                                      ? SizedBox(
-                                          width: 10,
-                                        )
-                                      : SizedBox.shrink(),
-                                  community != null &&
-                                          community.bridgeDirection != null &&
-                                          community.bridgeDirection ==
-                                              'foreign-to-home'
-                                      ? Container(
-                                          width: 45,
-                                          height: 45,
-                                          child: FloatingActionButton(
-                                              heroTag: 'move_from_scanner',
-                                              elevation: 0,
-                                              backgroundColor:
-                                                  Color(0xFF002669),
-                                              child: SvgPicture.asset(
-                                                'assets/images/$moveToLogo',
-                                                fit: BoxFit.cover,
-                                              ),
-                                              onPressed: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        BridgeDialog(
-                                                          token: token,
-                                                          community: community,
-                                                          logo: moveToLogo,
-                                                          isFuseToken:
-                                                              isFuseToken,
-                                                        ));
-                                              }),
-                                        )
-                                      : SizedBox.shrink()
-                                ],
-                              );
-                            })
-                      ])
-                ],
-              )),
+                      ],
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
           Positioned(
@@ -237,20 +112,22 @@ class TokenHeader extends StatelessWidget {
                     ),
                     onTap: () {
                       showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return NetworkExplainedScreen(
-                                logo: isFuseToken
-                                    ? 'fuse_network_logo.svg'
-                                    : 'ether-logo.svg',
-                                network: isFuseToken ? 'fuse' : 'ether');
-                          });
+                        context: context,
+                        builder: (_) => NetworkExplainedScreen(
+                          logo: isFuseToken
+                              ? 'fuse_network_logo.svg'
+                              : 'ether-logo.svg',
+                          network: isFuseToken ? 'fuse' : 'ether',
+                        ),
+                      );
                     },
                   ),
                 ],
               ),
             ),
           )
-        ]));
+        ],
+      ),
+    );
   }
 }

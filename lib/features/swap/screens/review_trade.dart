@@ -9,7 +9,7 @@ import 'package:fusecash/redux/viewsmodels/review_trade.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -64,110 +64,126 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(
-      withPadding: true,
+    return MyScaffold(
       title: I18n.of(context).review_trade,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          child: Column(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Color(0xFFDEDEDE),
-                    width: 2,
+      body: Container(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color(0xFFDEDEDE),
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(9.0)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(20),
+                              constraints: BoxConstraints(
+                                  minHeight: 165,
+                                  minWidth: MediaQuery.of(context).size.width,
+                                  maxWidth: MediaQuery.of(context).size.width),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    I18n.of(context).pay_with,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  AutoSizeText.rich(TextSpan(children: [
+                                    TextSpan(
+                                      text: '${widget.tradeInfo.inputAmount} ',
+                                      style: TextStyle(fontSize: 40),
+                                    ),
+                                    TextSpan(
+                                      text: widget.tradeInfo.inputToken,
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ]))
+                                ],
+                              ),
+                            ),
+                            SvgPicture.asset(
+                              'assets/images/stroke.svg',
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(20),
+                              constraints: BoxConstraints(
+                                  minHeight: 165,
+                                  minWidth: MediaQuery.of(context).size.width,
+                                  maxWidth: MediaQuery.of(context).size.width),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    I18n.of(context).receive,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  AutoSizeText.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              '${widget.tradeInfo.outputAmount} ',
+                                          style: TextStyle(fontSize: 40),
+                                        ),
+                                        TextSpan(
+                                          text: widget.tradeInfo.outputToken,
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      constraints: BoxConstraints(
-                          minHeight: 165,
-                          minWidth: MediaQuery.of(context).size.width,
-                          maxWidth: MediaQuery.of(context).size.width),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            I18n.of(context).pay_with,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          AutoSizeText.rich(TextSpan(children: [
-                            TextSpan(
-                              text: '${widget.tradeInfo.inputAmount} ',
-                              style: TextStyle(fontSize: 40),
-                            ),
-                            TextSpan(
-                              text: widget.tradeInfo.inputToken,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ]))
-                        ],
-                      ),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                StoreConnector<AppState, ReviewSwapViewModel>(
+                  distinct: true,
+                  converter: ReviewSwapViewModel.fromStore,
+                  builder: (_, viewModel) => Center(
+                    child: PrimaryButton(
+                      labelFontWeight: FontWeight.normal,
+                      label: I18n.of(context).trade,
+                      fontSize: 15,
+                      disabled: isPreloading,
+                      preload: isPreloading,
+                      onPressed: () => _onPress(viewModel),
                     ),
-                    SvgPicture.asset(
-                      'assets/images/stroke.svg',
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      constraints: BoxConstraints(
-                          minHeight: 165,
-                          minWidth: MediaQuery.of(context).size.width,
-                          maxWidth: MediaQuery.of(context).size.width),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            I18n.of(context).receive,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          AutoSizeText.rich(TextSpan(children: [
-                            TextSpan(
-                              text: '${widget.tradeInfo.outputAmount} ',
-                              style: TextStyle(fontSize: 40),
-                            ),
-                            TextSpan(
-                              text: widget.tradeInfo.outputToken,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ]))
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
-      footer: new StoreConnector<AppState, ReviewSwapViewModel>(
-        distinct: true,
-        converter: ReviewSwapViewModel.fromStore,
-        builder: (_, viewModel) => Center(
-          child: PrimaryButton(
-            labelFontWeight: FontWeight.normal,
-            label: I18n.of(context).trade,
-            fontSize: 15,
-            disabled: isPreloading,
-            preload: isPreloading,
-            onPressed: () => _onPress(viewModel),
-          ),
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

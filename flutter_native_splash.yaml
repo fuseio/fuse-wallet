@@ -1,5 +1,7 @@
 flutter_native_splash:
   image: assets/images/splash.png
-  fill: true
-  color: "ffffff"
-  ios: false
+  fill: false
+  android_gravity: center
+  ios_content_mode: center
+  color: "38D989"
+  ios: true

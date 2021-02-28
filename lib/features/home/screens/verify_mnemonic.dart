@@ -5,8 +5,57 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:fusecash/features/home/router/home_router.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
+
+class Word extends StatelessWidget {
+  Word({
+    Key key,
+    this.mnemonic,
+    this.wordIndex,
+  }) : super(key: key);
+  final List<String> mnemonic;
+  final int wordIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      autofocus: false,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(0.0),
+        labelText: I18n.of(context).word + wordIndex.toString(),
+        border: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.onSurface,
+            width: 2,
+          ),
+        ),
+        fillColor: Theme.of(context).canvasColor,
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.onSurface,
+            width: 2,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.onSurface,
+            width: 2,
+          ),
+        ),
+        labelStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+      ),
+      validator: (String value) {
+        if (mnemonic[wordIndex - 1] != value.trim()) {
+          return I18n.of(context).word_not_match;
+        }
+        return null;
+      },
+    );
+  }
+}
 
 class VerifyMnemonic extends StatefulWidget {
   @override
@@ -34,114 +83,93 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, BackupViewModel>(
+    return MyScaffold(
+      title: I18n.of(context).back_up,
+      body: StoreConnector<AppState, BackupViewModel>(
         converter: BackupViewModel.fromStore,
         builder: (_, viewModel) {
-          return MainScaffold(
-              withPadding: true,
-              title: I18n.of(context).back_up,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(
-                      left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Text(
+          return Container(
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(
+                        left: 20.0,
+                        right: 20.0,
+                        bottom: 20.0,
+                        top: 20.0,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
                             I18n.of(context).write_word +
                                 selectedWordsNum.join(", "),
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal)),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10, left: 30, right: 30),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 10, left: 30, right: 30),
-                        child: Form(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * .7,
+                      child: Column(
+                        children: <Widget>[
+                          Form(
                             key: _formKey,
                             child: Column(
                               children: <Widget>[
-                                TextFormField(
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                    labelText: I18n.of(context).word +
-                                        selectedWordsNum[0].toString(),
-                                  ),
-                                  validator: (String value) {
-                                    if (viewModel.user.mnemonic[
-                                            selectedWordsNum[0] - 1] !=
-                                        value.trim()) {
-                                      return I18n.of(context).word_not_match;
-                                    }
-                                    return null;
-                                  },
+                                Word(
+                                  mnemonic: viewModel.user.mnemonic,
+                                  wordIndex: selectedWordsNum[0],
                                 ),
                                 SizedBox(height: 16.0),
-                                TextFormField(
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                    labelText: I18n.of(context).word +
-                                        selectedWordsNum[1].toString(),
-                                  ),
-                                  validator: (String value) {
-                                    if (viewModel.user.mnemonic[
-                                            selectedWordsNum[1] - 1] !=
-                                        value.trim()) {
-                                      return I18n.of(context).word_not_match;
-                                    }
-                                    return null;
-                                  },
+                                Word(
+                                  mnemonic: viewModel.user.mnemonic,
+                                  wordIndex: selectedWordsNum[1],
                                 ),
                                 SizedBox(height: 16.0),
-                                TextFormField(
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                    labelText: I18n.of(context).word +
-                                        selectedWordsNum[2].toString(),
-                                  ),
-                                  validator: (String value) {
-                                    if (viewModel.user.mnemonic[
-                                            selectedWordsNum[2] - 1] !=
-                                        value.trim()) {
-                                      return I18n.of(context).word_not_match;
-                                    }
-                                    return null;
-                                  },
-                                )
+                                Word(
+                                  mnemonic: viewModel.user.mnemonic,
+                                  wordIndex: selectedWordsNum[2],
+                                ),
                               ],
-                            )),
-                      )
-                    ],
-                  ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-                SizedBox(height: 16.0),
-                Padding(
-                  padding: EdgeInsets.only(top: 40),
-                  child: Center(
-                      child: PrimaryButton(
-                    labelFontWeight: FontWeight.normal,
-                    label: I18n.of(context).next_button,
-                    fontSize: 15,
-                    width: 160,
-                    onPressed: () async {
-                      if (_formKey.currentState.validate()) {
-                        ExtendedNavigator.named('homeRouter')
-                            .replace(HomeRoutes.doneBackup);
-                      }
-                    },
-                  )),
-                ),
-                SizedBox(height: 30.0),
-              ]);
-        });
+                Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 40),
+                      child: Center(
+                          child: PrimaryButton(
+                        labelFontWeight: FontWeight.normal,
+                        label: I18n.of(context).next_button,
+                        fontSize: 15,
+                        width: 160,
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            ExtendedNavigator.named('homeRouter')
+                                .replace(HomeRoutes.doneBackup);
+                          }
+                        },
+                      )),
+                    ),
+                    SizedBox(height: 30.0),
+                  ],
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }

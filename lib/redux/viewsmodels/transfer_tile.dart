@@ -40,7 +40,7 @@ class TransferTileViewModel extends Equatable {
         .toList();
     Map<String, Token> tokens =
         [...foreignTokens, ...homeTokens].fold(Map(), (previousValue, element) {
-      previousValue.putIfAbsent(element.address.toLowerCase(), () => element);
+      previousValue.putIfAbsent(element?.address?.toLowerCase(), () => element);
       return previousValue;
     });
 

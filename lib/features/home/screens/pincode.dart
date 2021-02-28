@@ -3,8 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/snackbars.dart';
 import 'package:pin_input_text_field/pin_input_text_field.dart';
 
@@ -34,12 +34,10 @@ class _PincodeScreenState extends State<PincodeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      withPadding: false,
+    return MyScaffold(
       title: I18n.of(context).pincode,
-      children: <Widget>[
-        Column(
+      body: Container(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
@@ -61,7 +59,6 @@ class _PincodeScreenState extends State<PincodeScreen> {
                             : I18n.of(context).create_passcode,
                         style: TextStyle(
                           fontSize: 25,
-                          color: Theme.of(context).primaryColor,
                         ),
                       ),
                       SizedBox(
@@ -79,15 +76,16 @@ class _PincodeScreenState extends State<PincodeScreen> {
                               pinLength: 6,
                               decoration: UnderlineDecoration(
                                 textStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
                                   color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
                                 ),
                                 hintTextStyle:
                                     TextStyle(fontWeight: FontWeight.bold),
                                 colorBuilder: FixedColorListBuilder(
                                   List<Color>.filled(
                                     6,
-                                    Theme.of(context).primaryColor,
+                                    Theme.of(context).colorScheme.onSurface,
                                   ),
                                 ),
                                 obscureStyle: ObscureStyle(
@@ -139,7 +137,7 @@ class _PincodeScreenState extends State<PincodeScreen> {
             )
           ],
         ),
-      ],
+      ),
     );
   }
 }

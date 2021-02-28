@@ -115,6 +115,37 @@ abstract class WalletAction implements _$WalletAction {
     );
   }
 
+  Widget getStatusIcon() {
+    if (this.isFailed()) {
+      return Padding(
+        padding: EdgeInsets.only(right: 10),
+        child: SvgPicture.asset(
+          'assets/images/failed_icon.svg',
+          width: 25,
+          height: 25,
+        ),
+      );
+    } else if (this.isConfirmed()) {
+      return Padding(
+        padding: EdgeInsets.only(right: 10),
+        child: SvgPicture.asset(
+          'assets/images/approve_icon.svg',
+          width: 25,
+          height: 25,
+        ),
+      );
+    } else {
+      return Padding(
+        padding: EdgeInsets.only(right: 10),
+        child: SvgPicture.asset(
+          'assets/images/pending.svg',
+          width: 25,
+          height: 25,
+        ),
+      );
+    }
+  }
+
   String getText() {
     return this.map(
       createWallet: (value) {

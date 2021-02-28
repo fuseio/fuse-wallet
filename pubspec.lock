@@ -393,6 +393,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.6"
+  flex_color_scheme:
+    dependency: "direct main"
+    description:
+      name: flex_color_scheme
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.1"
   flushbar:
     dependency: "direct main"
     description:
@@ -1240,9 +1247,11 @@ packages:
   wallet_core:
     dependency: "direct main"
     description:
-      path: "../wallet_core"
-      relative: true
-    source: path
+      path: "."
+      ref: next
+      resolved-ref: "583f91b07a46cfa4c6c46b6e65c0e2ac3f4e4363"
+      url: "https://github.com/fuseio/wallet_core.git"
+    source: git
     version: "0.2.5+1"
   watcher:
     dependency: transitive

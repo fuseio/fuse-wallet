@@ -827,12 +827,12 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isRopsten,
         ),
       );
-      store.dispatch(
-        getBusinessListCall(
-          communityAddress: communityAddress,
-          isRopsten: isRopsten,
-        ),
-      );
+      // store.dispatch(
+      //   getBusinessListCall(
+      //     communityAddress: communityAddress,
+      //     isRopsten: isRopsten,
+      //   ),
+      // );
       store.dispatch(
         joinCommunityCall(
           token: communityToken,
@@ -872,12 +872,12 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           homeTokenAddress: communityToken.address,
         ),
       ));
-      store.dispatch(
-        getBusinessListCall(
-          communityAddress: communityAddress,
-          isRopsten: isRopsten,
-        ),
-      );
+      // store.dispatch(
+      //   getBusinessListCall(
+      //     communityAddress: communityAddress,
+      //     isRopsten: isRopsten,
+      //   ),
+      // );
       store.dispatch(
         fetchCommunityMetadataCall(
           communityAddress,

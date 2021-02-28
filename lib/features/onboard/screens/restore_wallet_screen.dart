@@ -8,7 +8,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/recovery.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 
 class RecoveryPage extends StatefulWidget {
@@ -37,81 +37,102 @@ class _RecoveryPageState extends State<RecoveryPage> {
   @override
   Widget build(BuildContext context) {
     Segment.screen(screenName: '/restore-wallet-screen');
-    return MainScaffold(
-      expandedHeight: MediaQuery.of(context).size.height / 12,
-      padding: 20.0,
-      withPadding: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    return MyScaffold(
       title: I18n.of(context).restore_from_backup,
-      children: <Widget>[
-        Container(
-          padding:
-              EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 30),
-                child: Text(I18n.of(context).restore_words,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal)),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 10, left: 30, right: 30),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
                 Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).bottomAppBarColor,
+                  padding: EdgeInsets.only(
+                      left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 30),
+                        child: Text(I18n.of(context).restore_words,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.normal)),
+                      )
+                    ],
                   ),
-                  child: TextFormField(
-                    controller: wordsController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 5,
-                    autofocus: false,
-                    style: TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                        border: null, fillColor: Colors.transparent),
-                    validator: (String value) => value.split(" ").length != 12
-                        ? 'Please enter 12 words'
-                        : null,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: TextFormField(
+                            controller: wordsController,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 5,
+                            autofocus: false,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              backgroundColor: Theme.of(context).canvasColor,
+                            ),
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 2,
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 2,
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                ),
+                              ),
+                              fillColor: Colors.transparent,
+                            ),
+                            validator: (String value) =>
+                                value.split(" ").length != 12
+                                    ? 'Please enter 12 words'
+                                    : null,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                )
+                ),
               ],
             ),
-          ),
-        ),
-        SizedBox(height: 30.0),
-      ],
-      footer: StoreConnector<AppState, RecoveryViewModel>(
-        distinct: true,
-        converter: RecoveryViewModel.fromStore,
-        builder: (_, viewModel) => Center(
-          child: PrimaryButton(
-            preload: isPreloading,
-            disabled: isPreloading,
-            label: I18n.of(context).next_button,
-            fontSize: 16,
-            labelFontWeight: FontWeight.normal,
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                setState(() {
-                  isPreloading = true;
-                });
-                viewModel.generateWalletFromBackup(
-                    wordsController.text.toLowerCase(), () {
-                  ExtendedNavigator.root.pushSignupScreen();
-                });
-              }
-            },
-          ),
+            Column(
+              children: [
+                StoreConnector<AppState, RecoveryViewModel>(
+                  distinct: true,
+                  converter: RecoveryViewModel.fromStore,
+                  builder: (_, viewModel) => Center(
+                    child: PrimaryButton(
+                      preload: isPreloading,
+                      disabled: isPreloading,
+                      label: I18n.of(context).next_button,
+                      fontSize: 16,
+                      labelFontWeight: FontWeight.normal,
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          setState(() {
+                            isPreloading = true;
+                          });
+                          viewModel.generateWalletFromBackup(
+                              wordsController.text.toLowerCase(), () {
+                            ExtendedNavigator.root.pushSignupScreen();
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30.0),
+              ],
+            )
+          ],
         ),
       ),
     );

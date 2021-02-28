@@ -12,7 +12,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:fusecash/utils/format.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/preloader.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -149,7 +149,6 @@ class _SwapScreenState extends State<SwapScreen> {
                       padding: EdgeInsets.only(top: 20, bottom: 20),
                       separatorBuilder: (BuildContext context, int index) =>
                           Divider(
-                        color: Color(0xFFE8E8E8),
                         height: 0,
                       ),
                       itemCount: tokens?.length ?? 0,
@@ -183,7 +182,6 @@ class _SwapScreenState extends State<SwapScreen> {
           child: SizedBox(
             child: Divider(
               thickness: 1.0,
-              color: Color(0xFFDBDBDB),
             ),
           ),
         ),
@@ -221,7 +219,7 @@ class _SwapScreenState extends State<SwapScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
       decoration: BoxDecoration(
-        color: Color(0xFFF5F5F5),
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: InkWell(
@@ -254,110 +252,128 @@ class _SwapScreenState extends State<SwapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, TradeViewModel>(
-      distinct: true,
-      converter: TradeViewModel.fromStore,
-      onInit: (store) {
-        store.dispatch(fetchSwapList());
-      },
-      onWillChange: (previousViewModel, newViewModel) {
-        if (previousViewModel.tokens != newViewModel.tokens) {
-          setState(() {
-            tokenOut = newViewModel.tokens[0];
-            tokenIn = newViewModel.tokens[1];
-            swapRequestBody = swapRequestBody.copyWith(
-              recipient: newViewModel.walletAddress,
-              currencyOut: newViewModel.tokens[1].address,
-              currencyIn: newViewModel.tokens[0].address,
-            );
-          });
-        }
-      },
-      builder: (_, viewModel) {
-        if (viewModel.tokens.isEmpty) {
-          return Preloader();
-        } else
-          return MainScaffold(
-            expandedHeight: MediaQuery.of(context).size.height / 12,
-            withPadding: true,
-            padding: 20.0,
-            title: I18n.of(context).swap,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          TradeCard(
-                            onTap: () {
-                              showBottomMenu(
-                                viewModel.tokens,
-                                onTokenOutChanged,
-                              );
-                            },
-                            onChanged: (value) {
-                              tokenOutDebouncer.run(
-                                () => getTradeInfo(
-                                  value,
-                                  (info) => setState(() {
-                                    tokenInController.text = info.outputAmount;
-                                  }),
-                                ),
-                              );
-                            },
-                            useMaxWidget: maxButton(),
-                            textEditingController: tokenOutController,
-                            token: tokenOut,
-                            title: I18n.of(context).pay_with,
-                          ),
-                          swapWidgetIcon(),
-                          TradeCard(
-                            onTap: () {
-                              showBottomMenu(
-                                viewModel.tokens,
-                                onTokenInChanged,
-                              );
-                            },
-                            onChanged: (value) {
-                              tokenInDebouncer.run(
-                                () => getTradeInfo(
-                                  value,
-                                  (info) => setState(() {
-                                    tokenOutController.text = info.outputAmount;
-                                  }),
-                                ),
-                              );
-                            },
-                            textEditingController: tokenInController,
-                            token: tokenIn,
-                            title: I18n.of(context).receive,
-                          ),
-                        ],
+    return MyScaffold(
+      title: I18n.of(context).swap,
+      body: StoreConnector<AppState, TradeViewModel>(
+        distinct: true,
+        converter: TradeViewModel.fromStore,
+        onInit: (store) {
+          store.dispatch(fetchSwapList());
+        },
+        onWillChange: (previousViewModel, newViewModel) {
+          if (previousViewModel.tokens != newViewModel.tokens) {
+            setState(() {
+              tokenOut = newViewModel.tokens[0];
+              tokenIn = newViewModel.tokens[1];
+              swapRequestBody = swapRequestBody.copyWith(
+                recipient: newViewModel.walletAddress,
+                currencyOut: newViewModel.tokens[1].address,
+                currencyIn: newViewModel.tokens[0].address,
+              );
+            });
+          }
+        },
+        builder: (_, viewModel) {
+          if (viewModel.tokens.isEmpty) {
+            return Preloader();
+          } else
+            return Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              child: Column(
+                                children: <Widget>[
+                                  TradeCard(
+                                    onTap: () {
+                                      showBottomMenu(
+                                        viewModel.tokens,
+                                        onTokenOutChanged,
+                                      );
+                                    },
+                                    onChanged: (value) {
+                                      tokenOutDebouncer.run(
+                                        () => getTradeInfo(
+                                          value,
+                                          (info) => setState(() {
+                                            tokenInController.text =
+                                                info.outputAmount;
+                                          }),
+                                        ),
+                                      );
+                                    },
+                                    useMaxWidget: maxButton(),
+                                    textEditingController: tokenOutController,
+                                    token: tokenOut,
+                                    title: I18n.of(context).pay_with,
+                                  ),
+                                  swapWidgetIcon(),
+                                  TradeCard(
+                                    onTap: () {
+                                      showBottomMenu(
+                                        viewModel.tokens,
+                                        onTokenInChanged,
+                                      );
+                                    },
+                                    onChanged: (value) {
+                                      tokenInDebouncer.run(
+                                        () => getTradeInfo(
+                                          value,
+                                          (info) => setState(() {
+                                            tokenOutController.text =
+                                                info.outputAmount;
+                                          }),
+                                        ),
+                                      );
+                                    },
+                                    textEditingController: tokenInController,
+                                    token: tokenIn,
+                                    title: I18n.of(context).receive,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
-              )
-            ],
-            footer: Center(
-              child: PrimaryButton(
-                disabled: isFetchingPrice,
-                preload: isFetchingPrice,
-                labelFontWeight: FontWeight.normal,
-                label: I18n.of(context).swap,
-                fontSize: 15,
-                onPressed: () {
-                  ExtendedNavigator.named('swapRouter').pushReviewSwapScreen(
-                    swapRequestBody: swapRequestBody,
-                    tradeInfo: info,
-                  );
-                },
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Center(
+                        child: PrimaryButton(
+                          disabled: isFetchingPrice,
+                          preload: isFetchingPrice,
+                          labelFontWeight: FontWeight.normal,
+                          label: I18n.of(context).swap,
+                          fontSize: 15,
+                          onPressed: () {
+                            ExtendedNavigator.named('swapRouter')
+                                .pushReviewSwapScreen(
+                              swapRequestBody: swapRequestBody,
+                              tradeInfo: info,
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
-          );
-      },
+            );
+        },
+      ),
     );
+    // return new;
   }
 }

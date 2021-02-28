@@ -4,7 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/profile.dart';
-import 'package:fusecash/widgets/main_scaffold.dart';
+import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -20,148 +20,149 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ProfileViewModel>(
-        distinct: true,
-        converter: ProfileViewModel.fromStore,
-        onDispose: (store) {
-          if (displayName != null &&
-              store.state.userState.displayName != displayName) {
-            final viewModel = ProfileViewModel.fromStore(store);
-            viewModel.updateDisplaName(displayName);
-          }
-        },
-        builder: (_, viewModel) {
-          return MainScaffold(
-            backgroundColor: Colors.grey[200],
-            title: I18n.of(context).account,
-            children: [
-              Material(
-                color: Colors.white,
-                child: Column(
+      distinct: true,
+      converter: ProfileViewModel.fromStore,
+      onDispose: (store) {
+        if (displayName != null &&
+            store.state.userState.displayName != displayName) {
+          final viewModel = ProfileViewModel.fromStore(store);
+          viewModel.updateDisplayName(displayName);
+        }
+      },
+      builder: (_, viewModel) {
+        return MyScaffold(
+          title: I18n.of(context).account,
+          body: Material(
+            color: Theme.of(context).canvasColor,
+            child: Column(
+              children: [
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () => _showSourceImagePicker(context,
-                                    (source) => viewModel.editAvatar(source)),
-                                child: SizedBox(
-                                  height: 70,
-                                  width: 70,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Container(
-                                      color: Colors.grey[400],
-                                      child: Stack(
-                                        children: [
-                                          Positioned.fill(
-                                              child: ![
-                                            null,
-                                            ''
-                                          ].contains(viewModel.avatarUrl)
-                                                  ? CachedNetworkImage(
-                                                      imageUrl:
-                                                          viewModel.avatarUrl,
-                                                      placeholder: (context,
-                                                              url) =>
-                                                          CircularProgressIndicator(),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Image.asset(
-                                                              'assets/images/anom.png',
-                                                              width: 40,
-                                                              height: 40),
-                                                      imageBuilder: (context,
-                                                              imageProvider) =>
-                                                          Image(
-                                                        image: imageProvider,
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    )
-                                                  : CircleAvatar(
-                                                      backgroundImage:
-                                                          new AssetImage(
-                                                              'assets/images/anom.png'),
-                                                      radius: 30,
-                                                    )),
-                                          Positioned.directional(
-                                              textDirection: TextDirection.ltr,
-                                              bottom: 0,
-                                              start: 0,
-                                              end: 0,
-                                              child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 3),
-                                                alignment: Alignment.center,
-                                                color: Colors.black,
-                                                child: Text(
-                                                  I18n.of(context).edit,
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 9),
-                                                ),
-                                              ))
-                                        ],
-                                      ),
-                                    ),
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () => _showSourceImagePicker(context,
+                                (source) => viewModel.editAvatar(source)),
+                            child: SizedBox(
+                              height: 70,
+                              width: 70,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Container(
+                                  color: Colors.grey[400],
+                                  child: Stack(
+                                    children: [
+                                      Positioned.fill(
+                                          child: ![null, '']
+                                                  .contains(viewModel.avatarUrl)
+                                              ? CachedNetworkImage(
+                                                  imageUrl: viewModel.avatarUrl,
+                                                  placeholder: (context, url) =>
+                                                      CircularProgressIndicator(),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      Image.asset(
+                                                          'assets/images/anom.png',
+                                                          width: 40,
+                                                          height: 40),
+                                                  imageBuilder: (context,
+                                                          imageProvider) =>
+                                                      Image(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                )
+                                              : CircleAvatar(
+                                                  backgroundImage: new AssetImage(
+                                                      'assets/images/anom.png'),
+                                                  radius: 30,
+                                                )),
+                                      Positioned.directional(
+                                          textDirection: TextDirection.ltr,
+                                          bottom: 0,
+                                          start: 0,
+                                          end: 0,
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 3),
+                                            alignment: Alignment.center,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
+                                            child: Text(
+                                              I18n.of(context).edit,
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .canvasColor,
+                                                  fontSize: 9),
+                                            ),
+                                          ))
+                                    ],
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 5),
-                              Text(viewModel?.displayName ?? '',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18))
-                            ],
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(viewModel?.displayName ?? '',
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                  fontSize: 18))
+                        ],
+                      ),
+                    ),
+                    Container(height: 1, color: Colors.grey[200]),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(I18n.of(context).name,
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.grey))),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      child: TextFormField(
+                        autofocus: false,
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).colorScheme.onSurface),
+                        initialValue: viewModel.displayName,
+                        keyboardType: TextInputType.text,
+                        cursorColor: Color(0xFFC6C6C6),
+                        onChanged: (value) => displayName = value,
+                        decoration: InputDecoration(
+                          contentPadding:
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          suffixIcon: Icon(
+                            Icons.edit,
+                            color: Colors.grey,
                           ),
                         ),
-                        Container(height: 1, color: Colors.grey[200]),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(I18n.of(context).name,
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.grey))),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 0),
-                          child: TextFormField(
-                            autofocus: false,
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                            initialValue: viewModel.displayName,
-                            keyboardType: TextInputType.text,
-                            cursorColor: Color(0xFFC6C6C6),
-                            onChanged: (value) => displayName = value,
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                border: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                suffixIcon: Icon(
-                                  Icons.edit,
-                                  color: Colors.grey,
-                                )),
-                          ),
-                        ),
-                        Container(height: 1, color: Colors.grey[200]),
-                        _buildGroup(I18n.of(context).wallet_address,
-                            viewModel?.walletAddress ?? ''),
-                        Container(height: 1, color: Colors.grey[200]),
-                        _buildGroup(I18n.of(context).phoneNumber,
-                            viewModel?.phone ?? ''),
-                        Container(height: 1, color: Colors.grey[200]),
-                      ],
-                    )
+                      ),
+                    ),
+                    Container(height: 1, color: Colors.grey[200]),
+                    _buildGroup(I18n.of(context).wallet_address,
+                        viewModel?.walletAddress ?? ''),
+                    Container(height: 1, color: Colors.grey[200]),
+                    _buildGroup(
+                        I18n.of(context).phoneNumber, viewModel?.phone ?? ''),
+                    Container(height: 1, color: Colors.grey[200]),
                   ],
-                ),
-              ),
-            ],
-          );
-        });
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildGroup(String title, String value) => Container(
@@ -196,7 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           builder: (context) => Container(
             padding: EdgeInsets.symmetric(vertical: 16),
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).canvasColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
