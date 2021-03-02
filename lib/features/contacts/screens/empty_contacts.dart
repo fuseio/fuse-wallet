@@ -113,8 +113,8 @@ class _EmptyContactsState extends State<EmptyContacts> {
                       ],
                     ),
                     onTap: () async {
-                      bool premission = await Contacts.getPermissions();
-                      if (premission) {
+                      bool permission = await Contacts.getPermissions();
+                      if (permission) {
                         List<Contact> contacts = await Contacts.getContacts();
                         viewModel.syncContacts(contacts);
                         ExtendedNavigator.named('contactsRouter')

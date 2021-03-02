@@ -33,7 +33,7 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).canvasColor,
         border: Border(
           top: BorderSide(
             color: Theme.of(context).colorScheme.onSurface,

@@ -17,7 +17,7 @@ final Explorer fuseExplorerApi = getIt<Explorer>(
 
 final Explorer ethereumExplorerApi = getIt<Explorer>(
   param1: UrlConstants.FUSE_EXPLORER_URL,
-  param2: DotEnv().env['ETHERSCAN_API_KEY'],
+  param2: env['ETHERSCAN_API_KEY'],
 );
 
 final API api = getIt<API>();

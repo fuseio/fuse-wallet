@@ -114,7 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
-                    Container(height: 1, color: Colors.grey[200]),
+                    Divider(),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -138,9 +138,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 2,
+                            ),
+                          ),
+                          fillColor: Theme.of(context).canvasColor,
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 2,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 2,
+                            ),
+                          ),
                           suffixIcon: Icon(
                             Icons.edit,
                             color: Colors.grey,
@@ -148,13 +164,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
-                    Container(height: 1, color: Colors.grey[200]),
-                    _buildGroup(I18n.of(context).wallet_address,
-                        viewModel?.walletAddress ?? ''),
-                    Container(height: 1, color: Colors.grey[200]),
+                    Divider(),
+                    _buildGroup(
+                      I18n.of(context).wallet_address,
+                      viewModel?.walletAddress ?? '',
+                    ),
+                    Divider(),
                     _buildGroup(
                         I18n.of(context).phoneNumber, viewModel?.phone ?? ''),
-                    Container(height: 1, color: Colors.grey[200]),
+                    Divider(),
                   ],
                 )
               ],
@@ -165,7 +183,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildGroup(String title, String value) => Container(
+  Widget _buildGroup(
+    String title,
+    String value,
+  ) =>
+      Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 16),
         child: Padding(
@@ -176,12 +198,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Text(
                 title,
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
               ),
               SizedBox(height: 8),
               Text(
                 value,
-                style: TextStyle(fontSize: 18, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),
@@ -189,7 +217,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
 
   void _showSourceImagePicker(
-          BuildContext context, void Function(ImageSource source) callback) =>
+    BuildContext context,
+    void Function(ImageSource source) callback,
+  ) =>
       showModalBottomSheet(
         context: context,
         builder: (context) => BottomSheet(

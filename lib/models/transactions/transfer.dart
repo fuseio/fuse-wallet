@@ -41,7 +41,7 @@ class Transfer extends Transaction {
 
   bool isJoinBonus() =>
       this.from != null &&
-      this.from?.toLowerCase() == DotEnv().env['FUNDER_ADDRESS'];
+      this.from?.toLowerCase() == env['FUNDER_ADDRESS'];
 
   bool isGenerateWallet() =>
       this.jobId != null && this.jobId == 'generateWallet';

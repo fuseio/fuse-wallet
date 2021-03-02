@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Router;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:fusecash/app.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/state/store.dart';
@@ -16,14 +16,14 @@ Future<void> mainCommon(String env) async {
     DeviceOrientation.portraitUp,
   ]);
   final envFile = env == 'prod' ? '.env' : '.env_qa';
-  await DotEnv().load('environment/$envFile');
+  await DotEnv.load(fileName: 'environment/$envFile');
   configureDependencies(environment: env);
   final Store<AppState> store = await AppFactory().getStore();
   await SentryFlutter.init(
     (options) {
       options.debug = !kReleaseMode;
-      options.dsn = DotEnv().env['SENTRY_DSN'];
-      options.serverName = DotEnv().env['API_BASE_URL'];
+      options.dsn = DotEnv.env['SENTRY_DSN'];
+      options.serverName = DotEnv.env['API_BASE_URL'];
       options.environment = env;
     },
     appRunner: () => runApp(

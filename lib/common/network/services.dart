@@ -6,11 +6,11 @@ import 'package:wallet_core/wallet_core.dart' show API, Graph;
 abstract class ServicesModule {
   @lazySingleton
   Graph get graph => Graph(
-        baseUrl: DotEnv().env['GRAPH_BASE_URL'],
+        baseUrl: env['GRAPH_BASE_URL'],
       );
 
   @lazySingleton
   API get api => API(
-        base: DotEnv().env['API_BASE_URL'],
+        base: env['API_BASE_URL'],
       );
 }

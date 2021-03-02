@@ -217,11 +217,6 @@ class _SwapScreenState extends State<SwapScreen> {
 
   Widget maxButton() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 3, horizontal: 15),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
       child: InkWell(
         onTap: () {
           String max = formatValue(

@@ -24,14 +24,14 @@ class ImageUrl {
     if (image == null) {
       return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
     }
-    return DotEnv().env['IPFS_BASE_URL'] + '/image/' + image;
+    return env['IPFS_BASE_URL'] + '/image/' + image;
   }
 
   static String getS3ImageUrl(String image) {
     if (image == null) {
       return 'https://cdn3.iconfinder.com/data/icons/abstract-1/512/no_image-512.png';
     }
-    return '${DotEnv().env['FUSE_S3_BUCKET']}/$image';
+    return '${env['FUSE_S3_BUCKET']}/$image';
   }
 
   static String getTokenUrl(tokenAddress) {
