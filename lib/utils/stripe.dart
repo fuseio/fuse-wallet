@@ -12,8 +12,7 @@ class StripeService {
 
   factory StripeService() => _intance;
 
-  String _paymentApiUrl =
-      'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/stripe/pay';
+  String _paymentApiUrl = 'https://stripe.itsaboutpeepl.com/api/stripe/pay';
   String _apiKey =
       'pk_live_51IFlGaF8mk2quJk5QOqANlJXwIUjSwOiDFouybqMdPuwrZ8FGi9sUnvxwUrbklBjY7yNukf2IKqFdTpyk9BpU84g00iFzHPy60';
 

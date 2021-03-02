@@ -30,7 +30,7 @@ class TopupScreen extends StatefulWidget {
 
 class _TopupScreenState extends State<TopupScreen>
     with SingleTickerProviderStateMixin {
-  String amountText = "100";
+  String amountText = "25";
   bool isPreloading = false;
 
   void _onSuccessCallback(
@@ -43,7 +43,7 @@ class _TopupScreenState extends State<TopupScreen>
     String body = jsonEncode(Map.from(
         {'walletAddress': widget.walletAddress, 'publicToken': publicToken}));
     responseHandler(await client.post(
-      'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/plaid/set_access_token',
+      'https://stripe.itsaboutpeepl.com/api/plaid/set_access_token',
       body: body,
       headers: {"Content-Type": 'application/json'},
     ));
@@ -78,7 +78,7 @@ class _TopupScreenState extends State<TopupScreen>
     }));
     Map response = responseHandler(
       await client.post(
-        'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/plaid/create_link_token_for_payment',
+        'https://stripe.itsaboutpeepl.com/api/plaid/create_link_token_for_payment',
         headers: {"Content-Type": 'application/json'},
         body: body,
       ),
