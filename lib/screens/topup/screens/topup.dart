@@ -135,6 +135,7 @@ class _TopupScreenState extends State<TopupScreen>
       ExtendedNavigator.named('homeRouter').popUntilRoot();
       ExtendedNavigator.named('topupRouter').popUntilRoot();
       Flushbar(
+          duration: Duration(seconds: 3),
           boxShadows: [
             BoxShadow(
               color: Colors.grey[500],
@@ -164,6 +165,7 @@ class _TopupScreenState extends State<TopupScreen>
         ..show(ExtendedNavigator.named('homeRouter').context);
     } else {
       Flushbar(
+          duration: Duration(seconds: 3),
           boxShadows: [
             BoxShadow(
               color: Colors.grey[500],
