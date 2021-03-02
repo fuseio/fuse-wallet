@@ -26,11 +26,15 @@ class ContactsList extends StatefulWidget {
 }
 
 class _ContactsListState extends State<ContactsList> {
-  List<Contact> userList = [];
   List<Contact> filteredUsers = [];
-  bool hasSynced = false;
   TextEditingController searchController = TextEditingController();
   List<Contact> _contacts;
+
+  @override
+  void initState() {
+    super.initState();
+    refreshContacts();
+  }
 
   @override
   void dispose() {
@@ -82,12 +86,6 @@ class _ContactsListState extends State<ContactsList> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    refreshContacts();
-  }
-
   filterList() {
     List<Contact> users = [];
     users.addAll(_contacts);
@@ -122,27 +120,35 @@ class _ContactsListState extends State<ContactsList> {
           .toSet()
           .toList();
       for (Item phone in phones) {
-        listItems.add(ContactTile(
+        listItems.add(
+          ContactTile(
+            displayName: user.displayName,
+            phoneNumber: phone.value,
             image: user.avatar != null && user.avatar.isNotEmpty
                 ? MemoryImage(user.avatar)
                 : null,
-            displayName: user.displayName,
-            phoneNumber: phone.value,
             onTap: () {
               resetSearch();
-              sendToContact(ExtendedNavigator.named('contactsRouter').context,
-                  user.displayName, phone.value,
-                  isoCode: viewModel.isoCode,
-                  countryCode: viewModel.countryCode,
-                  avatar: user.avatar != null && user.avatar.isNotEmpty
-                      ? MemoryImage(user.avatar)
-                      : new AssetImage('assets/images/anom.png'));
+              sendToContact(
+                ExtendedNavigator.named('contactsRouter').context,
+                user.displayName,
+                phone.value,
+                isoCode: viewModel.isoCode,
+                countryCode: viewModel.countryCode,
+                avatar: user.avatar != null && user.avatar.isNotEmpty
+                    ? MemoryImage(user.avatar)
+                    : new AssetImage('assets/images/anom.png'),
+              );
             },
             trailing: Text(
               phone.value,
               style: TextStyle(
-                  fontSize: 13, color: Theme.of(context).primaryColor),
-            )));
+                fontSize: 13,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+        );
       }
     }
     return SliverList(

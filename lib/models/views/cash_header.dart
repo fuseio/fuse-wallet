@@ -15,14 +15,15 @@ class CashHeaderViewModel extends Equatable {
   final Token token;
   final Token secondaryToken;
 
-  CashHeaderViewModel(
-      {this.usdValue,
-      this.firstName,
-      this.walletStatus,
-      this.hasErc20Tokens,
-      this.community,
-      this.token,
-      this.secondaryToken});
+  CashHeaderViewModel({
+    this.usdValue,
+    this.firstName,
+    this.walletStatus,
+    this.hasErc20Tokens,
+    this.community,
+    this.token,
+    this.secondaryToken,
+  });
 
   static CashHeaderViewModel fromStore(Store<AppState> store) {
     ProWalletState proWalletState = store.state.proWalletState;
@@ -34,9 +35,9 @@ class CashHeaderViewModel extends Equatable {
                     .compareTo(0) ==
                 1)
             .toList();
-    String communityAddres = store.state.cashWalletState.communityAddress;
+    String communityAddress = store.state.cashWalletState.communityAddress;
     Community community =
-        store.state.cashWalletState.communities[communityAddres] ??
+        store.state.cashWalletState.communities[communityAddress] ??
             Community.initial();
     num usdValue = store.state.userState?.totalBalance ?? 0;
     return CashHeaderViewModel(

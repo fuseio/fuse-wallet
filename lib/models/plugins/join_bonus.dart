@@ -16,7 +16,7 @@ class JoinBonusPlugin extends Plugin {
           amount: json.containsKey('joinInfo')
               ? json['joinInfo']['amount']
               : json['amount'],
-          isActive: json["isActive"] || false,
+          isActive: json["isActive"] ?? false,
         )
       : null;
 }

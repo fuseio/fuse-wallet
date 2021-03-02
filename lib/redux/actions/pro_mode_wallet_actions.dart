@@ -403,10 +403,13 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
           return;
         }
         dynamic tokenDetails = await web3.getTokenDetails(tokenAddress);
+        final int decimals = tokenDetails['decimals'].toInt();
         Token newToken = Token.initial().copyWith(
+          timestamp: 0,
+          amount: BigInt.zero,
           address: tokenAddress.toLowerCase(),
           name: tokenDetails['name'],
-          decimals: tokenDetails['decimals'],
+          decimals: decimals,
           symbol: tokenDetails['symbol'],
         );
         logger.info('ADDED - new token $tokenAddress');
@@ -876,16 +879,16 @@ ThunkAction swapHandler(
       String swapJobId = response['job']['_id'];
       logger.info('Job $swapJobId for swap');
       Transfer transfer = new Transfer(
-          from: walletAddress,
-          to: walletAddress,
-          tokenAddress: fromToken.address,
-          value: toBigInt(tokensAmount + feeAmount, fromToken.decimals),
-          type: 'SEND',
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          note: '',
-          receiverName: '',
-          status: 'PENDING',
-          jobId: swapJobId);
+        from: walletAddress,
+        to: walletAddress,
+        tokenAddress: fromToken.address,
+        value: toBigInt(tokensAmount + feeAmount, fromToken.decimals),
+        type: 'SEND',
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        note: '',
+        status: 'PENDING',
+        jobId: swapJobId,
+      );
 
       Transfer transferIn = new Transfer(
           from: walletAddress,

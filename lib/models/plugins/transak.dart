@@ -7,7 +7,7 @@ class TransakPlugin extends DepositPlugin {
       ? TransakPlugin(
           name: json['name'],
           widgetUrl: json['widgetUrl'],
-          isActive: json["isActive"] || false,
+          isActive: json["isActive"] ?? false,
         )
       : null;
 }

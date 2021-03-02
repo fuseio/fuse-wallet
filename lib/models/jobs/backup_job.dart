@@ -1,4 +1,5 @@
 import 'package:peepl/models/jobs/base.dart';
+import 'package:peepl/models/transactions/factory.dart';
 import 'package:peepl/models/transactions/transfer.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/redux/actions/user_actions.dart';

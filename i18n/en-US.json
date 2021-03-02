@@ -164,5 +164,10 @@
     "topup": "Top up",
     "order": "Order",
     "help": "Help",
-    "tips": "Tips"
+    "tips": "Tips",
+    "deposit_your_first_dollars": "Deposit your first Dollars",
+    "swap": "Swap",
+    "coming_soon": "Coming soon",
+    "invalid_qa_code": "Invalid QA Code",
+    "error": "Error"
 }

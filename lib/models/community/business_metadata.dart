@@ -17,12 +17,19 @@ String getImage(hash) {
 
 @JsonSerializable(explicitToJson: true)
 class BusinessMetadata {
+  @JsonKey(defaultValue: '')
   final String address;
+  @JsonKey(defaultValue: '')
   final String coverPhoto;
+  @JsonKey(defaultValue: '')
   final String description;
+  @JsonKey(defaultValue: '')
   final String image;
+  @JsonKey(defaultValue: '')
   final String type;
+  @JsonKey(defaultValue: '')
   final String phoneNumber;
+  @JsonKey(defaultValue: '')
   final String website;
   final List<double> latLng;
 
@@ -30,15 +37,16 @@ class BusinessMetadata {
 
   String getCoverPhotoUri() => getImage(coverPhoto);
 
-  BusinessMetadata(
-      {this.address = '',
-      this.description = '',
-      this.image = '',
-      this.coverPhoto = '',
-      this.type = '',
-      this.phoneNumber = '',
-      this.website = '',
-      this.latLng});
+  BusinessMetadata({
+    this.address,
+    this.description,
+    this.image,
+    this.coverPhoto,
+    this.type,
+    this.phoneNumber,
+    this.website,
+    this.latLng,
+  });
 
   BusinessMetadata copyWith({
     String address,

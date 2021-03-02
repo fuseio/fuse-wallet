@@ -109,10 +109,11 @@ class _CommunityCardScreenState extends State<CommunitySelectedCardScreen> {
                                       ),
                                     ),
                                   ),
-                                  widget.community.metadata.isDefaultImage !=
+                                  widget.community?.metadata?.isDefaultImage !=
                                               null &&
-                                          widget
-                                              .community.metadata.isDefaultImage
+                                          widget.community?.metadata
+                                                  ?.isDefaultImage ==
+                                              true
                                       ? Text(
                                           widget?.token?.symbol ?? '',
                                           style: TextStyle(

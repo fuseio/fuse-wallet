@@ -10,22 +10,36 @@ part 'community.g.dart';
 class Community extends Equatable {
   final String name;
   final String address;
+  @JsonKey(nullable: true)
   final String homeBridgeAddress;
+  @JsonKey(nullable: true)
   final String foreignBridgeAddress;
+  @JsonKey(nullable: true, defaultValue: false)
   final bool isMember;
+  @JsonKey(nullable: true, defaultValue: const [])
   final List<Business> businesses;
+  @JsonKey(nullable: true)
   final String homeTokenAddress;
+  @JsonKey(nullable: true)
   final Plugins plugins;
+  @JsonKey(nullable: true)
   final CommunityMetadata metadata;
+  @JsonKey(defaultValue: true, nullable: true)
   final bool isClosed;
+  @JsonKey(nullable: true)
   final String webUrl;
+  @JsonKey(nullable: true)
   final String foreignTokenAddress;
-  final String secondaryTokenAddress;
+  @JsonKey(nullable: true)
   final String description;
+  @JsonKey(nullable: true)
   final String bridgeType;
+  @JsonKey(nullable: true)
   final String bridgeDirection;
+  @JsonKey(defaultValue: false, nullable: true)
   final bool isMultiBridge;
-
+  @JsonKey(nullable: true)
+  final String secondaryTokenAddress;
   @override
   List<Object> get props => [
         name,
@@ -37,24 +51,25 @@ class Community extends Equatable {
         secondaryTokenAddress
       ];
 
-  Community(
-      {this.name,
-      this.bridgeType,
-      this.bridgeDirection,
-      this.isMultiBridge,
-      this.isClosed,
-      this.isMember,
-      this.address,
-      this.plugins,
-      this.homeTokenAddress,
-      this.businesses,
-      this.metadata,
-      this.homeBridgeAddress,
-      this.webUrl,
-      this.foreignBridgeAddress,
-      this.foreignTokenAddress,
-      this.secondaryTokenAddress,
-      this.description});
+  Community({
+    this.name,
+    this.bridgeType,
+    this.bridgeDirection,
+    this.isMultiBridge,
+    this.isClosed,
+    this.isMember,
+    this.address,
+    this.plugins,
+    this.homeTokenAddress,
+    this.businesses,
+    this.metadata,
+    this.homeBridgeAddress,
+    this.webUrl,
+    this.foreignBridgeAddress,
+    this.foreignTokenAddress,
+    this.description,
+    this.secondaryTokenAddress,
+  });
 
   factory Community.initial() {
     return new Community(

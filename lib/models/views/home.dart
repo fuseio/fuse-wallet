@@ -22,6 +22,7 @@ class HomeViewModel extends Equatable {
   final bool isBranchDataReceived;
   final Function(bool initial) onReceiveBranchData;
   final Function() refreshFeed;
+  final Token token;
 
   HomeViewModel({
     this.onReceiveBranchData,
@@ -38,6 +39,7 @@ class HomeViewModel extends Equatable {
     this.tokens,
     this.communities,
     this.refreshFeed,
+    this.token,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
@@ -49,8 +51,8 @@ class HomeViewModel extends Equatable {
             imageUrl: store.state.cashWalletState.communities
                     .containsKey(token.communityAddress)
                 ? store.state.cashWalletState
-                    .communities[token.communityAddress].metadata
-                    .getImageUri()
+                    .communities[token.communityAddress]?.metadata
+                    ?.getImageUri()
                 : null))
         .toList();
     List<Token> tokens = [...homeTokens, ...erc20Tokens]
@@ -73,7 +75,13 @@ class HomeViewModel extends Equatable {
     final bool isCommunityFetched =
         store.state.cashWalletState.isCommunityFetched ?? false;
     final String walletAddress = store.state.userState.walletAddress;
+    Community community =
+        store.state.cashWalletState.communities[communityAddress] ??
+            Community.initial();
+    Token token =
+        store.state.cashWalletState.tokens[community?.homeTokenAddress];
     return HomeViewModel(
+        token: token,
         communities: store.state.cashWalletState.communities,
         tokens: tokens,
         isoCode: store.state.userState.isoCode,
@@ -122,6 +130,7 @@ class HomeViewModel extends Equatable {
         isCommunityLoading,
         isBranchDataReceived,
         isoCode,
+        token,
         isCommunityFetched
       ];
 }

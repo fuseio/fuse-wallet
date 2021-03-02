@@ -6,10 +6,18 @@ import 'package:peepl/generated/i18n.dart';
 class BottomBar extends StatelessWidget {
   final int tabIndex;
   final void Function(int) onTap;
-  BottomBar({Key key, this.tabIndex = 0, this.onTap}) : super(key: key);
 
-  BottomNavigationBarItem bottomBarItem(String title, String imgSvg) {
-    return BottomNavigationBarItem(
+  BottomBar({
+    Key key,
+    this.tabIndex = 0,
+    this.onTap,
+  }) : super(key: key);
+
+  BottomNavigationBarItem bottomBarItem(
+    String title,
+    String imgSvg,
+  ) =>
+      BottomNavigationBarItem(
         icon: Padding(
           padding: EdgeInsets.only(top: 5, bottom: 3),
           child: SvgPicture.asset('assets/images/$imgSvg\.svg'),
@@ -18,8 +26,8 @@ class BottomBar extends StatelessWidget {
           padding: EdgeInsets.only(top: 5, bottom: 3),
           child: SvgPicture.asset('assets/images/$imgSvg\_selected.svg'),
         ),
-        label: title);
-  }
+        label: title,
+      );
 
   @override
   Widget build(BuildContext context) {
