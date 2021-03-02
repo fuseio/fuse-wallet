@@ -38,7 +38,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
   //   String body = jsonEncode(Map.from(
   //       {'walletAddress': widget.walletAddress, 'publicToken': publicToken}));
   //   responseHandler(await client.post(
-  //     'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/plaid/set_access_token',
+  //     'https://stripe.itsaboutpeepl.com/api/plaid/set_access_token',
   //     body: body,
   //     headers: {"Content-Type": 'application/json'},
   //   ));
@@ -62,7 +62,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
   //   }));
   //   Map response = responseHandler(
   //     await client.post(
-  //       'http://ec2-18-198-1-146.eu-central-1.compute.amazonaws.com/api/plaid/create_link_token_for_payment',
+  //       'https://stripe.itsaboutpeepl.com/api/plaid/create_link_token_for_payment',
   //       headers: {"Content-Type": 'application/json'},
   //       body: body,
   //     ),
