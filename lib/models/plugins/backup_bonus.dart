@@ -8,8 +8,12 @@ class BackupBonusPlugin extends Plugin {
       : super(name: name, isActive: isActive);
 
   @override
-  dynamic toJson() =>
-      {'name': name, 'isActive': isActive, 'type': type, 'amount': amount};
+  dynamic toJson() => {
+        'name': name,
+        'isActive': isActive,
+        'type': type,
+        'amount': amount,
+      };
 
   static BackupBonusPlugin fromJson(dynamic json) => json != null
       ? BackupBonusPlugin(
@@ -17,7 +21,7 @@ class BackupBonusPlugin extends Plugin {
           amount: json.containsKey('backupInfo')
               ? json['backupInfo']['amount']
               : json['amount'],
-          isActive: json["isActive"] || false,
+          isActive: json["isActive"] ?? false,
         )
       : null;
 }

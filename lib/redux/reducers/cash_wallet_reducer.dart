@@ -1,9 +1,9 @@
+import 'package:ethereum_address/ethereum_address.dart';
 import 'package:peepl/models/community/community.dart';
 import 'package:peepl/models/jobs/base.dart';
 import 'package:peepl/models/tokens/token.dart';
 import 'package:peepl/models/transactions/transaction.dart';
 import 'package:peepl/models/transactions/transactions.dart';
-import 'package:peepl/models/transactions/transfer.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/redux/actions/user_actions.dart';
 import 'package:peepl/models/cash_wallet_state.dart';
@@ -88,21 +88,34 @@ CashWalletState _addCashToken(CashWalletState state, AddCashToken action) {
 
 CashWalletState _resetTokensTxs(CashWalletState state, ResetTokenTxs action) {
   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  for (String communityAddress in newOne.keys) {
-    newOne[communityAddress] =
-        newOne[communityAddress].copyWith(transactions: Transactions.initial());
+  Map<String, Token> tokens = Map<String, Token>();
+  final List<String> tokenAddresses = List<String>.from(
+      newOne.keys.map((e) => e.toLowerCase()).toSet().toList());
+  for (String tokenAddress in tokenAddresses) {
+    final Token token =
+        newOne.containsKey(checksumEthereumAddress(tokenAddress))
+            ? newOne[checksumEthereumAddress(tokenAddress)]
+            : newOne[tokenAddress];
+    tokens[tokenAddress] = token.copyWith(
+      transactions: Transactions.initial(),
+    );
   }
-  return state.copyWith(tokens: newOne);
+  return state.copyWith(tokens: tokens);
 }
 
 CashWalletState _refreshCommunityData(
-    CashWalletState state, RefreshCommunityData action) {
+  CashWalletState state,
+  RefreshCommunityData action,
+) {
   String communityAddress = action.communityAddress.toLowerCase();
   Community current = state.communities[communityAddress];
-  Map<String, Community> newOne =
-      Map<String, Community>.from(state.communities);
-  newOne[communityAddress] =
-      current?.copyWith(plugins: action.plugins, webUrl: action.webUrl);
+  Map<String, Community> newOne = Map<String, Community>.from(
+    state.communities,
+  );
+  newOne[communityAddress] = current?.copyWith(
+    plugins: action.plugins,
+    webUrl: action.webUrl,
+  );
   return state.copyWith(communities: newOne);
 }
 
@@ -212,28 +225,33 @@ CashWalletState _fetchingBusinessListFailed(
 CashWalletState _getTokenTransfersListSuccess(
     CashWalletState state, GetTokenTransfersListSuccess action) {
   final String tokenAddress = action.tokenAddress;
-  if (action.tokenTransfers.length > 0) {
+  if (action.tokenTransfers.isEmpty) {
+    return state;
+  } else {
     dynamic maxBlockNumber = action.tokenTransfers.fold<int>(
-            0, (max, e) => e.blockNumber > max ? e.blockNumber : max) +
+            0,
+            (max, e) =>
+                (e.blockNumber ?? 0) > max ? (e.blockNumber ?? 0) : max) +
         1;
     Token currentToken = state.tokens[tokenAddress];
-    for (Transfer tx in action.tokenTransfers.reversed) {
-      Transfer saved = currentToken.transactions?.list
+    for (Transaction tx in action.tokenTransfers.reversed) {
+      Transaction saved = currentToken?.transactions?.list
           ?.firstWhere((t) => t.txHash == tx.txHash, orElse: () => null);
       if (saved != null) {
         int index = currentToken.transactions.list.indexOf(saved);
         currentToken.transactions.list[index] = tx.copyWith();
       } else {
-        currentToken.transactions.list.add(tx);
+        currentToken?.transactions?.list?.add(tx);
       }
     }
     Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-    newOne[tokenAddress] = currentToken.copyWith(
-        transactions: currentToken.transactions.copyWith(
-            list: currentToken.transactions.list, blockNumber: maxBlockNumber));
+    newOne[tokenAddress] = currentToken?.copyWith(
+      transactions: currentToken.transactions.copyWith(
+        list: currentToken?.transactions?.list ?? [],
+        blockNumber: maxBlockNumber,
+      ),
+    );
     return state.copyWith(tokens: newOne);
-  } else {
-    return state;
   }
 }
 

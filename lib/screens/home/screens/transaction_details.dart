@@ -1,13 +1,13 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:peepl/models/transactions/transaction.dart';
 import 'package:peepl/screens/home/widgets/drawer.dart';
 import 'package:peepl/utils/addresses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:peepl/generated/i18n.dart';
 import 'package:peepl/models/tokens/token.dart';
-import 'package:peepl/models/transactions/transfer.dart';
 import 'package:peepl/utils/format.dart';
 import 'package:peepl/widgets/main_scaffold.dart';
 
@@ -16,16 +16,17 @@ class TransactionDetailsScreen extends StatelessWidget {
   final String displayName;
   final ImageProvider<dynamic> image;
   final Contact contact;
-  final Transfer transfer;
+  final Transaction transfer;
   final Token token;
 
-  TransactionDetailsScreen(
-      {this.image,
-      this.displayName,
-      this.status,
-      this.token,
-      this.contact,
-      this.transfer});
+  TransactionDetailsScreen({
+    this.image,
+    this.displayName,
+    this.status,
+    this.token,
+    this.contact,
+    this.transfer,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -267,8 +268,13 @@ class TransactionDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget rowItem(BuildContext context, String title, String value,
-      {void Function() onTap, bool withCopy = false}) {
+  Widget rowItem(
+    BuildContext context,
+    String title,
+    String value, {
+    void Function() onTap,
+    bool withCopy = false,
+  }) {
     if (withCopy) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,

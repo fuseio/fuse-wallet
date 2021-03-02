@@ -11,7 +11,7 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/tokens/token.dart';
-import '../../../models/transactions/transfer.dart';
+import '../../../models/transactions/transaction.dart';
 import '../../backup/done_backup.dart';
 import '../../backup/show_mnemonic.dart';
 import '../../backup/verify_mnemonic.dart';
@@ -215,7 +215,7 @@ extension HomeRouterExtendedNavigatorStateX on ExtendedNavigatorState {
     String status,
     Token token,
     Contact contact,
-    Transfer transfer,
+    Transaction transfer,
   }) =>
       push<dynamic>(
         HomeRoutes.transactionDetailsScreen,
@@ -305,7 +305,7 @@ class TransactionDetailsScreenArguments {
   final String status;
   final Token token;
   final Contact contact;
-  final Transfer transfer;
+  final Transaction transfer;
   TransactionDetailsScreenArguments(
       {this.image,
       this.displayName,

@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:peepl/models/community/business.dart';
 import 'package:peepl/models/community/community.dart';
+import 'package:peepl/models/transactions/transaction.dart';
 import 'package:peepl/models/transactions/transfer.dart';
 import 'package:peepl/utils/format.dart';
 import 'package:peepl/utils/phone.dart';
@@ -22,7 +23,7 @@ String getS3ImageUrl(String image) {
   return '${DotEnv().env['FUSE_S3_BUCKET']}/$image';
 }
 
-Widget deduceTransferIcon(Transfer transfer) {
+Widget deduceTransferIcon(Transaction transfer) {
   if (transfer.isFailed()) {
     return SvgPicture.asset(
       'assets/images/failed_icon.svg',
@@ -58,8 +59,12 @@ Widget deduceTransferIcon(Transfer transfer) {
   }
 }
 
-Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
-    List<Contact> contacts, String countryCode) {
+Contact getContact(
+  Transaction transfer,
+  Map<String, String> reverseContacts,
+  List<Contact> contacts,
+  String countryCode,
+) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (accountAddress == null) {
     return null;
@@ -83,27 +88,25 @@ Contact getContact(Transfer transfer, Map<String, String> reverseContacts,
   return null;
 }
 
-String deducePhoneNumber(Transfer transfer, Map<String, String> reverseContacts,
-    {bool format = true,
-    List<Business> businesses,
-    bool getReverseContact = true}) {
+String deducePhoneNumber(
+  Transaction transfer,
+  Map<String, String> reverseContacts, {
+  List<Business> businesses,
+}) {
   String accountAddress = transfer.type == 'SEND' ? transfer.to : transfer.from;
   if (businesses != null && businesses.isNotEmpty) {
     Business business = businesses.firstWhere(
-        (business) => business.account == accountAddress,
-        orElse: () => null);
+      (business) => business.account == accountAddress,
+      orElse: () => null,
+    );
     if (business != null) {
       return business.name;
     }
   }
-  if (reverseContacts.containsKey(accountAddress.toLowerCase()) &&
-      getReverseContact) {
+  if (reverseContacts.containsKey(accountAddress.toLowerCase())) {
     return reverseContacts[accountAddress.toLowerCase()];
-  }
-  if (format) {
-    return formatAddress(accountAddress);
   } else {
-    return accountAddress;
+    return formatAddress(accountAddress);
   }
 }
 
@@ -147,8 +150,11 @@ dynamic getTransferImage(
   return new AssetImage('assets/images/anom.png');
 }
 
-dynamic getContactImage(Transfer transfer, Contact contact,
-    {List<Business> businesses = const []}) {
+dynamic getContactImage(
+  Transaction transfer,
+  Contact contact, {
+  List<Business> businesses = const [],
+}) {
   if (contact?.avatar != null && contact.avatar.isNotEmpty) {
     return new MemoryImage(contact.avatar);
   } else if (businesses.isNotEmpty) {

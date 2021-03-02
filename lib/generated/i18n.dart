@@ -364,6 +364,16 @@ class I18n implements WidgetsLocalizations {
   String get help => "Help";
   /// "Tips"
   String get tips => "Tips";
+  /// "Deposit your first Dollars"
+  String get deposit_your_first_dollars => "Deposit your first Dollars";
+  /// "Swap"
+  String get swap => "Swap";
+  /// "Coming soon"
+  String get coming_soon => "Coming soon";
+  /// "Invalid QA Code"
+  String get invalid_qa_code => "Invalid QA Code";
+  /// "Error"
+  String get error => "Error";
 }
 
 class _I18n_en_US extends I18n {

@@ -45,10 +45,7 @@ class TopupRouter extends RouterBase {
         orElse: () => TopupScreenArguments(),
       );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => TopupScreen(
-          walletAddress: args.walletAddress,
-          topupType: args.topupType,
-        ),
+        builder: (context) => TopupScreen(topupType: args.topupType),
         settings: data,
       );
     },
@@ -69,13 +66,11 @@ extension TopupRouterExtendedNavigatorStateX on ExtendedNavigatorState {
       );
 
   Future<dynamic> pushTopupScreen({
-    String walletAddress,
     TopupType topupType = TopupType.STRIPE,
   }) =>
       push<dynamic>(
         TopupRoutes.topupScreen,
-        arguments: TopupScreenArguments(
-            walletAddress: walletAddress, topupType: topupType),
+        arguments: TopupScreenArguments(topupType: topupType),
       );
 }
 
@@ -91,7 +86,6 @@ class TopupExplainedArguments {
 
 /// TopupScreen arguments holder class
 class TopupScreenArguments {
-  final String walletAddress;
   final TopupType topupType;
-  TopupScreenArguments({this.walletAddress, this.topupType = TopupType.STRIPE});
+  TopupScreenArguments({this.topupType = TopupType.STRIPE});
 }

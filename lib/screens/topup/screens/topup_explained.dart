@@ -133,7 +133,6 @@ class _TopupExplainedState extends State<TopupExplained> {
                       onPressed: () {
                         ExtendedNavigator.named('topupRouter').pushTopupScreen(
                           topupType: TopupType.STRIPE,
-                          walletAddress: viewModel.walletAddress,
                         );
                       },
                     ),
@@ -165,7 +164,6 @@ class _TopupExplainedState extends State<TopupExplained> {
                                 ExtendedNavigator.named('topupRouter')
                                     .pushTopupScreen(
                                   topupType: TopupType.PLAID,
-                                  walletAddress: viewModel.walletAddress,
                                 );
                               }),
                       ],
