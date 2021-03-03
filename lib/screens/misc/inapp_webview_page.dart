@@ -92,10 +92,10 @@ class _WebViewWidgetState extends State<WebViewWidget> {
       currency: 'GBP',
     );
     if (response.ok) {
-      final BottomNavigationBar navigationBar =
-          AppKeys.bottomBarKey.currentWidget;
-      navigationBar.onTap(0);
-      ExtendedNavigator.named('homeRouter').popUntilRoot();
+      // final BottomNavigationBar navigationBar =
+      //     AppKeys.bottomBarKey.currentWidget;
+      // navigationBar.onTap(0);
+      // ExtendedNavigator.named('homeRouter').popUntilRoot();
       Flushbar(
         duration: Duration(seconds: 3),
         boxShadows: [
@@ -221,7 +221,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
 class InAppWebViewViewModel {
   final Function(
     String currency,
-    String recieverAddress,
+    String receiverAddress,
     num amount,
     dynamic orderId,
     Function(dynamic) sendSuccessCallback,
@@ -236,7 +236,7 @@ class InAppWebViewViewModel {
     return InAppWebViewViewModel(
       sendTokenFromWebView: (
         String currency,
-        String recieverAddress,
+        String receiverAddress,
         num amount,
         dynamic orderId,
         Function(dynamic) sendSuccessCallback,
@@ -244,7 +244,7 @@ class InAppWebViewViewModel {
       ) {
         store.dispatch(sendTokenFromWebViewCall(
           currency,
-          recieverAddress,
+          receiverAddress,
           amount,
           orderId,
           sendSuccessCallback,

@@ -129,11 +129,11 @@ class _TopupScreenState extends State<TopupScreen>
       currency: 'GBP',
     );
     if (response.ok) {
-      final BottomNavigationBar navigationBar =
-          AppKeys.bottomBarKey.currentWidget;
-      navigationBar.onTap(0);
-      ExtendedNavigator.named('homeRouter').popUntilRoot();
-      ExtendedNavigator.named('topupRouter').popUntilRoot();
+      // final BottomNavigationBar navigationBar =
+      //     AppKeys.bottomBarKey.currentWidget;
+      // navigationBar.onTap(0);
+      // ExtendedNavigator.named('homeRouter').popUntilRoot();
+      // ExtendedNavigator.named('topupRouter').popUntilRoot();
       Flushbar(
           duration: Duration(seconds: 3),
           boxShadows: [
