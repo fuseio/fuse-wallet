@@ -44,8 +44,8 @@ class CashWalletState {
   static Map<String, Token> _tokensFromJson(Map<String, dynamic> tokens) =>
       tokens == null
           ? Map<String, Token>()
-          : tokens.map(
-              (k, e) => MapEntry(k, Token.fromJson(e as Map<String, dynamic>)));
+          : tokens.map((k, e) => MapEntry(
+              k.toLowerCase(), Token.fromJson(e as Map<String, dynamic>)));
 
   static Map<String, Community> _communitiesFromJson(
       Map<String, dynamic> list) {

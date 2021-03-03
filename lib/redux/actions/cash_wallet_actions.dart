@@ -1196,7 +1196,10 @@ Future<Map<String, dynamic>> getCommunityData(
 }
 
 Future<Token> fetchToken(
-    Community community, bool isRopsten, String originNetwork) async {
+  Community community,
+  bool isRopsten,
+  String originNetwork,
+) async {
   if (community?.homeTokenAddress != null) {
     Map tokenInfo =
         await fuseExplorerApi.getTokenInfo(community.homeTokenAddress);
@@ -1280,7 +1283,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
       if (![null, ''].contains(newCommunity?.secondaryTokenAddress)) {
         store.dispatch(
           fetchSecondaryTokenCall(
-            newCommunity?.secondaryTokenAddress,
+            newCommunity?.secondaryTokenAddress?.toLowerCase(),
             communityAddress.toLowerCase(),
           ),
         );
@@ -1342,7 +1345,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
       if (![null, ''].contains(newCommunity?.secondaryTokenAddress)) {
         store.dispatch(
           fetchSecondaryTokenCall(
-            newCommunity?.secondaryTokenAddress,
+            newCommunity?.secondaryTokenAddress?.toLowerCase(),
             communityAddress.toLowerCase(),
           ),
         );
