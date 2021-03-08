@@ -85,7 +85,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
   //   }
   // }
 
-  void _handleStripe(amount) async {
+  Future<bool> _handleStripe(amount) async {
     final StripeCustomResponse response = await StripeService().payWithNewCard(
       amount: amount,
       walletAddress: widget.walletAddress,
@@ -123,6 +123,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
           height: 20,
         ),
       )..show(ExtendedNavigator.named('homeRouter').context);
+      return true;
     } else {
       Flushbar(
         duration: Duration(seconds: 3),
@@ -152,6 +153,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
         ),
       )..show(context);
     }
+    return false;
   }
 
   @override
@@ -208,7 +210,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
                   handlerName: "topup",
                   callback: (args) {
                     Map<String, dynamic> data = Map.from(args[0]);
-                    _handleStripe(data['amount']);
+                    return _handleStripe(data['amount']);
                   },
                 );
               }),
