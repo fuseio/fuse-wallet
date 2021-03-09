@@ -8,6 +8,7 @@ import 'package:redux/redux.dart';
 class ProfileViewModel extends Equatable {
   final String phone;
   final String walletAddress;
+  final String walletAddressFull;
   final String avatarUrl;
   final String displayName;
   final void Function(String displayName) updateDisplaName;
@@ -16,6 +17,7 @@ class ProfileViewModel extends Equatable {
   ProfileViewModel(
       {this.phone,
       this.walletAddress,
+      this.walletAddressFull,
       this.displayName,
       this.editAvatar,
       this.avatarUrl,
@@ -27,6 +29,7 @@ class ProfileViewModel extends Equatable {
         phone: store.state.userState.normalizedPhoneNumber,
         avatarUrl: store.state.userState.avatarUrl,
         walletAddress: formatAddress(store.state.userState.walletAddress),
+        walletAddressFull: store.state.userState.walletAddress,
         editAvatar: (source) {
           store.dispatch(updateUserAvatarCall(source));
         },
