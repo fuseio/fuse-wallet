@@ -26,8 +26,8 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  new StripeService()..init();
   await DotEnv().load('environment/.env');
+  new StripeService()..init();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Store<AppState> store = await AppFactory().getStore();
   runZonedGuarded<Future<void>>(
