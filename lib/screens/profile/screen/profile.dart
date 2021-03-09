@@ -1,5 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:peepl/generated/i18n.dart';
 import 'package:peepl/models/app_state.dart';
@@ -148,7 +151,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(height: 1, color: Colors.grey[200]),
                         _buildGroup(I18n.of(context).wallet_address,
-                            viewModel?.walletAddress ?? ''),
+                            viewModel?.walletAddress ?? '',
+                            copyText: viewModel?.walletAddressFull),
                         Container(height: 1, color: Colors.grey[200]),
                         _buildGroup(I18n.of(context).phoneNumber,
                             viewModel?.phone ?? ''),
@@ -163,28 +167,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
   }
 
-  Widget _buildGroup(String title, String value) => Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 16),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+  // Information group
+  Widget _buildGroup(String title, String value, {String copyText}) =>
+      GestureDetector(
+          onTap: () {
+            if (copyText != null) {
+              Clipboard.setData(new ClipboardData(text: copyText));
+              Flushbar(
+                duration: Duration(seconds: 3),
+                boxShadows: [
+                  BoxShadow(
+                    color: Colors.grey[500],
+                    offset: Offset(0.5, 0.5),
+                    blurRadius: 5,
+                  ),
+                ],
+                messageText: Text(
+                  "Text copied",
+                  style: TextStyle(fontSize: 14.0, color: Colors.black),
+                ),
+                backgroundColor: Theme.of(context).bottomAppBarColor,
+                margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),
+                borderRadius: 8,
+              )..show(ExtendedNavigator.named('homeRouter').context);
+            }
+          },
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    value,
+                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
+                ],
               ),
-              SizedBox(height: 8),
-              Text(
-                value,
-                style: TextStyle(fontSize: 18, color: Colors.grey),
-              ),
-            ],
-          ),
-        ),
-      );
+            ),
+          ));
 
   void _showSourceImagePicker(
           BuildContext context, void Function(ImageSource source) callback) =>
