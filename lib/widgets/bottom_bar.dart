@@ -52,7 +52,8 @@ class BottomBar extends StatelessWidget {
       child: SizedBox(
         height: 80,
         child: BottomNavigationBar(
-          selectedItemColor: Color(0xFF292929),
+          selectedItemColor: Theme.of(context).colorScheme.onSurface,
+          unselectedItemColor: Theme.of(context).colorScheme.onSurface,
           key: AppKeys.bottomBarKey,
           selectedFontSize: 16,
           unselectedFontSize: 16,
