@@ -1,20 +1,21 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
+import 'package:peepl/utils/constans.dart';
 import 'package:peepl/utils/stripe_custom_response.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 
 class StripeService {
   StripeService._privateConstructor();
 
-  static final StripeService _intance = StripeService._privateConstructor();
+  static final StripeService _instance = StripeService._privateConstructor();
 
-  factory StripeService() => _intance;
+  factory StripeService() => _instance;
 
-  String _paymentApiUrl = 'https://stripe.itsaboutpeepl.com/api/stripe/pay';
-  String _apiKey =
-      'pk_live_51IFlGaF8mk2quJk5QOqANlJXwIUjSwOiDFouybqMdPuwrZ8FGi9sUnvxwUrbklBjY7yNukf2IKqFdTpyk9BpU84g00iFzHPy60';
+  String _paymentApiUrl = '$topUpService/stripe/pay';
+  String _apiKey = DotEnv().env['STRIPE_API_KEY'];
 
   void init() {
     StripePayment.setOptions(

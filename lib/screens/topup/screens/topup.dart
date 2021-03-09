@@ -13,6 +13,7 @@ import 'package:peepl/generated/i18n.dart';
 import 'package:peepl/models/app_state.dart';
 import 'package:peepl/redux/actions/cash_wallet_actions.dart';
 import 'package:peepl/services.dart';
+import 'package:peepl/utils/constans.dart';
 import 'package:peepl/utils/stripe.dart';
 import 'package:peepl/utils/stripe_custom_response.dart';
 import 'package:peepl/widgets/main_scaffold.dart';
@@ -63,11 +64,13 @@ class _TopupScreenState extends State<TopupScreen>
     navigationBar.onTap(0);
     String body = jsonEncode(
         Map.from({'walletAddress': walletAddress, 'publicToken': publicToken}));
-    responseHandler(await client.post(
-      'https://stripe.itsaboutpeepl.com/api/plaid/set_access_token',
-      body: body,
-      headers: {"Content-Type": 'application/json'},
-    ));
+    responseHandler(
+      await client.post(
+        '$topUpService/plaid/set_access_token',
+        body: body,
+        headers: {"Content-Type": 'application/json'},
+      ),
+    );
   }
 
   void _onEventCallback(String event, LinkEventMetadata metadata) {
@@ -99,7 +102,7 @@ class _TopupScreenState extends State<TopupScreen>
     }));
     Map response = responseHandler(
       await client.post(
-        'https://stripe.itsaboutpeepl.com/api/plaid/create_link_token_for_payment',
+        '$topUpService/plaid/create_link_token_for_payment',
         headers: {"Content-Type": 'application/json'},
         body: body,
       ),

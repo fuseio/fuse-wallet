@@ -1,13 +1,17 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:peepl/screens/home/widgets/drawer.dart';
 
+final String topUpService = DotEnv().env['TOP_UP_SERVICE_URL'];
+
 final int intervalSeconds = int.parse(DotEnv().env['INTERVAL_SECONDS']);
 
 String toShortName(networkType) =>
     networkType == 'mainnet' ? 'main' : networkType;
 
-String getBridgeMediator(
-    {String networkType = 'mainnet', String bridgeType = 'foreign'}) {
+String getBridgeMediator({
+  String networkType = 'mainnet',
+  String bridgeType = 'foreign',
+}) {
   return bridgeType == 'foreign'
       ? bridgeAddresses['${toShortName(networkType)}']['MultiBridgeMediator}']
       : bridgeAddresses['fuse']
