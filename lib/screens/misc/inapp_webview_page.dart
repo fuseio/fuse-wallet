@@ -30,61 +30,6 @@ class WebViewWidget extends StatefulWidget {
 class _WebViewWidgetState extends State<WebViewWidget> {
   InAppWebViewController webView;
 
-  // void _onSuccessCallback(
-  //   String publicToken,
-  //   LinkSuccessMetadata metadata,
-  // ) async {
-  //   print("onSuccess: $publicToken, metadata: ${metadata.description()}");
-  //   String body = jsonEncode(Map.from(
-  //       {'walletAddress': widget.walletAddress, 'publicToken': publicToken}));
-  //   responseHandler(await client.post(
-  //     'https://stripe.itsaboutpeepl.com/api/plaid/set_access_token',
-  //     body: body,
-  //     headers: {"Content-Type": 'application/json'},
-  //   ));
-  // }
-
-  // void _onEventCallback(String event, LinkEventMetadata metadata) {
-  //   print("onEvent: $event, metadata: ${metadata.description()}");
-  // }
-
-  // void _onExitCallback(String error, LinkExitMetadata metadata) {
-  //   print("onExit: $error, metadata: ${metadata.description()}");
-  // }
-
-  // void _handlePlaid(amount) async {
-  //   PlaidLink _plaidLinkToken;
-  //   String body = jsonEncode(Map.from({
-  //     'walletAddress': widget.walletAddress,
-  //     'value': num.parse(amount),
-  //     'reference': 'Top up',
-  //     'isAndroid': Platform.isAndroid
-  //   }));
-  //   Map response = responseHandler(
-  //     await client.post(
-  //       'https://stripe.itsaboutpeepl.com/api/plaid/create_link_token_for_payment',
-  //       headers: {"Content-Type": 'application/json'},
-  //       body: body,
-  //     ),
-  //   );
-
-  //   if (response['link_token'] != null) {
-  //     _plaidLinkToken = PlaidLink(
-  //       configuration: LinkConfiguration(
-  //         linkToken: response['link_token'],
-  //       ),
-  //       onSuccess: (
-  //         String publicToken,
-  //         LinkSuccessMetadata metadata,
-  //       ) =>
-  //           _onSuccessCallback(publicToken, metadata),
-  //       onEvent: _onEventCallback,
-  //       onExit: _onExitCallback,
-  //     );
-  //     _plaidLinkToken.open();
-  //   }
-  // }
-
   Future<bool> _handleStripe(amount) async {
     final StripeCustomResponse response = await StripeService().payWithNewCard(
       amount: amount,
