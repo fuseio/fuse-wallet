@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fusecash/constants/enums.dart';
@@ -5,8 +6,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
-import 'package:fusecash/widgets/snackbars.dart';
-import 'package:pin_input_text_field/pin_input_text_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class PincodeScreen extends StatefulWidget {
   final Function onSuccess;
@@ -16,19 +16,23 @@ class PincodeScreen extends StatefulWidget {
 }
 
 class _PincodeScreenState extends State<PincodeScreen> {
-  final pincodeController = TextEditingController(text: "");
+  final textEditingController = TextEditingController(text: "");
+  final formKey = GlobalKey<FormState>();
+  StreamController<ErrorAnimationType> errorController;
   String lastPincode;
   bool isRetype = false;
-  bool showError = false;
+  String currentText = "";
 
   @override
   void initState() {
+    errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }
 
   @override
   void dispose() {
-    pincodeController?.dispose();
+    errorController.close();
+
     super.dispose();
   }
 
@@ -64,72 +68,61 @@ class _PincodeScreenState extends State<PincodeScreen> {
                       SizedBox(
                         height: 50,
                       ),
-                      Theme(
-                        data: ThemeData(
-                            hintColor:
-                                Theme.of(context).scaffoldBackgroundColor),
-                        child: StoreConnector<AppState, OnboardViewModel>(
-                          converter: OnboardViewModel.fromStore,
-                          builder: (_, viewModel) => Container(
+                      StoreConnector<AppState, OnboardViewModel>(
+                        converter: OnboardViewModel.fromStore,
+                        builder: (_, viewModel) => Form(
+                          key: formKey,
+                          child: Container(
                             width: 250,
-                            child: PinInputTextField(
-                              pinLength: 6,
-                              decoration: UnderlineDecoration(
-                                textStyle: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
-                                ),
-                                hintTextStyle:
-                                    TextStyle(fontWeight: FontWeight.bold),
-                                colorBuilder: FixedColorListBuilder(
-                                  List<Color>.filled(
-                                    6,
+                            child: PinCodeTextField(
+                              length: 6,
+                              showCursor: false,
+                              appContext: context,
+                              enableActiveFill: true,
+                              obscureText: true,
+                              enablePinAutofill: false,
+                              keyboardType: TextInputType.phone,
+                              animationType: AnimationType.fade,
+                              controller: textEditingController,
+                              errorAnimationController: errorController,
+                              pinTheme: PinTheme(
+                                borderWidth: 4,
+                                shape: PinCodeFieldShape.underline,
+                                inactiveColor: Color(0xFFDDDDDD),
+                                inactiveFillColor:
+                                    Theme.of(context).canvasColor,
+                                selectedFillColor:
+                                    Theme.of(context).canvasColor,
+                                disabledColor: Theme.of(context).primaryColor,
+                                selectedColor:
                                     Theme.of(context).colorScheme.onSurface,
-                                  ),
-                                ),
-                                obscureStyle: ObscureStyle(
-                                  isTextObscure: true,
-                                  obscureText: '●',
-                                ),
+                                activeColor:
+                                    Theme.of(context).colorScheme.onSurface,
+                                activeFillColor: Theme.of(context).canvasColor,
                               ),
-                              controller: pincodeController,
-                              autoFocus: true,
-                              onChanged: (String pin) {
-                                if (pin.length == 6 && !this.isRetype) {
-                                  pincodeController.text = '';
+                              onCompleted: (pin) {
+                                if (isRetype && pin == lastPincode) {
+                                  viewModel
+                                      .setSecurityType(BiometricAuth.pincode);
+                                  viewModel.setPincode(pin);
+                                  widget.onSuccess();
+                                } else {
                                   setState(() {
                                     isRetype = true;
                                     lastPincode = pin;
                                   });
-                                } else if (pin.length == 6 && this.isRetype) {
-                                  if (pin == this.lastPincode) {
-                                    viewModel
-                                        .setSecurityType(BiometricAuth.pincode);
-                                    viewModel.setPincode(this.lastPincode);
-                                    widget.onSuccess();
-                                  } else {
-                                    if (!showError) {
-                                      showErrorSnack(
-                                          message: I18n.of(context)
-                                              .pincode_dont_match,
-                                          title: I18n.of(context).oops,
-                                          duration: Duration(seconds: 3),
-                                          context: context);
-                                    }
-                                    Future.delayed(Duration(milliseconds: 2500),
-                                        () {
-                                      setState(() {
-                                        showError = false;
-                                      });
-                                    });
-                                  }
+                                  textEditingController.clear();
                                 }
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  currentText = value;
+                                });
                               },
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   )
                 ],

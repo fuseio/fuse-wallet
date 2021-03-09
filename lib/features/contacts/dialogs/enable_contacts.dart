@@ -122,7 +122,6 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                         const SizedBox(height: 30.0),
                         Center(
                             child: PrimaryButton(
-                          fontSize: 15,
                           preload: isPreloading,
                           disabled: isPreloading,
                           labelFontWeight: FontWeight.normal,

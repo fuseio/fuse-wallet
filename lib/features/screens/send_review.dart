@@ -392,7 +392,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                         labelFontWeight: FontWeight.normal,
                         disabled: isPreloading || !hasFund,
                         preload: isPreloading,
-                        width: 180,
                         onPressed: () {
                           if (withFee && !hasFund) return;
                           send(viewModel, args, transferNoteController.text,

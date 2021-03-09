@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
-import 'package:fusecash/widgets/snackbars.dart';
-import 'package:pin_input_text_field/pin_input_text_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class ColoredPincodeScreen extends StatefulWidget {
   @override
@@ -19,6 +19,9 @@ class _ColoredPincodeScreenState extends State<ColoredPincodeScreen> {
   String lastPincode;
   bool isRetype = false;
   bool showError = false;
+  String currentText = "";
+  final formKey = GlobalKey<FormState>();
+  // StreamController<ErrorAnimationType> errorController;
 
   @override
   void initState() {
@@ -27,7 +30,8 @@ class _ColoredPincodeScreenState extends State<ColoredPincodeScreen> {
 
   @override
   void dispose() {
-    pincodeController?.dispose();
+    // errorController.close();
+
     super.dispose();
   }
 
@@ -40,6 +44,15 @@ class _ColoredPincodeScreenState extends State<ColoredPincodeScreen> {
         return false;
       },
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          centerTitle: true,
+          title: SvgPicture.asset(
+            'assets/images/fusecash.svg',
+            width: 143,
+            height: 28,
+          ),
+        ),
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -54,94 +67,85 @@ class _ColoredPincodeScreenState extends State<ColoredPincodeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                      height: 100,
-                    ),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Image.asset(
-                            'assets/images/splash.png',
-                            width: 71,
-                            height: 61,
+                          Text(
+                            I18n.of(context).enter_pincode,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                              color: Theme.of(context).canvasColor,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          StoreConnector<AppState, LockScreenViewModel>(
+                            converter: LockScreenViewModel.fromStore,
+                            builder: (_, viewModel) => Form(
+                              key: formKey,
+                              child: Container(
+                                width: 250,
+                                child: PinCodeTextField(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  length: 6,
+                                  showCursor: false,
+                                  appContext: context,
+                                  enableActiveFill: true,
+                                  obscureText: true,
+                                  enablePinAutofill: false,
+                                  keyboardType: TextInputType.phone,
+                                  animationType: AnimationType.fade,
+                                  controller: pincodeController,
+                                  // errorAnimationController: errorController,
+                                  validator: (String value) =>
+                                      value.length != 6 &&
+                                              value == viewModel.pincode
+                                          ? I18n.of(context).invalid_pincode
+                                          : null,
+                                  textStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Theme.of(context).canvasColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  pinTheme: PinTheme(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderWidth: 4,
+                                    fieldWidth: 35,
+                                    shape: PinCodeFieldShape.underline,
+                                    inactiveColor:
+                                        Theme.of(context).canvasColor,
+                                    inactiveFillColor:
+                                        Theme.of(context).primaryColor,
+                                    selectedFillColor:
+                                        Theme.of(context).primaryColor,
+                                    disabledColor:
+                                        Theme.of(context).primaryColor,
+                                    selectedColor:
+                                        Theme.of(context).canvasColor,
+                                    activeColor: Theme.of(context).canvasColor,
+                                    activeFillColor:
+                                        Theme.of(context).primaryColor,
+                                  ),
+                                  onCompleted: (value) {
+                                    ExtendedNavigator.root
+                                        .replace(Routes.homeScreen);
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      currentText = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          I18n.of(context).enter_pincode,
-                          style: TextStyle(fontSize: 25),
-                        ),
-                        Theme(
-                          data: ThemeData(
-                              hintColor:
-                                  Theme.of(context).scaffoldBackgroundColor),
-                          child: StoreConnector<AppState, LockScreenViewModel>(
-                            converter: LockScreenViewModel.fromStore,
-                            builder: (_, viewModel) => Container(
-                              width: 250,
-                              child: PinInputTextField(
-                                pinLength: 6,
-                                decoration: UnderlineDecoration(
-                                  textStyle: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
-                                  ),
-                                  hintTextStyle:
-                                      TextStyle(fontWeight: FontWeight.bold),
-                                  colorBuilder: FixedColorListBuilder(
-                                    List<Color>.filled(
-                                      6,
-                                      Color(0xFF575757),
-                                    ),
-                                  ),
-                                  obscureStyle: ObscureStyle(
-                                    isTextObscure: true,
-                                    obscureText: '●',
-                                  ),
-                                ),
-                                controller: pincodeController,
-                                autoFocus: true,
-                                onChanged: (value) {
-                                  if (value.length == 6) {
-                                    if (value == viewModel.pincode) {
-                                      ExtendedNavigator.root
-                                          .replace(Routes.homeScreen);
-                                    } else {
-                                      if (!showError) {
-                                        showErrorSnack(
-                                          message:
-                                              I18n.of(context).invalid_pincode,
-                                          title: I18n.of(context).oops,
-                                          duration: Duration(seconds: 3),
-                                          context: context,
-                                        );
-                                      }
-                                      setState(() {
-                                        showError = true;
-                                      });
-                                      Future.delayed(
-                                        Duration(milliseconds: 2500),
-                                        () {
-                                          setState(() {
-                                            showError = false;
-                                          });
-                                        },
-                                      );
-                                    }
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    )
                   ],
                 ),
               )

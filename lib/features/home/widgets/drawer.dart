@@ -30,18 +30,25 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     Widget rightIcon,
   }) {
     return ListTile(
-      contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
+      contentPadding: EdgeInsets.only(
+        top: 5,
+        bottom: 5,
+        left: 10,
+        right: 10,
+      ),
       onTap: onTap,
       title: Padding(
-        padding: EdgeInsets.only(left: 10),
+        padding: EdgeInsets.only(
+          left: 10,
+        ),
         child: Stack(
           children: <Widget>[
             Row(
               children: <Widget>[
                 SvgPicture.asset(
                   'assets/images/' '$icon',
-                  width: 20,
-                  height: 20,
+                  width: 25,
+                  height: 25,
                 ),
                 SizedBox(
                   width: 20,
@@ -54,7 +61,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             rightIcon != null
                 ? Positioned(
-                    right: 0,
+                    right: 10,
                     bottom: 0,
                     child: rightIcon,
                   )
@@ -70,15 +77,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
     if (depositPlugins.isNotEmpty) {
       plugins.add(ListTile(
-        contentPadding: EdgeInsets.only(top: 5, bottom: 5, left: 20),
+        contentPadding: EdgeInsets.only(
+          top: 5,
+          bottom: 5,
+          left: 10,
+          right: 10,
+        ),
         title: Padding(
           padding: EdgeInsets.only(left: 10),
           child: Row(
             children: <Widget>[
               SvgPicture.asset(
                 'assets/images/top_up.svg',
-                width: 20,
-                height: 20,
+                width: 25,
+                height: 25,
               ),
               SizedBox(
                 width: 20,
@@ -132,10 +144,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 
   Widget drawerHeader(DrawerViewModel viewModel) {
-    return DrawerHeader(
+    return Container(
+      padding: EdgeInsets.only(top: 50, left: 10, right: 10),
+      decoration: BoxDecoration(
+        color: Theme.of(context).backgroundColor,
+        border: Border(
+          bottom: BorderSide(
+              color: Theme.of(context).colorScheme.onSurface, width: 2),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
+        // mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           InkWell(
             onTap: () {
@@ -143,7 +163,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ExtendedNavigator.named('homeRouter').pushProfileScreen();
             },
             child: Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 15, left: 10),
+              padding: EdgeInsets.only(
+                top: 10,
+                bottom: 15,
+                left: 10,
+                right: 10,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,7 +199,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           : CircleAvatar(
                               backgroundImage:
                                   AssetImage('assets/images/anom.png'),
-                              radius: 30,
+                              radius: 25,
                             ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
@@ -215,31 +240,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           )
         ],
       ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
-        border: Border(
-          bottom: BorderSide(
-              color: Theme.of(context).colorScheme.onSurface, width: 2),
-        ),
-      ),
     );
   }
 
   @override
   Widget build(BuildContext _context) {
     return new StoreConnector<AppState, DrawerViewModel>(
-        distinct: true,
-        converter: DrawerViewModel.fromStore,
-        builder: (_, viewModel) {
-          return SizedBox(
-            width: MediaQuery.of(context).size.width * 0.78,
-            child: Drawer(
-                child: Column(
+      distinct: true,
+      converter: DrawerViewModel.fromStore,
+      builder: (_, viewModel) {
+        return SizedBox(
+          width: MediaQuery.of(context).size.width * 0.78,
+          child: Drawer(
+            child: Column(
               children: <Widget>[
                 Expanded(
                   flex: 5,
                   child: ListView(
-                    padding: EdgeInsets.all(10),
+                    // padding: EdgeInsets.all(10),
                     children: <Widget>[
                       drawerHeader(viewModel),
                       ...pluginsItems(viewModel),
@@ -248,8 +266,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 )
               ],
-            )),
-          );
-        });
+            ),
+          ),
+        );
+      },
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/redux/viewsmodels/backup.dart';
@@ -78,6 +79,15 @@ class _LockScreenState extends State<LockScreen> {
       converter: LockScreenViewModel.fromStore,
       builder: (_, viewModel) {
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            centerTitle: true,
+            title: SvgPicture.asset(
+              'assets/images/fusecash.svg',
+              width: 143,
+              height: 28,
+            ),
+          ),
           body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,

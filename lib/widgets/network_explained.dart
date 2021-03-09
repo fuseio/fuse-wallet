@@ -92,9 +92,11 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
                                   'What is the difference between Ethereum and Fuse?',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).colorScheme.onSurface),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
                                 ),
                                 Text(
                                   '''
@@ -110,16 +112,16 @@ On Fuse you can send assets for free to anybody and on Ethereum you can trade th
                             ),
                             SizedBox(height: 30.0),
                             Center(
-                                child: PrimaryButton(
-                              fontSize: 15,
-                              width: 100,
-                              preload: isPreloading,
-                              labelFontWeight: FontWeight.normal,
-                              label: "Ok",
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-                              },
-                            )),
+                              child: PrimaryButton(
+                                width: 100,
+                                preload: isPreloading,
+                                labelFontWeight: FontWeight.normal,
+                                label: "Ok",
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),

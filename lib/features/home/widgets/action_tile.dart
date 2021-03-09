@@ -128,6 +128,9 @@ class ActionTile extends StatelessWidget {
                                 children: <Widget>[
                                   RichText(
                                     text: TextSpan(
+                                      style: TextStyle(
+                                        fontFamily: 'Europa',
+                                      ),
                                       children: <TextSpan>[
                                         TextSpan(
                                           text: action.getAmount(),
@@ -264,6 +267,9 @@ class ActionTile extends StatelessWidget {
                             action.isJoinCommunity()
                                 ? RichText(
                                     text: TextSpan(
+                                      style: TextStyle(
+                                        fontFamily: 'Europa',
+                                      ),
                                       children: <TextSpan>[
                                         TextSpan(
                                           text: action.isJoinCommunity() &&
@@ -271,7 +277,10 @@ class ActionTile extends StatelessWidget {
                                               ? I18n.of(context).joining
                                               : I18n.of(context).joined,
                                           style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onSurface,
+                                            fontSize: 16,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
                                           ),
                                         ),
                                         action.getText() != null
@@ -279,15 +288,21 @@ class ActionTile extends StatelessWidget {
                                                 text:
                                                     ' \‘${action.getText()}\’ ',
                                                 style: TextStyle(
+                                                  fontSize: 16,
                                                   fontWeight: FontWeight.bold,
-                                                  color: Theme.of(context).colorScheme.onSurface,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onSurface,
                                                 ),
                                               )
                                             : SizedBox.shrink(),
                                         TextSpan(
                                           text: I18n.of(context).community,
                                           style: TextStyle(
-                                            color: Theme.of(context).colorScheme.onSurface,
+                                            fontSize: 16,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface,
                                           ),
                                         ),
                                       ],
@@ -297,7 +312,7 @@ class ActionTile extends StatelessWidget {
                                     displayName,
                                     style: TextStyle(
                                       color: Color(0xFF333333),
-                                      fontSize: 15,
+                                      fontSize: 16,
                                     ),
                                   ),
                           ],

@@ -151,7 +151,9 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).colorScheme.onSurface),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface),
                               ),
                             ),
                             ![null, ''].contains(widget?.community?.description)
@@ -177,8 +179,6 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                                 : SizedBox.shrink(),
                             Center(
                                 child: PrimaryButton(
-                              fontSize: 15,
-                              width: 140,
                               preload: isPreloading,
                               labelFontWeight: FontWeight.normal,
                               label: I18n.of(context).ok,

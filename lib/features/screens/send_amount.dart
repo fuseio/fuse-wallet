@@ -50,52 +50,58 @@ class _SendAmountScreenState extends State<SendAmountScreen>
 
   showBottomMenu(SendAmountViewModel viewModel) {
     showModalBottomSheet(
-        context: context,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0))),
-        builder: (BuildContext context) => Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.0),
-                    topRight: Radius.circular(30.0)),
-                color: Theme.of(context).splashColor),
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListView.separated(
-                          shrinkWrap: true,
-                          primary: false,
-                          padding: EdgeInsets.only(top: 20, bottom: 20),
-                          separatorBuilder: (BuildContext context, int index) =>
-                              Divider(
-                            height: 0,
-                          ),
-                          itemCount: viewModel.tokens?.length ?? 0,
-                          itemBuilder: (context, index) => TokenTile(
-                              token: viewModel.tokens[index],
-                              symbolWidth: 60,
-                              symbolHeight: 60,
-                              showPending: false,
-                              onTap: () {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  amountText = "0";
-                                  selectedToken = viewModel.tokens[index];
-                                });
-                              }),
-                        ),
-                      ],
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      builder: (BuildContext context) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0),
+          ),
+          color: Theme.of(context).canvasColor,
+        ),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildListDelegate([
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListView.separated(
+                      shrinkWrap: true,
+                      primary: false,
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(
+                        height: 0,
+                      ),
+                      itemCount: viewModel.tokens?.length ?? 0,
+                      itemBuilder: (context, index) => TokenTile(
+                          token: viewModel.tokens[index],
+                          symbolWidth: 60,
+                          symbolHeight: 60,
+                          showPending: false,
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            setState(() {
+                              amountText = "0";
+                              selectedToken = viewModel.tokens[index];
+                            });
+                          }),
                     ),
-                  ]),
+                  ],
                 ),
-              ],
-            )));
+              ]),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override

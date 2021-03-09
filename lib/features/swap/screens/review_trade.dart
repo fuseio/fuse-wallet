@@ -174,7 +174,6 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                     child: PrimaryButton(
                       labelFontWeight: FontWeight.normal,
                       label: I18n.of(context).trade,
-                      fontSize: 15,
                       disabled: isPreloading,
                       preload: isPreloading,
                       onPressed: () => _onPress(viewModel),

@@ -49,6 +49,7 @@ class ShowMnemonic extends StatelessWidget {
                           text: TextSpan(
                             style: TextStyle(
                               fontSize: 16,
+                              fontFamily: 'Europa',
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                             children: <InlineSpan>[
@@ -159,7 +160,6 @@ class ShowMnemonic extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // const SizedBox(height: 30.0),
                             ],
                           )
                         : Padding(
@@ -174,7 +174,6 @@ class ShowMnemonic extends StatelessWidget {
               children: [
                 Center(
                   child: PrimaryButton(
-                    fontSize: 15,
                     label: I18n.of(context).next_button,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () async {
@@ -192,184 +191,5 @@ class ShowMnemonic extends StatelessWidget {
         ),
       ),
     );
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     backgroundColor: Theme.of(context).canvasColor,
-    //     centerTitle: true,
-    //     title: Container(
-    //       child: Text(
-    //         I18n.of(context).back_up,
-    //         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-    //         softWrap: true,
-    //       ),
-    //     ),
-    //     bottom: PreferredSize(
-    //         child: Container(
-    //           color: Theme.of(context).colorScheme.onSurface,
-    //           height: 2.0,
-    //         ),
-    //         preferredSize: Size.fromHeight(4.0)),
-    //   ),
-    //   body: Container(
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: [
-    //         Column(
-    //           children: [
-    //             Container(
-    //               padding: EdgeInsets.only(
-    //                   left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
-    //               child: Column(
-    //                 children: <Widget>[
-    //                   Padding(
-    //                     padding: EdgeInsets.only(top: 20),
-    //                     child: RichText(
-    //                       textAlign: TextAlign.center,
-    //                       text: TextSpan(
-    //                         style: TextStyle(
-    //                           fontSize: 16,
-    //                           color: Theme.of(context).colorScheme.onSurface,
-    //                         ),
-    //                         children: <InlineSpan>[
-    //                           TextSpan(
-    //                             text: I18n.of(context).important + ' ',
-    //                           ),
-    //                           TextSpan(
-    //                             text: I18n.of(context).write_words,
-    //                           )
-    //                         ],
-    //                       ),
-    //                     ),
-    //                   )
-    //                 ],
-    //               ),
-    //             ),
-    //             StoreConnector<AppState, BackupViewModel>(
-    //               distinct: true,
-    //               converter: BackupViewModel.fromStore,
-    //               builder: (_, viewModel) {
-    //                 return (viewModel.user != null &&
-    //                         viewModel.user.mnemonic.length > 0)
-    //                     ? Column(
-    //                         children: <Widget>[
-    //                           Padding(
-    //                             padding: EdgeInsets.only(
-    //                                 top: 10, left: 30, right: 30),
-    //                             child: Container(
-    //                               padding: EdgeInsets.only(
-    //                                   left: 10, right: 10, top: 10, bottom: 10),
-    //                               decoration: BoxDecoration(
-    //                                 border: Border.all(
-    //                                   width: 2,
-    //                                   color: Theme.of(context)
-    //                                       .colorScheme
-    //                                       .onSurface,
-    //                                 ),
-    //                                 borderRadius:
-    //                                     BorderRadius.all(Radius.circular(15.0)),
-    //                               ),
-    //                               child: Column(
-    //                                 children: <Widget>[
-    //                                   Row(
-    //                                     children: <Widget>[
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[0], 1),
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[1], 2),
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[2], 3)
-    //                                     ],
-    //                                   ),
-    //                                   Row(
-    //                                     children: <Widget>[
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[3], 4),
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[4], 5),
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[5], 6)
-    //                                     ],
-    //                                   ),
-    //                                   Row(
-    //                                     children: <Widget>[
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[6], 7),
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[7], 8),
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[8], 9)
-    //                                     ],
-    //                                   ),
-    //                                   Row(
-    //                                     children: <Widget>[
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[9], 10),
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[10], 11),
-    //                                       wordWidget(context,
-    //                                           viewModel.user.mnemonic[11], 12)
-    //                                     ],
-    //                                   ),
-    //                                   Padding(
-    //                                     padding: EdgeInsets.only(
-    //                                       top: 30,
-    //                                       bottom: 25,
-    //                                     ),
-    //                                     child: Container(
-    //                                       child: Row(
-    //                                         mainAxisAlignment:
-    //                                             MainAxisAlignment.center,
-    //                                         children: <Widget>[
-    //                                           CopyToClipboard(
-    //                                             context: context,
-    //                                             content: viewModel.user.mnemonic
-    //                                                 .join(" "),
-    //                                           ),
-    //                                           const SizedBox(width: 4.0),
-    //                                           Icon(
-    //                                             Icons.content_copy,
-    //                                             size: 16,
-    //                                           )
-    //                                         ],
-    //                                       ),
-    //                                     ),
-    //                                   ),
-    //                                 ],
-    //                               ),
-    //                             ),
-    //                           ),
-    //                           // const SizedBox(height: 30.0),
-    //                         ],
-    //                       )
-    //                     : Padding(
-    //                         child: Preloader(),
-    //                         padding: EdgeInsets.only(top: 70),
-    //                       );
-    //               },
-    //             ),
-    //           ],
-    //         ),
-    //         Column(
-    //           children: [
-    //             Center(
-    //               child: PrimaryButton(
-    //                 fontSize: 15,
-    //                 label: I18n.of(context).next_button,
-    //                 labelFontWeight: FontWeight.normal,
-    //                 onPressed: () async {
-    //                   ExtendedNavigator.named('homeRouter')
-    //                       .replace(HomeRoutes.verifyMnemonic);
-    //                 },
-    //               ),
-    //             ),
-    //             SizedBox(
-    //               height: 30,
-    //             ),
-    //           ],
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

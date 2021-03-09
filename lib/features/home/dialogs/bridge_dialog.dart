@@ -92,7 +92,6 @@ class _BridgeDialogState extends State<BridgeDialog>
                       SizedBox(height: 30.0),
                       Center(
                         child: PrimaryButton(
-                          fontSize: 15,
                           preload: isPreloading,
                           labelFontWeight: FontWeight.normal,
                           label: I18n.of(context).move_to +

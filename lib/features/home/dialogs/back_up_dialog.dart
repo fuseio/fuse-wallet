@@ -73,23 +73,21 @@ class BackUpDialogState extends State<BackUpDialog>
                   Text(I18n.of(context).protect_wallet,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 20.0),
+                  SizedBox(height: 20.0),
                   Text(I18n.of(context).we_notice,
                       style: TextStyle(
                           color: Color(0xFF696969),
                           fontSize: 16,
                           fontWeight: FontWeight.normal)),
-                  const SizedBox(height: 20.0),
+                  SizedBox(height: 20.0),
                   Text(I18n.of(context).to_protect,
                       style: TextStyle(
                           color: Color(0xFF696969),
                           fontSize: 16,
                           fontWeight: FontWeight.normal)),
-                  const SizedBox(height: 20.0),
+                  SizedBox(height: 20.0),
                   PrimaryButton(
                     label: I18n.of(context).back_up_now,
-                    fontSize: 16,
-                    width: 170,
                     labelFontWeight: FontWeight.normal,
                     onPressed: () async {
                       final BottomNavigationBar navigationBar =

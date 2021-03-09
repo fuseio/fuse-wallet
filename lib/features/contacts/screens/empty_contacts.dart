@@ -32,12 +32,6 @@ class _EmptyContactsState extends State<EmptyContacts> {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    searchController.dispose();
-  }
-
   void resetSearch() {
     FocusScope.of(context).unfocus();
     if (mounted) {

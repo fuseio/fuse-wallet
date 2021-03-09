@@ -52,10 +52,13 @@ class _RecoveryPageState extends State<RecoveryPage> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: 30),
-                        child: Text(I18n.of(context).restore_words,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.normal)),
+                        child: Text(
+                          I18n.of(context).restore_words,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -80,13 +83,15 @@ class _RecoveryPageState extends State<RecoveryPage> {
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   width: 2,
-                                  color: Theme.of(context).colorScheme.onSurface,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   width: 2,
-                                  color: Theme.of(context).colorScheme.onSurface,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
                                 ),
                               ),
                               fillColor: Colors.transparent,
@@ -113,7 +118,6 @@ class _RecoveryPageState extends State<RecoveryPage> {
                       preload: isPreloading,
                       disabled: isPreloading,
                       label: I18n.of(context).next_button,
-                      fontSize: 16,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () {
                         if (_formKey.currentState.validate()) {

@@ -19,12 +19,7 @@ class CashHeader extends StatelessWidget {
         return Container(
           height: MediaQuery.of(context).size.height,
           alignment: Alignment.bottomLeft,
-          padding: EdgeInsets.only(
-            top: 20.0,
-            left: 20.0,
-            right: 20.0,
-            bottom: 15.0,
-          ),
+          padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
             borderRadius: BorderRadius.only(
@@ -51,7 +46,6 @@ class CashHeader extends StatelessWidget {
               Text(
                 '${I18n.of(context).hi} ${viewModel?.firstName() ?? ''}',
                 style: TextStyle(
-                  // color: Theme.of(context).primaryColor,
                   fontSize: 25,
                 ),
               ),
@@ -80,6 +74,9 @@ class CashHeader extends StatelessWidget {
                               children: <Widget>[
                                   RichText(
                                     text: TextSpan(
+                                      style: TextStyle(
+                                        fontFamily: 'Europa',
+                                      ),
                                       children: <TextSpan>[
                                         TextSpan(
                                           text:
@@ -102,6 +99,7 @@ class CashHeader extends StatelessWidget {
                                   RichText(
                                     text: TextSpan(
                                       style: TextStyle(
+                                        fontFamily: 'Europa',
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSurface,
@@ -145,12 +143,11 @@ class CashHeader extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    width: 45,
-                    height: 45,
+                    width: 50,
+                    height: 50,
                     child: GestureDetector(
                       child: SvgPicture.asset(
                         'assets/images/scan.svg',
-                        width: 25.0,
                       ),
                       onTap: () {
                         barcodeScannerHandler(

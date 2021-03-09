@@ -36,12 +36,6 @@ class _ContactsListState extends State<ContactsList> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    searchController.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return new StoreConnector<AppState, ContactsViewModel>(
       distinct: true,

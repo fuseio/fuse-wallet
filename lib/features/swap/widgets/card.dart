@@ -9,9 +9,11 @@ class TradeCard extends StatelessWidget {
   final void Function(String) onChanged;
   final TextEditingController textEditingController;
   final void Function() onTap;
+  final bool isSwapped;
 
   TradeCard({
     this.title,
+    this.isSwapped,
     this.onTap,
     this.useMaxWidget,
     this.hasBalance = true,
@@ -23,8 +25,11 @@ class TradeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160,
+      height: 180,
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      color: isSwapped
+          ? Theme.of(context).canvasColor
+          : Theme.of(context).colorScheme.secondary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -86,7 +91,9 @@ class TradeCard extends StatelessWidget {
                       ),
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        fillColor: Theme.of(context).canvasColor,
+                        fillColor: isSwapped
+                            ? Theme.of(context).canvasColor
+                            : Theme.of(context).colorScheme.secondary,
                         hintText: '0',
                         labelStyle: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 28),

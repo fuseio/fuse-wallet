@@ -242,7 +242,6 @@ class _TopupScreenState extends State<TopupScreen>
               },
               preload: isPreloading,
               disabled: isPreloading || url.isEmpty,
-              width: 300,
             ),
           );
         },

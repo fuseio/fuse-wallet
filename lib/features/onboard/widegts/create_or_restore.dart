@@ -37,7 +37,6 @@ class _CreateWalletState extends State<CreateWallet> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 PrimaryButton(
-                  fontSize: 16,
                   labelFontWeight: FontWeight.normal,
                   disabled: isPrimaryPreloading,
                   label: viewModel.isLoggedOut
@@ -114,7 +113,7 @@ class _CreateWalletState extends State<CreateWallet> {
                             ],
                           )
                         : TransparentButton(
-                            fontSize: 16,
+                            fontSize: 20,
                             label: I18n.of(context).restore_from_backup,
                             onPressed: () async {
                               ExtendedNavigator.root.pushRecoveryPage();

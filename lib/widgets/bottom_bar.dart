@@ -20,11 +20,19 @@ class BottomBar extends StatelessWidget {
       BottomNavigationBarItem(
         icon: Padding(
           padding: EdgeInsets.only(top: 5, bottom: 3),
-          child: SvgPicture.asset('assets/images/$imgSvg\.svg'),
+          child: SvgPicture.asset(
+            'assets/images/$imgSvg\.svg',
+            width: 25,
+            height: 25,
+          ),
         ),
         activeIcon: Padding(
           padding: EdgeInsets.only(top: 5, bottom: 3),
-          child: SvgPicture.asset('assets/images/$imgSvg\_selected.svg'),
+          child: SvgPicture.asset(
+            'assets/images/$imgSvg\_selected.svg',
+            width: 25,
+            height: 25,
+          ),
         ),
         label: title,
       );
@@ -41,21 +49,24 @@ class BottomBar extends StatelessWidget {
           ),
         ),
       ),
-      child: BottomNavigationBar(
-        selectedItemColor: Color(0xFF292929),
-        key: AppKeys.bottomBarKey,
-        selectedFontSize: 13,
-        unselectedFontSize: 13,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: tabIndex,
-        showUnselectedLabels: true,
-        items: [
-          bottomBarItem(I18n.of(context).home, 'home'),
-          bottomBarItem(I18n.of(context).send_button, 'send'),
-          bottomBarItem(I18n.of(context).swap, 'swap'),
-          bottomBarItem(I18n.of(context).receive, 'receive'),
-        ],
-        onTap: onTap,
+      child: SizedBox(
+        height: 80,
+        child: BottomNavigationBar(
+          selectedItemColor: Color(0xFF292929),
+          key: AppKeys.bottomBarKey,
+          selectedFontSize: 16,
+          unselectedFontSize: 16,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: tabIndex,
+          showUnselectedLabels: true,
+          items: [
+            bottomBarItem(I18n.of(context).home, 'home'),
+            bottomBarItem(I18n.of(context).send_button, 'send'),
+            bottomBarItem(I18n.of(context).swap, 'swap'),
+            bottomBarItem(I18n.of(context).receive, 'receive'),
+          ],
+          onTap: onTap,
+        ),
       ),
     );
   }

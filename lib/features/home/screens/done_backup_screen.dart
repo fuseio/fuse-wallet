@@ -63,7 +63,6 @@ class DoneBackup extends StatelessWidget {
                       child: PrimaryButton(
                         labelFontWeight: FontWeight.normal,
                         label: I18n.of(context).ok,
-                        fontSize: 15,
                         onPressed: () async {
                           viewModal.backupWallet();
                           ExtendedNavigator.named('homeRouter').popUntilRoot();

@@ -85,9 +85,7 @@ class ReceiveScreen extends StatelessWidget {
                 ),
                 Center(
                   child: PrimaryButton(
-                    fontSize: 15,
                     labelFontWeight: FontWeight.normal,
-                    width: 160,
                     label: I18n.of(context).share_button,
                     onPressed: () {
                       Share.share(viewModel?.walletAddress);

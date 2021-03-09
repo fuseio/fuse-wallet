@@ -17,8 +17,8 @@ class CommunityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        focusColor: Theme.of(context).splashColor,
-        highlightColor: Theme.of(context).splashColor,
+        focusColor: Theme.of(context).canvasColor,
+        highlightColor: Theme.of(context).canvasColor,
         onTap: () {
           switchCommunity(community?.address);
           Navigator.of(context).pop();

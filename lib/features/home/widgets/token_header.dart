@@ -63,6 +63,7 @@ class TokenHeader extends StatelessWidget {
                                 text: TextSpan(
                                     style: TextStyle(
                                       fontSize: 27,
+                                      fontFamily: 'Europa',
                                       fontWeight: FontWeight.bold,
                                       color: Theme.of(context)
                                           .colorScheme
@@ -82,6 +83,7 @@ class TokenHeader extends StatelessWidget {
                                     ? '\$$price'
                                     : "",
                                 style: TextStyle(
+                                  fontFamily: 'Europa',
                                   fontSize: 18,
                                   color:
                                       Theme.of(context).colorScheme.onSurface,

@@ -152,8 +152,6 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                           child: PrimaryButton(
                         labelFontWeight: FontWeight.normal,
                         label: I18n.of(context).next_button,
-                        fontSize: 15,
-                        width: 160,
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             ExtendedNavigator.named('homeRouter')

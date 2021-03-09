@@ -46,17 +46,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 toolbarHeight: 70,
                 backgroundColor: Theme.of(context).canvasColor,
                 bottom: PreferredSize(
-                  preferredSize:
-                      Size(MediaQuery.of(context).size.width * .8, 70),
-                  child: TabBar(
-                    tabs: [
-                      Tab(
-                        text: I18n.of(context).feed,
-                      ),
-                      Tab(
-                        text: I18n.of(context).wallet,
-                      ),
-                    ],
+                  preferredSize: Size(
+                    MediaQuery.of(context).size.width * .8,
+                    70,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: TabBar(
+                      tabs: [
+                        Tab(
+                          // text: I18n.of(context).feed,
+                          child: Text(
+                            I18n.of(context).feed,
+                            softWrap: false,
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        Tab(
+                          // text: I18n.of(context).wallet,
+                          child: Text(
+                            I18n.of(context).wallet,
+                            softWrap: false,
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

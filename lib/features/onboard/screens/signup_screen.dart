@@ -32,13 +32,6 @@ class _SignupScreenState extends State<SignupScreen> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    phoneController?.dispose();
-    fullNameController.dispose();
-    super.dispose();
-  }
-
   _updateCountryCode(_) {
     Locale myLocale = Localizations.localeOf(context);
     if (myLocale.countryCode != null) {
@@ -48,7 +41,9 @@ class _SignupScreenState extends State<SignupScreen> {
       if (mounted && localeData != null) {
         setState(() {
           countryCode = CountryCode(
-              dialCode: localeData['dial_code'], code: localeData['code']);
+            dialCode: localeData['dial_code'],
+            code: localeData['code'],
+          );
         });
       }
     }
@@ -89,12 +84,16 @@ class _SignupScreenState extends State<SignupScreen> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(
-                        left: 20.0, right: 20.0, bottom: 20.0, top: 0.0),
+                      left: 20.0,
+                      right: 20.0,
+                      bottom: 20.0,
+                      top: 0.0,
+                    ),
                     child: Text(
                       I18n.of(context).enter_phone_number,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.normal,
                       ),
                     ),
@@ -104,8 +103,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: InkWell(
                       onTap: () {
                         showDialog(
-                            context: context,
-                            builder: (BuildContext context) => SignupDialog());
+                          context: context,
+                          builder: (BuildContext context) => SignupDialog(),
+                        );
                         Segment.track(
                             eventName:
                                 "Wallet: opened modal - why do we need this");
@@ -114,7 +114,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Text(
                           I18n.of(context).why_do_we_need_this,
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -240,7 +242,6 @@ class _SignupScreenState extends State<SignupScreen> {
                           builder: (_, viewModel) => Center(
                             child: PrimaryButton(
                               label: I18n.of(context).next_button,
-                              fontSize: 16,
                               labelFontWeight: FontWeight.normal,
                               onPressed: () {
                                 onPressed(viewModel.signUp);

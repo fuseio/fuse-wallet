@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
+import 'package:fusecash/utils/log/log.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:fusecash/widgets/snackbars.dart';
-import 'package:pin_input_text_field/pin_input_text_field.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyScreen extends StatefulWidget {
   final String verificationId;
@@ -20,16 +23,19 @@ class VerifyScreen extends StatefulWidget {
 class _VerifyScreenState extends State<VerifyScreen> {
   String autoCode = "";
   TextEditingController codeController = TextEditingController(text: '');
-
-  @override
-  void dispose() {
-    codeController.dispose();
-    super.dispose();
-  }
+  String currentText = "";
+  // StreamController<ErrorAnimationType> errorController;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // errorController.close();
+    super.dispose();
   }
 
   @override
@@ -77,7 +83,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             "\n",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
@@ -93,38 +99,41 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   ),
                 ),
                 Container(
+                  padding: EdgeInsets.only(left: 0.0, top: 10.0, right: 0.0),
                   child: Column(
                     children: <Widget>[
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: 0.0, top: 10.0, right: 0.0),
+                      Form(
+                        key: formKey,
                         child: Container(
                           width: 280,
-                          child: Theme(
-                            data: ThemeData(
-                              hintColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
+                          child: PinCodeTextField(
+                            length: 6,
+                            showCursor: false,
+                            appContext: context,
+                            enableActiveFill: true,
+                            enablePinAutofill: false,
+                            keyboardType: TextInputType.phone,
+                            animationType: AnimationType.fade,
+                            controller: codeController,
+                            pinTheme: PinTheme(
+                              borderWidth: 4,
+                              borderRadius: BorderRadius.circular(20),
+                              shape: PinCodeFieldShape.underline,
+                              inactiveColor: Color(0xFFDDDDDD),
+                              inactiveFillColor: Theme.of(context).canvasColor,
+                              selectedFillColor: Theme.of(context).canvasColor,
+                              disabledColor: Theme.of(context).primaryColor,
+                              selectedColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                              activeColor:
+                                  Theme.of(context).colorScheme.onSurface,
+                              activeFillColor: Theme.of(context).canvasColor,
                             ),
-                            child: PinInputTextField(
-                              pinLength: 6,
-                              decoration: UnderlineDecoration(
-                                textStyle: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30,
-                                ),
-                                colorBuilder: FixedColorListBuilder(
-                                  List<Color>.filled(
-                                    6,
-                                    Theme.of(context).colorScheme.onSurface,
-                                  ),
-                                ),
-                              ),
-                              controller: codeController,
-                              autoFocus: true,
-                              textInputAction: TextInputAction.go,
-                              onSubmit: (pin) {},
-                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                currentText = value;
+                              });
+                            },
                           ),
                         ),
                       ),
@@ -133,10 +142,18 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         child: PrimaryButton(
                           label: I18n.of(context).next_button,
                           labelFontWeight: FontWeight.normal,
-                          fontSize: 16,
                           preload: viewModel.isVerifyRequest,
                           onPressed: () {
-                            viewModel.verify(codeController.text);
+                            formKey.currentState.validate();
+                            // conditions for validating
+                            log.info(
+                                'currentText.length ${currentText.length}');
+                            if (currentText.length != 6) {
+                              // errorController.add(ErrorAnimationType
+                              //     .shake); // Triggering error shake animation
+                            } else {
+                              viewModel.verify(codeController.text);
+                            }
                           },
                         ),
                       ),

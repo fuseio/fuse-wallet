@@ -896,13 +896,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.1"
-  pin_input_text_field:
+  pin_code_fields:
     dependency: "direct main"
     description:
-      name: pin_input_text_field
+      name: pin_code_fields
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.1"
+    version: "6.1.0"
   platform:
     dependency: transitive
     description:

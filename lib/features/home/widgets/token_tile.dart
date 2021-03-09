@@ -178,6 +178,9 @@ class TokenTile extends StatelessWidget {
                         children: <Widget>[
                           RichText(
                             text: TextSpan(
+                              style: TextStyle(
+                                fontFamily: 'Europa',
+                              ),
                               children: <TextSpan>[
                                 token.priceInfo != null
                                     ? TextSpan(

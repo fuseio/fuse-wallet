@@ -4,7 +4,7 @@ import 'package:fusecash/features/home/widgets/token_tile.dart';
 import 'package:fusecash/features/swap/widgets/card.dart';
 import 'package:fusecash/models/swap/swap.dart';
 import 'package:fusecash/redux/actions/swap_actions.dart';
-import 'package:fusecash/redux/viewsmodels/trade.dart';
+import 'package:fusecash/redux/viewsmodels/swap.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/debouncer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,6 +38,7 @@ class _SwapScreenState extends State<SwapScreen> {
   Token tokenOut;
   Token tokenIn;
   List<Token> tokenList;
+  bool isSwapped = false;
 
   @override
   void dispose() {
@@ -57,13 +58,13 @@ class _SwapScreenState extends State<SwapScreen> {
       swapRequestBody = swapRequestBody.copyWith(
         currencyIn: token.address,
       );
-      getTradeInfo(
-        swapRequestBody.amountIn,
-        (info) => setState(() {
-          tokenOutController.text = info.outputAmount;
-        }),
-      );
     });
+    getTradeInfo(
+      swapRequestBody.amountIn,
+      (info) => setState(() {
+        tokenOutController.text = info.outputAmount;
+      }),
+    );
   }
 
   void onTokenInChanged(Token token) {
@@ -72,13 +73,13 @@ class _SwapScreenState extends State<SwapScreen> {
       swapRequestBody = swapRequestBody.copyWith(
         currencyOut: token.address,
       );
-      getTradeInfo(
-        swapRequestBody.amountIn,
-        (info) => setState(() {
-          tokenInController.text = info.outputAmount;
-        }),
-      );
     });
+    getTradeInfo(
+      swapRequestBody.amountIn,
+      (info) => setState(() {
+        tokenInController.text = info.outputAmount;
+      }),
+    );
   }
 
   void getTradeInfo(
@@ -91,6 +92,7 @@ class _SwapScreenState extends State<SwapScreen> {
         tokenOutController.text = '';
         tokenInController.text = '';
       });
+      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     };
     try {
       if (value.isNotEmpty) {
@@ -134,7 +136,7 @@ class _SwapScreenState extends State<SwapScreen> {
             topLeft: Radius.circular(30.0),
             topRight: Radius.circular(30.0),
           ),
-          color: Theme.of(context).splashColor,
+          color: Theme.of(context).canvasColor,
         ),
         child: CustomScrollView(
           slivers: <Widget>[
@@ -173,45 +175,33 @@ class _SwapScreenState extends State<SwapScreen> {
     );
   }
 
-  Stack swapWidgetIcon() {
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0),
-          child: SizedBox(
-            child: Divider(
-              thickness: 1.0,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: () {
-            if (this.mounted) {
-              Token tokenPayWith = tokenOut.copyWith();
-              Token tokenReceive = tokenIn.copyWith();
-              String amountOut = tokenOutController.text;
-              String amountIn = tokenInController.text;
-              setState(() {
-                tokenOut = tokenReceive;
-                tokenIn = tokenPayWith;
-                tokenInController.text = amountOut;
-                tokenOutController.text = amountIn;
-                swapRequestBody = swapRequestBody.copyWith(
-                  currencyIn: tokenReceive.address,
-                  currencyOut: tokenPayWith.address,
-                );
-              });
-            }
-          },
-          child: SvgPicture.asset(
-            'assets/images/swap_icon.svg',
-            fit: BoxFit.fill,
-            width: 40,
-            height: 40,
-          ),
-        )
-      ],
+  Widget swapWidgetIcon() {
+    return InkWell(
+      onTap: () {
+        if (this.mounted) {
+          Token tokenPayWith = tokenOut.copyWith();
+          Token tokenReceive = tokenIn.copyWith();
+          String amountOut = tokenOutController.text;
+          String amountIn = tokenInController.text;
+          setState(() {
+            isSwapped = !isSwapped;
+            tokenOut = tokenReceive;
+            tokenIn = tokenPayWith;
+            tokenInController.text = amountOut;
+            tokenOutController.text = amountIn;
+            swapRequestBody = swapRequestBody.copyWith(
+              currencyIn: tokenReceive.address,
+              currencyOut: tokenPayWith.address,
+            );
+          });
+        }
+      },
+      child: SvgPicture.asset(
+        'assets/images/${isSwapped ? 'swap_icon2.svg' : 'swap_icon.svg'}',
+        fit: BoxFit.fill,
+        width: 55,
+        height: 55,
+      ),
     );
   }
 
@@ -249,9 +239,9 @@ class _SwapScreenState extends State<SwapScreen> {
   Widget build(BuildContext context) {
     return MyScaffold(
       title: I18n.of(context).swap,
-      body: StoreConnector<AppState, TradeViewModel>(
+      body: StoreConnector<AppState, SwapViewModel>(
         distinct: true,
-        converter: TradeViewModel.fromStore,
+        converter: SwapViewModel.fromStore,
         onInit: (store) {
           store.dispatch(fetchSwapList());
         },
@@ -277,67 +267,67 @@ class _SwapScreenState extends State<SwapScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              child: Column(
-                                children: <Widget>[
-                                  TradeCard(
-                                    onTap: () {
-                                      showBottomMenu(
-                                        viewModel.tokens,
-                                        onTokenOutChanged,
-                                      );
-                                    },
-                                    onChanged: (value) {
-                                      tokenOutDebouncer.run(
-                                        () => getTradeInfo(
-                                          value,
-                                          (info) => setState(() {
-                                            tokenInController.text =
-                                                info.outputAmount;
-                                          }),
-                                        ),
-                                      );
-                                    },
-                                    useMaxWidget: maxButton(),
-                                    textEditingController: tokenOutController,
-                                    token: tokenOut,
-                                    title: I18n.of(context).pay_with,
-                                  ),
-                                  swapWidgetIcon(),
-                                  TradeCard(
-                                    onTap: () {
-                                      showBottomMenu(
-                                        viewModel.tokens,
-                                        onTokenInChanged,
-                                      );
-                                    },
-                                    onChanged: (value) {
-                                      tokenInDebouncer.run(
-                                        () => getTradeInfo(
-                                          value,
-                                          (info) => setState(() {
-                                            tokenOutController.text =
-                                                info.outputAmount;
-                                          }),
-                                        ),
-                                      );
-                                    },
-                                    textEditingController: tokenInController,
-                                    token: tokenIn,
-                                    title: I18n.of(context).receive,
-                                  ),
-                                ],
-                              ),
-                            )
+                    children: <Widget>[
+                      Container(
+                        child: Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            Column(
+                              children: <Widget>[
+                                TradeCard(
+                                  isSwapped: isSwapped,
+                                  onTap: () {
+                                    showBottomMenu(
+                                      viewModel.tokens,
+                                      onTokenOutChanged,
+                                    );
+                                  },
+                                  onChanged: (value) {
+                                    tokenOutDebouncer.run(
+                                      () => getTradeInfo(
+                                        value,
+                                        (info) => setState(() {
+                                          tokenInController.text =
+                                              info.outputAmount;
+                                        }),
+                                      ),
+                                    );
+                                  },
+                                  useMaxWidget: maxButton(),
+                                  textEditingController: tokenOutController,
+                                  token: tokenOut,
+                                  title: I18n.of(context).pay_with,
+                                ),
+                                // swapWidgetIcon(),
+                                TradeCard(
+                                  isSwapped: !isSwapped,
+                                  onTap: () {
+                                    showBottomMenu(
+                                      viewModel.tokens,
+                                      onTokenInChanged,
+                                    );
+                                  },
+                                  onChanged: (value) {
+                                    tokenInDebouncer.run(
+                                      () => getTradeInfo(
+                                        value,
+                                        (info) => setState(() {
+                                          tokenOutController.text =
+                                              info.outputAmount;
+                                        }),
+                                      ),
+                                    );
+                                  },
+                                  textEditingController: tokenInController,
+                                  token: tokenIn,
+                                  title: I18n.of(context).receive,
+                                ),
+                              ],
+                            ),
+                            swapWidgetIcon()
                           ],
                         ),
-                      ),
+                      )
                     ],
                   ),
                   Column(
@@ -348,7 +338,6 @@ class _SwapScreenState extends State<SwapScreen> {
                           preload: isFetchingPrice,
                           labelFontWeight: FontWeight.normal,
                           label: I18n.of(context).swap,
-                          fontSize: 15,
                           onPressed: () {
                             ExtendedNavigator.named('swapRouter')
                                 .pushReviewSwapScreen(
