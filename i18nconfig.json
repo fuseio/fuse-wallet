@@ -1,7 +1,7 @@
 {
-    "defaultLocale": "en-US",
+    "defaultLocale": "en-GB",
     "locales": [
-        "en-US",
+        "en-GB",
         "he-IL",
         "es-ES",
         "br-BR",
@@ -16,7 +16,7 @@
     "localePath": "i18n",
     "generatedPath": "lib/generated",
     "ltr": [
-        "en-US",
+        "en-GB",
         "es-ES",
         "br-BR",
         "it-IT",

@@ -36,16 +36,16 @@ class I18n implements WidgetsLocalizations {
   String get intro_text_one => "Support your local restaurants, on a platform that gives them a bigger share of what you pay.";
   /// " \n 10% back in your wallet, to spend again in future."
   String get intro_text_two => " \n 10% back in your wallet, to spend again in future.";
-  /// "Top up your Peepl wallet, as much or as little as you like, directly from your bank account. It’s fast, secure, and free."
-  String get intro_text_three => "Top up your Peepl wallet, as much or as little as you like, directly from your bank account. It’s fast, secure, and free.";
+  /// "Top up your Peepl wallet, as much or as little as you like, directly from your bank account using Stripe. It’s fast & secure."
+  String get intro_text_three => "Top up your Peepl wallet, as much or as little as you like, directly from your bank account using Stripe. It’s fast & secure.";
   /// "We’re bringing people and restaurants together, over the food we all love. Thank you for joining us at the start of our journey!"
   String get intro_text_four => "We’re bringing people and restaurants together, over the food we all love. Thank you for joining us at the start of our journey!";
   /// "Simple"
   String get intro_title_one => "Simple";
   /// "Get rewarded for each spend."
   String get intro_title_two => "Get rewarded for each spend.";
-  /// "We give restaurants more by avoiding credit card fees."
-  String get intro_title_three => "We give restaurants more by avoiding credit card fees.";
+  /// "We give restaurants more by charging them fair fees."
+  String get intro_title_three => "We give restaurants more by charging them fair fees.";
   /// "Top up. Pay. Enjoy."
   String get intro_title_four => "Top up. Pay. Enjoy.";
   /// "Hello"
@@ -376,8 +376,8 @@ class I18n implements WidgetsLocalizations {
   String get error => "Error";
 }
 
-class _I18n_en_US extends I18n {
-  const _I18n_en_US();
+class _I18n_en_GB extends I18n {
+  const _I18n_en_GB();
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
@@ -1690,7 +1690,7 @@ class _I18n_it_IT extends I18n {
   TextDirection get textDirection => TextDirection.ltr;
 }
 
-class _I18n_en_PH extends _I18n_en_US {
+class _I18n_en_PH extends _I18n_en_GB {
   const _I18n_en_PH();
 
   /// "Gamitin ang wallet para magpadala ng pera \n sa iyong mga kaibigan ng libre at walang charges"
@@ -3794,7 +3794,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
   const GeneratedLocalizationsDelegate();
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale("en", "US"),
+      Locale("en", "GB"),
       Locale("he", "IL"),
       Locale("es", "ES"),
       Locale("br", "BR"),
@@ -3824,8 +3824,8 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
     I18n._shouldReload = false;
     final String lang = I18n._locale != null ? I18n._locale.toString() : "";
     final String languageCode = I18n._locale != null ? I18n._locale.languageCode : "";
-    if ("en_US" == lang) {
-      return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
+    if ("en_GB" == lang) {
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_GB());
     }
     else if ("he_IL" == lang) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_he_IL());
@@ -3858,7 +3858,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<WidgetsLocali
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_sr_RS());
     }
     else if ("en" == languageCode) {
-      return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_US());
+      return SynchronousFuture<WidgetsLocalizations>(const _I18n_en_GB());
     }
     else if ("he" == languageCode) {
       return SynchronousFuture<WidgetsLocalizations>(const _I18n_he_IL());
