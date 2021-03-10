@@ -202,24 +202,24 @@ class CashHeader extends StatelessWidget {
                               ),
                       ],
                     ),
-                    Container(
-                      width: 45,
-                      height: 45,
-                      child: FloatingActionButton(
-                        heroTag: 'cash_header',
-                        backgroundColor: Color(0xFF292929),
-                        elevation: 0,
-                        child: Image.asset(
-                          'assets/images/scan.png',
-                          width: 25.0,
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                        onPressed: () {
-                          barcodeScannerHandler(
-                              ExtendedNavigator.named('homeRouter').context);
-                        },
-                      ),
-                    )
+                    // Container(
+                    //   width: 45,
+                    //   height: 45,
+                    //   child: FloatingActionButton(
+                    //     heroTag: 'cash_header',
+                    //     backgroundColor: Color(0xFF292929),
+                    //     elevation: 0,
+                    //     child: Image.asset(
+                    //       'assets/images/scan.png',
+                    //       width: 25.0,
+                    //       color: Theme.of(context).scaffoldBackgroundColor,
+                    //     ),
+                    //     onPressed: () {
+                    //       barcodeScannerHandler(
+                    //           ExtendedNavigator.named('homeRouter').context);
+                    //     },
+                    //   ),
+                    // )
                   ],
                 ),
               ],

@@ -83,7 +83,8 @@ class _MyAppState extends State<MyApp> {
       Duration diff = exp.difference(now);
       if (diff.inDays <= 1) {
         String token = await firebaseAuth.currentUser.getIdToken(true);
-        jwtToken = await api.login(token, accoutAddress, identifier, appName: "Roost");
+        jwtToken =
+            await api.login(token, accoutAddress, identifier, appName: "Roost");
       }
 
       logger.info('JWT: $jwtToken');
@@ -170,7 +171,7 @@ class _MyAppState extends State<MyApp> {
           ],
           supportedLocales: i18n.supportedLocales,
           localeResolutionCallback:
-              i18n.resolution(fallback: new Locale("en", "US")),
+              i18n.resolution(fallback: Locale("en", "GB")),
         ));
   }
 }
