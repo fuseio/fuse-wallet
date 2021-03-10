@@ -161,7 +161,36 @@ class _SignupScreenState extends State<SignupScreen> {
                                             'County code': _countryCode.code,
                                           }));
                                     },
-                                    searchStyle: TextStyle(fontSize: 18),
+                                    searchDecoration: InputDecoration(
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
+                                      ),
+                                      fillColor: Theme.of(context).canvasColor,
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                        ),
+                                      ),
+                                    ),
+                                    searchStyle: TextStyle(
+                                      fontSize: 18,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
+                                    ),
                                     showFlag: true,
                                     initialSelection: countryCode.code,
                                     showCountryOnly: false,

@@ -49,25 +49,22 @@ class BottomBar extends StatelessWidget {
           ),
         ),
       ),
-      child: SizedBox(
-        height: 80,
-        child: BottomNavigationBar(
-          selectedItemColor: Theme.of(context).colorScheme.onSurface,
-          unselectedItemColor: Theme.of(context).colorScheme.onSurface,
-          key: AppKeys.bottomBarKey,
-          selectedFontSize: 16,
-          unselectedFontSize: 16,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: tabIndex,
-          showUnselectedLabels: true,
-          items: [
-            bottomBarItem(I18n.of(context).home, 'home'),
-            bottomBarItem(I18n.of(context).send_button, 'send'),
-            bottomBarItem(I18n.of(context).swap, 'swap'),
-            bottomBarItem(I18n.of(context).receive, 'receive'),
-          ],
-          onTap: onTap,
-        ),
+      child: BottomNavigationBar(
+        selectedItemColor: Theme.of(context).colorScheme.onSurface,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurface,
+        key: AppKeys.bottomBarKey,
+        selectedFontSize: 16,
+        unselectedFontSize: 16,
+        type: BottomNavigationBarType.fixed,
+        currentIndex: tabIndex,
+        showUnselectedLabels: true,
+        items: [
+          bottomBarItem(I18n.of(context).home, 'home'),
+          bottomBarItem(I18n.of(context).send_button, 'send'),
+          bottomBarItem(I18n.of(context).swap, 'swap'),
+          bottomBarItem(I18n.of(context).receive, 'receive'),
+        ],
+        onTap: onTap,
       ),
     );
   }
