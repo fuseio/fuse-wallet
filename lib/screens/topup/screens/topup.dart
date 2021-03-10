@@ -154,7 +154,7 @@ class _TopupScreenState extends State<TopupScreen>
                 fontWeight: FontWeight.bold),
           ),
           messageText: Text(
-            I18n.of(context).success,
+            "Top up successful! 💸",
             style: TextStyle(fontSize: 14.0, color: Colors.black),
           ),
           backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -238,7 +238,8 @@ class _TopupScreenState extends State<TopupScreen>
 
     return MainScaffold(
       withPadding: true,
-      title: 'Top up using ${EnumToString.convertToString(widget.topupType)}',
+      //title: 'Top up using ${EnumToString.convertToString(widget.topupType)}',
+      title: 'Top up using card',
       children: <Widget>[
         Container(
           height: MediaQuery.of(context).size.height * 0.6,

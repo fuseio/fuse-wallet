@@ -13,8 +13,8 @@ import '../screens/topup.dart';
 import '../screens/topup_explained.dart';
 
 class TopupRoutes {
-  static const String topupExplained = '/topup-explained';
-  static const String topupScreen = '/';
+  static const String topupExplained = '/';
+  static const String topupScreen = '/topup-screen';
   static const all = <String>{
     topupExplained,
     topupScreen,

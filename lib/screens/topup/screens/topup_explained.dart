@@ -28,9 +28,9 @@ class _TopupExplainedState extends State<TopupExplained> {
   }
 
   final List<String> texts = [
-    "Top up with Stripe, who use \n the UK's Open Banking API",
-    "This is much cheaper for the \n restaurants in your \n community compared to \n Debit and Credit Card",
-    "Stripe Are fully regulated \n by the FCA, and only connect \n to your bank account to make \n initiating a payment easier"
+    "Top up using Stripe, one of the worlds most trusted payment processors.",
+    "Just use your credit or debit card. It takes less than a minute. 😉",
+    "Stripe is fully regulated by the FCA and used by millions of businesses worldwide."
   ];
 
   @override
@@ -76,7 +76,7 @@ class _TopupExplainedState extends State<TopupExplained> {
               ),
               child: Center(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
@@ -88,6 +88,7 @@ class _TopupExplainedState extends State<TopupExplained> {
                           fontSize: 26, color: Theme.of(context).splashColor),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Your ",
@@ -127,7 +128,7 @@ class _TopupExplainedState extends State<TopupExplained> {
                   flex: 1,
                   child: Center(
                     child: PrimaryButton(
-                      label: 'Top up Using Stripe',
+                      label: 'Top up using Stripe',
                       fontSize: 16,
                       labelFontWeight: FontWeight.normal,
                       onPressed: () {
@@ -138,38 +139,38 @@ class _TopupExplainedState extends State<TopupExplained> {
                     ),
                   ),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              'If you had problems with Stripe you can top up \n using debit or credit card ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        TextSpan(
-                            text: "Top up now",
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColorDark,
-                              decoration: TextDecoration.underline,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                ExtendedNavigator.named('topupRouter')
-                                    .pushTopupScreen(
-                                  topupType: TopupType.PLAID,
-                                );
-                              }),
-                      ],
-                    ),
-                  ),
-                )
+                // Flexible(
+                //   flex: 1,
+                //   child: RichText(
+                //     textAlign: TextAlign.center,
+                //     text: TextSpan(
+                //       children: <TextSpan>[
+                //         TextSpan(
+                //           text:
+                //               'If you had problems with Stripe you can top up \n using debit or credit card ',
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //             color: Theme.of(context).primaryColor,
+                //           ),
+                //         ),
+                //         TextSpan(
+                //             text: "Top up now",
+                //             style: TextStyle(
+                //               color: Theme.of(context).primaryColorDark,
+                //               decoration: TextDecoration.underline,
+                //               fontWeight: FontWeight.bold,
+                //             ),
+                //             recognizer: TapGestureRecognizer()
+                //               ..onTap = () {
+                //                 ExtendedNavigator.named('topupRouter')
+                //                     .pushTopupScreen(
+                //                   topupType: TopupType.PLAID,
+                //                 );
+                //               }),
+                //       ],
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),
