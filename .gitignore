@@ -80,3 +80,4 @@ environment/env_peepl
 environment/env_roost
 start_qa.sh
 /lib/main_qa.dart
+environment/.env_dev
