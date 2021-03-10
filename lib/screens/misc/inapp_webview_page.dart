@@ -56,7 +56,7 @@ class _WebViewWidgetState extends State<WebViewWidget> {
               fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
         ),
         messageText: Text(
-          I18n.of(context).success,
+          "Top up successful! 💸",
           style: TextStyle(fontSize: 14.0, color: Colors.black),
         ),
         backgroundColor: Theme.of(context).bottomAppBarColor,
