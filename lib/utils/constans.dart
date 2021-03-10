@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:peepl/screens/home/widgets/drawer.dart';
 
 final String topUpService = DotEnv().env['TOP_UP_SERVICE_URL'];
+final String peeplUrl = DotEnv().env['PEEPL_URL'];
 
 final int intervalSeconds = int.parse(DotEnv().env['INTERVAL_SECONDS']);
 

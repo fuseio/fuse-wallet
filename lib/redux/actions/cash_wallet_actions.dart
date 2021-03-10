@@ -1658,7 +1658,7 @@ ThunkAction sendTokenFromWebViewCall(
       dynamic jobId = response['job']['_id'];
       logger.info('Job $jobId for sending token sent to the relay service');
       Response responseSubmitted = await client.post(
-        'https://app.itsaboutpeepl.com/api/v1/orders/payment-submitted',
+        '$peeplUrl/api/v1/orders/payment-submitted',
         headers: {"Content-Type": 'application/json'},
         body: jsonEncode(
           Map.from({

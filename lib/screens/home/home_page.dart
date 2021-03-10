@@ -14,6 +14,7 @@ import 'package:peepl/screens/home/screens/help.dart';
 import 'package:peepl/screens/topup/router/topup_router.gr.dart';
 import 'package:peepl/screens/misc/inapp_webview_page.dart';
 import 'package:peepl/screens/home/widgets/drawer.dart';
+import 'package:peepl/utils/constans.dart';
 import 'package:peepl/utils/contacts.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -160,8 +161,7 @@ class _HomePageState extends State<HomePage> {
                           isValidEthereumAddress(vm?.walletAddress)
                       ? WebViewWidget(
                           walletAddress: vm?.walletAddress,
-                          url:
-                              'https://app.itsaboutpeepl.com/vendors?wallet=${vm?.walletAddress}',
+                          url: '$peeplUrl/vendors?wallet=${vm?.walletAddress}',
                         )
                       : Container(),
                   HelpScreen(),
