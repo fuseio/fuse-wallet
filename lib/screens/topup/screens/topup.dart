@@ -237,6 +237,7 @@ class _TopupScreenState extends State<TopupScreen>
 
     return MainScaffold(
       withPadding: true,
+      //title: 'Top up using ${EnumToString.convertToString(widget.topupType)}',
       title: 'Top up using card',
       children: <Widget>[
         Container(
