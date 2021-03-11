@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -154,7 +153,7 @@ class _TopupScreenState extends State<TopupScreen>
                 fontWeight: FontWeight.bold),
           ),
           messageText: Text(
-            I18n.of(context).success,
+            "Top up successful! 💸",
             style: TextStyle(fontSize: 14.0, color: Colors.black),
           ),
           backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -238,7 +237,7 @@ class _TopupScreenState extends State<TopupScreen>
 
     return MainScaffold(
       withPadding: true,
-      title: 'Top up using ${EnumToString.convertToString(widget.topupType)}',
+      title: 'Top up using card',
       children: <Widget>[
         Container(
           height: MediaQuery.of(context).size.height * 0.6,

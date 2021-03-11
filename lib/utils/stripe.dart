@@ -135,7 +135,8 @@ class StripeService {
     @required String walletAddress,
   }) async {
     try {
-      final int amountNew = num.tryParse(amount) * 100;
+      final int amountNew =
+          (double.tryParse(amount) * 100).toInt(); // Pounds to pence
       String body = jsonEncode(
         Map.from({
           'amount': amountNew,
