@@ -166,10 +166,14 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(top: 50),
-                          child: Text(I18n.of(context).amount,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.normal)),
+                          child: Text(
+                            I18n.of(context).amount,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
                         ),
                         Container(
                           padding: EdgeInsets.only(top: 40.0, bottom: 30),
@@ -178,30 +182,27 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.alphabetic,
                             children: <Widget>[
-                              AutoSizeText.rich(TextSpan(children: [
+                              AutoSizeText.rich(
                                 TextSpan(
-                                  text: '${args.amount} ',
-                                  style: TextStyle(
-                                      fontSize: 50,
-                                      fontWeight: FontWeight.w900),
+                                  children: [
+                                    TextSpan(
+                                      text: '${args.amount} ',
+                                      style: TextStyle(
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                    TextSpan(
+                                      text: symbol,
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                  ],
                                 ),
-                                TextSpan(
-                                  text: symbol,
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.w900),
-                                ),
-                              ])),
+                              ),
                             ],
                           ),
                         ),
-                        // Padding(
-                        //   padding: EdgeInsets.only(bottom: 10),
-                        //   child: Text(I18n.of(context).to + ':',
-                        //       textAlign: TextAlign.center,
-                        //       style: TextStyle(
-                        //           fontSize: 16, fontWeight: FontWeight.normal)),
-                        // )
                       ],
                     ),
                     Column(
@@ -389,7 +390,6 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                     Center(
                       child: PrimaryButton(
                         label: I18n.of(context).send_button,
-                        labelFontWeight: FontWeight.normal,
                         disabled: isPreloading || !hasFund,
                         preload: isPreloading,
                         onPressed: () {

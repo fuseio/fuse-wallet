@@ -108,7 +108,6 @@ class SignupDialogState extends State<SignupDialog>
                   Center(
                     child: PrimaryButton(
                       label: I18n.of(context).ok_thanks,
-                      labelFontWeight: FontWeight.normal,
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },

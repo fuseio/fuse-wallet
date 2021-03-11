@@ -271,7 +271,6 @@ class _SignupScreenState extends State<SignupScreen> {
                           builder: (_, viewModel) => Center(
                             child: PrimaryButton(
                               label: I18n.of(context).next_button,
-                              labelFontWeight: FontWeight.normal,
                               onPressed: () {
                                 onPressed(viewModel.signUp);
                               },
@@ -290,11 +289,5 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ),
     );
-    // return MainScaffold(
-    //     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    //     withPadding: true,
-    //     title: I18n.of(context).sign_up,
-    //     children: <Widget>[],
-    //     footer: );
   }
 }

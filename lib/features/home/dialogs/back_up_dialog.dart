@@ -88,7 +88,6 @@ class BackUpDialogState extends State<BackUpDialog>
                   SizedBox(height: 20.0),
                   PrimaryButton(
                     label: I18n.of(context).back_up_now,
-                    labelFontWeight: FontWeight.normal,
                     onPressed: () async {
                       final BottomNavigationBar navigationBar =
                           AppKeys.bottomBarKey.currentWidget;

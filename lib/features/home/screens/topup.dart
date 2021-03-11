@@ -229,7 +229,6 @@ class _TopupScreenState extends State<TopupScreen>
           return Center(
             child: PrimaryButton(
               opacity: 1,
-              labelFontWeight: FontWeight.normal,
               label: I18n.of(context).continue_with +
                   ' $amountText ${selectedToken?.value}',
               onPressed: () {

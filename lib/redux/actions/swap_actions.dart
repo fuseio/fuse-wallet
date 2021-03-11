@@ -19,8 +19,9 @@ ThunkAction fetchSwapList() {
     try {
       final dio = getIt<Dio>();
       String address = store.state.userState.walletAddress;
-      dynamic res = await dio.get(UrlConstants.FUSESWAP_TOKEN_LIST);
-      Map data = jsonDecode(res.data);
+      Response<String> response =
+          await dio.get(UrlConstants.FUSESWAP_TOKEN_LIST);
+      Map data = jsonDecode(response.data);
       List<Token> tokens = [];
       for (dynamic token in data['tokens']) {
         final BigInt balance = await fuseWeb3.getTokenBalance(

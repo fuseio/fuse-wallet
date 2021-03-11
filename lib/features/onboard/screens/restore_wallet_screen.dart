@@ -118,7 +118,6 @@ class _RecoveryPageState extends State<RecoveryPage> {
                       preload: isPreloading,
                       disabled: isPreloading,
                       label: I18n.of(context).next_button,
-                      labelFontWeight: FontWeight.normal,
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           setState(() {

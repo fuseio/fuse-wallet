@@ -180,7 +180,6 @@ class _CommunityDescriptionState extends State<CommunityDescription>
                             Center(
                                 child: PrimaryButton(
                               preload: isPreloading,
-                              labelFontWeight: FontWeight.normal,
                               label: I18n.of(context).ok,
                               onPressed: () async {
                                 Navigator.of(context).pop();

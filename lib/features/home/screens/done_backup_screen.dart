@@ -47,8 +47,10 @@ class DoneBackup extends StatelessWidget {
                       height: 20,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 30),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 30,
+                      ),
                       child: Text(
                         I18n.of(context).wallet_protected_text,
                         style: TextStyle(fontSize: 17),
@@ -61,9 +63,8 @@ class DoneBackup extends StatelessWidget {
                   children: [
                     Center(
                       child: PrimaryButton(
-                        labelFontWeight: FontWeight.normal,
                         label: I18n.of(context).ok,
-                        onPressed: () async {
+                        onPressed: () {
                           viewModal.backupWallet();
                           ExtendedNavigator.named('homeRouter').popUntilRoot();
                         },

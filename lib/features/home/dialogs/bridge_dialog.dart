@@ -93,7 +93,6 @@ class _BridgeDialogState extends State<BridgeDialog>
                       Center(
                         child: PrimaryButton(
                           preload: isPreloading,
-                          labelFontWeight: FontWeight.normal,
                           label: I18n.of(context).move_to +
                               ' ${network == 'Fuse' ? 'Ethereum' : 'Fuse'}',
                           onPressed: () async {

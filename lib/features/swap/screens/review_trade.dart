@@ -53,6 +53,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
         BottomNavigationBar navigationBar = AppKeys.bottomBarKey.currentWidget;
         navigationBar.onTap(0);
         ExtendedNavigator.root.popUntilPath(Routes.homeScreen);
+        WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
       },
       () {
         setState(() {
@@ -65,7 +66,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      title: I18n.of(context).review_trade,
+      title: I18n.of(context).review_swap,
       body: Container(
         child: Column(
           children: [
@@ -104,16 +105,21 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  AutoSizeText.rich(TextSpan(children: [
+                                  AutoSizeText.rich(
                                     TextSpan(
-                                      text: '${widget.tradeInfo.inputAmount} ',
-                                      style: TextStyle(fontSize: 40),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              '${widget.tradeInfo.inputAmount} ',
+                                          style: TextStyle(fontSize: 40),
+                                        ),
+                                        TextSpan(
+                                          text: widget.tradeInfo.inputToken,
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      ],
                                     ),
-                                    TextSpan(
-                                      text: widget.tradeInfo.inputToken,
-                                      style: TextStyle(fontSize: 20),
-                                    ),
-                                  ]))
+                                  )
                                 ],
                               ),
                             ),
@@ -125,9 +131,10 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                             Container(
                               padding: EdgeInsets.all(20),
                               constraints: BoxConstraints(
-                                  minHeight: 165,
-                                  minWidth: MediaQuery.of(context).size.width,
-                                  maxWidth: MediaQuery.of(context).size.width),
+                                minHeight: 165,
+                                minWidth: MediaQuery.of(context).size.width,
+                                maxWidth: MediaQuery.of(context).size.width,
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -172,7 +179,6 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
                   converter: ReviewSwapViewModel.fromStore,
                   builder: (_, viewModel) => Center(
                     child: PrimaryButton(
-                      labelFontWeight: FontWeight.normal,
                       label: I18n.of(context).trade,
                       disabled: isPreloading,
                       preload: isPreloading,

@@ -24,7 +24,7 @@ class Feed extends StatelessWidget {
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: Container(
-              height: MediaQuery.of(context).size.height * .61,
+              height: MediaQuery.of(context).size.height * .59,
               child: Column(
                 children: <Widget>[
                   DepositBanner(),

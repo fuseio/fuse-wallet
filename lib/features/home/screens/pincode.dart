@@ -22,17 +22,18 @@ class _PincodeScreenState extends State<PincodeScreen> {
   String lastPincode;
   bool isRetype = false;
   String currentText = "";
+  FocusNode textNode = FocusNode();
 
   @override
   void initState() {
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
+    textNode = FocusNode();
   }
 
   @override
   void dispose() {
-    errorController.close();
-
+    errorController?.close();
     super.dispose();
   }
 
@@ -81,6 +82,8 @@ class _PincodeScreenState extends State<PincodeScreen> {
                               enableActiveFill: true,
                               obscureText: true,
                               enablePinAutofill: false,
+                              autoFocus: true,
+                              focusNode: textNode,
                               keyboardType: TextInputType.phone,
                               animationType: AnimationType.fade,
                               controller: textEditingController,
@@ -112,6 +115,7 @@ class _PincodeScreenState extends State<PincodeScreen> {
                                     lastPincode = pin;
                                   });
                                   textEditingController.clear();
+                                  textNode.requestFocus();
                                 }
                               },
                               onChanged: (value) {

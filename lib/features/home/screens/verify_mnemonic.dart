@@ -150,12 +150,11 @@ class _VerifyMnemonicState extends State<VerifyMnemonic> {
                       padding: EdgeInsets.only(top: 40),
                       child: Center(
                           child: PrimaryButton(
-                        labelFontWeight: FontWeight.normal,
                         label: I18n.of(context).next_button,
-                        onPressed: () async {
+                        onPressed: () {
                           if (_formKey.currentState.validate()) {
                             ExtendedNavigator.named('homeRouter')
-                                .replace(HomeRoutes.doneBackup);
+                                .push(HomeRoutes.doneBackup);
                           }
                         },
                       )),

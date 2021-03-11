@@ -80,7 +80,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   SentryNavigatorObserver(),
                 ],
               ),
-              // SwapScreen(),
               ExtendedNavigator(
                 router: SwapRouter(),
                 name: 'swapRouter',
@@ -107,9 +106,9 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   ),
                 );
               }
-              // if (index == 2) {
-              //   vm.getSwapList();
-              // }
+              if (index == 2) {
+                vm.getSwapList();
+              }
               if (!vm.backup && !vm.isBackupDialogShowed && index == 3) {
                 Future.delayed(Duration.zero, () {
                   vm.setShowDialog();

@@ -33,10 +33,10 @@ class TradeCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
+            children: [
               Text(
                 title,
                 style: TextStyle(fontSize: 13),
@@ -49,16 +49,16 @@ class TradeCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
+              children: [
                 Flexible(
                   child: Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: Row(
-                      children: <Widget>[
+                      children: [
                         InkWell(
                           onTap: onTap,
                           child: Row(
-                            children: <Widget>[
+                            children: [
                               Text(
                                 token?.symbol ?? '',
                                 style: TextStyle(fontSize: 27),
@@ -79,7 +79,6 @@ class TradeCard extends StatelessWidget {
                       textAlign: TextAlign.end,
                       onChanged: onChanged,
                       controller: textEditingController,
-                      // strutStyle: StrutStyle(fontWeight: FontWeight.bold, fontSize: 28),
                       textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.numberWithOptions(
                         signed: true,

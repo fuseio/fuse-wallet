@@ -115,6 +115,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             keyboardType: TextInputType.phone,
                             animationType: AnimationType.fade,
                             controller: codeController,
+                            autoFocus: true,
                             pinTheme: PinTheme(
                               borderWidth: 4,
                               borderRadius: BorderRadius.circular(20),
@@ -141,7 +142,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
                       Center(
                         child: PrimaryButton(
                           label: I18n.of(context).next_button,
-                          labelFontWeight: FontWeight.normal,
                           preload: viewModel.isVerifyRequest,
                           onPressed: () {
                             formKey.currentState.validate();

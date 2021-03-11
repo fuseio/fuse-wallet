@@ -1,7 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fusecash/features/home/router/home_router.gr.dart';
 import 'package:fusecash/redux/viewsmodels/token_tile.dart';
 import 'package:fusecash/widgets/default_logo.dart';
 import 'package:flutter/material.dart';
@@ -34,12 +32,11 @@ class TokenTile extends StatelessWidget {
     final bool isFuseTxs = token.originNetwork != null;
     return Container(
       child: ListTile(
-        onTap: onTap != null
-            ? onTap
-            : () {
-                ExtendedNavigator.of(context)
-                    .pushTokenScreen(tokenAddress: token.address);
-              },
+        onTap: onTap != null ? onTap : null,
+        // : () {
+        //     ExtendedNavigator.of(context)
+        //         .pushTokenScreen(tokenAddress: token.address);
+        //   },
         contentPadding: EdgeInsets.only(top: 8, bottom: 8, left: 15, right: 15),
         title: Row(
           mainAxisSize: MainAxisSize.max,

@@ -15,32 +15,32 @@ class DepositBanner extends StatelessWidget {
       converter: TopUpViewModel.fromStore,
       builder: (_, viewModel) {
         List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
-        return Column(
-          children: [
-            SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.only(
-                left: 15,
-                right: 15,
-              ),
-              height: 70,
-              width: MediaQuery.of(context).size.width * .93,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                image: DecorationImage(
-                  image: AssetImage(
-                    'assets/images/deposit_banner.png',
+        return InkWell(
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Container(
+                padding: EdgeInsets.only(
+                  left: 15,
+                  right: 15,
+                ),
+                height: 70,
+                width: MediaQuery.of(context).size.width * .93,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
+                  image: DecorationImage(
+                    image: AssetImage(
+                      'assets/images/deposit_banner.png',
+                    ),
+                  ),
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor,
+                    width: 1.5,
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(12.0),
                   ),
                 ),
-                border: Border.all(
-                  color: Theme.of(context).primaryColor,
-                  width: 1.5,
-                ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12.0),
-                ),
-              ),
-              child: GestureDetector(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,21 +65,21 @@ class DepositBanner extends StatelessWidget {
                     )
                   ],
                 ),
-                onTap: () {
-                  if (depositPlugins.isNotEmpty) {
-                    dynamic url = depositPlugins[0].widgetUrl;
-                    viewModel.setDepositBanner();
-                    ExtendedNavigator.root.pushWebview(
-                      withBack: true,
-                      url: '$url&finalUrl=https://fuse.io',
-                      title: I18n.of(context).deposit_your_first_dollars,
-                    );
-                  }
-                },
               ),
-            ),
-            SizedBox(height: 7),
-          ],
+              SizedBox(height: 7),
+            ],
+          ),
+          onTap: () {
+            if (depositPlugins.isNotEmpty) {
+              dynamic url = depositPlugins[0].widgetUrl;
+              viewModel.setDepositBanner();
+              ExtendedNavigator.root.pushWebview(
+                withBack: true,
+                url: '$url&finalUrl=https://fuse.io',
+                title: I18n.of(context).deposit_your_first_dollars,
+              );
+            }
+          },
         );
       },
     );

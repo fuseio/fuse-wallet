@@ -117,7 +117,6 @@ class UserNameScreen extends StatelessWidget {
                     Center(
                       child: PrimaryButton(
                         label: I18n.of(context).next_button,
-                        labelFontWeight: FontWeight.normal,
                         onPressed: () {
                           viewModel.setDisplayName(
                               displayNameController.text ?? 'Anom');

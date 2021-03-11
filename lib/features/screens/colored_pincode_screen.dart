@@ -93,6 +93,7 @@ class _ColoredPincodeScreenState extends State<ColoredPincodeScreen> {
                                       Theme.of(context).primaryColor,
                                   length: 6,
                                   showCursor: false,
+                                  autoFocus: true,
                                   appContext: context,
                                   enableActiveFill: true,
                                   obscureText: true,

@@ -827,18 +827,21 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isRopsten,
         ),
       );
-      // store.dispatch(
-      //   getBusinessListCall(
-      //     communityAddress: communityAddress,
-      //     isRopsten: isRopsten,
-      //   ),
-      // );
       store.dispatch(
-        joinCommunityCall(
-          token: communityToken,
-          community: newCommunity,
+        getBusinessListCall(
+          communityAddress: communityAddress,
+          isRopsten: isRopsten,
         ),
       );
+      if (communityAddress.toLowerCase() !=
+          defaultCommunityAddress.toLowerCase()) {
+        store.dispatch(
+          joinCommunityCall(
+            token: communityToken,
+            community: newCommunity,
+          ),
+        );
+      }
     } catch (e, s) {
       log.error('ERROR - switchToNewCommunityCall $e');
       store.dispatch(SwitchCommunityFailed(communityAddress: communityAddress));
@@ -901,10 +904,7 @@ ThunkAction refetchCommunityData() {
     String walletAddress = store.state.userState.walletAddress;
     Community current =
         store.state.cashWalletState.communities[communityAddress.toLowerCase()];
-    if (current != null &&
-        current.name != null &&
-        current.isMember != null &&
-        current.isMember) {
+    if (current != null && current.name != null) {
       Map<String, dynamic> communityData = await getCommunityData(
         checksumEthereumAddress(communityAddress),
         checksumEthereumAddress(walletAddress),

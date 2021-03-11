@@ -175,10 +175,9 @@ class ShowMnemonic extends StatelessWidget {
                 Center(
                   child: PrimaryButton(
                     label: I18n.of(context).next_button,
-                    labelFontWeight: FontWeight.normal,
                     onPressed: () async {
                       ExtendedNavigator.named('homeRouter')
-                          .replace(HomeRoutes.verifyMnemonic);
+                          .push(HomeRoutes.verifyMnemonic);
                     },
                   ),
                 ),

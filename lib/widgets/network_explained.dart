@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/utils/string.dart';
 import 'package:fusecash/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class NetworkExplainedScreen extends StatefulWidget {
 class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
-  Animation<double> scaleAnimatoin;
+  Animation<double> scaleAnimation;
   bool isPreloading = false;
 
   @override
@@ -24,7 +25,7 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
 
     controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-    scaleAnimatoin =
+    scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
     controller.addListener(() {
@@ -43,7 +44,7 @@ class _NetworkExplainedScreenState extends State<NetworkExplainedScreen>
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
-        scale: scaleAnimatoin,
+        scale: scaleAnimation,
         child: AlertDialog(
             contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             shape: RoundedRectangleBorder(
@@ -115,8 +116,7 @@ On Fuse you can send assets for free to anybody and on Ethereum you can trade th
                               child: PrimaryButton(
                                 width: 100,
                                 preload: isPreloading,
-                                labelFontWeight: FontWeight.normal,
-                                label: "Ok",
+                                label: I18n.of(context).ok,
                                 onPressed: () async {
                                   Navigator.of(context).pop();
                                 },

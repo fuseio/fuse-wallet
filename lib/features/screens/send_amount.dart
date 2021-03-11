@@ -68,35 +68,37 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         child: CustomScrollView(
           slivers: <Widget>[
             SliverList(
-              delegate: SliverChildListDelegate([
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ListView.separated(
-                      shrinkWrap: true,
-                      primary: false,
-                      padding: EdgeInsets.only(top: 20, bottom: 20),
-                      separatorBuilder: (BuildContext context, int index) =>
-                          Divider(
-                        height: 0,
+              delegate: SliverChildListDelegate(
+                [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListView.separated(
+                        shrinkWrap: true,
+                        primary: false,
+                        padding: EdgeInsets.only(top: 20, bottom: 20),
+                        separatorBuilder: (BuildContext context, int index) =>
+                            Divider(
+                          height: 0,
+                        ),
+                        itemCount: viewModel.tokens?.length ?? 0,
+                        itemBuilder: (context, index) => TokenTile(
+                            token: viewModel.tokens[index],
+                            symbolWidth: 60,
+                            symbolHeight: 60,
+                            showPending: false,
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                amountText = "0";
+                                selectedToken = viewModel.tokens[index];
+                              });
+                            }),
                       ),
-                      itemCount: viewModel.tokens?.length ?? 0,
-                      itemBuilder: (context, index) => TokenTile(
-                          token: viewModel.tokens[index],
-                          symbolWidth: 60,
-                          symbolHeight: 60,
-                          showPending: false,
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            setState(() {
-                              amountText = "0";
-                              selectedToken = viewModel.tokens[index];
-                            });
-                          }),
-                    ),
-                  ],
-                ),
-              ]),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -333,7 +335,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                               bgColor: hasFund
                                   ? null
                                   : Theme.of(context).colorScheme.secondary,
-                              labelFontWeight: FontWeight.normal,
                               labelColor: hasFund ? null : Color(0xFF797979),
                               label: hasFund
                                   ? I18n.of(context).continue_with +
@@ -361,12 +362,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
             ),
           ),
         );
-
-        // return MainScaffold(
-        //     withPadding: true,
-        //     title: title,
-        //     children: <Widget>[],
-        //     footer: );
       },
     );
   }

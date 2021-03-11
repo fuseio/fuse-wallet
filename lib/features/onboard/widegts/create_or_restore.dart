@@ -37,7 +37,6 @@ class _CreateWalletState extends State<CreateWallet> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 PrimaryButton(
-                  labelFontWeight: FontWeight.normal,
                   disabled: isPrimaryPreloading,
                   label: viewModel.isLoggedOut
                       ? I18n.of(context).login

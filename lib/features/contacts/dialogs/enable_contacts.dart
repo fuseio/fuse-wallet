@@ -63,10 +63,10 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                const SizedBox(height: 20.0),
+                SizedBox(height: 20.0),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, bottom: 10, left: 15, right: 15),
+                  padding:
+                      EdgeInsets.only(top: 10, bottom: 10, left: 15, right: 15),
                   child: Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -81,8 +81,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold)),
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 30, bottom: 30),
+                              padding: EdgeInsets.only(top: 30, bottom: 30),
                               child: SvgPicture.asset(
                                 'assets/images/contacts.svg',
                                 width: 70.0,
@@ -98,7 +97,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 30.0),
+                        SizedBox(height: 30.0),
                         Container(
                           child: Column(
                             children: <Widget>[
@@ -108,7 +107,7 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.normal)),
-                              const SizedBox(height: 5.0),
+                              SizedBox(height: 5.0),
                               Text(
                                 I18n.of(context).enable_text,
                                 textAlign: TextAlign.center,
@@ -119,19 +118,18 @@ class _ContactsConfirmationScreenState extends State<ContactsConfirmationScreen>
                             ],
                           ),
                         ),
-                        const SizedBox(height: 30.0),
+                        SizedBox(height: 30.0),
                         Center(
                             child: PrimaryButton(
                           preload: isPreloading,
                           disabled: isPreloading,
-                          labelFontWeight: FontWeight.normal,
                           label: I18n.of(context).enable_contacts_access,
                           onPressed: () async {
                             setState(() {
                               isPreloading = true;
                             });
-                            bool premission = await Contacts.getPermissions();
-                            if (premission) {
+                            bool permission = await Contacts.getPermissions();
+                            if (permission) {
                               List<Contact> contacts =
                                   await Contacts.getContacts();
                               viewModel.syncContacts(contacts);

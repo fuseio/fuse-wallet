@@ -141,33 +141,50 @@ class _SwapScreenState extends State<SwapScreen> {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverList(
-              delegate: SliverChildListDelegate([
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ListView.separated(
-                      shrinkWrap: true,
-                      primary: false,
-                      padding: EdgeInsets.only(top: 20, bottom: 20),
-                      separatorBuilder: (BuildContext context, int index) =>
-                          Divider(
-                        height: 0,
-                      ),
-                      itemCount: tokens?.length ?? 0,
-                      itemBuilder: (context, index) => TokenTile(
-                        token: tokens[index],
-                        symbolWidth: 60,
-                        symbolHeight: 60,
-                        showPending: false,
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          onTap(tokens[index]);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ]),
+              delegate: SliverChildListDelegate(
+                [
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
+                          child: Text(
+                            'Token',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Europa',
+                              fontSize: 22,
+                            ),
+                            softWrap: true,
+                          ),
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListView.separated(
+                              shrinkWrap: true,
+                              primary: false,
+                              separatorBuilder:
+                                  (BuildContext context, int index) => Divider(
+                                height: 0,
+                              ),
+                              itemCount: tokens?.length ?? 0,
+                              itemBuilder: (context, index) => TokenTile(
+                                token: tokens[index],
+                                symbolWidth: 60,
+                                symbolHeight: 60,
+                                showPending: false,
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                  onTap(tokens[index]);
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ])
+                ],
+              ),
             ),
           ],
         ),
@@ -261,19 +278,21 @@ class _SwapScreenState extends State<SwapScreen> {
         builder: (_, viewModel) {
           if (viewModel.tokens.isEmpty) {
             return Preloader();
-          } else
+          } else {
+            final bool hasFund =
+                (tokenOut != null && tokenOut.amount > BigInt.zero);
             return Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    children: <Widget>[
+                    children: [
                       Container(
                         child: Stack(
                           alignment: AlignmentDirectional.center,
                           children: [
                             Column(
-                              children: <Widget>[
+                              children: [
                                 TradeCard(
                                   isSwapped: isSwapped,
                                   onTap: () {
@@ -298,7 +317,6 @@ class _SwapScreenState extends State<SwapScreen> {
                                   token: tokenOut,
                                   title: I18n.of(context).pay_with,
                                 ),
-                                // swapWidgetIcon(),
                                 TradeCard(
                                   isSwapped: !isSwapped,
                                   onTap: () {
@@ -334,10 +352,15 @@ class _SwapScreenState extends State<SwapScreen> {
                     children: [
                       Center(
                         child: PrimaryButton(
-                          disabled: isFetchingPrice,
+                          disabled: isFetchingPrice || !hasFund,
                           preload: isFetchingPrice,
-                          labelFontWeight: FontWeight.normal,
-                          label: I18n.of(context).swap,
+                          labelColor: hasFund ? null : Color(0xFF797979),
+                          bgColor: hasFund
+                              ? null
+                              : Theme.of(context).colorScheme.secondary,
+                          label: hasFund
+                              ? I18n.of(context).review_swap
+                              : I18n.of(context).insufficient_fund,
                           onPressed: () {
                             ExtendedNavigator.named('swapRouter')
                                 .pushReviewSwapScreen(
@@ -355,9 +378,9 @@ class _SwapScreenState extends State<SwapScreen> {
                 ],
               ),
             );
+          }
         },
       ),
     );
-    // return new;
   }
 }

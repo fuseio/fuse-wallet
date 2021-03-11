@@ -84,10 +84,10 @@ class I18n implements WidgetsLocalizations {
   String get pay => "PAY";
   /// "No businesses found"
   String get no_businesses => "No businesses found";
-  /// "Generating wallet"
-  String get generating_wallet => "Generating wallet";
-  /// "Generated wallet"
-  String get generated_wallet => "Generated wallet";
+  /// "Generating fuse wallet"
+  String get generating_wallet => "Generating fuse wallet";
+  /// "Welcome to Fuse wallet"
+  String get generated_wallet => "Welcome to Fuse wallet";
   /// "Generate wallet failed"
   String get generate_wallet_failed => "Generate wallet failed";
   /// "PENDING"
@@ -248,8 +248,8 @@ class I18n implements WidgetsLocalizations {
   String get received_from_ethereum => "Received from Ethereum";
   /// "No funds available"
   String get no_funds_available => "No funds available";
-  /// "Review trade"
-  String get review_trade => "Review trade";
+  /// "Review swap"
+  String get review_swap => "Review swap";
   /// "Use max"
   String get use_max => "Use max";
   /// "Send to an address"
@@ -691,9 +691,6 @@ class _I18n_he_IL extends I18n {
   /// "אין יתרה מספקת"
   @override
   String get no_funds_available => "אין יתרה מספקת";
-  /// "Review trade"
-  @override
-  String get review_trade => "Review trade";
   /// "Use max"
   @override
   String get use_max => "Use max";
@@ -2895,9 +2892,6 @@ class _I18n_de_DE extends I18n {
   /// "Keine Mittel verfügbar"
   @override
   String get no_funds_available => "Keine Mittel verfügbar";
-  /// "Handel überprüfen"
-  @override
-  String get review_trade => "Handel überprüfen";
   /// "Alles verwendend"
   @override
   String get use_max => "Alles verwendend";
@@ -3305,9 +3299,6 @@ class _I18n_nl_NL extends I18n {
   /// "Geen geld beschikbaar"
   @override
   String get no_funds_available => "Geen geld beschikbaar";
-  /// "Controleer handelstransactie"
-  @override
-  String get review_trade => "Controleer handelstransactie";
   /// "Gebruik alles"
   @override
   String get use_max => "Gebruik alles";
@@ -3682,9 +3673,6 @@ class _I18n_sr_RS extends I18n {
   /// "Нема средстава"
   @override
   String get no_funds_available => "Нема средстава";
-  /// "Review trade"
-  @override
-  String get review_trade => "Review trade";
   /// "Користи максимално"
   @override
   String get use_max => "Користи максимално";
