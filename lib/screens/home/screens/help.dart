@@ -36,71 +36,61 @@ class _HelpScreenState extends State<HelpScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
+                    'We are in the early stages of building the Peepl Eat Experience, so might be some teething issues, apologies if you are facing some!',
+                    style: helpText),
+                Text(
+                    'We are trying to build Peepl carefully and consciously to help local entrepreneurs and people, bring the power back to local communities.',
+                    style: helpText),
+                SizedBox(height: 10),
+                Text(
                   'How do I pay?',
                   style: helpTitleText,
                 ),
                 Text(
-                    'We keep fees low for your local restaurants by avoiding expensive credit card processors. Instead, you pay restaurants directly, from your Peepl wallet. Tap “Home”, then the menu icon, then “Top up” to add money to your wallet, straight from your bank account.',
+                    'We are using Stripe, one of the most trusted payment processors in the world. To top up, just tap “Home”, then the menu icon, then “Top up” to add money to your wallet, straight from your credit or debit card.',
                     style: helpText),
                 SizedBox(height: 10),
                 Text(
-                    'My bank doesn’t appear as an option during the top-up process.',
+                    'My card is not accepted or topping up is not working for me.',
                     style: helpTitleText),
                 RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                          text:
-                              "Most UK banks are supported. But if yours isn’t, contact us at ",
-                          style: helpText),
-                      TextSpan(
-                          text: "help@itsaboutpeepl.com",
-                          style: hyperlinkText,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () async {
-                              var url = "mailto:help@itsaboutpeepl.com";
-                              if (await canLaunch(url)) {
-                                await launch(url);
-                              } else {
-                                throw 'Could not launch $url!';
-                              }
-                            }),
-                      TextSpan(
-                          text:
-                              " and we’ll help you top up your wallet with a transfer via your bank’s app or website.",
-                          style: helpText)
-                    ],
-                  ),
-                ),
+                    text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: "If this is the case, please contact us at ",
+                        style: helpText),
+                    TextSpan(
+                        text: "help@itsaboutpeepl.com",
+                        style: hyperlinkText,
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            var url = "mailto:help@itsaboutpeepl.com";
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          }),
+                    TextSpan(
+                        text:
+                            " and we’ll help you top up your wallet with a transfer via your bank’s app or website.",
+                        style: helpText)
+                  ],
+                )),
                 SizedBox(height: 10),
                 Text(
                   'Where can I see my past orders?',
                   style: helpTitleText,
                 ),
                 RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
+                    text: TextSpan(
+                  children: [
+                    TextSpan(
                         text:
-                            "We don’t currently have a way to show past orders yet, but it’s coming! In the meantime, check ur email inbox for the confirmation message we sent after you first made your order – it will have come from ",
-                        style: helpText,
-                      ),
-                      TextSpan(
-                        text: "help@itsaboutpeepl.com.",
-                        style: hyperlinkText,
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () async {
-                            var url = "mailto:help@itsaboutpeepl.com.";
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                      ),
-                    ],
-                  ),
-                ),
+                            "Your past orders are shown by heading to ‘orders’ at the top of the ‘Orders’ tab on the app.",
+                        style: helpText),
+                  ],
+                )),
                 SizedBox(height: 10),
                 Text(
                   "My order hasn't turned up",
