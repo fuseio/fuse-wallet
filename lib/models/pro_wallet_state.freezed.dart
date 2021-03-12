@@ -33,7 +33,7 @@ class _$ProWalletStateTearOff {
       @JsonKey(ignore: true)
           bool isProcessingSwapActions = false,
       @JsonKey(ignore: true)
-          bool isFetchTokensLastestPrice = false,
+          bool isFetchTokensLatestPrice = false,
       @JsonKey(ignore: true)
           bool isFetchNewTokens = false}) {
     return _ProWalletState(
@@ -44,7 +44,7 @@ class _$ProWalletStateTearOff {
       isProcessingTokensJobs: isProcessingTokensJobs,
       isFetchTokensBalances: isFetchTokensBalances,
       isProcessingSwapActions: isProcessingSwapActions,
-      isFetchTokensLastestPrice: isFetchTokensLastestPrice,
+      isFetchTokensLatestPrice: isFetchTokensLatestPrice,
       isFetchNewTokens: isFetchNewTokens,
     );
   }
@@ -76,7 +76,7 @@ mixin _$ProWalletState {
   @JsonKey(ignore: true)
   bool get isProcessingSwapActions;
   @JsonKey(ignore: true)
-  bool get isFetchTokensLastestPrice;
+  bool get isFetchTokensLatestPrice;
   @JsonKey(ignore: true)
   bool get isFetchNewTokens;
 
@@ -98,7 +98,7 @@ abstract class $ProWalletStateCopyWith<$Res> {
       @JsonKey(ignore: true) bool isProcessingTokensJobs,
       @JsonKey(ignore: true) bool isFetchTokensBalances,
       @JsonKey(ignore: true) bool isProcessingSwapActions,
-      @JsonKey(ignore: true) bool isFetchTokensLastestPrice,
+      @JsonKey(ignore: true) bool isFetchTokensLatestPrice,
       @JsonKey(ignore: true) bool isFetchNewTokens});
 }
 
@@ -120,7 +120,7 @@ class _$ProWalletStateCopyWithImpl<$Res>
     Object isProcessingTokensJobs = freezed,
     Object isFetchTokensBalances = freezed,
     Object isProcessingSwapActions = freezed,
-    Object isFetchTokensLastestPrice = freezed,
+    Object isFetchTokensLatestPrice = freezed,
     Object isFetchNewTokens = freezed,
   }) {
     return _then(_value.copyWith(
@@ -145,9 +145,9 @@ class _$ProWalletStateCopyWithImpl<$Res>
       isProcessingSwapActions: isProcessingSwapActions == freezed
           ? _value.isProcessingSwapActions
           : isProcessingSwapActions as bool,
-      isFetchTokensLastestPrice: isFetchTokensLastestPrice == freezed
-          ? _value.isFetchTokensLastestPrice
-          : isFetchTokensLastestPrice as bool,
+      isFetchTokensLatestPrice: isFetchTokensLatestPrice == freezed
+          ? _value.isFetchTokensLatestPrice
+          : isFetchTokensLatestPrice as bool,
       isFetchNewTokens: isFetchNewTokens == freezed
           ? _value.isFetchNewTokens
           : isFetchNewTokens as bool,
@@ -170,7 +170,7 @@ abstract class _$ProWalletStateCopyWith<$Res>
       @JsonKey(ignore: true) bool isProcessingTokensJobs,
       @JsonKey(ignore: true) bool isFetchTokensBalances,
       @JsonKey(ignore: true) bool isProcessingSwapActions,
-      @JsonKey(ignore: true) bool isFetchTokensLastestPrice,
+      @JsonKey(ignore: true) bool isFetchTokensLatestPrice,
       @JsonKey(ignore: true) bool isFetchNewTokens});
 }
 
@@ -194,7 +194,7 @@ class __$ProWalletStateCopyWithImpl<$Res>
     Object isProcessingTokensJobs = freezed,
     Object isFetchTokensBalances = freezed,
     Object isProcessingSwapActions = freezed,
-    Object isFetchTokensLastestPrice = freezed,
+    Object isFetchTokensLatestPrice = freezed,
     Object isFetchNewTokens = freezed,
   }) {
     return _then(_ProWalletState(
@@ -219,9 +219,9 @@ class __$ProWalletStateCopyWithImpl<$Res>
       isProcessingSwapActions: isProcessingSwapActions == freezed
           ? _value.isProcessingSwapActions
           : isProcessingSwapActions as bool,
-      isFetchTokensLastestPrice: isFetchTokensLastestPrice == freezed
-          ? _value.isFetchTokensLastestPrice
-          : isFetchTokensLastestPrice as bool,
+      isFetchTokensLatestPrice: isFetchTokensLatestPrice == freezed
+          ? _value.isFetchTokensLatestPrice
+          : isFetchTokensLatestPrice as bool,
       isFetchNewTokens: isFetchNewTokens == freezed
           ? _value.isFetchNewTokens
           : isFetchNewTokens as bool,
@@ -241,7 +241,7 @@ class _$_ProWalletState extends _ProWalletState {
       @JsonKey(ignore: true) this.isProcessingTokensJobs = false,
       @JsonKey(ignore: true) this.isFetchTokensBalances = false,
       @JsonKey(ignore: true) this.isProcessingSwapActions = false,
-      @JsonKey(ignore: true) this.isFetchTokensLastestPrice = false,
+      @JsonKey(ignore: true) this.isFetchTokensLatestPrice = false,
       @JsonKey(ignore: true) this.isFetchNewTokens = false})
       : assert(erc20Tokens != null),
         assert(isFetchTransferEvents != null),
@@ -249,7 +249,7 @@ class _$_ProWalletState extends _ProWalletState {
         assert(isProcessingTokensJobs != null),
         assert(isFetchTokensBalances != null),
         assert(isProcessingSwapActions != null),
-        assert(isFetchTokensLastestPrice != null),
+        assert(isFetchTokensLatestPrice != null),
         assert(isFetchNewTokens != null),
         super._();
 
@@ -279,14 +279,14 @@ class _$_ProWalletState extends _ProWalletState {
   final bool isProcessingSwapActions;
   @override
   @JsonKey(ignore: true)
-  final bool isFetchTokensLastestPrice;
+  final bool isFetchTokensLatestPrice;
   @override
   @JsonKey(ignore: true)
   final bool isFetchNewTokens;
 
   @override
   String toString() {
-    return 'ProWalletState(etherBalance: $etherBalance, erc20Tokens: $erc20Tokens, isFetchTransferEvents: $isFetchTransferEvents, isListenToTransferEvents: $isListenToTransferEvents, isProcessingTokensJobs: $isProcessingTokensJobs, isFetchTokensBalances: $isFetchTokensBalances, isProcessingSwapActions: $isProcessingSwapActions, isFetchTokensLastestPrice: $isFetchTokensLastestPrice, isFetchNewTokens: $isFetchNewTokens)';
+    return 'ProWalletState(etherBalance: $etherBalance, erc20Tokens: $erc20Tokens, isFetchTransferEvents: $isFetchTransferEvents, isListenToTransferEvents: $isListenToTransferEvents, isProcessingTokensJobs: $isProcessingTokensJobs, isFetchTokensBalances: $isFetchTokensBalances, isProcessingSwapActions: $isProcessingSwapActions, isFetchTokensLatestPrice: $isFetchTokensLatestPrice, isFetchNewTokens: $isFetchNewTokens)';
   }
 
   @override
@@ -317,11 +317,11 @@ class _$_ProWalletState extends _ProWalletState {
                     other.isProcessingSwapActions, isProcessingSwapActions) ||
                 const DeepCollectionEquality().equals(
                     other.isProcessingSwapActions, isProcessingSwapActions)) &&
-            (identical(other.isFetchTokensLastestPrice,
-                    isFetchTokensLastestPrice) ||
+            (identical(
+                    other.isFetchTokensLatestPrice, isFetchTokensLatestPrice) ||
                 const DeepCollectionEquality().equals(
-                    other.isFetchTokensLastestPrice,
-                    isFetchTokensLastestPrice)) &&
+                    other.isFetchTokensLatestPrice,
+                    isFetchTokensLatestPrice)) &&
             (identical(other.isFetchNewTokens, isFetchNewTokens) ||
                 const DeepCollectionEquality()
                     .equals(other.isFetchNewTokens, isFetchNewTokens)));
@@ -337,7 +337,7 @@ class _$_ProWalletState extends _ProWalletState {
       const DeepCollectionEquality().hash(isProcessingTokensJobs) ^
       const DeepCollectionEquality().hash(isFetchTokensBalances) ^
       const DeepCollectionEquality().hash(isProcessingSwapActions) ^
-      const DeepCollectionEquality().hash(isFetchTokensLastestPrice) ^
+      const DeepCollectionEquality().hash(isFetchTokensLatestPrice) ^
       const DeepCollectionEquality().hash(isFetchNewTokens);
 
   @JsonKey(ignore: true)
@@ -361,7 +361,7 @@ abstract class _ProWalletState extends ProWalletState {
       @JsonKey(ignore: true) bool isProcessingTokensJobs,
       @JsonKey(ignore: true) bool isFetchTokensBalances,
       @JsonKey(ignore: true) bool isProcessingSwapActions,
-      @JsonKey(ignore: true) bool isFetchTokensLastestPrice,
+      @JsonKey(ignore: true) bool isFetchTokensLatestPrice,
       @JsonKey(ignore: true) bool isFetchNewTokens}) = _$_ProWalletState;
 
   factory _ProWalletState.fromJson(Map<String, dynamic> json) =
@@ -390,7 +390,7 @@ abstract class _ProWalletState extends ProWalletState {
   bool get isProcessingSwapActions;
   @override
   @JsonKey(ignore: true)
-  bool get isFetchTokensLastestPrice;
+  bool get isFetchTokensLatestPrice;
   @override
   @JsonKey(ignore: true)
   bool get isFetchNewTokens;

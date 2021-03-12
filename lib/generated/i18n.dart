@@ -236,8 +236,6 @@ class I18n implements WidgetsLocalizations {
   String get settings => "Settings";
   /// "Home"
   String get home => "Home";
-  /// "Trade"
-  String get trade => "Trade";
   /// "Assets and contracts"
   String get assets_and_contracts => "Assets and contracts";
   /// "Sent to your Ethereum wallet"
@@ -364,6 +362,14 @@ class I18n implements WidgetsLocalizations {
   String get wallet => "Wallet";
   /// "Send"
   String get send => "Send";
+  /// "Network Fee"
+  String get network_fee => "Network Fee";
+  /// "Rate"
+  String get rate => "Rate";
+  /// "Free"
+  String get free => "Free";
+  /// "Slippage"
+  String get slippage => "Slippage";
 }
 
 class _I18n_en_US extends I18n {
@@ -673,9 +679,6 @@ class _I18n_he_IL extends I18n {
   /// "בית"
   @override
   String get home => "בית";
-  /// "מסחר"
-  @override
-  String get trade => "מסחר";
   /// "נכסים"
   @override
   String get assets_and_contracts => "נכסים";
@@ -1131,9 +1134,6 @@ class _I18n_es_ES extends I18n {
   /// "Inicio"
   @override
   String get home => "Inicio";
-  /// "Comercio"
-  @override
-  String get trade => "Comercio";
   /// "Activos y contratos"
   @override
   String get assets_and_contracts => "Activos y contratos";
@@ -1666,9 +1666,6 @@ class _I18n_it_IT extends I18n {
   /// "Casa"
   @override
   String get home => "Casa";
-  /// "Commercio"
-  @override
-  String get trade => "Commercio";
   /// "Attività e contratti"
   @override
   String get assets_and_contracts => "Attività e contratti";
@@ -1959,9 +1956,6 @@ class _I18n_en_PH extends _I18n_en_US {
   /// "Home"
   @override
   String get home => "Home";
-  /// "Kalakalan"
-  @override
-  String get trade => "Kalakalan";
   /// "Assets at mga kontrata"
   @override
   String get assets_and_contracts => "Assets at mga kontrata";
@@ -2255,9 +2249,6 @@ class _I18n_id_ID extends I18n {
   /// "Home"
   @override
   String get home => "Home";
-  /// "Perdagangan"
-  @override
-  String get trade => "Perdagangan";
   /// "Aset dan kontrak"
   @override
   String get assets_and_contracts => "Aset dan kontrak";
@@ -2560,9 +2551,6 @@ class _I18n_es_MX extends _I18n_es_ES {
   /// "Hogar"
   @override
   String get home => "Hogar";
-  /// "Comercio"
-  @override
-  String get trade => "Comercio";
   /// "Activos y contratos"
   @override
   String get assets_and_contracts => "Activos y contratos";
@@ -2874,9 +2862,6 @@ class _I18n_de_DE extends I18n {
   /// "Home"
   @override
   String get home => "Home";
-  /// "Handeln"
-  @override
-  String get trade => "Handeln";
   /// "Anlagen und Verträge"
   @override
   String get assets_and_contracts => "Anlagen und Verträge";
@@ -3281,9 +3266,6 @@ class _I18n_nl_NL extends I18n {
   /// "Home"
   @override
   String get home => "Home";
-  /// "Handel"
-  @override
-  String get trade => "Handel";
   /// "Bezittingen en contracten"
   @override
   String get assets_and_contracts => "Bezittingen en contracten";
@@ -3655,9 +3637,6 @@ class _I18n_sr_RS extends I18n {
   /// "Главна"
   @override
   String get home => "Главна";
-  /// "Тргуј"
-  @override
-  String get trade => "Тргуј";
   /// "Средства и уговори"
   @override
   String get assets_and_contracts => "Средства и уговори";

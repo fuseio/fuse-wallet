@@ -37,5 +37,10 @@ class ProfileViewModel extends Equatable {
   }
 
   @override
-  List get props => [walletAddress, phone, displayName];
+  List get props => [
+        walletAddress,
+        phone,
+        displayName,
+        avatarUrl,
+      ];
 }

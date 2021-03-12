@@ -128,6 +128,7 @@ class _MyAppState extends State<MyApp> {
                 secondary: Color(0xFFF5F5F5),
                 secondaryVariant: Color(0xFF777777),
                 primary: Color(0xFF38D989),
+                accentColor: Color(0xFF000000),
                 appBarColor: Theme.of(context).canvasColor,
               ),
             ).toTheme,
@@ -143,7 +144,7 @@ class _MyAppState extends State<MyApp> {
         ],
         supportedLocales: i18n.supportedLocales,
         localeResolutionCallback: i18n.resolution(
-          fallback: new Locale("en", "US"),
+          fallback: Locale("en", "US"),
         ),
       ),
     );

@@ -281,7 +281,10 @@ class _SwapScreenState extends State<SwapScreen> {
           } else {
             final bool hasFund =
                 (tokenOut != null && tokenOut.amount > BigInt.zero);
-            return Container(
+            return InkWell(
+              onTap: () {
+                WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
+              },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

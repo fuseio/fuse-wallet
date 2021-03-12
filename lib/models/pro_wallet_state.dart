@@ -31,7 +31,7 @@ abstract class ProWalletState implements _$ProWalletState {
     @JsonKey(ignore: true) @Default(false) bool isProcessingTokensJobs,
     @JsonKey(ignore: true) @Default(false) bool isFetchTokensBalances,
     @JsonKey(ignore: true) @Default(false) bool isProcessingSwapActions,
-    @JsonKey(ignore: true) @Default(false) bool isFetchTokensLastestPrice,
+    @JsonKey(ignore: true) @Default(false) bool isFetchTokensLatestPrice,
     @JsonKey(ignore: true) @Default(false) bool isFetchNewTokens,
   }) = _ProWalletState;
 

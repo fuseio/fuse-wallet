@@ -48,7 +48,11 @@ class _ContactsListState extends State<ContactsList> {
             ? MyScaffold(
                 automaticallyImplyLeading: false,
                 title: I18n.of(context).send_to,
-                body: Container(
+                body: InkWell(
+                  onTap: () {
+                    WidgetsBinding.instance.focusManager.primaryFocus
+                        ?.unfocus();
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,

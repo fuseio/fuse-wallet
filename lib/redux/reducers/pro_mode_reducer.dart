@@ -11,8 +11,8 @@ import 'package:redux/redux.dart';
 
 bool Function(String, Token) clearTokensWithZero = (key, token) {
   if (token.timestamp == 0) return false;
-  double formatedValue = token.amount / BigInt.from(pow(10, token.decimals));
-  return num.parse(formatedValue.toString()).compareTo(0) != 1;
+  double formattedValue = token.amount / BigInt.from(pow(10, token.decimals));
+  return num.parse(formattedValue.toString()).compareTo(0) != 1;
 };
 
 final proWalletReducers = combineReducers<ProWalletState>([
@@ -28,9 +28,9 @@ final proWalletReducers = combineReducers<ProWalletState>([
       _createNewWalletSuccess),
   TypedReducer<ProWalletState, SetIsFetchTokensBalances>(
       _startFetchTokensBalances),
-  TypedReducer<ProWalletState, UpdateEtherBalabnce>(_updateEtherBalabnce),
-  TypedReducer<ProWalletState, SetIsFetchTokensLastestPrices>(
-      _startFetchTokensLastestPrices),
+  TypedReducer<ProWalletState, UpdateEtherBalance>(_updateEtherBalance),
+  TypedReducer<ProWalletState, SetIsFetchTokensLatestPrices>(
+      _startFetchTokensLatestPrices),
   TypedReducer<ProWalletState, AddProTransaction>(_addProTransaction),
   TypedReducer<ProWalletState, ReplaceProTransaction>(_replaceProTransaction),
   TypedReducer<ProWalletState, AddNewToken>(_addNewToken),
@@ -93,8 +93,8 @@ ProWalletState _addProTransaction(
   return state.copyWith(erc20Tokens: newOne);
 }
 
-ProWalletState _updateEtherBalabnce(
-    ProWalletState state, UpdateEtherBalabnce action) {
+ProWalletState _updateEtherBalance(
+    ProWalletState state, UpdateEtherBalance action) {
   return state.copyWith(etherBalance: action.balance);
 }
 
@@ -108,9 +108,9 @@ ProWalletState _startProcessingTokensJobs(
   return state.copyWith(isProcessingTokensJobs: action.isFetching);
 }
 
-ProWalletState _startFetchTokensLastestPrices(
-    ProWalletState state, SetIsFetchTokensLastestPrices action) {
-  return state.copyWith(isFetchTokensLastestPrice: action.isFetching);
+ProWalletState _startFetchTokensLatestPrices(
+    ProWalletState state, SetIsFetchTokensLatestPrices action) {
+  return state.copyWith(isFetchTokensLatestPrice: action.isFetching);
 }
 
 ProWalletState _startFetchNewTokens(

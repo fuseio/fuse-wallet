@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/swap/swap.dart';
 import '../../../models/tokens/token.dart';
-import '../screens/review_trade.dart';
+import '../screens/review_swap.dart';
 import '../screens/swap.dart';
 
 class SwapRoutes {

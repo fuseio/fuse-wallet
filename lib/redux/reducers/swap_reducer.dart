@@ -7,9 +7,12 @@ final swapReducers = combineReducers<SwapState>([
 ]);
 
 SwapState _fetchTokenList(SwapState state, FetchTokenList action) {
-  return state.copyWith(
+  return (state ?? SwapState())?.copyWith(
     tokensList: action.fetchSwapList
-      ..sort((tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)
-          ?.compareTo(tokenA?.amount ?? BigInt.zero)),
+      ..sort(
+        (tokenA, tokenB) => (tokenB?.amount ?? BigInt.zero)?.compareTo(
+          tokenA?.amount ?? BigInt.zero,
+        ),
+      ),
   );
 }

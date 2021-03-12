@@ -20,9 +20,9 @@ import 'package:redux/redux.dart';
 import 'package:wallet_core/wallet_core.dart' show EtherAmount;
 import 'package:fusecash/utils/log/log.dart';
 
-class UpdateEtherBalabnce {
+class UpdateEtherBalance {
   final BigInt balance;
-  UpdateEtherBalabnce({this.balance});
+  UpdateEtherBalance({this.balance});
 }
 
 class GetTokenTransfersEventsListSuccess {
@@ -74,9 +74,9 @@ class ClearTokenList {
   ClearTokenList();
 }
 
-class SetIsFetchTokensLastestPrices {
+class SetIsFetchTokensLatestPrices {
   final bool isFetching;
-  SetIsFetchTokensLastestPrices({this.isFetching});
+  SetIsFetchTokensLatestPrices({this.isFetching});
 }
 
 class SetIsFetchNewTokens {
@@ -89,24 +89,24 @@ class SetIsFetchTokensBalances {
   SetIsFetchTokensBalances({this.isFetching});
 }
 
-ThunkAction proTransactionFailed(String tokenAddrees, transfer) {
+ThunkAction proTransactionFailed(String tokenAddress, transfer) {
   return (Store store) async {
     Transfer failedTx = transfer.copyWith(status: 'FAILED');
     store.dispatch(new ReplaceProTransaction(
-        tokenAddress: tokenAddrees,
+        tokenAddress: tokenAddress,
         transactionToReplace: failedTx,
         transaction: transfer));
   };
 }
 
-ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddrees, transfer) {
+ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddress, transfer) {
   return (Store store) async {
     Transfer confirmedTx = transfer.copyWith(
         status: 'CONFIRMED',
         txHash: txHash,
         timestamp: DateTime.now().millisecondsSinceEpoch);
     store.dispatch(new ReplaceProTransaction(
-        tokenAddress: tokenAddrees,
+        tokenAddress: tokenAddress,
         transaction: transfer,
         transactionToReplace: confirmedTx));
   };
@@ -205,24 +205,24 @@ ThunkAction fetchTokensBalances() {
   };
 }
 
-ThunkAction startFetchTokensLastestPrices() {
+ThunkAction startFetchTokensLatestPrices() {
   return (Store store) async {
-    bool isFetchTokensLastestPrice =
-        store.state.proWalletState?.isFetchTokensLastestPrice ?? false;
+    bool isFetchTokensLatestPrice =
+        store.state.proWalletState?.isFetchTokensLatestPrice ?? false;
 
-    log.info('Timer start - startFetchTokensLastestPrices');
-    if (!isFetchTokensLastestPrice) {
+    log.info('Timer start - startFetchTokensLatestPrices');
+    if (!isFetchTokensLatestPrice) {
       new Timer.periodic(Duration(minutes: Variables.INTERVAL_SECONDS),
           (Timer timer) async {
         if (store.state.userState.walletAddress == '') {
-          store.dispatch(SetIsFetchTokensLastestPrices(isFetching: false));
-          log.error('Timer stopped - startFetchTokensLastestPrices');
+          store.dispatch(SetIsFetchTokensLatestPrices(isFetching: false));
+          log.error('Timer stopped - startFetchTokensLatestPrices');
           timer.cancel();
           return;
         }
         store.dispatch(fetchTokensLatestPrice());
       });
-      store.dispatch(SetIsFetchTokensLastestPrices(isFetching: true));
+      store.dispatch(SetIsFetchTokensLatestPrices(isFetching: true));
     }
     store.dispatch(fetchTokensLatestPrice());
   };
@@ -232,7 +232,7 @@ ThunkAction fetchTokensLatestPrice() {
   return (Store store) async {
     ProWalletState proWalletState = store.state.proWalletState;
     for (Token token in proWalletState.erc20Tokens.values) {
-      Function fetchTokenLastestPrice = () async {
+      Function fetchTokenLatestPrice = () async {
         void Function(Price) onDone = (Price priceInfo) {
           log.info('${token.name} price updated');
           Token tokenToUpdate =
@@ -245,12 +245,12 @@ ThunkAction fetchTokensLatestPrice() {
         void Function(Object error, StackTrace stackTrace) onError =
             (Object error, StackTrace stackTrace) {
           log.error(
-              'Error in fetchTokenLastestPrice for - ${token.name} $error');
+              'Error in fetchTokenLatestPrice for - ${token.name} $error');
         };
         log.info('fetching price of token ${token.name} ${token.address}');
-        await token.fetchTokenLastestPrice(onDone: onDone, onError: onError);
+        await token.fetchTokenLatestPrice(onDone: onDone, onError: onError);
       };
-      await Future.delayed(Duration(milliseconds: 500), fetchTokenLastestPrice);
+      await Future.delayed(Duration(milliseconds: 500), fetchTokenLatestPrice);
     }
   };
 }
@@ -349,7 +349,7 @@ ThunkAction fetchTokenByAddress(String tokenAddress) {
   };
 }
 
-ThunkAction getEtherBalabnce() {
+ThunkAction getEtherBalance() {
   return (Store store) async {
     try {
       BigInt etherBalance =
@@ -359,10 +359,10 @@ ThunkAction getEtherBalabnce() {
         address: walletAddress,
       );
       if (etherBalance.compareTo(balance.getInWei) != 0) {
-        store.dispatch(UpdateEtherBalabnce(balance: balance.getInWei));
+        store.dispatch(UpdateEtherBalance(balance: balance.getInWei));
       }
     } catch (error) {
-      log.error('Error in Get Ether Balabnce ${error.toString()}');
+      log.error('Error in Get Ether Balance ${error.toString()}');
     }
   };
 }
@@ -451,7 +451,7 @@ ThunkAction sendErc20TokenCall(
         tokensAmount,
         network: foreignNetwork,
       );
-      Map<String, dynamic> feeTrasnferData =
+      Map<String, dynamic> feeTransferData =
           await ethereumWeb3.transferTokenOffChain(
         walletAddress,
         token.address,
@@ -459,10 +459,10 @@ ThunkAction sendErc20TokenCall(
         feeAmount,
         network: foreignNetwork,
       );
-      dynamic approveTrasfer = await api
-          .multiRelay([approveTokenData, transferTokenData, feeTrasnferData]);
+      dynamic approveTransfer = await api
+          .multiRelay([approveTokenData, transferTokenData, feeTransferData]);
       sendSuccessCallback();
-      dynamic approveJobId = approveTrasfer['job']['_id'];
+      dynamic approveJobId = approveTransfer['job']['_id'];
       log.info('Job $approveJobId for sending token sent to the relay service');
     } catch (e) {
       log.error('ERROR - sendErc20TokenCall $e');
@@ -488,17 +488,17 @@ ThunkAction sendTokenToHomeMultiBridge(
       num feeAmount = 20;
       log.info(
           'Multi bridge - Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
-      List trasnferData = await ethereumWeb3.transferTokenToHome(walletAddress,
+      List transferData = await ethereumWeb3.transferTokenToHome(walletAddress,
           receiverAddress, tokenAddress, tokensAmount, token.decimals,
           network: token.originNetwork);
-      Map<String, dynamic> feeTrasnferData =
+      Map<String, dynamic> feeTransferData =
           await ethereumWeb3.transferTokenOffChain(
         walletAddress,
         tokenAddress,
         Addresses.FEE_ADDRESS,
         feeAmount,
       );
-      response = await api.multiRelay([...trasnferData, feeTrasnferData]);
+      response = await api.multiRelay([...transferData, feeTransferData]);
 
       dynamic jobId = response['job']['_id'];
       log.info('Job $jobId for sending token sent to the relay service');

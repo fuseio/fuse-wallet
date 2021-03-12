@@ -42,7 +42,7 @@ class _LockScreenState extends State<LockScreen> {
     } else {
       UserState userState = store.state.userState;
       if (userState?.authType != BiometricAuth.none) {
-        store.dispatch(getWalletAddressessCall());
+        store.dispatch(getWalletAddressesCall());
         store.dispatch(identifyCall());
         store.dispatch(loadContacts());
       }

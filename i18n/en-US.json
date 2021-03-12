@@ -101,7 +101,6 @@
     "smart": "Smart",
     "settings": "Settings",
     "home": "Home",
-    "trade": "Trade",
     "assets_and_contracts": "Assets and contracts",
     "sending_to_ethereum": "Sent to your Ethereum wallet",
     "sent_to_ethereum": "Sent to Ethereum",
@@ -164,5 +163,9 @@
     "initializing_wallet": "Initializing your wallet on Fuse",
     "feed": "Feed",
     "wallet": "Wallet",
-    "send": "Send"
+    "send": "Send",
+    "network_fee": "Network Fee",
+    "rate": "Rate",
+    "free": "Free",
+    "slippage": "Slippage"
 }

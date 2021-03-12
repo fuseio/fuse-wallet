@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:fusecash/features/swap/screens/review_trade.dart';
+import 'package:fusecash/features/swap/screens/review_swap.dart';
 import 'package:fusecash/features/swap/screens/swap.dart';
 
 @MaterialAutoRouter(

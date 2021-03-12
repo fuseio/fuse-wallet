@@ -70,7 +70,7 @@ abstract class Token implements _$Token {
     }
   }
 
-  Future<dynamic> fetchTokenLastestPrice({
+  Future<dynamic> fetchTokenLatestPrice({
     String currency = 'usd',
     void Function(Price) onDone,
     Function onError,

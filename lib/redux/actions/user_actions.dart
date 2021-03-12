@@ -484,7 +484,7 @@ ThunkAction setupWalletCall(walletData) {
           store.dispatch(startFetchBalancesOnForeign());
           store.dispatch(fetchTokensBalances());
           store.dispatch(startFetchTransferEventsCall());
-          store.dispatch(startFetchTokensLastestPrices());
+          store.dispatch(startFetchTokensLatestPrices());
         });
       }
     } catch (e, s) {
@@ -494,7 +494,7 @@ ThunkAction setupWalletCall(walletData) {
   };
 }
 
-ThunkAction getWalletAddressessCall() {
+ThunkAction getWalletAddressesCall() {
   return (Store store) async {
     try {
       dynamic walletData = await api.getWallet();
