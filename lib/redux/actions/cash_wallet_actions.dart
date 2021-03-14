@@ -23,12 +23,14 @@ import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/models/user_state.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
+import 'package:fusecash/utils/constants.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:fusecash/services.dart';
 import 'package:fusecash/utils/log/log.dart';
+import 'package:wallet_core/wallet_core.dart' show EtherAmount;
 
 class AddCashTokens {
   Map<String, Token> tokens;
@@ -172,30 +174,30 @@ class BranchListening {}
 
 class BranchListeningStopped {}
 
-class InviteSendSuccess {
-  final String tokenAddress;
-  final Transaction invite;
-  InviteSendSuccess({this.invite, this.tokenAddress});
-}
+// class InviteSendSuccess {
+//   final String tokenAddress;
+//   final Transaction invite;
+//   InviteSendSuccess({this.invite, this.tokenAddress});
+// }
 
-class ReplaceTransaction {
-  final String tokenAddress;
-  final Transaction transaction;
-  final Transaction transactionToReplace;
-  ReplaceTransaction(
-      {this.transaction, this.transactionToReplace, this.tokenAddress});
-}
+// class ReplaceTransaction {
+//   final String tokenAddress;
+//   final Transaction transaction;
+//   final Transaction transactionToReplace;
+//   ReplaceTransaction(
+//       {this.transaction, this.transactionToReplace, this.tokenAddress});
+// }
 
-class AddTransaction {
-  final String tokenAddress;
-  final Transaction transaction;
-  AddTransaction({this.transaction, this.tokenAddress});
-}
+// class AddTransaction {
+//   final String tokenAddress;
+//   final Transaction transaction;
+//   AddTransaction({this.transaction, this.tokenAddress});
+// }
 
-class SetIsJobProcessing {
-  final bool isFetching;
-  SetIsJobProcessing({this.isFetching});
-}
+// class SetIsJobProcessing {
+//   final bool isFetching;
+//   SetIsJobProcessing({this.isFetching});
+// }
 
 class SetIsFetchingBalances {
   final bool isFetching;
@@ -323,12 +325,13 @@ ThunkAction startFetchTokensBalances() {
           (Timer timer) async {
         String currentWalletAddress = store.state.userState.walletAddress;
         if (currentWalletAddress != walletAddress) {
-          log.error('Timer stopeed - startFetchTokensBalances');
+          log.error('Timer stopped - startFetchTokensBalances');
           store.dispatch(SetIsFetchingBalances(isFetching: false));
           timer.cancel();
           return false;
         }
         Map<String, Token> tokens = store.state.cashWalletState.tokens;
+        store.dispatch(getFuseBalance());
         for (Token token in tokens.values) {
           if (![null, ''].contains(token.address)) {
             store.dispatch(getTokenBalanceCall(token));
@@ -354,7 +357,7 @@ ThunkAction startFetchingCall() {
           (Timer t) async {
         String currentWalletAddress = store.state.userState.walletAddress;
         if (currentWalletAddress != walletAddress) {
-          log.error('Timer stopeed - startFetchingCall');
+          log.error('Timer stopped - startFetchingCall');
           store.dispatch(SetIsTransfersFetching(isFetching: false));
           t.cancel();
           return;
@@ -543,21 +546,21 @@ ThunkAction sendTokenToForeignMultiBridge(
       num feeAmount = 20;
       log.info(
           'Multi bridge - Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
-      List trasnferData = await fuseWeb3.transferTokenToForeign(
+      List transferData = await fuseWeb3.transferTokenToForeign(
           walletAddress,
           receiverAddress,
           checksumEthereumAddress(tokenAddress),
           tokensAmount,
           token.decimals,
           network: 'fuse');
-      Map<String, dynamic> feeTrasnferData =
+      Map<String, dynamic> feeTransferData =
           await fuseWeb3.transferTokenOffChain(
         walletAddress,
         tokenAddress,
         Addresses.FEE_ADDRESS,
         feeAmount,
       );
-      response = await api.multiRelay([...trasnferData, feeTrasnferData]);
+      response = await api.multiRelay([...transferData, feeTransferData]);
 
       dynamic jobId = response['job']['_id'];
       log.info('Job $jobId for sending token sent to the relay service');
@@ -565,6 +568,44 @@ ThunkAction sendTokenToForeignMultiBridge(
       sendSuccessCallback();
     } catch (e) {
       log.error('ERROR - sendTokenToForeignMultiBridge $e');
+      sendFailureCallback();
+    }
+  };
+}
+
+ThunkAction sendNativeTokenCall(
+  String receiverAddress,
+  num tokensAmount,
+  VoidCallback sendSuccessCallback,
+  VoidCallback sendFailureCallback,
+) {
+  return (Store store) async {
+    try {
+      String walletAddress = store.state.userState.walletAddress;
+      dynamic response = await api.transfer(
+        fuseWeb3,
+        walletAddress,
+        receiverAddress,
+        num.parse(toBigInt(tokensAmount, 18).toString()),
+        transactionBody: {
+          "from": walletAddress,
+          "to": receiverAddress,
+          "value": toBigInt(tokensAmount, 18).toString(),
+          "asset": 'FUSE',
+          "status": 'pending',
+          'type': 'SEND',
+          'tokenName': 'FUSE',
+          'tokenDecimal': 18,
+        },
+      );
+
+      dynamic jobId = response['job']['_id'];
+      log.info('sendNativeTokenCall');
+      log.info('Job $jobId for sending native token sent to the relay service');
+
+      sendSuccessCallback();
+    } catch (e) {
+      log.error('ERROR - sendNativeTokenCall ${e.toString()}');
       sendFailureCallback();
     }
   };
@@ -583,71 +624,66 @@ ThunkAction sendTokenCall(
   return (Store store) async {
     try {
       String walletAddress = store.state.userState.walletAddress;
-      Map<String, Community> communities =
-          store.state.cashWalletState.communities;
-      String tokenAddress = token?.address;
-      Community community = communities.values.firstWhere(
-          (element) =>
-              element?.homeTokenAddress?.toLowerCase() ==
-              tokenAddress?.toLowerCase(),
-          orElse: () => null);
-
-      dynamic response;
-      if (![null, ''].contains(token?.communityAddress) &&
-          receiverAddress?.toLowerCase() ==
-              community?.homeBridgeAddress?.toLowerCase()) {
-        num feeAmount = 20;
-        log.info(
-            'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
-        Map<String, dynamic> trasnferData =
-            await fuseWeb3.transferTokenOffChain(
-          walletAddress,
-          tokenAddress,
+      if (token.isNative) {
+        store.dispatch(sendNativeTokenCall(
           receiverAddress,
           tokensAmount,
-        );
-        Map<String, dynamic> feeTrasnferData =
-            await fuseWeb3.transferTokenOffChain(
-          walletAddress,
-          tokenAddress,
-          Addresses.FEE_ADDRESS,
-          feeAmount,
-        );
-        response = await api.multiRelay([trasnferData, feeTrasnferData]);
+          sendSuccessCallback,
+          sendFailureCallback,
+        ));
       } else {
-        log.info(
-            'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
-        response = await api.tokenTransfer(
-          fuseWeb3,
-          walletAddress,
-          tokenAddress,
-          receiverAddress,
-          tokensAmount,
-        );
+        Map<String, Community> communities =
+            store.state.cashWalletState.communities;
+        String tokenAddress = token?.address;
+        Community community = communities.values.firstWhere(
+            (element) =>
+                element?.homeTokenAddress?.toLowerCase() ==
+                tokenAddress?.toLowerCase(),
+            orElse: () => null);
+
+        dynamic response;
+        if (![null, ''].contains(token?.communityAddress) &&
+            receiverAddress?.toLowerCase() ==
+                community?.homeBridgeAddress?.toLowerCase()) {
+          num feeAmount = 20;
+          log.info(
+              'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress with fee $feeAmount');
+          Map<String, dynamic> transferData =
+              await fuseWeb3.transferTokenOffChain(
+            walletAddress,
+            tokenAddress,
+            receiverAddress,
+            tokensAmount,
+          );
+          Map<String, dynamic> feeTransferData =
+              await fuseWeb3.transferTokenOffChain(
+            walletAddress,
+            tokenAddress,
+            Addresses.FEE_ADDRESS,
+            feeAmount,
+          );
+          response = await api.multiRelay([transferData, feeTransferData]);
+        } else {
+          log.info(
+              'Sending $tokensAmount tokens of $tokenAddress from wallet $walletAddress to $receiverAddress');
+          response = await api.tokenTransfer(
+            fuseWeb3,
+            walletAddress,
+            tokenAddress,
+            receiverAddress,
+            tokensAmount,
+          );
+        }
+
+        dynamic jobId = response['job']['_id'];
+        log.info('Job $jobId for sending token sent to the relay service');
+
+        sendSuccessCallback();
       }
-
-      dynamic jobId = response['job']['_id'];
-      log.info('Job $jobId for sending token sent to the relay service');
-
-      sendSuccessCallback();
     } catch (e) {
       log.error('ERROR - sendTokenCall ${e.toString()}');
       sendFailureCallback();
     }
-  };
-}
-
-ThunkAction transactionFailed(transfer, String failReason) {
-  return (Store store) async {
-    Transfer failedTx = transfer.copyWith(
-      status: 'FAILED',
-      failReason: failReason,
-    );
-    store.dispatch(ReplaceTransaction(
-      transaction: transfer,
-      transactionToReplace: failedTx,
-      tokenAddress: failedTx.tokenAddress,
-    ));
   };
 }
 
@@ -827,14 +863,14 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
           isRopsten,
         ),
       );
-      store.dispatch(
-        getBusinessListCall(
-          communityAddress: communityAddress,
-          isRopsten: isRopsten,
-        ),
-      );
       if (communityAddress.toLowerCase() !=
           defaultCommunityAddress.toLowerCase()) {
+        store.dispatch(
+          getBusinessListCall(
+            communityAddress: communityAddress,
+            isRopsten: isRopsten,
+          ),
+        );
         store.dispatch(
           joinCommunityCall(
             token: communityToken,
@@ -850,7 +886,7 @@ ThunkAction switchToNewCommunityCall(String communityAddress) {
   };
 }
 
-ThunkAction switchToExisitingCommunityCall(String communityAddress) {
+ThunkAction switchToExistingCommunityCall(String communityAddress) {
   return (Store store) async {
     try {
       String walletAddress =
@@ -875,12 +911,15 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
           homeTokenAddress: communityToken.address,
         ),
       ));
-      // store.dispatch(
-      //   getBusinessListCall(
-      //     communityAddress: communityAddress,
-      //     isRopsten: isRopsten,
-      //   ),
-      // );
+      if (communityAddress.toLowerCase() !=
+          defaultCommunityAddress.toLowerCase()) {
+        store.dispatch(
+          getBusinessListCall(
+            communityAddress: communityAddress,
+            isRopsten: isRopsten,
+          ),
+        );
+      }
       store.dispatch(
         fetchCommunityMetadataCall(
           communityAddress,
@@ -889,7 +928,7 @@ ThunkAction switchToExisitingCommunityCall(String communityAddress) {
         ),
       );
     } catch (e, s) {
-      log.error('ERROR - switchToExisitingCommunityCall $e');
+      log.error('ERROR - switchToExistingCommunityCall $e');
       await Sentry.captureException(e, stackTrace: s);
       store.dispatch(SwitchCommunityFailed(
           communityAddress: communityAddress.toLowerCase()));
@@ -947,7 +986,7 @@ ThunkAction switchCommunityCall(String communityAddress) {
           current.isMember != null &&
           current.isMember) {
         store.dispatch(SwitchCommunityRequested(communityAddress));
-        store.dispatch(switchToExisitingCommunityCall(communityAddress));
+        store.dispatch(switchToExistingCommunityCall(communityAddress));
       } else {
         store.dispatch(SwitchToNewCommunity(communityAddress));
         store.dispatch(switchToNewCommunityCall(communityAddress));
@@ -1147,8 +1186,30 @@ ThunkAction swapHandler(
       String swapJobId = response['job']['_id'];
       log.info('Job $swapJobId for swap');
     } catch (e) {
-      log.error('ERROR - api.totleSwap $e');
       sendFailureCallback();
+    }
+  };
+}
+
+ThunkAction getFuseBalance() {
+  return (Store store) async {
+    try {
+      BigInt fuseBalance =
+          store.state.cashWalletState.tokens[fuseToken.address]?.amount ??
+              BigInt.zero;
+      String walletAddress = store.state.userState.walletAddress;
+      EtherAmount balance = await fuseWeb3.getBalance(
+        address: walletAddress,
+      );
+      if (balance.getInWei.compareTo(fuseBalance) != 0) {
+        store.dispatch(AddCashToken(
+          token: fuseToken.copyWith(
+            amount: balance.getInWei,
+          ),
+        ));
+      }
+    } catch (error) {
+      log.error('Error in Get Fuse Balance ${error.toString()}');
     }
   };
 }

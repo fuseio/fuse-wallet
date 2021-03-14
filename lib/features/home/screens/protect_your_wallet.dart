@@ -1,7 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fusecash/constants/enums.dart';
+import 'package:fusecash/features/home/screens/set_up_pincode.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/features/home/screens/pincode.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:redux/redux.dart';
@@ -144,7 +144,7 @@ class _ProtectYourWalletState extends State<ProtectYourWallet> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PincodeScreen(
+                              builder: (context) => SetUpPinCodeScreen(
                                 onSuccess: () {
                                   Navigator.of(context).pop();
                                   Navigator.of(context).pop();

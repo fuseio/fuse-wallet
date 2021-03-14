@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_segment/flutter_segment.dart';
@@ -9,16 +10,13 @@ import 'package:fusecash/redux/viewsmodels/backup.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class ColoredPincodeScreen extends StatefulWidget {
+class PinCodeScreen extends StatefulWidget {
   @override
-  _ColoredPincodeScreenState createState() => _ColoredPincodeScreenState();
+  _PinCodeScreenState createState() => _PinCodeScreenState();
 }
 
-class _ColoredPincodeScreenState extends State<ColoredPincodeScreen> {
+class _PinCodeScreenState extends State<PinCodeScreen> {
   final pincodeController = TextEditingController(text: "");
-  String lastPincode;
-  bool isRetype = false;
-  bool showError = false;
   String currentText = "";
   final formKey = GlobalKey<FormState>();
   // StreamController<ErrorAnimationType> errorController;
@@ -132,8 +130,49 @@ class _ColoredPincodeScreenState extends State<ColoredPincodeScreen> {
                                         Theme.of(context).primaryColor,
                                   ),
                                   onCompleted: (value) {
-                                    ExtendedNavigator.root
-                                        .replace(Routes.homeScreen);
+                                    if (viewModel.pincode == value) {
+                                      ExtendedNavigator.root
+                                          .replace(Routes.homeScreen);
+                                      pincodeController.clear();
+                                    } else {
+                                      Flushbar(
+                                          boxShadows: [
+                                            BoxShadow(
+                                              color: Colors.grey[500],
+                                              offset: Offset(0.5, 0.5),
+                                              blurRadius: 5,
+                                            ),
+                                          ],
+                                          duration: Duration(seconds: 3),
+                                          messageText: Text(
+                                            I18n.of(context).invalid_pincode,
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface,
+                                            ),
+                                          ),
+                                          backgroundColor: Theme.of(
+                                                  ExtendedNavigator
+                                                      .root.context)
+                                              .bottomAppBarColor,
+                                          margin: EdgeInsets.only(
+                                              top: 8,
+                                              right: 8,
+                                              left: 8,
+                                              bottom: 80),
+                                          borderRadius: 8,
+                                          icon: SvgPicture.asset(
+                                            'assets/images/failed_icon.svg',
+                                            width: 20,
+                                            height: 20,
+                                          ))
+                                        ..show(context ??
+                                            ExtendedNavigator.named(
+                                                    'homeRouter')
+                                                .context);
+                                    }
                                   },
                                   onChanged: (value) {
                                     setState(() {

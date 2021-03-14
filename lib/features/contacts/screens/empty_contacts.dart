@@ -47,10 +47,14 @@ class _EmptyContactsState extends State<EmptyContacts> {
     listItems.add(SearchPanel(
       searchController: searchController,
     ));
-
-    if (isValidEthereumAddress(searchController.text)) {
+    final String accountAddress = searchController.text != null &&
+            searchController.text.isNotEmpty &&
+            searchController.text[1] == 'f'
+        ? searchController.text.replaceFirst('f', 'x')
+        : searchController.text;
+    if (isValidEthereumAddress(accountAddress)) {
       listItems.add(SendToAccount(
-        accountAddress: searchController.text,
+        accountAddress: accountAddress,
         resetSearch: resetSearch,
       ));
     }
@@ -82,6 +86,8 @@ class _EmptyContactsState extends State<EmptyContacts> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 InkWell(
+                  focusColor: Theme.of(context).canvasColor,
+                  highlightColor: Theme.of(context).canvasColor,
                   child: Text(I18n.of(context).learn_more),
                   onTap: () {
                     showDialog(
@@ -93,6 +99,8 @@ class _EmptyContactsState extends State<EmptyContacts> {
                   width: 20,
                 ),
                 InkWell(
+                    focusColor: Theme.of(context).canvasColor,
+                    highlightColor: Theme.of(context).canvasColor,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -146,6 +154,8 @@ class _EmptyContactsState extends State<EmptyContacts> {
         return MyScaffold(
           title: I18n.of(context).send_to,
           body: InkWell(
+            focusColor: Theme.of(context).canvasColor,
+            highlightColor: Theme.of(context).canvasColor,
             onTap: () {
               WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
             },

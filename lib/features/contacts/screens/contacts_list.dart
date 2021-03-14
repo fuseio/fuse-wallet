@@ -49,6 +49,8 @@ class _ContactsListState extends State<ContactsList> {
                 automaticallyImplyLeading: false,
                 title: I18n.of(context).send_to,
                 body: InkWell(
+                  focusColor: Theme.of(context).canvasColor,
+                  highlightColor: Theme.of(context).canvasColor,
                   onTap: () {
                     WidgetsBinding.instance.focusManager.primaryFocus
                         ?.unfocus();
@@ -173,10 +175,15 @@ class _ContactsListState extends State<ContactsList> {
     // if (searchController.text.isEmpty) {
     // listItems.add(RecentContacts());
     // } else
-    if (isValidEthereumAddress(searchController.text)) {
+    final String accountAddress = searchController.text != null &&
+            searchController.text.isNotEmpty &&
+            searchController.text[1] == 'f'
+        ? searchController.text.replaceFirst('f', 'x')
+        : searchController.text;
+    if (isValidEthereumAddress(accountAddress)) {
       listItems.add(
         SendToAccount(
-          accountAddress: searchController.text,
+          accountAddress: accountAddress,
           resetSearch: resetSearch,
         ),
       );

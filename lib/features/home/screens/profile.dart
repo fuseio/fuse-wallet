@@ -33,6 +33,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         return MyScaffold(
           title: I18n.of(context).account,
           body: InkWell(
+            focusColor: Theme.of(context).canvasColor,
+            highlightColor: Theme.of(context).canvasColor,
             onTap: () {
               WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
             },

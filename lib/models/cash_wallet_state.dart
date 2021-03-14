@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:fusecash/constants/addresses.dart';
 import 'package:fusecash/models/actions/actions.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/models/community/community.dart';
 import 'package:fusecash/models/tokens/token.dart';
+import 'package:fusecash/utils/constants.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cash_wallet_state.freezed.dart';
@@ -17,7 +19,12 @@ WalletActions walletActionsFromJson(Map<String, dynamic> walletActions) =>
 Map<String, Token> tokensFromJson(Map<String, dynamic> tokens) => tokens == null
     ? Map<String, Token>()
     : tokens
-        .map((k, e) => MapEntry(k, Token.fromJson(e as Map<String, dynamic>)));
+        .map((k, e) => MapEntry(k, Token.fromJson(e as Map<String, dynamic>)))
+  ..addAll(Map.from(
+    {
+      Addresses.ZERO_ADDRESS: fuseToken.copyWith(),
+    },
+  ));
 
 Map<String, Community> communitiesFromJson(Map<String, dynamic> list) {
   if (list == null) {
@@ -66,7 +73,9 @@ abstract class CashWalletState implements _$CashWalletState {
   factory CashWalletState.initial() {
     return CashWalletState(
       communities: Map<String, Community>(),
-      tokens: Map<String, Token>(),
+      tokens: Map<String, Token>.from({
+        Addresses.ZERO_ADDRESS: fuseToken.copyWith(),
+      }),
       walletActions: WalletActions().copyWith(
         list: <WalletAction>[],
         updatedAt: 0,

@@ -25,16 +25,19 @@ class TokensListViewModel extends Equatable {
 
     List<Token> homeTokens = store.state.cashWalletState.tokens.values
         .where((Token token) =>
-            num.parse(formatValue(token.amount, token.decimals, withPrecision: true))
+            num.parse(formatValue(token.amount, token.decimals,
+                    withPrecision: true))
                 .compareTo(0) ==
             1)
         .map((Token token) => token?.copyWith(
-            imageUrl: store.state.cashWalletState.communities
-                    .containsKey(token.communityAddress)
-                ? store.state.cashWalletState
-                    .communities[token.communityAddress]?.metadata
-                    ?.getImageUri()
-                : null))
+            imageUrl: token.imageUrl != null
+                ? token.imageUrl
+                : store.state.cashWalletState.communities
+                        .containsKey(token.communityAddress)
+                    ? store.state.cashWalletState
+                        .communities[token.communityAddress]?.metadata
+                        ?.getImageUri()
+                    : null))
         .toList();
     return TokensListViewModel(
       walletAddress: store.state.userState.walletAddress,

@@ -38,6 +38,8 @@ class AboutScreen extends StatelessWidget {
                     contentPadding:
                         EdgeInsets.only(top: 5, bottom: 5, right: 30, left: 30),
                     title: InkWell(
+                      focusColor: Theme.of(context).canvasColor,
+                      highlightColor: Theme.of(context).canvasColor,
                       onTap: () {
                         // TODO - link to privacy policy
                       },
@@ -51,9 +53,15 @@ class AboutScreen extends StatelessWidget {
                   ),
                   Divider(),
                   ListTile(
-                    contentPadding:
-                        EdgeInsets.only(top: 5, bottom: 5, right: 30, left: 30),
+                    contentPadding: EdgeInsets.only(
+                      top: 5,
+                      bottom: 5,
+                      right: 30,
+                      left: 30,
+                    ),
                     title: InkWell(
+                      focusColor: Theme.of(context).canvasColor,
+                      highlightColor: Theme.of(context).canvasColor,
                       onTap: () {
                         launchUrl('mailto:hello@fuse.io');
                       },

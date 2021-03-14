@@ -10,6 +10,7 @@ _$_Token _$_$_TokenFromJson(Map<String, dynamic> json) {
   return _$_Token(
     address: json['address'] as String,
     name: json['name'] as String,
+    isNative: json['isNative'] as bool ?? false,
     symbol: json['symbol'] as String,
     imageUrl: json['imageUrl'] as String,
     decimals: json['decimals'] as int,
@@ -29,6 +30,7 @@ _$_Token _$_$_TokenFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$_$_TokenToJson(_$_Token instance) => <String, dynamic>{
       'address': instance.address,
       'name': instance.name,
+      'isNative': instance.isNative,
       'symbol': instance.symbol,
       'imageUrl': instance.imageUrl,
       'decimals': instance.decimals,

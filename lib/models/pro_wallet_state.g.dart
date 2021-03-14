@@ -8,7 +8,7 @@ part of 'pro_wallet_state.dart';
 
 _$_ProWalletState _$_$_ProWalletStateFromJson(Map<String, dynamic> json) {
   return _$_ProWalletState(
-    etherBalance: etherBalanceFromJson(json['etherBalance'] as String),
+    etherBalance: balanceFromJson(json['etherBalance'] as String),
     erc20Tokens:
         erc20TokensFromJson(json['erc20Tokens'] as Map<String, dynamic>),
   );

@@ -22,6 +22,8 @@ class SwitchCommunityScreen extends StatelessWidget {
         borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
       ),
       child: InkWell(
+        focusColor: Theme.of(context).canvasColor,
+        highlightColor: Theme.of(context).canvasColor,
         onTap: () async {
           try {
             ScanResult scanResult = await BarcodeScanner.scan();

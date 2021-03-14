@@ -14,6 +14,8 @@ class FetchTokenList {
   FetchTokenList({this.fetchSwapList});
 }
 
+class ResetTokenList {}
+
 ThunkAction fetchSwapList() {
   return (Store store) async {
     try {

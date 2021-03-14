@@ -16,10 +16,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 class ReviewSwapScreen extends StatefulWidget {
   final TradeInfo tradeInfo;
+  final TradeInfo rateInfo;
   final SwapRequestBody swapRequestBody;
 
   const ReviewSwapScreen({
     this.tradeInfo,
+    this.rateInfo,
     this.swapRequestBody,
   });
 
@@ -78,7 +80,7 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Text(
@@ -151,6 +153,106 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
     );
   }
 
+  Widget extraInfo() {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Text(
+                I18n.of(context).network_fee,
+                style: TextStyle(fontSize: 16),
+              ),
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/approve_icon.svg',
+                    width: 13,
+                    height: 13,
+                  ),
+                  SizedBox(
+                    width: 2,
+                  ),
+                  Text(
+                    I18n.of(context).free,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 25, bottom: 25),
+          child: Divider(
+            height: 1,
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Text(
+                I18n.of(context).rate,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              AutoSizeText(
+                widget.rateInfo.inputAmount +
+                    widget.rateInfo.inputToken +
+                    '=' +
+                    widget.rateInfo.outputAmount +
+                    widget.rateInfo.outputToken,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+                maxLines: 1,
+              )
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 25, bottom: 25),
+          child: Divider(
+            height: 1,
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 30, right: 30),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Text(
+                I18n.of(context).slippage,
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                '0.50%',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -161,118 +263,14 @@ class _ReviewTradeScreenState extends State<ReviewSwapScreen> {
           children: [
             Column(
               children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    infoCard(),
-                  ],
+                SizedBox(
+                  height: 20,
                 ),
+                infoCard(),
                 SizedBox(
                   height: 100,
                 ),
-                Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .3,
-                          child: Text(
-                            I18n.of(context).network_fee,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .3,
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/approve_icon.svg',
-                                width: 10,
-                                height: 10,
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Text(
-                                I18n.of(context).free,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 25, bottom: 25),
-                      child: Divider(
-                        height: 1,
-                      ),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .3,
-                          child: Text(
-                            I18n.of(context).rate,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .3,
-                          child: Text(
-                            '1DAI=0.005',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 25, bottom: 25),
-                      child: Divider(
-                        height: 1,
-                      ),
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .3,
-                          child: Text(
-                            I18n.of(context).slippage,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .3,
-                          child: Text(
-                            '1%',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+                extraInfo(),
               ],
             ),
             Column(

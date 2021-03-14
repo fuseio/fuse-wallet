@@ -57,12 +57,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
           if (previousViewModel.verifyErrorMessage !=
               newViewModel.verifyErrorMessage) {
             showErrorSnack(
-                title: I18n.of(context).oops,
-                message: newViewModel.verifyErrorMessage,
-                duration: Duration(seconds: 3),
-                context: context,
-                margin:
-                    EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120));
+              title: I18n.of(context).oops,
+              message: newViewModel.verifyErrorMessage,
+              context: context,
+              margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 120),
+            );
             Future.delayed(Duration(seconds: Variables.INTERVAL_SECONDS), () {
               newViewModel.resetErrors();
             });

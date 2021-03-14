@@ -34,6 +34,7 @@ class _SwapScreenState extends State<SwapScreen> {
   TextEditingController tokenOutController = TextEditingController();
   SwapRequestBody swapRequestBody = SwapRequestBody();
   TradeInfo info;
+  TradeInfo rateInfo;
   bool isFetchingPrice = false;
   Token tokenOut;
   Token tokenIn;
@@ -92,7 +93,6 @@ class _SwapScreenState extends State<SwapScreen> {
         tokenOutController.text = '';
         tokenInController.text = '';
       });
-      WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
     };
     try {
       if (value.isNotEmpty) {
@@ -108,7 +108,14 @@ class _SwapScreenState extends State<SwapScreen> {
           swapRequestBody.amountIn,
           swapRequestBody.recipient,
         );
+        TradeInfo rate = await swapService.trade(
+          swapRequestBody.currencyIn,
+          swapRequestBody.currencyOut,
+          '1',
+          swapRequestBody.recipient,
+        );
         setState(() {
+          rateInfo = rate;
           info = tradeInfo;
           isFetchingPrice = false;
         });
@@ -130,7 +137,7 @@ class _SwapScreenState extends State<SwapScreen> {
           topRight: Radius.circular(20.0),
         ),
       ),
-      builder: (BuildContext context) => Container(
+      builder: (_) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.0),
@@ -144,45 +151,45 @@ class _SwapScreenState extends State<SwapScreen> {
               delegate: SliverChildListDelegate(
                 [
                   Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 10),
-                          child: Text(
-                            'Token',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Europa',
-                              fontSize: 22,
-                            ),
-                            softWrap: true,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20, bottom: 10),
+                        child: Text(
+                          I18n.of(context).token,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Europa',
+                            fontSize: 22,
                           ),
+                          softWrap: true,
                         ),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            ListView.separated(
-                              shrinkWrap: true,
-                              primary: false,
-                              separatorBuilder:
-                                  (BuildContext context, int index) => Divider(
-                                height: 0,
-                              ),
-                              itemCount: tokens?.length ?? 0,
-                              itemBuilder: (context, index) => TokenTile(
-                                token: tokens[index],
-                                symbolWidth: 60,
-                                symbolHeight: 60,
-                                showPending: false,
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                  onTap(tokens[index]);
-                                },
-                              ),
+                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListView.separated(
+                            shrinkWrap: true,
+                            primary: false,
+                            separatorBuilder: (_, int index) => Divider(
+                              height: 0,
                             ),
-                          ],
-                        ),
-                      ])
+                            itemCount: tokens?.length ?? 0,
+                            itemBuilder: (context, index) => TokenTile(
+                              token: tokens[index],
+                              symbolWidth: 60,
+                              symbolHeight: 60,
+                              showPending: false,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                onTap(tokens[index]);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -194,6 +201,8 @@ class _SwapScreenState extends State<SwapScreen> {
 
   Widget swapWidgetIcon() {
     return InkWell(
+      focusColor: Theme.of(context).canvasColor,
+      highlightColor: Theme.of(context).canvasColor,
       onTap: () {
         if (this.mounted) {
           Token tokenPayWith = tokenOut.copyWith();
@@ -225,6 +234,8 @@ class _SwapScreenState extends State<SwapScreen> {
   Widget maxButton() {
     return Container(
       child: InkWell(
+        focusColor: Theme.of(context).canvasColor,
+        highlightColor: Theme.of(context).canvasColor,
         onTap: () {
           String max = formatValue(
             tokenOut.amount,
@@ -265,6 +276,10 @@ class _SwapScreenState extends State<SwapScreen> {
         onWillChange: (previousViewModel, newViewModel) {
           if (previousViewModel.tokens != newViewModel.tokens) {
             setState(() {
+              tokenOutController.text = '';
+              tokenInController.text = '';
+              info = null;
+              rateInfo = null;
               tokenOut = newViewModel.tokens[0];
               tokenIn = newViewModel.tokens[1];
               swapRequestBody = swapRequestBody.copyWith(
@@ -282,6 +297,8 @@ class _SwapScreenState extends State<SwapScreen> {
             final bool hasFund =
                 (tokenOut != null && tokenOut.amount > BigInt.zero);
             return InkWell(
+              focusColor: Theme.of(context).canvasColor,
+              highlightColor: Theme.of(context).canvasColor,
               onTap: () {
                 WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
               },
@@ -367,6 +384,7 @@ class _SwapScreenState extends State<SwapScreen> {
                           onPressed: () {
                             ExtendedNavigator.named('swapRouter')
                                 .pushReviewSwapScreen(
+                              rateInfo: rateInfo,
                               swapRequestBody: swapRequestBody,
                               tradeInfo: info,
                             );

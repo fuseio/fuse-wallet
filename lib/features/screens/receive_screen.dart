@@ -42,7 +42,7 @@ class ReceiveScreen extends StatelessWidget {
                     I18n.of(context).scan_to_receive,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 20,
                     ),
                   ),
                 ),
@@ -64,7 +64,7 @@ class ReceiveScreen extends StatelessWidget {
                         softWrap: true,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                         ),
                       ),
                     ),

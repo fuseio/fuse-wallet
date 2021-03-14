@@ -27,7 +27,9 @@ class Feed extends StatelessWidget {
               height: MediaQuery.of(context).size.height * .59,
               child: Column(
                 children: <Widget>[
-                  DepositBanner(),
+                  viewModel.showDepositBanner
+                      ? DepositBanner()
+                      : SizedBox.shrink(),
                   Expanded(
                     child: ListView.separated(
                       shrinkWrap: true,
@@ -47,7 +49,7 @@ class Feed extends StatelessWidget {
                         action: viewModel.walletActions[index],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

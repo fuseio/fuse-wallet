@@ -23,7 +23,7 @@ class Transaction extends Equatable {
 
   String getText() => text;
 
-  bool isFiatProccesing() => false;
+  bool isFiatProcessing() => false;
 
   @override
   List<Object> get props => [txHash, status, timestamp, failReason, jobId];

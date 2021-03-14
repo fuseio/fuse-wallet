@@ -18,7 +18,7 @@ class _$ProWalletStateTearOff {
 
 // ignore: unused_element
   _ProWalletState call(
-      {@JsonKey(fromJson: etherBalanceFromJson)
+      {@JsonKey(fromJson: balanceFromJson)
           BigInt etherBalance,
       @JsonKey(fromJson: erc20TokensFromJson)
           Map<String, Token> erc20Tokens = const {},
@@ -61,7 +61,7 @@ const $ProWalletState = _$ProWalletStateTearOff();
 
 /// @nodoc
 mixin _$ProWalletState {
-  @JsonKey(fromJson: etherBalanceFromJson)
+  @JsonKey(fromJson: balanceFromJson)
   BigInt get etherBalance;
   @JsonKey(fromJson: erc20TokensFromJson)
   Map<String, Token> get erc20Tokens;
@@ -91,7 +91,7 @@ abstract class $ProWalletStateCopyWith<$Res> {
           ProWalletState value, $Res Function(ProWalletState) then) =
       _$ProWalletStateCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(fromJson: etherBalanceFromJson) BigInt etherBalance,
+      {@JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
       @JsonKey(fromJson: erc20TokensFromJson) Map<String, Token> erc20Tokens,
       @JsonKey(ignore: true) bool isFetchTransferEvents,
       @JsonKey(ignore: true) bool isListenToTransferEvents,
@@ -163,7 +163,7 @@ abstract class _$ProWalletStateCopyWith<$Res>
       __$ProWalletStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(fromJson: etherBalanceFromJson) BigInt etherBalance,
+      {@JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
       @JsonKey(fromJson: erc20TokensFromJson) Map<String, Token> erc20Tokens,
       @JsonKey(ignore: true) bool isFetchTransferEvents,
       @JsonKey(ignore: true) bool isListenToTransferEvents,
@@ -234,7 +234,7 @@ class __$ProWalletStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_ProWalletState extends _ProWalletState {
   _$_ProWalletState(
-      {@JsonKey(fromJson: etherBalanceFromJson) this.etherBalance,
+      {@JsonKey(fromJson: balanceFromJson) this.etherBalance,
       @JsonKey(fromJson: erc20TokensFromJson) this.erc20Tokens = const {},
       @JsonKey(ignore: true) this.isFetchTransferEvents = false,
       @JsonKey(ignore: true) this.isListenToTransferEvents = false,
@@ -257,7 +257,7 @@ class _$_ProWalletState extends _ProWalletState {
       _$_$_ProWalletStateFromJson(json);
 
   @override
-  @JsonKey(fromJson: etherBalanceFromJson)
+  @JsonKey(fromJson: balanceFromJson)
   final BigInt etherBalance;
   @override
   @JsonKey(fromJson: erc20TokensFromJson)
@@ -354,7 +354,7 @@ class _$_ProWalletState extends _ProWalletState {
 abstract class _ProWalletState extends ProWalletState {
   _ProWalletState._() : super._();
   factory _ProWalletState(
-      {@JsonKey(fromJson: etherBalanceFromJson) BigInt etherBalance,
+      {@JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
       @JsonKey(fromJson: erc20TokensFromJson) Map<String, Token> erc20Tokens,
       @JsonKey(ignore: true) bool isFetchTransferEvents,
       @JsonKey(ignore: true) bool isListenToTransferEvents,
@@ -368,7 +368,7 @@ abstract class _ProWalletState extends ProWalletState {
       _$_ProWalletState.fromJson;
 
   @override
-  @JsonKey(fromJson: etherBalanceFromJson)
+  @JsonKey(fromJson: balanceFromJson)
   BigInt get etherBalance;
   @override
   @JsonKey(fromJson: erc20TokensFromJson)

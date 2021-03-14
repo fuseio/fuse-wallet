@@ -74,6 +74,8 @@ class BusinessesListView extends StatelessWidget {
             constraints: BoxConstraints(maxHeight: 140),
             padding: EdgeInsets.all(10),
             child: InkWell(
+              focusColor: Theme.of(context).canvasColor,
+              highlightColor: Theme.of(context).canvasColor,
               onTap: () {
                 ExtendedNavigator.root.pushWebview(
                     withBack: true, url: vm.walletBanner.link, title: '');

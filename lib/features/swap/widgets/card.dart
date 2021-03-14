@@ -1,3 +1,4 @@
+import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/tokens/token.dart';
 import 'package:flutter/material.dart';
 
@@ -51,24 +52,36 @@ class TradeCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: onTap,
-                          child: Row(
-                            children: [
-                              Text(
-                                token?.symbol ?? '',
-                                style: TextStyle(fontSize: 27),
-                              ),
-                              Icon(Icons.arrow_drop_down)
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          InkWell(
+                            focusColor: Theme.of(context).canvasColor,
+                            highlightColor: Theme.of(context).canvasColor,
+                            onTap: onTap,
+                            child: Row(
+                              children: [
+                                Text(
+                                  token?.symbol ?? '',
+                                  style: TextStyle(fontSize: 27),
+                                ),
+                                Icon(Icons.arrow_drop_down)
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      useMaxWidget != null
+                          ? Text(
+                              token.getBalance() +
+                                  ' ' +
+                                  I18n.of(context).available,
+                            )
+                          : SizedBox.shrink(),
+                    ],
                   ),
                 ),
                 Flexible(

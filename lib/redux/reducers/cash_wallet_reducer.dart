@@ -41,18 +41,18 @@ final cashWalletReducers = combineReducers<CashWalletState>([
       _branchCommunityToUpdate),
   TypedReducer<CashWalletState, SetIsTransfersFetching>(
       _setIsTransfersFetching),
-  TypedReducer<CashWalletState, InviteSendSuccess>(_inviteSendSuccess),
+  // TypedReducer<CashWalletState, InviteSendSuccess>(_inviteSendSuccess),
   TypedReducer<CashWalletState, CreateLocalAccountSuccess>(
       _createNewWalletSuccess),
-  TypedReducer<CashWalletState, ReplaceTransaction>(_replaceTransfer),
-  TypedReducer<CashWalletState, AddTransaction>(_addTransaction),
+  // TypedReducer<CashWalletState, ReplaceTransaction>(_replaceTransfer),
+  // TypedReducer<CashWalletState, AddTransaction>(_addTransaction),
   TypedReducer<CashWalletState, StartFetchingBusinessList>(
       _startFetchingBusinessList),
   TypedReducer<CashWalletState, FetchingBusinessListSuccess>(
       _fetchingBusinessListSuccess),
   TypedReducer<CashWalletState, FetchingBusinessListFailed>(
       _fetchingBusinessListFailed),
-  TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted),
+  // TypedReducer<CashWalletState, SetIsJobProcessing>(_jobProcessingStarted),
   TypedReducer<CashWalletState, SetIsFetchingBalances>(_setIsFetchingBalances)
 ]);
 
@@ -307,43 +307,43 @@ CashWalletState _setIsTransfersFetching(
   return state.copyWith(isTransfersFetchingStarted: action.isFetching);
 }
 
-CashWalletState _addTransaction(CashWalletState state, AddTransaction action) {
-  final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[tokenAddress] ?? Token(address: tokenAddress);
+// CashWalletState _addTransaction(CashWalletState state, AddTransaction action) {
+//   final String tokenAddress = action.tokenAddress;
+//   Token current = state.tokens[tokenAddress] ?? Token(address: tokenAddress);
 
-  Transaction saved = current?.transactions?.list?.firstWhere(
-      (tx) => tx.jobId != null && tx.jobId == action.transaction.jobId,
-      orElse: () => null);
-  Transactions transactions;
-  if (saved == null) {
-    transactions = current?.transactions?.copyWith(
-        list: (current?.transactions?.list ?? [])..add(action.transaction));
-  } else {
-    if (action.transaction.isPending()) {
-      return state;
-    }
-    int index = (current?.transactions?.list ?? [])?.indexOf(saved);
-    transactions = current.transactions.copyWith();
-    transactions.list[index] = action.transaction;
-  }
-  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  newOne[tokenAddress] = current?.copyWith(transactions: transactions);
-  return state.copyWith(tokens: newOne);
-}
+//   Transaction saved = current?.transactions?.list?.firstWhere(
+//       (tx) => tx.jobId != null && tx.jobId == action.transaction.jobId,
+//       orElse: () => null);
+//   Transactions transactions;
+//   if (saved == null) {
+//     transactions = current?.transactions?.copyWith(
+//         list: (current?.transactions?.list ?? [])..add(action.transaction));
+//   } else {
+//     if (action.transaction.isPending()) {
+//       return state;
+//     }
+//     int index = (current?.transactions?.list ?? [])?.indexOf(saved);
+//     transactions = current.transactions.copyWith();
+//     transactions.list[index] = action.transaction;
+//   }
+//   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+//   newOne[tokenAddress] = current?.copyWith(transactions: transactions);
+//   return state.copyWith(tokens: newOne);
+// }
 
-CashWalletState _inviteSendSuccess(
-    CashWalletState state, InviteSendSuccess action) {
-  Token current = state.tokens[action.tokenAddress];
-  dynamic invites = Map.from(current.transactions.invites);
-  invites[action.invite.jobId] = action.invite;
-  Token newCommunity = current.copyWith(
-      transactions: current.transactions.copyWith(
-          invites: invites,
-          list: List.from(current.transactions.list)..add(action.invite)));
-  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  newOne[action.tokenAddress] = newCommunity;
-  return state.copyWith(tokens: newOne);
-}
+// CashWalletState _inviteSendSuccess(
+//     CashWalletState state, InviteSendSuccess action) {
+//   Token current = state.tokens[action.tokenAddress];
+//   dynamic invites = Map.from(current.transactions.invites);
+//   invites[action.invite.jobId] = action.invite;
+//   Token newCommunity = current.copyWith(
+//       transactions: current.transactions.copyWith(
+//           invites: invites,
+//           list: List.from(current.transactions.list)..add(action.invite)));
+//   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+//   newOne[action.tokenAddress] = newCommunity;
+//   return state.copyWith(tokens: newOne);
+// }
 
 CashWalletState _createNewWalletSuccess(
     CashWalletState state, CreateLocalAccountSuccess action) {
@@ -353,36 +353,36 @@ CashWalletState _createNewWalletSuccess(
   );
 }
 
-CashWalletState _replaceTransfer(
-    CashWalletState state, ReplaceTransaction action) {
-  final String tokenAddress = action.tokenAddress;
-  Token current = state.tokens[tokenAddress];
-  List<Transaction> oldTxs = List<Transaction>.from(current.transactions.list
-      .where((tx) =>
-          (tx.jobId != null && tx.jobId == action.transaction.jobId) ||
-          (tx.txHash != null && tx.txHash == action.transaction.txHash) ||
-          (tx.jobId != null && tx.jobId == action.transactionToReplace.jobId) ||
-          (tx.txHash != null &&
-              tx.txHash == action.transactionToReplace.txHash)));
-  if (oldTxs.isEmpty) {
-    return state;
-  }
-  int index = current.transactions.list.indexOf(oldTxs[0]);
-  current.transactions.list[index] = action.transactionToReplace;
-  oldTxs.removeAt(0);
-  current.transactions.list.removeWhere((tx) => oldTxs.contains(tx));
-  Token newToken = current.copyWith(
-      transactions:
-          current.transactions.copyWith(list: current.transactions.list));
-  Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
-  newOne[tokenAddress] = newToken;
-  return state.copyWith(tokens: newOne);
-}
+// CashWalletState _replaceTransfer(
+//     CashWalletState state, ReplaceTransaction action) {
+//   final String tokenAddress = action.tokenAddress;
+//   Token current = state.tokens[tokenAddress];
+//   List<Transaction> oldTxs = List<Transaction>.from(current.transactions.list
+//       .where((tx) =>
+//           (tx.jobId != null && tx.jobId == action.transaction.jobId) ||
+//           (tx.txHash != null && tx.txHash == action.transaction.txHash) ||
+//           (tx.jobId != null && tx.jobId == action.transactionToReplace.jobId) ||
+//           (tx.txHash != null &&
+//               tx.txHash == action.transactionToReplace.txHash)));
+//   if (oldTxs.isEmpty) {
+//     return state;
+//   }
+//   int index = current.transactions.list.indexOf(oldTxs[0]);
+//   current.transactions.list[index] = action.transactionToReplace;
+//   oldTxs.removeAt(0);
+//   current.transactions.list.removeWhere((tx) => oldTxs.contains(tx));
+//   Token newToken = current.copyWith(
+//       transactions:
+//           current.transactions.copyWith(list: current.transactions.list));
+//   Map<String, Token> newOne = Map<String, Token>.from(state.tokens);
+//   newOne[tokenAddress] = newToken;
+//   return state.copyWith(tokens: newOne);
+// }
 
-CashWalletState _jobProcessingStarted(
-    CashWalletState state, SetIsJobProcessing action) {
-  return state.copyWith(isJobProcessingStarted: action.isFetching);
-}
+// CashWalletState _jobProcessingStarted(
+//     CashWalletState state, SetIsJobProcessing action) {
+//   return state.copyWith(isJobProcessingStarted: action.isFetching);
+// }
 
 CashWalletState _setIsFetchingBalances(
     CashWalletState state, SetIsFetchingBalances action) {

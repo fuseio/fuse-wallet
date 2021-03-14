@@ -155,9 +155,10 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        // mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           InkWell(
+            focusColor: Theme.of(context).canvasColor,
+            highlightColor: Theme.of(context).canvasColor,
             onTap: () {
               ExtendedNavigator.root.pop();
               ExtendedNavigator.named('homeRouter').pushProfileScreen();

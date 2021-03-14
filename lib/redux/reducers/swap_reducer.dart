@@ -4,7 +4,14 @@ import 'package:redux/redux.dart';
 
 final swapReducers = combineReducers<SwapState>([
   TypedReducer<SwapState, FetchTokenList>(_fetchTokenList),
+  TypedReducer<SwapState, ResetTokenList>(_resetTokenList),
 ]);
+
+SwapState _resetTokenList(SwapState state, ResetTokenList action) {
+  return SwapState(
+    tokensList: [],
+  );
+}
 
 SwapState _fetchTokenList(SwapState state, FetchTokenList action) {
   return (state ?? SwapState())?.copyWith(

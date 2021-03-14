@@ -3,8 +3,8 @@ import 'package:flutter_segment/flutter_segment.dart';
 import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fusecash/features/home/screens/set_up_pincode.dart';
 import 'package:fusecash/redux/actions/user_actions.dart';
-import 'package:fusecash/features/home/screens/pincode.dart';
 import 'package:fusecash/utils/biometric_local_auth.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:redux/redux.dart';
@@ -21,7 +21,7 @@ class SecurityScreen extends StatefulWidget {
 class _SecurityScreenState extends State<SecurityScreen> {
   BiometricAuth _biometricType;
 
-  Future<void> _checkBiometricable() async {
+  Future<void> _checkBiometrical() async {
     _biometricType = await BiometricUtils.getAvailableBiometrics();
     if (_biometricType != BiometricAuth.none) {
       setState(() {
@@ -32,7 +32,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
 
   @override
   void initState() {
-    _checkBiometricable();
+    _checkBiometrical();
     super.initState();
   }
 
@@ -88,6 +88,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               InkWell(
+                                focusColor: Theme.of(context).canvasColor,
                                 highlightColor: Theme.of(context).canvasColor,
                                 child: Container(
                                     height: 60,
@@ -169,6 +170,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                 height: 30,
                               ),
                               InkWell(
+                                focusColor: Theme.of(context).canvasColor,
                                 highlightColor: Theme.of(context).canvasColor,
                                 child: Container(
                                   height: 60,
@@ -200,17 +202,17 @@ class _SecurityScreenState extends State<SecurityScreen> {
                                 ),
                                 onTap: () {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => PincodeScreen(
-                                                onSuccess: () {
-                                                  ExtendedNavigator.root
-                                                      .popUntilRoot();
-                                                  ExtendedNavigator.root
-                                                      .replace(
-                                                          Routes.homeScreen);
-                                                },
-                                              )));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SetUpPinCodeScreen(
+                                        onSuccess: () {
+                                          ExtendedNavigator.root.popUntilRoot();
+                                          ExtendedNavigator.root
+                                              .replace(Routes.homeScreen);
+                                        },
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                               SizedBox(

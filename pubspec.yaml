@@ -4,14 +4,15 @@ description: Cross platform mobile Ethereum wallet.
 environment:
   sdk: ">=2.7.0 <3.0.0"
 dependencies:
+  numeric_keyboard: ^1.0.1
   pin_code_fields: ^6.1.0
   flex_color_scheme: ^1.4.1
   freezed_annotation: ^0.12.0
   pretty_dio_logger: ^1.1.1
   get_it: ^5.0.6
-  injectable: ^1.0.7
+  injectable: ^1.1.2
   dio: ^3.0.10
-  smooth_page_indicator: ^0.2.0
+  smooth_page_indicator: ^0.2.1
   font_awesome_flutter: ^8.10.0
   flushbar: ^1.10.4
   flutter_platform_widgets: ^0.71.0
@@ -41,13 +42,12 @@ dependencies:
   #   path: ../wallet_core
   wallet_core:
     git:
-        url: https://github.com/fuseio/wallet_core.git
-        ref: next
+      url: https://github.com/fuseio/wallet_core.git
+      ref: next
   barcode_scan: ^3.0.1
   flutter_slidable: ^0.5.7
   contacts_service: ^0.4.6
   permission_handler: ^5.0.1+1
-  virtual_keyboard: ^0.1.4
   qr_flutter: ^3.2.0
   logger: ^0.9.4
   json_annotation: ^3.1.1
@@ -86,6 +86,7 @@ flutter:
     - environment/.env_qa
     - assets/
     - assets/images/
+    - assets/fonts/
   fonts:
     - family: Europa
       fonts:

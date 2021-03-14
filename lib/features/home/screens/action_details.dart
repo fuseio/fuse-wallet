@@ -6,6 +6,7 @@ import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/actions/wallet_action.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/widgets/snackbars.dart';
 
 class ActionDetailsScreen extends StatelessWidget {
   final String accountAddress;
@@ -111,18 +112,15 @@ class ActionDetailsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .3,
-                        child: Text(name),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .3,
-                        child: Row(
+                  Container(
+                    padding: EdgeInsets.only(left: 40, right: 40),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Text(name),
+                        Row(
                           children: <Widget>[
                             Hero(
                               child: CircleAvatar(
@@ -132,24 +130,22 @@ class ActionDetailsScreen extends StatelessWidget {
                               ),
                               tag: action.hashCode,
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Text(
-                                  displayName,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondaryVariant,
-                                  ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(
+                                displayName,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .secondaryVariant,
                                 ),
                               ),
                             )
                           ],
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 25, bottom: 25),
@@ -168,14 +164,7 @@ class ActionDetailsScreen extends StatelessWidget {
                           text: accountAddress,
                         ),
                       );
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            I18n.of(context).copied_to_clipboard,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      );
+                      showCopiedFlushbar(context);
                     },
                   ),
                   Padding(
@@ -211,20 +200,13 @@ class ActionDetailsScreen extends StatelessWidget {
                       ? SizedBox.shrink()
                       : rowItem(
                           context,
-                          'Txn',
+                          I18n.of(context).txn,
                           formatAddress(action?.txHash),
                           withCopy: true,
                           onTap: () {
                             Clipboard.setData(
                                 ClipboardData(text: action?.txHash));
-                            Scaffold.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  I18n.of(context).copied_to_clipboard,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            );
+                            showCopiedFlushbar(context);
                           },
                         )
                 ],
@@ -244,18 +226,17 @@ class ActionDetailsScreen extends StatelessWidget {
     bool withCopy = false,
   }) {
     if (withCopy) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .3,
-            child: Text(title),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .3,
-            child: InkWell(
+      return Container(
+        padding: EdgeInsets.only(left: 40, right: 40),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Text(title),
+            InkWell(
+              focusColor: Theme.of(context).canvasColor,
+              highlightColor: Theme.of(context).canvasColor,
               onTap: onTap,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -273,30 +254,27 @@ class ActionDetailsScreen extends StatelessWidget {
                   )
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       );
     } else {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .3,
-            child: Text(title),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .3,
-            child: Text(
+      return Container(
+        padding: EdgeInsets.only(left: 40, right: 40),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Text(title),
+            Text(
               value,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.secondaryVariant,
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       );
     }
   }

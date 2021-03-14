@@ -784,6 +784,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+  numeric_keyboard:
+    dependency: "direct main"
+    description:
+      name: numeric_keyboard
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   octo_image:
     dependency: transitive
     description:
@@ -1082,7 +1089,7 @@ packages:
       name: smooth_page_indicator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.1"
   source_gen:
     dependency: transitive
     description:
@@ -1237,19 +1244,12 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.3"
-  virtual_keyboard:
-    dependency: "direct main"
-    description:
-      name: virtual_keyboard
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.4"
   wallet_core:
     dependency: "direct main"
     description:
       path: "."
       ref: next
-      resolved-ref: "583f91b07a46cfa4c6c46b6e65c0e2ac3f4e4363"
+      resolved-ref: "911363481f135ff310f829ae7103807357da7c7f"
       url: "https://github.com/fuseio/wallet_core.git"
     source: git
     version: "0.2.5+1"

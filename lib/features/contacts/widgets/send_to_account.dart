@@ -21,6 +21,8 @@ class SendToAccount extends StatelessWidget {
             sendToPastedAddress(accountAddress);
           },
           trailing: InkWell(
+            focusColor: Theme.of(context).canvasColor,
+            highlightColor: Theme.of(context).canvasColor,
             child: Text(
               I18n.of(context).next_button,
               style: TextStyle(color: Color(0xFF0377FF)),

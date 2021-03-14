@@ -34,12 +34,16 @@ class TokenHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
-                      child: Icon(PlatformIcons(context).back))),
+                focusColor: Theme.of(context).canvasColor,
+                highlightColor: Theme.of(context).canvasColor,
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(top: 35, bottom: 35, right: 35),
+                  child: Icon(PlatformIcons(context).back),
+                ),
+              ),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -109,6 +113,8 @@ class TokenHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   InkWell(
+                    focusColor: Theme.of(context).canvasColor,
+                    highlightColor: Theme.of(context).canvasColor,
                     child: SvgPicture.asset(
                       'assets/images/$logo',
                     ),

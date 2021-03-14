@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fusecash/generated/i18n.dart';
+import 'package:fusecash/widgets/snackbars.dart';
 
 class CopyToClipboard extends StatelessWidget {
   CopyToClipboard({this.context, this.content, this.textColor});
@@ -11,24 +12,27 @@ class CopyToClipboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      focusColor: Theme.of(context).canvasColor,
+      highlightColor: Theme.of(context).canvasColor,
       child: Text(
         I18n.of(context).copy_to_clipboard,
         style: TextStyle(
           color: this.textColor ?? Theme.of(context).colorScheme.onSurface,
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: FontWeight.w500,
         ),
       ),
       onTap: () async {
         Clipboard.setData(ClipboardData(text: content));
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              I18n.of(context).copied_to_clipboard,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        );
+        showCopiedFlushbar(context);
+        // Scaffold.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text(
+        //       I18n.of(context).copied_to_clipboard,
+        //       textAlign: TextAlign.center,
+        //     ),
+        //   ),
+        // );
       },
     );
   }

@@ -15,12 +15,12 @@ import 'package:fusecash/redux/viewsmodels/onboard.dart';
 import 'package:fusecash/widgets/snackbars.dart';
 import 'package:phone_number/phone_number.dart';
 
-class SignupScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final fullNameController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
@@ -57,7 +57,6 @@ class _SignupScreenState extends State<SignupScreen> {
       showErrorSnack(
         message: I18n.of(context).invalid_number,
         title: I18n.of(context).something_went_wrong,
-        duration: Duration(seconds: 3),
         context: context,
         margin: EdgeInsets.only(
           top: 8,
@@ -101,10 +100,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   Material(
                     color: Colors.transparent,
                     child: InkWell(
+                      focusColor: Theme.of(context).canvasColor,
+                      highlightColor: Theme.of(context).canvasColor,
                       onTap: () {
                         showDialog(
                           context: context,
-                          builder: (BuildContext context) => SignupDialog(),
+                          builder: (BuildContext context) => SignUpDialog(),
                         );
                         Segment.track(
                             eventName:
@@ -255,7 +256,6 @@ class _SignupScreenState extends State<SignupScreen> {
                               showErrorSnack(
                                 title: I18n.of(context).oops,
                                 message: newViewModel.signupErrorMessage,
-                                duration: Duration(seconds: 3),
                                 context: context,
                                 margin: EdgeInsets.only(
                                     top: 8, right: 8, left: 8, bottom: 120),

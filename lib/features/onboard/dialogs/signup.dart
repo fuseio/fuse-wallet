@@ -4,20 +4,20 @@ import 'dart:core';
 
 import 'package:fusecash/widgets/primary_button.dart';
 
-class SignupDialog extends StatefulWidget {
-  SignupDialog();
+class SignUpDialog extends StatefulWidget {
+  SignUpDialog();
 
   @override
-  createState() => new SignupDialogState();
+  createState() => new SignUpDialogState();
 }
 
-class SignupDialogState extends State<SignupDialog>
+class SignUpDialogState extends State<SignUpDialog>
     with SingleTickerProviderStateMixin {
-  SignupDialogState();
+  SignUpDialogState();
 
   AnimationController controller;
   Animation<double> opacityAnimation;
-  Animation<double> scaleAnimatoin;
+  Animation<double> scaleAnimation;
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class SignupDialogState extends State<SignupDialog>
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     opacityAnimation = Tween<double>(begin: 0.0, end: 0.4).animate(
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn));
-    scaleAnimatoin =
+    scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
     controller.addListener(() {
@@ -46,7 +46,7 @@ class SignupDialogState extends State<SignupDialog>
   @override
   Widget build(BuildContext _context) {
     return ScaleTransition(
-      scale: scaleAnimatoin,
+      scale: scaleAnimation,
       child: AlertDialog(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
@@ -92,6 +92,8 @@ class SignupDialogState extends State<SignupDialog>
                     ),
                   ),
                   InkWell(
+                    focusColor: Theme.of(context).canvasColor,
+                    highlightColor: Theme.of(context).canvasColor,
                     onTap: () {
                       // TODO - link to privacy policy
                     },

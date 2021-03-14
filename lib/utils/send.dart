@@ -94,6 +94,7 @@ void sendToPastedAddress(accountAddress) {
   ExtendedNavigator.root.pushSendAmountScreen(
     pageArgs: SendAmountArguments(
       accountAddress: accountAddress,
+      avatar: AssetImage('assets/images/anom.png'),
       name: formatAddress(accountAddress),
     ),
   );
@@ -138,11 +139,14 @@ void barcodeScannerHandler(context) async {
       titleText: Text(
         I18n.of(context).error,
         style: TextStyle(
-            fontSize: 16.0, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.bold),
+            fontSize: 16.0,
+            color: Theme.of(context).colorScheme.onSurface,
+            fontWeight: FontWeight.bold),
       ),
       messageText: Text(
         I18n.of(context).invalid_qa_code,
-        style: TextStyle(fontSize: 14.0, color: Theme.of(context).colorScheme.onSurface),
+        style: TextStyle(
+            fontSize: 14.0, color: Theme.of(context).colorScheme.onSurface),
       ),
       backgroundColor: Theme.of(context).bottomAppBarColor,
       margin: EdgeInsets.only(top: 8, right: 8, left: 8, bottom: 100),

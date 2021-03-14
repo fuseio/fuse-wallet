@@ -32,6 +32,8 @@ class _CommunityCardScreenState extends State<SelectedCommunityCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+        focusColor: Theme.of(context).canvasColor,
+        highlightColor: Theme.of(context).canvasColor,
         onTap: () {
           widget.switchCommunity(widget?.community?.address);
           Navigator.of(context).pop();
@@ -86,7 +88,8 @@ class _CommunityCardScreenState extends State<SelectedCommunityCard> {
                           width: 70,
                           height: 70,
                           decoration: BoxDecoration(
-                              color: Theme.of(context).canvasColor, shape: BoxShape.circle),
+                              color: Theme.of(context).canvasColor,
+                              shape: BoxShape.circle),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,

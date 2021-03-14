@@ -19,9 +19,11 @@ class TransparentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Material(
-      child: new InkWell(
-        highlightColor: Colors.transparent,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        focusColor: Theme.of(context).canvasColor,
+        highlightColor: Theme.of(context).canvasColor,
         onTap: onPressed,
         child: (preload == null || preload == false)
             ? Container(
@@ -35,7 +37,7 @@ class TransparentButton extends StatelessWidget {
             : Container(
                 child: CircularProgressIndicator(
                   strokeWidth: 3,
-                  valueColor: new AlwaysStoppedAnimation<Color>(
+                  valueColor: AlwaysStoppedAnimation<Color>(
                     Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
@@ -44,7 +46,6 @@ class TransparentButton extends StatelessWidget {
                 margin: EdgeInsets.only(left: 28, right: 28),
               ),
       ),
-      color: Colors.transparent,
     );
   }
 }

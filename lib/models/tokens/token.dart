@@ -6,6 +6,7 @@ import 'package:fusecash/services.dart';
 import 'package:fusecash/services/apis/market.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:wallet_core/wallet_core.dart' show EtherAmount, Web3;
 
 part 'token.freezed.dart';
 part 'token.g.dart';
@@ -22,6 +23,7 @@ abstract class Token implements _$Token {
   factory Token({
     String address,
     String name,
+    @Default(false) bool isNative,
     String symbol,
     String imageUrl,
     int decimals,
@@ -43,21 +45,22 @@ abstract class Token implements _$Token {
   }) async {
     if ([null, ''].contains(accountAddress) ||
         [null, ''].contains(this.address)) return;
-    if (originNetwork == null) {
+    if (this.isNative != null && this.isNative == true) {
+      Web3 web3 = this.originNetwork == 'fuse' ? fuseWeb3 : ethereumWeb3;
       try {
-        final BigInt balance = await ethereumWeb3.getTokenBalance(
-          this.address,
+        EtherAmount balance = await web3.getBalance(
           address: accountAddress,
         );
-        if (this.amount?.compareTo(balance) != 0) {
-          onDone(balance);
+        if (this.amount?.compareTo(balance.getInWei) != 0) {
+          onDone(balance.getInWei);
         }
       } catch (e, s) {
         onError(e, s);
       }
     } else {
       try {
-        final BigInt balance = await fuseWeb3.getTokenBalance(
+        Web3 web3 = originNetwork == null ? ethereumWeb3 : fuseWeb3;
+        final BigInt balance = await web3.getTokenBalance(
           this.address,
           address: accountAddress,
         );

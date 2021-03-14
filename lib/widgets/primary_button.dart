@@ -32,13 +32,13 @@ class PrimaryButton extends StatelessWidget {
       height: height ?? 50.0,
       decoration: BoxDecoration(
         color: bgColor ?? Theme.of(context).colorScheme.primary,
-        borderRadius: new BorderRadius.all(new Radius.circular(11.0)),
+        borderRadius: BorderRadius.all(Radius.circular(11.0)),
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: disabled ? () {} : onPressed,
-          borderRadius: new BorderRadius.all(new Radius.circular(30.0)),
+          borderRadius: BorderRadius.all(Radius.circular(30.0)),
           highlightColor:
               Theme.of(context).scaffoldBackgroundColor.withOpacity(0.3),
           splashColor:
@@ -58,7 +58,7 @@ class PrimaryButton extends StatelessWidget {
                 : Container(
                     child: CircularProgressIndicator(
                       strokeWidth: 3,
-                      valueColor: new AlwaysStoppedAnimation<Color>(
+                      valueColor: AlwaysStoppedAnimation<Color>(
                         Theme.of(context).colorScheme.onSurface,
                       ),
                     ),

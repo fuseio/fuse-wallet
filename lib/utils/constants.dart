@@ -1,4 +1,21 @@
+import 'package:fusecash/constants/addresses.dart';
+import 'package:fusecash/models/tokens/token.dart';
+import 'package:fusecash/models/transactions/transactions.dart';
 import 'package:fusecash/utils/string.dart';
+
+final Token fuseToken = Token(
+  name: 'Fuse',
+  symbol: 'FUSE',
+  imageUrl:
+      'https://assets.coingecko.com/coins/images/10347/small/vUXKHEe.png?1601523640',
+  decimals: 18,
+  address: Addresses.ZERO_ADDRESS,
+  originNetwork: 'fuse',
+  isNative: true,
+  timestamp: 0,
+  transactions: Transactions.initial(),
+  amount: BigInt.zero,
+);
 
 String toShortName(networkType) =>
     networkType == 'mainnet' ? 'main' : networkType;

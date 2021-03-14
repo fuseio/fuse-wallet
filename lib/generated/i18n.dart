@@ -370,6 +370,14 @@ class I18n implements WidgetsLocalizations {
   String get free => "Free";
   /// "Slippage"
   String get slippage => "Slippage";
+  /// "Token"
+  String get token => "Token";
+  /// "available"
+  String get available => "available";
+  /// "(up to 10 seconds)"
+  String get up_to_10 => "(up to 10 seconds)";
+  /// "Txn"
+  String get txn => "Txn";
 }
 
 class _I18n_en_US extends I18n {

@@ -21,10 +21,10 @@ class _LockScreenState extends State<LockScreen> {
   @override
   void initState() {
     super.initState();
-    _checkBiometricable();
+    _checkBiometrical();
   }
 
-  Future<void> _checkBiometricable() async {
+  Future<void> _checkBiometrical() async {
     _biometricType = await BiometricUtils.getAvailableBiometrics();
     if (_biometricType != BiometricAuth.none) {
       setState(() {
@@ -52,7 +52,7 @@ class _LockScreenState extends State<LockScreen> {
           BiometricUtils.getBiometricString(_biometricType),
         );
       } else if (userState?.authType == BiometricAuth.pincode) {
-        ExtendedNavigator.root.replace(Routes.pincode);
+        ExtendedNavigator.root.replace(Routes.pinCodeScreen);
       } else {
         ExtendedNavigator.root.replace(Routes.homeScreen);
       }
@@ -84,8 +84,8 @@ class _LockScreenState extends State<LockScreen> {
             centerTitle: true,
             title: SvgPicture.asset(
               'assets/images/fusecash.svg',
-              width: 143,
-              height: 28,
+              width: 140,
+              // height: 28,
             ),
           ),
           body: Container(
@@ -110,8 +110,8 @@ class _LockScreenState extends State<LockScreen> {
                           children: <Widget>[
                             Image.asset(
                               'assets/images/splash.png',
-                              width: 71,
-                              height: 61,
+                              width: 100,
+                              // height: 130,
                             ),
                           ],
                         ),

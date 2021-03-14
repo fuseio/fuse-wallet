@@ -89,28 +89,28 @@ class SetIsFetchTokensBalances {
   SetIsFetchTokensBalances({this.isFetching});
 }
 
-ThunkAction proTransactionFailed(String tokenAddress, transfer) {
-  return (Store store) async {
-    Transfer failedTx = transfer.copyWith(status: 'FAILED');
-    store.dispatch(new ReplaceProTransaction(
-        tokenAddress: tokenAddress,
-        transactionToReplace: failedTx,
-        transaction: transfer));
-  };
-}
+// ThunkAction proTransactionFailed(String tokenAddress, transfer) {
+//   return (Store store) async {
+//     Transfer failedTx = transfer.copyWith(status: 'FAILED');
+//     store.dispatch(new ReplaceProTransaction(
+//         tokenAddress: tokenAddress,
+//         transactionToReplace: failedTx,
+//         transaction: transfer));
+//   };
+// }
 
-ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddress, transfer) {
-  return (Store store) async {
-    Transfer confirmedTx = transfer.copyWith(
-        status: 'CONFIRMED',
-        txHash: txHash,
-        timestamp: DateTime.now().millisecondsSinceEpoch);
-    store.dispatch(new ReplaceProTransaction(
-        tokenAddress: tokenAddress,
-        transaction: transfer,
-        transactionToReplace: confirmedTx));
-  };
-}
+// ThunkAction sendErc20TokenSuccessCall(txHash, String tokenAddress, transfer) {
+//   return (Store store) async {
+//     Transfer confirmedTx = transfer.copyWith(
+//         status: 'CONFIRMED',
+//         txHash: txHash,
+//         timestamp: DateTime.now().millisecondsSinceEpoch);
+//     store.dispatch(new ReplaceProTransaction(
+//         tokenAddress: tokenAddress,
+//         transaction: transfer,
+//         transactionToReplace: confirmedTx));
+//   };
+// }
 
 ThunkAction startListenToTransferEvents() {
   return (Store store) async {

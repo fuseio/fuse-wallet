@@ -9,7 +9,7 @@ import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 import 'dart:core';
 
-import 'package:fusecash/utils/constans.dart';
+import 'package:fusecash/utils/constants.dart';
 
 class TokenActionsDialog extends StatefulWidget {
   TokenActionsDialog({this.token, this.community, this.logo});
@@ -89,6 +89,8 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                         widget.community == null
                             ? SizedBox.shrink()
                             : InkWell(
+                                focusColor: Theme.of(context).canvasColor,
+                                highlightColor: Theme.of(context).canvasColor,
                                 child: Container(
                                   padding: EdgeInsets.all(10),
                                   width:
@@ -137,6 +139,8 @@ class TokenActionsDialogState extends State<TokenActionsDialog>
                                 ),
                               ),
                         InkWell(
+                          focusColor: Theme.of(context).canvasColor,
+                          highlightColor: Theme.of(context).canvasColor,
                           child: Container(
                             padding: EdgeInsets.all(10),
                             width: MediaQuery.of(context).size.width * .55,

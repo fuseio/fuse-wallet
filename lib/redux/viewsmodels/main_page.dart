@@ -19,7 +19,7 @@ class HomeScreenViewModel extends Equatable {
     this.backup,
     this.isBackupDialogShowed,
     this.setShowDialog,
-    this.getSwapList
+    this.getSwapList,
   });
 
   static HomeScreenViewModel fromStore(Store<AppState> store) {
@@ -37,6 +37,7 @@ class HomeScreenViewModel extends Equatable {
         store.dispatch(ReceiveBackupDialogShowed());
       },
       getSwapList: () {
+        store.dispatch(ResetTokenList());
         store.dispatch(fetchSwapList());
       },
     );

@@ -76,6 +76,8 @@ class _BusinessPageState extends State<BusinessPage> {
                               top: 60,
                               left: 20,
                               child: InkWell(
+                                focusColor: Theme.of(context).canvasColor,
+                                highlightColor: Theme.of(context).canvasColor,
                                 onTap: () {
                                   Navigator.of(context).pop();
                                 },
@@ -173,6 +175,10 @@ class _BusinessPageState extends State<BusinessPage> {
                                               ),
                                             ),
                                             InkWell(
+                                              focusColor:
+                                                  Theme.of(context).canvasColor,
+                                              highlightColor:
+                                                  Theme.of(context).canvasColor,
                                               onTap: () {
                                                 launchUrl(widget
                                                     .business.metadata.website);
@@ -199,6 +205,10 @@ class _BusinessPageState extends State<BusinessPage> {
                                               ),
                                             ),
                                             InkWell(
+                                              focusColor:
+                                                  Theme.of(context).canvasColor,
+                                              highlightColor:
+                                                  Theme.of(context).canvasColor,
                                               child: Text(widget.business
                                                   .metadata.phoneNumber),
                                               onTap: () {

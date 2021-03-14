@@ -7,36 +7,40 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/contacts/send_amount_arguments.dart';
+import '../../features/home/screens/action_details.dart';
 import '../../features/onboard/screens/restore_wallet_screen.dart';
 import '../../features/onboard/screens/security_screen.dart';
 import '../../features/onboard/screens/signup_screen.dart';
 import '../../features/onboard/screens/username_screen.dart';
 import '../../features/onboard/screens/verify_screen.dart';
-import '../../features/screens/colored_pincode_screen.dart';
 import '../../features/screens/home_screen.dart';
 import '../../features/screens/lock_screen.dart';
+import '../../features/screens/pincode_screen.dart';
 import '../../features/screens/send_amount.dart';
 import '../../features/screens/send_review.dart';
 import '../../features/screens/send_success.dart';
 import '../../features/screens/splash_screen.dart';
 import '../../features/screens/unknown_route.dart';
 import '../../features/screens/webview_screen.dart';
+import '../../models/actions/wallet_action.dart';
 import 'route_guards.dart';
 
 class Routes {
   static const String lockScreen = '/';
   static const String securityScreen = '/security-screen';
-  static const String pincode = '/colored-pincode-screen';
+  static const String pinCodeScreen = '/pin-code-screen';
   static const String recoveryPage = '/recovery-page';
   static const String splashScreen = '/splash-screen';
-  static const String signupScreen = '/signup-screen';
+  static const String signUpScreen = '/sign-up-screen';
   static const String verifyScreen = '/verify-screen';
   static const String userNameScreen = '/user-name-screen';
   static const String webview = '/web-view-screen';
   static const String homeScreen = '/main-home-screen';
+  static const String actionDetailsScreen = '/action-details-screen';
   static const String sendAmountScreen = '/send-amount-screen';
   static const String sendReviewScreen = '/send-review-screen';
   static const String sendSuccessScreen = '/send-success-screen';
@@ -44,14 +48,15 @@ class Routes {
   static const all = <String>{
     lockScreen,
     securityScreen,
-    pincode,
+    pinCodeScreen,
     recoveryPage,
     splashScreen,
-    signupScreen,
+    signUpScreen,
     verifyScreen,
     userNameScreen,
     webview,
     homeScreen,
+    actionDetailsScreen,
     sendAmountScreen,
     sendReviewScreen,
     sendSuccessScreen,
@@ -65,14 +70,16 @@ class Router extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.lockScreen, page: LockScreen),
     RouteDef(Routes.securityScreen, page: SecurityScreen),
-    RouteDef(Routes.pincode, page: ColoredPincodeScreen),
+    RouteDef(Routes.pinCodeScreen, page: PinCodeScreen),
     RouteDef(Routes.recoveryPage, page: RecoveryPage),
     RouteDef(Routes.splashScreen, page: SplashScreen),
-    RouteDef(Routes.signupScreen, page: SignupScreen),
+    RouteDef(Routes.signUpScreen, page: SignUpScreen),
     RouteDef(Routes.verifyScreen, page: VerifyScreen),
     RouteDef(Routes.userNameScreen, page: UserNameScreen),
     RouteDef(Routes.webview, page: WebViewScreen),
     RouteDef(Routes.homeScreen, page: MainHomeScreen, guards: [AuthGuard]),
+    RouteDef(Routes.actionDetailsScreen,
+        page: ActionDetailsScreen, guards: [AuthGuard]),
     RouteDef(Routes.sendAmountScreen,
         page: SendAmountScreen, guards: [AuthGuard]),
     RouteDef(Routes.sendReviewScreen,
@@ -96,9 +103,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    ColoredPincodeScreen: (data) {
+    PinCodeScreen: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => ColoredPincodeScreen(),
+        builder: (context) => PinCodeScreen(),
         settings: data,
       );
     },
@@ -114,9 +121,9 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    SignupScreen: (data) {
+    SignUpScreen: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => SignupScreen(),
+        builder: (context) => SignUpScreen(),
         settings: data,
       );
     },
@@ -155,6 +162,22 @@ class Router extends RouterBase {
       );
       return MaterialPageRoute<dynamic>(
         builder: (context) => MainHomeScreen(key: args.key),
+        settings: data,
+      );
+    },
+    ActionDetailsScreen: (data) {
+      final args = data.getArgs<ActionDetailsScreenArguments>(
+        orElse: () => ActionDetailsScreenArguments(),
+      );
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ActionDetailsScreen(
+          action: args.action,
+          image: args.image,
+          displayName: args.displayName,
+          accountAddress: args.accountAddress,
+          symbol: args.symbol,
+          contact: args.contact,
+        ),
         settings: data,
       );
     },
@@ -203,13 +226,13 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushSecurityScreen() => push<dynamic>(Routes.securityScreen);
 
-  Future<dynamic> pushPincode() => push<dynamic>(Routes.pincode);
+  Future<dynamic> pushPinCodeScreen() => push<dynamic>(Routes.pinCodeScreen);
 
   Future<dynamic> pushRecoveryPage() => push<dynamic>(Routes.recoveryPage);
 
   Future<dynamic> pushSplashScreen() => push<dynamic>(Routes.splashScreen);
 
-  Future<dynamic> pushSignupScreen() => push<dynamic>(Routes.signupScreen);
+  Future<dynamic> pushSignUpScreen() => push<dynamic>(Routes.signUpScreen);
 
   Future<dynamic> pushVerifyScreen({
     String verificationId,
@@ -236,6 +259,26 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
       push<dynamic>(
         Routes.homeScreen,
         arguments: MainHomeScreenArguments(key: key),
+        onReject: onReject,
+      );
+
+  Future<dynamic> pushActionDetailsScreen(
+          {WalletAction action,
+          ImageProvider<dynamic> image,
+          String displayName,
+          String accountAddress,
+          String symbol,
+          Contact contact,
+          OnNavigationRejected onReject}) =>
+      push<dynamic>(
+        Routes.actionDetailsScreen,
+        arguments: ActionDetailsScreenArguments(
+            action: action,
+            image: image,
+            displayName: displayName,
+            accountAddress: accountAddress,
+            symbol: symbol,
+            contact: contact),
         onReject: onReject,
       );
 
@@ -289,6 +332,23 @@ class WebViewScreenArguments {
 class MainHomeScreenArguments {
   final Key key;
   MainHomeScreenArguments({this.key});
+}
+
+/// ActionDetailsScreen arguments holder class
+class ActionDetailsScreenArguments {
+  final WalletAction action;
+  final ImageProvider<dynamic> image;
+  final String displayName;
+  final String accountAddress;
+  final String symbol;
+  final Contact contact;
+  ActionDetailsScreenArguments(
+      {this.action,
+      this.image,
+      this.displayName,
+      this.accountAddress,
+      this.symbol,
+      this.contact});
 }
 
 /// SendAmountScreen arguments holder class

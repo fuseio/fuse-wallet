@@ -7,7 +7,7 @@ import 'package:fusecash/generated/i18n.dart';
 void showErrorSnack({
   BuildContext context,
   String title,
-  Duration duration,
+  int duration = 3,
   EdgeInsets margin,
   message,
 }) {
@@ -19,15 +19,18 @@ void showErrorSnack({
           blurRadius: 5,
         ),
       ],
-      duration: duration,
+      duration: Duration(seconds: duration),
       titleText: Text(
         title ?? I18n.of(ExtendedNavigator.root.context).transaction_failed,
         style: TextStyle(
-            fontSize: 16.0, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.bold),
+            fontSize: 16.0,
+            color: Theme.of(context).colorScheme.onSurface,
+            fontWeight: FontWeight.bold),
       ),
       messageText: Text(
         message,
-        style: TextStyle(fontSize: 14.0, color: Theme.of(context).colorScheme.onSurface),
+        style: TextStyle(
+            fontSize: 14.0, color: Theme.of(context).colorScheme.onSurface),
       ),
       backgroundColor:
           Theme.of(ExtendedNavigator.root.context).bottomAppBarColor,
@@ -39,4 +42,29 @@ void showErrorSnack({
         height: 20,
       ))
     ..show(context ?? ExtendedNavigator.named('homeRouter').context);
+}
+
+void showCopiedFlushbar(context) {
+  Flushbar(
+      duration: Duration(seconds: 2),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.grey[500],
+          offset: Offset(0.5, 0.5),
+          blurRadius: 5,
+        ),
+      ],
+      messageText: Text(
+        I18n.of(context).copied_to_clipboard,
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: Theme.of(context).bottomAppBarColor,
+      margin: EdgeInsets.only(
+        top: 8,
+        right: 8,
+        left: 8,
+        bottom: 100,
+      ),
+      borderRadius: 8)
+    ..show(context);
 }

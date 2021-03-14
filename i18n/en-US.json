@@ -167,5 +167,9 @@
     "network_fee": "Network Fee",
     "rate": "Rate",
     "free": "Free",
-    "slippage": "Slippage"
+    "slippage": "Slippage",
+    "token": "Token",
+    "available": "available",
+    "up_to_10": "(up to 10 seconds)",
+    "txn": "Txn"
 }

@@ -12,7 +12,7 @@ import 'package:fusecash/features/contacts/send_amount_arguments.dart';
 import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
-import 'package:virtual_keyboard/virtual_keyboard.dart';
+import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -25,7 +25,7 @@ class SendAmountScreen extends StatefulWidget {
 
 class _SendAmountScreenState extends State<SendAmountScreen>
     with SingleTickerProviderStateMixin {
-  String amountText = "0";
+  String amountText = "";
   AnimationController controller;
   Animation<Offset> offset;
   bool isPreloading = false;
@@ -57,7 +57,7 @@ class _SendAmountScreenState extends State<SendAmountScreen>
           topRight: Radius.circular(20.0),
         ),
       ),
-      builder: (BuildContext context) => Container(
+      builder: (_) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30.0),
@@ -71,29 +71,46 @@ class _SendAmountScreenState extends State<SendAmountScreen>
               delegate: SliverChildListDelegate(
                 [
                   Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListView.separated(
-                        shrinkWrap: true,
-                        primary: false,
-                        padding: EdgeInsets.only(top: 20, bottom: 20),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            Divider(
-                          height: 0,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20, bottom: 10),
+                        child: Text(
+                          I18n.of(context).token,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Europa',
+                            fontSize: 22,
+                          ),
+                          softWrap: true,
                         ),
-                        itemCount: viewModel.tokens?.length ?? 0,
-                        itemBuilder: (context, index) => TokenTile(
-                            token: viewModel.tokens[index],
-                            symbolWidth: 60,
-                            symbolHeight: 60,
-                            showPending: false,
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              setState(() {
-                                amountText = "0";
-                                selectedToken = viewModel.tokens[index];
-                              });
-                            }),
+                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListView.separated(
+                            shrinkWrap: true,
+                            primary: false,
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            separatorBuilder: (_, int index) => Divider(
+                              height: 0,
+                            ),
+                            itemCount: viewModel.tokens?.length ?? 0,
+                            itemBuilder: (context, index) => TokenTile(
+                              token: viewModel.tokens[index],
+                              symbolWidth: 60,
+                              symbolHeight: 60,
+                              showPending: false,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  amountText = "0";
+                                  selectedToken = viewModel.tokens[index];
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -104,6 +121,30 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         ),
       ),
     );
+  }
+
+  _onKeyPress(String value, {bool max = false, bool back = false}) {
+    if (max) {
+      amountText = value;
+    } else if (back) {
+      if (amountText.length == 0) return;
+      amountText = amountText.substring(0, amountText.length - 1);
+    } else {
+      String newAmount = amountText + value;
+      amountText = newAmount;
+    }
+    setState(() {});
+    try {
+      double amount = double.parse(amountText);
+      if (amount > 0 &&
+          selectedToken.amount >= toBigInt(amount, selectedToken.decimals)) {
+        controller.forward();
+      } else {
+        controller.reverse();
+      }
+    } catch (e) {
+      controller.reverse();
+    }
   }
 
   @override
@@ -125,49 +166,6 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        _onKeyPress(VirtualKeyboardKey key, {bool max = false}) {
-          if (key.keyType == VirtualKeyboardKeyType.String) {
-            if (amountText == "0") {
-              amountText = "";
-            }
-            if (max) {
-              amountText = key.text;
-            } else {
-              amountText = amountText + key.text;
-            }
-          } else if (key.keyType == VirtualKeyboardKeyType.Action) {
-            switch (key.action) {
-              case VirtualKeyboardKeyAction.Backspace:
-                if (amountText.length == 0) return;
-                amountText = amountText.substring(0, amountText.length - 1);
-                break;
-              case VirtualKeyboardKeyAction.Return:
-                amountText = amountText + '\n';
-                break;
-              case VirtualKeyboardKeyAction.Space:
-                amountText = amountText + key.text;
-                break;
-              default:
-            }
-          }
-          setState(() {});
-          if (amountText == "") {
-            amountText = "0";
-          }
-          try {
-            double amount = double.parse(amountText);
-            if (amount > 0 &&
-                selectedToken.amount >=
-                    toBigInt(amount, selectedToken.decimals)) {
-              controller.forward();
-            } else {
-              controller.reverse();
-            }
-          } catch (e) {
-            controller.reverse();
-          }
-        }
-
         final BigInt balance = selectedToken?.amount;
         final int decimals = selectedToken?.decimals;
         final num currentTokenBalance =
@@ -190,136 +188,153 @@ class _SendAmountScreenState extends State<SendAmountScreen>
                     Container(
                       height: MediaQuery.of(context).size.height * 0.7,
                       child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 40),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        I18n.of(context).how_much,
-                                        style:
-                                            TextStyle(color: Color(0xFF898989)),
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 40),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      I18n.of(context).how_much,
+                                      style:
+                                          TextStyle(color: Color(0xFF898989)),
+                                    ),
+                                    InkWell(
+                                      focusColor: Theme.of(context).canvasColor,
+                                      highlightColor:
+                                          Theme.of(context).canvasColor,
+                                      onTap: () {
+                                        String maxValue = formatValue(
+                                          selectedToken.amount,
+                                          selectedToken.decimals,
+                                          withPrecision: true,
+                                        );
+                                        if (num.parse(maxValue).compareTo(
+                                                (num.tryParse(amountText) ??
+                                                    0)) !=
+                                            0) {
+                                          _onKeyPress(maxValue, max: true);
+                                        }
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 15),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                          ),
+                                          child: Text(
+                                            I18n.of(context).use_max,
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 40),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: AutoSizeText(
+                                        amountText,
+                                        style: TextStyle(
+                                            fontSize: 40.0,
+                                            fontWeight: FontWeight.bold),
+                                        maxLines: 1,
                                       ),
-                                      InkWell(
-                                        onTap: () {
-                                          String max = formatValue(
-                                              selectedToken.amount,
-                                              selectedToken.decimals,
-                                              withPrecision: true);
-                                          if (num.parse(max).compareTo(
-                                                  num.parse(amountText)) !=
-                                              0) {
-                                            _onKeyPress(
-                                                VirtualKeyboardKey(
-                                                    text: max,
-                                                    keyType:
-                                                        VirtualKeyboardKeyType
-                                                            .String),
-                                                max: true);
-                                          }
-                                        },
-                                        child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 3, horizontal: 15),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10)),
-                                            ),
-                                            child: Text(
-                                              I18n.of(context).use_max,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold),
-                                            )),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    !args.useBridge
+                                        ? InkWell(
+                                            focusColor:
+                                                Theme.of(context).canvasColor,
+                                            highlightColor:
+                                                Theme.of(context).canvasColor,
+                                            onTap: () {
+                                              showBottomMenu(viewModel);
+                                            },
+                                            child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 15,
+                                                    vertical: 5),
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.rectangle,
+                                                    color: Theme.of(context)
+                                                        .backgroundColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      selectedToken?.symbol ??
+                                                          '',
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color(
+                                                              0xFF808080)),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    SvgPicture.asset(
+                                                      'assets/images/dropdown_icon.svg',
+                                                      width: 9,
+                                                      height: 9,
+                                                    )
+                                                  ],
+                                                )),
+                                          )
+                                        : SizedBox.shrink(),
+                                  ],
                                 ),
-                                SizedBox(
-                                  height: 30,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 40, vertical: 20),
+                                child: Divider(
+                                  thickness: 1.5,
                                 ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 40),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: AutoSizeText(
-                                          amountText,
-                                          style: TextStyle(
-                                              fontSize: 40.0,
-                                              fontWeight: FontWeight.bold),
-                                          maxLines: 1,
-                                        ),
-                                      ),
-                                      !args.useBridge
-                                          ? InkWell(
-                                              onTap: () {
-                                                showBottomMenu(viewModel);
-                                              },
-                                              child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 15,
-                                                      vertical: 5),
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.rectangle,
-                                                      color: Theme.of(context)
-                                                          .backgroundColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20)),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        selectedToken?.symbol ??
-                                                            '',
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Color(
-                                                                0xFF808080)),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      SvgPicture.asset(
-                                                        'assets/images/dropdown_icon.svg',
-                                                        width: 9,
-                                                        height: 9,
-                                                      )
-                                                    ],
-                                                  )),
-                                            )
-                                          : SizedBox.shrink(),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 20),
-                                  child: Divider(
-                                    thickness: 1.5,
-                                  ),
-                                ),
-                              ],
+                              ),
+                            ],
+                          ),
+                          NumericKeyboard(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            onKeyboardTap: _onKeyPress,
+                            rightButtonFn: () {
+                              _onKeyPress('', back: true);
+                            },
+                            rightIcon: Icon(
+                              Icons.backspace,
+                              color: Color(0xFF292929),
                             ),
-                            VirtualKeyboard(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.37,
-                                fontSize: 28,
-                                alwaysCaps: true,
-                                type: VirtualKeyboardType.Numeric,
-                                onKeyPress: _onKeyPress),
-                          ]),
+                            leftButtonFn: () {
+                              if (amountText.contains('.')) return;
+                              _onKeyPress('.');
+                            },
+                            leftIcon: Icon(
+                              Icons.fiber_manual_record,
+                              size: 10,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),

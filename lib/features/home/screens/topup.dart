@@ -10,7 +10,6 @@ import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/top_up.dart';
 import 'package:fusecash/widgets/main_scaffold.dart';
 import 'package:fusecash/widgets/primary_button.dart';
-import 'package:virtual_keyboard/virtual_keyboard.dart';
 import 'package:fusecash/common/router/routes.gr.dart';
 
 final List<Item> fiatCurrencies = [
@@ -100,35 +99,35 @@ class _TopupScreenState extends State<TopupScreen>
   //   );
   // }
 
+  // _onKeyPress(VirtualKeyboardKey key) {
+  //   if (key.keyType == VirtualKeyboardKeyType.String) {
+  //     if (amountText == "") {
+  //       amountText = "0";
+  //     }
+  //     if (amountText == "0") {
+  //       amountText = "";
+  //     }
+  //     amountText = amountText + key.text;
+  //   } else if (key.keyType == VirtualKeyboardKeyType.Action) {
+  //     switch (key.action) {
+  //       case VirtualKeyboardKeyAction.Backspace:
+  //         if (amountText.length == 0) return;
+  //         amountText = amountText.substring(0, amountText.length - 1);
+  //         break;
+  //       case VirtualKeyboardKeyAction.Return:
+  //         amountText = amountText + '\n';
+  //         break;
+  //       case VirtualKeyboardKeyAction.Space:
+  //         amountText = amountText + key.text;
+  //         break;
+  //       default:
+  //     }
+  //   }
+  //   setState(() {});
+  // }
+
   @override
   Widget build(BuildContext context) {
-    _onKeyPress(VirtualKeyboardKey key) {
-      if (key.keyType == VirtualKeyboardKeyType.String) {
-        if (amountText == "") {
-          amountText = "0";
-        }
-        if (amountText == "0") {
-          amountText = "";
-        }
-        amountText = amountText + key.text;
-      } else if (key.keyType == VirtualKeyboardKeyType.Action) {
-        switch (key.action) {
-          case VirtualKeyboardKeyAction.Backspace:
-            if (amountText.length == 0) return;
-            amountText = amountText.substring(0, amountText.length - 1);
-            break;
-          case VirtualKeyboardKeyAction.Return:
-            amountText = amountText + '\n';
-            break;
-          case VirtualKeyboardKeyAction.Space:
-            amountText = amountText + key.text;
-            break;
-          default:
-        }
-      }
-      setState(() {});
-    }
-
     return MainScaffold(
       withPadding: true,
       title: I18n.of(context).deposit_your_first_dollars,
@@ -166,6 +165,8 @@ class _TopupScreenState extends State<TopupScreen>
                         ),
                         InkWell(
                           // onTap: showBottomMenu,
+                          focusColor: Theme.of(context).canvasColor,
+                          highlightColor: Theme.of(context).canvasColor,
                           child: Container(
                             padding: EdgeInsets.symmetric(
                               horizontal: 15,
@@ -209,13 +210,13 @@ class _TopupScreenState extends State<TopupScreen>
                   ),
                 ],
               ),
-              VirtualKeyboard(
-                fontSize: 28,
-                alwaysCaps: true,
-                height: MediaQuery.of(context).size.height * 0.3,
-                type: VirtualKeyboardType.Numeric,
-                onKeyPress: _onKeyPress,
-              ),
+              // VirtualKeyboard(
+              //   fontSize: 28,
+              //   alwaysCaps: true,
+              //   height: MediaQuery.of(context).size.height * 0.3,
+              //   type: VirtualKeyboardType.Numeric,
+              //   onKeyPress: _onKeyPress,
+              // ),
             ],
           ),
         )

@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'pro_wallet_state.freezed.dart';
 part 'pro_wallet_state.g.dart';
 
-BigInt etherBalanceFromJson(String etherBalance) =>
+BigInt balanceFromJson(String etherBalance) =>
     etherBalance == null ? BigInt.zero : BigInt.parse(etherBalance);
 
 Map<String, Token> erc20TokensFromJson(Map<String, dynamic> json) =>
@@ -22,7 +22,7 @@ abstract class ProWalletState implements _$ProWalletState {
 
   @JsonSerializable()
   factory ProWalletState({
-    @JsonKey(fromJson: etherBalanceFromJson) BigInt etherBalance,
+    @JsonKey(fromJson: balanceFromJson) BigInt etherBalance,
     @JsonKey(fromJson: erc20TokensFromJson)
     @Default({})
         Map<String, Token> erc20Tokens,

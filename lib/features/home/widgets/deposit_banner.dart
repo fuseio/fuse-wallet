@@ -16,6 +16,8 @@ class DepositBanner extends StatelessWidget {
       builder: (_, viewModel) {
         List depositPlugins = viewModel?.plugins?.getDepositPlugins() ?? [];
         return InkWell(
+          focusColor: Theme.of(context).canvasColor,
+          highlightColor: Theme.of(context).canvasColor,
           child: Column(
             children: [
               SizedBox(height: 20),

@@ -10,7 +10,6 @@ import 'package:fusecash/constants/enums.dart';
 import 'package:fusecash/constants/variables.dart';
 import 'package:fusecash/models/pro_wallet_state.dart';
 import 'package:fusecash/models/tokens/token.dart';
-import 'package:fusecash/models/transactions/transfer.dart';
 import 'package:fusecash/redux/actions/cash_wallet_actions.dart';
 import 'package:fusecash/redux/actions/pro_mode_wallet_actions.dart';
 import 'package:fusecash/utils/addresses.dart';
@@ -229,20 +228,20 @@ ThunkAction backupWalletCall() {
   };
 }
 
-ThunkAction backupSuccessCall(Transfer transfer) {
-  return (Store store) async {
-    Transfer confirmedTx = transfer.copyWith(
-        status: 'CONFIRMED', timestamp: DateTime.now().millisecondsSinceEpoch);
-    store.dispatch(ReplaceTransaction(
-        transactionToReplace: confirmedTx,
-        transaction: transfer,
-        tokenAddress: transfer.tokenAddress));
-    store.dispatch(BackupSuccess());
-    store.dispatch(segmentIdentifyCall(
-        Map<String, dynamic>.from({'Wallet backed up success': true})));
-    store.dispatch(segmentTrackCall('Wallet: backup success'));
-  };
-}
+// ThunkAction backupSuccessCall(Transfer transfer) {
+//   return (Store store) async {
+//     Transfer confirmedTx = transfer.copyWith(
+//         status: 'CONFIRMED', timestamp: DateTime.now().millisecondsSinceEpoch);
+//     store.dispatch(ReplaceTransaction(
+//         transactionToReplace: confirmedTx,
+//         transaction: transfer,
+//         tokenAddress: transfer.tokenAddress));
+//     store.dispatch(BackupSuccess());
+//     store.dispatch(segmentIdentifyCall(
+//         Map<String, dynamic>.from({'Wallet backed up success': true})));
+//     store.dispatch(segmentTrackCall('Wallet: backup success'));
+//   };
+// }
 
 ThunkAction restoreWalletCall(
     List<String> _mnemonic, VoidCallback successCallback) {

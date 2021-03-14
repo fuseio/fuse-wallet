@@ -56,7 +56,7 @@ class _CreateWalletState extends State<CreateWallet> {
                         setState(() {
                           isPrimaryPreloading = false;
                         });
-                        ExtendedNavigator.root.pushSignupScreen();
+                        ExtendedNavigator.root.pushSignUpScreen();
                       }, () {
                         setState(() {
                           isPrimaryPreloading = false;
@@ -100,7 +100,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                       });
                                       viewModel.createLocalAccount(() {
                                         ExtendedNavigator.root
-                                            .pushSignupScreen();
+                                            .pushSignUpScreen();
                                       }, () {
                                         setState(() {
                                           isTransparentPreloading = false;

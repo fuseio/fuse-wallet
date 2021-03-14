@@ -52,6 +52,7 @@ class SwapRouter extends RouterBase {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ReviewSwapScreen(
           tradeInfo: args.tradeInfo,
+          rateInfo: args.rateInfo,
           swapRequestBody: args.swapRequestBody,
         ),
         settings: data,
@@ -76,12 +77,15 @@ extension SwapRouterExtendedNavigatorStateX on ExtendedNavigatorState {
 
   Future<dynamic> pushReviewSwapScreen({
     TradeInfo tradeInfo,
+    TradeInfo rateInfo,
     SwapRequestBody swapRequestBody,
   }) =>
       push<dynamic>(
         SwapRoutes.reviewSwapScreen,
         arguments: ReviewSwapScreenArguments(
-            tradeInfo: tradeInfo, swapRequestBody: swapRequestBody),
+            tradeInfo: tradeInfo,
+            rateInfo: rateInfo,
+            swapRequestBody: swapRequestBody),
       );
 }
 
@@ -99,6 +103,8 @@ class SwapScreenArguments {
 /// ReviewSwapScreen arguments holder class
 class ReviewSwapScreenArguments {
   final TradeInfo tradeInfo;
+  final TradeInfo rateInfo;
   final SwapRequestBody swapRequestBody;
-  ReviewSwapScreenArguments({this.tradeInfo, this.swapRequestBody});
+  ReviewSwapScreenArguments(
+      {this.tradeInfo, this.rateInfo, this.swapRequestBody});
 }

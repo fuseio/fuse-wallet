@@ -20,6 +20,7 @@ class _$TokenTearOff {
   _Token call(
       {String address,
       String name,
+      bool isNative = false,
       String symbol,
       String imageUrl,
       int decimals,
@@ -33,6 +34,7 @@ class _$TokenTearOff {
     return _Token(
       address: address,
       name: name,
+      isNative: isNative,
       symbol: symbol,
       imageUrl: imageUrl,
       decimals: decimals,
@@ -60,6 +62,7 @@ const $Token = _$TokenTearOff();
 mixin _$Token {
   String get address;
   String get name;
+  bool get isNative;
   String get symbol;
   String get imageUrl;
   int get decimals;
@@ -85,6 +88,7 @@ abstract class $TokenCopyWith<$Res> {
   $Res call(
       {String address,
       String name,
+      bool isNative,
       String symbol,
       String imageUrl,
       int decimals,
@@ -111,6 +115,7 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
   $Res call({
     Object address = freezed,
     Object name = freezed,
+    Object isNative = freezed,
     Object symbol = freezed,
     Object imageUrl = freezed,
     Object decimals = freezed,
@@ -125,6 +130,7 @@ class _$TokenCopyWithImpl<$Res> implements $TokenCopyWith<$Res> {
     return _then(_value.copyWith(
       address: address == freezed ? _value.address : address as String,
       name: name == freezed ? _value.name : name as String,
+      isNative: isNative == freezed ? _value.isNative : isNative as bool,
       symbol: symbol == freezed ? _value.symbol : symbol as String,
       imageUrl: imageUrl == freezed ? _value.imageUrl : imageUrl as String,
       decimals: decimals == freezed ? _value.decimals : decimals as int,
@@ -163,6 +169,7 @@ abstract class _$TokenCopyWith<$Res> implements $TokenCopyWith<$Res> {
   $Res call(
       {String address,
       String name,
+      bool isNative,
       String symbol,
       String imageUrl,
       int decimals,
@@ -191,6 +198,7 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
   $Res call({
     Object address = freezed,
     Object name = freezed,
+    Object isNative = freezed,
     Object symbol = freezed,
     Object imageUrl = freezed,
     Object decimals = freezed,
@@ -205,6 +213,7 @@ class __$TokenCopyWithImpl<$Res> extends _$TokenCopyWithImpl<$Res>
     return _then(_Token(
       address: address == freezed ? _value.address : address as String,
       name: name == freezed ? _value.name : name as String,
+      isNative: isNative == freezed ? _value.isNative : isNative as bool,
       symbol: symbol == freezed ? _value.symbol : symbol as String,
       imageUrl: imageUrl == freezed ? _value.imageUrl : imageUrl as String,
       decimals: decimals == freezed ? _value.decimals : decimals as int,
@@ -232,6 +241,7 @@ class _$_Token extends _Token {
   _$_Token(
       {this.address,
       this.name,
+      this.isNative = false,
       this.symbol,
       this.imageUrl,
       this.decimals,
@@ -242,7 +252,8 @@ class _$_Token extends _Token {
       @JsonKey(fromJson: transactionsFromJson) this.transactions,
       this.communityAddress,
       this.originNetwork})
-      : super._();
+      : assert(isNative != null),
+        super._();
 
   factory _$_Token.fromJson(Map<String, dynamic> json) =>
       _$_$_TokenFromJson(json);
@@ -251,6 +262,9 @@ class _$_Token extends _Token {
   final String address;
   @override
   final String name;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isNative;
   @override
   final String symbol;
   @override
@@ -276,7 +290,7 @@ class _$_Token extends _Token {
 
   @override
   String toString() {
-    return 'Token(address: $address, name: $name, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, transactions: $transactions, communityAddress: $communityAddress, originNetwork: $originNetwork)';
+    return 'Token(address: $address, name: $name, isNative: $isNative, symbol: $symbol, imageUrl: $imageUrl, decimals: $decimals, amount: $amount, subtitle: $subtitle, timestamp: $timestamp, priceInfo: $priceInfo, transactions: $transactions, communityAddress: $communityAddress, originNetwork: $originNetwork)';
   }
 
   @override
@@ -288,6 +302,9 @@ class _$_Token extends _Token {
                     .equals(other.address, address)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.isNative, isNative) ||
+                const DeepCollectionEquality()
+                    .equals(other.isNative, isNative)) &&
             (identical(other.symbol, symbol) ||
                 const DeepCollectionEquality().equals(other.symbol, symbol)) &&
             (identical(other.imageUrl, imageUrl) ||
@@ -323,6 +340,7 @@ class _$_Token extends _Token {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(address) ^
       const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(isNative) ^
       const DeepCollectionEquality().hash(symbol) ^
       const DeepCollectionEquality().hash(imageUrl) ^
       const DeepCollectionEquality().hash(decimals) ^
@@ -350,6 +368,7 @@ abstract class _Token extends Token {
   factory _Token(
       {String address,
       String name,
+      bool isNative,
       String symbol,
       String imageUrl,
       int decimals,
@@ -367,6 +386,8 @@ abstract class _Token extends Token {
   String get address;
   @override
   String get name;
+  @override
+  bool get isNative;
   @override
   String get symbol;
   @override

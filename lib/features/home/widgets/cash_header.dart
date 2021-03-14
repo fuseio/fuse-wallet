@@ -31,6 +31,8 @@ class CashHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               InkWell(
+                focusColor: Theme.of(context).canvasColor,
+                highlightColor: Theme.of(context).canvasColor,
                 onTap: () {
                   AppKeys.homePageKey.currentState.openDrawer();
                 },

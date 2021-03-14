@@ -68,7 +68,7 @@ abstract class WalletAction implements _$WalletAction {
     );
   }
 
-  bool isFiatProccesing() {
+  bool isFiatProcessing() {
     return this.map(
       createWallet: (value) => false,
       fiatProcess: (value) => true,
@@ -159,7 +159,7 @@ abstract class WalletAction implements _$WalletAction {
       },
       fiatProcess: (value) {
         if (value.isFailed()) {
-          return 'Payment faild';
+          return 'Payment failed';
         } else if (value.isConfirmed()) {
           return 'Payment Done';
         } else {
@@ -169,9 +169,9 @@ abstract class WalletAction implements _$WalletAction {
       joinCommunity: (value) => value.communityName,
       fiatDeposit: (value) {
         if (value.isFailed()) {
-          return 'FUSD - deposit failed';
+          return 'fUSD - deposit failed';
         } else if (value.isConfirmed()) {
-          return 'FUSD - deposit';
+          return 'fUSD - deposit';
         } else {
           return 'Waiting for your deposit to arrive';
         }
