@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fusecash/generated/i18n.dart';
 import 'package:fusecash/models/app_state.dart';
 import 'package:fusecash/redux/viewsmodels/profile.dart';
+import 'package:fusecash/utils/format.dart';
 import 'package:fusecash/widgets/my_scaffold.dart';
+import 'package:fusecash/widgets/snackbars.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -177,11 +181,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Divider(),
                       _buildGroup(
                         I18n.of(context).wallet_address,
-                        viewModel?.walletAddress ?? '',
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              formatAddress(viewModel?.walletAddress),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            InkWell(
+                              focusColor: Theme.of(context).canvasColor,
+                              highlightColor: Theme.of(context).canvasColor,
+                              onTap: () {
+                                Clipboard.setData(
+                                  ClipboardData(
+                                    text: viewModel?.walletAddress,
+                                  ),
+                                );
+                                showCopiedFlushbar(context);
+                              },
+                              child: Icon(
+                                FaIcon(FontAwesomeIcons.copy).icon,
+                                size: 14,
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       Divider(),
                       _buildGroup(
-                          I18n.of(context).phoneNumber, viewModel?.phone ?? ''),
+                        I18n.of(context).phoneNumber,
+                        Text(
+                          viewModel?.phone,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
                       Divider(),
                     ],
                   )
@@ -194,11 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildGroup(
-    String title,
-    String value,
-  ) =>
-      Container(
+  Widget _buildGroup(String title, Widget rightWidget) => Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 16),
         child: Padding(
@@ -215,13 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               SizedBox(height: 8),
-              Text(
-                value,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
-              ),
+              rightWidget,
             ],
           ),
         ),

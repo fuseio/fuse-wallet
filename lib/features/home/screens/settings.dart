@@ -34,32 +34,34 @@ class SettingsScreen extends StatelessWidget {
         distinct: true,
         converter: DrawerViewModel.fromStore,
         builder: (_, viewModel) {
-          List<Widget> items = [
-            getListTile(I18n.of(context).about, () {
-              ExtendedNavigator.named('homeRouter').pushAboutScreen();
-            }),
-            Divider(),
-            getListTile(I18n.of(context).protect_wallet, () {
-              ExtendedNavigator.named('homeRouter').pushProtectYourWallet();
-            }),
-            Divider(),
-            LanguageSelector(),
-            Divider(),
-            getListTile(I18n.of(context).logout, () {
-              viewModel.logout();
-              ExtendedNavigator.root.replace(Routes.splashScreen);
-            })
-          ];
           return Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  child: ListView(
-                    shrinkWrap: true,
-                    primary: false,
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    children: items,
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          getListTile(I18n.of(context).about, () {
+                            ExtendedNavigator.named('homeRouter')
+                                .pushAboutScreen();
+                          }),
+                          Divider(),
+                          getListTile(I18n.of(context).protect_wallet, () {
+                            ExtendedNavigator.named('homeRouter')
+                                .pushProtectYourWallet();
+                          }),
+                          Divider(),
+                          LanguageSelector(),
+                          Divider(),
+                          getListTile(I18n.of(context).logout, () {
+                            viewModel.logout();
+                            ExtendedNavigator.root.replace(Routes.splashScreen);
+                          })
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],

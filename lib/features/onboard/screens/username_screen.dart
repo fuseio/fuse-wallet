@@ -73,12 +73,11 @@ class UserNameScreen extends StatelessWidget {
                             child: TextFormField(
                               controller: displayNameController,
                               keyboardType: TextInputType.text,
-                              textInputAction: TextInputAction.none,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 20,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface),
+                                fontSize: 20,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                               autofocus: true,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(0.0),

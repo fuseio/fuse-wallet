@@ -145,12 +145,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   Widget drawerHeader(DrawerViewModel viewModel) {
     return Container(
-      padding: EdgeInsets.only(top: 50, left: 10, right: 10),
+      padding: EdgeInsets.only(top: 10, left: 10, right: 10),
       decoration: BoxDecoration(
         color: Theme.of(context).backgroundColor,
         border: Border(
           bottom: BorderSide(
-              color: Theme.of(context).colorScheme.onSurface, width: 2),
+            color: Theme.of(context).colorScheme.onSurface,
+            width: 2,
+          ),
         ),
       ),
       child: Column(
@@ -178,32 +180,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      ![null, ''].contains(viewModel.avatarUrl)
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: CachedNetworkImage(
-                                imageUrl: viewModel.avatarUrl,
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                  'assets/images/anom.png',
-                                ),
-                                imageBuilder: (context, imageProvider) => Image(
-                                  image: imageProvider,
-                                  fit: BoxFit.fill,
-                                  width: 70,
-                                  height: 70,
-                                ),
-                              ),
-                            )
-                          : CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('assets/images/anom.png'),
-                              radius: 25,
-                            ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(
+                          imageUrl: viewModel.avatarUrl,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/anom.png',
+                            width: 50,
+                            height: 50,
+                          ),
+                          imageBuilder: (context, imageProvider) => Image(
+                            image: imageProvider,
+                          ),
+                        ),
+                      ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 10),
+                        padding: EdgeInsets.only(left: 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -258,7 +252,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 Expanded(
                   flex: 5,
                   child: ListView(
-                    // padding: EdgeInsets.all(10),
                     children: <Widget>[
                       drawerHeader(viewModel),
                       ...pluginsItems(viewModel),
