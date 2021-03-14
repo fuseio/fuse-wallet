@@ -26,7 +26,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailController = TextEditingController(text: "");
   final phoneController = TextEditingController(text: "");
   final _formKey = GlobalKey<FormState>();
-  CountryCode countryCode = CountryCode(dialCode: '‎+1', code: 'US');
+  CountryCode countryCode = CountryCode(dialCode: '‎+44', code: 'GB');
 
   @override
   void initState() {
