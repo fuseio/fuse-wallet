@@ -374,15 +374,32 @@ ThunkAction syncContactsCall(List<Contact> contacts) {
 
 ThunkAction identifyCall() {
   return (Store store) async {
-    store.dispatch(segmentIdentifyCall(Map<String, dynamic>.from({
-      "Phone Number": store.state.userState.phoneNumber ?? '',
-      "Wallet Address": store.state.userState.walletAddress,
-      "Account Address": store.state.userState.accountAddress,
-      "Display Name": store.state.userState.displayName,
-      "Identifier": store.state.userState.identifier,
-      "Joined Communities":
-          store.state.cashWalletState.communities.keys.toList(),
-    })));
+    String displayName = store.state.userState.displayName;
+    String phoneNumber = store.state.userState.phoneNumber;
+    String walletAddress = store.state.userState.walletAddress;
+    String accountAddress = store.state.userState.accountAddress;
+    String identifier = store.state.userState.identifier;
+    Sentry.configureScope((scope) {
+      scope.setContexts(
+        'user',
+        Map.from({
+          'id': phoneNumber,
+          'walletAddress': walletAddress,
+          'username': displayName
+        }),
+      );
+    });
+    store.dispatch(segmentIdentifyCall(
+      Map<String, dynamic>.from({
+        "Phone Number": phoneNumber,
+        "Wallet Address": walletAddress,
+        "Account Address": accountAddress,
+        "Display Name": displayName,
+        "Identifier": identifier,
+        "Joined Communities":
+            store.state.cashWalletState.communities.keys.toList(),
+      }),
+    ));
   };
 }
 

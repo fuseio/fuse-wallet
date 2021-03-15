@@ -49,7 +49,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // List pages = getPages(context);
     List<Widget> welcomeScreens = [
       WelcomeFrame(
         title: I18n.of(context).simple,
