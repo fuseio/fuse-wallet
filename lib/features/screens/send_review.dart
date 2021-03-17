@@ -193,20 +193,20 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                     children: [
                                       TextSpan(
                                         text: '${args.amount} ',
-                                        style: TextStyle(
-                                            fontSize: 50,
-                                            fontWeight: FontWeight.w900),
                                       ),
-                                      TextSpan(
-                                        text: symbol,
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.w900),
-                                      ),
+                                      TextSpan(text: symbol),
                                     ],
                                   ),
+                                  style: TextStyle(fontWeight: FontWeight.w900),
+                                  textAlign: TextAlign.center,
                                   maxLines: 1,
+                                  minFontSize: 20,
                                   maxFontSize: 50,
+                                  presetFontSizes: [
+                                    50,
+                                    30,
+                                    20,
+                                  ],
                                 ),
                               ),
                             ],

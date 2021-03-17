@@ -137,16 +137,17 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     }
     setState(() {});
     try {
-      final bool hasFund = Decimal.parse((amountText ?? '0')).compareTo(
-            Decimal.parse(
-              formatValue(
-                selectedToken?.amount,
-                selectedToken?.decimals,
-                withPrecision: true,
-              ),
-            ),
-          ) <=
-          0;
+      final bool hasFund =
+          (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
+                Decimal.parse(
+                  formatValue(
+                    selectedToken?.amount,
+                    selectedToken?.decimals,
+                    withPrecision: true,
+                  ),
+                ),
+              ) <=
+              0;
       if (hasFund) {
         controller.forward();
       } else {
@@ -176,16 +177,17 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        final bool hasFund = Decimal.parse((amountText ?? '0')).compareTo(
-              Decimal.parse(
-                formatValue(
-                  selectedToken?.amount,
-                  selectedToken?.decimals,
-                  withPrecision: true,
-                ),
-              ),
-            ) <=
-            0;
+        final bool hasFund =
+            (Decimal.tryParse(amountText) ?? Decimal.zero).compareTo(
+                  Decimal.parse(
+                    formatValue(
+                      selectedToken?.amount,
+                      selectedToken?.decimals,
+                      withPrecision: true,
+                    ),
+                  ),
+                ) <=
+                0;
 
         if (!hasFund) {
           controller.forward();
