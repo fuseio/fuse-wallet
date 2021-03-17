@@ -164,40 +164,49 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                   children: [
                     Column(
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top: 50),
-                          child: Text(
-                            I18n.of(context).amount,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                            ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          I18n.of(context).amount,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(top: 40.0, bottom: 30),
+                          padding: EdgeInsets.only(
+                            top: 30.0,
+                            bottom: 30,
+                            left: 30,
+                            right: 30,
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.alphabetic,
                             children: <Widget>[
-                              AutoSizeText.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: '${args.amount} ',
-                                      style: TextStyle(
-                                          fontSize: 50,
-                                          fontWeight: FontWeight.w900),
-                                    ),
-                                    TextSpan(
-                                      text: symbol,
-                                      style: TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.w900),
-                                    ),
-                                  ],
+                              Expanded(
+                                child: AutoSizeText.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: '${args.amount} ',
+                                        style: TextStyle(
+                                            fontSize: 50,
+                                            fontWeight: FontWeight.w900),
+                                      ),
+                                      TextSpan(
+                                        text: symbol,
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.w900),
+                                      ),
+                                    ],
+                                  ),
+                                  maxLines: 1,
+                                  maxFontSize: 50,
                                 ),
                               ),
                             ],
@@ -249,6 +258,9 @@ class _SendReviewScreenState extends State<SendReviewScreen>
                                         ),
                                       ),
                                     ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,

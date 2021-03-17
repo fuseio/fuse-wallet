@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_segment/flutter_segment.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -25,7 +26,8 @@ class SendAmountScreen extends StatefulWidget {
 
 class _SendAmountScreenState extends State<SendAmountScreen>
     with SingleTickerProviderStateMixin {
-  String amountText = "";
+  String amountText = "0";
+  bool hasBalance = true;
   AnimationController controller;
   Animation<Offset> offset;
   bool isPreloading = false;
@@ -135,9 +137,17 @@ class _SendAmountScreenState extends State<SendAmountScreen>
     }
     setState(() {});
     try {
-      double amount = double.parse(amountText);
-      if (amount > 0 &&
-          selectedToken.amount >= toBigInt(amount, selectedToken.decimals)) {
+      final bool hasFund = Decimal.parse((amountText ?? '0')).compareTo(
+            Decimal.parse(
+              formatValue(
+                selectedToken?.amount,
+                selectedToken?.decimals,
+                withPrecision: true,
+              ),
+            ),
+          ) <=
+          0;
+      if (hasFund) {
         controller.forward();
       } else {
         controller.reverse();
@@ -166,12 +176,15 @@ class _SendAmountScreenState extends State<SendAmountScreen>
         }
       },
       builder: (_, viewModel) {
-        final BigInt balance = selectedToken?.amount;
-        final int decimals = selectedToken?.decimals;
-        final num currentTokenBalance =
-            num.parse(formatValue(balance, decimals, withPrecision: true));
-        final bool hasFund = (num.tryParse(amountText ?? 0) ?? 0)
-                .compareTo(currentTokenBalance) <=
+        final bool hasFund = Decimal.parse((amountText ?? '0')).compareTo(
+              Decimal.parse(
+                formatValue(
+                  selectedToken?.amount,
+                  selectedToken?.decimals,
+                  withPrecision: true,
+                ),
+              ),
+            ) <=
             0;
 
         if (!hasFund) {
